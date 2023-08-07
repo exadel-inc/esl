@@ -2,7 +2,7 @@ import {ESLModal} from '../core/esl-modal';
 
 describe('ESLModal presence in the body', () => {
   const $modal = ESLModal.create();
-  $modal.setAttribute('body-inject', 'true');
+  $modal.setAttribute('inject-to-body', 'true');
   const $container = document.createElement('div');
   $container.appendChild($modal);
   const inBody = (): boolean => $modal.parentElement === document.body;

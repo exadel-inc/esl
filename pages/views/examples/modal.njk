@@ -3,7 +3,7 @@ layout: content
 title: Modal window
 seoTitle: Accordion UI examples based on ESL web components
 name: Modal window
-tags: examples
+tags: examples beta
 ---
 {% import 'lorem.njk' as lorem %}
 {% set imageSrcBase = '/assets/' | url %}
@@ -16,7 +16,7 @@ tags: examples
   <div class="col-6 mb-2">
     <h4>Default example</h4>
     <esl-trigger target="#modal-1" class="btn btn-sec-blue">Open modal</esl-trigger>
-    <esl-modal id="modal-1" body-inject>
+    <esl-modal id="modal-1" inject-to-body>
       <div class="esl-modal-container">
         <esl-image mode="save-ratio" lazy
                    data-alt="Alt Text Test"
@@ -35,7 +35,7 @@ tags: examples
   <div class="col-6 mb-2">
     <h4>Example with native scroll lock strategy</h4>
     <esl-trigger target="#modal-2" class="btn btn-sec-blue">Open modal</esl-trigger>
-    <esl-modal id="modal-2" body-inject scroll-lock-strategy="native">
+    <esl-modal id="modal-2" inject-to-body scroll-lock-strategy="native">
       <div class="esl-modal-container">
         <div class="img-container img-container-16-9 img-container-loaded">
           <esl-media group="demo-media"
@@ -65,7 +65,7 @@ tags: examples
   <div class="col-6 mb-2">
    <h4>Example with native scroll lock strategy and without backdrop</h4>
     <esl-trigger target="#modal-3" class="btn btn-sec-blue">Open modal</esl-trigger>
-    <esl-modal id="modal-3" body-inject scroll-lock-strategy="native" no-backdrop>
+    <esl-modal id="modal-3" inject-to-body scroll-lock-strategy="native" no-backdrop>
       <div class="esl-modal-container">
         <div class="esl-d-tabs">
             <esl-tabs class="esl-d-tab-control">
@@ -126,7 +126,7 @@ tags: examples
   <div class="col-6 mb-2">
    <h4>Example without backdrop</h4>
     <esl-trigger target="#modal-4" class="btn btn-sec-blue">Open modal</esl-trigger>
-    <esl-modal id="modal-4" body-inject no-backdrop>
+    <esl-modal id="modal-4" inject-to-body no-backdrop>
       <div class="esl-modal-container">
         <p>{{ lorem.paragraphs(7) }}</p>
         <button type="button"

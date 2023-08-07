@@ -4,7 +4,7 @@ import {boolAttr, attr, memoize, listen} from '../../esl-utils/decorators';
 import {hasAttr, setAttr} from '../../esl-utils/dom/attr';
 import {getKeyboardFocusableElements, handleFocusChain} from '../../esl-utils/dom/focus';
 import {lockScroll, unlockScroll} from '../../esl-utils/dom/scroll/utils';
-import {parseBoolean} from '../../esl-utils/misc/format';
+import {parseBoolean, toBooleanAttribute} from '../../esl-utils/misc/format';
 import {TAB} from '../../esl-utils/dom/keys';
 
 import type {ScrollLockOptions} from '../../esl-utils/dom/scroll/utils';
@@ -18,23 +18,29 @@ export interface ModalActionParams extends ESLToggleableActionParams { }
 export class ESLModal extends ESLToggleable {
   public static override is = 'esl-modal';
 
-  @attr({defaultValue: '[data-modal-close]'})
-  public override closeTrigger: string;
-
   /**
    * Define option to lock scroll
    * @see ScrollLockOptions
    */
-  @attr({defaultValue: 'pseudo'})
+  @attr({defaultValue: 'none'})
   public scrollLockStrategy: ScrollLockStrategies;
 
+  /** Do not activate backdrop */
   @boolAttr() public noBackdrop: boolean;
-  @boolAttr() public bodyInject: boolean;
 
-  @attr({defaultValue: true, parser: parseBoolean})
+  /** Indicates that `esl-modal` instances should be moved to body on activate */
+  @boolAttr() public injectToBody: boolean;
+
+  /** Selector to mark inner close triggers (default `[data-modal-close]`) */
+  @attr({defaultValue: '[data-modal-close]'})
+  public override closeTrigger: string;
+
+  /** Close the Toggleable on ESC keyboard event (default enabled) */
+  @attr({defaultValue: true, parser: parseBoolean, serializer: toBooleanAttribute})
   public override closeOnEsc: boolean;
 
-  @attr({defaultValue: true, parser: parseBoolean})
+  /** Close the Toggleable on a click/tap outside (default enabled) */
+  @attr({defaultValue: true, parser: parseBoolean, serializer: toBooleanAttribute})
   public override closeOnOutsideAction: boolean;
 
   @memoize()
@@ -51,19 +57,22 @@ export class ESLModal extends ESLToggleable {
   }
 
   public override onShow(params: ModalActionParams): void {
-    this.bodyInject && this.inject();
+    this.injectToBody && this.inject();
     this.showBackdrop();
     super.onShow(params);
     this.focus();
-    lockScroll(document.documentElement, this.lockOptions);
+    lockScroll(document.documentElement, {
+      strategy: this.scrollLockStrategy,
+      initiator: this
+    });
   }
 
   public override onHide(params: ModalActionParams): void {
-    unlockScroll(document.documentElement, this.lockOptions);
+    unlockScroll(document.documentElement, {initiator: this});
     super.onHide(params);
     this.hideBackdrop();
     this.activator?.focus();
-    this.bodyInject && this.extract();
+    this.injectToBody && this.extract();
   }
 
   protected inject(): void {
@@ -88,27 +97,24 @@ export class ESLModal extends ESLToggleable {
     ESLModal.$backdrop.classList.remove('active');
   }
 
-  public get lockOptions(): ScrollLockOptions {
-    return {
-      strategy: this.scrollLockStrategy,
-      initiator: this
-    };
-  }
-
   public get $boundaryFocusable(): {first: HTMLElement, last: HTMLElement} {
     const $focusableEls = getKeyboardFocusableElements(this) as HTMLElement[];
     return {first: $focusableEls[0], last: $focusableEls[$focusableEls.length - 1]};
   }
 
   @listen({inherit: true})
-  protected override _onKeyboardEvent(e: KeyboardEvent): void {
+  protected override _onKeyboardEvent(e: KeyboardEvent): boolean | void {
     super._onKeyboardEvent(e);
-    if (e.key === TAB) this._onTabKey(e);
+    if (e.key === TAB) {
+      const {first, last} = this.$boundaryFocusable;
+      return handleFocusChain(e, first, last);
+    }
   }
 
-  protected _onTabKey(e: KeyboardEvent): boolean | undefined {
-    const {first, last} = this.$boundaryFocusable;
-    return handleFocusChain(e, first, last);
+  @listen({inherit: true})
+  protected override _onCloseClick(e: MouseEvent): void {
+    super._onCloseClick(e);
+    e.stopPropagation();
   }
 }
 

@@ -9,7 +9,7 @@ export interface ESLModalTagShape extends ESLToggleableTagShape<ESLModal> {
   /** Disable modal backdrop */
   'no-backdrop'?: boolean;
   /** Provides modal movement to body before its opening */
-  'body-inject'?: boolean;
+  'inject-to-body'?: boolean;
   /** Defines a scroll lock strategy when the modal is open (default 'pseudo') */
   'scroll-lock-strategy'?: ScrollLockStrategies;
 }
