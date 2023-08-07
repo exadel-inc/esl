@@ -32,6 +32,7 @@ import {
   ESLNoteIgnore,
   ESLFootnotes,
   ESLTooltip,
+  ESLModal,
   ESLAnimate,
   ESLAnimateMixin,
   ESLShare,
@@ -78,6 +79,8 @@ ESLMedia.register();
 
 ESLToggleableDispatcher.init();
 ESLToggleable.register();
+ESLRelatedTarget.register();
+
 ESLPopup.register();
 ESLPopupPlaceholder.register();
 
@@ -105,11 +108,10 @@ ESLNote.register();
 ESLNoteIgnore.register();
 ESLTooltip.register();
 
+ESLModal.register();
+
 ESLAnimate.register();
 ESLAnimateMixin.register();
 
 ESLShare.config(() => fetch('/assets/share/config.json').then((response) => response.json()));
 ESLShare.register();
-
-// Register ESL Mixins
-ESLRelatedTarget.register();
