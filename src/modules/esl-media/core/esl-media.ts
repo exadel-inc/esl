@@ -39,7 +39,8 @@ export class ESLMedia extends ESLBaseElement {
     'play-in-viewport',
     'muted',
     'loop',
-    'controls'
+    'controls',
+    'lazy'
   ];
 
   /** Event to dispatch on ready state */
@@ -70,10 +71,13 @@ export class ESLMedia extends ESLBaseElement {
   @attr() public fillMode: ESLMediaFillMode;
   /** Strict aspect ratio definition */
   @attr() public aspectRatio: string;
-
-
-  /** Disabled marker to prevent rendering */
+  /**
+   * Disabled marker to prevent rendering
+   * @deprecated replaced with {@link lazy} = "manual" functionality
+   */
   @boolAttr() public disabled: boolean;
+  /** Allows lazy load resource */
+  @attr({defaultValue: 'none'}) public lazy: 'auto' | 'manual' | 'none' | '';
   /** Autoplay resource marker */
   @boolAttr() public autoplay: boolean;
   /** Autofocus on play marker */
@@ -159,6 +163,15 @@ export class ESLMedia extends ESLBaseElement {
       case 'media-type':
         this.deferredReinitialize();
         break;
+      case 'lazy':
+        if (this.lazy === 'manual') {
+          this.deferredReinitialize();
+        } else if (this.lazy === 'auto') {
+          this.attachViewportConstraint();
+        } else {
+          this.detachViewportConstraint();
+        }
+        break;
       case 'loop':
       case 'muted':
       case 'controls':
@@ -201,7 +214,7 @@ export class ESLMedia extends ESLBaseElement {
   }
 
   public canActivate(): boolean {
-    if (this.disabled) return false;
+    if (this.lazy === 'manual' || this.disabled) return false;
     return this.conditionQuery.matches;
   }
 
@@ -239,10 +252,11 @@ export class ESLMedia extends ESLBaseElement {
 
   /**
    * Start playing media
-   * @param allowActivate - allows to remove disabled marker
+   * @param allowActivate - allows to remove manual lazy or disabled marker
    */
   public play(allowActivate: boolean = false): Promise<void> | null {
-    if (this.disabled && allowActivate) {
+    if ((this.lazy === 'manual' || this.disabled) && allowActivate) {
+      this.lazy = 'none';
       this.disabled = false;
       this.deferredReinitialize.cancel();
       this.reinitInstance();
@@ -403,7 +417,7 @@ export class ESLMedia extends ESLBaseElement {
   }
 
   protected attachViewportConstraint(): void {
-    if (this.playInViewport) {
+    if (this.playInViewport || this.lazy === 'auto') {
       getIObserver().observe(this);
     }
   }
