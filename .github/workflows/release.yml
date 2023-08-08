@@ -25,7 +25,11 @@ jobs:
           team: 'ESL Core Maintainers'
           GITHUB_TOKEN: ${{ secrets.PERMISSION_CHECK_TOKEN }}
 
+      - if: ${{ steps.permissions.outputs.isTeamMember == 'true' }}
+        name: Access Check Passed
+        run: echo ${{ github.actor }} is in 'ESL Core Maintainers' group
       - if: ${{ steps.permissions.outputs.isTeamMember == 'false' }}
+        name: Access Denied
         run: exit 1
 
       # Start workflow
