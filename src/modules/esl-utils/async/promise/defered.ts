@@ -1,6 +1,6 @@
 import {memoize} from '../../decorators/memoize';
 
-/** A deferred object represents promise with it's resolve/reject methods */
+/** Deferred object that represents promise with its resolve/reject methods */
 export class Deferred<T> {
   protected _status: 'pending' | 'resolved' | 'rejected' = 'pending';
   protected _value: T | undefined;
