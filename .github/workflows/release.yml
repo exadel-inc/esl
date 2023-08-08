@@ -18,17 +18,14 @@ jobs:
 
     steps:
       # Check permissions
-      - name: Checking out for permissions
+      - uses: tspascoal/get-user-teams-membership@v2
         id: permissions
-        uses: kapost/kap-gh-team@v1
         with:
-          access_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          organization: exadel-inc
-          team: esl-core-maintainers
-          user: ${{ github.actor }}
+          username: ${{ github.actor }}
+          team: 'ESL Core Maintainers'
+          GITHUB_TOKEN: ${{ secrets.PERMISSION_CHECK_TOKEN }}
 
-      - name: Deny access if not a member of team
-        if: ${{ steps.permissions.outputs.success == 'false' }}
+      - if: ${{ steps.permissions.outputs.isTeamMember == 'false' }}
         run: exit 1
 
       # Start workflow
