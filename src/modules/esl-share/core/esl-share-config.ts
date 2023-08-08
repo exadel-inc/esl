@@ -1,5 +1,4 @@
 import defaultConfig from '../config/default.json';
-import {ESLShareConfigButtons} from './esl-share-config-buttons';
 
 /** {@link ESLShareConfigShape} provider type definition */
 export type ESLShareConfigProviderType = () => Promise<ESLShareConfigShape>;
@@ -34,10 +33,6 @@ export interface ESLShareGroupConfig {
   list: string;
 }
 
-function createConfigButtons(cfg: ESLShareConfigShape): ESLShareConfigButtons {
-  return new ESLShareConfigButtons(cfg);
-}
-
 /** The definition of `ESLShare` component configuration */
 export interface ESLShareConfigShape {
   /** List of sharing buttons configuration */
@@ -46,14 +41,28 @@ export interface ESLShareConfigShape {
   groups: ESLShareGroupConfig[];
 }
 
+/** Gets item of the section by name */
+function getConfigSectionItem<T extends ESLShareButtonConfig | ESLShareGroupConfig>(section: T[], name: string): T | undefined {
+  return section.find((item) => item.name === name);
+}
+
+/** Class for managing share buttons configurations */
 export class ESLShareConfig {
-  protected static _config: Promise<ESLShareConfigButtons> = Promise.resolve(createConfigButtons(defaultConfig));
+  protected static _config: Promise<ESLShareConfig> = Promise.resolve(ESLShareConfig._from(defaultConfig));
+
+  /**
+   * Creates `ESLShareConfig` instance from the passed object with share component configuration
+   * @returns config instance
+   */
+  protected static _from(cfg: ESLShareConfigShape): ESLShareConfig {
+    return new ESLShareConfig(cfg);
+  }
 
   /**
    * Gets promise with buttons config instance.
    * @returns Promise of the current config instance
    */
-  public static get(): Promise<ESLShareConfigButtons> {
+  public static get(): Promise<ESLShareConfig> {
     return ESLShareConfig._config;
   }
 
@@ -61,11 +70,55 @@ export class ESLShareConfig {
    * Sets config with a promise of a new config object or using a config provider function.
    * @returns Promise of the current config
    */
-  public static set(provider?: ESLShareConfigProviderType | ESLShareConfigShape): Promise<ESLShareConfigButtons> {
-    if (typeof provider === 'function') ESLShareConfig._config = provider().then(createConfigButtons);
-    if (typeof provider === 'object') ESLShareConfig._config = Promise.resolve(createConfigButtons(provider));
+  public static set(provider?: ESLShareConfigProviderType | ESLShareConfigShape): Promise<ESLShareConfig> {
+    if (typeof provider === 'function') ESLShareConfig._config = provider().then(ESLShareConfig._from);
+    if (typeof provider === 'object') ESLShareConfig._config = Promise.resolve(ESLShareConfig._from(provider));
     return ESLShareConfig.get();
   }
-}
 
-export * from './esl-share-config-buttons';
+  public constructor(protected _config: ESLShareConfigShape) {}
+
+  /** @returns config of buttons */
+  public get buttons(): ESLShareButtonConfig[] {
+    return this._config.buttons;
+  }
+
+  /** @returns config of groups */
+  public get group(): ESLShareGroupConfig[] {
+    return this._config.groups;
+  }
+
+  /**
+   * Selects the buttons for the given list and returns their configuration.
+   * @returns config of buttons
+   */
+  public getList(list: string): ESLShareButtonConfig[] {
+    return list.split(' ').reduce((res, item) => {
+      const [btnName, groupName] = item.split('group:');
+      if (groupName) {
+        const groupConfig = this.getGroup(groupName);
+        if (groupConfig) return res.concat(this.getList(groupConfig.list));
+      } else {
+        const btnConfig = this.getButton(btnName);
+        if (btnConfig) res.push(btnConfig);
+      }
+      return res;
+    }, [] as ESLShareButtonConfig[]);
+  }
+
+  /**
+   * Gets the group of buttons configuration.
+   * @returns config of group
+   */
+  public getGroup(groupName: string): ESLShareGroupConfig | undefined {
+    return getConfigSectionItem(this._config.groups, groupName);
+  }
+
+  /**
+   * Gets the button configuration.
+   * @returns config of button
+   */
+  public getButton(name: string): ESLShareButtonConfig | undefined {
+    return getConfigSectionItem(this._config.buttons, name);
+  }
+}
