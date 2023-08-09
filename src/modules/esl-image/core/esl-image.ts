@@ -22,7 +22,7 @@ const isLoadState = (state: string): state is LoadState => ['error', 'loaded', '
 @ExportNs('Image')
 export class ESLImage extends ESLBaseElement {
   public static override is = 'esl-image';
-  public static observedAttributes = ['alt', 'role', 'mode', 'aria-label', 'data-src', 'data-src-base', 'lazy-triggered'];
+  public static observedAttributes = ['alt', 'role', 'mode', 'aria-label', 'data-src', 'data-src-base'];
 
   /** Default container class value */
   public static DEFAULT_CONTAINER_CLS = 'img-container-loaded';
@@ -43,7 +43,6 @@ export class ESLImage extends ESLBaseElement {
   @attr({dataAttr: true}) public srcBase: string;
 
   @attr({defaultValue: 'none'}) public lazy: 'auto' | 'manual' | 'none' | '';
-  @boolAttr() public lazyTriggered: boolean;
 
   @boolAttr() public refreshOnUpdate: boolean;
   @attr({defaultValue: 'inner-image'}) public innerImageClass: string;
@@ -70,7 +69,6 @@ export class ESLImage extends ESLBaseElement {
     this.updateA11y();
     this.srcRules = ESLMediaRuleList.parse(this.src);
     if (this.lazyObservable) {
-      this.removeAttribute('lazy-triggered');
       getIObserver().observe(this);
       this._detachLazyTrigger = function (): void {
         getIObserver().unobserve(this);
@@ -109,9 +107,6 @@ export class ESLImage extends ESLBaseElement {
       case 'mode':
         this.changeMode(oldVal, newVal);
         break;
-      case 'lazy-triggered':
-        this.lazyTriggered && this.update();
-        break;
     }
   }
 
@@ -139,11 +134,11 @@ export class ESLImage extends ESLBaseElement {
   }
 
   public get canUpdate(): boolean {
-    return this.lazyTriggered || this.lazy === 'none';
+    return this.lazy === 'none';
   }
 
   public get lazyObservable(): boolean {
-    return this.lazy !== 'none' && this.lazy !== 'manual';
+    return this.lazy === 'auto' || this.lazy === '';
   }
 
   public get originalWidth(): number {
@@ -152,10 +147,6 @@ export class ESLImage extends ESLBaseElement {
 
   public get originalHeight(): number {
     return this._shadowImageElement ? this._shadowImageElement.height : 0;
-  }
-
-  public triggerLoad(): void {
-    this.setAttribute('lazy-triggered', '');
   }
 
   protected changeMode(oldVal: string, newVal: string): void {
@@ -170,7 +161,7 @@ export class ESLImage extends ESLBaseElement {
     if (this.loaded) this.syncImage();
   }
 
-  protected update(force: boolean = false): void {
+  update(force: boolean = false): void {
     if (!this.canUpdate) return;
 
     const src = this.getPath(this.srcRules.activeValue);

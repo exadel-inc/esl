@@ -21,6 +21,7 @@ function handleViewport(entry: IntersectionObserverEntry): void {
 
   // Check that entry is going to appear in the viewport area
   if (entry.isIntersecting || entry.intersectionRatio > 0) {
-    image.triggerLoad();
+    image.removeAttribute('lazy');
+    image.update(true);
   }
 }
