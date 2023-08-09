@@ -241,13 +241,13 @@ export class ESLPanelGroup extends ESLBaseElement {
 
   /** Animates the height of the component */
   protected onAnimate(from: number, to: number): void {
-    // Override initial value if animation is currently in progress
+    // overrides initial value if animation is currently in progress
     if (from < 0 || this.style.height && this.style.height !== 'auto') {
       from = this.clientHeight;
     }
-    // set initial height
+    // sets the initial height
     this.style.height = `${from}px`;
-    // make sure that browser applies initial height to animate
+    // makes sure browser realized the height change
     afterNextRender(() => {
       this.style.height = `${to}px`;
       this.fallbackAnimate();
@@ -286,7 +286,7 @@ export class ESLPanelGroup extends ESLBaseElement {
     const params = this.mergeActionParams({event: e});
     const balanceMarker = e.detail?.params?.event?.type !== 'esl:before:hide';
 
-    // All currently active except panel that requested to be open
+    // all currently active panels, except the one that requested to be open
     const $activePanels = this.$activePanels.filter((el) => el !== panel);
 
     // overflow = pretended to be active (current active + balanceMarker (1 if nothing hides)) - limit
@@ -324,7 +324,7 @@ export class ESLPanelGroup extends ESLBaseElement {
     if (!this.includesPanel(panel)) return;
 
     const min = this.currentMinItems;
-    // Check if the hide event was produced by the show event
+    // checks if the hide event was produced by the show event
     const balanceMarker = detail?.params?.event?.type === 'esl:before:show';
     // activePanels = currentActivePanels - 1 (hide) + 1 if the event produced by 'before:show'
     const activeNumber = this.$activePanels.length - 1 + Number(balanceMarker);
