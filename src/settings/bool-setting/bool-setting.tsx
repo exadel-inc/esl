@@ -6,6 +6,8 @@ import {ChangeAttrConfig, UIPStateModel} from '../../core/base/model';
 import TokenListUtils from '../../utils/token-list-utils';
 import {WARNING_MSG} from '../../utils/warning-msg';
 
+import * as React from 'jsx-dom';
+
 /**
  * Custom setting to add/remove attributes or append values to attribute
  * @extends UIPSetting
@@ -36,26 +38,21 @@ export class UIPBoolSetting extends UIPSetting {
     return $field;
   }
 
-  /** Label element for input */
-  @memoize()
-  protected get $label(): HTMLLabelElement {
-    const $label = document.createElement('label');
-    $label.innerText = this.label;
-    $label.append(this.$field);
-    return $label;
-  }
-
   /** Container element for displaying inconsistency message */
   @memoize()
-  protected get $inconsistencyMarker(): HTMLElement {
-    const marker = document.createElement('div');
-    marker.classList.add('inconsistency-marker');
-    return marker;
+  protected get $inconsistencyMarker() {
+    return <div className="inconsistency-marker"/> as HTMLDivElement;
   }
 
   protected connectedCallback() {
     super.connectedCallback();
-    this.insertBefore(this.$label, this.firstChild);
+    this.innerHTML = '';
+
+    const inner = <label>
+      {this.label}
+      {this.$field}
+    </label>;
+    this.insertBefore(inner, this.firstChild);
   }
 
   applyTo(model: UIPStateModel): void {

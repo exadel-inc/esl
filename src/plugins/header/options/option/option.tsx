@@ -5,6 +5,8 @@ import {ENTER, SPACE} from '@exadel/esl/modules/esl-utils/dom/keys';
 import type {UIPOptions} from '../options';
 import {UIPRoot} from '../../../../core/base/root';
 
+import * as React from 'jsx-dom';
+
 /** Config used to create options */
 export type OptionConfig = {
   /** Attribute name used as absence marker of option icon */
@@ -22,17 +24,14 @@ export class UIPOption extends ESLBaseElement {
 
   /** {@link UIPRoot's} attribute which is changed by option */
   @attr() public attribute: string;
-  public _active: boolean;
 
   /** Closest playground {@link UIPRoot} element */
   protected $root: UIPRoot;
   protected config: OptionConfig;
 
   /** Builds option element from {@link OptionConfig} */
-  static createEl(optionConfig: OptionConfig): UIPOption {
-    const option = document.createElement('uip-option') as UIPOption;
-    option.setAttribute('attribute', optionConfig.optionValue);
-    option.append(optionConfig.svg);
+  static createEl(optionConfig: OptionConfig) {
+    const option =  <uip-option attribute={optionConfig.optionValue}>{optionConfig.svg}</uip-option> as UIPOption;
     option.config = optionConfig;
     return option;
   }
@@ -73,5 +72,14 @@ export class UIPOption extends ESLBaseElement {
   /** Toggles option active state */
   public toggleState(force?: boolean) {
     this.active = force === undefined ? !this.active : force;
+  }
+}
+
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      /** {@link UIPOption} custom tag */
+      'uip-option': UIPOption;
+    }
   }
 }

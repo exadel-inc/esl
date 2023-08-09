@@ -5,6 +5,8 @@ import {listen} from '@exadel/esl/modules/esl-utils/decorators/listen';
 import {UIPSetting} from '../../plugins/settings/setting';
 import {WARNING_MSG} from '../../utils/warning-msg';
 
+import * as React from 'jsx-dom';
+
 export class UIPSliderSetting extends UIPSetting {
   public static is = 'uip-slider-setting';
 
@@ -20,9 +22,16 @@ export class UIPSliderSetting extends UIPSetting {
   protected connectedCallback() {
     super.connectedCallback();
 
-    this.$label.append(this.$field);
-    this.append(this.$label);
-    this.append(this.$fieldValue);
+    const inner =
+      <>
+        <label>
+          <span>{this.label}</span>
+          {this.$field}
+        </label>
+        {this.$fieldValue}
+      </>;
+
+    this.append(inner);
   }
 
   protected disconnectedCallback() {
@@ -32,31 +41,14 @@ export class UIPSliderSetting extends UIPSetting {
 
   /** Range input to change setting's value */
   @memoize()
-  protected get $field(): HTMLInputElement {
-    const $field = document.createElement('input');
-    $field.type = 'range';
-
-    $field.min = this.min;
-    $field.max = this.max;
-    $field.step = this.step;
-
-    return $field;
-  }
-
-  /** Label element for input */
-  @memoize()
-  protected get $label(): HTMLLabelElement {
-    const $label = document.createElement('label');
-    $label.innerHTML = `<span>${this.label}</span>`;
-    return $label;
+  protected get $field() {
+    return <input type="range" min={this.min} max={this.max} step={this.step}/> as HTMLInputElement;
   }
 
   /** Container for current value */
   @memoize()
-  protected get $fieldValue(): HTMLDivElement {
-    const $fieldValue = document.createElement('div');
-    $fieldValue.classList.add('slider-value');
-    return $fieldValue;
+  protected get $fieldValue() {
+    return <div className="slider-value"></div>;
   }
 
   /** Handles `input` event to display its current value */

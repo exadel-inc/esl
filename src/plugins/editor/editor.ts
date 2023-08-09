@@ -46,7 +46,7 @@ export class UIPEditor extends UIPPlugin {
 
     return import(/* webpackChunkName: "ace-editor" */ './ace/ace-editor').then((Ace) => {
       this.resizeObserver.observe(this);
-      this.editor = new Ace.Editor(this.$inner);
+      this.editor = new Ace.Editor(this.$inner as HTMLElement);
       this.editor.setConfig(this.editorConfig);
       this.editor.addEventListener('editor-change', this._onChange);
       this._onRootStateChange();

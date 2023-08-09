@@ -1,9 +1,11 @@
 import {memoize} from '@exadel/esl/modules/esl-utils/decorators/memoize';
 import {listen} from '@exadel/esl/modules/esl-utils/decorators/listen';
-import type {ESLScrollbar} from '@exadel/esl/modules/esl-scrollbar/core';
 
 import {UIPPlugin} from '../../../core/base/plugin';
 import {SnippetTemplate} from '../../../core/base/model';
+import {UIPOptionIcons} from '../options/OptionIcons';
+
+import * as React from 'jsx-dom';
 
 /**
  * Snippets {@link UIPPlugin} custom element definition
@@ -19,44 +21,10 @@ export class UIPSnippets extends UIPPlugin {
   /** Index of current snippet list item */
   public currentIndex: number;
 
-  /** Snippets container element */
-  @memoize()
-  protected get $snippetList(): HTMLElement {
-    const $el = document.createElement('div');
-    $el.className = 'snippets-list';
-    return $el;
-  }
-
   /** Active snippet title */
   @memoize()
-  protected get $title(): HTMLElement {
-    const $el = document.createElement('span');
-    $el.className = 'snippets-title';
-    return $el;
-  }
-
-  /** Snippets dropdown element */
-  @memoize()
-  protected get $dropdown(): HTMLElement {
-    const $el = document.createElement('div');
-    $el.className = 'snippets-dropdown';
-    return $el;
-  }
-
-  /** Dropdown control element */
-  @memoize()
-  protected get $dropdownControl(): HTMLElement {
-    const $el = document.createElement('div');
-    $el.className = 'snippets-dropdown-control';
-    return $el;
-  }
-
-  /** Dropdown wrapper element */
-  @memoize()
-  protected get $dropdownWrapper(): HTMLElement {
-    const $el = document.createElement('div');
-    $el.className = 'snippets-dropdown-wrapper';
-    return $el;
+  protected get $title() {
+    return <span className="snippets-title"></span>;
   }
 
   /** Snippets list from dropdown element*/
@@ -64,14 +32,6 @@ export class UIPSnippets extends UIPPlugin {
   public get $items(): HTMLElement[] {
     const items = this.querySelectorAll(`.${UIPSnippets.LIST_ITEM}`);
     return Array.from(items) as HTMLElement[];
-  }
-
-  /** {@link ESLScrollbar} scroll element */
-  @memoize()
-  public get $scroll(): ESLScrollbar {
-    const $scroll = document.createElement('esl-scrollbar');
-    $scroll.setAttribute('target', '::prev');
-    return $scroll;
   }
 
   protected connectedCallback() {
@@ -113,26 +73,27 @@ export class UIPSnippets extends UIPPlugin {
     if (!snippets.length) return;
 
     snippets.length > 1
-      ? this.renderDropdown(snippets, this.$title)
-      : this.appendChild(this.$title);
+      ?this.appendChild(this.$innerContent(snippets))
+      :this.appendChild(this.$title);
   }
 
   /** Renders dropdown element for a case with multiple snippets */
-  protected renderDropdown(snippets: SnippetTemplate[], title: HTMLElement) {
+  protected $innerContent(snippets: SnippetTemplate[]) {
 
-    snippets
-      .map((snippet: SnippetTemplate) => this.buildListItem(snippet))
-      .forEach((item) => item && this.$snippetList.appendChild(item));
-
-    this.$snippetList.classList.add('esl-scrollable-content');
-    this.$dropdownWrapper.appendChild(this.$snippetList);
-    this.$scroll && this.$dropdownWrapper.appendChild(this.$scroll);
-
-    this.$dropdownControl.appendChild(title);
-    this.appendChild(this.$dropdownControl);
-
-    this.$dropdown.appendChild(this.$dropdownWrapper);
-    this.appendChild(this.$dropdown);
+    return <>
+      <div className="snippets-dropdown-control">
+        {UIPOptionIcons.snippetSVG}
+        {this.$title}
+      </div>
+      <div className="snippets-dropdown">
+        <div className="snippets-dropdown-wrapper">
+          <div className="snippets-list esl-scrollable-content">
+            {snippets.map((snippet: SnippetTemplate) => this.buildListItem(snippet))}
+          </div>
+          <esl-scrollbar target="::prev"></esl-scrollbar>
+        </div>
+      </div>
+    </>;
   }
 
   /** Builds snippets list item */
@@ -140,11 +101,11 @@ export class UIPSnippets extends UIPPlugin {
     const label = snippet.getAttribute('label');
     if (!label) return;
 
-    const $li = document.createElement('li');
-    $li.classList.add(UIPSnippets.LIST_ITEM);
-    $li.textContent = label;
-    snippet === this.model?.activeSnippet && $li.classList.add(UIPSnippets.ACTIVE_ITEM);
-    return $li;
+    let className = UIPSnippets.LIST_ITEM;
+    if (snippet === this.model?.activeSnippet) {
+      className = className.concat(' ', UIPSnippets.ACTIVE_ITEM);
+    }
+    return <li className={className}>{label}</li>;
   }
 
   /** Updates dropdown title with the name of active snippet */
