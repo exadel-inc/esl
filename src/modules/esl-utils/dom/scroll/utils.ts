@@ -61,7 +61,7 @@ export function lockScroll(target: Element = $html, options: ScrollLockOptions =
   requestLock(target, options.initiator);
   const scrollable = target === $html ? target : getScrollParent(target);
   const hasVScroll = hasVerticalScroll(scrollable);
-  if (scrollable === $html && hasVScroll) {
+  if (scrollable === $html) {
     const scrollWidth = window.innerWidth - document.documentElement.clientWidth;
     $html.style.setProperty('--s-lock-offset', `${scrollWidth}px`);
   }
