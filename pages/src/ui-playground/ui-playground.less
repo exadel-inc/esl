@@ -33,10 +33,16 @@ uip-root {
 
   .uip-option {
     &.dark-theme-option,
-    &.rtl-direction-option,
+    &.rtl-direction-option.active,
     &.settings-collapsed-option {
       svg {
         stroke: #fff;
+      }
+    }
+
+    &.rtl-direction-option.active {
+      svg {
+        stroke: #f5f5f5;
       }
     }
 
@@ -53,8 +59,14 @@ uip-root {
     accent-color: @body-fg;
 
     &-inner {
+      padding-left: 5px;
+      padding-right: 5px;
       border-left-color: rgba(0, 0, 0, 0.1);
     }
+  }
+
+  .uip-setting label {
+    width: 100%;
   }
 
   /*Scrollbar components*/
@@ -87,7 +99,6 @@ uip-root {
 }
 
 .uip-root[uip-snippets-active] {
-  border-bottom: 1px solid #c8d6f0;
   border-radius: 0.2rem;
 
   .uip-header {
@@ -102,12 +113,17 @@ uip-root {
   }
 
   .uip-preview {
-    border-left: 1px solid #c8d6f0;
+    border: 1px solid #c8d6f0;
   }
 
   .uip-settings-inner {
-    border-left: 1px solid #c8d6f0;
-    border-right: 1px solid #c8d6f0;
+    border: 1px solid #c8d6f0;
+    @media @md-xl {
+      border-left: none;
+    }
+    @media @xs-sm {
+      border-bottom: none;
+    }
   }
 
   .uip-snippets .snippets-dropdown-control {
