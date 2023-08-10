@@ -41,16 +41,18 @@ export class UIPOptionIcons {
   ) as HTMLElement;
 
   /** Default svg for copy icon */
-  public static copySVG: HTMLElement = (
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#5f5f5f" stroke-width="1.25">
+  public static get copySVG() {
+    return <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#5f5f5f" stroke-width="1.25">
       <rect width="12" height="15" x="4" y="3" fill="#fff" rx="2"/>
       <rect width="12" height="15" x="8" y="7" fill="#fff" rx="2"/>
-    </svg>
-  ) as HTMLElement;
+    </svg> as HTMLElement;
+  }
 
-  public static snippetSVG: HTMLElement = (
-    <svg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='black' viewBox='0 0 16 9' xmlSpace='preserve'>
-      <polyline points='0,0 8,8 16,0'  stroke-width='2'></polyline>
-    </svg>
-  ) as HTMLElement;
+  public static get snippetSVG() {
+    return <>
+      <svg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='black' viewBox='0 0 16 9' xmlSpace='preserve'>
+        <polyline points='0,0 8,8 16,0' stroke-width='2'></polyline>
+      </svg>
+    </> as HTMLElement;
+  }
 }

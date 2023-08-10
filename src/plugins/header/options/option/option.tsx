@@ -31,7 +31,7 @@ export class UIPOption extends ESLBaseElement {
 
   /** Builds option element from {@link OptionConfig} */
   static createEl(optionConfig: OptionConfig) {
-    const option =  <uip-option attribute={optionConfig.optionValue}>{optionConfig.svg}</uip-option> as UIPOption;
+    const option =  <uip-option attribute={optionConfig.optionValue}>{optionConfig.svg.cloneNode(true)}</uip-option> as UIPOption;
     option.config = optionConfig;
     return option;
   }
