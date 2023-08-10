@@ -1,3 +1,21 @@
+# [4.10.0](https://github.com/exadel-inc/esl/compare/v4.9.4...v4.10.0) (2023-08-10)
+
+
+### Bug Fixes
+
+* **esl-footnotes:** shape to support TSX is missing in module ([fd8cd07](https://github.com/exadel-inc/esl/commit/fd8cd076e07d2ea745da9cd59488f3f3001dbcae))
+* **esl-togglable:** open attribute change behavior ([826b27b](https://github.com/exadel-inc/esl/commit/826b27b9e4a48e0e42da96c0da7a8db1563473e1))
+* **esl-toggleable:** fix activator when close-on inner trigger click handled ([#1852](https://github.com/exadel-inc/esl/issues/1852)) ([f450d8b](https://github.com/exadel-inc/esl/commit/f450d8b68395785b5bb7e67d753994653d9d1a0a))
+* **esl-utils:** fix unhandled rejection when deferred is rejected but actual promise was not requested ([#1839](https://github.com/exadel-inc/esl/issues/1839)) ([5e111ba](https://github.com/exadel-inc/esl/commit/5e111baf343fba2c4e49c9618131fd50b78376f8))
+
+
+### Features
+
+* **esl-toggleable:** change `closeOnEsc` and `closeOnOutsideAction` mappers to extended boolean ('0' and 'false' values now considered as falsy) ([181a2b7](https://github.com/exadel-inc/esl/commit/181a2b767cfcb041620d30c95e08dffd3d3fd064))
+* **esl-trigger:** change `ignoreEsc` mapper to extended boolean ('0' and 'false' values now considered as falsy) ([9ccee3d](https://github.com/exadel-inc/esl/commit/9ccee3d03486df3cc88a7cfd06448f18dd139623))
+* **esl-utils:** `lockScroll` / `unlockScroll` methods reworked with no-scroll detection ([25b5b91](https://github.com/exadel-inc/esl/commit/25b5b9139c36f9bfc78319ba39e7cf6cee464a46))
+* **esl-utils:** create `toBooleanAttribute` and create extended boolean attribute flow ([e039256](https://github.com/exadel-inc/esl/commit/e0392569045dc8526d0d1f8ff383e54b044f5f1b))
+
 ## [4.9.4](https://github.com/exadel-inc/esl/compare/v4.9.3...v4.9.4) (2023-07-17)
 
 
