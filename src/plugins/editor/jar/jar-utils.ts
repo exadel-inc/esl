@@ -1,4 +1,4 @@
-import { withLineNumbers } from 'codejar/linenumbers';
+import {withLineNumbers} from 'codejar/linenumbers';
 import Prism from 'prismjs';
 import 'prismjs/plugins/normalize-whitespace/prism-normalize-whitespace';
 
@@ -14,7 +14,8 @@ export function normalize(markup: string): string {
 }
 
 /** Wrap long markup lines. */
-export function wrapLines(markup: string, wrapThreshold: number = 60) : string {
+export function wrapLines(markup: string, wrapThreshold?: number) : string {
+  wrapThreshold = wrapThreshold ?? Infinity;
   const lines: string[] = [];
 
   for (const line of markup.split('\n')) {
@@ -28,4 +29,8 @@ export function wrapLines(markup: string, wrapThreshold: number = 60) : string {
   }
 
   return lines.join('\n');
+}
+
+export interface EditorConfig {
+  wrap: number;
 }

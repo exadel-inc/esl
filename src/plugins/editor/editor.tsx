@@ -1,10 +1,11 @@
 import React from 'jsx-dom';
 
 import {debounce} from '@exadel/esl/modules/esl-utils/async/debounce';
-import {bind, decorate} from '@exadel/esl/modules/esl-utils/decorators';
+import {bind, decorate, jsonAttr} from '@exadel/esl/modules/esl-utils/decorators';
 
 import {UIPPlugin} from '../../core/registration';
 import {JarEditor} from './jar/jar-editor';
+import {EditorConfig} from './jar/jar-utils';
 
 /**
  * Editor {@link UIPPlugin} custom element definition
@@ -15,6 +16,9 @@ export class UIPEditor extends UIPPlugin {
   public static is = 'uip-editor';
   /** Wrapped {@link https://medv.io/codejar/ Codejar} editor instance */
   protected editor: JarEditor;
+  /** Editor's {@link EditorConfig} passed through attribute */
+  @jsonAttr({defaultValue: {}})
+  private editorConfig: Partial<EditorConfig>;
 
   protected connectedCallback() {
     super.connectedCallback();
@@ -34,7 +38,7 @@ export class UIPEditor extends UIPPlugin {
     const codeBlock = (<pre class='language-html editor-content'><code/></pre>) as HTMLPreElement;
     this.$inner.append(codeBlock);
 
-    this.editor = new JarEditor(codeBlock);
+    this.editor = new JarEditor(codeBlock, this.editorConfig);
     this.editor.addEventListener('uip:editor-change', this._onChange);
     this._onRootStateChange();
   }
