@@ -7,9 +7,19 @@ import {ESLEventUtils} from '../api';
 
 import type {ESLDomElementTarget} from '../../../esl-utils/abstract/dom-target';
 
+/**
+ * Swipe directions that could be provided in {@link ESLSwipeGestureEvent}
+ */
 type SwipeDirection = 'left' | 'right' | 'up' | 'down';
+
+/**
+ * Event names that could be triggered by {@link ESLSwipeGestureTarget}
+ */
 type SwipeEventName = 'swipe' | 'swipe:left' | 'swipe:right' | 'swipe:up' | 'swipe:down';
 
+/**
+ * Describes event that could be triggered by {@link ESLSwipeGestureTarget}
+ */
 interface ESLSwipeGestureEvent {
   direction: SwipeDirection;
   distanceX: number;
@@ -18,12 +28,18 @@ interface ESLSwipeGestureEvent {
   endEvent: PointerEvent;
 }
 
+/**
+ * Describes parsed configuration of {@link ESLSwipeGestureTarget}
+ */
 interface SwipeEventTargetConfig {
   threshold: number;
   units: string;
   timeout: number;
 }
 
+/**
+ * Describes settings object that could be passed to {@link ESLSwipeGestureTarget.for} as optional parameter
+ */
 export interface ESLSwipeGestureSetting {
   threshold?: string;
   timeout?: number;
@@ -62,7 +78,7 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
   /**
    * Passes threshold into number and units, creates config from passed threshold and distance values or uses default ones.
    * @param settings - configuration options {@link ESLSwipeGestureSetting}
-   * @returns ESLSwipeEventTarget configuration {@link SwipeEventTargetConfig}.
+   * @returns ESLSwipeGestureTarget configuration {@link SwipeEventTargetConfig}.
    */
   protected getConfig(settings: ESLSwipeGestureSetting): SwipeEventTargetConfig {
     const config = ESLSwipeGestureTarget.defaultConfig;
@@ -77,7 +93,7 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
   /**
    * @param $target - a target element to observe pointer events to detect a gesture
    * @param settings - optional config override (will be merged with a default one if passed) {@link ESLSwipeGestureSetting}.
-   * @returns Returns the instance of ESLSwipeEventTarget {@link ESLSwipeGestureTarget}.
+   * @returns Returns the instance of ESLSwipeGestureTarget {@link ESLSwipeGestureTarget}.
    */
   public static for($target: ESLDomElementTarget, settings?: ESLSwipeGestureSetting): ESLSwipeGestureTarget {
     if ($target instanceof ESLMixinElement) return ESLSwipeGestureTarget.for($target.$host, settings);

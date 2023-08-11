@@ -574,38 +574,38 @@ ESLEventUtils.subscribe(host, {
 
 <a name="-esleventutilswipe"></a>
 
-### ⚡ `ESLSwipeEventTarget.for`
+### ⚡ `ESLSwipeGestureTarget.for`
 
-`ESLSwipeEventTarget.for` is a simple and easy-to-use way to listen for swipe events on any element.
+`ESLSwipeGestureTarget.for` is a simple and easy-to-use way to listen for swipe events on any element.
 
-`ESLSwipeEventTarget.for` creates a synthetic target that produces `swipe` events. It detects `pointerdown` and 
+`ESLSwipeGestureTarget.for` creates a synthetic target that produces `swipe` events. It detects `pointerdown` and 
 `pointerup` events and based on the distance (`threshold`) between start and end points and time (`timeout`) between 
 `pointerdown` and `pointerup` events, triggers `swipe`, `swipe:left`, `swipe:right`, `swipe:up`, and `swipe:down` 
 events on target element.
 
 ```typescript
-ESLSwipeEventTarget.for(el: Element, threshold?: string, timeout?: number): ESLSwipeEventTarget;
+ESLSwipeGestureTarget.for(el: Element, settings?: ESLSwipeGestureSetting): ESLSwipeGestureTarget;
 ```
 
 **Parameters**:
 
 - `el` - `Element` The element to listen for swipe events on.
-- `threshold` - `string` - The distance threshold (px, vh, vw supported) that must be traveled before a swipe 
-event is triggered. Defaults to 20px.
-- `timeout` - `number` - The time in milliseconds that must elapse between pointerdown and pointerup events before a 
-swipe event is triggered. Defaults to 500.
+- `settings` - optional settings (`ESLSwipeGestureSetting`)
 
 Usage example:
 
 ```typescript
 ESLEventUtils.subscribe(host, {
   event: 'swipe',
-  target: ESLSwipeEventTarget.for(el)
+  target: ESLSwipeGestureTarget.for(el)
 }, onSwipe);
 // or
-ESLSwipeEventTarget.subscribe(host, {
+ESLSwipeGestureTarget.subscribe(host, {
   event: 'swipe:left',
-  target: (host) => ESLSwipeEventTarget.for(host.el, '30px', 1000)
+  target: (host) => ESLSwipeGestureTarget.for(host.el, {
+    threshold: '30px',
+    timeout: 1000
+  })
 }, onSwipe);
 ```
 
