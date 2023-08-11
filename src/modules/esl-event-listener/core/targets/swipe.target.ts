@@ -1,32 +1,12 @@
 import {SyntheticEventTarget} from '../../../esl-utils/dom/events/target';
 import {ESLMixinElement} from '../../../esl-mixin-element/ui/esl-mixin-element';
-import {overrideEvent} from '../../../esl-utils/dom/events/misc';
 import {resolveDomTarget} from '../../../esl-utils/abstract/dom-target';
 import {bind} from '../../../esl-utils/decorators/bind';
 import {ESLEventUtils} from '../api';
+import {ESLSwipeGestureEvent} from './swipe.event';
 
+import type {SwipeDirection, ESLSwipeGestureEventInfo, SwipeEventName} from './swipe.event';
 import type {ESLDomElementTarget} from '../../../esl-utils/abstract/dom-target';
-
-/**
- * Swipe directions that could be provided in {@link ESLSwipeGestureEvent}
- */
-type SwipeDirection = 'left' | 'right' | 'up' | 'down';
-
-/**
- * Event names that could be triggered by {@link ESLSwipeGestureTarget}
- */
-type SwipeEventName = 'swipe' | 'swipe:left' | 'swipe:right' | 'swipe:up' | 'swipe:down';
-
-/**
- * Describes event that could be triggered by {@link ESLSwipeGestureTarget}
- */
-interface ESLSwipeGestureEvent {
-  direction: SwipeDirection;
-  distanceX: number;
-  distanceY: number;
-  startEvent: PointerEvent;
-  endEvent: PointerEvent;
-}
 
 /**
  * Describes parsed configuration of {@link ESLSwipeGestureTarget}
@@ -126,7 +106,8 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
     const direction = this.resolveDirection(e);
 
     if (direction) {
-      const eventDetail: ESLSwipeGestureEvent = {
+      const swipeInfo: ESLSwipeGestureEventInfo = {
+        target: this.target,
         direction,
         distanceX: Math.abs(this.xDown - e.clientX),
         distanceY: Math.abs(this.yDown - e.clientY),
@@ -134,13 +115,10 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
         endEvent: e
       };
 
-      // fire `swiped` event on the element that started the swipe
-      const event = new CustomEvent('swipe', {bubbles: true, cancelable: true, detail: eventDetail});
-      this.dispatchEvent(overrideEvent(event, 'target', this.target));
-
-      // fire `swiped:${dir}` event on the element that started the swipe
-      const dirEvent = new CustomEvent(`swipe:${direction}`, {bubbles: true, cancelable: true, detail: eventDetail});
-      this.dispatchEvent(overrideEvent(dirEvent, 'target', this.target));
+      // fire `swipe` event on the element that started the swipe
+      this.dispatchEvent(ESLSwipeGestureEvent.fromConfig('swipe', swipeInfo));
+      // fire `swipe:${dir}` event on the element that started the swipe
+      this.dispatchEvent(ESLSwipeGestureEvent.fromConfig(`swipe:${direction}` as SwipeEventName, swipeInfo));
     }
 
     // reset values
