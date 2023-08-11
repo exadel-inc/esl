@@ -164,7 +164,8 @@ export class ESLSwipeEventTarget extends SyntheticEventTarget {
       return yDiff > 0 ? 'up' : 'down';
     }
 
-    return 'left';
+    // Marker that there was not enough move characteristic to consider pointer move as touch swipe
+    return null; 
   }
 
   /** Unsubscribes from the observed target {@link Element} changes */
