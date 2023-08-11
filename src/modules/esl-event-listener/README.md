@@ -578,7 +578,7 @@ ESLEventUtils.subscribe(host, {
 
 `ESLSwipeEventTarget.for` is a simple and easy-to-use way to listen for swipe events on any element.
 
-`ESLSwipeEventTarget.for` creates a synthetic target and subscribes it to `swipe` events. It detects `pointerdown` and 
+`ESLSwipeEventTarget.for` creates a synthetic target that produces `swipe` events. It detects `pointerdown` and 
 `pointerup` events and based on the distance (`threshold`) between start and end points and time (`timeout`) between 
 `pointerdown` and `pointerup` events, triggers `swipe`, `swipe:left`, `swipe:right`, `swipe:up`, and `swipe:down` 
 events on target element.
