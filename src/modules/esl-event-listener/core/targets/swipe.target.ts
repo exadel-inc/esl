@@ -1,6 +1,8 @@
 import {SyntheticEventTarget} from '../../../esl-utils/dom/events/target';
 import {ESLMixinElement} from '../../../esl-mixin-element/ui/esl-mixin-element';
 import {overrideEvent} from '../../../esl-utils/dom/events/misc';
+import {resolveDomTarget} from '../../../esl-utils/abstract/dom-target';
+import type {ESLDomElementTarget} from '../../../esl-utils/abstract/dom-target';
 
 type SwipeDirection = 'left' | 'right' | 'up' | 'down';
 type SwipeEventName = 'swipe' | 'swipe:left' | 'swipe:right' | 'swipe:up' | 'swipe:down';
@@ -19,6 +21,11 @@ interface SwipeEventTargetConfig {
   timeout: number;
 }
 
+export interface SwipeEventTargetOptions {
+  threshold?: string;
+  timeout?: number;
+}
+
 export class ESLSwipeEventTarget extends SyntheticEventTarget {
   protected xDown: number;
   protected yDown: number;
@@ -26,6 +33,7 @@ export class ESLSwipeEventTarget extends SyntheticEventTarget {
   protected startEl: HTMLElement | null;
   protected startEvent: PointerEvent;
   protected config: SwipeEventTargetConfig;
+  protected target: Element;
   protected static unitsAvailable = ['vw', 'vh', 'px'];
   protected static defaultConfig: SwipeEventTargetConfig = {
     threshold: 20,
@@ -33,58 +41,45 @@ export class ESLSwipeEventTarget extends SyntheticEventTarget {
     timeout: 500
   };
 
-  protected constructor(public readonly target: Element, threshold?: string, timeout?: number) {
+  protected constructor(target: ESLDomElementTarget, options: SwipeEventTargetOptions) {
     super();
-    this.config = this.getConfig(threshold, timeout);
+    this.target = resolveDomTarget(target);
+    this.config = this.getConfig(options);
+  }
+
+  /**
+   * @returns threshold units
+   */
+  protected parseUnits(threshold: string): string {
+    const filteredUnits = ESLSwipeEventTarget.unitsAvailable.filter((item: string) => (threshold.indexOf(item) > 0));
+
+    return filteredUnits.length ? filteredUnits[0] : ESLSwipeEventTarget.defaultConfig.units;
   }
 
   /**
    * Passes threshold into number and units, creates config from passed threshold and distance values or uses default ones.
-   * @param threshold - the distance threshold (px, vh, vw supported) that must be traveled before a swipe event is triggered.
-   * @param timeout - the time in milliseconds that must elapse between pointerdown and pointerup events before a wipe event is triggered.
+   * @param options - configuration options {@link SwipeEventTargetOptions}
    * @returns ESLSwipeEventTarget configuration {@link SwipeEventTargetConfig}.
    */
-  protected getConfig(threshold?: string, timeout?: number): SwipeEventTargetConfig {
+  protected getConfig(options: SwipeEventTargetOptions): SwipeEventTargetConfig {
     const config = ESLSwipeEventTarget.defaultConfig;
 
-    if (threshold) {
-      ESLSwipeEventTarget.unitsAvailable.forEach((unit: string) => {
-        if (threshold.indexOf(unit) > 0) {
-          config.units = unit;
-          config.threshold = parseInt(threshold.replace(unit, ''), 10) || ESLSwipeEventTarget.defaultConfig.threshold;
-        }
-      });
-    }
-
-    config.timeout = timeout || config.timeout;
+    config.timeout = options?.timeout || config.timeout;
+    config.threshold = options?.threshold ? parseInt(options.threshold, 10) : config.threshold;
+    config.units = options?.threshold ? this.parseUnits(options.threshold) : config.units;
 
     return config;
   }
 
   /**
    * @param $el - the element to listen for swipe events on
-   * @param threshold - the distance threshold (px, vh, vw supported) that must be traveled before a swipe event is triggered. Optional. Defaults to 20px
-   * @param timeout - the time in milliseconds that must elapse between pointerdown and pointerup events before a wipe event is triggered. Optional.
-   * Defaults to 500.
+   * @param options - configuration options {@link SwipeEventTargetOptions}
    * @returns Returns the instance of ESLSwipeEventTarget {@link ESLSwipeEventTarget}.
    */
-  public static for($el: Element | ESLMixinElement, threshold?: string, timeout?: number): ESLSwipeEventTarget {
-    if ($el instanceof ESLMixinElement) return ESLSwipeEventTarget.for($el.$host, threshold, timeout);
+  public static for($el: ESLDomElementTarget, options?: SwipeEventTargetOptions): ESLSwipeEventTarget {
+    if ($el instanceof ESLMixinElement) return ESLSwipeEventTarget.for($el.$host, options);
 
-    return new ESLSwipeEventTarget($el, threshold, timeout);
-  }
-
-  /**
-   * Subscribes to pointerup and pointerdown event
-   */
-  public override addEventListener(callback: EventListener): void;
-  public override addEventListener(event: SwipeEventName, callback: EventListener): void;
-  public override addEventListener(event: any, callback: EventListener = event): void {
-    super.addEventListener(event, callback);
-    if (this.getEventListeners().length > 1) return;
-
-    this.target.addEventListener('pointerdown', this.handleStart.bind(this), false);
-    this.target.addEventListener('pointerup', this.handleEnd.bind(this), false);
+    return new ESLSwipeEventTarget($el, options || {});
   }
 
   /**
@@ -151,7 +146,7 @@ export class ESLSwipeEventTarget extends SyntheticEventTarget {
    * @param e - pointer event
    * @returns direction of swipe {@link SwipeDirection}
    */
-  protected resolveDirection(e: PointerEvent): SwipeDirection {
+  protected resolveDirection(e: PointerEvent): SwipeDirection | null {
     const xDiff = this.xDown - e.clientX;
     const yDiff = this.yDown - e.clientY;
     const swipeThreshold = this.resolveSwipeThreshold();
@@ -165,10 +160,25 @@ export class ESLSwipeEventTarget extends SyntheticEventTarget {
     }
 
     // Marker that there was not enough move characteristic to consider pointer move as touch swipe
-    return null; 
+    return null;
   }
 
-  /** Unsubscribes from the observed target {@link Element} changes */
+  /**
+   * Subscribes to pointerup and pointerdown event
+   */
+  public override addEventListener(callback: EventListener): void;
+  public override addEventListener(event: SwipeEventName, callback: EventListener): void;
+  public override addEventListener(event: any, callback: EventListener = event): void {
+    super.addEventListener(event, callback);
+    if (this.getEventListeners().length > 1) return;
+
+    this.target.addEventListener('pointerdown', this.handleStart.bind(this), false);
+    this.target.addEventListener('pointerup', this.handleEnd.bind(this), false);
+  }
+
+  /**
+   * Unsubscribes from the observed target {@link Element} changes
+   */
   public override removeEventListener(callback: EventListener): void;
   public override removeEventListener(event: SwipeEventName, callback: EventListener): void;
   public override removeEventListener(event: any, callback: EventListener = event): void {
