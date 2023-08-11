@@ -2,17 +2,20 @@ import {SyntheticEventTarget} from '../../../esl-utils/dom/events/target';
 import {ESLMixinElement} from '../../../esl-mixin-element/ui/esl-mixin-element';
 import {overrideEvent} from '../../../esl-utils/dom/events/misc';
 import {resolveDomTarget} from '../../../esl-utils/abstract/dom-target';
+import {bind} from '../../../esl-utils/decorators/bind';
+import {ESLEventUtils} from '../api';
+
 import type {ESLDomElementTarget} from '../../../esl-utils/abstract/dom-target';
 
 type SwipeDirection = 'left' | 'right' | 'up' | 'down';
 type SwipeEventName = 'swipe' | 'swipe:left' | 'swipe:right' | 'swipe:up' | 'swipe:down';
 
-interface SwipeEvent {
+interface ESLSwipeGestureEvent {
   direction: SwipeDirection;
   distanceX: number;
   distanceY: number;
-  touchStartOriginalEvent: PointerEvent;
-  touchEndOriginalEvent: PointerEvent;
+  startEvent: PointerEvent;
+  endEvent: PointerEvent;
 }
 
 interface SwipeEventTargetConfig {
@@ -21,12 +24,12 @@ interface SwipeEventTargetConfig {
   timeout: number;
 }
 
-export interface SwipeEventTargetOptions {
+export interface ESLSwipeGestureSetting {
   threshold?: string;
   timeout?: number;
 }
 
-export class ESLSwipeEventTarget extends SyntheticEventTarget {
+export class ESLSwipeGestureTarget extends SyntheticEventTarget {
   protected xDown: number;
   protected yDown: number;
   protected timeDown: number;
@@ -41,51 +44,52 @@ export class ESLSwipeEventTarget extends SyntheticEventTarget {
     timeout: 500
   };
 
-  protected constructor(target: ESLDomElementTarget, options: SwipeEventTargetOptions) {
+  protected constructor(target: ESLDomElementTarget, settings: ESLSwipeGestureSetting) {
     super();
     this.target = resolveDomTarget(target);
-    this.config = this.getConfig(options);
+    this.config = this.getConfig(settings);
   }
 
   /**
    * @returns threshold units
    */
   protected parseUnits(threshold: string): string {
-    const filteredUnits = ESLSwipeEventTarget.unitsAvailable.filter((item: string) => (threshold.indexOf(item) > 0));
+    const filteredUnits = ESLSwipeGestureTarget.unitsAvailable.filter((item: string) => (threshold.indexOf(item) > 0));
 
-    return filteredUnits.length ? filteredUnits[0] : ESLSwipeEventTarget.defaultConfig.units;
+    return filteredUnits.length ? filteredUnits[0] : ESLSwipeGestureTarget.defaultConfig.units;
   }
 
   /**
    * Passes threshold into number and units, creates config from passed threshold and distance values or uses default ones.
-   * @param options - configuration options {@link SwipeEventTargetOptions}
+   * @param settings - configuration options {@link ESLSwipeGestureSetting}
    * @returns ESLSwipeEventTarget configuration {@link SwipeEventTargetConfig}.
    */
-  protected getConfig(options: SwipeEventTargetOptions): SwipeEventTargetConfig {
-    const config = ESLSwipeEventTarget.defaultConfig;
+  protected getConfig(settings: ESLSwipeGestureSetting): SwipeEventTargetConfig {
+    const config = ESLSwipeGestureTarget.defaultConfig;
 
-    config.timeout = options?.timeout || config.timeout;
-    config.threshold = options?.threshold ? parseInt(options.threshold, 10) : config.threshold;
-    config.units = options?.threshold ? this.parseUnits(options.threshold) : config.units;
+    config.timeout = settings?.timeout || config.timeout;
+    config.threshold = settings?.threshold ? parseInt(settings.threshold, 10) : config.threshold;
+    config.units = settings?.threshold ? this.parseUnits(settings.threshold) : config.units;
 
     return config;
   }
 
   /**
-   * @param $el - the element to listen for swipe events on
-   * @param options - configuration options {@link SwipeEventTargetOptions}
-   * @returns Returns the instance of ESLSwipeEventTarget {@link ESLSwipeEventTarget}.
+   * @param $target - a target element to observe pointer events to detect a gesture
+   * @param settings - optional config override (will be merged with a default one if passed) {@link ESLSwipeGestureSetting}.
+   * @returns Returns the instance of ESLSwipeEventTarget {@link ESLSwipeGestureTarget}.
    */
-  public static for($el: ESLDomElementTarget, options?: SwipeEventTargetOptions): ESLSwipeEventTarget {
-    if ($el instanceof ESLMixinElement) return ESLSwipeEventTarget.for($el.$host, options);
+  public static for($target: ESLDomElementTarget, settings?: ESLSwipeGestureSetting): ESLSwipeGestureTarget {
+    if ($target instanceof ESLMixinElement) return ESLSwipeGestureTarget.for($target.$host, settings);
 
-    return new ESLSwipeEventTarget($el, options || {});
+    return new ESLSwipeGestureTarget($target, settings || {});
   }
 
   /**
    * Saves swipe start event target, time when swipe started, pointerdown event and coordinates.
    * @param e - pointer event
    */
+  @bind
   protected handleStart(e: PointerEvent): void {
     this.startEl = e.target as HTMLElement;
     this.timeDown = e.timeStamp;
@@ -95,21 +99,23 @@ export class ESLSwipeEventTarget extends SyntheticEventTarget {
   }
 
   /**
-   * Triggers swipe event {@link SwipeEventName} with details {@link SwipeEvent} when pointerup event occurred and threshold and distance match configuration
+   * Triggers swipe event {@link SwipeEventName} with details {@link ESLSwipeGestureEvent} when pointerup event
+   * occurred and threshold and distance match configuration
    * @param e - pointer event
    */
+  @bind
   protected handleEnd(e: PointerEvent): void {
     // if the user released on a different target, cancel!
     if (this.startEl !== e.target) return;
     const direction = this.resolveDirection(e);
 
     if (direction) {
-      const eventDetail: SwipeEvent = {
+      const eventDetail: ESLSwipeGestureEvent = {
         direction,
         distanceX: Math.abs(this.xDown - e.clientX),
         distanceY: Math.abs(this.yDown - e.clientY),
-        touchStartOriginalEvent: this.startEvent,
-        touchEndOriginalEvent: e
+        startEvent: this.startEvent,
+        endEvent: e
       };
 
       // fire `swiped` event on the element that started the swipe
@@ -172,8 +178,8 @@ export class ESLSwipeEventTarget extends SyntheticEventTarget {
     super.addEventListener(event, callback);
     if (this.getEventListeners().length > 1) return;
 
-    this.target.addEventListener('pointerdown', this.handleStart.bind(this), false);
-    this.target.addEventListener('pointerup', this.handleEnd.bind(this), false);
+    ESLEventUtils.subscribe(this.target, {event: 'pointerdown', capture: false}, this.handleStart);
+    ESLEventUtils.subscribe(this.target, {event: 'pointerup', capture: false}, this.handleEnd);
   }
 
   /**
@@ -184,6 +190,9 @@ export class ESLSwipeEventTarget extends SyntheticEventTarget {
   public override removeEventListener(event: any, callback: EventListener = event): void {
     super.removeEventListener(event, callback);
     if (this.getEventListeners().length > 0) return;
+
+    ESLEventUtils.unsubscribe(this.target, 'pointerdown');
+    ESLEventUtils.unsubscribe(this.target, 'pointerup');
 
     this.target.removeEventListener('pointerdown', this.handleStart.bind(this), false);
     this.target.removeEventListener('pointerup', this.handleEnd.bind(this), false);
