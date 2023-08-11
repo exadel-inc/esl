@@ -2,9 +2,7 @@ import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
 import {SyntheticEventTarget} from '@exadel/esl/modules/esl-utils/dom/events/target';
 
 import {CodeJar} from 'codejar';
-import {withLineNumbers} from 'codejar/linenumbers';
-import Prism from 'prismjs';
-import 'prismjs/plugins/normalize-whitespace/prism-normalize-whitespace';
+import { normalize, useLineNumbers, wrapLines } from './jar-utils';
 
 /** {@link https://medv.io/codejar/ Codejar} editor wrapper */
 export class JarEditor extends SyntheticEventTarget {
@@ -18,9 +16,7 @@ export class JarEditor extends SyntheticEventTarget {
     super();
     this.editor = CodeJar(
       element,
-      withLineNumbers(Prism.highlightElement, {
-        color: '#C9BFBF'
-      }),
+      useLineNumbers(),
       { tab: '\t' }
     );
     this.editor.onUpdate(this._onChange);
@@ -30,7 +26,7 @@ export class JarEditor extends SyntheticEventTarget {
    * @param {string} value - text content to set
    */
   public setValue(value: string): void {
-    value = this.normalize(value);
+    value = this.prepareValue(value);
     this.editor.updateCode(value);
   }
 
@@ -44,14 +40,14 @@ export class JarEditor extends SyntheticEventTarget {
     this.editor.destroy();
   }
 
-  /** Normalize markup indents */
-  private normalize(markup: string): string {
-    return Prism.plugins.NormalizeWhitespace.normalize(markup);
+  private prepareValue(markup: string): string {
+    const value = normalize(markup);
+    return wrapLines(value);
   }
 
   /** Handle editor's content change */
   @bind
   private _onChange() {
-    this.dispatchEvent(new CustomEvent('editor-change'));
+    this.dispatchEvent(new CustomEvent('uip:editor-change'));
   }
 }

@@ -35,7 +35,7 @@ export class UIPEditor extends UIPPlugin {
     this.$inner.append(codeBlock);
 
     this.editor = new JarEditor(codeBlock);
-    this.editor.addEventListener('editor-change', this._onChange);
+    this.editor.addEventListener('uip:editor-change', this._onChange);
     this._onRootStateChange();
   }
 

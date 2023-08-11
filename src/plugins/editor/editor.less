@@ -8,9 +8,19 @@
   &-inner {
     height: 100%;
     border-top: 1px solid @section-border;
+    padding: 0;
+  }
+
+  .editor-content {
+    margin-top: 0;
+  }
+
+  .codejar-linenumbers {
+    // Override default width set by withLineNumbers
+    width: unset !important;
   }
 
   .uip-root.dark-theme & {
-    @import "./jar/dark-theme.less";
+    @import "./jar/jar-editor.less";
   }
 }
