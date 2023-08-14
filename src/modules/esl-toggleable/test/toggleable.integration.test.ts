@@ -4,16 +4,16 @@ import {ESLTrigger} from '../../esl-trigger/core';
 describe('ESLToggleable custom element - integration with ESLTrigger', () => {
   const $trigger = ESLTrigger.create();
   const $toggleable = ESLToggleable.create();
-  $trigger.dispatchEvent = jest.fn();
   $trigger.$target = $toggleable;
 
+  jest.spyOn($trigger, 'dispatchEvent');
+
   beforeAll(() => {
-    document.body.appendChild($trigger);
     jest.useFakeTimers();
     ESLToggleable.register();
     ESLTrigger.register();
 
-    document.body.append($trigger);
+    document.body.appendChild($trigger);
     document.body.appendChild($toggleable);
   });
 
