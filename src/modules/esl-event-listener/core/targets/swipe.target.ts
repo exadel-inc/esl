@@ -26,9 +26,6 @@ export interface ESLSwipeGestureSetting {
 }
 
 export class ESLSwipeGestureTarget extends SyntheticEventTarget {
-  protected xDown: number;
-  protected yDown: number;
-  protected timeDown: number;
   protected startEl: HTMLElement | null;
   protected startEvent: PointerEvent;
   protected config: SwipeEventTargetConfig;
@@ -88,10 +85,7 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
   @bind
   protected handleStart(e: PointerEvent): void {
     this.startEl = e.target as HTMLElement;
-    this.timeDown = e.timeStamp;
     this.startEvent = e;
-    this.xDown = e.clientX;
-    this.yDown = e.clientY;
   }
 
   /**
@@ -109,8 +103,8 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
       const swipeInfo: ESLSwipeGestureEventInfo = {
         target: this.target,
         direction,
-        distanceX: Math.abs(this.xDown - e.clientX),
-        distanceY: Math.abs(this.yDown - e.clientY),
+        distanceX: Math.abs(this.startEvent.clientX - e.clientX),
+        distanceY: Math.abs(this.startEvent.clientY - e.clientY),
         startEvent: this.startEvent,
         endEvent: e
       };
@@ -147,10 +141,10 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
    * @returns direction of swipe {@link SwipeDirection}
    */
   protected resolveDirection(e: PointerEvent): SwipeDirection | null {
-    const xDiff = this.xDown - e.clientX;
-    const yDiff = this.yDown - e.clientY;
+    const xDiff = this.startEvent.clientX - e.clientX;
+    const yDiff = this.startEvent.clientY - e.clientY;
     const swipeThreshold = this.resolveSwipeThreshold();
-    const timeDiff = e.timeStamp - this.timeDown;
+    const timeDiff = e.timeStamp - this.startEvent.timeStamp;
 
     if (Math.abs(xDiff) > Math.abs(yDiff) && Math.abs(xDiff) > swipeThreshold && timeDiff < this.config.timeout) {
       return xDiff > 0 ? 'left' : 'right';
@@ -187,8 +181,5 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
 
     ESLEventUtils.unsubscribe(this.target, 'pointerdown');
     ESLEventUtils.unsubscribe(this.target, 'pointerup');
-
-    this.target.removeEventListener('pointerdown', this.handleStart.bind(this), false);
-    this.target.removeEventListener('pointerup', this.handleEnd.bind(this), false);
   }
 }
