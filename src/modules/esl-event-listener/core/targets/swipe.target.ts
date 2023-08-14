@@ -3,8 +3,10 @@ import {ESLMixinElement} from '../../../esl-mixin-element/ui/esl-mixin-element';
 import {resolveDomTarget} from '../../../esl-utils/abstract/dom-target';
 import {bind} from '../../../esl-utils/decorators/bind';
 import {ESLEventUtils} from '../api';
+import {resolveCSSSize} from '../../../esl-utils/dom/units';
 import {ESLSwipeGestureEvent} from './swipe.event';
 
+import type {CSSSize} from '../../../esl-utils/dom/units';
 import type {SwipeDirection, ESLSwipeGestureEventInfo, SwipeEventName} from './swipe.event';
 import type {ESLDomElementTarget} from '../../../esl-utils/abstract/dom-target';
 
@@ -12,8 +14,7 @@ import type {ESLDomElementTarget} from '../../../esl-utils/abstract/dom-target';
  * Describes parsed configuration of {@link ESLSwipeGestureTarget}
  */
 interface SwipeEventTargetConfig {
-  threshold: number;
-  units: string;
+  threshold: string;
   timeout: number;
 }
 
@@ -30,41 +31,15 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
   protected startEvent: PointerEvent;
   protected config: SwipeEventTargetConfig;
   protected target: Element;
-  protected static unitsAvailable = ['vw', 'vh', 'px'];
   protected static defaultConfig: SwipeEventTargetConfig = {
-    threshold: 20,
-    units: 'px',
+    threshold: '20px',
     timeout: 500
   };
 
   protected constructor(target: ESLDomElementTarget, settings: ESLSwipeGestureSetting) {
     super();
     this.target = resolveDomTarget(target);
-    this.config = this.getConfig(settings);
-  }
-
-  /**
-   * @returns threshold units
-   */
-  protected parseUnits(threshold: string): string {
-    const filteredUnits = ESLSwipeGestureTarget.unitsAvailable.filter((item: string) => (threshold.indexOf(item) > 0));
-
-    return filteredUnits.length ? filteredUnits[0] : ESLSwipeGestureTarget.defaultConfig.units;
-  }
-
-  /**
-   * Passes threshold into number and units, creates config from passed threshold and distance values or uses default ones.
-   * @param settings - configuration options {@link ESLSwipeGestureSetting}
-   * @returns ESLSwipeGestureTarget configuration {@link SwipeEventTargetConfig}.
-   */
-  protected getConfig(settings: ESLSwipeGestureSetting): SwipeEventTargetConfig {
-    const config = ESLSwipeGestureTarget.defaultConfig;
-
-    config.timeout = settings?.timeout || config.timeout;
-    config.threshold = settings?.threshold ? parseInt(settings.threshold, 10) : config.threshold;
-    config.units = settings?.threshold ? this.parseUnits(settings.threshold) : config.units;
-
-    return config;
+    this.config = Object.assign({}, ESLSwipeGestureTarget.defaultConfig, settings);
   }
 
   /**
@@ -120,22 +95,6 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
   }
 
   /**
-   * @returns threshold based on number and units
-   */
-  protected resolveSwipeThreshold(): number {
-    let swipeThreshold = this.config.threshold;
-
-    if (this.config.units === 'vh') {
-      swipeThreshold = Math.round((swipeThreshold / 100) * document.documentElement.clientHeight); // get percentage of viewport height in pixels
-    }
-    if (this.config.units === 'vw') {
-      swipeThreshold = Math.round((swipeThreshold / 100) * document.documentElement.clientWidth); // get percentage of viewport width in pixels
-    }
-
-    return swipeThreshold;
-  }
-
-  /**
    * Returns swipe direction based on distance between swipe start and end points
    * @param e - pointer event
    * @returns direction of swipe {@link SwipeDirection}
@@ -143,7 +102,7 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
   protected resolveDirection(e: PointerEvent): SwipeDirection | null {
     const xDiff = this.startEvent.clientX - e.clientX;
     const yDiff = this.startEvent.clientY - e.clientY;
-    const swipeThreshold = this.resolveSwipeThreshold();
+    const swipeThreshold = resolveCSSSize(this.config.threshold as CSSSize);
     const timeDiff = e.timeStamp - this.startEvent.timeStamp;
 
     if (Math.abs(xDiff) > Math.abs(yDiff) && Math.abs(xDiff) > swipeThreshold && timeDiff < this.config.timeout) {
