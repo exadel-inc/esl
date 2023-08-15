@@ -29,12 +29,11 @@ describe('ESLToggleable custom element - basic tests', () => {
     });
 
     describe('Attribute change callback', () => {
-      // Need to be fixed first: https://github.com/exadel-inc/esl/pull/1800
-      /* test('should toggle on `open` attribute change', () => {
+      test('should toggle on `open` attribute change', () => {
         $el.setAttribute('open', '');
         jest.advanceTimersByTime(1);
         expect($el.open).toBe(true);
-      });*/
+      });
 
       test('should dispatch group change event on group attribute change', () => {
         jest.spyOn($el, 'dispatchEvent');
