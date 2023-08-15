@@ -1,23 +1,43 @@
-/** Deferred object represents promise with it's resolve/reject methods */
-export type Deferred<T> = {
-  /** Wrapped promise */
-  promise: Promise<T>;
-  /** Function that resolves wrapped promise */
-  resolve: (arg: T) => void;
-  /** Function that rejects wrapped promise */
-  reject: (arg?: any) => void;
-};
+import {memoize} from '../../decorators/memoize';
 
-/**
- * Creates Deferred Object that wraps promise and its resolve and reject callbacks
- */
+/** Deferred object that represents promise with its resolve/reject methods */
+export class Deferred<T> {
+  protected _status: 'pending' | 'resolved' | 'rejected' = 'pending';
+  protected _value: T | undefined;
+  protected _callbacks: [(arg: T) => void, (arg?: any) => void];
+
+  /** @returns promise based on {@link Deferred} state*/
+  @memoize()
+  public get promise(): Promise<T> {
+    if (this._status === 'resolved') return Promise.resolve(this._value as T);
+    if (this._status === 'rejected') return Promise.reject(this._value);
+    return new Promise<T>((res, rej) => {
+      this._callbacks = [res, rej];
+    });
+  }
+
+  /** Resolves deferred promise */
+  public resolve(arg: T): Deferred<T> {
+    if (this._status === 'pending') {
+      this._value = arg;
+      this._status = 'resolved';
+      this._callbacks && this._callbacks[0](arg);
+    }
+    return this;
+  }
+
+  /** Rejects deferred promise */
+  public reject(arg?: any): Deferred<T> {
+    if (this._status === 'pending') {
+      this._value = arg;
+      this._status = 'rejected';
+      this._callbacks && this._callbacks[1](arg);
+    }
+    return this;
+  }
+}
+
+/** Creates Deferred Object that wraps promise and its resolve and reject callbacks */
 export function createDeferred<T>(): Deferred<T> {
-  let reject: any;
-  let resolve: any;
-  // Both reject and resolve will be assigned anyway while the Promise constructing.
-  const promise = new Promise<T>((res, rej) => {
-    resolve = res;
-    reject = rej;
-  });
-  return {promise, resolve, reject};
+  return new Deferred();
 }

@@ -18,7 +18,7 @@ export class ESLToggleableDispatcher extends ESLBaseElement {
    * Uses esl-toggleable-dispatcher tag and document body root by default
    */
   public static init(root: HTMLElement = document.body, tagName: string = this.is): void {
-    if (!root) throw new Error('Root element should be specified');
+    if (!root) throw new Error('[ESL]: Root element should be specified');
     const instances = root.getElementsByTagName(tagName);
     if (instances.length) return;
     this.register(tagName);
