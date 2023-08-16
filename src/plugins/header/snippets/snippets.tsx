@@ -82,7 +82,7 @@ export class UIPSnippets extends UIPPlugin {
 
     return <>
       <div className="snippets-dropdown-control">
-        {UIPOptionIcons.snippetSVG}
+        {UIPOptionIcons.snippetSVG.cloneNode(true) as HTMLElement}
         {this.$title}
       </div>
       <div className="snippets-dropdown">
