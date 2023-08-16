@@ -26,15 +26,19 @@ export interface ESLSwipeGestureSetting {
   timeout?: number;
 }
 
+/**
+ * Synthetic target class that produces swipe events
+ */
 export class ESLSwipeGestureTarget extends SyntheticEventTarget {
-  protected startEl: HTMLElement | null;
-  protected startEvent: PointerEvent;
-  protected config: SwipeEventTargetConfig;
-  protected target: Element;
   protected static defaultConfig: SwipeEventTargetConfig = {
     threshold: '20px',
     timeout: 500
   };
+
+  protected startEvent: PointerEvent;
+  protected config: SwipeEventTargetConfig;
+  protected target: Element;
+  protected isGestureStarted: boolean = false;
 
   protected constructor(target: ESLDomElementTarget, settings: ESLSwipeGestureSetting) {
     super();
@@ -59,8 +63,8 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
    */
   @bind
   protected handleStart(e: PointerEvent): void {
-    this.startEl = e.target as HTMLElement;
     this.startEvent = e;
+    this.isGestureStarted = true;
   }
 
   /**
@@ -71,7 +75,7 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
   @bind
   protected handleEnd(e: PointerEvent): void {
     // if the user released on a different target, cancel!
-    if (this.startEl !== e.target) return;
+    if (!this.isGestureStarted || (this.startEvent?.target !== e.target)) return;
     const direction = this.resolveDirection(e);
 
     if (direction) {
@@ -90,8 +94,8 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
       this.dispatchEvent(ESLSwipeGestureEvent.fromConfig(`swipe:${direction}` as SwipeEventName, swipeInfo));
     }
 
-    // reset values
-    this.startEl = null;
+    // Mark swipe as completed
+    this.isGestureStarted = false;
   }
 
   /**

@@ -5,14 +5,14 @@ export type CSSSize = `${number}${'' | 'px' | 'vh' | 'vw'}`;
  * @returns number in pixels.
  */
 export const resolveCSSSize = (value: CSSSize): number => {
-  let num = parseInt(value, 10);
+  const num = parseInt(value, 10);
   const units = value.replace(num.toString(), '');
 
   if (units === 'vh') {
-    num = Math.round((num / 100) * document.documentElement.clientHeight); // get percentage of viewport height in pixels
+    return Math.round((num / 100) * document.documentElement.clientHeight); // get percentage of viewport height in pixels
   }
   if (units === 'vw') {
-    num = Math.round((num / 100) * document.documentElement.clientWidth); // get percentage of viewport width in pixels
+    return Math.round((num / 100) * document.documentElement.clientWidth); // get percentage of viewport width in pixels
   }
 
   return num;
