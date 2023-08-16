@@ -26,12 +26,12 @@ export class UIPTextSetting extends UIPSetting {
     super.connectedCallback();
     this.innerHTML = '';
 
-    const inner = <label>
+    const $inner = <label>
       {this.label}
       {this.$field}
     </label>;
 
-    this.appendChild(inner);
+    this.appendChild($inner);
   }
 
   protected getDisplayedValue(): string {

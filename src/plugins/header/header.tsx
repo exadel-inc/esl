@@ -41,7 +41,7 @@ export class UIPHeader extends UIPPlugin {
 
   /** Renders copy icon */
   protected renderCopy(): void {
-    const icon = <button title="copy markup" className="copy-icon">{UIPOptionIcons.copySVG}</button>;
+    const icon = <button title="copy markup" className="copy-icon">{UIPOptionIcons.copySVG.cloneNode(true) as HTMLElement}</button>;
     this.append(icon);
   }
 

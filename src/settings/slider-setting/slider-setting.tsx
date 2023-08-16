@@ -22,7 +22,7 @@ export class UIPSliderSetting extends UIPSetting {
   protected connectedCallback() {
     super.connectedCallback();
 
-    const inner =
+    const $inner =
       <>
         <label>
           <span>{this.label}</span>
@@ -31,7 +31,7 @@ export class UIPSliderSetting extends UIPSetting {
         {this.$fieldValue}
       </>;
 
-    this.append(inner);
+    this.append($inner);
   }
 
   protected disconnectedCallback() {

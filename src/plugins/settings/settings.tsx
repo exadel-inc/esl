@@ -29,11 +29,13 @@ export class UIPSettings extends UIPPlugin {
 
   /** Initializes settings layout */
   protected updateInner() {
-    const content = <div className="settings-list esl-scrollable-content">
-      {this.childNodes}
+    const $content = <div className="settings-list esl-scrollable-content">
       <esl-scrollbar target="::prev(.settings-list)"></esl-scrollbar>
     </div>;
-    this.$inner.appendChild(content);
+    [...this.childNodes].forEach((node: HTMLElement) => {
+      $content.appendChild(node);
+    });
+    this.$inner.appendChild($content);
     this.appendChild(this.$inner);
   }
 

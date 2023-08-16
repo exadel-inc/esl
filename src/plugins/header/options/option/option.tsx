@@ -31,7 +31,9 @@ export class UIPOption extends ESLBaseElement {
 
   /** Builds option element from {@link OptionConfig} */
   static createEl(optionConfig: OptionConfig) {
-    const option =  <uip-option attribute={optionConfig.optionValue}>{optionConfig.svg.cloneNode(true)}</uip-option> as UIPOption;
+    const option = document.createElement('uip-option') as UIPOption;
+    option.setAttribute('attribute', optionConfig.optionValue);
+    option.append(optionConfig.svg.cloneNode(true));
     option.config = optionConfig;
     return option;
   }
@@ -72,14 +74,5 @@ export class UIPOption extends ESLBaseElement {
   /** Toggles option active state */
   public toggleState(force?: boolean) {
     this.active = force === undefined ? !this.active : force;
-  }
-}
-
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      /** {@link UIPOption} custom tag */
-      'uip-option': UIPOption;
-    }
   }
 }

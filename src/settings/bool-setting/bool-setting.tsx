@@ -48,11 +48,11 @@ export class UIPBoolSetting extends UIPSetting {
     super.connectedCallback();
     this.innerHTML = '';
 
-    const inner = <label>
+    const $inner = <label>
       {this.label}
       {this.$field}
     </label>;
-    this.insertBefore(inner, this.firstChild);
+    this.insertBefore($inner, this.firstChild);
   }
 
   applyTo(model: UIPStateModel): void {
