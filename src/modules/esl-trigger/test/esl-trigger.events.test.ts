@@ -11,7 +11,7 @@ jest.mock('../../esl-utils/environment/device-detector', () => ({
   }
 }));
 
-function createTriggerMock(): ESLTrigger {
+function createTrigger(): ESLTrigger {
   const trigger = ESLTrigger.create();
   trigger.target = '';
   trigger.$target = createToggleableMock();
@@ -28,7 +28,7 @@ describe('ESLTrigger event handling', () => {
 
   describe('Click actions', () => {
     describe('Default click tracking', () => {
-      const $trigger = createTriggerMock();
+      const $trigger = createTrigger();
 
       beforeAll(() => document.body.append($trigger));
 
@@ -44,7 +44,7 @@ describe('ESLTrigger event handling', () => {
     });
 
     describe('Click tracking disabled', () => {
-      const $trigger = createTriggerMock();
+      const $trigger = createTrigger();
       $trigger.trackClick = 'none';
 
       beforeAll(() => document.body.append($trigger));
@@ -61,7 +61,7 @@ describe('ESLTrigger event handling', () => {
     });
 
     describe('Click tracking only for show actions', () => {
-      const trigger = createTriggerMock();
+      const trigger = createTrigger();
       trigger.mode = 'show';
 
       beforeAll(() => document.body.append(trigger));
@@ -78,7 +78,7 @@ describe('ESLTrigger event handling', () => {
     });
 
     describe('Click tracking only for hide actions', () => {
-      const $trigger = createTriggerMock();
+      const $trigger = createTrigger();
       $trigger.mode = 'hide';
 
       beforeAll(() => document.body.append($trigger));
@@ -95,13 +95,13 @@ describe('ESLTrigger event handling', () => {
     });
 
     describe('Not igonred target', () => {
-      const $trigger = createTriggerMock();
+      const $trigger = createTrigger();
       $trigger.ignore = '';
       const $target = document.createElement('div');
 
       beforeAll(() => {
         document.body.append($trigger);
-        $trigger.appendChild($target);});
+        $trigger.append($target);});
 
       test('toggle (show)', () => {
         $target.click();
@@ -115,13 +115,13 @@ describe('ESLTrigger event handling', () => {
     });
 
     describe('Igonred target', () => {
-      const $trigger = createTriggerMock();
+      const $trigger = createTrigger();
       $trigger.ignore = 'div';
       const div = document.createElement('div');
 
       beforeAll(() => {
         document.body.append($trigger);
-        $trigger.appendChild(div);});
+        $trigger.append(div);});
 
       test('toggle (show) ignored', () => {
         div.click();
@@ -137,7 +137,7 @@ describe('ESLTrigger event handling', () => {
 
   describe('Keydown', () => {
     describe('Default behavior', () => {
-      const $trigger = createTriggerMock();
+      const $trigger = createTrigger();
 
       beforeAll(() => document.body.append($trigger));
 
@@ -153,7 +153,7 @@ describe('ESLTrigger event handling', () => {
     });
 
     describe('Invalid key', () => {
-      const $trigger = createTriggerMock();
+      const $trigger = createTrigger();
 
       beforeAll(() => document.body.append($trigger));
 
@@ -169,7 +169,7 @@ describe('ESLTrigger event handling', () => {
     });
 
     describe('Escape key tracking disabled', () => {
-      const $trigger = createTriggerMock();
+      const $trigger = createTrigger();
       $trigger.ignoreEsc = true;
 
       beforeAll(() => document.body.append($trigger));
@@ -188,7 +188,7 @@ describe('ESLTrigger event handling', () => {
 
   describe('Hover', () => {
     describe('Hover tracking enabled', () => {
-      const $trigger = createTriggerMock();
+      const $trigger = createTrigger();
       $trigger.trackHover = 'all';
 
       beforeAll(() => document.body.append($trigger));
@@ -205,7 +205,7 @@ describe('ESLTrigger event handling', () => {
     });
 
     describe('Hover tracking disabled', () => {
-      const $trigger = createTriggerMock();
+      const $trigger = createTrigger();
       $trigger.trackHover = 'none';
 
       beforeAll(() => document.body.append($trigger));
@@ -222,7 +222,7 @@ describe('ESLTrigger event handling', () => {
     });
 
     describe('Hover tracking with show only mode', () => {
-      const $trigger = createTriggerMock();
+      const $trigger = createTrigger();
       $trigger.trackHover = 'all';
       $trigger.mode = 'show';
 
@@ -240,7 +240,7 @@ describe('ESLTrigger event handling', () => {
     });
 
     describe('hover tracking with hide only mode', () => {
-      const $trigger = createTriggerMock();
+      const $trigger = createTrigger();
       $trigger.trackHover = 'all';
       $trigger.mode = 'hide';
 
