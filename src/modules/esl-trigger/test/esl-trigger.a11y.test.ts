@@ -41,9 +41,11 @@ describe('esl-trigger a11y attributes test', () => {
           trigger.$target = createToggleableMock();
           trigger.a11yTarget = 'invalid';
           document.body.append(trigger);
+          trigger.$target?.show();
 
           expect(trigger.getAttribute('role')).toBe(null);
           expect(trigger.getAttribute('tabindex')).toBe(null);
+          expect(trigger.getAttribute('aria-controls')).toBe(null);
         }
       );
     }
