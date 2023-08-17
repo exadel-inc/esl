@@ -1,7 +1,7 @@
 ---
 name: "\U0001F41B Demo Site Bug"
 about: Create a bug found on the ESL demo site
-title: "[\U0001F41B in gh-pages]:  ..."
+title: "[\U0001F41B in site]:  ..."
 labels: waits triage
 assignees: ''
 

@@ -34,7 +34,7 @@ export class ESLDemoBanner extends ESLToggleable {
     const {cookieName} = this;
     if (cookieName) {
       const expires = new Date(Date.now() + expireDays * 864e5).toUTCString();
-      document.cookie = `${cookieName}=true; expires=${expires};`;
+      document.cookie = `${cookieName}=true; path=/; expires=${expires};`;
     }
   }
 
