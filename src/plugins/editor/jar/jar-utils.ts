@@ -3,9 +3,10 @@ import Prism from 'prismjs';
 import 'prismjs/plugins/normalize-whitespace/prism-normalize-whitespace';
 
 export function useLineNumbers(color: string = '#C9BFBF'): (editor: HTMLElement) => void {
-  return withLineNumbers(Prism.highlightElement, {
-    color,
-  });
+  return Prism.highlightElement;
+  // return withLineNumbers(Prism.highlightElement, {
+  //   color,
+  // });
 }
 
 /** Normalize lines indents. */

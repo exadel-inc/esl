@@ -14,7 +14,7 @@ interface EditorConfig {
 }
 ```
 
-- **wrap** option specifies characters limit by line. If the number of characters is greater than **wrap**, then the line is splitted into multiple ones, each shorter than **wrap** characters. By default there is no limit. We apply this transformation only on markup changes from snippets/settings.
+- **wrap** option specifies characters limit by line. If the number of characters is greater than **wrap**, then the line is splitted into multiple ones, each shorter than **wrap** characters. By default there is no limit. We apply this transformation only on markup changes from snippets/settings. Default value: 60.
 
 ## Example
 ```html

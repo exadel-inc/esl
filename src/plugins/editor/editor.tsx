@@ -17,7 +17,7 @@ export class UIPEditor extends UIPPlugin {
   /** Wrapped {@link https://medv.io/codejar/ Codejar} editor instance */
   protected editor: JarEditor;
   /** Editor's {@link EditorConfig} passed through attribute */
-  @jsonAttr({defaultValue: {}})
+  @jsonAttr({defaultValue: {wrap: 60}})
   private editorConfig: Partial<EditorConfig>;
 
   protected connectedCallback() {
