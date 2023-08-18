@@ -1,6 +1,7 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLToggleable} from '../../esl-toggleable/core/esl-toggleable';
-import {boolAttr, attr, memoize, listen} from '../../esl-utils/decorators';
+import {ESLModalBackdrop} from './esl-modal-backdrop';
+import {boolAttr, attr, listen} from '../../esl-utils/decorators';
 import {hasAttr, setAttr} from '../../esl-utils/dom/attr';
 import {getKeyboardFocusableElements, handleFocusChain} from '../../esl-utils/dom/focus';
 import {lockScroll, unlockScroll} from '../../esl-utils/dom/scroll/utils';
@@ -43,13 +44,6 @@ export class ESLModal extends ESLToggleable {
   @attr({defaultValue: true, parser: parseBoolean, serializer: toBooleanAttribute})
   public override closeOnOutsideAction: boolean;
 
-  @memoize()
-  protected static get $backdrop(): HTMLElement {
-    const $backdrop = document.createElement('esl-modal-backdrop');
-    $backdrop.classList.add('esl-modal-backdrop');
-    return $backdrop;
-  }
-
   protected override connectedCallback(): void {
     super.connectedCallback();
     if (!hasAttr(this, 'role')) setAttr(this, 'role', 'dialog');
@@ -88,13 +82,13 @@ export class ESLModal extends ESLToggleable {
 
   protected showBackdrop(): void {
     if (this.noBackdrop) return;
-    if (!document.body.contains(ESLModal.$backdrop)) document.body.appendChild(ESLModal.$backdrop);
-    ESLModal.$backdrop.classList.add('active');
+    if (!document.body.contains(ESLModalBackdrop.instance)) document.body.appendChild(ESLModalBackdrop.instance);
+    ESLModalBackdrop.instance.classList.add('active');
   }
 
   protected hideBackdrop(): void {
     if (this.noBackdrop) return;
-    ESLModal.$backdrop.classList.remove('active');
+    ESLModalBackdrop.instance.classList.remove('active');
   }
 
   public get $boundaryFocusable(): {first: HTMLElement, last: HTMLElement} {
