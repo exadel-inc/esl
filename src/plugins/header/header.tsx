@@ -28,14 +28,14 @@ export class UIPHeader extends UIPPlugin {
   /** Renders {@link UIPSnippets} element */
   protected renderSnippets(): void {
     if (this.model?.snippets.length) {
-      const snippetsEl = document.createElement(UIPSnippets.is) as UIPSnippets;
+      const snippetsEl = document.createElement(UIPSnippets.is);
       this.prepend(snippetsEl);
     }
   }
 
   /** Renders {@link UIPOptions} element */
   protected renderOptions(): void {
-    const optionsEl = document.createElement(UIPOptions.is) as UIPOptions;
+    const optionsEl = document.createElement(UIPOptions.is);
     this.append(optionsEl);
   }
 
