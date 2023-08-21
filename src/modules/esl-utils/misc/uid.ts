@@ -1,10 +1,11 @@
+const eslSequencesKey = Symbol('__esl_sequences__');
 const ns = window || global;
-const sequences = ns.__esl_sequences__ || new Map<string, number>();
-ns.__esl_sequences__ = sequences;
+const sequences = ns[eslSequencesKey] || new Map<string, number>();
+ns[eslSequencesKey] = sequences;
 
 declare global {
   interface Window {
-    __esl_sequences__: Map<string, number>;
+    [eslSequencesKey]: Map<string, number>;
   }
 }
 
