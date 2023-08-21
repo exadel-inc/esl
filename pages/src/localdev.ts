@@ -34,6 +34,7 @@ import {
   ESLTooltip,
   ESLModal,
   ESLModalBackdrop,
+  ESLModalPlaceholder,
   ESLAnimate,
   ESLAnimateMixin,
   ESLShare,
@@ -111,6 +112,7 @@ ESLTooltip.register();
 
 ESLModal.register();
 ESLModalBackdrop.register();
+ESLModalPlaceholder.register();
 
 ESLAnimate.register();
 ESLAnimateMixin.register();
