@@ -130,7 +130,7 @@
     "prismjs": "^1.29.0",
     "promise-polyfill": "^8.3.0",
     "rimraf": "^5.0.1",
-    "semantic-release": "^21.0.7",
+    "semantic-release": "^21.0.9",
     "smoothscroll-polyfill": "^0.4.4",
     "stylelint": "^15.10.3",
     "stylelint-prettier": "^4.0.2",
