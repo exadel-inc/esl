@@ -22,7 +22,7 @@ interface SwipeEventTargetConfig {
  * Describes settings object that could be passed to {@link ESLSwipeGestureTarget.for} as optional parameter
  */
 export interface ESLSwipeGestureSetting {
-  threshold?: string;
+  threshold?: CSSSize;
   timeout?: number;
 }
 
@@ -126,7 +126,7 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
    * @returns direction of swipe {@link SwipeDirection}
    */
   protected resolveDirection(diff: EventsDiff): SwipeDirection | null {
-    const swipeThreshold = resolveCSSSize(this.config.threshold);
+    const swipeThreshold = (resolveCSSSize(this.config.threshold) || resolveCSSSize(ESLSwipeGestureTarget.defaultConfig.threshold)!);
 
     if (Math.abs(diff.x) > Math.abs(diff.y) && Math.abs(diff.x) > swipeThreshold && diff.time < this.config.timeout) {
       return diff.x > 0 ? 'left' : 'right';
