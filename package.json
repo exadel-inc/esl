@@ -66,9 +66,8 @@
   },
   "dependencies": {
     "@exadel/esl": "^4.8.0",
-    "@types/js-beautify": "^1.13.3",
-    "ace-builds": "^1.15.2",
-    "js-beautify": "^1.14.8"
+    "codejar": "^3.7.0",
+    "prismjs": "^1.29.0"
   },
   "devDependencies": {
     "@11ty/eleventy": "^2.0.1",
@@ -81,6 +80,7 @@
     "@semantic-release/github": "^9.0.3",
     "@semantic-release/npm": "^10.0.4",
     "@semantic-release/release-notes-generator": "^11.0.3",
+    "@types/prismjs": "^1.26.0",
     "@typescript-eslint/eslint-plugin": "^5.60.1",
     "@typescript-eslint/parser": "^5.60.1",
     "browser-sync": "^2.29.3",
@@ -103,7 +103,6 @@
     "postcss-less": "^6.0.0",
     "postcss-loader": "^7.3.3",
     "postcss-preset-env": "^8.5.1",
-    "prismjs": "^1.29.0",
     "rimraf": "^5.0.1",
     "semantic-release": "^21.0.6",
     "stylelint": "^15.9.0",
