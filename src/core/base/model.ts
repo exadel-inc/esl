@@ -53,6 +53,8 @@ export class UIPStateModel extends Observable {
    */
   public setHtml(markup: string, modifier: UIPPlugin | UIPRoot) {
     const root = new DOMParser().parseFromString(markup, 'text/html').body;
+    const indent = markup.match(/^\s*/)?.[0];
+    indent && root.prepend(document.createTextNode(indent));
 
     if (!root || root.innerHTML !== this.html) {
       this._html = root;

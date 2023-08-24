@@ -4,55 +4,19 @@
 the component inside [UIPPreview](src/core/README.md). Extends [UIPPlugin](src/core/README.md#uip-plugin).
 
 ## Description
-**UIPEditor** is based on [ACE](https://ace.c9.io/) editor. It supports Ace's basic features like shortcuts, syntax
-highlighting, etc.
+**UIPEditor** is based on [Codejar](https://medv.io/codejar/) editor. We also use [Prism.js](https://prismjs.com/) for highlighting.
 
-### Useful links
-1) [Ace playgroung](https://ace.c9.io/build/kitchen-sink.html)
-2) [Shortcuts](https://github.com/ajaxorg/ace/wiki/Default-Keyboard-Shortcuts)
-3) [Themes](https://github.com/ajaxorg/ace/tree/master/src/theme)
-
-## Customization
-To make customization easier, we defined the following interface:
+You can pass an optional `editor-config` attribute to configure editor's behaviour:
 
 ```typescript
 interface EditorConfig {
-  theme: string;
-  printMarginColumn: number;
-  wrap?: number | boolean;
-  minLines? : number;
-  maxLines? : number;
+  wrap?: number;
 }
-
-```
-- **Theme** allows you to change editor's appearance. You can play with themes [here]((https://ace.c9.io/build/kitchen-sink.html)).
-- **PrintMarginColumn** is used for setting the position of the vertical line for wrapping. Set the value to **-1** to
-   remove the line.
-- **Wrap** number sets the limit of characters before wrapping. Set to **0** to remove wrapping or **true** for wrapping
-  on the container's width.
-- **MinLines** is a minimum number of lines to be displayed.
-- **MaxLines** is a maximum number of lines to be displayed. If the number of lines exceeds this limit, vertical scroll will appear.
-
-We think that these options are the most common, so we made their configuration easier. All you need is to pass an object
-to the editor's attribute *editor-config*, like in the example below:
-
-```html
-<uip-editor editor-config="{wrap: 70}"></uip-editor>
 ```
 
-If you don't specify it, the default one will be used:
-
-```typescript
-defaultConfig: EditorConfig = {
-    theme: 'ace/theme/chrome',
-    printMarginColumn: -1,
-    wrap: true,
-    minLines: 8,
-    maxLines: 22,
-  };
-```
+- **wrap** option specifies characters limit by line. If the number of characters is greater than **wrap**, then the line is splitted into multiple ones, each shorter than **wrap** characters. By default there is no limit. We apply this transformation only on markup changes from snippets/settings. Default value: 60.
 
 ## Example
 ```html
-<uip-editor></uip-editor>
+<uip-editor editor-config="{wrap: 60}"></uip-editor>
 ```
