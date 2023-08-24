@@ -1,3 +1,4 @@
+import {isElement} from '../../esl-utils/misc/object';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {bind, ready, attr, boolAttr, listen} from '../../esl-utils/decorators';
@@ -121,12 +122,8 @@ export class ESLScrollbar extends ESLBaseElement {
     if (!this.$target) return;
     const contentChanges = recs.filter((rec) => rec.type === 'childList');
     contentChanges.forEach((rec) => {
-      Array.from(rec.addedNodes)
-        .filter((el) => el instanceof Element)
-        .forEach((el: Element) => this._resizeObserver.observe(el));
-      Array.from(rec.removedNodes)
-        .filter((el) => el instanceof Element)
-        .forEach((el: Element) => this._resizeObserver.unobserve(el));
+      Array.from(rec.addedNodes).filter(isElement).forEach((el: Element) => this._resizeObserver.observe(el));
+      Array.from(rec.removedNodes).filter(isElement).forEach((el: Element) => this._resizeObserver.unobserve(el));
     });
     if (contentChanges.length) this._deferredRefresh();
   }
@@ -328,7 +325,7 @@ export class ESLScrollbar extends ESLBaseElement {
     target: window
   })
   protected _onRefresh(event: Event): void {
-    if (!(event.target instanceof Element)) return;
+    if (!isElement(event.target)) return;
     if (!isRelativeNode(event.target.parentNode, this.$target)) return;
     this._deferredRefresh();
   }
