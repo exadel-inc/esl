@@ -1,3 +1,4 @@
+import {isElement} from '../../esl-utils/misc/object';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {bind, prop, attr, boolAttr} from '../../esl-utils/decorators';
@@ -332,9 +333,7 @@ export class ESLMedia extends ESLBaseElement {
   @bind
   protected _onRefresh(e: Event): void {
     const {target} = e;
-    if (target instanceof HTMLElement && target.contains(this)) {
-      this._onResize();
-    }
+    if (isElement(target) && target.contains(this)) this._onResize();
   }
 
   @bind
