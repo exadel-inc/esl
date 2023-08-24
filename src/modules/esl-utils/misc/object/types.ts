@@ -29,9 +29,8 @@ export const isArrayLike = (value: any): value is ArrayLike => {
 /** Checks that passed value is a plain object */
 export const isPlainObject = (obj: any): obj is Record<string | symbol, any> => {
   if (!isObjectLike(obj)) return false;
-  let proto = Object.getPrototypeOf(obj);
-  while (proto && Object.getPrototypeOf(proto)) proto = Object.getPrototypeOf(proto);
-  return Object.getPrototypeOf(obj) === proto;
+  const proto = Object.getPrototypeOf(obj);
+  return proto === null || proto === Object.prototype;
 };
 
 /** Checks that passed value is an DOM Element Node */
