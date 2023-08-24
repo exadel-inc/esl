@@ -1,3 +1,4 @@
+import {isElement} from '../../misc/object/types';
 import {getNodeName, getParentNode} from '../api';
 
 /**
@@ -27,10 +28,7 @@ export function getScrollParent(node: Element): Element {
     return node.ownerDocument?.body as Element;
   }
 
-  if (node instanceof HTMLElement && isScrollable(node as Element)) {
-    return node as Element;
-  }
-
+  if (isElement(node) && isScrollable(node)) return node;
   return getScrollParent(getParentNode(node) as Element);
 }
 
