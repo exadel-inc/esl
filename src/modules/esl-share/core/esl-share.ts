@@ -7,7 +7,7 @@ import {ESLShareTrigger} from './esl-share-trigger';
 import {ESLShareConfig} from './esl-share-config';
 
 import type {PopupActionParams} from '../../esl-popup/core';
-import type {ESLShareConfigShape, ESLShareButtonConfig, ESLShareConfigProviderType} from './esl-share-config';
+import type {ESLShareButtonConfig, ESLShareConfigProviderType} from './esl-share-config';
 
 /**
  * ESLShare
@@ -30,7 +30,7 @@ export class ESLShare extends ESLBaseElement {
    * Gets or updates config with a promise of a new config object or using a config provider function.
    * @returns Promise of the current config {@link ESLShareConfig}
    */
-  public static config(provider?: ESLShareConfigProviderType | ESLShareConfigShape): Promise<ESLShareConfig> {
+  public static config(provider?: ESLShareConfigProviderType | ESLShareConfig): Promise<ESLShareConfig> {
     return ESLShareConfig.set(provider);
   }
 
