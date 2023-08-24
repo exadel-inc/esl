@@ -1,7 +1,7 @@
 import {wrap} from '../../esl-utils/misc/array';
 import {resolveProperty} from '../../esl-utils/misc/functions';
 import {memoize} from '../../esl-utils/decorators/memoize';
-import {isObject} from '../../esl-utils/misc/object/types';
+import {isElement, isObject} from '../../esl-utils/misc/object/types';
 import {isSimilar} from '../../esl-utils/misc/object/compare';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {isPassiveByDefault} from '../../esl-utils/dom/events/misc';
@@ -69,7 +69,7 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
     if (isObject(target)) return wrap(target);
     const $host = resolveDomTarget(this.host);
     if (typeof target === 'string') return ESLTraversingQuery.all(target, $host);
-    if (typeof target === 'undefined' && $host instanceof Element) return [$host];
+    if (typeof target === 'undefined' && $host) return [$host];
     return [];
   }
 
@@ -114,7 +114,7 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
     const current = e.currentTarget;
 
     if (typeof delegate !== 'string' || !delegate) return;
-    if (!(target instanceof Element) || !(current instanceof Element)) return;
+    if (!isElement(target) || !isElement(current)) return;
 
     const $delegate = target.closest(delegate);
     if (current.contains($delegate)) handler(Object.assign(e, {$delegate}));
