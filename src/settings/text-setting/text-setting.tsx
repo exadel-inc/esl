@@ -4,6 +4,8 @@ import {memoize} from '@exadel/esl/modules/esl-utils/decorators/memoize';
 import {UIPSetting} from '../../plugins/settings/setting';
 import {WARNING_MSG} from '../../utils/warning-msg';
 
+import * as React from 'jsx-dom';
+
 /**
  * Custom setting for inputting attribute's value
  * @extends UIPSetting
@@ -16,22 +18,20 @@ export class UIPTextSetting extends UIPSetting {
 
   /** Text input to change setting's value */
   @memoize()
-  protected get $field(): HTMLInputElement {
-    const $field = document.createElement('input');
-    $field.type = 'text';
-    $field.name = this.label;
-    return $field;
+  protected get $field() {
+    return <input type="text" name={this.label}/> as HTMLInputElement;
   }
 
   protected connectedCallback() {
     super.connectedCallback();
-
-    const label = document.createElement('label');
-    label.innerText = this.label;
-    label.appendChild(this.$field);
-
     this.innerHTML = '';
-    this.appendChild(label);
+
+    const $inner = <label>
+      {this.label}
+      {this.$field}
+    </label>;
+
+    this.appendChild($inner);
   }
 
   protected getDisplayedValue(): string {

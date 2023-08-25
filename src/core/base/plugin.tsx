@@ -4,6 +4,8 @@ import {attr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
 import {UIPRoot} from './root';
 import {UIPStateModel} from './model';
 
+import * as React from 'jsx-dom';
+
 /**
  * Base class for UI Playground plugins
  * Implements basic relation and styles
@@ -28,10 +30,8 @@ export abstract class UIPPlugin extends ESLBaseElement {
   /** {@link UIPPlugin} section wrapper */
   @memoize()
   protected get $inner() {
-    const $inner = document.createElement('div');
     const pluginType = this.constructor as typeof UIPPlugin;
-    $inner.className = `${pluginType.is}-inner uip-plugin-inner`;
-    return $inner;
+    return <div className={`${pluginType.is}-inner uip-plugin-inner`}></div> as HTMLDivElement;
   }
 
   protected connectedCallback() {

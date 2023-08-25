@@ -3,6 +3,8 @@ import {listen} from '@exadel/esl/modules/esl-utils/decorators/listen';
 import {UIPPlugin} from '../../core/base/plugin';
 import {UIPOptionIcons, UIPOptions, UIPSnippets} from '../registration';
 
+import * as React from 'jsx-dom';
+
 /**
  * Header {@link UIPPlugin} custom element definition
  * Container for {@link UIPSnippets} and {@link UIPOptions} elements
@@ -26,23 +28,20 @@ export class UIPHeader extends UIPPlugin {
   /** Renders {@link UIPSnippets} element */
   protected renderSnippets(): void {
     if (this.model?.snippets.length) {
-      const snippetsEl = document.createElement(UIPSnippets.is) as UIPSnippets;
+      const snippetsEl = document.createElement(UIPSnippets.is);
       this.prepend(snippetsEl);
     }
   }
 
   /** Renders {@link UIPOptions} element */
   protected renderOptions(): void {
-    const optionsEl = document.createElement(UIPOptions.is) as UIPSnippets;
+    const optionsEl = document.createElement(UIPOptions.is);
     this.append(optionsEl);
   }
 
   /** Renders copy icon */
   protected renderCopy(): void {
-    const icon = document.createElement('button');
-    icon.title = 'copy markup';
-    icon.classList.add('copy-icon');
-    icon.append(UIPOptionIcons.copySVG);
+    const icon = <button title="copy markup" className="copy-icon">{UIPOptionIcons.copySVG.cloneNode(true) as HTMLElement}</button>;
     this.append(icon);
   }
 

@@ -5,6 +5,8 @@ import {ENTER, SPACE} from '@exadel/esl/modules/esl-utils/dom/keys';
 import type {UIPOptions} from '../options';
 import {UIPRoot} from '../../../../core/base/root';
 
+import * as React from 'jsx-dom';
+
 /** Config used to create options */
 export type OptionConfig = {
   /** Attribute name used as absence marker of option icon */
@@ -22,17 +24,16 @@ export class UIPOption extends ESLBaseElement {
 
   /** {@link UIPRoot's} attribute which is changed by option */
   @attr() public attribute: string;
-  public _active: boolean;
 
   /** Closest playground {@link UIPRoot} element */
   protected $root: UIPRoot;
   protected config: OptionConfig;
 
   /** Builds option element from {@link OptionConfig} */
-  static createEl(optionConfig: OptionConfig): UIPOption {
+  static createEl(optionConfig: OptionConfig) {
     const option = document.createElement('uip-option') as UIPOption;
     option.setAttribute('attribute', optionConfig.optionValue);
-    option.append(optionConfig.svg);
+    option.append(optionConfig.svg.cloneNode(true));
     option.config = optionConfig;
     return option;
   }

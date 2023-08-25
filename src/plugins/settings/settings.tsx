@@ -1,11 +1,11 @@
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
 import {attr} from '@exadel/esl/modules/esl-base-element/core';
-import {memoize} from '@exadel/esl/modules/esl-utils/decorators/memoize';
 import {listen} from '@exadel/esl/modules/esl-utils/decorators/listen';
-import type {ESLScrollbar} from '@exadel/esl/modules/esl-scrollbar/core/esl-scrollbar';
 
 import {UIPPlugin} from '../../core/base/plugin';
 import {UIPSetting} from './setting';
+
+import * as React from 'jsx-dom';
 
 /**
  * Settings {@link UIPPlugin} custom element definition
@@ -22,14 +22,6 @@ export class UIPSettings extends UIPPlugin {
   @attr() public target: string;
   @attr({defaultValue: 'Settings'}) public label: string;
 
-  /** {@link ESLScrollbar} scroll element */
-  @memoize()
-  public get $scroll(): ESLScrollbar {
-    const $scroll = document.createElement('esl-scrollbar');
-    $scroll.setAttribute('target', '::prev(.settings-list)');
-    return $scroll;
-  }
-
   protected connectedCallback() {
     super.connectedCallback();
     this.updateInner();
@@ -37,13 +29,11 @@ export class UIPSettings extends UIPPlugin {
 
   /** Initializes settings layout */
   protected updateInner() {
-    const $settingsList = document.createElement('div');
-    $settingsList.className = 'settings-list esl-scrollable-content';
-    [...this.childNodes].forEach( (node: HTMLElement) => {
-      $settingsList.appendChild(node);
-    });
-    this.$inner.appendChild($settingsList);
-    this.$scroll && this.$inner.appendChild(this.$scroll);
+    const $content = <div className="settings-list esl-scrollable-content">
+      <esl-scrollbar target="::prev(.settings-list)"></esl-scrollbar>
+    </div>;
+$content.append(...this.childNodes);
+    this.$inner.appendChild($content);
     this.appendChild(this.$inner);
   }
 
