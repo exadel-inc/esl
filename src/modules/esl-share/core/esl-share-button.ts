@@ -1,10 +1,12 @@
 import {ESLBaseElement} from '../../esl-base-element/core';
-import {attr, boolAttr, jsonAttr, listen} from '../../esl-utils/decorators';
+import {attr, boolAttr, jsonAttr, listen, memoize} from '../../esl-utils/decorators';
 import {ENTER, SPACE} from '../../esl-utils/dom/keys';
 import {toAbsoluteUrl} from '../../esl-utils/misc/url';
 import {ESLShareActionRegistry} from './esl-share-action-registry';
+import {ESLShareConfig} from './esl-share-config';
 
 import type {ESLShareBaseAction} from './esl-share-action';
+import type {ESLShareButtonConfig} from './esl-share-config';
 
 /**
  * ESLShareButton
@@ -15,6 +17,17 @@ import type {ESLShareBaseAction} from './esl-share-action';
 export class ESLShareButton extends ESLBaseElement {
   public static override is = 'esl-share-button';
   public static observedAttributes = ['action'];
+
+  /** Creates an instance of the ESLShareButton */
+  public static override create<T extends typeof ESLShareButton>(this: T, cfg?: ESLShareButtonConfig): InstanceType<T> {
+    const $button = document.createElement(this.is) as InstanceType<T>;
+    if (cfg) {
+      Object.assign($button, cfg);
+      $button._config = cfg;
+      $button.initContent();
+    }
+    return $button;
+  }
 
   /** Name of share action that occurs after button click */
   @attr() public action: string;
@@ -34,8 +47,44 @@ export class ESLShareButton extends ESLBaseElement {
   /** Marker of availability of share button */
   @boolAttr() public unavailable: boolean;
 
+  /** @readonly Ready state marker */
+  @boolAttr({readonly: true}) public readonly ready: boolean;
+
+  /** @returns config of button specified by the name attribute */
+  @memoize()
+  public get config(): Promise<ESLShareButtonConfig | undefined> {
+    return ESLShareConfig.get().then((config) => config.getButton(this.name));
+  }
+
+  protected _config: ESLShareButtonConfig | undefined;
+
+  /** Gets a property from attribute, or from button config if not set attribute */
+  protected get(prop: 'action' | 'link'): string;
+  protected get(prop: 'additional'): Record<string, any>;
+  protected get(prop: 'action' | 'link' | 'additional'): string | Record<string, any> {
+    return (prop === 'additional')
+      ? Object.keys(this[prop]).length ? this[prop] : this._config?.[prop] || {}
+      : this[prop] || this._config?.[prop] || '';
+  }
+
+  /** @returns an instance of the action assigned to the button */
   protected get actionInstance(): ESLShareBaseAction | null {
-    return ESLShareActionRegistry.instance.get(this.action);
+    return ESLShareActionRegistry.instance.get(this.shareAction);
+  }
+
+  /** @returns name of action assigned to the button */
+  public get shareAction(): string {
+    return this.get('action');
+  }
+
+  /** @returns additional params assigned to the button */
+  public get shareAdditional(): Record<string, any> {
+    return this.get('additional');
+  }
+
+  /** @returns link to share on social network  */
+  public get shareLink(): string {
+    return this.get('link');
   }
 
   /** @returns title to share */
@@ -55,16 +104,42 @@ export class ESLShareButton extends ESLBaseElement {
 
   protected override connectedCallback(): void {
     super.connectedCallback();
+    if (this._config) {
+      this.init(this._config);
+    } else {
+      this.config.then((cfg) => {
+        if (!cfg) return;
+        this._config = cfg;
+        this.init(cfg);
+      });
+    }
+  }
+
+  /** Initializes the button */
+  protected init(cfg: ESLShareButtonConfig): void {
+    if (this.ready) return;
+
     this.initA11y();
     this.updateAction();
+    this._onReady();
   }
 
   /** Sets initial a11y attributes */
   protected initA11y(): void {
-    if (!this.hasAttribute('role')) this.setAttribute('role', 'button');
-    if (this.getAttribute('role') === 'button' && !this.hasAttribute('tabindex')) {
-      this.tabIndex = 0;
-    }
+    this.$$attr('role', 'button');
+    this.$$attr('tabindex', '0');
+  }
+
+  /** Initializes the button content */
+  protected initContent(): void {
+    if (!this._config) return;
+    const {title, icon, iconBackground} = this._config;
+    const $icon = document.createElement('span');
+    $icon.title = title;
+    $icon.classList.add('esl-share-icon');
+    $icon.innerHTML = icon;
+    iconBackground && $icon.setAttribute('style', `background-color:${iconBackground};`);
+    this.appendChild($icon);
   }
 
   /** Does an action to share */
@@ -72,6 +147,7 @@ export class ESLShareButton extends ESLBaseElement {
     this.actionInstance?.share(this);
   }
 
+  /** Updates on button action change */
   protected updateAction(): void {
     this.$$attr('unavailable', !this.actionInstance?.isAvailable);
   }
@@ -94,5 +170,11 @@ export class ESLShareButton extends ESLBaseElement {
       this.click();
       e.preventDefault();
     }
+  }
+
+  private _onReady(): void {
+    if (this.ready) return;
+
+    this.toggleAttribute('ready', true);
   }
 }
