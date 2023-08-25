@@ -19,7 +19,7 @@ export interface ESLSwipeGestureEventInfo {
   direction: SwipeDirection;
   /** Distance between the points where pointerdown and pointerup events occurred along the x axis */
   distanceX: number;
-  /** Distance between the points where pointerdown and pointerup events occurred along the x axis */
+  /** Distance between the points where pointerdown and pointerup events occurred along the y axis */
   distanceY: number;
   /** Original pointerdown event */
   startEvent: PointerEvent;
