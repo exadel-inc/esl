@@ -9,12 +9,12 @@ export class ESLShareExternalAction extends ESLShareUrlGenericAction {
 
   /** Does an action to share */
   public share($button: ESLShareButton): void {
-    const {link} = $button;
-    if (!link) return;
+    const {shareLink} = $button;
+    if (!shareLink) return;
 
     const shareData = this.getShareData($button);
     const a = document.createElement('a');
-    a.href = this.buildURL(link, shareData);
+    a.href = this.buildURL(shareLink, shareData);
     a.click();
   }
 }
