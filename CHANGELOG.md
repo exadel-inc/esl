@@ -1,3 +1,29 @@
+# [1.1.0-beta.2](https://github.com/exadel-inc/ui-playground/compare/v1.1.0-beta.1...v1.1.0-beta.2) (2023-08-25)
+
+
+### Bug Fixes
+
+* add LTR icon ([05120e0](https://github.com/exadel-inc/ui-playground/commit/05120e0da96115695fa5b1d697b561575b4be298))
+* **editor:** inline dark-theme styles ([39bac5d](https://github.com/exadel-inc/ui-playground/commit/39bac5d2701cd9bffaebf4bd50c6ad24b327cdc8))
+* **editor:** pr fix ([697370a](https://github.com/exadel-inc/ui-playground/commit/697370a00a4eafb0dd959ef0b68dcf8dae63562c))
+* fix dropdown control dark theme coloring ([cc35b47](https://github.com/exadel-inc/ui-playground/commit/cc35b4792bb11b9f5bc0721481f0fae392149286))
+* fix multiple playground options missing ([efbb8bf](https://github.com/exadel-inc/ui-playground/commit/efbb8bfc52804455011e21ce5c8d2dbda9919097))
+* fixed collapsed settings blinking during resize ([dabe412](https://github.com/exadel-inc/ui-playground/commit/dabe412dcec01d47d50ec3942bb34b7461dbafd5))
+* pr fixes ([aa5938d](https://github.com/exadel-inc/ui-playground/commit/aa5938d61be826083ebb58bea390f1085f0222ac))
+* **styles:** remove unused dark theme styles ([a972a53](https://github.com/exadel-inc/ui-playground/commit/a972a53f57d41c9e9380a278d876a04a3ffb4939))
+
+
+### Features
+
+* add type import ([033e362](https://github.com/exadel-inc/ui-playground/commit/033e3621d19d30c255613f2a0b29fe641a6fd8e4))
+* **editor:** implement wrap attribute ([8f9f204](https://github.com/exadel-inc/ui-playground/commit/8f9f204051f211b2ebbee8fb554469d39945951f))
+* **editor:** replace ace with jar editor ([3cbfd6d](https://github.com/exadel-inc/ui-playground/commit/3cbfd6d179dffc6dafb1eb3c4e321130c1596bcc))
+* **editor:** update editor's docs ([15798b4](https://github.com/exadel-inc/ui-playground/commit/15798b4bc2d99d6e3eab49abb0727e3b8435a5b1))
+* pr fixes ([474cf20](https://github.com/exadel-inc/ui-playground/commit/474cf201d0f87156a931609c97cff59b08c73008))
+* pr fixes ([90cfbaf](https://github.com/exadel-inc/ui-playground/commit/90cfbaf842418a82b6e79662024dc9b5feca28ae))
+* pr fixes ([3462491](https://github.com/exadel-inc/ui-playground/commit/3462491b848b00df30806e2eb2f2b647207b0393))
+* **theme:** add dark theme to jar editor ([f03e35f](https://github.com/exadel-inc/ui-playground/commit/f03e35ffc0c8a8fe1307d7a30b2bd7e952690e6a))
+
 # [1.1.0-beta.1](https://github.com/exadel-inc/ui-playground/compare/v1.0.0...v1.1.0-beta.1) (2023-07-03)
 
 
