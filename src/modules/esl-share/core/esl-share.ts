@@ -60,7 +60,7 @@ export class ESLShare extends ESLBaseElement {
   @attr() public mode: 'list' | 'popup';
 
   /** @readonly Ready state marker */
-  @boolAttr({readonly: true}) public ready: boolean;
+  @boolAttr({readonly: true}) public readonly ready: boolean;
 
   protected _content: string;
 
@@ -82,7 +82,7 @@ export class ESLShare extends ESLBaseElement {
     if (!this._content) this._content = this.innerHTML;
     this.buttonsConfig
       .then(this.buildContent)
-      .then(() => this.$$fire(this.SHARE_READY_EVENT, {bubbles: false}))
+      .then(this._onReady)
       .catch((e) => console.error(`[${this.baseTagName}]: ${e}`));
   }
 
@@ -103,7 +103,7 @@ export class ESLShare extends ESLBaseElement {
   /** Appends buttons to the passed element. */
   protected appendButtonsTo($el: Element, btnConfig: ESLShareButtonConfig[]): void {
     btnConfig.forEach((cfg) => {
-      const btn = this.createButton(cfg);
+      const btn = ESLShareButton.create(cfg);
       btn && $el.appendChild(btn);
     });
   }
@@ -118,19 +118,6 @@ export class ESLShare extends ESLBaseElement {
     });
     $trigger.innerHTML = this._content;
     this.appendChild($trigger);
-  }
-
-  /** Creates share button. */
-  protected createButton(cfg: ESLShareButtonConfig): ESLShareButton | null {
-    const $button = ESLShareButton.create();
-    Object.assign($button, cfg);
-    const $icon = document.createElement('span');
-    $icon.title = cfg.title;
-    $icon.classList.add('esl-share-icon');
-    $icon.innerHTML = cfg.icon;
-    $icon.setAttribute('style', `background-color:${cfg.iconBackground};`);
-    $button.appendChild($icon);
-    return $button;
   }
 
   /** Creates popup element with share buttons. */
@@ -154,5 +141,13 @@ export class ESLShare extends ESLBaseElement {
   /** Adds popup element to the popup's store. */
   protected storePopup(value: ESLPopup): void {
     (this.constructor as typeof ESLShare)._popupStore.set(this.list, value);
+  }
+
+  @bind
+  private _onReady(): void {
+    if (this.ready) return;
+
+    this.toggleAttribute('ready', true);
+    this.$$fire(this.SHARE_READY_EVENT, {bubbles: false});
   }
 }
