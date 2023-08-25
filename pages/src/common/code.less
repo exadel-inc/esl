@@ -1,4 +1,5 @@
 @import (reference) './variables.less';
+@import (inline) '../../../node_modules/prismjs/themes/prism-tomorrow.css';
 
 pre,
 code {
@@ -16,7 +17,7 @@ code {
 pre {
   display: block;
   font-size: 87.5%;
-  color: #212529;
+  color: #ccc;
   overflow: auto;
   background: #131a2e;
   padding: 1em;
@@ -34,9 +35,13 @@ pre {
   position: relative;
   padding: 0.75rem 1.25rem;
   margin-bottom: 1rem;
-  color: #000;
-  border: 1px solid #bbb;
   border-radius: 0.25rem;
 
   font-weight: bolder;
+}
+
+.language-html {
+  .token.attr-name {
+    color: #f08d49;
+  }
 }
