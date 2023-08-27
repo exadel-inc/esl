@@ -16,13 +16,13 @@ import type {ESLShareButtonConfig} from './esl-share-config';
  */
 export class ESLShareButton extends ESLBaseElement {
   public static override is = 'esl-share-button';
-  public static observedAttributes = ['action'];
+  public static observedAttributes = ['action', 'name'];
 
   /** Creates an instance of the ESLShareButton */
   public static override create<T extends typeof ESLShareButton>(this: T, cfg?: ESLShareButtonConfig): InstanceType<T> {
     const $button = document.createElement(this.is) as InstanceType<T>;
     if (cfg) {
-      Object.assign($button, cfg);
+      $button.name = cfg.name;
       $button._config = cfg;
       $button.initContent();
     }
@@ -100,10 +100,15 @@ export class ESLShareButton extends ESLBaseElement {
   protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected || oldVal === newVal) return;
     if (attrName === 'action') this.updateAction();
+    if (attrName === 'name') this.updateName();
   }
 
   protected override connectedCallback(): void {
     super.connectedCallback();
+    this.resolveConfigAndInit();
+  }
+
+  protected resolveConfigAndInit(): void {
     if (this._config) {
       this.init(this._config);
     } else {
@@ -121,7 +126,7 @@ export class ESLShareButton extends ESLBaseElement {
 
     this.initA11y();
     this.updateAction();
-    this._onReady();
+    this.setReadyState(true);
   }
 
   /** Sets initial a11y attributes */
@@ -152,6 +157,14 @@ export class ESLShareButton extends ESLBaseElement {
     this.$$attr('unavailable', !this.actionInstance?.isAvailable);
   }
 
+  /** Updates on button name change */
+  protected updateName(): void {
+    this.setReadyState(false);
+    delete this._config;
+    memoize.clear(this, 'config');
+    this.resolveConfigAndInit();
+  }
+
   /** Gets attribute from the element or closest parent,
    *  returns fallback value in the case when an element with attribute not found */
   protected getShareAttr(name: string, fallback: string): string {
@@ -172,9 +185,8 @@ export class ESLShareButton extends ESLBaseElement {
     }
   }
 
-  private _onReady(): void {
-    if (this.ready) return;
-
-    this.toggleAttribute('ready', true);
+  /** Sets ready state */
+  private setReadyState(state: boolean): void {
+    this.toggleAttribute('ready', state);
   }
 }
