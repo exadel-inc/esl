@@ -63,7 +63,7 @@ export class ESLShareConfig {
    * @returns Promise of the current config instance
    */
   public static get(): Promise<ESLShareConfig> {
-    return ESLShareConfig._config ?? Promise.reject('[ESL]: Share configuration is not set');
+    return ESLShareConfig._config ?? Promise.reject('configuration is not set');
   }
 
   /**
