@@ -1,4 +1,4 @@
-const SEQUENCE_KEY = Symbol('__esl_sequences__');
+const SEQUENCE_KEY: unique symbol = ((window.Symbol || String)('__esl_sequences__')) as any;
 const ns = window || global;
 const sequences = ns[SEQUENCE_KEY] || new Map<string, number>();
 ns[SEQUENCE_KEY] = sequences;
