@@ -148,8 +148,9 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
     super.addEventListener(event, callback);
     if (this.getEventListeners().length > 1) return;
 
-    ESLEventUtils.subscribe(this.target, {event: 'pointerdown', capture: false}, this.handleStart);
-    ESLEventUtils.subscribe(this.target, {event: 'pointerup', capture: false}, this.handleEnd);
+    const {target} = this;
+    ESLEventUtils.subscribe(this, {event: 'pointerdown', capture: false, target}, this.handleStart);
+    ESLEventUtils.subscribe(this, {event: 'pointerup', capture: false, target}, this.handleEnd);
   }
 
   /**
@@ -161,7 +162,6 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
     super.removeEventListener(event, callback);
     if (this.getEventListeners().length > 0) return;
 
-    ESLEventUtils.unsubscribe(this.target, 'pointerdown');
-    ESLEventUtils.unsubscribe(this.target, 'pointerup');
+    ESLEventUtils.unsubscribe(this);
   }
 }
