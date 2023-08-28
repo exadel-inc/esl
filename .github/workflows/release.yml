@@ -17,6 +17,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Check permissions
+      - uses: tspascoal/get-user-teams-membership@v2
+        id: permissions
+        with:
+          username: ${{ github.actor }}
+          team: 'ESL Core Maintainers'
+          GITHUB_TOKEN: ${{ secrets.PERMISSION_CHECK_TOKEN }}
+
+      - if: ${{ steps.permissions.outputs.isTeamMember == 'true' }}
+        name: Access Check Passed
+        run: echo ${{ github.actor }} is in 'ESL Core Maintainers' group
+      - if: ${{ steps.permissions.outputs.isTeamMember == 'false' }}
+        name: Access Denied
+        run: exit 1
+
+      # Start workflow
       - uses: actions/checkout@v3
         with:
           persist-credentials: false
