@@ -1,11 +1,11 @@
 import {wrap} from '../../esl-utils/misc/array';
-import {resolveProperty} from '../../esl-utils/misc/functions';
-import {memoize} from '../../esl-utils/decorators/memoize';
-import {isElement, isObject} from '../../esl-utils/misc/object/types';
-import {isSimilar} from '../../esl-utils/misc/object/compare';
-import {ESLTraversingQuery} from '../../esl-traversing-query/core';
+import {isElement} from '../../esl-utils/dom/api';
 import {isPassiveByDefault} from '../../esl-utils/dom/events/misc';
+import {resolveProperty} from '../../esl-utils/misc/functions';
+import {isObject, isSimilar} from '../../esl-utils/misc/object';
 import {resolveDomTarget} from '../../esl-utils/abstract/dom-target';
+import {memoize} from '../../esl-utils/decorators/memoize';
+import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 
 import type {PropertyProvider} from '../../esl-utils/misc/functions';
 import type {

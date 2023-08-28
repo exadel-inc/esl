@@ -1,18 +1,18 @@
-import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement} from '../../esl-base-element/core';
+import {ExportNs} from '../../esl-utils/environment/export-ns';
+import {DeviceDetector} from '../../esl-utils/environment/device-detector';
+import {isElement} from '../../esl-utils/dom/api';
 import {setAttr} from '../../esl-utils/dom/attr';
-import {isElement} from '../../esl-utils/misc/object';
-import {attr, boolAttr, prop, listen, ready} from '../../esl-utils/decorators';
-import {parseBoolean, parseNumber, toBooleanAttribute} from '../../esl-utils/misc/format';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ENTER, SPACE, ESC} from '../../esl-utils/dom/keys';
-import {ESLTraversingQuery} from '../../esl-traversing-query/core';
-import {DeviceDetector} from '../../esl-utils/environment/device-detector';
+import {attr, boolAttr, prop, listen, ready} from '../../esl-utils/decorators';
+import {parseBoolean, parseNumber, toBooleanAttribute} from '../../esl-utils/misc/format';
 import {ESLMediaQuery} from '../../esl-media-query/core';
+import {ESLTraversingQuery} from '../../esl-traversing-query/core';
+
 import {ESLToggleablePlaceholder} from '../../esl-toggleable/core';
 
 import type {ESLToggleable, ESLToggleableActionParams} from '../../esl-toggleable/core/esl-toggleable';
-
 
 @ExportNs('Trigger')
 export class ESLTrigger extends ESLBaseElement {

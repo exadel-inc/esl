@@ -1,12 +1,12 @@
-import {isElement} from '../../esl-utils/misc/object';
-import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement} from '../../esl-base-element/core';
+import {ExportNs} from '../../esl-utils/environment/export-ns';
+import {isElement} from '../../esl-utils/dom/api';
+import {isRelativeNode} from '../../esl-utils/dom/traversing';
+import {isRTL, RTLScroll, normalizeScrollLeft} from '../../esl-utils/dom/rtl';
+import {isMouseEvent, isTouchEvent, getTouchPoint, getOffsetPoint} from '../../esl-utils/dom/events';
 import {bind, ready, attr, boolAttr, listen} from '../../esl-utils/decorators';
 import {rafDecorator} from '../../esl-utils/async/raf';
-import {isMouseEvent, isTouchEvent, getTouchPoint, getOffsetPoint} from '../../esl-utils/dom/events';
-import {isRelativeNode} from '../../esl-utils/dom/traversing';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core';
-import {isRTL, RTLScroll, normalizeScrollLeft} from '../../esl-utils/dom/rtl';
 
 /**
  * ESLScrollbar is a reusable web component that replaces the browser's default scrollbar with

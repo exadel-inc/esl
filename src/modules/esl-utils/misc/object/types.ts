@@ -32,8 +32,3 @@ export const isPlainObject = (obj: any): obj is Record<string | symbol, any> => 
   const proto = Object.getPrototypeOf(obj);
   return proto === null || proto === Object.prototype;
 };
-
-/** Checks that passed value is an DOM Element Node */
-export const isElement = (el: any): el is Element => {
-  return isObject(el) && el.nodeType === 1 && !isPlainObject(el);
-};

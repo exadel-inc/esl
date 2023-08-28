@@ -1,4 +1,5 @@
-import {isElement, isObject} from '../misc/object/types';
+import {isElement} from '../dom/api';
+import {isObject} from '../misc/object';
 
 /** An object that relates to some DOM element e.g. controller or {@link ESLMixinElement} */
 export type ESLDomElementRelated = {

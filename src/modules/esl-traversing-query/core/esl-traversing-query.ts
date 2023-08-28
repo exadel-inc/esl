@@ -1,9 +1,9 @@
+import {isElement} from '../../esl-utils/dom/api';
+import {isVisible} from '../../esl-utils/dom/visible';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {tuple, wrap, uniq} from '../../esl-utils/misc/array';
 import {unwrapParenthesis} from '../../esl-utils/misc/format';
 import {findAll, findChildren, findNext, findParent, findClosest, findPrev} from '../../esl-utils/dom/traversing';
-import {isElement} from '../../esl-utils/misc/object';
-import {isVisible} from '../../esl-utils/dom/visible';
 
 type ProcessorDescriptor = [string?, string?];
 type ElementProcessor = (base: Element, sel: string) => Element | Element[] | null;

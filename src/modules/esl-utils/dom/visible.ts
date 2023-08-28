@@ -1,8 +1,8 @@
-import {isElement} from '../misc/object/types';
 import {Rect} from './rect';
+import {isElement} from './api';
+import {getWindowRect} from './window';
 import {getListScrollParents} from './scroll';
 import {findClosestBy, findHost} from './traversing';
-import {getWindowRect} from './window';
 
 export interface VisibilityOptions {
   /** Element will be considered invisible if opacity set to '0' */

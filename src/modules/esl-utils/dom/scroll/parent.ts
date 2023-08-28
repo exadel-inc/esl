@@ -1,5 +1,4 @@
-import {isElement} from '../../misc/object/types';
-import {getNodeName, getParentNode} from '../api';
+import {isElement, getNodeName, getParentNode} from '../api';
 
 /**
  * Get the list of all scroll parents, up the list of ancestors until we get to the top window object.
