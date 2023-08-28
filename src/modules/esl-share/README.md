@@ -46,14 +46,14 @@ ESLShare.config(() => fetch('/assets/share/config.json').then((response) => resp
 
 The following option is very similar to the first, but instead of an asynchronous configuration provider function, you use a pre-prepared configuration object.
 ```
+ESLShareConfig.create(myShareConfigurationObject);
+```
+or can use 
+```
 ESLShareConfig.set(myShareConfigurationObject);
 ```
-or can use the alias
-```
-ESLShare.config(myShareConfigurationObject);
-```
 
-The difference between these two methods is obtained only in the fact that in the first case, the configuration is requested by a separate request, and in the second case it is compiled into a js-bundle.
+The difference between these two methods is obtained only in the fact that in the first case, the configuration instance is returned and in the second case promise is returned.
 
 There is also a third way to set the configuration. You do not need to prepare an object with the definition of the configuration in advance. You just need to create an empty configuration object and add the commands you need. You can also add groups to the configuration. For example
 ```
