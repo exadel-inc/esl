@@ -22,14 +22,69 @@ Next, you have two options for using the share component. The first option is to
 
 The second option to use the share component is to define the component configuration and bind it to the ESLShare. After that, all you have to do is to add an element with names or groups of social networks to the ESLShare markup. The item content, consisting of a set of buttons, will be generated automatically. It's the same as you would add each button to the markup and prescribe its configuration manually.
 
-To use this option it is necessary to set the configuration for the list of buttons
+To use this option it is necessary to set the configuration for the list of buttons and then register the item
+`ESLShare.register();`
+
+### Binding a component configuration
+
+If you want to define the behavior of the share components only by specifying a name or a group of buttons, you will have to specify the configuration of the components.
+
+There are several different ways to do this. And you can easily determine the most suitable way for you.
+
+The first option is an asynchronous way to load the config. You prepare a configuration file or service in advance that will return a configuration object. You just should write the provider function of the config
+```
+() => fetch('/assets/share/config.json').then((response) => response.json())
+```
+and setup configuration in this manner
+```
+ESLShareConfig.set(() => fetch('/assets/share/config.json').then((response) => response.json()));
+```
+or can use the alias
 ```
 ESLShare.config(() => fetch('/assets/share/config.json').then((response) => response.json()));
 ```
-and then register the item
-`ESLShare.register();`
+
+The following option is very similar to the first, but instead of an asynchronous configuration provider function, you use a pre-prepared configuration object.
+```
+ESLShareConfig.set(myShareConfigurationObject);
+```
+or can use the alias
+```
+ESLShare.config(myShareConfigurationObject);
+```
+
+The difference between these two methods is obtained only in the fact that in the first case, the configuration is requested by a separate request, and in the second case it is compiled into a js-bundle.
+
+There is also a third way to set the configuration. You do not need to prepare an object with the definition of the configuration in advance. You just need to create an empty configuration object and add the commands you need. You can also add groups to the configuration. For example
+```
+ESLShareConfig.create().add(
+  [
+    facebook,
+    linkedin,
+    copy
+  ],
+  [
+    {name: 'mygroup', list: 'facebook linkedin copy'}
+  ]
+);
+```
+
+Thus, we added 3 buttons `facebook`, `linkedin`, `copy` and described the `mygroup` group containing these buttons. You can prepare the button configurations yourself, or you can import them from the `/src/modules/esl-share/config/` directory. There we have prepared for you in advance about 20 configurations for various actions to share.
+
+You can also override the settings of any buttons or groups in the runtime.
+For example, a different set of share buttons for the Japanese locale and override the copy button.
+```
+ESLShare.config(() => fetch('/assets/share/config.json').then((response) => response.json()))
+  .then((config) => {
+    if (locale === 'ja') config.add([anotherCopy], [{name: 'mygroup', list: 'hatena linkedin copy'}]);
+  });
+```
+
+In the example above, the configuration will be received by an asynchronous request, and then, if the condition is met, the button and the group `mygroup` will be inserted or replaced (if the configuration for an entity with the same name already exists).
 
 ### ESLShare config
+
+Above it was told and shown how you can set the configuration of the component. But what is a configuration object?
 
 Config is a javascript object that contains two properties. The first one is `buttons` describing the configuration of the buttons. The second is `groups` which configures the groups. Both properties are arrays containing objects describing buttons and groups respectively.
 
@@ -106,15 +161,6 @@ ESLShare provides several actions available for you to use:
  - `print` - action for printing a page
 
 For using actions you should import the required actions before setting up the configuration and registering ESLShare components. When an unregistered action is specified for a button, the button will not be able to perform the share action and will be marked as 'unavailable'. The same behavior occurs if the action is unavailable on the user's device, e.g. native action on the user's desktop.
-
-### Setting the ESLShare configuration
-
-Before registering an ESLShare item, you must set the component configuration. To do this, use the static `ESLShare.config()` method of the component, which either receives as an argument a config object or a provider function that returns a promise of a config object.
-
-For example:
-```
-ESLShare.config(() => fetch('/assets/share/config.json').then((response) => response.json()));
-```
 
 ### ESLShareButton
 
