@@ -5,10 +5,10 @@ import {bind} from '../../../esl-utils/decorators/bind';
 import {resolveCSSSize} from '../../../esl-utils/dom/units';
 
 import {ESLEventListener} from '../listener';
-import {ESLSwipeGestureEvent} from './swipe.event';
+import {ESLSwipeGestureEvent} from './swipe.target.event';
 
 import type {CSSSize} from '../../../esl-utils/dom/units';
-import type {SwipeDirection, ESLSwipeGestureEventInfo, SwipeEventName} from './swipe.event';
+import type {SwipeDirection, ESLSwipeGestureEventInfo, SwipeEventName} from './swipe.target.event';
 import type {ESLDomElementTarget} from '../../../esl-utils/abstract/dom-target';
 
 export {ESLSwipeGestureEvent};
