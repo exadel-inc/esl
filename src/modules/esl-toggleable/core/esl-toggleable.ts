@@ -9,6 +9,7 @@ import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {DelayedTask} from '../../esl-utils/async/delayed-task';
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {findParent, isMatches} from '../../esl-utils/dom/traversing';
+import type {DelegatedEvent} from '../../esl-event-listener/core/types';
 
 /** Default Toggleable action params type definition */
 export interface ESLToggleableActionParams {
@@ -304,12 +305,13 @@ export class ESLToggleable extends ESLBaseElement {
     return !(e instanceof KeyboardEvent && SYSTEM_KEYS.includes(e.key));
   }
 
-  @listen({
-    event: 'click',
-    selector: (el: ESLToggleable) => el.closeTrigger || ''
-  })
-  protected _onCloseClick(e: MouseEvent): void {
-    this.hide({initiator: 'close', activator: e.target as HTMLElement, event: e});
+  @listen({event: 'click', selector: (el: ESLToggleable) => el.closeTrigger || ''})
+  protected _onCloseClick(e: DelegatedEvent<MouseEvent>): void {
+    this.hide({
+      initiator: 'close',
+      activator: e.$delegate as HTMLElement,
+      event: e
+    });
   }
 
   @listen({
