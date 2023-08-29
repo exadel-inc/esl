@@ -1,4 +1,5 @@
-import {isObject} from '../misc/object/types';
+import {isElement} from '../dom/api';
+import {isObject} from '../misc/object';
 
 /** An object that relates to some DOM element e.g. controller or {@link ESLMixinElement} */
 export type ESLDomElementRelated = {
@@ -17,7 +18,7 @@ export function resolveDomTarget(obj: ESLDomElementTarget): Element;
  */
 export function resolveDomTarget(obj: unknown): Element | null;
 export function resolveDomTarget(obj: unknown): Element | null {
-  if (obj instanceof Element) return obj;
-  if (isObject(obj) && obj.$host instanceof Element) return obj.$host;
+  if (isElement(obj)) return obj;
+  if (isObject(obj) && isElement(obj.$host)) return obj.$host;
   return null;
 }
