@@ -8,17 +8,16 @@ icon: examples/scrollbar.svg
 components:
 - esl-scrollbar
 ---
-{% import 'lorem.njk' as lorem %}
 
 <section class="row">
   <div class="col-12">
-    <uip-root uip-snippets-active>
+    <uip-root uip-blue-theme>
       <uip-header></uip-header>
       <script type="text/html" uip-snippet label="ESL Scrollbar">
         <div class="border bg-white relative-block scrollable-content-block">
           <div style="max-width: 100%; max-height: 100%;" class="p-4 esl-scrollable-content">
             <div style="min-width: 50vw">
-              {{ lorem.paragraphs(3) }}
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
             </div>
           </div>
           <esl-scrollbar class="scrollbar-blue" target="::prev(.esl-scrollable-content)"></esl-scrollbar>
@@ -34,6 +33,7 @@ components:
         </uip-select-setting>
         <uip-bool-setting label="Resize content" attribute="resizable" target=".scrollable-content-block"></uip-bool-setting>
       </uip-settings>
+      <uip-editor editor-config="{wrap: 300}"></uip-editor>
     </uip-root>
   </div>
 </section>

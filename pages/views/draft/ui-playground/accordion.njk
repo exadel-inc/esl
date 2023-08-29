@@ -6,13 +6,12 @@ name: Accordion (Playground)
 tags: [draft]
 icon: examples/accordion.svg
 ---
-{% import 'lorem.njk' as lorem %}
 
 <section class="row">
   <div class="col-12">
-    <uip-root uip-snippets-active>
+    <uip-root uip-blue-theme>
       <uip-header></uip-header>
-      <script type="text/html" uip-snippet label="Simple single accordion (default configuration)">
+      <script type="text/html" uip-snippet label="Default configuration">
         <!--        {% code 'html', 'code-block' %}
                 <esl-panel-group class="accordion-group"/>
                 {% endcode %}-->
@@ -23,7 +22,7 @@ icon: examples/accordion.svg
             </esl-trigger>
             <esl-panel open class="esl-d-accordion-panel">
               <div class="esl-d-accordion-body">
-                {{ lorem.paragraphs(1) }}
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
               </div>
             </esl-panel>
           </div>
@@ -33,7 +32,7 @@ icon: examples/accordion.svg
             </esl-trigger>
             <esl-panel class="esl-d-accordion-panel">
               <div class="esl-d-accordion-body">
-                {{ lorem.paragraphs(1) }}
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
               </div>
             </esl-panel>
           </div>
@@ -43,13 +42,13 @@ icon: examples/accordion.svg
             </esl-trigger>
             <esl-panel class="esl-d-accordion-panel">
               <div class="esl-d-accordion-body">
-                {{ lorem.paragraphs(1) }}
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
               </div>
             </esl-panel>
           </div>
         </esl-panel-group>
       </script>
-      <script type="text/html" uip-snippet label="Simple single accordion (allows all panels to be closed)">
+      <script type="text/html" uip-snippet label="Allows all panels to be closed">
         <esl-panel-group class="accordion-group" min-open-items="0">
           <div class="esl-d-accordion">
             <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
@@ -57,7 +56,7 @@ icon: examples/accordion.svg
             </esl-trigger>
             <esl-panel class="esl-d-accordion-panel">
               <div class="esl-d-accordion-body">
-                {{ lorem.paragraphs(1) }}
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
               </div>
             </esl-panel>
           </div>
@@ -67,7 +66,7 @@ icon: examples/accordion.svg
             </esl-trigger>
             <esl-panel class="esl-d-accordion-panel">
               <div class="esl-d-accordion-body">
-                {{ lorem.paragraphs(2) }}
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
               </div>
             </esl-panel>
           </div>
@@ -77,7 +76,7 @@ icon: examples/accordion.svg
             </esl-trigger>
             <esl-panel class="esl-d-accordion-panel">
               <div class="esl-d-accordion-body">
-                {{ lorem.paragraphs(3) }}
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
               </div>
             </esl-panel>
           </div>
@@ -92,7 +91,7 @@ icon: examples/accordion.svg
             </esl-trigger>
             <esl-panel class="esl-d-accordion-panel" default-params="{hideDelay: 100}">
               <div class="esl-d-accordion-body">
-                {{ lorem.paragraphs(1) }}
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
               </div>
             </esl-panel>
           </div>
@@ -103,7 +102,7 @@ icon: examples/accordion.svg
             </esl-trigger>
             <esl-panel class="esl-d-accordion-panel" default-params="{hideDelay: 100}">
               <div class="esl-d-accordion-body">
-                {{ lorem.paragraphs(1) }}
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
               </div>
             </esl-panel>
           </div>
@@ -114,13 +113,13 @@ icon: examples/accordion.svg
             </esl-trigger>
             <esl-panel class="esl-d-accordion-panel" default-params="{hideDelay: 100}">
               <div class="esl-d-accordion-body">
-                {{ lorem.paragraphs(1) }}
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
               </div>
             </esl-panel>
           </div>
         </esl-panel-group>
       </script>
-      <script type="text/html" uip-snippet label="Simple multiple accordion">
+      <script type="text/html" uip-snippet label="Multiple accordion">
         <esl-panel-group class="accordion-group" min-open-items="0" max-open-items="all">
           <div class="esl-d-accordion">
             <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
@@ -128,7 +127,7 @@ icon: examples/accordion.svg
             </esl-trigger>
             <esl-panel class="esl-d-accordion-panel">
               <div class="esl-d-accordion-body">
-                {{ lorem.paragraphs(1) }}
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
               </div>
             </esl-panel>
           </div>
@@ -138,7 +137,7 @@ icon: examples/accordion.svg
             </esl-trigger>
             <esl-panel open class="esl-d-accordion-panel">
               <div class="esl-d-accordion-body">
-                {{ lorem.paragraphs(1) }}
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
               </div>
             </esl-panel>
           </div>
@@ -148,13 +147,13 @@ icon: examples/accordion.svg
             </esl-trigger>
             <esl-panel open class="esl-d-accordion-panel">
               <div class="esl-d-accordion-body">
-                {{ lorem.paragraphs(1) }}
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
               </div>
             </esl-panel>
           </div>
         </esl-panel-group>
       </script>
-      <script type="text/html" uip-snippet label="Nested accordion with auto-closable nested panels">
+      <script type="text/html" uip-snippet label="auto-closable nested panels">
         <!--{% code 'html', 'code-block' %}
         <esl-panel class="esl-d-accordion-panel"
                    esl-related-target="::find(esl-panel)"
@@ -173,7 +172,7 @@ icon: examples/accordion.svg
                        esl-related-target="::find(esl-panel)"
                        esl-related-target-action="hide">
               <div class="esl-d-accordion-body">
-                {{lorem.paragraphs(2)}}
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                 <esl-panel-group class="accordion-group" max-open-items="all" min-open-items="0">
                   <div class="esl-d-accordion">
                     <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
@@ -181,7 +180,7 @@ icon: examples/accordion.svg
                     </esl-trigger>
                     <esl-panel class="esl-d-accordion-panel">
                       <div class="esl-d-accordion-body">
-                        {{lorem.paragraphs(3)}}
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                       </div>
                     </esl-panel>
                   </div>
@@ -191,7 +190,7 @@ icon: examples/accordion.svg
                     </esl-trigger>
                     <esl-panel class="esl-d-accordion-panel">
                       <div class="esl-d-accordion-body">
-                        {{lorem.paragraphs(2)}}
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                       </div>
                     </esl-panel>
                   </div>
@@ -203,7 +202,7 @@ icon: examples/accordion.svg
                                esl-related-target="::find(esl-panel)"
                                esl-related-target-action="hide">
                       <div class="esl-d-accordion-body">
-                        {{lorem.paragraphs(2)}}
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                         <esl-panel-group class="accordion-group" max-open-items="all" min-open-items="0">
                           <div class="esl-d-accordion">
                             <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
@@ -211,7 +210,7 @@ icon: examples/accordion.svg
                             </esl-trigger>
                             <esl-panel class="esl-d-accordion-panel">
                               <div class="esl-d-accordion-body">
-                                {{lorem.paragraphs(2)}}
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                               </div>
                             </esl-panel>
                           </div>
@@ -221,7 +220,7 @@ icon: examples/accordion.svg
                             </esl-trigger>
                             <esl-panel class="esl-d-accordion-panel">
                               <div class="esl-d-accordion-body">
-                                {{lorem.paragraphs(2)}}
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                               </div>
                             </esl-panel>
                           </div>
@@ -231,12 +230,12 @@ icon: examples/accordion.svg
                             </esl-trigger>
                             <esl-panel class="esl-d-accordion-panel">
                               <div class="esl-d-accordion-body">
-                                {{lorem.paragraphs(2)}}
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                               </div>
                             </esl-panel>
                           </div>
                         </esl-panel-group>
-                        {{lorem.paragraphs(2)}}
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                       </div>
                     </esl-panel>
                   </div>
@@ -250,7 +249,7 @@ icon: examples/accordion.svg
             </esl-trigger>
             <esl-panel class="esl-d-accordion-panel (not auto-closable)">
               <div class="esl-d-accordion-body">
-                {{lorem.paragraphs(2)}}
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                 <esl-panel-group class="accordion-group" max-open-items="all" min-open-items="0">
                   <div class="esl-d-accordion">
                     <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
@@ -258,7 +257,7 @@ icon: examples/accordion.svg
                     </esl-trigger>
                     <esl-panel class="esl-d-accordion-panel">
                       <div class="esl-d-accordion-body">
-                        {{lorem.paragraphs(3)}}
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                       </div>
                     </esl-panel>
                   </div>
@@ -283,6 +282,7 @@ icon: examples/accordion.svg
           <option value="all">All</option>
         </uip-select-setting>
       </uip-settings>
+      <uip-editor editor-config="{wrap: 300}"></uip-editor>
     </uip-root>
   </div>
 </section>

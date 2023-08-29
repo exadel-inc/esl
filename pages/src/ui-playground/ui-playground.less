@@ -8,18 +8,21 @@ uip-settings:not(.uip-settings) {
 uip-root {
   opacity: 0;
   transition: opacity 1s ease-in-out;
+
   &.uip-root {
     opacity: 1;
   }
 }
 
 .uip-root {
-  background-color: transparent;
-
-  .uip-header {
-    justify-content: flex-end;
-    border-bottom-color: rgba(0, 0, 0, 0.1);
+  &[settings-collapsed] {
+    grid-template-areas:
+        'header header'
+        'preview preview'
+        'editor editor';
   }
+
+  background-color: transparent;
 
   .uip-snippets {
     & > .snippets-title {
@@ -27,32 +30,8 @@ uip-root {
     }
   }
 
-  //.uip-options {
-  //  width: auto;
-  //}
-
-  .uip-option {
-    &.dark-theme-option,
-    &.rtl-direction-option.active,
-    &.settings-collapsed-option {
-      svg {
-        stroke: #fff;
-      }
-    }
-
-    &.rtl-direction-option.active {
-      svg {
-        stroke: #f5f5f5;
-      }
-    }
-
-    &.rtl-direction-option svg path {
-      fill: #fff;
-    }
-
-    &.editor-collapsed-option svg {
-      fill: #fff;
-    }
+  .uip-options {
+    width: auto;
   }
 
   .uip-settings {
@@ -61,7 +40,6 @@ uip-root {
     &-inner {
       padding-left: 5px;
       padding-right: 5px;
-      border-left-color: rgba(0, 0, 0, 0.1);
     }
   }
 
@@ -69,9 +47,19 @@ uip-root {
     width: 100%;
   }
 
+  .uip-editor,
+  .editor-content {
+    border-top-left-radius: initial;
+    border-top-right-radius: initial;
+    border-bottom-left-radius: 0.5em;
+    border-bottom-right-radius: 0.5em;
+  }
+
   /*Scrollbar components*/
+
   .scrollable-content-block {
     color: @body-fg;
+
     &[resizable] {
       max-width: 100%;
       max-height: 100%;
@@ -98,42 +86,141 @@ uip-root {
   }
 }
 
-.uip-root[uip-snippets-active] {
-  border-radius: 0.2rem;
-
+.uip-root[uip-blue-theme] {
   .uip-header {
     background: #112a47;
-    border-radius: 0.2rem;
+    border-top-left-radius: 0.5em;
+    border-top-right-radius: 0.5em;
+  }
+
+  .uip-option {
+    &.dark-theme-option,
+    &.rtl-direction-option.active,
+    &.settings-collapsed-option {
+      svg {
+        stroke: #fff;
+      }
+    }
+
+    &.rtl-direction-option.active {
+      svg {
+        stroke: #f5f5f5;
+      }
+    }
+
+    &.rtl-direction-option svg path {
+      fill: #fff;
+    }
+
+    &.editor-collapsed-option svg {
+      fill: #fff;
+    }
   }
 
   .uip-snippets {
+    @media @md-xl {
+      align-items: start;
+      flex-direction: column;
+
+      .snippets-dropdown {
+        position: initial;
+      }
+
+      .snippets-dropdown-wrapper {
+        max-height: initial;
+        visibility: visible;
+        background-color: transparent;
+        color: #fff;
+        border: none;
+        box-shadow: none;
+      }
+
+      .snippets-list {
+        display: flex;
+        flex-wrap: wrap;
+        margin-right: 0;
+        padding: 0 10px;
+      }
+
+      .snippets-list-item {
+        margin-right: 15px;
+        border-bottom: none;
+
+        &.active {
+          border-bottom: 1px solid #ebebeb;
+        }
+      }
+    }
+
+    .snippets-dropdown-control {
+      @media @md-xl {
+        display: none;
+
+        &:hover {
+          opacity: 1;
+        }
+
+        &::before {
+          display: none;
+        }
+      }
+
+      svg {
+        stroke: #fff;
+      }
+    }
+
+    .snippets-dropdown-wrapper {
+      color: #fff;
+    }
+
     .snippets-title {
       color: #fff;
+    }
+
+    .snippets-list {
+      background: #112a47;
     }
   }
 
   .uip-preview {
-    border: 1px solid #c8d6f0;
+    border-left: 1px solid #c8d6f0;
+    border-right: 1px solid #c8d6f0;
   }
 
   .uip-settings-inner {
-    border: 1px solid #c8d6f0;
-    @media @md-xl {
-      border-left: none;
-    }
+    border-right: 1px solid #c8d6f0;
     @media @xs-sm {
-      border-bottom: none;
+      border-left: 1px solid #c8d6f0;
+      border-bottom: 1px solid #c8d6f0;
     }
   }
 
-  .uip-snippets .snippets-dropdown-control {
-    &::before {
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9' xml:space='preserve'%3E%3Cpolyline points='0,0 8,8 16,0' fill='none' stroke='white' stroke-width='2'%3E%3C/polyline%3E%3C/svg%3E");
+  &.dark-theme {
+    border-radius: 0.5em;
+
+    .snippets-list {
+      background: #112a47;
+    }
+
+    .uip-preview {
+      border-left: none;
+      border-right: none;
     }
   }
 }
 
 .uip-root:not(.dark-theme) {
+  &[editor-collapsed] {
+    .uip-preview {
+      border-bottom: 1px solid #c8d6f0;
+    }
+
+    .uip-settings-inner {
+      border-bottom: 1px solid #c8d6f0;
+    }
+  }
+
   .uip-settings {
     .esl-select {
       background-color: #fff;
@@ -142,19 +229,6 @@ uip-root {
 }
 
 .uip-root.dark-theme {
-  &[uip-snippets-active] {
-    border-bottom: 1px solid #000;
-
-    .uip-preview {
-      border-left: 1px solid #000;
-    }
-
-    .uip-settings-inner {
-      border-left: 1px solid #000;
-      border-right: 1px solid #000;
-    }
-  }
-
   .uip-plugin {
     &.uip-header .uip-option {
       filter: none;
