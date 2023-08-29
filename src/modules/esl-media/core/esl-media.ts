@@ -1,15 +1,15 @@
-import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement} from '../../esl-base-element/core';
-import {bind, prop, attr, boolAttr} from '../../esl-utils/decorators';
+import {ExportNs} from '../../esl-utils/environment/export-ns';
+import {isElement} from '../../esl-utils/dom/api';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
-import {rafDecorator} from '../../esl-utils/async/raf';
-import {debounce} from '../../esl-utils/async/debounce';
+import {SPACE, PAUSE} from '../../esl-utils/dom/keys';
+import {bind, prop, attr, boolAttr} from '../../esl-utils/decorators';
+import {debounce, rafDecorator} from '../../esl-utils/async';
 import {parseAspectRatio} from '../../esl-utils/misc/format';
 
 import {ESLMediaQuery} from '../../esl-media-query/core';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 
-import {SPACE, PAUSE} from '../../esl-utils/dom/keys';
 import {getIObserver} from './esl-media-iobserver';
 import {PlayerStates} from './esl-media-provider';
 import {ESLMediaProviderRegistry} from './esl-media-registry';
@@ -332,9 +332,7 @@ export class ESLMedia extends ESLBaseElement {
   @bind
   protected _onRefresh(e: Event): void {
     const {target} = e;
-    if (target instanceof HTMLElement && target.contains(this)) {
-      this._onResize();
-    }
+    if (isElement(target) && target.contains(this)) this._onResize();
   }
 
   @bind
