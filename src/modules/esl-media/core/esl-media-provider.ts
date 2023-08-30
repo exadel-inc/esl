@@ -39,8 +39,10 @@ export abstract class BaseProvider {
     return null;
   }
   static parseConfig(component: ESLMedia): MediaProviderConfig {
-    const {loop, muted, controls, autoplay, title, preload, playsinline, mediaId, mediaSrc} = component;
+    const {loop, muted, controls, autoplay, title, preload, playsinline, mediaSrcRules, mediaIdRules} = component;
     const config = {loop, muted, controls, autoplay, title, preload, playsinline};
+    const mediaId = mediaIdRules.activeValue;
+    const mediaSrc = mediaSrcRules.activeValue;
     if (mediaId) Object.assign(config, {mediaId});
     if (mediaSrc) Object.assign(config, {mediaSrc});
     return config;

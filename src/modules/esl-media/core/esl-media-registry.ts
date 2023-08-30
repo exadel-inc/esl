@@ -57,14 +57,14 @@ export class ESLMediaProviderRegistry extends Observable<(name: string, provider
   /** Create provider instance for passed ESLMedia instance via url */
   private createBySrc(media: ESLMedia): BaseProvider | null {
     for (const provider of this.providers.reverse()) {
-      const cfg = provider.parseUrl(media.mediaSrc);
+      const cfg = provider.parseUrl(media.mediaSrcRules.activeValue || '');
       if (cfg) return ESLMediaProviderRegistry._create(provider, media, cfg);
     }
     return null;
   }
 
   /** Create provider instance for passed configuration */
-  private static _create(provider: ProviderType, media: ESLMedia, cfg = provider.parseUrl(media.mediaSrc)): BaseProvider {
+  private static _create(provider: ProviderType, media: ESLMedia, cfg = provider.parseUrl(media.mediaSrcRules.activeValue || '')): BaseProvider {
     const config = Object.assign({}, cfg || {}, provider.parseConfig(media));
     return new provider(media, config);
   }
