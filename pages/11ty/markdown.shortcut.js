@@ -30,7 +30,7 @@ class MDRenderer {
       }
 
       // Add anchors and globally defined terms links
-      MDRenderer.fillReferenceLinks(window.document,window.document.body, terms);
+      MDRenderer.fillReferenceLinks(window.document, window.document.body, terms);
 
       // Resolve content links
       MDRenderer.resolveLinks(window.document.body, filePath);
@@ -79,20 +79,22 @@ class MDRenderer {
 
   static generateHeadersIds(content) {
     const headers = [...content.querySelectorAll('h1, h2, h3, h4')];
-    const localTerms = new Map();
+    const localTerms = {};
     for (const header of headers) {
       const text = header.textContent;
       const id = MDRenderer.createIDFromText(text)
       header.setAttribute('id', id);
       const anchor = `#${id}`
-      localTerms.set(text, anchor);
+      localTerms[text] = anchor;
     }
     return localTerms
   }
   static createIDFromText(text, idLengthLimit = 20) {
     return text
-      .replace(/(?:^\w|[A-Z]|\b\w)/g, (word, index) => (index === 0 ? word.toLowerCase() : word.toUpperCase()))
-      .replace(/[^\w\s]|_/g, "").replace(/\s+/g, "")
+      .replace(/[^a-zA-Z0-9]+/g, ' ')
+      .toLowerCase()
+      .replace(/(?:^|\s)\w/g, (symbol, index) => (index === 0 ? symbol : symbol.toUpperCase()))
+      .replace(/\s/g, '')
       .substring(0, idLengthLimit);
   }
 
@@ -121,9 +123,8 @@ class MDRenderer {
 
   static wrapTextNode(document, node, text, link) {
     const wrapper = document.createElement('span');
-    const regex = new RegExp(`(^|\\s)${text}(,?\\s|\\.?\\s)`, 'g');
-    wrapper.innerHTML = node.textContent.replace(regex, `$1<a href="${link}">${text}</a>$2`);
-    return node.replaceWith(...wrapper.childNodes);
+    wrapper.innerHTML = node.textContent.replace(text, `<a href="${link}">${text}</a>`);
+    node.replaceWith(...wrapper.childNodes);
   }
 }
 
