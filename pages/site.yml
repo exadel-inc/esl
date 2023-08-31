@@ -17,3 +17,7 @@ rewriteRules:
   "src/modules/esl-traversing-query/README.md": "/core/esl-traversing-query"
   "src/modules/esl-trigger/README.md": "/components/esl-trigger"
   "src/modules/esl-toggleable/README.md": "/components/esl-toggleable"
+
+globalTerms:
+  "ESL Base Element": "/core/esl-base-element"
+  "ESL Mixin Element": "/core/esl-mixin-element"
