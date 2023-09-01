@@ -1,6 +1,6 @@
 import {overrideEvent} from '../../../esl-utils/dom/events/misc';
 
-import type {ESLResizeObserverTarget} from './resize.adapter';
+import type {ESLResizeObserverTarget} from './resize.target';
 
 /** Custom event that {@link ESLResizeObserverTarget} produces */
 export class ESLElementResizeEvent extends UIEvent implements ResizeObserverEntry {
