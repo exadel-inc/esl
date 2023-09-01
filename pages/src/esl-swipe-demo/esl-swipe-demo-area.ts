@@ -14,10 +14,8 @@ export class ESLDemoSwipeArea extends ESLBaseElement {
   onSwipe(e: ESLSwipeGestureEvent): void {
     const $logItem = document.createElement('div');
     $logItem.className = 'log-item';
-   // TODO: uncomment hen event will be fixed
-   // const {type, direction, distanceX, distanceY} = e;
-   // $logItem.innerHTML = `<code>ESLSwipeGestureEvent</code> ( ${type} ): <i>${direction} ( x: ${distanceX} , y: ${distanceY})</i>`;
-    $logItem.textContent = JSON.stringify(e);
+    const {type, direction, distanceX, distanceY} = e;
+    $logItem.innerHTML = `<code>ESLSwipeGestureEvent</code> ( ${type} ): <i>${direction} ( x: ${distanceX} , y: ${distanceY})</i>`;
     this.appendChild($logItem);
     this.scrollTo({top: this.scrollHeight, behavior: 'smooth'});
     setTimeout(() => $logItem.classList.add('removed'), 2500);
