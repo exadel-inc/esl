@@ -32,7 +32,7 @@ export class UIPSettings extends UIPPlugin {
     const $content = <div className="settings-list esl-scrollable-content">
       <esl-scrollbar target="::prev(.settings-list)"></esl-scrollbar>
     </div>;
-$content.append(...this.childNodes);
+    $content.append(...this.childNodes);
     this.$inner.appendChild($content);
     this.appendChild(this.$inner);
   }

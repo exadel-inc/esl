@@ -36,6 +36,8 @@ export class UIPEditor extends UIPPlugin {
   /** Initialize inner {@link https://medv.io/codejar/ Codejar} editor */
   protected initEditor(): void {
     const codeBlock = (<pre class='language-html editor-content'><code/></pre>) as HTMLPreElement;
+    this.$inner.classList.add('esl-scrollable-content');
+    this.$inner.append(<esl-scrollbar target="::parent"></esl-scrollbar> as HTMLElement);
     this.$inner.append(codeBlock);
 
     this.editor = new JarEditor(codeBlock, this.editorConfig);
