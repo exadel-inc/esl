@@ -1,3 +1,10 @@
+# [1.1.0-beta.3](https://github.com/exadel-inc/ui-playground/compare/v1.1.0-beta.2...v1.1.0-beta.3) (2023-09-04)
+
+
+### Features
+
+* replace browser scroll with esl scrollbar ([11f2935](https://github.com/exadel-inc/ui-playground/commit/11f293505c5b1b17adfc90c785effc506335cc7b))
+
 # [1.1.0-beta.2](https://github.com/exadel-inc/ui-playground/compare/v1.1.0-beta.1...v1.1.0-beta.2) (2023-08-25)
 
 
