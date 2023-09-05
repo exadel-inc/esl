@@ -53,6 +53,8 @@ import '../../src/modules/esl-share/actions/print-action';
 import './esl-media-demo/test-media';
 import './esl-media-demo/test-media-source';
 
+import {registerServiceWorker} from '../serviceWorker/register';
+
 import {ESLDemoBackLink} from './back-link/back-link';
 import {ESLDemoMarquee} from './landing/landing';
 import {ESLDemoSearchBox} from './navigation/header/header-search';
@@ -60,6 +62,8 @@ import {ESLDemoSearchPageWrapper} from './search/search';
 import {ESLDemoSidebar} from './navigation/navigation';
 import {ESLDemoAnchorLink} from './anchor/anchor-link';
 import {ESLDemoBanner} from './banner/banner';
+
+registerServiceWorker();
 
 ESLVSizeCSSProxy.observe();
 
