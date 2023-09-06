@@ -1,3 +1,7 @@
+import {decorate, memoize} from '../../esl-utils/decorators';
+import {debounce} from '../../esl-utils/async/debounce';
+import {SyntheticEventTarget} from '../../esl-utils/dom/events/target';
+
 /** {@link ESLShareConfigShape} provider type definition */
 export type ESLShareConfigProviderType = () => Promise<ESLShareConfig>;
 
@@ -44,58 +48,47 @@ function setConfigSectionItem<T extends ESLShareButtonConfig | ESLShareGroupConf
 }
 
 /** Class for managing share buttons configurations */
-export class ESLShareConfig {
-  protected static _config: Promise<ESLShareConfig>;
-
-  /**
-   * Creates an instance of 'ESLShareConfig' from the passed object representing the configuration of the share component.
-   * If the method is called without a parameter, then a config is created with an empty set of buttons and groups.
-   * @returns config instance
-   */
-  public static create(cfg: ESLShareConfig = {buttons: [], groups: []} as any): ESLShareConfig {
-    const config = new ESLShareConfig(cfg);
-    ESLShareConfig._config = Promise.resolve(config);
-    return config;
-  }
-
-  /**
-   * Gets promise with buttons config instance.
-   * @returns Promise of the current config instance
-   */
-  public static get(): Promise<ESLShareConfig> {
-    return ESLShareConfig._config ?? Promise.reject('configuration is not set');
+export class ESLShareConfig extends SyntheticEventTarget {
+  @memoize()
+  public static get instance(): ESLShareConfig {
+    return new ESLShareConfig();
   }
 
   /**
    * Sets config with a promise of a new config object or using a config provider function.
+   * Each of the buttons and groups specified in the new config will be appended to the current config.
    * @returns Promise of the current config
    */
   public static set(provider?: ESLShareConfigProviderType | ESLShareConfig): Promise<ESLShareConfig> {
-    if (typeof provider === 'function') ESLShareConfig._config = provider().then(ESLShareConfig.create);
-    if (typeof provider === 'object') ESLShareConfig.create(provider);
-    return ESLShareConfig.get();
+    if (typeof provider === 'function') return provider().then(ESLShareConfig.append);
+    if (typeof provider === 'object') ESLShareConfig.append(provider);
+    return Promise.resolve(ESLShareConfig.instance);
   }
 
-  public constructor(protected _config: ESLShareConfig) {}
+  /**
+   * Appends buttons and groups from the passed config to the current config.
+   * @returns config instance
+   */
+  protected static append(cfg: ESLShareConfig): ESLShareConfig {
+    const {instance} = ESLShareConfig;
+    if (cfg) {
+      cfg.buttons.forEach((button) => instance.appendButton(button));
+      cfg.groups.forEach((group) => instance.appendGroup(group));
+    }
+    return instance;
+  }
+
+  protected _buttons: ESLShareButtonConfig[] = [];
+  protected _groups: ESLShareGroupConfig[] = [];
 
   /** @returns config of buttons */
   public get buttons(): ESLShareButtonConfig[] {
-    return this._config.buttons;
+    return this._buttons;
   }
 
   /** @returns config of groups */
   public get groups(): ESLShareGroupConfig[] {
-    return this._config.groups;
-  }
-
-  /**
-   * Adds buttons and groups to the current config.
-   * @returns config instance
-   */
-  public add(buttons: ESLShareButtonConfig[], groups: ESLShareGroupConfig[] = []): ESLShareConfig {
-    buttons.forEach((button) => setConfigSectionItem(this._config.buttons, button));
-    groups.forEach((group) => setConfigSectionItem(this._config.groups, group));
-    return this;
+    return this._groups;
   }
 
   /**
@@ -121,7 +114,7 @@ export class ESLShareConfig {
    * @returns config of group
    */
   public getGroup(groupName: string): ESLShareGroupConfig | undefined {
-    return getConfigSectionItem(this._config.groups, groupName);
+    return getConfigSectionItem(this.groups, groupName);
   }
 
   /**
@@ -129,6 +122,50 @@ export class ESLShareConfig {
    * @returns config of button
    */
   public getButton(name: string): ESLShareButtonConfig | undefined {
-    return getConfigSectionItem(this._config.buttons, name);
+    return getConfigSectionItem(this.buttons, name);
+  }
+
+  /**
+   * Appends button (inserts or updates) to the current config.
+   * @returns config instance
+   */
+  public appendButton(button: ESLShareButtonConfig): ESLShareConfig {
+    setConfigSectionItem(this.buttons, button);
+    this._onUpdate();
+    return this;
+  }
+
+  /**
+   * Appends group (inserts or updates) to the current config.
+   * @returns config instance
+   */
+  public appendGroup(group: ESLShareGroupConfig): ESLShareConfig {
+    setConfigSectionItem(this.groups, group);
+    this._onUpdate();
+    return this;
+  }
+
+  @decorate(debounce, 25)
+  protected _onUpdate(): void {
+    this.dispatchEvent(new CustomEvent('change'));
+  }
+
+  public override addEventListener(callback: EventListener): void;
+  public override addEventListener(event: 'change', callback: EventListener): void;
+  public override addEventListener(event: any, callback: EventListener = event): void {
+    if (typeof event === 'string' && event !== 'change') {
+      console.warn(`[ESL]: ESLShareConfig does not support '${event}' type`);
+      return;
+    }
+
+    super.addEventListener('change', callback);
+  }
+
+  public override removeEventListener(callback: EventListener): void;
+  public override removeEventListener(event: 'change', callback: EventListener): void;
+  public override removeEventListener(event: any, callback: EventListener = event): void {
+    if (typeof event === 'string' && event !== 'change') return;
+
+    super.removeEventListener('change', callback);
   }
 }

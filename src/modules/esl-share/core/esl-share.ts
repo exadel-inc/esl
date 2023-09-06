@@ -1,7 +1,8 @@
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {ESLPopup} from '../../esl-popup/core';
 import {sequentialUID} from '../../esl-utils/misc/uid';
-import {attr, bind, boolAttr, prop} from '../../esl-utils/decorators';
+import {attr, bind, boolAttr, decorate, listen, prop} from '../../esl-utils/decorators';
+import {debounce} from '../../esl-utils/async/debounce';
 import {ESLShareButton} from './esl-share-button';
 import {ESLShareTrigger} from './esl-share-trigger';
 import {ESLShareConfig} from './esl-share-config';
@@ -154,5 +155,11 @@ export class ESLShare extends ESLBaseElement {
   /** Adds popup element to the popup's store. */
   protected storePopup(value: ESLPopup): void {
     (this.constructor as typeof ESLShare)._popupStore.set(this.list, value);
+  }
+
+  @listen({event: 'change', target: ESLShareConfig.instance})
+  @decorate(debounce, 150)
+  protected onConfigChange(): void {
+    this.init();
   }
 }
