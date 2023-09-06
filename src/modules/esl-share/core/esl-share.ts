@@ -30,6 +30,7 @@ export class ESLShare extends ESLBaseElement {
   /**
    * Gets or updates config with a promise of a new config object or using a config provider function.
    * @returns Promise of the current config {@link ESLShareConfig}
+   * @deprecated alias for ESLShareConfig.set(), will be removed soon
    */
   public static config(provider?: ESLShareConfigProviderType | ESLShareConfig): Promise<ESLShareConfig> {
     return ESLShareConfig.set(provider);
