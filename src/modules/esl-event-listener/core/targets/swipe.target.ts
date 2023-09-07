@@ -8,7 +8,7 @@ import {ESLEventListener} from '../listener';
 import {ESLSwipeGestureEvent} from './swipe.target.event';
 
 import type {CSSSize} from '../../../esl-utils/dom/units';
-import type {SwipeDirection, ESLSwipeGestureEventInfo, SwipeEventName} from './swipe.target.event';
+import type {SwipeDirection, SwipeEventName} from './swipe.target.event';
 import type {ESLDomElementTarget} from '../../../esl-utils/abstract/dom-target';
 
 export {ESLSwipeGestureEvent};
@@ -25,9 +25,13 @@ export interface ESLSwipeGestureSetting {
  * Diff between events coordinates and timestamp
  */
 interface EventsDiff {
-  x: number;
-  y: number;
+  distanceX: number;
+  distanceY: number;
+  distance: number;
+  angle: number;
   time: number;
+  startEvent: PointerEvent;
+  endEvent: PointerEvent;
 }
 
 /**
@@ -72,6 +76,7 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
   @bind
   protected handleStart(e: PointerEvent): void {
     this.startEvent = e;
+    this.target.releasePointerCapture && this.target.releasePointerCapture(e.pointerId);
     this.target.setPointerCapture && this.target.setPointerCapture(e.pointerId);
   }
 
@@ -80,11 +85,17 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
    * @returns diff between pointerdown and pointer coordinates and timestamp {@link EventsDiff}
    */
   protected eventDiff(e: PointerEvent): EventsDiff {
+    const distanceX = Math.round(e.clientX - this.startEvent.clientX);
+    const distanceY = Math.round(e.clientY - this.startEvent.clientY);
 
     return {
-      x: Math.round(e.clientX - this.startEvent.clientX),
-      y: Math.round(e.clientY - this.startEvent.clientY),
-      time: e.timeStamp - this.startEvent.timeStamp
+      distanceX,
+      distanceY,
+      distance: Math.round(Math.hypot(distanceX, distanceY, 2)),
+      angle: Math.round((Math.atan2(distanceY, distanceX) * 180 / Math.PI + 90 + 360) % 360),
+      time: e.timeStamp - this.startEvent.timeStamp,
+      startEvent: this.startEvent,
+      endEvent: e
     };
   }
 
@@ -95,25 +106,25 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
    */
   @bind
   protected handleEnd(e: PointerEvent): void {
+    const diff = this.eventDiff(e);
+    const swipeThreshold = (resolveCSSSize(this.config.threshold) || resolveCSSSize(ESLSwipeGestureTarget.defaultConfig.threshold)!);
 
-    const eventsDiff = this.eventDiff(e);
-    const direction = this.resolveDirection(eventsDiff);
-    if (direction) {
-      const swipeInfo: ESLSwipeGestureEventInfo = {
-        direction,
-        distanceX: eventsDiff.x,
-        distanceY: eventsDiff.y,
-        distance: Math.round(Math.hypot(eventsDiff.x, eventsDiff.y, 2)),
-        angle: Math.round((Math.atan2(eventsDiff.y, eventsDiff.x) * 180 / Math.PI + 90 + 360) % 360),
-        startEvent: this.startEvent,
-        endEvent: e
-      };
+    // return if swipe took too long or distance is too short
+    if (!this.isGestureValid(diff, swipeThreshold)) return;
 
-      // fire `swipe` event on the element that started the swipe
-      this.dispatchEvent(ESLSwipeGestureEvent.fromConfig('swipe', this.target, swipeInfo));
-    }
+    const direction = this.resolveDirection(diff);
 
-    this.target.releasePointerCapture && this.target.releasePointerCapture(e.pointerId);
+    // fire `swipe` event on the element that started the swipe
+    if (direction) this.dispatchEvent(ESLSwipeGestureEvent.fromConfig('swipe', this.target, {...diff, direction}));
+  }
+
+  /**
+   * Checks if swipe gesture is valid based on distance and timeout
+   * @param diff - diff between pointerdown and pointer coordinates and timestamp {@link EventsDiff}
+   * @param swipeThreshold - threshold for swipe distance
+   */
+  protected isGestureValid(diff: EventsDiff, swipeThreshold: number): boolean {
+    return (diff.time < this.config.timeout && (Math.abs(diff.distanceX) >= swipeThreshold) || (Math.abs(diff.distanceY) >= swipeThreshold));
   }
 
   /**
@@ -121,18 +132,10 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
    * @param diff - diff between pointerdown and pointer coordinates and timestamp {@link EventsDiff}
    * @returns direction of swipe {@link SwipeDirection}
    */
-  protected resolveDirection(diff: EventsDiff): SwipeDirection | null {
-    const swipeThreshold = (resolveCSSSize(this.config.threshold) || resolveCSSSize(ESLSwipeGestureTarget.defaultConfig.threshold)!);
+  protected resolveDirection(diff: EventsDiff): SwipeDirection {
+    if (Math.abs(diff.distanceX) >= Math.abs(diff.distanceY)) return diff.distanceX < 0 ? 'left' : 'right';
 
-    if (Math.abs(diff.x) >= Math.abs(diff.y) && Math.abs(diff.x) > swipeThreshold && diff.time < this.config.timeout) {
-      return diff.x < 0 ? 'left' : 'right';
-    }
-    if (Math.abs(diff.y) > swipeThreshold && diff.time < this.config.timeout) {
-      return diff.y < 0 ? 'up' : 'down';
-    }
-
-    // Marker that there was not enough move characteristic to consider pointer move as touch swipe
-    return null;
+    return diff.distanceY < 0 ? 'up' : 'down';
   }
 
   /**
