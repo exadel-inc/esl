@@ -12,7 +12,7 @@ tags: [draft]
     </p>
     {% code 'ts', 'code-block' %}
       @listen({
-        event: 'swipe swipe:left swipe:right swipe:up swipe:down',
+        event: 'swipe',
         target: ESLSwipeGestureTarget.for
       })
       onSwipe(e: ESLSwipeGestureEvent): void {
