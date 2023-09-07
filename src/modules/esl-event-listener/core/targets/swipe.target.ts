@@ -102,7 +102,6 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
     const direction = this.resolveDirection(eventsDiff);
     if (direction) {
       const swipeInfo: ESLSwipeGestureEventInfo = {
-        target: this.target,
         direction,
         distanceX: Math.abs(eventsDiff.x),
         distanceY: Math.abs(eventsDiff.y),
@@ -111,9 +110,9 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
       };
 
       // fire `swipe` event on the element that started the swipe
-      this.dispatchEvent(ESLSwipeGestureEvent.fromConfig('swipe', swipeInfo));
+      this.dispatchEvent(ESLSwipeGestureEvent.fromConfig('swipe', this.target, swipeInfo));
       // fire `swipe:${dir}` event on the element that started the swipe
-      this.dispatchEvent(ESLSwipeGestureEvent.fromConfig(`swipe:${direction}` as SwipeEventName, swipeInfo));
+      this.dispatchEvent(ESLSwipeGestureEvent.fromConfig(`swipe:${direction}`, this.target, swipeInfo));
     }
 
     // Mark swipe as completed
