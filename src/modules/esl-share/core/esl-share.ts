@@ -159,7 +159,6 @@ export class ESLShare extends ESLBaseElement {
   }
 
   @listen({event: 'change', target: ESLShareConfig.instance})
-  @decorate(debounce, 150)
   protected onConfigChange(): void {
     this.init();
   }

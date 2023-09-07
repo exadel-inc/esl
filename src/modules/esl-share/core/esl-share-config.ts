@@ -59,10 +59,12 @@ export class ESLShareConfig extends SyntheticEventTarget {
    * Each of the buttons and groups specified in the new config will be appended to the current config.
    * @returns Promise of the current config
    */
-  public static set(provider?: ESLShareConfigProviderType | ESLShareConfig): Promise<ESLShareConfig> {
-    if (typeof provider === 'function') return provider().then(ESLShareConfig.append);
-    if (typeof provider === 'object') ESLShareConfig.append(provider);
-    return Promise.resolve(ESLShareConfig.instance);
+  public static async set(
+    provider?: ESLShareConfigProviderType | Promise<ESLShareConfig> | ESLShareConfig
+  ): Promise<ESLShareConfig> {
+    if (typeof provider === 'function') return this.set(provider())
+    if (typeof provider === 'object') ESLShareConfig.append(provider instanceof Promise ? await provider : provider);
+    return ESLShareConfig.instance;
   }
 
   /**
@@ -78,18 +80,8 @@ export class ESLShareConfig extends SyntheticEventTarget {
     return instance;
   }
 
-  protected _buttons: ESLShareButtonConfig[] = [];
-  protected _groups: ESLShareGroupConfig[] = [];
-
-  /** @returns config of buttons */
-  public get buttons(): ESLShareButtonConfig[] {
-    return this._buttons;
-  }
-
-  /** @returns config of groups */
-  public get groups(): ESLShareGroupConfig[] {
-    return this._groups;
-  }
+  public readonly buttons: ESLShareButtonConfig[] = [];
+  public readonly groups: ESLShareGroupConfig[] = [];
 
   /**
    * Selects the buttons for the given list and returns their configuration.
@@ -145,7 +137,7 @@ export class ESLShareConfig extends SyntheticEventTarget {
     return this;
   }
 
-  @decorate(debounce, 25)
+  @decorate(microtask)
   protected _onUpdate(): void {
     this.dispatchEvent(new CustomEvent('change'));
   }
