@@ -69,30 +69,34 @@ describe('ESLSwipeGestureTarget EventTarget', () => {
 
     test('ESLSwipeGestureTarget detects left swipe', async () => {
       $el.dispatchEvent(Object.assign(new Event('pointerdown'), {clientX: 100, clientY: 100}));
-      $el.dispatchEvent(Object.assign(new Event('pointerup'), {clientX: 50, clientY: 105}));
+      $el.dispatchEvent(Object.assign(new Event('pointerup'), {clientX: 50, clientY: 100}));
       expect(listener).lastCalledWith(expect.any(ESLSwipeGestureEvent));
       expect(listener).lastCalledWith(expect.objectContaining({direction: 'left'}));
+      expect(listener).lastCalledWith(expect.objectContaining({angle: 270}));
     });
 
     test('ESLSwipeGestureTarget detects right swipe', async () => {
       $el.dispatchEvent(Object.assign(new Event('pointerdown'), {clientX: 100, clientY: 100}));
-      $el.dispatchEvent(Object.assign(new Event('pointerup'), {clientX: 150, clientY: 105}));
+      $el.dispatchEvent(Object.assign(new Event('pointerup'), {clientX: 150, clientY: 100}));
       expect(listener).lastCalledWith(expect.any(ESLSwipeGestureEvent));
       expect(listener).lastCalledWith(expect.objectContaining({direction: 'right'}));
+      expect(listener).lastCalledWith(expect.objectContaining({angle: 90}));
     });
 
     test('ESLSwipeGestureTarget detects up swipe', async () => {
       $el.dispatchEvent(Object.assign(new Event('pointerdown'), {clientX: 100, clientY: 100}));
-      $el.dispatchEvent(Object.assign(new Event('pointerup'), {clientX: 105, clientY: 50}));
+      $el.dispatchEvent(Object.assign(new Event('pointerup'), {clientX: 100, clientY: 50}));
       expect(listener).lastCalledWith(expect.any(ESLSwipeGestureEvent));
       expect(listener).lastCalledWith(expect.objectContaining({direction: 'up'}));
+      expect(listener).lastCalledWith(expect.objectContaining({angle: 0}));
     });
 
     test('ESLSwipeGestureTarget detects down swipe', async () => {
       $el.dispatchEvent(Object.assign(new Event('pointerdown'), {clientX: 100, clientY: 100}));
-      $el.dispatchEvent(Object.assign(new Event('pointerup'), {clientX: 105, clientY: 150}));
+      $el.dispatchEvent(Object.assign(new Event('pointerup'), {clientX: 100, clientY: 150}));
       expect(listener).lastCalledWith(expect.any(ESLSwipeGestureEvent));
       expect(listener).lastCalledWith(expect.objectContaining({direction: 'down'}));
+      expect(listener).lastCalledWith(expect.objectContaining({angle: 180}));
     });
 
     test('ESLSwipeGestureTarget ignores short horizontal swipes', async () => {
@@ -122,14 +126,12 @@ describe('ESLSwipeGestureTarget EventTarget', () => {
     test('ESLSwipeGestureTarget processes diagonal swipes', async () => {
       $el.dispatchEvent(Object.assign(new Event('pointerdown'), {clientX: 100, clientY: 100}));
       $el.dispatchEvent(Object.assign(new Event('pointerup'), {clientX: 150, clientY: 150}));
-      expect(listener).toHaveBeenCalledWith(expect.objectContaining({direction: 'down'}));
       expect(listener).toHaveBeenCalledWith(expect.objectContaining({direction: 'right'}));
     });
 
     test('ESLSwipeGestureTarget processes diagonal swipes', async () => {
       $el.dispatchEvent(Object.assign(new Event('pointerdown'), {clientX: 100, clientY: 100}));
       $el.dispatchEvent(Object.assign(new Event('pointerup'), {clientX: 50, clientY: 50}));
-      expect(listener).toHaveBeenCalledWith(expect.objectContaining({direction: 'up'}));
       expect(listener).toHaveBeenCalledWith(expect.objectContaining({direction: 'left'}));
     });
   });
