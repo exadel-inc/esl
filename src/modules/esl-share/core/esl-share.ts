@@ -61,15 +61,14 @@ export class ESLShare extends ESLBaseElement {
   @attr() public mode: 'list' | 'popup';
 
   /** @readonly Ready state marker */
-  @boolAttr({readonly: true}) public ready: boolean;
+  @boolAttr({readonly: false}) public ready: boolean;
 
   protected _content: string;
 
   /** @returns config of buttons specified by the list attribute */
-  public get buttonsConfig(): Promise<ESLShareButtonConfig[]> {
-    return (this.constructor as typeof ESLShare).config().then((config) => {
-      return (this.list !== 'all') ? config.getList(this.list) : config.buttons;
-    });
+  public get buttonsConfig(): ESLShareButtonConfig[] {
+    const config = ESLShareConfig.instance;
+    return (this.list !== 'all') ? config.getList(this.list) : config.buttons;
   }
 
   public override connectedCallback(): void {
@@ -77,33 +76,31 @@ export class ESLShare extends ESLBaseElement {
     this.init();
   }
 
-  protected init(): void {
-    if (this.ready) return;
+  protected init(force?: boolean): void {
+    if (this.ready && !force) return;
     if (!this.mode) this.mode = 'list';
     if (!this._content) this._content = this.innerHTML;
-    this.buttonsConfig
-      .then(this.buildContent)
-      .then(() => this.$$fire(this.SHARE_READY_EVENT, {bubbles: false}))
-      .catch((e) => console.error(`[${this.baseTagName}]: ${e}`));
+    this.buildContent();
+    this.$$fire(this.SHARE_READY_EVENT, {bubbles: false});
   }
 
   /** Builds component's content from received `ESLShareButtonConfig` list */
   @bind
-  protected buildContent(btnConfig: ESLShareButtonConfig[]): void {
+  protected buildContent(): void {
     this.innerHTML = '';
 
     if (this.mode === 'list') {
-      this.appendButtonsTo(this, btnConfig);
+      this.appendButtonsTo(this);
       return;
     }
 
-    const $popup = this.getStoredPopup() || this.createPopup(btnConfig);
+    const $popup = this.getStoredPopup() || this.createPopup();
     this.appendTrigger(`#${$popup.id}`);
   }
 
   /** Appends buttons to the passed element. */
-  protected appendButtonsTo($el: Element, btnConfig: ESLShareButtonConfig[]): void {
-    btnConfig.forEach((cfg) => {
+  protected appendButtonsTo($el: Element): void {
+    this.buttonsConfig.forEach((cfg) => {
       const btn = this.createButton(cfg);
       btn && $el.appendChild(btn);
     });
@@ -135,7 +132,7 @@ export class ESLShare extends ESLBaseElement {
   }
 
   /** Creates popup element with share buttons. */
-  protected createPopup(btnConfig: ESLShareButtonConfig[]): ESLPopup {
+  protected createPopup(): ESLPopup {
     const $popup = ESLPopup.create();
     const id = sequentialUID(this.baseTagName + '-');
     Object.assign($popup, {id, ...this.popupInitialParams});
@@ -143,7 +140,7 @@ export class ESLShare extends ESLBaseElement {
     document.body.appendChild($popup);
     this.storePopup($popup);
 
-    this.appendButtonsTo($popup, btnConfig);
+    this.appendButtonsTo($popup);
     return $popup;
   }
 
@@ -159,6 +156,6 @@ export class ESLShare extends ESLBaseElement {
 
   @listen({event: 'change', target: ESLShareConfig.instance})
   protected onConfigChange(): void {
-    this.init();
+    this.init(true);
   }
 }

@@ -145,23 +145,4 @@ export class ESLShareConfig extends SyntheticEventTarget {
   protected _onUpdate(): void {
     this.dispatchEvent(new CustomEvent('change'));
   }
-
-  public override addEventListener(callback: EventListener): void;
-  public override addEventListener(event: 'change', callback: EventListener): void;
-  public override addEventListener(event: any, callback: EventListener = event): void {
-    if (typeof event === 'string' && event !== 'change') {
-      console.warn(`[ESL]: ESLShareConfig does not support '${event}' type`);
-      return;
-    }
-
-    super.addEventListener('change', callback);
-  }
-
-  public override removeEventListener(callback: EventListener): void;
-  public override removeEventListener(event: 'change', callback: EventListener): void;
-  public override removeEventListener(event: any, callback: EventListener = event): void {
-    if (typeof event === 'string' && event !== 'change') return;
-
-    super.removeEventListener('change', callback);
-  }
 }
