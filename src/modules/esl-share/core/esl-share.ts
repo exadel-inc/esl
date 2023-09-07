@@ -1,8 +1,7 @@
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {ESLPopup} from '../../esl-popup/core';
 import {sequentialUID} from '../../esl-utils/misc/uid';
-import {attr, bind, boolAttr, decorate, listen, prop} from '../../esl-utils/decorators';
-import {debounce} from '../../esl-utils/async/debounce';
+import {attr, bind, boolAttr, listen, prop} from '../../esl-utils/decorators';
 import {ESLShareButton} from './esl-share-button';
 import {ESLShareTrigger} from './esl-share-trigger';
 import {ESLShareConfig} from './esl-share-config';

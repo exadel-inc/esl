@@ -1,5 +1,5 @@
 import {decorate, memoize} from '../../esl-utils/decorators';
-import {debounce} from '../../esl-utils/async/debounce';
+import {microtask} from '../../esl-utils/async/microtask';
 import {SyntheticEventTarget} from '../../esl-utils/dom/events/target';
 
 /** {@link ESLShareConfigShape} provider type definition */
@@ -62,7 +62,7 @@ export class ESLShareConfig extends SyntheticEventTarget {
   public static async set(
     provider?: ESLShareConfigProviderType | Promise<ESLShareConfig> | ESLShareConfig
   ): Promise<ESLShareConfig> {
-    if (typeof provider === 'function') return this.set(provider())
+    if (typeof provider === 'function') return this.set(provider());
     if (typeof provider === 'object') ESLShareConfig.append(provider instanceof Promise ? await provider : provider);
     return ESLShareConfig.instance;
   }
@@ -82,6 +82,10 @@ export class ESLShareConfig extends SyntheticEventTarget {
 
   public readonly buttons: ESLShareButtonConfig[] = [];
   public readonly groups: ESLShareGroupConfig[] = [];
+
+  protected constructor() {
+    super();
+  }
 
   /**
    * Selects the buttons for the given list and returns their configuration.
