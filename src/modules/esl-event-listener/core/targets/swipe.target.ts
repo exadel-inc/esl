@@ -56,7 +56,6 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
   protected readonly config: Required<ESLSwipeGestureSetting>;
 
   protected startEvent: PointerEvent;
-  protected isGestureStarted: boolean = false;
 
   protected constructor(
     protected readonly target: Element,
@@ -73,7 +72,7 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
   @bind
   protected handleStart(e: PointerEvent): void {
     this.startEvent = e;
-    this.isGestureStarted = true;
+    this.target.setPointerCapture && this.target.setPointerCapture(e.pointerId);
   }
 
   /**
@@ -81,9 +80,10 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
    * @returns diff between pointerdown and pointer coordinates and timestamp {@link EventsDiff}
    */
   protected eventDiff(e: PointerEvent): EventsDiff {
+
     return {
-      x: this.startEvent.clientX - e.clientX,
-      y: this.startEvent.clientY - e.clientY,
+      x: Math.round(e.clientX - this.startEvent.clientX),
+      y: Math.round(e.clientY - this.startEvent.clientY),
       time: e.timeStamp - this.startEvent.timeStamp
     };
   }
@@ -95,28 +95,25 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
    */
   @bind
   protected handleEnd(e: PointerEvent): void {
-    // if the user released on a different target, cancel!
-    if (!this.isGestureStarted || (this.startEvent?.target !== e.target)) return;
 
     const eventsDiff = this.eventDiff(e);
     const direction = this.resolveDirection(eventsDiff);
     if (direction) {
       const swipeInfo: ESLSwipeGestureEventInfo = {
         direction,
-        distanceX: Math.abs(eventsDiff.x),
-        distanceY: Math.abs(eventsDiff.y),
+        distanceX: eventsDiff.x,
+        distanceY: eventsDiff.y,
+        distance: Math.round(Math.hypot(eventsDiff.x, eventsDiff.y, 2)),
+        angle: Math.round((Math.atan2(eventsDiff.y, eventsDiff.x) * 180 / Math.PI + 90 + 360) % 360),
         startEvent: this.startEvent,
         endEvent: e
       };
 
       // fire `swipe` event on the element that started the swipe
       this.dispatchEvent(ESLSwipeGestureEvent.fromConfig('swipe', this.target, swipeInfo));
-      // fire `swipe:${dir}` event on the element that started the swipe
-      this.dispatchEvent(ESLSwipeGestureEvent.fromConfig(`swipe:${direction}`, this.target, swipeInfo));
     }
 
-    // Mark swipe as completed
-    this.isGestureStarted = false;
+    this.target.releasePointerCapture && this.target.releasePointerCapture(e.pointerId);
   }
 
   /**
@@ -127,11 +124,11 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
   protected resolveDirection(diff: EventsDiff): SwipeDirection | null {
     const swipeThreshold = (resolveCSSSize(this.config.threshold) || resolveCSSSize(ESLSwipeGestureTarget.defaultConfig.threshold)!);
 
-    if (Math.abs(diff.x) > Math.abs(diff.y) && Math.abs(diff.x) > swipeThreshold && diff.time < this.config.timeout) {
-      return diff.x > 0 ? 'left' : 'right';
+    if (Math.abs(diff.x) >= Math.abs(diff.y) && Math.abs(diff.x) > swipeThreshold && diff.time < this.config.timeout) {
+      return diff.x < 0 ? 'left' : 'right';
     }
     if (Math.abs(diff.y) > swipeThreshold && diff.time < this.config.timeout) {
-      return diff.y > 0 ? 'up' : 'down';
+      return diff.y < 0 ? 'up' : 'down';
     }
 
     // Marker that there was not enough move characteristic to consider pointer move as touch swipe

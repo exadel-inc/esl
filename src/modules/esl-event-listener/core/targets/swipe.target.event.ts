@@ -8,7 +8,7 @@ export type SwipeDirection = 'left' | 'right' | 'up' | 'down';
 /**
  * Event names that could be triggered by {@link ESLSwipeGestureTarget}
  */
-export type SwipeEventName = 'swipe' | 'swipe:left' | 'swipe:right' | 'swipe:up' | 'swipe:down';
+export type SwipeEventName = 'swipe';
 
 /**
  * Describes swipe information provided with {@link ESLSwipeGestureEvent}
@@ -16,10 +16,14 @@ export type SwipeEventName = 'swipe' | 'swipe:left' | 'swipe:right' | 'swipe:up'
 export interface ESLSwipeGestureEventInfo {
   /** Swipe direction {@link SwipeDirection} */
   direction: SwipeDirection;
-  /** Distance between the points where pointerdown and pointerup events occurred along the x axis */
+  /** Distance between the points where pointerdown and pointerup events occurred along the x-axis */
   distanceX: number;
-  /** Distance between the points where pointerdown and pointerup events occurred along the y axis */
+  /** Distance between the points where pointerdown and pointerup events occurred along the y-axis */
   distanceY: number;
+  /** Direct distance between the points where pointerdown and pointerup events occurred */
+  distance: number;
+  /** Clockwise angle between positive y-axis and swipe */
+  angle: number;
   /** Original pointerdown event */
   startEvent: PointerEvent;
   /** Original pointerup event */
@@ -35,6 +39,8 @@ export class ESLSwipeGestureEvent extends UIEvent implements ESLSwipeGestureEven
   public readonly direction: SwipeDirection;
   public readonly distanceX: number;
   public readonly distanceY: number;
+  public readonly distance: number;
+  public readonly angle: number;
   public readonly endEvent: PointerEvent;
   public readonly startEvent: PointerEvent;
 
