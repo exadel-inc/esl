@@ -1,8 +1,13 @@
-import {referenceButtons} from '../config/reference-buttons';
-import {createButtonTestPlan} from './button-test-plan-factory';
+import {createImportCheckTestPlan, createButtonMatchingTestPlan} from './button-test-plan-factory';
+
 import '../../buttons/mix';
 
 describe(
-  'ESLShare: mix button configuration',
-  createButtonTestPlan('mix', referenceButtons.mix, 'media')
+  'ESLShare: "mix" button import appends button to config and registers the "media" action',
+  createImportCheckTestPlan('media')
+);
+
+describe(
+  'ESLShare: "mix" button object config matches button config',
+  createButtonMatchingTestPlan('mix', 'media')
 );

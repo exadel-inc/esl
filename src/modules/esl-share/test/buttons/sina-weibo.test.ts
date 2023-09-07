@@ -1,8 +1,13 @@
-import {referenceButtons} from '../config/reference-buttons';
-import {createButtonTestPlan} from './button-test-plan-factory';
+import {createImportCheckTestPlan, createButtonMatchingTestPlan} from './button-test-plan-factory';
+
 import '../../buttons/sina-weibo';
 
 describe(
-  'ESLShare: sina-weibo button configuration',
-  createButtonTestPlan('sina-weibo', referenceButtons['sina-weibo'], 'media')
+  'ESLShare: "sina-weibo" button import appends button to config and registers the "media" action',
+  createImportCheckTestPlan('media')
+);
+
+describe(
+  'ESLShare: "sina-weibo" button object config matches button config',
+  createButtonMatchingTestPlan('sina-weibo', 'media')
 );

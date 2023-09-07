@@ -1,8 +1,13 @@
-import {referenceButtons} from '../config/reference-buttons';
-import {createButtonTestPlan} from './button-test-plan-factory';
+import {createImportCheckTestPlan, createButtonMatchingTestPlan} from './button-test-plan-factory';
+
 import '../../buttons/telegram';
 
 describe(
-  'ESLShare: telegram button configuration',
-  createButtonTestPlan('telegram', referenceButtons.telegram, 'media')
+  'ESLShare: "telegram" button import appends button to config and registers the "media" action',
+  createImportCheckTestPlan('media')
+);
+
+describe(
+  'ESLShare: "telegram" button object config matches button config',
+  createButtonMatchingTestPlan('telegram', 'media')
 );

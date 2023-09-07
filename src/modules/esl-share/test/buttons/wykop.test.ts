@@ -1,8 +1,13 @@
-import {referenceButtons} from '../config/reference-buttons';
-import {createButtonTestPlan} from './button-test-plan-factory';
+import {createImportCheckTestPlan, createButtonMatchingTestPlan} from './button-test-plan-factory';
+
 import '../../buttons/wykop';
 
 describe(
-  'ESLShare: wykop button configuration',
-  createButtonTestPlan('wykop', referenceButtons.wykop, 'media')
+  'ESLShare: "wykop" button import appends button to config and registers the "media" action',
+  createImportCheckTestPlan('media')
+);
+
+describe(
+  'ESLShare: "wykop" button object config matches button config',
+  createButtonMatchingTestPlan('wykop', 'media')
 );

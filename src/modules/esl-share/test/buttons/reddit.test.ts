@@ -1,8 +1,13 @@
-import {referenceButtons} from '../config/reference-buttons';
-import {createButtonTestPlan} from './button-test-plan-factory';
+import {createImportCheckTestPlan, createButtonMatchingTestPlan} from './button-test-plan-factory';
+
 import '../../buttons/reddit';
 
 describe(
-  'ESLShare: reddit button configuration',
-  createButtonTestPlan('reddit', referenceButtons.reddit, 'media')
+  'ESLShare: "reddit" button import appends button to config and registers the "media" action',
+  createImportCheckTestPlan('media')
+);
+
+describe(
+  'ESLShare: "reddit" button object config matches button config',
+  createButtonMatchingTestPlan('reddit', 'media')
 );
