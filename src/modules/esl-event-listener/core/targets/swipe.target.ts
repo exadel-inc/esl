@@ -68,7 +68,7 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
 
   /**
    * @param endEvent - pointer event (pointerdown)
-   * @returns diff between pointerdown and pointer coordinates and timestamp {@link ESLSwipeGestureEventInfo}
+   * @returns diff between pointerdown and pointerup coordinates and timestamp {@link ESLSwipeGestureEventInfo}
    */
   protected resolveEventDetails(endEvent: PointerEvent): ESLSwipeGestureEventInfo {
     const {startEvent} = this;
@@ -115,7 +115,7 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
 
   /**
    * Checks if swipe gesture is acceptable based on distance and timeout
-   * @param diff - diff between pointerdown and pointer coordinates and timestamp {@link ESLSwipeGestureEventInfo}
+   * @param diff - diff between pointerdown and pointerup coordinates and timestamp {@link ESLSwipeGestureEventInfo}
    * @param swipeThreshold - threshold for swipe distance
    */
   protected isGestureAcceptable(diff: ESLSwipeGestureEventInfo, swipeThreshold: number): boolean {
