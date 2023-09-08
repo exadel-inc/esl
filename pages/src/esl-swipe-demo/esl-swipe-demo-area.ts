@@ -8,14 +8,19 @@ export class ESLDemoSwipeArea extends ESLBaseElement {
   static override is = 'esl-d-swipe-area';
 
   @listen({
-    event: 'swipe swipe:left swipe:right swipe:up swipe:down',
+    event: 'swipe',
     target: ESLSwipeGestureTarget.for
   })
   onSwipe(e: ESLSwipeGestureEvent): void {
     const $logItem = document.createElement('div');
     $logItem.className = 'log-item';
-    const {type, direction, distanceX, distanceY} = e;
-    $logItem.innerHTML = `<code>ESLSwipeGestureEvent</code> ( ${type} ): <i>${direction} ( x: ${distanceX} , y: ${distanceY})</i>`;
+    const {type, direction, distanceX, distanceY, distance, angle} = e;
+    $logItem.innerHTML = `<code>ESLSwipeGestureEvent</code> ( ${type} ): <i>${direction} (
+      x: ${distanceX},
+      y: ${distanceY},
+      distance: ${distance},
+      angle: ${angle}
+    )</i>`;
     this.appendChild($logItem);
     this.scrollTo({top: this.scrollHeight, behavior: 'smooth'});
     setTimeout(() => $logItem.classList.add('removed'), 2500);
