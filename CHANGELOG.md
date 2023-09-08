@@ -1,3 +1,24 @@
+# [4.11.0](https://github.com/exadel-inc/esl/compare/v4.10.0...v4.11.0) (2023-09-01)
+
+
+### Bug Fixes
+
+* **esl-event-listener:** `ESLResizeObserverTarget.for` handles no target cases silently (warning + null result) ([b28d6af](https://github.com/exadel-inc/esl/commit/b28d6aff7a674fc04d23aaedadc03ace0f8d9cb3)), closes [#1885](https://github.com/exadel-inc/esl/issues/1885)
+* **esl-event-listener:** fix support of separate DOM realms for `ESLEventListener` ([905e7a8](https://github.com/exadel-inc/esl/commit/905e7a886b6ab975e32e712ae4f4b1109c42f0de))
+* **esl-media:** update `esl-media` refresh handler to use consistent `isElement` check ([d6f8855](https://github.com/exadel-inc/esl/commit/d6f8855428d69323815689335449ce1e17f9568f))
+* **esl-scrollbar:** update `esl-scrollbar` to use consistent `isElement` check on refresh and mutation observation ([f817837](https://github.com/exadel-inc/esl/commit/f817837e5ea1b35f8b4f0d2b2000321d2ddcc560))
+* **esl-trigger:** update `esl-trigger` to use consistent `isElement` check in `isTargetIgnored` check ([fe41661](https://github.com/exadel-inc/esl/commit/fe4166110dd077ac6759a7b4b509e6b11af058b2))
+* **esl-utils:** fix support of separate DOM realms for `getScrollParent` ([eb7ede6](https://github.com/exadel-inc/esl/commit/eb7ede60531c97f91c90e66df00aff1f43794514))
+* **esl-utils:** fix support of separate DOM realms for `resolveDomTarget` ([c16e1dd](https://github.com/exadel-inc/esl/commit/c16e1ddfa762f2ad7d64f308857fb5aa1bc93bc8))
+* **esl-utils:** fix types and Element check for `isVisible` predicate (support of separate DOM realms) ([7c83e09](https://github.com/exadel-inc/esl/commit/7c83e09e576ca1afb76cbf93698a261b28de9c42))
+
+
+### Features
+
+* **esl-panel-group:** add readonly `has-opened` marker for `esl-panel-group` ([a565a71](https://github.com/exadel-inc/esl/commit/a565a71ba7d6b89f834b5241b941b6314012ac4a))
+* **esl-panel-group:** support for esl-panel-group driven animation to closed state ([0698b1c](https://github.com/exadel-inc/esl/commit/0698b1c4d3942127adcd4c2674ce4807dbf9f963))
+* **esl-utils:** `isPlainObject` and `isElement` type guard utilities ([86f0bfb](https://github.com/exadel-inc/esl/commit/86f0bfb957d2dfbea4143b9b5af6d3e59a1def32))
+
 # [4.10.0](https://github.com/exadel-inc/esl/compare/v4.9.4...v4.10.0) (2023-08-10)
 
 
