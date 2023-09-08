@@ -8,7 +8,7 @@ import {ESLEventListener} from '../listener';
 import {ESLSwipeGestureEvent} from './swipe.target.event';
 
 import type {CSSSize} from '../../../esl-utils/dom/units';
-import type {SwipeDirection, SwipeEventName} from './swipe.target.event';
+import type {SwipeDirection, SwipeEventName, ESLSwipeGestureEventInfo} from './swipe.target.event';
 import type {ESLDomElementTarget} from '../../../esl-utils/abstract/dom-target';
 
 export {ESLSwipeGestureEvent};
@@ -19,19 +19,6 @@ export {ESLSwipeGestureEvent};
 export interface ESLSwipeGestureSetting {
   threshold?: CSSSize;
   timeout?: number;
-}
-
-/**
- * Diff between events coordinates and timestamp
- */
-interface EventsDiff {
-  distanceX: number;
-  distanceY: number;
-  distance: number;
-  angle: number;
-  time: number;
-  startEvent: PointerEvent;
-  endEvent: PointerEvent;
 }
 
 /**
@@ -76,27 +63,35 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
   @bind
   protected handleStart(e: PointerEvent): void {
     this.startEvent = e;
-    this.target.releasePointerCapture && this.target.releasePointerCapture(e.pointerId);
     this.target.setPointerCapture && this.target.setPointerCapture(e.pointerId);
   }
 
   /**
-   * @param e - pointer event (pointerdown)
-   * @returns diff between pointerdown and pointer coordinates and timestamp {@link EventsDiff}
+   * @param endEvent - pointer event (pointerdown)
+   * @returns diff between pointerdown and pointer coordinates and timestamp {@link ESLSwipeGestureEventInfo}
    */
-  protected eventDiff(e: PointerEvent): EventsDiff {
-    const distanceX = Math.round(e.clientX - this.startEvent.clientX);
-    const distanceY = Math.round(e.clientY - this.startEvent.clientY);
+  protected resolveEventDetails(endEvent: PointerEvent): ESLSwipeGestureEventInfo {
+    const {startEvent} = this;
+    const duration = endEvent.timeStamp - startEvent.timeStamp;
+    const distanceX = Math.round(endEvent.clientX - startEvent.clientX);
+    const distanceY = Math.round(endEvent.clientY - startEvent.clientY);
+    const distance = Math.round(Math.hypot(distanceX, distanceY, 2));
+    const angle = Math.round((Math.atan2(distanceY, distanceX) * 180 / Math.PI + 90 + 360) % 360);
+    const direction = this.resolveDirection(distanceX, distanceY);
 
-    return {
-      distanceX,
-      distanceY,
-      distance: Math.round(Math.hypot(distanceX, distanceY, 2)),
-      angle: Math.round((Math.atan2(distanceY, distanceX) * 180 / Math.PI + 90 + 360) % 360),
-      time: e.timeStamp - this.startEvent.timeStamp,
-      startEvent: this.startEvent,
-      endEvent: e
-    };
+    return {direction, distanceX, distanceY, distance, angle, duration, startEvent, endEvent};
+  }
+
+  /**
+   * Returns swipe direction based on distance between swipe start and end points
+   * @returns direction of swipe {@link SwipeDirection}
+   * @param distanceX - distance between swipe start and end points on X axis
+   * @param distanceY - distance between swipe start and end points on Y axis
+   */
+  protected resolveDirection(distanceX: number, distanceY: number): SwipeDirection {
+    if (Math.abs(distanceX) >= Math.abs(distanceY)) return distanceX < 0 ? 'left' : 'right';
+
+    return distanceY < 0 ? 'up' : 'down';
   }
 
   /**
@@ -106,36 +101,25 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
    */
   @bind
   protected handleEnd(e: PointerEvent): void {
-    const diff = this.eventDiff(e);
+    this.target.releasePointerCapture && this.target.releasePointerCapture(e.pointerId);
+
+    const eventDetails = this.resolveEventDetails(e);
     const swipeThreshold = (resolveCSSSize(this.config.threshold) || resolveCSSSize(ESLSwipeGestureTarget.defaultConfig.threshold)!);
 
     // return if swipe took too long or distance is too short
-    if (!this.isGestureValid(diff, swipeThreshold)) return;
-
-    const direction = this.resolveDirection(diff);
+    if (!this.isGestureAcceptable(eventDetails, swipeThreshold)) return;
 
     // fire `swipe` event on the element that started the swipe
-    if (direction) this.dispatchEvent(ESLSwipeGestureEvent.fromConfig('swipe', this.target, {...diff, direction}));
+    this.dispatchEvent(ESLSwipeGestureEvent.fromConfig('swipe', this.target, eventDetails));
   }
 
   /**
-   * Checks if swipe gesture is valid based on distance and timeout
-   * @param diff - diff between pointerdown and pointer coordinates and timestamp {@link EventsDiff}
+   * Checks if swipe gesture is acceptable based on distance and timeout
+   * @param diff - diff between pointerdown and pointer coordinates and timestamp {@link ESLSwipeGestureEventInfo}
    * @param swipeThreshold - threshold for swipe distance
    */
-  protected isGestureValid(diff: EventsDiff, swipeThreshold: number): boolean {
-    return (diff.time < this.config.timeout && (Math.abs(diff.distanceX) >= swipeThreshold) || (Math.abs(diff.distanceY) >= swipeThreshold));
-  }
-
-  /**
-   * Returns swipe direction based on distance between swipe start and end points
-   * @param diff - diff between pointerdown and pointer coordinates and timestamp {@link EventsDiff}
-   * @returns direction of swipe {@link SwipeDirection}
-   */
-  protected resolveDirection(diff: EventsDiff): SwipeDirection {
-    if (Math.abs(diff.distanceX) >= Math.abs(diff.distanceY)) return diff.distanceX < 0 ? 'left' : 'right';
-
-    return diff.distanceY < 0 ? 'up' : 'down';
+  protected isGestureAcceptable(diff: ESLSwipeGestureEventInfo, swipeThreshold: number): boolean {
+    return (diff.duration < this.config.timeout && (Math.abs(diff.distanceX) >= swipeThreshold) || (Math.abs(diff.distanceY) >= swipeThreshold));
   }
 
   /**

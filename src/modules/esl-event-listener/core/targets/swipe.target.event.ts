@@ -29,7 +29,7 @@ export interface ESLSwipeGestureEventInfo {
   /** Original pointerup event */
   endEvent: PointerEvent;
   /** Time between pointerdown and pointerup events */
-  time: number;
+  duration: number;
 }
 
 /**
@@ -45,7 +45,7 @@ export class ESLSwipeGestureEvent extends UIEvent implements ESLSwipeGestureEven
   public readonly angle: number;
   public readonly endEvent: PointerEvent;
   public readonly startEvent: PointerEvent;
-  public readonly time: number;
+  public readonly duration: number;
 
   protected constructor(eventName: SwipeEventName, target: Element, swipeInfo: ESLSwipeGestureEventInfo) {
     super(eventName, {bubbles: true, cancelable: true});
