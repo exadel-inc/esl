@@ -33,7 +33,7 @@ export interface ESLSwipeGestureEventInfo {
 }
 
 /**
- * Creates swipe event dispatched by {@link ESLSwipeGestureTarget}
+ * Swipe event dispatched by {@link ESLSwipeGestureTarget}
  */
 export class ESLSwipeGestureEvent extends UIEvent implements ESLSwipeGestureEventInfo {
   public override readonly target: Element;
@@ -53,7 +53,7 @@ export class ESLSwipeGestureEvent extends UIEvent implements ESLSwipeGestureEven
     Object.assign(this, swipeInfo);
   }
 
-  /** Creates {@link ESLSwipeGestureEvent} from {@link ESLSwipeGestureTarget} */
+  /** Creates {@link ESLSwipeGestureEvent} based on {@link ESLSwipeGestureEventInfo} */
   public static fromConfig(eventName: SwipeEventName, target: Element, swipeInfo: ESLSwipeGestureEventInfo): ESLSwipeGestureEvent {
     return new ESLSwipeGestureEvent(eventName, target, swipeInfo);
   }

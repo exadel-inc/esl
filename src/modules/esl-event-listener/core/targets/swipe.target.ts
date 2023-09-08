@@ -17,12 +17,14 @@ export {ESLSwipeGestureEvent};
  * Describes settings object that could be passed to {@link ESLSwipeGestureTarget.for} as optional parameter
  */
 export interface ESLSwipeGestureSetting {
+  /** The minimum distance to accept swipe (supports `px`, `vw` and `vh` units) */
   threshold?: CSSSize;
+  /** The maximum duration between `ponterdown` and `pointerup` events */
   timeout?: number;
 }
 
 /**
- * Synthetic target class that produces swipe events
+ * Implementation of EventTarget to observe swipe events
  */
 export class ESLSwipeGestureTarget extends SyntheticEventTarget {
   protected static defaultConfig: Required<ESLSwipeGestureSetting> = {
@@ -58,17 +60,17 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
 
   /**
    * Saves swipe start event target, time when swipe started, pointerdown event and coordinates.
-   * @param e - pointer event
+   * @param startEvent - initial pointer event
    */
   @bind
-  protected handleStart(e: PointerEvent): void {
-    this.startEvent = e;
-    this.target.setPointerCapture && this.target.setPointerCapture(e.pointerId);
+  protected handleStart(startEvent: PointerEvent): void {
+    this.startEvent = startEvent;
+    this.target.setPointerCapture && this.target.setPointerCapture(startEvent.pointerId);
   }
 
   /**
-   * @param endEvent - pointer event (pointerdown)
-   * @returns diff between pointerdown and pointerup coordinates and timestamp {@link ESLSwipeGestureEventInfo}
+   * @param endEvent - pointer event (`pointerup`)
+   * @returns result gesture info based on distance between pointerdown and pointerup coordinates and timestamp {@link ESLSwipeGestureEventInfo}
    */
   protected resolveEventDetails(endEvent: PointerEvent): ESLSwipeGestureEventInfo {
     const {startEvent} = this;
@@ -83,8 +85,7 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
   }
 
   /**
-   * Returns swipe direction based on distance between swipe start and end points
-   * @returns direction of swipe {@link SwipeDirection}
+   * @returns swipe direction based on swipe vector {@link SwipeDirection}
    * @param distanceX - distance between swipe start and end points on X axis
    * @param distanceY - distance between swipe start and end points on Y axis
    */
@@ -95,19 +96,18 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
   }
 
   /**
-   * Triggers swipe event {@link SwipeEventName} with details {@link ESLSwipeGestureEvent} when pointerup event
-   * occurred and threshold and distance match configuration
-   * @param e - pointer event
+   * Handles `pointerup` event and triggers a swipe event {@link SwipeEventName} with details {@link ESLSwipeGestureEvent} when `pointerup` event
+   * occurred and the result gestures accepts {@link ESLSwipeGestureTarget} configuration
+   * @param endEvent - `pointerup` event
    */
   @bind
-  protected handleEnd(e: PointerEvent): void {
-    this.target.releasePointerCapture && this.target.releasePointerCapture(e.pointerId);
+  protected handleEnd(endEvent: PointerEvent): void {
+    this.target.releasePointerCapture && this.target.releasePointerCapture(endEvent.pointerId);
 
-    const eventDetails = this.resolveEventDetails(e);
-    const swipeThreshold = (resolveCSSSize(this.config.threshold) || resolveCSSSize(ESLSwipeGestureTarget.defaultConfig.threshold)!);
+    const eventDetails = this.resolveEventDetails(endEvent);
 
     // return if swipe took too long or distance is too short
-    if (!this.isGestureAcceptable(eventDetails, swipeThreshold)) return;
+    if (!this.isGestureAcceptable(eventDetails)) return;
 
     // fire `swipe` event on the element that started the swipe
     this.dispatchEvent(ESLSwipeGestureEvent.fromConfig('swipe', this.target, eventDetails));
@@ -115,11 +115,11 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
 
   /**
    * Checks if swipe gesture is acceptable based on distance and timeout
-   * @param diff - diff between pointerdown and pointerup coordinates and timestamp {@link ESLSwipeGestureEventInfo}
-   * @param swipeThreshold - threshold for swipe distance
+   * @param info - swipe info based on `pointerdown` and `pointerup` coordinates and timestamp {@link ESLSwipeGestureEventInfo}
    */
-  protected isGestureAcceptable(diff: ESLSwipeGestureEventInfo, swipeThreshold: number): boolean {
-    return (diff.duration < this.config.timeout && (Math.abs(diff.distanceX) >= swipeThreshold) || (Math.abs(diff.distanceY) >= swipeThreshold));
+  protected isGestureAcceptable(info: ESLSwipeGestureEventInfo): boolean {
+    const swipeThreshold = (resolveCSSSize(this.config.threshold) || resolveCSSSize(ESLSwipeGestureTarget.defaultConfig.threshold)!);
+    return (info.duration < this.config.timeout && (Math.abs(info.distanceX) >= swipeThreshold) || (Math.abs(info.distanceY) >= swipeThreshold));
   }
 
   /**
