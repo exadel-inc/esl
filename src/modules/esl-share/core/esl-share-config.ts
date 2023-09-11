@@ -1,4 +1,8 @@
-/** {@link ESLShareConfig} provider type definition */
+import {decorate, memoize} from '../../esl-utils/decorators';
+import {microtask} from '../../esl-utils/async/microtask';
+import {SyntheticEventTarget} from '../../esl-utils/dom/events/target';
+
+/** {@link ESLShareConfigShape} provider type definition */
 export type ESLShareConfigProviderType = () => Promise<ESLShareConfig>;
 
 /** The definition of the sharing button */
@@ -31,32 +35,114 @@ export interface ESLShareGroupConfig {
   list: string;
 }
 
-/** The definition of `ESLShare` component configuration */
-export interface ESLShareConfig {
-  /** List of sharing buttons configuration */
-  buttons: ESLShareButtonConfig[];
-  /** List of share button groups configurations */
-  groups: ESLShareGroupConfig[];
-}
-
+/** Gets item of the section by name */
 function getConfigSectionItem<T extends ESLShareButtonConfig | ESLShareGroupConfig>(section: T[], name: string): T | undefined {
   return section.find((item) => item.name === name);
 }
 
-/**
- * Selects the buttons for the given list and returns their configuration.
- * @returns config of buttons
- */
-export function selectButtonsForList(config: ESLShareConfig, list: string): ESLShareButtonConfig[] {
-  return list.split(' ').reduce((res, item) => {
-    const [btnName, groupName] = item.split('group:');
-    if (groupName) {
-      const groupConfig = getConfigSectionItem(config.groups, groupName);
-      if (groupConfig) return res.concat(selectButtonsForList(config, groupConfig.list));
-    } else {
-      const btnConfig = getConfigSectionItem(config.buttons, btnName);
-      if (btnConfig) res.push(btnConfig);
+/** Inserts item into section or updates if exists */
+function setConfigSectionItem<T extends ESLShareButtonConfig | ESLShareGroupConfig>(section: T[], item: T): void {
+  const index = section.findIndex((i) => i.name === item.name);
+  if (index >= 0) section[index] = item;
+  else section.push(item);
+}
+
+/** Class for managing share buttons configurations */
+export class ESLShareConfig extends SyntheticEventTarget {
+  @memoize()
+  public static get instance(): ESLShareConfig {
+    return new ESLShareConfig();
+  }
+
+  /**
+   * Sets config with a promise of a new config object or using a config provider function.
+   * Each of the buttons and groups specified in the new config will be appended to the current config.
+   * @returns Promise of the current config
+   */
+  public static async set(
+    provider?: ESLShareConfigProviderType | Promise<ESLShareConfig> | ESLShareConfig
+  ): Promise<ESLShareConfig> {
+    if (typeof provider === 'function') return this.set(provider());
+    if (typeof provider === 'object') ESLShareConfig.append(provider instanceof Promise ? await provider : provider);
+    return ESLShareConfig.instance;
+  }
+
+  /**
+   * Appends buttons and groups from the passed config to the current config.
+   * @returns config instance
+   */
+  protected static append(cfg: ESLShareConfig): ESLShareConfig {
+    const {instance} = ESLShareConfig;
+    if (cfg) {
+      cfg.buttons.forEach((button) => instance.appendButton(button));
+      cfg.groups.forEach((group) => instance.appendGroup(group));
     }
-    return res;
-  }, [] as ESLShareButtonConfig[]);
+    return instance;
+  }
+
+  public readonly buttons: ESLShareButtonConfig[] = [];
+  public readonly groups: ESLShareGroupConfig[] = [];
+
+  protected constructor() {
+    super();
+  }
+
+  /**
+   * Selects the buttons for the given list and returns their configuration.
+   * @returns config of buttons
+   */
+  public getList(list: string): ESLShareButtonConfig[] {
+    return list.split(' ').reduce((res, item) => {
+      const [btnName, groupName] = item.split('group:');
+      if (groupName) {
+        const groupConfig = this.getGroup(groupName);
+        if (groupConfig) return res.concat(this.getList(groupConfig.list));
+      } else {
+        const btnConfig = this.getButton(btnName);
+        if (btnConfig) res.push(btnConfig);
+      }
+      return res;
+    }, [] as ESLShareButtonConfig[]);
+  }
+
+  /**
+   * Gets the group of buttons configuration.
+   * @returns config of group
+   */
+  public getGroup(groupName: string): ESLShareGroupConfig | undefined {
+    return getConfigSectionItem(this.groups, groupName);
+  }
+
+  /**
+   * Gets the button configuration.
+   * @returns config of button
+   */
+  public getButton(name: string): ESLShareButtonConfig | undefined {
+    return getConfigSectionItem(this.buttons, name);
+  }
+
+  /**
+   * Appends button (inserts or updates) to the current config.
+   * @returns config instance
+   */
+  public appendButton(button: ESLShareButtonConfig): ESLShareConfig {
+    setConfigSectionItem(this.buttons, button);
+    this._onUpdate();
+    return this;
+  }
+
+  /**
+   * Appends group (inserts or updates) to the current config.
+   * @returns config instance
+   */
+  public appendGroup(group: ESLShareGroupConfig): ESLShareConfig {
+    setConfigSectionItem(this.groups, group);
+    this._onUpdate();
+    return this;
+  }
+
+  @decorate(microtask)
+  protected _onUpdate(): void {
+    this.dispatchEvent(new CustomEvent('change'));
+  }
 }
