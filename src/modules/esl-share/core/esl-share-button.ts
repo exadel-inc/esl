@@ -116,8 +116,10 @@ export class ESLShareButton extends ESLBaseElement {
 
   /** Sets initial a11y attributes */
   protected initA11y(): void {
-    this.$$attr('role', 'button');
-    this.$$attr('tabindex', '0');
+    if (!this.hasAttribute('role')) this.setAttribute('role', 'button');
+    if (!this.hasAttribute('tabindex') && this.getAttribute('role') === 'button') {
+      this.tabIndex = 0;
+    }
   }
 
   /** Initializes the button content */
@@ -144,9 +146,8 @@ export class ESLShareButton extends ESLBaseElement {
 
   /** Updates on button name change */
   protected updateName(): void {
-    this.toggleAttribute('ready', false);
     memoize.clear(this, 'config');
-    this.init();
+    this.updateAction();
   }
 
   /** Gets attribute from the element or closest parent,
@@ -167,5 +168,10 @@ export class ESLShareButton extends ESLBaseElement {
       this.click();
       e.preventDefault();
     }
+  }
+
+  @listen({event: 'change', target: ESLShareConfig.instance})
+  protected onConfigChange(): void {
+    this.updateName();
   }
 }

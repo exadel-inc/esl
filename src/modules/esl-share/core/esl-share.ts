@@ -38,6 +38,9 @@ export class ESLShare extends ESLBaseElement {
   /** Event to dispatch on ready state of {@link ESLShare} */
   @prop('esl:share:ready') public SHARE_READY_EVENT: string;
 
+  /** Event to dispatch on update of {@link ESLShare} */
+  @prop('esl:share:update') public SHARE_CHANGED_EVENT: string;
+
   /** Default initial params to pass into the newly created popup */
   @prop({
     position: 'top',
@@ -141,12 +144,14 @@ export class ESLShare extends ESLBaseElement {
     (this.constructor as typeof ESLShare)._popupStore.set(this.list, value);
   }
 
-  @bind
+  /** Actions on complete init and ready component. */
   private onReady(): void {
-    if (this.ready) return;
-
-    this.toggleAttribute('ready', true);
-    this.$$fire(this.SHARE_READY_EVENT, {bubbles: false});
+    let eventName = this.SHARE_CHANGED_EVENT;
+    if (!this.ready) {
+      this.toggleAttribute('ready', true);
+      eventName = this.SHARE_READY_EVENT;
+    }
+    this.$$fire(eventName, {bubbles: false});
   }
 
   @listen({event: 'change', target: ESLShareConfig.instance})
