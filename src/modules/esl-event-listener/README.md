@@ -580,7 +580,7 @@ ESLEventUtils.subscribe(host, {
 
 `ESLSwipeGestureTarget.for` creates a synthetic target that produces `swipe` events. It detects `pointerdown` and 
 `pointerup` events and based on the distance (`threshold`) between start and end points and time (`timeout`) between 
-`pointerdown` and `pointerup` events, triggers `swipe` event on target element.
+`pointerdown` and `pointerup` events, triggers `swipe` event on the target element.
 
 ```typescript
 ESLSwipeGestureTarget.for(el: Element, settings?: ESLSwipeGestureSetting): ESLSwipeGestureTarget;
@@ -588,7 +588,7 @@ ESLSwipeGestureTarget.for(el: Element, settings?: ESLSwipeGestureSetting): ESLSw
 
 **Parameters**:
 
-- `el` - `Element` The element to listen for swipe events on.
+- `el` - `Element` to listen for swipe events on.
 - `settings` - optional settings (`ESLSwipeGestureSetting`)
 
 **Note**: `ESLSwipeGestureTarget` uses Pointer Events API and requires corresponding `touch-action` CSS 

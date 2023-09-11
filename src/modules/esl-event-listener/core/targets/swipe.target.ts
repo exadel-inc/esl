@@ -35,7 +35,7 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
   /**
    * @param target - a target element to observe pointer events to detect a gesture
    * @param settings - optional config override (will be merged with a default one if passed) {@link ESLSwipeGestureSetting}.
-   * @returns Returns the instance of ESLSwipeGestureTarget {@link ESLSwipeGestureTarget}.
+   * @returns the instance of ESLSwipeGestureTarget {@link ESLSwipeGestureTarget}.
    */
   public static for(target: ESLDomElementTarget, settings?: ESLSwipeGestureSetting): ESLSwipeGestureTarget;
   public static for(target: ESLDomElementTarget, settings?: ESLSwipeGestureSetting): ESLSwipeGestureTarget | null {
