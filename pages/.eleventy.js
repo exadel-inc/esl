@@ -17,7 +17,9 @@ module.exports = (config) => {
   }
 
   // Add MD files from the library sources
-  config.addWatchTarget('../**/*.md');
+  config.addWatchTarget('../README.md');
+  config.addWatchTarget('../src/**/*.md');
+  config.addWatchTarget('../docs/**/*.md');
 
   // Setup simple copy operations
   config.addPassthroughCopy({
@@ -28,11 +30,9 @@ module.exports = (config) => {
 
   config.setServerOptions({
     port: 3005,
-    domDiff: true,
     watch: [
       'dist/bundles/*.js',
-      'dist/bundles/*.css',
-      'dist/bundles/*.map'
+      'dist/bundles/*.css'
     ],
   });
 
