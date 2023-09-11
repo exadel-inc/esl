@@ -1,8 +1,8 @@
-import {ESLBaseElement} from '../../../src/modules/esl-base-element/core';
-import {ESLSwipeGestureTarget} from '../../../src/modules/esl-event-listener/core';
-import {listen} from '../../../src/modules/esl-utils/decorators';
+import {ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
+import {ESLSwipeGestureTarget} from '@exadel/esl/modules/esl-event-listener/core';
+import {listen} from '@exadel/esl/modules/esl-utils/decorators';
 
-import type {ESLSwipeGestureEvent} from '../../../src/modules/esl-event-listener/core';
+import type {ESLSwipeGestureEvent} from '@exadel/esl/modules/esl-event-listener/core';
 
 export class ESLDemoSwipeArea extends ESLBaseElement {
   static override is = 'esl-d-swipe-area';
