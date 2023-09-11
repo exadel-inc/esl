@@ -17,3 +17,11 @@ updates:
     assignees:
       - "ala-n"
       - "abarmina"
+
+groups:
+  typescript-eslint:
+    patterns:
+      - "@typescript-eslint/*"
+  commit-lint:
+    patterns:
+      - "@commitlint/*"
