@@ -63,9 +63,9 @@ class MDRenderer {
         console.log(color.yellow(`Rewrite link "${link.href}" to "${resultPath}"`));
         link.href = resultPath;
       }
-      if (link.href.startsWith('http:') || link.href.startsWith('https:')) {
+      if (['https:', 'http:'].includes(link.protocol)) {
         link.target = '_blank';
-        link.rel = 'noopener norefferer';
+        link.rel = 'noopener';
       }
     });
   }
