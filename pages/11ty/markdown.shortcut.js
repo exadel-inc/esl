@@ -56,11 +56,17 @@ class MDRenderer {
   }
 
   static resolveLinks(dom, basePath) {
-    dom.querySelectorAll('a[href^="."]').forEach((link) => {
-      const absolutePath = path.join(path.dirname(basePath), link.href).replace(/\\/g, '/');
-      const resultPath = MDRenderer.processRewriteRules(absolutePath);
-      console.log(color.yellow(`Rewrite link "${link.href}" to "${resultPath}"`));
-      link.href = resultPath;
+    dom.querySelectorAll('a[href]').forEach((link) => {
+      if (link.href.startsWith('.')) {
+        const absolutePath = path.join(path.dirname(basePath), link.href).replace(/\\/g, '/');
+        const resultPath = MDRenderer.processRewriteRules(absolutePath);
+        console.log(color.yellow(`Rewrite link "${link.href}" to "${resultPath}"`));
+        link.href = resultPath;
+      }
+      if (['https:', 'http:'].includes(link.protocol)) {
+        link.target = '_blank';
+        link.rel = 'noopener';
+      }
     });
   }
   static processRewriteRules(linkPath) {

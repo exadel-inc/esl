@@ -1,5 +1,5 @@
 // Config
-import {ESLScreenBreakpoints} from '../../../src/modules/esl-media-query/core/common/screen-breakpoint';
+import {ESLScreenBreakpoints} from '@exadel/esl/modules/esl-media-query/core';
 
 ESLScreenBreakpoints.add('xs', 1, 599);
 ESLScreenBreakpoints.add('sm', 600, 991);
