@@ -1,7 +1,7 @@
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {ESLPopup} from '../../esl-popup/core';
 import {sequentialUID} from '../../esl-utils/misc/uid';
-import {attr, bind, boolAttr, prop} from '../../esl-utils/decorators';
+import {attr, bind, boolAttr, listen, prop} from '../../esl-utils/decorators';
 import {ESLShareButton} from './esl-share-button';
 import {ESLShareTrigger} from './esl-share-trigger';
 import {ESLShareConfig} from './esl-share-config';
@@ -29,6 +29,7 @@ export class ESLShare extends ESLBaseElement {
   /**
    * Gets or updates config with a promise of a new config object or using a config provider function.
    * @returns Promise of the current config {@link ESLShareConfig}
+   * @deprecated alias for ESLShareConfig.set(), will be removed soon
    */
   public static config(provider?: ESLShareConfigProviderType | ESLShareConfig): Promise<ESLShareConfig> {
     return ESLShareConfig.set(provider);
@@ -60,15 +61,14 @@ export class ESLShare extends ESLBaseElement {
   @attr() public mode: 'list' | 'popup';
 
   /** @readonly Ready state marker */
-  @boolAttr({readonly: true}) public readonly ready: boolean;
+  @boolAttr({readonly: true}) public ready: boolean;
 
   protected _content: string;
 
   /** @returns config of buttons specified by the list attribute */
-  public get buttonsConfig(): Promise<ESLShareButtonConfig[]> {
-    return (this.constructor as typeof ESLShare).config().then((config) => {
-      return (this.list !== 'all') ? config.getList(this.list) : config.buttons;
-    });
+  public get buttonsConfig(): ESLShareButtonConfig[] {
+    const config = ESLShareConfig.instance;
+    return (this.list !== 'all') ? config.getList(this.list) : config.buttons;
   }
 
   public override connectedCallback(): void {
@@ -76,33 +76,31 @@ export class ESLShare extends ESLBaseElement {
     this.init();
   }
 
-  protected init(): void {
-    if (this.ready) return;
+  protected init(force?: boolean): void {
+    if (this.ready && !force) return;
     if (!this.mode) this.mode = 'list';
     if (!this._content) this._content = this.innerHTML;
-    this.buttonsConfig
-      .then(this.buildContent)
-      .then(this._onReady)
-      .catch((e) => console.error(`[${this.baseTagName}]: ${e}`));
+    this.buildContent();
+    this.onReady();
   }
 
   /** Builds component's content from received `ESLShareButtonConfig` list */
   @bind
-  protected buildContent(btnConfig: ESLShareButtonConfig[]): void {
+  protected buildContent(): void {
     this.innerHTML = '';
 
     if (this.mode === 'list') {
-      this.appendButtonsTo(this, btnConfig);
+      this.appendButtonsTo(this);
       return;
     }
 
-    const $popup = this.getStoredPopup() || this.createPopup(btnConfig);
+    const $popup = this.getStoredPopup() || this.createPopup();
     this.appendTrigger(`#${$popup.id}`);
   }
 
   /** Appends buttons to the passed element. */
-  protected appendButtonsTo($el: Element, btnConfig: ESLShareButtonConfig[]): void {
-    btnConfig.forEach((cfg) => {
+  protected appendButtonsTo($el: Element): void {
+    this.buttonsConfig.forEach((cfg) => {
       const btn = ESLShareButton.create(cfg);
       btn && $el.appendChild(btn);
     });
@@ -121,7 +119,7 @@ export class ESLShare extends ESLBaseElement {
   }
 
   /** Creates popup element with share buttons. */
-  protected createPopup(btnConfig: ESLShareButtonConfig[]): ESLPopup {
+  protected createPopup(): ESLPopup {
     const $popup = ESLPopup.create();
     const id = sequentialUID(this.baseTagName + '-');
     Object.assign($popup, {id, ...this.popupInitialParams});
@@ -129,7 +127,7 @@ export class ESLShare extends ESLBaseElement {
     document.body.appendChild($popup);
     this.storePopup($popup);
 
-    this.appendButtonsTo($popup, btnConfig);
+    this.appendButtonsTo($popup);
     return $popup;
   }
 
@@ -144,10 +142,15 @@ export class ESLShare extends ESLBaseElement {
   }
 
   @bind
-  private _onReady(): void {
+  private onReady(): void {
     if (this.ready) return;
 
     this.toggleAttribute('ready', true);
     this.$$fire(this.SHARE_READY_EVENT, {bubbles: false});
+  }
+
+  @listen({event: 'change', target: ESLShareConfig.instance})
+  protected onConfigChange(): void {
+    this.init(true);
   }
 }

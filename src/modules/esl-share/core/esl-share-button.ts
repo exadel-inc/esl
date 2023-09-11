@@ -23,7 +23,6 @@ export class ESLShareButton extends ESLBaseElement {
     const $button = document.createElement(this.is) as InstanceType<T>;
     if (cfg) {
       $button.name = cfg.name;
-      $button._config = cfg;
       $button.initContent();
     }
     return $button;
@@ -52,19 +51,17 @@ export class ESLShareButton extends ESLBaseElement {
 
   /** @returns config of button specified by the name attribute */
   @memoize()
-  public get config(): Promise<ESLShareButtonConfig | undefined> {
-    return ESLShareConfig.get().then((config) => config.getButton(this.name));
+  public get config(): ESLShareButtonConfig | undefined {
+    return ESLShareConfig.instance.getButton(this.name);
   }
-
-  protected _config: ESLShareButtonConfig | undefined;
 
   /** Gets a property from attribute, or from button config if not set attribute */
   protected get(prop: 'action' | 'link'): string;
   protected get(prop: 'additional'): Record<string, any>;
   protected get(prop: 'action' | 'link' | 'additional'): string | Record<string, any> {
     return (prop === 'additional')
-      ? Object.keys(this[prop]).length ? this[prop] : this._config?.[prop] || {}
-      : this[prop] || this._config?.[prop] || '';
+      ? Object.keys(this[prop]).length ? this[prop] : this.config?.[prop] || {}
+      : this[prop] || this.config?.[prop] || '';
   }
 
   /** @returns an instance of the action assigned to the button */
@@ -105,28 +102,16 @@ export class ESLShareButton extends ESLBaseElement {
 
   protected override connectedCallback(): void {
     super.connectedCallback();
-    this.resolveConfigAndInit();
-  }
-
-  protected resolveConfigAndInit(): void {
-    if (this._config) {
-      this.init(this._config);
-    } else {
-      this.config.then((cfg) => {
-        if (!cfg) return;
-        this._config = cfg;
-        this.init(cfg);
-      });
-    }
+    this.init();
   }
 
   /** Initializes the button */
-  protected init(cfg: ESLShareButtonConfig): void {
+  protected init(): void {
     if (this.ready) return;
 
     this.initA11y();
     this.updateAction();
-    this.setReadyState(true);
+    this.toggleAttribute('ready', true);
   }
 
   /** Sets initial a11y attributes */
@@ -137,8 +122,8 @@ export class ESLShareButton extends ESLBaseElement {
 
   /** Initializes the button content */
   protected initContent(): void {
-    if (!this._config) return;
-    const {title, icon, iconBackground} = this._config;
+    if (!this.config) return;
+    const {title, icon, iconBackground} = this.config;
     const $icon = document.createElement('span');
     $icon.title = title;
     $icon.classList.add('esl-share-icon');
@@ -159,10 +144,9 @@ export class ESLShareButton extends ESLBaseElement {
 
   /** Updates on button name change */
   protected updateName(): void {
-    this.setReadyState(false);
-    delete this._config;
+    this.toggleAttribute('ready', false);
     memoize.clear(this, 'config');
-    this.resolveConfigAndInit();
+    this.init();
   }
 
   /** Gets attribute from the element or closest parent,
@@ -183,10 +167,5 @@ export class ESLShareButton extends ESLBaseElement {
       this.click();
       e.preventDefault();
     }
-  }
-
-  /** Sets ready state */
-  private setReadyState(state: boolean): void {
-    this.toggleAttribute('ready', state);
   }
 }
