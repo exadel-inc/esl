@@ -6,10 +6,11 @@
 version: 2
 updates:
 
-  # Maintain dependencies for npm
+  # Maintain core dependencies for npm
   - package-ecosystem: "npm"
     directory: "/"
     versioning-strategy: increase
+    open-pull-requests-limit: 10
     schedule:
       interval: "daily"
     reviewers:
