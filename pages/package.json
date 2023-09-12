@@ -1,0 +1,53 @@
+{
+  "name": "@exadel/esl-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ESL Website source",
+  "homepage": "https://esl-ui.com/",
+  "license": "ISC",
+  "sideEffects": [
+    "pages/src/**/*.ts"
+  ],
+  "scripts": {
+    "start": "npm run clean && concurrently --kill-others \"npm run watch:lib\" \"npm run watch:ts\" \"npm run watch:less\" \"npm run watch:eleventy\"",
+    "clean": "rimraf \"dist\"",
+    "watch:lib": "cd .. && npm run watch",
+    "watch:ts": "webpack --watch",
+    "watch:less": "chokidar --initial \"src/**/*.less\" -c \"npm run build-pages:less\"",
+    "watch:eleventy": "eleventy --serve --incremental -- --env=development",
+    "minify:css": "cleancss -o \"dist/bundles/localdev.css\" \"dist/bundles/localdev.css\"",
+    "build-pages": "npm run clean && concurrently \"npm run build-pages:ts\" \"npm run build-pages:less && npm run minify:css\" && npm run build-pages:eleventy",
+    "build-pages:ts": "webpack --mode=production",
+    "build-pages:less": "lessc \"src/localdev.less\" \"dist/bundles/localdev.css\" --source-map=dist/bundles/localdev.css.map",
+    "build-pages:eleventy": "eleventy -- --env=production",
+    "build-pages:analyzer": "webpack --mode=production --profile --json ../.report/stats.json && webpack-bundle-analyzer ../.report/stats.json dist/bundles -s gzip -m static -r ../.report/stats.html"
+  },
+  "dependencies": {
+    "@11ty/eleventy": "^2.0.1",
+    "@11ty/eleventy-dev-server": "^1.0.4",
+    "@exadel/esl": "../",
+    "@exadel/ui-playground": "^1.1.0-beta.3",
+    "@juggle/resize-observer": "^3.4.0",
+    "@types/prismjs": "^1.26.0",
+    "@types/smoothscroll-polyfill": "^0.3.1",
+    "@webcomponents/custom-elements": "1.6.0",
+    "clean-css-cli": "^5.6.2",
+    "html-minifier": "^4.0.0",
+    "image-size": "^1.0.2",
+    "intersection-observer": "^0.12.2",
+    "js-yaml": "^4.1.0",
+    "out-url": "^1.1.3",
+    "prismjs": "^1.29.0",
+    "promise-polyfill": "^8.3.0",
+    "smoothscroll-polyfill": "^0.4.4",
+    "ts-loader": "^9.4.4",
+    "webpack": "^5.88.2",
+    "webpack-bundle-analyzer": "^4.9.0",
+    "webpack-cli": "^5.1.4"
+  },
+  "browserslist": [
+    "last 3 versions",
+    "> 1%",
+    "not dead"
+  ]
+}

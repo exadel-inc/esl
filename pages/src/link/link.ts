@@ -1,5 +1,5 @@
-import {memoize, listen, prop} from '../../../src/modules/esl-utils/decorators';
-import {ESLMixinElement} from '../../../src/modules/esl-mixin-element/core';
+import {memoize, listen, prop} from '@exadel/esl/src/modules/esl-utils/decorators';
+import {ESLMixinElement} from '@exadel/esl/src/modules/esl-mixin-element/core';
 import {ESLDemoSidebar} from '../navigation/navigation';
 
 export class ESLDemoReplaceLink extends ESLMixinElement {

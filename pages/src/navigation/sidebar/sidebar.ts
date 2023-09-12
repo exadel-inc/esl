@@ -1,9 +1,9 @@
-import {boolAttr, listen, prop, ready} from '../../../../src/modules/esl-utils/decorators';
-import {ESLToggleable} from '../../../../src/modules/esl-toggleable/core/esl-toggleable';
-import {ESLMediaQuery} from '../../../../src/modules/esl-media-query/core/esl-media-query';
-import {ESLTraversingQuery} from '../../../../src/modules/esl-traversing-query/core/esl-traversing-query';
+import {boolAttr, listen, prop, ready} from '@exadel/esl/modules/esl-utils/decorators';
+import {ESLToggleable} from '@exadel/esl/modules/esl-toggleable/core/esl-toggleable';
+import {ESLMediaQuery} from '@exadel/esl/modules/esl-media-query/core/esl-media-query';
+import {ESLTraversingQuery} from '@exadel/esl/modules/esl-traversing-query/core/esl-traversing-query';
 
-import type {ESLToggleableActionParams} from '../../../../src/modules/esl-toggleable/core/esl-toggleable';
+import type {ESLToggleableActionParams} from '@exadel/esl/modules/esl-toggleable/core/esl-toggleable';
 
 interface SidebarActionParams extends ESLToggleableActionParams {
   /** Change state without animation */
