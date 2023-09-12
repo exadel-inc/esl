@@ -1,7 +1,7 @@
 import {ESLResizeObserverTarget} from '../../core';
 import {getLastResizeObserverMock} from '../../../esl-utils/test/resizeObserver.mock';
 
-describe('ESLEventUtils: ResizeObserver EventTarget adapter', () => {
+describe('ESLResizeObserverTarget EventTarget adapter', () => {
   describe('ESLResizeObserverTarget creation relatively to the targets', () => {
     const el1 = document.createElement('div');
     const el2 = document.createElement('div');
