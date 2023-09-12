@@ -24,3 +24,11 @@ updates:
       commit-lint:
         patterns:
           - "@commitlint/*"
+      jest:
+        patterns:
+          - "jest-*"
+          - "@types/jest"
+      semantic-release:
+        patterns:
+          - "semantic-release"
+          - "@semantic-release/*"
