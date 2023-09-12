@@ -55,6 +55,22 @@ export class ESLShareConfig extends SyntheticEventTarget {
   }
 
   /**
+   * Gets the button configuration.
+   * @returns config of button
+   */
+  public static getButton(name: string): ESLShareButtonConfig | undefined {
+    return ESLShareConfig.instance.getButton(name);
+  }
+
+  /**
+   * Selects the buttons for the given list and returns their configuration.
+   * @returns config of buttons
+   */
+  public static getList(list: string): ESLShareButtonConfig[] {
+    return ESLShareConfig.instance.getList(list);
+  }
+
+  /**
    * Sets config with a promise of a new config object or using a config provider function.
    * Each of the buttons and groups specified in the new config will be appended to the current config.
    * @returns Promise of the current config
@@ -92,6 +108,7 @@ export class ESLShareConfig extends SyntheticEventTarget {
    * @returns config of buttons
    */
   public getList(list: string): ESLShareButtonConfig[] {
+    if (list === 'all') return this.buttons;
     return list.split(' ').reduce((res, item) => {
       const [btnName, groupName] = item.split('group:');
       if (groupName) {
