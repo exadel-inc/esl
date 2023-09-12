@@ -77,7 +77,6 @@
     "fix:less": "stylelint --fix \"**/*.less\""
   },
   "dependencies": {
-    "@types/resize-observer-browser": "0.1.7",
     "@types/video.js": "7.3.52",
     "@types/youtube": "0.0.47"
   },
