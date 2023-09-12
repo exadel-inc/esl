@@ -1,6 +1,7 @@
 import {boolAttr, listen, prop, ready} from '../../../../src/modules/esl-utils/decorators';
 import {ESLToggleable} from '../../../../src/modules/esl-toggleable/core/esl-toggleable';
 import {ESLMediaQuery} from '../../../../src/modules/esl-media-query/core/esl-media-query';
+import {ESLTraversingQuery} from '../../../../src/modules/esl-traversing-query/core/esl-traversing-query';
 
 import type {ESLToggleableActionParams} from '../../../../src/modules/esl-toggleable/core/esl-toggleable';
 
@@ -17,11 +18,16 @@ export class ESLDemoSidebar extends ESLToggleable {
 
   @prop() public submenus: string = '.sidebar-nav-secondary';
   @prop() public activeMenuAttr: string = 'data-open';
+  @prop() public activeCls = 'active';
 
   @boolAttr({name: 'animation'}) protected _animation: boolean;
 
   public get $submenus(): ESLToggleable[] {
     return Array.from(this.querySelectorAll(this.submenus));
+  }
+
+  public get active(): ESLToggleable | null {
+    return this.$submenus.find((menu) => menu.hasAttribute(this.activeMenuAttr)) || null;
   }
 
   @ready
@@ -39,14 +45,33 @@ export class ESLDemoSidebar extends ESLToggleable {
     this.toggle(isDesktop && isStoredOpen, {force: true, initiator: 'init', immediate: true});
   }
 
+  public setActive(link: Element): void {
+    this.removeActive();
+    const $newActive = this.$submenus.filter((menu) => menu.contains(link) || menu.previousElementSibling?.contains(link))[0];
+    if (!$newActive) return;
+
+    link.parentElement!.classList.add(this.activeCls);
+    $newActive.previousElementSibling?.classList.add(this.activeCls);
+    $newActive.classList.add(this.activeCls);
+    $newActive.setAttribute(this.activeMenuAttr, '');
+    this.expandActive();
+  }
+
+  public removeActive(): void {
+    if (!this.active) return;
+
+    ESLTraversingQuery.all(`::find(.sidebar-nav-secondary-item.${this.activeCls}), ::prev`, this.active, this)
+      .forEach((element) => element.classList.remove(this.activeCls));
+    this.active.classList.remove(this.activeCls);
+    this.active.removeAttribute(this.activeMenuAttr);
+  }
+
   public collapseAll(): void {
     this.$submenus.forEach((menu) => menu.hide({activator: this}));
   }
 
   public expandActive(noAnimate: boolean = false): void {
-    this.$submenus
-      .filter((menu) => menu.hasAttribute('data-open'))
-      .forEach((menu) => menu.show({noAnimate, activator: this}));
+    this.active?.show({noAnimate, activator: this});
   }
 
   protected override updateA11y(): void {

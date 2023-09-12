@@ -23,8 +23,7 @@ module.exports = (config) => {
   config.addPassthroughCopy({
     '../docs/images': 'assets/docs-images',
     'static/assets': 'assets',
-    'static/tools': '.',
-    'serviceWorker/serviceWorker.js': '.'
+    'static/tools': '.'
   });
 
   config.setServerOptions({
