@@ -1,7 +1,8 @@
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {ESLPopup} from '../../esl-popup/core';
+import {isEqual} from '../../esl-utils/misc/object/compare';
 import {sequentialUID} from '../../esl-utils/misc/uid';
-import {attr, bind, boolAttr, listen, prop} from '../../esl-utils/decorators';
+import {attr, bind, boolAttr, listen, memoize, prop} from '../../esl-utils/decorators';
 import {ESLShareButton} from './esl-share-button';
 import {ESLShareTrigger} from './esl-share-trigger';
 import {ESLShareConfig} from './esl-share-config';
@@ -35,11 +36,8 @@ export class ESLShare extends ESLBaseElement {
     return ESLShareConfig.set(provider);
   }
 
-  /** Event to dispatch on ready state of {@link ESLShare} */
-  @prop('esl:share:ready') public SHARE_READY_EVENT: string;
-
-  /** Event to dispatch on update of {@link ESLShare} */
-  @prop('esl:share:update') public SHARE_CHANGED_EVENT: string;
+  /** Event to dispatch on change of {@link ESLShare} */
+  @prop('esl:share:changed') public SHARE_CHANGED_EVENT: string;
 
   /** Default initial params to pass into the newly created popup */
   @prop({
@@ -69,9 +67,9 @@ export class ESLShare extends ESLBaseElement {
   protected _content: string;
 
   /** @returns config of buttons specified by the list attribute */
+  @memoize()
   public get buttonsConfig(): ESLShareButtonConfig[] {
-    const config = ESLShareConfig.instance;
-    return (this.list !== 'all') ? config.getList(this.list) : config.buttons;
+    return ESLShareConfig.getList(this.list);
   }
 
   public override connectedCallback(): void {
@@ -146,16 +144,15 @@ export class ESLShare extends ESLBaseElement {
 
   /** Actions on complete init and ready component. */
   private onReady(): void {
-    let eventName = this.SHARE_CHANGED_EVENT;
-    if (!this.ready) {
-      this.toggleAttribute('ready', true);
-      eventName = this.SHARE_READY_EVENT;
-    }
-    this.$$fire(eventName, {bubbles: false});
+    if (!this.ready) this.toggleAttribute('ready', true);
+    this.$$fire(this.SHARE_CHANGED_EVENT, {bubbles: false});
   }
 
   @listen({event: 'change', target: ESLShareConfig.instance})
   protected onConfigChange(): void {
+    const {buttonsConfig} = this;
+    memoize.clear(this, 'buttonsConfig');
+    if (isEqual(this.buttonsConfig, buttonsConfig)) return;
     this.init(true);
   }
 }

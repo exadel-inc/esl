@@ -1,6 +1,7 @@
 import {ESLBaseElement} from '../../esl-base-element/core';
-import {attr, boolAttr, jsonAttr, listen, memoize} from '../../esl-utils/decorators';
+import {attr, boolAttr, jsonAttr, listen, memoize, prop} from '../../esl-utils/decorators';
 import {ENTER, SPACE} from '../../esl-utils/dom/keys';
+import {isEqual} from '../../esl-utils/misc/object/compare';
 import {toAbsoluteUrl} from '../../esl-utils/misc/url';
 import {ESLShareActionRegistry} from './esl-share-action-registry';
 import {ESLShareConfig} from './esl-share-config';
@@ -28,6 +29,9 @@ export class ESLShareButton extends ESLBaseElement {
     return $button;
   }
 
+  /** Event to dispatch on change of {@link ESLShareButton} */
+  @prop('esl:share:button:changed') public SHARE_BUTTON_CHANGED_EVENT: string;
+
   /** Name of share action that occurs after button click */
   @attr() public action: string;
   /** Link to share on a social network */
@@ -52,16 +56,19 @@ export class ESLShareButton extends ESLBaseElement {
   /** @returns config of button specified by the name attribute */
   @memoize()
   public get config(): ESLShareButtonConfig | undefined {
-    return ESLShareConfig.instance.getButton(this.name);
+    return ESLShareConfig.getButton(this.name);
   }
 
   /** Gets a property from attribute, or from button config if not set attribute */
-  protected get(prop: 'action' | 'link'): string;
-  protected get(prop: 'additional'): Record<string, any>;
-  protected get(prop: 'action' | 'link' | 'additional'): string | Record<string, any> {
-    return (prop === 'additional')
-      ? Object.keys(this[prop]).length ? this[prop] : this.config?.[prop] || {}
-      : this[prop] || this.config?.[prop] || '';
+  protected get(name: 'action' | 'link'): string;
+  protected get(name: 'additional'): Record<string, any>;
+  protected get(name: 'action' | 'link' | 'additional'): string | Record<string, any> {
+    if (name === 'additional') {
+      // for object props
+      return Object.keys(this[name]).length ? this[name] : this.config?.[name] || {};
+    }
+    // for string props
+    return this[name] || this.config?.[name] || '';
   }
 
   /** @returns an instance of the action assigned to the button */
@@ -172,6 +179,10 @@ export class ESLShareButton extends ESLBaseElement {
 
   @listen({event: 'change', target: ESLShareConfig.instance})
   protected onConfigChange(): void {
-    this.updateName();
+    const {config} = this;
+    memoize.clear(this, 'config');
+    if (isEqual(this.config, config)) return;
+    this.updateAction();
+    this.$$fire(this.SHARE_BUTTON_CHANGED_EVENT, {bubbles: false});
   }
 }
