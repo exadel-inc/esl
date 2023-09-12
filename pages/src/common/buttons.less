@@ -35,7 +35,7 @@
     outline: none;
   }
   &:focus-visible {
-    outline: 2px dashed #1fc2ff;
+    outline: 2px dashed @focus-color;
   }
   &:disabled {
     opacity: 0.65;
@@ -93,17 +93,26 @@
   }
 
   &-link {
-    color: @link-fg;
-    text-decoration: none;
-
-    &:hover {
-      color: @link-hover-fg;
-      text-decoration: none;
+    &,
+    &:focus,
+    &:hover,
+    &:active {
+      color: inherit;
+      font-size: inherit;
+      font-weight: inherit;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
     }
 
-    &:focus {
-      color: @link-hover-fg;
-      box-shadow: none;
+    text-decoration: solid underline @primary-blue 1px;
+    transition: text-decoration-thickness 0.2s linear;
+    &:hover {
+      text-decoration: solid underline @primary-blue 2px;
+    }
+
+    &.btn {
+      padding: 0;
     }
 
     &:disabled {

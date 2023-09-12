@@ -23,8 +23,10 @@ jobs:
           node-version: ${{ env.node-version }}
       - name: Install NPM Dependencies
         run: npm ci
-      - name: Build
-        run: npm run build-pages
+      - name: Build ESL
+        run: npm run build
+      - name: Build Site
+        run: npm run build -w pages
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
