@@ -17,7 +17,6 @@ export class ESLDemoSidebar extends ESLToggleable {
 
   @prop() public submenus: string = '.sidebar-nav-secondary';
   @prop() public activeMenuAttr: string = 'data-open';
-  @prop() public activeCls = 'active';
 
   @boolAttr({name: 'animation'}) protected _animation: boolean;
 

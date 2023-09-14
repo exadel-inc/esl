@@ -1,7 +1,5 @@
 {% from 'navigation/sidebar-item.njk' import navitem with context %}
 
-{% set isActive = functions.isActivePath %}
-
 <esl-d-sidebar id="sidebar" class="open" aria-label="Site Navigation">
   <nav class="sidebar-nav">
     <a class="sidebar-heading" href="{{ '/' | url }}">
@@ -40,7 +38,7 @@
 
         {% set releasedBlogs = collections.blogs | released %}
         {% if releasedBlogs.length %}
-        <li esl-d-route-interceptor mask="blogs" class="sidebar-nav-item" >
+        <li esl-d-route-interceptor mask="blogs" class="sidebar-nav-item">
           {{ navitem ('Blogs', 'blogs', 'static/assets/sidebar/blogs.svg') }}
         </li>
         {% endif %}
