@@ -1,6 +1,6 @@
 {
   "name": "@exadel/esl-website",
-  "version": "1.0.0",
+  "version": "4.11.0",
   "private": true,
   "description": "ESL Website source",
   "homepage": "https://esl-ui.com/",
@@ -13,14 +13,15 @@
     "clean": "rimraf \"dist\"",
     "watch:lib": "cd .. && npm run watch",
     "watch:ts": "webpack --watch",
-    "watch:less": "chokidar --initial \"src/**/*.less\" -c \"npm run build-pages:less\"",
+    "watch:less": "chokidar --initial \"src/**/*.less\" -c \"npm run build:less\"",
     "watch:eleventy": "eleventy --serve --incremental -- --env=development",
     "minify:css": "cleancss -o \"dist/bundles/localdev.css\" \"dist/bundles/localdev.css\"",
-    "build-pages": "npm run clean && concurrently \"npm run build-pages:ts\" \"npm run build-pages:less && npm run minify:css\" && npm run build-pages:eleventy",
-    "build-pages:ts": "webpack --mode=production",
-    "build-pages:less": "lessc \"src/localdev.less\" \"dist/bundles/localdev.css\" --source-map=dist/bundles/localdev.css.map",
-    "build-pages:eleventy": "eleventy -- --env=production",
-    "build-pages:analyzer": "webpack --mode=production --profile --json ../.report/stats.json && webpack-bundle-analyzer ../.report/stats.json dist/bundles -s gzip -m static -r ../.report/stats.html"
+    "build": "npm run clean && concurrently \"npm run build:ts\" \"npm run build:less && npm run minify:css\" && npm run build:eleventy",
+    "build:ts": "webpack --mode=production",
+    "build:less": "lessc \"src/localdev.less\" \"dist/bundles/localdev.css\" --source-map=dist/bundles/localdev.css.map",
+    "build:eleventy": "eleventy -- --env=production",
+    "build:analyzer": "webpack --mode=production --profile --json ../.report/stats.json && webpack-bundle-analyzer ../.report/stats.json dist/bundles -s gzip -m static -r ../.report/stats.html",
+    "version": "node ../build/bump.js"
   },
   "dependencies": {
     "@11ty/eleventy": "^2.0.1",
@@ -42,7 +43,7 @@
     "smoothscroll-polyfill": "^0.4.4",
     "ts-loader": "^9.4.4",
     "webpack": "^5.88.2",
-    "webpack-bundle-analyzer": "^4.9.0",
+    "webpack-bundle-analyzer": "^4.9.1",
     "webpack-cli": "^5.1.4"
   },
   "browserslist": [
