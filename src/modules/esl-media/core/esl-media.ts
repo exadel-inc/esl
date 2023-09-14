@@ -19,6 +19,8 @@ import type {BaseProvider} from './esl-media-provider';
 
 export type ESLMediaFillMode = 'cover' | 'inscribe' | '';
 
+const lazyProperties = (v: string) => ['auto', 'manual', 'none'].includes(v) ? v : 'auto';
+
 /**
  * ESLMedia - custom element, that provides an ability to add and configure media (video / audio)
  * using a single tag as well as work with external providers using simple native-like API.
@@ -77,7 +79,7 @@ export class ESLMedia extends ESLBaseElement {
    */
   @boolAttr() public disabled: boolean;
   /** Allows lazy load resource */
-  @attr({defaultValue: 'none'}) public lazy: 'auto' | 'manual' | 'none' | '';
+  @attr({parser: lazyProperties, defaultValue: 'none'}) public lazy: 'auto' | 'manual' | 'none';
   /** Autoplay resource marker */
   @boolAttr() public autoplay: boolean;
   /** Autofocus on play marker */
