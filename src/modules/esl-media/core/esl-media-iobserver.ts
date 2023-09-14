@@ -24,6 +24,7 @@ function handleViewport(entry: IntersectionObserverEntry): void {
   // Removes `lazy` attribute when media is in the viewport with min ratio RATIO_TO_ACTIVATE
   if (entry.isIntersecting && entry.intersectionRatio >= RATIO_TO_ACTIVATE) {
     video.removeAttribute('lazy');
+    video.classList.toggle('esl-media-bg');
   }
 
   // Videos that playing and out of min ratio RATIO_TO_STOP should be stopped
