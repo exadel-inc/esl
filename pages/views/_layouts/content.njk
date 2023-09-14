@@ -6,7 +6,7 @@
   {% include 'navigation/sidebar.njk' %}
 
   <main class="esl-scrollable-content">
-    <div id="content-replaceable" class="content {{ containerCls or 'container' }} {{ 'container-aside' if aside }}">
+    <div id="content-routable" class="content {{ containerCls or 'container' }} {{ 'container-aside' if aside }}">
       {% if title %}
         <h1 class="page-title">
           {% if collectionIcon %}{% include "static/assets/" + collectionIcon %}{% endif %}
