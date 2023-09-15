@@ -144,7 +144,7 @@ export class ESLShare extends ESLBaseElement {
 
   /** Actions on complete init and ready component. */
   private onReady(): void {
-    if (!this.ready) this.toggleAttribute('ready', true);
+    this.$$attr('ready', true);
     this.$$fire(this.SHARE_CHANGED_EVENT, {bubbles: false});
   }
 
