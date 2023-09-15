@@ -2,7 +2,7 @@ import {memoize} from '@exadel/esl/src/modules/esl-utils/decorators';
 import {ESLEventUtils} from '@exadel/esl/src/modules/esl-event-listener/core';
 
 export class ESLDemoRouterService {
-  public contentSelector = '#content-routable';
+  public contentSelector: string = '#content-routable';
 
   public previousUrl: URL;
 
@@ -10,7 +10,7 @@ export class ESLDemoRouterService {
   public static init(): ESLDemoRouterService {
     const router = new ESLDemoRouterService();
     router.previousUrl = new URL(location.href);
-    ESLEventUtils.subscribe(router, {target: window, event: 'popstate'}, () => ESLDemoRouterService.routeContent(location.pathname, false));
+    ESLEventUtils.subscribe(router, {target: window, event: 'popstate'}, () => ESLDemoRouterService.routeContent(location.href, false));
     return router;
   }
 
@@ -18,16 +18,16 @@ export class ESLDemoRouterService {
     return this.init();
   }
 
-  public static async routeContent(pathname: string, pushState = true): Promise<void> {
+  public static async routeContent(url: string, pushState = true): Promise<void> {
     const router = ESLDemoRouterService.instance;
     try {
-      const response = await fetch(pathname, {method: 'GET'});
+      const response = await fetch(url);
       const text = await response.text();
 
-      pushState && history.pushState(null, '', pathname);
+      pushState && history.pushState(null, '', url);
       router.replaceContent(document.body.querySelector(router.contentSelector), router.retrieveTextContent(text));
     } catch (error) {
-      throw new Error(`[ESL] Failed to fetch resource: ${pathname}`);
+      throw new Error(`[ESL] Failed to fetch resource: ${url}`);
     }
   }
 
