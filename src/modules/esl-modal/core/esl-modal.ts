@@ -2,7 +2,7 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLToggleable} from '../../esl-toggleable/core/esl-toggleable';
 import {ESLModalBackdrop} from './esl-modal-backdrop';
 import {ESLModalPlaceholder} from './esl-modal-placeholder';
-import {boolAttr, attr, listen, memoize} from '../../esl-utils/decorators';
+import {boolAttr, attr, listen} from '../../esl-utils/decorators';
 import {hasAttr, setAttr} from '../../esl-utils/dom/attr';
 import {getKeyboardFocusableElements, handleFocusChain} from '../../esl-utils/dom/focus';
 import {lockScroll, unlockScroll} from '../../esl-utils/dom/scroll/utils';
@@ -11,15 +11,17 @@ import {TAB} from '../../esl-utils/dom/keys';
 
 import type {ScrollLockOptions} from '../../esl-utils/dom/scroll/utils';
 import type {ESLToggleableActionParams} from '../../esl-toggleable/core/esl-toggleable';
+
 export type ScrollLockStrategies = ScrollLockOptions['strategy'];
 
-export interface ModalActionParams extends ESLToggleableActionParams { }
+export interface ModalActionParams extends ESLToggleableActionParams {
+}
 
 @ExportNs('Modal')
 export class ESLModal extends ESLToggleable {
   public static override is = 'esl-modal';
 
-  public $placeholder: ESLModalPlaceholder | null;
+  protected $placeholder: ESLModalPlaceholder | null;
 
   /**
    * Define option to lock scroll
@@ -73,15 +75,13 @@ export class ESLModal extends ESLToggleable {
 
   protected inject(): void {
     if (this.parentNode === document.body) return;
-    this.replacePlaceholder();
+    !this.$placeholder && this.replacePlaceholder();
     document.body.appendChild(this);
   }
 
   protected replacePlaceholder(): void {
-    if (!this.$placeholder) {
-      this.$placeholder = ESLModalPlaceholder.from(this);
-      this.parentNode?.replaceChild(this.$placeholder, this);
-    }
+    this.$placeholder = ESLModalPlaceholder.from(this);
+    this.parentNode?.replaceChild(this.$placeholder, this);
   }
 
   protected extract(): void {
