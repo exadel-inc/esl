@@ -20,7 +20,7 @@ export class ESLShareCopyAction extends ESLShareBaseAction {
     if (!this.isAvailable || !url) return;
 
     navigator.clipboard.writeText(url);
-    this.showCopyAlert($button.additional?.alertText);
+    this.showCopyAlert($button.shareAdditional?.alertText);
   }
 
   /** Shows alert about the successful action completion */

@@ -31,10 +31,10 @@ export class ESLShareMediaAction extends ESLShareUrlGenericAction {
 
   /** Does an action to share */
   public share($button: ESLShareButton): void {
-    const {link} = $button;
-    if (!link) return;
+    const {shareLink} = $button;
+    if (!shareLink) return;
 
     const shareData = this.getShareData($button);
-    window.open(this.buildURL(link, shareData), '_blank', this.windowFeatures);
+    window.open(this.buildURL(shareLink, shareData), '_blank', this.windowFeatures);
   }
 }

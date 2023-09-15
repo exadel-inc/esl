@@ -35,7 +35,7 @@ export class ESLShareActionRegistry {
 
   /** Does the share action on passed Share button {@link ESLShareButton} */
   public share(button: ESLShareButton): void {
-    const action = this.get(button.action);
+    const action = this.get(button.shareAction);
     action && action.share(button);
   }
 }
