@@ -35,7 +35,7 @@ export class ESLDemoRouteInterceptor extends ESLMixinElement {
     $panel?.setAttribute('data-open', '');
 
     this.$routeLinks
-      .filter((el) => location.pathname.includes(new URL(toAbsoluteUrl(el.getAttribute('href')!)).pathname))
+      .filter((el) => location.pathname.includes(new URL(toAbsoluteUrl(el.getAttribute('href') || '')).pathname))
       .forEach((el) => ESLDemoRouteLink.get(el as HTMLElement)?.activate());
   }
 
