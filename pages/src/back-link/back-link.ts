@@ -1,4 +1,4 @@
-import {ESLMixinElement} from '../../../src/modules/esl-mixin-element/core';
+import {ESLMixinElement} from '@exadel/esl/modules/esl-mixin-element/core';
 
 export class ESLDemoBackLink extends ESLMixinElement {
   static override is = 'esl-d-back-link';

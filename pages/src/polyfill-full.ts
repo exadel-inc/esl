@@ -3,6 +3,6 @@
  */
 import 'promise-polyfill/dist/polyfill';
 
-import '../../src/polyfills/polyfills.es5';
+import '@exadel/esl/polyfills/polyfills.es5';
 
 import './polyfill-medium';

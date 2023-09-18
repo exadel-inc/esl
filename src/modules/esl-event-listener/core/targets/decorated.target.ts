@@ -62,11 +62,7 @@ export class ESLDecoratedEventTarget<Args extends any[]> extends SyntheticEventT
   public override removeEventListener(event: any, callback: EventListener = event): void {
     super.removeEventListener(event, callback);
 
-    if (!this.hasEventListener(event)) {
-      ESLEventListener.get(this, event).forEach((listener: ESLEventListener) =>
-        listener.unsubscribe()
-      );
-    }
+    if (!this.hasEventListener(event)) ESLEventListener.unsubscribe(this);
   }
 
   /** @returns decorated handler */

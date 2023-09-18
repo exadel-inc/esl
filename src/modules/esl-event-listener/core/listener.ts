@@ -107,7 +107,7 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
       : handlerFull;
   }
 
-  /** Executes handler if the passed event is accepted by the selector */
+  /** Executes a handler if the passed event is accepted by the selector */
   protected handleDelegation(e: Event, handler: EventListener): void {
     const {delegate} = this;
     const target = e.target;
@@ -153,7 +153,7 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
     if (!criteria.length) return listeners;
     return listeners.filter((listener) => criteria.every(listener.matches, listener));
   }
-  /** Adds listener to the listener store of the host object */
+  /** Adds a listener to the listener store of the host object */
   protected static add(host: object, instance: ESLEventListener): void {
     if (!isObject(host)) return;
     if (!Object.hasOwnProperty.call(host, LISTENERS)) (host as any)[LISTENERS] = [];
@@ -181,6 +181,17 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
     const eventDesc = handler !== descriptor ? Object.assign({}, handler, descriptor) : descriptor;
     const listeners = ESLEventListener.createOrResolve(host, handler, eventDesc);
     return listeners.filter((listener) => listener.subscribe());
+  }
+
+  /**
+   * Unsubscribes {@link ESLEventListener}(s) from the object
+   * @param host - host element that stores subscriptions (listeners context)
+   * @param criteria - optional set of criteria {@link ESLListenerCriteria} to filter listeners to remove
+   */
+  public static unsubscribe(host: object, ...criteria: ESLListenerCriteria[]): ESLEventListener[] {
+    const listeners = ESLEventListener.get(host, ...criteria);
+    listeners.forEach((listener) => listener.unsubscribe());
+    return listeners;
   }
 
   /** Creates or resolves existing event listeners by handler and descriptors */

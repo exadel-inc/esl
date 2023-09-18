@@ -12,7 +12,6 @@ module.exports = {
   },
   resolve: {
     modules: ['../node_modules'],
-    roots: [],
     extensions: ['.ts', '.js']
   },
   module: {
@@ -26,11 +25,15 @@ module.exports = {
       }
     }]
   },
+  watchOptions: {
+    aggregateTimeout: 200
+  },
   optimization: {
     concatenateModules: false,
   },
   output: {
     path: path.resolve(__dirname, 'dist/bundles'),
-    filename: '[name].js'
+    filename: '[name].js',
+    chunkFilename: '[name].js'
   }
 };

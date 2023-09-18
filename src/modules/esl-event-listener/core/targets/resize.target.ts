@@ -1,7 +1,7 @@
 import {SyntheticEventTarget} from '../../../esl-utils/dom/events/target';
 import {isElement} from '../../../esl-utils/dom/api';
 import {resolveDomTarget} from '../../../esl-utils/abstract/dom-target';
-import {ESLElementResizeEvent} from './resize.adapter.event';
+import {ESLElementResizeEvent} from './resize.target.event';
 
 import type {ESLDomElementTarget} from '../../../esl-utils/abstract/dom-target';
 
