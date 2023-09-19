@@ -1,11 +1,21 @@
+// Prevent Prism from auto-highlighting
+window.Prism = window.Prism || {};
+if (typeof Prism.manual === 'undefined') Prism.manual = true;
+
 import React from 'jsx-dom';
+import Prism from 'prismjs';
+import 'prismjs/plugins/normalize-whitespace/prism-normalize-whitespace';
+
+import {CodeJar} from 'codejar';
 
 import {debounce} from '@exadel/esl/modules/esl-utils/async/debounce';
-import {bind, decorate, jsonAttr} from '@exadel/esl/modules/esl-utils/decorators';
+import {bind, decorate, memoize, jsonAttr} from '@exadel/esl/modules/esl-utils/decorators';
 
-import {UIPPlugin} from '../../core/registration';
-import {JarEditor} from './jar/jar-editor';
-import {EditorConfig} from './jar/jar-utils';
+import {UIPPlugin} from '../../core/base/plugin';
+
+export interface UIPEditorConfig {
+  wrap?: number;
+}
 
 /**
  * Editor {@link UIPPlugin} custom element definition
@@ -13,42 +23,70 @@ import {EditorConfig} from './jar/jar-utils';
  * @extends UIPPlugin
  */
 export class UIPEditor extends UIPPlugin {
-  public static is = 'uip-editor';
-  /** Wrapped {@link https://medv.io/codejar/ Codejar} editor instance */
-  protected editor: JarEditor;
-  /** Editor's {@link EditorConfig} passed through attribute */
-  @jsonAttr({defaultValue: {wrap: 60}})
-  private editorConfig: Partial<EditorConfig>;
+  public static override is = 'uip-editor';
 
-  protected connectedCallback() {
-    super.connectedCallback();
-    this.innerHTML = '';
-    this.appendChild(this.$inner);
-    this.initEditor();
+  /** Highlight method declaration  */
+  public static highlight: (editor: HTMLElement) => void = Prism.highlightElement;
+
+  /** Editor's {@link UIPEditorConfig} passed through attribute */
+  @jsonAttr({defaultValue: {wrap: 60}})
+  private editorConfig: Partial<UIPEditorConfig>;
+
+  /** Wrapped {@link https://medv.io/codejar/ Codejar} editor instance */
+  @memoize()
+  protected get editor(): CodeJar {
+    return CodeJar(this.$code, UIPEditor.highlight, { tab: '\t' });
   }
 
-  protected disconnectedCallback(): void {
-    this.editor.removeEventListener(this._onChange);
+  @memoize()
+  protected get $code(): HTMLElement {
+    return (<pre class='language-html editor-content'><code/></pre>) as HTMLElement;
+  }
+
+  /** @returns editor's content */
+  public get value(): string {
+    return this.editor.toString();
+  }
+
+  /** Preformat and set editor's content */
+  public set value(value: string) {
+    this.editor.updateCode(this.normalizeValue(value));
+  }
+
+  protected override connectedCallback() {
+    super.connectedCallback();
+    this.innerHTML = '';
+
+    // Prefill content
+    this.appendChild(this.$inner);
+    this.$inner.classList.add('esl-scrollable-content');
+    this.$inner.append(<esl-scrollbar target="::parent"/>);
+    this.$inner.append(this.$code);
+
+    // Initial update
+    this._onChange();
+    this.editor.onUpdate(this._onChange);
+    this._onRootStateChange();
+  }
+
+  protected override disconnectedCallback(): void {
     this.editor?.destroy();
+    memoize.clear(this, 'editor');
     super.disconnectedCallback();
   }
 
-  /** Initialize inner {@link https://medv.io/codejar/ Codejar} editor */
-  protected initEditor(): void {
-    const codeBlock = (<pre class='language-html editor-content'><code/></pre>) as HTMLPreElement;
-    this.$inner.classList.add('esl-scrollable-content');
-    this.$inner.append(<esl-scrollbar target="::parent"></esl-scrollbar> as HTMLElement);
-    this.$inner.append(codeBlock);
-
-    this.editor = new JarEditor(codeBlock, this.editorConfig);
-    this.editor.addEventListener('uip:editor-change', this._onChange);
-    this._onRootStateChange();
+  /** Preformat value, calls before setting to editor */
+  protected normalizeValue(value: string): string {
+    const {wrap} = this.editorConfig;
+    const settings: Record<string, any> = {};
+    if (wrap) settings['break-lines'] = wrap;
+    return Prism.plugins.NormalizeWhitespace.normalize(value, settings);
   }
 
   /** Callback to call on editor's content changes */
   @decorate(debounce, 1000)
   protected _onChange() {
-    this.model!.setHtml(this.editor.getValue(), this);
+    this.model!.setHtml(this.value, this);
   }
 
   /** Change editor's markup from markup state changes */
@@ -56,6 +94,8 @@ export class UIPEditor extends UIPPlugin {
   protected _onRootStateChange(): void {
     if (this.model!.lastModifier === this) return;
     const markup = this.model!.html;
-    setTimeout(() => this.editor?.setValue(markup));
+    setTimeout(() => {
+      this.value = markup;
+    });
   }
 }

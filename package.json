@@ -62,11 +62,11 @@
   },
   "homepage": "https://github.com/exadel-inc/ui-playground#readme",
   "engines": {
-    "node": ">=14.17.0"
+    "node": ">=18.17.0"
   },
   "dependencies": {
     "@exadel/esl": "^4.11.0",
-    "codejar": "^3.7.0",
+    "codejar": "^4.2.0",
     "jsx-dom": "6.4.23",
     "prismjs": "^1.29.0"
   },
