@@ -67,6 +67,7 @@
   "dependencies": {
     "@exadel/esl": "^4.8.0",
     "codejar": "^3.7.0",
+    "jsx-dom": "6.4.23",
     "prismjs": "^1.29.0"
   },
   "devDependencies": {
@@ -91,7 +92,7 @@
     "eslint": "^8.44.0",
     "foreach-cli": "^1.8.1",
     "husky": "^8.0.3",
-    "jsx-dom": "6.4.23",
+
     "kleur": "^4.1.5",
     "less": "^4.1.3",
     "less-loader": "^11.1.3",
