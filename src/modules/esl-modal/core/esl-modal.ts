@@ -1,7 +1,5 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLToggleable} from '../../esl-toggleable/core/esl-toggleable';
-import {ESLModalBackdrop} from './esl-modal-backdrop';
-import {ESLModalPlaceholder} from './esl-modal-placeholder';
 import {boolAttr, attr, listen} from '../../esl-utils/decorators';
 import {hasAttr, setAttr} from '../../esl-utils/dom/attr';
 import {getKeyboardFocusableElements, handleFocusChain} from '../../esl-utils/dom/focus';
@@ -9,8 +7,12 @@ import {lockScroll, unlockScroll} from '../../esl-utils/dom/scroll/utils';
 import {parseBoolean, toBooleanAttribute} from '../../esl-utils/misc/format';
 import {TAB} from '../../esl-utils/dom/keys';
 
+import {ESLModalBackdrop} from './esl-modal-backdrop';
+import {ESLModalPlaceholder} from './esl-modal-placeholder';
+
 import type {ScrollLockOptions} from '../../esl-utils/dom/scroll/utils';
 import type {ESLToggleableActionParams} from '../../esl-toggleable/core/esl-toggleable';
+import type {DelegatedEvent} from '../../esl-event-listener/core/types';
 
 export type ScrollLockStrategies = ScrollLockOptions['strategy'];
 
@@ -115,7 +117,7 @@ export class ESLModal extends ESLToggleable {
   }
 
   @listen({inherit: true})
-  protected override _onCloseClick(e: MouseEvent): void {
+  protected override _onCloseClick(e: DelegatedEvent<MouseEvent>): void {
     super._onCloseClick(e);
     e.stopPropagation();
   }
