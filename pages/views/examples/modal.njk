@@ -3,7 +3,7 @@ layout: content
 title: Modal window
 seoTitle: Accordion UI examples based on ESL web components
 name: Modal window
-tags: examples beta
+tags: [examples, beta]
 ---
 {% import 'lorem.njk' as lorem %}
 {% set imageSrcBase = '/assets/' | url %}
@@ -16,7 +16,7 @@ tags: examples beta
   <div class="col-6 mb-2">
     <h4>Default example</h4>
     <esl-trigger target="#modal-1" class="btn btn-sec-blue">Open modal</esl-trigger>
-    <esl-modal id="modal-1" inject-to-body>
+    <esl-modal id="modal-1" class="esl-scrollable-content" inject-to-body>
       <div class="esl-modal-container">
         <esl-image mode="save-ratio" lazy
                    data-alt="Alt Text Test"
@@ -29,6 +29,7 @@ tags: examples beta
                 title="close"
                 data-modal-close></button>
       </div>
+      <esl-scrollbar target="::parent"></esl-scrollbar>
     </esl-modal>
   </div>
 
@@ -148,7 +149,7 @@ tags: examples beta
   <div class="col-6 mb-2">
     <h4>Default example</h4>
      <esl-trigger target="#modal-5" class="btn btn-sec-blue">Open modal</esl-trigger>
-     <esl-modal id="modal-5">
+     <esl-modal id="modal-5" class="esl-scrollable-content">
        <div class="esl-modal-container">
          <esl-image mode="save-ratio" lazy
                     data-alt="Alt Text Test"
@@ -162,6 +163,7 @@ tags: examples beta
                  data-modal-close></button>
 
        </div>
+       <esl-scrollbar target="::parent"></esl-scrollbar>
      </esl-modal>
  </div>
 
@@ -271,4 +273,17 @@ tags: examples beta
      </div>
    </esl-modal>
  </div>
+</section>
+
+<section>
+  <div class="esl-d-accordion">
+    <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+      Make page bigger :)
+    </esl-trigger>
+    <esl-panel class="esl-d-accordion-panel">
+      <div class="esl-d-accordion-body">
+        {{ lorem.paragraphs(10) }}
+      </div>
+    </esl-panel>
+  </div>
 </section>
