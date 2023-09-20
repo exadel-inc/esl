@@ -572,6 +572,45 @@ ESLEventUtils.subscribe(host, {
 }, onResize);
 ```
 
+<a name="-esleventutilswipe"></a>
+
+### ⚡ `ESLSwipeGestureTarget.for`
+
+`ESLSwipeGestureTarget.for` is a simple and easy-to-use way to listen for swipe events on any element.
+
+`ESLSwipeGestureTarget.for` creates a synthetic target that produces `swipe` events. It detects `pointerdown` and 
+`pointerup` events and based on the distance (`threshold`) between start and end points and time (`timeout`) between 
+`pointerdown` and `pointerup` events, triggers `swipe` event on the target element.
+
+```typescript
+ESLSwipeGestureTarget.for(el: Element, settings?: ESLSwipeGestureSetting): ESLSwipeGestureTarget;
+```
+
+**Parameters**:
+
+- `el` - `Element` to listen for swipe events on.
+- `settings` - optional settings (`ESLSwipeGestureSetting`)
+
+**Note**: `ESLSwipeGestureTarget` uses Pointer Events API and requires corresponding `touch-action` CSS 
+property to be specified on the target element.
+
+Usage example:
+
+```typescript
+ESLEventUtils.subscribe(host, {
+  event: 'swipe',
+  target: ESLSwipeGestureTarget.for(el)
+}, onSwipe);
+// or
+ESLSwipeGestureTarget.subscribe(host, {
+  event: 'swipe',
+  target: (host) => ESLSwipeGestureTarget.for(host.el, {
+    threshold: '30px',
+    timeout: 1000
+  })
+}, onSwipe);
+```
+
 ---
 
 ## <a name="embedded-behavior-of-eslbaseelement-eslmixinelement">Embedded behavior of `ESLBaseElement` / `ESLMixinElement`</a>

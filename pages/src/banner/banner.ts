@@ -1,7 +1,7 @@
-import {ESLToggleable} from '../../../src/modules/esl-toggleable/core/esl-toggleable';
-import {attr, memoize, prop} from '../../../src/modules/esl-utils/decorators';
+import {ESLToggleable} from '@exadel/esl/modules/esl-toggleable/core/esl-toggleable';
+import {attr, memoize, prop} from '@exadel/esl/modules/esl-utils/decorators';
 
-import type {ESLToggleableActionParams} from '../../../src/modules/esl-toggleable/core/esl-toggleable';
+import type {ESLToggleableActionParams} from '@exadel/esl/modules/esl-toggleable/core/esl-toggleable';
 
 export class ESLDemoBanner extends ESLToggleable {
   public static override is = 'esl-d-banner';
