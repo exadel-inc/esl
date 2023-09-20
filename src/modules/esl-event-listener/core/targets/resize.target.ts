@@ -1,6 +1,7 @@
 import {SyntheticEventTarget} from '../../../esl-utils/dom/events/target';
+import {isElement} from '../../../esl-utils/dom/api';
 import {resolveDomTarget} from '../../../esl-utils/abstract/dom-target';
-import {ESLElementResizeEvent} from './resize.adapter.event';
+import {ESLElementResizeEvent} from './resize.target.event';
 
 import type {ESLDomElementTarget} from '../../../esl-utils/abstract/dom-target';
 
@@ -29,16 +30,20 @@ export class ESLResizeObserverTarget extends SyntheticEventTarget {
   }
 
   /** Creates {@link ESLResizeObserverTarget} instance for the {@link ESLDomElementTarget} */
-  public static for(target: ESLDomElementTarget): ESLResizeObserverTarget {
-    return new ESLResizeObserverTarget(target);
+  public static for(target: ESLDomElementTarget): ESLResizeObserverTarget;
+  public static for(target: ESLDomElementTarget): ESLResizeObserverTarget | null {
+    const $target = resolveDomTarget(target);
+    if (isElement($target)) return new ESLResizeObserverTarget($target);
+    // Error handling
+    console.warn('[ESL]: ESLResizeObserverTarget can not observe %o', target);
+    return null;
   }
 
   /**
    * Creates {@link ESLResizeObserverTarget} for the {@link ESLDomElementTarget}.
    * Note the {@link ESLResizeObserverTarget} instances are singletons relatively to the {@link Element}
    */
-  protected constructor(target: ESLDomElementTarget) {
-    target = resolveDomTarget(target);
+  protected constructor(target: Element) {
     const instance = ESLResizeObserverTarget.mapping.get(target);
     if (instance) return instance;
 
