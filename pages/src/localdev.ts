@@ -33,8 +33,6 @@ import {
   ESLFootnotes,
   ESLTooltip,
   ESLModal,
-  ESLModalBackdrop,
-  ESLModalPlaceholder,
   ESLAnimate,
   ESLAnimateMixin,
   ESLShare,
@@ -113,8 +111,6 @@ ESLNoteIgnore.register();
 ESLTooltip.register();
 
 ESLModal.register();
-ESLModalBackdrop.register();
-ESLModalPlaceholder.register();
 
 ESLAnimate.register();
 ESLAnimateMixin.register();

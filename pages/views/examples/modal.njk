@@ -275,6 +275,36 @@ tags: [examples, beta]
  </div>
 </section>
 
+<section class="row">
+  <div class="col-6 mb-2">
+    <h4>Example with nested modal</h4>
+    <esl-trigger target="#modal-nestd-sampl" class="btn btn-sec-blue">Open modal</esl-trigger>
+    <esl-modal id="modal-nestd-sampl">
+      <div class="esl-modal-container">
+        <p>{{ lorem.paragraphs(3) }}</p>
+        <esl-trigger target="#modal-nestd-sampl-inner" class="btn btn-sec-blue">Open modal</esl-trigger>
+        <p>{{ lorem.paragraphs(3) }}</p>
+        <esl-modal id="modal-nestd-sampl-inner">
+          <div class="esl-modal-container">
+            <p>{{ lorem.paragraphs(7) }}</p>
+            <button type="button"
+                    class="close-btn"
+                    aria-label="close"
+                    title="close"
+                    data-modal-close></button>
+          </div>
+        </esl-modal>
+
+        <button type="button"
+                class="close-btn"
+                aria-label="close"
+                title="close"
+                data-modal-close></button>
+      </div>
+    </esl-modal>
+  </div>
+</section>
+
 <section>
   <div class="esl-d-accordion">
     <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">

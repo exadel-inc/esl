@@ -50,6 +50,10 @@ export class ESLModal extends ESLToggleable {
   @attr({defaultValue: true, parser: parseBoolean, serializer: toBooleanAttribute})
   public override closeOnOutsideAction: boolean;
 
+  public get $backdrop(): ESLModalBackdrop {
+    return ESLModalBackdrop.instance;
+  }
+
   protected override connectedCallback(): void {
     super.connectedCallback();
     if (!hasAttr(this, 'role')) setAttr(this, 'role', 'dialog');
@@ -93,13 +97,14 @@ export class ESLModal extends ESLToggleable {
 
   protected showBackdrop(): void {
     if (this.noBackdrop) return;
-    if (!document.body.contains(ESLModalBackdrop.instance)) document.body.appendChild(ESLModalBackdrop.instance);
-    ESLModalBackdrop.instance.classList.add('active');
+    if (typeof this.$backdrop.show !== 'function') return;
+    this.$backdrop.show({activator: this});
   }
 
   protected hideBackdrop(): void {
     if (this.noBackdrop) return;
-    ESLModalBackdrop.instance.classList.remove('active');
+    if (typeof this.$backdrop.hide !== 'function') return;
+    this.$backdrop.hide({activator: this});
   }
 
   public get $boundaryFocusable(): {first: HTMLElement, last: HTMLElement} {
@@ -120,6 +125,12 @@ export class ESLModal extends ESLToggleable {
   protected override _onCloseClick(e: DelegatedEvent<MouseEvent>): void {
     super._onCloseClick(e);
     e.stopPropagation();
+  }
+
+  public static override register(this: typeof ESLModal, tagName: string = ESLModal.is): void {
+    ESLModalBackdrop.register(tagName + '-backdrop');
+    ESLModalPlaceholder.register(tagName + '-placeholder');
+    super.register(tagName);
   }
 }
 
