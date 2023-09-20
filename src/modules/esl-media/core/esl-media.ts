@@ -7,7 +7,7 @@ import {bind, prop, attr, boolAttr} from '../../esl-utils/decorators';
 import {debounce, rafDecorator} from '../../esl-utils/async';
 import {parseAspectRatio} from '../../esl-utils/misc/format';
 
-import {ESLMediaQuery} from '../../esl-media-query/core';
+import {ESLMediaQuery, ESLMediaRuleList} from '../../esl-media-query/core';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 
 import {getIObserver} from './esl-media-iobserver';
@@ -120,6 +120,9 @@ export class ESLMedia extends ESLBaseElement {
   private deferredResize = rafDecorator(() => this._onResize());
   private deferredReinitialize = debounce(() => this.reinitInstance());
 
+  private _mediaSrcRules: ESLMediaRuleList<string>;
+  private _mediaIdRules: ESLMediaRuleList<string>;
+
   /**
    * Map object with possible Player States, values:
    * BUFFERING, ENDED, PAUSED, PLAYING, UNSTARTED, VIDEO_CUED, UNINITIALIZED
@@ -137,6 +140,8 @@ export class ESLMedia extends ESLBaseElement {
     if (!this.hasAttribute('role')) {
       this.setAttribute('role', 'application');
     }
+    this.mediaSrcRules = ESLMediaRuleList.parse(this.mediaSrc);
+    this.mediaIdRules = ESLMediaRuleList.parse(this.mediaId);
     this.innerHTML += '<!-- Inner Content, do not modify it manually -->';
     this.bindEvents();
     this.attachViewportConstraint();
@@ -152,11 +157,18 @@ export class ESLMedia extends ESLBaseElement {
 
   protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected || oldVal === newVal) return;
+    // eslint-disable-next-line sonarjs/max-switch-cases
     switch (attrName) {
       case 'disabled':
-      case 'media-id':
-      case 'media-src':
       case 'media-type':
+        this.deferredReinitialize();
+        break;
+      case 'media-id':
+        this.mediaIdRules = ESLMediaRuleList.parse(newVal);
+        this.deferredReinitialize();
+        break;
+      case 'media-src':
+        this.mediaSrcRules = ESLMediaRuleList.parse(newVal);
         this.deferredReinitialize();
         break;
       case 'loop':
@@ -179,6 +191,31 @@ export class ESLMedia extends ESLBaseElement {
         this.deferredReinitialize();
         break;
     }
+  }
+
+  public get mediaSrcRules(): ESLMediaRuleList<string> {
+    return this._createMediaRuleList(this._mediaSrcRules, this.mediaSrc);
+  }
+  public set mediaSrcRules(rules: ESLMediaRuleList<string>) {
+    this._setMediaRuleList(this._mediaSrcRules, rules);
+  }
+
+  public get mediaIdRules(): ESLMediaRuleList<string> {
+    return this._createMediaRuleList(this._mediaIdRules, this.mediaId);
+  }
+  public set mediaIdRules(rules: ESLMediaRuleList<string>) {
+    this._setMediaRuleList(this._mediaIdRules, rules);
+  }
+
+  private _createMediaRuleList(ruleList: ESLMediaRuleList<string>, rule: string): ESLMediaRuleList<string> {
+    if (!ruleList) ruleList = ESLMediaRuleList.parse(rule);
+    return ruleList;
+  }
+
+  private _setMediaRuleList(ruleList: ESLMediaRuleList<string>, newRuleList: ESLMediaRuleList<string>): void {
+    if (ruleList) ruleList.removeEventListener(this.deferredReinitialize);
+    ruleList = newRuleList;
+    ruleList.addEventListener(this.deferredReinitialize);
   }
 
   protected bindEvents(): void {
