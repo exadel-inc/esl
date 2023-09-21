@@ -22,8 +22,8 @@ export function getIObserver(lazy: boolean = false): IntersectionObserver {
 function handleViewport(entry: IntersectionObserverEntry): void {
   const video = entry.target as ESLMedia;
   // Removes `lazy` attribute when media is in the viewport with min ratio RATIO_TO_ACTIVATE
-  if (entry.isIntersecting && entry.intersectionRatio >= RATIO_TO_ACTIVATE) {
-    video.removeAttribute('lazy');
+  if (entry.isIntersecting && entry.intersectionRatio >= RATIO_TO_ACTIVATE && video.lazy === 'auto') {
+    video.$$attr('lazy', false);
   }
 
   // Videos that playing and out of min ratio RATIO_TO_STOP should be stopped

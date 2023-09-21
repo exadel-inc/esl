@@ -12,7 +12,7 @@ describe('esl-media: lazy loading unit tests', () => {
   });
   afterAll(() => IntersectionObserverMock.unmock());
 
-  test('ESLMedia is loading immediately when lazy and disabled atrributes are not set', async () => {
+  test('ESLMedia is loading immediately unless the lazy and disabled attributes are set', async () => {
     const $media = ESLMedia.create();
     $media.setAttribute('media-src', 'https://esl-ui.com/assets/media/video.mp4');
     document.body.appendChild($media);
@@ -25,7 +25,7 @@ describe('esl-media: lazy loading unit tests', () => {
     expect($media.querySelectorAll('*')).toEqual(expect.objectContaining({length: 1}));
   });
 
-  test('ESLMedia is not loading when lazy atrribute is set', async () => {
+  test('ESLMedia is not loading when lazy attribute is set to manual', async () => {
     const $media = ESLMedia.create();
     $media.setAttribute('media-src', 'https://esl-ui.com/assets/media/video.mp4');
     $media.setAttribute('lazy', 'manual');
@@ -49,6 +49,43 @@ describe('esl-media: lazy loading unit tests', () => {
     expect($media.querySelectorAll('*')).toEqual(expect.objectContaining({length: 0}));
 
     IntersectionObserverMock.trigger($media, {isIntersecting: true, intersectionRatio: 1});
+    await promisifyTimeout(100);
+
+    expect($media.querySelectorAll('*')).toEqual(expect.objectContaining({length: 1}));
+  });
+
+  test('ESLMedia with lazy="manual" prevents loading until manual removal', async () => {
+    const $media = ESLMedia.create();
+    $media.setAttribute('media-src', 'https://esl-ui.com/assets/media/video.mp4');
+    $media.setAttribute('lazy', 'manual');
+    document.body.appendChild($media);
+
+    await promisifyTimeout(100);
+    IntersectionObserverMock.trigger($media, {isIntersecting: true, intersectionRatio: 1});
+
+    await promisifyTimeout(100);
+    expect($media.querySelectorAll('*')).toEqual(expect.objectContaining({length: 0}));
+
+    $media.removeAttribute('lazy');
+    await promisifyTimeout(100);
+
+    expect($media.querySelectorAll('*')).toEqual(expect.objectContaining({length: 1}));
+  });
+
+  test('ESLMedia (with play-in-viewport) with lazy="manual" prevents loading until manual removal', async () => {
+    const $media = ESLMedia.create();
+    $media.setAttribute('media-src', 'https://esl-ui.com/assets/media/video.mp4');
+    $media.setAttribute('play-in-viewport', '');
+    $media.setAttribute('lazy', 'manual');
+    document.body.appendChild($media);
+
+    await promisifyTimeout(100);
+    IntersectionObserverMock.trigger($media, {isIntersecting: true, intersectionRatio: 1});
+
+    await promisifyTimeout(100);
+    expect($media.querySelectorAll('*')).toEqual(expect.objectContaining({length: 0}));
+
+    $media.removeAttribute('lazy');
     await promisifyTimeout(100);
 
     expect($media.querySelectorAll('*')).toEqual(expect.objectContaining({length: 1}));
