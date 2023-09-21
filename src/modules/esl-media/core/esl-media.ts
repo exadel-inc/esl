@@ -19,7 +19,7 @@ import type {BaseProvider} from './esl-media-provider';
 
 export type ESLMediaFillMode = 'cover' | 'inscribe' | '';
 
-type ESLMediaLazyMode = 'auto' | 'manual' | 'none';
+export type ESLMediaLazyMode = 'auto' | 'manual' | 'none';
 const isLazyAttr = (v: string): v is ESLMediaLazyMode => ['auto', 'manual', 'none'].includes(v);
 const parseLazyAttr = (v: string): ESLMediaLazyMode => isLazyAttr(v) ? v : 'auto';
 
