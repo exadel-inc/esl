@@ -22,7 +22,6 @@
     "resolveJsonModule": true
   },
   "include": [
-    "pages/src",
     "src/modules",
     "src/polyfills"
   ],

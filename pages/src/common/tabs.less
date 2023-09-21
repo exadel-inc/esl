@@ -51,7 +51,9 @@
   }
   > .esl-d-tab-group {
     background: #fff;
-    border: 1px solid @secondary-blue;
+    &[has-opened] {
+      border: 1px solid @secondary-blue;
+    }
   }
 }
 
@@ -75,6 +77,12 @@
   border-bottom: none;
   border-top-left-radius: calc(0.5rem - 1px);
   border-top-right-radius: calc(0.5rem - 1px);
+
+  transition:
+    border-color 0.25s linear,
+    border-bottom-color 0s linear,
+    background-color 0.25s linear,
+    color 0.25s linear;
 
   &:focus,
   &:hover {

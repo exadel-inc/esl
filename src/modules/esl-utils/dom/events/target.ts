@@ -2,7 +2,7 @@ import {flat, uniq} from '../../misc/array';
 import {overrideEvent} from './misc';
 
 /** Key to store listeners on the {@link SyntheticEventTarget} instance*/
-const LISTENERS = Symbol('_listeners');
+const LISTENERS: unique symbol  = (window.Symbol || String)('_listeners') as any;
 
 /**
  * Synthetic implementation of EventTarget

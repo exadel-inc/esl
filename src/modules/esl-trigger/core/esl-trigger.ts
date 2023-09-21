@@ -1,13 +1,15 @@
-import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement} from '../../esl-base-element/core';
+import {ExportNs} from '../../esl-utils/environment/export-ns';
+import {DeviceDetector} from '../../esl-utils/environment/device-detector';
+import {isElement} from '../../esl-utils/dom/api';
 import {setAttr} from '../../esl-utils/dom/attr';
-import {attr, boolAttr, prop, listen, ready} from '../../esl-utils/decorators';
-import {parseBoolean, parseNumber, toBooleanAttribute} from '../../esl-utils/misc/format';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ENTER, SPACE, ESC} from '../../esl-utils/dom/keys';
-import {ESLTraversingQuery} from '../../esl-traversing-query/core';
-import {DeviceDetector} from '../../esl-utils/environment/device-detector';
+import {attr, boolAttr, prop, listen, ready} from '../../esl-utils/decorators';
+import {parseBoolean, parseNumber, toBooleanAttribute} from '../../esl-utils/misc/format';
 import {ESLMediaQuery} from '../../esl-media-query/core';
+import {ESLTraversingQuery} from '../../esl-traversing-query/core';
+
 import {ESLToggleablePlaceholder} from '../../esl-toggleable/core';
 
 import type {ESLToggleable, ESLToggleableActionParams} from '../../esl-toggleable/core/esl-toggleable';
@@ -128,7 +130,7 @@ export class ESLTrigger extends ESLBaseElement {
 
   /** Check if the event target should be ignored */
   protected isTargetIgnored(target: EventTarget | null): boolean {
-    if (!target || !(target instanceof HTMLElement) || !this.ignore) return false;
+    if (!target || !isElement(target) || !this.ignore) return false;
     const $ignore = target.closest(this.ignore);
     // Ignore only inner elements (but do not ignore the trigger itself)
     return !!$ignore && $ignore !== this && this.contains($ignore);
