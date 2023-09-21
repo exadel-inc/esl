@@ -82,12 +82,13 @@ aside:
       for the block.</p>
     <hr/>
     <div class="demo-marquee" style="height: 400px">
-      <esl-media class="bg-content"
+      <esl-media class="bg-content esl-media-bg esl-animate-fade"
+                 ready-class="in"
                  media-type="video"
                  media-src="{{ '/assets/media/video.mp4' | url }}"
                  fill-mode="cover"
                  play-in-viewport
-                 lazy="auto"
+                 lazy
                  autoplay muted loop playsinline>
       </esl-media>
       <div class="demo-content contrast">
@@ -103,7 +104,8 @@ aside:
     <p class="text-center">We still can use any source in background mode</p>
     <hr/>
     <div class="demo-marquee" style="height: 400px">
-      <esl-media class="bg-content"
+      <esl-media class="bg-content esl-media-bg esl-animate-fade"
+                 ready-class="in"
                  media-type="youtube"
                  media-id="5ryf1AVl8Wg"
                  fill-mode="cover"
