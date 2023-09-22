@@ -41,11 +41,7 @@ export class ESLShare extends ESLBaseElement {
   /** Default initial params to pass into the popup trigger */
   @jsonAttr<ESLSharePopupActionParams>({defaultValue: {
     trackClick: true,
-    trackHover: true,
-    popupInitialParams: {
-      position: 'top',
-      hideDelay: 220
-    }
+    trackHover: true
   }}) public triggerInitialParams: ESLShareTrigger;
 
   /**

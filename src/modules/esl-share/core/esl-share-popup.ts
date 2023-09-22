@@ -3,7 +3,7 @@ import {bind, listen, memoize} from '../../esl-utils/decorators';
 import {ESLShareButton} from './esl-share-button';
 import {ESLShareConfig} from './esl-share-config';
 
-import type {TooltipActionParams} from '@exadel/esl/modules/esl-tooltip/core/esl-tooltip';
+import type {TooltipActionParams} from '../../esl-tooltip/core/esl-tooltip';
 import type {ESLShareButtonConfig} from './esl-share-config';
 
 function stringifyButtonsList(btns: ESLShareButtonConfig[]): string {
