@@ -1,7 +1,7 @@
 import React from 'jsx-dom';
 import {attr, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 
-import TokenList from '../../core/utils/token-list';
+import {TokenListUtils} from '../../core/utils/token-list';
 import {UIPSetting} from '../../plugins/settings/setting';
 import {ChangeAttrConfig, UIPStateModel} from '../../core/base/model';
 
@@ -69,10 +69,10 @@ export class UIPBoolSetting extends UIPSetting {
   transform(value: string | false,  attrValue: string | null): string | null {
     if (!attrValue) return value || null;
 
-    const attrTokens = TokenList.remove(TokenList.split(attrValue), this.value);
+    const attrTokens = TokenListUtils.remove(TokenListUtils.split(attrValue), this.value);
     value && attrTokens.push(this.value);
 
-    return TokenList.join(attrTokens);
+    return TokenListUtils.join(attrTokens);
   }
 
   updateFrom(model: UIPStateModel): void {
@@ -89,7 +89,7 @@ export class UIPBoolSetting extends UIPSetting {
 
   /** Updates setting's value for replace {@link mode} */
   protected updateReplace(attrValues: (string | null)[]): void {
-    if (!TokenList.hasSameElements(attrValues)) {
+    if (!TokenListUtils.hasSameElements(attrValues)) {
       return this.setInconsistency(this.MULTIPLE_VALUE_MSG);
     }
 
@@ -99,7 +99,7 @@ export class UIPBoolSetting extends UIPSetting {
   /** Updates setting's value for append {@link mode} */
   protected updateAppend(attrValues: (string | null)[]): void {
     const containsFunction = (val: string | null) =>
-      TokenList.contains(TokenList.split(val), [this.value]);
+      TokenListUtils.contains(TokenListUtils.split(val), [this.value]);
 
     if (attrValues.every(containsFunction)) return this.setValue(this.value);
     if (!attrValues.some(containsFunction)) return this.setValue(null);

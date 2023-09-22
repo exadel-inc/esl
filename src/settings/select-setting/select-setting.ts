@@ -2,7 +2,7 @@ import {randUID} from '@exadel/esl/modules/esl-utils/misc/uid';
 import {attr, boolAttr, listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 
 
-import TokenList from '../../core/utils/token-list';
+import {TokenListUtils} from '../../core/utils/token-list';
 import {UIPRoot} from '../../core/registration';
 import {ChangeAttrConfig, UIPStateModel} from '../../core/base/model';
 import {UIPSetting} from '../../plugins/settings/setting';
@@ -92,10 +92,10 @@ export class UIPSelectSetting extends UIPSetting {
     if (!attrValue) return value || null;
 
     const attrTokens = this.settingOptions.reduce((tokens, option) =>
-      TokenList.remove(tokens, option), TokenList.split(attrValue));
+      TokenListUtils.remove(tokens, option), TokenListUtils.split(attrValue));
     value && attrTokens.push(value);
 
-    return TokenList.join(attrTokens);
+    return TokenListUtils.join(attrTokens);
   }
 
   updateFrom(model: UIPStateModel) {
@@ -112,10 +112,10 @@ export class UIPSelectSetting extends UIPSetting {
 
   /** Updates setting's value for replace {@link mode} */
   protected replaceFrom(attrValues: (string | null)[]): void {
-    if (!TokenList.hasSameElements(attrValues)) return this.setInconsistency(this.MULTIPLE_VALUE_MSG);
+    if (!TokenListUtils.hasSameElements(attrValues)) return this.setInconsistency(this.MULTIPLE_VALUE_MSG);
 
     if (attrValues[0] !== null &&
-      TokenList.contains(this.settingOptions, TokenList.split(attrValues[0]))) {
+      TokenListUtils.contains(this.settingOptions, TokenListUtils.split(attrValues[0]))) {
       return this.setValue(attrValues[0]);
     }
 
@@ -125,7 +125,7 @@ export class UIPSelectSetting extends UIPSetting {
   /** Updates setting's value for {@link mode} = "append" */
   protected appendFrom(attrValues: (string | null)[]): void {
     // array of each attribute's value intersection with select options
-    const valuesOptions = attrValues.map(val => TokenList.intersection(this.settingOptions, TokenList.split(val)));
+    const valuesOptions = attrValues.map(val => TokenListUtils.intersection(this.settingOptions, TokenListUtils.split(val)));
 
     // make empty option active if no options intersections among attribute values
     if (this.settingOptions.includes('') && valuesOptions.every(inter => !inter.length)) {
@@ -133,11 +133,11 @@ export class UIPSelectSetting extends UIPSetting {
     }
 
     // common options among all attribute values
-    const commonOptions = TokenList.intersection(...valuesOptions);
+    const commonOptions = TokenListUtils.intersection(...valuesOptions);
 
-    if (this.multiple || commonOptions.length) return this.setValue(TokenList.join(commonOptions));
+    if (this.multiple || commonOptions.length) return this.setValue(TokenListUtils.join(commonOptions));
 
-    return this.setInconsistency(TokenList.hasSameElements(attrValues) ? this.NO_MATCH_MSG : this.MULTIPLE_VALUE_MSG);
+    return this.setInconsistency(TokenListUtils.hasSameElements(attrValues) ? this.NO_MATCH_MSG : this.MULTIPLE_VALUE_MSG);
   }
 
   protected getDisplayedValue(): string {
