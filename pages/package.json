@@ -13,7 +13,7 @@
     "clean": "rimraf \"dist\"",
     "watch:lib": "cd .. && npm run watch",
     "watch:ts": "webpack --watch",
-    "watch:less": "chokidar --initial \"src/**/*.less\" -c \"npm run build:less\"",
+    "watch:less": "chokidar --initial \"../node_modules/@exadel/esl/modules/**/*.less\" \"src/**/*.less\" -c \"npm run build:less\"",
     "watch:eleventy": "eleventy --serve --incremental -- --env=development",
     "minify:css": "cleancss -o \"dist/bundles/localdev.css\" \"dist/bundles/localdev.css\"",
     "build": "npm run clean && concurrently \"npm run build:ts\" \"npm run build:less && npm run minify:css\" && npm run build:eleventy",
