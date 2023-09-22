@@ -1,11 +1,9 @@
-import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
-import {attr} from '@exadel/esl/modules/esl-base-element/core';
-import {listen} from '@exadel/esl/modules/esl-utils/decorators/listen';
+import React from 'jsx-dom';
+
+import {bind, attr, listen} from '@exadel/esl/modules/esl-utils/decorators';
 
 import {UIPPlugin} from '../../core/base/plugin';
 import {UIPSetting} from './setting';
-
-import * as React from 'jsx-dom';
 
 /**
  * Settings {@link UIPPlugin} custom element definition
@@ -25,6 +23,7 @@ export class UIPSettings extends UIPPlugin {
   protected connectedCallback() {
     super.connectedCallback();
     this.updateInner();
+    this._onRootStateChange();
   }
 
   /** Initializes settings layout */

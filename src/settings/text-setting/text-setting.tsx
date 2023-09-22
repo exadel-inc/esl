@@ -1,10 +1,8 @@
-import {attr} from '@exadel/esl/modules/esl-base-element/core';
-import {memoize} from '@exadel/esl/modules/esl-utils/decorators/memoize';
+import React from 'jsx-dom';
+
+import {attr, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 
 import {UIPSetting} from '../../plugins/settings/setting';
-import {WARNING_MSG} from '../../utils/warning-msg';
-
-import * as React from 'jsx-dom';
 
 /**
  * Custom setting for inputting attribute's value
@@ -18,7 +16,7 @@ export class UIPTextSetting extends UIPSetting {
 
   /** Text input to change setting's value */
   @memoize()
-  protected get $field() {
+  protected get $field(): HTMLInputElement {
     return <input type="text" name={this.label}/> as HTMLInputElement;
   }
 
@@ -43,7 +41,7 @@ export class UIPTextSetting extends UIPSetting {
     this.$field.placeholder = '';
   }
 
-  protected setInconsistency(msg = WARNING_MSG.inconsistent): void {
+  protected setInconsistency(msg = this.INCONSISTENT_VALUE_MSG): void {
     this.$field.value = '';
     this.$field.placeholder = msg;
   }

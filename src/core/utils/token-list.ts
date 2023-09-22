@@ -1,5 +1,5 @@
 /** Class for processing attribute's tokens */
-export default class TokenListUtils {
+export default class TokenList {
 
   /**
    * Divides string by whitespace regexp
@@ -21,7 +21,7 @@ export default class TokenListUtils {
 
   /** Checks whether two arrays have same elements or not */
   static equals<T>(arr1: T[], arr2: T[]): boolean {
-    return TokenListUtils.contains(arr1, arr2) && TokenListUtils.contains(arr2, arr1);
+    return TokenList.contains(arr1, arr2) && TokenList.contains(arr2, arr1);
   }
 
   /** Checks if array contains all elements from subArray */
@@ -33,7 +33,7 @@ export default class TokenListUtils {
   /** Gets array which contains only common elements from arrays */
   static intersection<T>(...rest: T[][]): T[];
   static intersection<T>(a: T[], b: T[], ...rest: T[][]): T[] {
-    if (rest.length) return TokenListUtils.intersection(a, TokenListUtils.intersection(b, ...rest));
+    if (rest.length) return TokenList.intersection(a, TokenList.intersection(b, ...rest));
     return b ? a.filter(Set.prototype.has, new Set(b)) : a;
   }
 

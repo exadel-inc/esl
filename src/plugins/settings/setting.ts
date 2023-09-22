@@ -1,12 +1,9 @@
-import {attr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
-import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
-import {listen} from '@exadel/esl/modules/esl-utils/decorators/listen';
-import {memoize} from '@exadel/esl/modules/esl-utils/decorators/memoize';
+import {ESLBaseElement, prop} from '@exadel/esl/modules/esl-base-element/core';
+import {attr, listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
+import {getAttr, setAttr} from '@exadel/esl/modules/esl-utils/dom/attr';
 
 import {ChangeAttrConfig, UIPStateModel} from '../../core/base/model';
 import {UIPSettings} from './settings';
-import {WARNING_MSG} from '../../utils/warning-msg';
-import {getAttr, setAttr} from '@exadel/esl/modules/esl-utils/dom/attr';
 
 /**
  * Custom element for manipulating with elements attributes
@@ -14,10 +11,22 @@ import {getAttr, setAttr} from '@exadel/esl/modules/esl-utils/dom/attr';
  * to become connected with {@link UIPSettings}
  */
 export abstract class UIPSetting extends ESLBaseElement {
-  static is = 'uip-setting';
+  public static override is = 'uip-setting';
+
+  /** No matching value message */
+  @prop('No select match') public NO_MATCH_MSG: string;
+  /** No target element message */
+  @prop('No setting target') public NO_TARGET_MSG: string;
+  /** Inconsistent values found message */
+  @prop('Inconsistent value') public INCONSISTENT_VALUE_MSG: string;
+  /** Multiple values found message */
+  @prop('Multiple values') public MULTIPLE_VALUE_MSG: string;
+  /** Invalid value message */
+  @prop('Invalid setting value') public INVALID_VALUE_MSG: string;
 
   /** {@link target} attribute which is changed by setting */
   @attr() public attribute: string;
+
   /** Target to which setting's changes are attached */
   public get target(): string {
     return getAttr(this, 'target', this.$settings.target);
@@ -49,7 +58,7 @@ export abstract class UIPSetting extends ESLBaseElement {
   @listen('change')
   protected _onChange(e: Event): void {
     e.preventDefault();
-    EventUtils.dispatch(this, 'uip:change');
+    this.$$fire('uip:change');
   }
 
   /**
@@ -63,7 +72,7 @@ export abstract class UIPSetting extends ESLBaseElement {
       value: this.getDisplayedValue(),
       modifier: this.$settings
     };
-    this.isValid() ? model.changeAttribute(cfg) : this.setInconsistency(WARNING_MSG.invalid);
+    this.isValid() ? model.changeAttribute(cfg) : this.setInconsistency(this.INVALID_VALUE_MSG);
   }
 
   /**
@@ -76,9 +85,9 @@ export abstract class UIPSetting extends ESLBaseElement {
 
     if (!values.length) {
       this.disabled = true;
-      this.setInconsistency(WARNING_MSG.noTarget);
+      this.setInconsistency(this.NO_TARGET_MSG);
     } else if (values.some(value => value !== values[0])) {
-      this.setInconsistency(WARNING_MSG.multiple);
+      this.setInconsistency(this.MULTIPLE_VALUE_MSG);
     } else {
       this.setValue(values[0]);
     }
@@ -96,7 +105,7 @@ export abstract class UIPSetting extends ESLBaseElement {
    * Indicates setting's incorrect state
    * (e.g. multiple attribute values or no target provided)
    */
-  protected setInconsistency(msg: string = WARNING_MSG.inconsistent): void {
+  protected setInconsistency(msg: string = this.INCONSISTENT_VALUE_MSG): void {
     return;
   }
 

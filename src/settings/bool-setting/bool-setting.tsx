@@ -1,12 +1,9 @@
-import {attr} from '@exadel/esl/modules/esl-base-element/core';
-import {memoize} from '@exadel/esl/modules/esl-utils/decorators/memoize';
+import React from 'jsx-dom';
+import {attr, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 
+import TokenList from '../../core/utils/token-list';
 import {UIPSetting} from '../../plugins/settings/setting';
 import {ChangeAttrConfig, UIPStateModel} from '../../core/base/model';
-import TokenListUtils from '../../utils/token-list-utils';
-import {WARNING_MSG} from '../../utils/warning-msg';
-
-import * as React from 'jsx-dom';
 
 /**
  * Custom setting to add/remove attributes or append values to attribute
@@ -72,10 +69,10 @@ export class UIPBoolSetting extends UIPSetting {
   transform(value: string | false,  attrValue: string | null): string | null {
     if (!attrValue) return value || null;
 
-    const attrTokens = TokenListUtils.remove(TokenListUtils.split(attrValue), this.value);
+    const attrTokens = TokenList.remove(TokenList.split(attrValue), this.value);
     value && attrTokens.push(this.value);
 
-    return TokenListUtils.join(attrTokens);
+    return TokenList.join(attrTokens);
   }
 
   updateFrom(model: UIPStateModel): void {
@@ -84,7 +81,7 @@ export class UIPBoolSetting extends UIPSetting {
 
     if (!attrValues.length) {
       this.disabled = true;
-      return this.setInconsistency(WARNING_MSG.noTarget);
+      return this.setInconsistency(this.NO_TARGET_MSG);
     }
 
     this.mode === 'replace' ? this.updateReplace(attrValues) : this.updateAppend(attrValues);
@@ -92,8 +89,8 @@ export class UIPBoolSetting extends UIPSetting {
 
   /** Updates setting's value for replace {@link mode} */
   protected updateReplace(attrValues: (string | null)[]): void {
-    if (!TokenListUtils.hasSameElements(attrValues)) {
-      return this.setInconsistency(WARNING_MSG.multiple);
+    if (!TokenList.hasSameElements(attrValues)) {
+      return this.setInconsistency(this.MULTIPLE_VALUE_MSG);
     }
 
     return this.setValue((this.value && attrValues[0] !== this.value) ? null : attrValues[0]);
@@ -102,12 +99,12 @@ export class UIPBoolSetting extends UIPSetting {
   /** Updates setting's value for append {@link mode} */
   protected updateAppend(attrValues: (string | null)[]): void {
     const containsFunction = (val: string | null) =>
-      TokenListUtils.contains(TokenListUtils.split(val), [this.value]);
+      TokenList.contains(TokenList.split(val), [this.value]);
 
     if (attrValues.every(containsFunction)) return this.setValue(this.value);
     if (!attrValues.some(containsFunction)) return this.setValue(null);
 
-    return this.setInconsistency(WARNING_MSG.multiple);
+    return this.setInconsistency(this.MULTIPLE_VALUE_MSG);
   }
 
   protected getDisplayedValue(): string | false {
@@ -127,7 +124,7 @@ export class UIPBoolSetting extends UIPSetting {
     this.$inconsistencyMarker.remove();
   }
 
-  protected setInconsistency(msg = WARNING_MSG.inconsistent): void {
+  protected setInconsistency(msg = this.INCONSISTENT_VALUE_MSG): void {
     this.$field.checked = false;
     this.$inconsistencyMarker.innerText = msg;
     this.append(this.$inconsistencyMarker);

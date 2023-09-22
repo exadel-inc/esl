@@ -1,11 +1,8 @@
-import {attr} from '@exadel/esl/modules/esl-base-element/core';
-import {memoize} from '@exadel/esl/modules/esl-utils/decorators/memoize';
-import {listen} from '@exadel/esl/modules/esl-utils/decorators/listen';
+import React from 'jsx-dom';
+
+import {attr, memoize, listen} from '@exadel/esl/modules/esl-utils/decorators';
 
 import {UIPSetting} from '../../plugins/settings/setting';
-import {WARNING_MSG} from '../../utils/warning-msg';
-
-import * as React from 'jsx-dom';
 
 export class UIPSliderSetting extends UIPSetting {
   public static is = 'uip-slider-setting';
@@ -66,7 +63,7 @@ export class UIPSliderSetting extends UIPSetting {
     this.updateSliderValue();
   }
 
-  protected setInconsistency(msg = WARNING_MSG.inconsistent): void {
+  protected setInconsistency(msg = this.INCONSISTENT_VALUE_MSG): void {
     this.$field.value = this.min;
     this.$fieldValue.textContent = msg;
   }
