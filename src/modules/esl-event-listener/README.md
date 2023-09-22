@@ -574,7 +574,7 @@ ESLEventUtils.subscribe(host, {
 
 <a name="-esleventutilswipe"></a>
 
-### ⚡ `ESLSwipeGestureTarget.for`
+### ⚡ `ESLSwipeGestureTarget.for` <i class="badge badge-sup badge-success">new</i>
 
 `ESLSwipeGestureTarget.for` is a simple and easy-to-use way to listen for swipe events on any element.
 
