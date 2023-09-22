@@ -4,18 +4,13 @@ if (typeof Prism.manual === 'undefined') Prism.manual = true;
 
 import React from 'jsx-dom';
 import Prism from 'prismjs';
-import 'prismjs/plugins/normalize-whitespace/prism-normalize-whitespace';
 
 import {CodeJar} from 'codejar';
 
 import {debounce} from '@exadel/esl/modules/esl-utils/async/debounce';
-import {bind, decorate, memoize, jsonAttr} from '@exadel/esl/modules/esl-utils/decorators';
+import {bind, decorate, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 
 import {UIPPlugin} from '../../core/base/plugin';
-
-export interface UIPEditorConfig {
-  wrap?: number;
-}
 
 /**
  * Editor {@link UIPPlugin} custom element definition
@@ -26,11 +21,7 @@ export class UIPEditor extends UIPPlugin {
   public static override is = 'uip-editor';
 
   /** Highlight method declaration  */
-  public static highlight: (editor: HTMLElement) => void = Prism.highlightElement;
-
-  /** Editor's {@link UIPEditorConfig} passed through attribute */
-  @jsonAttr({defaultValue: {wrap: 60}})
-  private editorConfig: Partial<UIPEditorConfig>;
+  public static highlight = (editor: HTMLElement): void => Prism.highlightElement(editor, false);
 
   /** Wrapped {@link https://medv.io/codejar/ Codejar} editor instance */
   @memoize()
@@ -50,7 +41,7 @@ export class UIPEditor extends UIPPlugin {
 
   /** Preformat and set editor's content */
   public set value(value: string) {
-    this.editor.updateCode(this.normalizeValue(value));
+    this.editor.updateCode(value);
   }
 
   protected override connectedCallback() {
@@ -64,23 +55,15 @@ export class UIPEditor extends UIPPlugin {
     this.$inner.append(this.$code);
 
     // Initial update
-    this._onChange();
-    this.editor.onUpdate(this._onChange);
     this._onRootStateChange();
+    // Postpone subscription
+    Promise.resolve().then(() => this.editor?.onUpdate(this._onChange));
   }
 
   protected override disconnectedCallback(): void {
     this.editor?.destroy();
     memoize.clear(this, 'editor');
     super.disconnectedCallback();
-  }
-
-  /** Preformat value, calls before setting to editor */
-  protected normalizeValue(value: string): string {
-    const {wrap} = this.editorConfig;
-    const settings: Record<string, any> = {};
-    if (wrap) settings['break-lines'] = wrap;
-    return Prism.plugins.NormalizeWhitespace.normalize(value, settings);
   }
 
   /** Callback to call on editor's content changes */
@@ -93,9 +76,6 @@ export class UIPEditor extends UIPPlugin {
   @bind
   protected _onRootStateChange(): void {
     if (this.model!.lastModifier === this) return;
-    const markup = this.model!.html;
-    setTimeout(() => {
-      this.value = markup;
-    });
+    this.value = this.model!.html;
   }
 }
