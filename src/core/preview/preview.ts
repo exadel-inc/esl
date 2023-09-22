@@ -1,4 +1,5 @@
-import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
+import {bind} from '@exadel/esl/modules/esl-utils/decorators';
+
 import {UIPPlugin} from '../base/plugin';
 
 /**
@@ -24,11 +25,9 @@ export class UIPPreview extends UIPPlugin {
   }
 
   protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
-    if (attrName === 'resizable' && newVal === null) {
-      this.clearInlineSize();
-      this.$inner.classList.remove('resizable');
-    } else {
-      this.$inner.classList.add('resizable');
+    if (attrName === 'resizable') {
+      newVal === null && this.clearInlineSize();
+      this.$inner.classList.toggle('resizable', newVal !== null);
     }
   }
 

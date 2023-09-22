@@ -1,9 +1,9 @@
-import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
+import React from 'jsx-dom';
+
+import {ESLEventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
 import {listen} from '@exadel/esl/modules/esl-utils/decorators/listen';
 import {UIPPlugin} from '../../core/base/plugin';
 import {UIPOptionIcons, UIPOptions, UIPSnippets} from '../registration';
-
-import * as React from 'jsx-dom';
 
 /**
  * Header {@link UIPPlugin} custom element definition
@@ -49,7 +49,7 @@ export class UIPHeader extends UIPPlugin {
   @listen({event: 'click', selector: '.copy-icon'})
   protected _onCopyClick() {
     navigator.clipboard.writeText(this.model!.html).then(() => {
-      EventUtils.dispatch(this, 'esl:alert:show', {
+      ESLEventUtils.dispatch(this, 'esl:alert:show', {
         detail: {
           text: 'Markup copied',
           cls: 'uip-alert-info'
