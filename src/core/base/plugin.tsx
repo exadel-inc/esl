@@ -1,10 +1,10 @@
-import {memoize} from '@exadel/esl/modules/esl-utils/decorators/memoize';
-import {attr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
+import React from 'jsx-dom';
+
+import {ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
+import {attr, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 
 import {UIPRoot} from './root';
 import {UIPStateModel} from './model';
-
-import * as React from 'jsx-dom';
 
 /**
  * Base class for UI Playground plugins
@@ -38,7 +38,6 @@ export abstract class UIPPlugin extends ESLBaseElement {
     super.connectedCallback();
     this.classList.add('uip-plugin');
     this.root?.addStateListener(this._onRootStateChange);
-    this.root && this._onRootStateChange();
   }
 
   protected disconnectedCallback() {
