@@ -79,7 +79,7 @@
   },
   "dependencies": {
     "@types/video.js": "7.3.52",
-    "@types/youtube": "0.0.47"
+    "@types/youtube": "0.0.48"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.7.1",
