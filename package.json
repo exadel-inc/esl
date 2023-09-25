@@ -80,7 +80,7 @@
   },
   "dependencies": {
     "@types/video.js": "7.3.52",
-    "@types/youtube": "0.0.47"
+    "@types/youtube": "0.0.48"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.7.1",
@@ -89,7 +89,7 @@
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/commit-analyzer": "^11.0.0",
     "@semantic-release/git": "^10.0.1",
-    "@semantic-release/github": "^9.0.6",
+    "@semantic-release/github": "^9.0.7",
     "@semantic-release/npm": "^11.0.0",
     "@semantic-release/release-notes-generator": "^12.0.0",
     "@types/jest": "^29.5.5",
@@ -98,7 +98,7 @@
     "chokidar-cli": "^3.0.0",
     "concurrently": "^8.2.1",
     "copyfiles": "^2.4.1",
-    "eslint": "^8.49.0",
+    "eslint": "^8.50.0",
     "eslint-plugin-editorconfig": "^4.0.3",
     "eslint-plugin-import": "^2.28.1",
     "eslint-plugin-sonarjs": "^0.21.0",
@@ -114,7 +114,7 @@
     "postcss-less": "^6.0.0",
     "prettier": "^3.0.3",
     "rimraf": "^5.0.1",
-    "semantic-release": "^22.0.1",
+    "semantic-release": "^22.0.5",
     "smoothscroll-polyfill": "^0.4.4",
     "stylelint": "^15.10.3",
     "stylelint-prettier": "^4.0.2",
