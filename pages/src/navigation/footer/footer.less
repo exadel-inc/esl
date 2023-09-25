@@ -1,10 +1,21 @@
-@import (reference) "../../common/variables.less";
+@import (reference) '../../common/variables.less';
 
 .footer {
   @footer-primary: @primary-blue;
-  @footer-gradient: linear-gradient(to right, #131A2E, @footer-primary,@footer-primary, #ffffff, #131A2E) 47% 0%;
+  @footer-gradient: linear-gradient(
+      to right,
+      #131a2e,
+      @footer-primary,
+      @footer-primary,
+      #ffffff,
+      #131a2e
+    )
+    47% 0%;
 
   display: block;
+  @media print {
+    display: none;
+  }
   @media @md-xl {
     display: flex;
     flex-direction: column;
@@ -50,7 +61,7 @@
     }
 
     @media @md-xl {
-      font-size: .875rem;
+      font-size: 0.875rem;
     }
   }
 
@@ -118,7 +129,7 @@
     height: 10px;
 
     transform-origin: center center;
-    transition: transform .5s ease-in-out;
+    transition: transform 0.5s ease-in-out;
 
     &::after {
       content: '';
@@ -145,11 +156,14 @@
   &-accordion-content {
     margin: 0 15px;
     z-index: 99;
-    transition: max-height .3s ease-in-out,
-    visibility 0s linear .3s;
+    transition:
+      max-height 0.3s ease-in-out,
+      visibility 0s linear 0.3s;
 
     &.open {
-      transition: max-height .3s ease-in-out, visibility 0s linear;
+      transition:
+        max-height 0.3s ease-in-out,
+        visibility 0s linear;
     }
 
     &.animate.open {
@@ -170,7 +184,7 @@
   }
 
   &-common-links {
-    font-size: .9rem;
+    font-size: 0.9rem;
   }
   &-common-links &-link {
     padding: 0;

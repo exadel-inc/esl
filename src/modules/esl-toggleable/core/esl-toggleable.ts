@@ -1,13 +1,15 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESC, SYSTEM_KEYS} from '../../esl-utils/dom/keys';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
-import {prop, attr, jsonAttr, boolAttr, listen} from '../../esl-utils/decorators';
+import {prop, attr, jsonAttr, listen} from '../../esl-utils/decorators';
 import {defined, copyDefinedKeys} from '../../esl-utils/misc/object';
+import {parseBoolean, toBooleanAttribute} from '../../esl-utils/misc/format';
 import {sequentialUID} from '../../esl-utils/misc/uid';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {DelayedTask} from '../../esl-utils/async/delayed-task';
 import {ESLBaseElement} from '../../esl-base-element/core';
-import {isMatches} from '../../esl-utils/dom/traversing';
+import {findParent, isMatches} from '../../esl-utils/dom/traversing';
+import type {DelegatedEvent} from '../../esl-event-listener/core/types';
 
 /** Default Toggleable action params type definition */
 export interface ESLToggleableActionParams {
@@ -39,7 +41,7 @@ export interface ESLToggleableRequestDetails extends ESLToggleableActionParams {
   match?: string | ((target: Element) => boolean);
 }
 
-/** @deprecated alias for ESLToggleableActionParams */
+/** @deprecated alias for ESLToggleableActionParams, will be removed in 5.0.0*/
 export type ToggleableActionParams = ESLToggleableActionParams;
 
 const activators: WeakMap<ESLToggleable, HTMLElement | undefined> = new WeakMap();
@@ -78,10 +80,23 @@ export class ESLToggleable extends ESLBaseElement {
   /** Event to dispatch when toggleable group has changed */
   @prop('esl:change:group') public GROUP_CHANGED_EVENT: string;
 
-  /** CSS class to add on the body element */
+  /**
+   * CSS class (supports {@link CSSClassUtils}) to add on the body element
+   * */
   @attr() public bodyClass: string;
-  /** CSS class to add when the Toggleable is active */
+  /** CSS class (supports {@link CSSClassUtils}) to add when the Toggleable is active */
   @attr({defaultValue: 'open'}) public activeClass: string;
+
+  /**
+   * CSS class (supports {@link CSSClassUtils}) to add/remove on the container
+   * defined by {@link containerActiveClassTarget}
+   */
+  @attr() public containerActiveClass: string;
+  /**
+   * Selector for the closest parent element to add/remove {@link containerActiveClass}
+   * (default: `*` direct parent)
+   */
+  @attr({defaultValue: '*'}) public containerActiveClassTarget: string;
 
   /** Toggleable group meta information to organize groups */
   @attr({name: 'group'}) public groupName: string;
@@ -89,11 +104,11 @@ export class ESLToggleable extends ESLBaseElement {
   @attr({name: 'close-on'}) public closeTrigger: string;
 
   /** Disallow automatic id creation when it's empty */
-  @boolAttr() public noAutoId: boolean;
+  @attr({parser: parseBoolean, serializer: toBooleanAttribute}) public noAutoId: boolean;
   /** Close the Toggleable on ESC keyboard event */
-  @boolAttr() public closeOnEsc: boolean;
+  @attr({parser: parseBoolean, serializer: toBooleanAttribute}) public closeOnEsc: boolean;
   /** Close the Toggleable on a click/tap outside */
-  @boolAttr() public closeOnOutsideAction: boolean;
+  @attr({parser: parseBoolean, serializer: toBooleanAttribute}) public closeOnOutsideAction: boolean;
 
   /** Initial params to pass to show/hide action on the start */
   @jsonAttr<ESLToggleableActionParams>({defaultValue: {force: true, initiator: 'init'}})
@@ -121,8 +136,7 @@ export class ESLToggleable extends ESLBaseElement {
   protected override connectedCallback(): void {
     super.connectedCallback();
     if (!this.id && !this.noAutoId) {
-      const tag = (this.constructor as typeof ESLToggleable).is;
-      this.id = sequentialUID(tag, tag + '-');
+      this.id = sequentialUID(this.baseTagName, this.baseTagName + '-');
     }
     this.initiallyOpened = this.hasAttribute('open');
     this.setInitialState();
@@ -133,15 +147,17 @@ export class ESLToggleable extends ESLBaseElement {
     activators.delete(this);
   }
 
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
+  protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected || newVal === oldVal) return;
     switch (attrName) {
-      case 'open':
-        if (this.open === this.hasAttribute('open')) return;
-        this.toggle(this.open, {initiator: 'attribute', showDelay: 0, hideDelay: 0});
+      case 'open': {
+        const isOpen = this.hasAttribute('open');
+        if (this.open === isOpen) return;
+        this.toggle(isOpen, {initiator: 'attribute', showDelay: 0, hideDelay: 0});
         break;
+      }
       case 'group':
-        this.$$fire(this.GROUP_CHANGED_EVENT,  {
+        this.$$fire(this.GROUP_CHANGED_EVENT, {
           detail: {oldGroupName: oldVal, newGroupName: newVal}
         });
         break;
@@ -224,6 +240,11 @@ export class ESLToggleable extends ESLBaseElement {
   protected onShow(params: ESLToggleableActionParams): void {
     CSSClassUtils.add(this, this.activeClass);
     CSSClassUtils.add(document.body, this.bodyClass, this);
+    if (this.containerActiveClass) {
+      const $container = findParent(this, this.containerActiveClassTarget);
+      $container && CSSClassUtils.add($container, this.containerActiveClass, this);
+    }
+
     this.updateA11y();
     this.$$fire(this.REFRESH_EVENT); // To notify other components about content change
   }
@@ -236,6 +257,10 @@ export class ESLToggleable extends ESLBaseElement {
   protected onHide(params: ESLToggleableActionParams): void {
     CSSClassUtils.remove(this, this.activeClass);
     CSSClassUtils.remove(document.body, this.bodyClass, this);
+    if (this.containerActiveClass) {
+      const $container = findParent(this, this.containerActiveClassTarget);
+      $container && CSSClassUtils.remove($container, this.containerActiveClass, this);
+    }
     this.updateA11y();
   }
 
@@ -280,12 +305,13 @@ export class ESLToggleable extends ESLBaseElement {
     return !(e instanceof KeyboardEvent && SYSTEM_KEYS.includes(e.key));
   }
 
-  @listen({
-    event: 'click',
-    selector: (el: ESLToggleable) => el.closeTrigger || ''
-  })
-  protected _onCloseClick(e: MouseEvent): void {
-    this.hide({initiator: 'close', activator: e.target as HTMLElement, event: e});
+  @listen({event: 'click', selector: (el: ESLToggleable) => el.closeTrigger || ''})
+  protected _onCloseClick(e: DelegatedEvent<MouseEvent>): void {
+    this.hide({
+      initiator: 'close',
+      activator: e.$delegate as HTMLElement,
+      event: e
+    });
   }
 
   @listen({
@@ -310,13 +336,25 @@ export class ESLToggleable extends ESLBaseElement {
   @listen({auto: false, event: 'mouseenter'})
   protected _onMouseEnter(e: MouseEvent): void {
     const hideDelay = this._trackHoverDelay;
-    const baseParams: ESLToggleableActionParams = {initiator: 'mouseenter', trackHover: true, activator: this.activator, event: e, hideDelay};
+    const baseParams: ESLToggleableActionParams = {
+      initiator: 'mouseenter',
+      trackHover: true,
+      activator: this.activator,
+      event: e,
+      hideDelay
+    };
     this.show(Object.assign(baseParams, this.trackHoverParams));
   }
   @listen({auto: false, event: 'mouseleave'})
   protected _onMouseLeave(e: MouseEvent): void {
     const hideDelay = this._trackHoverDelay;
-    const baseParams: ESLToggleableActionParams = {initiator: 'mouseleave', trackHover: true, activator: this.activator, event: e, hideDelay};
+    const baseParams: ESLToggleableActionParams = {
+      initiator: 'mouseleave',
+      trackHover: true,
+      activator: this.activator,
+      event: e,
+      hideDelay
+    };
     this.hide(Object.assign(baseParams, this.trackHoverParams));
   }
 
@@ -345,6 +383,7 @@ declare global {
   export interface ESLLibrary {
     Toggleable: typeof ESLToggleable;
   }
+
   export interface HTMLElementTagNameMap {
     'esl-toggleable': ESLToggleable;
   }

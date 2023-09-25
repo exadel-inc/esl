@@ -4,6 +4,7 @@ const Prism = require('prismjs');
 require('prismjs/components/prism-bash');
 require('prismjs/components/prism-css');
 require('prismjs/components/prism-less');
+require('prismjs/components/prism-json');
 require('prismjs/components/prism-javascript');
 require('prismjs/components/prism-typescript');
 

@@ -7,15 +7,26 @@ import type {
   ESLEventListener,
   ESLListenerHandler,
   ESLListenerCriteria,
-  ESLListenerEventMap,
   ESLListenerDescriptor
 } from '../../esl-utils/dom/events';
+import type {ESLBaseComponent} from '../../esl-utils/abstract/component';
+
+/** Finalize tag name (`is`) for passed ESLBaseElement-based class */
+const finalize = (type: typeof ESLBaseElement, tagName: string): void => {
+  Object.defineProperty(type, 'is', {
+    get: () => tagName,
+    set(value) {
+      if (this === type) throw Error(`[ESL]: Cannot override ${type.name}.is property, the class is already registered`);
+      Object.defineProperty(this, 'is', {value, writable: true, configurable: true});
+    }
+  });
+};
 
 /**
  * Base class for ESL custom elements
  * Allows defining custom element with the optional custom tag name
  */
-export abstract class ESLBaseElement extends HTMLElement {
+export abstract class ESLBaseElement extends HTMLElement implements ESLBaseComponent {
   /** Custom element tag name */
   public static is = '';
 
@@ -24,9 +35,14 @@ export abstract class ESLBaseElement extends HTMLElement {
 
   protected _connected: boolean = false;
 
+  /** @returns custom element tag name */
+  public get baseTagName(): string {
+    return (this.constructor as typeof ESLBaseElement).is;
+  }
+
   protected connectedCallback(): void {
     this._connected = true;
-    this.classList.add((this.constructor as typeof ESLBaseElement).is);
+    this.classList.add(this.baseTagName);
 
     ESLEventUtils.subscribe(this);
   }
@@ -35,6 +51,12 @@ export abstract class ESLBaseElement extends HTMLElement {
 
     ESLEventUtils.unsubscribe(this);
   }
+
+  /**
+   * Callback to handle changing of element attributes.
+   * Happens when attribute accessed for writing independently of the actual value change
+   */
+  protected attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null): void {}
 
   /** Check that the element is connected and `connectedCallback` has been executed */
   public get connected(): boolean {
@@ -97,15 +119,13 @@ export abstract class ESLBaseElement extends HTMLElement {
    */
   public static register(this: typeof ESLBaseElement, tagName?: string): void {
     tagName = tagName || this.is;
-    if (!tagName) throw new Error('Can not define custom element');
+    if (!tagName) throw new DOMException('[ESL]: Incorrect tag name', 'NotSupportedError');
     const constructor: any = customElements.get(tagName);
-    if (constructor) {
-      if (constructor.is !== tagName) throw new Error('Element declaration tag inconsistency');
-      return;
+    if (constructor && (constructor !== this || constructor.is !== tagName)) {
+      throw new DOMException('[ESL]: Element tag already occupied or inconsistent', 'NotSupportedError');
     }
-    if (this.is !== tagName) {
-      this.is = tagName;
-    }
+    if (constructor) return;
+    finalize(this, tagName);
     customElements.define(tagName, this as any as CustomElementConstructor);
   }
 
@@ -121,5 +141,4 @@ export abstract class ESLBaseElement extends HTMLElement {
   public static create<T extends typeof ESLBaseElement>(this: T): InstanceType<T> {
     return document.createElement(this.is) as InstanceType<T>;
   }
-
 }

@@ -1,3 +1,9 @@
+import {flat, uniq} from '../../misc/array';
+import {overrideEvent} from './misc';
+
+/** Key to store listeners on the {@link SyntheticEventTarget} instance*/
+const LISTENERS: unique symbol  = (window.Symbol || String)('_listeners') as any;
+
 /**
  * Synthetic implementation of EventTarget
  * Replicates behavior of native event
@@ -7,14 +13,24 @@ export class SyntheticEventTarget implements EventTarget {
   // Event type to use in the shortcutted calls
   public static DEFAULT_EVENT = 'change';
 
-  private readonly _listeners: Record<string, EventListenerOrEventListenerObject[]> = {};
+  private readonly [LISTENERS]: Record<string, EventListenerOrEventListenerObject[]> = {};
+
+  protected getEventListeners(): EventListenerOrEventListenerObject[];
+  protected getEventListeners(type: string): EventListenerOrEventListenerObject[];
+  protected getEventListeners(type?: string): EventListenerOrEventListenerObject[] {
+    if (typeof type !== 'string') return uniq(flat(Object.values(this[LISTENERS])));
+    return this[LISTENERS][type] || [];
+  }
 
   public hasEventListener(): boolean;
+  public hasEventListener(type: string): boolean;
+  /** @deprecated alias for `addEventListener` */
   public hasEventListener(type: string | number): boolean;
+  /** @deprecated alias for `addEventListener` */
   public hasEventListener(type: string, minCount: number): boolean;
   public hasEventListener(type: string | number = 'change', minCount: number = 0): boolean {
-    if (typeof type !== 'string') return this.hasEventListener('change', type || 0);
-    return this._listeners[type]?.length > minCount;
+    if (typeof type !== 'string') return this.hasEventListener('change', type || 0); // TODO: remove in 5.0.0
+    return this.getEventListeners(type).length > minCount;
   }
 
   public addEventListener(callback: EventListenerOrEventListenerObject): void;
@@ -23,9 +39,10 @@ export class SyntheticEventTarget implements EventTarget {
     if (typeof type !== 'string') return this.addEventListener((this.constructor as typeof SyntheticEventTarget).DEFAULT_EVENT, type);
 
     validateEventListenerType(callback);
-    if (this._listeners[type] && this._listeners[type].includes(callback!)) return;
-    if (this._listeners[type]) this._listeners[type].push(callback!);
-    else Object.assign(this._listeners, {[type]: [callback]});
+    const listeners = this[LISTENERS][type];
+    if (listeners?.includes(callback!)) return;
+    if (listeners) listeners.push(callback!);
+    else Object.assign(this[LISTENERS], {[type]: [callback]});
   }
 
   public removeEventListener(callback: EventListenerOrEventListenerObject): void;
@@ -34,17 +51,20 @@ export class SyntheticEventTarget implements EventTarget {
     if (typeof type !== 'string') return this.removeEventListener((this.constructor as typeof SyntheticEventTarget).DEFAULT_EVENT, type);
 
     validateEventListenerType(callback);
-    if (!this._listeners[type]) return;
-    this._listeners[type] = this._listeners[type].filter((cb) => cb !== callback);
+    const listeners = this[LISTENERS][type];
+    if (!listeners) return;
+    this[LISTENERS][type] = listeners.filter((cb) => cb !== callback);
   }
 
-  public dispatchEvent(e: Event, target: EventTarget = this): boolean {
-    const targetDescriptor: PropertyDescriptor = {get: () => target, enumerable: true};
-    Object.defineProperty(e, 'target', targetDescriptor);
-    Object.defineProperty(e, 'currentTarget', targetDescriptor);
-    Object.defineProperty(e, 'srcElement', targetDescriptor);
-
-    this._listeners[e.type]?.forEach((listener) => {
+  public dispatchEvent(e: Event): boolean;
+  /** @deprecated use `overrideEvent` to declare `target` */
+  public dispatchEvent(e: Event, target?: EventTarget): boolean;
+  public dispatchEvent(e: Event, target?: EventTarget): boolean {
+    overrideEvent(e, 'currentTarget', this);
+    if (target) overrideEvent(e, 'target', target); // TODO: remove in 5.0.0
+    if (!e.target) overrideEvent(e, 'target', this);
+    if (!e.srcElement) overrideEvent(e, 'srcElement', e.target); // TODO: remove in 5.0.0
+    this.getEventListeners(e.type).forEach((listener) => {
       if (typeof listener === 'function') listener.call(this, e);
       else listener.handleEvent.call(listener, e);
     });

@@ -11,7 +11,8 @@ module.exports = {
   coverageReporters: ['lcov', 'html'],
   setupFiles: [
     './src/modules/esl-utils/test/deviceDetector.mock.ts',
-    './src/modules/esl-utils/test/matchMedia.mock.ts'
+    './src/modules/esl-utils/test/matchMedia.mock.ts',
+    './src/modules/esl-utils/test/resizeObserver.mock.ts'
   ],
   collectCoverageFrom: [
     'src/modules/**/*.ts',
@@ -20,8 +21,6 @@ module.exports = {
     // cumulative exclude
     '!src/modules/*.ts',
     '!src/modules/*/*.ts',
-    // draft modules exclude
-    '!src/modules/draft/**',
     // libs exclude
     '!**/node_modules/**',
     // migration lint rules

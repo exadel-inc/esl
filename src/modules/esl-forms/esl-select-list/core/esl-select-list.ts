@@ -40,13 +40,13 @@ export class ESLSelectList extends ESLSelectWrapper {
     this.$list.setAttribute('role', 'list');
     this.$list.classList.add('esl-scrollable-content');
     this.$list.classList.add('esl-select-list-container');
-    this.$scroll = document.createElement(ESLScrollbar.is) as ESLScrollbar;
+    this.$scroll = ESLScrollbar.create();
     this.$scroll.target = '::prev';
-    this.$selectAll = document.createElement(ESLSelectItem.is) as ESLSelectItem;
+    this.$selectAll = ESLSelectItem.create();
     this.$selectAll.classList.add('esl-select-all-item');
   }
 
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
+  protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected || newVal === oldVal) return;
     if (attrName === 'select-all-label') {
       this.$selectAll.textContent = newVal;

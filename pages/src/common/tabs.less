@@ -1,13 +1,14 @@
-@import (reference) "./variables.less";
+@import (reference) './variables.less';
 
 .esl-d-tab-group {
-  &, & > .esl-d-tab-panel {
-    border-bottom-left-radius: calc(.5rem - 1px);
-    border-bottom-right-radius: calc(.5rem - 1px);
+  &,
+  & > .esl-d-tab-panel {
+    border-bottom-left-radius: calc(0.5rem - 1px);
+    border-bottom-right-radius: calc(0.5rem - 1px);
   }
 
   & > .esl-d-accordion-header {
-    border-radius: calc(.5rem - 1px);
+    border-radius: calc(0.5rem - 1px);
     transition: border-radius 0s linear.5s;
     &[active] {
       color: @primary-blue;
@@ -30,7 +31,7 @@
     border: 1px solid @secondary-blue;
     border-top: none;
 
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
   }
   > .esl-d-tab-group > .esl-d-accordion-header {
     display: block;
@@ -50,7 +51,9 @@
   }
   > .esl-d-tab-group {
     background: #fff;
-    border: 1px solid @secondary-blue;
+    &[has-opened] {
+      border: 1px solid @secondary-blue;
+    }
   }
 }
 
@@ -68,14 +71,21 @@
   max-width: 280px;
   min-height: 100%;
   margin: 0;
-  padding: .5rem 1rem;
+  padding: 0.5rem 1rem;
 
   border: 1px solid transparent;
   border-bottom: none;
-  border-top-left-radius: calc(.5rem - 1px);
-  border-top-right-radius: calc(.5rem - 1px);
+  border-top-left-radius: calc(0.5rem - 1px);
+  border-top-right-radius: calc(0.5rem - 1px);
 
-  &:focus, &:hover {
+  transition:
+    border-color 0.25s linear,
+    border-bottom-color 0s linear,
+    background-color 0.25s linear,
+    color 0.25s linear;
+
+  &:focus,
+  &:hover {
     @inactive-color: mix(@secondary-blue, #ccc, 50);
     border-color: @inactive-color @inactive-color @secondary-blue;
   }

@@ -32,7 +32,7 @@ export class ESLSelectItem extends ESLBaseElement {
     this.setAttribute('aria-selected', String(this.selected));
   }
 
-  protected attributeChangedCallback(attrName: string): void {
+  protected override attributeChangedCallback(attrName: string): void {
     if (attrName === 'selected') {
       this.setAttribute('aria-selected', String(this.selected));
     }
@@ -51,7 +51,7 @@ export class ESLSelectItem extends ESLBaseElement {
 
   /** Helper to create an option item */
   public static build(option: ESLSelectOption): ESLSelectItem {
-    const item = document.createElement(ESLSelectItem.is) as ESLSelectItem;
+    const item = ESLSelectItem.create();
     item.update(option);
     return item;
   }

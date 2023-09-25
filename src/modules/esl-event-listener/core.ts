@@ -1,8 +1,12 @@
 export * from './core/api';
+
+export * from './core/targets/resize.target';
+export * from './core/targets/decorated.target';
+export * from './core/targets/swipe.target';
+
 export type {
   ESLListenerHandler,
   ESLListenerCriteria,
-  ESLListenerEventMap,
   ESLListenerDescriptor,
   ESLListenerDescriptorFn,
   ESLListenerDescriptorExt,

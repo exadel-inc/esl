@@ -104,7 +104,7 @@ describe('misc/format helper tests', () => {
       ['false', false],
       ['', true],
       ['true', true],
-      ['0', true],
+      ['0', false],
       ['1', true],
       ['brr', true]
     ])(

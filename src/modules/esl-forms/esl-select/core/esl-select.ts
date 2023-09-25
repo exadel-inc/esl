@@ -60,7 +60,7 @@ export class ESLSelect extends ESLSelectWrapper {
     this.$dropdown = document.createElement(ESLSelectDropdown.is);
   }
 
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
+  protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (attrName === 'disabled') this._updateDisabled();
     if (attrName === 'dropdown-class') {
       this.$dropdown.$$cls(oldVal, false);
@@ -138,7 +138,7 @@ export class ESLSelect extends ESLSelectWrapper {
   protected _onClick(): void {
     if (this.disabled) return;
     this.$dropdown.toggle(!this.$dropdown.open, {
-      activator: this,
+      activator: this.$renderer,
       initiator: 'select'
     });
   }

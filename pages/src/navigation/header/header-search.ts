@@ -1,12 +1,12 @@
-import {prop, attr, boolAttr} from '../../../../src/modules/esl-utils/decorators';
-import {CSSClassUtils} from '../../../../src/modules/esl-utils/dom/class';
-import {afterNextRender} from '../../../../src/modules/esl-utils/async/raf';
-import {parseNumber} from '../../../../src/modules/esl-utils/misc/format';
-import {ESLTraversingQuery} from '../../../../src/modules/esl-traversing-query/core';
-import {ESLToggleable} from '../../../../src/modules/esl-toggleable/core';
+import {prop, attr, boolAttr, listen} from '@exadel/esl/modules/esl-utils/decorators';
+import {CSSClassUtils} from '@exadel/esl/modules/esl-utils/dom/class';
+import {afterNextRender} from '@exadel/esl/modules/esl-utils/async/raf';
+import {parseNumber} from '@exadel/esl/modules/esl-utils/misc/format';
+import {ESLTraversingQuery} from '@exadel/esl/modules/esl-traversing-query/core';
+import {ESLToggleable} from '@exadel/esl/modules/esl-toggleable/core';
 import {requestGss} from '../../search/search-script';
 
-import type {ESLToggleableActionParams} from '../../../../src/modules/esl-toggleable/core';
+import type {ESLToggleableActionParams} from '@exadel/esl/modules/esl-toggleable/core';
 
 export class ESLDemoSearchBox extends ESLToggleable {
   static override is = 'esl-d-search-box';
@@ -43,5 +43,15 @@ export class ESLDemoSearchBox extends ESLToggleable {
       CSSClassUtils.remove(this, this.postCls);
       this.activator?.focus({preventScroll: true});
     }, parseNumber(this.postClsDelay));
+  }
+
+  @listen({
+    event: 'focusout',
+    target: '::parent(.header-search)'
+  })
+  protected onFocusOut(e: FocusEvent): void {
+    if (!e.relatedTarget || !e.currentTarget || (e.currentTarget as Node).contains(e.relatedTarget as Node)) return;
+    this.hide({hideDelay: 100});
+    this.activator = e.relatedTarget as HTMLElement;
   }
 }

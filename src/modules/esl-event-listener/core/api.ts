@@ -5,9 +5,7 @@ import {getAutoDescriptors, isEventDescriptor, initDescriptor} from './descripto
 
 import type {
   ESLListenerHandler,
-  ESLListenerCriteria,
   ESLListenerDescriptor,
-  ESLListenerEventMap,
   ESLListenerDescriptorFn
 } from './types';
 
@@ -18,7 +16,6 @@ export class ESLEventUtils {
    * @see dispatchCustomEvent
    */
   public static dispatch = dispatchCustomEvent;
-
 
   /** @deprecated alias for {@link getAutoDescriptors} */
   public static descriptors = getAutoDescriptors;
@@ -38,15 +35,12 @@ export class ESLEventUtils {
   /** Type guard to check if the passed function is typeof {@link ESLListenerDescriptorFn} */
   public static isEventDescriptor = isEventDescriptor;
 
-
   /**
    * Gets currently subscribed listeners of the host
    * @param host - host object (listeners context) to associate subscription
    * @param criteria - optional set of criteria {@link ESLListenerCriteria} to filter listeners list
    */
-  public static listeners(host: object, ...criteria: ESLListenerCriteria[]): ESLEventListener[] {
-    return ESLEventListener.get(host, ...criteria);
-  }
+  public static listeners = ESLEventListener.get;
 
   /**
    * Subscribes all auto descriptors of the host
@@ -96,7 +90,10 @@ export class ESLEventUtils {
     }
     if (typeof eventDesc === 'string') eventDesc = {event: eventDesc};
     const listeners = ESLEventListener.subscribe(host, handler, eventDesc as ESLListenerDescriptor);
-    if (!listeners.length) console.warn('[ESL]: Empty subscription %o', Object.assign({}, eventDesc, {handler}));
+    if (!listeners.length) {
+      const mergedDesc = Object.assign({}, eventDesc, {handler});
+      console.warn('[ESL]: Empty subscription %o', mergedDesc);
+    }
     return listeners;
   }
 
@@ -105,11 +102,7 @@ export class ESLEventUtils {
    * @param host - host element that stores subscriptions (listeners context)
    * @param criteria - optional set of criteria {@link ESLListenerCriteria} to filter listeners to remove
    */
-  public static unsubscribe(host: object, ...criteria: ESLListenerCriteria[]): ESLEventListener[] {
-    const listeners = ESLEventListener.get(host, ...criteria);
-    listeners.forEach((listener) => listener.unsubscribe());
-    return listeners;
-  }
+  public static unsubscribe = ESLEventListener.unsubscribe;
 }
 
 /** @deprecated alias for {@link ESLEventUtils} */
