@@ -1,4 +1,4 @@
-/** Function to process html string  for normalization*/
+/** Function to process html string for normalization*/
 export type UIPNormalizationProcessor = (input: string) => string;
 
 export class UIPHtmlNormalizationService {
