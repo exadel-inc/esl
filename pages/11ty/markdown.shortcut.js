@@ -5,7 +5,7 @@ const color = require('kleur');
 const {JSDOM} = require('jsdom');
 const {markdown} = require('./markdown.lib');
 
-const {github, rewriteRules, urlPrefix} = require('./site.config');
+const {github, rewriteRules} = require('./site.config');
 
 class MDRenderer {
   static async render(filePath, startAnchor, endAnchor) {
@@ -72,7 +72,7 @@ class MDRenderer {
   static processRewriteRules(linkPath) {
     for (const [key, value] of Object.entries(rewriteRules)) {
       if (!linkPath.endsWith(key)) continue;
-      if (value.startsWith('/')) return urlPrefix + value;
+      if (value.startsWith('/')) return value;
       return value;
     }
     return github.srcUrl + linkPath;

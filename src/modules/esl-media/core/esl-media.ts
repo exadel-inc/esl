@@ -19,6 +19,10 @@ import type {BaseProvider} from './esl-media-provider';
 
 export type ESLMediaFillMode = 'cover' | 'inscribe' | '';
 
+export type ESLMediaLazyMode = 'auto' | 'manual' | 'none';
+const isLazyAttr = (v: string): v is ESLMediaLazyMode => ['auto', 'manual', 'none'].includes(v);
+const parseLazyAttr = (v: string): ESLMediaLazyMode => isLazyAttr(v) ? v : 'auto';
+
 /**
  * ESLMedia - custom element, that provides an ability to add and configure media (video / audio)
  * using a single tag as well as work with external providers using simple native-like API.
@@ -39,7 +43,8 @@ export class ESLMedia extends ESLBaseElement {
     'play-in-viewport',
     'muted',
     'loop',
-    'controls'
+    'controls',
+    'lazy'
   ];
 
   /** Event to dispatch on ready state */
@@ -70,10 +75,13 @@ export class ESLMedia extends ESLBaseElement {
   @attr() public fillMode: ESLMediaFillMode;
   /** Strict aspect ratio definition */
   @attr() public aspectRatio: string;
-
-
-  /** Disabled marker to prevent rendering */
+  /**
+   * Disabled marker to prevent rendering
+   * @deprecated replaced with {@link lazy} = "manual" functionality
+   */
   @boolAttr() public disabled: boolean;
+  /** Allows lazy load resource */
+  @attr({parser: parseLazyAttr, defaultValue: 'none'}) public lazy: ESLMediaLazyMode;
   /** Autoplay resource marker */
   @boolAttr() public autoplay: boolean;
   /** Autofocus on play marker */
@@ -139,8 +147,8 @@ export class ESLMedia extends ESLBaseElement {
     }
     this.innerHTML += '<!-- Inner Content, do not modify it manually -->';
     this.bindEvents();
-    this.attachViewportConstraint();
     this.deferredReinitialize();
+    this.reattachViewportConstraint();
   }
 
   protected override disconnectedCallback(): void {
@@ -159,6 +167,10 @@ export class ESLMedia extends ESLBaseElement {
       case 'media-type':
         this.deferredReinitialize();
         break;
+      case 'lazy':
+        this.reattachViewportConstraint();
+        this.deferredReinitialize();
+        break;
       case 'loop':
       case 'muted':
       case 'controls':
@@ -169,9 +181,7 @@ export class ESLMedia extends ESLBaseElement {
         this.deferredResize();
         break;
       case 'play-in-viewport':
-        this.playInViewport ?
-          this.attachViewportConstraint() :
-          this.detachViewportConstraint();
+        this.reattachViewportConstraint();
         break;
       case 'load-condition':
         ESLMediaQuery.for(oldVal).removeEventListener(this.deferredReinitialize);
@@ -201,7 +211,7 @@ export class ESLMedia extends ESLBaseElement {
   }
 
   public canActivate(): boolean {
-    if (this.disabled) return false;
+    if (this.lazy !== 'none' || this.disabled) return false;
     return this.conditionQuery.matches;
   }
 
@@ -239,10 +249,11 @@ export class ESLMedia extends ESLBaseElement {
 
   /**
    * Start playing media
-   * @param allowActivate - allows to remove disabled marker
+   * @param allowActivate - allows to remove manual lazy or disabled marker
    */
   public play(allowActivate: boolean = false): Promise<void> | null {
-    if (this.disabled && allowActivate) {
+    if (!this.ready && allowActivate) {
+      this.lazy = 'none';
       this.disabled = false;
       this.deferredReinitialize.cancel();
       this.reinitInstance();
@@ -400,10 +411,10 @@ export class ESLMedia extends ESLBaseElement {
     return this._provider ? this._provider.defaultAspectRatio : 0;
   }
 
-  protected attachViewportConstraint(): void {
-    if (this.playInViewport) {
-      getIObserver().observe(this);
-    }
+  protected reattachViewportConstraint(): void {
+    this.detachViewportConstraint();
+    if (!this.playInViewport && this.lazy !== 'auto') return;
+    getIObserver().observe(this);
   }
   protected detachViewportConstraint(): void {
     const observer = getIObserver(true);

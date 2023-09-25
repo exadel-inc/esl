@@ -1,3 +1,27 @@
+# [4.12.0](https://github.com/exadel-inc/esl/compare/v4.11.0...v4.12.0) (2023-09-22)
+
+
+### Bug Fixes
+
+* **esl-tabs:** observe element resize instead of window using `ESLResizeObserverTarget` ([9dd4639](https://github.com/exadel-inc/esl/commit/9dd4639c6d937758725c5a4e9e444c6c78d31215))
+
+
+### Code Refactoring
+
+* **esl-event-listener:** restructure `esl-event-listener/core/targets` ([fbdb6c3](https://github.com/exadel-inc/esl/commit/fbdb6c335e9863fddb6a817a66689cc127356335))
+
+
+### Features
+
+* **esl-event-listener:** `ESLEventUtils.unsubscribe` implementation moved to internal `ESLEventListener.unsubscribe` ([eaa4204](https://github.com/exadel-inc/esl/commit/eaa42045c39f3cbb5f07568aab93b9bd2a6fba98))
+* **esl-event-listener:** add `SwipeEventTarget` to subscribe `swipe` events using `ESLEventListener` ([e7e69a2](https://github.com/exadel-inc/esl/commit/e7e69a257b74f985be0c191b8e722dcb124bc74c)), closes [#1809](https://github.com/exadel-inc/esl/issues/1809)
+* **esl-media:** support for lazy initialization by `lazy` attribute for `ESLMedia` ([f83d65a](https://github.com/exadel-inc/esl/commit/f83d65a91e064e6f8aa2ddc7f9cc4e8b49eacba5))
+
+
+### BREAKING CHANGES
+
+* **esl-event-listener:** (if there is references to internal files) `resize.adapter.ts`/`resize.adapter.event.ts` renamed to `resize.target.ts`/`resize.target.event.ts`
+
 # [4.11.0](https://github.com/exadel-inc/esl/compare/v4.10.0...v4.11.0) (2023-09-01)
 
 

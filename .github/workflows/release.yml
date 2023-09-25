@@ -5,6 +5,7 @@ on:
     inputs:
       dryRun:
         type: boolean
+        default: true
         required: false
         description: 'Run in dry-run mode (no actual release)'
 

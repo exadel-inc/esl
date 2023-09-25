@@ -20,7 +20,7 @@ to be sure that you are following the commit convention.
 - allows categorizing commits by importance and goals
 
 ## FAQ
-- Why do ESL use commit convention?
+- Why does ESL use the commit convention?
     - It's important for us to have an automated process of RELEASE NOTES and CHANGELOG creation.
 - What if incorrect commits were added to my branch?
     - Try to reword your commit messages using
@@ -28,10 +28,10 @@ to be sure that you are following the commit convention.
     - You can also squash (concat into one commit) your commits but that's not necessary,
       the most important point is that your final commit messages correctly define the
       type and have a detailed and clear description of the changes
-    - Just in case you can't fix up your git history, provide a noticeable comment 
-      to use GitHub Squash Merge. It's also will be nice if you write a commit summary 
-      to make have the ability to make a result commit faster.
-- Do I need to define a type for each of the commits in my feature?
+    - In case you can't fix your Git history, please add a conspicuous comment indicating
+      the use of GitHub Squash Merge. Additionally, it would be helpful if you could provide a commit summary
+      to expedite the process of creating a final commit.
+- Do I need to define a type for each commit in my feature?
     - Yes, you will need a type for each commit. But, be careful with the following situations:
         - **If the feature or bug changes are not released and already described by the first message - 
           make sure you are using style or refactor change type. Even, if you are fixing your previous commit, 
@@ -71,11 +71,11 @@ Type is a required part of the message, and it is limited by the following value
 | ci       | Continuous integration and deployment related changes |
 | perf     | Backward-compatible performance improvements |
 
-Type should be in a lowercase.
+The type should be in lowercase.
 
 ### Force minor version update
 
-You can increase importance of the patch changes to the minor using the `MINOR VERSION` marker in the message.
+You can increase the importance of the patch changes to the minor using the `MINOR VERSION` marker in the message.
 
 ### BREAKING CHANGES
 
@@ -99,11 +99,11 @@ BREAKING CHANGES:
 
 Scope is an optional but "nice to have" part of your commit message.
 
-Use scope to clarify changes area (module, component, feature or epic).
+Use a scope to clarify changes area (module, component, feature or epic).
 
 Scope should be placed in parentheses after type but before `:`.
 
-Scope should be compatibly short and in a lowercase.
+The scope should be compatibly short and in lowercase.
 
 ```text
 fix(esl-component): IE compatibility
@@ -113,12 +113,12 @@ fix(esl-component): IE compatibility
 
 ### \<subject\>
 
-Subject is the main part of commit message where you should describe your changes.
+The subject is the main part of the commit message where you should describe your changes.
 
 Subject text rules:
 - be informative
 - use imperative, present tense: “change” not “changed” nor “changes”
-- don't capitalize first letter
+- don't capitalize the first letter
 - no dot (.) at the end
 
 **NOT**:
@@ -131,26 +131,27 @@ feat: Component updated to the new base class.
 
 **BUT**
 ```text
-fix (esl-utils): IE compatibility for scroll type detection
+fix(esl-utils): IE compatibility for scroll type detection
 ```
 ```text
-feat (esl-popup): esl-popup component base structure 
+feat(esl-popup): esl-popup component base structure 
 ```
 
 ---
 
 ### \<body\>
 
-The body is optional part of commit message. 
-Body part can be used to provide details of commit changes or clarify the motivation for changes.
+The body is an optional part of a commit message. 
+It can be used to provide details about the changes made in the commit or to clarify the motivation behind the changes.
 
-The header and body are supposed to be separated by a blank line.
+The header and body should be separated by a blank line.
 
 ---
 
 ### \<footer\>
 
-The footer is optional lines to provide additional details like linking closed issues, mentioning contributors and so on.
+The footer is optional lines to provide additional details like linking closed issues, mentioning contributors, and so
+on.
 
 The body and footer are also should be separated by a blank line.
 
