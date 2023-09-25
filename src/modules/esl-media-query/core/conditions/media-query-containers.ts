@@ -1,4 +1,4 @@
-import {SyntheticEventTarget} from '../../../esl-utils/dom/events';
+import {SyntheticEventTarget} from '../../../esl-utils/dom/events/target';
 import {ESLMediaChangeEvent} from './media-query-base';
 import {ALL, NOT_ALL} from './media-query-const';
 

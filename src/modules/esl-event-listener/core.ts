@@ -5,6 +5,7 @@ export * from './core/targets/decorated.target';
 export * from './core/targets/swipe.target';
 
 export type {
+  DelegatedEvent,
   ESLListenerHandler,
   ESLListenerCriteria,
   ESLListenerDescriptor,

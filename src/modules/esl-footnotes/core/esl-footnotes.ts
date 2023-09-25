@@ -3,7 +3,7 @@ import {bind, memoize, attr, listen, prop} from '../../esl-utils/decorators';
 import {debounce} from '../../esl-utils/async/debounce';
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core';
-import {ESLEventUtils} from '../../esl-utils/dom/events';
+import {ESLEventUtils} from '../../esl-event-listener/core';
 import {ENTER, SPACE} from '../../esl-utils/dom/keys';
 import {sequentialUID} from '../../esl-utils/misc/uid';
 import {compileFootnotesGroupedList, compileFootnotesNongroupedList, sortFootnotes} from './esl-footnotes-data';

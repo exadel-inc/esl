@@ -1,14 +1,14 @@
 import {setAttr} from '../../esl-utils/dom/attr';
 import {prop} from '../../esl-utils/decorators';
-import {ESLEventUtils} from '../../esl-utils/dom/events';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
+import {ESLEventUtils} from '../../esl-event-listener/core';
 
 import type {
   ESLEventListener,
   ESLListenerHandler,
   ESLListenerCriteria,
   ESLListenerDescriptor
-} from '../../esl-utils/dom/events';
+} from '../../esl-event-listener/core';
 import type {ESLBaseComponent} from '../../esl-utils/abstract/component';
 
 /** Finalize tag name (`is`) for passed ESLBaseElement-based class */

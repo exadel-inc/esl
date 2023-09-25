@@ -1,5 +1,5 @@
 import {ESLShareBaseAction} from '../core/esl-share-action';
-import {ESLEventUtils} from '../../esl-utils/dom/events';
+import {ESLEventUtils} from '../../esl-event-listener/core';
 
 import type {ESLShareButton} from '../core/esl-share-button';
 

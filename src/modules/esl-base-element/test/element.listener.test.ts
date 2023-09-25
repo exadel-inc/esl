@@ -2,7 +2,7 @@ import '../../../polyfills/es5-target-shim';
 
 import {ESLBaseElement, listen} from '../core';
 import {randUID} from '../../esl-utils/misc/uid';
-import {ESLEventUtils} from '../../esl-utils/dom/events';
+import {ESLEventUtils} from '../../esl-event-listener/core';
 
 describe('ESLBaseElement: listeners', () => {
   describe('ESLBaseElement auto subscribes to listener declarations', () => {

@@ -2,7 +2,7 @@ import {attr, boolAttr, listen} from '../../../esl-utils/decorators';
 import {CSSClassUtils} from '../../../esl-utils/dom/class';
 import {ENTER, SPACE} from '../../../esl-utils/dom/keys';
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
-import {ESLEventUtils} from '../../../esl-utils/dom/events';
+import {ESLEventUtils} from '../../../esl-event-listener/core';
 
 import {ESLSelectWrapper} from '../../esl-select-list/core/esl-select-wrapper';
 import {ESLSelectRenderer} from './esl-select-renderer';

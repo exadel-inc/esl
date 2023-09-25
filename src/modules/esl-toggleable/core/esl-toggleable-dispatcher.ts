@@ -1,5 +1,6 @@
-import {ESLBaseElement, listen} from '../../esl-base-element/core';
-import {getCompositeTarget} from '../../esl-utils/dom/events';
+import {ESLBaseElement} from '../../esl-base-element/core';
+import {listen} from '../../esl-utils/decorators';
+import {getCompositeTarget} from '../../esl-utils/dom/events/misc';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLToggleable} from './esl-toggleable';
 

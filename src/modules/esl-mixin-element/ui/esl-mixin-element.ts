@@ -1,8 +1,8 @@
 import {prop} from '../../esl-utils/decorators';
 import {setAttr} from '../../esl-utils/dom/attr';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {ESLEventUtils} from '../../esl-utils/dom/events';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
+import {ESLEventUtils} from '../../esl-event-listener/core';
 
 import {ESLMixinRegistry} from './esl-mixin-registry';
 import {ESLMixinAttributesObserver} from './esl-mixin-attr';
@@ -12,7 +12,7 @@ import type {
   ESLListenerCriteria,
   ESLListenerDescriptor,
   ESLListenerHandler
-} from '../../esl-utils/dom/events';
+} from '../../esl-event-listener/core';
 import type {ESLBaseComponent} from '../../esl-utils/abstract/component';
 import type {ESLDomElementRelated} from '../../esl-utils/abstract/dom-target';
 
