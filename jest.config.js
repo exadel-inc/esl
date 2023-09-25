@@ -22,6 +22,8 @@ module.exports = {
     '!src/modules/*.ts',
     '!src/modules/*/*.ts',
     // libs exclude
-    '!**/node_modules/**'
+    '!**/node_modules/**',
+    // migration lint rules
+    'eslint/**'
   ]
 };
