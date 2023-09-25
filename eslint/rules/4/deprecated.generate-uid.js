@@ -1,4 +1,4 @@
-const {buildRule} = require('../../base-rules/deprecated-alias');
+const {buildRule} = require('../../core/deprecated-alias');
 
 /**
  * Rule for deprecated `generateUId` alias for {@link randUID}

@@ -51,7 +51,8 @@
     "src/polyfills/**/*.ts"
   ],
   "workspaces": [
-    "pages"
+    "pages",
+    "eslint"
   ],
   "scripts": {
     "start": "cd pages && npm run start",
@@ -84,6 +85,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.7.1",
     "@commitlint/config-conventional": "^17.7.0",
+    "@exadel/eslint-plugin-esl": "file:eslint",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/commit-analyzer": "^11.0.0",
     "@semantic-release/git": "^10.0.1",

@@ -1,16 +1,18 @@
 {
   "name": "@exadel/eslint-plugin-esl",
-  "version": "4.2.0",
+  "version": "4.12.0",
   "license": "MIT",
-  "description": "ESL migration lint rule",
+  "description": "Helper ESLint rules to find and migrate ESL (@exadel/esl) library deprecations",
   "main": "index.js",
   "scripts": {
-    "test": "cd .. && jest \"eslint\""
+    "test": "jest",
+    "version": "node ../build/bump.js"
   },
   "dependencies": {
     "eslint-traverse": "^1.0.0"
   },
   "peerDependencies": {
+    "@exadel/esl": "^4.12.0",
     "eslint": ">=8.0.0"
   },
   "keywords": [
@@ -21,7 +23,7 @@
   "eslint": [
     {
       "name": "@exadel/eslint-plugin-esl",
-      "version": "4.2.0",
+      "version": "4.12.0",
       "main": "index.js"
     }
   ]

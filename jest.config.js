@@ -4,7 +4,7 @@ module.exports = {
     '^.+\\.html?$': './build/jest.html-loader.js'
   },
   testEnvironment: 'jsdom',
-  roots: ['src/modules', 'src/polyfills', 'eslint'],
+  roots: ['src/modules', 'src/polyfills'],
   testRegex: '/test/(.+)\\.test\\.ts$',
   moduleFileExtensions: ['ts', 'js', 'json', 'html'],
   coverageDirectory: '.report',

@@ -1,7 +1,6 @@
 const DEPRECATED_4_RULES = {
   'deprecated-4/generate-uid': require('./rules/4/deprecated.generate-uid'),
   'deprecated-4/deep-compare': require('./rules/4/deprecated.deep-compare'),
-
   'deprecated-4/event-utils': require('./rules/4/deprecated.event-utils'),
   'deprecated-4/traversing-query': require('./rules/4/deprecated.traversing-query'),
   'deprecated-4/toggleable-action-params': require('./rules/4/deprecated.toggleable-action-params')
