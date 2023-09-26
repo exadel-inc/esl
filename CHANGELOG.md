@@ -1,3 +1,15 @@
+# [1.1.0-beta.4](https://github.com/exadel-inc/ui-playground/compare/v1.1.0-beta.3...v1.1.0-beta.4) (2023-09-21)
+
+
+### Bug Fixes
+
+* **core:** fix `jsx-dom` dependency to be main dependency (instead of dev one) ([b0de47d](https://github.com/exadel-inc/ui-playground/commit/b0de47d34209d26526638455198a462f97816f54))
+
+
+### Features
+
+* **uip-editor:** `uip-editor` reworked to use latest version of CodeJar and Prism without producing side-effects ([8216d2a](https://github.com/exadel-inc/ui-playground/commit/8216d2aa321b345c638ac311bdd6fbc677e47c8d))
+
 # [1.1.0-beta.3](https://github.com/exadel-inc/ui-playground/compare/v1.1.0-beta.2...v1.1.0-beta.3) (2023-09-04)
 
 
