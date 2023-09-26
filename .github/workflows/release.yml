@@ -2,21 +2,23 @@
 # CI Github Action: Release
 #-----------------------------
 
-name: release
+name: Release
 
 on:
   workflow_dispatch:
-    dryRun:
-      type: boolean
-      default: true
-      required: false
-      description: 'Run in dry-run mode (no actual release)'
+    inputs:
+      dryRun:
+        type: boolean
+        default: true
+        required: false
+        description: 'Run in dry-run mode (no actual release)'
 
 env:
   node-version: 18.x
 
 jobs:
   release:
+    name: Release
     runs-on: ubuntu-latest
 
     steps:
