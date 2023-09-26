@@ -31,6 +31,12 @@ export type ESLListenerDescriptor<EType extends keyof ESLListenerEventMap = stri
    */
   passive?: boolean;
 
+  /**
+   * Condition (boolean value or predicate) to apply subscription
+   * Rejected by condition subscription does not count as warning during subscription process
+   */
+  condition?: boolean | PropertyProvider<boolean>;
+
   /** A string (or provider function) representing CSS selector to check delegated event target (undefined (disabled) by default) */
   selector?: string | PropertyProvider<string>;
   /**
