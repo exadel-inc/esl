@@ -1,14 +1,13 @@
-import {attr, boolAttr, listen} from '@exadel/esl/modules/esl-base-element/core';
 import {randUID} from '@exadel/esl/modules/esl-utils/misc/uid';
-import {memoize} from '@exadel/esl/modules/esl-utils/decorators/memoize';
-import type {ESLSelect} from '@exadel/esl/modules/esl-forms/esl-select/core';
+import {attr, boolAttr, listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 
-import {UIPSetting} from '../../plugins/settings/setting';
+
+import {TokenListUtils} from '../../core/utils/token-list';
+import {UIPRoot} from '../../core/registration';
 import {ChangeAttrConfig, UIPStateModel} from '../../core/base/model';
-import TokenListUtils from '../../utils/token-list-utils';
-import {WARNING_MSG} from '../../utils/warning-msg';
-import {UIPRoot} from '../../registration';
+import {UIPSetting} from '../../plugins/settings/setting';
 
+import type {ESLSelect} from '@exadel/esl/modules/esl-forms/esl-select/core';
 
 /**
  * Custom setting for selecting attribute's value
@@ -105,7 +104,7 @@ export class UIPSelectSetting extends UIPSetting {
 
     if (!attrValues.length) {
       this.disabled = true;
-      return this.setInconsistency(WARNING_MSG.noTarget);
+      return this.setInconsistency(this.NO_TARGET_MSG);
     }
 
     this.mode === 'replace' ? this.replaceFrom(attrValues) : this.appendFrom(attrValues);
@@ -113,14 +112,14 @@ export class UIPSelectSetting extends UIPSetting {
 
   /** Updates setting's value for replace {@link mode} */
   protected replaceFrom(attrValues: (string | null)[]): void {
-    if (!TokenListUtils.hasSameElements(attrValues)) return this.setInconsistency(WARNING_MSG.multiple);
+    if (!TokenListUtils.hasSameElements(attrValues)) return this.setInconsistency(this.MULTIPLE_VALUE_MSG);
 
     if (attrValues[0] !== null &&
       TokenListUtils.contains(this.settingOptions, TokenListUtils.split(attrValues[0]))) {
       return this.setValue(attrValues[0]);
     }
 
-    return this.multiple ? this.setValue('') : this.setInconsistency(WARNING_MSG.noMatch);
+    return this.multiple ? this.setValue('') : this.setInconsistency(this.NO_MATCH_MSG);
   }
 
   /** Updates setting's value for {@link mode} = "append" */
@@ -138,8 +137,7 @@ export class UIPSelectSetting extends UIPSetting {
 
     if (this.multiple || commonOptions.length) return this.setValue(TokenListUtils.join(commonOptions));
 
-    return this.setInconsistency(TokenListUtils.hasSameElements(attrValues) ?
-      WARNING_MSG.noMatch : WARNING_MSG.multiple);
+    return this.setInconsistency(TokenListUtils.hasSameElements(attrValues) ? this.NO_MATCH_MSG : this.MULTIPLE_VALUE_MSG);
   }
 
   protected getDisplayedValue(): string {
@@ -152,7 +150,7 @@ export class UIPSelectSetting extends UIPSetting {
     this.$$on(this._onChange);
   }
 
-  protected setInconsistency(msg = WARNING_MSG.inconsistent): void {
+  protected setInconsistency(msg = this.INCONSISTENT_VALUE_MSG): void {
     const inconsistentOption = new Option(msg, UIPSelectSetting.inconsistentValue,
       false, true);
     inconsistentOption.disabled = true;

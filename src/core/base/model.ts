@@ -1,6 +1,10 @@
 import {Observable} from '@exadel/esl/modules/esl-utils/abstract/observable';
+import {decorate} from '@exadel/esl/modules/esl-utils/decorators';
+import {microtask} from '@exadel/esl/modules/esl-utils/async';
+
 import {UIPPlugin} from './plugin';
 import {UIPRoot} from './root';
+import {UIPHtmlNormalizationService} from '../utils/normalization';
 
 /** Type for function to change attribute's current value */
 export type TransformSignature = (current: string | null) => string | boolean | null;
@@ -38,8 +42,6 @@ export class UIPStateModel extends Observable {
   private _html = new DOMParser().parseFromString('', 'text/html').body;
   /** Last {@link UIPPlugin} element which changed markup */
   private _lastModifier: UIPPlugin | UIPRoot;
-  /** Marker whether state changes were dispatched */
-  private _isFired = false;
 
   /** Snippets {@link SnippetTemplate template-holders} */
   private _snippets: SnippetTemplate[];
@@ -52,11 +54,9 @@ export class UIPStateModel extends Observable {
    * @param modifier - plugin, that initiates the change
    */
   public setHtml(markup: string, modifier: UIPPlugin | UIPRoot) {
-    const root = new DOMParser().parseFromString(markup, 'text/html').body;
-    const indent = markup.match(/^\s*/)?.[0];
-    indent && root.prepend(document.createTextNode(indent));
-
-    if (!root || root.innerHTML !== this.html) {
+    const html = UIPHtmlNormalizationService.normalize(markup);
+    const root = new DOMParser().parseFromString(html, 'text/html').body;
+    if (!root || root.innerHTML.trim() !== this.html.trim()) {
       this._html = root;
       this._lastModifier = modifier;
       this.dispatchChange();
@@ -127,14 +127,9 @@ export class UIPStateModel extends Observable {
   }
 
   /** Plans microtask to dispatch model change event */
+  @decorate(microtask)
   protected dispatchChange() {
-    if (!this._isFired) {
-      this._isFired = true;
-      Promise.resolve().then(() => {
-        this.fire();
-        this._isFired = false;
-      });
-    }
+    this.fire();
   }
 
   /**

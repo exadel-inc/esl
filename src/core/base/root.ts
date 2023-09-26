@@ -1,9 +1,10 @@
-import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
-import {boolAttr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
-import {memoize} from '@exadel/esl/modules/esl-utils/decorators/memoize';
-import type {AnyToVoidFnSignature} from '@exadel/esl/modules/esl-utils/misc/functions';
+import {ESLEventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
+import {ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
+import {memoize, boolAttr} from '@exadel/esl/modules/esl-utils/decorators';
 
 import {SnippetTemplate, UIPStateModel} from './model';
+
+import type {AnyToVoidFnSignature} from '@exadel/esl/modules/esl-utils/misc/functions';
 
 /**
  * UI Playground root custom element definition
@@ -66,7 +67,7 @@ export class UIPRoot extends ESLBaseElement {
     }
     // setTimeout to let other plugins init before dispatching
     setTimeout(() => {
-      EventUtils.dispatch(this, 'uip:configchange', {
+      ESLEventUtils.dispatch(this, 'uip:configchange', {
         bubbles: false,
         detail: {
           attribute: attrName,

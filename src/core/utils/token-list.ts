@@ -1,5 +1,5 @@
 /** Class for processing attribute's tokens */
-export default class TokenListUtils {
+export class TokenListUtils {
 
   /**
    * Divides string by whitespace regexp

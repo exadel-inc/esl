@@ -1,9 +1,15 @@
-@import "../views/styles/page.less";
-@import "../views/styles/examples/form.less";
-@import "../views/styles/examples/image.less";
-@import "../views/styles/examples/list.less";
-@import "../views/styles/examples/multiple-playgrounds.less";
+@import "../../src/common/variables";
+@import "../../src/common/mixins";
 
-@import "../../src/registration.less";
+@import "./common/typography";
+@import "./common/code";
+@import "./page/page.less";
+
+@import "./examples/form.less";
+@import "./examples/image.less";
+@import "./examples/list.less";
+@import "./examples/multiple-playgrounds.less";
 
 @import (inline) "../../node_modules/prismjs/themes/prism.css";
+
+@import "../../src/registration.less";
