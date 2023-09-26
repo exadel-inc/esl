@@ -84,10 +84,10 @@ class MDRenderer {
       const text = header.textContent;
       const id = MDRenderer.createIDFromText(text)
       header.setAttribute('id', id);
-      const anchor = `#${id}`
+      const anchor = `#${id}`;
       localTerms[text] = anchor;
     }
-    return localTerms
+    return localTerms;
   }
   static createIDFromText(text, idLengthLimit = 20) {
     return text
@@ -104,18 +104,18 @@ class MDRenderer {
       if (node.nodeType === 3) all.push(node);
       else all.push(...MDRenderer.findTextNodes(node));
     }
-    return all
+    return all;
   }
 
   static fillReferenceLinks(document, content, terms) {
     const nodes = MDRenderer.findTextNodes(content)
-      .filter((node) => !node.parentElement.closest('h1, h2, h3, h4, h5, h6'))
+      .filter((node) => !node.parentElement.closest('h1, h2, h3, h4, h5, h6'));
 
     for (const [text, link] of Object.entries(terms)) {
 
       for (const node of nodes) {
         if (node.textContent.includes(text)) {
-          MDRenderer.wrapTextNode(document, node, text, link)
+          MDRenderer.wrapTextNode(document, node, text, link);
         }
       }
     }
