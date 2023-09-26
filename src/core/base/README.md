@@ -2,7 +2,8 @@
 
 # UIPPlugin
 
-**UIPPlugin** - base class for all UIP elements. Extending it allows creating custom UIP components.
+**UIPPlugin** - base class for all UIP elements. 
+Should be used as a parent class for all custom plugins of UIP to correctly observe and change UIPModel state.
 
 ## Description
 
