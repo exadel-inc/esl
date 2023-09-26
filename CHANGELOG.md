@@ -1,3 +1,22 @@
+# [2.0.0-beta.1](https://github.com/exadel-inc/ui-playground/compare/v1.1.0-beta.4...v2.0.0-beta.1) (2023-09-26)
+
+
+### Bug Fixes
+
+* **core:** add embedded normalization utils for UIPModel to resolve multiple extra refreshes ([0fc8891](https://github.com/exadel-inc/ui-playground/commit/0fc8891c1f1bfd45707929a409bce36153c9ecab))
+* **core:** fix css/less output of the project ([82d88d4](https://github.com/exadel-inc/ui-playground/commit/82d88d4a91e4cb3681ce0aad8146a7ddb691c86d))
+* **editor:** fix extra actions of editor module, fix flow. Reduce risks of extra reinitialization without content change ([6319288](https://github.com/exadel-inc/ui-playground/commit/6319288ab1f84e2d55297148892dd43cbe909722))
+* remove unnecessary imports ([387d436](https://github.com/exadel-inc/ui-playground/commit/387d43685176a52dbe9081e4e2b687b6848d9e12))
+
+
+* feat!: finalizing update `2.0.0` ([595c3f9](https://github.com/exadel-inc/ui-playground/commit/595c3f92fbb0583b2bad65e5f617e9baf2e4d603))
+
+
+### BREAKING CHANGES
+
+* #512, #519 - Replace ACE editor with CodeJar + PrismJs
+* #525 - rework UIP general livecycle
+
 # [1.1.0-beta.4](https://github.com/exadel-inc/ui-playground/compare/v1.1.0-beta.3...v1.1.0-beta.4) (2023-09-21)
 
 
