@@ -9,6 +9,7 @@ import {TAB} from '../../esl-utils/dom/keys';
 
 import {ESLModalBackdrop} from './esl-modal-backdrop';
 import {ESLModalPlaceholder} from './esl-modal-placeholder';
+import {ESLModalStack} from './esl-modal-stack';
 
 import type {ScrollLockOptions} from '../../esl-utils/dom/scroll/utils';
 import type {ESLToggleableActionParams} from '../../esl-toggleable/core/esl-toggleable';
@@ -22,6 +23,9 @@ export interface ModalActionParams extends ESLToggleableActionParams {
 @ExportNs('Modal')
 export class ESLModal extends ESLToggleable {
   public static override is = 'esl-modal';
+
+  /** Stack of open modals */
+  private stack: ESLModalStack;
 
   protected $placeholder: ESLModalPlaceholder | null;
 
@@ -58,12 +62,14 @@ export class ESLModal extends ESLToggleable {
     super.connectedCallback();
     if (!hasAttr(this, 'role')) setAttr(this, 'role', 'dialog');
     if (!hasAttr(this, 'tabindex')) setAttr(this, 'tabIndex', '-1');
+    this.stack  = new ESLModalStack();
   }
 
   public override onShow(params: ModalActionParams): void {
     this.injectToBody && this.inject();
     this.showBackdrop();
     super.onShow(params);
+    ESLModalStack.add(this);
     this.focus();
     lockScroll(document.documentElement, {
       strategy: this.scrollLockStrategy,
@@ -74,6 +80,7 @@ export class ESLModal extends ESLToggleable {
   public override onHide(params: ModalActionParams): void {
     unlockScroll(document.documentElement, {initiator: this});
     super.onHide(params);
+    ESLModalStack.remove(this);
     this.hideBackdrop();
     this.activator?.focus();
     this.injectToBody && this.extract();
