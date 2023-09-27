@@ -78,7 +78,7 @@
     "fix:less": "stylelint --fix \"**/*.less\""
   },
   "dependencies": {
-    "@types/video.js": "7.3.52",
+    "@types/video.js": "7.3.53",
     "@types/youtube": "0.0.48"
   },
   "devDependencies": {
