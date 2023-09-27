@@ -5,7 +5,7 @@ import type {ESLModal} from './esl-modal';
 @ExportNs('ModalStack')
 export class ESLModalStack {
   private static instance: ESLModalStack;
-  public static store: ESLModal[] = [];
+  private static _store: ESLModal[] = [];
 
   constructor() {
     if (!ESLModalStack.instance) {
@@ -14,16 +14,20 @@ export class ESLModalStack {
     return ESLModalStack.instance;
   }
 
+  public static get store(): ESLModal[] {
+    return ESLModalStack._store;
+  }
+
   public static add(target: ESLModal): void {
     if (ESLModalStack.store.includes(target)) return;
-    ESLModalStack.store.push(target);
+    ESLModalStack._store.push(target);
   }
 
   public static remove(target: ESLModal): void {
     if (!ESLModalStack.store.includes(target)) return;
     let modalToHide;
     do {
-      modalToHide = ESLModalStack.store.pop();
+      modalToHide = ESLModalStack._store.pop();
       modalToHide && modalToHide.hide();
     } while (modalToHide !== target);
   }
