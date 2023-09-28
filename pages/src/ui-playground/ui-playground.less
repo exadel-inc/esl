@@ -1,0 +1,237 @@
+@import (inline) '@exadel/ui-playground/esm/registration.css';
+@import (reference) '../common/variables.less';
+
+uip-settings:not(.uip-settings) {
+  display: none;
+}
+
+uip-root {
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+
+  &.uip-root {
+    opacity: 1;
+  }
+}
+
+.uip-root {
+  &[settings-collapsed] {
+    grid-template-columns: none;
+  }
+
+  background-color: transparent;
+
+  .uip-snippets {
+    & > .snippets-title {
+      padding-left: 10px;
+    }
+  }
+
+  .uip-options {
+    width: auto;
+  }
+
+  .uip-settings {
+    accent-color: @body-fg;
+
+    &-inner {
+      padding-left: 5px;
+      padding-right: 5px;
+    }
+  }
+
+  .uip-setting label {
+    width: 100%;
+  }
+
+  .uip-editor,
+  .editor-content {
+    border-top-left-radius: initial;
+    border-top-right-radius: initial;
+    border-bottom-left-radius: 0.5em;
+    border-bottom-right-radius: 0.5em;
+  }
+
+  /*Scrollbar components*/
+
+  .scrollable-content-block {
+    color: @body-fg;
+
+    &[resizable] {
+      max-width: 100%;
+      max-height: 100%;
+      overflow: hidden;
+      resize: both;
+
+      .esl-scrollable-content > div {
+        width: auto;
+        height: auto;
+      }
+    }
+  }
+
+  .scrollbar-vertical:not([resizable]) {
+    .esl-scrollable-content > div {
+      height: 250px;
+    }
+  }
+
+  .scrollbar-horizontal:not([resizable]) {
+    .esl-scrollable-content > div {
+      width: 2000px;
+    }
+  }
+}
+
+.uip-root[uip-blue-theme] {
+  .uip-header {
+    background: #112a47;
+    border-top-left-radius: 0.5em;
+    border-top-right-radius: 0.5em;
+  }
+
+  .uip-option {
+    &.dark-theme-option,
+    &.settings-collapsed-option {
+      svg {
+        stroke: #fff;
+      }
+    }
+
+    &.rtl-direction-option svg path {
+      fill: #fff;
+    }
+
+    &.editor-collapsed-option svg {
+      fill: #fff;
+    }
+  }
+
+  .uip-snippets {
+    @media @md-xl {
+      align-items: start;
+      flex-direction: column;
+
+      .snippets-dropdown {
+        position: initial;
+      }
+
+      .snippets-dropdown-wrapper {
+        max-height: initial;
+        visibility: visible;
+        background-color: transparent;
+        color: #fff;
+        border: none;
+        box-shadow: none;
+      }
+
+      .snippets-list {
+        display: flex;
+        flex-wrap: wrap;
+        margin-right: 0;
+        padding: 0 10px;
+      }
+
+      .snippets-list-item {
+        margin-right: 15px;
+        border-bottom: none;
+
+        &.active {
+          border-bottom: 1px solid #ebebeb;
+        }
+      }
+    }
+
+    .snippets-dropdown-control {
+      @media @md-xl {
+        display: none;
+
+        &:hover {
+          opacity: 1;
+        }
+
+        &::before {
+          display: none;
+        }
+      }
+
+      svg {
+        stroke: #fff;
+      }
+    }
+
+    .snippets-dropdown-wrapper {
+      color: #fff;
+    }
+
+    .snippets-title {
+      color: #fff;
+    }
+
+    .snippets-list {
+      background: #112a47;
+    }
+  }
+
+  .uip-preview {
+    border-left: 1px solid #c8d6f0;
+    border-right: 1px solid #c8d6f0;
+  }
+
+  .uip-settings-inner {
+    border-right: 1px solid #c8d6f0;
+    @media @xs-sm {
+      border-left: 1px solid #c8d6f0;
+      border-bottom: 1px solid #c8d6f0;
+    }
+  }
+
+  &.dark-theme {
+    border-radius: 0.5em;
+
+    .snippets-list {
+      background: #112a47;
+    }
+
+    .uip-preview {
+      border-left: none;
+      border-right: none;
+    }
+  }
+}
+
+.uip-root:not(.dark-theme) {
+  &[editor-collapsed] {
+    .uip-preview {
+      border-bottom: 1px solid #c8d6f0;
+    }
+
+    .uip-settings-inner {
+      border-bottom: 1px solid #c8d6f0;
+    }
+  }
+
+  .uip-settings {
+    .esl-select {
+      background-color: #fff;
+    }
+  }
+}
+
+.uip-root.dark-theme {
+  .uip-plugin {
+    &.uip-header .uip-option {
+      filter: none;
+    }
+
+    .uip-settings {
+      .esl-select {
+        background-color: transparent;
+      }
+    }
+
+    .accordion-group {
+      color: @body-fg;
+    }
+  }
+}

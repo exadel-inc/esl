@@ -36,7 +36,7 @@ import {
   ESLAnimateMixin,
   ESLShare,
   ESLRelatedTarget
-} from '@exadel/esl/modules/all';
+} from '@exadel/esl';
 
 import '@exadel/esl/modules/esl-media/providers/iframe-provider';
 import '@exadel/esl/modules/esl-media/providers/html5/audio-provider';
@@ -51,7 +51,6 @@ import '@exadel/esl/modules/esl-share/actions/native-action';
 import '@exadel/esl/modules/esl-share/actions/print-action';
 
 import './esl-media-demo/test-media';
-import './esl-media-demo/test-media-source';
 
 import {ESLDemoBackLink} from './back-link/back-link';
 import {ESLDemoMarquee} from './landing/landing';
@@ -115,3 +114,10 @@ ESLShare.register();
 
 // Register ESL Mixins
 ESLRelatedTarget.register();
+
+// Init UI Playground
+import (
+  /* webpackPrefetch: true */
+  /* webpackChunkName: "playground" */
+  '@exadel/ui-playground/esm/registration.js'
+).then(({init}) => init());

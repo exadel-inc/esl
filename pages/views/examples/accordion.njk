@@ -17,11 +17,16 @@ aside:
 ---
 {% import 'lorem.njk' as lorem %}
 
+<div class="alert alert-info">
+  <span class="h5">See how our pages may look in the next update:</span>
+  <a class="btn btn-sec-blue mx-2" href="/draft/ui-playground/accordion/">TRY NOW</a>
+</div>
+
 <section class="row">
   <div class="col-12">
     <h2>Simple single accordion (at least 1 panel required to be open, default configuration)</h2>
     {% code 'html', 'code-block' %}
-      <esl-panel-group class="accordion-group mb-4"/>
+    <esl-panel-group class="accordion-group mb-4"/>
     {% endcode %}
 
     <esl-panel-group class="accordion-group mb-4">
@@ -63,7 +68,7 @@ aside:
   <div class="col-12">
     <h2>Simple single accordion (+ allows all panels to be closed)</h2>
     {% code 'html', 'code-block' %}
-      <esl-panel-group class="accordion-group mb-4" min-open-items="0"/>
+    <esl-panel-group class="accordion-group mb-4" min-open-items="0"/>
     {% endcode %}
 
     <esl-panel-group class="accordion-group mb-4" min-open-items="0">
@@ -105,7 +110,7 @@ aside:
   <div class="col-12">
     <h2>Hover accordion (triggers accept any available configuration)</h2>
     {% code 'html', 'code-block' %}
-      <esl-panel-group class="accordion-group mb-4" min-open-items="0"/>
+    <esl-panel-group class="accordion-group mb-4" min-open-items="0"/>
     {% endcode %}
 
     <esl-panel-group class="accordion-group mb-4" min-open-items="0">
@@ -155,7 +160,7 @@ aside:
   <div class="col-12">
     <h2>Simple multiple accordion (allows all panels to be closed, 2 panels open by default)</h2>
     {% code 'html', 'code-block' %}
-      <esl-panel-group class="accordion-group mb-4" min-open-items="0" max-open-items="all"/>
+    <esl-panel-group class="accordion-group mb-4" min-open-items="0" max-open-items="all"/>
     {% endcode %}
 
     <esl-panel-group class="accordion-group mb-4" min-open-items="0" max-open-items="all">
@@ -196,15 +201,15 @@ aside:
 <section class="row">
   <div class="col-12">
     <h2>Nested accordion with auto-closable nested panels (esl-related-target)</h2>
-        {% code 'html', 'code-block' %}
-          <esl-panel class="esl-d-accordion-panel"
-                     esl-related-target="::find(esl-panel)"
-                     esl-related-target-action="hide">
-            <esl-panel-group class="accordion-group mb-4">
-              <esl-panel .../> <esl-panel .../> <esl-panel .../>
-            </esl-panel-group>
-          </esl-panel>
-        {% endcode %}
+    {% code 'html', 'code-block' %}
+    <esl-panel class="esl-d-accordion-panel"
+               esl-related-target="::find(esl-panel)"
+               esl-related-target-action="hide">
+      <esl-panel-group class="accordion-group mb-4">
+        <esl-panel .../> <esl-panel .../> <esl-panel .../>
+      </esl-panel-group>
+    </esl-panel>
+    {% endcode %}
 
     <esl-panel-group class="accordion-group mb-4" min-open-items="0" max-open-items="all">
       <div class="esl-d-accordion">
