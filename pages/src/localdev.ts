@@ -52,6 +52,7 @@ import '@exadel/esl/modules/esl-share/actions/print-action';
 import './esl-media-demo/test-media';
 import './esl-media-demo/test-media-source';
 
+import {ESLDemoLoremIpsum} from './text/lorem-ipsum';
 import {ESLDemoBackLink} from './back-link/back-link';
 import {ESLDemoMarquee} from './landing/landing';
 import {ESLDemoSearchBox} from './navigation/header/header-search';
@@ -68,6 +69,7 @@ ESLDemoSidebar.register();
 ESLDemoMarquee.register();
 ESLDemoSearchBox.register();
 ESLDemoSearchPageWrapper.register();
+ESLDemoLoremIpsum.register();
 ESLDemoAnchorLink.register();
 ESLDemoBackLink.register();
 ESLDemoBanner.register();
