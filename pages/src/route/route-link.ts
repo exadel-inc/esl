@@ -1,4 +1,4 @@
-import {listen, prop, attr} from '@exadel/esl/src/modules/esl-utils/decorators';
+import {listen, prop, attr, boolAttr, memoize} from '@exadel/esl/src/modules/esl-utils/decorators';
 import {toAbsoluteUrl} from '@exadel/esl/src/modules/esl-utils/misc/url';
 import {ESLMixinElement} from '@exadel/esl/src/modules/esl-mixin-element/core';
 import {ESLTraversingQuery} from '@exadel/esl/src/modules/esl-traversing-query/core/esl-traversing-query';
@@ -10,26 +10,35 @@ export class ESLDemoRouteLink extends ESLMixinElement {
 
   @attr() public href: string;
 
+  @boolAttr() public sublink: boolean;
+
   @prop() public activeSelector: string = '::parent';
   @prop() public activeCls: string = 'active';
 
-  public static override register(): void {
-    ESLDemoRouterService.init();
-    super.register();
+  @memoize()
+  public get $activeEl(): Element | null {
+    return ESLTraversingQuery.first(this.activeSelector, this.$host);
+  }
+
+  @listen({event: 'esl:pushstate', target: () => ESLDemoRouterService.instance()})
+  protected _onPushState(): void {
+    const linkURL = new URL(toAbsoluteUrl(this.href || ''));
+
+    const match = this.sublink ?
+      location.pathname === linkURL.pathname :
+      location.pathname.includes(linkURL.pathname);
+
+    this.toggle(match);
   }
 
   @listen('click')
   protected async _onClick(e: Event): Promise<void> {
     e.preventDefault();
     if (!this.href || toAbsoluteUrl(this.href) === location.href) return;
-    ESLDemoRouterService.routeContent(this.href);
+    ESLDemoRouterService.instance().routeContent(this.href);
   }
 
-  public activate(): void {
-    ESLTraversingQuery.first(this.activeSelector, this.$host)?.classList.add(this.activeCls);
-  }
-
-  public deactivate(): void {
-    ESLTraversingQuery.first(this.activeSelector, this.$host)?.classList.remove(this.activeCls);
+  public toggle(state?: boolean): void {
+    this.$activeEl?.classList.toggle(this.activeCls, state);
   }
 }
