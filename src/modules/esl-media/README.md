@@ -45,8 +45,16 @@ using a single tag as well as work with external providers using simple native-l
  - `ready-class` - class to add when the resource is ready
  - `ready-class-target` - [ESLTraversingQuery](../esl-traversing-query/README.md) to define a target for `ready-class`
 
- - `disabled` (boolean) - marker that prevents media api initialization
- 
+ - `disabled` (boolean) - marker that prevents media api initialization. Deprecated alias for *manual* mode of `lazy` attribute
+
+ - `lazy` - an attribute that governs the loading behavior of media resources on a webpage. 
+ This attribute provides enhanced control over when media content is fetched and displayed.
+   - `none` (or attribute absence) - triggers the immediate loading of media content as soon as the webpage is loaded;
+   - `manual` - in this mode, media content loading is blocked until the attribute is removed manually from the consumer's code;
+   - `auto` - the auto mode ensures that media content starts loading when it becomes visible in the browser viewport or is in close proximity to it. 
+ This behavior is determined using the Intersection Observer API, optimizing loading times for content that is likely to be viewed by the user.
+ If the media is both intersecting and has a sufficient intersection ratio, the lazy attribute is removed from the media element.
+
  - `fill-mode` (optional) - enables resource size management. Available options:
    - `auto` - default, media area will be stretched to element size
    - `cover` - media area will be zoomed in/out, cropped and centered to cover element area
