@@ -1,6 +1,6 @@
 ---
 layout: content
-title: Scrollbar (Playground)
+title: ESL Scrollbar
 seoTitle: Custom scroll ui examples based on ESL web components
 name: Scrollbar (Playground)
 tags: [draft]
@@ -12,28 +12,43 @@ components:
 <section class="row">
   <div class="col-12">
     <uip-root uip-blue-theme>
-      <uip-header></uip-header>
-      <script type="text/html" uip-snippet label="ESL Scrollbar">
-        <div class="border bg-white relative-block scrollable-content-block">
+      <uip-header hide-theme></uip-header>
+      <script type="text/html" uip-snippet label="Vertical">
+        <section class="border bg-white relative-block">
+          <div class="p-4 esl-scrollable-content">
+            <div style="height: 500px">
+              <h2>Simple vertical scroll example</h2>
+              <esl-d-lorem-ipsum paragraphs="25"></esl-d-lorem-ipsum>
+            </div>
+          </div>
+          <esl-scrollbar class="scrollbar-blue" target="::prev"></esl-scrollbar>
+        </section>
+      </script>
+      <script type="text/html" uip-snippet label="Horizontal">
+        <section class="border bg-white relative-block">
+          <div class="p-4 esl-scrollable-content">
+            <div style="width: 3200px;">
+              <h2>Simple horizontal scroll example</h2>
+              <esl-d-lorem-ipsum paragraphs="4"></esl-d-lorem-ipsum>
+            </div>
+          </div>
+          <esl-scrollbar class="scrollbar-blue" target="::prev" horizontal></esl-scrollbar>
+        </section>
+      </script>
+      <script type="text/html" uip-snippet label="Both (Resizable)">
+        <section style="resize: both; overflow: hidden; max-width: 100%; height: 500px; max-height: 70vh;" class="border bg-white relative-block">
           <div style="max-width: 100%; max-height: 100%;" class="p-4 esl-scrollable-content">
             <div style="min-width: 50vw">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              <h2>Scroll appears only if content is too long for the area (resize the section to see scrollbar in action)</h2>
+              <esl-d-lorem-ipsum paragraphs="10"></esl-d-lorem-ipsum>
             </div>
           </div>
           <esl-scrollbar class="scrollbar-blue" target="::prev(.esl-scrollable-content)"></esl-scrollbar>
-          <esl-scrollbar class="scrollbar-blue scrollbar-second" target="::prev(.esl-scrollable-content)"
-                         horizontal></esl-scrollbar>
-        </div>
+          <esl-scrollbar class="scrollbar-blue scrollbar-second" target="::prev(.esl-scrollable-content)" horizontal></esl-scrollbar>
+        </section>
       </script>
       <uip-preview></uip-preview>
-      <uip-settings target=".scrollable-content-block">
-        <uip-select-setting label="Simple scroll:" attribute="class" mode="append">
-          <option value="scrollbar-vertical">Vertical</option>
-          <option value="scrollbar-horizontal">Horizontal</option>
-        </uip-select-setting>
-        <uip-bool-setting label="Resize content" attribute="resizable" target=".scrollable-content-block"></uip-bool-setting>
-      </uip-settings>
-      <uip-editor editor-config="{wrap: 300}"></uip-editor>
+      <uip-editor></uip-editor>
     </uip-root>
   </div>
 </section>

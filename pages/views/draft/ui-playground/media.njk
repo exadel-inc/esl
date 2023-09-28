@@ -21,10 +21,9 @@ aside:
         </div>
         {# ESL Media Controls #}
         <div class="esl-media-control">
-          <button class="btn btn-sec-blue" onclick="document.querySelector('.esl-media-demo-1').play()"> Play</button>
-          <button class="btn btn-sec-blue" onclick="document.querySelector('.esl-media-demo-1').pause()"> Pause
-          </button>
-          <button class="btn btn-sec-blue" onclick="document.querySelector('.esl-media-demo-1').stop()"> Stop</button>
+          <button class="btn btn-sec-blue" onclick="document.querySelector('.esl-media-demo-1').play()">Play</button>
+          <button class="btn btn-sec-blue" onclick="document.querySelector('.esl-media-demo-1').pause()">Pause</button>
+          <button class="btn btn-sec-blue" onclick="document.querySelector('.esl-media-demo-1').stop()">Stop</button>
         </div>
       </script>
       <uip-preview></uip-preview>
@@ -43,9 +42,8 @@ aside:
         <uip-text-setting label="Player account:" attribute="player-account" target=".esl-media"></uip-text-setting>
         <uip-bool-setting label="Muted" attribute="muted" target=".esl-media"></uip-bool-setting>
         <uip-bool-setting label="Autoplay" attribute="autoplay" target=".esl-media"></uip-bool-setting>
-        <uip-bool-setting label="Disabled" attribute="disabled" target=".esl-media"></uip-bool-setting>
       </uip-settings>
-      <uip-editor editor-config="{wrap: 300}"></uip-editor>
+      <uip-editor></uip-editor>
     </uip-root>
   </section>
 </section>
