@@ -30,6 +30,7 @@ NOTE: Selectors that don't start from a plain selector will use passed base Elem
 - `::parent` - get base element parent
 - `::parent(#id .class [attr])` - find the closest parent, matching passed selector
 - `::closest(#id .class [attr])` - find the closest ancestor including base element that matches passed selector
+- `::closest`, `::find` - without 'arguments' returns current base element
 - `::child(#id .class [attr])` - find direct child element(s) that match passed selector
 - `::find(#id .class [attr])` - find child element(s) that match passed selector
 - `::find(buttons, a)::not([hidden])` - find all buttons and anchors that don't have hidden attribute
@@ -40,8 +41,10 @@ NOTE: Selectors that don't start from a plain selector will use passed base Elem
 - `::find(.row)::visible` - find element(s) matching selector '.row' from the base element subtree and filter visible elements.
 
 ### Notes
-The utility operates within a specified scope, which is by default the document object. You can provide a different scope by passing an optional scope parameter to the query functions.
-
+- The utility operates within a specified scope, which is by default the document object. You can provide a different scope by passing an optional scope parameter to the query functions.
+- `::next, ::prev, ::child, ::parent, ::closest, ::find` - works with and without 'arguments'
+- `::filter, ::not, ::nth` - works with 'arguments' only
+- `::visible` - works without 'arguments' only
 ### API
 
 Find one (first element that describes a query):
