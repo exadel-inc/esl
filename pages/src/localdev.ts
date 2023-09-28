@@ -37,6 +37,8 @@ import {
   ESLRelatedTarget
 } from '@exadel/esl/modules/all';
 
+import {ESLRandomText} from '@exadel/esl/modules/esl-random-text/core';
+
 import '@exadel/esl/modules/esl-media/providers/iframe-provider';
 import '@exadel/esl/modules/esl-media/providers/html5/audio-provider';
 import '@exadel/esl/modules/esl-media/providers/html5/video-provider';
@@ -72,6 +74,9 @@ ESLDemoAnchorLink.register();
 ESLDemoBackLink.register();
 ESLDemoBanner.register();
 ESLDemoSwipeArea.register();
+
+// Test Content
+ESLRandomText.register('lorem-ipsum');
 
 // Register ESL Components
 ESLImage.register();
