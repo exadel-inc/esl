@@ -11,7 +11,7 @@ aside:
 ---
 
 <section class="row justify-content-around">
-  <section class="col-12 row" data-demo="0">
+  <section class="col-12 row">
     <uip-root uip-blue-theme>
       <uip-header></uip-header>
       <script type="text/html" uip-snippet label="ESL Media">
@@ -40,6 +40,11 @@ aside:
         <uip-text-setting label="Media id:" attribute="media-id" target=".esl-media"></uip-text-setting>
         <uip-text-setting label="Player id:" attribute="player-id" target=".esl-media"></uip-text-setting>
         <uip-text-setting label="Player account:" attribute="player-account" target=".esl-media"></uip-text-setting>
+        <uip-select-setting label="Lazy:" target=".esl-media" attribute="lazy">
+          <option value="none" selected>None</option>
+          <option value="manual">Manual</option>
+          <option value="auto">Auto</option>
+        </uip-select-setting>
         <uip-bool-setting label="Muted" attribute="muted" target=".esl-media"></uip-bool-setting>
         <uip-bool-setting label="Autoplay" attribute="autoplay" target=".esl-media"></uip-bool-setting>
       </uip-settings>
