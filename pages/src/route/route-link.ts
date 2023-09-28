@@ -10,7 +10,7 @@ export class ESLDemoRouteLink extends ESLMixinElement {
 
   @attr() public href: string;
 
-  @boolAttr() public sublink: boolean;
+  @boolAttr() public relatedLink: boolean;
 
   @prop() public activeSelector: string = '::parent';
   @prop() public activeCls: string = 'active';
@@ -24,7 +24,7 @@ export class ESLDemoRouteLink extends ESLMixinElement {
   protected _onPushState(): void {
     const linkURL = new URL(toAbsoluteUrl(this.href || ''));
 
-    const match = this.sublink ?
+    const match = this.relatedLink ?
       location.pathname === linkURL.pathname :
       location.pathname.includes(linkURL.pathname);
 
