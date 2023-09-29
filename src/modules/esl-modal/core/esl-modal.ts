@@ -62,6 +62,7 @@ export class ESLModal extends ESLToggleable {
     super.connectedCallback();
     if (!hasAttr(this, 'role')) setAttr(this, 'role', 'dialog');
     if (!hasAttr(this, 'tabindex')) setAttr(this, 'tabIndex', '-1');
+    if (!hasAttr(this, 'aria-modal')) setAttr(this, 'aria-modal', 'true');
     this.stack  = new ESLModalStack();
   }
 

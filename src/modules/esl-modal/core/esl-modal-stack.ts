@@ -4,14 +4,14 @@ import type {ESLModal} from './esl-modal';
 
 @ExportNs('ModalStack')
 export class ESLModalStack {
-  private static instance: ESLModalStack;
+  private readonly instance: ESLModalStack;
   private static _store: ESLModal[] = [];
 
   constructor() {
-    if (!ESLModalStack.instance) {
-      ESLModalStack.instance = this;
+    if (!this.instance) {
+      this.instance = this;
     }
-    return ESLModalStack.instance;
+    return this.instance;
   }
 
   public static get store(): ESLModal[] {
@@ -21,6 +21,7 @@ export class ESLModalStack {
   public static add(target: ESLModal): void {
     if (ESLModalStack.store.includes(target)) return;
     ESLModalStack._store.push(target);
+    this.updateA11ty();
   }
 
   public static remove(target: ESLModal): void {
@@ -30,6 +31,13 @@ export class ESLModalStack {
       modalToHide = ESLModalStack._store.pop();
       modalToHide && modalToHide.hide();
     } while (modalToHide !== target);
+    this.updateA11ty();
+  }
+
+  private static updateA11ty(): void {
+    const length = ESLModalStack.store.length;
+    if (!length) return;
+    ESLModalStack._store.forEach(($el: ESLModal, i: number) => $el.setAttribute('aria-hidden', String(i !== length - 1)));
   }
 }
 
