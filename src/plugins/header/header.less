@@ -1,26 +1,26 @@
-@import (reference) "../../common/variables.less";
+@import (reference) '../../common/variables.less';
 
 .uip-header {
-    grid-area: header;
-    position: relative;
-    display: flex;
-    align-items: center;
-    width: 100%;
-    margin: 0;
-    padding: 10px 15px 10px 5px;
-    border-bottom: 1px solid @section-border;
+  grid-area: header;
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 0;
+  padding: 10px 15px 10px 5px;
+  border-bottom: 1px solid @section-border;
 
-    .copy-icon {
-      margin-left: 0.6rem;
-      border: none;
-      cursor: pointer;
-      background-color: transparent;
-      svg {
-        width: 1.5rem;
-        height: 1.5rem;
-        pointer-events: none;
-      }
+  .copy-icon {
+    margin-left: 0.6rem;
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
+      pointer-events: none;
     }
+  }
 
   @media @mobile {
     padding-left: 5px;
