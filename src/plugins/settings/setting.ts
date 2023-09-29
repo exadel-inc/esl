@@ -1,9 +1,10 @@
-import {ESLBaseElement, prop} from '@exadel/esl/modules/esl-base-element/core';
-import {attr, listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
+import {ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
+import {attr, prop, listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 import {getAttr, setAttr} from '@exadel/esl/modules/esl-utils/dom/attr';
 
-import {ChangeAttrConfig, UIPStateModel} from '../../core/base/model';
+// eslint-disable-next-line import/no-cycle
 import {UIPSettings} from './settings';
+import type {ChangeAttrConfig, UIPStateModel} from '../../core/base/model';
 
 /**
  * Custom element for manipulating with elements attributes
@@ -38,16 +39,16 @@ export abstract class UIPSetting extends ESLBaseElement {
 
   /** Closest {@link UIPSettings} element */
   @memoize()
-  public get $settings() {
-    return this.closest(UIPSettings.is) as UIPSettings;
+  public get $settings(): UIPSettings {
+    return this.closest(UIPSettings.is)!;
   }
 
-  protected connectedCallback() {
+  protected override connectedCallback(): void {
     super.connectedCallback();
     this.classList.add(UIPSetting.is);
   }
 
-  protected disconnectedCallback() {
+  protected override disconnectedCallback(): void {
     super.disconnectedCallback();
   }
 
@@ -86,7 +87,7 @@ export abstract class UIPSetting extends ESLBaseElement {
     if (!values.length) {
       this.disabled = true;
       this.setInconsistency(this.NO_TARGET_MSG);
-    } else if (values.some(value => value !== values[0])) {
+    } else if (values.some((value) => value !== values[0])) {
       this.setInconsistency(this.MULTIPLE_VALUE_MSG);
     } else {
       this.setValue(values[0]);

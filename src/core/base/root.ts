@@ -2,8 +2,9 @@ import {ESLEventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
 import {ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
 import {memoize, boolAttr} from '@exadel/esl/modules/esl-utils/decorators';
 
-import {SnippetTemplate, UIPStateModel} from './model';
+import {UIPStateModel} from './model';
 
+import type {SnippetTemplate} from './model';
 import type {AnyToVoidFnSignature} from '@exadel/esl/modules/esl-utils/misc/functions';
 
 /**
@@ -39,18 +40,18 @@ export class UIPRoot extends ESLBaseElement {
     return Array.from(this.querySelectorAll(UIPRoot.SNIPPET_SEL));
   }
 
-  protected connectedCallback() {
+  protected override connectedCallback(): void {
     super.connectedCallback();
     this.initSnippets();
   }
 
   /** Alias for {@link this.model.addListener} */
-  public addStateListener(listener: AnyToVoidFnSignature) {
+  public addStateListener(listener: AnyToVoidFnSignature): void {
     this.model.addListener(listener);
   }
 
   /** Alias for {@link this.model.removeListener} */
-  public removeStateListener(listener: AnyToVoidFnSignature) {
+  public removeStateListener(listener: AnyToVoidFnSignature): void {
     this.model.removeListener(listener);
   }
 
@@ -60,7 +61,7 @@ export class UIPRoot extends ESLBaseElement {
     this.model.applySnippet(this.model.activeSnippet, this);
   }
 
-  protected attributeChangedCallback(attrName: string, oldVal: string | null, newVal: string | null) {
+  protected override attributeChangedCallback(attrName: string, oldVal: string | null, newVal: string | null): void {
     if (oldVal === newVal) return;
     if (['rtl-direction', 'dark-theme'].includes(attrName)) {
       this.classList.toggle(attrName, newVal !== null);

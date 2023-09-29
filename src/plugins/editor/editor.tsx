@@ -23,7 +23,7 @@ export class UIPEditor extends UIPPlugin {
   /** Highlight method declaration  */
   public static highlight = (editor: HTMLElement): void => Prism.highlightElement(editor, false);
 
-  /** Wrapped {@link https://medv.io/codejar/ Codejar} editor instance */
+  /** Wrapped {@link https://medv.io/codejar/ CodeJar} editor instance */
   @memoize()
   protected get editor(): CodeJar {
     return CodeJar(this.$code, UIPEditor.highlight, { tab: '\t' });
@@ -44,7 +44,7 @@ export class UIPEditor extends UIPPlugin {
     this.editor.updateCode(value);
   }
 
-  protected override connectedCallback() {
+  protected override connectedCallback(): void {
     super.connectedCallback();
     this.innerHTML = '';
 
@@ -68,13 +68,13 @@ export class UIPEditor extends UIPPlugin {
 
   /** Callback to call on editor's content changes */
   @decorate(debounce, 1000)
-  protected _onChange() {
+  protected _onChange(): void {
     this.model!.setHtml(this.value, this);
   }
 
   /** Change editor's markup from markup state changes */
   @bind
-  protected _onRootStateChange(): void {
+  protected override _onRootStateChange(): void {
     if (this.model!.lastModifier === this) return;
     this.value = this.model!.html;
   }

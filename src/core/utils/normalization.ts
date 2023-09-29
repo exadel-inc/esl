@@ -6,7 +6,7 @@ export class UIPHtmlNormalizationService {
   protected static processors: Record<string, UIPNormalizationProcessor> = {};
 
   /** Add processor function to normalization process */
-  public static addProcessor(name: string, processor: UIPNormalizationProcessor) {
+  public static addProcessor(name: string, processor: UIPNormalizationProcessor): void {
     UIPHtmlNormalizationService.processors[name] = processor;
   }
 

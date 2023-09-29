@@ -3,7 +3,8 @@ import {attr, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 
 import {TokenListUtils} from '../../core/utils/token-list';
 import {UIPSetting} from '../../plugins/settings/setting';
-import {ChangeAttrConfig, UIPStateModel} from '../../core/base/model';
+
+import type {ChangeAttrConfig, UIPStateModel} from '../../core/base/model';
 
 /**
  * Custom setting to add/remove attributes or append values to attribute
@@ -37,11 +38,11 @@ export class UIPBoolSetting extends UIPSetting {
 
   /** Container element for displaying inconsistency message */
   @memoize()
-  protected get $inconsistencyMarker() {
-    return <div className="inconsistency-marker"/> as HTMLDivElement;
+  protected get $inconsistencyMarker(): HTMLElement {
+    return <div className="inconsistency-marker"/> as HTMLElement;
   }
 
-  protected connectedCallback() {
+  protected override connectedCallback(): void {
     super.connectedCallback();
     this.innerHTML = '';
 

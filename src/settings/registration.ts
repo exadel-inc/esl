@@ -6,18 +6,18 @@ import {UIPSliderSetting} from './slider-setting/slider-setting';
 
 export {UIPSetting, UIPTextSetting, UIPBoolSetting, UIPSelectSetting, UIPSliderSetting};
 
-export const registerSettings = () => {
+export const registerSettings = (): void => {
   UIPBoolSetting.register();
   UIPTextSetting.register();
   UIPSelectSetting.register();
   UIPSliderSetting.register();
 };
 
-export const registeredSettings = () => {
+export const registeredSettings = async (): Promise<Awaited<CustomElementConstructor>[]> => {
   return Promise.all([
-  UIPBoolSetting.registered,
-  UIPTextSetting.registered,
-  UIPSelectSetting.registered,
-  UIPSliderSetting.registered,
+    UIPBoolSetting.registered,
+    UIPTextSetting.registered,
+    UIPSelectSetting.registered,
+    UIPSliderSetting.registered,
   ]);
 };
