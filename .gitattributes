@@ -1,0 +1,16 @@
+# Set the default behavior, in case people don't have core.autocrlf set.
+* text=auto
+
+# Restrict LF ending
+# Windows users, Notepads is not accepted as your IDE for this repository!
+*.js text eol=lf
+*.ts text eol=lf
+*.jsx text eol=lf
+*.tsx text eol=lf
+*.json text eol=lf
+*.css text eol=lf
+*.less text eol=lf
+*.scss text eol=lf
+*.md text eol=lf
+*.html text eol=lf
+*.njk text eol=lf
