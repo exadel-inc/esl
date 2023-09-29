@@ -104,7 +104,7 @@ hr {
       font-size: 26px;
       color: @landing-dark-bg;
 
-      &:after {
+      &::after {
         content: attr(data-test-msg);
       }
     }
@@ -116,7 +116,8 @@ hr {
   width: 100%;
   padding: 40px 0;
 
-  ul, ol {
+  ul,
+  ol {
     list-style-position: inside;
   }
 }
@@ -192,5 +193,5 @@ hr {
   }
 }
 
-@import "header.less";
-@import "sidebar.less";
+@import 'header.less';
+@import 'sidebar.less';
