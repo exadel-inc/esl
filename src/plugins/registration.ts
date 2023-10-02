@@ -1,3 +1,4 @@
+import {UIPCopy} from './copy/uip-copy';
 import {UIPHeader} from './header/header';
 import {UIPOptions} from './header/options/options';
 import {UIPOptionIcons} from './header/options/option-icons';
@@ -22,6 +23,7 @@ export const registerSettings = (): void => {
 };
 
 export const registerPlugins = (): void => {
+  UIPCopy.register();
   UIPHeader.register();
   UIPOptions.register();
   UIPSnippets.register();
