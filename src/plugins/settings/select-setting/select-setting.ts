@@ -1,11 +1,11 @@
 import {randUID} from '@exadel/esl/modules/esl-utils/misc/uid';
 import {attr, boolAttr, listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 
+import {TokenListUtils} from '../../../core/utils/token-list';
+import {UIPRoot} from '../../../core/base/root';
+import {UIPSetting} from '../setting';
 
-import {TokenListUtils} from '../../core/utils/token-list';
-import {UIPRoot} from '../../core/base/root';
-import {UIPSetting} from '../../plugins/settings/setting';
-import type {ChangeAttrConfig, UIPStateModel} from '../../core/base/model';
+import type {ChangeAttrConfig, UIPStateModel} from '../../../core/base/model';
 
 import type {ESLSelect} from '@exadel/esl/modules/esl-forms/esl-select/core';
 

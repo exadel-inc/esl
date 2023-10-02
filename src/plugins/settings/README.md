@@ -33,10 +33,10 @@ The following attributes used:
 - **attribute** - attribute of the *target* which is changed by the setting.
 
 You can see the examples of custom settings here (these are distributed together with other *UIP* elements):
-- [UIPTextSetting](src/settings/text-setting/README.md)
-- [UIPBoolSetting](src/settings/bool-setting/README.md)
-- [UIPSelectSetting](src/settings/select-setting/README.md)
-- [UIPSliderSetting](src/settings/slider-setting/README.md)
+- [UIPTextSetting](src/plugins/text-setting/README.md)
+- [UIPBoolSetting](src/plugins/bool-setting/README.md)
+- [UIPSelectSetting](src/plugins/select-setting/README.md)
+- [UIPSliderSetting](src/plugins/slider-setting/README.md)
   
 ## Example
 
