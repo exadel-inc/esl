@@ -79,7 +79,7 @@ export class UIPSelectSetting extends UIPSetting {
     const cfg: ChangeAttrConfig = {
       target: this.target,
       attribute: this.attribute,
-      modifier: this.$settings,
+      modifier: this,
       transform: this.transformValue.bind(this, this.getDisplayedValue())
     };
 
