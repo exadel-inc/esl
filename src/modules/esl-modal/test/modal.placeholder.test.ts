@@ -21,7 +21,7 @@ describe('ESLModalPlaceholder appearance', () => {
   });
 
   describe('Placeholder for ESLModal moved to body', () => {
-    test('Placeholder appears with allowed attributes copy after the origin element was moved to body', () => {
+    test('Placeholder appears with allowed attributes copy if the origin element moves to body', () => {
       $modal1.show();
       jest.advanceTimersByTime(1);
       const placeholder = $container.querySelector(`esl-modal-placeholder[original-id=${id1}]`);
