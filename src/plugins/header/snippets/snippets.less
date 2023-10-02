@@ -1,5 +1,5 @@
-@import (reference) "../../../common/mixins.less";
-@import (reference) "../../../common/variables.less";
+@import (reference) '../../../common/mixins.less';
+@import (reference) '../../../common/variables.less';
 
 @import '@exadel/esl/modules/esl-scrollbar/core.less';
 
@@ -50,11 +50,11 @@
           pointer-events: none;
 
           transform-origin: center;
-          transition: transform .3s ease-in-out;
+          transition: transform 0.3s ease-in-out;
         }
 
         &:hover {
-          opacity: .8;
+          opacity: 0.8;
         }
       }
 
@@ -66,7 +66,10 @@
         overflow: hidden;
         visibility: hidden;
         border: 1px solid @section-border;
-        transition: max-height .3s ease-in-out, visibility 0s .25s, box-shadow .3s ease-in-out;
+        transition:
+          max-height 0.3s ease-in-out,
+          visibility 0s 0.25s,
+          box-shadow 0.3s ease-in-out;
 
         .scrollbar-collapsed();
       }
@@ -87,7 +90,7 @@
 
         &:hover {
           cursor: pointer;
-          opacity: .7;
+          opacity: 0.7;
         }
 
         &.active {
@@ -109,7 +112,9 @@
         max-height: 150px;
         visibility: visible;
         box-shadow: 0 4px 6px 0 rgb(0 0 0 / 20%);
-        transition: max-height .3s ease-in-out, visibility 0s;
+        transition:
+          max-height 0.3s ease-in-out,
+          visibility 0s;
 
         .scrollbar-expanded();
       }

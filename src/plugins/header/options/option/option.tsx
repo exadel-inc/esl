@@ -1,11 +1,9 @@
-import {attr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
-import {listen} from '@exadel/esl/modules/esl-utils/decorators/listen';
+import {ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
+import {attr, listen} from '@exadel/esl/modules/esl-utils/decorators';
 import {ENTER, SPACE} from '@exadel/esl/modules/esl-utils/dom/keys';
 
 import type {UIPOptions} from '../options';
-import {UIPRoot} from '../../../../core/base/root';
-
-import * as React from 'jsx-dom';
+import type {UIPRoot} from '../../../../core/base/root';
 
 /** Config used to create options */
 export type OptionConfig = {
@@ -22,7 +20,7 @@ export type OptionConfig = {
 export class UIPOption extends ESLBaseElement {
   public static is = 'uip-option';
 
-  /** {@link UIPRoot's} attribute which is changed by option */
+  /** {@link UIPRoot}'s attribute which is changed by option */
   @attr() public attribute: string;
 
   /** Closest playground {@link UIPRoot} element */
@@ -30,7 +28,7 @@ export class UIPOption extends ESLBaseElement {
   protected config: OptionConfig;
 
   /** Builds option element from {@link OptionConfig} */
-  static createEl(optionConfig: OptionConfig) {
+  static createEl(optionConfig: OptionConfig): UIPOption {
     const option = document.createElement('uip-option') as UIPOption;
     option.setAttribute('attribute', optionConfig.optionValue);
     option.append(optionConfig.svg.cloneNode(true));
@@ -38,9 +36,9 @@ export class UIPOption extends ESLBaseElement {
     return option;
   }
 
-  protected connectedCallback() {
+  protected override connectedCallback(): void {
     super.connectedCallback();
-    this.$root = this.closest('.uip-root') as UIPRoot;
+    this.$root = this.closest('.uip-root')!;
     this.classList.add(`${this.attribute}-option`);
     this.tabIndex = 0;
     this.active = this.$root.hasAttribute(this.config.optionValue);
@@ -58,21 +56,21 @@ export class UIPOption extends ESLBaseElement {
 
   /** Handles option `click` event */
   @listen('click')
-  protected _onClick() {
+  protected _onClick(): void {
     this.toggleState();
     this.$$fire('uip:option:changed');
   }
 
   /** Handles option `keydown` event */
   @listen('keydown')
-  protected _onKeydown(e: KeyboardEvent) {
+  protected _onKeydown(e: KeyboardEvent): void {
     if (ENTER !== e.key && SPACE !== e.key) return;
     this.toggleState();
     this.$$fire('uip:option:changed');
   }
 
   /** Toggles option active state */
-  public toggleState(force?: boolean) {
+  public toggleState(force?: boolean): void {
     this.active = force === undefined ? !this.active : force;
   }
 }

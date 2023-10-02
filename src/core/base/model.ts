@@ -2,9 +2,10 @@ import {Observable} from '@exadel/esl/modules/esl-utils/abstract/observable';
 import {decorate} from '@exadel/esl/modules/esl-utils/decorators';
 import {microtask} from '@exadel/esl/modules/esl-utils/async';
 
-import {UIPPlugin} from './plugin';
-import {UIPRoot} from './root';
 import {UIPHtmlNormalizationService} from '../utils/normalization';
+
+import type {UIPPlugin} from './plugin';
+import type {UIPRoot} from './root';
 
 /** Type for function to change attribute's current value */
 export type TransformSignature = (current: string | null) => string | boolean | null;
@@ -12,20 +13,20 @@ export type TransformSignature = (current: string | null) => string | boolean | 
 /** Config for changing attribute's value */
 export type ChangeAttrConfig = {
   /** CSS query to find target elements */
-  target: string,
+  target: string;
   /** Attribute to change */
-  attribute: string,
+  attribute: string;
   /** Changes initiator */
-  modifier: UIPPlugin | UIPRoot
+  modifier: UIPPlugin | UIPRoot;
 } & ({
   /** New {@link attribute} value */
-  value: string | boolean
+  value: string | boolean;
 } | {
   /**
    * Function to transform(update)
    * {@link attribute} value
    */
-  transform: TransformSignature
+  transform: TransformSignature;
 });
 
 /** Type for both <script> or <template> containers */
@@ -35,7 +36,6 @@ export type SnippetTemplate = HTMLTemplateElement | HTMLScriptElement;
 /**
  * State holder class to store current UIP markup state
  * Provides methods to modify the state
- * @extends Observable
  */
 export class UIPStateModel extends Observable {
   /** Current markup state */
@@ -43,9 +43,9 @@ export class UIPStateModel extends Observable {
   /** Last {@link UIPPlugin} element which changed markup */
   private _lastModifier: UIPPlugin | UIPRoot;
 
-  /** Snippets {@link SnippetTemplate template-holders} */
+  /** Snippets {@link SnippetTemplate} template-holders*/
   private _snippets: SnippetTemplate[];
-  /** Current active {@link SnippetTemplate template-holder} */
+  /** Current active {@link SnippetTemplate} template-holder*/
   private _activeSnippet: SnippetTemplate;
 
   /**
@@ -53,7 +53,7 @@ export class UIPStateModel extends Observable {
    * @param markup - new state
    * @param modifier - plugin, that initiates the change
    */
-  public setHtml(markup: string, modifier: UIPPlugin | UIPRoot) {
+  public setHtml(markup: string, modifier: UIPPlugin | UIPRoot): void {
     const html = UIPHtmlNormalizationService.normalize(markup);
     const root = new DOMParser().parseFromString(html, 'text/html').body;
     if (!root || root.innerHTML.trim() !== this.html.trim()) {
@@ -99,7 +99,7 @@ export class UIPStateModel extends Observable {
   }
 
   /** Changes current active snippet */
-  public applySnippet(snippet: SnippetTemplate, modifier: UIPPlugin | UIPRoot) {
+  public applySnippet(snippet: SnippetTemplate, modifier: UIPPlugin | UIPRoot): void {
     if (!snippet) return;
     this.activeSnippet = snippet;
     this.setHtml(snippet.innerHTML, modifier);
@@ -112,11 +112,11 @@ export class UIPStateModel extends Observable {
    * @returns array of matched elements attribute value (uses the element placement order)
    */
   public getAttribute(target: string, attr: string): (string | null)[] {
-    return Array.from(this._html.querySelectorAll(target)).map(el => el.getAttribute(attr));
+    return Array.from(this._html.querySelectorAll(target)).map((el) => el.getAttribute(attr));
   }
 
   /** Applies change config to current markup */
-  public changeAttribute(cfg: ChangeAttrConfig) {
+  public changeAttribute(cfg: ChangeAttrConfig): void {
     const {target, attribute, modifier} = cfg;
     const elements = Array.from(this._html.querySelectorAll(target));
     if (!elements.length) return;
@@ -128,7 +128,7 @@ export class UIPStateModel extends Observable {
 
   /** Plans microtask to dispatch model change event */
   @decorate(microtask)
-  protected dispatchChange() {
+  protected dispatchChange(): void {
     this.fire();
   }
 
@@ -139,7 +139,7 @@ export class UIPStateModel extends Observable {
    * @param transform - value or function to change attribute value
    */
   protected static setAttribute(elements: Element[], attr: string, transform: TransformSignature | string | boolean): void {
-    elements.forEach(el => {
+    elements.forEach((el) => {
       const transformed = typeof transform === 'function' ? transform(el.getAttribute(attr)) : transform;
       if (typeof transformed === 'string') {
         el.setAttribute(attr, transformed);

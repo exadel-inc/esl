@@ -16,7 +16,7 @@ export class UIPSliderSetting extends UIPSetting {
   /** Step for range. */
   @attr({defaultValue: '0'}) public step: string;
 
-  protected connectedCallback() {
+  protected override connectedCallback(): void {
     super.connectedCallback();
 
     const $inner =
@@ -31,26 +31,26 @@ export class UIPSliderSetting extends UIPSetting {
     this.append($inner);
   }
 
-  protected disconnectedCallback() {
+  protected override disconnectedCallback(): void {
     this.innerHTML = '';
     super.disconnectedCallback();
   }
 
   /** Range input to change setting's value */
   @memoize()
-  protected get $field() {
+  protected get $field(): HTMLInputElement {
     return <input type="range" min={this.min} max={this.max} step={this.step}/> as HTMLInputElement;
   }
 
   /** Container for current value */
   @memoize()
-  protected get $fieldValue() {
-    return <div className="slider-value"></div>;
+  protected get $fieldValue(): HTMLElement {
+    return <div className="slider-value"></div> as HTMLElement;
   }
 
   /** Handles `input` event to display its current value */
   @listen('input')
-  protected updateSliderValue() {
+  protected updateSliderValue(): void {
     this.$fieldValue.textContent = `Value: ${this.$field.value}`;
   }
 

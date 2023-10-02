@@ -1,11 +1,12 @@
+import React from 'jsx-dom';
+
 import {memoize} from '@exadel/esl/modules/esl-utils/decorators/memoize';
 import {listen} from '@exadel/esl/modules/esl-utils/decorators/listen';
 
 import {UIPPlugin} from '../../../core/base/plugin';
-import {SnippetTemplate} from '../../../core/base/model';
-import {UIPOptionIcons} from '../options/OptionIcons';
+import {UIPOptionIcons} from '../options/option-icons';
 
-import * as React from 'jsx-dom';
+import type {SnippetTemplate} from '../../../core/base/model';
 
 /**
  * Snippets {@link UIPPlugin} custom element definition
@@ -34,15 +35,11 @@ export class UIPSnippets extends UIPPlugin {
     return Array.from(items) as HTMLElement[];
   }
 
-  protected connectedCallback() {
+  protected override connectedCallback(): void {
     super.connectedCallback();
     this.render();
     // Initial update
     setTimeout(() => this.$active = this.$active || this.$items[0]);
-  }
-
-  protected disconnectedCallback() {
-    super.disconnectedCallback();
   }
 
   /**
@@ -50,7 +47,7 @@ export class UIPSnippets extends UIPPlugin {
    * manage dropdown open state
    */
   @listen({event: 'mouseup', target: document.body})
-  protected onOutsideAction(e: Event) {
+  protected onOutsideAction(e: Event): void | boolean {
     if (!this.classList.contains('dropdown-open')) return;
     const target = e.target as HTMLElement;
     if (this.contains(target)) return false;
@@ -78,8 +75,7 @@ export class UIPSnippets extends UIPPlugin {
   }
 
   /** Renders dropdown element for a case with multiple snippets */
-  protected $innerContent(snippets: SnippetTemplate[]) {
-
+  protected $innerContent(snippets: SnippetTemplate[]): JSX.Element {
     return <>
       <div className="snippets-dropdown-control">
         {UIPOptionIcons.snippetSVG.cloneNode(true) as HTMLElement}
@@ -97,7 +93,7 @@ export class UIPSnippets extends UIPPlugin {
   }
 
   /** Builds snippets list item */
-  protected buildListItem(snippet: SnippetTemplate) {
+  protected buildListItem(snippet: SnippetTemplate): HTMLElement | undefined {
     const label = snippet.getAttribute('label');
     if (!label) return;
 
@@ -105,7 +101,7 @@ export class UIPSnippets extends UIPPlugin {
     if (snippet === this.model?.activeSnippet) {
       className = className.concat(' ', UIPSnippets.ACTIVE_ITEM);
     }
-    return <li className={className}>{label}</li>;
+    return <li className={className}>{label}</li> as HTMLElement;
   }
 
   /** Updates dropdown title with the name of active snippet */
@@ -117,7 +113,7 @@ export class UIPSnippets extends UIPPlugin {
 
   /** Handles `click` event to manage active snippet */
   @listen({event: 'click', selector: '.snippets-list-item'})
-  protected _onItemClick(event: Event) {
+  protected _onItemClick(event: Event): void {
     const target = event.target as HTMLElement;
     const index = this.$items.indexOf(target);
     if (index < 0) return;
@@ -136,7 +132,7 @@ export class UIPSnippets extends UIPPlugin {
    * manage dropdown open state
    */
   @listen({event: 'click', selector: '.snippets-dropdown-control'})
-  protected _onDropdownClick() {
+  protected _onDropdownClick(): void {
     this.toggleDropdown();
   }
 

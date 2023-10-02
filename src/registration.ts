@@ -6,7 +6,7 @@ export * from './core/registration';
 export * from './plugins/registration';
 export * from './settings/registration';
 
-export function init() {
+export function init(): void {
   registerCore();
   registerPlugins();
   registerSettings();

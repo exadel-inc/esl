@@ -7,7 +7,7 @@ import {UIPPreview} from './preview/preview';
 export * from './utils/normalization';
 export {UIPRoot, UIPPlugin, UIPStateModel, UIPPreview, ChangeAttrConfig};
 
-export const registerCore = () => {
+export const registerCore = (): void => {
   UIPRoot.register();
   UIPPreview.register();
 };

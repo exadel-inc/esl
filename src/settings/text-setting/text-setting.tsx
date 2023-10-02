@@ -6,7 +6,6 @@ import {UIPSetting} from '../../plugins/settings/setting';
 
 /**
  * Custom setting for inputting attribute's value
- * @extends UIPSetting
  */
 export class UIPTextSetting extends UIPSetting {
   public static is = 'uip-text-setting';
@@ -20,7 +19,7 @@ export class UIPTextSetting extends UIPSetting {
     return <input type="text" name={this.label}/> as HTMLInputElement;
   }
 
-  protected connectedCallback() {
+  protected override connectedCallback(): void {
     super.connectedCallback();
     this.innerHTML = '';
 

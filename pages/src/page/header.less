@@ -17,7 +17,8 @@
     height: 100%;
   }
 
-  .uip-title, .header-nav-link {
+  .uip-title,
+  .header-nav-link {
     color: @light-color;
   }
 
@@ -99,9 +100,10 @@
       border-top: 2px solid white;
       border-bottom: 2px solid white;
 
-      transition: border .5s ease-in-out;
+      transition: border 0.5s ease-in-out;
 
-      &::before, &::after {
+      &::before,
+      &::after {
         content: '';
         display: block;
         width: 100%;
@@ -114,7 +116,7 @@
         background: white;
 
         transform: translate(-50%, -50%);
-        transition: transform .5s ease-in-out;
+        transition: transform 0.5s ease-in-out;
       }
 
       &[active] {

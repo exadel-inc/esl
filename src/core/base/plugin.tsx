@@ -4,7 +4,8 @@ import {ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
 import {attr, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 
 import {UIPRoot} from './root';
-import {UIPStateModel} from './model';
+
+import type {UIPStateModel} from './model';
 
 /**
  * Base class for UI Playground plugins
@@ -19,7 +20,7 @@ export abstract class UIPPlugin extends ESLBaseElement {
   /** Closest playground {@link UIPRoot} element */
   @memoize()
   protected get root(): UIPRoot | null {
-    return this.closest(`${UIPRoot.is}`) as UIPRoot;
+    return this.closest(`${UIPRoot.is}`);
   }
 
   /** Returns {@link UIPStateModel} from root instance */
@@ -29,24 +30,24 @@ export abstract class UIPPlugin extends ESLBaseElement {
 
   /** {@link UIPPlugin} section wrapper */
   @memoize()
-  protected get $inner() {
+  protected get $inner(): HTMLDivElement {
     const pluginType = this.constructor as typeof UIPPlugin;
     return <div className={`${pluginType.is}-inner uip-plugin-inner`}></div> as HTMLDivElement;
   }
 
-  protected connectedCallback() {
+  protected connectedCallback(): void {
     super.connectedCallback();
     this.classList.add('uip-plugin');
     this.root?.addStateListener(this._onRootStateChange);
   }
 
-  protected disconnectedCallback() {
+  protected disconnectedCallback(): void {
     this.root?.removeStateListener(this._onRootStateChange);
     super.disconnectedCallback();
     memoize.clear(this, 'root');
   }
 
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
+  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (attrName === 'label') this.setAttribute('aria-label', newVal);
   }
 

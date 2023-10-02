@@ -3,7 +3,7 @@ export class TokenListUtils {
 
   /**
    * Divides string by whitespace regexp
-   * @return array of items or empty array
+   * @returns array of items or empty array
    */
   static split(str: string | null): string[] {
     return str?.split(/\s+/) || [];
@@ -16,7 +16,7 @@ export class TokenListUtils {
 
   /** Checks if all array elements are equal */
   static hasSameElements(values: any[]): boolean {
-    return values.every(val => val === values[0]);
+    return values.every((val) => val === values[0]);
   }
 
   /** Checks whether two arrays have same elements or not */
@@ -27,7 +27,7 @@ export class TokenListUtils {
   /** Checks if array contains all elements from subArray */
   static contains<T>(array: T[], subArray: T[]): boolean {
     const set = new Set(array);
-    return subArray.every(val => set.has(val));
+    return subArray.every((val) => set.has(val));
   }
 
   /** Gets array which contains only common elements from arrays */
@@ -39,6 +39,6 @@ export class TokenListUtils {
 
   /** Removes all element appearances from array */
   static remove<T>(array: T[], element: T): T[] {
-    return array.filter(el => el !== element);
+    return array.filter((el) => el !== element);
   }
 }

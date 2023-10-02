@@ -3,15 +3,14 @@ import {attr, boolAttr, listen, memoize} from '@exadel/esl/modules/esl-utils/dec
 
 
 import {TokenListUtils} from '../../core/utils/token-list';
-import {UIPRoot} from '../../core/registration';
-import {ChangeAttrConfig, UIPStateModel} from '../../core/base/model';
+import {UIPRoot} from '../../core/base/root';
 import {UIPSetting} from '../../plugins/settings/setting';
+import type {ChangeAttrConfig, UIPStateModel} from '../../core/base/model';
 
 import type {ESLSelect} from '@exadel/esl/modules/esl-forms/esl-select/core';
 
 /**
  * Custom setting for selecting attribute's value
- * @extends UIPSetting
  */
 export class UIPSelectSetting extends UIPSetting {
   public static is = 'uip-select-setting';
@@ -51,7 +50,7 @@ export class UIPSelectSetting extends UIPSetting {
 
   /** Collects all options' values */
   protected get settingOptions(): string[] {
-    return this.$field.options.map(opt => opt.value);
+    return this.$field.options.map((opt) => opt.value);
   }
 
   /** Initialization of {@link ESLSelect} */
@@ -61,11 +60,11 @@ export class UIPSelectSetting extends UIPSetting {
     select.setAttribute('esl-select-target', '');
     select.multiple = this.multiple;
     select.id = `${UIPSelectSetting.is}-${randUID()}`;
-    this.querySelectorAll('option').forEach(option => select.add(option));
+    this.querySelectorAll('option').forEach((option) => select.add(option));
     return select;
   }
 
-  protected connectedCallback() {
+  protected override connectedCallback(): void {
     super.connectedCallback();
     this.$label.htmlFor = this.$field.$select.id;
 
@@ -74,7 +73,7 @@ export class UIPSelectSetting extends UIPSetting {
     this.appendChild(this.$field);
   }
 
-  applyTo(model: UIPStateModel) {
+  applyTo(model: UIPStateModel): void {
     if (this.mode === 'replace') return super.applyTo(model);
 
     const cfg: ChangeAttrConfig = {
@@ -88,7 +87,7 @@ export class UIPSelectSetting extends UIPSetting {
   }
 
   /** Function to transform(update) attribute value */
-  transformValue(value: string, attrValue: string | null ) {
+  transformValue(value: string, attrValue: string | null): string | null {
     if (!attrValue) return value || null;
 
     const attrTokens = this.settingOptions.reduce((tokens, option) =>
@@ -98,7 +97,7 @@ export class UIPSelectSetting extends UIPSetting {
     return TokenListUtils.join(attrTokens);
   }
 
-  updateFrom(model: UIPStateModel) {
+  updateFrom(model: UIPStateModel): void {
     this.reset();
     const attrValues = model.getAttribute(this.target, this.attribute);
 
@@ -125,10 +124,10 @@ export class UIPSelectSetting extends UIPSetting {
   /** Updates setting's value for {@link mode} = "append" */
   protected appendFrom(attrValues: (string | null)[]): void {
     // array of each attribute's value intersection with select options
-    const valuesOptions = attrValues.map(val => TokenListUtils.intersection(this.settingOptions, TokenListUtils.split(val)));
+    const valuesOptions = attrValues.map((val) => TokenListUtils.intersection(this.settingOptions, TokenListUtils.split(val)));
 
     // make empty option active if no options intersections among attribute values
-    if (this.settingOptions.includes('') && valuesOptions.every(inter => !inter.length)) {
+    if (this.settingOptions.includes('') && valuesOptions.every((inter) => !inter.length)) {
       return this.setValue('');
     }
 
@@ -146,7 +145,7 @@ export class UIPSelectSetting extends UIPSetting {
 
   protected setValue(value: string): void {
     this.$$off(this._onChange);
-    value.split(' ').forEach(opt => this.$field.setSelected(opt, true));
+    value.split(' ').forEach((opt) => this.$field.setSelected(opt, true));
     this.$$on(this._onChange);
   }
 
@@ -182,14 +181,14 @@ export class UIPSelectSetting extends UIPSetting {
     this.$field.toggleAttribute('disabled', force);
   }
 
-  /** Resets {@link $field} value. */
+  /** Resets {@link UIPSelectSetting.prototype.$field} value */
   protected reset(): void {
     this.disabled = false;
-    this.$field.options.forEach(opt => opt.selected = false);
+    this.$field.options.forEach((opt) => opt.selected = false);
     this.$field.$select.remove(this.settingOptions.indexOf(UIPSelectSetting.inconsistentValue));
   }
 
-  public static register() {
+  public static register(): void {
     customElements.whenDefined('esl-select').then(() => super.register());
   }
 }
