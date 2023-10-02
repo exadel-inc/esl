@@ -1,14 +1,13 @@
 import React from 'jsx-dom';
 import {attr, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 
-import {TokenListUtils} from '../../core/utils/token-list';
-import {UIPSetting} from '../../plugins/settings/setting';
+import {TokenListUtils} from '../../../core/utils/token-list';
+import {UIPSetting} from '../setting';
 
-import type {ChangeAttrConfig, UIPStateModel} from '../../core/base/model';
+import type {ChangeAttrConfig, UIPStateModel} from '../../../core/base/model';
 
 /**
  * Custom setting to add/remove attributes or append values to attribute
- * @extends UIPSetting
  */
 export class UIPBoolSetting extends UIPSetting {
   public static is = 'uip-bool-setting';
@@ -46,10 +45,11 @@ export class UIPBoolSetting extends UIPSetting {
     super.connectedCallback();
     this.innerHTML = '';
 
-    const $inner = <label>
-      {this.label}
-      {this.$field}
-    </label>;
+    const $inner =
+      <label>
+        {this.label}
+        {this.$field}
+      </label>;
     this.insertBefore($inner, this.firstChild);
   }
 
@@ -59,7 +59,7 @@ export class UIPBoolSetting extends UIPSetting {
     const cfg: ChangeAttrConfig = {
       target: this.target,
       attribute: this.attribute,
-      modifier: this.$settings,
+      modifier: this,
       transform: this.transform.bind(this, this.getDisplayedValue()),
     };
 

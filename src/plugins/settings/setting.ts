@@ -1,17 +1,16 @@
-import {ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
-import {attr, prop, listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
+import {attr, prop, listen, bind} from '@exadel/esl/modules/esl-utils/decorators';
 import {getAttr, setAttr} from '@exadel/esl/modules/esl-utils/dom/attr';
 
-// eslint-disable-next-line import/no-cycle
-import {UIPSettings} from './settings';
-import type {ChangeAttrConfig, UIPStateModel} from '../../core/base/model';
+import {UIPPlugin} from '../../core/base/plugin';
+
+import type {UIPStateModel} from '../../core/base/model';
 
 /**
  * Custom element for manipulating with elements attributes
  * Custom settings should extend this class
  * to become connected with {@link UIPSettings}
  */
-export abstract class UIPSetting extends ESLBaseElement {
+export abstract class UIPSetting extends UIPPlugin {
   public static override is = 'uip-setting';
 
   /** No matching value message */
@@ -30,26 +29,18 @@ export abstract class UIPSetting extends ESLBaseElement {
 
   /** Target to which setting's changes are attached */
   public get target(): string {
-    return getAttr(this, 'target', this.$settings.target);
+    const target = this.closest('[target]');
+    return target ? getAttr(target, 'target')! : '';
   }
   /** Sets target to which setting's changes are attached */
   public set target(target: string) {
     setAttr(this, 'target', target);
   }
 
-  /** Closest {@link UIPSettings} element */
-  @memoize()
-  public get $settings(): UIPSettings {
-    return this.closest(UIPSettings.is)!;
-  }
-
   protected override connectedCallback(): void {
     super.connectedCallback();
     this.classList.add(UIPSetting.is);
-  }
-
-  protected override disconnectedCallback(): void {
-    super.disconnectedCallback();
+    this._onRootStateChange();
   }
 
   /**
@@ -59,7 +50,8 @@ export abstract class UIPSetting extends ESLBaseElement {
   @listen('change')
   protected _onChange(e: Event): void {
     e.preventDefault();
-    this.$$fire('uip:change');
+    if (!this.model) return;
+    this.applyTo(this.model);
   }
 
   /**
@@ -67,18 +59,20 @@ export abstract class UIPSetting extends ESLBaseElement {
    * with setting's value
    */
   public applyTo(model: UIPStateModel): void {
-    const cfg: ChangeAttrConfig = {
-      target: this.target,
-      attribute: this.attribute,
-      value: this.getDisplayedValue(),
-      modifier: this.$settings
-    };
-    this.isValid() ? model.changeAttribute(cfg) : this.setInconsistency(this.INVALID_VALUE_MSG);
+    if (this.isValid()) {
+      model.changeAttribute({
+        target: this.target,
+        attribute: this.attribute,
+        value: this.getDisplayedValue(),
+        modifier: this
+      });
+    } else {
+      this.setInconsistency(this.INVALID_VALUE_MSG);
+    }
   }
 
   /**
-   * Updates setting's value with
-   * active markup from {@link UIPStateModel}
+   * Updates setting's value with active markup from {@link UIPStateModel}
    */
   public updateFrom(model: UIPStateModel): void {
     this.disabled = false;
@@ -92,6 +86,12 @@ export abstract class UIPSetting extends ESLBaseElement {
     } else {
       this.setValue(values[0]);
     }
+  }
+
+  /** Updates {@link UIPSetting} values */
+  @bind
+  protected override _onRootStateChange(): void {
+    this.updateFrom(this.model!);
   }
 
   /**
@@ -114,8 +114,8 @@ export abstract class UIPSetting extends ESLBaseElement {
    * Disable setting
    * By default is used when there are no setting's targets
    */
-  set disabled(force: boolean) {
-    return;
+  public set disabled(force: boolean) {
+    this.$$attr('disabled', force);
   }
 
   /**

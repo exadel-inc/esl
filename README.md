@@ -52,9 +52,9 @@ Import CSS styles
     - ##### [UIP Options](src/plugins/header/options/README.md)
   - #### [UIP Settings](src/plugins/settings/README.md)
     - ##### [UIP Setting](src/settings/setting/README.md)
-    - ##### [UIP Text Setting](src/settings/text-setting/README.md)
-    - ##### [UIP Bool Setting](src/settings/bool-setting/README.md)
-    - ##### [UIP Select Setting](src/settings/select-setting/README.md)
+    - ##### [UIP Text Setting](src/plugins/settings/text-setting/README.md)
+    - ##### [UIP Bool Setting](src/plugins/settings/bool-setting/README.md)
+    - ##### [UIP Select Setting](src/plugins/settings/select-setting/README.md)
 ---
 ## Example
 
