@@ -112,7 +112,7 @@
     "postcss-loader": "^7.3.3",
     "postcss-preset-env": "^9.1.4",
     "prettier": "^3.0.3",
-    "rimraf": "^5.0.2",
+    "rimraf": "^5.0.5",
     "semantic-release": "^22.0.5",
     "stylelint": "^15.10.3",
     "stylelint-prettier": "^4.0.2",
