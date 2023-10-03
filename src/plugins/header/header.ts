@@ -1,8 +1,5 @@
-import React from 'jsx-dom';
-
-import {ESLEventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
-import {listen} from '@exadel/esl/modules/esl-utils/decorators/listen';
 import {UIPPlugin} from '../../core/base/plugin';
+import {UIPCopy} from '../copy/uip-copy';
 import {UIPOptions} from './options/options';
 import {UIPOptionIcons} from './options/option-icons';
 import {UIPSnippets} from './snippets/snippets';
@@ -42,20 +39,6 @@ export class UIPHeader extends UIPPlugin {
 
   /** Renders copy icon */
   protected renderCopy(): void {
-    const icon = <button title="copy markup" className="copy-icon">{UIPOptionIcons.copySVG.cloneNode(true) as HTMLElement}</button>;
-    this.append(icon);
-  }
-
-  /** Handles copy icon click */
-  @listen({event: 'click', selector: '.copy-icon'})
-  protected _onCopyClick(): void {
-    navigator.clipboard.writeText(this.model!.html).then(() => {
-      ESLEventUtils.dispatch(this, 'esl:alert:show', {
-        detail: {
-          text: 'Markup copied',
-          cls: 'uip-alert-info'
-        }
-      });
-    });
+    this.append(UIPCopy.create(UIPOptionIcons.copySVG, 'copy-icon'));
   }
 }
