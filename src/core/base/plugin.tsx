@@ -30,9 +30,9 @@ export abstract class UIPPlugin extends ESLBaseElement {
 
   /** {@link UIPPlugin} section wrapper */
   @memoize()
-  protected get $inner(): HTMLDivElement {
+  protected get $inner(): HTMLElement {
     const pluginType = this.constructor as typeof UIPPlugin;
-    return <div className={`${pluginType.is}-inner uip-plugin-inner`}></div> as HTMLDivElement;
+    return <div className={`${pluginType.is}-inner uip-plugin-inner`}></div> as HTMLElement;
   }
 
   protected connectedCallback(): void {

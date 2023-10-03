@@ -1,0 +1,93 @@
+html {
+  --uip-editor-divider: #ccc;
+  --uip-editor-header-bg: #ccc;
+  --uip-editor-header-fg: #000;
+}
+
+.uip-editor-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  color: var(--uip-editor-header-fg, #000);
+  background: var(--uip-editor-header-bg, transparent);
+  border-bottom: 1px solid var(--uip-editor-divider, transparent);
+
+  &-title {
+    margin-inline-end: auto;
+  }
+
+  &-title:not(:empty) {
+    padding: 5px;
+  }
+
+  &-copy {
+    position: relative;
+    width: 25px;
+    height: 25px;
+    z-index: 2;
+  }
+
+  &-trigger {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    appearance: none;
+  }
+
+  &.no-label {
+    background: transparent;
+    justify-content: center;
+  }
+
+  &.no-label &-title {
+    display: none;
+  }
+
+  &.no-label &-trigger {
+    left: 50%;
+    width: 100px;
+    transform: translateX(-50%);
+
+    background: var(--uip-editor-header-bg, transparent);
+    border-radius: 50px 50px 0 0;
+    opacity: 0.5;
+    transition: opacity 0.3s ease-in-out;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  [collapsible] &::after {
+    content: '';
+    position: relative;
+    margin: 5px 10px;
+    top: -2px;
+    width: 7px;
+    height: 7px;
+    z-index: 1;
+    pointer-events: none;
+
+    border-left: 2px solid currentColor;
+    border-top: 2px solid currentColor;
+
+    transform: rotate(225deg);
+    transform-origin: center;
+    transition:
+      transform 0.5s ease-in-out,
+      top 0.5s ease-in-out;
+  }
+
+  [collapsible][collapsed] &::after {
+    top: 2px;
+    transform: rotate(45deg);
+  }
+}

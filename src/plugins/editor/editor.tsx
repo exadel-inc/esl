@@ -8,30 +8,69 @@ import Prism from 'prismjs';
 import {CodeJar} from 'codejar';
 
 import {debounce} from '@exadel/esl/modules/esl-utils/async/debounce';
-import {bind, decorate, memoize} from '@exadel/esl/modules/esl-utils/decorators';
+import {bind, boolAttr, decorate, listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 
 import {UIPPlugin} from '../../core/base/plugin';
+import {UIPOptionIcons} from '../header/options/option-icons';
 
 /**
  * Editor {@link UIPPlugin} custom element definition
  * Uses Codejar code editor to provide an ability to modify UIP state markup
- * @extends UIPPlugin
  */
 export class UIPEditor extends UIPPlugin {
   public static override is = 'uip-editor';
+  public static override observedAttributes = ['collapsible', 'copy', 'label'];
 
   /** Highlight method declaration  */
   public static highlight = (editor: HTMLElement): void => Prism.highlightElement(editor, false);
 
+  /** Marker to collapse editor area */
+  @boolAttr() public collapsed: boolean;
+
+  /** Marker to make enable toggle collapse action for section header */
+  @boolAttr() public collapsible: boolean;
+
+  /** Marker to display copy widget */
+  @boolAttr({name: 'copy'}) public showCopy: boolean;
+
+  /** Header section block */
+  @memoize()
+  protected get $header(): HTMLElement {
+    const type = this.constructor as typeof UIPEditor;
+    return (
+      <div class={type.is + '-header ' + (this.label ? '' : 'no-label')}>
+        <span class={type.is + '-header-title'}>{this.label}</span>
+        {this.showCopy ? <uip-copy class={type.is + '-header-copy'}>{UIPOptionIcons.copySVG}</uip-copy> : ''}
+        {this.collapsible ? <button class={type.is + '-header-trigger'} aria-label="Collapse/expand"/> : ''}
+      </div>
+    ) as HTMLElement;
+  }
+
+  /** {@link UIPEditor} section wrapper */
+  @memoize()
+  protected get $inner(): HTMLDivElement {
+    const type = this.constructor as typeof UIPPlugin;
+    return (
+      <div className={`${type.is}-inner uip-plugin-inner`}>
+        <esl-scrollbar class={type.is + '-scrollbar'} target="::next"/>
+        <div class={type.is + '-container esl-scrollable-content'}>
+          {this.$code}
+        </div>
+      </div>
+    ) as HTMLDivElement;
+  }
+
+  /** Code block */
+  @memoize()
+  protected get $code(): HTMLElement {
+    const type = this.constructor as typeof UIPEditor;
+    return (<pre class={type.is + '-code language-html'}><code/></pre>) as HTMLElement;
+  }
+
   /** Wrapped {@link https://medv.io/codejar/ CodeJar} editor instance */
   @memoize()
   protected get editor(): CodeJar {
-    return CodeJar(this.$code, UIPEditor.highlight, { tab: '\t' });
-  }
-
-  @memoize()
-  protected get $code(): HTMLElement {
-    return (<pre class='language-html editor-content'><code/></pre>) as HTMLElement;
+    return CodeJar(this.$code, UIPEditor.highlight, {tab: '\t'});
   }
 
   /** @returns editor's content */
@@ -49,10 +88,8 @@ export class UIPEditor extends UIPPlugin {
     this.innerHTML = '';
 
     // Prefill content
+    this.appendChild(this.$header);
     this.appendChild(this.$inner);
-    this.$inner.classList.add('esl-scrollable-content');
-    this.$inner.append(<esl-scrollbar target="::parent"/>);
-    this.$inner.append(this.$code);
 
     // Initial update
     this._onRootStateChange();
@@ -64,6 +101,20 @@ export class UIPEditor extends UIPPlugin {
     this.editor?.destroy();
     memoize.clear(this, 'editor');
     super.disconnectedCallback();
+  }
+
+  protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
+    this.$header.remove();
+    memoize.clear(this, '$header');
+    this.insertAdjacentElement('afterbegin', this.$header);
+  }
+
+  @listen({
+    event: 'click',
+    selector: `.${UIPEditor.is}-header-trigger`,
+  })
+  protected _onClick(): void {
+    if (this.collapsible) this.collapsed = !this.collapsed;
   }
 
   /** Callback to call on editor's content changes */

@@ -1,108 +1,64 @@
 @import (reference) '../../common/variables.less';
 
+html {
+  --uip-editor-bg: #f5f2f0;
+}
+
 .uip-editor {
-  position: relative;
-  grid-area: editor;
   display: block;
-  max-height: 325px;
-  overflow: auto;
-  transition: max-height 0.3s ease-in-out;
+  grid-area: editor;
 
   &-inner {
-    height: 100%;
-    border-top: 1px solid @section-border;
+    display: flex;
+    position: relative;
+    height: auto;
+    overflow: hidden;
+    max-height: 325px;
+    transition:
+      padding-top 0.3s linear,
+      padding-bottom 0.3s linear,
+      max-height 0.3s linear,
+      visibility 0s linear;
+
+    padding: 1em;
+    background: var(--uip-editor-bg);
+  }
+
+  &[collapsed] &-inner {
+    padding-top: 0;
+    padding-bottom: 0;
+    max-height: 0;
+    visibility: hidden;
+    transition:
+      padding-top 0.3s linear,
+      padding-bottom 0.3s linear,
+      max-height 0.3s linear,
+      visibility 0.3s linear;
+  }
+
+  &-container {
+    flex: 1 1 auto;
+  }
+  &-container &-code {
+    margin: 0;
     padding: 0;
   }
 
-  .editor-content {
-    margin: 0;
+  &-scrollbar {
+    flex: 0 0 auto;
+    order: -1;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  &[collapsed] &-scrollbar {
+    opacity: 0;
   }
 
   .codejar-linenumbers {
     // Override default width set by withLineNumbers
     width: unset !important;
   }
-
-  .uip-root.dark-theme & {
-    .editor-content {
-      color: #ccc;
-      text-shadow: none;
-      background-color: @dark-theme;
-    }
-
-    .token.block-comment,
-    .token.cdata,
-    .token.comment,
-    .token.doctype,
-    .token.prolog {
-      color: #999;
-    }
-
-    .token.punctuation {
-      color: #ccc;
-    }
-
-    .token.attr-name,
-    .token.deleted,
-    .token.namespace,
-    .token.tag {
-      color: #e2777a;
-    }
-
-    .token.function-name {
-      color: #6196cc;
-    }
-
-    .token.boolean,
-    .token.function,
-    .token.number {
-      color: #f08d49;
-    }
-
-    .token.class-name,
-    .token.constant,
-    .token.property,
-    .token.symbol {
-      color: #f8c555;
-    }
-
-    .token.atrule,
-    .token.builtin,
-    .token.important,
-    .token.keyword,
-    .token.selector {
-      color: #cc99cd;
-    }
-
-    .token.attr-value,
-    .token.char,
-    .token.regex,
-    .token.string,
-    .token.variable {
-      color: #7ec699;
-    }
-
-    .token.entity,
-    .token.operator,
-    .token.url {
-      color: #67cdcc;
-    }
-
-    .token.bold,
-    .token.important {
-      font-weight: 700;
-    }
-
-    .token.italic {
-      font-style: italic;
-    }
-
-    .token.entity {
-      cursor: help;
-    }
-
-    .token.inserted {
-      color: green;
-    }
-  }
 }
+
+@import "./editor.header.less";

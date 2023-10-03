@@ -4,6 +4,7 @@
 
 .uip-root {
   position: relative;
+  overflow: hidden;
   display: grid;
   align-content: start;
   grid-template-columns: minmax(calc(100% - 250px), 100%) auto;
@@ -23,15 +24,6 @@
       'settings'
       'preview'
       'editor';
-  }
-
-  &[editor-collapsed] > .uip-editor {
-    max-height: 0;
-
-    &-inner {
-      visibility: hidden;
-      transition: visibility 0s 0.3s;
-    }
   }
 
   &[settings-collapsed] > .uip-settings {
