@@ -1,6 +1,7 @@
 @import (reference) '../../common/variables.less';
 
 html {
+  --uip-editor-fg: #000;
   --uip-editor-bg: #f5f2f0;
 }
 
@@ -21,6 +22,7 @@ html {
       visibility 0s linear;
 
     padding: 1em;
+    color: var(--uip-editor-fg);
     background: var(--uip-editor-bg);
   }
 
@@ -42,6 +44,8 @@ html {
   &-container &-code {
     margin: 0;
     padding: 0;
+    color: initial;
+    background: none;
   }
 
   &-scrollbar {
@@ -62,3 +66,4 @@ html {
 }
 
 @import "./editor.header.less";
+@import "./editor.themes.less";
