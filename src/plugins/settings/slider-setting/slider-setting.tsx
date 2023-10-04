@@ -2,7 +2,7 @@ import React from 'jsx-dom';
 
 import {attr, memoize, listen} from '@exadel/esl/modules/esl-utils/decorators';
 
-import {UIPSetting} from '../setting';
+import {UIPSetting} from '../base-setting/base-setting';
 
 export class UIPSliderSetting extends UIPSetting {
   public static is = 'uip-slider-setting';

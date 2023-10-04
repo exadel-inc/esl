@@ -6,7 +6,7 @@ import {UIPSnippets} from './header/snippets/snippets';
 import {UIPEditor} from './editor/editor';
 import {UIPSettings} from './settings/settings';
 
-import {UIPSetting} from './settings/setting';
+import {UIPSetting} from './settings/base-setting/base-setting';
 import {UIPTextSetting} from './settings/text-setting/text-setting';
 import {UIPSelectSetting} from './settings/select-setting/select-setting';
 import {UIPBoolSetting} from './settings/bool-setting/bool-setting';

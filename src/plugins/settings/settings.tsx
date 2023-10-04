@@ -3,7 +3,7 @@ import React from 'jsx-dom';
 import {attr} from '@exadel/esl/modules/esl-utils/decorators';
 
 import {UIPPlugin} from '../../core/base/plugin';
-import {UIPSetting} from './setting';
+import {UIPSetting} from './base-setting/base-setting';
 
 /**
  * Settings {@link UIPPlugin} custom element definition

@@ -3,7 +3,7 @@ import {attr, boolAttr, listen, memoize} from '@exadel/esl/modules/esl-utils/dec
 
 import {TokenListUtils} from '../../../core/utils/token-list';
 import {UIPRoot} from '../../../core/base/root';
-import {UIPSetting} from '../setting';
+import {UIPSetting} from '../base-setting/base-setting';
 
 import type {ChangeAttrConfig, UIPStateModel} from '../../../core/base/model';
 

@@ -2,7 +2,7 @@ import React from 'jsx-dom';
 import {attr, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 
 import {TokenListUtils} from '../../../core/utils/token-list';
-import {UIPSetting} from '../setting';
+import {UIPSetting} from '../base-setting/base-setting';
 
 import type {ChangeAttrConfig, UIPStateModel} from '../../../core/base/model';
 

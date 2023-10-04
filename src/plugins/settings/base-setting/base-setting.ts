@@ -1,9 +1,9 @@
 import {attr, prop, listen, bind} from '@exadel/esl/modules/esl-utils/decorators';
 import {getAttr, setAttr} from '@exadel/esl/modules/esl-utils/dom/attr';
 
-import {UIPPlugin} from '../../core/base/plugin';
+import {UIPPlugin} from '../../../core/base/plugin';
 
-import type {UIPStateModel} from '../../core/base/model';
+import type {UIPStateModel} from '../../../core/base/model';
 
 /**
  * Custom element for manipulating with elements attributes

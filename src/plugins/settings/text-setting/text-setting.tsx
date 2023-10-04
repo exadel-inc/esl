@@ -2,7 +2,7 @@ import React from 'jsx-dom';
 
 import {attr, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 
-import {UIPSetting} from '../setting';
+import {UIPSetting} from '../base-setting/base-setting';
 
 /**
  * Custom setting for inputting attribute's value
