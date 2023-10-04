@@ -3,6 +3,7 @@ import {getAttr, setAttr} from '@exadel/esl/modules/esl-utils/dom/attr';
 
 import {UIPPlugin} from '../../../core/base/plugin';
 
+import type {UIPSettings} from '../settings';
 import type {UIPStateModel} from '../../../core/base/model';
 
 /**
@@ -38,6 +39,8 @@ export abstract class UIPSetting extends UIPPlugin {
   }
 
   protected override connectedCallback(): void {
+    const $host = this.closest('[uip-settings-holder]');
+    if ($host && ($host as UIPSettings).add(this)) return;
     super.connectedCallback();
     this.classList.add(UIPSetting.is);
     this._onRootStateChange();

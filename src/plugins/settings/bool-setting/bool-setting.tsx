@@ -35,6 +35,16 @@ export class UIPBoolSetting extends UIPSetting {
     return $field;
   }
 
+  @memoize()
+  protected get $inner(): HTMLElement {
+    return (
+      <label>
+        {this.$field}
+        {this.label}
+      </label>
+    ) as HTMLElement;
+  }
+
   /** Container element for displaying inconsistency message */
   @memoize()
   protected get $inconsistencyMarker(): HTMLElement {
@@ -44,13 +54,7 @@ export class UIPBoolSetting extends UIPSetting {
   protected override connectedCallback(): void {
     super.connectedCallback();
     this.innerHTML = '';
-
-    const $inner =
-      <label>
-        {this.label}
-        {this.$field}
-      </label>;
-    this.insertBefore($inner, this.firstChild);
+    this.appendChild(this.$inner);
   }
 
   applyTo(model: UIPStateModel): void {
