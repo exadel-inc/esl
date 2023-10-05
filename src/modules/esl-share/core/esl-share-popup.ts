@@ -7,7 +7,7 @@ import type {TooltipActionParams} from '../../esl-tooltip/core/esl-tooltip';
 import type {ESLShareButtonConfig} from './esl-share-config';
 
 function stringifyButtonsList(btns: ESLShareButtonConfig[]): string {
-  return btns.map((btn) => btn.name).toString();
+  return btns.map((btn) => btn.name).join(',');
 }
 
 export interface ESLSharePopupActionParams extends TooltipActionParams {
@@ -19,7 +19,7 @@ export interface ESLSharePopupActionParams extends TooltipActionParams {
  * ESLSharePopup component
  * @author Dmytro Shovchko
  *
- * ESLSharePopup is an extension of {@link ESLPopup} that
+ * ESLSharePopup is an extension of {@link ESLPopup} that:
  * - exists as a singleton
  * - renders a list of {@link ESLShareButton}s based on the {@link ESLShareConfig} config from host {@link ESLShare} component
  * - forwards the sharing attributes from the host share {@link ESLShare} component
