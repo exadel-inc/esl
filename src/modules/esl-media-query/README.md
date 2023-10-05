@@ -86,7 +86,7 @@ The incoming JavaScript event will be an instance of [ESLMediaChangeEvent](#medi
 <a name="breakpoints"></a>
 ### ESLScreenBreakpoints
 
-ESLScreenBreakpoints is a custom screen breakpoints registry. It allows defining a named screen width range.
+`ESLScreenBreakpoints` is a custom screen breakpoints registry. It allows defining a named screen width range.
 
 Use `ESLScreenBreakpoints.add` static method to change default or define your own Screen Breakpoint.
 
@@ -94,7 +94,7 @@ You can also use `ESLScreenBreakpoints.remove` to exclude breakpoint shortcut fr
 
 You can get all available screen breakpoints using the `ESLScreenBreakpoints.names` property or access the complete breakpoint definitions with the `ESLScreenBreakpoints.get` method, which will return an `ESLScreenBreakpoint` instance if it exists.
 
-The list of predefined breakpoint is the following:
+The list of predefined breakpoints is the following:
   - `@xs` from 1 to 767 pixels
   - `@sm` from 768 to 991 pixels
   - `@md` from 992 to 1199 pixels
@@ -117,10 +117,10 @@ Additional preprocessor to provide DPR shortcuts.
 <a name="shortcuts"></a>
 ### ESLEnvShortcuts
 
-ESLEnvShortcuts is a simple registry for a static shortcuts to describe environment related conditions
+`ESLEnvShortcuts` is a simple registry for a static shortcuts to describe environment related conditions.
 
 An additional shortcuts can be added to the registry through `ESLEnvShortcuts.add` method
-ESLEnvShortcuts allows adding boolean result that will be converted to `all` / `not all` query conditions or setup result as native MediaQuery string. 
+ESLEnvShortcuts allows adding boolean result that will be converted to `all` / `not all` query condition or setup result as native MediaQuery string. 
 
 Environment shortcuts can be removed with `ESLEnvShortcuts.remove` method.
 
@@ -238,17 +238,17 @@ The incoming JavaScript event will be an instance of [ESLMediaRuleListEvent](#me
 <a name="media-rule-event"></a>
 #### ESLMediaRuleListEvent
 
-`ESLMediaRuleListEvent` is a custom event dispatched by `ESLMediaRuleList` instances
+`ESLMediaRuleListEvent` is a custom event dispatched by `ESLMediaRuleList` instances.
 
 `ESLMediaRuleListEvent` properties:
-  - `current` - current value of target `ESLMediaRuleList` instances
-  - `previous` - previous value of target `ESLMediaRuleList` instances
+  - `current` - current value of target `ESLMediaRuleList` instance
+  - `previous` - previous value of target `ESLMediaRuleList` instance
   - `target` - target `ESLMediaRuleList` instance
 
 <a name="media-change-event"></a>
 #### ESLMediaChangeEvent
 
-`ESLMediaChangeEvent` is a custom event dispatched by `ESLMediaQuery` instances
+`ESLMediaChangeEvent` is a custom event dispatched by `ESLMediaQuery` instances.
 
 `ESLMediaChangeEvent` properties:
   - `public` - boolean value that indicates whether the query matched the device conditions when the event was dispatched
