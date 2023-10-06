@@ -78,7 +78,7 @@ export class ESLSharePopup extends ESLTooltip {
     ESLSharePopup.forwardedAttrs.forEach((name) => {
       const el = activator.closest(`[${name}]`);
       const value = el && el.getAttribute(name);
-      if (value) this.$$attr(name, value);
+      this.$$attr(name, value);
     });
   }
 
