@@ -32,7 +32,8 @@ export type ESLListenerDescriptor<EType extends keyof ESLListenerEventMap = stri
   passive?: boolean;
 
   /**
-   * Condition (boolean value or predicate) to apply subscription
+   * A condition (boolean value or predicate) to apply subscription
+   * Subscription rejected by condition does not count as warning during subscription process
    * Rejected by condition subscription does not count as warning during subscription process
    */
   condition?: boolean | PropertyProvider<boolean>;

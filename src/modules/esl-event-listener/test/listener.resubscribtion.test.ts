@@ -25,6 +25,7 @@ describe('ESLEventListener re-subscribtion usecase with condition', () => {
   TestSubsEl.register();
 
   const host = TestSubsEl.create();
+
   test('ESLEventListener initial subscription is rejected by condition', () => {
     expect(ESLEventUtils.listeners(host).length).toBe(0);
     host.click();
