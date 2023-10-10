@@ -83,16 +83,6 @@ export class UIPOptions extends UIPPlugin {
   }
 
   /**
-   * Handles {@link UIPRoot} `uip:configchange` event to
-   * manage {@link UIPOption} active state
-   */
-  @listen({event: 'uip:configchange', target: '::parent(.uip-root)'})
-  protected _onRootConfigChange(e: CustomEvent): void {
-    const option = this.options.get(e.detail.attribute);
-    option?.toggleState(e.detail.value !== null);
-  }
-
-  /**
    * Handles {@link UIPOption} `click` event
    * to manage {@link UIPRoot} options attributes
    */

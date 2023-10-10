@@ -104,6 +104,7 @@ export class UIPEditor extends UIPPlugin {
   }
 
   protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
+    super.attributeChangedCallback(attrName, oldVal, newVal);
     this.$header.remove();
     memoize.clear(this, '$header');
     this.insertAdjacentElement('afterbegin', this.$header);

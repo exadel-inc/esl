@@ -13,6 +13,7 @@ import type {UIPStateModel} from '../../../core/base/model';
  */
 export abstract class UIPSetting extends UIPPlugin {
   public static override is = 'uip-setting';
+  public static readonly isSetting = (el: Node): el is UIPSetting => el && (el instanceof UIPSetting);
 
   /** No matching value message */
   @prop('No select match') public NO_MATCH_MSG: string;
@@ -39,8 +40,7 @@ export abstract class UIPSetting extends UIPPlugin {
   }
 
   protected override connectedCallback(): void {
-    const $host = this.closest('[uip-settings-holder]');
-    if ($host && ($host as UIPSettings).add(this)) return;
+    this.$$fire('uip:settings:invalidate');
     super.connectedCallback();
     this.classList.add(UIPSetting.is);
     this._onRootStateChange();

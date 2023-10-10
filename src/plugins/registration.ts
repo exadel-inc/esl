@@ -16,6 +16,7 @@ export {UIPSetting, UIPSettings, UIPTextSetting, UIPBoolSetting, UIPSelectSettin
 export {UIPOptions, UIPOptionIcons, UIPEditor, UIPSnippets, UIPHeader};
 
 export const registerSettings = (): void => {
+  UIPSettings.register();
   UIPBoolSetting.register();
   UIPTextSetting.register();
   UIPSelectSetting.register();
@@ -28,5 +29,4 @@ export const registerPlugins = (): void => {
   UIPOptions.register();
   UIPSnippets.register();
   UIPEditor.register();
-  UIPSettings.register();
 };

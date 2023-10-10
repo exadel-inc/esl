@@ -1,0 +1,66 @@
+.uip-settings:not(.horizontal) {
+  --uip-settings-header-bg: transparent;
+
+  grid-area: sidebar;
+
+  .uip-settings-header {
+    padding: 10px 4px;
+  }
+
+  .uip-settings-inner {
+    width: 250px;
+    max-width: 250px;
+
+    transition:
+      visibility 0s linear,
+      padding-left 0.3s linear,
+      padding-right 0.3s linear,
+      max-width 0.3s linear;
+  }
+
+  &[collapsed] .uip-settings-inner {
+    max-width: 0;
+    padding-left: 0;
+    padding-right: 0;
+
+    transition:
+      visibility 0.3s linear,
+      padding-left 0.3s linear,
+      padding-right 0.3s linear,
+      max-width 0.3s linear;
+  }
+
+  .uip-settings-header {
+    border-left: 1px solid var(--uip-settings-divider-v, transparent);
+    border-right: 1px solid var(--uip-settings-divider-v, transparent);
+  }
+
+  .uip-settings-header-title {
+    display: none;
+  }
+
+  // Rotate on collapsed state change
+  &[collapsed] .uip-settings-header-icon {
+    animation: rotate .5s linear both;
+  }
+  &:not([collapsed]) .uip-settings-header-icon {
+    animation: rotate-back .5s linear both;
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotate-back {
+  0% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}

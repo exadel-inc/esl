@@ -1,47 +1,91 @@
 @import (reference) '../../common/mixins.less';
 @import (reference) '../../common/variables.less';
 
+html {
+  --uip-settings-divider: #ccc;
+  --uip-settings-divider-v: @section-border;
+  --uip-settings-header-bg: #ccc;
+  --uip-settings-header-fg: #000;
+}
+
+uip-settings {
+  display: none;
+}
 .uip-settings {
-  grid-area: settings;
-  width: 250px;
-  max-width: 250px;
-  max-height: 100%;
-  overflow: hidden;
-  transition:
-    max-width 0.3s ease-in-out,
-    max-height 0s;
+  grid-area: sidebar;
+
+  display: flex;
+  overflow: auto;
   accent-color: @dark-text;
 
   &-inner {
+    flex: 1 1 auto;
+    display: flex;
     position: relative;
-    height: 100%;
-    width: 250px;
-    border-left: 1px solid @section-border;
+    overflow: hidden;
+    padding: 0;
+  }
 
-    .esl-scrollbar {
-      padding-right: 0;
+  &-container {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    order: 0;
+
+    gap: 20px;
+    min-width: 200px;
+    padding: 20px 10px;
+  }
+
+  &-scrollbar {
+    position: relative;
+    flex: 0 0 auto;
+    order: 1;
+
+    &[inactive] {
+      display: none;
     }
   }
 
-  .settings-list {
-    height: 100%;
-    padding: 0 5px;
-  }
+  &-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
 
-  @media @mobile {
-    width: 100%;
-    max-width: 100%;
-    max-height: 300px;
-    transition: max-height 0.3s ease-in-out;
+    flex: 0 0 auto;
 
-    &-inner {
+    color: var(--uip-settings-header-fg, #000);
+    background: var(--uip-settings-header-bg, transparent);
+
+    &-title:not(:empty) {
+      flex: 1 1 auto;
+      padding: 5px;
+    }
+
+    &-trigger {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
-      padding: 15px 10px 20px 0;
+      height: 100%;
+      z-index: 1;
 
-      border-left: none;
-      border-bottom: 1px solid @section-border;
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      appearance: none;
+    }
 
-      .scrollbar-expanded();
+    &-icon {
+      display: inline-flex;
+      width: 1.25rem;
+      height: 1.25rem;
+      margin-block: -5px;
+      transform-origin: center center;
     }
   }
 }
+
+@import "./settings.vertical.less";
+@import "./settings.horizontal.less";
