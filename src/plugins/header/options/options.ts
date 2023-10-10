@@ -12,7 +12,7 @@ import type {OptionConfig} from './option/option';
  */
 export class UIPOptions extends UIPPlugin {
   public static is = 'uip-options';
-  public static observedAttributes = ['hide-theme', 'hide-direction', 'hide-settings', 'hide-editor'];
+  public static observedAttributes = ['hide-theme', 'hide-direction'];
 
   /** Map that stores {@link UIPOption} instances */
   public options = new Map<string, UIPOption>();
@@ -30,20 +30,6 @@ export class UIPOptions extends UIPPlugin {
       optionValue: 'rtl-direction',
       canActivate: (component): boolean => !component.hasAttribute('hide-direction'),
       svg: UIPOptionIcons.rtlDirectionSVG
-    },
-    {
-      attrName: 'hide-settings',
-      optionValue: 'settings-collapsed',
-      canActivate: (component): boolean => !component.hasAttribute('hide-settings') &&
-        !!component.root?.querySelector('uip-settings'),
-      svg: UIPOptionIcons.settingsCollapsedSVG
-    },
-    {
-      attrName: 'hide-editor',
-      optionValue: 'editor-collapsed',
-      canActivate: (component): boolean => !component.hasAttribute('hide-editor') &&
-        !!component.root?.querySelector('uip-editor'),
-      svg: UIPOptionIcons.editorCollapsedSVG
     }
   ];
 
