@@ -33,7 +33,8 @@ export function debounce<F extends AnyToAnyFnSignature>(fn: F, wait = 10, thisAr
     timeout = window.setTimeout(() => {
       timeout = null;
       // fn.apply to save call context
-      deferred!.resolve(fn.apply(thisArg || this, args));
+      const result = fn.apply(thisArg || this, args);
+      deferred && deferred.resolve(result);
       deferred = null;
     }, wait);
   }
