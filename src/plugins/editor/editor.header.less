@@ -16,7 +16,11 @@ html {
   border-bottom: 1px solid var(--uip-editor-divider, transparent);
 
   font-weight: 500;
-  padding: 2px 10px;
+
+  .uip-editor[label] &,
+  .uip-editor[collapsible] & {
+    padding: 2px 10px;
+  }
 
   &-title {
     margin-inline-end: auto;
