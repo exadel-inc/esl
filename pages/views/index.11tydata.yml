@@ -55,7 +55,7 @@ landing:
 
   news:
     title: Our News
-    limit: 1
+    limit: 2
     cta:
       text: Read more
 
