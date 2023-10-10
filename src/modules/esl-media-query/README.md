@@ -26,61 +26,14 @@ so they're compatible to use with DOM EventListeners, including `ESLEventListene
   Syntax `@x<dpr_value>` (e.g. `@x1`, `@x2`, `@x1.5`).
 - Can block queries with DPR value greater than 1 for PageSpeedBots.
 - Screen breakpoints shortcuts (e.g. `@XS`, `@md`, `@+LG`, `@-MD`)  
-  Supports breakpoints declared in [ESLScreenBreakpoints](#breakpoints) registry.   
+  Supports breakpoints declared in [ESLScreenBreakpoints](#breakpoints) registry.
   Accepts modifiers like `+` for upper breakpoints and `-` for lower breakpoints.
-- Device and browser detection shortcuts that are registered through [ESLEnvShortcuts](#shortcuts) registry.
-  The list of predefined environment shortcuts is the following:
-  - `@BOT` - detects search/pagespeed bots
-  - `@MOBILE` - detects mobile devices 
-  - `@DESKTOP` - detects desktops
-  - `@ANDROID` - detects Android devices
-  - `@IOS` - detects iOS devices  
-  - `@TOUCH` - cross-browser touch support detection
-  - `@IE` - detects InternetExplorer 11
-  - `@EDGE` - detects legacy Edge browser (<18) based on EdgeHTML engine
-  - `@GECKO` - detects Gecko engine based browsers (e.g. Firefox)
-  - `@BLINK` - detects Blink engine based browsers (e.g. Google Chrome, Opera)
-  - `@SAFARI` - detects safari browsers
-  - `@SAFARI-IOS` - detects mobile safari browsers  
+- Device and browser detection shortcuts that are registered through [ESLEnvShortcuts](#shortcuts) registry (e.g. `@BOT`, `@SAFARI`, `@IOS`).
 - `or` operation alias in addition to "`,`" (`@xs or @mobile` is the same as `@xs, @mobile`)
 - Multiple `not` operators, that is not sensitive to position
   (e.g. `not @ie`, `not @xs and not @mobile`)
 - Implements `EventTarget` interface and compatible with `ESLEventListener`.  
 **Note**: `ESLMediaQuery` ignores event name passed to `EventTarget` interface methods
-
----
-
-<a name="breakpoints"></a>
-### ESLScreenBreakpoints
-
-ESLScreenBreakpoints is a custom screen breakpoints registry. It allows defining a named screen width range.
-
-Use `ESLScreenBreakpoints.add` static method to change default or define your own Screen Breakpoint.
-
-You can also use `ESLScreenBreakpoints.remove` to exclude breakpoint shortcut from registry.
-
-You can get all available screen breakpoints through `ESLScreenBreakpoints.names` property or access full breakpoint 
-definition through `ESLScreenBreakpoints.get`.
-
----
-<a name="dpr"></a>
-### ESLScreenDPR
-
-Additional preprocessor to provide DPR shortcuts.
-
-Use `ESLScreenDPR.ignoreBotsDpr` marker to enable DPR ignoring for PageSpeed Bots.
-
----
-
-<a name="shortcuts"></a>
-### ESLEnvShortcuts
-
-ESLEnvShortcuts is a simple registry for a static shortcuts to describe environment related conditions
-
-An additional shortcuts can be added to the registry through `ESLEnvShortcuts.add` method
-ESLEnvShortcuts allows adding boolean result that will be converted to `all` / `not all` query conditions or setup result as native MediaQuery string. 
-
-Environment shortcuts can be removed with `ESLEnvShortcuts.remove` method.
 
 ---
 
@@ -107,7 +60,7 @@ Note: ESLMediaQuery has no real instances and represents `IMediaQueryConditionIn
   - `MediaQueryDisjunction` - group of conditions unified by `or` operator
 
 The `ESLMediaQuery`(`IMediaQueryConditionInterface`) instances provide the following set of properties and methods:
-  - `matches` - boolean getter that returns if the current environment configuration is acceptable for current query condition
+  - `matches` - returns `true` if the current environment configuration is acceptable for current query condition
   - `optimize` - inner method to rebuild condition tree, and provide static and logic expression optimization.
 
 Event Target methods:
@@ -126,22 +79,96 @@ class Test {
 }
 ```
 
+The incoming JavaScript event will be an instance of [ESLMediaChangeEvent](#media-change-event).
+
+---
+
+<a name="breakpoints"></a>
+### ESLScreenBreakpoints
+
+`ESLScreenBreakpoints` is a custom screen breakpoints registry. It allows defining a named screen width range.
+
+Use `ESLScreenBreakpoints.add` static method to change default or define your own Screen Breakpoint.
+
+You can also use `ESLScreenBreakpoints.remove` to exclude breakpoint shortcut from registry.
+
+You can get all available screen breakpoints using the `ESLScreenBreakpoints.names` property or access the complete breakpoint definitions with the `ESLScreenBreakpoints.get` method, which will return an `ESLScreenBreakpoint` instance if it exists.
+
+The list of predefined breakpoints is the following:
+  - `@xs` from 1 to 767 pixels
+  - `@sm` from 768 to 991 pixels
+  - `@md` from 992 to 1199 pixels
+  - `@lg` from 1200 to 1599 pixels
+  - `@xl` from 1600 to 999999 pixels
+
+---
+<a name="dpr"></a>
+### ESLScreenDPR
+
+Additional preprocessor to provide DPR shortcuts.
+
+#### ESLScreenDPR API
+  - `ignoreBotsDpr` - marker to enable DPR ignoring for PageSpeed Bots
+  - `toDPI` - converts to DPI (Dots Per Inch) based on a given number value
+  - `process` - creates a string representation of the DPI value, in the format of (e.g. `(min-resolution: {value}dpi)`)
+
+---
+
+<a name="shortcuts"></a>
+### ESLEnvShortcuts
+
+`ESLEnvShortcuts` is a simple registry for a static shortcuts to describe environment related conditions.
+
+An additional shortcuts can be added to the registry through `ESLEnvShortcuts.add` method
+ESLEnvShortcuts allows adding boolean result that will be converted to `all` / `not all` query condition or setup result as native MediaQuery string. 
+
+Environment shortcuts can be removed with `ESLEnvShortcuts.remove` method.
+
+The list of predefined environment shortcuts is the following:
+  - `@BOT` - detects search/pagespeed bots
+  - `@MOBILE` - detects mobile devices 
+  - `@DESKTOP` - detects desktops
+  - `@ANDROID` - detects Android devices
+  - `@IOS` - detects iOS devices  
+  - `@TOUCH` - cross-browser touch support detection
+  - `@IE` - detects InternetExplorer 11
+  - `@EDGE` - detects legacy Edge browser (<18) based on EdgeHTML engine
+  - `@GECKO` - detects Gecko engine based browsers (e.g. Firefox)
+  - `@BLINK` - detects Blink engine based browsers (e.g. Google Chrome, Opera)
+  - `@SAFARI` - detects safari browsers
+  - `@SAFARI-IOS` - detects mobile safari browsers
+
 ---
 
 <a name="media-rule"></a>
 ### ESLMediaRule
 
 Pair of `ESLMediaQuery` and value (payload) associated with a query condition. 
-`ESLMediaRule` is used as an item for [ESLMediaRuleList](#eslmediarulelist).  
+`ESLMediaRule` is used as an item for [ESLMediaRuleList](#media-rule-list).  
 `ESLMediaRule` can be parsed from `<ESL Media Query> => <value>` syntax string, 
 e.g. `@XS => 1` (`1` is the payload) or `@+LG and @DESKTOP => desktop` (`'desktop'` is the payload).
+
+#### ESLMediaRule API
+- `ESLMediaRule.prototype.create(payload, query, parser)` - creates an `ESLMediaRule` instance from a payload string, media query, and a payload parser function. If the payload parsing result is undefined, the rule will also be undefined
+- `ESLMediaRule.prototype.parse` - parses media rule defined with syntax, where query and value separated by `=>`
+- `ESLMediaRule.prototype.all(payload)` - creates an always active `ESLMediaRule` with passed value
+- `ESLMediaRule.prototype.empty` - creates an always inactive `ESLMediaRule`
+
+- `toString` - creates a string representation of the media rule, in the format of (e.g. `{media query} => {payload}`)
+- `matches` - returns `true` if the inner `ESLMediaQuery` meets the current device configuration
+
+Event Target methods:
+- `ESLMediaRuleList.prototype.addEventListener(cb: EventListener)` or
+`ESLMediaRuleList.prototype.addEventListener('change', cb: EventListener)` - subscribes to `ESLMediaRule` object value changes 
+- `ESLMediaRuleList.prototype.removeEventListener(cb: EventListener)` or
+`ESLMediaRuleList.prototype.removeEventListener('change', cb: EventListener)` - unsubscribes from `ESLMediaRule` object value changes 
 
 --- 
 
 <a name="media-rule-list"></a>
 ### ESLMediaRuleList
 
-ESLMediaRuleList is an observable [ESLMediaRule](#eslmediarule) collection.
+ESLMediaRuleList is an observable [ESLMediaRule](#media-rule) collection.
 ESLMediaRuleList has methods to work with the whole rules list. 
 It implements `EventTarget` interface and compatible with `ESLEventListener`s, 
 so you can observe active value changes.
@@ -183,7 +210,7 @@ ESLMediaRuleList.parseTuple('@xs|@sm|@md|@lg|@xl', '1|2|3|4|5') // String payloa
 ESLMediaRuleList.parseTuple('@xs|@sm|@md|@lg|@xl', '1|2|3|4|5',  Number) // Numeric payload sample
 ```
 
-### ESLMediaRuleList API
+#### ESLMediaRuleList API
 
 - `ESLMediaRuleList.parse(ruleset: string)` - parse media ruleset defined with classic syntax mentioned in section above.
 Rules separated by `|` symbol, query and value separated by `=>` for each rule, query is optional.
@@ -204,3 +231,26 @@ Event Target methods:
 - `ESLMediaRuleList.prototype.removeEventListener(cb: EventListener)` or
 `ESLMediaRuleList.prototype.removeEventListener('change', cb: EventListener)` - unsubscribes from `ESLMediaRuleList` object value changes 
 
+The incoming JavaScript event will be an instance of [ESLMediaRuleListEvent](#media-rule-event).
+
+---
+### ESLMediaQuery events
+<a name="media-rule-event"></a>
+#### ESLMediaRuleListEvent
+
+`ESLMediaRuleListEvent` is a custom event dispatched by `ESLMediaRuleList` instances.
+
+`ESLMediaRuleListEvent` properties:
+  - `current` - current value of target `ESLMediaRuleList` instance
+  - `previous` - previous value of target `ESLMediaRuleList` instance
+  - `target` - target `ESLMediaRuleList` instance
+
+<a name="media-change-event"></a>
+#### ESLMediaChangeEvent
+
+`ESLMediaChangeEvent` is a custom event dispatched by `ESLMediaQuery` instances.
+
+`ESLMediaChangeEvent` properties:
+  - `public` - boolean value that indicates whether the query matched the device conditions when the event was dispatched
+  - `media`- getter that returns serialized value of the current `ESLMediaQuery`
+  - `target`- matched `MediaQueryCondition`
