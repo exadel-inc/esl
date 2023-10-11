@@ -4,10 +4,9 @@ jest.config.js
 # Common directories
 build
 node_modules
+eslint/dist
 
 # Generated surces
 /modules
 /polyfills
 
-# Tem Submodule
-/eslint/dist

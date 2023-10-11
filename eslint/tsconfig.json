@@ -12,5 +12,5 @@
     "moduleResolution": "Node",
     "outDir": "./dist"
   },
-  "include": ["*"],
+  "include": ["core/*.ts", "test/*.test.ts", "index.ts"],
 }
