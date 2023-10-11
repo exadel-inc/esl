@@ -1,4 +1,4 @@
-import {attr, boolAttr, jsonAttr} from '../../esl-utils/decorators';
+import {attr, jsonAttr} from '../../esl-utils/decorators';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {ESLTrigger} from '../../esl-trigger/core';
 import {ESLSharePopup} from './esl-share-popup';
@@ -22,8 +22,6 @@ export class ESLShareTrigger extends ESLTrigger {
    * @example "facebook reddit group:default"
    * */
   @attr({defaultValue: 'all'}) public list: string;
-  /** Popup state marker */
-  @boolAttr() public popupShown: boolean;
   /** Hover event tracking media query. Default: `all` */
   @attr({defaultValue: 'all'}) public override trackHover: string;
 
@@ -39,6 +37,11 @@ export class ESLShareTrigger extends ESLTrigger {
   }
   public override set $target(value: any) {}
 
+  /** Checks that the target is in active state */
+  public override get isTargetActive(): boolean {
+    return !!this.$target?.open && this.$target?.activator === this;
+  }
+
   /** The text writing directionality of the element */
   protected get currentDir(): string {
     return getComputedStyle(this).direction;
@@ -51,7 +54,7 @@ export class ESLShareTrigger extends ESLTrigger {
   }
 
   /** Container element that defines bounds of popups visibility */
-  protected get containerEl(): HTMLElement | undefined {
+  protected get $containerEl(): HTMLElement | undefined {
     const container = this.getClosestRelatedAttr('container');
     return container ? ESLTraversingQuery.first(container, this) as HTMLElement : undefined;
   }
@@ -68,14 +71,13 @@ export class ESLShareTrigger extends ESLTrigger {
 
   /** Merges params to pass to the toggleable */
   protected override mergeToggleableParams(this: ESLShareTrigger, ...params: ESLSharePopupActionParams[]): ESLSharePopupActionParams {
-    const {list, containerEl, currentDir: dir, currentLang: lang} = this;
     return Object.assign({
       initiator: 'share',
       activator: this,
-      containerEl,
-      list,
-      dir,
-      lang
+      containerEl: this.$containerEl,
+      list: this.list,
+      dir: this.currentDir,
+      lang: this.currentLang
     }, this.popupInitialParams, ...params);
   }
 
