@@ -25,14 +25,14 @@ export interface ESLintDeprecationCfg {
   deprecation: string;
 }
 
-type ImportNode = {
+type ImportNode = ESTree.ImportSpecifier & {
   parent: ESTree.Node | null;
-} & ESTree.ImportSpecifier;
+};
 
 type BaseNode = ESTree.Node & {
-  parent: BaseNode;
-  init: ESTree.Expression | null | undefined;
-  kind: string;
+  parent: BaseNode | null;
+  init?: ESTree.Expression | null | undefined;
+  kind?: string;
 };
 
 interface TraverseNode {
@@ -43,6 +43,7 @@ interface TraverseNode {
 }
 
 /**
+ * Builds deprecation rule
  * @param context - AST tree object
  * @param node - import node to process
  * @param alias - current name
@@ -92,9 +93,9 @@ function getIdentifierRanges(importNode: ImportNode, context: Rule.RuleContext):
 
   for (const idNode of identifiers) {
     const {parent} = idNode;
-    if (parent.type === 'MemberExpression') {
+    if (parent?.type === 'MemberExpression') {
       if ((parent.object as ESTree.Identifier).name === name) occurrences.add(parent.object);
-    } else if (parent.type === 'VariableDeclarator') {
+    } else if (parent?.type === 'VariableDeclarator') {
       overrides.push(parent);
     } else {
       occurrences.add(idNode);
@@ -106,7 +107,7 @@ function getIdentifierRanges(importNode: ImportNode, context: Rule.RuleContext):
     if (!scope) continue;
     const nestedNodes = collectIdentifiers(context, scope, name);
     for (const node of nestedNodes) {
-      if (node.parent.type !== 'ImportSpecifier') {
+      if (node.parent?.type !== 'ImportSpecifier') {
         occurrences.delete(node);
       }
     }
@@ -120,7 +121,7 @@ function getIdentifierRanges(importNode: ImportNode, context: Rule.RuleContext):
 }
 
 function collectIdentifiers(context: Rule.RuleContext, root: ESTree.Node | ESTree.Expression | null | undefined, alias: string): BaseNode[] {
-  const identifiers = [] as BaseNode[];
+  const identifiers: BaseNode[] = [];
   traverse(context, root, (path: TraverseNode) => {
     if (path.node.type !== 'Identifier' || path.node?.name !== alias) return;
     identifiers.push(path.node);
@@ -139,8 +140,8 @@ function getScopeNode(declaration: BaseNode): BaseNode | null {
   return node;
 }
 
-function getRanges(nodes: Set<ESTree.Node>): ([number, number] | undefined)[] {
-  const uniqNodes = [] as ESTree.Node[];
+function getRanges<T extends ESTree.Node>(nodes: Set<T>): ([number, number] | undefined)[] {
+  const uniqNodes: T[] = [];
   for (const node of nodes) {
     if (!uniqNodes.some((item) => String(item.range) === String(node.range))) {
       uniqNodes.push(node);
@@ -150,7 +151,7 @@ function getRanges(nodes: Set<ESTree.Node>): ([number, number] | undefined)[] {
 }
 
 /** Finds the root node in the tree */
-function getRoot(node: ImportNode): ImportNode | BaseNode {
+function getRoot<T extends ImportNode>(node: T): T | T['parent'] {
   while (node.parent !== null) {
     (node as ESTree.Node) = node.parent;
   }
