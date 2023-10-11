@@ -1,6 +1,5 @@
-import type {Rule} from 'eslint';
-import type ESTree from 'estree';
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
+'use strict';
+
 const traverse = require('eslint-traverse');
 
 const meta = {
@@ -16,40 +15,17 @@ const meta = {
     }
   },
   fixable: 'code'
-} as Rule.RuleModule['meta'];
-
-export interface ESLintDeprecationCfg {
-  /** Current alias name */
-  alias: string;
-  /** Deprecated name */
-  deprecation: string;
-}
-
-type ImportNode = {
-  parent: ESTree.Node | null;
-} & ESTree.ImportSpecifier;
-
-type BaseNode = ESTree.Node & {
-  parent: BaseNode;
-  init: ESTree.Expression | null | undefined;
-  kind: string;
 };
 
-interface TraverseNode {
-  node: BaseNode;
-  parent: BaseNode;
-  parentKey: object;
-  parentPath: object;
-}
-
 /**
- * @param context - AST tree object
- * @param node - import node to process
- * @param alias - current name
+ * Builds deprecation rule
+ * @param {object} option
+ * @param {string} option.alias - current name
+ * @param {string} option.deprecation - deprecated name
  */
-export function buildRule({deprecation, alias}: ESLintDeprecationCfg): Rule.RuleModule {
-  const create = (context: Rule.RuleContext): {ImportSpecifier(node: ImportNode): null} => ({
-    ImportSpecifier(node: ImportNode): null {
+module.exports.buildRule = function buildRule({alias, deprecation}) {
+  const create = (context) => ({
+    ImportSpecifier(node) {
       const importedValue = node.imported;
       if (importedValue.name === deprecation) {
         context.report({
@@ -62,38 +38,37 @@ export function buildRule({deprecation, alias}: ESLintDeprecationCfg): Rule.Rule
     }
   });
   return {meta, create};
-}
+};
 
 /**
- * @param context - AST tree object
- * @param node - import node to process
- * @param alias - current name
+ * @param {object} context - AST tree object
+ * @param {AST.Token.Node} node - import node to process
+ * @param {string} alias - current name
  */
-function buildFixer(node: ImportNode, context: Rule.RuleContext, alias: string): (fixer: Rule.RuleFixer) => Rule.Fix[] {
-  return (fixer: Rule.RuleFixer) => {
+function buildFixer(node, context, alias) {
+  return (fixer) => {
     const ranges = getIdentifierRanges(node, context);
-    return ranges.map((range) => fixer.replaceTextRange(range!, alias));
-  };
+    return ranges.map(range => fixer.replaceTextRange(range, alias));
+  }
 }
 
 /**
- * @param context - AST tree object
- * @param importNode - import node to process
- * @returns
+ * @param {object} context - AST tree object
+ * @param {object} importNode - import node to process
+ * @returns {[number, number][]}
  */
-// eslint-disable-next-line sonarjs/cognitive-complexity
-function getIdentifierRanges(importNode: ImportNode, context: Rule.RuleContext): ([number, number] | undefined)[] {
+function getIdentifierRanges(importNode, context) {
   const root = getRoot(importNode);
   const {name} = importNode.imported;
   const identifiers = collectIdentifiers(context, root, name);
 
-  const overrides: BaseNode[] = [];
-  const occurrences = new Set<ESTree.Node>();
+  const overrides = [];
+  const occurrences = new Set();
 
   for (const idNode of identifiers) {
     const {parent} = idNode;
     if (parent.type === 'MemberExpression') {
-      if ((parent.object as ESTree.Identifier).name === name) occurrences.add(parent.object);
+      if (parent.object.name === name) occurrences.add(parent.object);
     } else if (parent.type === 'VariableDeclarator') {
       overrides.push(parent);
     } else {
@@ -119,16 +94,16 @@ function getIdentifierRanges(importNode: ImportNode, context: Rule.RuleContext):
   return getRanges(occurrences);
 }
 
-function collectIdentifiers(context: Rule.RuleContext, root: ESTree.Node | ESTree.Expression | null | undefined, alias: string): BaseNode[] {
-  const identifiers = [] as BaseNode[];
-  traverse(context, root, (path: TraverseNode) => {
+function collectIdentifiers(context, root, alias) {
+  const identifiers = [];
+  traverse(context, root, (path) => {
     if (path.node.type !== 'Identifier' || path.node?.name !== alias) return;
     identifiers.push(path.node);
   });
   return identifiers;
 }
 
-function getScopeNode(declaration: BaseNode): BaseNode | null {
+function getScopeNode(declaration) {
   let node = declaration.parent;
   if (!node) return null;
   const isBlockScoped = node.kind && (node.kind === 'const' || node.kind === 'let');
@@ -139,8 +114,8 @@ function getScopeNode(declaration: BaseNode): BaseNode | null {
   return node;
 }
 
-function getRanges(nodes: Set<ESTree.Node>): ([number, number] | undefined)[] {
-  const uniqNodes = [] as ESTree.Node[];
+function getRanges(nodes) {
+  const uniqNodes = [];
   for (const node of nodes) {
     if (!uniqNodes.some((item) => String(item.range) === String(node.range))) {
       uniqNodes.push(node);
@@ -150,9 +125,9 @@ function getRanges(nodes: Set<ESTree.Node>): ([number, number] | undefined)[] {
 }
 
 /** Finds the root node in the tree */
-function getRoot(node: ImportNode): ImportNode | BaseNode {
+function getRoot(node) {
   while (node.parent !== null) {
-    (node as ESTree.Node) = node.parent;
+    node = node.parent;
   }
   return node;
 }

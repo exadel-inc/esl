@@ -12,7 +12,6 @@ node_modules
 *.tgz
 target
 pages/dist
-eslint/dist
 
 # Generated surces
 /modules

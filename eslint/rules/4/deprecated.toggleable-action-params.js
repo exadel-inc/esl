@@ -1,10 +1,9 @@
-import {buildRule} from '../../core/deprecated-alias';
+const {buildRule} = require('../../core/deprecated-alias');
 
 /**
  * Rule for deprecated `ToggleableActionParams` alias for {@link ESLToggleableActionParams}
  */
-// eslint-disable-next-line import/no-default-export
-export default buildRule({
+module.exports = buildRule({
   alias: 'ESLToggleableActionParams',
   deprecation: 'ToggleableActionParams',
 });
