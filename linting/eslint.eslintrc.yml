@@ -1,8 +1,0 @@
-# Specific lint overrides
-overrides:
-  - files:
-      - 'eslint/**/*.ts'
-    rules:
-      '@typescript-eslint/no-require-imports': off
-      '@typescript-eslint/no-var-requires': off
-      'import/no-default-export': off
