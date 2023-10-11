@@ -18,6 +18,7 @@ extends:
   - './linting/import.eslintrc.yml'
   - './linting/sonarjs.eslintrc.yml'
   - './linting/tests.eslintrc.yml'
+  - './linting/eslint.eslintrc.yml'
 
 # TS configuration
 parser: '@typescript-eslint/parser'

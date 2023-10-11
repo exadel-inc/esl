@@ -1,6 +1,6 @@
 import type {Rule} from 'eslint';
 import type ESTree from 'estree';
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
+
 const traverse = require('eslint-traverse');
 
 const meta = {
