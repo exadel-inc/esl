@@ -5,6 +5,7 @@
   "description": "Helper ESLint rules to find and migrate ESL (@exadel/esl) library deprecations",
   "main": "dist/index.js",
   "scripts": {
+    "prepare": "npm run build",
     "test": "jest",
     "clean": "rimraf dist",
     "build": "npm run clean && concurrently \"npm run build:ts\"",
