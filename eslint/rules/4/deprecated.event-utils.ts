@@ -1,9 +1,9 @@
-const {buildRule} = require('../../core/deprecated-alias');
+import {buildRule} from '../../core/deprecated-alias';
 
 /**
  * Rule for deprecated `EventUtils` alias for {@link ESLEventUtils}
  */
-module.exports = buildRule({
+export default buildRule({
   alias: 'ESLEventUtils',
   deprecation: 'EventUtils',
 });

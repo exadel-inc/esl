@@ -1,9 +1,9 @@
-const {buildRule} = require('../../core/deprecated-alias');
+import {buildRule} from '../../core/deprecated-alias';
 
 /**
  * Rule for deprecated `TraversingQuery` alias for {@link ESLTraversingQuery}
  */
-module.exports = buildRule({
+export default buildRule({
   alias: 'ESLTraversingQuery',
   deprecation: 'TraversingQuery',
 });

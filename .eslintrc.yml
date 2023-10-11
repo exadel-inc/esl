@@ -18,12 +18,14 @@ extends:
   - './linting/import.eslintrc.yml'
   - './linting/sonarjs.eslintrc.yml'
   - './linting/tests.eslintrc.yml'
+  - './linting/eslint.eslintrc.yml'
 
 # TS configuration
 parser: '@typescript-eslint/parser'
 parserOptions:
   project:
     - './tsconfig.json'
+    - './eslint/tsconfig.json'
     - './pages/tsconfig.json'
   sourceType: module
 
@@ -47,3 +49,4 @@ rules:
   'editorconfig/eol-last': warn
   # Require no trailing spaces
   'editorconfig/no-trailing-spaces': warn
+  

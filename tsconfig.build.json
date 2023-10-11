@@ -8,6 +8,7 @@
     "*.test.ts",
     "**/test/*.ts",
     "modules",
+    "eslint",
     "polyfills",
     "node_modules"
   ]

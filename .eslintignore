@@ -10,4 +10,4 @@ node_modules
 /polyfills
 
 # Tem Submodule
-/eslint
+/eslint/dist
