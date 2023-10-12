@@ -1,5 +1,5 @@
 import type {AST, Rule} from 'eslint';
-import type ESTree from 'estree';
+import type * as ESTree from 'estree';
 // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
 const traverse = require('eslint-traverse');
 

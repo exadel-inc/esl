@@ -6,7 +6,7 @@
     "strictNullChecks": true,
     "noImplicitAny": true,
     "esModuleInterop": true,
-    "target": "ES6",
+    "target": "ES2016",
     "downlevelIteration": true,
     "module": "CommonJS",
     "moduleResolution": "Node",
