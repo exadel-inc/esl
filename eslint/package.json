@@ -8,8 +8,7 @@
     "prepare": "npm run build",
     "test": "jest",
     "clean": "rimraf dist",
-    "build": "npm run clean && concurrently \"npm run build:ts\"",
-    "build:ts": "tsc --project tsconfig.json",
+    "build": "npm run clean && tsc --project tsconfig.json",
     "version": "node ../build/bump.js"
   },
   "dependencies": {

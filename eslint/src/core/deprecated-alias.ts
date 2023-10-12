@@ -1,22 +1,17 @@
-import type {Rule} from 'eslint';
+import type {AST, Rule} from 'eslint';
 import type ESTree from 'estree';
-
+// eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
 const traverse = require('eslint-traverse');
 
-const meta = {
+const meta: Rule.RuleModule['meta'] = {
   type: 'suggestion',
 
   docs: {
     description: 'replace deprecated aliases',
     recommended: true,
   },
-  settings: {
-    'import/parsers': {
-      '@typescript-eslint/parser': ['.ts', '.js', '.tsx', '.jsx']
-    }
-  },
   fixable: 'code'
-} as Rule.RuleModule['meta'];
+};
 
 export interface ESLintDeprecationCfg {
   /** Current alias name */
@@ -25,13 +20,10 @@ export interface ESLintDeprecationCfg {
   deprecation: string;
 }
 
-type ImportNode = ESTree.ImportSpecifier & {
-  parent: ESTree.Node | null;
-};
+type ImportNode = ESTree.ImportSpecifier & Rule.NodeParentExtension;
 
-type BaseNode = ESTree.Node & {
-  parent: BaseNode | null;
-  init?: ESTree.Expression | null | undefined;
+type BaseNode = (ESTree.Expression | Rule.Node) & {
+  parent: BaseNode;
   kind?: string;
 };
 
@@ -49,7 +41,7 @@ interface TraverseNode {
  * @param alias - current name
  */
 export function buildRule({deprecation, alias}: ESLintDeprecationCfg): Rule.RuleModule {
-  const create = (context: Rule.RuleContext): {ImportSpecifier(node: ImportNode): null} => ({
+  const create = (context: Rule.RuleContext): Rule.RuleListener => ({
     ImportSpecifier(node: ImportNode): null {
       const importedValue = node.imported;
       if (importedValue.name === deprecation) {
@@ -83,12 +75,12 @@ function buildFixer(node: ImportNode, context: Rule.RuleContext, alias: string):
  * @returns
  */
 // eslint-disable-next-line sonarjs/cognitive-complexity
-function getIdentifierRanges(importNode: ImportNode, context: Rule.RuleContext): ([number, number] | undefined)[] {
+function getIdentifierRanges(importNode: ImportNode, context: Rule.RuleContext): (AST.Range | undefined)[] {
   const root = getRoot(importNode);
   const {name} = importNode.imported;
   const identifiers = collectIdentifiers(context, root, name);
 
-  const overrides: BaseNode[] = [];
+  const overrides = [];
   const occurrences = new Set<ESTree.Node>();
 
   for (const idNode of identifiers) {
@@ -123,7 +115,7 @@ function getIdentifierRanges(importNode: ImportNode, context: Rule.RuleContext):
 function collectIdentifiers(context: Rule.RuleContext, root: ESTree.Node | ESTree.Expression | null | undefined, alias: string): BaseNode[] {
   const identifiers: BaseNode[] = [];
   traverse(context, root, (path: TraverseNode) => {
-    if (path.node.type !== 'Identifier' || path.node?.name !== alias) return;
+    if (path.node?.type !== 'Identifier' || path.node?.name !== alias) return;
     identifiers.push(path.node);
   });
   return identifiers;

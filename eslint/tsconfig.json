@@ -12,5 +12,7 @@
     "moduleResolution": "Node",
     "outDir": "./dist"
   },
-  "include": ["*"],
+  "include": [
+    "src"
+  ]
 }

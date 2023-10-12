@@ -9,5 +9,5 @@ node_modules
 /modules
 /polyfills
 
-# Tem Submodule
+# Submodule output
 /eslint/dist
