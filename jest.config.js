@@ -24,6 +24,6 @@ module.exports = {
     // libs exclude
     '!**/node_modules/**',
     // migration lint rules
-    'eslint/**'
+    'eslint/src/**'
   ]
 };
