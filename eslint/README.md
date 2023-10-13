@@ -1,13 +1,12 @@
-# [ESL](../../../) Traversing Query
+# [ESL](../../../) ESLint migration support
 
-Version: *1.0.0*.
+Version: *4.12.0*
+
+Authors: *Natalia Smirnova, Alexey Stsefanovich (ala'n)*.
 
 <a name="intro"></a>
 
-ESL ESLint plugin
-
-Custom ESLint Rule for Migrating ESL (@exadel/esl) Deprecations
-This custom ESLint rule is designed to help find and migrate deprecations in the ESL (@exadel/esl) library. It identifies deprecated aliases and suggests fixes to replace them with the current alias names.
+This article aims to assist the smooth migration process from older versions of ESL to the latest version. To support this transition, we have developed an ESLint plugin designed specifically for ESL library. This plugin targets deprecated features and aliases within the library, offering a seamless means of identifying these outdated elements. Additionally, it suggests suitable replacements, thereby ensuring a hassle-free upgrade to the newest version of ESL.
 
 ### Installation
 To use custom ESLint plugin, you need to install it as a development dependency in your project. You can do this using npm:
@@ -35,7 +34,7 @@ Or in YAML:
     - "@exadel/esl"
 ```
 
-Once you have added the plugin to your project, you can define specific ESLint rules for handling ESL deprecations in your ESLint configuration file. Here are some examples of how to configure these rules:
+Once you have added the plugin to your project, you can define specific ESLint rules for handling ESL deprecations in your ESLint configuration file. Here are some examples of how to configure them:
 
 ```json
 {
@@ -60,9 +59,9 @@ Once you have added the plugin to your project, you can define specific ESLint r
 }
 ```
 
-You can choose whether to treat these deprecations as warnings or errors by setting the rule values to either "warn" or "error" as per your project's requirements.
+You can choose whether to treat these deprecations as warnings or errors by setting the rule values to either `warn` or `error` as per your project's requirements.
 
-Additionally, you can use the default settings provided by the plugin, where all rules are set to "warn" by extending the default configuration:
+Additionally, you can use the default settings provided by the plugin, where all rules are set to `warn` by extending the default configuration:
 
 ```json
 {
