@@ -1,4 +1,4 @@
-# [ESL](../../../) ESLint migration support
+# [ESL](../../../) ESL migration support
 
 Version: *4.12.0*
 
