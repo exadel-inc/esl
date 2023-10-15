@@ -9,6 +9,7 @@ import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {DelayedTask} from '../../esl-utils/async/delayed-task';
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {findParent, isMatches} from '../../esl-utils/dom/traversing';
+
 import type {DelegatedEvent} from '../../esl-event-listener/core/types';
 
 /** Default Toggleable action params type definition */
@@ -215,21 +216,29 @@ export class ESLToggleable extends ESLBaseElement {
 
   /** Actual show task to execute by toggleable task manger ({@link DelayedTask} out of the box) */
   protected showTask(params: ESLToggleableActionParams): void {
-    if (!params.force && this.open) return;
+    if (this.onBeforeShow(params) === false) return;
     if (!params.silent && !this.$$fire(this.BEFORE_SHOW_EVENT, {detail: {params}})) return;
-    this.activator = params.activator;
     this.open = true;
     this.onShow(params);
     if (!params.silent) this.$$fire(this.SHOW_EVENT, {detail: {params}, cancelable: false});
   }
   /** Actual hide task to execute by toggleable task manger ({@link DelayedTask} out of the box) */
   protected hideTask(params: ESLToggleableActionParams): void {
-    if (!params.force && !this.open) return;
+    if (this.onBeforeHide(params) === false) return;
     if (!params.silent && !this.$$fire(this.BEFORE_HIDE_EVENT, {detail: {params}})) return;
     this.open = false;
     this.onHide(params);
     this.bindOutsideEventTracking(false);
     if (!params.silent) this.$$fire(this.HIDE_EVENT, {detail: {params}, cancelable: false});
+  }
+
+  /**
+   * Actions to execute before show toggleable.
+   * Returns false if the show action should not be executed.
+   */
+  protected onBeforeShow(params: ESLToggleableActionParams): boolean | void {
+    this.activator = params.activator;
+    if (!params.force && this.open) return false;
   }
 
   /**
@@ -247,6 +256,14 @@ export class ESLToggleable extends ESLBaseElement {
 
     this.updateA11y();
     this.$$fire(this.REFRESH_EVENT); // To notify other components about content change
+  }
+
+  /**
+   * Actions to execute before hide toggleable.
+   * Returns false if the hide action should not be executed.
+   */
+  protected onBeforeHide(params: ESLToggleableActionParams): boolean | undefined {
+    if (!params.force && !this.open) return false;
   }
 
   /**
@@ -335,25 +352,23 @@ export class ESLToggleable extends ESLBaseElement {
 
   @listen({auto: false, event: 'mouseenter'})
   protected _onMouseEnter(e: MouseEvent): void {
-    const hideDelay = this._trackHoverDelay;
     const baseParams: ESLToggleableActionParams = {
       initiator: 'mouseenter',
       trackHover: true,
       activator: this.activator,
       event: e,
-      hideDelay
+      hideDelay: this._trackHoverDelay
     };
     this.show(Object.assign(baseParams, this.trackHoverParams));
   }
   @listen({auto: false, event: 'mouseleave'})
   protected _onMouseLeave(e: MouseEvent): void {
-    const hideDelay = this._trackHoverDelay;
     const baseParams: ESLToggleableActionParams = {
       initiator: 'mouseleave',
       trackHover: true,
       activator: this.activator,
       event: e,
-      hideDelay
+      hideDelay: this._trackHoverDelay
     };
     this.hide(Object.assign(baseParams, this.trackHoverParams));
   }
