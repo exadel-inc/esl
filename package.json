@@ -116,7 +116,7 @@
     "semantic-release": "^22.0.5",
     "stylelint": "^15.10.3",
     "stylelint-prettier": "^4.0.2",
-    "ts-loader": "^9.4.4",
+    "ts-loader": "^9.5.0",
     "typescript": "5.2.2",
     "webpack": "^5.89.0",
     "webpack-bundle-analyzer": "^4.9.1",
