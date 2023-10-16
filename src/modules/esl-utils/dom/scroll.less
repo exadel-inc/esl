@@ -13,45 +13,33 @@ html[esl-scroll-lock] body {
 html[esl-scroll-lock='native'] {
   overflow-y: scroll !important;
 
+  &[esl-scroll-lock-passive] {
+    overflow-y: hidden !important;
+  }
+
   body {
     max-width: 100vw !important;
     max-height: 100vh !important;
   }
 }
 
-html[esl-scroll-lock='pseudo'] {
-  display: flex !important;
-  align-items: stretch !important;
+html[esl-scroll-lock='pseudo'],
+html[esl-scroll-lock='background'] {
+  --s-lock-offset: 0;
+  padding-right: var(--s-lock-offset);
 
-  &:dir(rtl) {
-    flex-flow: row-reverse !important;
-  }
-
-  body {
-    flex: 1 1 100% !important;
-  }
-
-  &::before {
-    content: '';
-    overflow-y: scroll;
-    flex: 0 0 auto;
-    order: 2;
-    visibility: hidden;
-  }
-
-  &::after {
+  &:not([esl-scroll-lock-passive])::after {
     content: '';
     position: fixed;
     top: 0;
     right: 0;
     bottom: 0;
     overflow-y: scroll;
-    // Pseudo scroll should be visible above the content
-    z-index: 999999;
+    z-index: 1;
   }
+}
 
-  // hide analytics beacons and markers
-  & > img, & > iframe {
-    flex: 0 1 auto !important;
-  }
+html[esl-scroll-lock='pseudo']:not([esl-scroll-lock-passive])::after {
+  // Pseudo scroll should be visible above the content
+  z-index: 999999;
 }

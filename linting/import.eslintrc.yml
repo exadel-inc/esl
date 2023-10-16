@@ -14,6 +14,10 @@ rules:
   # Reports funny business with exports, like repeated exports of names or defaults.
   'import/export': warn
 
+  # Warn about duplicate imports
+  'no-duplicate-imports': off
+  'import/no-duplicates': warn
+
   # Verifies that all named imports are part of the set of named exports in the referenced module.
   'import/named': error
 

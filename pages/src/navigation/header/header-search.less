@@ -1,4 +1,4 @@
-@import "../../common/colors.less";
+@import '../../common/colors.less';
 
 // overwrite the default search styles in the header
 .header-search-box {
@@ -14,9 +14,9 @@
       padding: 0;
       overflow: hidden;
       border: none;
-      border-radius: .75rem;
+      border-radius: 0.75rem;
 
-      transition: width .5s ease-in-out;
+      transition: width 0.5s ease-in-out;
       will-change: width;
 
       .gsib_a,
@@ -35,6 +35,10 @@
       &:hover > svg,
       &:active > svg {
         filter: drop-shadow(0 0 4px @primary-blue);
+      }
+
+      &:focus-visible {
+        outline: 2px dashed @focus-color;
       }
 
       & > svg {

@@ -8,6 +8,11 @@ declare global {
   }
 }
 
+/** Extended event with a delegated event target */
+export type DelegatedEvent<EventType extends Event> = EventType & {
+  $delegate: Element | null;
+};
+
 /** String CSS selector to find the target or {@link EventTarget} object or array of {@link EventTarget}s */
 export type ESLListenerTarget = EventTarget | EventTarget[] | string | null;
 
@@ -25,6 +30,13 @@ export type ESLListenerDescriptor<EType extends keyof ESLListenerEventMap = stri
    * @see AddEventListenerOptions.passive
    */
   passive?: boolean;
+
+  /**
+   * A condition (boolean value or predicate) to apply subscription
+   * Subscription rejected by condition does not count as warning during subscription process
+   * Rejected by condition subscription does not count as warning during subscription process
+   */
+  condition?: boolean | PropertyProvider<boolean>;
 
   /** A string (or provider function) representing CSS selector to check delegated event target (undefined (disabled) by default) */
   selector?: string | PropertyProvider<string>;

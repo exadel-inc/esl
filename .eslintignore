@@ -8,6 +8,3 @@ node_modules
 # Generated surces
 /modules
 /polyfills
-
-# TODO: Temporary before esl-carousel release and repository restructuring
-/src/modules/draft

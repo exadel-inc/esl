@@ -1,6 +1,5 @@
 import '../../../../polyfills/es5-target-shim';
 import {attr} from '../attr';
-import {parseBoolean} from '../../misc/format';
 
 describe('Decorator: attr', () => {
 
@@ -19,11 +18,6 @@ describe('Decorator: attr', () => {
     public readonlyField: string | null;
     @attr({defaultValue: 'def'})
     public defField: string | boolean;
-
-    @attr({parser: parseFloat})
-    public attrNumber: number;
-    @attr({parser: parseBoolean, serializer: Boolean})
-    public attrBoolean: boolean;
   }
   customElements.define('test-el-attr', TestElement);
   const el = new TestElement();
@@ -105,31 +99,6 @@ describe('Decorator: attr', () => {
     el.defField = false;
     expect(el.defField).toBe('def');
     expect(el.hasAttribute('def-field')).toBe(false);
-  });
-
-  test('Decorator: attr - number parser', () => {
-    expect(el.attrNumber).toBe(NaN);
-    el.attrNumber = 1;
-    expect(el.attrNumber).toBe(1);
-    expect(el.getAttribute('attr-number')).toBe('1');
-    el.attrNumber = 2;
-    expect(el.attrNumber).toBe(2);
-    expect(el.getAttribute('attr-number')).toBe('2');
-    el.attrNumber = null as any;
-    expect(el.attrNumber).toBe(NaN);
-  });
-
-
-  test('Decorator: attr - boolean parser', () => {
-    expect(el.attrBoolean).toBe(false);
-    el.attrBoolean = true;
-    expect(el.attrBoolean).toBe(true);
-    expect(el.hasAttribute('attr-boolean')).toBe(true);
-    el.attrBoolean = false;
-    expect(el.attrBoolean).toBe(false);
-    expect(el.hasAttribute('attr-boolean')).toBe(false);
-    el.attrBoolean = null as any;
-    expect(el.attrBoolean).toBe(false);
   });
 
   afterAll(() => {

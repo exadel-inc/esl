@@ -60,7 +60,6 @@ export interface ActivatorObserver {
 export class ESLPopup extends ESLToggleable {
   public static override is = 'esl-popup';
 
-  public $arrow: HTMLElement | null;
   public $placeholder: ESLPopupPlaceholder | null;
 
   protected _containerEl?: HTMLElement;
@@ -71,6 +70,9 @@ export class ESLPopup extends ESLToggleable {
   protected _intersectionMargin: string;
   protected _intersectionRatio: IntersectionRatioRect = {};
   protected _updateLoopID: number;
+
+  /** Classname of popups arrow element */
+  @attr({defaultValue: 'esl-popup-arrow'}) public arrowClass: string;
 
   /**
    * Popup position relative to the trigger.
@@ -111,6 +113,12 @@ export class ESLPopup extends ESLToggleable {
   @prop() public override closeOnEsc = true;
   @prop() public override closeOnOutsideAction = true;
 
+  /** Arrow element */
+  @memoize()
+  public get $arrow(): HTMLElement | null {
+    return this.querySelector(`.${this.arrowClass}`) || this.appendArrow();
+  }
+
   /** Container element that define bounds of popups visibility */
   @memoize()
   protected get $container(): HTMLElement | undefined {
@@ -128,8 +136,12 @@ export class ESLPopup extends ESLToggleable {
   @ready
   protected override connectedCallback(): void {
     super.connectedCallback();
-    this.$arrow = this.querySelector('span.esl-popup-arrow');
     this.moveToBody();
+  }
+
+  protected override disconnectedCallback(): void {
+    super.disconnectedCallback();
+    memoize.clear(this, '$arrow');
   }
 
   /** Checks that the position along the horizontal axis */
@@ -163,6 +175,15 @@ export class ESLPopup extends ESLToggleable {
     this.$placeholder = ESLPopupPlaceholder.from(this);
     parentNode.replaceChild(this.$placeholder, this);
     document.body.appendChild(this);
+  }
+
+  /** Appends arrow to Popup */
+  public appendArrow(): HTMLElement {
+    const $arrow = document.createElement('span');
+    $arrow.className = this.arrowClass;
+    this.appendChild($arrow);
+    memoize.clear(this, '$arrow');
+    return $arrow;
   }
 
   /**

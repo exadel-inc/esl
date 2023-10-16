@@ -25,3 +25,10 @@ export const isArrayLike = (value: any): value is ArrayLike => {
   if (typeof value.length !== 'number' || value.length < 0) return false;
   return !value.length || Object.hasOwnProperty.call(value, value.length - 1);
 };
+
+/** Checks that passed value is a plain object */
+export const isPlainObject = (obj: any): obj is Record<string | symbol, any> => {
+  if (!isObjectLike(obj)) return false;
+  const proto = Object.getPrototypeOf(obj);
+  return proto === null || proto === Object.prototype;
+};

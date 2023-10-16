@@ -111,7 +111,43 @@ Here is the list of supported keys of `ESLEventDesriptor`:
   <u>Default Value:</u> `null`  
   <u>Description:</u> the CSS selector to filter event targets for event delegation mechanism.
 
+  ⚠ If you want to get the currently delegated event target, you can access the `$delegate` key under the received event 
+  instance. In order to have access to `$delegate` strictly typed use the `DelegatedEvent<EventType>` type decorator.
+
+  E.g.:
+  ```typescript
+  @listen({ event: 'click', selector: 'button' })
+  onClick(e: DelegatedEvent<MouseEvent> /* instead of MouseEvent */) {
+    const delegate = e.$delegate; //instaead of e.target && e.target.closest('button');
+    ...
+  }
+  ```
+
   Supports `PropertyProvider` to declare the computed value as well.
+
+- #### `condition` key
+  
+  <u>Type:</u> `bollean | PropertyProvider<boolean>`
+  <u>Default Value:</u> `true`  
+  <u>Description:</u> the function predicate or boolean flag to check if the subscription should be created. Resolves right before the subscription.
+    
+  Useful in combination with `@listen` decorator to declare subscriptions.
+
+  ```typescript
+    class MyEl extends ESLBaseElement {
+        @attr() enabled = true;     
+  
+        @listen({event: 'click', condition: (that) => that.enabled})
+        onClick(e) {}
+  
+        attributeChangedCallback(name, oldValue, newValue) {
+          if (name === 'enabled') {
+              ESLEventUtils.unsubscribe(this, this.onClick);
+              ESLEventUtils.subscribe(this, this.onClick);
+          }
+        }
+    }
+  ```
 
 - #### `capture` key
 
@@ -558,6 +594,45 @@ ESLEventUtils.subscribe(host, {
   event: 'resize',
   target: (host) => ESLResizeObserverTarget.for(host.el)
 }, onResize);
+```
+
+<a name="-esleventutilswipe"></a>
+
+### ⚡ `ESLSwipeGestureTarget.for` <i class="badge badge-sup badge-success">new</i>
+
+`ESLSwipeGestureTarget.for` is a simple and easy-to-use way to listen for swipe events on any element.
+
+`ESLSwipeGestureTarget.for` creates a synthetic target that produces `swipe` events. It detects `pointerdown` and 
+`pointerup` events and based on the distance (`threshold`) between start and end points and time (`timeout`) between 
+`pointerdown` and `pointerup` events, triggers `swipe` event on the target element.
+
+```typescript
+ESLSwipeGestureTarget.for(el: Element, settings?: ESLSwipeGestureSetting): ESLSwipeGestureTarget;
+```
+
+**Parameters**:
+
+- `el` - `Element` to listen for swipe events on.
+- `settings` - optional settings (`ESLSwipeGestureSetting`)
+
+**Note**: `ESLSwipeGestureTarget` uses Pointer Events API and requires corresponding `touch-action` CSS 
+property to be specified on the target element.
+
+Usage example:
+
+```typescript
+ESLEventUtils.subscribe(host, {
+  event: 'swipe',
+  target: ESLSwipeGestureTarget.for(el)
+}, onSwipe);
+// or
+ESLSwipeGestureTarget.subscribe(host, {
+  event: 'swipe',
+  target: (host) => ESLSwipeGestureTarget.for(host.el, {
+    threshold: '30px',
+    timeout: 1000
+  })
+}, onSwipe);
 ```
 
 ---

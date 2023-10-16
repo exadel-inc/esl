@@ -166,10 +166,6 @@ rules:
   'no-dupe-class-members': off
   '@typescript-eslint/no-dupe-class-members': warn
 
-  # Warn about duplicate imports
-  'no-duplicate-imports': off
-  '@typescript-eslint/no-duplicate-imports': warn
-
   # Allow unnecessary parentheses
   'no-extra-parens': off
   '@typescript-eslint/no-extra-parens': off
