@@ -635,6 +635,29 @@ ESLSwipeGestureTarget.subscribe(host, {
 }, onSwipe);
 ```
 
+### ⚡ `ESLIntersectionTarget.for` <i class="badge badge-sup badge-success">new</i>
+
+`ESLIntersectionTarget.for` is a way to listen for intersections using Intersection Observer API but in an EventTarget
+way.
+
+`ESLIntersectionTarget.for` creates a synthetic target that produces `intersection` events. It detects intersections by
+creating `IntersectionObserver` instance, created using passed `settings: IntersectionObserverInit` 
+
+Note: `ESLIntersectionTarget` does not share `IntersectionObserver` instances unlike caching capabilities of adapters 
+mentioned above. 
+
+```typescript
+ESLIntersectionTarget.for(el: Element | Element[], settings?: IntersectionObserverInit): ESLIntersectionTarget;
+```
+
+**Parameters**:
+- `el` - `Element` or `Element[]` to listen for intersection events on.
+- `settings` - optional settings (`ESLIntersectionSetting`)
+
+Event API:
+Throws `ESLIntersectionEvent` that implements `IntersectionObserverEntry` original interface.
+
+
 ---
 
 ## <a name="embedded-behavior-of-eslbaseelement-eslmixinelement">Embedded behavior of `ESLBaseElement` / `ESLMixinElement`</a>
