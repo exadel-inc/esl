@@ -187,14 +187,14 @@ export class ESLPopup extends ESLToggleable {
   }
 
   /**
-   * Actions to execute on show task when popup is in the open state.
-   * @returns whether the show task should be run to the end.
+   * Actions to execute on before show popup. Handles the activator and updates the position of the popup.
+   * @returns false if the show task should be canceled
    */
-  protected override onParamsUpdate(params: ESLToggleableActionParams): boolean | void {
-    this.afterOnHide();
+  protected override onBeforeShow(params: ESLToggleableActionParams): boolean | void {
+    if (this.open) this.afterOnHide();
     this.activator = params.activator;
-    if (params.force) return; // the show task will be forced to run so the next steps are unnecessary
-    this.afterOnShow();
+    if (this.open) this.afterOnShow();
+    if (this.open && !params.force) return false; // the show task will be forced to run so the next steps are unnecessary
   }
 
   /**
