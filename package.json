@@ -107,7 +107,7 @@
     "husky": "^8.0.3",
     "kleur": "^4.1.5",
     "less": "^4.2.0",
-    "lint-staged": "^14.0.1",
+    "lint-staged": "^15.0.1",
     "postcss": "^8.4.31",
     "postcss-less": "^6.0.0",
     "prettier": "^3.0.3",
