@@ -20,7 +20,7 @@ aside:
       And you can use esl media component the same way as a native video element</p>
     <hr/>
     <div class="img-container img-container-16-9 img-container-loaded">
-      <esl-media group="demo-media"
+      <esl-media  group="demo-media"
                   media-type="youtube"
                   media-id="hqc8EbfR5BE"
                   load-condition="(min-width: 320px)"
@@ -82,11 +82,13 @@ aside:
       for the block.</p>
     <hr/>
     <div class="demo-marquee" style="height: 400px">
-      <esl-media class="bg-content esl-media-bg"
+      <esl-media class="bg-content esl-media-bg esl-animate-fade"
+                 ready-class="in"
                  media-type="video"
                  media-src="{{ '/assets/media/video.mp4' | url }}"
                  fill-mode="cover"
                  play-in-viewport
+                 lazy
                  autoplay muted loop playsinline>
       </esl-media>
       <div class="demo-content contrast">
@@ -102,12 +104,14 @@ aside:
     <p class="text-center">We still can use any source in background mode</p>
     <hr/>
     <div class="demo-marquee" style="height: 400px">
-      <esl-media class="bg-content esl-media-bg"
+      <esl-media class="bg-content esl-media-bg esl-animate-fade"
+                 ready-class="in"
                  media-type="youtube"
                  media-id="5ryf1AVl8Wg"
                  fill-mode="cover"
                  aspect-ratio="4:3"
                  play-in-viewport
+                 lazy="auto"
                  autoplay muted loop playsinline>
       </esl-media>
       <div class="demo-content contrast">
