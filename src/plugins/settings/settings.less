@@ -2,6 +2,8 @@
 @import (reference) '../../common/variables.less';
 
 html {
+  --uip-settings-fg: #000;
+  --uip-settings-bg: #f5f2f0;
   --uip-settings-divider: #ccc;
   --uip-settings-divider-v: @section-border;
   --uip-settings-header-bg: #ccc;
@@ -15,8 +17,7 @@ uip-settings {
   grid-area: sidebar;
 
   display: flex;
-  overflow: auto;
-  accent-color: @dark-text;
+  accent-color: var(--uip-settings-fg, #000);
 
   &-inner {
     flex: 1 1 auto;
@@ -24,6 +25,9 @@ uip-settings {
     position: relative;
     overflow: hidden;
     padding: 0;
+
+    color: var(--uip-editor-fg);
+    background: var(--uip-editor-bg);
   }
 
   &-container {
@@ -61,6 +65,7 @@ uip-settings {
     &-title:not(:empty) {
       flex: 1 1 auto;
       padding: 5px;
+      line-height: 1em;
     }
 
     &-trigger {
@@ -79,13 +84,19 @@ uip-settings {
 
     &-icon {
       display: inline-flex;
-      width: 1.25rem;
+      width: 1.5rem;
       height: 1.25rem;
       margin-block: -5px;
       transform-origin: center center;
+
+      > svg {
+        fill: currentColor;
+        stroke: currentColor;
+      }
     }
   }
 }
 
 @import "./settings.vertical.less";
 @import "./settings.horizontal.less";
+@import "./settings.themes.less";

@@ -31,8 +31,11 @@
   }
 
   .uip-settings-header {
-    border-left: 1px solid var(--uip-settings-divider-v, transparent);
-    border-right: 1px solid var(--uip-settings-divider-v, transparent);
+    border-inline-end: 1px solid var(--uip-settings-divider-v, transparent);
+  }
+
+  .uip-editor-compact & .uip-settings-header {
+    margin-bottom: -30px;
   }
 
   .uip-settings-header-title {
