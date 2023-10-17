@@ -1,7 +1,5 @@
 import {UIPPlugin} from '../../core/base/plugin';
-import {UIPCopy} from '../copy/uip-copy';
 import {UIPOptions} from './options/options';
-import {UIPOptionIcons} from './options/option-icons';
 import {UIPSnippets} from './snippets/snippets';
 
 /**
@@ -20,7 +18,6 @@ export class UIPHeader extends UIPPlugin {
   protected autofill(): void {
     this.renderSnippets();
     this.renderOptions();
-    this.renderCopy();
   }
 
   /** Renders {@link UIPSnippets} element */
@@ -35,10 +32,5 @@ export class UIPHeader extends UIPPlugin {
   protected renderOptions(): void {
     const optionsEl = document.createElement(UIPOptions.is);
     this.append(optionsEl);
-  }
-
-  /** Renders copy icon */
-  protected renderCopy(): void {
-    this.append(UIPCopy.create(UIPOptionIcons.copySVG, 'copy-icon'));
   }
 }

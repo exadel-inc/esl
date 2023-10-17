@@ -4,6 +4,7 @@ title: Example with form
 
 <uip-root>
   <uip-header></uip-header>
+
   <script type="text/html" uip-snippet label="Example with form">
     <form class="demo-form">
       <div class="form-section">
@@ -23,10 +24,12 @@ title: Example with form
       <input type="submit" value="Send">
     </form>
   </script>
+
   <uip-preview class="centered-content" resizable></uip-preview>
+
   <uip-settings collapsible horizontal="@xs" target=".demo-form">
-    <uip-bool-setting label="Email validation" target="#email" mode="append" attribute="class"
-                      value="validation-input"></uip-bool-setting>
+    <uip-bool-setting label="Email validation" target="#email" mode="append" attribute="class" value="validation-input"></uip-bool-setting>
   </uip-settings>
-  <uip-editor collapsible label="Markdown"></uip-editor>
+
+  <uip-editor copy collapsible label="Markdown"></uip-editor>
 </uip-root>

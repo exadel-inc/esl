@@ -30,30 +30,6 @@ export class UIPOptionIcons {
     </>
   ) as HTMLElement;
 
-  /** Default svg for collapsed settings icon */
-  public static settingsCollapsedSVG: HTMLElement = (
-    <svg xmlns="http://www.w3.org/2000/svg" fill="#1f1f1f" stroke="#1f1f1f" stroke-width=".5">
-      {/* eslint-disable-next-line max-len */}
-      <path d="m13.302.632.645 2.424.099.358.382.1a9.53 9.53 0 0 1 4.21 2.269l.278.263.382-.102 2.551-.684 1.305 2.115-1.915 1.734-.288.26.105.358c.218.766.326 1.53.326 2.273 0 .743-.108 1.507-.326 2.273l-.105.359.288.26 1.915 1.733-1.305 2.115-2.55-.684-.383-.102-.277.263a9.53 9.53 0 0 1-4.21 2.27l-.383.099-.099.358-.645 2.424h-2.604l-.645-2.424-.099-.358-.382-.1a9.53 9.53 0 0 1-4.21-2.269l-.278-.263-.382.102-2.551.684-1.305-2.115 1.915-1.734.288-.26-.105-.358A8.326 8.326 0 0 1 2.618 12c0-.743.108-1.507.326-2.273l.105-.359-.288-.26L.846 7.376 2.15 5.26l2.55.684.383.102.277-.263a9.53 9.53 0 0 1 4.21-2.27l.383-.099.099-.358.645-2.424h2.604ZM12 17.345c3.144 0 5.702-2.398 5.702-5.345 0-2.947-2.558-5.345-5.702-5.345S6.298 9.053 6.298 12c0 2.947 2.558 5.345 5.702 5.345ZM13.828 0h-3.656l-.776 2.901c-1.73.435-3.28 1.28-4.512 2.435l-3.056-.82L0 7.484l2.295 2.079A8.901 8.901 0 0 0 1.944 12c0 .845.126 1.658.35 2.438L0 16.515l1.828 2.968 3.056-.82c1.232 1.155 2.783 2 4.512 2.435L10.172 24h3.656l.776-2.901a10.23 10.23 0 0 0 4.512-2.434l3.056.819L24 16.516l-2.295-2.078c.221-.78.351-1.593.351-2.438 0-.842-.126-1.658-.35-2.434L24 7.486l-1.828-2.97-3.056.82A10.292 10.292 0 0 0 14.604 2.9L13.828 0ZM12 16.714c-2.775 0-5.028-2.112-5.028-4.714 0-2.602 2.253-4.714 5.028-4.714 2.775 0 5.028 2.112 5.028 4.714 0 2.602-2.253 4.714-5.028 4.714Z"/>
-    </svg>
-  ) as HTMLElement;
-
-  /** Default svg for collapsed editor icon */
-  public static editorCollapsedSVG: HTMLElement = (
-    <svg xmlns="http://www.w3.org/2000/svg" fill="#1f1f1f" viewBox="0 0 34 20">
-      {/* eslint-disable-next-line max-len */}
-      <path d="m3.094 10.453 7.336 2.965v2.297L.844 11.273v-1.71l9.586-4.43V7.43l-7.336 3.023Zm11.191 9.012h-1.863L19.547.938h1.851l-7.113 18.527Zm17.133-9.082-7.746-3.035V5.12l10.008 4.43v1.71l-10.008 4.442v-2.25l7.746-3.07Z"/>
-    </svg>
-  ) as HTMLElement;
-
-  /** Default svg for copy icon */
-  public static get copySVG(): HTMLElement {
-    return <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#5f5f5f" stroke-width="1.25">
-      <rect width="12" height="15" x="4" y="3" fill="#fff" rx="2"/>
-      <rect width="12" height="15" x="8" y="7" fill="#fff" rx="2"/>
-    </svg> as HTMLElement;
-  }
-
   public static get snippetSVG(): HTMLElement {
     return <>
       <svg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='black' viewBox='0 0 16 9' xmlSpace='preserve'>
