@@ -187,7 +187,7 @@ export class ESLPopup extends ESLToggleable {
   }
 
   /**
-   * Actions to execute on before show popup. Handles the activator and updates the position of the popup.
+   * Actions to execute before showing of popup. Handles the activator and updates the position of the popup.
    * @returns false if the show task should be canceled
    */
   protected override onBeforeShow(params: ESLToggleableActionParams): boolean | void {

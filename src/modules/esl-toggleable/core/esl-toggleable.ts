@@ -233,7 +233,7 @@ export class ESLToggleable extends ESLBaseElement {
   }
 
   /**
-   * Actions to execute before show toggleable.
+   * Actions to execute before showing of toggleable.
    * Returns false if the show action should not be executed.
    */
   protected onBeforeShow(params: ESLToggleableActionParams): boolean | void {
@@ -259,7 +259,7 @@ export class ESLToggleable extends ESLBaseElement {
   }
 
   /**
-   * Actions to execute before hide toggleable.
+   * Actions to execute before hiding of toggleable.
    * Returns false if the hide action should not be executed.
    */
   protected onBeforeHide(params: ESLToggleableActionParams): boolean | undefined {
