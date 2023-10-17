@@ -2,7 +2,6 @@ brand: Exadel Smart Library
 description: ESL — A Web Components Library
 
 url: "https://esl-ui.com"
-urlPrefix: ""
 
 github:
   url: "https://github.com/exadel-inc/esl"

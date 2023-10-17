@@ -1,5 +1,7 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
+import {resolveProperty} from '../../esl-utils/misc/functions';
 import {dispatchCustomEvent} from '../../esl-utils/dom/events/misc';
+
 import {ESLEventListener} from './listener';
 import {getAutoDescriptors, isEventDescriptor, initDescriptor} from './descriptors';
 
@@ -8,6 +10,10 @@ import type {
   ESLListenerDescriptor,
   ESLListenerDescriptorFn
 } from './types';
+
+// Export all related types
+export type * from './types';
+export type {ESLEventListener} from './listener';
 
 @ExportNs('EventUtils')
 export class ESLEventUtils {
@@ -84,16 +90,14 @@ export class ESLEventUtils {
       const descriptors = getAutoDescriptors(host);
       // TODO: flatMap when ES5 will be out of support list
       return descriptors.reduce(
-        (acc, desc) => acc.concat(ESLEventListener.subscribe(host, desc)),
+        (acc, desc) => acc.concat(ESLEventUtils.subscribe(host, desc)),
         [] as ESLEventListener[]
       );
     }
-    if (typeof eventDesc === 'string') eventDesc = {event: eventDesc};
-    const listeners = ESLEventListener.subscribe(host, handler, eventDesc as ESLListenerDescriptor);
-    if (!listeners.length) {
-      const mergedDesc = Object.assign({}, eventDesc, {handler});
-      console.warn('[ESL]: Empty subscription %o', mergedDesc);
-    }
+    const desc = typeof eventDesc === 'string' ? {event: eventDesc} : eventDesc as ESLListenerDescriptor;
+    if (Object.hasOwnProperty.call(desc, 'condition') && !resolveProperty(desc.condition, host)) return [];
+    const listeners = ESLEventListener.subscribe(host, handler, desc);
+    if (!listeners.length) emptySubscriptionWarning(host, desc, handler);
     return listeners;
   }
 
@@ -103,6 +107,15 @@ export class ESLEventUtils {
    * @param criteria - optional set of criteria {@link ESLListenerCriteria} to filter listeners to remove
    */
   public static unsubscribe = ESLEventListener.unsubscribe;
+}
+
+function emptySubscriptionWarning(host: object, descriptor: ESLListenerDescriptor, handler: ESLListenerHandler): void {
+  console.warn('[ESL]: Empty subscription %o', {
+    descriptor,
+    handler,
+    event: resolveProperty(descriptor.event, host),
+    target: resolveProperty(descriptor.target, host)
+  });
 }
 
 /** @deprecated alias for {@link ESLEventUtils} */

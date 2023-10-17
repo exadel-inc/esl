@@ -125,6 +125,30 @@ Here is the list of supported keys of `ESLEventDesriptor`:
 
   Supports `PropertyProvider` to declare the computed value as well.
 
+- #### `condition` key
+  
+  <u>Type:</u> `bollean | PropertyProvider<boolean>`
+  <u>Default Value:</u> `true`  
+  <u>Description:</u> the function predicate or boolean flag to check if the subscription should be created. Resolves right before the subscription.
+    
+  Useful in combination with `@listen` decorator to declare subscriptions.
+
+  ```typescript
+    class MyEl extends ESLBaseElement {
+        @attr() enabled = true;     
+  
+        @listen({event: 'click', condition: (that) => that.enabled})
+        onClick(e) {}
+  
+        attributeChangedCallback(name, oldValue, newValue) {
+          if (name === 'enabled') {
+              ESLEventUtils.unsubscribe(this, this.onClick);
+              ESLEventUtils.subscribe(this, this.onClick);
+          }
+        }
+    }
+  ```
+
 - #### `capture` key
 
   <u>Type:</u> `boolean`  
@@ -574,7 +598,7 @@ ESLEventUtils.subscribe(host, {
 
 <a name="-esleventutilswipe"></a>
 
-### ⚡ `ESLSwipeGestureTarget.for`
+### ⚡ `ESLSwipeGestureTarget.for` <i class="badge badge-sup badge-success">new</i>
 
 `ESLSwipeGestureTarget.for` is a simple and easy-to-use way to listen for swipe events on any element.
 
