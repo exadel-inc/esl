@@ -3,7 +3,7 @@ import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {ESLTrigger} from '../../esl-trigger/core';
 import {ESLSharePopup} from './esl-share-popup';
 
-import type {ESLToggleable, ESLToggleableActionParams} from '../../esl-toggleable/core/esl-toggleable';
+import type {ESLToggleable} from '../../esl-toggleable/core/esl-toggleable';
 import type {ESLSharePopupActionParams} from './esl-share-popup';
 
 /**
@@ -79,19 +79,6 @@ export class ESLShareTrigger extends ESLTrigger {
       dir: this.currentDir,
       lang: this.currentLang
     }, this.popupInitialParams, ...params);
-  }
-
-  /** Shows popup with passed params */
-  public override showTarget(params: ESLToggleableActionParams = {}): void {
-    const actionParams = this.mergeToggleableParams({}, params);
-    if (ESLSharePopup.open) this.hideTarget();
-    ESLSharePopup.show(actionParams);
-  }
-
-  /** Hides popup with passed params */
-  public override hideTarget(params: ESLToggleableActionParams = {}): void {
-    const actionParams = this.mergeToggleableParams({}, params);
-    ESLSharePopup.hide(actionParams);
   }
 }
 

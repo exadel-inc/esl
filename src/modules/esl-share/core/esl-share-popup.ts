@@ -3,6 +3,7 @@ import {bind, listen, memoize} from '../../esl-utils/decorators';
 import {ESLShareButton} from './esl-share-button';
 import {ESLShareConfig} from './esl-share-config';
 
+import type {ESLToggleableActionParams} from '../../esl-toggleable/core';
 import type {TooltipActionParams} from '../../esl-tooltip/core/esl-tooltip';
 import type {ESLShareButtonConfig} from './esl-share-config';
 
@@ -38,14 +39,18 @@ export class ESLSharePopup extends ESLTooltip {
 
   protected _list: string = '';
 
-  /** Actions to execute on show popup. */
-  public override onShow(params: ESLSharePopupActionParams): void {
+  /**
+   * Actions to execute before showing of popup.
+   * @returns false if the show task should be canceled
+   */
+  protected override onBeforeShow(params: ESLToggleableActionParams): boolean | void {
+    const result = super.onBeforeShow(params);
     if (params.list) {
       const buttonsList = ESLShareConfig.getList(params.list);
       this.appendButtonsFromList(buttonsList);
     }
-    super.onShow(params);
     this.forwardAttributes();
+    return result;
   }
 
   /** Checks that the button list was rendered previously. */
@@ -65,6 +70,7 @@ export class ESLSharePopup extends ESLTooltip {
     if (this.isEqualList(config)) return;
     this.innerHTML = '';
     config.forEach(this.appendButton);
+    memoize.clear(this, '$arrow');
     this._list = stringifyButtonsList(config);
   }
 
