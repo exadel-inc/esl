@@ -11,7 +11,9 @@ import {debounce} from '@exadel/esl/modules/esl-utils/async/debounce';
 import {bind, boolAttr, decorate, listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 
 import {UIPPlugin} from '../../core/base/plugin';
-import {UIPOptionIcons} from '../header/options/option-icons';
+import {CopyIcon} from '../copy/uip-copy.icon';
+
+import {EditorIcon} from './editor.icon';
 
 /**
  * Editor {@link UIPPlugin} custom element definition
@@ -19,10 +21,13 @@ import {UIPOptionIcons} from '../header/options/option-icons';
  */
 export class UIPEditor extends UIPPlugin {
   public static override is = 'uip-editor';
-  public static override observedAttributes = ['collapsible', 'copy', 'label'];
+  public static override observedAttributes = ['collapsible', 'compact', 'copy', 'label'];
 
   /** Highlight method declaration  */
   public static highlight = (editor: HTMLElement): void => Prism.highlightElement(editor, false);
+
+  /** Marker to make header compact */
+  @boolAttr() public compact: boolean;
 
   /** Marker to collapse editor area */
   @boolAttr() public collapsed: boolean;
@@ -38,9 +43,10 @@ export class UIPEditor extends UIPPlugin {
   protected get $header(): HTMLElement {
     const type = this.constructor as typeof UIPEditor;
     return (
-      <div class={type.is + '-header ' + (this.label ? '' : 'no-label')}>
+      <div class={type.is + '-header '}>
+        <span class={type.is + '-header-icon'} title={this.label}><EditorIcon/></span>
         <span class={type.is + '-header-title'}>{this.label}</span>
-        {this.showCopy ? <uip-copy class={type.is + '-header-copy'}>{UIPOptionIcons.copySVG}</uip-copy> : ''}
+        {this.showCopy ? <uip-copy class={type.is + '-header-copy'}><CopyIcon/></uip-copy> : ''}
         {this.collapsible ? <button class={type.is + '-header-trigger'} aria-label="Collapse/expand"/> : ''}
       </div>
     ) as HTMLElement;
@@ -105,6 +111,7 @@ export class UIPEditor extends UIPPlugin {
 
   protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     super.attributeChangedCallback(attrName, oldVal, newVal);
+    this.root?.classList.toggle(UIPEditor.is + '-compact', this.compact);
     this.$header.remove();
     memoize.clear(this, '$header');
     this.insertAdjacentElement('afterbegin', this.$header);
