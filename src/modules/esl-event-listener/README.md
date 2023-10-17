@@ -641,7 +641,7 @@ ESLSwipeGestureTarget.subscribe(host, {
 way.
 
 `ESLIntersectionTarget.for` creates a synthetic target that produces `intersection` events. It detects intersections by
-creating `IntersectionObserver` instance, created using passed `settings: IntersectionObserverInit` 
+creating `IntersectionObserver` instance, created using passed `settings: IntersectionObserverInit`.
 
 Note: `ESLIntersectionTarget` does not share `IntersectionObserver` instances unlike caching capabilities of adapters 
 mentioned above. 
@@ -651,7 +651,7 @@ ESLIntersectionTarget.for(el: Element | Element[], settings?: IntersectionObserv
 ```
 
 **Parameters**:
-- `el` - `Element` or `Element[]` to listen for intersection events on.
+- `el` - `Element` or `Element[]` to listen for intersection events on;
 - `settings` - optional settings (`ESLIntersectionSetting`)
 
 Event API:
