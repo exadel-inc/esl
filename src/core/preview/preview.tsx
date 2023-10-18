@@ -19,6 +19,13 @@ export class UIPPreview extends UIPPlugin {
     return (<span class={type.is + '-stub'}/>) as HTMLElement;
   }
 
+  /** {@link UIPPlugin} section wrapper */
+  @memoize()
+  protected get $inner(): HTMLElement {
+    const pluginType = this.constructor as typeof UIPPlugin;
+    return <div className={`${pluginType.is}-inner uip-plugin-inner`}></div> as HTMLElement;
+  }
+
   /** Changes preview markup from state changes */
   @bind
   protected _onRootStateChange(): void {

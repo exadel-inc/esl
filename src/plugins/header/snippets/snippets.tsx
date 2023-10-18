@@ -22,6 +22,13 @@ export class UIPSnippets extends UIPPlugin {
   /** Index of current snippet list item */
   public currentIndex: number;
 
+  /** {@link UIPPlugin} section wrapper */
+  @memoize()
+  protected get $inner(): HTMLElement {
+    const pluginType = this.constructor as typeof UIPPlugin;
+    return <div className={`${pluginType.is}-inner uip-plugin-inner`}></div> as HTMLElement;
+  }
+
   /** Active snippet title */
   @memoize()
   protected get $title() {

@@ -1,0 +1,47 @@
+.uip-plugin-panel.vertical.vertical {
+  --uip-plugin-header-bg: transparent;
+
+  grid-area: sidebar;
+  flex-direction: row;
+
+  .uip-plugin-inner {
+    width: 250px;
+    max-width: 250px;
+    max-height: 100%;
+
+    transition:
+      visibility 0s linear,
+      padding-left 0.3s linear,
+      padding-right 0.3s linear,
+      max-width 0.3s linear;
+  }
+
+  &[collapsed] .uip-plugin-inner {
+    max-width: 0;
+    padding-left: 0;
+    padding-right: 0;
+
+    transition:
+      visibility 0.3s linear,
+      padding-left 0.3s linear,
+      padding-right 0.3s linear,
+      max-width 0.3s linear;
+  }
+
+  .uip-plugin-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10px 4px;
+    border-inline-end: 1px solid var(--uip-plugin-divider-v, transparent);
+  }
+
+  .uip-plugin-header-title {
+    display: none;
+  }
+
+  .uip-plugin-header-icon {
+    width: 1.25rem;
+    margin-inline-end: 0;
+  }
+}

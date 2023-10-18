@@ -1,24 +1,27 @@
-.uip-settings.horizontal {
-
-  grid-area: settings;
+.uip-plugin-panel:not(.vertical) {
   flex-direction: column;
+  margin-bottom: 1px;
 
-  .uip-settings-header {
-    padding: 2px 10px;
-  }
-
-  .uip-settings-inner {
-    height: var(--uip-settings-height);
-    max-height: 200px;
+  .uip-plugin-inner {
+    position: relative;
+    height: auto;
+    overflow: hidden;
+    width: 100%;
+    max-width: 100%;
+    max-height: 325px;
 
     transition:
       visibility 0s linear,
       padding-top 0.5s linear,
       padding-bottom 0.5s linear,
       max-height 0.5s linear;
+
+    border-left: none;
+    border-right: none;
+    border-block: 1px solid var(--uip-plugin-divider, transparent);
   }
 
-  &[collapsed] .uip-settings-inner {
+  &[collapsed] .uip-plugin-inner {
     max-height: 0;
     padding-top: 0;
     padding-bottom: 0;
@@ -30,27 +33,13 @@
       max-height 0.5s linear;
   }
 
-  .uip-settings-header {
+  .uip-plugin-header {
+    padding: 5px 10px;
     width: 100%;
-    border-top: 1px solid var(--uip-settings-divider, transparent);
-    border-bottom: 1px solid var(--uip-settings-divider, transparent);
-
-    &-icon {
-      margin-inline-end: 5px;
-    }
+    border-block: 1px solid var(--uip-plugin-divider, transparent);
   }
 
-  .uip-settings-inner {
-    width: 100%;
-    max-width: 100%;
-    max-height: 300px;
-    border-left: none;
-    border-right: none;
-    border-top: 1px solid @section-border;
-    border-bottom: 1px solid @section-border;
-  }
-
-  &[collapsible] .uip-settings-header::after {
+  &[collapsible] .uip-plugin-header::after {
     content: '';
     justify-self: flex-end;
     position: relative;
@@ -71,7 +60,7 @@
       top 0.5s ease-in-out;
   }
 
-  &[collapsible][collapsed] .uip-settings-header::after {
+  &[collapsible][collapsed] .uip-plugin-header::after {
     top: 2px;
     transform: rotate(45deg);
   }

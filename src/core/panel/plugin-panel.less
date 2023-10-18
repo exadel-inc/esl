@@ -1,0 +1,13 @@
+.uip-plugin-panel {
+  display: flex;
+  position: relative;
+  max-height: var(--uip-prview-max-height);
+
+  .no-animate & .uip-plugin-inner {
+    transition: none;
+  }
+}
+
+@import "./plugin-panel.header.less";
+@import "./plugin-panel.horizontal.less";
+@import "./plugin-panel.vertical.less";

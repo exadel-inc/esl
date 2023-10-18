@@ -25,7 +25,8 @@ isLandingPage: true
       </div>
     </script>
     <uip-preview></uip-preview>
-    <uip-settings collapsible target=".logo-content">
+
+    <uip-settings collapsible vertical="@+sm" target=".logo-content">
       <uip-text-setting label="Alternative Button Text:" target=".get-started" attribute="data-test-msg"></uip-text-setting>
       <uip-slider-setting label="Width:" target=".logo-content svg" attribute="width" min="100" max="500"></uip-slider-setting>
       <uip-select-setting label="Color:" attribute="class" mode="append">
@@ -34,6 +35,7 @@ isLandingPage: true
         <option value="purple-clr">Purple</option>
       </uip-select-setting>
     </uip-settings>
+
     <uip-editor collapsible></uip-editor>
   </uip-root>
 </section>

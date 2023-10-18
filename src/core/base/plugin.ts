@@ -1,5 +1,3 @@
-import React from 'jsx-dom';
-
 import {ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
 import {attr, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 
@@ -26,13 +24,6 @@ export abstract class UIPPlugin extends ESLBaseElement {
   /** Returns {@link UIPStateModel} from root instance */
   protected get model(): UIPStateModel | null {
     return this.root ? this.root.model : null;
-  }
-
-  /** {@link UIPPlugin} section wrapper */
-  @memoize()
-  protected get $inner(): HTMLElement {
-    const pluginType = this.constructor as typeof UIPPlugin;
-    return <div className={`${pluginType.is}-inner uip-plugin-inner`}></div> as HTMLElement;
   }
 
   protected connectedCallback(): void {

@@ -8,9 +8,9 @@ import Prism from 'prismjs';
 import {CodeJar} from 'codejar';
 
 import {debounce} from '@exadel/esl/modules/esl-utils/async/debounce';
-import {bind, boolAttr, decorate, listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
+import {bind, boolAttr, decorate, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 
-import {UIPPlugin} from '../../core/base/plugin';
+import {UIPPluginPanel} from '../../core/panel/plugin-panel';
 import {CopyIcon} from '../copy/uip-copy.icon';
 
 import {EditorIcon} from './editor.icon';
@@ -19,21 +19,12 @@ import {EditorIcon} from './editor.icon';
  * Editor {@link UIPPlugin} custom element definition
  * Uses Codejar code editor to provide an ability to modify UIP state markup
  */
-export class UIPEditor extends UIPPlugin {
+export class UIPEditor extends UIPPluginPanel {
   public static override is = 'uip-editor';
-  public static override observedAttributes = ['collapsible', 'compact', 'copy', 'label'];
+  public static override observedAttributes = ['copy', ...UIPPluginPanel.observedAttributes];
 
   /** Highlight method declaration  */
   public static highlight = (editor: HTMLElement): void => Prism.highlightElement(editor, false);
-
-  /** Marker to make header compact */
-  @boolAttr() public compact: boolean;
-
-  /** Marker to collapse editor area */
-  @boolAttr() public collapsed: boolean;
-
-  /** Marker to make enable toggle collapse action for section header */
-  @boolAttr() public collapsible: boolean;
 
   /** Marker to display copy widget */
   @boolAttr({name: 'copy'}) public showCopy: boolean;
@@ -43,11 +34,11 @@ export class UIPEditor extends UIPPlugin {
   protected get $header(): HTMLElement {
     const type = this.constructor as typeof UIPEditor;
     return (
-      <div class={type.is + '-header '}>
-        <span class={type.is + '-header-icon'} title={this.label}><EditorIcon/></span>
-        <span class={type.is + '-header-title'}>{this.label}</span>
+      <div class={type.is + '-header uip-plugin-header'}>
+        <span class="uip-plugin-header-icon" title={this.label}><EditorIcon/></span>
+        <span class="uip-plugin-header-title">{this.label}</span>
         {this.showCopy ? <uip-copy class={type.is + '-header-copy'}><CopyIcon/></uip-copy> : ''}
-        {this.collapsible ? <button class={type.is + '-header-trigger'} aria-label="Collapse/expand"/> : ''}
+        {this.collapsible ? <button class="uip-plugin-header-trigger" aria-label="Collapse/expand"/> : ''}
       </div>
     ) as HTMLElement;
   }
@@ -55,9 +46,9 @@ export class UIPEditor extends UIPPlugin {
   /** {@link UIPEditor} section wrapper */
   @memoize()
   protected get $inner(): HTMLDivElement {
-    const type = this.constructor as typeof UIPPlugin;
+    const type = this.constructor as typeof UIPPluginPanel;
     return (
-      <div className={`${type.is}-inner uip-plugin-inner`}>
+      <div className={`${type.is}-inner uip-plugin-inner uip-plugin-inner-bg`}>
         <esl-scrollbar class={type.is + '-scrollbar'} target="::next"/>
         <div class={type.is + '-container esl-scrollable-content'}>
           {this.$code}
@@ -111,18 +102,9 @@ export class UIPEditor extends UIPPlugin {
 
   protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     super.attributeChangedCallback(attrName, oldVal, newVal);
-    this.root?.classList.toggle(UIPEditor.is + '-compact', this.compact);
     this.$header.remove();
     memoize.clear(this, '$header');
     this.insertAdjacentElement('afterbegin', this.$header);
-  }
-
-  @listen({
-    event: 'click',
-    selector: `.${UIPEditor.is}-header-trigger`,
-  })
-  protected _onClick(): void {
-    if (this.collapsible) this.collapsed = !this.collapsed;
   }
 
   /** Callback to call on editor's content changes */

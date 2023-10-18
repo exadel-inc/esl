@@ -1,10 +1,9 @@
 import React from 'jsx-dom';
 
-import {ESLMediaQuery} from '@exadel/esl/modules/esl-media-query/core';
 import {debounce} from '@exadel/esl/modules/esl-utils/async/debounce';
-import {attr, boolAttr, decorate, listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
+import {attr, decorate, listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 
-import {UIPPlugin} from '../../core/base/plugin';
+import {UIPPluginPanel} from '../../core/panel/plugin-panel';
 import {UIPSetting} from './base-setting/base-setting';
 import {SettingsIcon} from './settings.icon';
 
@@ -12,24 +11,11 @@ import {SettingsIcon} from './settings.icon';
  * Settings {@link UIPPlugin} custom element definition
  * Container for {@link UIPSetting}
  */
-export class UIPSettings extends UIPPlugin {
+export class UIPSettings extends UIPPluginPanel {
   public static is = 'uip-settings';
-  public static observedAttributes: string[] = ['horizontal', 'collapsed', ...UIPPlugin.observedAttributes];
 
   /** Attribute to set all inner {@link UIPSetting} settings' {@link UIPSetting#target} targets */
   @attr() public target: string;
-
-  /** Marker to collapse editor area */
-  @boolAttr() public collapsed: boolean;
-
-  /** Marker to make enable toggle collapse action for section header */
-  @boolAttr() public collapsible: boolean;
-
-  /** Media Query or marker to display UIPSettings horizontally */
-  @attr({defaultValue: 'aot all'}) public horizontal: string;
-
-  /** Visible label */
-  @attr({defaultValue: 'Settings'}) public label: string;
 
   /** Header section block */
   @memoize()
@@ -37,10 +23,10 @@ export class UIPSettings extends UIPPlugin {
     const type = this.constructor as typeof UIPSettings;
     const a11yLabel = this.collapsible ? 'Collapse/expand' + this.label : this.label;
     return (
-      <div class={type.is + '-header ' + (this.label ? '' : 'no-label')}>
-        <span class={type.is + '-header-icon'} title={this.label}><SettingsIcon/></span>
-        <span class={type.is + '-header-title'}>{this.label}</span>
-        {this.collapsible ? <button type="button" class={type.is + '-header-trigger'} aria-label={a11yLabel} title={a11yLabel}/> : ''}
+      <div class={type.is + '-header uip-plugin-header ' + (this.label ? '' : 'no-label')}>
+        <span class="uip-plugin-header-icon" title={this.label}><SettingsIcon/></span>
+        <span class="uip-plugin-header-title">{this.label}</span>
+        {this.collapsible ? <button type="button" class="uip-plugin-header-trigger" aria-label={a11yLabel} title={a11yLabel}/> : ''}
       </div>
     ) as HTMLElement;
   }
@@ -48,7 +34,7 @@ export class UIPSettings extends UIPPlugin {
   @memoize()
   protected get $inner(): HTMLElement {
     const type = this.constructor as typeof UIPSettings;
-    return (<div class={type.is + '-inner uip-plugin-inner'}>
+    return (<div class={type.is + '-inner uip-plugin-inner uip-plugin-inner-bg'}>
       <esl-scrollbar class={type.is + '-scrollbar'} target="::next"/>
       {this.$container}
     </div>) as HTMLElement;
@@ -64,7 +50,6 @@ export class UIPSettings extends UIPPlugin {
     super.connectedCallback();
     this.appendChild(this.$header);
     this.appendChild(this.$inner);
-    this._onHorizontalModeChange();
     this.invalidate();
   }
 
@@ -81,11 +66,6 @@ export class UIPSettings extends UIPPlugin {
       this.$header.remove();
       memoize.clear(this, '$header');
       this.insertAdjacentElement('afterbegin', this.$header);
-    }
-    if (attrName === 'horizontal') {
-      this.$$off(this._onHorizontalModeChange);
-      this.$$on(this._onHorizontalModeChange);
-      this._onHorizontalModeChange();
     }
   }
 
@@ -104,23 +84,5 @@ export class UIPSettings extends UIPPlugin {
   @listen('uip:settings:invalidate')
   protected onInvalidate(): void {
     this.invalidate();
-  }
-
-  @listen({
-    event: 'change',
-    target: (settings: UIPSettings) => ESLMediaQuery.for(settings.horizontal)
-  })
-  protected _onHorizontalModeChange(): void {
-    const isHorizontal = ESLMediaQuery.for(this.horizontal).matches;
-    this.classList.toggle('horizontal', isHorizontal);
-    this.root?.classList.toggle('horizontal-settings', isHorizontal);
-  }
-
-  @listen({
-    event: 'click',
-    selector: `.${UIPSettings.is}-header-trigger`,
-  })
-  protected _onClick(): void {
-    if (this.collapsible) this.collapsed = !this.collapsed;
   }
 }

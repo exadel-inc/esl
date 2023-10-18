@@ -1,41 +1,21 @@
 @import (reference) '../../common/variables.less';
 
-html {
-  --uip-editor-fg: #000;
-  --uip-editor-bg: #f5f2f0;
-}
-
 .uip-editor {
-  display: block;
   grid-area: editor;
 
   &-inner {
     display: flex;
-    position: relative;
-    height: auto;
-    overflow: hidden;
-    max-height: 325px;
-    transition:
-      padding-top 0.3s linear,
-      padding-bottom 0.3s linear,
-      max-height 0.3s linear,
-      visibility 0s linear;
-
     padding: 1em;
-    color: var(--uip-editor-fg);
-    background: var(--uip-editor-bg);
   }
 
-  &[collapsed] &-inner {
-    padding-top: 0;
-    padding-bottom: 0;
-    max-height: 0;
-    visibility: hidden;
-    transition:
-      padding-top 0.3s linear,
-      padding-bottom 0.3s linear,
-      max-height 0.3s linear,
-      visibility 0.3s linear;
+  &-header {
+    &-copy {
+      position: relative;
+      width: 25px;
+      height: 25px;
+      z-index: 2;
+      justify-content: flex-end;
+    }
   }
 
   &-container {
@@ -59,12 +39,4 @@ html {
   &[collapsed] &-scrollbar {
     opacity: 0;
   }
-
-  .codejar-linenumbers {
-    // Override default width set by withLineNumbers
-    width: unset !important;
-  }
 }
-
-@import "./editor.header.less";
-@import "./editor.themes.less";
