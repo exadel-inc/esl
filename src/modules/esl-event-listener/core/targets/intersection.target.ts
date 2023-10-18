@@ -1,4 +1,7 @@
 import {SyntheticEventTarget} from '../../../esl-utils/dom/events/target';
+import {isElement} from '../../../esl-utils/dom/api';
+import {wrap} from '../../../esl-utils/misc/array';
+
 import {ESLIntersectionEvent} from './intersection.event';
 
 export {ESLIntersectionEvent};
@@ -15,12 +18,17 @@ export class ESLIntersectionTarget extends SyntheticEventTarget {
   public static readonly DEFAULTS: IntersectionObserverInit = {threshold: [0.01]};
 
   /** Creates {@link ESLIntersectionTarget} instance for the {@link Element}(s) */
+  public static for(targets: Element[] | Element, options?: IntersectionObserverInit): ESLIntersectionTarget;
   public static for(
     targets: Element[] | Element | null | undefined,
-    options: IntersectionObserverInit = ESLIntersectionTarget.DEFAULTS
+    options: IntersectionObserverInit = {}
   ): ESLIntersectionTarget | null {
-    if (!targets) return null;
-    return new ESLIntersectionTarget(([] as Element[]).concat(targets), options);
+    const $targets = wrap(targets).filter(isElement);
+    const initOptions = {...ESLIntersectionTarget.DEFAULTS, ...options};
+    if ($targets.length) return new ESLIntersectionTarget($targets, initOptions);
+    // Error handling
+    console.warn('[ESL]: ESLIntersectionTarget can not observe %o', targets);
+    return null;
   }
 
   /** Internal {@link IntersectionObserver} instance */
@@ -50,7 +58,8 @@ export class ESLIntersectionTarget extends SyntheticEventTarget {
   public override addEventListener(callback: EventListener): void;
   public override addEventListener(event: 'intersect', callback: EventListener): void;
   public override addEventListener(event: any, callback: EventListener = event): void {
-    if (typeof event !== 'undefined' && event !== ESLIntersectionEvent.type) {
+    if (typeof event !== 'string') event = ESLIntersectionEvent.type;
+    if (event !== ESLIntersectionEvent.type) {
       console.warn(`[ESL]: ESLIntersectionTarget does not support '${event}' type`);
       return;
     }
@@ -63,7 +72,8 @@ export class ESLIntersectionTarget extends SyntheticEventTarget {
   public override removeEventListener(callback: EventListener): void;
   public override removeEventListener(event: 'resize', callback: EventListener): void;
   public override removeEventListener(event: any, callback: EventListener = event): void {
-    if (typeof event !== 'undefined' && event !== ESLIntersectionEvent.type) return;
+    if (typeof event !== 'string') event = ESLIntersectionEvent.type;
+    if (event !== ESLIntersectionEvent.type) return;
     super.removeEventListener(event, callback);
     if (this.hasEventListener(ESLIntersectionEvent.type)) return;
     this.observer$$.disconnect();
