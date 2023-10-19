@@ -1,13 +1,12 @@
 import {ESLBaseElement} from '../../esl-base-element/core';
-import {ESLPopup} from '../../esl-popup/core';
 import {isEqual} from '../../esl-utils/misc/object/compare';
-import {sequentialUID} from '../../esl-utils/misc/uid';
-import {attr, bind, boolAttr, listen, memoize, prop} from '../../esl-utils/decorators';
+import {attr, bind, boolAttr, jsonAttr, listen, memoize, prop} from '../../esl-utils/decorators';
 import {ESLShareButton} from './esl-share-button';
+import {ESLSharePopup} from './esl-share-popup';
 import {ESLShareTrigger} from './esl-share-trigger';
 import {ESLShareConfig} from './esl-share-config';
 
-import type {PopupActionParams} from '../../esl-popup/core';
+import type {ESLSharePopupActionParams} from './esl-share-popup';
 import type {ESLShareButtonConfig, ESLShareConfigProviderType} from './esl-share-config';
 
 /**
@@ -18,11 +17,11 @@ import type {ESLShareButtonConfig, ESLShareConfigProviderType} from './esl-share
  */
 export class ESLShare extends ESLBaseElement {
   public static override is = 'esl-share';
-  protected static _popupStore: Map<string, ESLPopup> = new Map<string, ESLPopup>();
 
   /** Register {@link ESLShare} component and dependent {@link ESLShareButton} */
   public static override register(): void {
     ESLShareButton.register();
+    ESLSharePopup.register();
     ESLShareTrigger.register();
     super.register();
   }
@@ -39,13 +38,11 @@ export class ESLShare extends ESLBaseElement {
   /** Event to dispatch on change of {@link ESLShare} */
   @prop('esl:share:changed') public SHARE_CHANGED_EVENT: string;
 
-  /** Default initial params to pass into the newly created popup */
-  @prop({
-    position: 'top',
-    defaultParams: {
-      hideDelay: 200
-    }
-  }) protected popupInitialParams: PopupActionParams;
+  /** Default initial params to pass into the popup trigger */
+  @jsonAttr<ESLSharePopupActionParams>({defaultValue: {
+    trackClick: true,
+    trackHover: true
+  }}) public triggerInitialParams: ESLShareTrigger;
 
   /**
    * List of social networks or groups of them to display (all by default).
@@ -85,61 +82,28 @@ export class ESLShare extends ESLBaseElement {
     this.onReady();
   }
 
-  /** Builds component's content from received `ESLShareButtonConfig` list */
+  /** Builds component's content. */
   @bind
   protected buildContent(): void {
     this.innerHTML = '';
-
-    if (this.mode === 'list') {
-      this.appendButtonsTo(this);
-      return;
-    }
-
-    const $popup = this.getStoredPopup() || this.createPopup();
-    this.appendTrigger(`#${$popup.id}`);
+    this.mode === 'list' ? this.appendButtons() : this.appendTrigger();
   }
 
-  /** Appends buttons to the passed element. */
-  protected appendButtonsTo($el: Element): void {
+  /** Appends buttons to the share component. */
+  protected appendButtons(): void {
     this.buttonsConfig.forEach((cfg) => {
       const btn = ESLShareButton.create(cfg);
-      btn && $el.appendChild(btn);
+      btn && this.appendChild(btn);
     });
   }
 
   /** Appends trigger to the share component. */
-  protected appendTrigger(target: string): void {
+  protected appendTrigger(): void {
+    const {list} = this;
     const $trigger = ESLShareTrigger.create();
-    Object.assign($trigger, {
-      target,
-      trackClick: true,
-      trackHover: true
-    });
+    Object.assign($trigger, this.triggerInitialParams, {list});
     $trigger.innerHTML = this._content;
     this.appendChild($trigger);
-  }
-
-  /** Creates popup element with share buttons. */
-  protected createPopup(): ESLPopup {
-    const $popup = ESLPopup.create();
-    const id = sequentialUID(this.baseTagName + '-');
-    Object.assign($popup, {id, ...this.popupInitialParams});
-    $popup.appendArrow();
-    document.body.appendChild($popup);
-    this.storePopup($popup);
-
-    this.appendButtonsTo($popup);
-    return $popup;
-  }
-
-  /** Gets popup element from the popup's store. */
-  protected getStoredPopup(): ESLPopup | undefined {
-    return (this.constructor as typeof ESLShare)._popupStore.get(this.list);
-  }
-
-  /** Adds popup element to the popup's store. */
-  protected storePopup(value: ESLPopup): void {
-    (this.constructor as typeof ESLShare)._popupStore.set(this.list, value);
   }
 
   /** Actions on complete init and ready component. */

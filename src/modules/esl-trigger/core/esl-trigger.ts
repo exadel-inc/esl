@@ -98,7 +98,7 @@ export class ESLTrigger extends ESLBaseElement {
   /** Value to setup aria-label */
   public get a11yLabel(): string | null {
     if (!this.$target) return null;
-    return (this.$target.open ? this.a11yLabelActive : this.a11yLabelInactive) || null;
+    return (this.isTargetActive ? this.a11yLabelActive : this.a11yLabelInactive) || null;
   }
 
   /** Marker to allow track hover */
@@ -108,6 +108,11 @@ export class ESLTrigger extends ESLBaseElement {
   /** Marker to allow track clicks */
   public get allowClick(): boolean {
     return ESLMediaQuery.for(this.trackClick).matches;
+  }
+
+  /** Checks that the target is in active state */
+  public get isTargetActive(): boolean {
+    return !!this.$target?.open;
   }
 
   @ready
@@ -172,16 +177,16 @@ export class ESLTrigger extends ESLBaseElement {
    * Does not produce `esl:change:active` event
    */
   public updateState(): boolean {
-    const isActive = !!this.$target?.open;
+    const {isTargetActive} = this;
     const wasActive = this.active;
 
-    this.toggleAttribute('active', isActive);
+    this.toggleAttribute('active', isTargetActive);
     const clsTarget = ESLTraversingQuery.first(this.activeClassTarget, this) as HTMLElement;
-    clsTarget && CSSClassUtils.toggle(clsTarget, this.activeClass, isActive);
+    clsTarget && CSSClassUtils.toggle(clsTarget, this.activeClass, isTargetActive);
 
     this.updateA11y();
 
-    return isActive !== wasActive;
+    return isTargetActive !== wasActive;
   }
 
   /** Handles ESLToggleable state change */
