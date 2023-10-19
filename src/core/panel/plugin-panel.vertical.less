@@ -1,8 +1,10 @@
 .uip-plugin-panel.vertical.vertical {
-  --uip-plugin-header-bg: transparent;
+  --uip-plugin-header-bg: var(--uip-plugin-bg-v, transparent);
+  --uip-plugin-header-fg: var(--uip-plugin-fg-v, #000);
 
   grid-area: sidebar;
   flex-direction: row;
+  min-height: 100%;
 
   .uip-plugin-inner {
     width: 250px;
@@ -37,6 +39,9 @@
   }
 
   .uip-plugin-header-title {
+    display: none;
+  }
+  &:not([collapsible]) .uip-plugin-header-icon {
     display: none;
   }
 
