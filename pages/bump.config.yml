@@ -1,0 +1,5 @@
+versionFile: '../package.json'
+files:
+  - filePath: 'package.json'
+    patterns:
+      - '"version\": \"(\d+\.\d+\.\d+)\"'
