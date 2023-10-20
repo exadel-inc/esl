@@ -29,7 +29,8 @@ export class ESLShareTrigger extends ESLTrigger {
   @jsonAttr<ESLSharePopupActionParams>({defaultValue: {
     position: 'top',
     hideDelay: 220
-  }}) public popupInitialParams: ESLSharePopupActionParams;
+  }})
+  public popupInitialParams: ESLSharePopupActionParams;
 
   /** Target observable Toggleable */
   public override get $target(): ESLToggleable | null {

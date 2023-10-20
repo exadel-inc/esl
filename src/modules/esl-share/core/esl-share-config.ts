@@ -137,7 +137,7 @@ export class ESLShareConfig extends SyntheticEventTarget {
   }
 
   /**
-   * Appends button (inserts or updates) to the current config.
+   * Appends a button (inserts or updates) to the current config.
    * @returns config instance
    */
   public appendButton(button: ESLShareButtonConfig): ESLShareConfig {
@@ -147,7 +147,7 @@ export class ESLShareConfig extends SyntheticEventTarget {
   }
 
   /**
-   * Appends group (inserts or updates) to the current config.
+   * Appends a group (inserts or updates) to the current config.
    * @returns config instance
    */
   public appendGroup(group: ESLShareGroupConfig): ESLShareConfig {

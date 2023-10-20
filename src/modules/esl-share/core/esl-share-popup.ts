@@ -31,7 +31,7 @@ export class ESLSharePopup extends ESLTooltip {
   /** List of attributes to forward from the activator to the {@link ESLSharePopup} */
   public static forwardedAttrs = ['share-title', 'share-url'];
 
-  /** Shared instanse of ESLSharePopup */
+  /** Shared instance of ESLSharePopup */
   @memoize()
   public static override get sharedInstance(): ESLSharePopup {
     return ESLSharePopup.create();
@@ -58,7 +58,7 @@ export class ESLSharePopup extends ESLTooltip {
     return stringifyButtonsList(config) === this._list;
   }
 
-  /** Appends button to the popup. */
+  /** Appends a button to the popup. */
   @bind
   protected appendButton(btnCfg: ESLShareButtonConfig): void {
     const btn = ESLShareButton.create(btnCfg);
@@ -89,7 +89,7 @@ export class ESLSharePopup extends ESLTooltip {
   }
 
   @listen({event: 'change', target: ESLShareConfig.instance})
-  protected onConfigChange(): void {
+  protected _onConfigChange(): void {
     this.hide();
   }
 }

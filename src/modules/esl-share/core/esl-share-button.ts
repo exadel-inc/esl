@@ -13,7 +13,7 @@ import type {ESLShareButtonConfig} from './esl-share-config';
  * ESLShareButton
  * @author Dmytro Shovchko
  *
- * ESLShareButton is a custom element to create a "Share on social media" button.
+ * ESLShareButton is a custom element to invoke a share actions, defined by {@link ESLShareBaseAction}
  */
 export class ESLShareButton extends ESLBaseElement {
   public static override is = 'esl-share-button';
@@ -29,7 +29,7 @@ export class ESLShareButton extends ESLBaseElement {
     return $button;
   }
 
-  /** Event to dispatch on change of {@link ESLShareButton} */
+  /** Event to dispatch when {@link ESLShareButton} configuration is changed */
   @prop('esl:share:button:changed') public SHARE_BUTTON_CHANGED_EVENT: string;
 
   /** Name of share action that occurs after button click */
@@ -71,7 +71,7 @@ export class ESLShareButton extends ESLBaseElement {
     return this[name] || this.config?.[name] || '';
   }
 
-  /** @returns an instance of the action assigned to the button */
+  /** @returns an instance of {@link ESLShareBaseAction} assigned to the button */
   protected get actionInstance(): ESLShareBaseAction | null {
     return ESLShareActionRegistry.instance.get(this.shareAction);
   }
@@ -178,7 +178,7 @@ export class ESLShareButton extends ESLBaseElement {
   }
 
   @listen({event: 'change', target: ESLShareConfig.instance})
-  protected onConfigChange(): void {
+  protected _onConfigChange(): void {
     const {config} = this;
     memoize.clear(this, 'config');
     if (isEqual(this.config, config)) return;

@@ -16,9 +16,11 @@ export class ESLShareActionRegistry {
     return new ESLShareActionRegistry();
   }
 
+  protected constructor() {}
+
   /** Registers action */
   public register(action: ESLShareActionType): void {
-    if (!action.is) throw new Error('Action should have a name');
+    if (!action.is) throw new Error('[ESL]: `ESLAction.is` is not defined');
     this.actionsMap.set(action.is, new action());
   }
 
