@@ -20,10 +20,10 @@ export class ESLShareButton extends ESLBaseElement {
   public static observedAttributes = ['action', 'name'];
 
   /** Creates an instance of the ESLShareButton */
-  public static override create<T extends typeof ESLShareButton>(this: T, cfg?: ESLShareButtonConfig): InstanceType<T> {
+  public static override create<T extends typeof ESLShareButton>(this: T, buttonName?: string): InstanceType<T> {
     const $button = document.createElement(this.is) as InstanceType<T>;
-    if (cfg) {
-      $button.name = cfg.name;
+    if (buttonName) {
+      $button.name = buttonName;
       $button.initContent();
     }
     return $button;
@@ -134,7 +134,7 @@ export class ESLShareButton extends ESLBaseElement {
     if (!this.config) return;
     const {title, icon} = this.config;
     this.title = title;
-    this.insertAdjacentHTML('beforeend', icon);
+    this.innerHTML = icon;
     const $icon = this.firstElementChild as HTMLElement;
     if ($icon?.tagName !== 'svg') return;
     $icon.classList.add('esl-share-icon');
