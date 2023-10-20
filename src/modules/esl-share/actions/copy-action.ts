@@ -14,12 +14,12 @@ export class ESLShareCopyAction extends ESLShareBaseAction {
   }
 
   /** Does an action to share */
-  public share($button: ESLShareButton): void {
+  public async share($button: ESLShareButton): Promise<void> {
     const shareData = this.getShareData($button);
     const {url} = shareData;
     if (!this.isAvailable || !url) return;
 
-    navigator.clipboard.writeText(url);
+    await navigator.clipboard.writeText(url);
     this.showCopyAlert($button.shareAdditional?.alertText);
   }
 
