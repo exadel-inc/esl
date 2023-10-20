@@ -1,11 +1,11 @@
 import type {ESLBaseElementShape} from '../../esl-base-element/core/esl-base-element.shape';
-import type {ESLShareTrigger} from './esl-share-trigger';
+import type {ESLSharePopupTrigger} from './esl-share-trigger';
 
 /**
- * Tag declaration interface of ESLShareTrigger element
+ * Tag declaration interface of ESLSharePopupTrigger element
  * Used for TSX declaration
  */
-export interface ESLShareTriggerTagShape extends ESLBaseElementShape<ESLShareTrigger> {
+export interface ESLShareTriggerTagShape extends ESLBaseElementShape<ESLSharePopupTrigger> {
   /** Allowed children */
   children?: any;
 }
@@ -13,7 +13,7 @@ export interface ESLShareTriggerTagShape extends ESLBaseElementShape<ESLShareTri
 declare global {
   namespace JSX {
     export interface IntrinsicElements {
-      /** {@link ESLShareTrigger} custom tag */
+      /** {@link ESLSharePopupTrigger} custom tag */
       'esl-share-trigger': ESLShareTriggerTagShape;
     }
   }

@@ -31,6 +31,12 @@ export class ESLSharePopup extends ESLTooltip {
   /** List of attributes to forward from the activator to the {@link ESLSharePopup} */
   public static forwardedAttrs = ['share-title', 'share-url'];
 
+  /** Register {@link ESLSharePopup} component and dependent {@link ESLShareButton} */
+  public static override register(): void {
+    ESLShareButton.register();
+    super.register();
+  }
+
   /** Shared instance of ESLSharePopup */
   @memoize()
   public static override get sharedInstance(): ESLSharePopup {

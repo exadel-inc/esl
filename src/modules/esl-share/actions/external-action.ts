@@ -8,7 +8,7 @@ export class ESLShareExternalAction extends ESLShareUrlGenericAction {
   public static override readonly is: string = 'external';
 
   /** Does an action to share */
-  public share($button: ESLShareButton): void {
+  public override share($button: ESLShareButton): void {
     const {shareLink} = $button;
     if (!shareLink) return;
 

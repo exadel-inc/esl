@@ -14,7 +14,7 @@ export class ESLShareCopyAction extends ESLShareBaseAction {
   }
 
   /** Does an action to share */
-  public async share($button: ESLShareButton): Promise<void> {
+  public override async share($button: ESLShareButton): Promise<void> {
     const shareData = this.getShareData($button);
     const {url} = shareData;
     if (!this.isAvailable || !url) return;

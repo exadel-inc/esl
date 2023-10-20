@@ -7,13 +7,19 @@ import type {ESLToggleable} from '../../esl-toggleable/core/esl-toggleable';
 import type {ESLSharePopupActionParams} from './esl-share-popup';
 
 /**
- * ESLShareTrigger component
+ * ESLSharePopupTrigger component
  * @author Dmytro Shovchko
  *
- * ESLShareTrigger is a component that allows triggering {@link ESLSharePopup} instance state changes.
+ * ESLSharePopupTrigger is a component that allows triggering {@link ESLSharePopup} instance state changes.
  */
-export class ESLShareTrigger extends ESLTrigger {
-  public static override is = 'esl-share-trigger';
+export class ESLSharePopupTrigger extends ESLTrigger {
+  public static override is = 'esl-share-popup-trigger';
+
+  /** Register {@link ESLSharePopupTrigger} component and dependent {@link ESLSharePopup} */
+  public static override register(): void {
+    ESLSharePopup.register();
+    super.register();
+  }
 
   /**
    * List of social networks or groups of them to display (all by default).
@@ -22,6 +28,7 @@ export class ESLShareTrigger extends ESLTrigger {
    * @example "facebook reddit group:default"
    * */
   @attr({defaultValue: 'all'}) public list: string;
+
   /** Hover event tracking media query. Default: `all` */
   @attr({defaultValue: 'all'}) public override trackHover: string;
 
@@ -71,7 +78,7 @@ export class ESLShareTrigger extends ESLTrigger {
   }
 
   /** Merges params to pass to the toggleable */
-  protected override mergeToggleableParams(this: ESLShareTrigger, ...params: ESLSharePopupActionParams[]): ESLSharePopupActionParams {
+  protected override mergeToggleableParams(this: ESLSharePopupTrigger, ...params: ESLSharePopupActionParams[]): ESLSharePopupActionParams {
     return Object.assign({
       initiator: 'share',
       activator: this,
@@ -85,9 +92,9 @@ export class ESLShareTrigger extends ESLTrigger {
 
 declare global {
   export interface ESLLibrary {
-    ShareTrigger: typeof ESLShareTrigger;
+    ShareTrigger: typeof ESLSharePopupTrigger;
   }
   export interface HTMLElementTagNameMap {
-    'esl-share-trigger': ESLShareTrigger;
+    'esl-share-trigger': ESLSharePopupTrigger;
   }
 }

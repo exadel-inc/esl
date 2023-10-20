@@ -117,6 +117,6 @@ ESLRelatedTarget.register();
 // Share component loading
 (async (): Promise<void> => {
   await import (/* webpackChunkName: 'esl-share/buttons' */'@exadel/esl/modules/esl-share/buttons/all');
-  await ESLShareConfig.set(() => fetch('/assets/share/config.json').then((response) => response.json()));
+  ESLShareConfig.set(() => fetch('/assets/share/config.json').then((response) => response.json()));
   ESLShare.register();
 })();

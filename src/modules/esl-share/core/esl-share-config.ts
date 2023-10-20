@@ -71,26 +71,23 @@ export class ESLShareConfig extends SyntheticEventTarget {
   }
 
   /**
-   * Sets config with a promise of a new config object or using a config provider function.
-   * Each of the buttons and groups specified in the new config will be appended to the current config.
-   * @returns Promise of the current config
+   * Updates the configuration with either a new config object or by using a configuration provider function.
+   * Every button and group specified in the new config will be added to the current configuration.
+   * @returns ESLShareConfig instance
    */
-  public static async set(
-    provider?: ESLShareConfigProviderType | Promise<ESLShareConfig> | ESLShareConfig
-  ): Promise<ESLShareConfig> {
-    if (typeof provider === 'function') return this.set(provider());
-    if (typeof provider === 'object') ESLShareConfig.append(provider instanceof Promise ? await provider : provider);
-    return ESLShareConfig.instance;
-  }
-
-  /**
-   * Appends buttons and groups from the passed config to the current config.
-   * @returns config instance
-   */
-  protected static append(cfg: ESLShareConfig): ESLShareConfig {
+  public static set(
+    provider?: ESLShareConfigProviderType | Promise<Partial<ESLShareConfig>> | Partial<ESLShareConfig>
+  ): ESLShareConfig {
     const {instance} = ESLShareConfig;
-    if (cfg?.groups) cfg.groups.forEach(instance.appendGroup, instance);
-    if (cfg?.buttons) cfg.buttons.forEach(instance.appendButton, instance);
+    if (typeof provider === 'function') return this.set(provider());
+    if (typeof provider === 'object' && provider instanceof Promise) {
+      provider.then((cfg) => this.set(cfg));
+      return instance;
+    }
+    if (typeof provider === 'object') {
+      if (provider?.groups) provider.groups.forEach(instance.appendGroup, instance);
+      if (provider?.buttons) provider.buttons.forEach(instance.appendButton, instance);
+    }
     return instance;
   }
 

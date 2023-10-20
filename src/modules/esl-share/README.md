@@ -200,7 +200,7 @@ There are two modes available to render buttons.
 
 In `list` mode, the buttons are drawn inside the component as a list. Nothing special.
 
-When `popup` mode is specified, the buttons are created inside of a [ESLPopup](../esl-popup/README.md) element, which is built directly into the document's body. If a [ESLPopup](../esl-popup/README.md) element with the desired set of buttons already exists in the document body, the existing one will be reused. A trigger element is created inside the ESLShare component to activate the popup with share buttons, which will activate the popup when you hover over it. Also, one additional activity of the ESLShareTrigger is to forward the `share-title` and `share-url` attributes from the root ESLShare component to the popup. So it's possible for components with the same set of buttons but different URLs and title to share to use the same popup.
+When `popup` mode is specified, the buttons are created inside of a [ESLPopup](../esl-popup/README.md) element, which is built directly into the document's body. If a [ESLPopup](../esl-popup/README.md) element with the desired set of buttons already exists in the document body, the existing one will be reused. A trigger element is created inside the ESLShare component to activate the popup with share buttons, which will activate the popup when you hover over it. Also, one additional activity of the ESLSharePopupTrigger is to forward the `share-title` and `share-url` attributes from the root ESLShare component to the popup. So it's possible for components with the same set of buttons but different URLs and title to share to use the same popup.
 
 #### Public API
 

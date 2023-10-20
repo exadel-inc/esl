@@ -2,8 +2,7 @@ import {ESLBaseElement} from '../../esl-base-element/core';
 import {isEqual} from '../../esl-utils/misc/object/compare';
 import {attr, bind, boolAttr, jsonAttr, listen, memoize, prop} from '../../esl-utils/decorators';
 import {ESLShareButton} from './esl-share-button';
-import {ESLSharePopup} from './esl-share-popup';
-import {ESLShareTrigger} from './esl-share-trigger';
+import {ESLSharePopupTrigger} from './esl-share-trigger';
 import {ESLShareConfig} from './esl-share-config';
 
 import type {ESLSharePopupActionParams} from './esl-share-popup';
@@ -21,14 +20,14 @@ export class ESLShare extends ESLBaseElement {
   /** Register {@link ESLShare} component and dependent {@link ESLShareButton} */
   public static override register(): void {
     ESLShareButton.register();
-    ESLSharePopup.register();
-    ESLShareTrigger.register();
+    ESLSharePopupTrigger.register();
     super.register();
   }
 
   /**
-   * Gets or updates config with a promise of a new config object or using a config provider function.
-   * @returns Promise of the current config {@link ESLShareConfig}
+   * Updates the configuration with either a new config object or by using a configuration provider function.
+   * Every button and group specified in the new config will be added to the current configuration.
+   * @returns Promise of the current config
    * @deprecated alias for ESLShareConfig.set(), will be removed soon
    */
   public static readonly config = ESLShareConfig.set;
@@ -40,7 +39,7 @@ export class ESLShare extends ESLBaseElement {
   @jsonAttr<ESLSharePopupActionParams>({defaultValue: {
     trackClick: true,
     trackHover: true
-  }}) public triggerInitialParams: ESLShareTrigger;
+  }}) public triggerInitialParams: ESLSharePopupTrigger;
 
   /**
    * List of social networks or groups of them to display (all by default).
@@ -98,7 +97,7 @@ export class ESLShare extends ESLBaseElement {
   /** Appends trigger to the share component. */
   protected appendTrigger(): void {
     const {list} = this;
-    const $trigger = ESLShareTrigger.create();
+    const $trigger = ESLSharePopupTrigger.create();
     Object.assign($trigger, this.triggerInitialParams, {list});
     $trigger.innerHTML = this._content;
     this.appendChild($trigger);

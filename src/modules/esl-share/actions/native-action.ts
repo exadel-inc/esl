@@ -15,7 +15,7 @@ export class ESLShareNativeAction extends ESLShareBaseAction {
   }
 
   /** Does an action to share */
-  public share($button: ESLShareButton): void {
+  public override share($button: ESLShareButton): void {
     if (!this.isAvailable) return;
 
     const shareData = this.getShareData($button);

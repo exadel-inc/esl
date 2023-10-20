@@ -33,7 +33,7 @@ export class ESLShareMediaAction extends ESLShareUrlGenericAction {
   }
 
   /** Does an action to share */
-  public share($button: ESLShareButton): void {
+  public override share($button: ESLShareButton): void {
     const {shareLink} = $button;
     if (!shareLink) return;
 
