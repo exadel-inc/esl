@@ -2,7 +2,9 @@ import {ESLShareBaseAction} from '../core/esl-share-action';
 
 import type {ESLShareButton} from '../core/esl-share-button';
 
-/** Native action class for share buttons {@link ESLShareButton} that invokes the native sharing mechanism of Web Share API */
+/**
+ * {@link ESLShareBaseAction} implementation, that invokes the native sharing mechanism of Web Share API
+ */
 @ESLShareBaseAction.register
 export class ESLShareNativeAction extends ESLShareBaseAction {
   public static override readonly is: string = 'native';

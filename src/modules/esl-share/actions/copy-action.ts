@@ -3,7 +3,7 @@ import {ESLEventUtils} from '../../esl-utils/dom/events';
 
 import type {ESLShareButton} from '../core/esl-share-button';
 
-/** Copy to clipboard action class for share buttons {@link ESLShareButton} */
+/** Copy to clipboard {@link ESLShareBaseAction} implementation */
 @ESLShareBaseAction.register
 export class ESLShareCopyAction extends ESLShareBaseAction {
   public static override readonly is: string = 'copy';

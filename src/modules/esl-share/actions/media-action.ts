@@ -2,15 +2,18 @@ import {ESLShareUrlGenericAction} from './url-generic-action';
 
 import type {ESLShareButton} from '../core/esl-share-button';
 
-/** Action class for share buttons {@link ESLShareButton} via a link to share on a social media */
+/**
+ * Share using nested window with social media url {@link ESLShareBaseAction} implementation.
+ * Applicable to the most of social media (e.g. Twitter, Facebook, LinkedIn, etc.)
+ */
 @ESLShareUrlGenericAction.register
 export class ESLShareMediaAction extends ESLShareUrlGenericAction {
   public static override readonly is: string = 'media';
 
   /**
-   * Window features that apply to `window.open()`.
-   * These features include options such as the window's default size and position,
-   * whether or not to open a minimal popup window, and so forth.
+   * Window features that are applicable to window.open()
+   * include options such as the default size and position of the window,
+   * whether to open a minimal popup window, and more.
    * */
   public static FEATURES: Record<string, number> = {
     scrollbars: 0,
