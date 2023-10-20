@@ -35,6 +35,7 @@ import {
   ESLAnimate,
   ESLAnimateMixin,
   ESLShare,
+  ESLShareConfig,
   ESLRelatedTarget
 } from '@exadel/esl/modules/all';
 
@@ -110,8 +111,12 @@ ESLTooltip.register();
 ESLAnimate.register();
 ESLAnimateMixin.register();
 
-ESLShare.config(() => fetch('/assets/share/config.json').then((response) => response.json()));
-ESLShare.register();
-
 // Register ESL Mixins
 ESLRelatedTarget.register();
+
+// Share component loading
+(async (): Promise<void> => {
+  await import (/* webpackChunkName: 'esl-share/buttons' */'@exadel/esl/modules/esl-share/buttons/all');
+  await ESLShareConfig.set(() => fetch('/assets/share/config.json').then((response) => response.json()));
+  ESLShare.register();
+})();
