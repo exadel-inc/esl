@@ -43,6 +43,7 @@ export class ESLSharePopup extends ESLTooltip {
     return ESLSharePopup.create();
   }
 
+  /** Hashstring with a list of buttons already rendered in the popup */
   protected _list: string = '';
 
   /**
@@ -59,21 +60,21 @@ export class ESLSharePopup extends ESLTooltip {
     return result;
   }
 
-  /** Checks that the button list was rendered previously. */
-  protected isEqualList(config: ESLShareButtonConfig[]): boolean {
+  /** Checks that the button list from the config was already rendered in the popup. */
+  protected isEqual(config: ESLShareButtonConfig[]): boolean {
     return stringifyButtonsList(config) === this._list;
   }
 
   /** Appends a button to the popup. */
   @bind
   protected appendButton(btnCfg: ESLShareButtonConfig): void {
-    const btn = ESLShareButton.create(btnCfg);
+    const btn = ESLShareButton.create(btnCfg.name);
     btn && this.appendChild(btn);
   }
 
   /** Appends buttons from the list to the popup. */
   protected appendButtonsFromList(config: ESLShareButtonConfig[]): void {
-    if (this.isEqualList(config)) return;
+    if (this.isEqual(config)) return;
     this.innerHTML = '';
     config.forEach(this.appendButton);
     memoize.clear(this, '$arrow');

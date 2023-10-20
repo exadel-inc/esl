@@ -11,8 +11,6 @@ export interface ESLShareButtonConfig {
   action: string;
   /** HTML content of the share icon */
   icon: string;
-  /** Color of the icon background (the value - CSS data type represents a color) */
-  iconBackground: string;
   /**
    * URL link (with placeholders) to share. Can contain the following placeholders:
    * - `{u}` or `{url}` - URL to share (`shareUrl` property on the {@link ESLShareButton} instance)

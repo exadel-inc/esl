@@ -89,7 +89,7 @@ export class ESLShare extends ESLBaseElement {
   /** Appends buttons to the share component. */
   protected appendButtons(): void {
     this.buttonsConfig.forEach((cfg) => {
-      const btn = ESLShareButton.create(cfg);
+      const btn = ESLShareButton.create(cfg.name);
       btn && this.appendChild(btn);
     });
   }
