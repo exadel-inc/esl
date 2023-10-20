@@ -2,7 +2,7 @@ import {ESLBaseElement} from '../../esl-base-element/core';
 import {isEqual} from '../../esl-utils/misc/object/compare';
 import {attr, bind, boolAttr, jsonAttr, listen, memoize, prop} from '../../esl-utils/decorators';
 import {ESLShareButton} from './esl-share-button';
-import {ESLSharePopupTrigger} from './esl-share-trigger';
+import {ESLSharePopupTrigger} from './esl-share-popup-trigger';
 import {ESLShareConfig} from './esl-share-config';
 
 import type {ESLSharePopupActionParams} from './esl-share-popup';
@@ -110,7 +110,7 @@ export class ESLShare extends ESLBaseElement {
   }
 
   @listen({event: 'change', target: ESLShareConfig.instance})
-  protected onConfigChange(): void {
+  protected _onConfigChange(): void {
     const {buttonsConfig} = this;
     memoize.clear(this, 'buttonsConfig');
     if (isEqual(this.buttonsConfig, buttonsConfig)) return;
