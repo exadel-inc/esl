@@ -24,7 +24,7 @@ export class ESLShareButton extends ESLBaseElement {
     const $button = document.createElement(this.is) as InstanceType<T>;
     if (buttonName) {
       $button.name = buttonName;
-      $button.initContent();
+      $button.initIcon();
     }
     return $button;
   }
@@ -46,6 +46,9 @@ export class ESLShareButton extends ESLBaseElement {
 
   /** Additional params to pass into a button (can be used by share actions) */
   @jsonAttr() public additional: Record<string, any>;
+
+  /** Marker to render default icon inside button on init */
+  @boolAttr() public defaultIcon: boolean;
 
   /** Marker of availability of share button */
   @boolAttr() public unavailable: boolean;
@@ -116,6 +119,7 @@ export class ESLShareButton extends ESLBaseElement {
   protected init(): void {
     if (this.ready) return;
 
+    if (this.defaultIcon) this.initIcon();
     this.initA11y();
     this.updateAction();
     this.toggleAttribute('ready', true);
@@ -130,7 +134,7 @@ export class ESLShareButton extends ESLBaseElement {
   }
 
   /** Initializes the button content */
-  protected initContent(): void {
+  protected initIcon(): void {
     if (!this.config) return;
     const {title, icon} = this.config;
     this.title = title;
