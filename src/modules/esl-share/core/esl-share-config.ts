@@ -2,7 +2,7 @@ import {decorate, memoize} from '../../esl-utils/decorators';
 import {microtask} from '../../esl-utils/async/microtask';
 import {SyntheticEventTarget} from '../../esl-utils/dom/events/target';
 
-/** {@link ESLShareConfigShape} provider type definition */
+/** {@link ESLShareConfig} provider type definition */
 export type ESLShareConfigProviderType = () => Promise<ESLShareConfig>;
 
 /** The definition of the sharing button */
@@ -89,10 +89,8 @@ export class ESLShareConfig extends SyntheticEventTarget {
    */
   protected static append(cfg: ESLShareConfig): ESLShareConfig {
     const {instance} = ESLShareConfig;
-    if (cfg) {
-      cfg.buttons.forEach((button) => instance.appendButton(button));
-      cfg.groups.forEach((group) => instance.appendGroup(group));
-    }
+    if (cfg?.groups) cfg.groups.forEach(instance.appendGroup, instance);
+    if (cfg?.buttons) cfg.buttons.forEach(instance.appendButton, instance);
     return instance;
   }
 
