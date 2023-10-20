@@ -132,13 +132,12 @@ export class ESLShareButton extends ESLBaseElement {
   /** Initializes the button content */
   protected initContent(): void {
     if (!this.config) return;
-    const {title, icon, iconBackground} = this.config;
-    const $icon = document.createElement('span');
-    $icon.title = title;
+    const {title, icon} = this.config;
+    this.title = title;
+    this.insertAdjacentHTML('beforeend', icon);
+    const $icon = this.firstElementChild as HTMLElement;
+    if ($icon?.tagName !== 'svg') return;
     $icon.classList.add('esl-share-icon');
-    $icon.innerHTML = icon;
-    iconBackground && $icon.setAttribute('style', `background-color:${iconBackground};`);
-    this.appendChild($icon);
   }
 
   /** Does an action to share */
