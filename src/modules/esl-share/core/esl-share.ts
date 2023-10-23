@@ -10,7 +10,8 @@ import type {ESLSharePopupActionParams} from './esl-share-popup';
  * ESLShare
  * @author Dmytro Shovchko
  *
- * ESLShare is a custom element to dynamically draw {@link ESLShareButton}s using simplified shared config
+ * ESLShare is a custom element to dynamically draw {@link ESLShareList}
+ * or {@link ESLSharePopupTrigger} depending on the specified mode
  */
 export class ESLShare extends ESLBaseElement {
   public static override is = 'esl-share';

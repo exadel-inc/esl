@@ -7,10 +7,10 @@ import {ESLShareConfig} from './esl-share-config';
 import type {ESLShareButtonConfig} from './esl-share-config';
 
 /**
- * ESLShare
+ * ESLShareList
  * @author Dmytro Shovchko
  *
- * ESLShare is a custom element to dynamically draw {@link ESLShareButton}s using simplified shared config
+ * ESLShareList is a custom element to dynamically draw {@link ESLShareButton}s using simplified shared config
  */
 export class ESLShareList extends ESLBaseElement {
   public static override is = 'esl-share-list';
