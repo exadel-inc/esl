@@ -74,7 +74,7 @@
     "lint:css": "stylelint \"src/**/*.less\" \"pages/src/**/*.less\"",
     "prepare": "husky install && npm run build",
     "preversion": "npm test",
-    "postversion": "npm run version -w pages",
+    "postversion": "npm run version --ws",
     "fix:less": "stylelint --fix \"**/*.less\""
   },
   "dependencies": {
