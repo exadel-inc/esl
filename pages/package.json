@@ -20,9 +20,7 @@
     "build:ts": "webpack --mode=production",
     "build:less": "lessc \"src/localdev.less\" \"dist/bundles/localdev.css\" --source-map=dist/bundles/localdev.css.map",
     "build:eleventy": "eleventy -- --env=production",
-    "build:analyzer": "webpack --mode=production --profile --json ../.report/stats.json && webpack-bundle-analyzer ../.report/stats.json dist/bundles -s gzip -m static -r ../.report/stats.html",
-    "version": "node ../build/bump.js",
-    "postversion": "cd .. && npm update @exadel/eslint-plugin-esl"
+    "build:analyzer": "webpack --mode=production --profile --json ../.report/stats.json && webpack-bundle-analyzer ../.report/stats.json dist/bundles -s gzip -m static -r ../.report/stats.html"
   },
   "dependencies": {
     "@11ty/eleventy": "^2.0.1",
