@@ -20,11 +20,11 @@ export class ESLShareButton extends ESLBaseElement {
   public static observedAttributes = ['action', 'name'];
 
   /** Creates an instance of the ESLShareButton */
-  public static override create<T extends typeof ESLShareButton>(this: T, cfg?: ESLShareButtonConfig): InstanceType<T> {
+  public static override create<T extends typeof ESLShareButton>(this: T, buttonName?: string): InstanceType<T> {
     const $button = document.createElement(this.is) as InstanceType<T>;
-    if (cfg) {
-      $button.name = cfg.name;
-      $button.initContent();
+    if (buttonName) {
+      $button.name = buttonName;
+      $button.initIcon();
     }
     return $button;
   }
@@ -46,6 +46,9 @@ export class ESLShareButton extends ESLBaseElement {
 
   /** Additional params to pass into a button (can be used by share actions) */
   @jsonAttr() public additional: Record<string, any>;
+
+  /** Marker to render default icon inside button on init */
+  @boolAttr() public defaultIcon: boolean;
 
   /** Marker of availability of share button */
   @boolAttr() public unavailable: boolean;
@@ -116,6 +119,7 @@ export class ESLShareButton extends ESLBaseElement {
   protected init(): void {
     if (this.ready) return;
 
+    if (this.defaultIcon) this.initIcon();
     this.initA11y();
     this.updateAction();
     this.toggleAttribute('ready', true);
@@ -130,15 +134,14 @@ export class ESLShareButton extends ESLBaseElement {
   }
 
   /** Initializes the button content */
-  protected initContent(): void {
+  protected initIcon(): void {
     if (!this.config) return;
-    const {title, icon, iconBackground} = this.config;
-    const $icon = document.createElement('span');
-    $icon.title = title;
+    const {title, icon} = this.config;
+    this.title = title;
+    this.innerHTML = icon;
+    const $icon = this.firstElementChild as HTMLElement;
+    if ($icon?.tagName !== 'svg') return;
     $icon.classList.add('esl-share-icon');
-    $icon.innerHTML = icon;
-    iconBackground && $icon.setAttribute('style', `background-color:${iconBackground};`);
-    this.appendChild($icon);
   }
 
   /** Does an action to share */

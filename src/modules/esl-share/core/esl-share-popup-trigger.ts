@@ -92,9 +92,9 @@ export class ESLSharePopupTrigger extends ESLTrigger {
 
 declare global {
   export interface ESLLibrary {
-    ShareTrigger: typeof ESLSharePopupTrigger;
+    SharePopupTrigger: typeof ESLSharePopupTrigger;
   }
   export interface HTMLElementTagNameMap {
-    'esl-share-trigger': ESLSharePopupTrigger;
+    'esl-share-popup-trigger': ESLSharePopupTrigger;
   }
 }

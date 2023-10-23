@@ -27,10 +27,6 @@ export function createButtonMatchingTestPlan(name: string, action: string): () =
       expect(ESLShareConfig.instance.buttons[0]).toHaveProperty('icon');
     });
 
-    test('button from config has iconBackground property', () => {
-      expect(ESLShareConfig.instance.buttons[0]).toHaveProperty('iconBackground');
-    });
-
     test('button from config has link property', () => {
       expect(ESLShareConfig.instance.buttons[0]).toHaveProperty('link');
     });
