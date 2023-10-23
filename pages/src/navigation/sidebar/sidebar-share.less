@@ -3,9 +3,6 @@
 esl-d-sidebar {
   .sidebar-nav-item-share {
     --esl-share-icon-size: 32px;
-    display: flex;
-    align-items: center;
-
     visibility: visible;
     opacity: 1;
     transition:
@@ -24,6 +21,11 @@ esl-d-sidebar {
     }
 
     .esl-share {
+      display: flex;
+      align-items: center;
+    }
+
+    .esl-share-list {
       max-width: 100%;
       flex: 0 0 auto;
       margin: 0 -5px; // Offset for facebook icon
