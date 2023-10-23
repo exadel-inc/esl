@@ -114,7 +114,7 @@
     "prettier": "^3.0.3",
     "rimraf": "^5.0.5",
     "semantic-release": "^22.0.5",
-    "stylelint": "^15.10.3",
+    "stylelint": "^15.11.0",
     "stylelint-prettier": "^4.0.2",
     "ts-loader": "^9.5.0",
     "typescript": "5.2.2",
