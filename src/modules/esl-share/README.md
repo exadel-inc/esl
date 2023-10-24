@@ -215,18 +215,26 @@ The principle of cascading is similar to CSS variables. The value is searched fr
  - `share-title` - title to share (current document title by default)
  - `ready` - ready state marker
 
+#### Observing changes in configuration
+
+The component is notified of any configuration changes. And if during the check it turns out that the list of buttons inside the component changes, then the component updates its content. Accordingly, in this case, the component itself also throws an event about its own content change.
+
 #### Public API
 
  - `buttonsConfig` - getter that returns config of buttons specified by the list attribute
 
 #### Events
 
- - `esl:share:ready` - event to dispatch on ready state of ESLShareList
+ - `esl:share:changed` - event to dispatch on change of ESLShareList
 
 ### ESLSharePopup
 
 This element is based on [ESLPopup](../esl-popup/README.md) element and exists in a single instance. Its shared instance adds directly to the document's body when any of `ESLSharePopupTrigger` requires showing this popup. It removes from the document's body on hide action. 
 `ESLSharePopup` renders buttons from the list on show action. If an `ESLSharePopup` element with the desired set of buttons already exists in the document body, the existing one will be reused. 
+
+#### Observing changes in configuration
+
+The popup is notified of any configuration changes. In this case, the component is simply hidden if it is in an open state, i.e. there is a set of rendered buttons inside. So, when you open it again, it will simply redraw the new buttons inside.
 
 #### Public API
 
