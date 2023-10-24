@@ -25,75 +25,124 @@ The second option to use the share component is to define the component configur
 To use this option it is necessary to set the configuration for the list of buttons and then register the item
 `ESLShare.register();`
 
-### Binding a component configuration
+### Configuring the ESLShare components
 
-If you want to define the behavior of the share components only by specifying a name or a group of buttons, you will have to specify the configuration of the components.
+ESLShare provides the ability to setup a component configuration globally. 
+This means that you do not need to configure each button separately. 
+You can set buttons and groups config globally and then it will be available for each `esl-share`, `esl-share-list`, or `esl-share-popup-trigger`. 
+All of mentioned components use the same configuration instance stored in `ESLShareConfig.instance`.
 
-There are several different ways to do this. And you can easily determine the most suitable way for you.
-
-The first option is an asynchronous way to load the config. You prepare a configuration file or service in advance that will return a configuration object. You just should write the provider function of the config
-```
-() => fetch('/assets/share/config.json').then((response) => response.json())
-```
-and setup configuration in this manner
-```
-ESLShareConfig.set(() => fetch('/assets/share/config.json').then((response) => response.json()));
-```
-or can use the alias
-```
-ESLShare.config(() => fetch('/assets/share/config.json').then((response) => response.json()));
-```
-
-The following option is very similar to the first, but instead of an asynchronous configuration provider function, you use a pre-prepared configuration object.
-```
-ESLShareConfig.create(myShareConfigurationObject);
-```
-or can use 
-```
-ESLShareConfig.set(myShareConfigurationObject);
+To add a single button, group to the configuration, you can use the `append` method of the configuration:
+```typescript
+// Add 'facebook' button to the configuration
+ESLShareConfig.append({
+   name: 'facebook',
+   action: 'media',
+   // ...
+});
+// Add 'mygroup' group to the configuration
+ESLShareConfig.append({
+   name: 'mygroup',
+   list: 'facebook twitter linkedin'
+});
 ```
 
-The difference between these two methods is obtained only in the fact that in the first case, the configuration instance is returned and in the second case promise is returned.
-
-There is also a third way to set the configuration. You do not need to prepare an object with the definition of the configuration in advance. You just need to create an empty configuration object and add the commands you need. You can also add groups to the configuration. For example
-```
-ESLShareConfig.create().add(
-  [
-    facebook,
-    linkedin,
-    copy
-  ],
-  [
-    {name: 'mygroup', list: 'facebook linkedin copy'}
-  ]
-);
-```
-
-Thus, we added 3 buttons `facebook`, `linkedin`, `copy` and described the `mygroup` group containing these buttons. You can prepare the button configurations yourself, or you can import them from the `/src/modules/esl-share/config/` directory. There we have prepared for you in advance about 20 configurations for various actions to share.
-
-You can also override the settings of any buttons or groups in the runtime.
-For example, a different set of share buttons for the Japanese locale and override the copy button.
-```
-ESLShare.config(() => fetch('/assets/share/config.json').then((response) => response.json()))
-  .then((config) => {
-    if (locale === 'ja') config.add([anotherCopy], [{name: 'mygroup', list: 'hatena linkedin copy'}]);
-  });
+The `ESLShareConfig.append` accepts a list of buttons or groups as well:
+```typescript
+ESLShareConfig.append([
+  {
+    name: 'facebook',
+    action: 'media',
+    // ...
+  },
+  {
+    name: 'linkedin',
+    action: 'media',
+    // ...
+  }
+]);
 ```
 
-In the example above, the configuration will be received by an asynchronous request, and then, if the condition is met, the button and the group `mygroup` will be inserted or replaced (if the configuration for an entity with the same name already exists).
+The `esl-share` module provides an out of the box configuration for the most popular social networks and sharing options.
+To use it, you need to import required configuration from the `esl-share/buttons` directory it will automatically register in the `ESLShareConfig.instance`:
 
-### ESLShare config
+```typescript
+// Register 'facebook' button ootb configuration
+import '@exadel/esl/modules/esl-share/buttons/facebook';
 
-Above it was told and shown how you can set the configuration of the component. But what is a configuration object?
+// Register all buttons ootb configurations
+import '@exadel/esl/modules/esl-share/buttons/all';
+```
 
-Config is a javascript object that contains two properties. The first one is `buttons` describing the configuration of the buttons. The second is `groups` which configures the groups. Both properties are arrays containing objects describing buttons and groups respectively.
+Note: configuration of the button or group appends to the existing configuration but overrides the existing one if the button or group with the same name already exists.
+
+In case you need just a littlle fix up the existing configuration you can use ootb button config and then override it:
+
+```typescript
+import {facebook} from '@exadel/esl/modules/esl-share/buttons/facebook';
+// Change icon of the facebook button
+ESLShareConfig.append({
+  ...facebook,
+  icon: '<svg>...</svg>'
+});
+```
+
+You can also override the configuration of the button or group in the runtime. 
+
+The `esl-share` module supports configuration by the `ESLShareConfigInit` object
+```typescript
+export interface ESLShareConfigInit {
+  /** List of share buttons configurations */
+  buttons?: ESLShareButtonConfig[];
+  /** List of share buttons groups configurations */
+  groups?: ESLShareGroupConfig[];
+}
+```
+
+The `ESLShareConfigInit` object can be passed to the `ESLShareConfig.set` method.
+It is use full when you have group you configuration in a single json file, or generate it in the runtime 
+(depends on the user's locale, for example).
+
+```typescript
+import config from './config.json';
+ESLShareConfig.set(config);
+```
+
+The `ESLShareConfig.set` method accepts a function that returns a promise of `ESLShareConfigInit` object 
+or a Promise of the `ESLShareConfigInit` object:
+
+```typescript
+const configProvider = () => {
+  const buttons = [];
+  if (allowPrint) buttons.push(print);
+  if (allowCopy) buttons.push(copy);
+  return {buttons};
+};
+// ...
+ESLShareConfig.set(configProvider);
+```
+
+```typescript
+// Retrive config from the server based on the user's locale
+const countryCode = document.;
+ESLShareConfig.set(fetch(`/assets/share/config.${countryCode}.json`).then((response) => response.json()));
+```
+
+
+#### ESLShare config objects
+
+Above it was told and shown how you can set the configuration of the component. 
+But how does the configuration for the button or group look like?
+
+As was mentioned above the cumulative `ESLShareConfigInit` config object consists of two properties: 
+ - `buttons` - array of button configurations
+ - `groups` - array of group configurations.
 
 An example of a description of the button configuration:
 ```json
 {
     "action": "media",
     "icon": "\u003csvg xmlns\u003d\"http://www.w3.org/2000/svg\" aria-hidden\u003d\"true\" focusable\u003d\"false\" role\u003d\"presentation\" viewBox\u003d\"0 0 27.99 28\"\u003e\u003cpath d\u003d\"M23 17.11l.55-4.24h-4.2v-2.71c0-1.23.34-2.06 2.1-2.06h2.25V4.29a31.62 31.62 0 00-3.28-.16c-3.24 0-5.46 2-5.46 5.61v3.13h-3.63v4.24H15V28h4.39V17.11z\"/\u003e\u003c/svg\u003e",
-    "iconBackground": "#3c5996",
     "link": "//www.facebook.com/sharer.php?u\u003d{u}",
     "name": "facebook",
     "title": "Facebook"
@@ -104,7 +153,6 @@ or for example the configuration of the copy button
 {
     "action": "copy",
     "icon": "\u003csvg xmlns\u003d\"http://www.w3.org/2000/svg\" aria-hidden\u003d\"true\" focusable\u003d\"false\" role\u003d\"presentation\" viewBox\u003d\"0 0 28 28\"\u003e\u003cpath d\u003d\"M17 9.69l-7.43 7.43 1.18 1.18 7.43-7.43L17 9.69z\"/\u003e\u003cpath d\u003d\"M4.31 17.8c-.481.481-.48 1.29.00138 1.77l4.02 4.02c.481.481 1.29.483 1.77.00138l4.95-4.95c.481-.481.481-1.29-7e-7-1.78l-4.02-4.02c-.481-.481-1.29-.481-1.78 0l-4.95 4.95zm1.47.887l4.36-4.36 3.44 3.44-4.36 4.36-3.44-3.44zm7-9.37c-.481.481-.481 1.29 2.8e-7 1.78l4.02 4.02c.481.481 1.29.481 1.78 0l4.95-4.95c.481-.481.48-1.29-.00138-1.77l-4.02-4.02c-.481-.481-1.29-.483-1.77-.00138l-4.95 4.95zm1.47.889l4.36-4.36 3.44 3.44-4.36 4.36-3.44-3.44z\"/\u003e\u003c/svg\u003e",
-    "iconBackground": "#a0522d",
     "link": "",
     "name": "copy",
     "title": "Copy",
@@ -113,16 +161,16 @@ or for example the configuration of the copy button
     }
 }
 ```
+
 What the properties of the button description object mean:
  - `action` - the name of the action to be performed by clicking on the button (recall that the action must be registered, the import was executed)
  - `icon` - the HTML content of the share icon
- - `iconBackground` - the color of the icon background (the value -  CSS data type represents a color). If you do not need to set the color, set the value to `transparent`
  - `link` - URL link (with placeholders) to share on a social network. Can contain the next placeholders:
     - {u} or {url} - URL to share on social network (shareUrl property on the ESLShareButton instance)
     - {t} or {title} - title to share on social network (shareTitle property on the ESLShareButton instance)
  - `name` - string identifier of the button (no spaces)
  - `title` - button title
- - `additional` - additional params to pass into a button (can be used by share actions)
+ - `additional` - optional additional params to pass into a button (can be used by share actions)
 
 The configuration object of the group is simple, consisting of two properties:
  - `name` - string identifier of the group (no spaces)
@@ -161,6 +209,13 @@ ESLShare provides several actions available for you to use:
  - `print` - action for printing a page
 
 For using actions you should import the required actions before setting up the configuration and registering ESLShare components. When an unregistered action is specified for a button, the button will not be able to perform the share action and will be marked as 'unavailable'. The same behavior occurs if the action is unavailable on the user's device, e.g. native action on the user's desktop.
+
+Note: if default configuration does not used, you should import the required actions manually:
+```typescript
+  import '@exadel/esl/modules/esl-share/actions/copy';
+  import '@exadel/esl/modules/esl-share/actions/media';
+```
+
 
 ### ESLShareButton
 
