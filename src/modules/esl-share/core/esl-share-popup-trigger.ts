@@ -35,7 +35,7 @@ export class ESLSharePopupTrigger extends ESLTrigger {
   /** Default initial params to pass into the popup */
   @jsonAttr<ESLSharePopupActionParams>({defaultValue: {
     position: 'top',
-    hideDelay: 220
+    hideDelay: 300
   }})
   public popupInitialParams: ESLSharePopupActionParams;
 
