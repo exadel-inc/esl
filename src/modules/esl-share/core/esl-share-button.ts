@@ -116,13 +116,13 @@ export class ESLShareButton extends ESLBaseElement {
   }
 
   /** Initializes the button */
-  protected init(): void {
-    if (this.ready) return;
+  protected init(force?: boolean): void {
+    if (this.ready && !force) return;
 
     if (this.defaultIcon) this.initIcon();
     this.initA11y();
     this.updateAction();
-    this.toggleAttribute('ready', true);
+    this.$$attr('ready', true);
   }
 
   /** Sets initial a11y attributes */
@@ -185,7 +185,7 @@ export class ESLShareButton extends ESLBaseElement {
     const {config} = this;
     memoize.clear(this, 'config');
     if (isEqual(this.config, config)) return;
-    this.updateAction();
+    this.init(true);
     this.$$fire(this.SHARE_BUTTON_CHANGED_EVENT, {bubbles: false});
   }
 }
