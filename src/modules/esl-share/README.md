@@ -14,7 +14,7 @@ The ESL Share component provides the capability of integrating into a web page a
 
 `<esl-share-list>` is a custom element that is used for showing the list of social media buttons. The element's content (a set of `<esl-share-button>`) is created automatically by specifying a list of networks or groups to display. Available social networks and their groups are listed in the configuration file.
 
-`<esl-share-popup>` is a custom element used as a wrapper for content that can be displayed as a pop-up element. The content of the element consists of `<esl-share-button>`. `<esl-share-popup>` exists in a single instance and it refreshes its content every time its state changes to the "open" state.
+`<esl-share-popup>` is a custom element used as a wrapper for content that can be displayed as a pop-up element. The content of the element consists of `<esl-share-button>`. `<esl-share-popup>` exists in a single instance and it refreshes its content every time its state changes to "open".
 
 `<esl-share-popup-trigger>` is a custom element, that allows triggering `<esl-share-popup>` instance state changes.
 
@@ -28,13 +28,13 @@ Now you need to configure the share buttons and their groups (if you plan to use
 
 ***Notice. If you don't plan to use any own custom button settings, you might be fine with the configuration from our library. Simply import the button you need from the `esl-share/buttons` folder. An additional bonus will be that in this case there is no need to register the action - the button will perform it on its own.***
 
-Next, you have several options for using the share component. The first option is to use only the `<esl-share-button>`. In this case, you simply add this element to the markup and set the required configuration with the attributes. The element needs to be registered with `ESLShareButton.register()`. And that's it.
+Next, you have several options for using the share component. The first option is to use only the `<esl-share-button>`. In this case, you simply add this element to the markup and set the required configuration using attributes. The element needs to be registered with `ESLShareButton.register()`. And that's it.
 
 ```html
 <esl-share-button name="facebook" default-icon></esl-share-button>
 ```
 
-The second option to use the share component is to define the component configuration and bind it to the `<esl-share-list>`. After that, all you have to do is to add an element with names or groups of social networks to the `ESLShareList` markup. The item content, consisting of a set of buttons, will be generated automatically. It's the same as you would add each button to the markup and prescribe its configuration manually. To use this option it is necessary to set the configuration for the list of buttons and then register the element
+The second option to use the share component is to define the component configuration and bind it to the `<esl-share-list>`. After that, all you have to do is to add an element with names or groups of social networks to the `ESLShareList` markup. The item content, consisting of a set of buttons, will be generated automatically. It's the same as adding each button to the markup and prescribe its configuration manually. To use this option it is necessary to set the configuration for the list of buttons and then register the element.
 `ESLShareList.register()` (it will register `ESLShareButton` automatically).
 
 ```html
@@ -217,7 +217,7 @@ The principle of cascading is similar to CSS variables. The value is searched fr
 
 #### Observing changes in configuration
 
-The component is notified of any configuration changes. And if during the check it turns out that the list of buttons inside the component changes, then the component updates its content. Accordingly, in this case, the component itself also throws an event about its own content change.
+The component is notified of any configuration changes. And, if during the check it turns out that the list of buttons inside the component changes, the component updates its content. Accordingly, in this case, the component itself also throws an event about its own content change.
 
 #### Public API
 
@@ -267,7 +267,7 @@ A trigger element is based on [ESLTrigger](../esl-trigger/README.md) to activate
 
 There are two modes available to render buttons.
 
-There are two modes available to render buttons. In list mode, the `ESLShareList`` is drawn inside the component as a list. Nothing special. 
+There are two modes available to render buttons. In list mode, the `ESLShareList` is drawn inside the component as a list. Nothing special. 
 
 Similarly, in popup mode, the `ESLSharePopupTrigger`` is drawn inside component and shows a popup with the specified list of buttons.
 
