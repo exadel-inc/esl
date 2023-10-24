@@ -104,7 +104,7 @@ import '@exadel/esl/modules/esl-share/buttons/all';
 
 Note: configuration of the button or group appends to the existing configuration but overrides the existing one if the button or group with the same name already exists.
 
-In case you need just a littlle fix up the existing configuration you can use ootb button config and then override it:
+In case you need just a little fix up the existing configuration you can use ootb button config and then override it:
 
 ```typescript
 import {facebook} from '@exadel/esl/modules/esl-share/buttons/facebook';
@@ -128,7 +128,7 @@ export interface ESLShareConfigInit {
 ```
 
 The `ESLShareConfigInit` object can be passed to the `ESLShareConfig.set` method.
-It is use full when you have group you configuration in a single json file, or generate it in the runtime 
+It is usefull when you have group you configuration in a single json file, or generate it in the runtime 
 (depends on the user's locale, for example).
 
 ```typescript
