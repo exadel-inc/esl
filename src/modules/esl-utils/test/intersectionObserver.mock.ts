@@ -1,13 +1,31 @@
 import {ESLEventUtils} from '../../esl-event-listener/core/api';
-import {bind} from '../decorators/bind';
+import {wrap} from '../misc/array';
+import {Rect} from '../dom/rect';
 
 let original: typeof IntersectionObserver;
-export class IntersectionObserverMock implements IntersectionObserver {
+let lastMock: IntersectionObserverMock;
 
-  public constructor(public callback: IntersectionObserverCallback) {}
+export class RectMock extends Rect implements DOMRect {
+  public constructor();
+  public constructor(x: number, y: number, width: number, height: number);
+  public constructor(...args: number[]) {
+    if (args.length === 0) super(0, 0, 0, 0);
+    else super(...args);
+  }
+  public toJSON(): DOMRect {
+    return this;
+  }
+}
+
+export class IntersectionObserverMock implements IntersectionObserver {
+  public constructor(public callback: IntersectionObserverCallback) {
+    this._onObserve = this._onObserve.bind(this);
+    this.observe = jest.fn(this.observe);
+    this.unobserve = jest.fn(this.unobserve);
+    this.disconnect = jest.fn(this.disconnect);
+  }
 
   public root: Document | Element | null = null;
-
   public rootMargin: string = '';
 
   public get thresholds(): number[] {
@@ -18,10 +36,11 @@ export class IntersectionObserverMock implements IntersectionObserver {
     return [];
   }
 
-  @bind
   private _onObserve(e: CustomEvent): void {
-    const {intersectionRatio, isIntersecting} = e.detail;
-    this.callback([{intersectionRatio, target: e.target, isIntersecting}] as IntersectionObserverEntry[], this);
+    const entries =  wrap(e.detail).map(
+      (entry) => IntersectionObserverMock.createEntry(e.target as Element, entry)
+    );
+    this.callback(entries, this);
   }
 
   public observe(element: Element): void {
@@ -32,17 +51,44 @@ export class IntersectionObserverMock implements IntersectionObserver {
     element.removeEventListener('intersection', this._onObserve);
   }
 
-  public disconnect = jest.fn();
+  public disconnect(): void {}
 
-  public static trigger($el: Element, cfg: Partial<IntersectionObserverEntryInit>): void {
-    ESLEventUtils.dispatch($el, 'intersection', {detail: cfg});
+  public static createEntry(
+    target: Element,
+    init: Partial<IntersectionObserverEntry>
+  ): IntersectionObserverEntry {
+    return {
+      // Defaults
+      target,
+      intersectionRect: new RectMock(),
+      rootBounds: new RectMock(),
+      boundingClientRect: new RectMock(),
+      isIntersecting: false,
+      intersectionRatio: 0,
+      time: Date.now(),
+      // Custom
+      ...init
+    };
+  }
+
+  public static trigger(
+    $el: Element,
+    detail: Partial<IntersectionObserverEntryInit> | Partial<IntersectionObserverEntryInit>[]
+  ): void {
+    ESLEventUtils.dispatch($el, 'intersection', {detail});
   }
 
   public static mock(): void {
     original = window.IntersectionObserver;
-    window.IntersectionObserver = jest.fn((cb) => new IntersectionObserverMock(cb));
+    window.IntersectionObserver = jest.fn(
+      (cb) => (lastMock = new IntersectionObserverMock(cb))
+    );
   }
   public static unmock(): void {
     window.IntersectionObserver = original;
+  }
+
+  public static get lastInstance(): IntersectionObserverMock {
+    return lastMock;
   }
 }
