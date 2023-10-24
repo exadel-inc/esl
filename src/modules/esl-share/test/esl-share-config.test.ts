@@ -1,3 +1,4 @@
+import {promisifyTimeout} from '../../esl-utils/async/promise/timeout';
 import {ESLShareConfig} from '../core/esl-share-config';
 import type {ESLShareButtonConfig, ESLShareGroupConfig} from '../core/esl-share-config';
 
@@ -49,6 +50,16 @@ describe('ESLShareConfig tests', () => {
 
     test('ESLShareConfig.prototype.get(\'all\') resolves all buttons', () => {
       expect(instance.get('all')).toEqual(buttons);
+    });
+
+    test.each([
+      'allstart',
+      'middleallterm',
+      'endall',
+      'hello-all-1',
+      'group:all'
+    ])('ESLShareConfig.prototype.get(%s) does not resolves to all buttons as nonexistent', (name) => {
+      expect(instance.get(name)).toEqual([]);
     });
 
     test.each([
@@ -124,6 +135,79 @@ describe('ESLShareConfig tests', () => {
       instance.append(SAMPLE_GROUP_1);
       expect(instance.buttons.length).toBe(0);
       expect(instance.groups.length).toBe(1);
+    });
+  });
+
+
+  describe('ESLShareConfig notify about changes', () => {
+    const instance: ESLShareConfig = new (ESLShareConfig as any)();
+    const callback = jest.fn();
+
+    beforeEach(async () => {
+      callback.mockClear();
+      instance.clear();
+      await Promise.resolve();
+      instance.addEventListener(callback);
+    });
+    afterEach(() => instance.removeEventListener(callback));
+
+    test('ESLShareConfig.prototype.append notifies about buttons change', async () => {
+      instance.addEventListener(callback);
+      expect(callback).toBeCalledTimes(0);
+      instance.append(SAMPLE_BUTTON_1);
+      expect(callback).toBeCalledTimes(0);
+      await Promise.resolve();
+      expect(callback).toBeCalledTimes(1);
+    });
+
+    test('ESLShareConfig.prototype.append notifies about groups change', async () => {
+      instance.addEventListener(callback);
+      expect(callback).toBeCalledTimes(0);
+      instance.append(SAMPLE_GROUP_1);
+      expect(callback).toBeCalledTimes(0);
+      await Promise.resolve();
+      expect(callback).toBeCalledTimes(1);
+    });
+
+    test('ESLShareConfig.prototype.append notifies about buttons change', async () => {
+      instance.append([SAMPLE_BUTTON_1, SAMPLE_BUTTON_2]);
+      await Promise.resolve();
+      expect(callback).toBeCalledTimes(1);
+    });
+
+    test('ESLShareConfig.prototype.append notifies about groups change', async () => {
+      instance.append([SAMPLE_GROUP_1, SAMPLE_GROUP_2]);
+      await Promise.resolve();
+      expect(callback).toBeCalledTimes(1);
+    });
+
+    test('ESLShareConfig.prototype.append notifies about multiple change in macro-task once', async () => {
+      instance.append(SAMPLE_BUTTON_1);
+      instance.append(SAMPLE_GROUP_1);
+      instance.append(SAMPLE_BUTTON_2);
+      instance.append(SAMPLE_GROUP_2);
+      expect(callback).toBeCalledTimes(0);
+      await Promise.resolve();
+      expect(callback).toBeCalledTimes(1);
+    });
+
+    test('ESLShareConfig.prototype.append notifies about multiple change of separate tasks', async () => {
+      instance.append(SAMPLE_BUTTON_1);
+      await Promise.resolve();
+      expect(callback).toBeCalledTimes(1);
+      await promisifyTimeout(0);
+      instance.append(SAMPLE_GROUP_1);
+      await Promise.resolve();
+      expect(callback).toBeCalledTimes(2);
+    });
+
+    test('ESLShareConfig.prototype.append notifies about config reset', async () => {
+      instance.append(SAMPLE_BUTTON_1);
+      await Promise.resolve();
+      expect(callback).toBeCalledTimes(1);
+      instance.clear();
+      await Promise.resolve();
+      expect(callback).toBeCalledTimes(2);
     });
   });
 
