@@ -10,15 +10,15 @@ Authors: *Dmytro Shovchko*, *Alexey Stsefanovich (ala'n)*.
 
 The ESL Share component provides the capability of integrating into a web page a sharing mechanism of the page on social media platforms, such as Facebook, Twitter, and Pinterest. The available share actions depend on the device but might include the clipboard, email applications, websites, social media, etc.
 
-`ESLShareButton` is a custom element that is used for displaying the "Share on social media" button. It is intended to share the page using the action specified on the button.
+`<esl-share-button>` is a custom element that is used for displaying the "Share on social media" button. It is intended to share the page using the action specified on the button.
 
-`ESLShareList` is a custom element that is used for showing the list of social media buttons. The element's content (a set of `ESLShareButton`) is created automatically by specifying a list of networks or groups to display. Available social networks and their groups are listed in the configuration file.
+`<esl-share-list>` is a custom element that is used for showing the list of social media buttons. The element's content (a set of `<esl-share-button>`) is created automatically by specifying a list of networks or groups to display. Available social networks and their groups are listed in the configuration file.
 
-`ESLSharePopup` is a custom element used as a wrapper for content that can be displayed as a pop-up element. The content of the element consists of `ESLShareButton`. `ESLSharePopup` exists in a single instance and it refreshes its content every time its state changes to the "open" state.
+`<esl-share-popup>` is a custom element used as a wrapper for content that can be displayed as a pop-up element. The content of the element consists of `<esl-share-button>`. `<esl-share-popup>` exists in a single instance and it refreshes its content every time its state changes to the "open" state.
 
-`ESLSharePopupTrigger` is a custom element, that allows triggering `ESLSharePopup` instances state changes.
+`<esl-share-popup-trigger>` is a custom element, that allows triggering `<esl-share-popup>` instance state changes.
 
-`ESLShare` is a versatile element that can function as both a list and a pop-up element. Depending on the specified value of the "mode" attribute, either an `ESLShareList` or an `ESLSharePopupTrigger` is built inside. If you intend to use only one type of sharing component, it's not advisable to use this element in order to reduce the number of dependencies.
+`<esl-share>` is a versatile element that can function as both a list and a pop-up element. Depending on the specified value of the "mode" attribute, either an `<esl-share-list>` or an `<esl-share-popup-trigger>` is built inside. If you intend to use only one type of sharing component, it's not advisable to use this element in order to reduce the number of dependencies.
 
 ### Usage
 
@@ -28,14 +28,30 @@ Now you need to configure the share buttons and their groups (if you plan to use
 
 ***Notice. If you don't plan to use any own custom button settings, you might be fine with the configuration from our library. Simply import the button you need from the `esl-share/buttons` folder. An additional bonus will be that in this case there is no need to register the action - the button will perform it on its own.***
 
-Next, you have several options for using the share component. The first option is to use only the ESLShareButton. In this case, you simply add this element to the markup and set the required configuration with the attributes. The element needs to be registered with `ESLShareButton.register()`. And that's it.
+Next, you have several options for using the share component. The first option is to use only the `<esl-share-button>`. In this case, you simply add this element to the markup and set the required configuration with the attributes. The element needs to be registered with `ESLShareButton.register()`. And that's it.
 
-The second option to use the share component is to define the component configuration and bind it to the `ESLShareList`. After that, all you have to do is to add an element with names or groups of social networks to the `ESLShareList` markup. The item content, consisting of a set of buttons, will be generated automatically. It's the same as you would add each button to the markup and prescribe its configuration manually. To use this option it is necessary to set the configuration for the list of buttons and then register the element
+```html
+<esl-share-button name="facebook" default-icon></esl-share-button>
+```
+
+The second option to use the share component is to define the component configuration and bind it to the `<esl-share-list>`. After that, all you have to do is to add an element with names or groups of social networks to the `ESLShareList` markup. The item content, consisting of a set of buttons, will be generated automatically. It's the same as you would add each button to the markup and prescribe its configuration manually. To use this option it is necessary to set the configuration for the list of buttons and then register the element
 `ESLShareList.register()` (it will register `ESLShareButton` automatically).
 
-The third option for using the share component is the same as the previous one, only the list of buttons is shown inside the pop-up window. All actions are similar to the previous one, except that you add the `ESLSharePopupTrigger` element to the markup. The list of buttons that will be displayed in the pop-up window is set in the markup as a list of names and groups, absolutely identical to `ESLShareList`. To use this option it is necessary to set the configuration for the list of buttons and then register the element `ESLSharePopupTrigger.register()` (it will register `ESLShareButton` and `ESLSharePopup` automatically).
+```html
+<esl-share-list list="facebook linkedin mail copy"></esl-share-list>
+```
 
-The last option for using the share component includes the previous two. That is one element, but behaves differently. You add an `ESLShare` element to the markup, specify a list of buttons, and add the "mode" attribute, in which you specify in which of the modes ("list" or "popup") it should work, and that's it. To use this option it is necessary to set the configuration for the list of buttons and then register the element `ESLShare.register()` (it will register `ESLShareButton`, `ESLShareList`, `ESLSharePopup` and `ESLSharePopupTrigger` automatically).
+The third option for using the share component is the same as the previous one, only the list of buttons is shown inside the pop-up window. All actions are similar to the previous one, except that you add the `<esl-share-popup-trigger>` element to the markup. The list of buttons that will be displayed in the pop-up window is set in the markup as a list of names and groups, absolutely identical to `<esl-share-list>`. To use this option it is necessary to set the configuration for the list of buttons and then register the element `ESLSharePopupTrigger.register()` (it will register `ESLShareButton` and `ESLSharePopup` automatically).
+
+```html
+<esl-share-popup-trigger list="facebook linkedin mail copy"></esl-share-popup-trigger>
+```
+
+The last option for using the share component includes the previous two. That is one element, but behaves differently. You add an `<esl-share>` element to the markup, specify a list of buttons, and add the "mode" attribute, in which you specify in which of the modes ("list" or "popup") it should work, and that's it. To use this option it is necessary to set the configuration for the list of buttons and then register the element `ESLShare.register()` (it will register `ESLShareButton`, `ESLShareList`, `ESLSharePopup` and `ESLSharePopupTrigger` automatically).
+
+```html
+<esl-share list="facebook linkedin mail copy" mode="list"></esl-share>
+```
 
 ### Binding a component configuration
 
