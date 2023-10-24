@@ -11,4 +11,4 @@ export const hatena: ESLShareButtonConfig = {
   name: 'hatena',
   title: 'Hatena'
 };
-ESLShareConfig.instance.appendButton(hatena);
+ESLShareConfig.append(hatena);

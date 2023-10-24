@@ -11,4 +11,4 @@ export const print: ESLShareButtonConfig = {
   name: 'print',
   title: 'Print page'
 };
-ESLShareConfig.instance.appendButton(print);
+ESLShareConfig.append(print);
