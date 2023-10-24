@@ -1,10 +1,6 @@
 {
   "groups": [
     {
-      "name": "site",
-      "list": "facebook twitter linkedin telegram copy"
-    },
-    {
       "name": "demo",
       "list": "facebook twitter linkedin wykop copy"
     },
