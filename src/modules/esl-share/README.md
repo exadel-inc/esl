@@ -258,6 +258,10 @@ Note: if default configuration does not used, you should import the required act
  - `default-icon` - marker to render default icon inside button on init
  - `unavailable` - marker of availability of share button
 
+#### Observing changes in configuration
+
+The button component is notified of any configuration changes. The button will update its action if the configuration has changed. Also, the button will redraw its content if the button contains an instruction to render the default icon.
+
 #### Attributes cascading
 
 If you want to utilize URL and title overrides within any parts of the page to share using the `share-url` and `share-title` attributes, there's no need to write these attributes on each button. You can write them once on the root element of the part for which these values are valid. Alternatively, if you want to override the values for the entire document, you can set them on the body of the HTML document.
