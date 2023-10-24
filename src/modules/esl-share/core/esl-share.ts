@@ -29,7 +29,7 @@ export class ESLShare extends ESLBaseElement {
    * @returns Promise of the current config
    * @deprecated alias for ESLShareConfig.set(), will be removed soon
    */
-  public static readonly config = ESLShareConfig.append;
+  public static readonly config = ESLShareConfig.set;
 
   /** Default initial params to pass into the popup trigger */
   @jsonAttr<ESLSharePopupActionParams>({defaultValue: {
