@@ -11,4 +11,4 @@ export const line: ESLShareButtonConfig = {
   name: 'line',
   title: 'LINE'
 };
-ESLShareConfig.instance.appendButton(line);
+ESLShareConfig.append(line);

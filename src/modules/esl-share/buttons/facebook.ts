@@ -11,4 +11,4 @@ export const facebook: ESLShareButtonConfig = {
   name: 'facebook',
   title: 'Facebook'
 };
-ESLShareConfig.instance.appendButton(facebook);
+ESLShareConfig.append(facebook);

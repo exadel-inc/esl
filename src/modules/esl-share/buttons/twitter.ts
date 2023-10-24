@@ -11,4 +11,4 @@ export const twitter: ESLShareButtonConfig = {
   name: 'twitter',
   title: 'X'
 };
-ESLShareConfig.instance.appendButton(twitter);
+ESLShareConfig.append(twitter);

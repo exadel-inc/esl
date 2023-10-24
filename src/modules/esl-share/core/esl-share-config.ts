@@ -1,16 +1,17 @@
 import {decorate, memoize} from '../../esl-utils/decorators';
 import {microtask} from '../../esl-utils/async/microtask';
+import {isObject} from '../../esl-utils/misc/object/types';
+import {uniq} from '../../esl-utils/misc/array';
 import {SyntheticEventTarget} from '../../esl-utils/dom/events/target';
 
-/** {@link ESLShareConfig} provider type definition */
-export type ESLShareConfigProviderType = () => Promise<ESLShareConfig>;
+import type {PropertyProvider} from '../../esl-utils/misc/functions';
 
 /** The definition of the sharing button */
 export interface ESLShareButtonConfig {
   /** Name of the share action, which is performed after the button is pressed */
   action: string;
   /** HTML content of the share icon */
-  icon: string;
+  icon?: string;
   /**
    * URL link (with placeholders) to share. Can contain the following placeholders:
    * - `{u}` or `{url}` - URL to share (`shareUrl` property on the {@link ESLShareButton} instance)
@@ -33,94 +34,110 @@ export interface ESLShareGroupConfig {
   list: string;
 }
 
-/** Gets item of the section by name */
-function getConfigSectionItem<T extends ESLShareButtonConfig | ESLShareGroupConfig>(section: T[], name: string): T | undefined {
-  return section.find((item) => item.name === name);
+/** Object containing {@link ESLShareButtonConfig} and {@link ESLShareGroupConfig} definitions */
+export interface ESLShareConfigInit {
+  /** List of share buttons configurations */
+  buttons?: ESLShareButtonConfig[];
+  /** List of share buttons groups configurations */
+  groups?: ESLShareGroupConfig[];
 }
 
-/** Inserts item into section or updates if exists */
-function setConfigSectionItem<T extends ESLShareButtonConfig | ESLShareGroupConfig>(section: T[], item: T): void {
-  const index = section.findIndex((i) => i.name === item.name);
-  if (index >= 0) section[index] = item;
-  else section.push(item);
-}
+const isGroupCfg = (cfg: any): cfg is ESLShareGroupConfig => isObject(cfg) && typeof cfg.name === 'string' && typeof cfg.list === 'string';
+const isButtonCfg = (cfg: any): cfg is ESLShareButtonConfig => isObject(cfg) && typeof cfg.name === 'string' && typeof cfg.action === 'string';
 
 /** Class for managing share buttons configurations */
 export class ESLShareConfig extends SyntheticEventTarget {
+  /** @returns ESLShareConfig shared instance */
   @memoize()
   public static get instance(): ESLShareConfig {
     return new ESLShareConfig();
   }
 
   /**
-   * Gets the button configuration.
-   * @returns config of button
-   */
-  public static getButton(name: string): ESLShareButtonConfig | undefined {
-    return ESLShareConfig.instance.getButton(name);
-  }
-
-  /**
-   * Selects the buttons for the given list and returns their configuration.
-   * @returns config of buttons
-   */
-  public static getList(list: string): ESLShareButtonConfig[] {
-    return ESLShareConfig.instance.getList(list);
-  }
-
-  /**
-   * Updates the configuration with either a new config object or by using a configuration provider function.
+   * Updates the configuration with either a {@link ESLShareConfigInit} object or provider function.
    * Every button and group specified in the new config will be added to the current configuration.
    * @returns ESLShareConfig instance
    */
+  public static set(cfg: ESLShareConfigInit | PropertyProvider<ESLShareConfigInit>): ESLShareConfig;
+  /**
+   * Updates the configuration with promise resolved to {@link ESLShareConfigInit} or promise provider function.
+   * Every button and group specified in the new config will be added to the current configuration.
+   * @returns Promise<ESLShareConfig> instance
+   */
   public static set(
-    provider?: ESLShareConfigProviderType | Promise<Partial<ESLShareConfig>> | Partial<ESLShareConfig>
-  ): ESLShareConfig {
-    const {instance} = ESLShareConfig;
+    provider: Promise<Partial<ESLShareConfig>> | PropertyProvider<Promise<ESLShareConfigInit>>
+  ): Promise<ESLShareConfig>;
+  public static set(provider: any): ESLShareConfig | Promise<ESLShareConfig> {
     if (typeof provider === 'function') return this.set(provider());
-    if (typeof provider === 'object' && provider instanceof Promise) {
-      provider.then((cfg) => this.set(cfg));
-      return instance;
-    }
-    if (typeof provider === 'object') {
-      if (provider?.groups) provider.groups.forEach(instance.appendGroup, instance);
-      if (provider?.buttons) provider.buttons.forEach(instance.appendButton, instance);
-    }
-    return instance;
+    if (!isObject(provider)) return ESLShareConfig.instance;
+    if (provider instanceof Promise) return provider.then((cfg: ESLShareConfigInit) => this.set(cfg));
+    if (Array.isArray(provider.groups)) ESLShareConfig.instance.append(provider.groups);
+    if (Array.isArray(provider.buttons)) ESLShareConfig.instance.append(provider.buttons);
+    return ESLShareConfig.instance;
   }
 
-  public readonly buttons: ESLShareButtonConfig[] = [];
-  public readonly groups: ESLShareGroupConfig[] = [];
+  /** Appends single button or group to current configuration */
+  public static append(cfg: ESLShareButtonConfig | ESLShareGroupConfig | ESLShareButtonConfig[] | ESLShareGroupConfig[]): ESLShareConfig {
+    return ESLShareConfig.instance.append(cfg);
+  }
+
+  protected readonly _groups: Map<string, string> = new Map();
+  protected readonly _buttons: Map<string, ESLShareButtonConfig> = new Map();
 
   protected constructor() {
     super();
   }
 
+  /** @returns list of all available groups */
+  public get groups(): ESLShareGroupConfig[] {
+    return Array.from(this._groups.entries()).map(([name, list]) => ({name, list}));
+  }
+
+  /** @returns list of all available buttons */
+  public get buttons(): ESLShareButtonConfig[] {
+    return Array.from(this._buttons.values());
+  }
+
+  /** Normalize list string by removing groups and extra whitespaces */
+  protected resolve(query: string): string[] {
+    if (/\sall\s/.test(query)) return Array.from(this._buttons.keys());
+    const groups = new Set<string>(); // Deduplicate groups
+    while (query.includes('group:')) {
+      query = query.replace(/group:(\S+)/gi, (term: string, name: string) => {
+        if (groups.has(name)) return '';
+        groups.add(name);
+        return this._groups.get(name) || '';
+      });
+    }
+    return query.split(' ').filter(Boolean);
+  }
+
   /**
    * Selects the buttons for the given list and returns their configuration.
    * @returns config of buttons
    */
-  public getList(list: string): ESLShareButtonConfig[] {
-    if (list === 'all') return this.buttons;
-    return list.split(' ').reduce((res, item) => {
-      const [btnName, groupName] = item.split('group:');
-      if (groupName) {
-        const groupConfig = this.getGroup(groupName);
-        if (groupConfig) return res.concat(this.getList(groupConfig.list));
-      } else {
-        const btnConfig = this.getButton(btnName);
-        if (btnConfig) res.push(btnConfig);
-      }
-      return res;
-    }, [] as ESLShareButtonConfig[]);
+  public get(query: string): ESLShareButtonConfig[] {
+    const terms = this.resolve(query);
+    if (terms.includes('all')) return this.buttons;
+    const list = terms.map((name) => this.getButton(name));
+    return uniq(list.filter(Boolean) as ESLShareButtonConfig[]);
+  }
+
+  /** Clears the configuration */
+  public clear(): ESLShareConfig {
+    this._buttons.clear();
+    this._groups.clear();
+    this._onUpdate();
+    return this;
   }
 
   /**
    * Gets the group of buttons configuration.
    * @returns config of group
    */
-  public getGroup(groupName: string): ESLShareGroupConfig | undefined {
-    return getConfigSectionItem(this.groups, groupName);
+  public getGroup(name: string): ESLShareGroupConfig | undefined {
+    const list = this._groups.get(name);
+    return list ? {name, list} : undefined;
   }
 
   /**
@@ -128,25 +145,22 @@ export class ESLShareConfig extends SyntheticEventTarget {
    * @returns config of button
    */
   public getButton(name: string): ESLShareButtonConfig | undefined {
-    return getConfigSectionItem(this.buttons, name);
+    return this._buttons.get(name);
   }
 
-  /**
-   * Appends a button (inserts or updates) to the current config.
-   * @returns config instance
-   */
-  public appendButton(button: ESLShareButtonConfig): ESLShareConfig {
-    setConfigSectionItem(this.buttons, button);
-    this._onUpdate();
-    return this;
+  /** Updates the configuration with a {@link ESLShareButtonConfig} or {@link ESLShareGroupConfig} */
+  protected add(config: ESLShareButtonConfig | ESLShareGroupConfig): void {
+    if (isGroupCfg(config)) this._groups.set(config.name, config.list);
+    if (isButtonCfg(config)) this._buttons.set(config.name, config);
   }
 
-  /**
-   * Appends a group (inserts or updates) to the current config.
-   * @returns config instance
-   */
-  public appendGroup(group: ESLShareGroupConfig): ESLShareConfig {
-    setConfigSectionItem(this.groups, group);
+  /** Updates the configuration with a {@link ESLShareButtonConfig}(s) or {@link ESLShareGroupConfig}(s) */
+  public append(config: ESLShareButtonConfig | ESLShareGroupConfig | ESLShareButtonConfig[] | ESLShareGroupConfig[]): ESLShareConfig {
+    if (Array.isArray(config)) {
+      config.forEach(this.add, this);
+    } else {
+      this.add(config);
+    }
     this._onUpdate();
     return this;
   }

@@ -2,7 +2,7 @@
 
 Version: *1.0.0-beta*.
 
-Authors: *Dmytro Shovchko*.
+Authors: *Dmytro Shovchko*, *Alexey Stsefanovich (ala'n)*.
 
 ***Important Notice: the component is under beta version, it is tested and ready to use but be aware of its potential critical API changes.***
 
@@ -10,90 +10,167 @@ Authors: *Dmytro Shovchko*.
 
 The ESL Share component provides the capability of integrating into a web page a sharing mechanism of the page on social media platforms, such as Facebook, Twitter, and Pinterest. The available share actions depend on the device but might include the clipboard, email applications, websites, social media, etc.
 
-`ESLShareButton` is a custom element that is used for displaying the "Share on social media" button. It is intended to share the page using the action specified on the button.
+`<esl-share-button>` is a custom element that is used for displaying the "Share on social media" button. It is intended to share the page using the action specified on the button.
 
-`ESLShare` is a custom element that is used for showing the list of social media buttons. The element's content (a set of `ESLShareButtons`) is created automatically by specifying a list of networks or groups to display. Available social networks and their groups are listed in the configuration file.
+`<esl-share-list>` is a custom element that is used for showing the list of social media buttons. The element's content (a set of `<esl-share-button>`) is created automatically by specifying a list of networks or groups to display. Available social networks and their groups are listed in the configuration file.
+
+`<esl-share-popup>` is a custom element used as a wrapper for content that can be displayed as a pop-up element. The content of the element consists of `<esl-share-button>`. `<esl-share-popup>` exists in a single instance and it refreshes its content every time its state changes to "open".
+
+`<esl-share-popup-trigger>` is a custom element, that allows triggering `<esl-share-popup>` instance state changes.
+
+`<esl-share>` is a versatile element that can function as both a list and a pop-up element. Depending on the specified value of the "mode" attribute, either an `<esl-share-list>` or an `<esl-share-popup-trigger>` is built inside. If you intend to use only one type of sharing component, it's not advisable to use this element in order to reduce the number of dependencies.
 
 ### Usage
 
 Make sure you register the share actions that you are going to use on your pages. You don't need to do anything special for this, just import the necessary share actions - the registration will be done automatically.
 
-Next, you have two options for using the share component. The first option is to use only the ESLShareButton. In this case, you simply add this element to the markup and set the required configuration with the attributes. The element needs to be registered with `ESLShareButton.register()`. And that's it.
+Now you need to configure the share buttons and their groups (if you plan to use them). There are several ways to do this. These will be described further in the relevant section.
 
-The second option to use the share component is to define the component configuration and bind it to the ESLShare. After that, all you have to do is to add an element with names or groups of social networks to the ESLShare markup. The item content, consisting of a set of buttons, will be generated automatically. It's the same as you would add each button to the markup and prescribe its configuration manually.
+***Notice. If you don't plan to use any own custom button settings, you might be fine with the configuration from our library. Simply import the button you need from the `esl-share/buttons` folder. An additional bonus will be that in this case there is no need to register the action - the button will perform it on its own.***
 
-To use this option it is necessary to set the configuration for the list of buttons and then register the item
-`ESLShare.register();`
+Next, you have several options for using the share component. The first option is to use only the `<esl-share-button>`. In this case, you simply add this element to the markup and set the required configuration using attributes. The element needs to be registered with `ESLShareButton.register()`. And that's it.
 
-### Binding a component configuration
-
-If you want to define the behavior of the share components only by specifying a name or a group of buttons, you will have to specify the configuration of the components.
-
-There are several different ways to do this. And you can easily determine the most suitable way for you.
-
-The first option is an asynchronous way to load the config. You prepare a configuration file or service in advance that will return a configuration object. You just should write the provider function of the config
-```
-() => fetch('/assets/share/config.json').then((response) => response.json())
-```
-and setup configuration in this manner
-```
-ESLShareConfig.set(() => fetch('/assets/share/config.json').then((response) => response.json()));
-```
-or can use the alias
-```
-ESLShare.config(() => fetch('/assets/share/config.json').then((response) => response.json()));
+```html
+<esl-share-button name="facebook" default-icon></esl-share-button>
 ```
 
-The following option is very similar to the first, but instead of an asynchronous configuration provider function, you use a pre-prepared configuration object.
-```
-ESLShareConfig.create(myShareConfigurationObject);
-```
-or can use 
-```
-ESLShareConfig.set(myShareConfigurationObject);
+The second option to use the share component is to define the component configuration and bind it to the `<esl-share-list>`. After that, all you have to do is to add an element with names or groups of social networks to the `ESLShareList` markup. The item content, consisting of a set of buttons, will be generated automatically. It's the same as adding each button to the markup and prescribe its configuration manually. To use this option it is necessary to set the configuration for the list of buttons and then register the element.
+`ESLShareList.register()` (it will register `ESLShareButton` automatically).
+
+```html
+<esl-share-list list="facebook linkedin mail copy"></esl-share-list>
 ```
 
-The difference between these two methods is obtained only in the fact that in the first case, the configuration instance is returned and in the second case promise is returned.
+The third option for using the share component is the same as the previous one, only the list of buttons is shown inside the pop-up window. All actions are similar to the previous one, except that you add the `<esl-share-popup-trigger>` element to the markup. The list of buttons that will be displayed in the pop-up window is set in the markup as a list of names and groups, absolutely identical to `<esl-share-list>`. To use this option it is necessary to set the configuration for the list of buttons and then register the element `ESLSharePopupTrigger.register()` (it will register `ESLShareButton` and `ESLSharePopup` automatically).
 
-There is also a third way to set the configuration. You do not need to prepare an object with the definition of the configuration in advance. You just need to create an empty configuration object and add the commands you need. You can also add groups to the configuration. For example
-```
-ESLShareConfig.create().add(
-  [
-    facebook,
-    linkedin,
-    copy
-  ],
-  [
-    {name: 'mygroup', list: 'facebook linkedin copy'}
-  ]
-);
+```html
+<esl-share-popup-trigger list="facebook linkedin mail copy"></esl-share-popup-trigger>
 ```
 
-Thus, we added 3 buttons `facebook`, `linkedin`, `copy` and described the `mygroup` group containing these buttons. You can prepare the button configurations yourself, or you can import them from the `/src/modules/esl-share/config/` directory. There we have prepared for you in advance about 20 configurations for various actions to share.
+The last option for using the share component includes the previous two. That is one element, but behaves differently. You add an `<esl-share>` element to the markup, specify a list of buttons, and add the "mode" attribute, in which you specify in which of the modes ("list" or "popup") it should work, and that's it. To use this option it is necessary to set the configuration for the list of buttons and then register the element `ESLShare.register()` (it will register `ESLShareButton`, `ESLShareList`, `ESLSharePopup` and `ESLSharePopupTrigger` automatically).
 
-You can also override the settings of any buttons or groups in the runtime.
-For example, a different set of share buttons for the Japanese locale and override the copy button.
-```
-ESLShare.config(() => fetch('/assets/share/config.json').then((response) => response.json()))
-  .then((config) => {
-    if (locale === 'ja') config.add([anotherCopy], [{name: 'mygroup', list: 'hatena linkedin copy'}]);
-  });
+```html
+<esl-share list="facebook linkedin mail copy" mode="list"></esl-share>
 ```
 
-In the example above, the configuration will be received by an asynchronous request, and then, if the condition is met, the button and the group `mygroup` will be inserted or replaced (if the configuration for an entity with the same name already exists).
+### Configuring the ESLShare components
 
-### ESLShare config
+ESLShare provides the ability to setup a component configuration globally. 
+This means that you do not need to configure each button separately. 
+You can set buttons and groups config globally and then it will be available for each `esl-share`, `esl-share-list`, or `esl-share-popup-trigger`. 
+All of mentioned components use the same configuration instance stored in `ESLShareConfig.instance`.
 
-Above it was told and shown how you can set the configuration of the component. But what is a configuration object?
+To add a single button, group to the configuration, you can use the `append` method of the configuration:
+```typescript
+// Add 'facebook' button to the configuration
+ESLShareConfig.append({
+   name: 'facebook',
+   action: 'media',
+   // ...
+});
+// Add 'mygroup' group to the configuration
+ESLShareConfig.append({
+   name: 'mygroup',
+   list: 'facebook twitter linkedin'
+});
+```
 
-Config is a javascript object that contains two properties. The first one is `buttons` describing the configuration of the buttons. The second is `groups` which configures the groups. Both properties are arrays containing objects describing buttons and groups respectively.
+The `ESLShareConfig.append` accepts a list of buttons or groups as well:
+```typescript
+ESLShareConfig.append([
+  {
+    name: 'facebook',
+    action: 'media',
+    // ...
+  },
+  {
+    name: 'linkedin',
+    action: 'media',
+    // ...
+  }
+]);
+```
+
+The `esl-share` module provides an out of the box configuration for the most popular social networks and sharing options.
+To use it, you need to import required configuration from the `esl-share/buttons` directory it will automatically register in the `ESLShareConfig.instance`:
+
+```typescript
+// Register 'facebook' button ootb configuration
+import '@exadel/esl/modules/esl-share/buttons/facebook';
+
+// Register all buttons ootb configurations
+import '@exadel/esl/modules/esl-share/buttons/all';
+```
+
+Note: configuration of the button or group appends to the existing configuration but overrides the existing one if the button or group with the same name already exists.
+
+In case you need just a little fix up the existing configuration you can use ootb button config and then override it:
+
+```typescript
+import {facebook} from '@exadel/esl/modules/esl-share/buttons/facebook';
+// Change icon of the facebook button
+ESLShareConfig.append({
+  ...facebook,
+  icon: '<svg>...</svg>'
+});
+```
+
+You can also override the configuration of the button or group in the runtime. 
+
+The `esl-share` module supports configuration by the `ESLShareConfigInit` object
+```typescript
+export interface ESLShareConfigInit {
+  /** List of share buttons configurations */
+  buttons?: ESLShareButtonConfig[];
+  /** List of share buttons groups configurations */
+  groups?: ESLShareGroupConfig[];
+}
+```
+
+The `ESLShareConfigInit` object can be passed to the `ESLShareConfig.set` method.
+It is usefull when you have group you configuration in a single json file, or generate it in the runtime 
+(depends on the user's locale, for example).
+
+```typescript
+import config from './config.json';
+ESLShareConfig.set(config);
+```
+
+The `ESLShareConfig.set` method accepts a function that returns a promise of `ESLShareConfigInit` object 
+or a Promise of the `ESLShareConfigInit` object:
+
+```typescript
+const configProvider = () => {
+  const buttons = [];
+  if (allowPrint) buttons.push(print);
+  if (allowCopy) buttons.push(copy);
+  return {buttons};
+};
+// ...
+ESLShareConfig.set(configProvider);
+```
+
+```typescript
+// Retrive config from the server based on the user's locale
+const countryCode = document.;
+ESLShareConfig.set(fetch(`/assets/share/config.${countryCode}.json`).then((response) => response.json()));
+```
+
+
+#### ESLShare config objects
+
+Above it was told and shown how you can set the configuration of the component. 
+But how does the configuration for the button or group look like?
+
+As was mentioned above the cumulative `ESLShareConfigInit` config object consists of two properties: 
+ - `buttons` - array of button configurations
+ - `groups` - array of group configurations.
 
 An example of a description of the button configuration:
 ```json
 {
     "action": "media",
-    "icon": "\u003csvg xmlns\u003d\"http://www.w3.org/2000/svg\" aria-hidden\u003d\"true\" focusable\u003d\"false\" role\u003d\"presentation\" viewBox\u003d\"0 0 27.99 28\"\u003e\u003cpath d\u003d\"M23 17.11l.55-4.24h-4.2v-2.71c0-1.23.34-2.06 2.1-2.06h2.25V4.29a31.62 31.62 0 00-3.28-.16c-3.24 0-5.46 2-5.46 5.61v3.13h-3.63v4.24H15V28h4.39V17.11z\"/\u003e\u003c/svg\u003e",
-    "iconBackground": "#3c5996",
+    "icon": "\u003csvg xmlns\u003d\"http://www.w3.org/2000/svg\" aria-hidden\u003d\"true\" fill=\"#fff\" focusable\u003d\"false\" role\u003d\"presentation\" style=\"background: #3c5996;\" viewBox\u003d\"0 0 27.99 28\"\u003e\u003cpath d\u003d\"M23 17.11l.55-4.24h-4.2v-2.71c0-1.23.34-2.06 2.1-2.06h2.25V4.29a31.62 31.62 0 00-3.28-.16c-3.24 0-5.46 2-5.46 5.61v3.13h-3.63v4.24H15V28h4.39V17.11z\"/\u003e\u003c/svg\u003e",
     "link": "//www.facebook.com/sharer.php?u\u003d{u}",
     "name": "facebook",
     "title": "Facebook"
@@ -103,8 +180,7 @@ or for example the configuration of the copy button
 ```json
 {
     "action": "copy",
-    "icon": "\u003csvg xmlns\u003d\"http://www.w3.org/2000/svg\" aria-hidden\u003d\"true\" focusable\u003d\"false\" role\u003d\"presentation\" viewBox\u003d\"0 0 28 28\"\u003e\u003cpath d\u003d\"M17 9.69l-7.43 7.43 1.18 1.18 7.43-7.43L17 9.69z\"/\u003e\u003cpath d\u003d\"M4.31 17.8c-.481.481-.48 1.29.00138 1.77l4.02 4.02c.481.481 1.29.483 1.77.00138l4.95-4.95c.481-.481.481-1.29-7e-7-1.78l-4.02-4.02c-.481-.481-1.29-.481-1.78 0l-4.95 4.95zm1.47.887l4.36-4.36 3.44 3.44-4.36 4.36-3.44-3.44zm7-9.37c-.481.481-.481 1.29 2.8e-7 1.78l4.02 4.02c.481.481 1.29.481 1.78 0l4.95-4.95c.481-.481.48-1.29-.00138-1.77l-4.02-4.02c-.481-.481-1.29-.483-1.77-.00138l-4.95 4.95zm1.47.889l4.36-4.36 3.44 3.44-4.36 4.36-3.44-3.44z\"/\u003e\u003c/svg\u003e",
-    "iconBackground": "#a0522d",
+    "icon": "\u003csvg xmlns\u003d\"http://www.w3.org/2000/svg\" aria-hidden\u003d\"true\" fill=\"#fff\" focusable\u003d\"false\" role\u003d\"presentation\" style=\"background: #a0522d;\" viewBox\u003d\"0 0 28 28\"\u003e\u003cpath d\u003d\"M17 9.69l-7.43 7.43 1.18 1.18 7.43-7.43L17 9.69z\"/\u003e\u003cpath d\u003d\"M4.31 17.8c-.481.481-.48 1.29.00138 1.77l4.02 4.02c.481.481 1.29.483 1.77.00138l4.95-4.95c.481-.481.481-1.29-7e-7-1.78l-4.02-4.02c-.481-.481-1.29-.481-1.78 0l-4.95 4.95zm1.47.887l4.36-4.36 3.44 3.44-4.36 4.36-3.44-3.44zm7-9.37c-.481.481-.481 1.29 2.8e-7 1.78l4.02 4.02c.481.481 1.29.481 1.78 0l4.95-4.95c.481-.481.48-1.29-.00138-1.77l-4.02-4.02c-.481-.481-1.29-.483-1.77-.00138l-4.95 4.95zm1.47.889l4.36-4.36 3.44 3.44-4.36 4.36-3.44-3.44z\"/\u003e\u003c/svg\u003e",
     "link": "",
     "name": "copy",
     "title": "Copy",
@@ -113,16 +189,16 @@ or for example the configuration of the copy button
     }
 }
 ```
+
 What the properties of the button description object mean:
  - `action` - the name of the action to be performed by clicking on the button (recall that the action must be registered, the import was executed)
  - `icon` - the HTML content of the share icon
- - `iconBackground` - the color of the icon background (the value -  CSS data type represents a color). If you do not need to set the color, set the value to `transparent`
  - `link` - URL link (with placeholders) to share on a social network. Can contain the next placeholders:
     - {u} or {url} - URL to share on social network (shareUrl property on the ESLShareButton instance)
     - {t} or {title} - title to share on social network (shareTitle property on the ESLShareButton instance)
  - `name` - string identifier of the button (no spaces)
  - `title` - button title
- - `additional` - additional params to pass into a button (can be used by share actions)
+ - `additional` - optional additional params to pass into a button (can be used by share actions)
 
 The configuration object of the group is simple, consisting of two properties:
  - `name` - string identifier of the group (no spaces)
@@ -162,6 +238,13 @@ ESLShare provides several actions available for you to use:
 
 For using actions you should import the required actions before setting up the configuration and registering ESLShare components. When an unregistered action is specified for a button, the button will not be able to perform the share action and will be marked as 'unavailable'. The same behavior occurs if the action is unavailable on the user's device, e.g. native action on the user's desktop.
 
+Note: if default configuration does not used, you should import the required actions manually:
+```typescript
+  import '@exadel/esl/modules/esl-share/actions/copy';
+  import '@exadel/esl/modules/esl-share/actions/media';
+```
+
+
 ### ESLShareButton
 
 #### Attributes / Properties
@@ -172,7 +255,12 @@ For using actions you should import the required actions before setting up the c
  - `share-url` - URL to share (current page URL by default)
  - `share-title` - title to share (current document title by default)
  - `additional` - additional params to pass into a button (can be used by share actions)
+ - `default-icon` - marker to render default icon inside button on init
  - `unavailable` - marker of availability of share button
+
+#### Observing changes in configuration
+
+The button component is notified of any configuration changes. The button will update its action if the configuration has changed. Also, the button will redraw its content if the button contains an instruction to render the default icon.
 
 #### Attributes cascading
 
@@ -184,6 +272,52 @@ The principle of cascading is similar to CSS variables. The value is searched fr
 
  - `share` - the same as clicking the button, i.e. perform the share action
 
+### ESLShareList
+
+#### Attributes / Properties
+
+ - `list` - list of social networks or groups of them to display (all by default). The value - a string containing the names of the buttons or groups (specified with the prefix group:) separated by spaces. For example: `"facebook reddit group:default"`
+ - `share-url` - URL to share (current page URL by default)
+ - `share-title` - title to share (current document title by default)
+ - `ready` - ready state marker
+
+#### Observing changes in configuration
+
+The component is notified of any configuration changes. And, if during the check it turns out that the list of buttons inside the component changes, the component updates its content. Accordingly, in this case, the component itself also throws an event about its own content change.
+
+#### Public API
+
+ - `buttonsConfig` - getter that returns config of buttons specified by the list attribute
+
+#### Events
+
+ - `esl:share:changed` - event to dispatch on change of ESLShareList
+
+### ESLSharePopup
+
+This element is based on [ESLPopup](../esl-popup/README.md) element and exists in a single instance. Its shared instance adds directly to the document's body when any of `ESLSharePopupTrigger` requires showing this popup. It removes from the document's body on hide action. 
+`ESLSharePopup` renders buttons from the list on show action. If an `ESLSharePopup` element with the desired set of buttons already exists in the document body, the existing one will be reused. 
+
+#### Observing changes in configuration
+
+The popup is notified of any configuration changes. In this case, the component is simply hidden if it is in an open state, i.e. there is a set of rendered buttons inside. So, when you open it again, it will simply redraw the new buttons inside.
+
+#### Public API
+
+ - `sharedInstance` - static getter that returns shared instance of ESLSharePopup
+
+### ESLSharePopupTrigger
+
+A trigger element is based on [ESLTrigger](../esl-trigger/README.md) to activate the popup with share buttons, which will activate the popup when you hover over it. Also, one additional activity of the `ESLSharePopupTrigger` is to forward the `share-title` and `share-url` attributes from the root `ESLSharePopupTrigger` component (or its parents if not defined on the trigger element) to the popup. So it's possible for components with the same set of buttons but different URLs and titles to share to use the same popup.
+
+#### Attributes / Properties
+
+ - `list` - list of social networks or groups of them to display (all by default). The value - a string containing the names of the buttons or groups (specified with the prefix group:) separated by spaces. For example: `"facebook reddit group:default"`
+ - `popup-initial-params` - initial params to pass into popup on show action (Default: `{position: 'top', hideDelay: 220}`)
+ - `share-url` - URL to share (current page URL by default)
+ - `share-title` - title to share (current document title by default)
+ - `track-hover` - [MediaQuery](../esl-media-query/README.md) to define allowed to track hover event media. (Default: `all`)
+
 ### ESLShare
 
 #### Attributes / Properties
@@ -191,6 +325,7 @@ The principle of cascading is similar to CSS variables. The value is searched fr
  - `list` - list of social networks or groups of them to display (all by default). The value - a string containing the names of the buttons or groups (specified with the prefix group:) separated by spaces. For example: `"facebook reddit group:default"`
  - `share-url` - URL to share (current page URL by default)
  - `share-title` - title to share (current document title by default)
+ - `trigger-initial-params` - initial params for the `ESLSharePopupTrigger` to be created (Default: `{trackClick: true, trackHover: true}`)
  - `mode` - rendering mode of the share buttons. The `list` and `popup` are available (list by default)
  - `ready` - ready state marker
 
@@ -198,18 +333,13 @@ The principle of cascading is similar to CSS variables. The value is searched fr
 
 There are two modes available to render buttons.
 
-In `list` mode, the buttons are drawn inside the component as a list. Nothing special.
+There are two modes available to render buttons. In list mode, the `ESLShareList` is drawn inside the component as a list. Nothing special. 
 
-When `popup` mode is specified, the buttons are created inside of a [ESLPopup](../esl-popup/README.md) element, which is built directly into the document's body. If a [ESLPopup](../esl-popup/README.md) element with the desired set of buttons already exists in the document body, the existing one will be reused. A trigger element is created inside the ESLShare component to activate the popup with share buttons, which will activate the popup when you hover over it. Also, one additional activity of the ESLSharePopupTrigger is to forward the `share-title` and `share-url` attributes from the root ESLShare component to the popup. So it's possible for components with the same set of buttons but different URLs and title to share to use the same popup.
+Similarly, in popup mode, the `ESLSharePopupTrigger`` is drawn inside component and shows a popup with the specified list of buttons.
 
 #### Public API
 
- - `config` - static method to get or update config with a promise of a new config object or using a config provider function
- - `build` - builds content of component
-
-#### Events
-
- - `esl:share:ready` - event to dispatch on ready state of ESLShare
+ - `config` - static method to get or update config with a promise of a new config object or using a config provider function (***Deprecated***)
 
 ### ESLShareAction
 

@@ -53,7 +53,7 @@ export class ESLSharePopup extends ESLTooltip {
   protected override onBeforeShow(params: ESLToggleableActionParams): boolean | void {
     const result = super.onBeforeShow(params);
     if (params.list) {
-      const buttonsList = ESLShareConfig.getList(params.list);
+      const buttonsList = ESLShareConfig.instance.get(params.list);
       this.appendButtonsFromList(buttonsList);
     }
     this.forwardAttributes();
