@@ -14,4 +14,4 @@ export const copy: ESLShareButtonConfig = {
     alertText: 'Copied to clipboard'
   }
 };
-ESLShareConfig.instance.appendButton(copy);
+ESLShareConfig.instance.append(copy);

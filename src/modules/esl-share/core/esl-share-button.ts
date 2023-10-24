@@ -59,7 +59,7 @@ export class ESLShareButton extends ESLBaseElement {
   /** @returns config of button specified by the name attribute */
   @memoize()
   public get config(): ESLShareButtonConfig | undefined {
-    return ESLShareConfig.getButton(this.name);
+    return ESLShareConfig.instance.getButton(this.name);
   }
 
   /** Gets a property from attribute, or from button config if not set attribute */
@@ -138,7 +138,7 @@ export class ESLShareButton extends ESLBaseElement {
     if (!this.config) return;
     const {title, icon} = this.config;
     this.title = title;
-    this.innerHTML = icon;
+    this.innerHTML = icon || '';
     const $icon = this.firstElementChild as HTMLElement;
     if ($icon?.tagName !== 'svg') return;
     $icon.classList.add('esl-share-icon');

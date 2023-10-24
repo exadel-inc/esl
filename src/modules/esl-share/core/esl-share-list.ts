@@ -38,7 +38,7 @@ export class ESLShareList extends ESLBaseElement {
   /** @returns config of buttons specified by the list attribute */
   @memoize()
   public get buttonsConfig(): ESLShareButtonConfig[] {
-    return ESLShareConfig.getList(this.list);
+    return ESLShareConfig.instance.get(this.list);
   }
 
   public override connectedCallback(): void {

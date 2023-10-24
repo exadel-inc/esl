@@ -11,4 +11,4 @@ export const telegram: ESLShareButtonConfig = {
   name: 'telegram',
   title: 'Telegram'
 };
-ESLShareConfig.instance.appendButton(telegram);
+ESLShareConfig.instance.append(telegram);

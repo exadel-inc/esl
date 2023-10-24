@@ -11,4 +11,4 @@ export const mixi: ESLShareButtonConfig = {
   name: 'mixi',
   title: 'Mixi'
 };
-ESLShareConfig.instance.appendButton(mixi);
+ESLShareConfig.instance.append(mixi);
