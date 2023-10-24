@@ -42,8 +42,9 @@ export interface ESLShareConfigInit {
   groups?: ESLShareGroupConfig[];
 }
 
-const isGroupCfg = (cfg: any): cfg is ESLShareGroupConfig => isObject(cfg) && typeof cfg.name === 'string' && typeof cfg.list === 'string';
-const isButtonCfg = (cfg: any): cfg is ESLShareButtonConfig => isObject(cfg) && typeof cfg.name === 'string' && typeof cfg.action === 'string';
+const isNamedObject = (obj: any): obj is Record<string, any> & {name: string} => isObject(obj) && typeof obj.name === 'string';
+const isGroupCfg = (cfg: any): cfg is ESLShareGroupConfig => isNamedObject(cfg) && typeof cfg.list === 'string';
+const isButtonCfg = (cfg: any): cfg is ESLShareButtonConfig => isNamedObject(cfg) && typeof cfg.action === 'string';
 
 /** Class for managing share buttons configurations */
 export class ESLShareConfig extends SyntheticEventTarget {
