@@ -99,8 +99,8 @@ export class ESLShareConfig extends SyntheticEventTarget {
   }
 
   /** Normalize list string by removing groups and extra whitespaces */
-  public resolve(query: string): string[] {
-    if (query.includes('all')) return Array.from(this._buttons.keys());
+  protected resolve(query: string): string[] {
+    if (/\sall\s/.test(query)) return Array.from(this._buttons.keys());
     const groups = new Set<string>(); // Deduplicate groups
     while (query.includes('group:')) {
       query = query.replace(/group:(\S+)/gi, (term: string, name: string) => {
@@ -127,6 +127,7 @@ export class ESLShareConfig extends SyntheticEventTarget {
   public clear(): ESLShareConfig {
     this._buttons.clear();
     this._groups.clear();
+    this._onUpdate();
     return this;
   }
 
