@@ -11,4 +11,4 @@ export const wykop: ESLShareButtonConfig = {
   name: 'wykop',
   title: 'Wykop'
 };
-ESLShareConfig.instance.append(wykop);
+ESLShareConfig.append(wykop);

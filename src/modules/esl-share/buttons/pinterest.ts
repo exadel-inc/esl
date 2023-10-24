@@ -11,4 +11,4 @@ export const pinterest: ESLShareButtonConfig = {
   name: 'pinterest',
   title: 'Pinterest'
 };
-ESLShareConfig.instance.append(pinterest);
+ESLShareConfig.append(pinterest);

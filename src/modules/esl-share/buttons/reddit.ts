@@ -11,4 +11,4 @@ export const reddit: ESLShareButtonConfig = {
   name: 'reddit',
   title: 'Reddit'
 };
-ESLShareConfig.instance.append(reddit);
+ESLShareConfig.append(reddit);

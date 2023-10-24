@@ -11,4 +11,4 @@ export const sinaWeibo: ESLShareButtonConfig = {
   name: 'sina-weibo',
   title: 'Sina Weibo'
 };
-ESLShareConfig.instance.append(sinaWeibo);
+ESLShareConfig.append(sinaWeibo);

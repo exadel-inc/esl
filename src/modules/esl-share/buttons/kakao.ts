@@ -11,4 +11,4 @@ export const kakao: ESLShareButtonConfig = {
   name: 'kakao',
   title: 'Kakao'
 };
-ESLShareConfig.instance.append(kakao);
+ESLShareConfig.append(kakao);

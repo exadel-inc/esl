@@ -11,4 +11,4 @@ export const nativeShare: ESLShareButtonConfig = {
   name: 'native-share',
   title: 'Share page'
 };
-ESLShareConfig.instance.append(nativeShare);
+ESLShareConfig.append(nativeShare);

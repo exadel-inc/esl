@@ -58,20 +58,27 @@ export class ESLShareConfig extends SyntheticEventTarget {
    * Every button and group specified in the new config will be added to the current configuration.
    * @returns ESLShareConfig instance
    */
-  public static append(cfg: ESLShareConfigInit | PropertyProvider<ESLShareConfigInit>): ESLShareConfig;
+  public static set(cfg: ESLShareConfigInit | PropertyProvider<ESLShareConfigInit>): ESLShareConfig;
   /**
    * Updates the configuration with promise resolved to {@link ESLShareConfigInit} or promise provider function.
    * Every button and group specified in the new config will be added to the current configuration.
    * @returns Promise<ESLShareConfig> instance
    */
-  public static append(
+  public static set(
     provider: Promise<Partial<ESLShareConfig>> | PropertyProvider<Promise<ESLShareConfigInit>>
   ): Promise<ESLShareConfig>;
-  public static append(provider: any): ESLShareConfig | Promise<ESLShareConfig> {
-    if (typeof provider === 'function') return this.append(provider());
+  public static set(provider: any): ESLShareConfig | Promise<ESLShareConfig> {
+    if (typeof provider === 'function') return this.set(provider());
     if (!isObject(provider)) return ESLShareConfig.instance;
-    if (typeof provider.then === 'function') return provider.then((cfg: ESLShareConfigInit) => this.append(cfg));
-    return ESLShareConfig.instance.append(provider);
+    if (provider instanceof Promise) return provider.then((cfg: ESLShareConfigInit) => this.set(cfg));
+    if (Array.isArray(provider.groups)) ESLShareConfig.instance.append(provider.groups);
+    if (Array.isArray(provider.buttons)) ESLShareConfig.instance.append(provider.buttons);
+    return ESLShareConfig.instance;
+  }
+
+  /** Appends single button or group to current configuration */
+  public static append(cfg: ESLShareButtonConfig | ESLShareGroupConfig | ESLShareButtonConfig[] | ESLShareGroupConfig[]): ESLShareConfig {
+    return ESLShareConfig.instance.append(cfg);
   }
 
   protected readonly _groups: Map<string, string> = new Map();
@@ -141,19 +148,18 @@ export class ESLShareConfig extends SyntheticEventTarget {
     return this._buttons.get(name);
   }
 
-  /** Updates the configuration with a new {@link ESLShareConfigInit} object, {@link ESLShareButtonConfig} or {@link ESLShareGroupConfig} */
-  public append(config: ESLShareButtonConfig | ESLShareGroupConfig | ESLShareConfigInit): ESLShareConfig {
-    if (isGroupCfg(config)) {
-      this._groups.set(config.name, config.list);
-    } else if (isButtonCfg(config)) {
-      this._buttons.set(config.name, config);
+  /** Updates the configuration with a {@link ESLShareButtonConfig} or {@link ESLShareGroupConfig} */
+  protected add(config: ESLShareButtonConfig | ESLShareGroupConfig): void {
+    if (isGroupCfg(config)) this._groups.set(config.name, config.list);
+    if (isButtonCfg(config)) this._buttons.set(config.name, config);
+  }
+
+  /** Updates the configuration with a {@link ESLShareButtonConfig}(s) or {@link ESLShareGroupConfig}(s) */
+  public append(config: ESLShareButtonConfig | ESLShareGroupConfig | ESLShareButtonConfig[] | ESLShareGroupConfig[]): ESLShareConfig {
+    if (Array.isArray(config)) {
+      config.forEach(this.add, this);
     } else {
-      if (Array.isArray(config.groups)) {
-        config.groups.forEach((group) => this._groups.set(group.name, group.list));
-      }
-      if (Array.isArray(config.buttons)) {
-        config.buttons.forEach((button) => this._buttons.set(button.name, button));
-      }
+      this.add(config);
     }
     this._onUpdate();
     return this;

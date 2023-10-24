@@ -11,4 +11,4 @@ export const myspace: ESLShareButtonConfig = {
   name: 'myspace',
   title: 'Myspace'
 };
-ESLShareConfig.instance.append(myspace);
+ESLShareConfig.append(myspace);

@@ -11,4 +11,4 @@ export const blogger: ESLShareButtonConfig = {
   name: 'blogger',
   title: 'Blogger'
 };
-ESLShareConfig.instance.append(blogger);
+ESLShareConfig.append(blogger);

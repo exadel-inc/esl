@@ -15,7 +15,7 @@ describe('ESLShareConfig tests', () => {
     const instance: ESLShareConfig = new (ESLShareConfig as any)();
     const groups: ESLShareGroupConfig[] = [SAMPLE_GROUP_1, SAMPLE_GROUP_2, SAMPLE_GROUP_3];
     const buttons: ESLShareButtonConfig[] = [SAMPLE_BUTTON_1, SAMPLE_BUTTON_2, SAMPLE_BUTTON_3, SAMPLE_BUTTON_4, SAMPLE_BUTTON_5];
-    instance.append({groups, buttons});
+    instance.append(groups).append(buttons);
 
     test.each([
       ['sn1', SAMPLE_BUTTON_1],
@@ -96,54 +96,22 @@ describe('ESLShareConfig tests', () => {
     const instance: ESLShareConfig = new (ESLShareConfig as any)();
     beforeEach(() => instance.clear());
 
-    test('ESLShareConfig.prototype.append appends buttons and groups', () => {
-      instance.append({buttons: [SAMPLE_BUTTON_1, SAMPLE_BUTTON_2], groups: [SAMPLE_GROUP_1, SAMPLE_GROUP_2]});
+    test('ESLShareConfig.prototype.append appends buttons', () => {
+      instance.append([SAMPLE_BUTTON_1, SAMPLE_BUTTON_2]);
       expect(instance.buttons.length).toBe(2);
-      expect(instance.groups.length).toBe(2);
+      expect(instance.groups.length).toBe(0);
     });
 
-    test('ESLShareConfig.prototype.append overrides on second call', () => {
-      instance
-        .append({buttons: [SAMPLE_BUTTON_1, SAMPLE_BUTTON_2], groups: [SAMPLE_GROUP_1, SAMPLE_GROUP_2]})
-        .append({buttons: [SAMPLE_BUTTON_1, SAMPLE_BUTTON_2], groups: [SAMPLE_GROUP_1, SAMPLE_GROUP_2]});
-      expect(instance.buttons.length).toBe(2);
+    test('ESLShareConfig.prototype.append appends groups', () => {
+      instance.append([SAMPLE_GROUP_1, SAMPLE_GROUP_2]);
+      expect(instance.buttons.length).toBe(0);
       expect(instance.groups.length).toBe(2);
     });
 
     test('ESLShareConfig.prototype.append does not create duplicates', () => {
-      instance.append({buttons: [SAMPLE_BUTTON_1, SAMPLE_BUTTON_1], groups: [SAMPLE_GROUP_1, SAMPLE_GROUP_1]});
+      instance.append([SAMPLE_BUTTON_1, SAMPLE_BUTTON_1]).append(SAMPLE_BUTTON_1);
       expect(instance.buttons.length).toBe(1);
-      expect(instance.groups.length).toBe(1);
-    });
-
-    test('ESLShareConfig.prototype.append accepts empty config', () => {
-      instance.append({});
-      expect(instance.buttons.length).toBe(0);
       expect(instance.groups.length).toBe(0);
-      instance.append({buttons: [SAMPLE_BUTTON_1], groups: [SAMPLE_GROUP_1]}).append({});
-      expect(instance.buttons.length).toBe(1);
-      expect(instance.groups.length).toBe(1);
-    });
-
-    test('ESLShareConfig.prototype.append accepts empty buttons and groups', () => {
-      instance.append({buttons: [], groups: []});
-      expect(instance.buttons.length).toBe(0);
-      expect(instance.groups.length).toBe(0);
-      instance.append({buttons: [SAMPLE_BUTTON_1], groups: [SAMPLE_GROUP_1]}).append({buttons: [], groups: []});
-      expect(instance.buttons.length).toBe(1);
-      expect(instance.groups.length).toBe(1);
-    });
-
-    test('ESLShareConfig.prototype.append accepts partial config with buttons only', () => {
-      instance.append({buttons: [SAMPLE_BUTTON_3, SAMPLE_BUTTON_4]});
-      expect(instance.buttons.length).toBe(2);
-      expect(instance.groups.length).toBe(0);
-    });
-
-    test('ESLShareConfig.prototype.append accepts partial config with groups only', () => {
-      instance.append({groups: [SAMPLE_GROUP_3]});
-      expect(instance.buttons.length).toBe(0);
-      expect(instance.groups.length).toBe(1);
     });
 
     test('ESLShareConfig.prototype.append accepts single button config', () => {
@@ -166,32 +134,32 @@ describe('ESLShareConfig tests', () => {
     });
 
     test('ESLShareConfig.set appends a button', () => {
-      ESLShareConfig.append({buttons: [SAMPLE_BUTTON_1]});
+      ESLShareConfig.set({buttons: [SAMPLE_BUTTON_1]});
       expect(ESLShareConfig.instance.buttons.length).toBe(1);
       expect(ESLShareConfig.instance.groups.length).toBe(0);
     });
 
     test('ESLShareConfig.set appends a group', () => {
-      ESLShareConfig.append({groups: [SAMPLE_GROUP_1]});
+      ESLShareConfig.set({groups: [SAMPLE_GROUP_1]});
       expect(ESLShareConfig.instance.buttons.length).toBe(1);
       expect(ESLShareConfig.instance.groups.length).toBe(1);
     });
 
     test('ESLShareConfig.set accepts empty config', () => {
-      ESLShareConfig.append({});
+      ESLShareConfig.set({});
       expect(ESLShareConfig.instance.buttons.length).toBe(1);
       expect(ESLShareConfig.instance.groups.length).toBe(1);
     });
 
     test('ESLShareConfig.set accepts provider function', () => {
-      ESLShareConfig.append(() => ({buttons: [SAMPLE_BUTTON_2]}));
+      ESLShareConfig.set(() => ({buttons: [SAMPLE_BUTTON_2]}));
       expect(ESLShareConfig.instance.buttons.length).toBe(2);
       expect(ESLShareConfig.instance.groups.length).toBe(1);
     });
 
     test('ESLShareConfig.set accepts provider promise', async () => {
       const promise = Promise.resolve({buttons: [SAMPLE_BUTTON_3]});
-      ESLShareConfig.append(promise);
+      ESLShareConfig.set(promise);
       await promise;
       expect(ESLShareConfig.instance.buttons.length).toBe(3);
       expect(ESLShareConfig.instance.groups.length).toBe(1);

@@ -11,4 +11,4 @@ export const linkedin: ESLShareButtonConfig = {
   name: 'linkedin',
   title: 'LinkedIn'
 };
-ESLShareConfig.instance.append(linkedin);
+ESLShareConfig.append(linkedin);

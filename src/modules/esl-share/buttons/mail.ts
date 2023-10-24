@@ -11,4 +11,4 @@ export const mail: ESLShareButtonConfig = {
   name: 'mail',
   title: 'Mail'
 };
-ESLShareConfig.instance.append(mail);
+ESLShareConfig.append(mail);

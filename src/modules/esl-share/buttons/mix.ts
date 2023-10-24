@@ -11,4 +11,4 @@ export const mix: ESLShareButtonConfig = {
   name: 'mix',
   title: 'MIX'
 };
-ESLShareConfig.instance.append(mix);
+ESLShareConfig.append(mix);

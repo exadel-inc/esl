@@ -11,4 +11,4 @@ export const pusha: ESLShareButtonConfig = {
   name: 'pusha',
   title: 'Pusha'
 };
-ESLShareConfig.instance.append(pusha);
+ESLShareConfig.append(pusha);
