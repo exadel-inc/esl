@@ -44,8 +44,10 @@
     "modules/lib.js",
     "modules/esl-media/providers/**/*.js",
     "modules/esl-share/actions/**/*.js",
+    "modules/esl-share/buttons/**/*.js",
     "src/modules/esl-media/providers/**/*.ts",
     "src/modules/esl-share/actions/**/*.ts",
+    "src/modules/esl-share/buttons/**/*.ts",
     "src/modules/lib.ts",
     "polyfills/**/*.js",
     "src/polyfills/**/*.ts"
