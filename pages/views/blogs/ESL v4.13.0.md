@@ -3,7 +3,7 @@ layout: content
 name: ESL v4.13.0
 title: ESL v4.13.0
 tags: [news]
-date: 2023-10-24
+date: 2023-10-25
 link: https://github.com/exadel-inc/esl/releases/tag/v4.13.0
 ---
 
