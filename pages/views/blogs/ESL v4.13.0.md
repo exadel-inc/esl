@@ -18,6 +18,6 @@ Upgrade to ESL version *v4.13.0*, now available on NPM! Discover the latest feat
 
 - In the `esl-popup` module, we've resolved a bug related to updating the popup position when the activator changes.
 
-- The `esl-media` module has received a bugfix addressing issues with the brightcove provider's autoplay marker.
+- The `esl-media` module has received a bugfix addressing issues with the Brightcove provider's autoplay marker.
 
 - The `esl-scrollbar` module now includes a bugfix for handling situations where the browser creates dimensions with floating-point values, ensuring correct handling of `at-start/at-end` positions.
