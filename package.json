@@ -84,7 +84,7 @@
     "@types/youtube": "0.0.49"
   },
   "devDependencies": {
-    "@commitlint/cli": "^18.1.0",
+    "@commitlint/cli": "^18.2.0",
     "@commitlint/config-conventional": "^18.1.0",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/commit-analyzer": "^11.0.0",
