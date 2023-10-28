@@ -107,7 +107,7 @@ export class UIPEditor extends UIPPluginPanel {
     this.insertAdjacentElement('afterbegin', this.$header);
   }
 
-  /** Callback to call on editor's content changes */
+  /** Callback to call on an editor's content changes */
   @decorate(debounce, 1000)
   protected _onChange(): void {
     this.model!.setHtml(this.value, this);
