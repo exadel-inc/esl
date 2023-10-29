@@ -10,7 +10,7 @@ import {UIPPlugin} from '../base/plugin';
  */
 export class UIPPreview extends UIPPlugin {
   static is = 'uip-preview';
-  static observedAttributes: string[] = ['resizable'];
+  static observedAttributes: string[] = ['dir', 'resizable'];
 
   /** Extra element to animate decreasing height of content smoothly */
   @memoize()
@@ -48,11 +48,17 @@ export class UIPPreview extends UIPPlugin {
 
   protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (attrName === 'resizable' && newVal === null) this.clearInlineSize();
+    if (attrName === 'dir') this.updateDir();
   }
 
   /** Resets element both inline height and width properties */
   protected clearInlineSize(): void {
     this.$inner.style.removeProperty('height');
     this.$inner.style.removeProperty('width');
+  }
+  private updateDir(): void {
+    const isChanged = this.dir !== this.$inner.dir;
+    this.$inner.dir = this.dir;
+    isChanged && this.$$fire('uip:dirchange');
   }
 }
