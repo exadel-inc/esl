@@ -29,16 +29,16 @@ export class UIPEditor extends UIPPluginPanel {
   /** Marker to display copy widget */
   @boolAttr({name: 'copy'}) public showCopy: boolean;
 
-  /** Header section block */
+  protected override get $icon(): JSX.Element {
+    return <EditorIcon/>;
+  }
+
   @memoize()
-  protected get $header(): HTMLElement {
+  protected override get $toolbar(): HTMLElement {
     const type = this.constructor as typeof UIPEditor;
     return (
-      <div class={type.is + '-header uip-plugin-header'}>
-        <span class="uip-plugin-header-icon" title={this.label}><EditorIcon/></span>
-        <span class="uip-plugin-header-title">{this.label}</span>
+      <div class={type.is + '-toolbar uip-plugin-header-toolbar'}>
         {this.showCopy ? <uip-copy class={type.is + '-header-copy'}><CopyIcon/></uip-copy> : ''}
-        {this.collapsible ? <button class="uip-plugin-header-trigger" aria-label="Collapse/expand"/> : ''}
       </div>
     ) as HTMLElement;
   }

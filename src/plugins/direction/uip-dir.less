@@ -3,10 +3,13 @@ uip-toggle-dir {
   display: none;
   cursor: pointer;
   .uip-root &.uip-toggle-dir {
-    display: inline-block;
+    display: inline-flex;
   }
 
-  height: 1em;
+  align-items: center;
+  justify-content: center;
+
+  height: 1.5rem;
   line-height: 1em;
 
   svg {
@@ -24,4 +27,5 @@ uip-toggle-dir {
   pointer-events: none;
   font-weight: 500;
   letter-spacing: -1px;
+  margin: 0 0 0 -2px;
 }

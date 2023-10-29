@@ -1,7 +1,9 @@
+import React from 'jsx-dom';
+
 import {CSSClassUtils} from '@exadel/esl/modules/esl-utils/dom';
 import {skipOneRender} from '@exadel/esl/modules/esl-utils/async';
 import {ESLMediaQuery} from '@exadel/esl/modules/esl-media-query/core';
-import {attr, boolAttr, listen} from '@exadel/esl/modules/esl-utils/decorators';
+import {attr, boolAttr, listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 
 import {UIPPlugin} from '../base/plugin';
 
@@ -20,6 +22,33 @@ export class UIPPluginPanel extends UIPPlugin {
 
   /** Marker to make plugin panel vertical */
   @attr({defaultValue: 'not all'}) public vertical: string;
+
+
+  /** Plugin header icon */
+  protected get $icon(): JSX.Element | null {
+    return null;
+  }
+
+  /** Plugin header additional buttons section */
+  protected get $toolbar(): HTMLElement | null {
+    return null;
+  }
+
+  /** Header section block */
+  @memoize()
+  protected get $header(): HTMLElement {
+    const type = this.constructor as typeof UIPPluginPanel;
+    const a11yLabel = this.collapsible ? 'Collapse/expand' + this.label : this.label;
+    const hasToolbar = this.$toolbar?.children.length;
+    return (
+      <div class={type.is + '-header uip-plugin-header' + (this.label ? '' : ' no-label') + (hasToolbar ? ' has-toolbar' : '')}>
+        {this.$icon ? <span class="uip-plugin-header-icon" title={this.label}>{this.$icon}</span> : ''}
+        <span class="uip-plugin-header-title">{this.label}</span>
+        {this.collapsible ? <button type="button" class="uip-plugin-header-trigger" aria-label={a11yLabel} title={a11yLabel}/> : ''}
+        {hasToolbar ? this.$toolbar : ''}
+      </div>
+    ) as HTMLElement;
+  }
 
   protected override connectedCallback(): void {
     super.connectedCallback();
