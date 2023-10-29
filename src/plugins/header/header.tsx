@@ -1,5 +1,9 @@
+import React from 'jsx-dom';
+
 import {UIPPlugin} from '../../core/base/plugin';
-import {UIPOptions} from './options/options';
+import {UIPThemeIcon} from '../theme/uip-theme.icon';
+import {UIPDirIcon} from '../direction/uip-dir.icon';
+
 import {UIPSnippets} from './snippets/snippets';
 
 /**
@@ -17,7 +21,8 @@ export class UIPHeader extends UIPPlugin {
   /** Default configuration rendering */
   protected autofill(): void {
     this.renderSnippets();
-    this.renderOptions();
+    this.append(this.renderDirSwitch());
+    this.append(this.renderThemeSwitch());
   }
 
   /** Renders {@link UIPSnippets} element */
@@ -28,9 +33,13 @@ export class UIPHeader extends UIPPlugin {
     }
   }
 
-  /** Renders {@link UIPOptions} element */
-  protected renderOptions(): void {
-    const optionsEl = document.createElement(UIPOptions.is);
-    this.append(optionsEl);
+  /** Renders {@link UIPThemeSwitch} element */
+  protected renderThemeSwitch(): Element {
+    return (<uip-toggle-theme><UIPThemeIcon/></uip-toggle-theme>) as Element;
+  }
+
+  /** Renders {@link UIPDirSwitch} element */
+  protected renderDirSwitch(): Element {
+    return (<uip-toggle-dir><UIPDirIcon/></uip-toggle-dir>) as Element;
   }
 }
