@@ -1,7 +1,7 @@
 import React from 'jsx-dom';
 
 import {debounce} from '@exadel/esl/modules/esl-utils/async/debounce';
-import {attr, boolAttr, decorate, listen, memoize, prop} from '@exadel/esl/modules/esl-utils/decorators';
+import {attr, boolAttr, decorate, listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 
 import {UIPPluginPanel} from '../../core/panel/plugin-panel';
 import {UIPDirIcon} from '../direction/uip-dir.icon';
@@ -16,6 +16,7 @@ import {SettingsIcon} from './settings.icon';
  */
 export class UIPSettings extends UIPPluginPanel {
   public static is = 'uip-settings';
+  public static observedAttributes = ['dir-toggle', 'theme-toggle', ...UIPPluginPanel.observedAttributes];
 
   /** Attribute to set all inner {@link UIPSetting} settings' {@link UIPSetting#target} targets */
   @attr() public target: string;
@@ -67,9 +68,10 @@ export class UIPSettings extends UIPPluginPanel {
 
   protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     super.attributeChangedCallback(attrName, oldVal, newVal);
-    if (attrName === 'label' || attrName === 'collapsible') {
+    if (['label', 'collapsible', 'dir-toggle', 'theme-toggle'].includes(attrName)) {
       this.$header.remove();
-      memoize.clear(this, '$header');
+      this.$toolbar.remove();
+      memoize.clear(this, ['$header', '$toolbar']);
       this.insertAdjacentElement('afterbegin', this.$header);
     }
   }

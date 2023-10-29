@@ -41,17 +41,29 @@
   .uip-plugin-header-toolbar {
     position: absolute;
     flex-direction: column;
-    top: 0;
+    top: 0.25rem;
     left: 0;
     right: 0;
     gap: 0.5rem;
+
+    > .uip-plugin {
+      transition: transform 0.3s ease-in-out;
+      &:hover {
+        transform: translateX(-0.25rem);
+      }
+    }
   }
 
   .uip-plugin-header-title {
     display: none;
   }
-  &:not([collapsible]) .uip-plugin-header-icon {
-    display: none;
+  &:not([collapsible]) {
+    .uip-plugin-header.has-toolbar {
+      min-width: calc(1.25rem + 8px);
+    }
+    .uip-plugin-header-icon {
+      display: none;
+    }
   }
 
   .uip-plugin-header-icon {
