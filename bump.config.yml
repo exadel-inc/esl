@@ -1,7 +1,5 @@
-versionFile: '../package.json'
 files:
-  - filePath: 'package.json'
+  - filePath: './eslint/package.json'
     patterns:
       - '"name"\s*:\s*"\@exadel\/eslint-plugin-esl"[^{}]*"version"\s*:\s*"(\d+\.\d+\.\d+)"'
       - '"@exadel\/esl\": \"\^(\d+\.\d+\.\d+)\"'
-postAction: "cd .. && npm update @exadel/eslint-plugin-esl"
