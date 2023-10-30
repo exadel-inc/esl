@@ -181,7 +181,6 @@ export class ESLPopup extends ESLToggleable {
     }
 
     if (!params.force && this.open) return false;
-    if (!params.silent && !this.$$fire(this.BEFORE_SHOW_EVENT, {detail: {params}})) return false;
   }
 
   /**
