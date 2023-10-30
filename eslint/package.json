@@ -9,7 +9,7 @@
     "test": "jest",
     "clean": "rimraf dist",
     "build": "npm run clean && tsc --project tsconfig.json",
-    "version": "node ../build/bump.js"
+    "version": "node ../build/bump.js $npm_package_version"
   },
   "dependencies": {
     "eslint-traverse": "^1.0.0"

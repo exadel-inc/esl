@@ -1,5 +1,5 @@
 files:
-  - filePath: './eslint/package.json'
+  - filePath: 'package.json'
     patterns:
       - '"name"\s*:\s*"\@exadel\/eslint-plugin-esl"[^{}]*"version"\s*:\s*"(\d+\.\d+\.\d+)"'
       - '"@exadel\/esl\": \"\^(\d+\.\d+\.\d+)\"'

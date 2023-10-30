@@ -4,8 +4,8 @@ const yaml = require('js-yaml');
 const color = require('kleur');
 
 const rootFolder = process.cwd();
+const version = process.argv[2];
 const config = yaml.load(fs.readFileSync(path.resolve(rootFolder, 'bump.config.yml')));
-const {version} = require(path.resolve(rootFolder, 'package.json'));
 
 config.files.forEach(processFile);
 
