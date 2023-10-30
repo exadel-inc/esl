@@ -1,15 +1,15 @@
 # [ESL](../../../) ESL migration support
 
-Version: *4.12.0*
-
 Authors: *Natalia Smirnova, Alexey Stsefanovich (ala'n)*.
 
 <a name="intro"></a>
 
 This article aims to assist the smooth migration process from older versions of ESL to the latest version. To support this transition, we have developed an ESLint plugin designed specifically for ESL library. This plugin targets deprecated features and aliases within the library, offering a seamless means of identifying these outdated elements. Additionally, it suggests suitable replacements, thereby ensuring a hassle-free upgrade to the newest version of ESL.
 
+<a name="installation"></a>
+
 ### Installation
-**Note**: Before installing the plugin, ensure that you have the ESLint package of version 8.0.0 or higher. If you do not intend to install ESLint, this article may not be helpful.
+**Note**: Before installing the plugin, ensure that you have the ESLint package of version 8.0.0 or higher. If you do not intend to install ESLint, this article may not as helpful. However, there are depreacted features listed in the [Rules](#rules) section, that may assist in manual migration. Alternatively, see our [Release notes](https://github.com/exadel-inc/esl/releases).
 
 To use custom ESLint plugin, you need to install it as npm package:
 
@@ -35,8 +35,11 @@ Or in YAML:
     - "@exadel/esl"
 ```
 
+<a name="configuration"></a>
+
 ### Configuration
-You have the option to utilize the plugin's preset configurations. To keep consistent with esl updates but in light mode - apply 4.0 preset, which is just warns you if you have any deprecated features in your code:
+We recommend utilizing the plugin's built-in configuration presets tailored to your specific needs:
+- We recommend using the `default-4.0` preset to keep consistent with esl updates but in light mode, which. It warns you if you have any deprecated features in your code.
 
 ```json
 {
@@ -48,7 +51,7 @@ You have the option to utilize the plugin's preset configurations. To keep consi
 }
 ```
 
- In order to be compatible with version 5.0.0 (which is coming by the end of this year) - apply 5.0 preset which is strictly deprecates the usage of the features that are going to be removed:
+ - Consider using the `default-5.0` preset in order to be compatible with version 5.0.0 of ESL (which is coming by the end of this year). It strictly deprecates the usage of the features that are going to be removed.
 
 ```json
 {
@@ -59,6 +62,10 @@ You have the option to utilize the plugin's preset configurations. To keep consi
   // ...
 }
 ```
+
+**Note**: All the rules in our custom ESLint plugin are auto-correctable. This means you can take advantage of ESLint's `--fix` option to perform automatic adjustments to your code.
+
+<a name="rules"></a>
 
 ### Rules
 
