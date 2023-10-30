@@ -167,8 +167,12 @@ export class ESLScrollbar extends ESLBaseElement {
   /** Relative position value (between 0.0 and 1.0) */
   public get position(): number {
     if (!this.$target) return 0;
-    const scrollOffset = this.horizontal ? normalizeScrollLeft(this.$target) : this.$target.scrollTop;
-    return this.scrollableSize ? (scrollOffset / this.scrollableSize) : 0;
+    const size = this.scrollableSize;
+    if (size <= 0) return 0;
+    const offset = this.horizontal ? normalizeScrollLeft(this.$target) : this.$target.scrollTop;
+    if (offset < 1) return 0;
+    if (offset >= size - 1) return 1;
+    return offset / size;
   }
 
   public set position(position: number) {
