@@ -34,7 +34,6 @@ import {
   ESLTooltip,
   ESLAnimate,
   ESLAnimateMixin,
-  ESLShare,
   ESLRelatedTarget
 } from '@exadel/esl';
 
@@ -111,11 +110,11 @@ ESLTooltip.register();
 ESLAnimate.register();
 ESLAnimateMixin.register();
 
-ESLShare.config(() => fetch('/assets/share/config.json').then((response) => response.json()));
-ESLShare.register();
-
 // Register ESL Mixins
 ESLRelatedTarget.register();
+
+// Share component loading
+import (/* webpackChunkName: 'common/esl-share' */'./esl-share/esl-share');
 
 // Init UI Playground
 import (

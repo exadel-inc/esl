@@ -21,7 +21,7 @@ aside:
 {% macro shareAttrs4() %}share-url="https://esl-ui.com/examples/" share-title="Examples"{% endmacro %}
 
 <style>
-  esl-share-trigger {
+  esl-share-popup-trigger {
     margin: 10px;
   }
   .demo-trigger-svg-icon {
@@ -58,10 +58,11 @@ aside:
   <esl-share list="linkedin alladin group:alladin group:demo"></esl-share>
   <hr>
 
-  <h3>Displays list of share buttons with repeating buttons</h3>
-  <p>Shows component with repeating buttons. (should display 3 buttons LinkedIn)</p>
-  <esl-share list="linkedin linkedin linkedin"></esl-share>
-  <hr>
+{#  TODO: discuss behaviour #}
+{#  <h3>Displays list of share buttons with repeating buttons</h3>#}
+{#  <p>Shows component with repeating buttons. (should display 3 buttons LinkedIn)</p>#}
+{#  <esl-share list="linkedin linkedin linkedin"></esl-share>#}
+{#  <hr>#}
 
   <h3>Displays list of share buttons via incorrect list</h3>
   <p>Shows buttons only with the correct names. (should display only LinkedIn button)</p>
