@@ -22,9 +22,10 @@
       {% if aside %}
         <aside class="aside">
           {% from 'navigation/related-links.njk' import related with context %}
+          {% from 'navigation/source-link.njk' import ghLink with context %}
           {{ related(aside.components, 'components', 'Related Components') }}
           {{ related(aside.examples, 'examples', 'Related Examples') }}
-          {{ related(aside.source, 'source', 'Source') }}
+          {{ ghLink(aside.source, 'Source') }}
         </aside>
       {% endif %}
 

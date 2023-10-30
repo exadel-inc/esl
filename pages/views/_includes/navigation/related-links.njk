@@ -3,20 +3,12 @@
     <div class="related-card">
       <h2 class="related-card-heading">{{ title }}</h2>
       <ul class="related-card-list">
-        {% if collection === 'source'%}
+        {% set links = functions.findItemsByName(pages, collections[collection]) %}
+        {% for page in links | released %}
           <li class="related-card-item">
-            <a class="badge badge-link badge-md related-card-item-icon" href="{{ pages | ghurl }}">
-              {% include 'static/assets/common/github.svg' %} GITHUB
-            </a>
+            <a class="badge badge-link badge-md" href="{{ page.url | url }}">{{ page.data.name }}</a>
           </li>
-        {% else %}
-          {% set links = functions.findItemsByName(pages, collections[collection]) %}
-          {% for page in links | released %}
-            <li class="related-card-item">
-              <a class="badge badge-link badge-md" href="{{ page.url | url }}">{{ page.data.name }}</a>
-            </li>
-          {% endfor %}
-        {% endif %}
+        {% endfor %}
       </ul>
     </div>
   {% endif %}

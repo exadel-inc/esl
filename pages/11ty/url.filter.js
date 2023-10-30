@@ -1,4 +1,6 @@
-const ghurl = (url) => 'https://github.com/exadel-inc/esl/' + url;
+const {github} = require('./site.config');
+
+const ghurl = (url) => github.srcUrl + url;
 
 module.exports = (config) => {
   config.addFilter('ghurl', ghurl);

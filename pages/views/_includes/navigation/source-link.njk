@@ -1,0 +1,14 @@
+{% macro ghLink(link, title) %}
+  {% if link %}
+    <div class="related-card">
+      <h2 class="related-card-heading">{{ title }}</h2>
+      <ul class="related-card-list">
+          <li class="related-card-item">
+            <a class="badge badge-link badge-md related-card-item-icon" href="{{ link | ghurl }}">
+              {% include 'static/assets/common/github.svg' %} GITHUB
+            </a>
+          </li>
+      </ul>
+    </div>
+  {% endif %}
+{% endmacro %}
