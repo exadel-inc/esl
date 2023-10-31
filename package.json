@@ -115,7 +115,7 @@
     "postcss-less": "^6.0.0",
     "prettier": "^3.0.3",
     "rimraf": "^5.0.5",
-    "semantic-release": "^22.0.5",
+    "semantic-release": "^22.0.6",
     "smoothscroll-polyfill": "^0.4.4",
     "stylelint": "^15.11.0",
     "stylelint-prettier": "^4.0.2",
