@@ -16,7 +16,6 @@
     "build": "npm run clean && tsc --project tsconfig.json"
   },
   "dependencies": {
-    "eslint-traverse": "^1.0.0"
   },
   "files": [
     "dist/**/*"

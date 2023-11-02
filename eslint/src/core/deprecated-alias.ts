@@ -1,11 +1,11 @@
+import {findRoot, findAllBy} from './ast.utils';
+
 import type {AST, Rule} from 'eslint';
 import type * as ESTree from 'estree';
-// eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
-const traverse = require('eslint-traverse');
+import type {BaseNode} from './ast.utils';
 
 const meta: Rule.RuleModule['meta'] = {
   type: 'suggestion',
-
   docs: {
     description: 'replace deprecated aliases',
     recommended: true,
@@ -21,18 +21,6 @@ export interface ESLintDeprecationCfg {
 }
 
 type ImportNode = ESTree.ImportSpecifier & Rule.NodeParentExtension;
-
-type BaseNode = (ESTree.Expression | Rule.Node) & {
-  parent: BaseNode;
-  kind?: string;
-};
-
-interface TraverseNode {
-  node: BaseNode;
-  parent: BaseNode;
-  parentKey: object;
-  parentPath: object;
-}
 
 /**
  * Builds deprecation rule
@@ -76,9 +64,9 @@ function buildFixer(node: ImportNode, context: Rule.RuleContext, alias: string):
  */
 // eslint-disable-next-line sonarjs/cognitive-complexity
 function getIdentifierRanges(importNode: ImportNode, context: Rule.RuleContext): (AST.Range | undefined)[] {
-  const root = getRoot(importNode);
+  const root = findRoot(importNode);
   const {name} = importNode.imported;
-  const identifiers = collectIdentifiers(context, root, name);
+  const identifiers = findAllBy(context, root, {type: 'Identifier', name});
 
   const overrides = [];
   const occurrences = new Set<ESTree.Node>();
@@ -97,13 +85,13 @@ function getIdentifierRanges(importNode: ImportNode, context: Rule.RuleContext):
   for (const declaration of overrides) {
     const scope = getScopeNode(declaration);
     if (!scope) continue;
-    const nestedNodes = collectIdentifiers(context, scope, name);
+    const nestedNodes = findAllBy(context, scope, {type: 'Identifier', name});
     for (const node of nestedNodes) {
       if (node.parent?.type !== 'ImportSpecifier') {
         occurrences.delete(node);
       }
     }
-    const initExpNodes = collectIdentifiers(context, declaration.init, name);
+    const initExpNodes = findAllBy(context, declaration.init, {type: 'Identifier', name});
     for (const node of initExpNodes) {
       occurrences.add(node);
     }
@@ -112,20 +100,11 @@ function getIdentifierRanges(importNode: ImportNode, context: Rule.RuleContext):
   return getRanges(occurrences);
 }
 
-function collectIdentifiers(context: Rule.RuleContext, root: ESTree.Node | ESTree.Expression | null | undefined, alias: string): BaseNode[] {
-  const identifiers: BaseNode[] = [];
-  traverse(context, root, (path: TraverseNode) => {
-    if (path.node?.type !== 'Identifier' || path.node?.name !== alias) return;
-    identifiers.push(path.node);
-  });
-  return identifiers;
-}
-
 function getScopeNode(declaration: BaseNode): BaseNode | null {
   let node = declaration.parent;
   if (!node) return null;
   const isBlockScoped = node.kind && (node.kind === 'const' || node.kind === 'let');
-  while (node.parent !== null) {
+  while (node.parent) {
     node = node.parent;
     if (node.type === 'BlockStatement' && (isBlockScoped || node.parent?.type === 'FunctionExpression')) return node;
   }
@@ -140,12 +119,4 @@ function getRanges<T extends ESTree.Node>(nodes: Set<T>): ([number, number] | un
     }
   }
   return uniqNodes.map((node) => node.range);
-}
-
-/** Finds the root node in the tree */
-function getRoot<T extends ImportNode>(node: T): T | T['parent'] {
-  while (node.parent !== null) {
-    (node as ESTree.Node) = node.parent;
-  }
-  return node;
 }
