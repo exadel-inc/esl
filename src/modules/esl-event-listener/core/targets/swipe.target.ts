@@ -1,7 +1,6 @@
 import {SyntheticEventTarget} from '../../../esl-utils/dom/events/target';
 import {resolveDomTarget} from '../../../esl-utils/abstract/dom-target';
 import {isElement} from '../../../esl-utils/dom/api';
-import {bind} from '../../../esl-utils/decorators/bind';
 import {resolveCSSSize} from '../../../esl-utils/dom/units';
 
 import {ESLEventListener} from '../listener';
@@ -62,10 +61,9 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
    * Saves swipe start event target, time when swipe started, pointerdown event and coordinates.
    * @param startEvent - initial pointer event
    */
-  @bind
   protected handleStart(startEvent: PointerEvent): void {
     this.startEvent = startEvent;
-    this.target.setPointerCapture && this.target.setPointerCapture(startEvent.pointerId);
+    ESLEventListener.subscribe(this, this.handleEnd, {event: 'pointerup', once: true, target: window});
   }
 
   /**
@@ -100,17 +98,16 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
    * occurred and the result gestures accepts {@link ESLSwipeGestureTarget} configuration
    * @param endEvent - `pointerup` event
    */
-  @bind
   protected handleEnd(endEvent: PointerEvent): void {
-    this.target.releasePointerCapture && this.target.releasePointerCapture(endEvent.pointerId);
-
     const eventDetails = this.resolveEventDetails(endEvent);
 
     // return if swipe took too long or distance is too short
     if (!this.isGestureAcceptable(eventDetails)) return;
 
+    const event = ESLSwipeGestureEvent.fromConfig('swipe', this.target, eventDetails);
+
     // fire `swipe` event on the element that started the swipe
-    this.dispatchEvent(ESLSwipeGestureEvent.fromConfig('swipe', this.target, eventDetails));
+    if (!this.dispatchEvent(event)) endEvent.preventDefault();
   }
 
   /**
@@ -132,8 +129,7 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
 
     if (this.getEventListeners().length > 1) return;
     const {target} = this;
-    ESLEventListener.subscribe(this, this.handleStart, {event: 'pointerdown', capture: false, target});
-    ESLEventListener.subscribe(this, this.handleEnd, {event: 'pointerup', capture: false, target});
+    ESLEventListener.subscribe(this, this.handleStart, {event: 'pointerdown', target});
   }
 
   /**
