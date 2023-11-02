@@ -615,9 +615,6 @@ ESLSwipeGestureTarget.for(el: Element, settings?: ESLSwipeGestureSetting): ESLSw
 - `el` - `Element` to listen for swipe events on.
 - `settings` - optional settings (`ESLSwipeGestureSetting`)
 
-**Note**: `ESLSwipeGestureTarget` uses Pointer Events API and requires corresponding `touch-action` CSS 
-property to be specified on the target element.
-
 Usage example:
 
 ```typescript

@@ -1,4 +1,5 @@
 import {SyntheticEventTarget} from '../../../esl-utils/dom/events/target';
+import {getTouchPoint, isMouseEvent, isTouchEvent} from '../../../esl-utils/dom/events/misc';
 import {resolveDomTarget} from '../../../esl-utils/abstract/dom-target';
 import {isElement} from '../../../esl-utils/dom/api';
 import {resolveCSSSize} from '../../../esl-utils/dom/units';
@@ -57,13 +58,24 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
     this.config = Object.assign({}, ESLSwipeGestureTarget.defaultConfig, settings);
   }
 
+  /** @returns opposite to the current startEvent event name */
+  protected get endEventName(): string {
+    if (isTouchEvent(this.startEvent)) return 'touchend';
+    if (isMouseEvent(this.startEvent)) return 'mouseup';
+    return 'pointerup';
+  }
+
   /**
    * Saves swipe start event target, time when swipe started, pointerdown event and coordinates.
    * @param startEvent - initial pointer event
    */
   protected handleStart(startEvent: PointerEvent): void {
     this.startEvent = startEvent;
-    ESLEventListener.subscribe(this, this.handleEnd, {event: 'pointerup', once: true, target: window});
+    ESLEventListener.subscribe(this, this.handleEnd, {
+      event: this.endEventName,
+      once: true,
+      target: window
+    });
   }
 
   /**
@@ -72,9 +84,13 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
    */
   protected resolveEventDetails(endEvent: PointerEvent): ESLSwipeGestureEventInfo {
     const {startEvent} = this;
+    const startPoint = getTouchPoint(startEvent);
+    const endPoint = getTouchPoint(endEvent);
+
     const duration = endEvent.timeStamp - startEvent.timeStamp;
-    const distanceX = Math.round(endEvent.clientX - startEvent.clientX);
-    const distanceY = Math.round(endEvent.clientY - startEvent.clientY);
+    const distanceX = Math.round(endPoint.x - startPoint.x);
+    const distanceY = Math.round(endPoint.y - startPoint.y);
+
     const distance = Math.round(Math.hypot(distanceX, distanceY, 2));
     const angle = Math.round((Math.atan2(distanceY, distanceX) * 180 / Math.PI + 90 + 360) % 360);
     const direction = this.resolveDirection(distanceX, distanceY);
@@ -105,7 +121,6 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
     if (!this.isGestureAcceptable(eventDetails)) return;
 
     const event = ESLSwipeGestureEvent.fromConfig('swipe', this.target, eventDetails);
-
     // fire `swipe` event on the element that started the swipe
     if (!this.dispatchEvent(event)) endEvent.preventDefault();
   }
@@ -129,7 +144,7 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
 
     if (this.getEventListeners().length > 1) return;
     const {target} = this;
-    ESLEventListener.subscribe(this, this.handleStart, {event: 'pointerdown', target});
+    ESLEventListener.subscribe(this, this.handleStart, {event: 'mousedown touchstart', target});
   }
 
   /**
