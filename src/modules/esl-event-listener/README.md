@@ -635,6 +635,8 @@ ESLSwipeGestureTarget.subscribe(host, {
 }, onSwipe);
 ```
 
+<a name="-esleventutilintersection"></a>
+
 ### ⚡ `ESLIntersectionTarget.for` <i class="badge badge-sup badge-success">new</i>
 
 `ESLIntersectionTarget.for` is a way to listen for intersections using Intersection Observer API but in an EventTarget

@@ -2,9 +2,7 @@
 
 esl-d-sidebar {
   .sidebar-nav-item-share {
-    display: flex;
-    align-items: center;
-
+    --esl-share-icon-size: 32px;
     visibility: visible;
     opacity: 1;
     transition:
@@ -13,6 +11,7 @@ esl-d-sidebar {
 
     padding: 15px 40px 15px 25px;
     @media @sm-xl {
+      --esl-share-icon-size: 30px;
       margin-top: auto;
       margin-bottom: 0;
       padding: 30px 40px 0 21px;
@@ -22,6 +21,11 @@ esl-d-sidebar {
     }
 
     .esl-share {
+      display: flex;
+      align-items: center;
+    }
+
+    .esl-share-list {
       max-width: 100%;
       flex: 0 0 auto;
       margin: 0 -5px; // Offset for facebook icon
@@ -36,14 +40,8 @@ esl-d-sidebar {
     }
 
     .esl-share-button {
-      width: 32px;
-      height: 32px;
       overflow: hidden;
       border-radius: 7px;
-      @media @sm-xl {
-        width: 30px;
-        height: 30px;
-      }
     }
   }
 
