@@ -1,3 +1,11 @@
+## [4.13.1](https://github.com/exadel-inc/esl/compare/v4.13.0...v4.13.1) (2023-11-03)
+
+
+### Bug Fixes
+
+* **esl-event-listener:** fix subscription to intersects event in `IntersectionObserver` ([0d9ccca](https://github.com/exadel-inc/esl/commit/0d9ccca1e3d9b392ff6b88238f4f745c7e47ce14))
+* **esl-event-utils:** `ESLSwipeGestureTarget` target prevents inside element actions ([8fed4bc](https://github.com/exadel-inc/esl/commit/8fed4bc7784ced724c1d0e9410d6e388a1235a10)), closes [#2024](https://github.com/exadel-inc/esl/issues/2024)
+
 # [4.13.0](https://github.com/exadel-inc/esl/compare/v4.12.0...v4.13.0) (2023-10-25)
 
 
