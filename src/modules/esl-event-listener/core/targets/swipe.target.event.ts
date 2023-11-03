@@ -48,7 +48,7 @@ export class ESLSwipeGestureEvent extends UIEvent implements ESLSwipeGestureEven
   public readonly duration: number;
 
   protected constructor(eventName: SwipeEventName, target: Element, swipeInfo: ESLSwipeGestureEventInfo) {
-    super(eventName, {bubbles: true, cancelable: true});
+    super(eventName, {bubbles: false, cancelable: true});
     overrideEvent(this, 'target', target);
     Object.assign(this, swipeInfo);
   }
