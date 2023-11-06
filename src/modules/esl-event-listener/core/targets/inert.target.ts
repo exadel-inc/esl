@@ -42,7 +42,7 @@ export class ESLWheelTarget extends SyntheticEventTarget {
     const $target = resolveDomTarget(target);
     if (isElement($target)) return new ESLWheelTarget($target, settings);
 
-    console.warn('[Test]: TestInertWheelTarget cannot observe %o', target);
+    console.warn('[ESL]: ESLWheelTarget can`t observe %o', target);
     return null;
   }
 
@@ -72,14 +72,14 @@ export class ESLWheelTarget extends SyntheticEventTarget {
 
   @bind
   protected _onWheelAggregated(events: WheelEvent[]): void {
-    const detail = this.resolveEventDetails(events);
-    if (!this.isLongScroll(detail)) return;
-    this.dispatchEvent(ESLWheelEvent.fromConfig('longwheel', this.target, detail));
+    const wheelInfo = this.resolveEventDetails(events);
+    if (!this.isLongScroll(wheelInfo)) return;
+    this.dispatchEvent(ESLWheelEvent.fromConfig('longwheel', this.target, wheelInfo));
   }
 
-  private isLongScroll(dist: ESLWheelEventInfo): boolean {
+  private isLongScroll(wheelInfo: ESLWheelEventInfo): boolean {
     const threshold = resolveCSSSize(this.config.threshold);
-    return !!threshold && (Math.abs(dist.deltaX) >= threshold || Math.abs(dist.deltaY) >= threshold);
+    return !!threshold && (Math.abs(wheelInfo.deltaX) >= threshold || Math.abs(wheelInfo.deltaY) >= threshold);
   }
 
   public override addEventListener(callback: EventListener): void;
