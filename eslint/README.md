@@ -9,7 +9,7 @@ This article aims to assist the smooth migration process from older versions of 
 <a name="installation"></a>
 
 ### Installation
-**Note**: Before installing the plugin, ensure that you have the ESLint package of version 8.0.0 or higher. If you do not intend to install ESLint, this article may not as helpful. However, there are depreacted features listed in the [Rules](#rules) section, that may assist in manual migration. Alternatively, see our [Release notes](https://github.com/exadel-inc/esl/releases).
+**Note**: Before installing the plugin, ensure that you have the ESLint package of version 8.0.0 or higher. If you do not intend to install ESLint, this article may not as helpful. However, there are deprecated features listed in the [Rules](#rules) section, that may assist in manual migration. Alternatively, see our [Release notes](https://github.com/exadel-inc/esl/releases).
 
 To use custom ESLint plugin, you need to install it as npm package:
 
