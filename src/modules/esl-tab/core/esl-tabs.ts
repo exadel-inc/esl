@@ -8,6 +8,8 @@ import {ESLResizeObserverTarget} from '../../esl-event-listener/core';
 import {ESLMediaRuleList} from '../../esl-media-query/core/esl-media-rule-list';
 import {ESLTab} from './esl-tab';
 
+import type {DelegatedEvent} from '../../esl-event-listener/core';
+
 /**
  * ESlTabs component
  * @author Julia Murashko
@@ -46,38 +48,19 @@ export class ESLTabs extends ESLBaseElement {
     return ESLMediaRuleList.parse(this.scrollable);
   }
 
+  /** Is the scrollable mode enabled ? */
+  public get isScrollable(): boolean {
+    return this.currentScrollableType !== 'disabled';
+  }
+
   /** @returns current scrollable type */
   public get currentScrollableType(): string {
     return this.scrollableTypeRules.activeValue || 'side';
   }
 
-  protected override connectedCallback(): void {
-    super.connectedCallback();
-    this.updateScrollableType();
-  }
-
-  protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
-    if (!this.connected || oldVal === newVal) return;
-    if (attrName === 'scrollable') {
-      memoize.clear(this, 'scrollableTypeRules');
-      this.$$on(this._onScrollableTypeChange);
-      this.updateScrollableType();
-    }
-  }
-
-  protected bindScrollableEvents(): void {
-    this.$$on(this._onScroll);
-    this.$$on(this._onResize);
-  }
-  protected unbindScrollableEvents(): void {
-    this.$$off(this._onScroll);
-    this.$$off(this._onResize);
-  }
-
   /** Collection of inner {@link ESLTab} items */
   public get $tabs(): ESLTab[] {
-    const els = this.querySelectorAll(ESLTab.is);
-    return els ? Array.from(els) as ESLTab[] : [];
+    return Array.from(this.querySelectorAll(ESLTab.is));
   }
 
   /** Active {@link ESLTab} item */
@@ -90,9 +73,19 @@ export class ESLTabs extends ESLBaseElement {
     return this.querySelector(this.scrollableTarget);
   }
 
-  /** Is the scrollable mode enabled ? */
-  public get isScrollable(): boolean {
-    return this.currentScrollableType !== 'disabled';
+  protected override connectedCallback(): void {
+    super.connectedCallback();
+    this.updateScrollableType();
+  }
+
+  protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
+    if (!this.connected || oldVal === newVal) return;
+    if (attrName === 'scrollable') {
+      memoize.clear(this, 'scrollableTypeRules');
+      this.$$off(this._onScrollableTypeChange);
+      this.$$on(this._onScrollableTypeChange);
+      this.updateScrollableType();
+    }
   }
 
   /** Move scroll to the next/previous item */
@@ -172,11 +165,10 @@ export class ESLTabs extends ESLBaseElement {
     });
     this._deferredFitToViewport(this.$current);
 
-    if (this.currentScrollableType === 'disabled') {
-      this.unbindScrollableEvents();
-    } else {
-      this.bindScrollableEvents();
-    }
+    this.$$off(this._onScroll);
+    this.$$off(this._onResize);
+    this.$$on(this._onScroll);
+    this.$$on(this._onResize);
   }
 
   @listen('esl:change:active')
@@ -185,35 +177,34 @@ export class ESLTabs extends ESLBaseElement {
     this._deferredFitToViewport(this.$current);
   }
 
-  @listen('click')
-  protected _onClick(event: Event): void {
-    const eventTarget: HTMLElement = event.target as HTMLElement;
-    const target: HTMLElement | null = eventTarget.closest('[data-tab-direction]');
-    const direction = target && target.dataset.tabDirection;
-
-    if (!direction) return;
-    this.moveTo(direction);
+  @listen({
+    event: 'click',
+    selector: '[data-tab-direction]'
+  })
+  protected _onClick(event: DelegatedEvent<PointerEvent>): void {
+    if (!event.$delegate) return;
+    const {tabDirection} = (event.$delegate as HTMLElement).dataset;
+    if (tabDirection) this.moveTo(tabDirection);
   }
 
   @listen('focusin')
-  protected _onFocus(e: FocusEvent): void {
-    const target = e.target;
+  protected _onFocus({target}: FocusEvent): void {
     if (target instanceof ESLTab) this._deferredFitToViewport(target);
   }
 
   @listen({
-    auto: false,
     event: 'scroll',
-    target: (el: ESLTabs) => el.$scrollableTarget
+    target: (el: ESLTabs) => el.$scrollableTarget,
+    condition: (el: ESLTabs) => el.isScrollable
   })
   protected _onScroll(): void {
     this._deferredUpdateArrows();
   }
 
   @listen({
-    auto: false,
     event: 'resize',
-    target: ESLResizeObserverTarget.for
+    target: ESLResizeObserverTarget.for,
+    condition: (el: ESLTabs) => el.isScrollable
   })
   @decorate(rafDecorator)
   protected _onResize(): void {
