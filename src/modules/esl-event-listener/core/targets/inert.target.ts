@@ -18,7 +18,7 @@ export {ESLWheelEvent};
  * Describes settings object that could be passed to {@link ESLWheelTarget.for} as optional parameter
  */
 export interface ESLWheelSetting {
-  /** The minimum distance to accept an inertial wheel (supports `px`, `vw`, and `vh` units) */
+  /** The minimum distance to accept as a long scroll (supports `px`, `vw`, and `vh` units) */
   threshold?: CSSSize;
   /** The maximum duration of the wheel events to consider it inertial */
   timeout?: number;
