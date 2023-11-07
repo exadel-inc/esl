@@ -14,12 +14,12 @@ export const skipOneRender = (callback: () => void): number => requestAnimationF
  * Decorate function to schedule execution after next render
  * @returns decorated function
  */
-export const rafDecorator = <T extends AnyToVoidFnSignature>(fn: T): T => {
+export const rafDecorator = <T extends AnyToVoidFnSignature>(fn: T, context?: object): T => {
   let lastArgs: any[] | null = null; // null if no calls requested
   return function (...args: any[]) {
     if (lastArgs === null) {
       requestAnimationFrame(() => {
-        lastArgs && fn.call(this, ...lastArgs);
+        lastArgs && fn.call(context || this, ...lastArgs);
         lastArgs = null;
       });
     }
