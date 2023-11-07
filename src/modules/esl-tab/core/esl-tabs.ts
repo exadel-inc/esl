@@ -1,9 +1,8 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement} from '../../esl-base-element/core';
-import {rafDecorator} from '../../esl-utils/async/raf';
-import {memoize, attr, listen, decorate} from '../../esl-utils/decorators';
+import {rafDecorator, skipOneRender} from '../../esl-utils/async/raf';
+import {memoize, attr, boolAttr, listen} from '../../esl-utils/decorators';
 import {isRTL, RTLScroll} from '../../esl-utils/dom/rtl';
-import {debounce} from '../../esl-utils/async/debounce';
 import {ESLResizeObserverTarget} from '../../esl-event-listener/core';
 import {ESLMediaRuleList} from '../../esl-media-query/core/esl-media-rule-list';
 import {ESLTab} from './esl-tab';
@@ -36,11 +35,14 @@ export class ESLTabs extends ESLBaseElement {
    */
   @attr({defaultValue: 'disabled'}) public scrollable: string;
 
-  /** Inner element to contain {@link ESLTab} collection. Will be scrolled in a scrollable mode */
+  /** An inner element to contain {@link ESLTab} collection. Will be scrolled in a scrollable mode */
   @attr({defaultValue: '.esl-tab-container'}) public scrollableTarget: string;
 
-  protected _deferredUpdateArrows = debounce(this.updateArrows, 100, this);
-  protected _deferredFitToViewport = debounce(this.fitToViewport, 100, this);
+  /** true if not enough space to show all tabs */
+  @boolAttr({readonly: true}) public hasScroll: boolean;
+
+  protected _deferredUpdateArrows = rafDecorator(this.updateArrows, this);
+  protected _deferredFitToViewport = rafDecorator(this.fitToViewport, this);
 
   /** ESLMediaRuleList instance of the scrollable type mapping */
   @memoize()
@@ -75,6 +77,7 @@ export class ESLTabs extends ESLBaseElement {
 
   protected override connectedCallback(): void {
     super.connectedCallback();
+    this.updateMarkers();
     this.updateScrollableType();
   }
 
@@ -88,6 +91,12 @@ export class ESLTabs extends ESLBaseElement {
     }
   }
 
+  protected normalizeOffset($container: Element, offset: number): number {
+    const min = -$container.scrollLeft;
+    const max = $container.scrollWidth - $container.clientWidth - $container.scrollLeft;
+    return Math.max(min, Math.min(max, offset));
+  }
+
   /** Move scroll to the next/previous item */
   public moveTo(direction: string, behavior: ScrollBehavior = 'smooth'): void {
     const $scrollableTarget = this.$scrollableTarget;
@@ -95,26 +104,22 @@ export class ESLTabs extends ESLBaseElement {
     let left = $scrollableTarget.offsetWidth;
     left = isRTL(this) && RTLScroll.type !== 'reverse' ? -left : left;
     left = direction === 'left' ? -left : left;
+    left = this.normalizeOffset($scrollableTarget, left);
 
     $scrollableTarget.scrollBy({left, behavior});
   }
 
   /** Scroll tab to the view */
   protected fitToViewport($trigger: ESLTab | null, behavior: ScrollBehavior = 'smooth'): void {
-    this.updateMarkers();
-
     const $scrollableTarget = this.$scrollableTarget;
     if (!$scrollableTarget || !$trigger) return;
 
     const areaRect = $scrollableTarget.getBoundingClientRect();
     const itemRect = $trigger.getBoundingClientRect();
 
-    $scrollableTarget.scrollBy({
-      left: this.calcScrollOffset(itemRect, areaRect),
-      behavior
-    });
-
-    this.updateArrows();
+    const offset = this.calcScrollOffset(itemRect, areaRect);
+    const left = this.normalizeOffset($scrollableTarget, offset || 0);
+    $scrollableTarget.scrollBy({left, behavior});
   }
 
   /** Get scroll offset position from the selected item rectangle */
@@ -155,7 +160,10 @@ export class ESLTabs extends ESLBaseElement {
     if (!$scrollableTarget) return;
 
     const hasScroll = this.isScrollable && ($scrollableTarget.scrollWidth > this.clientWidth);
+    if (this.hasScroll === hasScroll) return;
+
     this.toggleAttribute('has-scroll', hasScroll);
+    skipOneRender(() => this._deferredFitToViewport(this.$current));
   }
 
   /** Update element state according to scrollable type */
@@ -206,9 +214,9 @@ export class ESLTabs extends ESLBaseElement {
     target: ESLResizeObserverTarget.for,
     condition: (el: ESLTabs) => el.isScrollable
   })
-  @decorate(rafDecorator)
   protected _onResize(): void {
-    this._deferredFitToViewport(this.$current, 'auto');
+    this.updateMarkers();
+    this._deferredFitToViewport(this.$current, 'instant');
   }
 
   /** Handles scrollable type change */
