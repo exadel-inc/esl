@@ -31,7 +31,7 @@ export class ESLWheelEvent extends UIEvent implements ESLWheelEventInfo {
   public readonly startEvent: WheelEvent;
 
   protected constructor(eventName: WheelEventName, target: Element, wheelInfo: ESLWheelEventInfo) {
-    super(eventName, {bubbles: true, cancelable: true});
+    super(eventName);
     overrideEvent(this, 'target', target);
     Object.assign(this, wheelInfo);
   }
