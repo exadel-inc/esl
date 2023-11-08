@@ -8,11 +8,15 @@ esl-modal {
   left: 0;
   top: 0;
   width: 100vw;
-  height: var(--100vh, 100vh);
+  height: 100vh;
+  @supports (height: 100dvh) {
+    height: 100dvh;
+  }
   display: flex;
   flex-direction: column;
   align-items: center;
   overflow-y: scroll;
+  pointer-events: none;
 
   &:not(.open) {
     display: none;
@@ -32,6 +36,7 @@ esl-modal {
     width: 80%;
     background-color: #fff;
     overflow: auto;
+    pointer-events: auto;
   }
 
   .close-btn {

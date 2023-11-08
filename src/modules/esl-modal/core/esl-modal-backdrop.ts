@@ -1,6 +1,10 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement} from '../../esl-base-element/core/esl-base-element';
-import {attr, boolAttr, memoize} from '../../esl-utils/decorators';
+import {attr, boolAttr, listen, memoize} from '../../esl-utils/decorators';
+import {ESLModalStack} from './esl-modal-stack';
+
+import type {DelegatedEvent} from '../../esl-event-listener/core/types';
+import type {ModalStackActionsParams} from './esl-modal-stack';
 
 export interface ESLModalBackdropParams {
   activator: Element;
@@ -16,21 +20,28 @@ export class ESLModalBackdrop extends ESLBaseElement {
   protected activators: Set<Element> = new Set<Element>();
 
   @memoize()
-  static get instance(): ESLModalBackdrop {
+  public static get instance(): ESLModalBackdrop {
     return ESLModalBackdrop.create();
   }
 
-  public show(params: ESLModalBackdropParams): void {
-    this.activators.add(params.activator);
-    if (!document.body.contains(this)) document.body.appendChild(this);
-    this.$$attr('active', true);
-    this.$$cls(this.activeClass, true);
+  public insert(): void {
+    if (document.body.contains(this)) return;
+    document.body.appendChild(this);
   }
-  public hide(params: ESLModalBackdropParams): void {
-    this.activators.delete(params.activator);
-    if (this.activators.size > 0) return;
-    this.$$attr('active', false);
-    this.$$cls(this.activeClass, false);
+
+  @listen({event: 'stack:update', target: () => ESLModalStack.instance})
+  protected onHandleStackUpdate(e: CustomEvent<ModalStackActionsParams>): void {
+    const {relatedTarget, action} = e.detail;
+    if (relatedTarget.noBackdrop) return;
+    this.activators[action === 'add' ? 'add' : 'delete'](relatedTarget);
+    this.$$attr('active', !!this.activators.size);
+    this.$$cls(this.activeClass, !!this.activators.size);
+  }
+
+  @listen('click')
+  protected _onBackdropClick(e: DelegatedEvent<MouseEvent>): void {
+    const target = ESLModalStack.store.at(-1);
+    if (target) target.hide({activator: e.$delegate as HTMLElement, initiator: 'backdrop', event: e});
   }
 }
 

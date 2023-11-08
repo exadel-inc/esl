@@ -1,43 +1,45 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
+import {SyntheticEventTarget} from '../../esl-utils/dom/events/target';
+import {memoize} from '../../esl-utils/decorators/memoize';
 
 import type {ESLModal} from './esl-modal';
 
+export interface ModalStackActionsParams {
+  action: string;
+  relatedTarget: ESLModal;
+}
+
 @ExportNs('ModalStack')
-export class ESLModalStack {
-  private readonly instance: ESLModalStack;
+export class ESLModalStack extends SyntheticEventTarget {
   private static _store: ESLModal[] = [];
 
-  constructor() {
-    if (!this.instance) {
-      this.instance = this;
-    }
-    return this.instance;
+  @memoize()
+  public static get instance(): ESLModalStack {
+    return new ESLModalStack();
   }
 
   public static get store(): ESLModal[] {
     return ESLModalStack._store;
   }
 
-  public static add(target: ESLModal): void {
-    if (ESLModalStack.store.includes(target)) return;
-    ESLModalStack._store.push(target);
-    this.updateA11ty();
+  public add(item: ESLModal): void {
+    if (ESLModalStack.store.includes(item)) return;
+    ESLModalStack._store.push(item);
+    this.afterStackUpdate('add', item);
   }
 
-  public static remove(target: ESLModal): void {
+  public remove(target: ESLModal): void {
     if (!ESLModalStack.store.includes(target)) return;
     let modalToHide;
     do {
       modalToHide = ESLModalStack._store.pop();
-      modalToHide && modalToHide.hide();
+      modalToHide && modalToHide.hide() && this.afterStackUpdate('remove', modalToHide);
     } while (modalToHide !== target);
-    this.updateA11ty();
   }
 
-  private static updateA11ty(): void {
-    const length = ESLModalStack.store.length;
-    if (!length) return;
-    ESLModalStack._store.forEach(($el: ESLModal, i: number) => $el.setAttribute('aria-hidden', String(i !== length - 1)));
+  protected afterStackUpdate(action: string, relatedTarget: ESLModal): void {
+    const eventInit: ModalStackActionsParams = {action, relatedTarget};
+    this.dispatchEvent(new CustomEvent('stack:update', {detail: eventInit}));
   }
 }
 

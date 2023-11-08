@@ -24,10 +24,10 @@ export interface ModalActionParams extends ESLToggleableActionParams {
 export class ESLModal extends ESLToggleable {
   public static override is = 'esl-modal';
 
-  /** Stack of open modals */
-  private stack: ESLModalStack;
-
   protected $placeholder: ESLModalPlaceholder | null;
+
+  /** Indicates that current modal is last open modal */
+  protected active: boolean = false;
 
   /**
    * Define option to lock scroll
@@ -50,8 +50,8 @@ export class ESLModal extends ESLToggleable {
   @attr({defaultValue: true, parser: parseBoolean, serializer: toBooleanAttribute})
   public override closeOnEsc: boolean;
 
-  /** Close the Toggleable on a click/tap outside (default enabled) */
-  @attr({defaultValue: true, parser: parseBoolean, serializer: toBooleanAttribute})
+  /** Close the Toggleable on a click/tap outside (default disabled) */
+  @attr({defaultValue: false, parser: parseBoolean, serializer: toBooleanAttribute})
   public override closeOnOutsideAction: boolean;
 
   public get $backdrop(): ESLModalBackdrop {
@@ -63,14 +63,18 @@ export class ESLModal extends ESLToggleable {
     if (!hasAttr(this, 'role')) setAttr(this, 'role', 'dialog');
     if (!hasAttr(this, 'tabindex')) setAttr(this, 'tabIndex', '-1');
     if (!hasAttr(this, 'aria-modal')) setAttr(this, 'aria-modal', 'true');
-    this.stack  = new ESLModalStack();
+  }
+
+  protected override updateA11y(): void {
+    const targetEl = this.$a11yTarget;
+    if (!targetEl) return;
+    targetEl.setAttribute('aria-hidden', String(!this.active));
   }
 
   public override onShow(params: ModalActionParams): void {
     this.injectToBody && this.inject();
-    this.showBackdrop();
     super.onShow(params);
-    ESLModalStack.add(this);
+    ESLModalStack.instance.add(this);
     this.focus();
     lockScroll(document.documentElement, {
       strategy: this.scrollLockStrategy,
@@ -79,10 +83,9 @@ export class ESLModal extends ESLToggleable {
   }
 
   public override onHide(params: ModalActionParams): void {
-    unlockScroll(document.documentElement, {initiator: this});
     super.onHide(params);
-    ESLModalStack.remove(this);
-    this.hideBackdrop();
+    ESLModalStack.instance.remove(this);
+    unlockScroll(document.documentElement, {initiator: this});
     this.activator?.focus();
     this.injectToBody && this.extract();
   }
@@ -103,21 +106,15 @@ export class ESLModal extends ESLToggleable {
     document.body.removeChild(this);
   }
 
-  protected showBackdrop(): void {
-    if (this.noBackdrop) return;
-    if (typeof this.$backdrop.show !== 'function') return;
-    this.$backdrop.show({activator: this});
-  }
-
-  protected hideBackdrop(): void {
-    if (this.noBackdrop) return;
-    if (typeof this.$backdrop.hide !== 'function') return;
-    this.$backdrop.hide({activator: this});
-  }
-
   public get $boundaryFocusable(): {first: HTMLElement, last: HTMLElement} {
     const $focusableEls = getKeyboardFocusableElements(this) as HTMLElement[];
     return {first: $focusableEls[0], last: $focusableEls[$focusableEls.length - 1]};
+  }
+
+  @listen({event: 'stack:update', target: () => ESLModalStack.instance})
+  protected onHandleStackUpdate(): void {
+    this.active = (this === ESLModalStack.store.at(-1));
+    this.updateA11y();
   }
 
   @listen({inherit: true})
@@ -138,6 +135,7 @@ export class ESLModal extends ESLToggleable {
   public static override register(this: typeof ESLModal, tagName: string = ESLModal.is): void {
     ESLModalBackdrop.register(tagName + '-backdrop');
     ESLModalPlaceholder.register(tagName + '-placeholder');
+    ESLModalBackdrop.registered.then(() => ESLModalBackdrop.instance.insert());
     super.register(tagName);
   }
 }
