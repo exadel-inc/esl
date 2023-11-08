@@ -2,6 +2,9 @@
   {% set isPrimaryActive = functions.isActivePath(page.url, collection) %}
   {% set items = collections[collection] | released %}
   {% set isDraftCollection = collection == 'draft' %}
+  {% if isDraftCollection and not env.isDev %}
+    {% set items = collections[collection] | activeDraftFilter(page.url) %}
+  {% endif %}
 
   {% if items.length %}
   <div class="sidebar-nav-item-heading {{ 'active' if isPrimaryActive }}">
@@ -39,7 +42,7 @@
         <li class="sidebar-nav-secondary-item {{ 'active' if isActive }} {{ 'draft' if isDraft }}"
             {% if isActive %}aria-selected="true"{% endif %}>
           <a class="sidebar-nav-secondary-link"
-             {% if isActive %}aria-current="page"{% endif %}
+             {% if isActive %}aria-current="page"{% endif %} {% if isDraft %}rel="nofollow"{% endif %}
              href="{{ item.url | url }}">
             {% if isNew %}
               <sup class="badge badge-sup badge-success badge-sidebar">new</sup>

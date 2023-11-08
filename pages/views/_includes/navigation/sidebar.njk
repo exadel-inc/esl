@@ -41,7 +41,8 @@
           {{ navitem ('Blogs', 'blogs', 'static/assets/sidebar/blogs.svg') }}
         </li>
         {% endif %}
-        {% if env.isDev %}
+        {% set isViewDraftOnProd = functions.isActivePath(page.url, 'draft') %}
+        {% if env.isDev or isViewDraftOnProd %}
           <li class="sidebar-nav-item">
             {{ navitem ('Drafts', 'draft', 'static/assets/common/flask.svg') }}
           </li>

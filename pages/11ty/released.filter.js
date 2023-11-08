@@ -7,8 +7,12 @@ const draftsFilter = (values) => {
     return !tags.includes('draft');
   });
 };
+const activeDraftFilter = (values, url) => {
+  return (values || []).filter((item) => item.url === url);
+};
 
 module.exports = function (config) {
   config.addFilter('released', isDev ? identical : draftsFilter);
   config.addFilter('releasedStrict', draftsFilter);
+  config.addFilter('activeDraftFilter', activeDraftFilter);
 };
