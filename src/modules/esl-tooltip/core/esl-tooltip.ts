@@ -13,6 +13,10 @@ export interface TooltipActionParams extends PopupActionParams {
   text?: string;
   /** html content to be shown */
   html?: string;
+  /** text directionality of tooltips content */
+  dir?: string;
+  /** language of tooltips text content */
+  lang?: string;
   /** tooltip without arrow */
   disableArrow?: boolean;
 }
@@ -72,30 +76,14 @@ export class ESLTooltip extends ESLPopup {
   }
 
   public override connectedCallback(): void {
-    if (!this.disableArrow) {
-      this._appendArrow();
-    }
     super.connectedCallback();
     this.classList.add(ESLPopup.is);
+    this.classList.toggle('disable-arrow', this.disableArrow);
     this.tabIndex = 0;
   }
 
   /** Sets initial state of the Tooltip */
   protected override setInitialState(): void {}
-
-  /** Creates arrow at Tooltip */
-  @memoize()
-  protected _createArrow(): HTMLElement {
-    const arrow = document.createElement('span');
-    arrow.className = 'esl-popup-arrow';
-    return arrow;
-  }
-
-  /** Appends arrow to Tooltip */
-  protected _appendArrow(): void {
-    this.$arrow = this._createArrow();
-    this.appendChild(this.$arrow);
-  }
 
   /** Actions to execute on show Tooltip. */
   public override onShow(params: TooltipActionParams): void {
@@ -108,6 +96,8 @@ export class ESLTooltip extends ESLPopup {
     if (params.html) {
       this.innerHTML = params.html;
     }
+    this.dir = params.dir || '';
+    this.lang = params.lang || '';
     if (params.extraClass) {
       CSSClassUtils.add(this, params.extraClass);
     }

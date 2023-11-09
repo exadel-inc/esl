@@ -1,4 +1,4 @@
-@import "../common/colors.less";
+@import '../common/colors.less';
 
 // overwrite default search styles on the search page
 main {
@@ -7,7 +7,7 @@ main {
   }
 
   table.gsc-input:focus-within {
-    box-shadow: 0 0 4px 2px #1fc2ff;
+    box-shadow: 0 0 4px 2px @focus-color;
   }
 
   button.gsc-search-button {
@@ -15,7 +15,7 @@ main {
     border: 2px solid @primary-blue;
 
     &:focus-visible {
-      outline: 2px dashed #1fc2ff;
+      outline: 2px dashed @focus-color;
     }
   }
 

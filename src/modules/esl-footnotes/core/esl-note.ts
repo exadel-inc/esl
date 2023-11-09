@@ -2,7 +2,7 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement, prop} from '../../esl-base-element/core';
 import {ready, attr, boolAttr, memoize, listen} from '../../esl-utils/decorators';
 import {ESLTooltip} from '../../esl-tooltip/core';
-import {promisifyTimeout, repeatSequence} from '../../esl-utils/async/promise';
+import {promisifyTimeout, repeatSequence} from '../../esl-utils/async';
 import {ESLEventUtils} from '../../esl-utils/dom/events';
 import {ENTER, SPACE} from '../../esl-utils/dom/keys';
 import {scrollIntoView} from '../../esl-utils/dom/scroll';
@@ -79,7 +79,7 @@ export class ESLNote extends ESLBaseElement {
   }
   public set index(value: number) {
     this._index = value;
-    this.innerHTML = this.renderedIndex;
+    this.innerHTML = this.renderedHTML;
   }
 
   /** Note index in the displayed list of footnotes */
@@ -87,11 +87,30 @@ export class ESLNote extends ESLBaseElement {
     return this.allowFootnotes ? `${this._index}` : this.standaloneLabel;
   }
 
+  /** Note markup */
+  protected get renderedHTML(): string {
+    const index = this.renderedIndex;
+    if (!this._$footnotes) return index;
+    const footnotesIndexId = `${this._$footnotes.id}-${index}`;
+    return `<a class="esl-note-link" href="#${footnotesIndexId}" tabindex="-1">${index}</a>`;
+  }
+
   /** Query to describe conditions to ignore note by footnotes  */
   @memoize()
   public get queryToIgnore(): IMediaQueryCondition {
     const ignore = this.getClosestRelatedAttr('ignore') || this.ignore;
     return ESLMediaQuery.for(ignore);
+  }
+
+  /** The text writing directionality of the element */
+  protected get currentDir(): string {
+    return getComputedStyle(this).direction;
+  }
+
+  /** The base language of the element */
+  protected get currentLang(): string {
+    const el = this.closest('[lang]');
+    return (el) ? (el as HTMLElement).lang : '';
   }
 
   @ready
@@ -108,7 +127,7 @@ export class ESLNote extends ESLBaseElement {
     this.restore();
   }
 
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
+  protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected || oldVal === newVal) return;
     if (attrName === 'tooltip-shown' && newVal === null) {
       this._$footnotes?.turnOffHighlight(this);
@@ -118,11 +137,11 @@ export class ESLNote extends ESLBaseElement {
     }
   }
 
-  /** Revise the settings for ignoring the note */
+  /** Revises the settings for ignoring the note */
   public updateIgnoredQuery(): void {
     memoize.clear(this, 'queryToIgnore');
-    this.$$on(this._onBPChange);
-    this._onBPChange();
+    this.$$on(this._onIgnoreConditionChange);
+    this._onIgnoreConditionChange();
   }
 
   /** Gets attribute value from the closest element with group behavior settings */
@@ -200,6 +219,8 @@ export class ESLNote extends ESLBaseElement {
       activator: this,
       containerEl,
       html: this.html,
+      dir: this.currentDir,
+      lang: this.currentLang,
       intersectionMargin: this.intersectionMargin
     }, ...params);
   }
@@ -264,11 +285,11 @@ export class ESLNote extends ESLBaseElement {
     event: 'change',
     target: (el: ESLNote) => el.queryToIgnore
   })
-  protected _onBPChange(): void {
+  protected _onIgnoreConditionChange(): void {
     if (ESLTooltip.open) {
       this.hideTooltip();
     }
-    this.innerHTML = this.renderedIndex;
+    this.innerHTML = this.renderedHTML;
     this.update();
     this._$footnotes?.update();
   }

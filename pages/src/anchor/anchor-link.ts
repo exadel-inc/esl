@@ -1,7 +1,7 @@
-import {ESLMixinElement} from '../../../src/modules/esl-mixin-element/ui/esl-mixin-element';
-import {listen, memoize} from '../../../src/modules/esl-utils/decorators';
-import {afterNextRender} from '../../../src/modules/esl-utils/async/raf';
-import {ESLEventUtils} from '../../../src/modules/esl-utils/dom/events';
+import {ESLMixinElement} from '@exadel/esl/modules/esl-mixin-element/ui/esl-mixin-element';
+import {afterNextRender} from '@exadel/esl/modules/esl-utils/async/raf';
+import {listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
+import {ESLEventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
 
 /**
  * Demo sample of anchor mixin

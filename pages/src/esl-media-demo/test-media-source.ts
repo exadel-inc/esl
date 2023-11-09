@@ -1,7 +1,7 @@
-import {attr, listen, decorate} from '../../../src/modules/esl-utils/decorators';
-import {debounce} from '../../../src/modules/esl-utils/async/debounce';
-import {ESLBaseElement} from '../../../src/modules/esl-base-element/core/esl-base-element';
-import {ESLTraversingQuery} from '../../../src/modules/esl-traversing-query/core/esl-traversing-query';
+import {attr, listen, decorate} from '@exadel/esl/modules/esl-utils/decorators';
+import {debounce} from '@exadel/esl/modules/esl-utils/async/debounce';
+import {ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core/esl-base-element';
+import {ESLTraversingQuery} from '@exadel/esl/modules/esl-traversing-query/core/esl-traversing-query';
 
 class ESLDemoMediaSource extends ESLBaseElement {
   static override is = 'esl-d-media-source';

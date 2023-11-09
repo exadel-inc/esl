@@ -20,18 +20,19 @@ ESLPanelGroup.register();
 - `mode-cls` - rendering mode class pattern (default: `esl-{mode}-view`). Uses ESLUtils `format` syntax for `mode` placeholder
 - `mode-cls-target` - Element [ESLTraversingQuery](../esl-traversing-query/README.md)  selector to add class that identifies mode (ESLPanelGroup itself by default)
 - `animation-class` - class(es) to be added during animation ('animate' by default)
-- `no-animate` - list of breakpoints to disable collapse/expand animation (for both Group and Panel animations)
+- `no-animate` - list of breakpoints to skip collapse/expand animation (for both Group and Panel animations)
 - `refresh-strategy` - defines behaviour of active panel(s) in case of configuration change:
   * `initial` - activates initially opened panel(s)
-  * `last` - maintain currently active panel(s) open
+  * `last` - maintains a currently active panel(s) open
   * `open` - open max of available panels
   * `close` - close all the panels (to the min of open items)
-- `min-open-items` - defines minimum number ('0 | 1 | number | all') of panels that could be opened ('1' by default)
-- `max-open-items` - defines maximum number ('0 | 1 | number | all') of panels that could be opened ('1' by default)
+- `min-open-items` - defines the minimum number ('0 | 1 | number | all') of panels that could be opened ('1' by default)
+- `max-open-items` - defines the maximum number ('0 | 1 | number | all') of panels that could be opened ('1' by default)
 - `transform-params` - JSON of action params to pass into panels when executing reset action (happens when the mode is changed)
 
 ### Readonly attributes
 
+- `has-opened` - readonly attribute that indicates whether the panel group has opened panels
 - `current-mode` - readonly attribute that indicates the currently applied rendering mode of the panel group
 
 ### Events

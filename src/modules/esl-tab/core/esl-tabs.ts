@@ -4,6 +4,7 @@ import {rafDecorator} from '../../esl-utils/async/raf';
 import {memoize, attr, listen, decorate} from '../../esl-utils/decorators';
 import {isRTL, RTLScroll} from '../../esl-utils/dom/rtl';
 import {debounce} from '../../esl-utils/async/debounce';
+import {ESLResizeObserverTarget} from '../../esl-event-listener/core';
 import {ESLMediaRuleList} from '../../esl-media-query/core/esl-media-rule-list';
 import {ESLTab} from './esl-tab';
 
@@ -55,7 +56,7 @@ export class ESLTabs extends ESLBaseElement {
     this.updateScrollableType();
   }
 
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
+  protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected || oldVal === newVal) return;
     if (attrName === 'scrollable') {
       memoize.clear(this, 'scrollableTypeRules');
@@ -212,8 +213,7 @@ export class ESLTabs extends ESLBaseElement {
   @listen({
     auto: false,
     event: 'resize',
-    target: window,
-    passive: true
+    target: ESLResizeObserverTarget.for
   })
   @decorate(rafDecorator)
   protected _onResize(): void {

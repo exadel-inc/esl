@@ -1,9 +1,23 @@
 {
-  "extends": "../tsconfig.json",
   "compilerOptions": {
-    "rootDir": "../",
-    "sourceMap": true,
-    "module": "esnext"
+    "rootDir": "src",
+    "declaration": true,
+    "skipLibCheck": true,
+    "experimentalDecorators": true,
+    "alwaysStrict": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "noImplicitOverride": true,
+    "esModuleInterop": true,
+    "target": "ES6",
+    "downlevelIteration": true,
+    "module": "ES2022",
+    "moduleResolution": "Node",
+    "lib": [
+      "ES2015",
+      "DOM",
+      "DOM.Iterable"
+    ]
   },
   "include": [
     "src"

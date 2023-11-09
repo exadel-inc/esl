@@ -12,7 +12,7 @@ checks:
       threshold: 350
   method-complexity:
     config:
-      threshold: 6
+      threshold: 10
   method-count:
     config:
       threshold: 40
@@ -40,7 +40,6 @@ exclude_patterns:
   - "**/spec/"
   - "**/test/"
   - "**/tests/"
-  - "**/draft/"
   - "**/vendor/"
   - "**/*.d.ts"
   - "**/*.test.ts"

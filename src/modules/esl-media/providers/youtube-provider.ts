@@ -15,7 +15,7 @@ const DEFAULT_ASPECT_RATIO = 16 / 9;
 export class YouTubeProvider extends BaseProvider {
   static override readonly providerName: string = 'youtube';
   static readonly idRegexp = /(?:v\/|v=|vi=|vi\/|e\/|embed\/|user\/.*\/u\/\d+\/)([_0-9a-zA-Z-]+)/i;
-  static readonly providerRegexp = /^\s*(?:http(?:s)?:\/\/)?(?:www\.)?(?:youtu\.be|youtube(-nocookie)?\.com)/i;
+  static readonly providerRegexp = /^\s*(?:https?:\/\/)?(?:www\.)?(?:youtu\.be|youtube(-nocookie)?\.com)/i;
 
   protected override _el: HTMLDivElement | HTMLIFrameElement;
   protected _api: YT.Player;
@@ -54,7 +54,7 @@ export class YouTubeProvider extends BaseProvider {
       origin: location.origin,
       rel: 0,
       showinfo: 0,
-      iv_load_policy: 0, // eslint-disable-line
+      iv_load_policy: 3, // eslint-disable-line
       autoplay: Number(cfg.autoplay),
       controls: Number(cfg.controls),
       playsinline: Number(cfg.playsinline),
