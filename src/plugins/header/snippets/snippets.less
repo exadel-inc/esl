@@ -122,6 +122,56 @@
   }
 }
 
+.uip-root[snippets-tabs] {
+  .uip-snippets {
+    @media (min-width: 992px) and (max-width: 999999px) {
+      align-items: start;
+      flex-direction: column;
+
+      .snippets-dropdown {
+        position: initial;
+      }
+
+      .snippets-dropdown-wrapper {
+        max-height: initial;
+        visibility: visible;
+        border: none;
+        box-shadow: none;
+      }
+
+      .snippets-list {
+        display: flex;
+        flex-wrap: wrap;
+        margin-right: 0;
+        padding: 0 10px;
+      }
+
+      .snippets-list-item {
+        margin-right: 15px;
+        border-bottom: none;
+
+        &.active {
+          border-bottom: 1px solid #ebebeb;
+        }
+      }
+    }
+
+    .snippets-dropdown-control {
+      @media (min-width: 992px) and (max-width: 999999px) {
+        display: none;
+
+        &:hover {
+          opacity: 1;
+        }
+
+        &::before {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
 .uip-preview {
   .uip-snippets .snippets-dropdown {
     z-index: 5;
