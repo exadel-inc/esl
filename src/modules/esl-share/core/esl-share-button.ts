@@ -24,7 +24,7 @@ export class ESLShareButton extends ESLBaseElement {
     const $button = document.createElement(this.is) as InstanceType<T>;
     if (buttonName) {
       $button.name = buttonName;
-      $button.initIcon();
+      $button.defaultIcon = true;
     }
     return $button;
   }
