@@ -3,7 +3,7 @@ name: Validate
 on:
   push:
     branches: [ main, main-beta, epic/* ]
-  pull_request_target:
+  pull_request:
     branches: [ main, main-beta, epic/* ]
   workflow_dispatch:
 
@@ -45,7 +45,7 @@ jobs:
       - name: Run Tests
         run: npm run test:ci
       - name: Collect and Publish coverage to Code Climate
-        uses: paambaati/codeclimate-action@v3.2.0
+        uses: paambaati/codeclimate-action@v4.0.0
         continue-on-error: true
         env:
           CC_TEST_REPORTER_ID: ${{secrets.CC_REPORTER_ID}}

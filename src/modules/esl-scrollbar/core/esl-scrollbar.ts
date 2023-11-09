@@ -1,11 +1,12 @@
-import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement} from '../../esl-base-element/core';
+import {ExportNs} from '../../esl-utils/environment/export-ns';
+import {isElement} from '../../esl-utils/dom/api';
+import {isRelativeNode} from '../../esl-utils/dom/traversing';
+import {isRTL, RTLScroll, normalizeScrollLeft} from '../../esl-utils/dom/rtl';
+import {isMouseEvent, isTouchEvent, getTouchPoint, getOffsetPoint} from '../../esl-utils/dom/events';
 import {bind, ready, attr, boolAttr, listen} from '../../esl-utils/decorators';
 import {rafDecorator} from '../../esl-utils/async/raf';
-import {isMouseEvent, isTouchEvent, getTouchPoint, getOffsetPoint} from '../../esl-utils/dom/events';
-import {isRelativeNode} from '../../esl-utils/dom/traversing';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core';
-import {isRTL, RTLScroll, normalizeScrollLeft} from '../../esl-utils/dom/rtl';
 
 /**
  * ESLScrollbar is a reusable web component that replaces the browser's default scrollbar with
@@ -67,7 +68,7 @@ export class ESLScrollbar extends ESLBaseElement {
     this._scrollTimer && window.clearTimeout(this._scrollTimer);
   }
 
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
+  protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected || oldVal === newVal) return;
     if (attrName === 'target') this.findTarget();
     if (attrName === 'horizontal') this.refresh();
@@ -121,12 +122,8 @@ export class ESLScrollbar extends ESLBaseElement {
     if (!this.$target) return;
     const contentChanges = recs.filter((rec) => rec.type === 'childList');
     contentChanges.forEach((rec) => {
-      Array.from(rec.addedNodes)
-        .filter((el) => el instanceof Element)
-        .forEach((el: Element) => this._resizeObserver.observe(el));
-      Array.from(rec.removedNodes)
-        .filter((el) => el instanceof Element)
-        .forEach((el: Element) => this._resizeObserver.unobserve(el));
+      Array.from(rec.addedNodes).filter(isElement).forEach((el: Element) => this._resizeObserver.observe(el));
+      Array.from(rec.removedNodes).filter(isElement).forEach((el: Element) => this._resizeObserver.unobserve(el));
     });
     if (contentChanges.length) this._deferredRefresh();
   }
@@ -170,8 +167,12 @@ export class ESLScrollbar extends ESLBaseElement {
   /** Relative position value (between 0.0 and 1.0) */
   public get position(): number {
     if (!this.$target) return 0;
-    const scrollOffset = this.horizontal ? normalizeScrollLeft(this.$target) : this.$target.scrollTop;
-    return this.scrollableSize ? (scrollOffset / this.scrollableSize) : 0;
+    const size = this.scrollableSize;
+    if (size <= 0) return 0;
+    const offset = this.horizontal ? normalizeScrollLeft(this.$target) : this.$target.scrollTop;
+    if (offset < 1) return 0;
+    if (offset >= size - 1) return 1;
+    return offset / size;
   }
 
   public set position(position: number) {
@@ -328,7 +329,7 @@ export class ESLScrollbar extends ESLBaseElement {
     target: window
   })
   protected _onRefresh(event: Event): void {
-    if (!(event.target instanceof Element)) return;
+    if (!isElement(event.target)) return;
     if (!isRelativeNode(event.target.parentNode, this.$target)) return;
     this._deferredRefresh();
   }

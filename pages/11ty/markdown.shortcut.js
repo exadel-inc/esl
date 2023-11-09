@@ -5,7 +5,7 @@ const color = require('kleur');
 const {JSDOM} = require('jsdom');
 const {markdown} = require('./markdown.lib');
 
-const {github, rewriteRules, urlPrefix} = require('./site.config');
+const {github, rewriteRules} = require('./site.config');
 
 class MDRenderer {
   static async render(filePath, startAnchor, endAnchor) {
@@ -56,17 +56,23 @@ class MDRenderer {
   }
 
   static resolveLinks(dom, basePath) {
-    dom.querySelectorAll('a[href^="."]').forEach((link) => {
-      const absolutePath = path.join(path.dirname(basePath), link.href).replace(/\\/g, '/');
-      const resultPath = MDRenderer.processRewriteRules(absolutePath);
-      console.log(color.yellow(`Rewrite link "${link.href}" to "${resultPath}"`));
-      link.href = resultPath;
+    dom.querySelectorAll('a[href]').forEach((link) => {
+      if (link.href.startsWith('.')) {
+        const absolutePath = path.join(path.dirname(basePath), link.href).replace(/\\/g, '/');
+        const resultPath = MDRenderer.processRewriteRules(absolutePath);
+        console.log(color.yellow(`Rewrite link "${link.href}" to "${resultPath}"`));
+        link.href = resultPath;
+      }
+      if (['https:', 'http:'].includes(link.protocol)) {
+        link.target = '_blank';
+        link.rel = 'noopener';
+      }
     });
   }
   static processRewriteRules(linkPath) {
     for (const [key, value] of Object.entries(rewriteRules)) {
       if (!linkPath.endsWith(key)) continue;
-      if (value.startsWith('/')) return urlPrefix + value;
+      if (value.startsWith('/')) return value;
       return value;
     }
     return github.srcUrl + linkPath;

@@ -28,7 +28,7 @@ export class MediaQueryCondition extends SyntheticEventTarget implements IMediaQ
   public override addEventListener(type: 'change', callback: EventListener): void;
   public override addEventListener(type: any, callback: EventListener = type): void {
     super.addEventListener(type, callback);
-    if (this.hasEventListener(1)) return;
+    if (this.getEventListeners('change').length > 1) return;
     if (typeof this._mq.addEventListener === 'function') {
       this._mq.addEventListener('change', this._onChange);
     } else {

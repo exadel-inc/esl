@@ -1,13 +1,20 @@
 import type {PropertyProvider} from '../../esl-utils/misc/functions';
 
+declare global {
+  /** Extended event map with the custom event definition */
+  export interface ESLListenerEventMap extends HTMLElementEventMap {
+    /** User custom event or group of events */
+    [e: string]: Event;
+  }
+}
+
+/** Extended event with a delegated event target */
+export type DelegatedEvent<EventType extends Event> = EventType & {
+  $delegate: Element | null;
+};
+
 /** String CSS selector to find the target or {@link EventTarget} object or array of {@link EventTarget}s */
 export type ESLListenerTarget = EventTarget | EventTarget[] | string | null;
-
-/** Extended event map with the custom event definition */
-export interface ESLListenerEventMap extends HTMLElementEventMap {
-  /** User custom event or group of events */
-  [e: string]: Event;
-}
 
 /** Descriptor to create {@link ESLEventListener} */
 export type ESLListenerDescriptor<EType extends keyof ESLListenerEventMap = string> = {
@@ -23,6 +30,13 @@ export type ESLListenerDescriptor<EType extends keyof ESLListenerEventMap = stri
    * @see AddEventListenerOptions.passive
    */
   passive?: boolean;
+
+  /**
+   * A condition (boolean value or predicate) to apply subscription
+   * Subscription rejected by condition does not count as warning during subscription process
+   * Rejected by condition subscription does not count as warning during subscription process
+   */
+  condition?: boolean | PropertyProvider<boolean>;
 
   /** A string (or provider function) representing CSS selector to check delegated event target (undefined (disabled) by default) */
   selector?: string | PropertyProvider<string>;

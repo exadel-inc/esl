@@ -8,7 +8,7 @@ Authors: _Alexey Stsefanovich (ala'n)_.
 
 Starting from the 4th release ESL has a built-in mechanism to work with DOM events.
 ESL event listeners have more control and advanced features than native DOM API.
-Besides, the [`ESlBaseElement`](../esl-base-element/README.md) and the [`ESLMixinElement`](../esl-mixin-element/README.md)
+Besides, the [`ESLBaseElement`](../esl-base-element/README.md) and the [`ESLMixinElement`](../esl-mixin-element/README.md)
 have even more pre-built syntax sugar to make the consumer's code briefer.
 
 One of the main advantages of ESL listeners is the extended control of subscriptions.
@@ -111,7 +111,43 @@ Here is the list of supported keys of `ESLEventDesriptor`:
   <u>Default Value:</u> `null`  
   <u>Description:</u> the CSS selector to filter event targets for event delegation mechanism.
 
+  ⚠ If you want to get the currently delegated event target, you can access the `$delegate` key under the received event 
+  instance. In order to have access to `$delegate` strictly typed use the `DelegatedEvent<EventType>` type decorator.
+
+  E.g.:
+  ```typescript
+  @listen({ event: 'click', selector: 'button' })
+  onClick(e: DelegatedEvent<MouseEvent> /* instead of MouseEvent */) {
+    const delegate = e.$delegate; //instaead of e.target && e.target.closest('button');
+    ...
+  }
+  ```
+
   Supports `PropertyProvider` to declare the computed value as well.
+
+- #### `condition` key
+  
+  <u>Type:</u> `bollean | PropertyProvider<boolean>`
+  <u>Default Value:</u> `true`  
+  <u>Description:</u> the function predicate or boolean flag to check if the subscription should be created. Resolves right before the subscription.
+    
+  Useful in combination with `@listen` decorator to declare subscriptions.
+
+  ```typescript
+    class MyEl extends ESLBaseElement {
+        @attr() enabled = true;     
+  
+        @listen({event: 'click', condition: (that) => that.enabled})
+        onClick(e) {}
+  
+        attributeChangedCallback(name, oldValue, newValue) {
+          if (name === 'enabled') {
+              ESLEventUtils.unsubscribe(this, this.onClick);
+              ESLEventUtils.subscribe(this, this.onClick);
+          }
+        }
+    }
+  ```
 
 - #### `capture` key
 
@@ -431,26 +467,26 @@ ESLEventUtils.initDescriptor(TestCases.prototype, 'onEventManualDesc', {event: '
 
 <a name="-esleventutilsdecorate"></a>
 
-### ⚡ `ESLEventUtils.decorate` and `ESLEventTargetDecorator`
+### ⚡ `ESLDecoratedEventTarget.for`
 
 In cases where the original event of the target happens too frequently to be handled every time,
 it might be helpful to limit its processing. In purpose to do that ESL allows the creation of decorated `EventTargets`.
 The decorated target will process the original target events dispatching with the passed async call decoration function
 (such as debounce or throttle).
 
-The `ESLEventUtils.decorate` creates an instance of `ESLEventTargetDecorator` that decorates
-passed original `EventTarget` event emitting. The instances of `ESLEventTargetDecorator` are lazy
-and do not subscribe to the original event until they have their own subscriptions of the same event type.
+The `ESLDecoratedEventTarget.for` creates an instance that decorates passed original `EventTarget` event emitting. 
+The instances of `ESLDecoratedEventTarget` are lazy and do not subscribe to the original event 
+until they have their own subscriptions of the same event type.
 
-⚠ Note `ESLEventUtils.decorate` method is cached, so created instances will be reused if the inner cache does not
+⚠ Note `ESLDecoratedEventTarget.for` method is cached, so created instances will be reused if the inner cache does not
 refuse additional arguments of the decorator. The cache does not handle multiple and non-primitive arguments.
 
 ```typescript
-ESLEventUtils.decorate(
+ESLDecoratedEventTarget.for(
   target: EventTarget,
   decorator: (fn: EventListener, ...args: any[]) => EventListener,
   ...args: any[]
-): ESLEventTargetDecorator;
+): ESLDecoratedEventTarget;
 ```
 
 **Parameters**:
@@ -459,9 +495,20 @@ ESLEventUtils.decorate(
 - `decorator` - decoration function to decorate original target `EventListener`s;
 - `args` - optional arguments to pass to `decorator`.
 
+**Example:**
+```typescript
+class Component {
+  @listen({
+    event: 'scroll', 
+    target: ESLDecoratedEventTarget.for(window, throttle)
+  })
+  onScroll() {}
+}
+```
+
 #### Sharing of the decorated targets
 
-As was mentioned above, the method `ESLEventUtils.decorate` (alias for `ESLEventTargetDecorator.cached`) works with
+As was mentioned above, the method `ESLDecoratedEventTarget.for` works with
 a cache for simple cases. But in some cases, we might be interested in creating wrappers with a complex
 param, or we want to limit params usage across the project.
 
@@ -469,7 +516,7 @@ It might sound obvious, but there are no restrictions on sharing exact instances
 
 ```typescript
 // shared-event-targets.ts
-export const DEBOUNCED_WINDOW = ESLEventUtils.decorate(window, debounce, 1000);
+export const DEBOUNCED_WINDOW = ESLDecoratedEventTarget.for(window, debounce, 1000);
 ```
 
 ```typescript
@@ -487,7 +534,7 @@ import {debounce} from '.../debounce';
 
 ESLEventUtils.subscribe(host, {
   event: 'resize',
-  target: /* instead just window */ ESLEventUtils.decorate(window, debounce, 250)
+  target: /* instead just window */ ESLDecoratedEventTarget.for(window, debounce, 250)
 }, onResizeDebounced);
 ```
 
@@ -502,7 +549,7 @@ import {throttle} from '.../throttle';
 
 ESLEventUtils.subscribe(host, {
   event: 'scroll',
-  target: /* instead just window */ ESLEventUtils.decorate(window, throttle, 250)
+  target: /* instead just window */ ESLDecoratedEventTarget.for(window, throttle, 250)
 }, onScrollThrottled);
 ```
 
@@ -512,17 +559,17 @@ to receive no more than one event per 250 milliseconds `scroll` events
 
 <a name="-esleventutilsresize"></a>
 
-### ⚡ `ESLEventUtils.resize` and `ESLResizeObserverTarget`
+### ⚡ `ESLResizeObserverTarget.for`
 
 When you deal with responsive interfaces, you might need to observe an element resizes instead of
 responding to the whole window change. There is a tool for this in the native DOM API - `ResizeObserver'.
 The only problem is that it does not use events, while in practice, we work with it in the same way.
 
-`ESLEventUtils.resize` creates cached `ResizeObserver` adaptation to `EventTarget` (`ESLResizeObserverTarget`)
+`ESLResizeObserverTarget.for` creates cached `ResizeObserver` adaptation to `EventTarget` (`ESLResizeObserverTarget`)
 that allows you to get `resize` events when the observed element changes its size.
 
 ```typescript
-ESLEventUtils.resize(el: Element): ESLResizeObserverTarget;
+ESLResizeObserverTarget.for(el: Element): ESLResizeObserverTarget;
 ```
 
 **Parameters**:
@@ -532,7 +579,7 @@ ESLEventUtils.resize(el: Element): ESLResizeObserverTarget;
 `ESLResizeObserverTarget` creates itself once for an observed object with a weak reference-based cache.
 So any way of creating `ESLResizeObserverTarget` will always produce the same instance.
 
-`ESLEventUtils.resize(el) /**always*/ === ESLEventUtils.resize(el)`
+`ESLResizeObserverTarget.for(el) /**always*/ === ESLResizeObserverTarget.for(el)`
 So there is no reason to cache it manually.
 
 Usage example:
@@ -540,14 +587,75 @@ Usage example:
 ```typescript
 ESLEventUtils.subscribe(host, {
   event: 'resize',
-  target: ESLEventUtils.resize(el)
+  target: ESLResizeObserverTarget.for(el)
 }, onResize);
 // or
 ESLEventUtils.subscribe(host, {
   event: 'resize',
-  target: (host) => ESLEventUtils.resize(host.el)
+  target: (host) => ESLResizeObserverTarget.for(host.el)
 }, onResize);
 ```
+
+<a name="-esleventutilswipe"></a>
+
+### ⚡ `ESLSwipeGestureTarget.for` <i class="badge badge-sup badge-success">new</i>
+
+`ESLSwipeGestureTarget.for` is a simple and easy-to-use way to listen for swipe events on any element.
+
+`ESLSwipeGestureTarget.for` creates a synthetic target that produces `swipe` events. It detects `pointerdown` and 
+`pointerup` events and based on the distance (`threshold`) between start and end points and time (`timeout`) between 
+`pointerdown` and `pointerup` events, triggers `swipe` event on the target element.
+
+```typescript
+ESLSwipeGestureTarget.for(el: Element, settings?: ESLSwipeGestureSetting): ESLSwipeGestureTarget;
+```
+
+**Parameters**:
+
+- `el` - `Element` to listen for swipe events on.
+- `settings` - optional settings (`ESLSwipeGestureSetting`)
+
+Usage example:
+
+```typescript
+ESLEventUtils.subscribe(host, {
+  event: 'swipe',
+  target: ESLSwipeGestureTarget.for(el)
+}, onSwipe);
+// or
+ESLSwipeGestureTarget.subscribe(host, {
+  event: 'swipe',
+  target: (host) => ESLSwipeGestureTarget.for(host.el, {
+    threshold: '30px',
+    timeout: 1000
+  })
+}, onSwipe);
+```
+
+<a name="-esleventutilintersection"></a>
+
+### ⚡ `ESLIntersectionTarget.for` <i class="badge badge-sup badge-success">new</i>
+
+`ESLIntersectionTarget.for` is a way to listen for intersections using Intersection Observer API but in an EventTarget
+way.
+
+`ESLIntersectionTarget.for` creates a synthetic target that produces `intersection` events. It detects intersections by
+creating `IntersectionObserver` instance, created using passed `settings: IntersectionObserverInit`.
+
+Note: `ESLIntersectionTarget` does not share `IntersectionObserver` instances unlike caching capabilities of adapters 
+mentioned above. 
+
+```typescript
+ESLIntersectionTarget.for(el: Element | Element[], settings?: IntersectionObserverInit): ESLIntersectionTarget;
+```
+
+**Parameters**:
+- `el` - `Element` or `Element[]` to listen for intersection events on;
+- `settings` - optional settings (`ESLIntersectionSetting`)
+
+Event API:
+Throws `ESLIntersectionEvent` that implements `IntersectionObserverEntry` original interface.
+
 
 ---
 

@@ -60,7 +60,6 @@ export interface ActivatorObserver {
 export class ESLPopup extends ESLToggleable {
   public static override is = 'esl-popup';
 
-  public $arrow: HTMLElement | null;
   public $placeholder: ESLPopupPlaceholder | null;
 
   protected _containerEl?: HTMLElement;
@@ -71,6 +70,9 @@ export class ESLPopup extends ESLToggleable {
   protected _intersectionMargin: string;
   protected _intersectionRatio: IntersectionRatioRect = {};
   protected _updateLoopID: number;
+
+  /** Classname of popups arrow element */
+  @attr({defaultValue: 'esl-popup-arrow'}) public arrowClass: string;
 
   /**
    * Popup position relative to the trigger.
@@ -111,6 +113,12 @@ export class ESLPopup extends ESLToggleable {
   @prop() public override closeOnEsc = true;
   @prop() public override closeOnOutsideAction = true;
 
+  /** Arrow element */
+  @memoize()
+  public get $arrow(): HTMLElement | null {
+    return this.querySelector(`.${this.arrowClass}`) || this.appendArrow();
+  }
+
   /** Container element that define bounds of popups visibility */
   @memoize()
   protected get $container(): HTMLElement | undefined {
@@ -128,8 +136,12 @@ export class ESLPopup extends ESLToggleable {
   @ready
   protected override connectedCallback(): void {
     super.connectedCallback();
-    this.$arrow = this.querySelector('span.esl-popup-arrow');
     this.moveToBody();
+  }
+
+  protected override disconnectedCallback(): void {
+    super.disconnectedCallback();
+    memoize.clear(this, '$arrow');
   }
 
   /** Checks that the position along the horizontal axis */
@@ -163,6 +175,26 @@ export class ESLPopup extends ESLToggleable {
     this.$placeholder = ESLPopupPlaceholder.from(this);
     parentNode.replaceChild(this.$placeholder, this);
     document.body.appendChild(this);
+  }
+
+  /** Appends arrow to Popup */
+  public appendArrow(): HTMLElement {
+    const $arrow = document.createElement('span');
+    $arrow.className = this.arrowClass;
+    this.appendChild($arrow);
+    memoize.clear(this, '$arrow');
+    return $arrow;
+  }
+
+  /**
+   * Actions to execute before showing of popup. Handles the activator and updates the position of the popup.
+   * @returns false if the show task should be canceled
+   */
+  protected override onBeforeShow(params: ESLToggleableActionParams): boolean | void {
+    if (this.open) this.afterOnHide();
+    this.activator = params.activator;
+    if (this.open) this.afterOnShow();
+    if (this.open && !params.force) return false; // the show task will be forced to run so the next steps are unnecessary
   }
 
   /**
@@ -209,15 +241,7 @@ export class ESLPopup extends ESLToggleable {
   protected override onHide(params: PopupActionParams): void {
     this.beforeOnHide();
     super.onHide(params);
-
-    this._stopUpdateLoop();
-    this.activator && this._removeActivatorObserver(this.activator);
-
-    // clear all memoize data
-    memoize.clear(this, '_isMajorAxisHorizontal');
-    memoize.clear(this, '_isMajorAxisVertical');
-    memoize.clear(this, '_offsetArrowRatio');
-    memoize.clear(this, '$container');
+    this.afterOnHide();
   }
 
   /**
@@ -234,6 +258,16 @@ export class ESLPopup extends ESLToggleable {
    * Actions to execute before hiding of popup.
    */
   protected beforeOnHide(): void {}
+
+  /**
+   * Actions to execute after hiding of popup.
+   */
+  protected afterOnHide(): void {
+    this._stopUpdateLoop();
+    this.activator && this._removeActivatorObserver(this.activator);
+
+    memoize.clear(this, ['_isMajorAxisHorizontal', '_isMajorAxisVertical', '_offsetArrowRatio', '$container']);
+  }
 
   /**
    * Checks activator intersection for adjacent axis.
