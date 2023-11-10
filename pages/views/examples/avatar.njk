@@ -4,148 +4,240 @@ title: Avatar
 seoTitle: Avatar component examples based on ESL web components
 name: Avatar
 tags: [examples, draft]
-icon: examples/image.svg
+icon: examples/avatar.svg
 aside:
   components:
     - esl-avatar
 ---
 
+{% macro avatarElement(class, imgUrl, username, loading) %}
+ <esl-avatar class="{{class}}"{% if imgUrl %} image-url="{{imgUrl}}"{% endif %}{% if username%} username="{{username}}"{% endif %}{% if loading %} loading="{{loading}}"{% endif %}></esl-avatar>
+{% endmacro %}
+
+{% macro avatarDemo(imgUrl, username, loading) %}
+<div class="avatar-demo-wrapper">
+  {{ avatarElement('avatar-demo-1', imgUrl, username, loading) }}
+  {{ avatarElement('avatar-demo-2', imgUrl, username, loading) }}
+  {{ avatarElement('avatar-demo-3', imgUrl, username, loading) }}
+  {{ avatarElement('avatar-demo-4', imgUrl, username, loading) }}
+</div>
+{% endmacro %}
+
+<style>
+  .avatar-demo-container {
+    justify-content: center;
+    margin-block: 40px;
+  }
+
+  .avatar-demo-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    esl-avatar {
+      margin: 0 5px;
+    }
+  }
+
+  .avatar-demo-1 {
+    --esl-avatar-background: #ffa500;
+    --esl-avatar-text-size: 12px;
+
+    font-weight: 300;
+  }
+
+  .avatar-demo-2 {
+    --esl-avatar-background: #000;
+    --esl-avatar-size: 60px;
+    --esl-avatar-text-size: 25px;
+    --esl-avatar-text-color: #ff0;
+
+    font-weight: 900;
+  }
+
+  .avatar-demo-3 {
+    --esl-avatar-background: radial-gradient(circle, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 13%, rgba(0,212,255,1) 100%);
+    --esl-avatar-size: 120px;
+    --esl-avatar-text-size: 60px;
+    --esl-avatar-text-color: #ff69b4;
+
+    border: 1px solid #ff0;
+    box-shadow: 0px 0px 10px 2px rgba(255, 255, 0, .2);
+    font-weight: 700;
+  }
+
+  .avatar-demo-4 {
+    --esl-avatar-background: #f00;
+    --esl-avatar-size: 180px;
+    --esl-avatar-text-size: 90px;
+
+    border: 9px solid #afeeee;
+    font-weight: 900;
+  }
+</style>
+
 <section class="row">
   <div class="col-12">
     <div class="row mb-4">
-      <div class="col-xs-12 col-sm-6 d-flex align-items-center">
+      <div class="col-sm-12 col-md-6">
         <div>
-          <h2>Text mode only</h2>
+          <h2>Avatar without image, text abbreviation only</h2>
           {% code 'html' %}
             <esl-avatar
-              username="Quentin Tarantino">
+              username="ESL Developer">
             </esl-avatar>
           {% endcode %}
-          <p>ESL Avatar displays the user's initials. (First letter from the first name and first letter from the last name).</p>
+          <p>ESL Avatar displays the user's initials. (The first letter from the first word of the username and the first letter from the second word if it exists.).</p>
         </div>
       </div>
-      <div class="col-xs-12 col-sm-6 d-flex avatar-demo-container">
-        <div class="avatar-demo-wrapper">
-          <esl-avatar class="avatar-demo-4" username="Quentin Tarantino"></esl-avatar>
-          <esl-avatar class="avatar-demo-3" username="Quentin Tarantino"></esl-avatar>
-          <esl-avatar class="avatar-demo-2" username="Quentin Tarantino"></esl-avatar>
-          <esl-avatar class="avatar-demo-1" username="Quentin Tarantino"></esl-avatar>
-        </div>
+      <div class="col-sm-12 col-md-6 d-flex avatar-demo-container">
+        {{ avatarDemo('', 'ESL Developer', '') }}
       </div>
     </div>
     <hr/>
-    <div class="row mb-4">
-      <div class="col-xs-12 col-sm-6 d-flex align-items-center">
+        <div class="row mb-4">
+      <div class="col-sm-12 col-md-6">
         <div>
-          <h2>With PNG image</h2>
+          <h2>The component with JPEG image</h2>
           {% code 'html' %}
             <esl-avatar
-              username="Quentin Tarantino"
-              image-url="/assets/avatar/user.png">
-            </esl-avatar>
-          {% endcode %}
-          <p>ESL Avatar displays avatar image.</p>
-        </div>
-      </div>
-      <div class="col-xs-12 col-sm-6 d-flex avatar-demo-container">
-        <div class="avatar-demo-wrapper">
-          <esl-avatar class="avatar-demo-4" username="Quentin Tarantino" image-url="/assets/avatar/user.png"></esl-avatar>
-          <esl-avatar class="avatar-demo-3" username="Quentin Tarantino" image-url="/assets/avatar/user.png"></esl-avatar>
-          <esl-avatar class="avatar-demo-2" username="Quentin Tarantino" image-url="/assets/avatar/user.png"></esl-avatar>
-          <esl-avatar class="avatar-demo-1" username="Quentin Tarantino" image-url="/assets/avatar/user.png"></esl-avatar>
-        </div>
-      </div>
-    </div>
-    <hr/>
-    <div class="row mb-4">
-      <div class="col-xs-12 col-sm-6 d-flex align-items-center">
-        <div>
-          <h2>With JPEG image</h2>
-          {% code 'html' %}
-            <esl-avatar
-              username="Quentin Tarantino"
+              username="Lead Developer"
               image-url="/assets/avatar/user.jpg">
             </esl-avatar>
           {% endcode %}
-          <p>ESL Avatar displays avatar image.</p>
+          <p>ESL Avatar displays an avatar image.</p>
         </div>
       </div>
-      <div class="col-xs-12 col-sm-6 d-flex avatar-demo-container">
-        <div class="avatar-demo-wrapper">
-          <esl-avatar class="avatar-demo-4" username="Quentin Tarantino" image-url="/assets/avatar/user.jpg"></esl-avatar>
-          <esl-avatar class="avatar-demo-3" username="Quentin Tarantino" image-url="/assets/avatar/user.jpg"></esl-avatar>
-          <esl-avatar class="avatar-demo-2" username="Quentin Tarantino" image-url="/assets/avatar/user.jpg"></esl-avatar>
-          <esl-avatar class="avatar-demo-1" username="Quentin Tarantino" image-url="/assets/avatar/user.jpg"></esl-avatar>
-        </div>
+      <div class="col-sm-12 col-md-6 d-flex avatar-demo-container">
+        {{ avatarDemo('/assets/avatar/user.jpg', 'Lead Developer', '')}}
       </div>
     </div>
     <hr/>
     <div class="row mb-4">
-      <div class="col-xs-12 col-sm-6 d-flex align-items-center">
+      <div class="col-sm-12 col-md-6">
         <div>
-          <h2>With SVG image</h2>
+          <h2>Avatar with PNG image</h2>
           {% code 'html' %}
             <esl-avatar
-              username="Quentin Tarantino"
-              image-url="/assets/avatar/user.svg">
+              username="Senior Developer"
+              image-url="/assets/avatar/user.png">
             </esl-avatar>
           {% endcode %}
-          <p>ESL Avatar displays avatar image.</p>
+          <p>The component displays an avatar image.</p>
         </div>
       </div>
-      <div class="col-xs-12 col-sm-6 d-flex avatar-demo-container">
-        <div class="avatar-demo-wrapper">
-          <esl-avatar class="avatar-demo-4" username="Quentin Tarantino" image-url="/assets/avatar/user.svg"></esl-avatar>
-          <esl-avatar class="avatar-demo-3" username="Quentin Tarantino" image-url="/assets/avatar/user.svg"></esl-avatar>
-          <esl-avatar class="avatar-demo-2" username="Quentin Tarantino" image-url="/assets/avatar/user.svg"></esl-avatar>
-          <esl-avatar class="avatar-demo-1" username="Quentin Tarantino" image-url="/assets/avatar/user.svg"></esl-avatar>
-        </div>
+      <div class="col-sm-12 col-md-6 d-flex avatar-demo-container">
+        {{ avatarDemo('/assets/avatar/user.png', 'Senior Developer', '')}}
       </div>
     </div>
     <hr/>
     <div class="row mb-4">
-      <div class="col-xs-12 col-sm-6 d-flex align-items-center">
+      <div class="col-sm-12 col-md-6">
         <div>
-          <h2>With transparent PNG image</h2>
+          <h2>With transparent PNG image (3:2 ratio)</h2>
           {% code 'html' %}
             <esl-avatar
-              username="Quentin Tarantino"
+              username="ESL Bot"
               image-url="/assets/avatar/transparent.png">
             </esl-avatar>
           {% endcode %}
-          <p>ESL Avatar displays avatar image.</p>
+          <p>It should be noted that the image is not square, but rectangular, the ratio is 3 to 2. As you can see, the component shows the image with the original ratio preserved in such a way that the image covers the entire plane of the component.</p>
         </div>
       </div>
-      <div class="col-xs-12 col-sm-6 d-flex avatar-demo-container">
-        <div class="avatar-demo-wrapper">
-          <esl-avatar class="avatar-demo-4" username="Quentin Tarantino" image-url="/assets/avatar/transparent.png"></esl-avatar>
-          <esl-avatar class="avatar-demo-3" username="Quentin Tarantino" image-url="/assets/avatar/transparent.png"></esl-avatar>
-          <esl-avatar class="avatar-demo-2" username="Quentin Tarantino" image-url="/assets/avatar/transparent.png"></esl-avatar>
-          <esl-avatar class="avatar-demo-1" username="Quentin Tarantino" image-url="/assets/avatar/transparent.png"></esl-avatar>
-        </div>
+      <div class="col-sm-12 col-md-6 d-flex avatar-demo-container">
+        {{ avatarDemo('/assets/avatar/transparent.png', 'ESL Bot', '')}}
       </div>
     </div>
     <hr/>
     <div class="row mb-4">
-      <div class="col-xs-12 col-sm-6 d-flex align-items-center">
+      <div class="col-sm-12 col-md-6">
+        <div>
+          <h2>With SVG image (and eager loading policy)</h2>
+          {% code 'html' %}
+            <esl-avatar
+              loading="eager"
+              username="Anonymous Developer"
+              image-url="/assets/avatar/user.svg">
+            </esl-avatar>
+          {% endcode %}
+          <p>The component displays an avatar image and the image will be loaded as soon as possible.</p>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6 d-flex avatar-demo-container">
+        {{ avatarDemo('/assets/avatar/user.svg', 'Anonymous Developer', 'eager')}}
+      </div>
+    </div>
+    <hr/>
+    <div class="row mb-4">
+      <div class="col-sm-12 col-md-6">
+        <div>
+          <h2>With WEBP image (and lazy loading policy)</h2>
+          {% code 'html' %}
+            <esl-avatar
+              loading="lazy"
+              username="Junior Developer"
+              image-url="/assets/avatar/user.webp">
+            </esl-avatar>
+          {% endcode %}
+          <p>It will show the image, but the loading of the image by the browser will be delayed until it appears in the browser's viewport. The behavior is identical to the loading="lazy" mode for image tags. But lazy loading mode is enabled by default.</p>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6 d-flex avatar-demo-container">
+        {{ avatarDemo('/assets/avatar/user.webp', 'Junior Developer', '')}}
+      </div>
+    </div>
+    <hr/>
+    <div class="row mb-4">
+      <div class="col-sm-12 col-md-6">
+        <div>
+          <h2>With transparent WEBP image (3:2 ratio)</h2>
+          {% code 'html' %}
+            <esl-avatar
+              username="Intern Developer"
+              image-url="/assets/avatar/transparent.webp">
+            </esl-avatar>
+          {% endcode %}
+          <p>It should be noted that the image is not square, but rectangular, the ratio is 3 to 2. As you can see, the component shows the image with the original ratio preserved in such a way that the image covers the entire plane of the component.</p>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6 d-flex avatar-demo-container">
+        {{ avatarDemo('/assets/avatar/transparent.webp', 'Intern Developer', '')}}
+      </div>
+    </div>
+    <hr/>
+    <div class="row mb-4">
+      <div class="col-sm-12 col-md-6">
+        <div>
+          <h2>With animated WEBP image</h2>
+          {% code 'html' %}
+            <esl-avatar
+              username="Bored Developer"
+              image-url="/assets/avatar/animation.webp">
+            </esl-avatar>
+          {% endcode %}
+          <p>WOW!!! Live avatar!</p>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6 d-flex avatar-demo-container">
+        {{ avatarDemo('/assets/avatar/animation.webp', 'Bored Developer', '')}}
+      </div>
+    </div>
+    <hr/>
+    <div class="row mb-4">
+      <div class="col-sm-12 col-md-6">
         <div>
           <h2>With image, but the image did not load</h2>
           {% code 'html' %}
             <esl-avatar
-              username="Quentin Tarantino"
+              username="Non-existetnt Developer"
               image-url="/assets/non-existent-image.png">
             </esl-avatar>
           {% endcode %}
-          <p>ESL Avatar tries to load the image and switches to text mode displaying when it receives the error.</p>
+          <p>The component tries to load the image and switches to text mode displaying when it receives the error.</p>
         </div>
       </div>
-      <div class="col-xs-12 col-sm-6 d-flex avatar-demo-container">
-        <div class="avatar-demo-wrapper">
-          <esl-avatar class="avatar-demo-4" username="Quentin Tarantino" image-url="/assets/non-existent-image.png"></esl-avatar>
-          <esl-avatar class="avatar-demo-3" username="Quentin Tarantino" image-url="/assets/non-existent-image.png"></esl-avatar>
-          <esl-avatar class="avatar-demo-2" username="Quentin Tarantino" image-url="/assets/non-existent-image.png"></esl-avatar>
-          <esl-avatar class="avatar-demo-1" username="Quentin Tarantino" image-url="/assets/non-existent-image.png"></esl-avatar>
-        </div>
+      <div class="col-sm-12 col-md-6 d-flex avatar-demo-container">
+        {{ avatarDemo('/assets/non-existent-image.png', 'Non-existetnt Developer', '')}}
       </div>
     </div>
   </div>
