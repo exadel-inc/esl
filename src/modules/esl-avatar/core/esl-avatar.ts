@@ -1,64 +1,95 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {attr, ESLBaseElement} from '../../esl-base-element/core';
-import {bind} from '../../esl-utils/decorators/bind';
+import {bind, boolAttr, prop} from '../../esl-utils/decorators';
 
 @ExportNs('Avatar')
 export class ESLAvatar extends ESLBaseElement {
-  public static is = 'esl-avatar';
-  public static observedAttributes = ['username', 'image-url'];
+  public static override is = 'esl-avatar';
+  public static observedAttributes = ['image-url', 'username'];
 
-  /** The name of the user for whom the avatar is displayed */
-  @attr() public username: string;
+  /** Event to dispatch on change of {@link ESLAvatar} */
+  @prop('esl:avatar:changed') public AVATAR_CHANGED_EVENT: string;
+
   /** URL of the avatar image */
   @attr() public imageUrl: string;
+  /** Policy of loading image that is outside of the viewport */
+  @attr({defaultValue: 'lazy'}) public loading: 'eager' | 'lazy';
+  /** The name of the user for whom the avatar is displayed */
+  @attr({defaultValue: ''}) public username: string;
 
-  public set image(val: string) {
-    this.innerHTML = '';
-    const $img = document.createElement('esl-image');
-    $img.src = val;
-    $img.mode = 'cover';
-    $img.containerClass = 'with-image';
-    $img.containerClassState = 'loaded';
-    this.appendChild($img);
-    $img.$$on('error', this._onImageError);
-  }
+  /** @readonly Marker of displaying mode with image */
+  @boolAttr({readonly: true}) public withImg: boolean;
+  /** @readonly Marker of displaying mode without image, only text */
+  @boolAttr({readonly: true}) public textOnly: boolean;
 
-  public set text(val: string) {
-    this.innerHTML = '';
-    const $text = document.createElement('div');
-    $text.classList.add(`${ESLAvatar.is}-text`);
-    $text.textContent = val;
-    this.appendChild($text);
-  }
+  /** @readonly Ready state marker */
+  @boolAttr({readonly: true}) public ready: boolean;
 
-  protected connectedCallback(): void {
-    super.connectedCallback();
-    this.update();
-  }
-
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
-    if (!this.connected || oldVal === newVal) return;
-    this.update();
-  }
-
-  protected updateText(): void {
-    const username = this.username || '';
-    this.text = username.trim()
+  /** Gets a text to display in text-only mode and for alt property of image */
+  public get text(): string {
+    return this.username.trim()
       .split(' ')
+      .filter(Boolean)
       .reduce((acc, el, index) => (index > 1) ? acc : acc + el.slice(0, 1), '');
   }
 
-  protected update(): void {
-    if (this.imageUrl) {
-      this.image = this.imageUrl;
-    } else {
-      this.updateText();
-    }
+  protected override connectedCallback(): void {
+    super.connectedCallback();
+    console.log('connectedCallback', this.loading);
+    this.init();
   }
 
+  protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
+    if (!this.connected || oldVal === newVal) return;
+    this.init(true);
+  }
+
+  /** Initializes the avatar */
+  public init(force?: boolean): void {
+    if (this.ready && !force) return;
+    this.buildImageContent();
+    this.onReady();
+  }
+
+  /** Builds the image on avatar */
+  protected buildImageContent(): void {
+    const {imageUrl} = this;
+    if (!imageUrl) return this._onImageError();
+
+    const $img = new Image();
+    $img.loading = this.loading || 'lazy';
+    $img.alt = this.text;
+    $img.src = imageUrl;
+    $img.onerror = this._onImageError;
+    this.appendContent($img, true);
+  }
+
+  /** Builds the text on avatar */
+  protected buildTextContent(): void {
+    const $text = document.createElement('div');
+    $text.textContent = this.text;
+    this.appendContent($text, false);
+  }
+
+  /** Appends content to the component */
+  protected appendContent($content: HTMLElement, isImage: boolean): void {
+    this.innerHTML = '';
+    $content.classList.add(`${ESLAvatar.is}-${isImage ? 'img' : 'text'}`);
+    this.appendChild($content);
+    this.$$attr('with-img', isImage);
+    this.$$attr('text-only', !isImage);
+  }
+
+  /** Actions on image loading error */
   @bind
   protected _onImageError(): void {
-    this.updateText();
+    this.buildTextContent();
+  }
+
+  /** Actions on complete init and ready component */
+  private onReady(): void {
+    this.$$attr('ready', true);
+    this.$$fire(this.AVATAR_CHANGED_EVENT, {bubbles: false});
   }
 }
 
