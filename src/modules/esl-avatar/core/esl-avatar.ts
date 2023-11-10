@@ -1,6 +1,6 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {attr, ESLBaseElement} from '../../esl-base-element/core';
-import {bind, boolAttr, prop} from '../../esl-utils/decorators';
+import {ESLBaseElement} from '../../esl-base-element/core';
+import {attr, bind, boolAttr, prop} from '../../esl-utils/decorators';
 
 @ExportNs('Avatar')
 export class ESLAvatar extends ESLBaseElement {
@@ -35,7 +35,6 @@ export class ESLAvatar extends ESLBaseElement {
 
   protected override connectedCallback(): void {
     super.connectedCallback();
-    console.log('connectedCallback', this.loading);
     this.init();
   }
 
