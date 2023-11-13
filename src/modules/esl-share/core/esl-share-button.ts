@@ -1,3 +1,4 @@
+import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {attr, boolAttr, jsonAttr, listen, memoize, prop} from '../../esl-utils/decorators';
 import {ENTER, SPACE} from '../../esl-utils/dom/keys';
@@ -15,6 +16,7 @@ import type {ESLShareButtonConfig} from './esl-share-config';
  *
  * ESLShareButton is a custom element to invoke a share actions, defined by {@link ESLShareBaseAction}
  */
+@ExportNs('ShareButton')
 export class ESLShareButton extends ESLBaseElement {
   public static override is = 'esl-share-button';
   public static observedAttributes = ['action', 'name'];

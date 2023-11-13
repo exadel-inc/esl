@@ -1,3 +1,4 @@
+import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {attr, jsonAttr} from '../../esl-utils/decorators';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {ESLTrigger} from '../../esl-trigger/core';
@@ -12,6 +13,7 @@ import type {ESLSharePopupActionParams} from './esl-share-popup';
  *
  * ESLSharePopupTrigger is a component that allows triggering {@link ESLSharePopup} instance state changes.
  */
+@ExportNs('SharePopupTrigger')
 export class ESLSharePopupTrigger extends ESLTrigger {
   public static override is = 'esl-share-popup-trigger';
   public static override observedAttributes = ['list'];

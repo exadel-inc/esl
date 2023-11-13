@@ -1,3 +1,4 @@
+import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {isEqual} from '../../esl-utils/misc/object/compare';
 import {attr, boolAttr, listen, memoize, prop} from '../../esl-utils/decorators';
@@ -12,6 +13,7 @@ import type {ESLShareButtonConfig} from './esl-share-config';
  *
  * ESLShareList is a custom element to dynamically draw {@link ESLShareButton}s using simplified shared config
  */
+@ExportNs('ShareList')
 export class ESLShareList extends ESLBaseElement {
   public static override is = 'esl-share-list';
   public static observedAttributes = ['list'];

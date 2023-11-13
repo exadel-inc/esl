@@ -1,3 +1,4 @@
+import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {attr, bind, boolAttr, jsonAttr} from '../../esl-utils/decorators';
 import {ESLShareList} from './esl-share-list';
@@ -13,6 +14,7 @@ import type {ESLSharePopupActionParams} from './esl-share-popup';
  * ESLShare is a custom element to dynamically draw {@link ESLShareList}
  * or {@link ESLSharePopupTrigger} depending on the specified mode
  */
+@ExportNs('Share')
 export class ESLShare extends ESLBaseElement {
   public static override is = 'esl-share';
 

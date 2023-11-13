@@ -1,3 +1,4 @@
+import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLTooltip} from '../../esl-tooltip/core/esl-tooltip';
 import {bind, listen, memoize} from '../../esl-utils/decorators';
 import {ESLShareButton} from './esl-share-button';
@@ -25,6 +26,7 @@ export interface ESLSharePopupActionParams extends TooltipActionParams {
  * - renders a list of {@link ESLShareButton}s based on the {@link ESLShareConfig} config from host {@link ESLShare} component
  * - forwards the sharing attributes from the host share {@link ESLShare} component
  */
+@ExportNs('SharePopup')
 export class ESLSharePopup extends ESLTooltip {
   static override is = 'esl-share-popup';
 
