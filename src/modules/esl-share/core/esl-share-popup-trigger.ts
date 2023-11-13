@@ -14,6 +14,7 @@ import type {ESLSharePopupActionParams} from './esl-share-popup';
  */
 export class ESLSharePopupTrigger extends ESLTrigger {
   public static override is = 'esl-share-popup-trigger';
+  public static override observedAttributes = ['list'];
 
   /** Register {@link ESLSharePopupTrigger} component and dependent {@link ESLSharePopup} */
   public static override register(): void {
@@ -65,6 +66,17 @@ export class ESLSharePopupTrigger extends ESLTrigger {
   protected get $containerEl(): HTMLElement | undefined {
     const container = this.getClosestRelatedAttr('container');
     return container ? ESLTraversingQuery.first(container, this) as HTMLElement : undefined;
+  }
+
+  protected override attributeChangedCallback(attrName: string, oldValue: string | null, newValue: string | null): void {
+    if (!this.connected || oldValue === newValue) return;
+    this.update();
+  }
+
+  /** Updates the component and related popup */
+  protected update(): void {
+    if (!this.isTargetActive) return;
+    this.$target?.hide();
   }
 
   /** Update `$target` Toggleable  from `target` selector */
