@@ -189,3 +189,12 @@ export class ESLShareButton extends ESLBaseElement {
     this.$$fire(this.SHARE_BUTTON_CHANGED_EVENT, {bubbles: false});
   }
 }
+
+declare global {
+  export interface ESLLibrary {
+    ShareButton: typeof ESLShareButton;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-share-button': ESLShareButton;
+  }
+}

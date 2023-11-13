@@ -76,3 +76,12 @@ export class ESLShareList extends ESLBaseElement {
     this.init(true);
   }
 }
+
+declare global {
+  export interface ESLLibrary {
+    ShareList: typeof ESLShareList;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-share-list': ESLShareList;
+  }
+}

@@ -98,3 +98,12 @@ export class ESLShare extends ESLBaseElement {
     this.$$attr('ready', true);
   }
 }
+
+declare global {
+  export interface ESLLibrary {
+    Share: typeof ESLShare;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-share': ESLShare;
+  }
+}
