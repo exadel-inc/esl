@@ -5,13 +5,15 @@ import {attr, bind, boolAttr, prop} from '../../esl-utils/decorators';
 @ExportNs('Avatar')
 export class ESLAvatar extends ESLBaseElement {
   public static override is = 'esl-avatar';
-  public static observedAttributes = ['image-url', 'username'];
+  public static observedAttributes = ['image-src', 'username'];
 
   /** Event to dispatch on change of {@link ESLAvatar} */
   @prop('esl:avatar:changed') public AVATAR_CHANGED_EVENT: string;
 
-  /** URL of the avatar image */
-  @attr() public imageUrl: string;
+  /** Source path of the avatar image */
+  @attr() public imageSrc: string;
+  /** The limit number of letters to be displayed in text-only mode */
+  @attr({defaultValue: 2}) public limit: number;
   /** Policy of loading image that is outside of the viewport */
   @attr({defaultValue: 'lazy'}) public loading: 'eager' | 'lazy';
   /** The name of the user for whom the avatar is displayed */
@@ -25,12 +27,12 @@ export class ESLAvatar extends ESLBaseElement {
   /** @readonly Ready state marker */
   @boolAttr({readonly: true}) public ready: boolean;
 
-  /** Gets a text to display in text-only mode and for alt property of image */
-  public get text(): string {
+  /** Gets an abbreviation to display in text-only mode and for alt property of image */
+  public get abbr(): string {
     return this.username.trim()
       .split(' ')
       .filter(Boolean)
-      .reduce((acc, el, index) => (index > 1) ? acc : acc + el.slice(0, 1), '');
+      .reduce((acc, el, index) => (index >= this.limit) ? acc : acc + el.slice(0, 1), '');
   }
 
   protected override connectedCallback(): void {
@@ -47,26 +49,32 @@ export class ESLAvatar extends ESLBaseElement {
   public init(force?: boolean): void {
     if (this.ready && !force) return;
     this.buildImageContent();
+    this.initA11y();
     this.onReady();
+  }
+
+  /** Sets initial a11y attributes */
+  protected initA11y(): void {
+    if (this.$$attr('title') === null) this.title = this.username;
   }
 
   /** Builds the image on avatar */
   protected buildImageContent(): void {
-    const {imageUrl} = this;
-    if (!imageUrl) return this._onImageError();
+    const {imageSrc} = this;
+    if (!imageSrc) return this._onImageError();
 
     const $img = new Image();
     $img.loading = this.loading || 'lazy';
-    $img.alt = this.text;
-    $img.src = imageUrl;
+    $img.alt = this.abbr;
+    $img.src = imageSrc;
     $img.onerror = this._onImageError;
     this.appendContent($img, true);
   }
 
   /** Builds the text on avatar */
   protected buildTextContent(): void {
-    const $text = document.createElement('div');
-    $text.textContent = this.text;
+    const $text = document.createElement('abbr');
+    $text.textContent = this.abbr;
     this.appendContent($text, false);
   }
 
@@ -91,7 +99,6 @@ export class ESLAvatar extends ESLBaseElement {
     this.$$fire(this.AVATAR_CHANGED_EVENT, {bubbles: false});
   }
 }
-
 declare global {
   export interface ESLLibrary {
     Avatar: typeof ESLAvatar;
