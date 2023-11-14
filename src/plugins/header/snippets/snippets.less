@@ -5,9 +5,11 @@
 
 .uip-snippets {
   display: flex;
-  align-items: center;
+  position: relative;
   height: 100%;
   width: 100%;
+  margin: 10px 15px 10px 5px;
+  align-items: center;
 
   .snippets-title {
     font-size: 1.2rem;
@@ -66,10 +68,9 @@
         overflow: hidden;
         visibility: hidden;
         border: 1px solid @section-border;
-        transition:
-          max-height 0.3s ease-in-out,
-          visibility 0s 0.25s,
-          box-shadow 0.3s ease-in-out;
+        transition: max-height 0.3s ease-in-out,
+        visibility 0s 0.25s,
+        box-shadow 0.3s ease-in-out;
 
         .scrollbar-collapsed();
       }
@@ -112,9 +113,8 @@
         max-height: 150px;
         visibility: visible;
         box-shadow: 0 4px 6px 0 rgb(0 0 0 / 20%);
-        transition:
-          max-height 0.3s ease-in-out,
-          visibility 0s;
+        transition: max-height 0.3s ease-in-out,
+        visibility 0s;
 
         .scrollbar-expanded();
       }
@@ -122,51 +122,50 @@
   }
 }
 
-.uip-root[snippets-tabs] {
-  .uip-snippets {
-    @media (min-width: 992px) and (max-width: 999999px) {
-      align-items: start;
-      flex-direction: column;
 
-      .snippets-dropdown {
-        position: initial;
-      }
+.uip-snippets[snippets-tabs] {
+  @media (min-width: 992px) and (max-width: 999999px) {
+    align-items: start;
+    flex-direction: column;
 
-      .snippets-dropdown-wrapper {
-        max-height: initial;
-        visibility: visible;
-        border: none;
-        box-shadow: none;
-      }
-
-      .snippets-list {
-        display: flex;
-        flex-wrap: wrap;
-        margin-right: 0;
-        padding: 0 10px;
-      }
-
-      .snippets-list-item {
-        margin-right: 15px;
-        border-bottom: none;
-
-        &.active {
-          border-bottom: 1px solid #ebebeb;
-        }
-      }
+    .snippets-dropdown {
+      position: initial;
     }
 
-    .snippets-dropdown-control {
-      @media (min-width: 992px) and (max-width: 999999px) {
+    .snippets-dropdown-wrapper {
+      max-height: initial;
+      visibility: visible;
+      border: none;
+      box-shadow: none;
+    }
+
+    .snippets-list {
+      display: flex;
+      flex-wrap: wrap;
+      margin-right: 0;
+      padding: 0 10px;
+    }
+
+    .snippets-list-item {
+      margin-right: 15px;
+      border-bottom: none;
+
+      &.active {
+        border-bottom: 1px solid #ebebeb;
+      }
+    }
+  }
+
+  .snippets-dropdown-control {
+    @media (min-width: 992px) and (max-width: 999999px) {
+      display: none;
+
+      &:hover {
+        opacity: 1;
+      }
+
+      &::before {
         display: none;
-
-        &:hover {
-          opacity: 1;
-        }
-
-        &::before {
-          display: none;
-        }
       }
     }
   }

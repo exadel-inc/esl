@@ -1,4 +1,5 @@
 import {ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
+import {ESLTraversingQuery} from "@exadel/esl/modules/esl-traversing-query/core";
 import {attr, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 
 import {UIPRoot} from './root';
@@ -14,11 +15,13 @@ export abstract class UIPPlugin extends ESLBaseElement {
 
   /** Visible label */
   @attr() public label: string;
+  /** Query for root */
+  @attr() public rootTarget: string;
 
   /** Closest playground {@link UIPRoot} element */
   @memoize()
   protected get root(): UIPRoot | null {
-    return this.closest(`${UIPRoot.is}`);
+    return (this.rootTarget ? ESLTraversingQuery.first(this.rootTarget, this) : this.closest(`${UIPRoot.is}`)) as UIPRoot;
   }
 
   /** Returns {@link UIPStateModel} from root instance */
