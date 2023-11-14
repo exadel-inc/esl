@@ -10,16 +10,16 @@ aside:
     - esl-avatar
 ---
 
-{% macro avatarElement(class, imgUrl, username, loading) %}
- <esl-avatar class="{{class}}"{% if imgUrl %} image-url="{{imgUrl}}"{% endif %}{% if username%} username="{{username}}"{% endif %}{% if loading %} loading="{{loading}}"{% endif %}></esl-avatar>
+{% macro avatarElement(class, imgSrc, username, loading) %}
+ <esl-avatar class="{{class}}"{% if imgSrc %} image-src="{{imgSrc}}"{% endif %}{% if username%} username="{{username}}"{% endif %}{% if loading %} loading="{{loading}}"{% endif %}></esl-avatar>
 {% endmacro %}
 
-{% macro avatarDemo(imgUrl, username, loading) %}
+{% macro avatarDemo(imgSrc, username, loading) %}
 <div class="avatar-demo-wrapper">
-  {{ avatarElement('avatar-demo-1', imgUrl, username, loading) }}
-  {{ avatarElement('avatar-demo-2', imgUrl, username, loading) }}
-  {{ avatarElement('avatar-demo-3', imgUrl, username, loading) }}
-  {{ avatarElement('avatar-demo-4', imgUrl, username, loading) }}
+  {{ avatarElement('avatar-demo-1', imgSrc, username, loading) }}
+  {{ avatarElement('avatar-demo-2', imgSrc, username, loading) }}
+  {{ avatarElement('avatar-demo-3', imgSrc, username, loading) }}
+  {{ avatarElement('avatar-demo-4', imgSrc, username, loading) }}
 </div>
 {% endmacro %}
 
