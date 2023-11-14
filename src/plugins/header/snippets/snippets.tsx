@@ -4,7 +4,7 @@ import {memoize} from '@exadel/esl/modules/esl-utils/decorators/memoize';
 import {listen} from '@exadel/esl/modules/esl-utils/decorators/listen';
 
 import {UIPPlugin} from '../../../core/base/plugin';
-import {UIPOptionIcons} from '../options/option-icons';
+import {UIPSnippetsIcon} from './snippets.icon';
 
 import type {SnippetTemplate} from '../../../core/base/model';
 
@@ -85,7 +85,7 @@ export class UIPSnippets extends UIPPlugin {
   protected $innerContent(snippets: SnippetTemplate[]): JSX.Element {
     return <>
       <div className="snippets-dropdown-control">
-        {UIPOptionIcons.snippetSVG.cloneNode(true) as HTMLElement}
+        <UIPSnippetsIcon/>
         {this.$title}
       </div>
       <div className="snippets-dropdown">

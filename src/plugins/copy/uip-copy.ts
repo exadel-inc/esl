@@ -1,40 +1,25 @@
 import './uip-copy.shape';
 
-import {listen} from '@exadel/esl/modules/esl-utils/decorators';
-
-import {UIPPlugin} from '../../core/base/plugin';
+import {UIPPluginButton} from '../../core/button/plugin-button';
 
 import type {AlertActionParams} from '@exadel/esl/modules/esl-alert/core';
 
-export class UIPCopy extends UIPPlugin {
+export class UIPCopy extends UIPPluginButton {
   public static override is = 'uip-copy';
+  public static override defaultTitle = 'Copy to clipboard';
 
   public static msgConfig: AlertActionParams = {
     text: 'Markup copied',
     cls: 'uip-alert-info'
   };
 
-  /**
-   * Creates uip-copy element
-   * @param content - inner content of created element
-   * @param cls - class name of created element
-   */
-  public static create(content?: string | Element | JSX.Element, cls: string = ''): UIPCopy {
-    const $el = document.createElement(this.is) as UIPCopy;
-    $el.className = cls;
-    if (typeof content === 'string') $el.innerHTML = content;
-    if (typeof content === 'object') $el.appendChild(content);
-    return $el;
-  }
-
   protected override connectedCallback(): void {
     if (!navigator.clipboard) this.hidden = true;
     super.connectedCallback();
-    this.setAttribute('tabindex', '0');
-    this.setAttribute('role', 'button');
-    if (!this.hasAttribute('title')) {
-      this.setAttribute('title', 'Copy to clipboard');
-    }
+  }
+
+  public override onAction(): void {
+    this.copy().then(() => this.dispatchMessage());
   }
 
   /** Dispatches success alert message */
@@ -46,16 +31,5 @@ export class UIPCopy extends UIPPlugin {
   /** Copy model content to clipboard */
   public copy(): Promise<void> {
     return navigator.clipboard.writeText(this.model!.html);
-  }
-
-  @listen('click')
-  protected _onClick(e: PointerEvent): void {
-    e.preventDefault();
-    this.copy().then(() => this.dispatchMessage());
-  }
-
-  @listen('keydown')
-  protected _onKeyDown(e: KeyboardEvent): void {
-    if (e.key === 'Enter') this.click();
   }
 }

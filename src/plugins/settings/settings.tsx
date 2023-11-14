@@ -1,9 +1,12 @@
 import React from 'jsx-dom';
 
 import {debounce} from '@exadel/esl/modules/esl-utils/async/debounce';
-import {attr, decorate, listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
+import {attr, boolAttr, decorate, listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 
 import {UIPPluginPanel} from '../../core/panel/plugin-panel';
+import {UIPDirIcon} from '../direction/uip-dir.icon';
+import {UIPThemeIcon} from '../theme/uip-theme.icon';
+
 import {UIPSetting} from './base-setting/base-setting';
 import {SettingsIcon} from './settings.icon';
 
@@ -13,22 +16,25 @@ import {SettingsIcon} from './settings.icon';
  */
 export class UIPSettings extends UIPPluginPanel {
   public static is = 'uip-settings';
+  public static observedAttributes = ['dir-toggle', 'theme-toggle', ...UIPPluginPanel.observedAttributes];
 
   /** Attribute to set all inner {@link UIPSetting} settings' {@link UIPSetting#target} targets */
   @attr() public target: string;
 
-  /** Header section block */
+  @boolAttr() public dirToggle: boolean;
+  @boolAttr() public themeToggle: boolean;
+
+  protected override get $icon(): JSX.Element {
+    return <SettingsIcon/>;
+  }
+
   @memoize()
-  protected get $header(): HTMLElement {
+  protected override get $toolbar(): HTMLElement {
     const type = this.constructor as typeof UIPSettings;
-    const a11yLabel = this.collapsible ? 'Collapse/expand' + this.label : this.label;
-    return (
-      <div class={type.is + '-header uip-plugin-header ' + (this.label ? '' : 'no-label')}>
-        <span class="uip-plugin-header-icon" title={this.label}><SettingsIcon/></span>
-        <span class="uip-plugin-header-title">{this.label}</span>
-        {this.collapsible ? <button type="button" class="uip-plugin-header-trigger" aria-label={a11yLabel} title={a11yLabel}/> : ''}
-      </div>
-    ) as HTMLElement;
+    return (<div class={type.is + '-toolbar uip-plugin-header-toolbar'}>
+      {this.dirToggle ? <uip-toggle-dir class={type.is + '-toolbar-option'}><UIPDirIcon/></uip-toggle-dir> : ''}
+      {this.themeToggle ? <uip-toggle-theme class={type.is + '-toolbar-option'}><UIPThemeIcon/></uip-toggle-theme> : ''}
+    </div>) as HTMLElement;
   }
 
   @memoize()
@@ -62,9 +68,10 @@ export class UIPSettings extends UIPPluginPanel {
 
   protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     super.attributeChangedCallback(attrName, oldVal, newVal);
-    if (attrName === 'label' || attrName === 'collapsible') {
+    if (['label', 'collapsible', 'dir-toggle', 'theme-toggle'].includes(attrName)) {
       this.$header.remove();
-      memoize.clear(this, '$header');
+      this.$toolbar.remove();
+      memoize.clear(this, ['$header', '$toolbar']);
       this.insertAdjacentElement('afterbegin', this.$header);
     }
   }

@@ -29,16 +29,16 @@ export class UIPEditor extends UIPPluginPanel {
   /** Marker to display copy widget */
   @boolAttr({name: 'copy'}) public showCopy: boolean;
 
-  /** Header section block */
+  protected override get $icon(): JSX.Element {
+    return <EditorIcon/>;
+  }
+
   @memoize()
-  protected get $header(): HTMLElement {
+  protected override get $toolbar(): HTMLElement {
     const type = this.constructor as typeof UIPEditor;
     return (
-      <div class={type.is + '-header uip-plugin-header'}>
-        <span class="uip-plugin-header-icon" title={this.label}><EditorIcon/></span>
-        <span class="uip-plugin-header-title">{this.label}</span>
+      <div class={type.is + '-toolbar uip-plugin-header-toolbar'}>
         {this.showCopy ? <uip-copy class={type.is + '-header-copy'}><CopyIcon/></uip-copy> : ''}
-        {this.collapsible ? <button class="uip-plugin-header-trigger" aria-label="Collapse/expand"/> : ''}
       </div>
     ) as HTMLElement;
   }
@@ -103,11 +103,12 @@ export class UIPEditor extends UIPPluginPanel {
   protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     super.attributeChangedCallback(attrName, oldVal, newVal);
     this.$header.remove();
-    memoize.clear(this, '$header');
+    this.$toolbar.remove();
+    memoize.clear(this, ['$header', '$toolbar']);
     this.insertAdjacentElement('afterbegin', this.$header);
   }
 
-  /** Callback to call on editor's content changes */
+  /** Callback to call on an editor's content changes */
   @decorate(debounce, 1000)
   protected _onChange(): void {
     this.model!.setHtml(this.value, this);

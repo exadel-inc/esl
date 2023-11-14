@@ -1,14 +1,14 @@
 import type {ESLBaseElementShape} from '@exadel/esl/modules/esl-base-element/core';
-import type {UIPCopy} from './uip-copy';
+import type {UIPDirSwitcher} from './uip-dir';
 
-export interface UIPCopyShape extends ESLBaseElementShape<UIPCopy> {
+export interface UIPDirSwitcherShape extends ESLBaseElementShape<UIPDirSwitcher> {
   children?: any;
 }
 
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      'uip-copy': UIPCopyShape;
+      'uip-toggle-dir': UIPDirSwitcherShape;
     }
   }
 }
