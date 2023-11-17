@@ -59,25 +59,29 @@ export class ESLWheelTarget extends SyntheticEventTarget {
   }
 
   protected handleAggregatedWheel(events: WheelEvent[]): void {
-    const wheelInfo = this.resolveEventDetails(events);
-    if (!this.isLongScroll(wheelInfo)) return;
-    this.dispatchEvent(ESLWheelEvent.fromConfig('longwheel', this.target, wheelInfo));
+    const wheelInfo =  this.resolveEventDetails(events);
+    if (Math.abs(wheelInfo.deltaX) >= this.config.distance) {
+      this.dispatchEvent(ESLWheelEvent.fromConfig('longwheel', this.target, Object.assign({}, wheelInfo, {axis: 'x' as const})));
+    }
+    if (Math.abs(wheelInfo.deltaY) >= this.config.distance) {
+      this.dispatchEvent(ESLWheelEvent.fromConfig('longwheel', this.target, Object.assign({}, wheelInfo, {axis: 'y' as const})));
+    }
   }
 
-  protected resolveEventDetails(events: WheelEvent[]): ESLWheelEventInfo {
+  protected resolveEventDetails(events: WheelEvent[]): Omit<ESLWheelEventInfo, 'axis'> {
     const delta = events.reduce((agg, e) => ({
       x: agg.x + this.calculateScrollPixels(e, 'x'),
       y: agg.y + this.calculateScrollPixels(e, 'y')
     }), {x: 0, y: 0});
 
-    const startEvent = events[0];
-    const endEvent = events[events.length - 1];
-    return {startEvent, endEvent, deltaX: delta.x, deltaY: delta.y};
+    const duration = events[0].timeStamp - events[events.length - 1].timeStamp;
+    return {deltaX: delta.x, deltaY: delta.y, events, duration};
   }
 
-  private calculateScrollPixels(event: WheelEvent, axis: 'x' | 'y'): number {
+  private calculateScrollPixels(event: WheelEvent, axis: ESLWheelEvent['axis']): number {
     const {DOM_DELTA_LINE, DOM_DELTA_PAGE} = WheelEvent;
-    const deltaValue = axis === 'x' ? event.deltaX : event.deltaY;
+    const isHorizontal = axis === 'x' || event.shiftKey;
+    const deltaValue = isHorizontal ? event.deltaX : event.deltaY;
 
     let delta;
     switch (event.deltaMode) {
@@ -85,17 +89,12 @@ export class ESLWheelTarget extends SyntheticEventTarget {
         delta = deltaValue * parseInt(window.getComputedStyle(this.target).lineHeight, 10);
         break;
       case DOM_DELTA_PAGE:
-        delta = deltaValue * (axis === 'x' ? window.innerWidth : window.innerHeight);
+        delta = deltaValue * (isHorizontal ? window.innerWidth : window.innerHeight);
         break;
       default:
         delta = deltaValue;
     }
     return delta;
-  }
-
-  private isLongScroll(wheelInfo: ESLWheelEventInfo): boolean {
-    const {distance} = this.config;
-    return !!distance && (Math.abs(wheelInfo.deltaX) >= distance || Math.abs(wheelInfo.deltaY) >= distance);
   }
 
   public override addEventListener(callback: EventListener): void;

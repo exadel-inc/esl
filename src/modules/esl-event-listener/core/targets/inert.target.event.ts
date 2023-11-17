@@ -9,14 +9,16 @@ export type WheelEventName = 'longwheel';
  * Describes scroll information provided with {@link ESLWheelTarget}
  */
 export interface ESLWheelEventInfo {
+  /** Axis along which was performed scroll */
+  axis: 'x' | 'y';
   /** Distance scrolled along the x-axis */
   deltaX: number;
   /** Distance scrolled along the y-axis */
   deltaY: number;
-  /** First wheel event */
-  startEvent: WheelEvent;
-  /** Last wheel event */
-  endEvent: WheelEvent;
+  /** List of tracked wheel events */
+  events: WheelEvent[];
+  /** Time between first an last wheel events */
+  duration: number;
 }
 
 /**
@@ -25,10 +27,11 @@ export interface ESLWheelEventInfo {
 export class ESLWheelEvent extends UIEvent implements ESLWheelEventInfo {
   public override readonly target: Element;
 
+  public readonly axis: 'x' | 'y';
   public readonly deltaX: number;
   public readonly deltaY: number;
-  public readonly endEvent: WheelEvent;
-  public readonly startEvent: WheelEvent;
+  public readonly events: WheelEvent[];
+  public readonly duration: number;
 
   protected constructor(eventName: WheelEventName, target: Element, wheelInfo: ESLWheelEventInfo) {
     super(eventName);
