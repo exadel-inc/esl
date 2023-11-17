@@ -1,7 +1,7 @@
 import {overrideEvent} from '../../../esl-utils/dom/events/misc';
 
 /**
- * Event names that could be triggered by {@link ESLWheelTarget}
+ * Event name that could be triggered by {@link ESLWheelTarget}
  */
 export type WheelEventName = 'longwheel';
 
@@ -9,7 +9,7 @@ export type WheelEventName = 'longwheel';
  * Describes scroll information provided with {@link ESLWheelTarget}
  */
 export interface ESLWheelEventInfo {
-  /** Axis along which was performed scroll */
+  /** Axis along which the scroll was performed */
   axis: 'x' | 'y';
   /** Distance scrolled along the x-axis */
   deltaX: number;
