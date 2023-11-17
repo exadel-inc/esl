@@ -7,6 +7,8 @@ import {ESLSharePopup} from './esl-share-popup';
 import type {ESLToggleable} from '../../esl-toggleable/core/esl-toggleable';
 import type {ESLSharePopupActionParams} from './esl-share-popup';
 
+export type {ESLSharePopupTriggerTagShape} from './esl-share-popup-trigger.shape';
+
 /**
  * ESLSharePopupTrigger component
  * @author Dmytro Shovchko

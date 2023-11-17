@@ -8,6 +8,8 @@ import type {ESLToggleableActionParams} from '../../esl-toggleable/core';
 import type {TooltipActionParams} from '../../esl-tooltip/core/esl-tooltip';
 import type {ESLShareButtonConfig} from './esl-share-config';
 
+export type {ESLSharePopupTagShape} from './esl-share-popup.shape';
+
 function stringifyButtonsList(btns: ESLShareButtonConfig[]): string {
   return btns.map((btn) => btn.name).join(',');
 }

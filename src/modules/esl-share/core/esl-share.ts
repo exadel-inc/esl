@@ -7,6 +7,8 @@ import {ESLShareConfig} from './esl-share-config';
 
 import type {ESLSharePopupActionParams} from './esl-share-popup';
 
+export type {ESLShareTagShape} from './esl-share.shape';
+
 /**
  * ESLShare
  * @author Dmytro Shovchko

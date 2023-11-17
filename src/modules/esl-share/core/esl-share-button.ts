@@ -10,6 +10,8 @@ import {ESLShareConfig} from './esl-share-config';
 import type {ESLShareBaseAction} from './esl-share-action';
 import type {ESLShareButtonConfig} from './esl-share-config';
 
+export type {ESLShareButtonTagShape} from './esl-share-button.shape';
+
 /**
  * ESLShareButton
  * @author Dmytro Shovchko

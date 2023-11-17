@@ -7,6 +7,8 @@ import {ESLShareConfig} from './esl-share-config';
 
 import type {ESLShareButtonConfig} from './esl-share-config';
 
+export type {ESLShareListTagShape} from './esl-share-list.shape';
+
 /**
  * ESLShareList
  * @author Dmytro Shovchko
