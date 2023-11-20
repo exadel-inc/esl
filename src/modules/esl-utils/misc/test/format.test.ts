@@ -9,8 +9,8 @@ import {
   parseNumber,
   parseBoolean,
   parseString,
-  parseTime,
-  parseTimeSet
+  parseCSSTime,
+  parseCSSTimeSet
 } from '../format';
 
 describe('misc/format helper tests', () => {
@@ -145,27 +145,50 @@ describe('misc/format helper tests', () => {
     );
   });
 
-  describe('parseTime', () => {
+  describe('parseCSSTime', () => {
     test.each([
-      [['.3s'], 300],
-      [['.124s'], 124],
-      [['4s'], 4000],
-      [['350ms'], 350],
-      [['1024ms'], 1024],
-      [['five seconds'], NaN],
-      [['s'], NaN],
-      [['4min'], NaN],
-      [['ms'], NaN],
-      [['4.ms'], NaN],
-      [['350.s'], NaN],
-      [['.ms'], NaN]
+      // Positive integer
+      ['12s', 12000],
+      ['350ms', 350],
+      [' 12s ', 12000],
+      [' 350ms ', 350],
+      ['1024ms', 1024],
+      // Non-integer
+      ['.3s', 300],
+      ['.124s', 124],
+      ['.3ms', 0.3],
+      // Negative integer
+      ['-456ms', -456],
+      // Case insensitive
+      ['14mS', 14],
+      ['14S', 14000],
+      // Zero with leading +/-
+      ['+0s', 0],
+      ['-0ms', -0]
     ])(
-      'time = %p',
-      (time, num) => expect(parseTime.apply(null, time)).toBe(num)
+      'valid time = %s parsed as %s',
+      (time: string, result: number) => expect(parseCSSTime(time)).toBe(result)
+    );
+    test.each([
+      // Although unitless zero is allowed for <length>s, it's invalid for <time>s.
+      '0',
+      // This is a <number>, not a <time>, because it's missing a unit.
+      '12.0',
+      // Invalid text
+      'five seconds',
+      's', 'ms',
+      '350.s',
+      ' s', ' ms',
+      '.s', '.ms',
+      // CSS time supports only seconds and milliseconds
+      '4min'
+    ])(
+      'invalid time = %p parsed as NaN',
+      (time: string) => expect(parseCSSTime(time)).toBe(NaN)
     );
   });
 
-  describe('parseTimeSet', () => {
+  describe('parseCSSTimeSet', () => {
     test.each([
       [['.3s'], [300]],
       [['.124s, .50s'], [124, 500]],
@@ -176,7 +199,7 @@ describe('misc/format helper tests', () => {
       [['ms, s'], [NaN, NaN]]
     ])(
       'time = %p',
-      (time, num) => expect(parseTimeSet.apply(null, time)).toStrictEqual(num)
+      (time, num) => expect(parseCSSTimeSet.apply(null, time)).toStrictEqual(num)
     );
   });
 });

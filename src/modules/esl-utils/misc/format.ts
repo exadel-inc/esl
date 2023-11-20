@@ -82,23 +82,25 @@ export function format(str: string, source: Record<string, any>, matcher: RegExp
     return val === undefined ? match : val;
   });
 }
-
-/** Parses time, passed in seconds or milliseconds
+/**
+ * Parses time string ([CSS style](https://developer.mozilla.org/en-US/docs/Web/CSS/time))
  * @example
  * `.3s`, `4.5s`, `1000ms`
- * @returns milliseconds
+ * @returns number - time in milliseconds
 */
-export function parseTime(timeStr: string): number {
-  const isMilliseconds = timeStr.indexOf('ms') !== -1;
-  timeStr = timeStr.replace(isMilliseconds ? 'ms' : 's', '');
-  return timeStr.indexOf('.') === timeStr.length - 1 ? NaN : parseNumber(timeStr, NaN)! * (isMilliseconds ? 1 : 1000);
+export function parseCSSTime(timeStr: string): number {
+  const str = timeStr.trim().toLowerCase();
+  if (!/\dm?s$/.test(str)) return NaN;
+  if (str.endsWith('ms')) return +str.slice(0, -2);
+  return +str.slice(0, -1) * 1000;
 }
 
-/** Parses string of times, passed in seconds or milliseconds
+/**
+ * Parses string of times ([CSS style](https://developer.mozilla.org/en-US/docs/Web/CSS/time))
  * @example
  * `.3s`, `4.5s,1000ms`, `1s, 5s`
- * @returns array of milliseconds
+ * @returns number[] - array of times in milliseconds
 */
-export function parseTimeSet(timeStr: string): number[] {
-  return timeStr.split(/[ ,]+/).map((timeSubstr) => parseTime(timeSubstr));
+export function parseCSSTimeSet(timeStr: string): number[] {
+  return timeStr.split(',').map((timeSubstr) => parseCSSTime(timeSubstr));
 }
