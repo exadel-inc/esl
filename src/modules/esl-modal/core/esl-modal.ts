@@ -33,7 +33,7 @@ export class ESLModal extends ESLToggleable {
    * Define option to lock scroll
    * @see ScrollLockOptions
    */
-  @attr({defaultValue: 'none'})
+  @attr({defaultValue: 'background'})
   public scrollLockStrategy: ScrollLockStrategies;
 
   /** Do not activate backdrop */
