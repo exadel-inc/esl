@@ -1,7 +1,7 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
-import {TraversingQuery} from '../../esl-traversing-query/core';
-import {bind} from '../../esl-utils/decorators/bind';
+import {ESLBaseElement} from '../../esl-base-element/core';
+import {attr, boolAttr, listen} from '../../esl-utils/decorators';
+import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {ARROW_DOWN, ARROW_LEFT, ARROW_RIGHT, ARROW_UP} from '../../esl-utils/dom/keys';
 
 /** Relative targeting type definition */
@@ -15,9 +15,17 @@ export type GroupTarget = 'next' | 'prev' | 'current';
  */
 @ExportNs('A11yGroup')
 export class ESLA11yGroup extends ESLBaseElement {
-  public static is = 'esl-a11y-group';
+  public static override is = 'esl-a11y-group';
 
-  /** Target elements multiple selector ({@link TraversingQuery} syntax) */
+  /** Mapping of the keyboard keys to {@link GroupTarget} */
+  public static KEY_MAP: Record<string, GroupTarget> = {
+    [ARROW_UP]: 'prev',
+    [ARROW_LEFT]: 'prev',
+    [ARROW_DOWN]: 'next',
+    [ARROW_RIGHT]: 'next'
+  };
+
+  /** Target elements multiple selector ({@link ESLTraversingQuery} syntax) */
   @attr({defaultValue: '::child'}) public targets: string;
 
   /** Activates target (via click event) on selection */
@@ -32,40 +40,22 @@ export class ESLA11yGroup extends ESLBaseElement {
   /** @returns HTMLElement[] targets of the group */
   public get $targets(): HTMLElement[] {
     if (!this.$root) return [];
-    return TraversingQuery.all(this.targets, this.$root) as HTMLElement[];
+    return ESLTraversingQuery.all(this.targets, this.$root) as HTMLElement[];
   }
 
-  protected connectedCallback(): void {
-    super.connectedCallback();
-    this.bindEvents();
-  }
-  protected disconnectedCallback(): void {
-    super.disconnectedCallback();
-    this.unbindEvents();
-  }
-
-  protected bindEvents(): void {
-    this.$root?.addEventListener('keydown', this._onKeydown);
-  }
-  protected unbindEvents(): void {
-    this.$root?.removeEventListener('keydown', this._onKeydown);
-  }
-
-  @bind
+  @listen({
+    event: 'keydown',
+    target: (target: ESLA11yGroup) => target.$root
+  })
   protected _onKeydown(e: KeyboardEvent): void {
     const target = e.target as HTMLElement;
-
     if (!this.$targets.includes(target)) return;
 
-    if ([ARROW_UP, ARROW_LEFT].includes(e.key)) {
-      this.goTo('prev', target);
-      e.preventDefault();
-    }
+    const groupTarget = (this.constructor as typeof ESLA11yGroup).KEY_MAP[e.key];
+    if (!groupTarget) return;
 
-    if ([ARROW_DOWN, ARROW_RIGHT].includes(e.key)) {
-      this.goTo('next', target);
-      e.preventDefault();
-    }
+    this.goTo(groupTarget, target);
+    e.preventDefault();
   }
 
   /** Go to the target from the passed element or currently focused target by default */

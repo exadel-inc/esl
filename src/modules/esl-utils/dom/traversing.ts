@@ -1,13 +1,25 @@
-/** Check that `nodeA` and `nodeB` are from the same tree path */
+import type {Predicate} from '../misc/functions';
+
+/** Checks if element matches passed selector or exact predicate function */
+export const isMatches = (el: Element, matcher?: string | ((el: Element) => boolean)): boolean => {
+  if (typeof matcher === 'string') return !matcher || el.matches(matcher);
+  if (typeof matcher === 'function') return matcher.call(el, el);
+  return typeof matcher === 'undefined';
+};
+
+/** Checks that `nodeA` and `nodeB` are from the same tree path */
 export const isRelativeNode = (nodeA: Node | null, nodeB: Node | null): boolean => {
   return !!(nodeA && nodeB) && (nodeA.contains(nodeB) || nodeB.contains(nodeA));
 };
 
-/** Create function that finds next dom element, that matches selector, in the sequence declared by `next` function */
-export const createSequenceFinder = (next: (el: Element) => Element | null) => {
-  return function (base: Element, sel: string): Element | null {
-    for (let target: Element | null = next(base); target; target = next(target)) {
-      if (!sel || target.matches(sel)) return target;
+type IteratorFn = (el: Element) => Element | null;
+
+/** Creates function that finds next dom element, that matches selector, in the sequence declared by `next` function */
+export const createSequenceFinder = (next: IteratorFn, includeSelf: boolean = false) => {
+  return function (base: Element, predicate: string | Predicate<Element>): Element | null {
+    if (includeSelf && isMatches(base, predicate)) return base;
+    for (let target: Element | null = next(base); target && target !== base; target = next(target)) {
+      if (isMatches(target, predicate)) return target;
     }
     return null;
   };
@@ -19,6 +31,13 @@ export const findNext = createSequenceFinder((el) => el.nextElementSibling);
 export const findPrev = createSequenceFinder((el) => el.previousElementSibling);
 /** @returns first matching parent or null*/
 export const findParent = createSequenceFinder((el) => el.parentElement);
+/** @returns first matching ancestor starting from passed element or null*/
+export const findClosest = createSequenceFinder((el) => el.parentElement, true);
+/** @returns first matching host element starting from passed element*/
+export const findHost = createSequenceFinder((el) => {
+  const root = el.getRootNode();
+  return (root instanceof ShadowRoot) ? root.host : null;
+}, true);
 
 /** @returns Array of all matching elements in subtree or empty array */
 export const findAll = (base: Element, sel: string): Element[] => {
@@ -30,7 +49,7 @@ export const findChildren = (base: Element, sel: string): Element[] => {
 };
 
 /**
- * Find closest parent node of `node` by `predicate`.
+ * Finds closest parent node of `node` by `predicate`.
  * Optional `skipSelf` to skip initial node
  */
 export const findClosestBy = (node: Node | null, predicate: (node: Node) => boolean, skipSelf = false): Node | null => {
@@ -42,6 +61,18 @@ export const findClosestBy = (node: Node | null, predicate: (node: Node) => bool
   return null;
 };
 
+/**
+ * Finds looped next element within parent circle
+ */
+export const findNextLooped =
+  createSequenceFinder((el) => el.nextElementSibling || (el.parentElement && el.parentElement.firstElementChild));
+
+/**
+ * Finds looped previous element within parent circle (looped)
+ */
+export const findPrevLooped =
+  createSequenceFinder((el) => el.previousElementSibling || (el.parentElement && el.parentElement.lastElementChild));
+
 /** @deprecated Cumulative traversing utility set */
 export abstract class TraversingUtils {
   static isRelative = isRelativeNode;
@@ -51,6 +82,7 @@ export abstract class TraversingUtils {
   static findNext = findNext;
   static findPrev = findPrev;
   static findParent = findParent;
+  static findClosest = findClosest;
 
   static findAll = findAll;
   static findChildren = findChildren;

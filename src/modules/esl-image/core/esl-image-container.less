@@ -10,16 +10,16 @@
       left: 0;
       width: 100%;
 
-      &[mode="origin"],
+      &[mode='origin'],
       &[mode='save-ratio'] {
         position: relative;
       }
 
-      &[mode="fit"] {
+      &[mode='fit'] {
         position: static;
         overflow: hidden;
       }
-      &[mode="fit"] > .inner-image {
+      &[mode='fit'] > .inner-image {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -53,7 +53,7 @@
       padding-top: 75%;
     }
     &.@{containerClass}-16-9 {
-      padding-top: (9/16*100%);
+      padding-top: (9/16 * 100%);
     }
   }
 }

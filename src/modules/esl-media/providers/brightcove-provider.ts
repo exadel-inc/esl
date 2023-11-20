@@ -19,7 +19,7 @@ export interface BCPlayerAccount {
  */
 @BaseProvider.register
 export class BrightcoveProvider extends BaseProvider {
-  static readonly providerName: string = 'brightcove';
+  static override readonly providerName: string = 'brightcove';
 
   protected videojsClasses = 'video-js vjs-default-skin video-js-brightcove';
 
@@ -59,7 +59,7 @@ export class BrightcoveProvider extends BaseProvider {
     el.toggleAttribute('controls', this.config.controls);
     el.setAttribute('aria-label', el.title);
     el.setAttribute('data-embed', 'default');
-    el.setAttribute('data-video-id', `ref:${this.config.mediaId}`);
+    el.setAttribute('data-video-id', this.config.mediaId || '');
     el.toggleAttribute('playsinline', this.config.playsinline);
     this._account.playerId && el.setAttribute('data-player', this._account.playerId);
     this._account.accountId && el.setAttribute('data-account', this._account.accountId);
@@ -80,7 +80,6 @@ export class BrightcoveProvider extends BaseProvider {
     if (typeof window.bc !== 'function' || typeof window.videojs !== 'function') {
       throw new Error('Brightcove API is not in the global scope');
     }
-    console.debug('ESL Media: Brightcove API init for ', this);
     this._api = window.bc(this._el);
     return new Promise((resolve, reject) => this._api ? this._api.ready(resolve) : reject());
   }
@@ -90,7 +89,6 @@ export class BrightcoveProvider extends BaseProvider {
    * Basic onAPIReady should be called to subscribe to API state
    */
   protected onAPIReady(): Promise<void> | void {
-    console.debug('ESL Media: Brightcove API is ready ', this);
     // Set autoplay though js because BC is unresponsive while processing it natively
     this._api.autoplay(this._autoplay || this.config.autoplay);
 
@@ -116,20 +114,20 @@ export class BrightcoveProvider extends BaseProvider {
       .catch((e) => this.component._onError(e));
   }
 
-  public unbind(): void {
+  public override unbind(): void {
     this.component._onDetach();
     this._api && this._api.dispose();
     super.unbind();
   }
 
-  protected onConfigChange(param: ProviderObservedParams, value: boolean): void {
+  protected override onConfigChange(param: ProviderObservedParams, value: boolean): void {
     super.onConfigChange(param, value);
     if (typeof this._api[param] === 'function') {
       this._api[param](value);
     }
   }
 
-  public focus(): void {
+  public override focus(): void {
     this._api && this._api.focus();
   }
 
@@ -169,17 +167,18 @@ export class BrightcoveProvider extends BaseProvider {
   }
 
   public stop(): void {
+    this._api.autoplay(false);
     this._api.currentTime(0);
     this._api.pause();
   }
 
   // Overrides to set tech autoplay marker
-  public safePlay(): Promise<any> {
+  public override safePlay(): Promise<any> {
     this._autoplay = true;
     return super.safePlay();
   }
-  public safeStop(): Promise<any> {
-    this._autoplay = true;
+  public override safeStop(): Promise<any> {
+    this._autoplay = false;
     return super.safeStop();
   }
 }

@@ -1,4 +1,4 @@
-@import (reference) "../../common/variables.less";
+@import (reference) '../../common/variables.less';
 
 esl-d-sidebar {
   .sidebar-trigger-btn {
@@ -15,7 +15,7 @@ esl-d-sidebar {
 
     transform: rotate(0deg);
     transform-origin: center center;
-    transition: transform .5s ease-in-out;
+    transition: transform 0.5s ease-in-out;
 
     @media @md-xl {
       display: block;
@@ -27,7 +27,8 @@ esl-d-sidebar {
   }
 
   .sidebar-arrows-icon {
-    &::after, &::before {
+    &::after,
+    &::before {
       content: '';
 
       position: absolute;
@@ -36,7 +37,7 @@ esl-d-sidebar {
 
       transform: rotate(-45deg);
       transform-origin: top left;
-      transition: transform .4s ease-in-out;
+      transition: transform 0.4s ease-in-out;
 
       width: 22%;
       height: 22%;
@@ -52,10 +53,11 @@ esl-d-sidebar {
 
     &:hover {
       &::after {
-        opacity: .5;
+        opacity: 0.5;
       }
 
-      &::before, &::after {
+      &::before,
+      &::after {
         transform: translate(3px) rotate(-45deg);
       }
     }

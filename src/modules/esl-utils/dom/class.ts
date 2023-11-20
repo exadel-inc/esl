@@ -31,7 +31,7 @@ const unlock = (el: Element, className: string, locker: Element): boolean => {
  * Supports inversion and locker management.
  */
 const add = (el: Element, className: string, locker?: Element): void => {
-  if (className[0] === '!') return CSSClassUtils.remove(el, className.substring(1), locker);
+  if (className[0] === '!') return remove(el, className.substring(1), locker);
   if (locker) lock(el, className, locker);
   el.classList.add(className);
 };
@@ -41,16 +41,25 @@ const add = (el: Element, className: string, locker?: Element): void => {
  * Supports inversion and locker management.
  */
 const remove = (el: Element, className: string, locker?: Element): void => {
-  if (className[0] === '!') return CSSClassUtils.add(el, className.substring(1), locker);
+  if (className[0] === '!') return add(el, className.substring(1), locker);
   if (locker && !unlock(el, className, locker)) return;
   if (!locker) CSSClassUtils.unlock(el, className);
   el.classList.remove(className);
 };
 
 /**
+ * Check if the element matches passed CSS class.
+ * Supports inversion.
+ */
+const has = (el: Element, className: string): boolean => {
+  if (className[0] === '!') return !has(el, className.substring(1));
+  return el.classList.contains(className);
+};
+
+/**
  * CSS class manipulation utilities.
  *
- * Allows to manipulate with CSS classes with the following set of sub-features:
+ * Allows manipulating with CSS classes with the following set of sub-features:
  * - JQuery-like enumeration - you can pass multiple tokens separated by space
  * - safe checks - empty or falsy token sting will be ignored without throwing an error
  * - inversion syntax - tokens that start from '!' will be processed with inverted action
@@ -88,6 +97,15 @@ export abstract class CSSClassUtils {
    * */
   public static toggle(els: Element | Element[], cls: string | null | undefined, state: boolean, locker?: Element): void {
     (state ? CSSClassUtils.add : CSSClassUtils.remove)(els, cls, locker);
+  }
+
+  /**
+   * Check if all class from token string matches to the element or elements.
+   * @see CSSClassUtils
+   * */
+  public static has(els: Element | Element[], cls: string): boolean {
+    const tokens = CSSClassUtils.splitTokens(cls);
+    return wrap(els).every((el) => tokens.every((className) => has(el, className)));
   }
 
   /** Remove all lockers for the element or passed element className */

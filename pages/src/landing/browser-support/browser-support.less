@@ -1,20 +1,13 @@
-@import (reference) "../../common/variables.less";
+@import (reference) '../../common/variables.less';
 
 .browser-support {
   position: relative;
   flex-direction: column;
   margin: 5rem auto 0;
+  break-inside: avoid-page;
 
   &-text {
     margin-bottom: 2rem;
-  }
-
-  &-link {
-    text-transform: uppercase;
-
-    &:hover {
-      text-decoration: none;
-    }
   }
 
   &-image {
@@ -39,7 +32,8 @@
     flex-direction: row;
     align-items: center;
 
-    &-content, &-image {
+    &-content,
+    &-image {
       width: 50%;
     }
 

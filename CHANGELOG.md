@@ -1,3 +1,1093 @@
+## [4.13.1](https://github.com/exadel-inc/esl/compare/v4.13.0...v4.13.1) (2023-11-03)
+
+
+### Bug Fixes
+
+* **esl-event-listener:** fix subscription to intersects event in `IntersectionObserver` ([0d9ccca](https://github.com/exadel-inc/esl/commit/0d9ccca1e3d9b392ff6b88238f4f745c7e47ce14))
+* **esl-event-utils:** `ESLSwipeGestureTarget` target prevents inside element actions ([8fed4bc](https://github.com/exadel-inc/esl/commit/8fed4bc7784ced724c1d0e9410d6e388a1235a10)), closes [#2024](https://github.com/exadel-inc/esl/issues/2024)
+
+# [4.13.0](https://github.com/exadel-inc/esl/compare/v4.12.0...v4.13.0) (2023-10-25)
+
+
+### Bug Fixes
+
+* **esl-media:** fix brightcove provider autoplay marker flow ([58793cd](https://github.com/exadel-inc/esl/commit/58793cd14aa9dfd8ca884d3a984a0c85df726b0d)), closes [#1979](https://github.com/exadel-inc/esl/issues/1979)
+* **esl-popup:** fix default styles for `esl-popup` tag (uninitialized) ([e25eedf](https://github.com/exadel-inc/esl/commit/e25eedfcaf4c81ba0e5d446609b1843b3f815d77))
+* **esl-popup:** update popup position according activator change ([#1679](https://github.com/exadel-inc/esl/issues/1679)) ([65e3801](https://github.com/exadel-inc/esl/commit/65e3801a9db981a08275c7c6b1b38be449c12d2a))
+* **esl-scrollbar:** fix incorrect `at-start`/`at-end` handling when browser creates dimensions with the floating point ([852ad15](https://github.com/exadel-inc/esl/commit/852ad15b5c8f8c918f60e26199739ff79c8c6580))
+* **esl-share:** add a fill color to social network icons ([c0d62ac](https://github.com/exadel-inc/esl/commit/c0d62ac774a9750e6d1f25f7d48c125a1d674066))
+* **esl-share:** change default twitter (x.com) icon and bg color ([8c544e4](https://github.com/exadel-inc/esl/commit/8c544e4556c6cf9c98f9f827175f8d3f3dbce408))
+* **esl-share:** show copy notification just in case it is successful ([f57fe98](https://github.com/exadel-inc/esl/commit/f57fe98cf9818c861d6f4cb57dc467d1c2387bb8))
+* **esl-utils:** fix `debounce` helper random access of undefined ([8cd87e8](https://github.com/exadel-inc/esl/commit/8cd87e872cd3a2dcd6231c09e2cdefb7db5ea3d1))
+
+
+### Features
+
+* **esl-event-listener:** add `condition` descriptor property to legally prevent subscription ([00b719c](https://github.com/exadel-inc/esl/commit/00b719ca28994f41b2537aefba740b6ed16234ed)), closes [#1947](https://github.com/exadel-inc/esl/issues/1947)
+* **esl-event-listener:** create `ESLIntersectionTarget` adapter utility for managing `IntersectionObserver` subscriptions trough event listeners ([34bb7e8](https://github.com/exadel-inc/esl/commit/34bb7e835a33080b63a3dc83928cfbd9f4751072))
+* **esl-share:** add default-icon marker to render icon on button init ([081b526](https://github.com/exadel-inc/esl/commit/081b52601583cc3500e9cf40298ddeec702e0b93))
+* **esl-share:** add out of the box share config default ([4b97632](https://github.com/exadel-inc/esl/commit/4b97632007dab87afaa7966a27f3aade80369c12))
+* **esl-share:** create esl-share-list component ([90b1c1d](https://github.com/exadel-inc/esl/commit/90b1c1d8f4f2a4afa815026a242f1be78a72b2ba))
+* **esl-share:** remove iconBackground property from share buttons config ([27d793d](https://github.com/exadel-inc/esl/commit/27d793d542a3d990d2eb1a94f67135ba1885b7d2))
+* **esl-share:** rework esl-share-button custom element API ([96a7f84](https://github.com/exadel-inc/esl/commit/96a7f84d4f59cac504dd168dd54767cc9687d787))
+* **esl-share:** rework share popup internal implementation ([9b775a0](https://github.com/exadel-inc/esl/commit/9b775a07bb9db96ba6815eb548d0065d28aa965c))
+
+# [4.12.0](https://github.com/exadel-inc/esl/compare/v4.11.0...v4.12.0) (2023-09-22)
+
+
+### Bug Fixes
+
+* **esl-tabs:** observe element resize instead of window using `ESLResizeObserverTarget` ([9dd4639](https://github.com/exadel-inc/esl/commit/9dd4639c6d937758725c5a4e9e444c6c78d31215))
+
+
+### Code Refactoring
+
+* **esl-event-listener:** restructure `esl-event-listener/core/targets` ([fbdb6c3](https://github.com/exadel-inc/esl/commit/fbdb6c335e9863fddb6a817a66689cc127356335))
+
+
+### Features
+
+* **esl-event-listener:** `ESLEventUtils.unsubscribe` implementation moved to internal `ESLEventListener.unsubscribe` ([eaa4204](https://github.com/exadel-inc/esl/commit/eaa42045c39f3cbb5f07568aab93b9bd2a6fba98))
+* **esl-event-listener:** add `SwipeEventTarget` to subscribe `swipe` events using `ESLEventListener` ([e7e69a2](https://github.com/exadel-inc/esl/commit/e7e69a257b74f985be0c191b8e722dcb124bc74c)), closes [#1809](https://github.com/exadel-inc/esl/issues/1809)
+* **esl-media:** support for lazy initialization by `lazy` attribute for `ESLMedia` ([f83d65a](https://github.com/exadel-inc/esl/commit/f83d65a91e064e6f8aa2ddc7f9cc4e8b49eacba5))
+
+
+### BREAKING CHANGES
+
+* **esl-event-listener:** (if there is references to internal files) `resize.adapter.ts`/`resize.adapter.event.ts` renamed to `resize.target.ts`/`resize.target.event.ts`
+
+# [4.11.0](https://github.com/exadel-inc/esl/compare/v4.10.0...v4.11.0) (2023-09-01)
+
+
+### Bug Fixes
+
+* **esl-event-listener:** `ESLResizeObserverTarget.for` handles no target cases silently (warning + null result) ([b28d6af](https://github.com/exadel-inc/esl/commit/b28d6aff7a674fc04d23aaedadc03ace0f8d9cb3)), closes [#1885](https://github.com/exadel-inc/esl/issues/1885)
+* **esl-event-listener:** fix support of separate DOM realms for `ESLEventListener` ([905e7a8](https://github.com/exadel-inc/esl/commit/905e7a886b6ab975e32e712ae4f4b1109c42f0de))
+* **esl-media:** update `esl-media` refresh handler to use consistent `isElement` check ([d6f8855](https://github.com/exadel-inc/esl/commit/d6f8855428d69323815689335449ce1e17f9568f))
+* **esl-scrollbar:** update `esl-scrollbar` to use consistent `isElement` check on refresh and mutation observation ([f817837](https://github.com/exadel-inc/esl/commit/f817837e5ea1b35f8b4f0d2b2000321d2ddcc560))
+* **esl-trigger:** update `esl-trigger` to use consistent `isElement` check in `isTargetIgnored` check ([fe41661](https://github.com/exadel-inc/esl/commit/fe4166110dd077ac6759a7b4b509e6b11af058b2))
+* **esl-utils:** fix support of separate DOM realms for `getScrollParent` ([eb7ede6](https://github.com/exadel-inc/esl/commit/eb7ede60531c97f91c90e66df00aff1f43794514))
+* **esl-utils:** fix support of separate DOM realms for `resolveDomTarget` ([c16e1dd](https://github.com/exadel-inc/esl/commit/c16e1ddfa762f2ad7d64f308857fb5aa1bc93bc8))
+* **esl-utils:** fix types and Element check for `isVisible` predicate (support of separate DOM realms) ([7c83e09](https://github.com/exadel-inc/esl/commit/7c83e09e576ca1afb76cbf93698a261b28de9c42))
+
+
+### Features
+
+* **esl-panel-group:** add readonly `has-opened` marker for `esl-panel-group` ([a565a71](https://github.com/exadel-inc/esl/commit/a565a71ba7d6b89f834b5241b941b6314012ac4a))
+* **esl-panel-group:** support for esl-panel-group driven animation to closed state ([0698b1c](https://github.com/exadel-inc/esl/commit/0698b1c4d3942127adcd4c2674ce4807dbf9f963))
+* **esl-utils:** `isPlainObject` and `isElement` type guard utilities ([86f0bfb](https://github.com/exadel-inc/esl/commit/86f0bfb957d2dfbea4143b9b5af6d3e59a1def32))
+
+# [4.10.0](https://github.com/exadel-inc/esl/compare/v4.9.4...v4.10.0) (2023-08-10)
+
+
+### Bug Fixes
+
+* **esl-footnotes:** shape to support TSX is missing in module ([fd8cd07](https://github.com/exadel-inc/esl/commit/fd8cd076e07d2ea745da9cd59488f3f3001dbcae))
+* **esl-togglable:** open attribute change behavior ([826b27b](https://github.com/exadel-inc/esl/commit/826b27b9e4a48e0e42da96c0da7a8db1563473e1))
+* **esl-toggleable:** fix activator when close-on inner trigger click handled ([#1852](https://github.com/exadel-inc/esl/issues/1852)) ([f450d8b](https://github.com/exadel-inc/esl/commit/f450d8b68395785b5bb7e67d753994653d9d1a0a))
+* **esl-utils:** fix unhandled rejection when deferred is rejected but actual promise was not requested ([#1839](https://github.com/exadel-inc/esl/issues/1839)) ([5e111ba](https://github.com/exadel-inc/esl/commit/5e111baf343fba2c4e49c9618131fd50b78376f8))
+
+
+### Features
+
+* **esl-toggleable:** change `closeOnEsc` and `closeOnOutsideAction` mappers to extended boolean ('0' and 'false' values now considered as falsy) ([181a2b7](https://github.com/exadel-inc/esl/commit/181a2b767cfcb041620d30c95e08dffd3d3fd064))
+* **esl-trigger:** change `ignoreEsc` mapper to extended boolean ('0' and 'false' values now considered as falsy) ([9ccee3d](https://github.com/exadel-inc/esl/commit/9ccee3d03486df3cc88a7cfd06448f18dd139623))
+* **esl-utils:** `lockScroll` / `unlockScroll` methods reworked with no-scroll detection ([25b5b91](https://github.com/exadel-inc/esl/commit/25b5b9139c36f9bfc78319ba39e7cf6cee464a46))
+* **esl-utils:** create `toBooleanAttribute` and create extended boolean attribute flow ([e039256](https://github.com/exadel-inc/esl/commit/e0392569045dc8526d0d1f8ff383e54b044f5f1b))
+
+## [4.9.4](https://github.com/exadel-inc/esl/compare/v4.9.3...v4.9.4) (2023-07-17)
+
+
+### Bug Fixes
+
+* **esl-base-element:** fix redefine tag feature (existing component receives incorrect tag name) ([6c17690](https://github.com/exadel-inc/esl/commit/6c17690e9c332927df91bd7c87e93cb0732ba8bf)), closes [#1804](https://github.com/exadel-inc/esl/issues/1804)
+
+## [4.9.3](https://github.com/exadel-inc/esl/compare/v4.9.2...v4.9.3) (2023-07-13)
+
+
+### Bug Fixes
+
+* **esl-footnotes:** fix esl-tooltip related to the note does not perceive dir and lang of original content ([e506d0d](https://github.com/exadel-inc/esl/commit/e506d0dbf6504197032e384139115433b8d1a414))
+
+## [4.9.2](https://github.com/exadel-inc/esl/compare/v4.9.1...v4.9.2) (2023-07-12)
+
+
+### Bug Fixes
+
+* **esl-footnotes:** remove the possibility of setup esl-note anchor markup conditionally ([a26a3ed](https://github.com/exadel-inc/esl/commit/a26a3eda139eabc5db2094b89028b4c3cd0db8cb))
+
+## [4.9.1](https://github.com/exadel-inc/esl/compare/v4.9.0...v4.9.1) (2023-07-07)
+
+
+### Bug Fixes
+
+* hotfix for writeable `is` field short initialization syntax ([e46461b](https://github.com/exadel-inc/esl/commit/e46461bf69335993f7005efd55b8fd55dbe0f152))
+
+# [4.9.0](https://github.com/exadel-inc/esl/compare/v4.8.0...v4.9.0) (2023-07-07)
+
+
+### Bug Fixes
+
+* **esl-animate:** default print styles for esl-animate ootb animation ([3d4ea2a](https://github.com/exadel-inc/esl/commit/3d4ea2a52cb5c5de019bf5aedc94d182fbf7dfc8))
+* **esl-animate:** missing types for `esl-animate` module ([2000e04](https://github.com/exadel-inc/esl/commit/2000e041f882a7f22af620285b52ff5e5caf3b19))
+* **esl-base-element:** more accurate check for element redeclaration (detects both: tag and class inconsistency) ([66266a9](https://github.com/exadel-inc/esl/commit/66266a9996d52245c3c094edfb8397066e1d6895))
+* **esl-mixin-element:** remove mixin store invalidate on re-requesting registration + more accurate exceptions ([86b7620](https://github.com/exadel-inc/esl/commit/86b7620a3e18408701f7bde3234bc7781abfff9a))
+* **esl-mixin-element:** significant improvement for mixin registration process (scope DOM invalidation to changes records and registered mixin type ) ([06bd2ff](https://github.com/exadel-inc/esl/commit/06bd2ff1d32337af86fbe7d43b4ecc327b17110c))
+* **esl-panel-group:** default print styles for esl-panel-group ([9a2fc28](https://github.com/exadel-inc/esl/commit/9a2fc281d06b2070a90679cbdf758d606dd9aa0b))
+* **esl-panel:** default print styles for esl-panel ([68cf512](https://github.com/exadel-inc/esl/commit/68cf512f709d51686c03797066e382f1f4b38080))
+* **esl-select:** activator lost on dropdown hide ([02de9dd](https://github.com/exadel-inc/esl/commit/02de9ddb7fd6a3e590b4201890565a9321221162))
+* **gh-pages:** default print styles for gh-pages ([bb8a0ab](https://github.com/exadel-inc/esl/commit/bb8a0ab98ac85502af179d43a521dbeee32666cc))
+
+
+### Code Refactoring
+
+* **esl-animate:** rework default animation classes ([69ef3af](https://github.com/exadel-inc/esl/commit/69ef3af0927e5cf2e283326e86bc134f8999a477))
+
+
+### Features
+
+* **esl-footnotes:** add support of the anchor relationship between note and footnote for the print version ([d30c662](https://github.com/exadel-inc/esl/commit/d30c6629729071db724bd377681863dbf260947b))
+* **esl-footnotes:** create esl-note-ignore mixin ([3caa0d5](https://github.com/exadel-inc/esl/commit/3caa0d52ef260876009bb04c961ebc5fbba11a10))
+* **esl-select:** internal `esl-select-dropdown` is migrated to `esl-popup` ([#1393](https://github.com/exadel-inc/esl/issues/1393)) ([5f0009c](https://github.com/exadel-inc/esl/commit/5f0009cdefb341aa3cd0f5ea7e95e84633148a27))
+* **esl-share:** create esl-share-trigger component ([75a84f6](https://github.com/exadel-inc/esl/commit/75a84f6eb29e971b5bd2095af809ad9149c3c078))
+* **esl-share:** create popup mode for esl-share component ([0df4116](https://github.com/exadel-inc/esl/commit/0df41165e9f5aee54709f2c3c68609412aa5d6bb))
+
+
+### BREAKING CHANGES
+
+* **esl-animate:** default esl-animate module class `esl-animate-slide-up` replaced with `esl-animate-slide up`
+* **esl-animate:** default esl-animate module class `esl-animate-slide-down` replaced with `esl-animate-slide down`
+* **esl-animate:** default esl-animate module class `esl-animate-slide-left` replaced with `esl-animate-slide left`
+* **esl-animate:** default esl-animate module class `esl-animate-slide-right` replaced with `esl-animate-slide right`
+
+# [4.8.0](https://github.com/exadel-inc/esl/compare/v4.7.1...v4.8.0) (2023-06-26)
+
+
+### Features
+
+* **esl-animate:** animate mixin element ([9f9c156](https://github.com/exadel-inc/esl/commit/9f9c156c098df5d4de61e7cc7d13753e38a0391f))
+* **esl-toggleable:** ability to set up state class to any related element ([#1728](https://github.com/exadel-inc/esl/issues/1728)) ([648b114](https://github.com/exadel-inc/esl/commit/648b1149b1dc336779350fdea25f1cd90f4837f7)), closes [#1727](https://github.com/exadel-inc/esl/issues/1727)
+
+## [4.7.1](https://github.com/exadel-inc/esl/compare/v4.7.0...v4.7.1) (2023-06-15)
+
+
+### Bug Fixes
+
+* **esl-utils:** fix missing export of `createDeferred` method under `esl-utils/async/promise` ([756440e](https://github.com/exadel-inc/esl/commit/756440e8840e131a03d0ed7f82c9bd93caa3ba59))
+* **esl-utils:** fix unsubscription if `promisifiedEvent` rejected by timeout ([#1698](https://github.com/exadel-inc/esl/issues/1698)) ([#1724](https://github.com/exadel-inc/esl/issues/1724)) ([b675793](https://github.com/exadel-inc/esl/commit/b675793079c2650f243b1dac580f0666e801a732))
+
+# [4.7.0](https://github.com/exadel-inc/esl/compare/v4.6.0...v4.7.0) (2023-06-09)
+
+
+### Bug Fixes
+
+* **esl-utils:** fix sequence finder behaviour in case step function leads to loop ([c23e2c2](https://github.com/exadel-inc/esl/commit/c23e2c2622bec1e894ba97ba068d198d6dd53a4e))
+
+
+### Code Refactoring
+
+* **esl-carousel:** remove legacy esl-carousel implementation ([b31599a](https://github.com/exadel-inc/esl/commit/b31599ab101afb14081c4e2d8619ce9ee390571a))
+
+
+### Features
+
+* **esl-event-listener:** add the ability to get the current delegated event target ([#1675](https://github.com/exadel-inc/esl/issues/1675)) ([8b4b089](https://github.com/exadel-inc/esl/commit/8b4b089ca8d63ae7df0f39e4434ff7b2b38f5e59))
+* **esl-popup:** change the logic of auto injection of arrow ([a7ba04c](https://github.com/exadel-inc/esl/commit/a7ba04c2f9f16caab992566354a98376fca1672f))
+* **esl-utils:** add `findNextLooped` and `findPrevLooped` common traversing utility ([80a4e67](https://github.com/exadel-inc/esl/commit/80a4e67324301665b16b3780f6f81e03bcc27914))
+* **esl-utils:** add `promisifyNextRender` common utility ([3a93887](https://github.com/exadel-inc/esl/commit/3a938876791201e38919af33646d8fb28d248e45))
+* **esl-utils:** introduce `promisifyTransition` utility ([68d0556](https://github.com/exadel-inc/esl/commit/68d0556d56624728ff57a77e5f6cead568ab14f3))
+* **esl-utils:** utility to postpone execution to microtask ([4f4f637](https://github.com/exadel-inc/esl/commit/4f4f6374741d2534547e650bf59d39596008f25b))
+
+
+### BREAKING CHANGES
+
+* **esl-carousel:** `draft/esl-carousel` no longer available
+
+# [4.6.0](https://github.com/exadel-inc/esl/compare/v4.5.0...v4.6.0) (2023-05-22)
+
+
+### Bug Fixes
+
+* **esl-utils:** fix `unwrap` method signature types ([ee16641](https://github.com/exadel-inc/esl/commit/ee16641844fb7d10f845eb26ff54264c799833ac))
+* **esl-utils:** make ts decorators work with babel ([05462da](https://github.com/exadel-inc/esl/commit/05462daf52d1471a9d7676abae2862d2f8e5556a))
+
+
+### Features
+
+* **🚩esl-share:** beta version of esl-share([#1327](https://github.com/exadel-inc/esl/issues/1327)) component released ([#1660](https://github.com/exadel-inc/esl/issues/1660)) ([be7aa83](https://github.com/exadel-inc/esl/commit/be7aa830c47ddc0b8e70cd593718e90709e9d3f5))
+
+# [4.5.0](https://github.com/exadel-inc/esl/compare/v4.4.1...v4.5.0) (2023-05-15)
+
+
+### Features
+
+* `ESLBaseComponent` interface shared between `ESLMixinElement` and `ESLBaseElement` ([507dfe8](https://github.com/exadel-inc/esl/commit/507dfe88e9473555f8f0d50c1ea32b0415413e72))
+* **esl-mixin-element:** `ESLMixinElement` API updates: **IMPORTANT !** hooks methods now have protected visibility modifier ([2be1b44](https://github.com/exadel-inc/esl/commit/2be1b4438d7d47af573b83546085475d4e512322))
+* **esl-mixin-element:** add `getAll` public utility method ([2be1b44](https://github.com/exadel-inc/esl/commit/2be1b4438d7d47af573b83546085475d4e512322))
+* **esl-mixin-element:** add the ability to get mixin by name by `ESLMixinElement` ([7365e13](https://github.com/exadel-inc/esl/commit/7365e13d563b1f56daab5be4149a4e6475e1ec3f))
+* **esl-mixin-element:** improve observation mechanism of mixin's observed attributes ([e7ed2ab](https://github.com/exadel-inc/esl/commit/e7ed2ab93493e15e22fbf1c37f3baf310e3651e9))
+* **esl-mixin-element:** mixin primary attribute observed unconditionally by mixin manager ([c6741a4](https://github.com/exadel-inc/esl/commit/c6741a4dddafc11a5017b8bad9cfbf0408aa2ab2))
+
+
+## [4.4.1](https://github.com/exadel-inc/esl/compare/v4.4.0...v4.4.1) (2023-04-25)
+
+
+### Bug Fixes
+
+* **esl-utils:** incorrect throttle behaviour ([918944d](https://github.com/exadel-inc/esl/commit/918944d0255961651eb3df8f060a9b65fc1ca228))
+* **gh-pages:** add new favicon icons ([b2846be](https://github.com/exadel-inc/esl/commit/b2846bea077fe19a8c321349b795837a43cb78e6))
+* **gh-pages:** add new favicon icons according to the favicons guide ([83d0ca4](https://github.com/exadel-inc/esl/commit/83d0ca44ac2640fed04023878c696399562b5bac))
+
+## [4.4.1](https://github.com/exadel-inc/esl/compare/v4.4.0...v4.4.1) (2023-04-25)
+
+
+### Bug Fixes
+
+* **esl-utils:** incorrect throttle behaviour ([918944d](https://github.com/exadel-inc/esl/commit/918944d0255961651eb3df8f060a9b65fc1ca228))
+* **gh-pages:** add new favicon icons ([b2846be](https://github.com/exadel-inc/esl/commit/b2846bea077fe19a8c321349b795837a43cb78e6))
+* **gh-pages:** add new favicon icons according to the favicons guide ([83d0ca4](https://github.com/exadel-inc/esl/commit/83d0ca44ac2640fed04023878c696399562b5bac))
+
+# [4.4.0](https://github.com/exadel-inc/esl/compare/v4.3.1...v4.4.0) (2023-04-12)
+
+
+### Bug Fixes
+
+* **esl-event-listener:** fix `ESLEventTargetDecorator` dispatched event `target` ([8252988](https://github.com/exadel-inc/esl/commit/82529888e18e857a0fe86ff4fdd4faf4c746f26b))
+* **esl-event-listener:** fix target delegation checking ([b307ce6](https://github.com/exadel-inc/esl/commit/b307ce647c9efd3d7e639dcf873f7a428ecb1d85))
+* **esl-event-listener:** fix typechecking for TS5 ([d434275](https://github.com/exadel-inc/esl/commit/d434275d7db041c77329f01885dcadf3e53fdb3f))
+* **esl-media:** fix `iv_load_policy` param and small test regexp optimization in YouTube provider ([2deb64b](https://github.com/exadel-inc/esl/commit/2deb64b8ff2e6c564eba5f5b95746c2c285d9394))
+* **esl-utils:** `SynteticEventTarget` no longer mutate `event.target` without need; `event.currentTarget` fix to current instance ([d5e2c78](https://github.com/exadel-inc/esl/commit/d5e2c78a3c41341dffe46c7419aedff0f38ae1d1)), closes [#1534](https://github.com/exadel-inc/esl/issues/1534)
+
+
+### Code Refactoring
+
+* **esl-event-listener:** change API of extended EventTargets ([39b01cc](https://github.com/exadel-inc/esl/commit/39b01cc210672a6cd832b56a4bf5dfd0b9fb1b09))
+
+
+### Features
+
+* **esl-base-element:** `ESLBaseElement.prototype.baseTagName` shortcut ([c10fc6d](https://github.com/exadel-inc/esl/commit/c10fc6da0547658220693979c32d566ccea1637b))
+* **esl-event-listener:** improved `ESLResizeObserverTarget` API with a standardized `ESLElementResizeEvent` ([8e1d72e](https://github.com/exadel-inc/esl/commit/8e1d72e7f28ad6a1865ed092cbc0253709e5b9dd))
+* **esl-event-listener:** support for `ESLDomElementTarget` in `ESLResizeObserverTarget` ([#1573](https://github.com/exadel-inc/esl/issues/1573)) ([f177381](https://github.com/exadel-inc/esl/commit/f177381066024f5fc74704f86a16682f6b2346f8))
+* **esl-utils:** `getEventListeners()` method introduced for `SynteticEventTarget` ([#1548](https://github.com/exadel-inc/esl/issues/1548)) ([c293b61](https://github.com/exadel-inc/esl/commit/c293b61e61e913a7e299e76a2aad88c90bbc9a12))
+
+
+### BREAKING CHANGES (Beta)
+
+* **esl-event-listener:** beta `ESLEventUtils.resize` replaced with `ESLResizeObserverTarget.for`
+* **esl-event-listener:** beta `ESLEventUtils.decorate` replaced with `ESLDecoratedEventTarget.for`
+
+## [4.3.1](https://github.com/exadel-inc/esl/compare/v4.3.0...v4.3.1) (2023-03-09)
+
+
+### Bug Fixes
+
+* **esl-event-listener:** (HOTFIX) `[@listen](https://github.com/listen)` should not require host typeof `ESLDomElementTarget` ([01b84c3](https://github.com/exadel-inc/esl/commit/01b84c361100237a181a46595e0f6b67a5067353))
+
+# [4.3.0](https://github.com/exadel-inc/esl/compare/v4.2.1...v4.3.0) (2023-03-08)
+
+
+### Bug Fixes
+
+* **esl-event-utils:** fix `SyntheticEventTarget` event `target` descriptor configurability ([64a6a84](https://github.com/exadel-inc/esl/commit/64a6a8439a338c4fc2e26a9be6f7750d1487a5ae))
+* **esl-media:** `ref:` prefix is optional, user should be able to use internal id ([465fbec](https://github.com/exadel-inc/esl/commit/465fbecd9b45d5f1a5f2fabf8db5a62b5d0f1ba5))
+
+
+### Features
+
+* **esl-event-listener:** `SyntheticEventTarget` extended with ability to pass custom target to `dispatchEvent` method ([4982a45](https://github.com/exadel-inc/esl/commit/4982a45bf7c38304e3e360180d47152fce1db4ad))
+* **esl-event-listener:** create EventTarget decorator and window target utilities ([ca0f0de](https://github.com/exadel-inc/esl/commit/ca0f0de70adf180654afd50b06f78f8e74451f7f))
+* **esl-event-listener:** New `ESLEventUtils.resize` utility to create an adapter `EventTargets` for `ResizeObserver` ([e1de096](https://github.com/exadel-inc/esl/commit/e1de09611815d65bccceb91ae2771b870a70c345))
+* **esl-utils:** `SyntheticEventTarget` API extended with ability to choose target value and specify default event type ([3fc1f5d](https://github.com/exadel-inc/esl/commit/3fc1f5d5a7f87fe41d6f91737f7d217eedb5bb4e))
+* **esl-utils:** attr api extension ([07e3a9f](https://github.com/exadel-inc/esl/commit/07e3a9ffd1a54a9f83cf4e643e507568e730d84c))
+
+## [4.2.1](https://github.com/exadel-inc/esl/compare/v4.2.0...v4.2.1) (2023-02-20)
+
+
+### Bug Fixes
+
+* **esl-image:** attribute callback before connect ([659fa20](https://github.com/exadel-inc/esl/commit/659fa2031577bba2ce19af32c6950c9403a2ef27))
+* **esl-utils:** `memoize.clear` and `memoize.has` signature types improved ([4068bfa](https://github.com/exadel-inc/esl/commit/4068bfaff2150cd2aeb389fcc230a07cd826466a))
+
+# [4.2.0](https://github.com/exadel-inc/esl/compare/v4.1.1...v4.2.0) (2023-02-02)
+
+
+### Bug Fixes
+
+* **esl-event-listener:** allow to redeclare function descriptor data ([e304726](https://github.com/exadel-inc/esl/commit/e304726ba00f65b70ac25a194703a21aa9ac5d5c))
+* **esl-event-listener:** fix `isEventDescriptor` check for incorrect type of event key ([729b486](https://github.com/exadel-inc/esl/commit/729b486e0a934820502ffa8696be28a4f1b1465a))
+* **esl-footnotes:** esl-note is not respond on "ignore" attribute change ([7e0f4b8](https://github.com/exadel-inc/esl/commit/7e0f4b8ea8802b93ca0dc9060cfa47a371d729be))
+* **esl-mixin-element:** fix oldValue argument of attributeChangedCallback ([36c8d0f](https://github.com/exadel-inc/esl/commit/36c8d0fd5c20ba04eeed6139bcf1688c740e0036))
+* **esl-utils:** fix `isObject` predicate signature to accept symbol keys ([c8f0611](https://github.com/exadel-inc/esl/commit/c8f0611ff916e15e8be028766baf6f98a5c9e2a4))
+
+
+### Features
+
+* **esl-event-listener:** IE safe private key for ESLEventListeners (now stores under Symbol in modern browsers) ([eb5e6c3](https://github.com/exadel-inc/esl/commit/eb5e6c3c37a224309ba3699f47ac75e01f9dbe9f))
+* **esl-event-listener:** simplified way to subscribe all auto descriptors ([e6c432b](https://github.com/exadel-inc/esl/commit/e6c432b542d7b9f74079fb5012e9b87373bf805f))
+* **esl-related-target:** make related target able to targeting multiple related togglable ([#1398](https://github.com/exadel-inc/esl/issues/1398)) ([9a4423c](https://github.com/exadel-inc/esl/commit/9a4423c63f34731a9708cd93aaca41e8f07690de))
+* **esl-utils:** `isVisible` predicate and `ESLTraversingQuery` filter created according to [#931](https://github.com/exadel-inc/esl/issues/931) spec ([#1341](https://github.com/exadel-inc/esl/issues/1341)) ([70ea8fb](https://github.com/exadel-inc/esl/commit/70ea8fbc134eb03ec2aba911600f7441ee953c93))
+* **esl-utils:** isVisible predicate ([510d396](https://github.com/exadel-inc/esl/commit/510d396e6393b907afc885f038684b421d2a7449))
+
+## [4.1.1](https://github.com/exadel-inc/esl/compare/v4.1.0...v4.1.1) (2023-01-11)
+
+
+### Bug Fixes
+
+* **esl-popup:** protected methods visibility ([f53af36](https://github.com/exadel-inc/esl/commit/f53af369e75e6fe902328b947348d94c3ae41627))
+* **redirect:** add permalink for ` /utils/esl-utils/` path ([bb3e01a](https://github.com/exadel-inc/esl/commit/bb3e01a1e65dd3ab65c18940bcdb03a57cf108ca))
+
+# [4.1.0](https://github.com/exadel-inc/esl/compare/v4.0.2...v4.1.0) (2022-12-09)
+
+
+### Bug Fixes
+
+* **esl-scrollbar:** add `resize` event ([36cd4c3](https://github.com/exadel-inc/esl/commit/36cd4c304feaa4d2279a04f860c478ba007004cc))
+* **esl-scrollbar:** change target on `window` for `scroll` event ([93a0560](https://github.com/exadel-inc/esl/commit/93a05606178180185f7085fe72e9c0defb55784f))
+* **esl-scrollbar:** fix visibility and size of scroll at start ([#1369](https://github.com/exadel-inc/esl/issues/1369)) ([3f58aac](https://github.com/exadel-inc/esl/commit/3f58aacda313cc0a55562a4085a4e15db8b1d480))
+* **esl-scrollbar:** remove meta declaration `[@listen](https://github.com/listen)` ([e105286](https://github.com/exadel-inc/esl/commit/e105286f3ae5013a9474a3d1a6a9c4ad816c88aa))
+* **gh-pages:** code refactoring ([4a8aefb](https://github.com/exadel-inc/esl/commit/4a8aefb3141013f204714264990de25a104b5180))
+* **gh-pages:** code refactoring ([b48eed0](https://github.com/exadel-inc/esl/commit/b48eed098c70bfa9767b0971d9c54df18f562d14))
+* **gh-pages:** create redirect links ([bd7228f](https://github.com/exadel-inc/esl/commit/bd7228fa68c24c1a02e908d0a5746146eb175df9))
+
+
+### Features
+
+* **esl-related-target:** add esl-related-target mixin ([97255b1](https://github.com/exadel-inc/esl/commit/97255b15e0f67eb74817cf87a2413d992a2af544))
+* **esl-utils:** add ability to pass multiple memoized props to clear at once ([3dca390](https://github.com/exadel-inc/esl/commit/3dca3905a49aed181b464a686536572e8c0b0d71))
+* **eslint:** move files to new `linting` folder ([a196683](https://github.com/exadel-inc/esl/commit/a1966832ae6fc7872ef464d6e4454185ea1be2c6))
+
+## [4.0.2](https://github.com/exadel-inc/esl/compare/v4.0.1...v4.0.2) (2022-10-19)
+
+
+### Bug Fixes
+
+* **esl-media-query:** fix missing Event type in `core.ts` bundle ([afe54f7](https://github.com/exadel-inc/esl/commit/afe54f7916b6e16c53322dfb492ed2d1ab5936c8))
+
+## [4.0.1](https://github.com/exadel-inc/esl/compare/v4.0.0...v4.0.1) (2022-10-18)
+
+
+### Bug Fixes
+
+* **esl-media:** make `media-type` optional if `media-src` defined (auto-provider feature) ([029e368](https://github.com/exadel-inc/esl/commit/029e368bbafbdad7a4f8c648b96892d090663096))
+* **esl-tabs:** fix styles based on current scrollable type ([c8dd855](https://github.com/exadel-inc/esl/commit/c8dd855c95384d38ffe88c06c1b20c8088e6cc11))
+* fix `esl-tabs` and `esl-panel-group` shape `children` property ([6ad7582](https://github.com/exadel-inc/esl/commit/6ad7582e93406b92bb0f4a5b404978f62b310056))
+
+# [4.0.0](https://github.com/exadel-inc/esl/compare/v3.14.3...v4.0.0) (2022-10-04)
+
+## ESL Core
+
+### Features:
+- `ESLEventListener`s  functionality introduced
+- `ESLMixinElement`s functionality introduced
+- `ESLBaseElement` extended API
+    - `ESLBaseElement.create` shortcut to create current custom element
+
+### Structural changes:
+- Attribute decorators moved to the `esl-utils`
+- All ESL modules migrated to `ESLEventListener`s
+- Event names are now defined on the prototype level
+
+### BREAKING CHANGES
+- `$$fire` no longer adds 'esl:' prefix to the fired events
+
+---
+
+## ESL Media Query
+
+### Features:
+- `ESLMediaQuery` now implements `EventTarget` interface
+- `ESLMediaRuleList` API reworked with `EventTarget` interface and new calculation strategy
+
+### BREAKING CHANGES
+- `ESLMediaRuleList.parseTuple` arguments order changed
+- `ESLMediaRule` no longer supports default marker, now "default" is equal to "all" query
+- `ESLMediaRuleList` observation callback signature changed, now it should be `EventListener`
+- `ESLMediaRuleList.prototype.default` removed as no longer default rules
+- `ESLMediaRuleList` no longer fires events on rule change, now it's based on active value change
+- `ESLMediaRuleList` now uses merging of all active rules to define result value, however you were still able to get the last active rule value
+- `ESLMediaRuleList.prototype.active` now returns an array of active rules
+
+---
+
+## ESL Traversing Query
+
+### Features:
+- add comma support to define multiple target ([#1120](https://github.com/exadel-inc/esl/issues/1120) / [#1129](https://github.com/exadel-inc/esl/issues/1129)) ([2890d7b](https://github.com/exadel-inc/esl/commit/2890d7b7667492b982b266048d23874c57b938ea)), closes [#1102](https://github.com/exadel-inc/esl/issues/1102)
+- add ability to find closest element ([ada6fbb](https://github.com/exadel-inc/esl/commit/ada6fbb172a2fb2cf0d435420ad8fb0a46e7766f))
+
+---
+
+## ESL Utils
+
+### Features:
+- ability to grow/shrink axis of the `Rect` ([1c58a1c](https://github.com/exadel-inc/esl/commit/1c58a1c19b0aa82abf7eb73c40781e9c4a4860ba))
+- `SyntheticEventTarget` to implement `EventTarget` interface with more listeners control ([e4f3eb8](https://github.com/exadel-inc/esl/commit/e4f3eb89e0dd8227937d476a8d2090730342de64))
+- simplify and extend `@prop` decorator API ([fd6ede3](https://github.com/exadel-inc/esl/commit/fd6ede34b0a3c7496083cb58aa9b726d4a692085))
+- add `skipOneRender` RAF utility ([ddc3227](https://github.com/exadel-inc/esl/commit/ddc322798e6f8cf447874896786fe6d368bbe5ef))
+- add ability to pass predicate to sequence finder ([dd8c3cb](https://github.com/exadel-inc/esl/commit/dd8c3cbb43ed529330c32459b9787949a0927a01))
+- add `@decorate` decorator to bind and decorate method of the class
+- `@attr` extended with ability to pass Serializer/Parser ([012eb83](https://github.com/exadel-inc/esl/commit/012eb83ebcbba8315a2766af090239774c21234e))
+- create dom html sanitize method ([004642f](https://github.com/exadel-inc/esl/commit/004642f866ac1b2ed5278084963288d8c2fd17e0))
+- create `extractValues` object utility ([8edd9e7](https://github.com/exadel-inc/esl/commit/8edd9e7b564b4ac78a4fc952ee58f76b6a54cf89))
+- create cumulative imports for esl-utils submodules ([2e9d6ad](https://github.com/exadel-inc/esl/commit/2e9d6ad8f327ede991feef4ebc7c76fdd55726af))
+
+### BREAKING CHANGES
+- `isMouseEvent`, `isTouchEvent` moved outside of `EventUtils`
+- `normalizeTouchPoint` renamed to `touchPoint` and moved outside of `EventUtils`
+- `normalizeCoordinates` removed. Use `getOffsetPoint` in combination with `getTouchPoint` instead
+- `@prop` signature changed `prop(value?: any, prototypeConfig: OverrideDecoratorConfig = {})` instead
+- `ScrollUtils.lock` no longer accessible. Use `lockScroll(document.documentElement, {strategy: '...'})` instead
+- `ScrollUtils.unlock` no longer accessible. Use `unlockScroll(document.documentElement, {strategy: '...'})` instead
+- `ScrollUtils.lockRequest` no longer accessible. Use `lockScroll(document.documentElement, {strategy: '...', initiatior})` instead
+- `ScrollUtils.unlockRequest` no longer accessible. Use `unlockScroll(document.documentElement, {strategy: '...', initiatior})` instead
+
+### Bugfixes
+- make attr decorators correctly strict typed
+- `deepMerge` primitive values merging improved, undefined arguments now ignored ([5b7b730](https://github.com/exadel-inc/esl/commit/5b7b73003acd4d29250af12603ced5d58c40aff6))
+- fix `@bind` decorator to save original function enumerable marker ([92c2086](https://github.com/exadel-inc/esl/commit/92c2086df610a5572143463302baf7aeea6174e9))
+- update `@decorate` decorator to allow to save context properly (on instance level) ([0ac1b0c](https://github.com/exadel-inc/esl/commit/0ac1b0cb9c90648ae1e0a18a16a936971c4b4ee9))
+
+---
+
+## ESL Toggleable and ESL Trigger
+
+### Features:
+- migrate `esl-toggleable` and `esl-trigger` to ESLEventListeners
+- `esl:show:request` additional data ([a121872](https://github.com/exadel-inc/esl/commit/a121872b6e69fd7fb7a71bdfa9058430e650f423))
+- support of `esl:hide:request` ([8a0928b](https://github.com/exadel-inc/esl/commit/8a0928b2f2bda63c6fbbaf5e9b6453d660091ec1))
+- add support of dynamic `aria-label` for `esl-trigger` ([5c18841](https://github.com/exadel-inc/esl/commit/5c188418720ad4a972caa7450563a29268d8ec97))
+- add esc key event handler for `esl-trigger` ([3dab6da](https://github.com/exadel-inc/esl/commit/3dab6dad39259f7e920c9a108757271cb58a216d))
+- add `ignore-esc` attribute for `esl-trigger` ([605b715](https://github.com/exadel-inc/esl/commit/605b715a29ef1a852e24ce5120ca30d394fc19c1))
+
+
+## ESL Panel and ESL Panel Group
+
+### Features:
+- migrate `esl-panel` and `esl-panel-group` to ESLEventListeners
+- add `refresh-strategy` attribute ([#1156](https://github.com/exadel-inc/esl/issues/1156)) ([36027ad](https://github.com/exadel-inc/esl/commit/36027ad2574c0c33df1b6370484448a6889a647a))
+- add ability to control min/max open panels per media condition ([67ca2ba](https://github.com/exadel-inc/esl/commit/67ca2ba16e3fc4ee4300d1c79ca2e5d0da845af7))
+
+### BREAKING CHANGES
+- `ESLPanelGroup.noCollapse` (with related attribute) renamed to `ESLPanelGroup.noAnimate` (`no-animate` attribute)
+- `ESLPanelGroup.shouldCollapse` renamed to `ESLPanelGroup.shouldAnimate`
+- `PanelActionParams.noCollapse` renamed to `PanelActionParams.noAnimate`
+- `ESLPanelGroup` `view` attribute is no longer supported
+- `open` mode of `ESLPanelGroup` is no longer supported, it should be replaced with a `min-open-items="all"`
+- `accordion-group="single"` attribute of `ESLPanelGroup` is no longer supported, replaced with `max-open-items="1"`
+- `accordion-group="single"` attribute of `ESLPanelGroup` is no longer supported, replaced with `max-open-items="all"`
+- components inherited from `ESLPanelGroup` should use `@listen({inherit: true})` for proper subscription
+
+### Bugfixes
+- add `capturedBy` and fix `after:show` dispatch ([9bdc98c](https://github.com/exadel-inc/esl/commit/9bdc98c98a2926fe42c7cd15007c31a19171027c))
+- fix `esl:before:hide` bubbling from uncontrolled toggleables ([9212b6b](https://github.com/exadel-inc/esl/commit/9212b6beacd97d39d0410a464598e9e2e0bdb1c2))
+- fix animation process capturing by `ESLPanel` component ([9a5b3a5](https://github.com/exadel-inc/esl/commit/9a5b3a576d5cb4dbd47d113d944932586155c7f6))
+- change `no-animate` API ([dde3500](https://github.com/exadel-inc/esl/commit/dde35009268a92bae92a45f00d11cb29edee98fa))
+
+
+## ESL Tab and ESLTabs
+
+### Features:
+- `esl-tab` and `esl-tabs` migrated to ESLEventListeners
+
+### Bugfixes:
+- fix alignment behavior ([b5ebd66](https://github.com/exadel-inc/esl/commit/b5ebd668de7b4d1eea7311ae7d734c02abb537cf))
+
+### BREAKING CHANGES
+- Listeners extended from `ESLTab` should now use `@listen` annotation to work correctly
+- Listeners extended from `ESLTabs` should now use `@listen` annotation to work correctly
+
+## ESL Alert
+
+### Features:
+- `esl-alert` migrated to ESLEventListeners, inner API updates
+
+### BREAKING CHANGES
+- Listeners extended from `ESLAlert` should now use `@listen` annotation to work correctly
+- `eventNs` is no longer supported, event is now defined directly on the prototype level
+
+
+## ESL Popup
+
+### Features:
+- add configurable `rootMargin` for the popup activator observer ([5d647d6](https://github.com/exadel-inc/esl/commit/5d647d60673a65e7b27472c1b68a1e174fa40740))
+- add extended `offsetContainer` configuration ([63cbc0a](https://github.com/exadel-inc/esl/commit/63cbc0a996a8578549360dadaa3bb17c53884bfe))
+
+### BREAKING CHANGES
+- Listeners extended from `ESLPopup` should now use `@listen` annotation to work correctly
+
+
+## ESL Footnotes
+
+### Features:
+- migrate `esl-notes` and `esl-footnotes` to ESLEventListeners
+- add configurable `intersectionMargin`  for the note tooltip activator observer ([b9b1599](https://github.com/exadel-inc/esl/commit/b9b159942e3534965f43cac94c140d5680308548))
+
+### BREAKING CHANGES
+- Listeners extended from `ESLNote` should now use `@listen` annotation to work correctly
+- Listeners extended from `ESLFootnote` should now use `@listen` annotation to work correctly
+- `eventNs` is no longer supported, event is now defined directly on the prototype level
+
+## ESL Image and ESL Media
+
+### Bugfixes:
+- fix esl-image to prevent DOM XSS vulnerabilities ([4fd925d](https://github.com/exadel-inc/esl/commit/4fd925df8605994b0f7d345d77a425e0cdc487e8))
+- fix wrong error status on svg images in FF ([cad6b40](https://github.com/exadel-inc/esl/commit/cad6b40ccce01aaea8b1869b2cd7d542939a4fd4))
+
+
+## ESL Scrollbar
+
+### Features:
+- migrate `esl-scrollbar` to ESLEventListeners
+
+### Bugfixes
+- remove unnecessary width ([6e18909](https://github.com/exadel-inc/esl/commit/6e18909c6768c259d76084b463404fe6b29c9af8))
+
+### BREAKING CHANGES
+- Listeners extended from `ESLScrollbar` should now use `@listen` annotation to work correctly
+
+
+## ESL Select
+
+### Features:
+- migrate `esl-select` to ESLEventListeners ([76ca947](https://github.com/exadel-inc/esl/commit/76ca9479090546cdf092d1c9c3f5d993263f0581))
+- add `dropdown-class` param to specify dropdown additional CSS class(es) ([938357f](https://github.com/exadel-inc/esl/commit/938357fa6fb5db804f445f31eb4f73641dfbcccf))
+
+
+## ESL Polyfills
+
+### Features:
+- `Event`, `CustomEvent`, `MouseEvent`, `KeyboardEvent`, `FocusEvent` extended polyfills ([9ca3c40](https://github.com/exadel-inc/esl/commit/9ca3c406ff1f6f99490fdf09d2f15bc450c7be57))
+- `Object.assign` and `Array.from` extended polyfills ([590bca4](https://github.com/exadel-inc/esl/commit/590bca4fab39c566db68f7bc2440e5d84355a991))
+- extended `es5-target-shim` ([ef53df9](https://github.com/exadel-inc/esl/commit/ef53df936dd2beda859a41e9f8a900199bb24f3e))
+
+### BREAKING CHANGES
+- ES5 shim `shimES5ElementConstructor` replaced with `shimES5Constructor`
+
+
+Co-authored-by: NastaLeo <alesun@exadel.com>
+Co-authored-by: Anna Barmina <abarmina@exadel.com>
+Co-authored-by: julia-murashko <ymurashka@exadel.com>
+Co-authored-by: Yuliya Adamska <yadamska@exadel.com>
+Co-authored-by: Dmytro Shovchko <d.shovchko@gmail.com>
+Co-authored-by: fshovchko <fshovchko@exadel.com>
+Co-authored-by: nsmirnova <nsmirnova@exadel.com>
+
+# [4.0.0-beta.19](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.18...v4.0.0-beta.19) (2022-09-30)
+
+
+### Bug Fixes
+
+* **esl-event-listener:** allow to subscribe listener by global selector without host instanceof HTMLElement ([fb17e6b](https://github.com/exadel-inc/esl/commit/fb17e6bb88e4fd054d2426511d12ba755c211760))
+* **esl-tooltip:** keyboard handling fix ([25d7dc6](https://github.com/exadel-inc/esl/commit/25d7dc658339d371b87db44c1fdf86c7be234725))
+
+
+### Code Refactoring
+
+* **esl-scrollbar:** migrate all `esl-scrollbar` listeners to ESLEventListener feature ([b5fd7a5](https://github.com/exadel-inc/esl/commit/b5fd7a54ec711298afdd070083958b9f25988bfa))
+* **esl-tabs:** migrate `esl-tabs` to ESLEventListeners ([f2d6157](https://github.com/exadel-inc/esl/commit/f2d6157bd6ace254c9de57653440875362e15602))
+
+
+### Features
+
+* **esl-footnotes:** `ESLFootnotes` migrated to use ESLEventListener standard ([13d9289](https://github.com/exadel-inc/esl/commit/13d9289ab4070cb01e6887113331641b03c5d21f))
+* **esl-footnotes:** `ESLNotes` migrated to use ESLEventListener standard ([6cd5502](https://github.com/exadel-inc/esl/commit/6cd55021f1287170294a0e166a9b0bce91d0ede9))
+* **esl-select:** `ESLSelect` and `ESLSelectList` migrated to ESLEventListeners ([df80759](https://github.com/exadel-inc/esl/commit/df80759326ad40524274bacc088135f879738184))
+
+
+### BREAKING CHANGES
+
+* **esl-tabs:** listeners extended from `ESLTabs` should now use `@listen` annotation to work correctly
+* **esl-scrollbar:** listeners extended from `ESLScrollbar` should now use `@listen` annotation to work correctly
+* **esl-select:** `_onChange` and `_onReset` methods of `ESLSelectWrapper` decorated via `@listen`
+* **esl-select:** internal handlers of `ESLSelect`, `ESLSelectRender`, `ESLSelectList` now decorated via `@listen`
+* **esl-footnotes:** `_onKeydown`, `_onNoteSubscribe` migrated to `@listen`
+* **esl-footnotes:** `_onClick` removed and replaced to `_onItemClick` (decorated by `@listen`)
+* **esl-footnotes:** `_onFootnotesReady`, `_onBPChange`, `_onMouseLeave`, `_onMouseEnter`, `_onKeydown`, `_onClick` migrated to `@listen`
+
+# [4.0.0-beta.18](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.17...v4.0.0-beta.18) (2022-09-27)
+
+
+### Bug Fixes
+
+* **esl-event-listener:** fix ESLListenerDescriptorFn import ([69d81d7](https://github.com/exadel-inc/esl/commit/69d81d70f798902daf31423dbd4d6da3b772c75c))
+* **esl-event-listener:** fix event listener props resolving strategy and uniqueness constraint ([2ec70f2](https://github.com/exadel-inc/esl/commit/2ec70f2ac962463664a0026aaf48e6340c021d41))
+* **esl-event-listener:** fix multiple subscription by single descriptor ([3f80486](https://github.com/exadel-inc/esl/commit/3f804867dc8dd5b348442f66dee8e86a7b6bc755))
+* **esl-event-listener:** fix selector and Storage name of ESLEventListener ([ad2f9db](https://github.com/exadel-inc/esl/commit/ad2f9db0f40ce7c7804b292e0cd390ebd60e54d4))
+* **esl-panel-group:** change strategy of closing panels in case the max-open-items limit is reached ([4b21c34](https://github.com/exadel-inc/esl/commit/4b21c34d7878f394cafcd0e02a575bb23ec9a4c1))
+* **esl-panel-group:** fix initial reset of panel group leads to incorrect panel selection ([7b164dc](https://github.com/exadel-inc/esl/commit/7b164dc5d007a1723495e818c8c4b8ed045a88a8))
+* **esl-scrollbar:** remove unnecessary width ([6e18909](https://github.com/exadel-inc/esl/commit/6e18909c6768c259d76084b463404fe6b29c9af8))
+* **esl-tabs:** fix alignment behavoir ([b5ebd66](https://github.com/exadel-inc/esl/commit/b5ebd668de7b4d1eea7311ae7d734c02abb537cf))
+* **esl-utils:** make undefined condition truthy for `isMatches` helper ([efcd1c6](https://github.com/exadel-inc/esl/commit/efcd1c6dfa83946f66160508f7ee93808cb6d2a2))
+
+
+### Features
+
+* **esl-alert:** component reworked according ESLToggleable update ([f8a171f](https://github.com/exadel-inc/esl/commit/f8a171f1850efe3eea23dd8de6f372ba5f3cea8e))
+* **esl-base-element:** add `create` shortcut to create current custom element ([14f5706](https://github.com/exadel-inc/esl/commit/14f57063624b3ac20b8ae1868903f3ef2b2bcdfd))
+* **esl-panel:** migrate `esl-panel` to ESLEventListeners ([b8350a5](https://github.com/exadel-inc/esl/commit/b8350a54ca110756f35b891bc37c2c6110247f77))
+* **esl-select-dropdown:** fix `esl-alert` according `esl-togglable` update ([6e10aaa](https://github.com/exadel-inc/esl/commit/6e10aaab9a8055c1f3333d602b56e5d18b8decdd))
+* **esl-select-dropdown:** migrate `esl-select-dropdown` to ESLEventListeners ([76ca947](https://github.com/exadel-inc/esl/commit/76ca9479090546cdf092d1c9c3f5d993263f0581))
+* **esl-toggleable:** add ability to request hide of the toggleable, refactor toggle request API ([8a0928b](https://github.com/exadel-inc/esl/commit/8a0928b2f2bda63c6fbbaf5e9b6453d660091ec1))
+* **esl-toggleable:** migrate `esl-togglable` to ESLEventListeners ([7159429](https://github.com/exadel-inc/esl/commit/7159429f7237bea78ab80e1b05420594246ff84d))
+* **esl-utils:** create `extractValues` object utility ([8edd9e7](https://github.com/exadel-inc/esl/commit/8edd9e7b564b4ac78a4fc952ee58f76b6a54cf89))
+* **esl-utils:** create cumulative imports for esl-utils submodules ([2e9d6ad](https://github.com/exadel-inc/esl/commit/2e9d6ad8f327ede991feef4ebc7c76fdd55726af))
+
+# [4.0.0-beta.17](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.16...v4.0.0-beta.17) (2022-09-01)
+
+
+### Bug Fixes
+
+* **esl-panel-group:** fix animation process capturing by ESLPanel component ([9a5b3a5](https://github.com/exadel-inc/esl/commit/9a5b3a576d5cb4dbd47d113d944932586155c7f6))
+* **esl-utils:** ESLEventListener descriptors can't be declared trough prototype inheritance ([a055e71](https://github.com/exadel-inc/esl/commit/a055e71643a6b1f2d560dd1ff5c3152767c43bef))
+* **esl-utils:** fix `[@bind](https://github.com/bind)` decorator to save original function enumerable marker ([92c2086](https://github.com/exadel-inc/esl/commit/92c2086df610a5572143463302baf7aeea6174e9))
+* **esl-utils:** fix `[@decorate](https://github.com/decorate)` decorator to work properly with `[@listen](https://github.com/listen)` ([286ef57](https://github.com/exadel-inc/esl/commit/286ef579b61fbf43a793550fcf7dc8018bc15f54))
+
+
+### Features
+
+* **esl-panel-group:** extend esl-panel-group refresh strategies list with 'open' and 'close' strategy ([ee18c9d](https://github.com/exadel-inc/esl/commit/ee18c9d673361e53ecc3cd84f04d8d5650c79693))
+* **esl-utils:** add `skipOneRender` RAF utility ([ddc3227](https://github.com/exadel-inc/esl/commit/ddc322798e6f8cf447874896786fe6d368bbe5ef))
+
+# [4.0.0-beta.16](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.15...v4.0.0-beta.16) (2022-08-30)
+
+
+### Bug Fixes
+
+* **esl-image:** remove internal cyclic references in ESLImage modules ([977c32b](https://github.com/exadel-inc/esl/commit/977c32bdbd475f652948ec4d97ac9a9e42357ba1))
+* **esl-media:** remove cyclic reference of the ESLMedia internal IObserver to ESLMedia ([8a3d065](https://github.com/exadel-inc/esl/commit/8a3d065aba6a695451aacb9c3e9b90c6592d6a1e))
+* **esl-panel:** remove cyclic reference of the ESLPanel to ESLPanelGroup ([cffe91a](https://github.com/exadel-inc/esl/commit/cffe91aa57f3ec769cd286ee8f0bc149533bba1a))
+* **esl-select:** fix internal esl-select-renderer cyclic reference ([b97565e](https://github.com/exadel-inc/esl/commit/b97565eff2d7d31a736e6f3461aba62a6de50899))
+
+# [4.0.0-beta.15](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.14...v4.0.0-beta.15) (2022-08-30)
+
+
+### Bug Fixes
+
+* **esl-mixin-element:** incorrect context applied for listener applied trough `$$on` ([0c53d6a](https://github.com/exadel-inc/esl/commit/0c53d6a9afefc703c7c372a789ee92ec4280cebd))
+* **esl-panel-group:** change `no-animate` API ([dde3500](https://github.com/exadel-inc/esl/commit/dde35009268a92bae92a45f00d11cb29edee98fa))
+* **esl-utils:** allow `[@listen](https://github.com/listen)` decorator for decorated methods represented as a get accessor ([dcdc70b](https://github.com/exadel-inc/esl/commit/dcdc70b07c7b46dd37041eb87640ebff5e79d71a))
+* **esl-utils:** change descriptor definition condition (`event` no longer required as an own property) ([d17e256](https://github.com/exadel-inc/esl/commit/d17e2566652eca74f5b4e8634dc5499248fccbff))
+* **esl-utils:** fix `[@decorate](https://github.com/decorate)` decorator binding ([1cbb070](https://github.com/exadel-inc/esl/commit/1cbb0702cdd97520d82fae614825f21df550fb33))
+* **esl-utils:** update `decorate` decorator to allow to save context properly (on instance level) ([0ac1b0c](https://github.com/exadel-inc/esl/commit/0ac1b0cb9c90648ae1e0a18a16a936971c4b4ee9))
+
+
+### Features
+
+* **esl-panel-group:** add `refresh-strategy` attribute ([#1156](https://github.com/exadel-inc/esl/issues/1156)) ([36027ad](https://github.com/exadel-inc/esl/commit/36027ad2574c0c33df1b6370484448a6889a647a))
+* **esl-panel-group:** add ability to control min/max open panels per media condition ([67ca2ba](https://github.com/exadel-inc/esl/commit/67ca2ba16e3fc4ee4300d1c79ca2e5d0da845af7))
+* **esl-utils:** allow to pass array of targets to the `ESLEventListener` ([1d23db3](https://github.com/exadel-inc/esl/commit/1d23db3ea84ac4b31adce5d4a1575814ea3fdf54))
+
+
+### BREAKING CHANGES
+
+* **esl-panel-group:** `open` mode is no longer supported, it should be replaced with a `min-open-items="all"`
+BREAKING-CHANGE: `accordion-group="single"` attribute no longer supported, replaced with `max-open-items="1"`
+BREAKING-CHANGE: `accordion-group="single"` attribute no longer supported, replaced with `max-open-items="all"`
+* **esl-panel-group:** components inherited from `ESLPanelGroup` should use `@listen({inherit: true})` for proper subscription
+
+Co-authored-by: NastaLeo <alesun@exadel.com>
+
+# [4.0.0-beta.14](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.13...v4.0.0-beta.14) (2022-08-15)
+
+
+### Bug Fixes
+
+* **esl-traversing-query:** fix uniqueness of result on multiple query ([8ff4ec7](https://github.com/exadel-inc/esl/commit/8ff4ec773344cbf0d95fc6ceee3bb1ce47a806db))
+* **esl-utils:** fix page content jumping after scroll lock ([410f35f](https://github.com/exadel-inc/esl/commit/410f35f9f8fc152da97eeda0299e3ce2c38c1891))
+* **esl-utils:** optimize event subscription with a check for an active targets ([2b2585e](https://github.com/exadel-inc/esl/commit/2b2585e495e74ad5022ebb29239b955e942d96c2))
+
+
+### Features
+
+* **esl-utils:** ability to inherit ESLEventDescriptor from supertype method definition ([899698b](https://github.com/exadel-inc/esl/commit/899698bea0c9c3da72ccd8ac7b4f5d7d9ebd76d3))
+* **gh-pages:** add aurora accent to `promo-banner.njk` ([cfe5abb](https://github.com/exadel-inc/esl/commit/cfe5abb2f7e4f3cbf54ebb98c8fcd6f3c9bce766))
+* **gh-pages:** load animation by scrolling ([c8a6a15](https://github.com/exadel-inc/esl/commit/c8a6a1504ed37da64acd7a17588d08b08dd896dc))
+
+# [4.0.0-beta.13](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.12...v4.0.0-beta.13) (2022-08-02)
+
+
+### Bug Fixes
+
+* **esl-utils:** fix missed body style for scroll lock strategy pseudo ([96c37db](https://github.com/exadel-inc/esl/commit/96c37dbd06a24d45809e6a7528143c09ced9f546))
+
+
+### Features
+
+* **esl-traversing-query:** add comma support to define multiple target ([#1120](https://github.com/exadel-inc/esl/issues/1120) / [#1129](https://github.com/exadel-inc/esl/issues/1129)) ([2890d7b](https://github.com/exadel-inc/esl/commit/2890d7b7667492b982b266048d23874c57b938ea)), closes [#1102](https://github.com/exadel-inc/esl/issues/1102)
+* **esl-trigger:** add `ignore-esc` attribute ([605b715](https://github.com/exadel-inc/esl/commit/605b715a29ef1a852e24ce5120ca30d394fc19c1))
+* **esl-utils:** extend SynteticEventTarget with ability to separate events ([#1118](https://github.com/exadel-inc/esl/issues/1118)) ([507726d](https://github.com/exadel-inc/esl/commit/507726d5b760e54fa3286560931ffbe3110e4151)), closes [#1079](https://github.com/exadel-inc/esl/issues/1079)
+
+# [4.0.0-beta.12](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.11...v4.0.0-beta.12) (2022-07-18)
+
+
+### Bug Fixes
+
+* **esl-image:** fix wrong error status on svg images in FF ([cad6b40](https://github.com/exadel-inc/esl/commit/cad6b40ccce01aaea8b1869b2cd7d542939a4fd4))
+
+# [4.0.0-beta.11](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.10...v4.0.0-beta.11) (2022-07-18)
+
+
+### Features
+
+* **esl-trigger:** add esc key event handler ([3dab6da](https://github.com/exadel-inc/esl/commit/3dab6dad39259f7e920c9a108757271cb58a216d))
+
+# [4.0.0-beta.10](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.9...v4.0.0-beta.10) (2022-07-08)
+
+
+### Features
+
+* **esl-select:** add dropdown-class to observed attributes ([29cc1c2](https://github.com/exadel-inc/esl/commit/29cc1c23e20c242c1f4b34a97ddd082fe55c54cb))
+* **esl-traversing-query:** add ability to find closest element ([ada6fbb](https://github.com/exadel-inc/esl/commit/ada6fbb172a2fb2cf0d435420ad8fb0a46e7766f))
+* **esl-utils:** `ScrollUtils` rewritten in a functional way, API updated ([#1051](https://github.com/exadel-inc/esl/issues/1051)) ([6f6c72f](https://github.com/exadel-inc/esl/commit/6f6c72f2d46bc1ba94d0b072df32782d79560313))
+* **esl-utils:** add ability to pass predicate to sequence finder ([dd8c3cb](https://github.com/exadel-inc/esl/commit/dd8c3cbb43ed529330c32459b9787949a0927a01))
+* **esl-utils:** move parsers to `esl-utils/misc/format` for shared usage ([e58270a](https://github.com/exadel-inc/esl/commit/e58270a2844379a612c1c218f7b9ea6f03bd9bcf))
+
+
+### BREAKING CHANGES
+
+* **esl-utils:** `ScrollUtils.lock` no longer accessible use `lockScroll(document.documentElement, {strategy: '...'})`
+* **esl-utils:** `ScrollUtils.unlock` no longer accessible use `unlockScroll(document.documentElement, {strategy: '...'})`
+* **esl-utils:** `ScrollUtils.lockRequest` no longer accessible use `lockScroll(document.documentElement, {strategy: '...', initiatior})`
+* **esl-utils:** `ScrollUtils.unlockRequest` no longer accessible use `unlockScroll(document.documentElement, {strategy: '...', initiatior})`
+
+Co-authored-by: fshovchko <fshovchko@exadel.com>
+Co-authored-by: nsmirnova <nsmirnova@exadel.com>
+Co-authored-by: ala'n (Alexey Stsefanovich) <astsefanovich@exadel.com>
+Co-authored-by: julia-murashko <ymurashka@exadel.com>
+Co-authored-by: Anastasiya Lesun <72765981+NastaLeo@users.noreply.github.com>
+
+# [4.0.0-beta.9](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.8...v4.0.0-beta.9) (2022-06-29)
+
+
+### Bug Fixes
+
+* **esl-image:** fix esl-image to prevent DOM XSS vulnerabilities ([4fd925d](https://github.com/exadel-inc/esl/commit/4fd925df8605994b0f7d345d77a425e0cdc487e8))
+* **esl-trigger:** custom aria-label maintaining in case a11yLabelActive and a11yLabelInactive are empty ([06d8f92](https://github.com/exadel-inc/esl/commit/06d8f924080849efe90c979151c6c342d4ca8ffc))
+* **esl-utils:** add ability to skip event listener through the target field ([75f6a18](https://github.com/exadel-inc/esl/commit/75f6a186ffcbd98e852627f479284edcb893583f))
+
+
+### Features
+
+* **esl-image:** prototype defined events ([f49ce01](https://github.com/exadel-inc/esl/commit/f49ce019d81cb76995c05d2dccc6621e8836af66))
+* **esl-media-query:** normalize data instead of fail ([3226156](https://github.com/exadel-inc/esl/commit/3226156264e58f085f023b0669179cc48f904c55))
+* **esl-media:** prototype defined events ([976a8b9](https://github.com/exadel-inc/esl/commit/976a8b9c54d4e0b40dcf9e5ee48024b1539e94f7))
+* **esl-select:** add `dropdown-class` param to specify dropdown additional CSS class(es) ([938357f](https://github.com/exadel-inc/esl/commit/938357fa6fb5db804f445f31eb4f73641dfbcccf))
+* **esl-utils:** `[@attr](https://github.com/attr)` extended with ability to pass Serializer/Parser ([012eb83](https://github.com/exadel-inc/esl/commit/012eb83ebcbba8315a2766af090239774c21234e))
+* **esl-utils:** create dom html sanitize method ([004642f](https://github.com/exadel-inc/esl/commit/004642f866ac1b2ed5278084963288d8c2fd17e0))
+* **gh-pages:** add blogs landing component ([fa71fe0](https://github.com/exadel-inc/esl/commit/fa71fe040ae4954ea55946b927751e33c9eb02ce))
+
+# [4.0.0-beta.8](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.7...v4.0.0-beta.8) (2022-06-16)
+
+
+### Code Refactoring
+
+* **esl-core:** ESLMixinElement moved to separate module ([9d42adf](https://github.com/exadel-inc/esl/commit/9d42adfc4202ed9def4c86d36debe33d0d14331b))
+
+
+### Features
+
+* **esl-utils:** ability to pass Provider functions to `event`, `selector`, `target` listener options ([c3503b0](https://github.com/exadel-inc/esl/commit/c3503b0810556388187deb48b14c3cab450c5a8e))
+* **esl-utils:** simplify and extend `[@prop](https://github.com/prop)` decorator ([fd6ede3](https://github.com/exadel-inc/esl/commit/fd6ede34b0a3c7496083cb58aa9b726d4a692085))
+
+
+### BREAKING CHANGES
+
+* **esl-utils:** `@prop` signature changed
+`prop(value?: any, prototypeConfig: OverrideDecoratorConfig = {})`
+* **esl-core:** (beta only) ESLMixinElement now accessible under 'modules/esl-mixin-element/core'
+
+# [4.0.0-beta.7](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.6...v4.0.0-beta.7) (2022-05-19)
+
+
+### Code Refactoring
+
+* **esl-media-query:** change tuple `parseTuple` syntax param order ([49305f1](https://github.com/exadel-inc/esl/commit/49305f1564a047443f843a41614586b7f85ddb83))
+
+
+### Features
+
+* **esl-media-query:** `[@media](https://github.com/media)` decorator to shortcut access to the `ESLMediaRuleList` ([ffb59c2](https://github.com/exadel-inc/esl/commit/ffb59c2c619f50e32aa02af0f5212ebc8e829e62))
+* **esl-media-query:** `ESLMediaQuery` now implements `EventTarget` interface ([df2a11e](https://github.com/exadel-inc/esl/commit/df2a11e11c1b781ba261cb33c9eccfdb6a9623a3))
+* **esl-media-query:** `ESLMediaRuleList` API reworked with EventTarget interface and new calculation strategy ([b1d6891](https://github.com/exadel-inc/esl/commit/b1d6891d0c90553a5b89069096ab9596b71b6219))
+* **esl-togglable:** show:request additional data ([a121872](https://github.com/exadel-inc/esl/commit/a121872b6e69fd7fb7a71bdfa9058430e650f423))
+* **esl-trigger:** add support of aria-label ([5c18841](https://github.com/exadel-inc/esl/commit/5c188418720ad4a972caa7450563a29268d8ec97))
+* **esl-utils:** `ESLEventListener` now uses EventListenerObject interface to simplify debug ([e3ac838](https://github.com/exadel-inc/esl/commit/e3ac838d810b2c1d9aecc265bc0d7cbf5fb627c1))
+* **esl-utils:** created `SyntheticEventTarget` implementation ([e4f3eb8](https://github.com/exadel-inc/esl/commit/e4f3eb89e0dd8227937d476a8d2090730342de64))
+* **esl-utils:** extend `SyntheticEventTarget` with ability to subscribe `EventListenerObject` ([e4609e9](https://github.com/exadel-inc/esl/commit/e4609e9e53dfd97cdf9892b1e4f88561ee0eeb67))
+* **polyfills:** extended `es5-target-shim` ([ef53df9](https://github.com/exadel-inc/esl/commit/ef53df936dd2beda859a41e9f8a900199bb24f3e))
+
+
+### BREAKING CHANGES
+
+* **esl-media-query:** `ESLMediaRuleList.parseTuple` arguments order changed
+* **esl-media-query:** `ESLMediaRule` no longer supports default marker, now "default" is equal "all" query
+* **esl-media-query:** `ESLMediaRuleList` observation callback signature changed, now it should be `EventListener`
+* **esl-media-query:** `ESLMediaRuleList.prototype.default` removed as no longer default rules
+* **esl-media-query:** `ESLMediaRuleList` no longer fire events on rule change, now it's based on active valuer change
+* **esl-media-query:** `ESLMediaRuleList` now uses merging of all active rules to define result value, however you were still able to get the last active rule value
+* **esl-media-query:** `ESLMediaRuleList.prototype.active` now returns an array of active rules
+* **polyfills:** ES5 shim `shimES5ElementConstructor` replaced with `shimES5Constructor`
+
+# [4.0.0-beta.6](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.5...v4.0.0-beta.6) (2022-04-26)
+
+
+### Bug Fixes
+
+* **polyfills:** optimized safe version of `Object.assign` polyfill ([96fc0dd](https://github.com/exadel-inc/esl/commit/96fc0dd12f0a45e5862e84d4fa4a5f40f76a964e))
+
+# [4.0.0-beta.5](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.4...v4.0.0-beta.5) (2022-04-26)
+
+
+### Bug Fixes
+
+* **esl-core:** empty children explicitly check in recursion ([412b2ad](https://github.com/exadel-inc/esl/commit/412b2adee0b5698488f6f3def5dcd16e45ca7b45))
+* **esl-popup:** unsubscribe safe check (reproducible in IE11) ([63e842f](https://github.com/exadel-inc/esl/commit/63e842f1b2d4d146e5c5299629f38027fd08bc44))
+
+
+### Features
+
+* **polyfills:** `Event`, `CustomEvent`, `MouseEvent`, `KeyboardEvent`, `FocusEvent` extended polyfills ([9ca3c40](https://github.com/exadel-inc/esl/commit/9ca3c406ff1f6f99490fdf09d2f15bc450c7be57))
+* **polyfills:** `Object.assign` and `Array.from` extended polyfills ([590bca4](https://github.com/exadel-inc/esl/commit/590bca4fab39c566db68f7bc2440e5d84355a991))
+
+# [4.0.0-beta.4](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.3...v4.0.0-beta.4) (2022-04-25)
+
+
+### Bug Fixes
+
+* **esl-utils:** `deepMerge` primitive values merging improved, undefined arguments now ignored ([5b7b730](https://github.com/exadel-inc/esl/commit/5b7b73003acd4d29250af12603ced5d58c40aff6))
+
+
+### Code Refactoring
+
+* **esl-core:** Update `$$fire` method API ([4983cbc](https://github.com/exadel-inc/esl/commit/4983cbcdb583e0aacc4cbda49c019105fa9b66a4))
+
+
+### Features
+
+* **esl-footnotes:** add configurable intersectionMargin for the note tooltip activator observer ([b9b1599](https://github.com/exadel-inc/esl/commit/b9b159942e3534965f43cac94c140d5680308548))
+* **esl-popup:** add configurable rootMargin for the popup activator observer ([5d647d6](https://github.com/exadel-inc/esl/commit/5d647d60673a65e7b27472c1b68a1e174fa40740))
+* **esl-popup:** add extended offsetContainer configuration ([63cbc0a](https://github.com/exadel-inc/esl/commit/63cbc0a996a8578549360dadaa3bb17c53884bfe))
+* **esl-utils/rect:** ability to grow/shrink axis ([1c58a1c](https://github.com/exadel-inc/esl/commit/1c58a1c19b0aa82abf7eb73c40781e9c4a4860ba))
+
+
+### BREAKING CHANGES
+
+* **esl-core:** `$$fire` no longer add 'esl:' prefix to the fired events
+
+# [4.0.0-beta.3](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.2...v4.0.0-beta.3) (2022-04-12)
+
+
+### Bug Fixes
+
+* **esl-scrollbar:** fix non-passive listener of the scrollbar touchstart ([a3df8ec](https://github.com/exadel-inc/esl/commit/a3df8ec4b7a8eb3ccc67f02ad3116a13a86b26c6))
+* **esl-toggleable:** fix double `esl:` prefix for esl-toggleable `esl:refresh` dispatching ([3316da0](https://github.com/exadel-inc/esl/commit/3316da0c4378466c0bf34346e5791ee36fdfe0a8)), closes [#913](https://github.com/exadel-inc/esl/issues/913)
+* **esl-utils:** rename some event/misc utils ([36bdb8a](https://github.com/exadel-inc/esl/commit/36bdb8afa8fdd78f6c71232dfbf65c05a6f54d76))
+
+
+### Code Refactoring
+
+* **esl-panel-group:** remove deprecated `view` attribute ([e0c5410](https://github.com/exadel-inc/esl/commit/e0c5410d157017fa96133e9ccb84d364bdc55534))
+* **esl-panel:** rename noCollapse to noAnimate param ([3f5aa74](https://github.com/exadel-inc/esl/commit/3f5aa74be95eff047db076c33ecc9b8a199d15a4))
+
+
+### BREAKING CHANGES
+
+* **esl-panel-group:** `ESLPanelGroup` `view` attribute no longer supported
+* **esl-panel:** `PanelActionParams.noCollapse` renamed to `PanelActionParams.noAnimate`
+* **esl-panel:** `ESLPanelGroup.noCollapse` (with related attribute)
+renamed to `ESLPanelGroup.noAnimate` (`no-animate` attribute)
+* **esl-panel:** `ESLPanelGroup.shouldCollapse` renamed to `ESLPanelGroup.shouldAnimate`
+* **esl-utils:** rename `offsetPoint` to `getOffsetPoint` and `touchPoint` to `getTouchPoint`
+
+# [4.0.0-beta.2](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.1...v4.0.0-beta.2) (2022-04-05)
+
+
+### Bug Fixes
+
+* **esl-core:** make attr decorators correctly strict typed ([613c260](https://github.com/exadel-inc/esl/commit/613c2603a72dae1651007ce014a0f3c7836da101))
+* **esl-panel-group:** fix esl:before:hide bubbling from uncontrolled toggleables ([9212b6b](https://github.com/exadel-inc/esl/commit/9212b6beacd97d39d0410a464598e9e2e0bdb1c2))
+* **esl-utils:** add IE compatibility for window rect obtaining ([d5e916c](https://github.com/exadel-inc/esl/commit/d5e916c31c6fd08eacad15ea4274ec57c3a6de2e))
+* **esl-utils:** add IE compatibility for window rect obtaining ([882425e](https://github.com/exadel-inc/esl/commit/882425e2e643e129a258deb8ead22d1f9ab6b5b4))
+* **esl-utils:** fix `isSimilar` comparer for arrays, add flat comparer option ([251c59c](https://github.com/exadel-inc/esl/commit/251c59cd8a3ba46689ba3e7aa6891d7bf4ed43c7))
+* **esl-utils:** fix event descriptors merging and passive listeners support ([6ae7175](https://github.com/exadel-inc/esl/commit/6ae7175d37a0011073b6eaed35075f5e63d4747a))
+
+
+### Features
+
+* **esl-core:** add ability to define [mixin components]([#671](https://github.com/exadel-inc/esl/issues/671)) ([15f9f6c](https://github.com/exadel-inc/esl/commit/15f9f6caeea5a5a67b196b42adebea3de6e1efed))
+* **esl-core:** add ability to use event listener api for mixin components ([33ce7aa](https://github.com/exadel-inc/esl/commit/33ce7aa5c3625266b3900ed8d88f012f847945a6))
+* **esl-utils:** `[@decorate](https://github.com/decorate)` syntax-sugar to easily wrap (decorate) method ([1f996f9](https://github.com/exadel-inc/esl/commit/1f996f96665829d3734beae447a48c0b77621f8a))
+* **esl-utils:** ability to subscribe handle one event before unsubscribe ([3e1cbe6](https://github.com/exadel-inc/esl/commit/3e1cbe62e80d15f37e07a0d52d26fb0362c9b042))
+* **esl-utils:** create auxiliary `isPassiveByDefault` utility ([650d75f](https://github.com/exadel-inc/esl/commit/650d75f743299347237a6fdc7e30381749577dfe))
+* **esl-utils:** rework subscription API ([bf1c151](https://github.com/exadel-inc/esl/commit/bf1c1511c74b7323198db0533292a8e34fc9c025))
+
+## [3.14.3](https://github.com/exadel-inc/esl/compare/v3.14.2...v3.14.3) (2022-04-07)
+
+
+### Bug Fixes
+
+* **esl-toggleable:** fix double `esl:` prefix for esl-toggleable `esl:refresh` dispatching ([3316da0](https://github.com/exadel-inc/esl/commit/3316da0c4378466c0bf34346e5791ee36fdfe0a8)), closes [#913](https://github.com/exadel-inc/esl/issues/913)
+
+## [3.14.2](https://github.com/exadel-inc/esl/compare/v3.14.1...v3.14.2) (2022-03-31)
+
+
+### Bug Fixes
+
+* **esl-panel-group:** fix esl:before:hide bubbling from uncontrolled toggleables ([9212b6b](https://github.com/exadel-inc/esl/commit/9212b6beacd97d39d0410a464598e9e2e0bdb1c2))
+
+## [3.14.1](https://github.com/exadel-inc/esl/compare/v3.14.0...v3.14.1) (2022-03-29)
+
+
+### Bug Fixes
+
+* **esl-utils:** add IE compatibility for window rect obtaining ([d5e916c](https://github.com/exadel-inc/esl/commit/d5e916c31c6fd08eacad15ea4274ec57c3a6de2e))
+
+# [4.0.0-beta.1](https://github.com/exadel-inc/esl/compare/v3.14.0...v4.0.0-beta.1) (2022-03-24)
+
+
+### Bug Fixes
+
+* **esl-panel-group:** add `capturedBy` and fix 'after:show' dispatch ([9bdc98c](https://github.com/exadel-inc/esl/commit/9bdc98c98a2926fe42c7cd15007c31a19171027c))
+* **esl-utils:** move attribute decorators to the `esl-utils` ([6e5028a](https://github.com/exadel-inc/esl/commit/6e5028a0d147d9b6b9742088f97c6110c58523c0))
+
+
+### Features
+
+* **esl-core:** event listeners functionality introduced (`ESLEventListener`s) ([16ae8db](https://github.com/exadel-inc/esl/commit/16ae8db2c7c6f5d2488268c5ecf69b277f9db05b))
+* **esl-utils:** event utils destructuring ([a822738](https://github.com/exadel-inc/esl/commit/a82273883b9e7393790de5c75b01092b30838a5a))
+* **esl-utils:** extend object:compare utils with `isSimilar` method ([9aa937e](https://github.com/exadel-inc/esl/commit/9aa937e620456457aa9954be161da6816f002e66))
+
+
+### BREAKING CHANGES
+
+* **esl-utils:**  - `isMouseEvent`, `isTouchEvent` moved outside of `EventUtils`
+ - `normalizeTouchPoint` renamed to `touchPoint` and moved outside of `EventUtils`
+ - `normalizeCoordinates` removed `offsetPoint` introduced instead
+ to be used in combination with `touchPoint`
+
+# [3.14.0](https://github.com/exadel-inc/esl/compare/v3.13.2...v3.14.0) (2022-03-11)
+
+
+### Bug Fixes
+
+* **esl-core:** type and implementation improvements for attribute decorators ([73edd53](https://github.com/exadel-inc/esl/commit/73edd5340b5bef0e548ef00e932b4630907332b4))
+* **esl-media:** fix incorrect `group` definition in shape ([5358933](https://github.com/exadel-inc/esl/commit/5358933c62076a850cdf314f3a31205db5bd2b51))
+* **esl-panel-group:** fix animation-end handling target check ([2d66781](https://github.com/exadel-inc/esl/commit/2d6678123141cb2c20eed8f95449ab4126e847b0))
+* **esl-panel:** fix animation-end handling target check ([ea897fa](https://github.com/exadel-inc/esl/commit/ea897fabdbbe166adeac9f0c36bda69ca7c63ffd))
+* **gh-pages:** change loadScript import ([acad20a](https://github.com/exadel-inc/esl/commit/acad20acbdafc1d3f49482b65800e80acf8512dc))
+
+
+### Features
+
+* **esl-core:** extend `ESLBaseElement` with `$$cls` and `$$attr` methods ([65ab74a](https://github.com/exadel-inc/esl/commit/65ab74a5d1a749958e7d633e973fd679821a057a))
+* **esl-media-query:** extend `ESLMediaRuleList.parseTuple` with ability to pass Parser ([44e9a1c](https://github.com/exadel-inc/esl/commit/44e9a1cf108b82d13908e65ca2d4691b026c49a2))
+* **esl-panel-group:** fallback-duration retired, now it's controlled out of the box ([d78553e](https://github.com/exadel-inc/esl/commit/d78553ec4ad474149eb1eba3b4be8d66db942e33))
+* **esl-panel:** ESLPanel no longer requires fallback-time definition ([6140ecd](https://github.com/exadel-inc/esl/commit/6140ecd902a0f888a77310fb8a607d5119b143fc))
+* **esl-utils:** `misc/object#get` API extended to be similar to `misc/object#set` ([474bd76](https://github.com/exadel-inc/esl/commit/474bd760f4738450d3692fdb08ea5da8d1b9be1b))
+* **esl-utils:** add `object#set` extended syntax support ([6d5799c](https://github.com/exadel-inc/esl/commit/6d5799c6dcb19da7e42e08a17b27e4eb1bfb589a))
+* **esl-utils:** add small attr utility ([f4ee57a](https://github.com/exadel-inc/esl/commit/f4ee57a8f151f82e1ce7cd187799e2cece3c8a10))
+* **esl-utils:** extend `promisifyTimeout` with ability to reject timeout ([#868](https://github.com/exadel-inc/esl/issues/868)) ([0594e5c](https://github.com/exadel-inc/esl/commit/0594e5ca8ec3aea82652fcc8abc3f7cfe87c3496)), closes [#858](https://github.com/exadel-inc/esl/issues/858)
+* **esl-utils:** extend `set` method with ability to pass an array of path keys ([9dfa77b](https://github.com/exadel-inc/esl/commit/9dfa77bc47d71ab0e2b440bfcc2cd83c91cf29b5))
+* **esl-utils:** extend CSSClassUtils with `has` check ([f260823](https://github.com/exadel-inc/esl/commit/f260823c913e48313f572006dd6ebf376723461c))
+
+# [3.14.0-beta.4](https://github.com/exadel-inc/esl/compare/v3.14.0-beta.3...v3.14.0-beta.4) (2022-03-11)
+
+
+### Features
+
+* **esl-utils:** `misc/object#get` API extended to be similar to `misc/object#set` ([474bd76](https://github.com/exadel-inc/esl/commit/474bd760f4738450d3692fdb08ea5da8d1b9be1b))
+* **esl-utils:** add `object#set` extended syntax support ([6d5799c](https://github.com/exadel-inc/esl/commit/6d5799c6dcb19da7e42e08a17b27e4eb1bfb589a))
+* **esl-utils:** extend `promisifyTimeout` with ability to reject timeout ([#868](https://github.com/exadel-inc/esl/issues/868)) ([0594e5c](https://github.com/exadel-inc/esl/commit/0594e5ca8ec3aea82652fcc8abc3f7cfe87c3496)), closes [#858](https://github.com/exadel-inc/esl/issues/858)
+* **esl-utils:** extend `set` method with ability to pass an array of path keys ([9dfa77b](https://github.com/exadel-inc/esl/commit/9dfa77bc47d71ab0e2b440bfcc2cd83c91cf29b5))
+
+# [3.14.0-beta.3](https://github.com/exadel-inc/esl/compare/v3.14.0-beta.2...v3.14.0-beta.3) (2022-02-25)
+
+
+### Features
+
+* **esl-media-query:** extend `ESLMediaRuleList.parseTuple` with ability to pass Parser ([44e9a1c](https://github.com/exadel-inc/esl/commit/44e9a1cf108b82d13908e65ca2d4691b026c49a2))
+
+# [3.14.0-beta.2](https://github.com/exadel-inc/esl/compare/v3.14.0-beta.1...v3.14.0-beta.2) (2022-02-23)
+
+
+### Bug Fixes
+
+* **esl-panel-group:** fix animation-end handling target check ([2d66781](https://github.com/exadel-inc/esl/commit/2d6678123141cb2c20eed8f95449ab4126e847b0))
+* **esl-panel:** fix animation-end handling target check ([ea897fa](https://github.com/exadel-inc/esl/commit/ea897fabdbbe166adeac9f0c36bda69ca7c63ffd))
+* **gh-pages:** change loadScript import ([acad20a](https://github.com/exadel-inc/esl/commit/acad20acbdafc1d3f49482b65800e80acf8512dc))
+
+# [3.14.0-beta.1](https://github.com/exadel-inc/esl/compare/v3.13.2...v3.14.0-beta.1) (2022-02-21)
+
+
+### Bug Fixes
+
+* **esl-core:** type and implementation improvements for attribute decorators ([73edd53](https://github.com/exadel-inc/esl/commit/73edd5340b5bef0e548ef00e932b4630907332b4))
+* **esl-media:** fix incorrect `group` definition in shape ([5358933](https://github.com/exadel-inc/esl/commit/5358933c62076a850cdf314f3a31205db5bd2b51))
+
+
+### Features
+
+* **esl-core:** extend `ESLBaseElement` with `$$cls` and `$$attr` methods ([65ab74a](https://github.com/exadel-inc/esl/commit/65ab74a5d1a749958e7d633e973fd679821a057a))
+* **esl-panel-group:** fallback-duration retired, now it's controlled out of the box ([d78553e](https://github.com/exadel-inc/esl/commit/d78553ec4ad474149eb1eba3b4be8d66db942e33))
+* **esl-panel:** ESLPanel no longer requires fallback-time definition ([6140ecd](https://github.com/exadel-inc/esl/commit/6140ecd902a0f888a77310fb8a607d5119b143fc))
+* **esl-utils:** add small attr utility ([f4ee57a](https://github.com/exadel-inc/esl/commit/f4ee57a8f151f82e1ce7cd187799e2cece3c8a10))
+* **esl-utils:** extend CSSClassUtils with `has` check ([f260823](https://github.com/exadel-inc/esl/commit/f260823c913e48313f572006dd6ebf376723461c))
+
+## [3.13.2](https://github.com/exadel-inc/esl/compare/v3.13.1...v3.13.2) (2022-02-16)
+
+
+### Bug Fixes
+
+* **esl-utils:** fix `RTLUtils.isRtl` types API ([f77791b](https://github.com/exadel-inc/esl/commit/f77791b22c99b6fec927c779b350caf2cbbbf918))
+
+## [3.13.1](https://github.com/exadel-inc/esl/compare/v3.13.0...v3.13.1) (2022-02-16)
+
+
+### Bug Fixes
+
+* **esl-scrollbar:** fix `normalizePosition` method to handle vertical scroll on RTL ([#839](https://github.com/exadel-inc/esl/issues/839)) ([a67c2a3](https://github.com/exadel-inc/esl/commit/a67c2a32262ad025fa328d9d63679d9acb52a550))
+
+# [3.13.0](https://github.com/exadel-inc/esl/compare/v3.12.1...v3.13.0) (2022-02-14)
+
+
+### Bug Fixes
+
+* **els-footnotes:** add ready decorator to disconnected callback ([87aa3e7](https://github.com/exadel-inc/esl/commit/87aa3e78649605bce24acc313b76f1ad4694778e))
+* **esl-footnotes:** fix behavior during connect/disconnect callbacks ([68a0553](https://github.com/exadel-inc/esl/commit/68a0553b409fa42b0251952401bee54a55fd24e6))
+* **esl-footnotes:** fix esl-note scroll into view on activate ([7a71a14](https://github.com/exadel-inc/esl/commit/7a71a143e0df804b07baa50cb0fb1a8f35fc438c))
+* **esl-footnotes:** fix esl-note-group attributes propagation ([9fe21b1](https://github.com/exadel-inc/esl/commit/9fe21b19daa87c95a2153ef932051ab8d27b1f81))
+* **esl-footnotes:** fix esl-note-group attributes propagation ([7f3d569](https://github.com/exadel-inc/esl/commit/7f3d569c3fc13353b7e4007de3142b7d537e810f))
+* **esl-footnotes:** fix the sort order of notes ([e299def](https://github.com/exadel-inc/esl/commit/e299def2b6e2daac0c4baa2b9ea6a3f6405da1c9))
+* **esl-footnotes:** replace container with containerEl at tooltip params ([5278b1f](https://github.com/exadel-inc/esl/commit/5278b1fe1be6107f0b5e089b7a9999111938cbe9))
+* **esl-note:** fix the corruption of the note's content ([bd0340d](https://github.com/exadel-inc/esl/commit/bd0340d44388c95b2cd749bcf8380d15460a1b3d))
+* **esl-popup:** fix the position of popups container ([e2d4ba4](https://github.com/exadel-inc/esl/commit/e2d4ba4a3c1a73d00abf5cb5dff0ff1eec2d96d3))
+
+
+### Features
+
+* **esl-footnotes:** add activate timeout ([c91d4e8](https://github.com/exadel-inc/esl/commit/c91d4e83a53726c14b4018b391e0e907ef615c7b))
+* **esl-footnotes:** add container attribute to esl-note-group ([621ab2e](https://github.com/exadel-inc/esl/commit/621ab2e97ff7dc12dd6d534aef0cb8afe72329d5))
+* **esl-footnotes:** add container attribute to set up bounds of visibility ([f420ac6](https://github.com/exadel-inc/esl/commit/f420ac6c61439de75478e28a69a12ad66f98dfc5))
+* **esl-footnotes:** add getting attribute value from  closest element with group behavior settings ([b286e92](https://github.com/exadel-inc/esl/commit/b286e92cdef5ab44058263e4c8fcdae474125b9f))
+* **esl-footnotes:** add ignore-footnotes attribute to disallow footnotes to pick up a note ([9b8db3e](https://github.com/exadel-inc/esl/commit/9b8db3e17a3f0f8ecde8833146f44aeaf1e01d30))
+* **esl-footnotes:** create els-note-group element ([ffce746](https://github.com/exadel-inc/esl/commit/ffce746973011ec333c08365e317535f8115d43c))
+* **esl-popup:** add container attribute to set up bounds of visibility ([5ae9238](https://github.com/exadel-inc/esl/commit/5ae92386d0f9a336d65c6be48080548174eda9e0))
+* **esl-popup:** add containerEl param to action params ([4321863](https://github.com/exadel-inc/esl/commit/43218638eed1b17f57be36ffc1adef3f4efd0b7e))
+* **esl-popup:** add the ability to esl-popup to move into body in case when it is not in body ([13d3733](https://github.com/exadel-inc/esl/commit/13d3733b4012ef8958af3e823719c4b150985272))
+* **esl-popup:** create esl-popup-proxy component ([ee27f90](https://github.com/exadel-inc/esl/commit/ee27f90506910d77c9dc794205cf9bfe7652c413))
+* **esl-toggleable:** add handler for esl:show:request ([0d32ae9](https://github.com/exadel-inc/esl/commit/0d32ae9f86247d95d1f9e9ba465f77f78a10957a))
+* **esl-toggleable:** create esl-toggleable-proxy element ([d0fb90e](https://github.com/exadel-inc/esl/commit/d0fb90e6397b5e1eb1ad19fbf541c3791980d5ec))
+* **esl-trigger:** add the ability for the target to get origin from proxied element ([523752a](https://github.com/exadel-inc/esl/commit/523752a394918fdcccba001a7e182d6639a87afc))
+* rename elements from *-proxy to *-placeholder ([b98fe34](https://github.com/exadel-inc/esl/commit/b98fe345d9e86aae58160b9e01d5dfe137747b55))
+
+# [3.13.0-beta.6](https://github.com/exadel-inc/esl/compare/v3.13.0-beta.5...v3.13.0-beta.6) (2022-02-10)
+
+
+### Features
+
+* **esl-footnotes:** add getting attribute value from  closest element with group behavior settings ([b286e92](https://github.com/exadel-inc/esl/commit/b286e92cdef5ab44058263e4c8fcdae474125b9f))
+
 # [3.13.0-beta.5](https://github.com/exadel-inc/esl/compare/v3.13.0-beta.4...v3.13.0-beta.5) (2022-02-02)
 
 
@@ -95,7 +1185,7 @@
 ### Features
 
 * **esl-panel-group:** ability to define params for child panels requests ([08cf513](https://github.com/exadel-inc/esl/commit/08cf51385cae2514b220b9950d53d0afa4b1b5d3))
-* **esl-panel-group:** dispatch change:mode event ([8d41dbd](https://github.com/exadel-inc/esl/commit/8d41dbd69ac703858f1dd8d43ece748da58780f1))
+* **esl-panel-group:** dispatch esl:change:mode event ([8d41dbd](https://github.com/exadel-inc/esl/commit/8d41dbd69ac703858f1dd8d43ece748da58780f1))
 * **esl-panel-group:** make animation disabled on transform by default ([1815b00](https://github.com/exadel-inc/esl/commit/1815b006a6decfc91b275b5c28ae9da17b1bf311))
 * **esl-panel-group:** rename `view` attribute to `current-mode`; extend mode class API ([52188fe](https://github.com/exadel-inc/esl/commit/52188fe43457d2f362cd7cca0a126cbf01ffb9c9))
 * **esl-toggleable:** add id auto-creation feature for toggleable instances ([eaf02dc](https://github.com/exadel-inc/esl/commit/eaf02dc490dd0c92b6b9bbdf758769eeba15d62d))
@@ -121,7 +1211,7 @@
 
 ### Features
 
-* **esl-panel-group:** dispatch change:mode event ([8d41dbd](https://github.com/exadel-inc/esl/commit/8d41dbd69ac703858f1dd8d43ece748da58780f1))
+* **esl-panel-group:** dispatch esl:change:mode event ([8d41dbd](https://github.com/exadel-inc/esl/commit/8d41dbd69ac703858f1dd8d43ece748da58780f1))
 
 ## [3.10.1-beta.1](https://github.com/exadel-inc/esl/compare/v3.10.0...v3.10.1-beta.1) (2021-12-22)
 

@@ -1,5 +1,5 @@
-import {loadScript} from '../../../modules/esl-utils/dom/script';
-import {memoizeFn} from '../../../src/modules/esl-utils/misc/memoize';
+import {loadScript} from '@exadel/esl/modules/esl-utils/dom/script';
+import {memoizeFn} from '@exadel/esl/modules/esl-utils/misc/memoize';
 
 function loadSearchScript(): Promise<Event> {
   return loadScript('gss', 'https://cse.google.com/cse.js?cx=3171f866738b34f02');

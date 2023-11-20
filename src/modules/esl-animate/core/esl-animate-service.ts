@@ -1,7 +1,6 @@
 import {wrap} from '../../esl-utils/misc/array';
-import {bind} from '../../esl-utils/decorators/bind';
 import {debounce} from '../../esl-utils/async/debounce';
-import {memoize} from '../../esl-utils/decorators/memoize';
+import {memoize, bind} from '../../esl-utils/decorators';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 
@@ -32,7 +31,12 @@ export interface ESLAnimateConfig {
 }
 
 /** ESLAnimateService animation inner options. Contains system animation properties */
-interface ESLAnimateConfigInner extends Required<ESLAnimateConfig> {
+interface ESLAnimateConfigInner extends ESLAnimateConfig {
+  // Required parts
+  cls: string;
+  ratio: number;
+  groupDelay: number;
+
   /** (private) animation requested */
   _timeout?: number;
   /** (private) marker to unobserve */
@@ -44,7 +48,7 @@ interface ESLAnimateConfigInner extends Required<ESLAnimateConfig> {
 export class ESLAnimateService {
 
   /** ESLAnimateService default animation configuration */
-  protected static DEFAULT_CONFIG: ESLAnimateConfig = {cls: 'in', groupDelay: 100, ratio: 0.4};
+  protected static DEFAULT_CONFIG: ESLAnimateConfigInner = {cls: 'in', groupDelay: 100, ratio: 0.4};
   /** ESLAnimationService IntersectionObserver properties */
   protected static OPTIONS_OBSERVER: IntersectionObserverInit = {threshold: [0.001, 0.2, 0.4, 0.6, 0.8]};
 
@@ -64,7 +68,7 @@ export class ESLAnimateService {
 
   /** @returns if service observing target */
   public static isObserved(target: Element): boolean {
-    return !!this.instance.getConfigFor(target);
+    return this.instance.isObserved(target);
   }
 
   @memoize()
@@ -84,7 +88,8 @@ export class ESLAnimateService {
    * @param config - optional animation configuration
    */
   public observe(el: Element, config: ESLAnimateConfig = {}): void {
-    const cfg = this.setConfigFor(el, config);
+    const cfg = Object.assign({}, ESLAnimateService.DEFAULT_CONFIG, config);
+    this._configMap.set(el, cfg);
     cfg.force && CSSClassUtils.remove(el, cfg.cls);
     this._io.observe(el);
   }
@@ -95,11 +100,16 @@ export class ESLAnimateService {
     this._configMap.delete(el);
   }
 
+  /** @returns if service observing target */
+  public isObserved(target: Element): boolean {
+    return !!this._configMap.get(target);
+  }
+
   /** Intersection observable callback */
   @bind
   protected onIntersect(entries: IntersectionObserverEntry[]): void {
     entries.forEach(({target, intersectionRatio, isIntersecting}: IntersectionObserverEntry) => {
-      const config = this.getConfigFor(target);
+      const config = this._configMap.get(target);
       if (!config) return;
 
       // Item will be marked as visible in case it intersecting to the viewport with a ratio grater then passed visibleRatio
@@ -124,7 +134,7 @@ export class ESLAnimateService {
   protected onAnimate(): void {
     let time = -1;
     this._entries.forEach((target) => {
-      const config = this.getConfigFor(target);
+      const config = this._configMap.get(target);
       if (!config) return;
 
       if (config._timeout) window.clearTimeout(config._timeout);
@@ -140,26 +150,18 @@ export class ESLAnimateService {
 
   /** Animates passed item */
   protected onAnimateItem(item: Element): void {
-    const config = this.getConfigFor(item);
+    const config = this._configMap.get(item);
     if (!config) return;
 
     CSSClassUtils.add(item, config.cls);
     this._entries.delete(item);
 
-    if (config._unsubscribe) {
-      this._io.unobserve(item);
-      this._configMap.delete(item);
-    }
+    if (config._unsubscribe) this.unobserve(item);
   }
+}
 
-  /** Returns config */
-  protected getConfigFor(el: Element): ESLAnimateConfigInner | undefined {
-    return this._configMap.get(el);
-  }
-  /** Returns config */
-  protected setConfigFor(el: Element, config: ESLAnimateConfig): ESLAnimateConfigInner {
-    const cfg = Object.assign({}, ESLAnimateService.DEFAULT_CONFIG, config) as ESLAnimateConfigInner;
-    this._configMap.set(el, cfg);
-    return cfg;
+declare global {
+  export interface ESLLibrary {
+    AnimateService: typeof ESLAnimateService;
   }
 }

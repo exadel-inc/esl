@@ -1,7 +1,9 @@
-import {ESLMedia} from './esl-media';
+import type {ESLMedia} from './esl-media';
 
-const RATIO_TO_ACTIVATE = 0.75; // TODO: customizable, at least global
-const RATIO_TO_DEACTIVATE = 0.20; // TODO: customizable, at least global
+const RATIO_TO_PLAY = 0.75; // TODO: customizable, at least global
+const RATIO_TO_STOP = 0.20; // TODO: customizable, at least global
+
+const RATIO_TO_ACTIVATE = 0.05;
 
 let iObserver: IntersectionObserver;
 
@@ -11,22 +13,25 @@ export function getIObserver(lazy: boolean = false): IntersectionObserver {
     iObserver = new IntersectionObserver(function (entries) {
       entries.forEach(handleViewport);
     }, {
-      threshold: [RATIO_TO_DEACTIVATE, RATIO_TO_ACTIVATE]
+      threshold: [RATIO_TO_STOP, RATIO_TO_PLAY]
     });
   }
   return iObserver;
 }
 
 function handleViewport(entry: IntersectionObserverEntry): void {
-  const {target: video} = entry;
-  if (!(video instanceof ESLMedia)) return;
+  const video = entry.target as ESLMedia;
+  // Removes `lazy` attribute when media is in the viewport with min ratio RATIO_TO_ACTIVATE
+  if (entry.isIntersecting && entry.intersectionRatio >= RATIO_TO_ACTIVATE && video.lazy === 'auto') {
+    video.$$attr('lazy', false);
+  }
 
-  // Videos that playing and out of min ratio RATIO_TO_DEACTIVATE should be stopped
-  if (video.active && entry.intersectionRatio <= RATIO_TO_DEACTIVATE) {
+  // Videos that playing and out of min ratio RATIO_TO_STOP should be stopped
+  if (video.active && entry.intersectionRatio <= RATIO_TO_STOP) {
     video.pause();
   }
-  // Play should starts only for inactive and background(muted) videos that are visible more then on RATIO_TO_ACTIVATE
-  if (!video.active && video.autoplay && entry.intersectionRatio >= RATIO_TO_ACTIVATE) {
+  // Play should start only for inactive and background(muted) videos that are visible more than on RATIO_TO_PLAY
+  if (!video.active && video.autoplay && entry.intersectionRatio >= RATIO_TO_PLAY) {
     video.play();
   }
 }

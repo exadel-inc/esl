@@ -1,25 +1,45 @@
-#esl-logo-shield-stars > path.animate {
+#esl-logo-shield-stars > use.animate {
   animation: shine-orange 0.5s linear;
 }
 @keyframes shine-orange {
-  0%, 20%, 80%, 100% {
+  0%,
+  20%,
+  80%,
+  100% {
     stroke: transparent;
   }
   50% {
-    stroke: #ffb79b;
+    stroke: #ffb79c;
   }
 }
-#esl-logo-border-inner-stars > path.animate,
-#esl-logo-border-outer-stars > path.animate,
-#esl-logo-wrench-left-stars > path.animate,
-#esl-logo-wrench-right-stars > path.animate {
+#esl-logo-border-inner-stars > use.animate,
+#esl-logo-border-outer-stars > use.animate {
   animation: shine-blue 0.5s linear;
 }
 @keyframes shine-blue {
-  0%, 20%, 80%, 100% {
+  0%,
+  20%,
+  80%,
+  100% {
     stroke: transparent;
   }
   50% {
-    stroke: rgb(152, 198, 255);
+    stroke: #98c7ff;
+  }
+}
+
+#esl-logo-wrench-left-stars > use.animate,
+#esl-logo-wrench-right-stars > use.animate {
+  animation: shine-white 0.5s linear;
+}
+@keyframes shine-white {
+  0%,
+  20%,
+  80%,
+  100% {
+    stroke: transparent;
+  }
+  50% {
+    stroke: #fff;
   }
 }

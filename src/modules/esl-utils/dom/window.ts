@@ -17,8 +17,8 @@ export function getWindow(node: Node | Window): Window {
  */
 export function getWindowRect(wnd: Window = window): Rect {
   return Rect.from({
-    x: wnd.scrollX,
-    y: wnd.scrollY,
+    x: wnd.scrollX || wnd.pageXOffset,
+    y: wnd.scrollY || wnd.pageYOffset,
     width: wnd.innerWidth || wnd.document.documentElement.clientWidth,
     height: wnd.innerHeight || wnd.document.documentElement.clientHeight
   });

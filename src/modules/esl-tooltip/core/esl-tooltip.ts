@@ -1,8 +1,6 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {attr, boolAttr} from '../../esl-base-element/core';
 import {ESLPopup} from '../../esl-popup/core';
-import {bind} from '../../esl-utils/decorators/bind';
-import {memoize} from '../../esl-utils/decorators/memoize';
+import {memoize, attr, boolAttr, listen} from '../../esl-utils/decorators';
 import {TAB} from '../../esl-utils/dom/keys';
 import {getKeyboardFocusableElements} from '../../esl-utils/dom/focus';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
@@ -15,22 +13,26 @@ export interface TooltipActionParams extends PopupActionParams {
   text?: string;
   /** html content to be shown */
   html?: string;
+  /** text directionality of tooltips content */
+  dir?: string;
+  /** language of tooltips text content */
+  lang?: string;
   /** tooltip without arrow */
   disableArrow?: boolean;
 }
 
 @ExportNs('Tooltip')
 export class ESLTooltip extends ESLPopup {
-  static is = 'esl-tooltip';
+  static override is = 'esl-tooltip';
 
   /**
    * Tooltip position relative to the trigger.
    * Currently supported: 'top', 'bottom', 'left', 'right' position types ('top' by default)
    */
-  @attr({defaultValue: 'top'}) public position: PositionType;
+  @attr({defaultValue: 'top'}) public override position: PositionType;
 
   /** Tooltip behavior if it does not fit in the window ('fit' by default) */
-  @attr({defaultValue: 'fit'}) public behavior: string;
+  @attr({defaultValue: 'fit'}) public override behavior: string;
 
   /** Disable arrow at Tooltip */
   @boolAttr() public disableArrow: boolean;
@@ -73,34 +75,18 @@ export class ESLTooltip extends ESLPopup {
     this.sharedInstance.hide(params);
   }
 
-  public connectedCallback(): void {
-    if (!this.disableArrow) {
-      this._appendArrow();
-    }
+  public override connectedCallback(): void {
     super.connectedCallback();
     this.classList.add(ESLPopup.is);
+    this.classList.toggle('disable-arrow', this.disableArrow);
     this.tabIndex = 0;
   }
 
   /** Sets initial state of the Tooltip */
-  protected setInitialState(): void {}
-
-  /** Creates arrow at Tooltip */
-  @memoize()
-  protected _createArrow(): HTMLElement {
-    const arrow = document.createElement('span');
-    arrow.className = 'esl-popup-arrow';
-    return arrow;
-  }
-
-  /** Appends arrow to Tooltip */
-  protected _appendArrow(): void {
-    this.$arrow = this._createArrow();
-    this.appendChild(this.$arrow);
-  }
+  protected override setInitialState(): void {}
 
   /** Actions to execute on show Tooltip. */
-  public onShow(params: TooltipActionParams): void {
+  public override onShow(params: TooltipActionParams): void {
     if (params.disableArrow) {
       this.disableArrow = params.disableArrow;
     }
@@ -110,6 +96,8 @@ export class ESLTooltip extends ESLPopup {
     if (params.html) {
       this.innerHTML = params.html;
     }
+    this.dir = params.dir || '';
+    this.lang = params.lang || '';
     if (params.extraClass) {
       CSSClassUtils.add(this, params.extraClass);
     }
@@ -119,7 +107,7 @@ export class ESLTooltip extends ESLPopup {
   }
 
   /** Actions to execute on Tooltip hiding. */
-  public onHide(params: TooltipActionParams): void {
+  public override onHide(params: TooltipActionParams): void {
     this._updateActivatorState(false);
     super.onHide(params);
     document.body.removeChild(this);
@@ -131,7 +119,7 @@ export class ESLTooltip extends ESLPopup {
   /**
    * Actions to execute after showing of popup.
    */
-  protected afterOnShow(): void {
+  protected override afterOnShow(): void {
     super.afterOnShow();
     this.focus({preventScroll: true});
   }
@@ -139,12 +127,12 @@ export class ESLTooltip extends ESLPopup {
   /**
    * Actions to execute before hiding of popup.
    */
-  protected beforeOnHide(): void {
+  protected override beforeOnHide(): void {
     this.activator?.focus({preventScroll: true});
   }
 
-  @bind
-  protected _onKeyboardEvent(e: KeyboardEvent): void {
+  @listen({inherit: true})
+  protected override _onKeyboardEvent(e: KeyboardEvent): void {
     super._onKeyboardEvent(e);
     if (e.key === TAB) this._onTabKey(e);
   }

@@ -1,19 +1,11 @@
-import {ESLBaseElement, attr} from '../../../../src/modules/esl-base-element/core';
-import {bind} from '../../../../src/modules/esl-utils/decorators/bind';
-import {ready} from '../../../../src/modules/esl-utils/decorators/ready';
-import {range} from '../../../../src/modules/esl-utils/misc/array';
-import {memoize} from '../../../../src/modules/esl-utils/decorators/memoize';
-import {isIE} from '../../../../src/modules/esl-utils/environment/device-detector';
+import {ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
+import {bind, ready, memoize, attr} from '@exadel/esl/modules/esl-utils/decorators';
+import {range} from '@exadel/esl/modules/esl-utils/misc/array';
+import {isIE} from '@exadel/esl/modules/esl-utils/environment/device-detector';
 
 export class ESLDemoMarquee extends ESLBaseElement {
-  static is = 'esl-d-marquee';
-  static STARS_SEL = [
-    '#esl-logo-shield-stars > path',
-    '#esl-logo-border-inner-stars > path',
-    '#esl-logo-border-outer-stars > path',
-    '#esl-logo-wrench-left-stars > path',
-    '#esl-logo-wrench-right-stars > path'
-  ].join(',');
+  static override is = 'esl-d-marquee';
+  static STARS_SEL = 'use';
 
   @attr({defaultValue: '4'}) public targetsNumber: string;
   @attr({defaultValue: '3000'}) public iterationTime: string;
@@ -22,12 +14,12 @@ export class ESLDemoMarquee extends ESLBaseElement {
   private _animateTimer: number = 0;
 
   @ready
-  protected connectedCallback(): void {
+  protected override connectedCallback(): void {
     super.connectedCallback();
     if (isIE) return;
     this.startAnimation();
   }
-  protected disconnectedCallback(): void {
+  protected override disconnectedCallback(): void {
     this.stopAnimation();
     super.disconnectedCallback();
   }

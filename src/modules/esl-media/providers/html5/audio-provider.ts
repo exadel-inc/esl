@@ -7,10 +7,10 @@ import {HTMLMediaProvider} from './media-provider';
  */
 @BaseProvider.register
 export class AudioProvider extends HTMLMediaProvider {
-  static readonly providerName: string = 'audio';
-  static readonly urlPattern = /\.(mp3|wav|aac)(\?|$)/;
+  static override readonly providerName: string = 'audio';
+  static override readonly urlPattern = /\.(mp3|wav|aac)(\?|$)/;
 
-  protected _el: HTMLAudioElement;
+  protected override _el: HTMLAudioElement;
 
   protected createElement(): HTMLAudioElement {
     const el = document.createElement('audio');

@@ -1,6 +1,7 @@
+import {attr} from '../../esl-utils/decorators';
+import {setAttr} from '../../esl-utils/dom/attr';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLTrigger} from '../../esl-trigger/core';
-import {attr} from '../../esl-base-element/decorators/attr';
 
 /**
  * ESlTab component
@@ -11,26 +12,30 @@ import {attr} from '../../esl-base-element/decorators/attr';
  */
 @ExportNs('Tab')
 export class ESLTab extends ESLTrigger {
-  public static is = 'esl-tab';
+  public static override is = 'esl-tab';
 
-  @attr({defaultValue: 'show'}) public mode: string;
-  @attr({defaultValue: 'active'}) public activeClass: string;
+  @attr({defaultValue: 'show'}) public override mode: string;
+  @attr({defaultValue: 'active'}) public override activeClass: string;
 
-  public initA11y(): void {
+  public override initA11y(): void {
     const target = this.$a11yTarget;
     if (!target) return;
     if (target.hasAttribute('role')) return;
-    target.setAttribute('role', 'tab');
+    setAttr(target, 'role', 'tab');
   }
 
-  public updateA11y(): void {
+  public override updateA11y(): void {
     const target = this.$a11yTarget;
     if (!target) return;
-    target.setAttribute('aria-selected', String(this.active));
-    target.setAttribute('tabindex', this.active ? '0' : '-1');
+
+    if (this.a11yLabelActive !== null || this.a11yLabelInactive !== null) {
+      setAttr(target, 'aria-label', this.a11yLabel);
+    }
+    setAttr(target, 'aria-selected', String(this.active));
+    setAttr(target, 'tabindex', this.active ? '0' : '-1');
 
     if (this.$target && this.$target.id) {
-      this.setAttribute('aria-controls', this.$target.id);
+      setAttr(target, 'aria-controls', this.$target.id);
     }
   }
 }

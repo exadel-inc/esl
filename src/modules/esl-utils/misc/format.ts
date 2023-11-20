@@ -23,6 +23,21 @@ export const unwrapParenthesis = (str: string): string => {
 };
 
 /**
+ * Serialize to boolean string (`'true'|'false'`)
+ * Preserve null, undefined and empty string
+ */
+export const toBooleanAttribute = (val: any): string | null => {
+  if (val === null || val === undefined) return val;
+  return String(!!val && val !== 'false' && val !== '0');
+};
+
+/** Parses `null` and `undefined` as an empty string */
+export const parseString = (val: string | null): string => String(val ?? '');
+
+/** Parses string representation of the boolean value */
+export const parseBoolean = (val: string | null): boolean => val !== null && val !== 'false' && val !== '0';
+
+/**
  * Parses number with the ability to pass an alternative fallback for NaN.
  * Note: falsy values except 0 are treated as NaN
  */
@@ -52,7 +67,7 @@ export function evaluate(str: string, defaultValue?: any): any {
     // eslint-disable-next-line @typescript-eslint/no-implied-eval
     return str ? (new Function(`return ${str}`))() : defaultValue;
   } catch (e) {
-    console.warn('Cannot parse value ', str, e);
+    console.warn('[ESL]: Cannot parse value ', str, e);
     return defaultValue;
   }
 }

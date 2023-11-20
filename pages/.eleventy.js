@@ -1,6 +1,5 @@
 const fs = require('fs');
 const color = require('kleur');
-const {isDev} = require('./11ty/env.config');
 
 module.exports = (config) => {
   // Init all 11ty config modules
@@ -18,23 +17,23 @@ module.exports = (config) => {
   }
 
   // Add MD files from the library sources
+  config.addWatchTarget('../README.md');
   config.addWatchTarget('../src/**/*.md');
   config.addWatchTarget('../docs/**/*.md');
 
   // Setup simple copy operations
   config.addPassthroughCopy({
+    '../docs/images': 'assets/docs-images',
     'static/assets': 'assets',
     'static/tools': '.'
   });
 
-  // Update BS observed directories
-  config.setBrowserSyncConfig({
-    files: [
+  config.setServerOptions({
+    port: 3005,
+    watch: [
       'dist/bundles/*.js',
-      'dist/bundles/*.css',
-      'dist/bundles/*.map'
+      'dist/bundles/*.css'
     ],
-    open: isDev
   });
 
   return {
@@ -46,7 +45,6 @@ module.exports = (config) => {
     dataTemplateEngine: 'njk',
     htmlTemplateEngine: 'njk',
     passthroughFileCopy: true,
-    templateFormats: ['md', 'njk'],
-    pathPrefix: '/'
+    templateFormats: ['md', 'njk']
   };
 };

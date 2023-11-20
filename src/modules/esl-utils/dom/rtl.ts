@@ -1,45 +1,12 @@
-import {memoize} from '../decorators/memoize';
-
+// TODO: Revisit using https://caniuse.com/mdn-api_element_scrollleft in 5.0.0
+/** RTL scroll browser behaviours */
 export type ScrollType = 'default' | 'negative' | 'reverse';
 
-// TODO: functional
-export abstract class RTLUtils {
-  /** Check if the element in a RTL direction context */
-  static isRtl(el: HTMLElement = document.body): boolean {
-    return getComputedStyle(el).direction === 'rtl';
-  }
-
-  /**
-   * @returns RTL scroll type (lazy, memoized)
-   */
-  @memoize()
-  static get scrollType(): ScrollType {
-    let scrollType: ScrollType = 'default';
-    const el = createDummyEl();
-    document.body.appendChild(el);
-    if (el.scrollLeft <= 0) {
-      el.scrollLeft = 2;
-      scrollType = el.scrollLeft < 2 ? 'negative' : 'reverse';
-    }
-    document.body.removeChild(el);
-    return scrollType;
-  }
-
-  static normalizeScrollLeft(el: HTMLElement, value: number | null = null, isRtl: boolean = RTLUtils.isRtl(el)): number {
-    value = (value === null) ? el.scrollLeft : value;
-    switch (isRtl ? RTLUtils.scrollType : '') {
-      case 'negative':
-        return el.scrollWidth - el.clientWidth + value;
-      case 'reverse':
-        return el.scrollWidth - el.clientWidth - value;
-      default:
-        return value;
-    }
-  }
-}
+/** Checks if the element in a RTL direction context */
+export const isRTL = (el?: HTMLElement | null): boolean => getComputedStyle(el || document.body).direction === 'rtl';
 
 /** Creates the dummy test element with a horizontal scroll presented */
-function createDummyEl(): HTMLElement {
+const createDummyScroll = (): HTMLElement => {
   const el = document.createElement('div');
   el.appendChild(document.createTextNode('ESL!'));
   el.dir = 'rtl';
@@ -52,4 +19,52 @@ function createDummyEl(): HTMLElement {
     overflow: 'scroll'
   });
   return el;
+};
+
+export const testRTLScrollType = (): ScrollType => {
+  let scrollType: ScrollType = 'default';
+  const el = createDummyScroll();
+  document.body.appendChild(el);
+  if (el.scrollLeft <= 0) {
+    el.scrollLeft = 2;
+    scrollType = el.scrollLeft < 2 ? 'negative' : 'reverse';
+  }
+  document.body.removeChild(el);
+  return scrollType;
+};
+
+let type: ScrollType | null = null;
+
+export const RTLScroll = {
+  /** @returns RTL scroll type (lazy, memoized) */
+  get type(): ScrollType {
+    if (typeof type === 'string') return type;
+    return type = testRTLScrollType();
+  }
+};
+
+export const normalizeScrollLeft = (el: HTMLElement, value: number | null = null, isRtl: boolean = isRTL(el)): number => {
+  value = (value === null) ? el.scrollLeft : value;
+  switch (isRtl ? RTLScroll.type : '') {
+    case 'negative':
+      return el.scrollWidth - el.clientWidth + value;
+    case 'reverse':
+      return el.scrollWidth - el.clientWidth - value;
+    default:
+      return value;
+  }
+};
+
+/** @deprecated use separate functions from the module */
+export abstract class RTLUtils {
+  /** @deprecated use {@link isRTL} instead */
+  static readonly isRtl = isRTL;
+
+  /** @deprecated use {@link normalizeScrollLeft} instead */
+  static readonly normalizeScrollLeft = normalizeScrollLeft;
+
+  /** @deprecated use {@link RTLScroll}.type instead */
+  static get scrollType(): ScrollType {
+    return RTLScroll.type;
+  }
 }

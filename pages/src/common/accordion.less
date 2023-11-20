@@ -1,4 +1,4 @@
-@import (reference) "./variables.less";
+@import (reference) './variables.less';
 
 .esl-d-accordion {
   position: relative;
@@ -24,7 +24,7 @@
     margin-bottom: 0;
 
     border-bottom: 1px solid transparent;
-    transition: border-bottom-color .4s ease-in-out;
+    transition: border-bottom-color 0.4s ease-in-out;
 
     &:first-child {
       border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
@@ -47,7 +47,9 @@
 
       transform: rotate(225deg);
       transform-origin: center;
-      transition: transform .5s ease-in-out, top .5s ease-in-out;
+      transition:
+        transform 0.5s ease-in-out,
+        top 0.5s ease-in-out;
     }
 
     &[active] {

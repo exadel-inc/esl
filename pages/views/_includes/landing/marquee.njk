@@ -1,23 +1,26 @@
 <esl-d-marquee class="marquee container">
   <div class="marquee-content">
     <div class="marquee-heading-container">
-      <h1 class="marquee-heading">Exadel Smart Library</h1>
+      <h1 class="marquee-heading">{{ landing.marquee.title }}</h1>
     </div>
     <div class="marquee-body">
-      <p>Open-source UI components library that helps developers create modern-looking, effective, and user-friendly interfaces faster.</p>
-      {#<p>ESL based on the Custom Elements browser native feature.</p>#}
+      <p class="marquee-slogan-line">{{ landing.marquee.slogan }}</p>
+      <p>{{ landing.marquee.description }}</p>
     </div>
     <div class="btn-container">
-      <a class="btn btn-lg btn-sec-blue" href="{{ '/introduction' | url }}">Get started</a>
-      <a class="btn btn-lg btn-sec-orange" href="{{ '/examples' | url }}">See the library in action</a>
+      {% for cta in landing.marquee.ctas or [] %}
+        <a class="btn btn-lg btn-{{ cta.style }}" href="{{ cta.url | url }}">{{ cta.text }}</a>
+      {% endfor %}
     </div>
   </div>
 
   <div class="marquee-illustration" role="presentation">
     <div class="marquee-brand logo-animated">
-      {% include 'static/assets/logo-pretty.svg' %}
+      {% include 'static/assets/' + landing.marquee.logo %}
     </div>
   </div>
 
-  {% include 'static/assets/common/accent.svg' %}
+  <esl-animate>
+    {% include 'static/assets/common/accent.svg' %}
+  </esl-animate>
 </esl-d-marquee>

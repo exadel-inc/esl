@@ -1,5 +1,6 @@
-import {Observable} from '../../../esl-utils/abstract/observable';
-import {ALL, NOT_ALL} from './media-query-base';
+import {SyntheticEventTarget} from '../../../esl-utils/dom/events';
+import {ESLMediaChangeEvent} from './media-query-base';
+import {ALL, NOT_ALL} from './media-query-const';
 
 import type {IMediaQueryCondition} from './media-query-base';
 
@@ -9,50 +10,53 @@ import type {IMediaQueryCondition} from './media-query-base';
  *
  * Observe all child items. Dispatch changes when the whole condition result is changed
  */
-class MediaQueryContainer extends Observable<(matches: boolean) => void> implements IMediaQueryCondition {
-  private _matches: boolean;
+abstract class MediaQueryContainer extends SyntheticEventTarget implements IMediaQueryCondition {
+  protected _matches: boolean;
 
   constructor(protected readonly items: IMediaQueryCondition[] = []) {
     super();
     this._matches = this.matches;
-    this._onChildChange = this._onChildChange.bind(this);
+    this._onChange = this._onChange.bind(this);
   }
 
-  public addListener(listener: (matches: boolean) => void): void {
-    super.addListener(listener);
-    if (this._listeners.size > 1) return;
-    this.items.forEach((item) => item.addListener(this._onChildChange));
-  }
-  public removeListener(listener: (matches: boolean) => void): void {
-    super.removeListener(listener);
-    if (this._listeners.size) return;
-    this.items.forEach((item) => item.removeListener(this._onChildChange));
+  public override addEventListener(callback: EventListener): void;
+  public override addEventListener(type: 'change', callback: EventListener): void;
+  public override addEventListener(type: any, callback: EventListener = type): void {
+    super.addEventListener(type, callback);
+    if (this.getEventListeners('change').length > 1) return;
+    this.items.forEach((item) => item.addEventListener('change', this._onChange));
   }
 
+  public override removeEventListener(callback: EventListener): void;
+  public override removeEventListener(type: 'change', callback: EventListener): void;
+  public override removeEventListener(type: any, callback: EventListener = type): void {
+    super.removeEventListener(type, callback);
+    if (this.hasEventListener()) return;
+    this.items.forEach((item) => item.removeEventListener('change', this._onChange));
+  }
+
+  public optimize(): IMediaQueryCondition {
+    return this;
+  }
   public get matches(): boolean {
     return false;
   }
 
-  /** Exclude const conditions. Unwrap empty or trivial (with one item) containers */
-  public optimize(): IMediaQueryCondition {
-    return this;
-  }
-
-  /** Handle query change and dispatch it on top level in case result value is changed */
-  protected _onChildChange(): void {
+  /** Handles query change and dispatches it on top level in case result value is changed */
+  protected _onChange(): void {
     const {matches} = this;
     if (this._matches ===  matches) return;
-    this.fire(this._matches = matches);
+    this.dispatchEvent(new ESLMediaChangeEvent(this._matches = matches));
   }
 }
 
 /** Conjunction (AND) group of media conditions */
 export class MediaQueryConjunction extends MediaQueryContainer {
-  public get matches(): boolean {
+  public override get matches(): boolean {
     return this.items.every((item) => item.matches);
   }
 
-  public optimize(): IMediaQueryCondition {
+  public override optimize(): IMediaQueryCondition {
     const optimizedItems = this.items.map((item) => item.optimize());
     if (optimizedItems.some((item) => NOT_ALL.eq(item))) return NOT_ALL;
     const items = optimizedItems.filter((item) => !ALL.eq(item));
@@ -61,18 +65,18 @@ export class MediaQueryConjunction extends MediaQueryContainer {
     return new MediaQueryConjunction(items);
   }
 
-  public toString(): string {
+  public override toString(): string {
     return this.items.join(' and ');
   }
 }
 
 /** Disjunction (OR) group of media conditions */
 export class MediaQueryDisjunction extends MediaQueryContainer {
-  public get matches(): boolean {
+  public override get matches(): boolean {
     return this.items.some((item) => item.matches);
   }
 
-  public optimize(): IMediaQueryCondition {
+  public override optimize(): IMediaQueryCondition {
     const optimizedItems = this.items.map((item) => item.optimize());
     if (optimizedItems.some((item) => ALL.eq(item))) return ALL;
     const items = optimizedItems.filter((item) => !NOT_ALL.eq(item));
@@ -81,7 +85,7 @@ export class MediaQueryDisjunction extends MediaQueryContainer {
     return new MediaQueryDisjunction(items);
   }
 
-  public toString(pretty = false): string {
+  public override toString(pretty = false): string {
     return this.items.join(pretty ? ' or ' : ', ');
   }
 }

@@ -2,21 +2,44 @@ name: Release
 
 on:
   workflow_dispatch:
+    inputs:
+      dryRun:
+        type: boolean
+        default: true
+        required: false
+        description: 'Run in dry-run mode (no actual release)'
 
 env:
-  node-version: 16.x
+  node-version: 18.x
 
 jobs:
   release:
+    name: Release
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      # Check permissions
+      - uses: tspascoal/get-user-teams-membership@v2
+        id: permissions
+        with:
+          username: ${{ github.actor }}
+          team: 'ESL Core Maintainers'
+          GITHUB_TOKEN: ${{ secrets.PERMISSION_CHECK_TOKEN }}
+
+      - if: ${{ steps.permissions.outputs.isTeamMember == 'true' }}
+        name: Access Check Passed
+        run: echo ${{ github.actor }} is in 'ESL Core Maintainers' group
+      - if: ${{ steps.permissions.outputs.isTeamMember == 'false' }}
+        name: Access Denied
+        run: exit 1
+
+      # Start workflow
+      - uses: actions/checkout@v3
         with:
           persist-credentials: false
 
       - name: Use Node v${{ env.node-version }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           cache: 'npm'
           node-version: ${{ env.node-version }}
@@ -24,7 +47,15 @@ jobs:
       - name: Install NPM Dependencies
         run: npm ci
 
+      - name: Run Semantic Release in Dry Run mode
+        if: ${{ inputs.dryRun }}
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        run: npx semantic-release --dry-run
+
       - name: Run Semantic Release
+        if: ${{ !inputs.dryRun }}
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}

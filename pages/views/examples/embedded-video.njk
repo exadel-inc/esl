@@ -20,7 +20,7 @@ aside:
       And you can use esl media component the same way as a native video element</p>
     <hr/>
     <div class="img-container img-container-16-9 img-container-loaded">
-      <esl-media group="demo-media"
+      <esl-media  group="demo-media"
                   media-type="youtube"
                   media-id="hqc8EbfR5BE"
                   load-condition="(min-width: 320px)"
@@ -34,7 +34,7 @@ aside:
       </esl-media>
     </div>
     <div class="row btn-group-centered">
-      <test-media-controls target="[data-demo='1'] esl-media"></test-media-controls>
+      <esl-d-media-controls target="[data-demo='1'] esl-media"></esl-d-media-controls>
     </div>
   </section>
   <section class="col-md-6" data-demo="2">
@@ -45,7 +45,7 @@ aside:
     <div class="img-container img-container-16-9 img-container-loaded">
       <esl-media group="demo-media"
                   media-type="video"
-                  media-src="https://pixabay.com/videos/download/video-5200_large.mp4"
+                  media-src="{{ '/assets/media/video_1.mp4' | url }}"
                   load-condition="(min-width: 320px)"
                   load-cls-target="::parent(section)"
                   load-cls-accepted="show-video"
@@ -55,7 +55,7 @@ aside:
       </esl-media>
     </div>
     <div class="row btn-group-centered">
-      <test-media-controls target="[data-demo='2'] esl-media"></test-media-controls>
+      <esl-d-media-controls target="[data-demo='2'] esl-media"></esl-d-media-controls>
     </div>
   </section>
   <section class="col-md-6" data-demo="3">
@@ -72,7 +72,7 @@ aside:
       </esl-media>
     </div>
     <div class="row btn-group-centered">
-      <test-media-controls target="[data-demo='3'] esl-media" actions="play,stop"></test-media-controls>
+      <esl-d-media-controls target="[data-demo='3'] esl-media" actions="play,stop"></esl-d-media-controls>
     </div>
   </section>
 
@@ -82,11 +82,13 @@ aside:
       for the block.</p>
     <hr/>
     <div class="demo-marquee" style="height: 400px">
-      <esl-media class="bg-content esl-media-bg"
+      <esl-media class="bg-content esl-media-bg esl-animate-fade"
+                 ready-class="in"
                  media-type="video"
-                 media-src="https://pixabay.com/videos/download/video-5200_large.mp4"
+                 media-src="{{ '/assets/media/video.mp4' | url }}"
                  fill-mode="cover"
                  play-in-viewport
+                 lazy
                  autoplay muted loop playsinline>
       </esl-media>
       <div class="demo-content contrast">
@@ -102,12 +104,14 @@ aside:
     <p class="text-center">We still can use any source in background mode</p>
     <hr/>
     <div class="demo-marquee" style="height: 400px">
-      <esl-media class="bg-content esl-media-bg"
+      <esl-media class="bg-content esl-media-bg esl-animate-fade"
+                 ready-class="in"
                  media-type="youtube"
                  media-id="5ryf1AVl8Wg"
                  fill-mode="cover"
                  aspect-ratio="4:3"
                  play-in-viewport
+                 lazy="auto"
                  autoplay muted loop playsinline>
       </esl-media>
       <div class="demo-content contrast">

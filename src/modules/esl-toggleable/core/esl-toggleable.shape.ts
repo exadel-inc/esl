@@ -11,6 +11,11 @@ export interface ESLToggleableTagShape<T extends ESLToggleable = ESLToggleable> 
   /** Define CSS class to add when the Toggleable is active */
   'active-class'?: string;
 
+  /** Define CSS class (supports {@link CSSClassUtils}) to add on the related element */
+  'container-active-class'?: string;
+  /** Define selector for the closest parent element to add/remove `container-active-class` */
+  'container-active-class-target'?: string;
+
   /** Open toggleable marker. Can be used to define initial state */
   'open'?: boolean;
 

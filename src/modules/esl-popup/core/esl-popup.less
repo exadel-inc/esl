@@ -4,7 +4,9 @@
                       @popupBorderColor: #DBDBDB,
                       @popupBorderWidth: 1px) {
   @popupArrowHalf: (@popupArrowSize / 2);
-  @popupArrowShift: (@popupArrowSize * 0.2071 - @popupBorderWidth);  // 0.2071 = (sqrt(2) - 1) / 2  (Don't ask why, it's an axiom)
+  @popupArrowShift: (
+    @popupArrowSize * 0.2071 - @popupBorderWidth
+  ); // 0.2071 = (sqrt(2) - 1) / 2  (Don't ask why, it's an axiom)
 
   .@{arrowClassName} {
     position: absolute;
@@ -20,7 +22,7 @@
     background: @popupBackgroundColor;
   }
 
-  &[placed-at=top] {
+  &[placed-at='top'] {
     .@{arrowClassName} {
       top: auto;
       bottom: (-@popupArrowHalf - @popupBorderWidth);
@@ -28,7 +30,7 @@
     }
   }
 
-  &[placed-at=left] {
+  &[placed-at='left'] {
     .@{arrowClassName} {
       right: (-@popupArrowHalf - @popupBorderWidth);
       left: auto;
@@ -37,12 +39,18 @@
     }
   }
 
-  &[placed-at=right] {
+  &[placed-at='right'] {
     .@{arrowClassName} {
       left: (-@popupArrowHalf - @popupBorderWidth - @popupArrowShift);
       right: auto;
       transform: rotate(315deg);
       margin-top: @popupArrowShift;
+    }
+  }
+
+  &.disable-arrow {
+    .@{arrowClassName} {
+      display: none;
     }
   }
 }
@@ -73,7 +81,9 @@
       z-index: @zIndex;
       opacity: 1;
       visibility: visible;
-      transition: opacity 0.15s, transform 0.2s;
+      transition:
+        opacity 0.15s,
+        transform 0.2s;
     }
 
     &:not([open]) {

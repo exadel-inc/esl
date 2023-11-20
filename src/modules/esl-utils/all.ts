@@ -1,47 +1,20 @@
-// Miscellanies
-export * as UID from './misc/uid';
-export * as SetUtils from './misc/set';
-export * as ArrayUtils from './misc/array';
-export * as ObjectUtils from './misc/object';
-export * as FormatUtils from './misc/format';
-export * as FunctionUtils from './misc/functions';
-
-// Memoization decorator
-export * from './misc/memoize';
-
 // Common
 export * from './abstract/observable';
 
+// Miscellanies
+export * from './misc';
+
 // Decorators
-export * from './decorators/bind';
-export * from './decorators/memoize';
-export * from './decorators/prop';
-export * from './decorators/ready';
+export * from './decorators';
 
 // Function
-export * from './async/aggregate';
-export * from './async/promise';
-export * from './async/raf';
-export * from './async/debounce';
-export * from './async/throttle';
-export * from './async/delayed-task';
+export * from './async';
 
 // DOM
-export * from './dom/api';
-export * from './dom/class';
-export * from './dom/events';
-export * from './dom/focus';
-export * from './dom/keys';
-export * from './dom/ready';
-export * from './dom/rtl';
-export * from './dom/script';
-export * from './dom/scroll';
-export * from './dom/traversing';
-export * from './dom/window';
+export * from './dom';
 
-// Device detection
-export * from './environment/device-detector';
+// Environment
+export * from './environment';
 
 // Fixes
-export * as IEFixes from './fixes/ie-fixes';
-export * from './fixes/viewport';
+export * from './fixes';

@@ -1,4 +1,4 @@
-@import (reference) "./variables.less";
+@import (reference) './variables.less';
 
 // Block
 .d-block {
@@ -22,11 +22,18 @@
     }
   }
 }
+.show {
+  @media @sm-xl {
+    &-xs {
+      display: none;
+    }
+  }
+}
 
 // Margin
 .m {
   &-0 {
-  margin: 0 !important;
+    margin: 0 !important;
   }
   &-1 {
     margin: 0.5rem !important;
@@ -45,7 +52,7 @@
 // Margin-bottom
 .mb {
   &-0 {
-  margin-bottom: 0 !important;
+    margin-bottom: 0 !important;
   }
   &-1 {
     margin-bottom: 0.5rem !important;
@@ -71,6 +78,10 @@
   &-2 {
     margin-left: 0.5rem !important;
     margin-right: 0.5rem !important;
+  }
+  &-4 {
+    margin-left: 2rem !important;
+    margin-right: 2rem !important;
   }
   &-auto {
     margin-right: auto !important;

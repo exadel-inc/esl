@@ -20,12 +20,12 @@ aside:
       <p>ESL Media supports simple HTML audio in mp3, wav or aac formats:</p>
       <esl-media controls
                  media-type="audio"
-                 media-src="https://html5book.ru/examples/media/track.mp3"
+                 media-src="{{ '/assets/media/audio.mp3' | url }}"
                  tabindex="0">
       </esl-media>
     </div>
     <div class="btn-group-centered">
-      <test-media-controls target="[data-demo='4'] esl-media"></test-media-controls>
+      <esl-d-media-controls target="[data-demo='4'] esl-media"></esl-d-media-controls>
     </div>
   </section>
 </div>

@@ -1,3 +1,7 @@
+import {ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
+import {ESLTraversingQuery} from '@exadel/esl/modules/esl-traversing-query/core';
+import {attr, listen} from '@exadel/esl/modules/esl-utils/decorators';
+
 interface MediaTarget {
   play(): any;
   pause(): any;
@@ -10,9 +14,10 @@ interface TestMediaAction {
   render: (actionName: string, action: TestMediaAction) => HTMLElement;
 }
 
-class TestMediaControls extends HTMLElement {
+class ESLDemoMediaControls extends ESLBaseElement {
+  public static override is = 'esl-d-media-controls';
 
-  public static ACTIONS: {[key: string]: TestMediaAction} = {
+  public static ACTIONS: Record<string, TestMediaAction> = {
     play: {
       title: 'Play',
       action: (target: any) => target.play(),
@@ -29,15 +34,18 @@ class TestMediaControls extends HTMLElement {
       render: renderButton
     }
   };
-  public static ACTIONS_ALL = Object.keys(TestMediaControls.ACTIONS).join(',');
+  public static ACTIONS_ALL = Object.keys(ESLDemoMediaControls.ACTIONS).join(',');
 
-  get target(): HTMLElement[] {
-    const targetSel = this.getAttribute('target');
-    return targetSel ? Array.from(document.querySelectorAll(targetSel)) : [];
+  @attr() public target: string;
+  @attr({defaultValue: ESLDemoMediaControls.ACTIONS_ALL}) public actions: string;
+
+  public get $targets(): HTMLElement[] {
+    return ESLTraversingQuery.all(this.target, this) as HTMLElement[];
   }
 
-  get actions(): string {
-    return this.getAttribute('actions') || TestMediaControls.ACTIONS_ALL;
+  protected override connectedCallback(): void {
+    super.connectedCallback();
+    this.render();
   }
 
   private render(): void {
@@ -45,25 +53,21 @@ class TestMediaControls extends HTMLElement {
 
     this.innerHTML = '';
     for (const actionName of actionList) {
-      const action: TestMediaAction = TestMediaControls.ACTIONS[actionName];
+      const action: TestMediaAction = ESLDemoMediaControls.ACTIONS[actionName];
       if (!action) return;
       this.appendChild(action.render(actionName, action));
     }
   }
 
-  private onClick(e: Event): void {
+  @listen('click')
+  private onClick(e: MouseEvent): void {
     const target = e.target as HTMLElement;
     const actionName = target.dataset.action;
-    if (actionName && TestMediaControls.ACTIONS[actionName]) {
-      const actionDesc = TestMediaControls.ACTIONS[actionName];
+    if (actionName && ESLDemoMediaControls.ACTIONS[actionName]) {
+      const actionDesc = ESLDemoMediaControls.ACTIONS[actionName];
       const actionFn = actionDesc.action;
-      this.target.forEach(($el) => actionFn.call($el, $el, actionName, actionDesc));
+      this.$targets.forEach(($el) => actionFn.call($el, $el, actionName, actionDesc));
     }
-  }
-
-  protected connectedCallback(): void {
-    this.render();
-    this.addEventListener('click', this.onClick.bind(this));
   }
 }
 
@@ -75,4 +79,4 @@ function renderButton(actionName: string, action: TestMediaAction): HTMLButtonEl
   return btn;
 }
 
-customElements.define('test-media-controls', TestMediaControls);
+ESLDemoMediaControls.register();

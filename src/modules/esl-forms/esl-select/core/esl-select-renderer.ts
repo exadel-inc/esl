@@ -1,9 +1,9 @@
-import {attr, boolAttr, ESLBaseElement} from '../../../esl-base-element/core';
-import {rafDecorator} from '../../../esl-utils/async/raf';
-import {bind} from '../../../esl-utils/decorators/bind';
+import {ESLBaseElement} from '../../../esl-base-element/core';
 import {format} from '../../../esl-utils/misc/format';
+import {rafDecorator} from '../../../esl-utils/async/raf';
+import {attr, boolAttr, decorate, listen, memoize} from '../../../esl-utils/decorators';
 
-import {ESLSelect} from './esl-select';
+import type {ESLSelect} from './esl-select';
 
 /**
  * ESLSelectRenderer component
@@ -12,7 +12,7 @@ import {ESLSelect} from './esl-select';
  * Auxiliary inner custom element to render {@link ESLSelect} inline field
  */
 export class ESLSelectRenderer extends ESLBaseElement {
-  public static readonly is = 'esl-select-renderer';
+  public static override readonly is = 'esl-select-renderer';
 
   /** Attribute for empty text value */
   @attr() public emptyText: string;
@@ -21,67 +21,65 @@ export class ESLSelectRenderer extends ESLBaseElement {
   /** Marker attribute to reflect filled state */
   @boolAttr() public hasValue: boolean;
 
-  protected $container: HTMLDivElement;
-  protected $rest: HTMLElement;
-  protected $text: HTMLElement;
-  protected $remove: HTMLButtonElement;
+  /** Internal container */
+  @memoize()
+  protected get $container(): HTMLElement {
+    const $container = document.createElement('div');
+    $container.className = 'esl-select-text-container';
+    $container.appendChild(this.$text);
+    $container.appendChild(this.$rest);
+    return $container;
+  }
 
-  protected _deferredRerender = rafDecorator(() => this.render());
+  /** Inner remove button */
+  @memoize()
+  protected get $remove(): HTMLElement {
+    const $remove = document.createElement('button');
+    $remove.type = 'button';
+    $remove.setAttribute('aria-label', 'Clear');
+    $remove.className = 'esl-select-clear-btn icon-nav-close-menu';
+    return $remove;
+  }
 
-  constructor() {
-    super();
+  /** Inner text element */
+  @memoize()
+  protected get $text(): HTMLElement {
+    const $text = document.createElement('span');
+    $text.className = 'esl-select-text';
+    return $text;
+  }
 
-    this.$remove = document.createElement('button');
-    this.$remove.type = 'button';
-    this.$remove.setAttribute('aria-label', 'Clear');
-    this.$remove.classList.add('esl-select-clear-btn');
-    this.$remove.classList.add('icon-nav-close-menu');
-
-    this.$container = document.createElement('div');
-    this.$container.classList.add('esl-select-text-container');
-    this.$text = document.createElement('span');
-    this.$text.classList.add('esl-select-text');
-    this.$container.appendChild(this.$text);
-    this.$rest = document.createElement('span');
-    this.$rest.classList.add('esl-select-text');
-    this.$container.appendChild(this.$rest);
+  /** Inner rest label element */
+  @memoize()
+  protected get $rest(): HTMLElement {
+    const $rest = document.createElement('span');
+    $rest.className = 'esl-select-text';
+    return $rest;
   }
 
   /** ESLSelect owner */
   get owner(): ESLSelect | null {
-    return this.parentElement instanceof ESLSelect ? this.parentElement : null;
+    if (!this.parentElement || !this.parentElement.matches('esl-select')) return null;
+    return this.parentElement as ESLSelect;
   }
 
-  protected connectedCallback(): void {
+  protected override connectedCallback(): void {
     super.connectedCallback();
     this.appendChild(this.$container);
     this.appendChild(this.$remove);
-    this.bindEvents();
-
-    customElements.whenDefined(ESLSelectRenderer.is).then(() => this.render());
+    Promise.resolve().then(() => this.render());
   }
-  protected disconnectedCallback(): void {
+  protected override disconnectedCallback(): void {
     super.disconnectedCallback();
     this.removeChild(this.$container);
     this.removeChild(this.$remove);
-    this.unbindEvents();
-  }
-
-  protected bindEvents(): void {
-    if (!this.owner) return;
-    this.owner.addEventListener('esl:change:value', this.render);
-    this.$remove.addEventListener('click', this._onClear);
-    window.addEventListener('resize', this._deferredRerender);
-  }
-  protected unbindEvents(): void {
-    if (!this.owner) return;
-    this.owner.removeEventListener('esl:change:value', this.render);
-    this.$remove.removeEventListener('click', this._onClear);
-    window.removeEventListener('resize', this._deferredRerender);
   }
 
   /** Rerender component with markers */
-  @bind
+  @listen({
+    event: 'esl:change:value',
+    target: (el: ESLSelectRenderer) => el.owner
+  })
   public render(): void {
     if (!this.owner) return;
     const selected = this.owner.selectedOptions;
@@ -112,12 +110,18 @@ export class ESLSelectRenderer extends ESLBaseElement {
   }
 
   /** Handle clear button click */
-  @bind
+  @listen({event: 'click', selector: '.esl-select-clear-btn'})
   protected _onClear(e: MouseEvent): void {
     if (!this.owner) return;
     this.owner.setAllSelected(false);
     e.stopPropagation();
     e.preventDefault();
+  }
+
+  @listen({event: 'resize', target: window})
+  @decorate(rafDecorator)
+  protected _onResize(): void {
+    this.render();
   }
 }
 

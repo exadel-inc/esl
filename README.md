@@ -6,7 +6,8 @@
 [![npm](https://img.shields.io/npm/v/@exadel/esl?style=for-the-badge)](https://www.npmjs.com/package/@exadel/esl)
 [![npm Downloads](https://img.shields.io/npm/dt/@exadel/esl.svg?label=npm%20downloads&style=for-the-badge)](https://www.npmjs.com/package/@exadel/esl)
 [![version](https://img.shields.io/github/package-json/v/exadel-inc/esl?style=for-the-badge)](https://github.com/exadel-inc/esl/releases/latest)
-[![build](https://img.shields.io/github/workflow/status/exadel-inc/esl/validate/main?style=for-the-badge)](https://github.com/exadel-inc/esl/actions/workflows/validate.yml)
+[![build](https://img.shields.io/github/actions/workflow/status/exadel-inc/esl/validate.yml?style=for-the-badge)](https://github.com/exadel-inc/esl/actions/workflows/validate.yml)
+[![Tests Coverage](https://img.shields.io/codeclimate/coverage/exadel-inc/esl?style=for-the-badge)](https://codeclimate.com/github/exadel-inc/esl)
 [![License](https://img.shields.io/badge/license-MIT-green.svg?style=for-the-badge)](./README.md)
 
 Exadel Smart Library (**ESL**) is an open-source **lightweight** and **flexible** UI component library based on web components.
@@ -23,7 +24,6 @@ their tech stack.
 - [Overview](#overview)
 - [Library Structure](#library-structure)
 - [Installation Guide](#installation-guide)
-- [Roadmap](#roadmap)
 - [Development Information for Contributors](#development-information-for-contributors)
 
 ## Overview
@@ -40,7 +40,7 @@ to meet your project needs.
 
 ESL is based solely on Web API and ECMAScript 6 features, which let our web UI components library work 
 well across all modern browsers such as Firefox, Chrome, Safari, Opera, and Edge. 
-ESL can also work on IE11 when the whole list of polyfills is provided (see [Browser support & Polyfills](https://github.com/exadel-inc/esl/blob/HEAD/docs/BROWSER_SUPPORT.md) for more details)
+ESL can also work on IE11 when the whole list of polyfills is provided (see [Browser support & Polyfills](https://github.com/exadel-inc/esl/blob/HEAD/docs/BROWSER_SUPPORT.md) for more details).
 
 ## Library Structure
 
@@ -48,42 +48,40 @@ While building the UI component library, we included components, form components
 project architecture problems and comply with the DRY principle. 
 See the rundown of web components and read the specs.
 
-### Base Elements
+### Library Core
 
 With our UI component library, you get flexible syntax sugar meant for building on top of basic components and 
 controlling their life cycle.
 
 - ##### [ESL Base Element](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-base-element/README.md)
+- ##### [ESL Mixin Element](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-mixin-element/README.md)
+- ##### [ESL Media Query](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-media-query/README.md)
+- ##### [ESL Traversing Query](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-traversing-query/README.md)
+- ##### [ESL Event Listener](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-event-listener/README.md)
+- ##### [ESL Utils](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-utils/README.md)
 
 ### Components
 
 Our HTML UI component library provides you with all the elements you’ll need to construct UX modules 
 with excellent performance.
 
+- ##### [ESL A11yGroup](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-a11y-group/README.md) (beta)
+- ##### [ESL Alert](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-alert/README.md)
+- ##### [ESL Animate](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-animate/README.md)
+- ##### [ESL Footnotes](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-footnotes/README.md) (beta)
 - ##### [ESL Image](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-image/README.md)
 - ##### [ESL Media](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-media/README.md)
+- ##### [ESL Panel](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-panel/README.md)
+- ##### [ESL Panel Group](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-panel-group/README.md)
+- ##### [ESL Popup](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-popup/README.md) (beta)
+- ##### [ESL Related Target](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-related-target/README.md) (beta)
 - ##### [ESL Scrollbar](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-scrollbar/README.md)
-
+- ##### [ESL Select](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-forms/esl-select/README.md) (beta)
+- ##### [ESL Select List](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-forms/esl-select-list/README.md) (beta)
+- ##### [ESL Share](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-share/README.md) (beta)
+- ##### [ESL Tab and Tabs](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-tab/README.md)
 - ##### [ESL Toggleable](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-toggleable/README.md)
 - ##### [ESL Trigger](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-trigger/README.md)
-- ##### [ESL Panel and Panel Group](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-panel/README.md)
-- ##### [ESL Tab and Tabs](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-tab/README.md)
-- ##### [ESL Alert](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-alert/README.md)
-- ##### [ESL Animate](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-animate/README.md) (beta)
-- ##### [ESL Popup](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-popup/README.md) (beta)
-
-- ##### [ESL Select](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-forms/esl-select/README.md)
-- ##### [ESL Select List](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-forms/esl-select-list/README.md)
-
-### Utilities
-
-Our web UI components library equips you with utilities to build components using simplifying syntax sugar and a 
-big set of helpers.
-
-- ##### [ESL A11yGroup](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-a11y-group/README.md)
-- ##### [ESL Media Query](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-media-query/README.md)
-- ##### [ESL Traversing Query](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-traversing-query/README.md)
-- ##### [ESL Utils](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-utils/README.md)
 
 ---
 ## Installation Guide
@@ -92,7 +90,7 @@ big set of helpers.
 0. Preconditions:
    - Make sure you have all needed polyfills to support browsers from your browser-support list.
    See [Browser support & Polyfills](https://github.com/exadel-inc/esl/blob/HEAD/docs/BROWSER_SUPPORT.md) for details.
-   - Use bundler to build your project. Currently, only ES6 modules are available for consumption.
+   - Use a bundler to build your project. Currently, only ES6 modules are available for consumption.
 
 1. Install [esl npm dependency](https://www.npmjs.com/package/@exadel/esl):
     ```
@@ -130,23 +128,6 @@ big set of helpers.
     *You can pass custom tag name to 'register' function, but use this option only in an exceptional situation.*
 
 ---
-## Roadmap
-<a name="roadmap"></a>
-
-- ESL Carousel component (v4.0.0)
-- More helpers and sugar of ESLBaseElement (event listener helpers and decorators) (v4.0.0)
-- Migration to multi-package structure (v5.0.0)
-- Interactive Documentation and more demo site features
-- Sharable assets from demo site (styles components)
-- Demo pages [UI Playground](https://github.com/exadel-inc/ui-playground) integration
-- Stable version of ESL Footnotes and ESL Popup components
-- Extension of esl-form elements (custom form base, helpers, validation and more)
-- Anchor Navigation component
-- More components in the library
-
-<a name="roadmap_end"></a>
-
----
 <a name="contributing"></a>
 
 ## Development Information for Contributors
@@ -168,34 +149,40 @@ you can find useful information about the project processes and agreements here:
 People who architect, maintain, and keep the idea of the ESL
 
 <table><tbody><tr>
-<td align="center" valign="top" width="20%">
+<td align="center" valign="top" width="16.6%">
     <a href="https://github.com/ala-n">
         <img src="https://github.com/ala-n.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
         Alexey Stsefanovich
     </a>
 </td>
-<td align="center" valign="top" width="20%">
+<td align="center" valign="top" width="16.6%">
     <a href="https://github.com/julia-murashko">
         <img src="https://github.com/julia-murashko.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
         Julia Murashko
     </a>
 </td>
-<td align="center" valign="top" width="20%">
+<td align="center" valign="top" width="16.6%">
     <a href="https://github.com/yadamskaya">
         <img src="https://github.com/yadamskaya.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
         Yuliya Adamskaya
     </a>
 </td>
-<td align="center" valign="top" width="20%">
+<td align="center" valign="top" width="16.6%">
     <a href="https://github.com/dshovchko">
         <img src="https://github.com/dshovchko.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
         Dmytro Shovchko
     </a>
 </td>
-<td align="center" valign="top" width="20%">
+<td align="center" valign="top" width="16.6%">
     <a href="https://github.com/abarmina">
         <img src="https://github.com/abarmina.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
         Anna Barmina
+    </a>
+</td>
+<td align="center" valign="top" width="16.6%">
+    <a href="https://github.com/NastaLeo">
+        <img src="https://github.com/NastaLeo.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
+        Anastasiya Lesun
     </a>
 </td>
 </tr></tbody></table>
@@ -209,13 +196,6 @@ People who are actively contributing to the ESL
     <a href="https://github.com/Anna-MariiaPetryk">
         <img src="https://github.com/Anna-MariiaPetryk.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
         Anna-Mariia Petryk
-    </a><br/>
-    Developer
-</td>
-<td align="center" valign="top" width="20%">
-    <a href="https://github.com/NastaLeo">
-        <img src="https://github.com/NastaLeo.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
-        Anastasiya Lesun
     </a><br/>
     Developer
 </td>
@@ -237,6 +217,13 @@ People who are actively contributing to the ESL
     <a href="https://github.com/YanaBr">
         <img src="https://github.com/YanaBr.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
         Yana Bernatskaya
+    </a><br/>
+    Developer
+</td>
+<td align="center" valign="top" width="20%">
+    <a href="https://github.com/Natalie-Smirnova">
+        <img src="https://github.com/Natalie-Smirnova.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
+        Natalie Smirnova
     </a><br/>
     Developer
 </td>

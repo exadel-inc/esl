@@ -1,5 +1,5 @@
 import type {ESLBaseElementShape} from '../../esl-base-element/core/esl-base-element.shape';
-import type {ESLMedia, ESLMediaFillMode} from './esl-media';
+import type {ESLMedia, ESLMediaFillMode, ESLMediaLazyMode} from './esl-media';
 
 /**
  * Tag declaration interface of ESLMedia element
@@ -14,17 +14,22 @@ export type ESLMediaTagShape = ({
   /** Define media source path */
   'media-src': string;
   /** Define media player type */
-  'media-type': string;
+  'media-type'?: string;
 }) & {
   /** Define media player group */
-  group: string;
+  group?: string;
   /** Define media fill mode */
   'fill-mode'?: ESLMediaFillMode;
   /** Define preferable aspect ratio */
   'aspect-ratio'?: string;
 
-  /** Define prevent loading marker */
+  /**
+   * Define prevent loading marker
+   * @deprecated Use {@link lazy} instead
+   */
   disabled?: boolean;
+  /** Define lazy loading mode */
+  lazy?: ESLMediaLazyMode;
   /** Define autoplay marker */
   autoplay?: boolean;
   /** Define auto grab focus on play marker */

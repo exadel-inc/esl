@@ -4,18 +4,22 @@
   <nav class="sidebar-nav">
     <a class="sidebar-heading" href="{{ '/' | url }}">
       <span class="sidebar-logo fill-light logo-animated">{% include 'static/assets/logo.svg' %}</span>
-      <span class="sidebar-title">{{ site.name }}</span>
+      <span class="sidebar-title">{{ site.brand }}</span>
     </a>
 
     <div class="sidebar-content">
+      <esl-scrollbar class="sidebar-scrollbar" target="::next"></esl-scrollbar>
+
       <ul class="sidebar-nav-list esl-scrollable-content">
         <li class="sidebar-nav-item">
           <div class="sidebar-nav-item-heading {{ 'active' if functions.isActivePath(page.url, 'search') }}">
-            <a class="sidebar-nav-item-link icon-link" href="{{ '/search.html' | url }}">
-              {% include 'static/assets/sidebar/search.svg' %}
-            </a>
-            <a class="sidebar-nav-item-trigger" href="{{ '/search.html' | url }}">
-              Search
+            <a class="sidebar-nav-item-heading-inner"
+               href="{{ '/search.html' | url }}"
+               aria-label="Site search">
+              <span class="sidebar-nav-item-link icon-link" aria-hidden='true'>
+                {% include 'static/assets/sidebar/search.svg' %}
+              </span>
+              <span class="sidebar-nav-item-trigger">Search</span>
             </a>
           </div>
         </li>
@@ -23,17 +27,33 @@
           {{ navitem ('Introduction', 'introduction', 'static/assets/sidebar/intro.svg') }}
         </li>
         <li class="sidebar-nav-item">
-          {{ navitem ('Examples', 'examples', 'static/assets/sidebar/examples.svg') }}
+          {{ navitem ('Core', 'core', 'static/assets/sidebar/utils.svg') }}
         </li>
         <li class="sidebar-nav-item">
           {{ navitem ('Components', 'components', 'static/assets/sidebar/components.svg') }}
         </li>
         <li class="sidebar-nav-item">
-          {{ navitem ('Utils', 'utils', 'static/assets/sidebar/utils.svg') }}
+          {{ navitem ('Examples', 'examples', 'static/assets/sidebar/examples.svg') }}
+        </li>
+        {% set releasedBlogs = collections.blogs | released %}
+        {% if releasedBlogs.length %}
+        <li class="sidebar-nav-item">
+          {{ navitem ('Blogs', 'blogs', 'static/assets/sidebar/blogs.svg') }}
+        </li>
+        {% endif %}
+        {% if env.isDev %}
+          <li class="sidebar-nav-item">
+            {{ navitem ('Drafts', 'draft', 'static/assets/common/flask.svg') }}
+          </li>
+        {% endif %}
+
+        <hr class="sidebar-nav-item-divider show-xs"/>
+
+        <li class="sidebar-nav-item sidebar-nav-item-share">
+          <esl-share aria-label="Share this page"
+                     list="group:site"></esl-share>
         </li>
       </ul>
-
-      <esl-scrollbar class="sidebar-scrollbar" target="::prev"></esl-scrollbar>
     </div>
     <esl-trigger class="sidebar-trigger-btn sidebar-arrows-icon" target="#sidebar" data-store></esl-trigger>
   </nav>
