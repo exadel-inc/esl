@@ -1,3 +1,4 @@
+import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {attr, bind, boolAttr, jsonAttr} from '../../esl-utils/decorators';
 import {ESLShareList} from './esl-share-list';
@@ -6,6 +7,8 @@ import {ESLShareConfig} from './esl-share-config';
 
 import type {ESLSharePopupActionParams} from './esl-share-popup';
 
+export type {ESLShareTagShape} from './esl-share.shape';
+
 /**
  * ESLShare
  * @author Dmytro Shovchko
@@ -13,6 +16,7 @@ import type {ESLSharePopupActionParams} from './esl-share-popup';
  * ESLShare is a custom element to dynamically draw {@link ESLShareList}
  * or {@link ESLSharePopupTrigger} depending on the specified mode
  */
+@ExportNs('Share')
 export class ESLShare extends ESLBaseElement {
   public static override is = 'esl-share';
 
@@ -96,5 +100,14 @@ export class ESLShare extends ESLBaseElement {
   /** Actions on complete init and ready component. */
   private onReady(): void {
     this.$$attr('ready', true);
+  }
+}
+
+declare global {
+  export interface ESLLibrary {
+    Share: typeof ESLShare;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-share': ESLShare;
   }
 }

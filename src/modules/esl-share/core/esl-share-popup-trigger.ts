@@ -1,3 +1,4 @@
+import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {attr, jsonAttr} from '../../esl-utils/decorators';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {ESLTrigger} from '../../esl-trigger/core';
@@ -6,14 +7,18 @@ import {ESLSharePopup} from './esl-share-popup';
 import type {ESLToggleable} from '../../esl-toggleable/core/esl-toggleable';
 import type {ESLSharePopupActionParams} from './esl-share-popup';
 
+export type {ESLSharePopupTriggerTagShape} from './esl-share-popup-trigger.shape';
+
 /**
  * ESLSharePopupTrigger component
  * @author Dmytro Shovchko
  *
  * ESLSharePopupTrigger is a component that allows triggering {@link ESLSharePopup} instance state changes.
  */
+@ExportNs('SharePopupTrigger')
 export class ESLSharePopupTrigger extends ESLTrigger {
   public static override is = 'esl-share-popup-trigger';
+  public static override observedAttributes = ['list'];
 
   /** Register {@link ESLSharePopupTrigger} component and dependent {@link ESLSharePopup} */
   public static override register(): void {
@@ -65,6 +70,17 @@ export class ESLSharePopupTrigger extends ESLTrigger {
   protected get $containerEl(): HTMLElement | undefined {
     const container = this.getClosestRelatedAttr('container');
     return container ? ESLTraversingQuery.first(container, this) as HTMLElement : undefined;
+  }
+
+  protected override attributeChangedCallback(attrName: string, oldValue: string | null, newValue: string | null): void {
+    if (!this.connected || oldValue === newValue) return;
+    this.update();
+  }
+
+  /** Updates the component and related popup */
+  protected update(): void {
+    if (!this.isTargetActive) return;
+    this.$target?.hide();
   }
 
   /** Update `$target` Toggleable  from `target` selector */
