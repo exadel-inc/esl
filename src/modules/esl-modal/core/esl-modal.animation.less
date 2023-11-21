@@ -1,0 +1,25 @@
+.esl-modal.esl-modal-fade {
+  --esl-modal-animation-time: 300ms;
+  transition: opacity var(--esl-modal-animation-time) linear;
+
+  opacity: 0;
+  &.open {
+    opacity: 1;
+  }
+}
+
+.esl-modal.esl-modal-zoom {
+  --esl-modal-animation-time: 300ms;
+  transition:
+    opacity var(--esl-modal-animation-time) linear,
+    transform var(--esl-modal-animation-time) linear;
+
+  opacity: 0;
+  transform: scale(0);
+  transform-origin: center;
+
+  &.open {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

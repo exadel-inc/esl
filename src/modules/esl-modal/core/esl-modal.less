@@ -15,10 +15,10 @@ esl-modal {
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow-y: scroll;
+  overflow-y: hidden;
   pointer-events: none;
 
-  &:not(.open) {
+  &:not([animating]):not(.open) {
     display: none;
   }
 
@@ -55,5 +55,9 @@ esl-modal {
 
   > esl-scrollbar {
     position: fixed;
+  }
+
+  &.handle-scrollbar {
+    overflow-y: scroll;
   }
 }

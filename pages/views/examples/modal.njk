@@ -14,9 +14,9 @@ tags: [examples, beta]
   </div>
 
   <div class="col-6 mb-2">
-    <h4>Default example</h4>
+    <h4>Default example (zoom animation)</h4>
     <esl-trigger target="#modal-1" class="btn btn-sec-blue">Open modal</esl-trigger>
-    <esl-modal id="modal-1" class="esl-scrollable-content" inject-to-body>
+    <esl-modal id="modal-1" class="esl-scrollable-content" animation-class="esl-modal-zoom" inject-to-body>
       <div class="esl-modal-container">
         <esl-image mode="save-ratio" lazy
                    data-alt="Alt Text Test"
@@ -34,9 +34,9 @@ tags: [examples, beta]
   </div>
 
   <div class="col-6 mb-2">
-    <h4>Example with native scroll lock strategy</h4>
+    <h4>Example with pseudo scroll lock strategy</h4>
     <esl-trigger target="#modal-2" class="btn btn-sec-blue">Open modal</esl-trigger>
-    <esl-modal id="modal-2" inject-to-body scroll-lock-strategy="native">
+    <esl-modal id="modal-2" inject-to-body scroll-lock-strategy="pseudo">
       <div class="esl-modal-container">
         <div class="img-container img-container-16-9 img-container-loaded">
           <esl-media group="demo-media"
@@ -168,9 +168,9 @@ tags: [examples, beta]
  </div>
 
  <div class="col-6 mb-2">
-   <h4>Example with native scroll lock strategy</h4>
+   <h4>Example with pseudo scroll lock strategy (zoom animation)</h4>
    <esl-trigger target="#modal-6" class="btn btn-sec-blue">Open modal</esl-trigger>
-   <esl-modal id="modal-6" scroll-lock-strategy="native">
+   <esl-modal id="modal-6" animation-class="esl-modal-zoom" scroll-lock-strategy="pseudo">
      <div class="esl-modal-container">
        <div class="img-container img-container-16-9 img-container-loaded">
          <esl-media group="demo-media"

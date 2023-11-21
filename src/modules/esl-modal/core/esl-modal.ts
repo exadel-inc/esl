@@ -2,9 +2,11 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLToggleable} from '../../esl-toggleable/core/esl-toggleable';
 import {boolAttr, attr, listen} from '../../esl-utils/decorators';
 import {hasAttr, setAttr} from '../../esl-utils/dom/attr';
+import {afterNextRender} from '../../esl-utils/async/raf';
+import {promisifyNextRender} from '../../esl-utils/async/promise/raf';
+import {parseBoolean, toBooleanAttribute} from '../../esl-utils/misc/format';
 import {getKeyboardFocusableElements, handleFocusChain} from '../../esl-utils/dom/focus';
 import {lockScroll, unlockScroll} from '../../esl-utils/dom/scroll/utils';
-import {parseBoolean, toBooleanAttribute} from '../../esl-utils/misc/format';
 import {TAB} from '../../esl-utils/dom/keys';
 
 import {ESLModalBackdrop} from './esl-modal-backdrop';
@@ -42,6 +44,13 @@ export class ESLModal extends ESLToggleable {
   /** Indicates that `esl-modal` instances should be moved to body on activate */
   @boolAttr() public injectToBody: boolean;
 
+  /** Marker of ongoing animation */
+  @boolAttr({readonly: true}) public animating: boolean;
+
+  /** Define animation type */
+  @attr({defaultValue: 'esl-modal-fade'}) public animationClass: string;
+
+
   /** Selector to mark inner close triggers (default `[data-modal-close]`) */
   @attr({defaultValue: '[data-modal-close]'})
   public override closeTrigger: string;
@@ -58,8 +67,16 @@ export class ESLModal extends ESLToggleable {
     return ESLModalBackdrop.instance;
   }
 
+  public get animationTime(): number {
+    const styles = getComputedStyle(this);
+    return parseFloat(styles.getPropertyValue('--esl-modal-animation-time'));
+    //TODO after parseTime merging
+    //return parseCSSTime(styles.getPropertyValue('--esl-modal-animation-time'));
+  }
+
   protected override connectedCallback(): void {
     super.connectedCallback();
+    this.$$cls(this.animationClass, true);
     if (!hasAttr(this, 'role')) setAttr(this, 'role', 'dialog');
     if (!hasAttr(this, 'tabindex')) setAttr(this, 'tabIndex', '-1');
     if (!hasAttr(this, 'aria-modal')) setAttr(this, 'aria-modal', 'true');
@@ -71,11 +88,22 @@ export class ESLModal extends ESLToggleable {
     targetEl.setAttribute('aria-hidden', String(!this.active));
   }
 
-  public override onShow(params: ModalActionParams): void {
+  public override async onShow(params: ModalActionParams): Promise<void> {
     this.injectToBody && this.inject();
+    this.$$attr('animating', true);
+    await promisifyNextRender();
+    const {animationTime} = this;
     super.onShow(params);
     ESLModalStack.instance.add(this);
-    this.focus();
+    setTimeout(() => {
+      this.onShowAnimationEnd(params);
+      this.$$cls('handle-scrollbar', true);
+    }, animationTime || 0);
+  }
+
+  public onShowAnimationEnd(params: ModalActionParams): void {
+    this.$$attr('animating', false);
+    this.focus({preventScroll: true});
     lockScroll(document.documentElement, {
       strategy: this.scrollLockStrategy,
       initiator: this
@@ -83,11 +111,19 @@ export class ESLModal extends ESLToggleable {
   }
 
   public override onHide(params: ModalActionParams): void {
+    const {animationTime} = this;
+    this.$$cls('handle-scrollbar', false);
+    this.$$attr('animating', true);
     super.onHide(params);
     ESLModalStack.instance.remove(this);
+    setTimeout(() => this.onHideAnimationEnd(params), animationTime || 0);
+  }
+
+  public onHideAnimationEnd(params: ModalActionParams): void {
+    this.$$attr('animating', false);
     unlockScroll(document.documentElement, {initiator: this});
     this.activator?.focus();
-    this.injectToBody && this.extract();
+    this.injectToBody && afterNextRender(() => this.extract());
   }
 
   protected inject(): void {
@@ -137,6 +173,13 @@ export class ESLModal extends ESLToggleable {
     ESLModalPlaceholder.register(tagName + '-placeholder');
     ESLModalBackdrop.registered.then(() => ESLModalBackdrop.instance.insert());
     super.register(tagName);
+
+    window.CSS?.registerProperty && CSS.registerProperty({
+      name: '--esl-modal-animation-time',
+      syntax: '<time>',
+      inherits: true,
+      initialValue: '0s'
+    });
   }
 }
 
