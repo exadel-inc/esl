@@ -1,9 +1,12 @@
 {% macro navitem(title, collection, icon, opt = {}) %}
-  {% set isPrimaryActive = functions.isActivePath(page.url, collection) %}
-  {% set items = collections[collection] | released %}
   {% set isDraftCollection = collection == 'draft' %}
+  {% set isPrimaryActive = functions.isActivePath(page.url, collection) %}
+
   {% if isDraftCollection and not env.isDev %}
-    {% set items = collections[collection] | activeDraftFilter(page.url) %}
+
+    {% set items = collections[collection] | filter('url', page.url) %}
+  {% else %}
+    {% set items = collections[collection] | released %}
   {% endif %}
 
   {% if items.length %}
