@@ -1,12 +1,12 @@
 import '../../actions/copy-action';
 import {ESLShareActionRegistry} from '../../core/esl-share-action-registry';
 import {ESLShareButton} from '../../core/esl-share-button';
-import {createImportCheckTestPlan} from './action-test-plan-factory';
 
-describe(
-  'ESLShare: "copy" action import registers the "copy" action',
-  createImportCheckTestPlan('copy')
-);
+describe('ESLShare: "copy" action import', () => {
+  test('"copy" action was registered when importing', () => {
+    expect(ESLShareActionRegistry.instance.has('copy')).toBe(true);
+  });
+});
 
 describe('ESLShare: "copy" action public API', () => {
   const originalClipboard = {...navigator.clipboard};

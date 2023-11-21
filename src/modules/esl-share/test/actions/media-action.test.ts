@@ -1,12 +1,12 @@
 import '../../actions/media-action';
 import {ESLShareActionRegistry} from '../../core/esl-share-action-registry';
 import {ESLShareButton} from '../../core/esl-share-button';
-import {createImportCheckTestPlan} from './action-test-plan-factory';
 
-describe(
-  'ESLShare: "media" action import registers the "media" action',
-  createImportCheckTestPlan('media')
-);
+describe('ESLShare: "media" action import', () => {
+  test('"media" action was registered when importing', () => {
+    expect(ESLShareActionRegistry.instance.has('media')).toBe(true);
+  });
+});
 
 describe('ESLShare: "media" action public API', () => {
   const mediaAction = ESLShareActionRegistry.instance.get('media');

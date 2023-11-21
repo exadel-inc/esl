@@ -1,12 +1,12 @@
 import '../../actions/external-action';
 import {ESLShareActionRegistry} from '../../core/esl-share-action-registry';
 import {ESLShareButton} from '../../core/esl-share-button';
-import {createImportCheckTestPlan} from './action-test-plan-factory';
 
-describe(
-  'ESLShare: "external" action import registers the "external" action',
-  createImportCheckTestPlan('external')
-);
+describe('ESLShare: "external" action import', () => {
+  test('"external" action was registered when importing', () => {
+    expect(ESLShareActionRegistry.instance.has('external')).toBe(true);
+  });
+});
 
 describe('ESLShare: "external" action public API', () => {
   const originalCreateElement = document.createElement;

@@ -1,12 +1,12 @@
 import '../../actions/print-action';
 import {ESLShareActionRegistry} from '../../core/esl-share-action-registry';
 import {ESLShareButton} from '../../core/esl-share-button';
-import {createImportCheckTestPlan} from './action-test-plan-factory';
 
-describe(
-  'ESLShare: "print" action import registers the "print" action',
-  createImportCheckTestPlan('print')
-);
+describe('ESLShare: "print" action import', () => {
+  test('"print" action was registered when importing', () => {
+    expect(ESLShareActionRegistry.instance.has('print')).toBe(true);
+  });
+});
 
 describe('ESLShare: "print" action public API', () => {
   const printAction = ESLShareActionRegistry.instance.get('print');

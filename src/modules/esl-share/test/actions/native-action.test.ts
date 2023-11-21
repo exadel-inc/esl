@@ -1,12 +1,12 @@
 import '../../actions/native-action';
 import {ESLShareActionRegistry} from '../../core/esl-share-action-registry';
 import {ESLShareButton} from '../../core/esl-share-button';
-import {createImportCheckTestPlan} from './action-test-plan-factory';
 
-describe(
-  'ESLShare: "native" action import registers the "native" action',
-  createImportCheckTestPlan('native')
-);
+describe('ESLShare: "native" action import', () => {
+  test('"native" action was registered when importing', () => {
+    expect(ESLShareActionRegistry.instance.has('native')).toBe(true);
+  });
+});
 
 describe('ESLShare: "native" action public API', () => {
   const originalShare = navigator.share;
