@@ -2,19 +2,14 @@ import {ESLBaseElement} from '../../esl-base-element/core';
 import {attr, boolAttr} from '../../esl-utils/decorators';
 import {capitalize} from '../../esl-utils/misc/format';
 
-export type ESLRandomTextConfig = {
-  words?: number;
-  wordsPerParagraph?: number;
-  paragraphs?: number;
-  shuffle?: boolean;
-};
-
 export class ESLRandomText extends ESLBaseElement {
   public static override readonly is = 'esl-random-text';
   public static readonly observedAttributes = ['paragraphs', 'words', 'shuffle'];
 
+  /** Last used word index in dictionary */
+  protected static pointer: number = -1;
   /** Words dictionary to use in random text generation. */
-  public static DICTIONARY = [
+  public static DICTIONARY: string[] = [
     'lorem', 'ipsum', 'dolor', 'sit', 'amet',
     'consectetur', 'adipiscing', 'elit', 'curabitur',
     'ultrices', 'et', 'mi', 'suscipit', 'eget', 'vulputate', 'ante',
@@ -27,8 +22,8 @@ export class ESLRandomText extends ESLBaseElement {
     'finibus', 'mattis', 'vehicula', 'lacinia', 'risus', 'placerat',
     'augue', 'fringilla', 'at', 'facilisi', 'arcu', 'diam', 'laoreet'
   ];
-  /** Last used word index in dictionary */
-  protected static pointer: number = -1;
+  /** Number of words in sentence */
+  public static readonly WORDS_PER_SENTENCE = 10;
 
   /** Choose words randomly from {@link DICTIONARY} rather than sequentially */
   @boolAttr() public shuffle: boolean;
@@ -41,12 +36,11 @@ export class ESLRandomText extends ESLBaseElement {
 
   /** Redraws random text content */
   public refresh(): void {
-    const {shuffle} = this;
     const paragraphs = isNaN(this.paragraphs) ? 3 : this.paragraphs;
     const wordsPerParagraph = isNaN(this.wordsPerParagraph) ? 100 : this.wordsPerParagraph;
     const words = isNaN(this.words) ? paragraphs * wordsPerParagraph : this.words;
     this.style.display = 'contents';
-    this.innerHTML = ESLRandomText.generateTextHTML(words, wordsPerParagraph, shuffle);
+    this.innerHTML = ESLRandomText.generateTextHTML(words, wordsPerParagraph, this.shuffle);
   }
 
   protected override connectedCallback(): void {
@@ -80,11 +74,11 @@ export class ESLRandomText extends ESLBaseElement {
   protected static buildText(words: number, shuffle: boolean = false): string {
     const sentences = [];
     while (words > 0) {
-      const count = Math.min(10, words);
+      const count = Math.min(this.WORDS_PER_SENTENCE, words);
       const buffer = Array.apply(0, new Array(count));
       const sentence = buffer.map(() => this.generateWord(shuffle)).join(' ');
       sentences.push(capitalize(sentence) + '.');
-      words -= 10;
+      words -= this.WORDS_PER_SENTENCE;
     }
     return sentences.join(' ');
   }

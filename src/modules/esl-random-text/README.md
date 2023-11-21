@@ -33,7 +33,7 @@ Authors: *Alexey Stsefanovich*.
 
 - `words` \[number] - number of words to generate
 - `paragraphs` \[number] - number of paragraphs to generate
-- `shaffle` \[boolean] - choose words randomly from the dictionary (use words in `DICTIONARY` order otherwise)
+- `shuffle` \[boolean] - choose words randomly from the dictionary (use words in `DICTIONARY` order otherwise)
 
 
 ### Static API:
