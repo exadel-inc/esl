@@ -1,55 +1,41 @@
 import {ESLBaseElement} from '../../esl-base-element/core';
-import {ESLPopup} from '../../esl-popup/core';
-import {sequentialUID} from '../../esl-utils/misc/uid';
-import {attr, bind, boolAttr, prop} from '../../esl-utils/decorators';
-import {selectButtonsForList} from './esl-share-config';
-import {ESLShareButton} from './esl-share-button';
-import {ESLShareTrigger} from './esl-share-trigger';
+import {attr, bind, boolAttr, jsonAttr} from '../../esl-utils/decorators';
+import {ESLShareList} from './esl-share-list';
+import {ESLSharePopupTrigger} from './esl-share-popup-trigger';
+import {ESLShareConfig} from './esl-share-config';
 
-import type {PopupActionParams} from '../../esl-popup/core';
-import type {ESLShareConfig, ESLShareButtonConfig} from './esl-share-config';
-
-/** {@link ShareConfig} provider type definition */
-export type ESLShareConfigProviderType = () => Promise<ESLShareConfig>;
+import type {ESLSharePopupActionParams} from './esl-share-popup';
 
 /**
  * ESLShare
  * @author Dmytro Shovchko
  *
- * ESLShare is a custom element to dynamically draw {@link ESLShareButton}s using simplified shared config
+ * ESLShare is a custom element to dynamically draw {@link ESLShareList}
+ * or {@link ESLSharePopupTrigger} depending on the specified mode
  */
 export class ESLShare extends ESLBaseElement {
   public static override is = 'esl-share';
-  protected static _config: Promise<ESLShareConfig>;
-  protected static _popupStore: Map<string, ESLPopup> = new Map<string, ESLPopup>();
 
-  /** Register {@link ESLShare} component and dependent {@link ESLShareButton} */
+  /** Register {@link ESLShare} component and dependent {@link ESLShareList} and {@link ESLSharePopupTrigger} */
   public static override register(): void {
-    ESLShareButton.register();
-    ESLShareTrigger.register();
+    ESLShareList.register();
+    ESLSharePopupTrigger.register();
     super.register();
   }
 
   /**
-   * Gets or updates config with a promise of a new config object or using a config provider function.
+   * Updates the configuration with either a new config object or by using a configuration provider function.
+   * Every button and group specified in the new config will be added to the current configuration.
    * @returns Promise of the current config
+   * @deprecated alias for ESLShareConfig.set(), will be removed soon
    */
-  public static config(provider?: ESLShareConfigProviderType | ESLShareConfig): Promise<ESLShareConfig> {
-    if (typeof provider === 'function') ESLShare._config = provider();
-    if (typeof provider === 'object') ESLShare._config = Promise.resolve(provider);
-    return ESLShare._config ?? Promise.reject('Configuration is not set');
-  }
+  public static readonly config = ESLShareConfig.set;
 
-  /** Event to dispatch on ready state of {@link ESLShare} */
-  @prop('esl:share:ready') public SHARE_READY_EVENT: string;
-
-  /** Default initial params to pass into the newly created popup */
-  @prop({
-    position: 'top',
-    defaultParams: {
-      hideDelay: 200
-    }
-  }) protected popupInitialParams: PopupActionParams;
+  /** Default initial params to pass into the popup trigger */
+  @jsonAttr<ESLSharePopupActionParams>({defaultValue: {
+    trackClick: true,
+    trackHover: true
+  }}) public triggerInitialParams: ESLSharePopupTrigger;
 
   /**
    * List of social networks or groups of them to display (all by default).
@@ -70,95 +56,45 @@ export class ESLShare extends ESLBaseElement {
 
   protected _content: string;
 
-  /** @returns config of buttons specified by the list attribute */
-  public get buttonsConfig(): Promise<ESLShareButtonConfig[]> {
-    return (this.constructor as typeof ESLShare).config().then((config) => {
-      return (this.list !== 'all') ? selectButtonsForList(config, this.list) : config.buttons;
-    });
-  }
-
   public override connectedCallback(): void {
     super.connectedCallback();
     this.init();
   }
 
-  protected init(): void {
-    if (this.ready) return;
+  /** Initializes the component */
+  protected init(force?: boolean): void {
+    if (this.ready && !force) return;
     if (!this.mode) this.mode = 'list';
     if (!this._content) this._content = this.innerHTML;
-    this.buttonsConfig
-      .then(this.buildContent)
-      .then(() => this.$$fire(this.SHARE_READY_EVENT, {bubbles: false}))
-      .catch((e) => console.error(`[${this.baseTagName}]: ${e}`));
+    this.buildContent();
+    this.onReady();
   }
 
-  /** Builds component's content from received `ESLShareButtonConfig` list */
+  /** Builds component's content. */
   @bind
-  protected buildContent(btnConfig: ESLShareButtonConfig[]): void {
+  protected buildContent(): void {
     this.innerHTML = '';
-
-    if (this.mode === 'list') {
-      this.appendButtonsTo(this, btnConfig);
-      return;
-    }
-
-    const $popup = this.getStoredPopup() || this.createPopup(btnConfig);
-    this.appendTrigger(`#${$popup.id}`);
+    this.mode === 'list' ? this.appendList() : this.appendPopupTrigger();
   }
 
-  /** Appends buttons to the passed element. */
-  protected appendButtonsTo($el: Element, btnConfig: ESLShareButtonConfig[]): void {
-    btnConfig.forEach((cfg) => {
-      const btn = this.createButton(cfg);
-      btn && $el.appendChild(btn);
-    });
+  /** Appends share list to the share component. */
+  protected appendList(): void {
+    const $list = ESLShareList.create();
+    $list.list = this.list;
+    this.appendChild($list);
   }
 
-  /** Appends trigger to the share component. */
-  protected appendTrigger(target: string): void {
-    const $trigger = ESLShareTrigger.create();
-    Object.assign($trigger, {
-      target,
-      trackClick: true,
-      trackHover: true
-    });
+  /** Appends share popup trigger to the share component. */
+  protected appendPopupTrigger(): void {
+    const {list} = this;
+    const $trigger = ESLSharePopupTrigger.create();
+    Object.assign($trigger, this.triggerInitialParams, {list});
     $trigger.innerHTML = this._content;
     this.appendChild($trigger);
   }
 
-  /** Creates share button. */
-  protected createButton(cfg: ESLShareButtonConfig): ESLShareButton | null {
-    const $button = ESLShareButton.create();
-    Object.assign($button, cfg);
-    const $icon = document.createElement('span');
-    $icon.title = cfg.title;
-    $icon.classList.add('esl-share-icon');
-    $icon.innerHTML = cfg.icon;
-    $icon.setAttribute('style', `background-color:${cfg.iconBackground};`);
-    $button.appendChild($icon);
-    return $button;
-  }
-
-  /** Creates popup element with share buttons. */
-  protected createPopup(btnConfig: ESLShareButtonConfig[]): ESLPopup {
-    const $popup = ESLPopup.create();
-    const id = sequentialUID(this.baseTagName + '-');
-    Object.assign($popup, {id, ...this.popupInitialParams});
-    $popup.appendArrow();
-    document.body.appendChild($popup);
-    this.storePopup($popup);
-
-    this.appendButtonsTo($popup, btnConfig);
-    return $popup;
-  }
-
-  /** Gets popup element from the popup's store. */
-  protected getStoredPopup(): ESLPopup | undefined {
-    return (this.constructor as typeof ESLShare)._popupStore.get(this.list);
-  }
-
-  /** Adds popup element to the popup's store. */
-  protected storePopup(value: ESLPopup): void {
-    (this.constructor as typeof ESLShare)._popupStore.set(this.list, value);
+  /** Actions on complete init and ready component. */
+  private onReady(): void {
+    this.$$attr('ready', true);
   }
 }

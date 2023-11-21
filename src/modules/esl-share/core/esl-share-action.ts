@@ -5,7 +5,7 @@ import type {ESLShareButton} from './esl-share-button';
 /** Action type definition */
 export type ESLShareActionType = (new() => ESLShareBaseAction) & typeof ESLShareBaseAction;
 
-/** Base action class for actions of share buttons {@link ESLShareButton} */
+/** Base action class/interface for actions that ESLShare widgets can invoke. */
 export abstract class ESLShareBaseAction {
   public static readonly is: string;
 
