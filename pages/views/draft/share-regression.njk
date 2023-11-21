@@ -21,7 +21,7 @@ aside:
 {% macro shareAttrs4() %}share-url="https://esl-ui.com/examples/" share-title="Examples"{% endmacro %}
 
 <style>
-  esl-share-popup-trigger {
+  esl-share {
     margin: 10px;
   }
   .demo-trigger-svg-icon {
@@ -35,27 +35,27 @@ aside:
 
   <h3>Displays list of share buttons without list attribute</h3>
   <p>Shows all available buttons from config.</p>
-  <esl-share></esl-share>
+  <esl-share-list></esl-share-list>
   <hr>
 
   <h3>Displays list of share buttons with list="all"</h3>
   <p>Shows all available buttons from config.</p>
-  <esl-share list="all"></esl-share>
+  <esl-share-list list="all"></esl-share-list>
   <hr>
 
   <h3>Displays list of share buttons with empty list (list="")</h3>
   <p>Shows empty component without buttons.</p>
-  <esl-share list=""></esl-share>
+  <esl-share-list list=""></esl-share-list>
   <hr>
 
   <h3>Displays list of share buttons for nonexistent group</h3>
   <p>Shows empty list when a nonexistent group is specified.</p>
-  <esl-share list="group:foo"></esl-share>
+  <esl-share-list list="group:foo"></esl-share-list>
   <hr>
 
   <h3>Displays list of share buttons only for existent groups or buttons</h3>
   <p>Shows specified buttons. Displays nothing in the case when specifying the wrong button or group name. (should display LinkedIn, Facebook, Twitter, LinkedIn, Wykop and Copy buttons)</p>
-  <esl-share list="linkedin alladin group:alladin group:demo"></esl-share>
+  <esl-share-list list="linkedin alladin group:alladin group:demo"></esl-share-list>
   <hr>
 
 {#  TODO: discuss behaviour #}
@@ -66,68 +66,68 @@ aside:
 
   <h3>Displays list of share buttons via incorrect list</h3>
   <p>Shows buttons only with the correct names. (should display only LinkedIn button)</p>
-  <esl-share list="twittor  copi group:exsampl linkedin rint"></esl-share>
+  <esl-share-list list="twittor  copi group:exsampl linkedin rint"></esl-share-list>
   <hr>
 
   <h3>Trigger madness</h3>
   <p>Displays a row of share triggers related to three variations of the popup. The purpose is to check that popup is consistently following the active trigger.</p>
   <p>Hint: the first number is a variant of the share popup, and the second number is a variant of the share attributes.<p>
 
-  <esl-share mode="popup">
+  <esl-share>
     {{ triggerSVGicon('#00BFFF', '1/1') }}
   </esl-share>
-  <esl-share mode="popup" list="group:demo">
+  <esl-share list="group:demo">
     {{ triggerSVGicon('#00CED1', '2/1') }}
   </esl-share>
-  <esl-share mode="popup" list="group:alternative">
+  <esl-share list="group:alternative">
     {{ triggerSVGicon('#8FBC8F', '3/1') }}
   </esl-share>
-  <esl-share mode="popup">
+  <esl-share>
     {{ triggerSVGicon('#00BFFF', '1/1') }}
   </esl-share>
-  <esl-share mode="popup" {{ shareAttrs2() }}>
+  <esl-share {{ shareAttrs2() }}>
     {{ triggerSVGicon('#00BFFF', '1/2') }}
   </esl-share>
-  <esl-share mode="popup" list="group:demo">
+  <esl-share list="group:demo">
     {{ triggerSVGicon('#00CED1', '2/1') }}
   </esl-share>
-  <esl-share mode="popup" list="group:demo" {{ shareAttrs2() }}>
+  <esl-share list="group:demo" {{ shareAttrs2() }}>
     {{ triggerSVGicon('#00CED1', '2/2') }}
   </esl-share>
-  <esl-share mode="popup" list="group:demo" {{ shareAttrs3() }}>
+  <esl-share list="group:demo" {{ shareAttrs3() }}>
     {{ triggerSVGicon('#00CED1', '2/3') }}
   </esl-share>
-  <esl-share mode="popup" list="group:demo" {{ shareAttrs4() }}>
+  <esl-share list="group:demo" {{ shareAttrs4() }}>
     {{ triggerSVGicon('#00CED1', '2/4') }}
   </esl-share>
-  <esl-share mode="popup" list="group:demo" {{ shareAttrs3() }}>
+  <esl-share list="group:demo" {{ shareAttrs3() }}>
     {{ triggerSVGicon('#00CED1', '2/3') }}
   </esl-share>
-  <esl-share mode="popup" list="group:demo" {{ shareAttrs4() }}>
+  <esl-share list="group:demo" {{ shareAttrs4() }}>
     {{ triggerSVGicon('#00CED1', '2/4') }}
   </esl-share>
-  <esl-share mode="popup" list="group:demo">
+  <esl-share list="group:demo">
     {{ triggerSVGicon('#00CED1', '2/1') }}
   </esl-share>
-  <esl-share mode="popup" list="group:alternative">
+  <esl-share list="group:alternative">
     {{ triggerSVGicon('#8FBC8F', '3/1') }}
   </esl-share>
-  <esl-share mode="popup" list="group:alternative" {{ shareAttrs2() }}>
+  <esl-share list="group:alternative" {{ shareAttrs2() }}>
     {{ triggerSVGicon('#8FBC8F', '3/2') }}
   </esl-share>
-  <esl-share mode="popup" list="group:alternative" {{ shareAttrs3() }}>
+  <esl-share list="group:alternative" {{ shareAttrs3() }}>
     {{ triggerSVGicon('#8FBC8F', '3/3') }}
   </esl-share>
-  <esl-share mode="popup" list="group:alternative" {{ shareAttrs4() }}>
+  <esl-share list="group:alternative" {{ shareAttrs4() }}>
     {{ triggerSVGicon('#8FBC8F', '3/4') }}
   </esl-share>
-  <esl-share mode="popup" list="group:alternative">
+  <esl-share list="group:alternative">
     {{ triggerSVGicon('#8FBC8F', '3/1') }}
   </esl-share>
-  <esl-share mode="popup">
+  <esl-share>
     {{ triggerSVGicon('#00BFFF', '1/1') }}
   </esl-share>
-  <esl-share mode="popup">
+  <esl-share>
     {{ triggerSVGicon('#00BFFF', '1/1') }}
   </esl-share>
 </section>
