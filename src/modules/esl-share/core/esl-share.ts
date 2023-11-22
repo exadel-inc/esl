@@ -1,5 +1,5 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {attr, jsonAttr} from '../../esl-utils/decorators';
+import {attr, boolAttr, jsonAttr, prop, ready} from '../../esl-utils/decorators';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {ESLTrigger} from '../../esl-trigger/core';
 import {ESLSharePopup} from './esl-share-popup';
@@ -26,6 +26,9 @@ export class ESLShare extends ESLTrigger {
     super.register();
   }
 
+  /** Event to dispatch on {@link ESLShare} ready state */
+  @prop('esl:share:ready') public SHARE_READY_EVENT: string;
+
   /**
    * List of social networks or groups of them to display (all by default).
    * The value - a string containing the names of the buttons or groups (specified with
@@ -43,6 +46,9 @@ export class ESLShare extends ESLTrigger {
     hideDelay: 300
   }})
   public popupInitialParams: ESLSharePopupActionParams;
+
+  /** @readonly Ready state marker */
+  @boolAttr({readonly: true}) public ready: boolean;
 
   /** Target observable Toggleable */
   public override get $target(): ESLToggleable | null {
@@ -70,6 +76,12 @@ export class ESLShare extends ESLTrigger {
   protected get $containerEl(): HTMLElement | undefined {
     const container = this.getClosestRelatedAttr('container');
     return container ? ESLTraversingQuery.first(container, this) as HTMLElement : undefined;
+  }
+
+  @ready
+  protected override connectedCallback(): void {
+    super.connectedCallback();
+    this.onReady();
   }
 
   protected override attributeChangedCallback(attrName: string, oldValue: string | null, newValue: string | null): void {
@@ -103,6 +115,13 @@ export class ESLShare extends ESLTrigger {
       dir: this.currentDir,
       lang: this.currentLang
     }, this.popupInitialParams, ...params);
+  }
+
+  /** Actions on complete init and ready component */
+  private onReady(): void {
+    if (this.ready) return;
+    this.$$attr('ready', true);
+    this.$$fire(this.SHARE_READY_EVENT, {bubbles: false});
   }
 }
 

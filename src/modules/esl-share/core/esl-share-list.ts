@@ -28,6 +28,8 @@ export class ESLShareList extends ESLBaseElement {
 
   /** Event to dispatch on change of {@link ESLShareList} */
   @prop('esl:share:changed') public SHARE_CHANGED_EVENT: string;
+  /** Event to dispatch on {@link ESLShareList} ready state */
+  @prop('esl:share:ready') public SHARE_READY_EVENT: string;
 
   /**
    * List of social networks or groups of them to display (all by default).
@@ -82,13 +84,15 @@ export class ESLShareList extends ESLBaseElement {
 
   /** Actions on complete init and ready component. */
   private onReady(): void {
+    if (this.ready) return;
     this.$$attr('ready', true);
-    this.$$fire(this.SHARE_CHANGED_EVENT, {bubbles: false});
+    this.$$fire(this.SHARE_READY_EVENT, {bubbles: false});
   }
 
   @listen({event: 'change', target: ESLShareConfig.instance})
   protected _onConfigChange(): void {
     this.update();
+    this.$$fire(this.SHARE_CHANGED_EVENT, {bubbles: false});
   }
 }
 
