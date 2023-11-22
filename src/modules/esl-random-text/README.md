@@ -21,18 +21,21 @@ Authors: *Alexey Stsefanovich*.
   ESLRandomText.DICTIONARY = ['word1', 'word2', 'word3'];
 ```
 
-3. Add the `<esl-random-text>` custom tag and provide text limitations (with `words` or `paragraphs` attributes):
+3. Add the `<esl-random-text>` custom tag and provide text limitations (with `paragraphs` and `wordsPerParagraph` attributes):
 ```html
-  <esl-random-text words="10"></esl-random-text>
+  <esl-random-text paragraphs="3"></esl-random-text>
 ```
 ```html
-  <esl-random-text words="10"></esl-random-text>
+  <esl-random-text paragraphs="1.5"></esl-random-text>
+```
+```html
+  <esl-random-text paragraphs="10" words="5"></esl-random-text>
 ```
 
 ### Attributes:
 
-- `words` \[number] - number of words to generate
-- `paragraphs` \[number] - number of paragraphs to generate
+- `paragraphs` \[number] - number of paragraphs to generate (can be float)
+- `wordsPerParagraphs` \[number] - number of words to generate per one paragraph
 - `shuffle` \[boolean] - choose words randomly from the dictionary (use words in `DICTIONARY` order otherwise)
 
 
@@ -41,10 +44,16 @@ Authors: *Alexey Stsefanovich*.
 - `ESLRandomText.DICTIONARY` - static property that contains a dictionary of words to generate random text from.
   "Lorem ipsum" is used by default.
 
-- `ESLRandomText.generateText(words, shaffle)` - static method that generates random text from the dictionary.
-  Returns a string with `words` number of words. If `shaffle` is `true` words are chosen randomly from the dictionary.
+- `ESLRandomText.WORDS_PER_PARAGRAPH` - static property that contains a default number of words per paragraph.
+  100 is used by default.
+
+- `ESLRandomText.WORDS_PER_SENTENCE` - static property that contains a default number of words per single sentence.
+  10 is used by default.
+
+- `ESLRandomText.generateText(words, shuffle)` - static method that generates random text from the dictionary.
+  Returns a string with `words` number of words. If `shuffle` is `true` words are chosen randomly from the dictionary.
   Otherwise words are chosen in the dictionary order.
 
-- `ESLRandomText.generateTextHTML(words, wordsPerParagraph, shaffle)` - static method that generates random text from the dictionary.
+- `ESLRandomText.generateTextHTML(words, wordsPerParagraph, shuffle)` - static method that generates random text from the dictionary.
   Returns an HTML string with `words` number of words and `wordsPerParagraph` number of words per paragraph.
-  If `shaffle` is `true` words are chosen randomly from the dictionary. Otherwise words are chosen in the dictionary order.
+  If `shuffle` is `true` words are chosen randomly from the dictionary. Otherwise words are chosen in the dictionary order.
