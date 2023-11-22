@@ -57,20 +57,77 @@ aside:
     <esl-panel-group class="esl-d-tab-group"
                      mode="tabs"
                      mode-cls-target="::parent">
-      {% set testText = lorem.paragraphs(2) %}
       <esl-panel class="esl-d-tab-panel tab-1" tabindex="0">
         <div class="esl-d-tab-body">
-          {{ testText }}
+          {{ lorem.paragraphs(2) }}
         </div>
       </esl-panel>
       <esl-panel open class="esl-d-tab-panel tab-2" tabindex="0">
         <div class="esl-d-tab-body">
-          {{ testText }}
+          {{ lorem.paragraphs(2) }}
         </div>
       </esl-panel>
       <esl-panel class="esl-d-tab-panel tab-3" tabindex="0">
         <div class="esl-d-tab-body">
           {{ lorem.paragraphs(3) }}
+        </div>
+      </esl-panel>
+    </esl-panel-group>
+  </div>
+</section>
+
+<section>
+  <h2>Simple Tabs (Match Height)</h2>
+  <p>Minimum configuration example</p>
+  {% code 'html', 'code-block' %}
+    <esl-tabs class="esl-d-tab-control"/>
+    <esl-panel-group class="esl-d-tab-group esl-tabs-equal-height"
+                     mode="tabs"
+                     mode-cls-target="::parent"/>
+  {% endcode %}
+
+  <div class="esl-d-tabs">
+    <esl-tabs class="esl-d-tab-control">
+      <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
+
+      <ul class="esl-d-tab-list esl-tab-container" role="tablist">
+        <li class="esl-d-tab-item">
+          <esl-tab class="h5"
+                   target="::parent(.esl-d-tabs)::find(.tab-1)">
+            Tab #1 Lorem ipsum
+          </esl-tab>
+        </li>
+        <li class="esl-d-tab-item">
+          <esl-tab class="h5"
+                   target="::parent(.esl-d-tabs)::find(.tab-2)">
+            Tab #2 Lorem ipsum
+          </esl-tab>
+        </li>
+        <li class="esl-d-tab-item">
+          <esl-tab class="h5"
+                   target="::parent(.esl-d-tabs)::find(.tab-3)">
+            Tab #3 Lorem ipsum
+          </esl-tab>
+        </li>
+      </ul>
+    </esl-tabs>
+
+    <esl-panel-group class="esl-d-tab-group esl-tabs-equal-height"
+                     mode="tabs"
+                     mode-cls-target="::parent">
+      <esl-panel class="esl-d-tab-panel tab-1" tabindex="0">
+        <div class="esl-d-tab-body">
+          {{ lorem.paragraphs(2) }}
+        </div>
+      </esl-panel>
+      <esl-panel open class="esl-d-tab-panel tab-2" tabindex="0">
+        <div class="esl-d-tab-body">
+          {{ lorem.paragraphs(3) }}
+        </div>
+      </esl-panel>
+      <esl-panel class="esl-d-tab-panel tab-3" tabindex="0">
+        <div class="esl-d-tab-body">
+          {{ lorem.paragraphs(1) }}
         </div>
       </esl-panel>
     </esl-panel-group>
