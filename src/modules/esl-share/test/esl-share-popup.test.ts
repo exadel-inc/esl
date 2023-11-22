@@ -1,5 +1,5 @@
 import {ESLSharePopup} from '../core/esl-share-popup';
-import {ESLSharePopupTrigger} from '../core/esl-share-popup-trigger';
+import {ESLShare} from '../core/esl-share';
 import '../buttons/copy';
 
 // @ts-ignore
@@ -9,12 +9,12 @@ import type {ESLShareButton} from '../core/esl-share-button';
 
 describe('ESLSharePopup tests', () => {
   beforeAll(() => {
-    ESLSharePopupTrigger.register();
+    ESLShare.register();
   });
 
   describe('share-title and share-url attributes forwarding from activator', () => {
     const $lvl: HTMLElement[] = [];
-    let $trigger: ESLSharePopupTrigger;
+    let $trigger: ESLShare;
 
     const setShareAttributes = ($element: HTMLElement, title?: string, url?: string): void => {
       title && $element.setAttribute('share-title', title);
@@ -35,7 +35,7 @@ describe('ESLSharePopup tests', () => {
       document.body.innerHTML = nestedElementsTemplate;
       $lvl.push(document.body);
       ['.lvl-1', '.lvl-2', '.lvl-3'].forEach((selector) => $lvl.push(document.querySelector(selector) as HTMLElement));
-      $trigger = ESLSharePopupTrigger.create();
+      $trigger = ESLShare.create();
       $trigger.list = 'copy';
       $lvl[3].appendChild($trigger);
     });
