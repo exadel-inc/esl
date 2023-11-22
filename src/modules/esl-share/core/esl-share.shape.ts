@@ -12,8 +12,8 @@ export interface ESLShareTagShape<T extends ESLShare = ESLShare> extends ESLTrig
   'share-url'?: string;
   /** Define title to share (current document title by default) */
   'share-title'?: string;
-  /** Define JSON of initial params to pass into the popup */
-  'popup-initial-params'?: string;
+  /** Define JSON of params to pass into the popup */
+  'popup-params'?: string;
 
   /** Allowed children */
   children?: any;

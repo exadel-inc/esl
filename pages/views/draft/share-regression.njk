@@ -73,13 +73,13 @@ aside:
   <p>Displays a row of share triggers related to three variations of the popup. The purpose is to check that popup is consistently following the active trigger.</p>
   <p>Hint: the first number is a variant of the share popup, and the second number is a variant of the share attributes.<p>
 
-  <esl-share>
+  <esl-share dir="rtl" lang="he" popup-params="{extraClass: 'foo', inlineStyles: 'max-width:325px; padding:20px'}">
     {{ triggerSVGicon('#00BFFF', '1/1') }}
   </esl-share>
   <esl-share list="group:demo">
     {{ triggerSVGicon('#00CED1', '2/1') }}
   </esl-share>
-  <esl-share list="group:alternative">
+  <esl-share dir="ltr" lang="fr" popup-params="{extraClass: 'bar', inlineStyles: 'padding:10px'}" list="group:alternative">
     {{ triggerSVGicon('#8FBC8F', '3/1') }}
   </esl-share>
   <esl-share>
