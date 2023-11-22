@@ -4,7 +4,11 @@ import {capitalize} from '../../esl-utils/misc/format';
 
 export class ESLRandomText extends ESLBaseElement {
   public static override readonly is = 'esl-random-text';
-  public static readonly observedAttributes = ['paragraphs', 'words', 'shuffle'];
+  public static readonly observedAttributes = [
+    'paragraphs',
+    'words-per-paragraph',
+    'shuffle'
+  ];
 
   /** Last used word index in dictionary */
   protected static pointer: number = -1;
@@ -22,25 +26,29 @@ export class ESLRandomText extends ESLBaseElement {
     'finibus', 'mattis', 'vehicula', 'lacinia', 'risus', 'placerat',
     'augue', 'fringilla', 'at', 'facilisi', 'arcu', 'diam', 'laoreet'
   ];
+
   /** Number of words in sentence */
   public static readonly WORDS_PER_SENTENCE = 10;
+  /** Number of words in paragraph */
+  public static readonly WORDS_PER_PARAGRAPH = 100;
 
   /** Choose words randomly from {@link DICTIONARY} rather than sequentially */
   @boolAttr() public shuffle: boolean;
-  /** Maximum number of words in generated text */
-  @attr({parser: parseInt, defaultValue: NaN}) public words: number;
+  /** Maximum number of paragraphs in generated text */
+  @attr({parser: parseFloat, defaultValue: 1}) public paragraphs: number;
   /** Maximum number words in paragraph */
   @attr({parser: parseInt, defaultValue: 100}) public wordsPerParagraph: number;
-  /** Maximum number of paragraphs in generated text */
-  @attr({parser: parseInt, defaultValue: 3}) public paragraphs: number;
 
   /** Redraws random text content */
   public refresh(): void {
-    const paragraphs = isNaN(this.paragraphs) ? 3 : this.paragraphs;
-    const wordsPerParagraph = isNaN(this.wordsPerParagraph) ? 100 : this.wordsPerParagraph;
-    const words = isNaN(this.words) ? paragraphs * wordsPerParagraph : this.words;
+    // Normalize values
+    if (isNaN(this.paragraphs)) this.paragraphs = 1;
+    if (isNaN(this.wordsPerParagraph)) this.wordsPerParagraph = 100;
+
+    const {paragraphs, wordsPerParagraph, shuffle} = this;
+    const words = Math.ceil(paragraphs * wordsPerParagraph);
     this.style.display = 'contents';
-    this.innerHTML = ESLRandomText.generateTextHTML(words, wordsPerParagraph, this.shuffle);
+    this.innerHTML = ESLRandomText.generateTextHTML(words, wordsPerParagraph, shuffle);
   }
 
   protected override connectedCallback(): void {
@@ -100,8 +108,8 @@ export class ESLRandomText extends ESLBaseElement {
    * @param shuffle - shuffle words randomly
    */
   public static generateTextHTML(
-    words: number = 100,
-    wordsPerParagraph = Math.min(100, words),
+    words: number = this.WORDS_PER_PARAGRAPH,
+    wordsPerParagraph = Math.min(this.WORDS_PER_PARAGRAPH, words),
     shuffle = false
   ): string {
     this.pointer = -1;
