@@ -88,22 +88,23 @@ export class ESLWheelTarget extends SyntheticEventTarget {
    */
   protected resolveEventDetails(events: WheelEvent[]): Omit<ESLWheelEventInfo, 'axis'> {
     const delta = events.reduce((agg, e) => ({
-      x: agg.x + this.calculateScrollPixels(e, 'x'),
-      y: agg.y + this.calculateScrollPixels(e, 'y')
+      x: agg.x + this.calculateScrollPixels(e, false),
+      y: agg.y + this.calculateScrollPixels(e, true)
     }), {x: 0, y: 0});
 
-    const duration = events[0].timeStamp - events[events.length - 1].timeStamp;
+    const duration = events[events.length - 1].timeStamp - events[0].timeStamp;
     return {deltaX: delta.x, deltaY: delta.y, events, duration};
   }
 
   /**
    * Calculates the scroll pixels for a given wheel event
+   * @param events - An event to retrieve scroll value from
+   * @param isVertical - A boolean indicating the axis (vertical or horizontal) for scroll calculation
    * @returns The number of pixels scrolled
    */
-  private calculateScrollPixels(event: WheelEvent, axis: ESLWheelEvent['axis']): number {
+  private calculateScrollPixels(event: WheelEvent, isVertical: boolean): number {
     const {DOM_DELTA_LINE, DOM_DELTA_PAGE} = WheelEvent;
-    const isHorizontal = axis === 'x' || event.shiftKey;
-    const deltaValue = isHorizontal ? event.deltaX : event.deltaY;
+    const deltaValue = (isVertical && event.shiftKey) ? 0 : (isVertical || event.shiftKey) ? event.deltaY : event.deltaX;
 
     let delta;
     switch (event.deltaMode) {
@@ -111,7 +112,7 @@ export class ESLWheelTarget extends SyntheticEventTarget {
         delta = deltaValue * parseInt(window.getComputedStyle(this.target).lineHeight, 10);
         break;
       case DOM_DELTA_PAGE:
-        delta = deltaValue * (isHorizontal ? window.innerWidth : window.innerHeight);
+        delta = isVertical ? window.innerHeight : window.innerWidth;
         break;
       default:
         delta = deltaValue;
