@@ -32,6 +32,13 @@ export interface ESLSharePopupActionParams extends TooltipActionParams {
 export class ESLSharePopup extends ESLTooltip {
   static override is = 'esl-share-popup';
 
+  /** Default params to pass into the share popup */
+  static override DEFAULT_PARAMS: ESLSharePopupActionParams = {
+    ...ESLTooltip.DEFAULT_PARAMS,
+    position: 'top',
+    hideDelay: 300
+  };
+
   /** List of attributes to forward from the activator to the {@link ESLSharePopup} */
   public static forwardedAttrs = ['share-title', 'share-url'];
 

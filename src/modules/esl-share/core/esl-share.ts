@@ -1,10 +1,10 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {ESLBaseElement} from '../../esl-base-element/core';
-import {attr, bind, boolAttr, jsonAttr} from '../../esl-utils/decorators';
-import {ESLShareList} from './esl-share-list';
-import {ESLSharePopupTrigger} from './esl-share-popup-trigger';
-import {ESLShareConfig} from './esl-share-config';
+import {attr, boolAttr, jsonAttr, prop, ready} from '../../esl-utils/decorators';
+import {ESLTraversingQuery} from '../../esl-traversing-query/core';
+import {ESLTrigger} from '../../esl-trigger/core';
+import {ESLSharePopup} from './esl-share-popup';
 
+import type {ESLToggleable} from '../../esl-toggleable/core/esl-toggleable';
 import type {ESLSharePopupActionParams} from './esl-share-popup';
 
 export type {ESLShareTagShape} from './esl-share.shape';
@@ -13,93 +13,112 @@ export type {ESLShareTagShape} from './esl-share.shape';
  * ESLShare
  * @author Dmytro Shovchko
  *
- * ESLShare is a custom element to dynamically draw {@link ESLShareList}
- * or {@link ESLSharePopupTrigger} depending on the specified mode
+ * ESLShare is a component that allows triggering {@link ESLSharePopup} instance state changes.
  */
 @ExportNs('Share')
-export class ESLShare extends ESLBaseElement {
+export class ESLShare extends ESLTrigger {
   public static override is = 'esl-share';
+  public static override observedAttributes = ['list'];
 
-  /** Register {@link ESLShare} component and dependent {@link ESLShareList} and {@link ESLSharePopupTrigger} */
+  /** Register {@link ESLShare} component and dependent {@link ESLSharePopup} */
   public static override register(): void {
-    ESLShareList.register();
-    ESLSharePopupTrigger.register();
+    ESLSharePopup.register();
     super.register();
   }
 
-  /**
-   * Updates the configuration with either a new config object or by using a configuration provider function.
-   * Every button and group specified in the new config will be added to the current configuration.
-   * @returns Promise of the current config
-   * @deprecated alias for ESLShareConfig.set(), will be removed soon
-   */
-  public static readonly config = ESLShareConfig.set;
-
-  /** Default initial params to pass into the popup trigger */
-  @jsonAttr<ESLSharePopupActionParams>({defaultValue: {
-    trackClick: true,
-    trackHover: true
-  }}) public triggerInitialParams: ESLSharePopupTrigger;
+  /** Event to dispatch on {@link ESLShare} ready state */
+  @prop('esl:share:ready') public SHARE_READY_EVENT: string;
 
   /**
    * List of social networks or groups of them to display (all by default).
    * The value - a string containing the names of the buttons or groups (specified with
-   * the prefix group:) separated by spaces.
+   * the prefix `group:`) separated by spaces.
    * @example "facebook reddit group:default"
    * */
   @attr({defaultValue: 'all'}) public list: string;
-  /** URL to share (current page URL by default) */
-  @attr() public shareUrl: string;
-  /** Title to share (current document title by default) */
-  @attr() public shareTitle: string;
-  /** Rendering mode of the share buttons ('list' by default) */
-  @attr() public mode: 'list' | 'popup';
+
+  /** Hover event tracking media query. Default: `all` */
+  @attr({defaultValue: 'all'}) public override trackHover: string;
+
+  /** Action params to pass into the popup */
+  @jsonAttr<ESLSharePopupActionParams>({defaultValue: {}})
+  public popupParams: ESLSharePopupActionParams;
 
   /** @readonly Ready state marker */
   @boolAttr({readonly: true}) public ready: boolean;
 
-  protected _content: string;
+  /** Target observable Toggleable */
+  public override get $target(): ESLToggleable | null {
+    return ESLSharePopup.sharedInstance;
+  }
+  public override set $target(value: any) {}
 
-  public override connectedCallback(): void {
-    super.connectedCallback();
-    this.init();
+  /** Checks that the target is in active state */
+  public override get isTargetActive(): boolean {
+    return !!this.$target?.open && this.$target?.activator === this;
   }
 
-  /** Initializes the component */
-  protected init(force?: boolean): void {
-    if (this.ready && !force) return;
-    if (!this.mode) this.mode = 'list';
-    if (!this._content) this._content = this.innerHTML;
-    this.buildContent();
+  /** The text writing directionality of the element */
+  protected get currentDir(): string {
+    return getComputedStyle(this).direction;
+  }
+
+  /** The base language of the element */
+  protected get currentLang(): string {
+    const el = this.closest('[lang]');
+    return (el) ? (el as HTMLElement).lang : '';
+  }
+
+  /** Container element that defines bounds of popups visibility */
+  protected get $containerEl(): HTMLElement | undefined {
+    const container = this.getClosestRelatedAttr('container');
+    return container ? ESLTraversingQuery.first(container, this) as HTMLElement : undefined;
+  }
+
+  @ready
+  protected override connectedCallback(): void {
+    super.connectedCallback();
     this.onReady();
   }
 
-  /** Builds component's content. */
-  @bind
-  protected buildContent(): void {
-    this.innerHTML = '';
-    this.mode === 'list' ? this.appendList() : this.appendPopupTrigger();
+  protected override attributeChangedCallback(attrName: string, oldValue: string | null, newValue: string | null): void {
+    if (!this.connected || oldValue === newValue) return;
+    this.update();
   }
 
-  /** Appends share list to the share component. */
-  protected appendList(): void {
-    const $list = ESLShareList.create();
-    $list.list = this.list;
-    this.appendChild($list);
+  /** Updates the component and related popup */
+  protected update(): void {
+    if (!this.isTargetActive) return;
+    this.$target?.hide();
   }
 
-  /** Appends share popup trigger to the share component. */
-  protected appendPopupTrigger(): void {
-    const {list} = this;
-    const $trigger = ESLSharePopupTrigger.create();
-    Object.assign($trigger, this.triggerInitialParams, {list});
-    $trigger.innerHTML = this._content;
-    this.appendChild($trigger);
+  /** Update `$target` Toggleable  from `target` selector */
+  public override updateTargetFromSelector(): void {}
+
+  /** Gets attribute value from the closest element with group behavior settings */
+  protected getClosestRelatedAttr(attrName: string): string | null {
+    const relatedAttrName = `${this.baseTagName}-${attrName}`;
+    const $closest = this.closest(`[${relatedAttrName}]`);
+    return $closest ? $closest.getAttribute(relatedAttrName) : null;
   }
 
-  /** Actions on complete init and ready component. */
+  /** Merges params to pass to the toggleable */
+  protected override mergeToggleableParams(this: ESLShare, ...params: ESLSharePopupActionParams[]): ESLSharePopupActionParams {
+    return Object.assign({
+      initiator: 'share',
+      activator: this,
+      containerEl: this.$containerEl,
+      list: this.list,
+      dir: this.currentDir,
+      lang: this.currentLang
+    }, this.popupParams, ...params);
+  }
+
+  /** Actions on complete init and ready component */
   private onReady(): void {
+    if (this.ready) return;
     this.$$attr('ready', true);
+    this.$$fire(this.SHARE_READY_EVENT, {bubbles: false});
   }
 }
 

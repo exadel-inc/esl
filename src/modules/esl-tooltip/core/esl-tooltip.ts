@@ -5,6 +5,7 @@ import {TAB} from '../../esl-utils/dom/keys';
 import {getKeyboardFocusableElements} from '../../esl-utils/dom/focus';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 
+import type {ESLToggleableActionParams} from '../../esl-toggleable/core';
 import type {PopupActionParams} from '../../esl-popup/core';
 import type {PositionType} from '../../esl-popup/core/esl-popup-position';
 
@@ -19,6 +20,10 @@ export interface TooltipActionParams extends PopupActionParams {
   lang?: string;
   /** tooltip without arrow */
   disableArrow?: boolean;
+  /** extra class to add to tooltip */
+  extraClass?: string;
+  /** inline styles to add to tooltip */
+  inlineStyles?: string;
 }
 
 @ExportNs('Tooltip')
@@ -114,6 +119,16 @@ export class ESLTooltip extends ESLPopup {
     if (params.extraClass) {
       CSSClassUtils.remove(this, params.extraClass);
     }
+  }
+
+  /**
+   * Actions to execute before showing of popup.
+   * @returns false if the show task should be canceled
+   */
+  protected override onBeforeShow(params: ESLToggleableActionParams): boolean | void {
+    const result = super.onBeforeShow(params);
+    this.style.cssText = params.inlineStyles || '';
+    return result;
   }
 
   /**
