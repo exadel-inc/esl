@@ -78,6 +78,8 @@
     "prepare": "husky install && npm run build",
     "preversion": "npm test",
     "version": "cross-env-shell \"npm version $npm_package_version --no-git-tag-version --ws\" && git add **/package*.json",
+    "postpack": "npm pack --workspace eslint",
+    "postpublish": "npm publish --workspace eslint",
     "fix:less": "stylelint --fix \"**/*.less\""
   },
   "dependencies": {
