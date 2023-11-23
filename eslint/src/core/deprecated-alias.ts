@@ -22,12 +22,7 @@ export interface ESLintDeprecationCfg {
 
 type ImportNode = ESTree.ImportSpecifier & Rule.NodeParentExtension;
 
-/**
- * Builds deprecation rule
- * @param context - AST tree object
- * @param node - import node to process
- * @param alias - current name
- */
+/** Builds deprecation rule from {@link ESLintDeprecationCfg} object */
 export function buildRule({deprecation, alias}: ESLintDeprecationCfg): Rule.RuleModule {
   const create = (context: Rule.RuleContext): Rule.RuleListener => ({
     ImportSpecifier(node: ImportNode): null {
@@ -46,6 +41,7 @@ export function buildRule({deprecation, alias}: ESLintDeprecationCfg): Rule.Rule
 }
 
 /**
+ * Creates fixe-list for the node of incorrect import
  * @param context - AST tree object
  * @param node - import node to process
  * @param alias - current name
@@ -58,9 +54,9 @@ function buildFixer(node: ImportNode, context: Rule.RuleContext, alias: string):
 }
 
 /**
+ * Find usage's ranges of the deprecated alias
  * @param context - AST tree object
  * @param importNode - import node to process
- * @returns
  */
 // eslint-disable-next-line sonarjs/cognitive-complexity
 function getIdentifierRanges(importNode: ImportNode, context: Rule.RuleContext): (AST.Range | undefined)[] {
