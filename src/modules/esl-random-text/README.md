@@ -35,7 +35,7 @@ Authors: *Alexey Stsefanovich*.
 ### Attributes:
 
 - `paragraphs` \[number] - number of paragraphs to generate (can be float)
-- `wordsPerParagraphs` \[number] - number of words to generate per one paragraph
+- `wordsPerParagraphs` \[number] - number of words to generate per paragraph
 - `shuffle` \[boolean] - choose words randomly from the dictionary (use words in `DICTIONARY` order otherwise)
 
 
@@ -52,8 +52,8 @@ Authors: *Alexey Stsefanovich*.
 
 - `ESLRandomText.generateText(words, shuffle)` - static method that generates random text from the dictionary.
   Returns a string with `words` number of words. If `shuffle` is `true` words are chosen randomly from the dictionary.
-  Otherwise words are chosen in the dictionary order.
+  Otherwise, words are chosen in the dictionary order.
 
 - `ESLRandomText.generateTextHTML(words, wordsPerParagraph, shuffle)` - static method that generates random text from the dictionary.
   Returns an HTML string with `words` number of words and `wordsPerParagraph` number of words per paragraph.
-  If `shuffle` is `true` words are chosen randomly from the dictionary. Otherwise words are chosen in the dictionary order.
+  If `shuffle` is `true` words are chosen randomly from the dictionary. Otherwise, words are chosen in the dictionary order.
