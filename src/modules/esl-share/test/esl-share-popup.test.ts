@@ -1,3 +1,4 @@
+import {IntersectionObserverMock} from '../../esl-utils/test/intersectionObserver.mock';
 import {ESLSharePopup} from '../core/esl-share-popup';
 import {ESLShare} from '../core/esl-share';
 import '../buttons/copy';
@@ -7,8 +8,10 @@ import nestedElementsTemplate from './nested-elements-template.html';
 
 import type {ESLShareButton} from '../core/esl-share-button';
 
+
 describe('ESLSharePopup tests', () => {
   beforeAll(() => {
+    IntersectionObserverMock.mock();
     ESLShare.register();
   });
 
