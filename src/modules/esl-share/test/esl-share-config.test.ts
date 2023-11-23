@@ -72,7 +72,7 @@ describe('ESLShareConfig tests', () => {
       ['sn1', ['sn1']],
       ['sn2', ['sn2']],
       ['', []]
-    ])('ESLShareConfig.prototype.get resolves %s query to list %s', (name: string, list: string[]) => {
+    ])('ESLShareConfig.prototype.get resolves "%s" query to list %s', (name: string, list: string[]) => {
       const result = instance.get(name);
       expect(result.map((cfg) => cfg.name)).toEqual(list);
       for (const res of result) {
@@ -83,6 +83,23 @@ describe('ESLShareConfig tests', () => {
           link: expect.any(String)
         }));
       }
+    });
+
+    describe('ESLShareConfig selects buttons from the list with deduplication behavior', () => {
+      test.each([
+        ['sn1 sn1 sn1', ['sn1']],
+        ['sn2 sn1 sn2', ['sn2', 'sn1']],
+        ['sn1 sn2 sn2 sn1', ['sn1', 'sn2']],
+        ['group:group1 group:group1', ['sn1', 'sn2']],
+        ['group:group2 group:group1 group:group2', ['sn2', 'sn3', 'sn4', 'sn1']],
+        ['sn4 group:group2 sn4 group:group2', ['sn4', 'sn2', 'sn3']],
+        ['all all all', ['sn1', 'sn2', 'sn3', 'sn4', 'sn-5']],
+        ['sn3 all', ['sn3', 'sn1', 'sn2', 'sn4', 'sn-5']],
+        ['group:group2 sn-5 all', ['sn2', 'sn3', 'sn4', 'sn-5', 'sn1']]
+      ])('ESLShareConfig.prototype.get resolves "%s" query to list %s', (name: string, list: string[]) => {
+        const result = instance.get(name);
+        expect(result.map((cfg) => cfg.name)).toEqual(list);
+      });
     });
   });
 
