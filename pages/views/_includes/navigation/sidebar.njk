@@ -11,7 +11,7 @@
       <esl-scrollbar class="sidebar-scrollbar" target="::next"></esl-scrollbar>
 
       <ul class="sidebar-nav-list esl-scrollable-content">
-        <li class="sidebar-nav-item">
+        <li esl-d-route-interceptor mask="search" class="sidebar-nav-item">
           <div class="sidebar-nav-item-heading {{ 'active' if functions.isActivePath(page.url, 'search') }}">
             <a class="sidebar-nav-item-heading-inner"
                href="{{ '/search.html' | url }}"
@@ -23,26 +23,27 @@
             </a>
           </div>
         </li>
-        <li class="sidebar-nav-item">
+        <li esl-d-route-interceptor mask="introduction" class="sidebar-nav-item">
           {{ navitem ('Introduction', 'introduction', 'static/assets/sidebar/intro.svg') }}
         </li>
-        <li class="sidebar-nav-item">
+        <li esl-d-route-interceptor mask="core" class="sidebar-nav-item">
           {{ navitem ('Core', 'core', 'static/assets/sidebar/utils.svg') }}
         </li>
-        <li class="sidebar-nav-item">
+        <li esl-d-route-interceptor mask="components" class="sidebar-nav-item">
           {{ navitem ('Components', 'components', 'static/assets/sidebar/components.svg') }}
         </li>
-        <li class="sidebar-nav-item">
+        <li esl-d-route-interceptor mask="examples" class="sidebar-nav-item">
           {{ navitem ('Examples', 'examples', 'static/assets/sidebar/examples.svg') }}
         </li>
+
         {% set releasedBlogs = collections.blogs | released %}
         {% if releasedBlogs.length %}
-        <li class="sidebar-nav-item">
+        <li esl-d-route-interceptor mask="blogs" class="sidebar-nav-item">
           {{ navitem ('Blogs', 'blogs', 'static/assets/sidebar/blogs.svg') }}
         </li>
         {% endif %}
         {% if env.isDev %}
-          <li class="sidebar-nav-item">
+          <li esl-d-route-interceptor mask="draft" class="sidebar-nav-item">
             {{ navitem ('Drafts', 'draft', 'static/assets/common/flask.svg') }}
           </li>
         {% endif %}

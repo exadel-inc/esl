@@ -59,6 +59,8 @@ import {ESLDemoSearchPageWrapper} from './search/search';
 import {ESLDemoSidebar} from './navigation/navigation';
 import {ESLDemoAnchorLink} from './anchor/anchor-link';
 import {ESLDemoBanner} from './banner/banner';
+import {ESLDemoRouteLink} from './route/route-link';
+import {ESLDemoRouteInterceptor} from './route/route-interceptor';
 import {ESLDemoSwipeArea} from './esl-swipe-demo/esl-swipe-demo-area';
 
 ESLVSizeCSSProxy.observe();
@@ -71,6 +73,8 @@ ESLDemoSearchPageWrapper.register();
 ESLDemoAnchorLink.register();
 ESLDemoBackLink.register();
 ESLDemoBanner.register();
+ESLDemoRouteLink.register();
+ESLDemoRouteInterceptor.register();
 ESLDemoSwipeArea.register();
 
 // Register ESL Components
