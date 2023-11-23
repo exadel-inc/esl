@@ -15,7 +15,7 @@ export {ESLWheelEvent};
 /**
  * Describes settings object that could be passed to {@link ESLWheelTarget.for} as optional parameter
  */
-export interface ESLWheelSetting {
+export interface ESLWheelTargetSetting {
   /** The minimum distance to accept as a long scroll */
   distance?: number;
   /** The maximum duration of the wheel events to consider it inertial */
@@ -26,12 +26,12 @@ export interface ESLWheelSetting {
  * Implementation of EventTarget to observe wheel events for inertial scrolling
  */
 export class ESLWheelTarget extends SyntheticEventTarget {
-  protected static defaultConfig: Required<ESLWheelSetting> = {
+  protected static defaultConfig: Required<ESLWheelTargetSetting> = {
     distance: 400,
     timeout: 100
   };
 
-  protected readonly config: Required<ESLWheelSetting>;
+  protected readonly config: Required<ESLWheelTargetSetting>;
 
   /** Function for aggregating wheel events into array of events */
   protected aggregateWheel: (event: WheelEvent) => void;
@@ -41,8 +41,8 @@ export class ESLWheelTarget extends SyntheticEventTarget {
    * @param settings - Optional settings object
    * @returns A {@link ESLWheelTarget} instance if the target is a valid element
    */
-  public static for(target: ESLDomElementTarget, settings?: ESLWheelSetting): ESLWheelTarget;
-  public static for(target: ESLDomElementTarget, settings?: ESLWheelSetting): ESLWheelTarget | null {
+  public static for(target: ESLDomElementTarget, settings?: ESLWheelTargetSetting): ESLWheelTarget;
+  public static for(target: ESLDomElementTarget, settings?: ESLWheelTargetSetting): ESLWheelTarget | null {
     const $target = resolveDomTarget(target);
     if (isElement($target)) return new ESLWheelTarget($target, settings);
 
@@ -52,7 +52,7 @@ export class ESLWheelTarget extends SyntheticEventTarget {
 
   protected constructor(
     protected readonly target: Element,
-    settings?: ESLWheelSetting
+    settings?: ESLWheelTargetSetting
   ) {
     super();
     this.config = Object.assign({}, ESLWheelTarget.defaultConfig, settings);
