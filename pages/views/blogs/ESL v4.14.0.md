@@ -11,7 +11,7 @@ New ESL version *v4.14.0* released and available on NPM! Discover what's new in 
 
 - We are pleased to announce the release of `@exadel/eslint-plugin-esl`, a tool designed to ensure continuous support for ESL, 
   keeping you in sync with ESL updates and best practices. The plugin's versioning is synchronized with ESL, 
-  simplifying the process of finding the compatible version for your ESL setup. 
+  simplifying the process of finding the compatible version for your ESL setup.  
   See the [plugin's installation guide](/core/esl-eslint-plugin/) for more information.
 
 - In our journey towards the release of the production-ready `esl-share`, the current beta version is stable and won't undergo significant changes. 
