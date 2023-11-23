@@ -29,7 +29,7 @@ Authors: *Alexey Stsefanovich*.
   <esl-random-text paragraphs="1.5"></esl-random-text>
 ```
 ```html
-  <esl-random-text paragraphs="10" words="5"></esl-random-text>
+  <esl-random-text paragraphs="10" words-per-paragraph ="5"></esl-random-text>
 ```
 
 ### Attributes:
