@@ -122,3 +122,9 @@ export class ESLRandomText extends ESLBaseElement {
     return result.join('');
   }
 }
+
+declare global {
+  export interface HTMLElementTagNameMap {
+    'esl-random-text': ESLRandomText;
+  }
+}
