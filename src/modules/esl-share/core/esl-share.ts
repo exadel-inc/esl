@@ -40,12 +40,6 @@ export class ESLShare extends ESLTrigger {
   /** Hover event tracking media query. Default: `all` */
   @attr({defaultValue: 'all'}) public override trackHover: string;
 
-  /** Default params to pass into the popup */
-  @jsonAttr<ESLSharePopupActionParams>({defaultValue: {
-    position: 'top',
-    hideDelay: 300
-  }})
-  public defaultPopupParams: ESLSharePopupActionParams;
   /** Action params to pass into the popup */
   @jsonAttr<ESLSharePopupActionParams>({defaultValue: {}})
   public popupParams: ESLSharePopupActionParams;
@@ -117,7 +111,7 @@ export class ESLShare extends ESLTrigger {
       list: this.list,
       dir: this.currentDir,
       lang: this.currentLang
-    }, this.defaultPopupParams, this.popupParams, ...params);
+    }, this.popupParams, ...params);
   }
 
   /** Actions on complete init and ready component */
