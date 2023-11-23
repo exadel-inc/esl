@@ -60,6 +60,7 @@ import {ESLDemoSidebar} from './navigation/navigation';
 import {ESLDemoAnchorLink} from './anchor/anchor-link';
 import {ESLDemoBanner} from './banner/banner';
 import {ESLDemoSwipeArea} from './esl-swipe-demo/esl-swipe-demo-area';
+import {ESLDemoWheelArea} from './esl-wheel-demo/esl-wheel-demo-area';
 
 ESLVSizeCSSProxy.observe();
 
@@ -72,6 +73,7 @@ ESLDemoAnchorLink.register();
 ESLDemoBackLink.register();
 ESLDemoBanner.register();
 ESLDemoSwipeArea.register();
+ESLDemoWheelArea.register();
 
 // Register ESL Components
 ESLImage.register();
