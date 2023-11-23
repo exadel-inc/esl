@@ -5,9 +5,9 @@ import {bind} from '../../../esl-utils/decorators/bind';
 import {aggregate} from '../../../esl-utils/async/aggregate';
 import {ESLEventListener} from '../listener';
 
-import {ESLWheelEvent} from './inert.target.event';
+import {ESLWheelEvent} from './wheel.target.event';
 
-import type {ESLWheelEventInfo} from './inert.target.event';
+import type {ESLWheelEventInfo} from './wheel.target.event';
 import type {ESLDomElementTarget} from '../../../esl-utils/abstract/dom-target';
 
 export {ESLWheelEvent};
@@ -41,6 +41,7 @@ export class ESLWheelTarget extends SyntheticEventTarget {
    * @param settings - Optional settings object
    * @returns A {@link ESLWheelTarget} instance if the target is a valid element
    */
+  public static for(target: ESLDomElementTarget, settings?: ESLWheelSetting): ESLWheelTarget;
   public static for(target: ESLDomElementTarget, settings?: ESLWheelSetting): ESLWheelTarget | null {
     const $target = resolveDomTarget(target);
     if (isElement($target)) return new ESLWheelTarget($target, settings);
