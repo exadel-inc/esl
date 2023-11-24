@@ -15,7 +15,7 @@ export interface ESLRandomTextShape extends ESLBaseElementShape<ESLRandomText> {
   paragraphs: number;
 
   /**
-   * Maximum number words in paragraph
+   * Maximum number of words in paragraph
    * @see ESLRandomText#wordsPerParagraph
    */
   wordsPerParagraph: number;

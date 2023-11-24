@@ -36,7 +36,7 @@ export class ESLRandomText extends ESLBaseElement {
   @boolAttr() public shuffle: boolean;
   /** Maximum number of paragraphs in generated text */
   @attr({parser: parseFloat, defaultValue: 1}) public paragraphs: number;
-  /** Maximum number words in paragraph */
+  /** Maximum number of words in paragraph */
   @attr({parser: parseInt, defaultValue: 100}) public wordsPerParagraph: number;
 
   /** Redraws random text content */
