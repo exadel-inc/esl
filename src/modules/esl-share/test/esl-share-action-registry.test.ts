@@ -20,7 +20,7 @@ describe('ESLShareActionRegistry tests', () => {
       expect(() => instance.register({} as any)).toThrowError();
     });
 
-    test('should registers action', () => {
+    test('should register action', () => {
       const {instance} = ESLShareActionRegistry;
       instance.register(ESLSharePrintAction);
       expect(instance['actionsMap'].has('print')).toBe(true);
