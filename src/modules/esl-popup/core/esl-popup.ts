@@ -17,7 +17,6 @@ import {ESLPopupPlaceholder} from './esl-popup-placeholder';
 import type {ESLToggleableActionParams} from '../../esl-toggleable/core';
 import type {PositionType, IntersectionRatioRect} from './esl-popup-position';
 
-
 const INTERSECTION_LIMIT_FOR_ADJACENT_AXIS = 0.7;
 const DEFAULT_OFFSET_ARROW = 50;
 
@@ -57,6 +56,13 @@ export interface PopupActionParams extends ESLToggleableActionParams {
 export class ESLPopup extends ESLToggleable {
   public static override is = 'esl-popup';
 
+  /** Default params to pass into the popup on show/hide actions */
+  public static override DEFAULT_PARAMS: PopupActionParams = {
+    offsetTrigger: 3,
+    offsetContainer: 15,
+    intersectionMargin: '0px'
+  };
+
   /** Classname of popups arrow element */
   @attr({defaultValue: 'esl-popup-arrow'}) public arrowClass: string;
 
@@ -89,12 +95,8 @@ export class ESLPopup extends ESLToggleable {
   /** Target to container element {@link ESLTraversingQuery} to define bounds of popups visibility (window by default) */
   @attr() public container: string;
 
-  /** Default params to merge into passed action params */
-  @jsonAttr<PopupActionParams>({defaultValue: {
-    offsetTrigger: 3,
-    offsetContainer: 15,
-    intersectionMargin: '0px'
-  }})
+  /** Default show/hide params for current ESLAlert instance */
+  @jsonAttr<PopupActionParams>()
   public override defaultParams: PopupActionParams;
 
   @attr({parser: parseBoolean, serializer: toBooleanAttribute, defaultValue: true})

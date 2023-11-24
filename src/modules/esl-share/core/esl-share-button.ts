@@ -1,3 +1,4 @@
+import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {attr, boolAttr, jsonAttr, listen, memoize, prop} from '../../esl-utils/decorators';
 import {ENTER, SPACE} from '../../esl-utils/dom/keys';
@@ -9,12 +10,15 @@ import {ESLShareConfig} from './esl-share-config';
 import type {ESLShareBaseAction} from './esl-share-action';
 import type {ESLShareButtonConfig} from './esl-share-config';
 
+export type {ESLShareButtonTagShape} from './esl-share-button.shape';
+
 /**
  * ESLShareButton
  * @author Dmytro Shovchko
  *
  * ESLShareButton is a custom element to invoke a share actions, defined by {@link ESLShareBaseAction}
  */
+@ExportNs('ShareButton')
 export class ESLShareButton extends ESLBaseElement {
   public static override is = 'esl-share-button';
   public static observedAttributes = ['action', 'name'];
@@ -24,13 +28,15 @@ export class ESLShareButton extends ESLBaseElement {
     const $button = document.createElement(this.is) as InstanceType<T>;
     if (buttonName) {
       $button.name = buttonName;
-      $button.initIcon();
+      $button.defaultIcon = true;
     }
     return $button;
   }
 
   /** Event to dispatch when {@link ESLShareButton} configuration is changed */
-  @prop('esl:share:button:changed') public SHARE_BUTTON_CHANGED_EVENT: string;
+  @prop('esl:share:changed') public SHARE_CHANGED_EVENT: string;
+  /** Event to dispatch on {@link ESLShareButton} ready state */
+  @prop('esl:share:ready') public SHARE_READY_EVENT: string;
 
   /** Name of share action that occurs after button click */
   @attr() public action: string;
@@ -122,7 +128,7 @@ export class ESLShareButton extends ESLBaseElement {
     if (this.defaultIcon) this.initIcon();
     this.initA11y();
     this.updateAction();
-    this.$$attr('ready', true);
+    this.onReady();
   }
 
   /** Sets initial a11y attributes */
@@ -186,6 +192,22 @@ export class ESLShareButton extends ESLBaseElement {
     memoize.clear(this, 'config');
     if (isEqual(this.config, config)) return;
     this.init(true);
-    this.$$fire(this.SHARE_BUTTON_CHANGED_EVENT, {bubbles: false});
+    this.$$fire(this.SHARE_CHANGED_EVENT, {bubbles: false});
+  }
+
+  /** Actions on complete init and ready component */
+  private onReady(): void {
+    if (this.ready) return;
+    this.$$attr('ready', true);
+    this.$$fire(this.SHARE_READY_EVENT, {bubbles: false});
+  }
+}
+
+declare global {
+  export interface ESLLibrary {
+    ShareButton: typeof ESLShareButton;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-share-button': ESLShareButton;
   }
 }
