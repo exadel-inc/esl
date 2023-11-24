@@ -24,4 +24,4 @@ New ESL version *v4.14.0* released and available on NPM! Discover what's new in 
 
 - Introducing the new `esl-random-text` component, designed to assist in populating your test pages with dummy content.
 
-- iOS bugfixes related to the  native scroll for `esl-tabs` module
+- iOS bugfixes related to the native scroll for `esl-tabs` module

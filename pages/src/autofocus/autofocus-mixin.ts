@@ -19,7 +19,7 @@ export class ESLDemoAutofocus extends ESLMixinElement {
 
   @listen('esl:show')
   protected _onShow(): void {
-    const $focusable = this.$focusable;
+    const {$focusable} = this;
     if (!$focusable) return;
     setTimeout(() => {
       this.$host.open && $focusable.focus();
