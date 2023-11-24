@@ -42,7 +42,7 @@ describe('ESLSwipeGestureTarget EventTarget', () => {
       expect(removeEventListenerSpy).not.toBeCalled();
     });
 
-    test('ESLSwipeGestureTarget does not produce subscription on creation', () => {
+    test('ESLSwipeGestureTarget doesn`t unsubscribe old listeners upon adding new ones', () => {
       target.addEventListener('swipe', listener1);
       expect(addEventListenerSpy).toBeCalled();
       expect(removeEventListenerSpy).not.toBeCalled();
@@ -51,7 +51,7 @@ describe('ESLSwipeGestureTarget EventTarget', () => {
       expect(removeEventListenerSpy).not.toBeCalled();
     });
 
-    test('ESLSwipeGestureTarget does not produce subscription on creation', () => {
+    test('ESLSwipeGestureTarget doesn`t unsubscrie until last subscription is removed from target', () => {
       target.removeEventListener('swipe', listener1);
       expect(removeEventListenerSpy).not.toBeCalled();
       target.removeEventListener('swipe', listener2);

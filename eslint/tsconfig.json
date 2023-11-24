@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "skipLibCheck": true,
+    "alwaysStrict": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "esModuleInterop": true,
+    "target": "ES2016",
+    "downlevelIteration": true,
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "outDir": "./dist"
+  },
+  "include": [
+    "src"
+  ]
+}

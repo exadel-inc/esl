@@ -1,34 +1,28 @@
+{% from 'landing/newsline-item.njk' import newsitem with context %}
 {% set releasedNews = collections.news | released | sortByDateStrict | reverse %}
 {% if releasedNews.length %}
   <div class="newsline container">
     <h2>{{ landing.news.title }}</h2>
-    <ul class="newsline-list">
-      {% for item in releasedNews | limit(landing.news.limit) %}
-        {% set isArticle = [].concat(item.data.tags).includes('blogs') %}
-
-        <li class="esl-animate-slide up newsline-item"
-            esl-animate="{group: true}">
-          {% if item.data.link or isArticle %}
-            <a class="newsline-link"
-               aria-labelledby="newsline-item-{{ loop.index }}"
-               href="{{ item.data.link or (item.url | url) }}"></a>
-          {% endif %}
-          <div id="newsline-item-{{ loop.index }}" class="newsline-content">
-            <h3 class="newsline-content-title">{{ item.data.title or item.data.name }}</h3>
-
-            {% if isArticle %}
-              <div class="newsline-content-text markdown-container">{{ item.templateContent | text | truncate(250) }}</div>
-            {% else %}
-              <div class="newsline-content-text markdown-container">{{ item.templateContent | safe }}</div>
-            {% endif %}
-
-            {% if item.data.date %}
-              <time class="newsline-content-date" datetime="{{ item.date.toISOString() }}">{{ item.date | date }}</time>
-            {% endif %}
-          </div>
-        </li>
-      {% endfor %}
-    </ul>
+    <esl-toggleable class="newsline-list-container"
+                    a11y-target="none"
+                    esl-d-autofocus="::find(.newsline-more-item > a)">
+      <ul class="newsline-list">
+        {% for item in releasedNews | limit(landing.news.limit) %}
+          {{ newsitem(item, loop.index) }}
+        {% endfor %}
+        {% if landing.news.moreLimit > 0 %}
+          {% for item in releasedNews | limit(landing.news.moreLimit, landing.news.limit) %}
+            {{ newsitem(item, loop.index, 'newsline-more-item') }}
+          {% endfor %}
+        {% endif %}
+      </ul>
+      <esl-trigger target="::parent" mode="show"
+                   class="arrow-link esl-animate-slide up newsline-more-trigger"
+                   active-class="hide"
+                   esl-animate="{group: true}">
+        {{ landing.news.moreCta }}
+      </esl-trigger>
+    </esl-toggleable>
 
     <div class="newsline-stars" aria-hidden="true">
       <div class="newsline-stars__scene">
