@@ -54,6 +54,7 @@ import '@exadel/esl/modules/esl-share/actions/print-action';
 import './esl-media-demo/test-media';
 import './esl-media-demo/test-media-source';
 
+import {ESLDemoAutofocus} from './autofocus/autofocus-mixin';
 import {ESLDemoBackLink} from './back-link/back-link';
 import {ESLDemoMarquee} from './landing/landing';
 import {ESLDemoSearchBox} from './navigation/header/header-search';
@@ -66,6 +67,7 @@ import {ESLDemoSwipeArea} from './esl-swipe-demo/esl-swipe-demo-area';
 ESLVSizeCSSProxy.observe();
 
 // Register Demo components
+ESLDemoAutofocus.register();
 ESLDemoSidebar.register();
 ESLDemoMarquee.register();
 ESLDemoSearchBox.register();

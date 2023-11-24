@@ -1,5 +1,5 @@
 /** filter to limit collection */
-const limit = (collection, count) => collection ? collection.slice(0, count) : [];
+const limit = (collection, count, start = 0) => collection ? collection.slice(start, start + count) : [];
 
 module.exports = (config) => {
   config.addFilter('limit', limit);
