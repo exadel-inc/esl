@@ -45,12 +45,6 @@ import '@exadel/esl/modules/esl-media/providers/html5/video-provider';
 import '@exadel/esl/modules/esl-media/providers/youtube-provider';
 import '@exadel/esl/modules/esl-media/providers/brightcove-provider';
 
-import '@exadel/esl/modules/esl-share/actions/copy-action';
-import '@exadel/esl/modules/esl-share/actions/external-action';
-import '@exadel/esl/modules/esl-share/actions/media-action';
-import '@exadel/esl/modules/esl-share/actions/native-action';
-import '@exadel/esl/modules/esl-share/actions/print-action';
-
 import './esl-media-demo/test-media';
 
 import {ESLDemoAutofocus} from './autofocus/autofocus-mixin';
@@ -121,9 +115,11 @@ ESLRelatedTarget.register();
 // Share component loading
 import (/* webpackChunkName: 'common/esl-share' */'./esl-share/esl-share');
 
-// Init UI Playground
-import (
-  /* webpackPrefetch: true */
-  /* webpackChunkName: "playground" */
-  '@exadel/ui-playground/esm/registration.js'
-).then(({init}) => init());
+if (document.querySelector('uip-root')) {
+  // Init UI Playground
+  import (
+    /* webpackPrefetch: true */
+    /* webpackChunkName: "playground" */
+    '@exadel/ui-playground/esm/registration.js'
+  ).then(({init}) => init());
+}
