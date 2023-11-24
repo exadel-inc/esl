@@ -92,7 +92,7 @@ export class ESLShare extends ESLTrigger {
     this.$target?.hide();
   }
 
-  /** Update `$target` Toggleable  from `target` selector */
+  /** Updates `$target` Toggleable  from `target` selector */
   public override updateTargetFromSelector(): void {}
 
   /** Gets attribute value from the closest element with group behavior settings */

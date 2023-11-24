@@ -2,7 +2,7 @@ import type {ESLTriggerTagShape} from '../../esl-trigger/core/esl-trigger.shape'
 import type {ESLShare} from './esl-share';
 
 /**
- * Tag declaration interface of ESLSharePopupTrigger element
+* Tag declaration interface of {@link ESLShare} element
  * Used for TSX declaration
  */
 export interface ESLShareTagShape<T extends ESLShare = ESLShare> extends ESLTriggerTagShape<T> {
