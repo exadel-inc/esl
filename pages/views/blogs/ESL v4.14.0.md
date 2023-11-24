@@ -22,6 +22,6 @@ New ESL version *v4.14.0* released and available on NPM! Discover what's new in 
 - We've introduced a new static property, `DEFAULT_PARAMS`, to the `esl-toggleable` instances. 
   This addition makes it effortless to set default show/hide parameters for toggleable based modules.
 
-- Introducing the new esl-random-text component, designed to assist in populating your test pages with dummy content.
+- Introducing the new `esl-random-text` component, designed to assist in populating your test pages with dummy content.
 
 - iOS bugfixes related to the  native scroll for `esl-tabs` module
