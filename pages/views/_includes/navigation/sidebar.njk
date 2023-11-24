@@ -41,7 +41,7 @@
           {{ navitem ('Blogs', 'blogs', 'static/assets/sidebar/blogs.svg') }}
         </li>
         {% endif %}
-        {% if env.isDev %}
+        {% if env.isDev or functions.isActivePath(page.url, 'draft') %}
           <li class="sidebar-nav-item">
             {{ navitem ('Drafts', 'draft', 'static/assets/common/flask.svg') }}
           </li>
