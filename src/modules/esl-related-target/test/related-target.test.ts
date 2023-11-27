@@ -16,7 +16,7 @@ describe('ESLRelatedTarget (mixin): tests', () => {
   });
 
   describe('ESLRelatedTarget: general behaviour tests', () => {
-    const REFERENCES ={
+    const REFERENCES = {
       origin: 'esl-toggleable#origin-tgbl',
       related: 'esl-toggleable.related-tgbl',
     };
