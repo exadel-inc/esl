@@ -54,7 +54,7 @@ plugins:
     - changelogFile: CHANGELOG.md
 
   - - "@semantic-release/npm"
-    - tarballDir: target
+    - tarballDir: ./
 
   - - "@semantic-release/git"
     - assets:
@@ -66,7 +66,7 @@ plugins:
 
   - - "@semantic-release/github"
     - assets:
-        - path: target/*.tgz
-          label: Released NPM Tarball
+        - path: ./*.tgz
+          label: Released NPM Tarballs
         - path: CHANGELOG.md
           label: Changelog

@@ -1,3 +1,11 @@
+## [4.14.1](https://github.com/exadel-inc/esl/compare/v4.14.0...v4.14.1) (2023-11-27)
+
+
+### Bug Fixes
+
+* **esl-media:** fix loading class condition should ignore lazy state ([c532ec0](https://github.com/exadel-inc/esl/commit/c532ec0ae01be87f6f15f466eb62560c7dd30995))
+* **esl-related-target:** fixed handling of bubbling events `esl:show` and `esl:hide` ([6964148](https://github.com/exadel-inc/esl/commit/6964148eef49760a83a4b4cb589d02acb7a8f998))
+
 # [4.14.0](https://github.com/exadel-inc/esl/compare/v4.13.1...v4.14.0) (2023-11-24)
 
 
