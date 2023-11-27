@@ -80,8 +80,8 @@ using a single tag as well as work with external providers using simple native-l
 
  - `load-condition` (optional) - [ESLMediaQuery](../esl-media-query/README.md) syntax to define a condition to load the media. 
     Works independently from `lazy` attribute.
- - `load-condition-class` (optional) - class to add when the `laod-condition` is met. 
-    Independent of the lazy state, use `ready-class` if you interested in the final state of component.
+ - `load-condition-class` (optional) - class to add when the `load-condition` is met. 
+    Independent of the lazy state, use `ready-class` if you are interested in the final state of component.
  - `load-condition-class-target` (optional) - [ESLTraversingQuery](../esl-traversing-query/README.md) to define a target for `load-condition-class`
 
 #### Deprecated attributes (going to be removed in the next major release):
@@ -89,7 +89,7 @@ using a single tag as well as work with external providers using simple native-l
  - `load-cls-declined` (optional) - class to add when the media is loaded and rejected by the load condition. Use `load-condition-class` with inverted syntax (`!class`) instead.
  - `load-cls-target` (optional) - [ESLTraversingQuery](../esl-traversing-query/README.md) to define a target for `load-cls-accepted` and `load-cls-declined`
 
- - `disabled` (boolean) - marker that prevents media api initialization. Deprecated alias for *manual* mode of `lazy` attribute
+ - `disabled` (boolean) - marker that prevents media API initialization. Deprecated alias for *manual* mode of `lazy` attribute
 
 ### Readonly Attributes:
  
