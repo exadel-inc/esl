@@ -1,6 +1,6 @@
 import {range} from '../../esl-utils/misc/array';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {bind, memoize, ready, prop, attr, boolAttr, jsonAttr} from '../../esl-utils/decorators';
+import {bind, memoize, ready, attr, boolAttr, jsonAttr, listen, decorate} from '../../esl-utils/decorators';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {afterNextRender, rafDecorator} from '../../esl-utils/async/raf';
 import {ESLToggleable} from '../../esl-toggleable/core';
@@ -8,7 +8,9 @@ import {Rect} from '../../esl-utils/dom/rect';
 import {isRTL} from '../../esl-utils/dom/rtl';
 import {getListScrollParents} from '../../esl-utils/dom/scroll';
 import {getWindowRect} from '../../esl-utils/dom/window';
-import {parseNumber} from '../../esl-utils/misc/format';
+import {parseBoolean, parseNumber, toBooleanAttribute} from '../../esl-utils/misc/format';
+import {copy} from '../../esl-utils/misc/object';
+import {ESLIntersectionTarget, ESLIntersectionEvent} from '../../esl-event-listener/core/targets/intersection.target';
 import {calcPopupPosition, isMajorAxisHorizontal} from './esl-popup-position';
 import {ESLPopupPlaceholder} from './esl-popup-placeholder';
 
@@ -17,7 +19,6 @@ import type {PositionType, IntersectionRatioRect} from './esl-popup-position';
 
 const INTERSECTION_LIMIT_FOR_ADJACENT_AXIS = 0.7;
 const DEFAULT_OFFSET_ARROW = 50;
-const scrollOptions = {passive: true} as EventListenerOptions;
 
 const parsePercent = (value: string | number, nanValue: number = 0): number => {
   const rawValue = parseNumber(value, nanValue);
@@ -51,25 +52,16 @@ export interface PopupActionParams extends ESLToggleableActionParams {
   containerEl?: HTMLElement;
 }
 
-export interface ActivatorObserver {
-  unsubscribers?: (() => void)[];
-  observer?: IntersectionObserver;
-}
-
 @ExportNs('Popup')
 export class ESLPopup extends ESLToggleable {
   public static override is = 'esl-popup';
 
-  public $placeholder: ESLPopupPlaceholder | null;
-
-  protected _containerEl?: HTMLElement;
-  protected _offsetTrigger: number;
-  protected _offsetContainer: number | [number, number];
-  protected _deferredUpdatePosition = rafDecorator(() => this._updatePosition());
-  protected _activatorObserver: ActivatorObserver;
-  protected _intersectionMargin: string;
-  protected _intersectionRatio: IntersectionRatioRect = {};
-  protected _updateLoopID: number;
+  /** Default params to pass into the popup on show/hide actions */
+  public static override DEFAULT_PARAMS: PopupActionParams = {
+    offsetTrigger: 3,
+    offsetContainer: 15,
+    intersectionMargin: '0px'
+  };
 
   /** Classname of popups arrow element */
   @attr({defaultValue: 'esl-popup-arrow'}) public arrowClass: string;
@@ -85,6 +77,7 @@ export class ESLPopup extends ESLToggleable {
 
   /** Disable hiding the popup depending on the visibility of the activator */
   @boolAttr() public disableActivatorObservation: boolean;
+
   /**
    * Margins on the edges of the arrow.
    * This is the value in pixels that will be between the edge of the popup and
@@ -102,16 +95,23 @@ export class ESLPopup extends ESLToggleable {
   /** Target to container element {@link ESLTraversingQuery} to define bounds of popups visibility (window by default) */
   @attr() public container: string;
 
-  /** Default params to merge into passed action params */
-  @jsonAttr<PopupActionParams>({defaultValue: {
-    offsetTrigger: 3,
-    offsetContainer: 15,
-    intersectionMargin: '0px'
-  }})
+  /** Default show/hide params for current ESLAlert instance */
+  @jsonAttr<PopupActionParams>()
   public override defaultParams: PopupActionParams;
 
-  @prop() public override closeOnEsc = true;
-  @prop() public override closeOnOutsideAction = true;
+  @attr({parser: parseBoolean, serializer: toBooleanAttribute, defaultValue: true})
+  public override closeOnEsc: boolean;
+  @attr({parser: parseBoolean, serializer: toBooleanAttribute, defaultValue: true})
+  public override closeOnOutsideAction: boolean;
+
+  public $placeholder: ESLPopupPlaceholder | null;
+
+  protected _containerEl?: HTMLElement;
+  protected _offsetTrigger: number;
+  protected _offsetContainer: number | [number, number];
+  protected _intersectionMargin: string;
+  protected _intersectionRatio: IntersectionRatioRect = {};
+  protected _updateLoopID: number;
 
   /** Arrow element */
   @memoize()
@@ -144,18 +144,6 @@ export class ESLPopup extends ESLToggleable {
     memoize.clear(this, '$arrow');
   }
 
-  /** Checks that the position along the horizontal axis */
-  @memoize()
-  protected get _isMajorAxisHorizontal(): boolean {
-    return isMajorAxisHorizontal(this.position);
-  }
-
-  /** Checks that the position along the vertical axis */
-  @memoize()
-  protected get _isMajorAxisVertical(): boolean {
-    return !isMajorAxisHorizontal(this.position);
-  }
-
   /** Get offsets arrow ratio */
   @memoize()
   protected get _offsetArrowRatio(): number {
@@ -186,6 +174,17 @@ export class ESLPopup extends ESLToggleable {
     return $arrow;
   }
 
+  /** Runs additional actions on show popup request */
+  protected override onBeforeShow(params: ESLToggleableActionParams): boolean | void {
+    this.activator = params.activator;
+    if (this.open) {
+      this.afterOnHide();
+      this.afterOnShow();
+    }
+
+    if (!params.force && this.open) return false;
+  }
+
   /**
    * Actions to execute on show popup.
    * Inner state and 'open' attribute are not affected and updated before `onShow` execution.
@@ -194,24 +193,16 @@ export class ESLPopup extends ESLToggleable {
   protected override onShow(params: PopupActionParams): void {
     super.onShow(params);
 
-    if (params.position) {
-      this.position = params.position;
-    }
-    if (params.behavior) {
-      this.behavior = params.behavior;
-    }
-    if (params.disableActivatorObservation) {
-      this.disableActivatorObservation = params.disableActivatorObservation;
-    }
-    if (params.marginArrow) {
-      this.marginArrow = params.marginArrow;
-    }
-    if (params.offsetArrow) {
-      this.offsetArrow = params.offsetArrow;
-    }
-    if (params.container) {
-      this.container = params.container;
-    }
+    // TODO: change flow to use merged params unless attribute state is used in CSS
+    Object.assign(this, copy({
+      position: params.position,
+      behavior: params.behavior,
+      container: params.container,
+      marginArrow: params.marginArrow,
+      offsetArrow: params.offsetArrow,
+      disableActivatorObservation: params.disableActivatorObservation
+    }, (key, val): boolean => !!val));
+
     this._containerEl = params.containerEl;
     this._offsetTrigger = params.offsetTrigger || 0;
     this._offsetContainer = params.offsetContainer || 0;
@@ -230,15 +221,7 @@ export class ESLPopup extends ESLToggleable {
   protected override onHide(params: PopupActionParams): void {
     this.beforeOnHide();
     super.onHide(params);
-
-    this._stopUpdateLoop();
-    this.activator && this._removeActivatorObserver(this.activator);
-
-    // clear all memoize data
-    memoize.clear(this, '_isMajorAxisHorizontal');
-    memoize.clear(this, '_isMajorAxisVertical');
-    memoize.clear(this, '_offsetArrowRatio');
-    memoize.clear(this, '$container');
+    this.afterOnHide();
   }
 
   /**
@@ -247,7 +230,12 @@ export class ESLPopup extends ESLToggleable {
   protected afterOnShow(): void {
     this._updatePosition();
     this.style.visibility = 'visible';
-    this.activator && this._addActivatorObserver(this.activator);
+
+    this.$$on(this._onActivatorScroll);
+    this.$$on(this._onActivatorIntersection);
+    this.$$on(this._onTransitionStart);
+    this.$$on(this._onResize);
+
     this._startUpdateLoop();
   }
 
@@ -257,91 +245,85 @@ export class ESLPopup extends ESLToggleable {
   protected beforeOnHide(): void {}
 
   /**
-   * Checks activator intersection for adjacent axis.
-   * Hides the popup if the intersection ratio exceeds the limit.
+   * Actions to execute after hiding of popup.
    */
-  protected _checkIntersectionForAdjacentAxis(isAdjacentAxis: boolean, intersectionRatio: number): void {
-    if (isAdjacentAxis && intersectionRatio < INTERSECTION_LIMIT_FOR_ADJACENT_AXIS) {
-      this.hide();
+  protected afterOnHide(): void {
+    this._stopUpdateLoop();
+
+    this.$$off(this._onActivatorScroll);
+    this.$$off(this._onActivatorIntersection);
+    this.$$off(this._onTransitionStart);
+    this.$$off(this._onResize);
+
+    memoize.clear(this, ['_offsetArrowRatio', '$container']);
+  }
+
+  protected get scrollTargets(): EventTarget[] {
+    if (this.activator) {
+      return (getListScrollParents(this.activator) as EventTarget[]).concat([window]);
     }
+    return [window];
+  }
+
+  protected get intersectionOptions(): IntersectionObserverInit {
+    return {
+      rootMargin: this._intersectionMargin,
+      threshold: range(9, (x) => x / 8)
+    };
   }
 
   /** Actions to execute on activator intersection event. */
-  @bind
-  protected onActivatorIntersection(entries: IntersectionObserverEntry[], observer: IntersectionObserver): void {
-    const entry = entries[0];
+  @listen({
+    auto: false,
+    event: ESLIntersectionEvent.type,
+    target: ($popup: ESLPopup) => $popup.activator ? ESLIntersectionTarget.for($popup.activator, $popup.intersectionOptions) : [],
+    condition: ($popup: ESLPopup) => !$popup.disableActivatorObservation
+  })
+  protected _onActivatorIntersection(event: ESLIntersectionEvent): void {
     this._intersectionRatio = {};
-    if (!entry.isIntersecting) {
+    if (!event.isIntersecting) {
       this.hide();
       return;
     }
 
-    if (entry.intersectionRect.y !== entry.boundingClientRect.y) {
-      this._intersectionRatio.top = entry.intersectionRect.height / entry.boundingClientRect.height;
-      this._checkIntersectionForAdjacentAxis(this._isMajorAxisHorizontal, this._intersectionRatio.top);
+    const isHorizontal = isMajorAxisHorizontal(this.position);
+    const checkIntersection = (isMajorAxis: boolean, intersectionRatio: number): void => {
+      if (isMajorAxis && intersectionRatio < INTERSECTION_LIMIT_FOR_ADJACENT_AXIS) this.hide();
+    };
+    if (event.intersectionRect.y !== event.boundingClientRect.y) {
+      this._intersectionRatio.top = event.intersectionRect.height / event.boundingClientRect.height;
+      checkIntersection(isHorizontal, this._intersectionRatio.top);
     }
-    if (entry.intersectionRect.bottom !== entry.boundingClientRect.bottom) {
-      this._intersectionRatio.bottom = entry.intersectionRect.height / entry.boundingClientRect.height;
-      this._checkIntersectionForAdjacentAxis(this._isMajorAxisHorizontal, this._intersectionRatio.bottom);
+    if (event.intersectionRect.bottom !== event.boundingClientRect.bottom) {
+      this._intersectionRatio.bottom = event.intersectionRect.height / event.boundingClientRect.height;
+      checkIntersection(isHorizontal, this._intersectionRatio.bottom);
     }
-    if (entry.intersectionRect.x !== entry.boundingClientRect.x) {
-      this._intersectionRatio.left = entry.intersectionRect.width / entry.boundingClientRect.width;
-      this._checkIntersectionForAdjacentAxis(this._isMajorAxisVertical, this._intersectionRatio.left);
+    if (event.intersectionRect.x !== event.boundingClientRect.x) {
+      this._intersectionRatio.left = event.intersectionRect.width / event.boundingClientRect.width;
+      checkIntersection(!isHorizontal, this._intersectionRatio.left);
     }
-    if (entry.intersectionRect.right !== entry.boundingClientRect.right) {
-      this._intersectionRatio.right = entry.intersectionRect.width / entry.boundingClientRect.width;
-      this._checkIntersectionForAdjacentAxis(this._isMajorAxisVertical, this._intersectionRatio.right);
+    if (event.intersectionRect.right !== event.boundingClientRect.right) {
+      this._intersectionRatio.right = event.intersectionRect.width / event.boundingClientRect.width;
+      checkIntersection(!isHorizontal, this._intersectionRatio.right);
     }
   }
 
   /** Actions to execute on activator scroll event. */
-  @bind
-  protected onActivatorScroll(e: Event): void {
+  @listen({auto: false, event: 'scroll', target: ($popup: ESLPopup) => $popup.scrollTargets})
+  protected _onActivatorScroll(e: Event): void {
     if (this._updateLoopID) return;
     this._updatePosition();
   }
 
-  /** Creates listeners and observers to observe activator after showing popup */
-  protected _addActivatorObserver(target: HTMLElement): void {
-    const scrollParents = getListScrollParents(target);
-
-    this._activatorObserver = {
-      unsubscribers: scrollParents.map(($root) => {
-        $root.addEventListener('scroll', this.onActivatorScroll, scrollOptions);
-        return (): void => {
-          $root && $root.removeEventListener('scroll', this.onActivatorScroll, scrollOptions);
-        };
-      })
-    };
-
-    if (!this.disableActivatorObservation) {
-      const options = {
-        rootMargin: this._intersectionMargin,
-        threshold: range(9, (x) => x / 8)
-      } as IntersectionObserverInit;
-
-      const observer = new IntersectionObserver(this.onActivatorIntersection, options);
-      observer.observe(target);
-
-      this._activatorObserver.observer = observer;
-    }
-
-    window.addEventListener('resize', this._deferredUpdatePosition);
-    window.addEventListener('scroll', this.onActivatorScroll, scrollOptions);
-    document.body.addEventListener('transitionstart', this._startUpdateLoop);
+  @listen({auto: false, event: 'transitionstart', target: document.body})
+  protected _onTransitionStart(): void {
+    this._startUpdateLoop();
   }
 
-  /** Removes activator listeners and observers after hiding popup */
-  protected _removeActivatorObserver(target: HTMLElement): void {
-    window.removeEventListener('resize', this._deferredUpdatePosition);
-    window.removeEventListener('scroll', this.onActivatorScroll, scrollOptions);
-    document.body.removeEventListener('transitionstart', this._startUpdateLoop);
-
-    if (!this._activatorObserver) return;
-    this._activatorObserver.observer?.disconnect();
-    this._activatorObserver.observer = undefined;
-    this._activatorObserver.unsubscribers?.forEach((cb) => cb());
-    this._activatorObserver.unsubscribers = [];
+  @listen({auto: false, event: 'resize', target: window})
+  @decorate(rafDecorator)
+  protected _onResize(): void {
+    this._updatePosition();
   }
 
   /**
@@ -356,10 +338,7 @@ export class ESLPopup extends ESLToggleable {
     let same = 0;
     let lastRect = new Rect();
     const updateLoop = (): void => {
-      if (!this.activator) {
-        this._stopUpdateLoop();
-        return;
-      }
+      if (!this.activator) return this._stopUpdateLoop();
 
       const newRect = Rect.from(this.activator.getBoundingClientRect());
       if (!Rect.isEqual(lastRect, newRect)) {
@@ -367,10 +346,8 @@ export class ESLPopup extends ESLToggleable {
         lastRect = newRect;
       }
 
-      if (same++ > 2) {
-        this._stopUpdateLoop();
-        return;
-      }
+      if (same++ > 2) return this._stopUpdateLoop();
+
       this._updatePosition();
       this._updateLoopID = requestAnimationFrame(updateLoop);
     };
@@ -423,8 +400,9 @@ export class ESLPopup extends ESLToggleable {
     this.style.top = `${popup.y}px`;
     // set arrow position
     if (this.$arrow) {
-      this.$arrow.style.left = this._isMajorAxisVertical ? `${arrow.x}px` : '';
-      this.$arrow.style.top = this._isMajorAxisHorizontal ? `${arrow.y}px` : '';
+      const isHorizontal = isMajorAxisHorizontal(this.position);
+      this.$arrow.style.left = isHorizontal ? '' : `${arrow.x}px`;
+      this.$arrow.style.top = isHorizontal ? `${arrow.y}px` : '';
     }
   }
 }

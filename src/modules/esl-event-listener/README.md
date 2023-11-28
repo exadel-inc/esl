@@ -125,6 +125,30 @@ Here is the list of supported keys of `ESLEventDesriptor`:
 
   Supports `PropertyProvider` to declare the computed value as well.
 
+- #### `condition` key
+  
+  <u>Type:</u> `bollean | PropertyProvider<boolean>`
+  <u>Default Value:</u> `true`  
+  <u>Description:</u> the function predicate or boolean flag to check if the subscription should be created. Resolves right before the subscription.
+    
+  Useful in combination with `@listen` decorator to declare subscriptions.
+
+  ```typescript
+    class MyEl extends ESLBaseElement {
+        @attr() enabled = true;     
+  
+        @listen({event: 'click', condition: (that) => that.enabled})
+        onClick(e) {}
+  
+        attributeChangedCallback(name, oldValue, newValue) {
+          if (name === 'enabled') {
+              ESLEventUtils.unsubscribe(this, this.onClick);
+              ESLEventUtils.subscribe(this, this.onClick);
+          }
+        }
+    }
+  ```
+
 - #### `capture` key
 
   <u>Type:</u> `boolean`  
@@ -591,9 +615,6 @@ ESLSwipeGestureTarget.for(el: Element, settings?: ESLSwipeGestureSetting): ESLSw
 - `el` - `Element` to listen for swipe events on.
 - `settings` - optional settings (`ESLSwipeGestureSetting`)
 
-**Note**: `ESLSwipeGestureTarget` uses Pointer Events API and requires corresponding `touch-action` CSS 
-property to be specified on the target element.
-
 Usage example:
 
 ```typescript
@@ -602,7 +623,7 @@ ESLEventUtils.subscribe(host, {
   target: ESLSwipeGestureTarget.for(el)
 }, onSwipe);
 // or
-ESLSwipeGestureTarget.subscribe(host, {
+ESLEventUtils.subscribe(host, {
   event: 'swipe',
   target: (host) => ESLSwipeGestureTarget.for(host.el, {
     threshold: '30px',
@@ -610,6 +631,31 @@ ESLSwipeGestureTarget.subscribe(host, {
   })
 }, onSwipe);
 ```
+
+<a name="-esleventutilintersection"></a>
+
+### ⚡ `ESLIntersectionTarget.for` <i class="badge badge-sup badge-success">new</i>
+
+`ESLIntersectionTarget.for` is a way to listen for intersections using Intersection Observer API but in an EventTarget
+way.
+
+`ESLIntersectionTarget.for` creates a synthetic target that produces `intersection` events. It detects intersections by
+creating `IntersectionObserver` instance, created using passed `settings: IntersectionObserverInit`.
+
+Note: `ESLIntersectionTarget` does not share `IntersectionObserver` instances unlike caching capabilities of adapters 
+mentioned above. 
+
+```typescript
+ESLIntersectionTarget.for(el: Element | Element[], settings?: IntersectionObserverInit): ESLIntersectionTarget;
+```
+
+**Parameters**:
+- `el` - `Element` or `Element[]` to listen for intersection events on;
+- `settings` - optional settings (`ESLIntersectionSetting`)
+
+Event API:
+Throws `ESLIntersectionEvent` that implements `IntersectionObserverEntry` original interface.
+
 
 ---
 

@@ -167,13 +167,17 @@ export class ESLScrollbar extends ESLBaseElement {
   /** Relative position value (between 0.0 and 1.0) */
   public get position(): number {
     if (!this.$target) return 0;
-    const scrollOffset = this.horizontal ? normalizeScrollLeft(this.$target) : this.$target.scrollTop;
-    return this.scrollableSize ? (scrollOffset / this.scrollableSize) : 0;
+    const size = this.scrollableSize;
+    if (size <= 0) return 0;
+    const offset = this.horizontal ? normalizeScrollLeft(this.$target) : this.$target.scrollTop;
+    if (offset < 1) return 0;
+    if (offset >= size - 1) return 1;
+    return offset / size;
   }
 
   public set position(position: number) {
     this.scrollTargetTo(this.scrollableSize * this.normalizePosition(position));
-    this.update();
+    this.refresh();
   }
 
   /** Normalizes position value (between 0.0 and 1.0) */
@@ -194,7 +198,6 @@ export class ESLScrollbar extends ESLBaseElement {
 
   /** Updates thumb size and position */
   public update(): void {
-    this.$$fire('esl:change:scroll', {bubbles: false});
     if (!this.$scrollbarThumb || !this.$scrollbarTrack) return;
     const thumbSize = this.trackOffset * this.thumbSize;
     const thumbPosition = (this.trackOffset - thumbSize) * this.position;
@@ -217,6 +220,7 @@ export class ESLScrollbar extends ESLBaseElement {
   public refresh(): void {
     this.update();
     this.updateMarkers();
+    this.$$fire('esl:change:scroll', {bubbles: false});
   }
 
   /** Returns position from MouseEvent coordinates (not normalized) */
@@ -285,8 +289,6 @@ export class ESLScrollbar extends ESLBaseElement {
     const scrollableAreaHeight = this.trackOffset - this.thumbOffset;
     const absChange = scrollableAreaHeight ? (positionChange / scrollableAreaHeight) : 0;
     this.position = this._initialPosition + absChange;
-
-    this.updateMarkers();
   }
 
   /** `mousemove` document handler for thumb drag event. Active only if drag action is active */
