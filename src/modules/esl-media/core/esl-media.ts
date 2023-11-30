@@ -358,7 +358,7 @@ export class ESLMedia extends ESLBaseElement {
     target: () => ESLMediaProviderRegistry.instance
   })
   protected _onRegistryStateChange(e: ESLMediaRegistryEvent): void {
-    if (e.is(this.mediaType || 'auto')) this.reinitInstance();
+    if (e.isRelates(this.mediaType)) this.reinitInstance();
   }
 
   @listen({

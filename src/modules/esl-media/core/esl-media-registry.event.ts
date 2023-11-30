@@ -3,8 +3,13 @@ import {overrideEvent} from '../../esl-utils/dom/events/misc';
 import type {ESLMediaProviderRegistry} from './esl-media-registry';
 import type {ProviderType} from './esl-media-provider';
 
+/**
+ * An event dispatched by {@link ESLMediaProviderRegistry} on new provider registration
+ */
 export class ESLMediaRegistryEvent extends Event {
   public override readonly target: ESLMediaProviderRegistry;
+
+  /** Registered provider instance */
   public readonly provider: ProviderType;
 
   constructor(target: ESLMediaProviderRegistry, provider: ProviderType) {
@@ -13,8 +18,9 @@ export class ESLMediaRegistryEvent extends Event {
     overrideEvent(this, 'target', target);
   }
 
-  public is(name: string): boolean {
-    name = name.toLowerCase();
+  /** Check if the event relates to passed provider name */
+  public isRelates(name: string): boolean {
+    name = name.toLowerCase() || 'auto';
     return name === 'auto' || this.provider?.providerName === name;
   }
 }
