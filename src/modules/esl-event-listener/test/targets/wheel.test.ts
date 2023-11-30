@@ -9,26 +9,26 @@ describe('ESLWheelTarget', () => {
 
     test('ESLWheelTarget.for(undefined) returns null without error', () => {
       expect(ESLWheelTarget.for(undefined as any)).toBeNull();
-      expect(consoleSpy).toBeCalled();
+      expect(consoleSpy).toHaveBeenCalled();
     });
 
     test('ESLWheelTarget.for(null) returns null without error', () => {
       expect(ESLWheelTarget.for(null as any)).toBeNull();
-      expect(consoleSpy).toBeCalled();
+      expect(consoleSpy).toHaveBeenCalled();
     });
 
     test('ESLWheelTarget.for(123) returns null without error', () => {
       expect(ESLWheelTarget.for(123 as any)).toBeNull();
-      expect(consoleSpy).toBeCalled();
+      expect(consoleSpy).toHaveBeenCalled();
     });
 
     test('ESLWheelTarget.for({}) returns null without error', () => {
       expect(ESLWheelTarget.for({} as any)).toBeNull();
-      expect(consoleSpy).toBeCalled();
+      expect(consoleSpy).toHaveBeenCalled();
     });
   });
 
-  describe('ESLWheelTarget instance without subscription', () => {
+  describe('ESLWheelTarget instance subscription', () => {
     const $el = document.createElement('div');
     const addEventListenerSpy = jest.spyOn($el, 'addEventListener');
     const removeEventListenerSpy = jest.spyOn($el, 'removeEventListener');
@@ -37,28 +37,28 @@ describe('ESLWheelTarget', () => {
     const listener2 = jest.fn();
 
     test('ESLWheelTarget does not produce subscription on creation', () => {
-      expect(addEventListenerSpy).not.toBeCalled();
-      expect(removeEventListenerSpy).not.toBeCalled();
+      expect(addEventListenerSpy).not.toHaveBeenCalled();
+      expect(removeEventListenerSpy).not.toHaveBeenCalled();
     });
 
-    test('ESLWheelTarget doesn`t unsubscribe listeners automatically', () => {
+    test('ESLWheelTarget subscribes once on first subscription', () => {
       target.addEventListener('longwheel', listener1);
-      expect(addEventListenerSpy).toBeCalled();
-      expect(removeEventListenerSpy).not.toBeCalled();
+      expect(addEventListenerSpy).toHaveBeenCalledTimes(1);
+      expect(removeEventListenerSpy).not.toHaveBeenCalled();
       target.addEventListener('longwheel', listener2);
-      expect(addEventListenerSpy).toBeCalled();
-      expect(removeEventListenerSpy).not.toBeCalled();
+      expect(addEventListenerSpy).toHaveBeenCalledTimes(1);
+      expect(removeEventListenerSpy).not.toHaveBeenCalled();
     });
 
     test('ESLWheelTarget doesn`t unsubscrie until last subscription is removed from target', () => {
       target.removeEventListener('longwheel', listener1);
-      expect(removeEventListenerSpy).not.toBeCalled();
+      expect(removeEventListenerSpy).not.toHaveBeenCalled();
       target.removeEventListener('longwheel', listener2);
-      expect(removeEventListenerSpy).toBeCalled();
+      expect(removeEventListenerSpy).toHaveBeenCalled();
     });
   });
 
-  describe('ESLWheelTarget doesn`t detect long scroll events', () => {
+  describe('ESLWheelTarget ignores "short" scroll events', () => {
     const $el = document.createElement('div');
     const target = ESLWheelTarget.for($el, {timeout: 50, distance: 101});
     const listener = jest.fn();
@@ -67,39 +67,39 @@ describe('ESLWheelTarget', () => {
     afterAll(() => target.removeEventListener('longwheel', listener));
     beforeEach(() => listener.mockReset());
 
-    test('ESLWheelTarget doesn`t detect horizontal short swipe', async () => {
+    test('ESLWheelTarget ignores horizontal short swipe', async () => {
       $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 100}));
       await promisifyTimeout(50);
-      expect(listener).not.toBeCalled();
+      expect(listener).not.toHaveBeenCalled();
     });
 
-    test('ESLWheelTarget doesn`t detect vertical short swipe', async () => {
+    test('ESLWheelTarget ignores vertical short swipe', async () => {
       $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaY: 100}));
       await promisifyTimeout(50);
-      expect(listener).not.toBeCalled();
+      expect(listener).not.toHaveBeenCalled();
     });
 
-    test('ESLWheelTarget doesn`t detect horizontal and vertical short swipe', async () => {
+    test('ESLWheelTarget ignores diagonal short swipe', async () => {
       $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 100, deltaY: 100}));
       await promisifyTimeout(50);
-      expect(listener).not.toBeCalled();
+      expect(listener).not.toHaveBeenCalled();
     });
 
-    test('ESLWheelTarge should handle rapid alternation in scroll direction without false positives', async () => {
+    test('ESLWheelTarget should handle rapid alternation in scroll direction without false positives', async () => {
       $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 50}));
       $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: -50}));
       $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 50}));
       $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: -50}));
       await promisifyTimeout(50);
-      expect(listener).not.toBeCalled();
+      expect(listener).not.toHaveBeenCalled();
     });
 
-    test('ESLWheelTarge shouldn`t detect long scroll when scrolls are beyond timeout', async () => {
+    test('ESLWheelTarget should ignore long scroll when scrolls are beyond timeout', async () => {
       $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 100}));
       await promisifyTimeout(50);
       $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 100}));
       await promisifyTimeout(50);
-      expect(listener).not.toBeCalled();
+      expect(listener).not.toHaveBeenCalled();
     });
   });
 
@@ -112,38 +112,38 @@ describe('ESLWheelTarget', () => {
     afterAll(() => target.removeEventListener('longwheel', listener));
     beforeEach(() => listener.mockReset());
 
-    test('ESLWheelTarget detects horizontal long swipe', async () => {
+    test('ESLWheelTarget detects horizontal long scroll', async () => {
       $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 100}));
       await promisifyTimeout(50);
-      expect(listener).lastCalledWith(expect.any(ESLWheelEvent));
-      expect(listener).lastCalledWith(expect.objectContaining({deltaX: 100, axis: 'x'}));
+      expect(listener).toHaveBeenLastCalledWith(expect.any(ESLWheelEvent));
+      expect(listener).toHaveBeenLastCalledWith(expect.objectContaining({deltaX: 100, axis: 'x'}));
     });
 
-    test('ESLWheelTarget detects horizontal long swipe (using shift key)', async () => {
+    test('ESLWheelTarget detects horizontal long scroll with a shift key pressed', async () => {
       $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaY: 100, shiftKey: true}));
       await promisifyTimeout(50);
-      expect(listener).lastCalledWith(expect.any(ESLWheelEvent));
-      expect(listener).lastCalledWith(expect.objectContaining({deltaX: 100, axis: 'x'}));
+      expect(listener).toHaveBeenLastCalledWith(expect.any(ESLWheelEvent));
+      expect(listener).toHaveBeenLastCalledWith(expect.objectContaining({deltaX: 100, axis: 'x'}));
     });
 
-    test('ESLWheelTarget detects vertical long swipe', async () => {
+    test('ESLWheelTarget detects vertical long scroll', async () => {
       $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaY: 100}));
       await promisifyTimeout(50);
-      expect(listener).lastCalledWith(expect.any(ESLWheelEvent));
-      expect(listener).lastCalledWith(expect.objectContaining({deltaY: 100, axis: 'y'}));
+      expect(listener).toHaveBeenLastCalledWith(expect.any(ESLWheelEvent));
+      expect(listener).toHaveBeenLastCalledWith(expect.objectContaining({deltaY: 100, axis: 'y'}));
     });
 
-    test('ESLWheelTarget detects negative vertical long swipe', async () => {
+    test('ESLWheelTarget detects negative vertical long scroll', async () => {
       $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaY: -100}));
       await promisifyTimeout(50);
-      expect(listener).lastCalledWith(expect.any(ESLWheelEvent));
-      expect(listener).lastCalledWith(expect.objectContaining({deltaY: -100, axis: 'y'}));
+      expect(listener).toHaveBeenLastCalledWith(expect.any(ESLWheelEvent));
+      expect(listener).toHaveBeenLastCalledWith(expect.objectContaining({deltaY: -100, axis: 'y'}));
     });
 
-    test('ESLWheelTarget detects both horizontal and vertical long swipes withing time limit', async () => {
+    test('ESLWheelTarget detects both horizontal and vertical long scrolls withing time limit', async () => {
       $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 100, deltaY: 200}));
       await promisifyTimeout(50);
-      expect(listener).toBeCalledTimes(2);
+      expect(listener).toHaveBeenCalledTimes(2);
       expect(listener.mock.calls.slice(-1)[0][0]).toEqual(expect.objectContaining({deltaY: 200, axis: 'y'}));
       expect(listener.mock.calls.slice(0)[0][0]).toEqual(expect.objectContaining({deltaX: 100, axis: 'x'}));
     });
@@ -154,8 +154,8 @@ describe('ESLWheelTarget', () => {
       $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 50}));
       $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 50}));
       await promisifyTimeout(50);
-      expect(listener).toBeCalled();
-      expect(listener).lastCalledWith(expect.objectContaining({deltaX: 200, axis: 'x'}));
+      expect(listener).toHaveBeenCalled();
+      expect(listener).toHaveBeenLastCalledWith(expect.objectContaining({deltaX: 200, axis: 'x'}));
     });
   });
 });
