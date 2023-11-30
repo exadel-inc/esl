@@ -1,3 +1,46 @@
+## [4.14.1](https://github.com/exadel-inc/esl/compare/v4.14.0...v4.14.1) (2023-11-27)
+
+
+### Bug Fixes
+
+* **esl-media:** fix loading class condition should ignore lazy state ([c532ec0](https://github.com/exadel-inc/esl/commit/c532ec0ae01be87f6f15f466eb62560c7dd30995))
+* **esl-related-target:** fixed handling of bubbling events `esl:show` and `esl:hide` ([6964148](https://github.com/exadel-inc/esl/commit/6964148eef49760a83a4b4cb589d02acb7a8f998))
+
+# [4.14.0](https://github.com/exadel-inc/esl/compare/v4.13.1...v4.14.0) (2023-11-24)
+
+
+### Bug Fixes
+
+* **esl-scrollbar:** fix esl:change:scroll event handler invoked before scrollbar updates ([0c9c952](https://github.com/exadel-inc/esl/commit/0c9c95258d92e9557d047c739a4b5891e786ffcb))
+* **esl-share:** add support types for correct using in Typesript ([143d3b6](https://github.com/exadel-inc/esl/commit/143d3b6ec81f78ab34b5f76702122c23019695a6))
+* **esl-share:** fix a visual issue of displaying a huge list of buttons in a popup ([a2ce0a9](https://github.com/exadel-inc/esl/commit/a2ce0a92958ecd6da4b0a9717cf2af2969b89030))
+* **esl-share:** fix button initialization on create ([72775f6](https://github.com/exadel-inc/esl/commit/72775f6553dfc82565dc40ac2b63201b9bc8067c))
+* **esl-share:** fix ESLShareConfig deduplication behavior on selecting buttons for the list ([fe0d53a](https://github.com/exadel-inc/esl/commit/fe0d53a9b27cc90a029f412409907b59fd9cce97))
+* **esl-share:** fix ready state attribute and ready state event ([3c3dade](https://github.com/exadel-inc/esl/commit/3c3dadefdba1a9837092bd2ff3f3e408b6a48d96))
+* **esl-share:** make list an observable attribute ([f418820](https://github.com/exadel-inc/esl/commit/f4188203bd2f204e5e48258ef27ee714132378d4))
+* **esl-tabs:** fix iOS auto-scroll / arrow controls boundaries on iOS devices when touch-scroll is enabled ([5845c3a](https://github.com/exadel-inc/esl/commit/5845c3a3c202b40781d79283b5304454e72ee9ab)), closes [#2030](https://github.com/exadel-inc/esl/issues/2030)
+
+
+### Features
+
+* **esl-panel-group:** add ability to enable match-height behavior for tabs height using `esl-tabs-equal-height` class ([6e0ea33](https://github.com/exadel-inc/esl/commit/6e0ea334eb3b1e52726be3788fe32e3c9b00faeb)), closes [#1949](https://github.com/exadel-inc/esl/issues/1949)
+* **esl-popup:** internal ESLPopup implementation updated to use ESLEventListeners; usage of cached properties reduced ([9c78249](https://github.com/exadel-inc/esl/commit/9c78249385fe6c9a5c620cbe5031d3419384f64e))
+* **esl-random-text:** create auxiliary `esl-random-text` component to generate dummy text ([0af54a1](https://github.com/exadel-inc/esl/commit/0af54a13926286ea47d3d7d50a010236f43958f8))
+* **esl-share:** rename attribute into popup-params ([f07b471](https://github.com/exadel-inc/esl/commit/f07b471188b652ca94be9eb9d7d450952a523054))
+* **esl-share:** retire esl-share and rename esl-share-popup-trigger into esl-share ([04baf4b](https://github.com/exadel-inc/esl/commit/04baf4bb36a999dde3afdc3985bb2c3f991d34de))
+* **esl-toggleable:** introduce static option `DEFAULT_PARAMS` to define toggleable instance default show/hide params ([14c9e78](https://github.com/exadel-inc/esl/commit/14c9e787cc108e5ef7367dd12b7d7fcfe3b6a59d))
+* **esl-tooltip:** add inlineStyles param to pass styles into shared instance of tooltip ([7b28cf8](https://github.com/exadel-inc/esl/commit/7b28cf88b50eca9c6a50be350943a04c1994ae49))
+* **esl-utils:** introducing `parseCSSTime` format utility to extract time values from CSS ([#821](https://github.com/exadel-inc/esl/issues/821)) ([d26c96e](https://github.com/exadel-inc/esl/commit/d26c96ed28255a384b801b05ae61f04d34abcd70))
+* **eslint:** eslint plugin to find and replace deprecated ESL alias on the customer's projects ([#1374](https://github.com/exadel-inc/esl/issues/1374)) ([3d43f92](https://github.com/exadel-inc/esl/commit/3d43f9250bacbb21087c808baf5ef007343faffe))
+
+## [4.13.1](https://github.com/exadel-inc/esl/compare/v4.13.0...v4.13.1) (2023-11-03)
+
+
+### Bug Fixes
+
+* **esl-event-listener:** fix subscription to intersects event in `IntersectionObserver` ([0d9ccca](https://github.com/exadel-inc/esl/commit/0d9ccca1e3d9b392ff6b88238f4f745c7e47ce14))
+* **esl-event-utils:** `ESLSwipeGestureTarget` target prevents inside element actions ([8fed4bc](https://github.com/exadel-inc/esl/commit/8fed4bc7784ced724c1d0e9410d6e388a1235a10)), closes [#2024](https://github.com/exadel-inc/esl/issues/2024)
+
 # [4.13.0](https://github.com/exadel-inc/esl/compare/v4.12.0...v4.13.0) (2023-10-25)
 
 

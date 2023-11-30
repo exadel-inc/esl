@@ -143,8 +143,9 @@ export class ESLPanel extends ESLToggleable {
 
   /** Merge params that are used by panel group for actions */
   protected override mergeDefaultParams(params?: ESLToggleableActionParams): ESLToggleableActionParams {
+    const type = this.constructor as typeof ESLToggleable;
     const stackConfig = this.$group?.panelConfig || {};
-    return Object.assign({}, stackConfig, this.defaultParams, params || {});
+    return Object.assign({}, stackConfig, type.DEFAULT_PARAMS, this.defaultParams, params || {});
   }
 }
 

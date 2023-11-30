@@ -74,7 +74,7 @@ export class ESLTrigger extends ESLBaseElement {
 
   protected _$target: ESLToggleable | null;
 
-  protected override attributeChangedCallback(attrName: string): void {
+  protected override attributeChangedCallback(attrName: string, oldValue: string | null, newValue: string | null): void {
     if (!this.connected) return;
     if (attrName === 'target') return this.updateTargetFromSelector();
   }
