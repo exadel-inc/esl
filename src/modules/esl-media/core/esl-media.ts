@@ -3,7 +3,7 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {isElement} from '../../esl-utils/dom/api';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {SPACE, PAUSE} from '../../esl-utils/dom/keys';
-import {bind, prop, attr, boolAttr, listen} from '../../esl-utils/decorators';
+import {prop, attr, boolAttr, listen} from '../../esl-utils/decorators';
 import {debounce, rafDecorator} from '../../esl-utils/async';
 import {parseAspectRatio} from '../../esl-utils/misc/format';
 
@@ -16,6 +16,7 @@ import {ESLMediaProviderRegistry} from './esl-media-registry';
 import {MediaGroupRestrictionManager} from './esl-media-manager';
 
 import type {BaseProvider} from './esl-media-provider';
+import type {ESLMediaRegistryEvent} from './esl-media-registry.event';
 
 export type ESLMediaFillMode = 'cover' | 'inscribe' | '';
 
@@ -198,21 +199,19 @@ export class ESLMedia extends ESLBaseElement {
         this.reattachViewportConstraint();
         break;
       case 'load-condition':
-        ESLMediaQuery.for(oldVal).removeEventListener(this.deferredReinitialize);
-        ESLMediaQuery.for(newVal).addEventListener(this.deferredReinitialize);
+        this.$$off(this._onConditionChange);
+        this.$$on(this._onConditionChange);
         this.deferredReinitialize();
         break;
     }
   }
 
   protected bindEvents(): void {
-    ESLMediaProviderRegistry.instance.addListener(this._onRegistryStateChange);
     if (this.fillModeEnabled) {
       window.addEventListener('resize', this.deferredResize);
     }
   }
   protected unbindEvents(): void {
-    ESLMediaProviderRegistry.instance.removeListener(this._onRegistryStateChange);
     if (this.fillModeEnabled) {
       window.removeEventListener('resize', this.deferredResize);
     }
@@ -360,12 +359,12 @@ export class ESLMedia extends ESLBaseElement {
     if (isElement(target) && target.contains(this)) this._onResize();
   }
 
-  @bind
-  protected _onRegistryStateChange(name: string): void {
-    const type = this.mediaType.toLowerCase() || 'auto';
-    if (name === type || (!this.providerType && type === 'auto')) {
-      this.reinitInstance();
-    }
+  @listen({
+    event: 'change',
+    target: () => ESLMediaProviderRegistry.instance
+  })
+  protected _onRegistryStateChange(e: ESLMediaRegistryEvent): void {
+    if (e.is(this.mediaType || 'auto')) this.reinitInstance();
   }
 
   @listen({
