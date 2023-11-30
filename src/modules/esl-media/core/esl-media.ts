@@ -3,7 +3,7 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {isElement} from '../../esl-utils/dom/api';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {SPACE, PAUSE} from '../../esl-utils/dom/keys';
-import {prop, attr, boolAttr, listen} from '../../esl-utils/decorators';
+import {prop, attr, boolAttr, listen, decorate} from '../../esl-utils/decorators';
 import {debounce, rafDecorator} from '../../esl-utils/async';
 import {parseAspectRatio} from '../../esl-utils/misc/format';
 
@@ -140,7 +140,6 @@ export class ESLMedia extends ESLBaseElement {
 
   private _provider: BaseProvider | null;
 
-  private deferredResize = rafDecorator(() => this._onResize());
   private deferredReinitialize = debounce(() => this.reinitInstance());
 
   /**
@@ -161,14 +160,12 @@ export class ESLMedia extends ESLBaseElement {
       this.setAttribute('role', 'application');
     }
     this.innerHTML += '<!-- Inner Content, do not modify it manually -->';
-    this.bindEvents();
     this.deferredReinitialize();
     this.reattachViewportConstraint();
   }
 
   protected override disconnectedCallback(): void {
     super.disconnectedCallback();
-    this.unbindEvents();
     this.detachViewportConstraint();
     this._provider && this._provider.unbind();
   }
@@ -193,7 +190,9 @@ export class ESLMedia extends ESLBaseElement {
         break;
       case 'fill-mode':
       case 'aspect-ratio':
-        this.deferredResize();
+        this.$$off(this._onResize);
+        this.$$on(this._onResize);
+        this._onResize();
         break;
       case 'play-in-viewport':
         this.reattachViewportConstraint();
@@ -203,17 +202,6 @@ export class ESLMedia extends ESLBaseElement {
         this.$$on(this._onConditionChange);
         this.deferredReinitialize();
         break;
-    }
-  }
-
-  protected bindEvents(): void {
-    if (this.fillModeEnabled) {
-      window.addEventListener('resize', this.deferredResize);
-    }
-  }
-  protected unbindEvents(): void {
-    if (this.fillModeEnabled) {
-      window.removeEventListener('resize', this.deferredResize);
     }
   }
 
@@ -297,8 +285,8 @@ export class ESLMedia extends ESLBaseElement {
     this.toggleAttribute('ready', true);
     this.toggleAttribute('error', false);
     this.updateReadyClass();
-    this.deferredResize();
     this.$$fire(this.READY_EVENT);
+    this._onResize();
   }
 
   public _onError(detail?: any, setReadyState = true): void {
@@ -318,11 +306,11 @@ export class ESLMedia extends ESLBaseElement {
 
   public _onPlay(): void {
     if (this.autofocus) this.focus();
-    this.deferredResize();
-    this.setAttribute('active', '');
-    this.setAttribute('played', '');
+    this.toggleAttribute('active', true);
+    this.toggleAttribute('played', true);
     this.$$fire(this.PLAY_EVENT);
     MediaGroupRestrictionManager.registerPlay(this);
+    this._onResize();
   }
 
   public _onPaused(): void {
@@ -337,7 +325,13 @@ export class ESLMedia extends ESLBaseElement {
     MediaGroupRestrictionManager.unregister(this);
   }
 
-  public _onResize(): void {
+  @listen({
+    event: 'resize',
+    target: window,
+    condition: ($this: ESLMedia) => $this.fillModeEnabled
+  })
+  @decorate(rafDecorator)
+  protected _onResize(): void {
     if (!this._provider) return;
     if (this.fillModeEnabled && this.actualAspectRatio > 0) {
       let stretchVertically = this.offsetWidth / this.offsetHeight < this.actualAspectRatio;
