@@ -3,7 +3,7 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {isElement} from '../../esl-utils/dom/api';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {SPACE, PAUSE} from '../../esl-utils/dom/keys';
-import {bind, prop, attr, boolAttr} from '../../esl-utils/decorators';
+import {bind, prop, attr, boolAttr, listen} from '../../esl-utils/decorators';
 import {debounce, rafDecorator} from '../../esl-utils/async';
 import {parseAspectRatio} from '../../esl-utils/misc/format';
 
@@ -207,21 +207,15 @@ export class ESLMedia extends ESLBaseElement {
 
   protected bindEvents(): void {
     ESLMediaProviderRegistry.instance.addListener(this._onRegistryStateChange);
-    this.conditionQuery.addEventListener(this.deferredReinitialize);
     if (this.fillModeEnabled) {
       window.addEventListener('resize', this.deferredResize);
     }
-    window.addEventListener(this.REFRESH_EVENT, this._onRefresh);
-    this.addEventListener('keydown', this._onKeydown);
   }
   protected unbindEvents(): void {
     ESLMediaProviderRegistry.instance.removeListener(this._onRegistryStateChange);
-    this.conditionQuery.removeEventListener(this.deferredReinitialize);
     if (this.fillModeEnabled) {
       window.removeEventListener('resize', this.deferredResize);
     }
-    window.removeEventListener(this.REFRESH_EVENT, this._onRefresh);
-    this.removeEventListener('keydown', this._onKeydown);
   }
 
   public canActivate(): boolean {
@@ -357,7 +351,10 @@ export class ESLMedia extends ESLBaseElement {
     }
   }
 
-  @bind
+  @listen({
+    event: ($this: ESLMedia) => $this.REFRESH_EVENT,
+    target: window
+  })
   protected _onRefresh(e: Event): void {
     const {target} = e;
     if (isElement(target) && target.contains(this)) this._onResize();
@@ -371,7 +368,15 @@ export class ESLMedia extends ESLBaseElement {
     }
   }
 
-  @bind
+  @listen({
+    event: 'change',
+    target: ($this: ESLMedia) => $this.conditionQuery
+  })
+  protected _onConditionChange(): void {
+    this.deferredReinitialize();
+  }
+
+  @listen('keydown')
   protected _onKeydown(e: KeyboardEvent): void {
     if (e.target !== this) return;
     if ([SPACE, PAUSE].includes(e.key)) {
