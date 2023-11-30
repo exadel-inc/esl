@@ -1,7 +1,8 @@
-import {promisifyTimeout} from '../../../esl-utils/async/promise/timeout';
 import {ESLWheelEvent, ESLWheelTarget} from '../../core/targets/wheel.target';
 
 describe('ESLWheelTarget', () => {
+  jest.useFakeTimers();
+
   describe('ESLWheelTarget do not throws error on incorrect input (silent processing)', () => {
     const consoleSpy = jest.spyOn(console, 'warn');
     beforeEach(() => consoleSpy.mockReset().mockImplementation(() => void 0));
@@ -67,38 +68,38 @@ describe('ESLWheelTarget', () => {
     afterAll(() => target.removeEventListener('longwheel', listener));
     beforeEach(() => listener.mockReset());
 
-    test('ESLWheelTarget ignores horizontal short swipe', async () => {
+    test('ESLWheelTarget ignores horizontal short swipe', () => {
       $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 100}));
-      await promisifyTimeout(50);
+      jest.advanceTimersByTime(50);
       expect(listener).not.toHaveBeenCalled();
     });
 
-    test('ESLWheelTarget ignores vertical short swipe', async () => {
+    test('ESLWheelTarget ignores vertical short swipe',  () => {
       $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaY: 100}));
-      await promisifyTimeout(50);
+      jest.advanceTimersByTime(50);
       expect(listener).not.toHaveBeenCalled();
     });
 
-    test('ESLWheelTarget ignores diagonal short swipe', async () => {
+    test('ESLWheelTarget ignores diagonal short swipe', () => {
       $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 100, deltaY: 100}));
-      await promisifyTimeout(50);
+      jest.advanceTimersByTime(50);
       expect(listener).not.toHaveBeenCalled();
     });
 
-    test('ESLWheelTarget should handle rapid alternation in scroll direction without false positives', async () => {
+    test('ESLWheelTarget should handle rapid alternation in scroll direction without false positives', () => {
       $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 50}));
       $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: -50}));
       $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 50}));
       $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: -50}));
-      await promisifyTimeout(50);
+      jest.advanceTimersByTime(50);
       expect(listener).not.toHaveBeenCalled();
     });
 
-    test('ESLWheelTarget should ignore long scroll when scrolls are beyond timeout', async () => {
+    test('ESLWheelTarget should ignore long scroll when scrolls are beyond timeout', () => {
       $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 100}));
-      await promisifyTimeout(50);
+      jest.advanceTimersByTime(50);
       $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 100}));
-      await promisifyTimeout(50);
+      jest.advanceTimersByTime(50);
       expect(listener).not.toHaveBeenCalled();
     });
   });
@@ -112,37 +113,37 @@ describe('ESLWheelTarget', () => {
     afterAll(() => target.removeEventListener('longwheel', listener));
     beforeEach(() => listener.mockReset());
 
-    test('ESLWheelTarget detects horizontal long scroll', async () => {
+    test('ESLWheelTarget detects horizontal long scroll', () => {
       $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 100}));
-      await promisifyTimeout(50);
+      jest.advanceTimersByTime(50);
       expect(listener).toHaveBeenLastCalledWith(expect.any(ESLWheelEvent));
       expect(listener).toHaveBeenLastCalledWith(expect.objectContaining({deltaX: 100, axis: 'x'}));
     });
 
-    test('ESLWheelTarget detects horizontal long scroll with a shift key pressed', async () => {
+    test('ESLWheelTarget detects horizontal long scroll with a shift key pressed', () => {
       $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaY: 100, shiftKey: true}));
-      await promisifyTimeout(50);
+      jest.advanceTimersByTime(50);
       expect(listener).toHaveBeenLastCalledWith(expect.any(ESLWheelEvent));
       expect(listener).toHaveBeenLastCalledWith(expect.objectContaining({deltaX: 100, axis: 'x'}));
     });
 
-    test('ESLWheelTarget detects vertical long scroll', async () => {
+    test('ESLWheelTarget detects vertical long scroll', () => {
       $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaY: 100}));
-      await promisifyTimeout(50);
+      jest.advanceTimersByTime(50);
       expect(listener).toHaveBeenLastCalledWith(expect.any(ESLWheelEvent));
       expect(listener).toHaveBeenLastCalledWith(expect.objectContaining({deltaY: 100, axis: 'y'}));
     });
 
-    test('ESLWheelTarget detects negative vertical long scroll', async () => {
+    test('ESLWheelTarget detects negative vertical long scroll', () => {
       $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaY: -100}));
-      await promisifyTimeout(50);
+      jest.advanceTimersByTime(50);
       expect(listener).toHaveBeenLastCalledWith(expect.any(ESLWheelEvent));
       expect(listener).toHaveBeenLastCalledWith(expect.objectContaining({deltaY: -100, axis: 'y'}));
     });
 
-    test('ESLWheelTarget detects both horizontal and vertical long scrolls withing time limit', async () => {
+    test('ESLWheelTarget detects both horizontal and vertical long scrolls withing time limit', () => {
       $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 100, deltaY: 200}));
-      await promisifyTimeout(50);
+      jest.advanceTimersByTime(50);
       expect(listener).toHaveBeenCalledTimes(2);
       expect(listener.mock.calls.slice(-1)[0][0]).toEqual(expect.objectContaining({deltaY: 200, axis: 'y'}));
       expect(listener.mock.calls.slice(0)[0][0]).toEqual(expect.objectContaining({deltaX: 100, axis: 'x'}));
@@ -153,7 +154,7 @@ describe('ESLWheelTarget', () => {
       $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 50}));
       $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 50}));
       $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 50}));
-      await promisifyTimeout(50);
+      jest.advanceTimersByTime(50);
       expect(listener).toHaveBeenCalled();
       expect(listener).toHaveBeenLastCalledWith(expect.objectContaining({deltaX: 200, axis: 'x'}));
     });
