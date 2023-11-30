@@ -45,7 +45,7 @@ export class ESLRelatedTarget extends ESLMixinElement {
   /** Processes {@link ESLToggleable} show event */
   @listen('esl:show')
   protected onShow(e: CustomEvent): void {
-    if (this.action === 'hide') return;
+    if (this.action === 'hide' || e.target !== this.$host) return;
     const {params} = e.detail;
     this.$targets.forEach((target) => target.show({params: this.mergeParams(params)}));
   }
@@ -53,7 +53,7 @@ export class ESLRelatedTarget extends ESLMixinElement {
   /** Processes {@link ESLToggleable} hide event */
   @listen('esl:hide')
   protected onHide(e: CustomEvent): void {
-    if (this.action === 'show') return;
+    if (this.action === 'show' || e.target !== this.$host) return;
     const {params} = e.detail;
     this.$targets.forEach((target) => target.hide({params: this.mergeParams(params)}));
   }

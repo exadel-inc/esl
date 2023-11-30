@@ -119,8 +119,10 @@ export class ESLShareConfig extends SyntheticEventTarget {
    */
   public get(query: string): ESLShareButtonConfig[] {
     const terms = this.resolve(query);
-    if (terms.includes('all')) return this.buttons;
-    const list = terms.map((name) => this.getButton(name));
+    const list: (ESLShareButtonConfig | undefined)[] = [];
+    terms.forEach((name) => {
+      name === 'all' ? list.push(...this.buttons) : list.push(this.getButton(name));
+    });
     return uniq(list.filter(Boolean) as ESLShareButtonConfig[]);
   }
 

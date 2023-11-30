@@ -1,6 +1,6 @@
 {
   "name": "@exadel/esl-website",
-  "version": "4.13.0",
+  "version": "4.14.1",
   "private": true,
   "description": "ESL Website source",
   "homepage": "https://esl-ui.com/",
@@ -10,6 +10,7 @@
   ],
   "scripts": {
     "start": "npm run clean && concurrently --kill-others \"npm run watch:lib\" \"npm run watch:ts\" \"npm run watch:less\" \"npm run watch:eleventy\"",
+    "test": "",
     "clean": "rimraf \"dist\"",
     "watch:lib": "cd .. && npm run watch",
     "watch:ts": "webpack --watch",
@@ -27,8 +28,8 @@
     "@11ty/eleventy-dev-server": "^1.0.4",
     "@exadel/esl": "../",
     "@juggle/resize-observer": "^3.4.0",
-    "@types/prismjs": "^1.26.2",
-    "@types/smoothscroll-polyfill": "^0.3.2",
+    "@types/prismjs": "^1.26.3",
+    "@types/smoothscroll-polyfill": "^0.3.3",
     "@webcomponents/custom-elements": "1.6.0",
     "clean-css-cli": "^5.6.2",
     "html-minifier-terser": "^7.2.0",
@@ -39,9 +40,9 @@
     "prismjs": "^1.29.0",
     "promise-polyfill": "^8.3.0",
     "smoothscroll-polyfill": "^0.4.4",
-    "ts-loader": "^9.5.0",
+    "ts-loader": "^9.5.1",
     "webpack": "^5.89.0",
-    "webpack-bundle-analyzer": "^4.9.1",
+    "webpack-bundle-analyzer": "^4.10.1",
     "webpack-cli": "^5.1.4"
   },
   "browserslist": [

@@ -26,6 +26,15 @@ esl-panel-group {
       }
     }
   }
+
+  &[current-mode='tabs'].esl-tabs-equal-height {
+    display: grid;
+    grid-template-areas: 'stack';
+    > esl-panel {
+      grid-area: stack;
+      max-height: none;
+    }
+  }
 }
 
 // fix a11y

@@ -58,6 +58,9 @@ export class ESLToggleable extends ESLBaseElement {
   public static override is = 'esl-toggleable';
   public static observedAttributes = ['open', 'group'];
 
+  /** Default show/hide params for all ESLToggleable instances */
+  public static DEFAULT_PARAMS: ESLToggleableActionParams = {};
+
   /** Event to dispatch when toggleable is going to be activated */
   @prop('esl:before:show') public BEFORE_SHOW_EVENT: string;
   /** Event to dispatch when toggleable is going to be deactivated */
@@ -189,7 +192,8 @@ export class ESLToggleable extends ESLBaseElement {
 
   /** Function to merge the result action params */
   protected mergeDefaultParams(params?: ESLToggleableActionParams): ESLToggleableActionParams {
-    return Object.assign({}, this.defaultParams, copyDefinedKeys(params));
+    const type = this.constructor as typeof ESLToggleable;
+    return Object.assign({}, type.DEFAULT_PARAMS, this.defaultParams, copyDefinedKeys(params));
   }
 
   /** Toggle the element state */
