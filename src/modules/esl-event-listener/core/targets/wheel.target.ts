@@ -69,16 +69,17 @@ export class ESLWheelTarget extends SyntheticEventTarget {
   /** Handles aggregated wheel events */
   protected handleAggregatedWheel(events: WheelEvent[]): void {
     const wheelInfo =  this.resolveEventDetails(events);
-    if (Math.abs(wheelInfo.deltaX) >= this.config.distance) this.dispatchWheelEvent(Object.assign({}, wheelInfo, {axis: 'x' as const}));
-    if (Math.abs(wheelInfo.deltaY) >= this.config.distance) this.dispatchWheelEvent(Object.assign({}, wheelInfo, {axis: 'y' as const}));
+    if (Math.abs(wheelInfo.deltaX) >= this.config.distance) this.dispatchWheelEvent('x', wheelInfo);
+    if (Math.abs(wheelInfo.deltaY) >= this.config.distance) this.dispatchWheelEvent('y', wheelInfo);
   }
 
   /**
    * Dispatches a custom wheel event
+   * @param axis - The axis along which the scroll was performed
    * @param wheelInfo - The event detail object
    */
-  protected dispatchWheelEvent(wheelInfo: ESLWheelEventInfo): void {
-    this.dispatchEvent(ESLWheelEvent.fromConfig('longwheel', this.target, Object.assign(wheelInfo)));
+  protected dispatchWheelEvent(axis: 'x' | 'y', wheelInfo: Omit<ESLWheelEventInfo, 'axis'>): void {
+    this.dispatchEvent(ESLWheelEvent.fromConfig(this.target, Object.assign({}, wheelInfo, {axis})));
   }
 
   /**

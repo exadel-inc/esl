@@ -1,11 +1,6 @@
 import {overrideEvent} from '../../../esl-utils/dom/events/misc';
 
 /**
- * Event name that could be triggered by {@link ESLWheelTarget}
- */
-export type WheelEventName = 'longwheel';
-
-/**
  * Describes scroll information provided with {@link ESLWheelTarget}
  */
 export interface ESLWheelEventInfo {
@@ -25,6 +20,8 @@ export interface ESLWheelEventInfo {
  * Wheel event dispatched by {@link ESLWheelTarget}
  */
 export class ESLWheelEvent extends UIEvent implements ESLWheelEventInfo {
+  public static readonly type = 'longwheel';
+
   public override readonly target: Element;
 
   public readonly axis: 'x' | 'y';
@@ -33,14 +30,14 @@ export class ESLWheelEvent extends UIEvent implements ESLWheelEventInfo {
   public readonly events: WheelEvent[];
   public readonly duration: number;
 
-  protected constructor(eventName: WheelEventName, target: Element, wheelInfo: ESLWheelEventInfo) {
-    super(eventName);
+  protected constructor(target: Element, wheelInfo: ESLWheelEventInfo) {
+    super(ESLWheelEvent.type);
     overrideEvent(this, 'target', target);
     Object.assign(this, wheelInfo);
   }
 
   /** Creates {@link ESLWheelEvent} based on {@link ESLWheelEventInfo} */
-  public static fromConfig(eventName: WheelEventName, target: Element, wheelInfo: ESLWheelEventInfo): ESLWheelEvent {
-    return new ESLWheelEvent(eventName, target, wheelInfo);
+  public static fromConfig(target: Element, wheelInfo: ESLWheelEventInfo): ESLWheelEvent {
+    return new ESLWheelEvent(target, wheelInfo);
   }
 }
