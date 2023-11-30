@@ -6,6 +6,17 @@
   position: relative;
   margin: 0 auto 10rem;
 
+  &-more-trigger {
+    display: block;
+    text-align: center;
+  }
+  & &-list-container {
+    display: block;
+  }
+  &-list-container:not([open]) &-more-item {
+    display: none;
+  }
+
   &-list {
     display: flex;
     flex-direction: column;

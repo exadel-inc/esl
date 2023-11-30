@@ -623,7 +623,7 @@ ESLEventUtils.subscribe(host, {
   target: ESLSwipeGestureTarget.for(el)
 }, onSwipe);
 // or
-ESLSwipeGestureTarget.subscribe(host, {
+ESLEventUtils.subscribe(host, {
   event: 'swipe',
   target: (host) => ESLSwipeGestureTarget.for(host.el, {
     threshold: '30px',

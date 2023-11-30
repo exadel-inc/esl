@@ -105,14 +105,28 @@ export class ESLMedia extends ESLBaseElement {
   /** Ready state class/classes target */
   @attr() public readyClassTarget: string;
 
-  /** Class / classes to add when media is accepted */
+  /**
+   * Class / classes to add when media is accepted
+   * @deprecated use {@link loadConditionClass} instead (e.g. `load-condition-class="is-accepted"`)
+   */
   @attr() public loadClsAccepted: string;
-  /** Class / classes to add when media is declined */
+  /**
+   * Class / classes to add when media is declined
+   * @deprecated use {@link loadConditionClass} with negative class param instead (e.g. `load-condition-class="!is-declined"`)
+   */
   @attr() public loadClsDeclined: string;
+  /**
+   * Target element {@link ESLTraversingQuery} select to add accepted/declined classes
+   * @deprecated used with legacy load condition attributes, consider migration to {@link loadConditionClass}
+   */
+  @attr({defaultValue: '::parent'}) public loadClsTarget: string;
+
   /** Condition {@link ESLMediaQuery} to allow load of media resource. Default: `all` */
   @attr({defaultValue: 'all'}) public loadCondition: string;
-  /** Target element {@link ESLTraversingQuery} select to add accepted/declined classes */
-  @attr({defaultValue: '::parent'}) public loadClsTarget: string;
+  /** Class / classes to add when load media is accepted */
+  @attr() public loadConditionClass: string;
+  /** Target element {@link ESLTraversingQuery} select to toggle {@link loadConditionClass} classes */
+  @attr({defaultValue: '::parent'}) public loadConditionClassTarget: string;
 
   /** @readonly Ready state marker */
   @boolAttr({readonly: true}) public ready: boolean;
@@ -234,12 +248,15 @@ export class ESLMedia extends ESLBaseElement {
   }
 
   public updateContainerMarkers(): void {
-    const targetEl = ESLTraversingQuery.first(this.loadClsTarget, this) as HTMLElement;
-    if (!targetEl) return;
+    const active = this.conditionQuery.matches;
 
-    const active = this.canActivate();
-    CSSClassUtils.toggle(targetEl, this.loadClsAccepted, active);
-    CSSClassUtils.toggle(targetEl, this.loadClsDeclined, !active);
+    const $target = ESLTraversingQuery.first(this.loadConditionClassTarget, this) as HTMLElement;
+    $target && CSSClassUtils.toggle($target, this.loadConditionClass, active);
+
+    // Legacy attributes support
+    const targetEl = ESLTraversingQuery.first(this.loadClsTarget, this) as HTMLElement;
+    targetEl && CSSClassUtils.toggle(targetEl, this.loadClsAccepted, active);
+    targetEl && CSSClassUtils.toggle(targetEl, this.loadClsDeclined, !active);
   }
 
   /** Seek to given position of media */

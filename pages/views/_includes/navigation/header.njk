@@ -1,6 +1,7 @@
 <header class="header">
   <nav class="header-container container">
-    <a class="header-link header-logo fill-light logo-animated" href="{{ '/' | url }}" aria-label="Landing page">
+    <a class="header-link header-logo fill-light logo-animated" href="{{ '/' | url }}"
+       aria-label="Go to Exadel Smart Library landing page">
       {% include 'static/assets/logo.svg' %}
       <span class="header-short-name">esl</span>
       <span class="header-long-name">{{ site.brand }}</span>
@@ -39,7 +40,7 @@
                    default-params="{hideDelay: 500}"
                    close-on-esc
                    close-on-outside-action>
-          <esl-share list="group:site"></esl-share>
+          <esl-share-list list="group:site"></esl-share-list>
           <span class="esl-popup-arrow"></span>
         </esl-popup>
       </li>

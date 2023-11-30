@@ -41,7 +41,7 @@
           {{ navitem ('Blogs', 'blogs', 'static/assets/sidebar/blogs.svg') }}
         </li>
         {% endif %}
-        {% if env.isDev %}
+        {% if env.isDev or functions.isActivePath(page.url, 'draft') %}
           <li class="sidebar-nav-item">
             {{ navitem ('Drafts', 'draft', 'static/assets/common/flask.svg') }}
           </li>
@@ -50,8 +50,8 @@
         <hr class="sidebar-nav-item-divider show-xs"/>
 
         <li class="sidebar-nav-item sidebar-nav-item-share">
-          <esl-share aria-label="Share this page"
-                     list="group:site"></esl-share>
+          <esl-share-list list="group:site"
+                          aria-label="Share this page"></esl-share-list>
         </li>
       </ul>
     </div>

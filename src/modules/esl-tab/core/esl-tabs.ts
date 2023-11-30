@@ -99,11 +99,14 @@ export class ESLTabs extends ESLBaseElement {
   public moveTo(direction: string, behavior: ScrollBehavior = 'smooth'): void {
     const $scrollableTarget = this.$scrollableTarget;
     if (!$scrollableTarget) return;
-    let left = $scrollableTarget.offsetWidth;
-    left = isRTL(this) && RTLScroll.type !== 'reverse' ? -left : left;
-    left = direction === 'left' ? -left : left;
 
-    $scrollableTarget.scrollBy({left, behavior});
+    const {offsetWidth, scrollWidth, scrollLeft} = $scrollableTarget;
+    const max = scrollWidth - offsetWidth;
+    const invert = direction === 'left' || (isRTL(this) && RTLScroll.type !== 'reverse');
+    const offset = invert ? -offsetWidth : offsetWidth;
+
+    const left = Math.max(0, Math.min(max, scrollLeft + offset));
+    $scrollableTarget.scrollTo({left, behavior});
   }
 
   /** Scroll tab to the view */
