@@ -62,8 +62,7 @@ import {ESLDemoSearchPageWrapper} from './search/search';
 import {ESLDemoSidebar} from './navigation/navigation';
 import {ESLDemoAnchorLink} from './anchor/anchor-link';
 import {ESLDemoBanner} from './banner/banner';
-import {ESLDemoSwipeArea} from './esl-swipe-demo/esl-swipe-demo-area';
-import {ESLDemoWheelArea} from './esl-wheel-demo/esl-wheel-demo-area';
+import {ESLDemoSwipeArea, ESLDemoWheelArea} from './esl-events-demo/esl-events-demo';
 
 ESLVSizeCSSProxy.observe();
 
