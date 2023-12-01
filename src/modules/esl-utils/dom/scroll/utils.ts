@@ -1,4 +1,4 @@
-import {getScrollParent} from './parent';
+import {getListScrollParents, getScrollParent} from './parent';
 
 const $html = document.documentElement;
 
@@ -81,4 +81,18 @@ export function unlockScroll(target: Element = $html, options: ScrollLockOptions
   scrollable.removeAttribute('esl-scroll-lock-passive');
   scrollable.removeAttribute('esl-scroll-lock');
   if (options.recursive && scrollable.parentElement) unlockScroll(scrollable.parentElement, options);
+}
+
+export interface ElementScrollOffset {
+  element: Element;
+  top: number;
+  left: number;
+}
+
+export function isOffsetChanged(offsets: ElementScrollOffset[]): boolean {
+  return offsets.some((element) => element.element.scrollTop !== element.top || element.element.scrollLeft !== element.left);
+}
+
+export function getParentScrollOffsets($el: Element, $topContainer: Element): ElementScrollOffset[] {
+  return getListScrollParents($el, $topContainer).map((el) => ({element: el, top: el.scrollTop, left: el.scrollLeft}));
 }
