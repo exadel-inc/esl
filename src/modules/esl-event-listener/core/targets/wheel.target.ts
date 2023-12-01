@@ -116,7 +116,7 @@ export class ESLWheelTarget extends SyntheticEventTarget {
         delta = isVertical ? window.innerHeight : window.innerWidth;
         break;
       default:
-        delta = deltaValue;
+        delta = deltaValue * window.devicePixelRatio;
     }
     return delta;
   }
