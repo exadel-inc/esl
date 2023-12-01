@@ -637,7 +637,7 @@ ESLEventUtils.subscribe(host, {
 ### ⚡ `ESLWheelTarget.for` <i class="badge badge-sup badge-success">new</i>
 
 `ESLWheelTarget.for` is a simple way to listen for 'inert' (long wheel) scrolls events on any element.
-This utility detects `wheel` events and based on the distance (`distance`) between start and end `wheel` events and time (`timeout`) between these events, it triggers `longwheel` event on the target element.
+This utility detects `wheel` events, and based on the total amount (distance) of `wheel` events and time (`timeout`) between the first and the last events, it triggers `longwheel` event on the target element.
 
 ```typescript
 ESLWheelTarget.for(el: Element, settings?: ESLWheelTargetSetting): ESLWheelTarget;
