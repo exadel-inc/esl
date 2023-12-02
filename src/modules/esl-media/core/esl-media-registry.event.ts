@@ -18,7 +18,7 @@ export class ESLMediaRegistryEvent extends Event {
     overrideEvent(this, 'target', target);
   }
 
-  /** Check if the event relates to passed provider name */
+  /** Checks if the event relates to passed provider name */
   public isRelates(name: string): boolean {
     name = name.toLowerCase() || 'auto';
     return name === 'auto' || this.provider?.providerName === name;
