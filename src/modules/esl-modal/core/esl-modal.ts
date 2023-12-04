@@ -4,7 +4,7 @@ import {boolAttr, attr, listen} from '../../esl-utils/decorators';
 import {hasAttr, setAttr} from '../../esl-utils/dom/attr';
 import {afterNextRender} from '../../esl-utils/async/raf';
 import {promisifyNextRender} from '../../esl-utils/async/promise/raf';
-import {parseBoolean, toBooleanAttribute} from '../../esl-utils/misc/format';
+import {parseBoolean, parseCSSTime, toBooleanAttribute} from '../../esl-utils/misc/format';
 import {getKeyboardFocusableElements, handleFocusChain} from '../../esl-utils/dom/focus';
 import {lockScroll, unlockScroll} from '../../esl-utils/dom/scroll/utils';
 import {TAB} from '../../esl-utils/dom/keys';
@@ -69,9 +69,7 @@ export class ESLModal extends ESLToggleable {
 
   public get animationTime(): number {
     const styles = getComputedStyle(this);
-    return parseFloat(styles.getPropertyValue('--esl-modal-animation-time'));
-    //TODO after parseTime merging
-    //return parseCSSTime(styles.getPropertyValue('--esl-modal-animation-time'));
+    return parseCSSTime(styles.getPropertyValue('--esl-modal-animation-time'));
   }
 
   protected override connectedCallback(): void {
