@@ -1,0 +1,38 @@
+---
+layout: full-page-content
+seoTitle: Slide Carousel UI examples based on ESL web components
+name: Presentation
+tags: [draft]
+icon: examples/carousel.svg
+---
+
+
+<style>
+  .esl-carousel-container {
+       width: 100%;
+       margin-right: auto;
+       margin-left: auto;
+  }
+</style>
+
+  <div esl-carousel-container>
+    <button type="button" esl-carousel-nav="group:prev"></button>
+
+    <esl-carousel class="vertical-carousel" esl-carousel-touch type="slide">
+      <div data-slides-area>
+        <!-- CAROUSEL-ITEM -->
+        {% for i in range(0, 5) %}
+          <esl-carousel-slide {% if i == 2 %} active {% endif %}>
+            <div class="card post-text" style="background: {{ functions.randomColor() }}; height: 150px;">
+              <p><b>{{i + 1}}</b></p>
+            </div>
+          </esl-carousel-slide>
+        {% endfor %}
+        <!-- /CAROUSEL-ITEM -->
+      </div>
+    </esl-carousel>
+
+    <button type="button" esl-carousel-nav="group:next"></button>
+
+    <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
+  </div>
