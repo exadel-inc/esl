@@ -21,3 +21,4 @@ export * from './plugin/relation/esl-carousel.relation.mixin';
 
 // Renderer Default
 import './renderers/multi/esl-multi-carousel';
+import './renderers/slide/esl-slide-carousel';
