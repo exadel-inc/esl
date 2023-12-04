@@ -1,6 +1,6 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement} from '../../esl-base-element/core';
-import {attr, boolAttr, decorate, listen, memoize} from '../../esl-utils/decorators';
+import {attr, boolAttr, ready, decorate, listen, memoize} from '../../esl-utils/decorators';
 
 import {microtask} from '../../esl-utils/async';
 import {parseBoolean, isEqual} from '../../esl-utils/misc';
@@ -91,6 +91,7 @@ export class ESLCarousel extends ESLBaseElement {
     return renderer;
   }
 
+  @ready
   protected override connectedCallback(): void {
     super.connectedCallback();
     this.update();

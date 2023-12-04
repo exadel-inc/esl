@@ -1,6 +1,6 @@
 // TODO: rework, simplify and refactor
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
-import {attr, listen, memoize} from '../../../esl-utils/decorators';
+import {attr, listen, memoize, ready} from '../../../esl-utils/decorators';
 import {ARROW_LEFT, ARROW_RIGHT} from '../../../esl-utils/dom/keys';
 import {findNextLooped, findPrevLooped} from '../../../esl-utils/dom/traversing';
 import {ESLBaseElement} from '../../../esl-base-element/core';
@@ -36,6 +36,7 @@ export class ESLCarouselNavDots extends ESLBaseElement {
     return ESLTraversingQuery.first(this.carousel, this) as ESLCarousel;
   }
 
+  @ready
   public override async connectedCallback(): Promise<void> {
     this.$$attr('disabled', true);
     if (!this.$carousel) return;

@@ -1,5 +1,5 @@
 import {ESLBaseElement} from '../../esl-base-element/core';
-import {boolAttr, memoize} from '../../esl-utils/decorators';
+import {boolAttr, memoize, ready} from '../../esl-utils/decorators';
 import {findNext, findPrev, findNextLooped, findPrevLooped} from '../../esl-utils/dom/traversing';
 
 import type {ESLCarousel} from './esl-carousel';
@@ -20,6 +20,7 @@ export class ESLCarouselSlide extends ESLBaseElement {
     return this.closest(carouselTag) as ESLCarousel | undefined;
   }
 
+  @ready
   protected override connectedCallback(): void {
     super.connectedCallback();
     this.$carousel?.addSlide && this.$carousel.addSlide(this);

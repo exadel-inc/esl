@@ -1,5 +1,5 @@
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
-import {attr, listen, memoize} from '../../../esl-utils/decorators';
+import {attr, listen, memoize, ready} from '../../../esl-utils/decorators';
 import {ESLMixinElement} from '../../../esl-mixin-element/core';
 import {ESLTraversingQuery} from '../../../esl-traversing-query/core';
 
@@ -40,6 +40,7 @@ export class ESLCarouselNavMixin extends ESLMixinElement {
     return ESLTraversingQuery.first(this.carousel, this.$host) as ESLCarousel;
   }
 
+  @ready
   public override async connectedCallback(): Promise<void> {
     this.$$attr('disabled', true);
     if (!this.$carousel) return;

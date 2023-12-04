@@ -1,5 +1,5 @@
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
-import {attr, bind, listen} from '../../../esl-utils/decorators';
+import {attr, bind, listen, ready} from '../../../esl-utils/decorators';
 
 import {ESLCarouselPlugin} from '../esl-carousel.plugin';
 import {ESLCarouselSlideEvent} from '../../core/esl-carousel.events';
@@ -24,6 +24,7 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin {
 
   private _timeout: number | null = null;
 
+  @ready
   protected override connectedCallback(): void {
     if (super.connectedCallback()) {
       this.start();
