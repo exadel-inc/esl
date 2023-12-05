@@ -12,11 +12,11 @@ The ESL Share component provides the capability of integrating into a web page a
 
 `<esl-share-button>` is a custom element that is used for displaying the "Share on social media" button. It is intended to share the page using the action specified on the button.
 
-`<esl-share-list>` is a custom element that is used for showing the list of social media buttons. The element's content (a set of `<esl-share-button>`) is created automatically by specifying a list of networks or groups to display. Available social networks and their groups are listed in the configuration file.
+`<esl-share-list>` is a custom element that is used for showing the list of social media buttons. The content within the element, represented by a set of `<esl-share-button>`, is dynamically generated through the specification of a designated list of networks or groups for presentation. A comprehensive compilation of social networks and their corresponding groups is detailed within the configuration file.
 
-`<esl-share-popup>` is a custom element used as a wrapper for content that can be displayed as a pop-up element. The content of the element consists of `<esl-share-button>`. `<esl-share-popup>` exists in a single instance and it refreshes its content every time its state changes to "open".
+`<esl-share-popup>` is a custom element used as a wrapper for content that can be displayed as a pop-up element. The content of the element consists of `<esl-share-button>` and is created automatically. `<esl-share-popup>` exists in a single instance and it refreshes its content every time its state changes to "open".
 
-`<esl-share>` is a custom element, that allows triggering `<esl-share-popup>` instance state changes.
+`<esl-share>` is a custom element, that allows triggering `<esl-share-popup>` instance state changes. The popup's content (a set of `<esl-share-button>`) is created automatically by specifying a list of networks or groups to display. Available social networks and their groups are listed in the configuration file.
 
 ### Usage
 
@@ -144,8 +144,8 @@ ESLShareConfig.set(configProvider);
 
 ```typescript
 // Retrive config from the server based on the user's locale
-const countryCode = document.;
-ESLShareConfig.set(fetch(`/assets/share/config.${countryCode}.json`).then((response) => response.json()));
+const {region} = new Intl.Locale(document.documentElement.lang);
+ESLShareConfig.set(fetch(`/assets/share/config.${region}.json`).then((response) => response.json()));
 ```
 
 #### ESLShare config objects
@@ -235,6 +235,16 @@ Note: if the default configuration does not used, you should import the required
   import '@exadel/esl/modules/esl-share/actions/media';
 ```
 
+### List of buttons through which you can share
+
+The components `<esl-share>` and `<esl-share-list>` construct their content or the content of the `<esl-share-popup>` from a set of `<esl-share-button>` automatically. Therefore, the list of buttons for construction is specified through a special attribute called `list`. This is a regular string in which the following entities can be indicated through spaces:
+ - button name
+ - group name (indicated with the prefix `group:`)
+ - the keyword `all`, which denotes the entire set of available buttons in the order they were added to the configuration.
+
+As a result, this list of buttons, groups, and the word `all` is transformed into a regular array of buttons to be displayed. The length of the list is not limited, the order is free, and repetitions are not prohibited. However, keep in mind that deduplication will be performed during the transformation into a list, and a button will not be added to the list more than once. So, after specifying a group, it doesn't make sense to list the buttons that belong to it. Alternatively, nothing should be written after the keyword `all`.
+
+This deduplication property can be used to prioritize certain buttons. If you want buttons from Facebook and Reddit to be displayed first among all buttons, then specify the list in this way: `"facebook reddit all"`.
 
 ### ESLShareButton
 
@@ -268,6 +278,25 @@ The principle of cascading is similar to CSS variables. The value is searched fr
 
  - `esl:share:changed` - event to dispatch on change of ESLShareButton
  - `esl:share:ready` - event to dispatch on ready of ESLShareButton
+
+### ESLShareConfig
+
+#### Public API
+
+ - `instance` - static getter that returns shared instance of ESLShareConfig
+ - `append` - static method that appends single button or group to current configuration
+ - `set` - static method that updates the configuration with promise resolved to `ESLShareConfigInit` or promise provider function
+ - `buttons` - getter that returns list of all available buttons
+ - `groups` - getter that returns list of all available groups
+ - `get` - selects the buttons for the given list and returns their configuration
+ - `clear` - clears the configuration
+ - `getButton` - gets the button configuration for the given name
+ - `getGroup` - gets the group of buttons configuration for the given name
+ - `append` - updates the configuration with a `ESLShareButtonConfig`(s) or `ESLShareGroupConfig`(s)
+
+#### Events
+
+ - `change` - event to dispatch on change of ESLShareConfig
 
 ### ESLShareList
 
@@ -326,3 +355,30 @@ A trigger element is based on [ESLTrigger](../esl-trigger/README.md) to activate
 **ESLShareBaseAction** is an interface that describes share actions. Custom user's actions realizing this interface should have next public methods:
  - `isAvailable` - checks if this action is available on the user's device
  - `share` - performs an action to share
+
+### List of share buttons, the configuration of which we provide
+
+We provide configurations for share buttons for popular social networks and distribution methods. All you need to do to utilize this feature is to import a file with the configuration (see the section on `Configuring the ESLShare components`). All necessary activations and registrations will be carried out during the import.
+
+Here is the list of available buttons for sharing:
+
+ - `blogger`- shares data into Blogger an online content management system
+ - `copy` - copies the share data into a clipboard
+ - `facebook` - shares data into Facebook a free social networking website
+ - `hatena` - shares data into Hatena a japan free blogging service
+ - `kakao` - shares data into Kakao the most popular network among Koreans
+ - `line` - shares data into Line a popular messaging and social media platform in Japan and other parts of Asia
+ - `linkedin` - shares data into LinkedIn a social networking site designed specifically for the business community
+ - `mail` - activates the default mail client on the device for sending data via e-mail
+ - `mix` - shares data into Mix a social network service
+ - `mixi` - shares data into Mixi an online Japanese social networking service
+ - `myspace` - shares data into MySpace a social media platform
+ - `native-share` - activates the native sharing mechanism of the device to share data
+ - `pinterest` - shares data into Pinterest a social curation website for sharing and categorizing images found online
+ - `print` - prints page
+ - `pusha` - shares data into Pusha a social network service
+ - `reddit` - shares data into Reddit an American social news aggregation, content rating, and discussion website 
+ - `sina-weibo` - shares data into Sina Weibo a microblogging website and app which compares to Twitter and Instagram
+ - `telegram` - shares data into Telegram a cloud-based, cross-platform instant messaging (IM) service
+ - `twitter` - shares data into Twitter a free social networking site where users broadcast short posts known as tweets
+ - `wykop` - shares data into Wykop a Polish social networking internet service
