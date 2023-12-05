@@ -3,7 +3,7 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {isElement} from '../../esl-utils/dom/api';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {SPACE, PAUSE} from '../../esl-utils/dom/keys';
-import {bind, prop, attr, boolAttr} from '../../esl-utils/decorators';
+import {prop, attr, boolAttr, listen, decorate} from '../../esl-utils/decorators';
 import {debounce, rafDecorator} from '../../esl-utils/async';
 import {parseAspectRatio} from '../../esl-utils/misc/format';
 
@@ -16,6 +16,7 @@ import {ESLMediaProviderRegistry} from './esl-media-registry';
 import {MediaGroupRestrictionManager} from './esl-media-manager';
 
 import type {BaseProvider} from './esl-media-provider';
+import type {ESLMediaRegistryEvent} from './esl-media-registry.event';
 
 export type ESLMediaFillMode = 'cover' | 'inscribe' | '';
 
@@ -139,7 +140,6 @@ export class ESLMedia extends ESLBaseElement {
 
   private _provider: BaseProvider | null;
 
-  private deferredResize = rafDecorator(() => this._onResize());
   private deferredReinitialize = debounce(() => this.reinitInstance());
 
   /**
@@ -160,14 +160,12 @@ export class ESLMedia extends ESLBaseElement {
       this.setAttribute('role', 'application');
     }
     this.innerHTML += '<!-- Inner Content, do not modify it manually -->';
-    this.bindEvents();
     this.deferredReinitialize();
     this.reattachViewportConstraint();
   }
 
   protected override disconnectedCallback(): void {
     super.disconnectedCallback();
-    this.unbindEvents();
     this.detachViewportConstraint();
     this._provider && this._provider.unbind();
   }
@@ -192,36 +190,19 @@ export class ESLMedia extends ESLBaseElement {
         break;
       case 'fill-mode':
       case 'aspect-ratio':
-        this.deferredResize();
+        this.$$off(this._onResize);
+        this.$$on(this._onResize);
+        this._onResize();
         break;
       case 'play-in-viewport':
         this.reattachViewportConstraint();
         break;
       case 'load-condition':
-        ESLMediaQuery.for(oldVal).removeEventListener(this.deferredReinitialize);
-        ESLMediaQuery.for(newVal).addEventListener(this.deferredReinitialize);
+        this.$$off(this._onConditionChange);
+        this.$$on(this._onConditionChange);
         this.deferredReinitialize();
         break;
     }
-  }
-
-  protected bindEvents(): void {
-    ESLMediaProviderRegistry.instance.addListener(this._onRegistryStateChange);
-    this.conditionQuery.addEventListener(this.deferredReinitialize);
-    if (this.fillModeEnabled) {
-      window.addEventListener('resize', this.deferredResize);
-    }
-    window.addEventListener(this.REFRESH_EVENT, this._onRefresh);
-    this.addEventListener('keydown', this._onKeydown);
-  }
-  protected unbindEvents(): void {
-    ESLMediaProviderRegistry.instance.removeListener(this._onRegistryStateChange);
-    this.conditionQuery.removeEventListener(this.deferredReinitialize);
-    if (this.fillModeEnabled) {
-      window.removeEventListener('resize', this.deferredResize);
-    }
-    window.removeEventListener(this.REFRESH_EVENT, this._onRefresh);
-    this.removeEventListener('keydown', this._onKeydown);
   }
 
   public canActivate(): boolean {
@@ -304,8 +285,8 @@ export class ESLMedia extends ESLBaseElement {
     this.toggleAttribute('ready', true);
     this.toggleAttribute('error', false);
     this.updateReadyClass();
-    this.deferredResize();
     this.$$fire(this.READY_EVENT);
+    this._onResize();
   }
 
   public _onError(detail?: any, setReadyState = true): void {
@@ -325,11 +306,11 @@ export class ESLMedia extends ESLBaseElement {
 
   public _onPlay(): void {
     if (this.autofocus) this.focus();
-    this.deferredResize();
-    this.setAttribute('active', '');
-    this.setAttribute('played', '');
+    this.toggleAttribute('active', true);
+    this.toggleAttribute('played', true);
     this.$$fire(this.PLAY_EVENT);
     MediaGroupRestrictionManager.registerPlay(this);
+    this._onResize();
   }
 
   public _onPaused(): void {
@@ -344,7 +325,13 @@ export class ESLMedia extends ESLBaseElement {
     MediaGroupRestrictionManager.unregister(this);
   }
 
-  public _onResize(): void {
+  @listen({
+    event: 'resize',
+    target: window,
+    condition: ($this: ESLMedia) => $this.fillModeEnabled
+  })
+  @decorate(rafDecorator)
+  protected _onResize(): void {
     if (!this._provider) return;
     if (this.fillModeEnabled && this.actualAspectRatio > 0) {
       let stretchVertically = this.offsetWidth / this.offsetHeight < this.actualAspectRatio;
@@ -357,21 +344,32 @@ export class ESLMedia extends ESLBaseElement {
     }
   }
 
-  @bind
+  @listen({
+    event: ($this: ESLMedia) => $this.REFRESH_EVENT,
+    target: window
+  })
   protected _onRefresh(e: Event): void {
     const {target} = e;
     if (isElement(target) && target.contains(this)) this._onResize();
   }
 
-  @bind
-  protected _onRegistryStateChange(name: string): void {
-    const type = this.mediaType.toLowerCase() || 'auto';
-    if (name === type || (!this.providerType && type === 'auto')) {
-      this.reinitInstance();
-    }
+  @listen({
+    event: 'change',
+    target: () => ESLMediaProviderRegistry.instance
+  })
+  protected _onRegistryStateChange(e: ESLMediaRegistryEvent): void {
+    if (e.isRelates(this.mediaType)) this.reinitInstance();
   }
 
-  @bind
+  @listen({
+    event: 'change',
+    target: ($this: ESLMedia) => $this.conditionQuery
+  })
+  protected _onConditionChange(): void {
+    this.deferredReinitialize();
+  }
+
+  @listen('keydown')
   protected _onKeydown(e: KeyboardEvent): void {
     if (e.target !== this) return;
     if ([SPACE, PAUSE].includes(e.key)) {
