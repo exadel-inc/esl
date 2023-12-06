@@ -17,7 +17,7 @@ describe('ESLRandomText', () => {
     test('generated text consist of words from dictionary', () => {
       const text = ESLRandomText.generateText(10);
       const words = text.split(' ').map(normalizeWord);
-      words.forEach(word => expect(ESLRandomText.DICTIONARY).toContain(word));
+      words.forEach((word) => expect(ESLRandomText.DICTIONARY).toContain(word));
     });
 
     test('generated text without shuffling is sequential', () => {
