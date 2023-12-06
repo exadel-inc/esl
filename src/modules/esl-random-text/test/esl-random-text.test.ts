@@ -49,7 +49,7 @@ describe('ESLRandomText', () => {
     test('generated text consist of words from dictionary', () => {
       const dom = ESLRandomText.generateTextHTML(10);
       const words = dom.replace(/<[^>]+>/g, '').split(' ').map(normalizeWord);
-      words.forEach(word => expect(ESLRandomText.DICTIONARY).toContain(word));
+      words.forEach((word) => expect(ESLRandomText.DICTIONARY).toContain(word));
     });
 
     test('generated text is a valid HTML (RichText)', () => {
