@@ -5,25 +5,22 @@ import {attr, bind, boolAttr, prop} from '../../esl-utils/decorators';
 @ExportNs('Avatar')
 export class ESLAvatar extends ESLBaseElement {
   public static override is = 'esl-avatar';
-  public static observedAttributes = ['image-src', 'username'];
+  public static observedAttributes = ['src', 'username'];
 
   /** Event to dispatch on change of {@link ESLAvatar} */
   @prop('esl:avatar:changed') public AVATAR_CHANGED_EVENT: string;
 
   /** Source path of the avatar image */
-  @attr() public imageSrc: string;
+  @attr() public src: string;
   /** The limit number of letters to be displayed in text-only mode */
-  @attr({defaultValue: 2}) public limit: number;
+  @attr({defaultValue: 2}) public abbrLength: number;
   /** Policy of loading image that is outside of the viewport */
   @attr({defaultValue: 'lazy'}) public loading: 'eager' | 'lazy';
   /** The name of the user for whom the avatar is displayed */
   @attr({defaultValue: ''}) public username: string;
 
   /** @readonly Marker of displaying mode with image */
-  @boolAttr({readonly: true}) public withImg: boolean;
-  /** @readonly Marker of displaying mode without image, only text */
-  @boolAttr({readonly: true}) public textOnly: boolean;
-
+  @boolAttr({readonly: true}) public withImage: boolean;
   /** @readonly Ready state marker */
   @boolAttr({readonly: true}) public ready: boolean;
 
@@ -32,7 +29,7 @@ export class ESLAvatar extends ESLBaseElement {
     return this.username.trim()
       .split(' ')
       .filter(Boolean)
-      .reduce((acc, el, index) => (index >= this.limit) ? acc : acc + el.slice(0, 1), '');
+      .reduce((acc, el, index) => (index >= this.abbrLength) ? acc : acc + el.slice(0, 1), '');
   }
 
   protected override connectedCallback(): void {
@@ -42,15 +39,14 @@ export class ESLAvatar extends ESLBaseElement {
 
   protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected || oldVal === newVal) return;
-    this.init(true);
+    this.init();
   }
 
   /** Initializes the avatar */
-  public init(force?: boolean): void {
-    if (this.ready && !force) return;
+  public init(): void {
     this.buildImageContent();
     this.initA11y();
-    this.onReady();
+    this.$$attr('ready', true);
   }
 
   /** Sets initial a11y attributes */
@@ -60,13 +56,13 @@ export class ESLAvatar extends ESLBaseElement {
 
   /** Builds the image on avatar */
   protected buildImageContent(): void {
-    const {imageSrc} = this;
-    if (!imageSrc) return this._onImageError();
+    const {abbr, loading, src} = this;
+    if (!src) return this._onImageError();
 
     const $img = new Image();
-    $img.loading = this.loading || 'lazy';
-    $img.alt = this.abbr;
-    $img.src = imageSrc;
+    $img.loading = loading || 'lazy';
+    $img.alt = abbr;
+    $img.src = src;
     $img.onerror = this._onImageError;
     this.appendContent($img, true);
   }
@@ -83,8 +79,8 @@ export class ESLAvatar extends ESLBaseElement {
     this.innerHTML = '';
     $content.classList.add(`${ESLAvatar.is}-${isImage ? 'img' : 'text'}`);
     this.appendChild($content);
-    this.$$attr('with-img', isImage);
-    this.$$attr('text-only', !isImage);
+    this.$$attr('with-image', isImage);
+    this.onChange();
   }
 
   /** Actions on image loading error */
@@ -94,8 +90,7 @@ export class ESLAvatar extends ESLBaseElement {
   }
 
   /** Actions on complete init and ready component */
-  private onReady(): void {
-    this.$$attr('ready', true);
+  private onChange(): void {
     this.$$fire(this.AVATAR_CHANGED_EVENT, {bubbles: false});
   }
 }
