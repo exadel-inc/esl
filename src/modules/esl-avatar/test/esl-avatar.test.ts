@@ -17,7 +17,7 @@ describe('ESLAvatar tests', () => {
 
     beforeAll(() => {
       $avatar = ESLAvatar.create();
-      $avatar.setAttribute('image-src', '/test/image/url');
+      $avatar.setAttribute('src', '/test/image/url');
       $avatar.setAttribute('username', 'Test user');
       document.body.appendChild($avatar);
     });
@@ -26,12 +26,8 @@ describe('ESLAvatar tests', () => {
       document.body.innerHTML = '';
     });
 
-    test('has with-img marker', () => {
-      expect($avatar.$$attr('with-img')).not.toBeNull();
-    });
-
-    test('has no text-only marker', () => {
-      expect($avatar.$$attr('text-only')).toBeNull();
+    test('has with-image marker', () => {
+      expect($avatar.$$attr('with-image')).not.toBeNull();
     });
 
     test('has image inside', () => {
@@ -78,12 +74,8 @@ describe('ESLAvatar tests', () => {
       document.body.innerHTML = '';
     });
 
-    test('has text-only marker', () => {
-      expect($avatar.$$attr('text-only')).not.toBeNull();
-    });
-
-    test('has no with-img marker', () => {
-      expect($avatar.$$attr('with-img')).toBeNull();
+    test('has no with-image marker', () => {
+      expect($avatar.$$attr('with-image')).toBeNull();
     });
 
     test('has abbr inside', () => {
@@ -120,12 +112,12 @@ describe('ESLAvatar tests', () => {
     });
 
     test('should return an abbr with word length not over the limit', () => {
-      $avatar.limit = 1;
+      $avatar.abbrLength = 1;
       expect($avatar['abbr']).toBe('B');
     });
 
     test('should return an abbr for each word of the username when the limit is over the username word count', () => {
-      $avatar.limit = 5;
+      $avatar.abbrLength = 5;
       expect($avatar['abbr']).toBe('BjBS');
     });
 
