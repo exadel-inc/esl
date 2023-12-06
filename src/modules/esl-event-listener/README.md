@@ -649,8 +649,8 @@ ESLWheelTarget.for(el: Element, settings?: ESLWheelTargetSetting): ESLWheelTarge
 - `settings` - optional settings (`ESLWheelTargetSetting`)
 
 The `ESLWheelTargetSetting` configuration includes these optional attributes:
-- `distance` - The minimum distance to accept as a long scroll in pixels (400 by default)
-- `timeout` - The maximum duration of the wheel events to consider it inertial in miliseconds (100 by default)
+- `distance` - the minimum distance to accept as a long scroll in pixels (400 by default)
+- `timeout` - the maximum duration of the wheel events to consider it inertial in milliseconds (100 by default)
 
 Usage example:
 
