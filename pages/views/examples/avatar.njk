@@ -3,23 +3,23 @@ layout: content
 title: Avatar
 seoTitle: Avatar component examples based on ESL web components
 name: Avatar
-tags: [examples, draft]
+tags: [examples, beta]
 icon: examples/avatar.svg
 aside:
   components:
     - esl-avatar
 ---
 
-{% macro avatarElement(class, imgSrc, username, loading) %}
- <esl-avatar class="{{class}}"{% if imgSrc %} image-src="{{imgSrc}}"{% endif %}{% if username%} username="{{username}}"{% endif %}{% if loading %} loading="{{loading}}"{% endif %}></esl-avatar>
+{% macro avatarElement(class, src, username, loading) %}
+ <esl-avatar class="{{class}}"{% if src %} src="{{src}}"{% endif %}{% if username%} username="{{username}}"{% endif %}{% if loading %} loading="{{loading}}"{% endif %}></esl-avatar>
 {% endmacro %}
 
-{% macro avatarDemo(imgSrc, username, loading) %}
+{% macro avatarDemo(src, username, loading) %}
 <div class="avatar-demo-wrapper">
-  {{ avatarElement('avatar-demo-1', imgSrc, username, loading) }}
-  {{ avatarElement('avatar-demo-2', imgSrc, username, loading) }}
-  {{ avatarElement('avatar-demo-3', imgSrc, username, loading) }}
-  {{ avatarElement('avatar-demo-4', imgSrc, username, loading) }}
+  {{ avatarElement('avatar-demo-1', src, username, loading) }}
+  {{ avatarElement('avatar-demo-2', src, username, loading) }}
+  {{ avatarElement('avatar-demo-3', src, username, loading) }}
+  {{ avatarElement('avatar-demo-4', src, username, loading) }}
 </div>
 {% endmacro %}
 
@@ -40,37 +40,36 @@ aside:
   }
 
   .avatar-demo-1 {
-    --esl-avatar-background: #ffa500;
-    --esl-avatar-text-size: 12px;
-
+    background: #ffa500;
+    font-size: 12px;
     font-weight: 300;
   }
 
   .avatar-demo-2 {
-    --esl-avatar-background: #000;
     --esl-avatar-size: 60px;
-    --esl-avatar-text-size: 25px;
-    --esl-avatar-text-color: #ff0;
 
+    background: #000;
+    font-size: 25px;
+    color: #ff0;
     font-weight: 900;
   }
 
   .avatar-demo-3 {
-    --esl-avatar-background: radial-gradient(circle, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 13%, rgba(0,212,255,1) 100%);
     --esl-avatar-size: 120px;
-    --esl-avatar-text-size: 60px;
-    --esl-avatar-text-color: #ff69b4;
 
+    background: radial-gradient(circle, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 13%, rgba(0,212,255,1) 100%);
+    font-size: 60px;
+    color: #ff69b4;
     border: 1px solid #ff0;
     box-shadow: 0px 0px 10px 2px rgba(255, 255, 0, .2);
     font-weight: 700;
   }
 
   .avatar-demo-4 {
-    --esl-avatar-background: #f00;
     --esl-avatar-size: 180px;
-    --esl-avatar-text-size: 90px;
 
+    background: #f00;
+    font-size: 90px;
     border: 9px solid #afeeee;
     font-weight: 900;
   }
@@ -102,7 +101,7 @@ aside:
           {% code 'html' %}
             <esl-avatar
               username="Lead Developer"
-              image-url="/assets/avatar/user.jpg">
+              src="/assets/avatar/user.jpg">
             </esl-avatar>
           {% endcode %}
           <p>ESL Avatar displays an avatar image.</p>
@@ -120,7 +119,7 @@ aside:
           {% code 'html' %}
             <esl-avatar
               username="Senior Developer"
-              image-url="/assets/avatar/user.png">
+              src="/assets/avatar/user.png">
             </esl-avatar>
           {% endcode %}
           <p>The component displays an avatar image.</p>
@@ -138,7 +137,7 @@ aside:
           {% code 'html' %}
             <esl-avatar
               username="ESL Bot"
-              image-url="/assets/avatar/transparent.png">
+              src="/assets/avatar/transparent.png">
             </esl-avatar>
           {% endcode %}
           <p>It should be noted that the image is not square, but rectangular, the ratio is 3 to 2. As you can see, the component shows the image with the original ratio preserved in such a way that the image covers the entire plane of the component.</p>
@@ -157,7 +156,7 @@ aside:
             <esl-avatar
               loading="eager"
               username="Anonymous Developer"
-              image-url="/assets/avatar/user.svg">
+              src="/assets/avatar/user.svg">
             </esl-avatar>
           {% endcode %}
           <p>The component displays an avatar image and the image will be loaded as soon as possible.</p>
@@ -176,7 +175,7 @@ aside:
             <esl-avatar
               loading="lazy"
               username="Junior Developer"
-              image-url="/assets/avatar/user.webp">
+              src="/assets/avatar/user.webp">
             </esl-avatar>
           {% endcode %}
           <p>It will show the image, but the loading of the image by the browser will be delayed until it appears in the browser's viewport. The behavior is identical to the loading="lazy" mode for image tags. But lazy loading mode is enabled by default.</p>
@@ -194,7 +193,7 @@ aside:
           {% code 'html' %}
             <esl-avatar
               username="Intern Developer"
-              image-url="/assets/avatar/transparent.webp">
+              src="/assets/avatar/transparent.webp">
             </esl-avatar>
           {% endcode %}
           <p>It should be noted that the image is not square, but rectangular, the ratio is 3 to 2. As you can see, the component shows the image with the original ratio preserved in such a way that the image covers the entire plane of the component.</p>
@@ -212,7 +211,7 @@ aside:
           {% code 'html' %}
             <esl-avatar
               username="Bored Developer"
-              image-url="/assets/avatar/animation.webp">
+              src="/assets/avatar/animation.webp">
             </esl-avatar>
           {% endcode %}
           <p>WOW!!! Live avatar!</p>
@@ -230,7 +229,7 @@ aside:
           {% code 'html' %}
             <esl-avatar
               username="Non-existetnt Developer"
-              image-url="/assets/non-existent-image.png">
+              src="/assets/non-existent-image.png">
             </esl-avatar>
           {% endcode %}
           <p>The component tries to load the image and switches to text mode displaying when it receives the error.</p>
