@@ -38,6 +38,8 @@ import {
   ESLRelatedTarget
 } from '@exadel/esl/modules/all';
 
+import {ESLRandomText} from '@exadel/esl/modules/esl-random-text/core';
+
 import '@exadel/esl/modules/esl-media/providers/iframe-provider';
 import '@exadel/esl/modules/esl-media/providers/html5/audio-provider';
 import '@exadel/esl/modules/esl-media/providers/html5/video-provider';
@@ -53,6 +55,7 @@ import '@exadel/esl/modules/esl-share/actions/print-action';
 import './esl-media-demo/test-media';
 import './esl-media-demo/test-media-source';
 
+import {ESLDemoAutofocus} from './autofocus/autofocus-mixin';
 import {ESLDemoBackLink} from './back-link/back-link';
 import {ESLDemoMarquee} from './landing/landing';
 import {ESLDemoSearchBox} from './navigation/header/header-search';
@@ -65,6 +68,7 @@ import {ESLDemoSwipeArea} from './esl-swipe-demo/esl-swipe-demo-area';
 ESLVSizeCSSProxy.observe();
 
 // Register Demo components
+ESLDemoAutofocus.register();
 ESLDemoSidebar.register();
 ESLDemoMarquee.register();
 ESLDemoSearchBox.register();
@@ -73,6 +77,9 @@ ESLDemoAnchorLink.register();
 ESLDemoBackLink.register();
 ESLDemoBanner.register();
 ESLDemoSwipeArea.register();
+
+// Test Content
+ESLRandomText.register('lorem-ipsum');
 
 // Register ESL Components
 ESLImage.register();

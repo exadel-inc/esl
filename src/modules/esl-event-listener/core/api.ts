@@ -110,12 +110,9 @@ export class ESLEventUtils {
 }
 
 function emptySubscriptionWarning(host: object, descriptor: ESLListenerDescriptor, handler: ESLListenerHandler): void {
-  console.warn('[ESL]: Empty subscription %o', {
-    descriptor,
-    handler,
-    event: resolveProperty(descriptor.event, host),
-    target: resolveProperty(descriptor.target, host)
-  });
+  const event = resolveProperty(descriptor.event, host);
+  const target = resolveProperty(descriptor.target, host);
+  console.warn('[ESL]: Empty subscription %o', {host, descriptor, handler, event, target});
 }
 
 /** @deprecated alias for {@link ESLEventUtils} */
