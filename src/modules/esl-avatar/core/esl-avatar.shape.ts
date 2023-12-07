@@ -7,13 +7,13 @@ import type {ESLAvatar} from './esl-avatar';
  */
 export interface ESLAvatarTagShape extends ESLBaseElementShape<ESLAvatar> {
   /** URL of the avatar image */
-  'image-src'?: string;
+  src?: string;
   /** The name of the user for whom the avatar is displayed */
   username?: string;
   /** Policy of loading image that is outside of the viewport */
   loading?: 'eager' | 'lazy';
   /** The limit number of letters to be displayed in text-only mode */
-  limit?: number;
+  'abbr-length'?: number;
 
   /** Children are not allowed for ESLAvatar */
   children?: never[];
