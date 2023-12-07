@@ -98,9 +98,6 @@ export class ESLTooltip extends ESLPopup {
     }
     this.dir = params.dir || '';
     this.lang = params.lang || '';
-    if (params.extraClass) {
-      CSSClassUtils.add(this, params.extraClass);
-    }
     document.body.appendChild(this);
     super.onShow(params);
     this._updateActivatorState(true);
@@ -111,9 +108,6 @@ export class ESLTooltip extends ESLPopup {
     this._updateActivatorState(false);
     super.onHide(params);
     document.body.removeChild(this);
-    if (params.extraClass) {
-      CSSClassUtils.remove(this, params.extraClass);
-    }
   }
 
   /**
