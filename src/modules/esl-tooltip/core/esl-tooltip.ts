@@ -3,7 +3,6 @@ import {ESLPopup} from '../../esl-popup/core';
 import {memoize, attr, boolAttr, listen} from '../../esl-utils/decorators';
 import {TAB} from '../../esl-utils/dom/keys';
 import {getKeyboardFocusableElements} from '../../esl-utils/dom/focus';
-import {CSSClassUtils} from '../../esl-utils/dom/class';
 
 import type {PopupActionParams} from '../../esl-popup/core';
 import type {PositionType} from '../../esl-popup/core/esl-popup-position';
