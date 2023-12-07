@@ -237,7 +237,7 @@ Note: if the default configuration does not used, you should import the required
 
 ### List of buttons through which you can share
 
-The components `<esl-share>` and `<esl-share-list>` construct their content or the content of the `<esl-share-popup>` from a set of `<esl-share-button>` automatically. Therefore, the list of buttons for construction is specified through a special attribute called `list`. This is a regular string in which the following entities can be indicated through spaces:
+The components `<esl-share>` and `<esl-share-list>` construct their content (or the content of the `<esl-share-popup>`) automatically (using inner `<esl-share-button>`). Therefore, the list of buttons for construction is specified through a special attribute called `list`. This is a regular string in which the following entities can be indicated through spaces:
  - button name
  - group name (indicated with the prefix `group:`)
  - the keyword `all`, which denotes the entire set of available buttons in the order they were added to the configuration.
@@ -276,14 +276,14 @@ The principle of cascading is similar to CSS variables. The value is searched fr
 
 #### Events
 
- - `esl:share:changed` - event to dispatch on change of ESLShareButton
- - `esl:share:ready` - event to dispatch on ready of ESLShareButton
+ - `esl:share:changed` - event to dispatch on `ESLShareButton` state change
+ - `esl:share:ready` - event to dispatch on `ESLShareButton` ready state
 
 ### ESLShareConfig
 
 #### Public API
 
- - `instance` - static getter that returns shared instance of ESLShareConfig
+ - `instance` - static getter that returns shared instance of `ESLShareConfig`
  - `append` - static method that appends single button or group to current configuration
  - `set` - static method that updates the configuration with promise resolved to `ESLShareConfigInit` or promise provider function
  - `buttons` - getter that returns list of all available buttons
@@ -296,7 +296,7 @@ The principle of cascading is similar to CSS variables. The value is searched fr
 
 #### Events
 
- - `change` - event to dispatch on change of ESLShareConfig
+ - `change` - event to dispatch on change of `ESLShareConfig`
 
 ### ESLShareList
 
@@ -348,7 +348,7 @@ A trigger element is based on [ESLTrigger](../esl-trigger/README.md) to activate
 
 #### Events
 
- - `esl:share:ready` - event to dispatch on ready of ESLShare
+ - `esl:share:ready` - event to dispatch on ready of `ESLShare`
 
 ### ESLShareAction
 
