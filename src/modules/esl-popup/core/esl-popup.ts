@@ -48,6 +48,8 @@ export interface PopupActionParams extends ESLToggleableActionParams {
 
   /** Extra class to add to popup on activation */
   extraClass?: string;
+  /** Extra styles to add to popup on activation */
+  extraStyle?: string;
 }
 
 @ExportNs('Popup')
@@ -105,6 +107,8 @@ export class ESLPopup extends ESLToggleable {
   public $placeholder: ESLPopupPlaceholder | null;
 
   protected _extraClass?: string;
+  protected _extraStyle?: string;
+
   protected _containerEl?: HTMLElement;
   protected _offsetTrigger: number;
   protected _offsetContainer: number | [number, number];
@@ -181,6 +185,7 @@ export class ESLPopup extends ESLToggleable {
     if (this.open) {
       this.afterOnHide();
       this._extraClass = params.extraClass;
+      this._extraStyle = params.extraStyle;
       this.afterOnShow();
     }
 
@@ -206,6 +211,7 @@ export class ESLPopup extends ESLToggleable {
     }));
 
     this._extraClass = params.extraClass;
+    this._extraStyle = params.extraStyle;
     this._containerEl = params.containerEl;
     this._offsetTrigger = params.offsetTrigger || 0;
     this._offsetContainer = params.offsetContainer || 0;
@@ -232,7 +238,9 @@ export class ESLPopup extends ESLToggleable {
    */
   protected afterOnShow(): void {
     this._updatePosition();
+
     this.style.visibility = 'visible';
+    this.style.cssText += this._extraStyle || '';
     this.$$cls(this._extraClass || '', true);
 
     this.$$on(this._onActivatorScroll);
@@ -253,6 +261,8 @@ export class ESLPopup extends ESLToggleable {
    */
   protected afterOnHide(): void {
     this._stopUpdateLoop();
+
+    this.$$attr('style', '');
     this.$$cls(this._extraClass || '', false);
 
     this.$$off(this._onActivatorScroll);
