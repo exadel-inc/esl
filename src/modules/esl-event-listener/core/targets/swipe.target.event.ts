@@ -6,11 +6,6 @@ import {overrideEvent} from '../../../esl-utils/dom/events/misc';
 export type SwipeDirection = 'left' | 'right' | 'up' | 'down';
 
 /**
- * Event names that could be triggered by {@link ESLSwipeGestureTarget}
- */
-export type SwipeEventName = 'swipe';
-
-/**
  * Describes swipe information provided with {@link ESLSwipeGestureEvent}
  */
 export interface ESLSwipeGestureEventInfo {
@@ -36,6 +31,8 @@ export interface ESLSwipeGestureEventInfo {
  * Swipe event dispatched by {@link ESLSwipeGestureTarget}
  */
 export class ESLSwipeGestureEvent extends UIEvent implements ESLSwipeGestureEventInfo {
+  public static readonly type = 'swipe';
+
   public override readonly target: Element;
 
   public readonly direction: SwipeDirection;
@@ -47,14 +44,14 @@ export class ESLSwipeGestureEvent extends UIEvent implements ESLSwipeGestureEven
   public readonly startEvent: PointerEvent;
   public readonly duration: number;
 
-  protected constructor(eventName: SwipeEventName, target: Element, swipeInfo: ESLSwipeGestureEventInfo) {
-    super(eventName, {bubbles: false, cancelable: true});
+  protected constructor(target: Element, swipeInfo: ESLSwipeGestureEventInfo) {
+    super(ESLSwipeGestureEvent.type, {bubbles: false, cancelable: true});
     overrideEvent(this, 'target', target);
     Object.assign(this, swipeInfo);
   }
 
   /** Creates {@link ESLSwipeGestureEvent} based on {@link ESLSwipeGestureEventInfo} */
-  public static fromConfig(eventName: SwipeEventName, target: Element, swipeInfo: ESLSwipeGestureEventInfo): ESLSwipeGestureEvent {
-    return new ESLSwipeGestureEvent(eventName, target, swipeInfo);
+  public static fromConfig(target: Element, swipeInfo: ESLSwipeGestureEventInfo): ESLSwipeGestureEvent {
+    return new ESLSwipeGestureEvent(target, swipeInfo);
   }
 }

@@ -10,10 +10,10 @@ aside:
 ---
 
 <style>
-  esl-share-popup-trigger {
+  esl-share {
     margin: 10px;
   }
-  esl-share-popup-trigger svg {
+  esl-share svg {
     width: 40px;
     height: 40px;
   }
@@ -76,11 +76,6 @@ aside:
 
   <h3>Share popup trigger example</h3>
   <p>Displays trigger icon. Hovering or clicking on the icon shows a popup with the list of share icons. The component's configuration uses attributes to specify the URL and title of the page to be shared.</p>
-  <esl-share mode="popup" list="group:demo" share-url="https://esl-ui.com/" share-title="Exadel Smart Library">{% include 'static/assets/examples/share-trigger-icon.svg' %}</esl-share>
-  <hr>
+  <esl-share list="group:demo" share-url="https://esl-ui.com/" share-title="Exadel Smart Library">{% include 'static/assets/examples/share-trigger-icon.svg' %}</esl-share>
 
-  <h3>Share (universal) component example (with both list and popup modes)</h3>
-  <p>Shows share list from a specified group and share popup trigger for the same group.</p>
-  <esl-share mode="list" list="group:demo"></esl-share>
-  <esl-share mode="popup" list="group:demo">{% include 'static/assets/examples/share-trigger-icon.svg' %}</esl-share>
 </section>

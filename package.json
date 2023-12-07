@@ -1,6 +1,6 @@
 {
   "name": "@exadel/esl",
-  "version": "4.13.1",
+  "version": "4.14.1",
   "private": false,
   "description": "Exadel Smart Library (ESL) is the lightweight custom elements library that provide a set of super-flexible components",
   "license": "MIT",
@@ -53,7 +53,8 @@
     "src/polyfills/**/*.ts"
   ],
   "workspaces": [
-    "pages"
+    "pages",
+    "eslint"
   ],
   "scripts": {
     "start": "cd pages && npm run start",
@@ -77,6 +78,8 @@
     "prepare": "husky install && npm run build",
     "preversion": "npm test",
     "version": "cross-env-shell \"npm version $npm_package_version --no-git-tag-version --ws\" && git add **/package*.json",
+    "postpack": "npm pack --workspace eslint",
+    "postpublish": "npm publish --workspace eslint",
     "fix:less": "stylelint --fix \"**/*.less\""
   },
   "dependencies": {
@@ -84,22 +87,23 @@
     "@types/youtube": "0.0.50"
   },
   "devDependencies": {
-    "@commitlint/cli": "^18.4.2",
-    "@commitlint/config-conventional": "^18.4.2",
+    "@commitlint/cli": "^18.4.3",
+    "@commitlint/config-conventional": "^18.4.3",
+    "@exadel/eslint-plugin-esl": "file:eslint",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/commit-analyzer": "^11.1.0",
     "@semantic-release/git": "^10.0.1",
-    "@semantic-release/github": "^9.2.3",
+    "@semantic-release/github": "^9.2.4",
     "@semantic-release/npm": "^11.0.1",
     "@semantic-release/release-notes-generator": "^12.1.0",
-    "@types/jest": "^29.5.8",
-    "@typescript-eslint/eslint-plugin": "^6.11.0",
-    "@typescript-eslint/parser": "^6.11.0",
+    "@types/jest": "^29.5.11",
+    "@typescript-eslint/eslint-plugin": "^6.13.2",
+    "@typescript-eslint/parser": "^6.13.2",
     "chokidar-cli": "^3.0.0",
     "concurrently": "^8.2.2",
     "copyfiles": "^2.4.1",
     "cross-env": "^7.0.3",
-    "eslint": "^8.53.0",
+    "eslint": "^8.55.0",
     "eslint-plugin-editorconfig": "^4.0.3",
     "eslint-plugin-import": "^2.29.0",
     "eslint-plugin-sonarjs": "^0.23.0",
@@ -110,17 +114,17 @@
     "jest-environment-jsdom": "^29.7.0",
     "kleur": "^4.1.5",
     "less": "^4.2.0",
-    "lint-staged": "^15.1.0",
-    "postcss": "^8.4.31",
+    "lint-staged": "^15.2.0",
+    "postcss": "^8.4.32",
     "postcss-less": "^6.0.0",
     "prettier": "^3.1.0",
     "rimraf": "^5.0.5",
-    "semantic-release": "^22.0.7",
+    "semantic-release": "^22.0.10",
     "smoothscroll-polyfill": "^0.4.4",
     "stylelint": "^15.11.0",
-    "stylelint-prettier": "^4.0.2",
+    "stylelint-prettier": "^4.1.0",
     "ts-jest": "^29.1.1",
-    "typescript": "5.2.2"
+    "typescript": "5.3.2"
   },
   "browserslist": [
     "last 3 versions",
