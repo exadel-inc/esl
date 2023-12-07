@@ -34,6 +34,7 @@ import {
   ESLTooltip,
   ESLAnimate,
   ESLAnimateMixin,
+  ESLAvatar,
   ESLRelatedTarget
 } from '@exadel/esl/modules/all';
 
@@ -115,6 +116,8 @@ ESLTooltip.register();
 
 ESLAnimate.register();
 ESLAnimateMixin.register();
+
+ESLAvatar.register();
 
 // Register ESL Mixins
 ESLRelatedTarget.register();
