@@ -645,7 +645,7 @@ ESLWheelTarget.for(el: Element, settings?: ESLWheelTargetSetting): ESLWheelTarge
 
 **Parameters**:
 
-- `el` - `Element` to listen for long wheel events on.
+- `el` - `Element` to listen for long wheel events
 - `settings` - optional settings (`ESLWheelTargetSetting`)
 
 The `ESLWheelTargetSetting` configuration includes these optional attributes:
