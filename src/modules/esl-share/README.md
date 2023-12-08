@@ -356,29 +356,32 @@ A trigger element is based on [ESLTrigger](../esl-trigger/README.md) to activate
  - `isAvailable` - checks if this action is available on the user's device
  - `share` - performs an action to share
 
-### List of share buttons, the configuration of which we provide
+### List of out-of-the-box ways of sharing
 
 We provide configurations for share buttons for popular social networks and distribution methods. All you need to do to utilize this feature is to import a file with the configuration (see the section on `Configuring the ESLShare components`). All necessary activations and registrations will be carried out during the import.
 
-Here is the list of available buttons for sharing:
+Here is the list of available buttons for sharing via social media and messengers:
 
  - `blogger`- shares data into Blogger an online content management system
- - `copy` - copies the share data into a clipboard
  - `facebook` - shares data into Facebook a free social networking website
  - `hatena` - shares data into Hatena a japan free blogging service
  - `kakao` - shares data into Kakao the most popular network among Koreans
  - `line` - shares data into Line a popular messaging and social media platform in Japan and other parts of Asia
  - `linkedin` - shares data into LinkedIn a social networking site designed specifically for the business community
- - `mail` - activates the default mail client on the device for sending data via e-mail
  - `mix` - shares data into Mix a social network service
  - `mixi` - shares data into Mixi an online Japanese social networking service
  - `myspace` - shares data into MySpace a social media platform
- - `native-share` - activates the native sharing mechanism of the device to share data
  - `pinterest` - shares data into Pinterest a social curation website for sharing and categorizing images found online
- - `print` - prints page
  - `pusha` - shares data into Pusha a social network service
  - `reddit` - shares data into Reddit an American social news aggregation, content rating, and discussion website 
  - `sina-weibo` - shares data into Sina Weibo a microblogging website and app which compares to Twitter and Instagram
  - `telegram` - shares data into Telegram a cloud-based, cross-platform instant messaging (IM) service
  - `twitter` - shares data into Twitter a free social networking site where users broadcast short posts known as tweets
  - `wykop` - shares data into Wykop a Polish social networking internet service
+
+And the list of available buttons for other sharing actions:
+
+ - `copy` - copies the share data into a clipboard
+ - `mail` - activates the default mail client on the device for sending data via e-mail
+ - `native-share` - activates the native sharing mechanism of the device to share data
+ - `print` - prints page
