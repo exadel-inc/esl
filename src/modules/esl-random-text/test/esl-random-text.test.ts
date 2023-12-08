@@ -9,7 +9,7 @@ describe('ESLRandomText', () => {
       expect(text.split(' ').length).toBe(10);
     });
 
-    test('generates text with specified number of words and shuffles them', () => {
+    test('generates text with specified number of words (in a shuffle case)', () => {
       const text = ESLRandomText.generateText(10, true);
       expect(text.split(' ').length).toBe(10);
     });
@@ -40,7 +40,7 @@ describe('ESLRandomText', () => {
       expect(text.split(' ').length).toBe(10);
     });
 
-    test('generates text with specified number of words and shuffles them', () => {
+    test('generates text with specified number of words (in a shuffle case)', () => {
       const dom = ESLRandomText.generateTextHTML(10, 10, true);
       const text = dom.replace(/<[^>]+>/g, '');
       expect(text.split(' ').length).toBe(10);
