@@ -1,9 +1,8 @@
-import {attr, prop, listen, bind} from '@exadel/esl/modules/esl-utils/decorators';
+import {attr, prop, listen} from '@exadel/esl/modules/esl-utils/decorators';
 import {getAttr, setAttr} from '@exadel/esl/modules/esl-utils/dom/attr';
 
 import {UIPPlugin} from '../../../core/base/plugin';
 
-import type {UIPSettings} from '../settings';
 import type {UIPStateModel} from '../../../core/base/model';
 
 /**
@@ -92,8 +91,8 @@ export abstract class UIPSetting extends UIPPlugin {
   }
 
   /** Updates {@link UIPSetting} values */
-  @bind
-  protected override _onRootStateChange(): void {
+  @listen({event: 'uip:change', target: ($this: UIPSetting)=> $this.$root})
+  protected _onRootStateChange(): void {
     this.updateFrom(this.model!);
   }
 

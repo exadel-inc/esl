@@ -164,7 +164,7 @@ export class UIPSelectSetting extends UIPSetting {
     this.select.remove(this.settingOptions.indexOf(UIPSelectSetting.inconsistentValue));
   }
 
-
+  // TODO: remove, find a way to handle theme change on dropdown arrow
   /**
    * Handles {@link UIPRoot} `uip:configchange` event to
    * manage dropdown theme

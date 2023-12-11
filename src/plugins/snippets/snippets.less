@@ -1,0 +1,137 @@
+@import (reference) '../../common/variables.less';
+
+.uip-snippets {
+  position: relative;
+  height: 100%;
+  width: 100%;
+
+  .snippets-dropdown-control {
+    display: none;
+  }
+
+  .snippets-list {
+    width: 100%;
+    list-style-type: none;
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: 0;
+    padding: 0 10px;
+    margin-bottom: 0;
+
+    &-item {
+      margin-right: 15px;
+
+      &:hover {
+        cursor: pointer;
+        opacity: 0.7;
+      }
+
+      &.active {
+        font-weight: @active-font-weight;
+      }
+    }
+  }
+}
+
+.uip-snippets.dropdown-view {
+  .uip-snippets-list {
+    position: relative;
+    display: flex;
+    max-height: 0;
+    background-color: @light-color;
+    overflow: hidden;
+    visibility: hidden;
+    border: 1px solid @section-border;
+    transition: max-height 0.3s ease-in-out,
+    visibility 0s 0.25s,
+    box-shadow 0.3s ease-in-out;
+  }
+
+  .snippets-dropdown {
+    position: absolute;
+    display: block;
+    top: 100%;
+    left: 0;
+    z-index: 10;
+    width: auto;
+    min-width: 50%;
+    max-width: 100%;
+    font-size: 1.1rem;
+
+    .scrollbar-collapsed();
+
+    // in case  playground contains playground inside
+    .uip-root & {
+      .rtl-direction & {
+        left: auto;
+        right: 0;
+      }
+    }
+
+    @media @mobile {
+      min-width: 100%;
+    }
+  }
+
+  .snippets-dropdown-control {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    height: 100%;
+
+    svg {
+      height: 8px;
+      margin: 0 5px;
+      pointer-events: none;
+
+      transform-origin: center;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  .snippets-list {
+    display: block;
+    margin-right: 20px;
+    padding: 5px 0 10px 35px;
+
+    &-item {
+      padding: 5px 0;
+      margin-right: 0;
+
+      &:not(:last-child) {
+        border-bottom: 1px solid @section-border;
+      }
+    }
+  }
+
+
+  .snippets-dropdown.open {
+    .scrollbar-expanded();
+
+    .uip-snippets-list {
+      max-height: 150px;
+      visibility: visible;
+      box-shadow: 0 4px 6px 0 rgb(0 0 0 / 20%);
+      transition: max-height 0.3s ease-in-out,
+      visibility 0s;
+    }
+  }
+
+  .snippets-dropdown-control.open {
+    svg {
+      transform: rotateX(180deg);
+    }
+  }
+
+}
+
+.uip-preview {
+  .uip-snippets .snippets-dropdown {
+    z-index: 5;
+  }
+}
+

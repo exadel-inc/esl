@@ -4,8 +4,7 @@ import {debounce} from '@exadel/esl/modules/esl-utils/async/debounce';
 import {attr, boolAttr, decorate, listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 
 import {UIPPluginPanel} from '../../core/panel/plugin-panel';
-import {UIPDirIcon} from '../direction/uip-dir.icon';
-import {UIPThemeIcon} from '../theme/uip-theme.icon';
+import {ThemeToggleIcon} from '../theme/theme-toggle.icon';
 
 import {UIPSetting} from './base-setting/base-setting';
 import {SettingsIcon} from './settings.icon';
@@ -32,8 +31,7 @@ export class UIPSettings extends UIPPluginPanel {
   protected override get $toolbar(): HTMLElement {
     const type = this.constructor as typeof UIPSettings;
     return (<div class={type.is + '-toolbar uip-plugin-header-toolbar'}>
-      {this.dirToggle ? <uip-toggle-dir class={type.is + '-toolbar-option'}><UIPDirIcon/></uip-toggle-dir> : ''}
-      {this.themeToggle ? <uip-toggle-theme class={type.is + '-toolbar-option'}><UIPThemeIcon/></uip-toggle-theme> : ''}
+      {this.themeToggle ? <uip-theme-toggle class={type.is + '-toolbar-option'}><ThemeToggleIcon/></uip-theme-toggle> : ''}
     </div>) as HTMLElement;
   }
 
@@ -49,7 +47,9 @@ export class UIPSettings extends UIPPluginPanel {
   @memoize()
   protected get $container(): HTMLElement {
     const type = this.constructor as typeof UIPSettings;
-    return (<div class={type.is + '-container esl-scrollable-content'}></div>) as HTMLElement;
+    return (<div class={type.is + '-container esl-scrollable-content'}>
+      {this.dirToggle ? <uip-dir-toggle class={type.is + '-direction'}/> : ''}
+    </div>) as HTMLElement;
   }
 
   protected override connectedCallback(): void {
