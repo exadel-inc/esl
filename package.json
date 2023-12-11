@@ -110,7 +110,7 @@
     "postcss": "^8.4.31",
     "postcss-less": "^6.0.0",
     "postcss-loader": "^7.3.3",
-    "postcss-preset-env": "^9.2.0",
+    "postcss-preset-env": "^9.3.0",
     "prettier": "^3.1.1",
     "rimraf": "^5.0.5",
     "semantic-release": "^22.0.10",
