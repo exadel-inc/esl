@@ -1,6 +1,6 @@
 import React from 'jsx-dom';
 
-import {bind, listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
+import {listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 import {afterNextRender, skipOneRender} from '@exadel/esl/modules/esl-utils/async';
 
 import {UIPPlugin} from '../base/plugin';
@@ -26,15 +26,15 @@ export class UIPPreview extends UIPPlugin {
     const type = this.constructor as typeof UIPPreview;
     return (
       <div class={type.is + '-container'}>
-        <esl-scrollbar class={type.is + '-scroll'} target="::next(.uip-plugin-inner)"/>
-        <esl-scrollbar class={type.is + '-scroll'} target="::next(.uip-plugin-inner)" horizontal/>
+        <esl-scrollbar class={type.is + '-v-scroll'} target="::next(.uip-plugin-inner)"/>
+        <esl-scrollbar class={type.is + '-h-scroll'} target="::next(.uip-plugin-inner)" horizontal/>
         {this.$inner}
       </div>
     ) as HTMLElement;
   }
 
   /** Changes preview markup from state changes */
-  @bind
+  @listen({event: 'uip:change', target: ($this: UIPPreview) => $this.$root})
   protected _onRootStateChange(): void {
     this.$container.style.minHeight = `${this.$inner.offsetHeight}px`;
     this.$inner.innerHTML = this.model!.html;
@@ -50,6 +50,7 @@ export class UIPPreview extends UIPPlugin {
     super.connectedCallback();
     this.appendChild(this.$container);
   }
+
   protected override disconnectedCallback(): void {
     this.$container.remove();
     super.disconnectedCallback();

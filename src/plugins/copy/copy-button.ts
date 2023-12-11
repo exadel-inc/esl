@@ -1,4 +1,4 @@
-import './uip-copy.shape';
+import './copy-button.shape';
 
 import {UIPPluginButton} from '../../core/button/plugin-button';
 
@@ -16,6 +16,11 @@ export class UIPCopy extends UIPPluginButton {
   protected override connectedCallback(): void {
     if (!navigator.clipboard) this.hidden = true;
     super.connectedCallback();
+  }
+
+  protected override disconnectedCallback(): void {
+    super.disconnectedCallback();
+    this.innerHTML = '';
   }
 
   public override onAction(): void {

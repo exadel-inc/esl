@@ -29,7 +29,7 @@ export abstract class UIPPluginButton extends UIPPlugin {
 
     const type = this.constructor as typeof UIPPluginButton;
     if (type.defaultTitle && !this.hasAttribute('title')) {
-      this.setAttribute('title', type.defaultTitle);
+      this.setAttribute('title', this.label || type.defaultTitle);
     }
   }
 

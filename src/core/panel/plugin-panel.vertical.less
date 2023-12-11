@@ -1,7 +1,4 @@
 .uip-plugin-panel.vertical.vertical {
-  --uip-plugin-header-bg: var(--uip-plugin-bg-v, transparent);
-  --uip-plugin-header-fg: var(--uip-plugin-fg-v, #000);
-
   grid-area: sidebar;
   flex-direction: row;
   min-height: max(100%, 100px);
@@ -45,13 +42,6 @@
     left: 0;
     right: 0;
     gap: 0.5rem;
-
-    > .uip-plugin {
-      transition: transform 0.3s ease-in-out;
-      &:hover {
-        transform: translateX(-0.25rem);
-      }
-    }
   }
 
   .uip-plugin-header-title {
@@ -60,6 +50,9 @@
   &:not([collapsible]) {
     .uip-plugin-header.has-toolbar {
       min-width: calc(1.25rem + 8px);
+    }
+    .uip-plugin-header:not(.has-toolbar).no-label {
+      padding: 1px;
     }
     .uip-plugin-header-icon {
       display: none;

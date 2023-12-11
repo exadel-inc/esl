@@ -1,10 +1,9 @@
 import {ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
-import {memoize, boolAttr} from '@exadel/esl/modules/esl-utils/decorators';
+import {memoize, boolAttr, listen} from '@exadel/esl/modules/esl-utils/decorators';
 
 import {UIPStateModel} from './model';
 
-import type {SnippetTemplate} from './model';
-import type {AnyToVoidFnSignature} from '@exadel/esl/modules/esl-utils/misc/functions';
+import type {UIPSnippetTemplate} from './snippet';
 
 /**
  * UI Playground root custom element definition
@@ -23,6 +22,8 @@ export class UIPRoot extends ESLBaseElement {
   /** Indicates that the direction of the preview content is RTL direction */
   @boolAttr() public rtlDirection: boolean;
 
+  @boolAttr({readonly: true}) public ready: boolean;
+
   /** {@link UIPStateModel} instance to store UI Playground state */
   @memoize()
   public get model(): UIPStateModel {
@@ -30,28 +31,25 @@ export class UIPRoot extends ESLBaseElement {
   }
 
   /** Collects snippets template-holders */
-  public get $snippets(): SnippetTemplate[] {
+  public get $snippets(): UIPSnippetTemplate[] {
     return Array.from(this.querySelectorAll(UIPRoot.SNIPPET_SEL));
   }
 
   protected override connectedCallback(): void {
     super.connectedCallback();
     this.initSnippets();
-  }
-
-  /** Alias for {@link this.model.addListener} */
-  public addStateListener(listener: AnyToVoidFnSignature): void {
-    this.model.addListener(listener);
-  }
-
-  /** Alias for {@link this.model.removeListener} */
-  public removeStateListener(listener: AnyToVoidFnSignature): void {
-    this.model.removeListener(listener);
+    this.$$attr('ready', true);
+    this.$$fire('uip:root:ready', {bubbles: false});
   }
 
   /** Initial initialization of snippets */
   protected initSnippets(): void {
     this.model.snippets = this.$snippets;
-    this.model.applySnippet(this.model.activeSnippet, this);
+    this.model.applyCurrentSnippet(this);
+  }
+
+  @listen({event: 'uip:model:change', target: ($this: UIPRoot) => $this.model})
+  protected onModelChange({detail}: CustomEvent): void {
+    this.dispatchEvent(new CustomEvent('uip:change', {detail}));
   }
 }

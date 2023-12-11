@@ -19,15 +19,6 @@ title: Components
     <li class="item">
       <a href="{{ plugin.url | url }}">{{ plugin.data.title }}</a>
     </li>
-    {% if plugin.data.isHeaderList %}
-    <ul class="collection-sublist">
-      {% for headerItem in collections.header %}
-      <li class="item">
-        <a href="{{ headerItem.url | url }}">{{ headerItem.data.title }}</a>
-      </li>
-      {%- endfor %}
-    </ul>
-    {%- endif %}
     {% if plugin.data.isSettingList %}
       <ul class="collection-sublist">
         {% for setting in collections.setting %}

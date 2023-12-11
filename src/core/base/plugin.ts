@@ -1,5 +1,5 @@
 import {ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
-import {ESLTraversingQuery} from "@exadel/esl/modules/esl-traversing-query/core";
+import {ESLTraversingQuery} from '@exadel/esl/modules/esl-traversing-query/core';
 import {attr, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 
 import {UIPRoot} from './root';
@@ -11,40 +11,38 @@ import type {UIPStateModel} from './model';
  * Implements basic relation and styles
  */
 export abstract class UIPPlugin extends ESLBaseElement {
-  static observedAttributes = ['label'];
+  static readonly observedAttributes = ['root', 'label'];
 
   /** Visible label */
   @attr() public label: string;
-  /** Query for root */
-  @attr() public rootTarget: string;
+
+  /** Query for $root */
+  @attr({defaultValue: `::parent(${UIPRoot.is})`})
+  public root: string;
 
   /** Closest playground {@link UIPRoot} element */
   @memoize()
-  protected get root(): UIPRoot | null {
-    return (this.rootTarget ? ESLTraversingQuery.first(this.rootTarget, this) : this.closest(`${UIPRoot.is}`)) as UIPRoot;
+  public get $root(): UIPRoot | null {
+    return ESLTraversingQuery.first(this.root, this) as UIPRoot;
   }
 
-  /** Returns {@link UIPStateModel} from root instance */
+  /** Returns {@link UIPStateModel} from $root instance */
   protected get model(): UIPStateModel | null {
-    return this.root ? this.root.model : null;
+    return this.$root ? this.$root.model : null;
   }
 
-  protected connectedCallback(): void {
+  protected override connectedCallback(): void {
     super.connectedCallback();
     this.classList.add('uip-plugin');
-    this.root?.addStateListener(this._onRootStateChange);
   }
 
-  protected disconnectedCallback(): void {
-    this.root?.removeStateListener(this._onRootStateChange);
+  protected override disconnectedCallback(): void {
     super.disconnectedCallback();
-    memoize.clear(this, 'root');
+    memoize.clear(this, '$root');
   }
 
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
+  protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (attrName === 'label') this.setAttribute('aria-label', newVal);
+    if (attrName === 'root') memoize.clear(this, '$root');
   }
-
-  /** Handles {@link UIPRoot} state changes */
-  protected _onRootStateChange(): void {}
 }

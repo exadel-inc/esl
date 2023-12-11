@@ -8,10 +8,10 @@ import Prism from 'prismjs';
 import {CodeJar} from 'codejar';
 
 import {debounce} from '@exadel/esl/modules/esl-utils/async/debounce';
-import {bind, boolAttr, decorate, memoize} from '@exadel/esl/modules/esl-utils/decorators';
+import {boolAttr, decorate, listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 
 import {UIPPluginPanel} from '../../core/panel/plugin-panel';
-import {CopyIcon} from '../copy/uip-copy.icon';
+import {CopyIcon} from '../copy/copy-button.icon';
 
 import {EditorIcon} from './editor.icon';
 
@@ -64,7 +64,7 @@ export class UIPEditor extends UIPPluginPanel {
     return (<pre class={type.is + '-code language-html'}><code/></pre>) as HTMLElement;
   }
 
-  /** Wrapped {@link https://medv.io/codejar/ CodeJar} editor instance */
+  /** Wrapped [CodeJar](https://medv.io/codejar/) editor instance */
   @memoize()
   protected get editor(): CodeJar {
     return CodeJar(this.$code, UIPEditor.highlight, {tab: '\t'});
@@ -115,8 +115,8 @@ export class UIPEditor extends UIPPluginPanel {
   }
 
   /** Change editor's markup from markup state changes */
-  @bind
-  protected override _onRootStateChange(): void {
+  @listen({event: 'uip:change', target: ($this: UIPEditor)=> $this.$root})
+  protected _onRootStateChange(): void {
     if (this.model!.lastModifier === this) return;
     this.value = this.model!.html;
   }

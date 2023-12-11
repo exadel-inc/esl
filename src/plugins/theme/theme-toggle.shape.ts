@@ -1,5 +1,5 @@
 import type {ESLBaseElementShape} from '@exadel/esl/modules/esl-base-element/core';
-import type {UIPThemeSwitcher} from './uip-theme';
+import type {UIPThemeSwitcher} from './theme-toggle';
 
 export interface UIPThemeSwitcherShape extends ESLBaseElementShape<UIPThemeSwitcher> {
   children?: any;
@@ -8,7 +8,7 @@ export interface UIPThemeSwitcherShape extends ESLBaseElementShape<UIPThemeSwitc
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      'uip-toggle-theme': UIPThemeSwitcherShape;
+      'uip-theme-toggle': UIPThemeSwitcherShape;
     }
   }
 }

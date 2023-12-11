@@ -1,11 +1,13 @@
-import {Observable} from '@exadel/esl/modules/esl-utils/abstract/observable';
+import {SyntheticEventTarget} from '@exadel/esl/modules/esl-utils/dom';
 import {decorate} from '@exadel/esl/modules/esl-utils/decorators';
 import {microtask} from '@exadel/esl/modules/esl-utils/async';
 
+import {UIPSnippetItem} from './snippet';
 import {UIPHtmlNormalizationService} from '../utils/normalization';
 
-import type {UIPPlugin} from './plugin';
 import type {UIPRoot} from './root';
+import type {UIPPlugin} from './plugin';
+import type {UIPSnippetTemplate} from './snippet';
 
 /** Type for function to change attribute's current value */
 export type TransformSignature = (current: string | null) => string | boolean | null;
@@ -29,24 +31,19 @@ export type ChangeAttrConfig = {
   transform: TransformSignature;
 });
 
-/** Type for both <script> or <template> containers */
-export type SnippetTemplate = HTMLTemplateElement | HTMLScriptElement;
-
 
 /**
  * State holder class to store current UIP markup state
  * Provides methods to modify the state
  */
-export class UIPStateModel extends Observable {
+export class UIPStateModel extends SyntheticEventTarget {
+  /** Snippets {@link UIPSnippetItem} value objects */
+  private _snippets: UIPSnippetItem[];
+
   /** Current markup state */
   private _html = new DOMParser().parseFromString('', 'text/html').body;
   /** Last {@link UIPPlugin} element which changed markup */
   private _lastModifier: UIPPlugin | UIPRoot;
-
-  /** Snippets {@link SnippetTemplate} template-holders*/
-  private _snippets: SnippetTemplate[];
-  /** Current active {@link SnippetTemplate} template-holder*/
-  private _activeSnippet: SnippetTemplate;
 
   /**
    * Sets current markup state to the passed one
@@ -74,35 +71,33 @@ export class UIPStateModel extends Observable {
   }
 
   /** Snippets template-holders getter */
-  public get snippets(): SnippetTemplate[] {
+  public get snippets(): UIPSnippetItem[] {
     return this._snippets;
   }
 
   /** Sets snippets template-holders */
-  public set snippets(snippets: SnippetTemplate[]) {
-    this._snippets = snippets;
+  public set snippets(snippets: (UIPSnippetItem | UIPSnippetTemplate)[]) {
+    this._snippets = snippets.map((snippet) => {
+      if (snippet instanceof UIPSnippetItem) return snippet;
+      return new UIPSnippetItem(snippet);
+    });
   }
 
   /** Current active {@link SnippetTemplate} getter */
-  public get activeSnippet(): SnippetTemplate {
-    if (!this._activeSnippet) {
-      this._activeSnippet = this.snippets
-        .find((snippet: SnippetTemplate) => snippet.hasAttribute('active')) || this.snippets[0];
-    }
-    return this._activeSnippet;
-  }
-
-  public set activeSnippet(snippet: SnippetTemplate) {
-    this._activeSnippet.removeAttribute('active');
-    snippet.setAttribute('active', '');
-    this._activeSnippet = snippet;
+  public get activeSnippet(): UIPSnippetItem | undefined {
+    return this._snippets.find((snippet) => snippet.active);
   }
 
   /** Changes current active snippet */
-  public applySnippet(snippet: SnippetTemplate, modifier: UIPPlugin | UIPRoot): void {
+  public applySnippet(snippet: UIPSnippetItem, modifier: UIPPlugin | UIPRoot): void {
     if (!snippet) return;
-    this.activeSnippet = snippet;
-    this.setHtml(snippet.innerHTML, modifier);
+    this._snippets.forEach((s) => s.active = (s === snippet));
+    this.setHtml(snippet.html, modifier);
+    this.dispatchEvent(new CustomEvent('uip:snippet:change', {detail: this}));
+  }
+  /** Apply an active snippet from DOM */
+  public applyCurrentSnippet(modifier: UIPPlugin | UIPRoot): void {
+    this.applySnippet(this.activeSnippet || this.snippets[0], modifier);
   }
 
   /**
@@ -129,7 +124,7 @@ export class UIPStateModel extends Observable {
   /** Plans microtask to dispatch model change event */
   @decorate(microtask)
   protected dispatchChange(): void {
-    this.fire();
+    this.dispatchEvent(new CustomEvent('uip:model:change', {bubbles: true, detail: this}));
   }
 
   /**

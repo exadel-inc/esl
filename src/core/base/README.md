@@ -8,22 +8,19 @@ Should be used as a parent class for all custom plugins of UIP to correctly obse
 ## Description
 
 All UIP elements are **UIPPlugin** instances. Plugin automatically sets *uip-plugin* class to its elements,
-provides access to [UIPRoot](src/core/README.md#uip-root) and adds *_onRootStateChange()* method, which is a key part in components communication.
+provides access to [UIPRoot](src/core/README.md#uip-root).
 
 After initialization **UIPPlugin** subscribes to [UIPStateModel](src/core/README.md#uip-state-model) changes and, after
-destroying, automatically unsubscribes. *_onRootStateChange()* is called every time markup changes are detected.
-As you can see, the flow is quite similar to what we usually do in
-[Observable](https://en.wikipedia.org/wiki/Observer_pattern) pattern.
+destroying, automatically unsubscribes.
+As you can see, the flow is quite similar to what we usually do in [Observable](https://en.wikipedia.org/wiki/Observer_pattern) pattern.
 
 ## Processing markup changes
-
-*_onRootStateChange()* method does nothing by default. So if you want your custom component to react on markup
-changes, you need to implement it. This callback has the following signature:
 
 ```typescript
 import {UIPPlugin} from "./plugin";
 
 class UIPComponent extends UIPPlugin {
+  @listen({event: 'uip:model:change', target: (that: UIPSetting)=> that.model})
   protected _onRootStateChange(): void {
       // ...
   }
@@ -39,6 +36,7 @@ You can find a way of getting current markup in [UIPStateModel](src/core/README.
 import {UIPPlugin} from "./plugin";
 
 class UIPPreview extends UIPPlugin {
+  @listen({event: 'uip:model:change', target: (that: UIPSetting)=> that.model})
   protected _onRootStateChange(): void {
     this.$inner.innerHTML = this.model!.html;
     this.innerHTML = '';
