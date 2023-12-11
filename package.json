@@ -69,7 +69,7 @@
     "node": ">=18.17.0"
   },
   "dependencies": {
-    "@exadel/esl": "^4.12.0",
+    "@exadel/esl": "^4.14.1",
     "codejar": "^4.2.0",
     "jsx-dom": "6.4.23",
     "prismjs": "^1.29.0"
