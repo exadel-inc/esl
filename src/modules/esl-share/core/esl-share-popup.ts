@@ -1,6 +1,6 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLTooltip} from '../../esl-tooltip/core/esl-tooltip';
-import {bind, listen, memoize} from '../../esl-utils/decorators';
+import {bind, listen, memoize, prop} from '../../esl-utils/decorators';
 import {ESLShareButton} from './esl-share-button';
 import {ESLShareConfig} from './esl-share-config';
 
@@ -53,6 +53,8 @@ export class ESLSharePopup extends ESLTooltip {
   public static override get sharedInstance(): ESLSharePopup {
     return ESLSharePopup.create();
   }
+
+  @prop(true) public override hasFocusLoop: boolean;
 
   /** Hashstring with a list of buttons already rendered in the popup */
   protected _list: string = '';
