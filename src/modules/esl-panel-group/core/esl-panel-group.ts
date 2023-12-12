@@ -105,12 +105,12 @@ export class ESLPanelGroup extends ESLBaseElement {
 
     this.updateModeCls();
     this.reset();
-    this.updateOpenState();
+    this.updateMarkers();
 
     if (prevMode !== currentMode) this.$$fire(this.MODE_CHANGE_EVENT, {detail: {prevMode, currentMode}});
   }
 
-  protected updateOpenState(): void {
+  protected updateMarkers(): void {
     this.$$attr('has-opened', this.$activePanels.length > 0);
   }
 
@@ -308,7 +308,7 @@ export class ESLPanelGroup extends ESLBaseElement {
   protected _onStateChanged(e: CustomEvent): void {
     const panel = e.target;
     if (!this.includesPanel(panel)) return;
-    this.updateOpenState();
+    this.updateMarkers();
 
     if (this.currentMode !== 'tabs') return;
 
