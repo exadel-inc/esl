@@ -117,7 +117,7 @@
     "lint-staged": "^15.2.0",
     "postcss": "^8.4.32",
     "postcss-less": "^6.0.0",
-    "prettier": "^3.1.0",
+    "prettier": "^3.1.1",
     "rimraf": "^5.0.5",
     "semantic-release": "^22.0.10",
     "smoothscroll-polyfill": "^0.4.4",
