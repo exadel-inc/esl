@@ -53,11 +53,11 @@ export class UIPSnippets extends UIPPlugin {
   /** Renders dropdown element for a case with multiple snippets */
   protected $snippetsInnerContent(): JSX.Element {
     return <>
-      <esl-trigger active-class="open" className="snippets-dropdown-control">
+      <esl-trigger active-class="open" className="uip-snippets-trigger">
         <UIPSnippetsIcon/>
         <uip-title></uip-title>
       </esl-trigger>
-      <esl-toggleable className="snippets-dropdown" close-on-outside-action close-on-esc close-on="li">
+      <esl-toggleable className="uip-snippets-dropdown" close-on-outside-action close-on-esc close-on="li">
         <uip-snippets-list></uip-snippets-list>
         <esl-scrollbar target="::prev::child"></esl-scrollbar>
       </esl-toggleable>

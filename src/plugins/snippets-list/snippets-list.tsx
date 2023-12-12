@@ -22,7 +22,7 @@ export class UIPSnippetsList extends UIPPlugin {
   public static override is = 'uip-snippets-list';
 
   /** CSS Class for snippets list item */
-  @attr({defaultValue: 'snippets-list-item'}) public itemCls: string;
+  @attr({defaultValue: 'uip-snippets-item'}) public itemCls: string;
   /** CSS Class for snippets button */
   @attr({defaultValue: 'uip-snippet-trigger'}) public itemBtnCls: string;
   /** CSS Class added to active snippet */
@@ -39,7 +39,7 @@ export class UIPSnippetsList extends UIPPlugin {
   @memoize()
   protected get $inner(): HTMLElement {
     const pluginType = this.constructor as typeof UIPPlugin;
-    return <ul className={`${pluginType.is}-inner snippets-list esl-scrollable-content`}>{this.$items}</ul> as HTMLElement;
+    return <ul className={`${pluginType.is}-inner esl-scrollable-content`}>{this.$items}</ul> as HTMLElement;
   }
 
   /** Snippets list from dropdown element*/

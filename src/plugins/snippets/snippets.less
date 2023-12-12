@@ -5,11 +5,11 @@
   height: 100%;
   width: 100%;
 
-  .snippets-dropdown-control {
+  .uip-snippets-trigger {
     display: none;
   }
 
-  .snippets-list {
+  .uip-snippets-list-inner {
     width: 100%;
     list-style-type: none;
     display: flex;
@@ -18,7 +18,7 @@
     padding: 0 10px;
     margin-bottom: 0;
 
-    &-item {
+    .uip-snippets-item {
       margin-right: 15px;
 
       &:hover {
@@ -47,7 +47,7 @@
     box-shadow 0.3s ease-in-out;
   }
 
-  .snippets-dropdown {
+  .uip-snippets-dropdown {
     position: absolute;
     display: block;
     top: 100%;
@@ -73,7 +73,7 @@
     }
   }
 
-  .snippets-dropdown-control {
+  .uip-snippets-trigger {
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -93,12 +93,12 @@
     }
   }
 
-  .snippets-list {
+  .uip-snippets-list-inner {
     display: block;
     margin-right: 20px;
     padding: 5px 0 10px 35px;
 
-    &-item {
+    .uip-snippets-item {
       padding: 5px 0;
       margin-right: 0;
 
@@ -109,7 +109,7 @@
   }
 
 
-  .snippets-dropdown.open {
+  .uip-snippets-dropdown.open {
     .scrollbar-expanded();
 
     .uip-snippets-list {
@@ -121,16 +121,15 @@
     }
   }
 
-  .snippets-dropdown-control.open {
+  .uip-snippets-trigger.open {
     svg {
       transform: rotateX(180deg);
     }
   }
-
 }
 
 .uip-preview {
-  .uip-snippets .snippets-dropdown {
+  .uip-snippets .uip-snippets-dropdown {
     z-index: 5;
   }
 }
