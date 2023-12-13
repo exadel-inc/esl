@@ -27,14 +27,13 @@ export class UIPSnippetsTitle extends UIPPlugin {
   /** Active snippet title */
   @memoize()
   protected get $inner(): JSX.Element {
-    return <span className="snippets-title"></span>;
+    const type = this.constructor as typeof UIPSnippetsTitle;
+    return <span className={type.is + '-inner'}></span>;
   }
 
   /** Handle active snippet title */
   @listen({event: 'uip:model:change', target: ($this: UIPSnippetsTitle)=> $this.model})
   protected _onRootStateChange(): void {
-    const {activeSnippet} = this.model!;
-    // TODO: correct abstract layer of API for model snippets
-    this.$inner.textContent = activeSnippet?.label || '';
+    this.$inner.textContent = this.model!.activeSnippet?.label || '';
   }
 }

@@ -1,6 +1,6 @@
 import React from 'jsx-dom';
 
-import {attr, listen} from '@exadel/esl/modules/esl-utils/decorators';
+import {attr, listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 import {ESLMediaQuery} from '@exadel/esl/modules/esl-media-query/core';
 import {ESLToggleable} from '@exadel/esl/modules/esl-toggleable/core';
 import {ESLTrigger} from '@exadel/esl/modules/esl-trigger/core';
@@ -14,16 +14,63 @@ import {UIPSnippetsIcon} from '../snippets-list/snippets.icon';
  */
 export class UIPSnippets extends UIPPlugin {
   static override is = 'uip-snippets';
+  static override observedAttributes = ['dropdown-view', ...UIPPlugin.observedAttributes];
 
   @attr({defaultValue: 'not all'}) public dropdownView: string;
 
-  protected connectedCallback(): void {
+  protected override connectedCallback(): void {
     super.connectedCallback();
 
     if (this.$root?.ready) this._onRootReady();
 
     ESLTrigger.register();
     ESLToggleable.register();
+  }
+
+  protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
+    super.attributeChangedCallback(attrName, oldVal, newVal);
+    if (attrName === 'dropdown-view') {
+      this.$$off(this._onBreakpointChange);
+      this.$$on(this._onBreakpointChange);
+      this._onBreakpointChange();
+    }
+  }
+
+  /** Renders {@link UIPSnippetsList} element */
+  protected renderSnippetsList(): void {
+    if (!this.model?.snippets.length) return;
+
+    if (this.model?.snippets.length > 1) {
+      this.appendChild(this.$trigger);
+      this.appendChild(this.$toggleable);
+    } else {
+      this.appendChild(this.$title);
+    }
+  }
+
+  @memoize()
+  protected get $title(): JSX.Element {
+    return <uip-title></uip-title>;
+  }
+
+  @memoize()
+  protected get $trigger(): ESLTrigger {
+    return (
+      <esl-trigger active-class="open" className="uip-snippets-trigger">
+        <UIPSnippetsIcon/>
+        <uip-title></uip-title>
+      </esl-trigger>
+    ) as ESLTrigger;
+  }
+
+  @memoize()
+  protected get $toggleable(): ESLToggleable {
+    return (
+      <esl-toggleable class="uip-snippets-dropdown" close-on-outside-action close-on-esc close-on="li">
+        <uip-snippets-list></uip-snippets-list>
+        <esl-scrollbar class="uip-snippets-scroll" target="::prev::child"></esl-scrollbar>
+      </esl-toggleable>
+    ) as ESLToggleable;
   }
 
   @listen({
@@ -35,41 +82,13 @@ export class UIPSnippets extends UIPPlugin {
     this._onBreakpointChange();
   }
 
-  /** Renders {@link UIPSnippetsList} element */
-  protected renderSnippetsList(): void {
-    if (!this.model?.snippets.length) return;
-
-    if (this.model?.snippets.length > 1) {
-      this.prepend(this.$snippetsInnerContent());
-    } else {
-      this.prepend(this.$title);
-    }
-  }
-
-  protected get $title(): JSX.Element {
-    return <uip-title></uip-title>;
-  }
-
-  /** Renders dropdown element for a case with multiple snippets */
-  protected $snippetsInnerContent(): JSX.Element {
-    return <>
-      <esl-trigger active-class="open" className="uip-snippets-trigger">
-        <UIPSnippetsIcon/>
-        <uip-title></uip-title>
-      </esl-trigger>
-      <esl-toggleable className="uip-snippets-dropdown" close-on-outside-action close-on-esc close-on="li">
-        <uip-snippets-list></uip-snippets-list>
-        <esl-scrollbar target="::prev::child"></esl-scrollbar>
-      </esl-toggleable>
-    </>;
-  }
-
   @listen({
     event: 'change',
     target: (snippets: UIPSnippets) => ESLMediaQuery.for(snippets.dropdownView)
   })
   protected _onBreakpointChange(): void {
-    const isMatches = ESLMediaQuery.for(this.dropdownView).matches;
-    this.$$cls('dropdown-view', isMatches);
+    const isDropdown = ESLMediaQuery.for(this.dropdownView).matches;
+    this.$toggleable.toggle(!isDropdown);
+    this.$$attr('view', isDropdown ? 'dropdown' : 'tabs');
   }
 }

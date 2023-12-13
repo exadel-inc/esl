@@ -22,11 +22,11 @@ export class UIPSnippetsList extends UIPPlugin {
   public static override is = 'uip-snippets-list';
 
   /** CSS Class for snippets list item */
-  @attr({defaultValue: 'uip-snippets-item'}) public itemCls: string;
+  @attr({defaultValue: 'uip-snippets-item-wrapper'}) public itemCls: string;
   /** CSS Class for snippets button */
-  @attr({defaultValue: 'uip-snippet-trigger'}) public itemBtnCls: string;
+  @attr({defaultValue: 'uip-snippets-item'}) public itemBtnCls: string;
   /** CSS Class added to active snippet */
-  @attr({defaultValue: 'active'}) public activeCls: string;
+  @attr({defaultValue: 'uip-snippets-item-active'}) public activeCls: string;
 
   @memoize()
   public override get $root(): UIPRoot | null {
