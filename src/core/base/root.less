@@ -1,4 +1,3 @@
-@import (reference) '../../common/variables.less';
 @import '@exadel/esl/modules/esl-alert/core.less';
 @import '@exadel/esl/modules/esl-scrollbar/core.less';
 
@@ -35,7 +34,7 @@ uip-root {
   text-shadow: 0 0 1px rgb(0 75 116 / 25%);
   background-color: #d9effb;
 
-  @media @mobile {
+  @media screen and (max-width: 767px) {
     right: 30%;
     width: 40%;
   }
