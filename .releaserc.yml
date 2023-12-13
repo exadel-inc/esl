@@ -10,7 +10,7 @@ repositoryUrl: "https://github.com/exadel-inc/esl"
 # Branch release rules
 branches:
   - main
-  - name: epic/rework-2.0
+  - name: main-beta
     channel: beta
     prerelease: beta
 
