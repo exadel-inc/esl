@@ -1,6 +1,7 @@
 import React from 'jsx-dom';
-import {bind, memoize} from '@exadel/esl/modules/esl-utils/decorators';
-import {afterNextRender, promisifyTransition} from '@exadel/esl/modules/esl-utils/async';
+
+import {listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
+import {afterNextRender, skipOneRender} from '@exadel/esl/modules/esl-utils/async';
 
 import {UIPPlugin} from '../base/plugin';
 
@@ -10,42 +11,74 @@ import {UIPPlugin} from '../base/plugin';
  */
 export class UIPPreview extends UIPPlugin {
   static is = 'uip-preview';
-  static observedAttributes: string[] = ['resizable'];
+  static observedAttributes: string[] = ['dir', 'resizable'];
+
+  /** {@link UIPPlugin} section wrapper */
+  @memoize()
+  protected get $inner(): HTMLElement {
+    const pluginType = this.constructor as typeof UIPPlugin;
+    return <div className={`${pluginType.is}-inner uip-plugin-inner esl-scrollable-content`}></div> as HTMLElement;
+  }
 
   /** Extra element to animate decreasing height of content smoothly */
   @memoize()
-  protected get $stub(): HTMLElement {
+  protected get $container(): HTMLElement {
     const type = this.constructor as typeof UIPPreview;
-    return (<span class={type.is + '-stub'}/>) as HTMLElement;
+    return (
+      <div class={type.is + '-container'}>
+        <esl-scrollbar class={type.is + '-v-scroll'} target="::next(.uip-plugin-inner)"/>
+        <esl-scrollbar class={type.is + '-h-scroll'} target="::next(.uip-plugin-inner)" horizontal/>
+        {this.$inner}
+      </div>
+    ) as HTMLElement;
   }
 
   /** Changes preview markup from state changes */
-  @bind
+  @listen({event: 'uip:change', target: ($this: UIPPreview) => $this.$root})
   protected _onRootStateChange(): void {
-    this.$stub.style.height = `${this.$inner.offsetHeight}px`;
-    this.appendChild(this.$stub);
+    this.$container.style.minHeight = `${this.$inner.offsetHeight}px`;
     this.$inner.innerHTML = this.model!.html;
 
-    afterNextRender(() => this.$stub.style.height = '0px');
-    promisifyTransition(this.$stub, 'height').then(() => this.removeChild(this.$stub));
+    afterNextRender(() => this.$container.style.minHeight = '0px');
+    skipOneRender(() => {
+      if (this.$container.clientHeight !== this.$inner.offsetHeight) return;
+      this.$container.style.removeProperty('min-height');
+    });
   }
 
   protected override connectedCallback(): void {
     super.connectedCallback();
-    this.appendChild(this.$inner);
+    this.appendChild(this.$container);
   }
+
   protected override disconnectedCallback(): void {
-    this.$inner.remove();
+    this.$container.remove();
     super.disconnectedCallback();
   }
 
   protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (attrName === 'resizable' && newVal === null) this.clearInlineSize();
+    if (attrName === 'dir') this.updateDir();
   }
 
   /** Resets element both inline height and width properties */
   protected clearInlineSize(): void {
     this.$inner.style.removeProperty('height');
     this.$inner.style.removeProperty('width');
+  }
+  private updateDir(): void {
+    const isChanged = this.dir !== this.$inner.dir;
+    this.$inner.dir = this.dir;
+    isChanged && this.$$fire('uip:dirchange');
+  }
+
+  /** Handles end of animation playing while the demo content change */
+  @listen({
+    event: 'transitionend',
+    target: (preview: UIPPreview) => preview.$container,
+  })
+  protected _onTransitionEnd(e: TransitionEvent): void {
+    if (e.propertyName !== 'min-height') return;
+    this.$container.style.removeProperty('min-height');
   }
 }

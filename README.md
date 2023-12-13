@@ -14,10 +14,10 @@
 **UIPlayground** is a solution for presenting your custom components.
 
 With the help of *UIP* components we allow user to *'play'* with a component.
-You can choose from the variety of component's templates ([UIP Snippets](src/plugins/header/snippets/README.md)),
+You can choose from the variety of component's templates ([UIP Snippets](src/plugins/snippets-list/README.md)),
 play with the component's settings ([UIP Settings](src/plugins/settings/README.md))
 or even change its markup ([UIP Editor](src/plugins/editor/README.md))!
-You can also manage Playground visual appearance by our options ([UIP Options](src/plugins/header/options/README.md))
+You can also manage Playground visual appearance by our options ([UIP Options](src/plugins/snippets/options/README.md))
 
 Every element (except the *UIP Root*) isn't required, so you can combine them the way you want.
 
@@ -47,9 +47,9 @@ Import CSS styles
 - ### Components
   - #### [UIP Preview](src/core/preview/README.md)
   - #### [UIP Editor](src/plugins/editor/README.md)
-  - #### [UIP Header](src/plugins/header/README.md)
-    - ##### [UIP Snippets](src/plugins/header/snippets/README.md)
-    - ##### [UIP Options](src/plugins/header/options/README.md)
+  - #### [UIP Header](src/plugins/snippets/README.md)
+    - ##### [UIP Snippets](src/plugins/snippets-list/README.md)
+    - ##### [UIP Options](src/plugins/snippets/options/README.md)
   - #### [UIP Settings](src/plugins/settings/README.md)
     - ##### [UIP Setting](src/settings/setting/README.md)
     - ##### [UIP Text Setting](src/plugins/settings/text-setting/README.md)

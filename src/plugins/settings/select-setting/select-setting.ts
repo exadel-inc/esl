@@ -2,8 +2,7 @@ import {randUID} from '@exadel/esl/modules/esl-utils/misc/uid';
 import {attr, boolAttr, listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 
 import {TokenListUtils} from '../../../core/utils/token-list';
-import {UIPRoot} from '../../../core/base/root';
-import {UIPSetting} from '../setting';
+import {UIPSetting} from '../base-setting/base-setting';
 
 import type {ChangeAttrConfig, UIPStateModel} from '../../../core/base/model';
 
@@ -111,7 +110,7 @@ export class UIPSelectSetting extends UIPSetting {
 
   /** Updates setting's value for replace {@link mode} */
   protected replaceFrom(attrValues: (string | null)[]): void {
-    if (!TokenListUtils.hasSameElements(attrValues)) return this.setInconsistency(this.MULTIPLE_VALUE_MSG);
+    if (!TokenListUtils.isAllEqual(attrValues)) return this.setInconsistency(this.MULTIPLE_VALUE_MSG);
 
     if (attrValues[0] !== null &&
       TokenListUtils.contains(this.settingOptions, TokenListUtils.split(attrValues[0]))) {
@@ -136,7 +135,7 @@ export class UIPSelectSetting extends UIPSetting {
 
     if (this.multiple || commonOptions.length) return this.setValue(TokenListUtils.join(commonOptions));
 
-    return this.setInconsistency(TokenListUtils.hasSameElements(attrValues) ? this.NO_MATCH_MSG : this.MULTIPLE_VALUE_MSG);
+    return this.setInconsistency(TokenListUtils.isAllEqual(attrValues) ? this.NO_MATCH_MSG : this.MULTIPLE_VALUE_MSG);
   }
 
   protected getDisplayedValue(): string {
@@ -164,19 +163,6 @@ export class UIPSelectSetting extends UIPSetting {
     this.select.remove(this.settingOptions.indexOf(UIPSelectSetting.inconsistentValue));
   }
 
-
-  /**
-   * Handles {@link UIPRoot} `uip:configchange` event to
-   * manage dropdown theme
-   */
-  @listen({event: 'uip:configchange', target: `::parent(.${UIPRoot.is})`})
-  protected onRootThemeChange(e: CustomEvent): void {
-    if (e.detail.attribute !== 'dark-theme') return;
-    let dropdownClass = UIPSelectSetting.dropdownClass;
-    if (e.detail.value !== null) dropdownClass += ' uip-dark-dropdown';
-    this.$field.dropdownClass = dropdownClass;
-  }
-
   set disabled(force: boolean) {
     this.$field.toggleAttribute('disabled', force);
   }
@@ -186,6 +172,15 @@ export class UIPSelectSetting extends UIPSetting {
     this.disabled = false;
     this.$field.options.forEach((opt) => opt.selected = false);
     this.$field.$select.remove(this.settingOptions.indexOf(UIPSelectSetting.inconsistentValue));
+  }
+
+  @listen({
+    event: 'esl:before:show',
+    target: ($this: UIPSelectSetting) => ($this.$field as any).$dropdown
+  })
+  protected _onDropdownOpen(): void {
+    const isDark = !!this.closest('[dark-theme]');
+    (this.$field as any).$dropdown.toggleAttribute('dark-theme', isDark);
   }
 
   public static register(): void {

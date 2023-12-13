@@ -1,5 +1,3 @@
-@import (reference) '../../../common/variables.less';
-
 @import '@exadel/esl/modules/esl-forms/esl-select/core.less';
 @import '@exadel/esl/modules/esl-forms/esl-select-list/core.less';
 
@@ -9,36 +7,29 @@
 
   .esl-select-renderer {
     padding: 0 2px;
-    border: 1px solid #ced4da;
+    border: 1px solid var(--uip-plugin-divider, #ccc);
 
     &::after {
-      color: @dark-text;
+      color: var(--uip-plugin-fg, #000);
     }
   }
 }
 
 .uip-select-dropdown {
+  .esl-select-list {
+    color: var(--uip-plugin-fg, #000);
+    background-color: var(--uip-plugin-bg, #fff);
+  }
+
   .esl-select-list .esl-select-list-container {
     margin-right: 0;
   }
 
   .esl-select-item::before {
-    border-color: @dark-text;
+    border-color: var(--uip-plugin-fg, #000);
   }
 
   .esl-select-item[selected]::before {
-    background-color: @dark-theme;
-  }
-
-  &.uip-dark-dropdown {
-    .esl-select-list {
-      background-color: @dark-theme;
-      color: @light-color;
-    }
-
-    .esl-select-item::before {
-      background-color: @dark-theme;
-      border-color: @light-color;
-    }
+    background-color: var(--uip-plugin-fg, #000);
   }
 }

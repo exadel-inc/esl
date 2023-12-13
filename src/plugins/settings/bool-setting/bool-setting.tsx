@@ -2,7 +2,7 @@ import React from 'jsx-dom';
 import {attr, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 
 import {TokenListUtils} from '../../../core/utils/token-list';
-import {UIPSetting} from '../setting';
+import {UIPSetting} from '../base-setting/base-setting';
 
 import type {ChangeAttrConfig, UIPStateModel} from '../../../core/base/model';
 
@@ -35,6 +35,16 @@ export class UIPBoolSetting extends UIPSetting {
     return $field;
   }
 
+  @memoize()
+  protected get $inner(): HTMLElement {
+    return (
+      <label>
+        {this.$field}
+        {this.label}
+      </label>
+    ) as HTMLElement;
+  }
+
   /** Container element for displaying inconsistency message */
   @memoize()
   protected get $inconsistencyMarker(): HTMLElement {
@@ -44,13 +54,7 @@ export class UIPBoolSetting extends UIPSetting {
   protected override connectedCallback(): void {
     super.connectedCallback();
     this.innerHTML = '';
-
-    const $inner =
-      <label>
-        {this.label}
-        {this.$field}
-      </label>;
-    this.insertBefore($inner, this.firstChild);
+    this.appendChild(this.$inner);
   }
 
   applyTo(model: UIPStateModel): void {
@@ -90,7 +94,7 @@ export class UIPBoolSetting extends UIPSetting {
 
   /** Updates setting's value for replace {@link mode} */
   protected updateReplace(attrValues: (string | null)[]): void {
-    if (!TokenListUtils.hasSameElements(attrValues)) {
+    if (!TokenListUtils.isAllEqual(attrValues)) {
       return this.setInconsistency(this.MULTIPLE_VALUE_MSG);
     }
 
