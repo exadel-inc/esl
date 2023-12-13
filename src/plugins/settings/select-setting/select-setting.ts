@@ -110,7 +110,7 @@ export class UIPSelectSetting extends UIPSetting {
 
   /** Updates setting's value for replace {@link mode} */
   protected replaceFrom(attrValues: (string | null)[]): void {
-    if (!TokenListUtils.hasSameElements(attrValues)) return this.setInconsistency(this.MULTIPLE_VALUE_MSG);
+    if (!TokenListUtils.isAllEqual(attrValues)) return this.setInconsistency(this.MULTIPLE_VALUE_MSG);
 
     if (attrValues[0] !== null &&
       TokenListUtils.contains(this.settingOptions, TokenListUtils.split(attrValues[0]))) {
@@ -135,7 +135,7 @@ export class UIPSelectSetting extends UIPSetting {
 
     if (this.multiple || commonOptions.length) return this.setValue(TokenListUtils.join(commonOptions));
 
-    return this.setInconsistency(TokenListUtils.hasSameElements(attrValues) ? this.NO_MATCH_MSG : this.MULTIPLE_VALUE_MSG);
+    return this.setInconsistency(TokenListUtils.isAllEqual(attrValues) ? this.NO_MATCH_MSG : this.MULTIPLE_VALUE_MSG);
   }
 
   protected getDisplayedValue(): string {

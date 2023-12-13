@@ -94,7 +94,7 @@ export class UIPBoolSetting extends UIPSetting {
 
   /** Updates setting's value for replace {@link mode} */
   protected updateReplace(attrValues: (string | null)[]): void {
-    if (!TokenListUtils.hasSameElements(attrValues)) {
+    if (!TokenListUtils.isAllEqual(attrValues)) {
       return this.setInconsistency(this.MULTIPLE_VALUE_MSG);
     }
 

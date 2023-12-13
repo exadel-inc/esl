@@ -72,6 +72,7 @@ export class UIPPreview extends UIPPlugin {
     isChanged && this.$$fire('uip:dirchange');
   }
 
+  /** Handles end of animation playing while the demo content change */
   @listen({
     event: 'transitionend',
     target: (preview: UIPPreview) => preview.$container,

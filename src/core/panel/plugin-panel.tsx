@@ -57,12 +57,14 @@ export abstract class UIPPluginPanel extends UIPPlugin {
     ) as HTMLElement;
   }
 
+  /** Creates resize area element */
   @memoize()
   protected get $resizebar(): HTMLElement {
     return (<div class="uip-plugin-resizebar" />) as HTMLElement;
   }
 
-  protected get isVertical(): boolean {
+  /** @returns if the plugin should be rendered vertically */
+  public get isVertical(): boolean {
     return ESLMediaQuery.for(this.vertical).matches;
   }
 
@@ -81,7 +83,7 @@ export abstract class UIPPluginPanel extends UIPPlugin {
     }
   }
 
-  /** Handle collapsing trigger clicks */
+  /** Handles collapsing trigger clicks */
   @listen({
     event: 'click',
     selector: '.uip-plugin-header-trigger',
@@ -90,6 +92,7 @@ export abstract class UIPPluginPanel extends UIPPlugin {
     if (this.collapsible) this.collapsed = !this.collapsed;
   }
 
+  /** Handles vertical media query change */
   @listen({
     event: 'change',
     target: (settings: UIPPluginPanel) => ESLMediaQuery.for(settings.vertical)
@@ -103,6 +106,9 @@ export abstract class UIPPluginPanel extends UIPPlugin {
     skipOneRender(() => this.$root && CSSClassUtils.remove(this.$root, 'no-animate', this));
   }
 
+  // Resize logic
+
+  /** Handles resize start */
   @listen({
     event: 'pointerdown',
     selector: '.uip-plugin-resizebar'
@@ -119,6 +125,7 @@ export abstract class UIPPluginPanel extends UIPPlugin {
     this.$$on(this._onPointerMove);
   }
 
+  /** Handles resize end */
   @listen({
     event: 'pointerup',
     selector: '.uip-plugin-resizebar'
@@ -129,6 +136,7 @@ export abstract class UIPPluginPanel extends UIPPlugin {
     this.$$off(this._onPointerMove);
   }
 
+  /** Handles resize */
   @listen({
     auto: false,
     event: 'pointermove',

@@ -1,13 +1,17 @@
 import {listen} from '@exadel/esl/modules/esl-utils/decorators';
-import {ENTER} from '@exadel/esl/modules/esl-utils/dom/keys';
+import {ENTER, SPACE} from '@exadel/esl/modules/esl-utils/dom/keys';
 
 import {UIPPlugin} from '../base/plugin';
 
+/**
+ * Base class for UI Playground plugin-buttons
+ * Implements basic button behavior and accessibility
+ */
 export abstract class UIPPluginButton extends UIPPlugin {
   public static defaultTitle: string = '';
 
   /**
-   * Creates uip-copy element
+   * Creates button element instance
    * @param content - inner content of created element
    * @param cls - class name of created element
    */
@@ -41,6 +45,6 @@ export abstract class UIPPluginButton extends UIPPlugin {
 
   @listen('keydown')
   protected _onKeyDown(e: KeyboardEvent): void {
-    if (e.key === ENTER) this.click();
+    if (e.key === ENTER || e.key === SPACE) this.click();
   }
 }

@@ -4,6 +4,7 @@ import {listen} from '@exadel/esl/modules/esl-utils/decorators';
 import {UIPPluginButton} from '../../core/button/plugin-button';
 import {ThemeToggleIcon} from './theme-toggle.icon';
 
+/** Theme switcher button-plugin for UI Playground widget */
 export class UIPThemeSwitcher extends UIPPluginButton {
   public static override is = 'uip-theme-toggle';
   public static override defaultTitle = 'Switch theme';
