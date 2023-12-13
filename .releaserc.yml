@@ -5,7 +5,7 @@ debug: true
 tagFormat: "v${version}"
 
 # Repository
-repositoryUrl: "https://github.com/exadel-inc/esl"
+repositoryUrl: "https://github.com/exadel-inc/ui-playground"
 
 # Branch release rules
 branches:
