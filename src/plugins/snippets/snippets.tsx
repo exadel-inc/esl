@@ -7,6 +7,7 @@ import {ESLTrigger} from '@exadel/esl/modules/esl-trigger/core';
 
 import {UIPPlugin} from '../../core/base/plugin';
 import {UIPSnippetsIcon} from '../snippets-list/snippets.icon';
+import {UIPSnippetsTitle} from '../snippets-title/snippets-title';
 
 /**
  * Header {@link UIPPlugin} custom element definition
@@ -16,15 +17,20 @@ export class UIPSnippets extends UIPPlugin {
   static override is = 'uip-snippets';
   static override observedAttributes = ['dropdown-view', ...UIPPlugin.observedAttributes];
 
+  static override register(...attr: any[]): void {
+    super.register(...attr);
+    ESLToggleable.register();
+    ESLTrigger.register();
+  }
+
   @attr({defaultValue: 'not all'}) public dropdownView: string;
+
+  /** @returns true if dropdown mode should be active */
+  public get isDropdown(): boolean { return ESLMediaQuery.for(this.dropdownView).matches; }
 
   protected override connectedCallback(): void {
     super.connectedCallback();
-
     if (this.$root?.ready) this._onRootReady();
-
-    ESLTrigger.register();
-    ESLToggleable.register();
   }
 
   protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
@@ -48,21 +54,24 @@ export class UIPSnippets extends UIPPlugin {
     }
   }
 
+  /** Builds inner {@link UIPSnippetsTitle} */
   @memoize()
-  protected get $title(): JSX.Element {
-    return <uip-title></uip-title>;
+  protected get $title(): UIPSnippetsTitle {
+    return <uip-snippets-title/> as UIPSnippetsTitle;
   }
 
+  /** Builds trigger area for dropdown mode */
   @memoize()
   protected get $trigger(): ESLTrigger {
     return (
       <esl-trigger active-class="open" className="uip-snippets-trigger">
         <UIPSnippetsIcon/>
-        <uip-title></uip-title>
+        {this.$title}
       </esl-trigger>
     ) as ESLTrigger;
   }
 
+  /** Builds dropdown/main area */
   @memoize()
   protected get $toggleable(): ESLToggleable {
     return (
@@ -73,10 +82,7 @@ export class UIPSnippets extends UIPPlugin {
     ) as ESLToggleable;
   }
 
-  @listen({
-    event: 'uip:root:ready',
-    target: ($this: UIPPlugin) => $this.$root
-  })
+  @listen({event: 'uip:root:ready', target: ($this: UIPPlugin) => $this.$root})
   protected _onRootReady(): void {
     this.renderSnippetsList();
     this._onBreakpointChange();
@@ -88,7 +94,14 @@ export class UIPSnippets extends UIPPlugin {
   })
   protected _onBreakpointChange(): void {
     const isDropdown = ESLMediaQuery.for(this.dropdownView).matches;
+    // Toggleable is open in tabs mode
     this.$toggleable.toggle(!isDropdown);
     this.$$attr('view', isDropdown ? 'dropdown' : 'tabs');
+  }
+
+  @listen('esl:before:hide')
+  protected _onBeforeHide(e: Event): void {
+    // Prevent hide toggleable in inactive state (tabs)
+    if (e.target === this.$toggleable && !this.isDropdown) e.preventDefault();
   }
 }

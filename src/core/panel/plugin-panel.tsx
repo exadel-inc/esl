@@ -8,10 +8,7 @@ import {attr, boolAttr, listen, memoize} from '@exadel/esl/modules/esl-utils/dec
 import {UIPPlugin} from '../base/plugin';
 
 export abstract class UIPPluginPanel extends UIPPlugin {
-  public static readonly observedAttributes: string[] = ['vertical', 'collapsed', 'compact', ...UIPPlugin.observedAttributes];
-
-  /** Marker to make header compact */
-  @boolAttr() public compact: boolean;
+  public static readonly observedAttributes: string[] = ['vertical', 'collapsed', ...UIPPlugin.observedAttributes];
 
   /** Marker to collapse editor area */
   @boolAttr() public collapsed: boolean;
@@ -77,14 +74,10 @@ export abstract class UIPPluginPanel extends UIPPlugin {
 
   protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     super.attributeChangedCallback(attrName, oldVal, newVal);
-    const type = this.constructor as typeof UIPPluginPanel;
     if (attrName === 'vertical') {
       this.$$off(this._onLayoutModeChange);
       this.$$on(this._onLayoutModeChange);
       this._onLayoutModeChange();
-    }
-    if (attrName === 'compact') {
-      this.$root?.classList.toggle(type.is + '-compact', this.compact);
     }
   }
 
@@ -115,7 +108,7 @@ export abstract class UIPPluginPanel extends UIPPlugin {
     selector: '.uip-plugin-resizebar'
   })
   protected _onPointerStart(event: PointerEvent): void {
-    if(!this.resizable) return;
+    if (!this.resizable) return;
     const {isVertical} = this;
     this.resizing = true;
     const prop = isVertical ? '--uip-plugin-width' : '--uip-plugin-height';

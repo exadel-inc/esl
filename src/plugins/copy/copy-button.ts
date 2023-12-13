@@ -4,6 +4,8 @@ import {UIPPluginButton} from '../../core/button/plugin-button';
 
 import type {AlertActionParams} from '@exadel/esl/modules/esl-alert/core';
 
+// TODO: add documentation
+
 export class UIPCopy extends UIPPluginButton {
   public static override is = 'uip-copy';
   public static override defaultTitle = 'Copy to clipboard';

@@ -4,10 +4,9 @@ title: Example with a playground that contains playground inside
 <uip-snippets root="::next"></uip-snippets>
 <uip-root>
   <script type="text/html" uip-snippet label="Playground">
-    <uip-snippets root="::parent::child(uip-root)"></uip-snippets>
-    <uip-preview root="::next"></uip-preview>
-
     <uip-root>
+      <uip-snippets class="uip-toolbar"></uip-snippets>
+      <uip-preview></uip-preview>
       <template uip-snippet label="List of aqua cards">
         <div class="card-list">
           <div class="card-item aqua">Card #1</div>

@@ -89,7 +89,8 @@ export class UIPSnippetsList extends UIPPlugin {
     e.preventDefault();
   }
 
-  @listen({event: 'uip:snippet:change', target: ($this: UIPSnippetsList) => $this.model})
+  /** Handles `uip:snippet:change` event to rerender snippets list */
+  @listen({event: 'uip:snippet:change', target: ($this: UIPSnippetsList) => $this.$root})
   protected _onRootStateChange(): void {
     this.rerender();
   }

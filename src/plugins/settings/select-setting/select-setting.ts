@@ -178,7 +178,7 @@ export class UIPSelectSetting extends UIPSetting {
     event: 'esl:before:show',
     target: ($this: UIPSelectSetting) => ($this.$field as any).$dropdown
   })
-  protected _onChange(): void {
+  protected _onDropdownOpen(): void {
     const isDark = !!this.closest('[dark-theme]');
     (this.$field as any).$dropdown.toggleAttribute('dark-theme', isDark);
   }

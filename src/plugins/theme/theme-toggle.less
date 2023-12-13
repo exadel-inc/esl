@@ -15,9 +15,11 @@ uip-theme-toggle {
     fill: currentColor;
     stroke: currentColor;
   }
-}
 
-uip-root[dark-theme] .uip-light-theme,
-uip-root:not([dark-theme]) .uip-dark-theme {
-  display: none;
+  &[theme='light'] > .uip-dark-theme {
+    display: none;
+  }
+  &[theme='dark'] > .uip-light-theme {
+    display: none;
+  }
 }

@@ -10,12 +10,7 @@ import type {UIPRoot} from '../../core/base/root';
 
 /** Common lightweight plugin to display currently selected snippet title */
 export class UIPSnippetsTitle extends UIPPlugin {
-  public static override is = 'uip-title';
-
-  protected override connectedCallback(): void {
-    super.connectedCallback();
-    this.appendChild(this.$inner);
-  }
+  public static override is = 'uip-snippets-title';
 
   @memoize()
   public override get $root(): UIPRoot | null {
@@ -24,15 +19,21 @@ export class UIPSnippetsTitle extends UIPPlugin {
     return super.$root;
   }
 
-  /** Active snippet title */
+  /** Active snippet title inner element */
   @memoize()
   protected get $inner(): JSX.Element {
     const type = this.constructor as typeof UIPSnippetsTitle;
     return <span className={type.is + '-inner'}></span>;
   }
 
-  /** Handle active snippet title */
-  @listen({event: 'uip:model:change', target: ($this: UIPSnippetsTitle)=> $this.model})
+  protected override connectedCallback(): void {
+    super.connectedCallback();
+    this.appendChild(this.$inner);
+    setTimeout(() => this._onRootStateChange());
+  }
+
+  /** Handle active snippet title change */
+  @listen({event: 'uip:snippet:change', target: ($this: UIPSnippetsTitle)=> $this.$root})
   protected _onRootStateChange(): void {
     this.$inner.textContent = this.model!.activeSnippet?.label || '';
   }

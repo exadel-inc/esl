@@ -6,7 +6,7 @@ type UIPSnippetsShape = ESLBaseElementShape<UIPSnippetsTitle>;
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      'uip-title': UIPSnippetsShape;
+      'uip-snippets-title': UIPSnippetsShape;
     }
   }
 }
