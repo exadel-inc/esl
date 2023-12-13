@@ -377,6 +377,7 @@ Here is the list of available buttons for sharing via social media and messenger
  - `sina-weibo` - shares data into Sina Weibo a microblogging website and app which compares to Twitter and Instagram
  - `telegram` - shares data into Telegram a cloud-based, cross-platform instant messaging (IM) service
  - `twitter` - shares data into Twitter a free social networking site where users broadcast short posts known as tweets
+ - `whatsapp` - shares data into WhatsApp a free cross-platform messaging service
  - `wykop` - shares data into Wykop a Polish social networking internet service
 
 And the list of available buttons for other sharing actions:
