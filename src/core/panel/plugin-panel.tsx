@@ -7,7 +7,7 @@ import {attr, boolAttr, listen, memoize} from '@exadel/esl/modules/esl-utils/dec
 
 import {UIPPlugin} from '../base/plugin';
 
-export class UIPPluginPanel extends UIPPlugin {
+export abstract class UIPPluginPanel extends UIPPlugin {
   public static readonly observedAttributes: string[] = ['vertical', 'collapsed', 'compact', ...UIPPlugin.observedAttributes];
 
   /** Marker to make header compact */
@@ -19,9 +19,20 @@ export class UIPPluginPanel extends UIPPlugin {
   /** Marker to make enable toggle collapse action for section header */
   @boolAttr() public collapsible: boolean;
 
+  /** Marker that indicates resizable state of the panel */
+  @boolAttr() public resizable: boolean;
+
+  /** Marker that indicates resizing state of the panel */
+  @boolAttr() public resizing: boolean;
+
   /** Marker to make plugin panel vertical */
   @attr({defaultValue: 'not all'}) public vertical: string;
 
+  /** Start point */
+  protected _startPoint: number = NaN;
+
+  /** Start size */
+  protected _startSize: number = NaN;
 
   /** Plugin header icon */
   protected get $icon(): JSX.Element | null {
@@ -47,6 +58,15 @@ export class UIPPluginPanel extends UIPPlugin {
         {hasToolbar ? this.$toolbar : ''}
       </div>
     ) as HTMLElement;
+  }
+
+  @memoize()
+  protected get $resizebar(): HTMLElement {
+    return (<div class="uip-plugin-resizebar" />) as HTMLElement;
+  }
+
+  protected get isVertical(): boolean {
+    return ESLMediaQuery.for(this.vertical).matches;
   }
 
   protected override connectedCallback(): void {
@@ -82,11 +102,51 @@ export class UIPPluginPanel extends UIPPlugin {
     target: (settings: UIPPluginPanel) => ESLMediaQuery.for(settings.vertical)
   })
   protected _onLayoutModeChange(): void {
+    const {isVertical} = this;
     const type = this.constructor as typeof UIPPluginPanel;
-    const isVertical = ESLMediaQuery.for(this.vertical).matches;
     this.$$cls('vertical', isVertical);
     CSSClassUtils.toggle(this.$root!, type.is + '-vertical', isVertical);
     CSSClassUtils.add(this.$root!, 'no-animate', this);
     skipOneRender(() => this.$root && CSSClassUtils.remove(this.$root, 'no-animate', this));
+  }
+
+  @listen({
+    event: 'pointerdown',
+    selector: '.uip-plugin-resizebar'
+  })
+  protected _onPointerStart(event: PointerEvent): void {
+    if(!this.resizable) return;
+    const {isVertical} = this;
+    this.resizing = true;
+    const prop = isVertical ? '--uip-plugin-width' : '--uip-plugin-height';
+    this._startSize = parseFloat(getComputedStyle(this).getPropertyValue(prop) || '0');
+    this._startPoint = isVertical ? event.x : event.y;
+    if (this.$resizebar.setPointerCapture) this.$resizebar.setPointerCapture(event.pointerId);
+
+    this.$$on(this._onPointerMove);
+  }
+
+  @listen({
+    event: 'pointerup',
+    selector: '.uip-plugin-resizebar'
+  })
+  protected _onPointerEnd(event: PointerEvent): void {
+    this.resizing = false;
+    if (this.$resizebar.releasePointerCapture) this.$resizebar.releasePointerCapture(event.pointerId);
+    this.$$off(this._onPointerMove);
+  }
+
+  @listen({
+    auto: false,
+    event: 'pointermove',
+    selector: '.uip-plugin-resizebar'
+  })
+  protected _onPointerMove(event: PointerEvent): void {
+    if (!this.resizing) return;
+    const {isVertical} = this;
+    const delta = this._startPoint - (isVertical ? event.x : event.y);
+    const value = Math.round(this._startSize + delta * (isVertical ? 1 : -1));
+    const prop = isVertical ? '--uip-plugin-width' : '--uip-plugin-height';
+    this.style.setProperty(prop, `${value}px`);
   }
 }

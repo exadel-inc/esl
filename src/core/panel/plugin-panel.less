@@ -3,9 +3,23 @@
   position: relative;
   max-height: var(--uip-prview-max-height);
 
+  &[resizing] .uip-plugin-inner,
   .no-animate & .uip-plugin-inner {
-    transition: none;
+    transition: none !important;
   }
+
+  .uip-plugin-resizebar {
+    border: 3px solid transparent;
+    z-index: 10;
+    margin: -3px;
+    box-sizing: border-box;
+  }
+  &:not([resizable]) .uip-plugin-resizebar {
+    display: none;
+  }
+
+  --uip-plugin-width: 250px;
+  --uip-plugin-height: 325px;
 }
 
 @import "./plugin-panel.header.less";

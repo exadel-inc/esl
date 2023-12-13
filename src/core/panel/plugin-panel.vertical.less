@@ -3,9 +3,14 @@
   flex-direction: row;
   min-height: max(100%, 100px);
 
+  .uip-plugin-resizebar {
+    order: -1;
+    cursor: col-resize;
+  }
+
   .uip-plugin-inner {
-    width: 250px;
-    max-width: 250px;
+    width: var(--uip-plugin-width, 250px);
+    max-width: var(--uip-plugin-width, 250px);
     max-height: 100%;
 
     transition:

@@ -56,6 +56,7 @@ export class UIPSettings extends UIPPluginPanel {
     super.connectedCallback();
     this.appendChild(this.$header);
     this.appendChild(this.$inner);
+    this.appendChild(this.$resizebar);
     this.invalidate();
   }
 

@@ -2,13 +2,18 @@
   flex-direction: column;
   margin-bottom: 1px;
 
+  .uip-plugin-resizebar {
+    order: 100;
+    cursor: row-resize;
+  }
+
   .uip-plugin-inner {
     position: relative;
     height: auto;
     overflow: hidden;
     width: 100%;
     max-width: 100%;
-    max-height: 325px;
+    max-height: var(--uip-plugin-height, 325px);
 
     transition:
       visibility 0s linear,
