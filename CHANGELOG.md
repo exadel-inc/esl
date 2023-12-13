@@ -1,3 +1,35 @@
+# [2.0.0-beta.2](https://github.com/exadel-inc/ui-playground/compare/v2.0.0-beta.1...v2.0.0-beta.2) (2023-12-13)
+
+
+### Code Refactoring
+
+* **uip-option:** `uip-options` removed ([86d52f0](https://github.com/exadel-inc/ui-playground/commit/86d52f0b1b0fbc5039283236ce7aa293f5050a38))
+
+
+### Features
+
+* add resize feature for plugin panels ([45d5bf9](https://github.com/exadel-inc/ui-playground/commit/45d5bf99261e55840edb6957d437ba1db83c171e))
+* complete UX API rework of panel-plugins ([d2b6884](https://github.com/exadel-inc/ui-playground/commit/d2b6884d8ad0e54f99264698e238bc1493991e2c))
+* introduce uip-header reimplementation ([7c63ba5](https://github.com/exadel-inc/ui-playground/commit/7c63ba5ad41b680cb608229fc3da5121c553ae75))
+* plugin structure and API rework (new abstraction layer and events) ([318668f](https://github.com/exadel-inc/ui-playground/commit/318668f8980419163de36cf68584add4228c7d9f))
+* **snippets:** add manual root detection for plugins ([ff6ddf7](https://github.com/exadel-inc/ui-playground/commit/ff6ddf7146973b61b0d6e1ce342ee9e64b371c68))
+* **snippets:** add tab mode ([24ee727](https://github.com/exadel-inc/ui-playground/commit/24ee727139c484d38278a4bb0ba0df1af9b80df2))
+* **uip-copy:** create separate `uip-copy` plugin ([38de6ba](https://github.com/exadel-inc/ui-playground/commit/38de6baee22992c46bea0dade29b1e19fd8e8ab1))
+* **uip-editor:** rework `uip-editor` plugin with self UI state management and header section support ([4330698](https://github.com/exadel-inc/ui-playground/commit/43306988cebad7528bbb353fd224defe85018493))
+* **uip-preview:** add preview plugin smooth content change animation ([aaeb33d](https://github.com/exadel-inc/ui-playground/commit/aaeb33d5d7d776fb10329b29c08ea489e5cde206))
+* **uip-preview:** fix resize feature, add scrollbars for preview area ([46a99de](https://github.com/exadel-inc/ui-playground/commit/46a99de5675f87dd0b69949080aaeb1c9802037e))
+* **uip-settings:** new `uip-settings` tag API ([b4e5622](https://github.com/exadel-inc/ui-playground/commit/b4e5622ccfdac0a839c174b8116557ea3ded3407))
+* **uip-snippets:** totally rework header and snippets modules ([ebeb66b](https://github.com/exadel-inc/ui-playground/commit/ebeb66b41e93d9c7cd27e7eed051222249181a11))
+* **uip-toggle-dir:** separate uip-toggle-dir widget to control uip-preview direction ([d778ec8](https://github.com/exadel-inc/ui-playground/commit/d778ec80b2ff560183a0ffaa5587757ead8120b9))
+* **uip-toggle-theme:** separate uip-toggle-theme widget to control UIP instance theme ([52a4bd2](https://github.com/exadel-inc/ui-playground/commit/52a4bd2f91421ae19d0c69a99f39fbf5111b6afc))
+
+
+### BREAKING CHANGES
+
+* `uip-header` and `uip-options` are removed. Use `uip-snippets` (`uip-snippets-list`, `uip-snippets-title`),
+or combine it with buttons (`uip-copy`, `uip-theme-toggle`, `uip-direction-toggle`)
+* **uip-option:** `uip-options` plugin removed
+
 # [2.0.0-beta.1](https://github.com/exadel-inc/ui-playground/compare/v1.1.0-beta.4...v2.0.0-beta.1) (2023-09-26)
 
 
