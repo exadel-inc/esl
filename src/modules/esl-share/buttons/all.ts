@@ -16,6 +16,7 @@ import './pusha';
 import './reddit';
 import './sina-weibo';
 import './skype';
+import './tumblr';
 import './telegram';
 import './twitter';
 import './viber';
