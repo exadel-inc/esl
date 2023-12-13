@@ -17,5 +17,6 @@ import './reddit';
 import './sina-weibo';
 import './telegram';
 import './twitter';
+import './viber';
 import './whatsapp';
 import './wykop';
