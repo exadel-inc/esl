@@ -17,7 +17,6 @@ With the help of *UIP* components we allow user to *'play'* with a component.
 You can choose from the variety of component's templates ([UIP Snippets](src/plugins/snippets-list/README.md)),
 play with the component's settings ([UIP Settings](src/plugins/settings/README.md))
 or even change its markup ([UIP Editor](src/plugins/editor/README.md))!
-You can also manage Playground visual appearance by our options ([UIP Options](src/plugins/snippets/options/README.md))
 
 Every element (except the *UIP Root*) isn't required, so you can combine them the way you want.
 
@@ -40,31 +39,33 @@ Import CSS styles
 
 ---
 ## UIP elements
+
+⚠️ Documentation is in progress. You can find more information about each element in the corresponding README.md file. ⚠️
+
 - ### Core
-  - #### [UIP Plugin](src/core/base/README.md#uip-plugin)
   - #### [UIP Root](src/core/base/README.md#uip-root)
-  - #### [UIP State Model](src/core/base/README.md#uip-state-model)
-- ### Components
   - #### [UIP Preview](src/core/preview/README.md)
+- ### Plugins
   - #### [UIP Editor](src/plugins/editor/README.md)
-  - #### [UIP Header](src/plugins/snippets/README.md)
-    - ##### [UIP Snippets](src/plugins/snippets-list/README.md)
-    - ##### [UIP Options](src/plugins/snippets/options/README.md)
+  - ##### [UIP Snippets](src/plugins/snippets-list/README.md)
+    - ##### [UIP Snippets Title](src/plugins/snippets-list/README.md)
+    - ##### [UIP Snippets List](src/plugins/snippets-list/README.md)
   - #### [UIP Settings](src/plugins/settings/README.md)
     - ##### [UIP Setting](src/settings/setting/README.md)
     - ##### [UIP Text Setting](src/plugins/settings/text-setting/README.md)
     - ##### [UIP Bool Setting](src/plugins/settings/bool-setting/README.md)
     - ##### [UIP Select Setting](src/plugins/settings/select-setting/README.md)
+  - #### [UIP Copy](src/plugins/copy/README.md)
+  - #### [UIP Theme Toggle](src/plugins/theme/README.md)
+  - #### [UIP Text Direction Toggle](src/plugins/direction/README.md)
 ---
 ## Example
 
 ![Example](docs/images/UIPexample2.png)
 
 ```html
-<uip-root editor-collapsed>
-  <uip-header>
-    <uip-options></uip-options>
-  </uip-header>
+<uip-root>
+  <uip-snippets class="uip-toolbar"></uip-snippets>
   <script type="text/html" uip-snippet label="Logo">
     <div class="logo-content gray-clr">
       <img src="assets/uip-logo.png" alt="Logo">
@@ -72,7 +73,7 @@ Import CSS styles
     </div>
   </script>
   <uip-preview></uip-preview>
-  <uip-settings target=".logo-content">
+  <uip-settings vertical resizable target=".logo-content">
     <uip-text-setting label="Alternative Button Text:" target=".get-started"
                       attribute="data-test-msg"></uip-text-setting>
     <uip-slider-setting label="Width:" target=".logo-content img"
@@ -83,18 +84,15 @@ Import CSS styles
       <option value="purple-clr">Purple</option>
     </uip-select-setting>
   </uip-settings>
+  <uip-editor collapsible></uip-editor>
 </uip-root>
 ```
 
 ---
 
 ## Roadmap
-
-- Integration with [ESL](https://github.com/exadel-inc/esl): demo pages
-- Ability to control the width of Setting section
 - Documentation and more demo content
 - Css and JS support for Editor
-- Readonly mode for Editor
 
 ---
 

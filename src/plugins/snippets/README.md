@@ -1,23 +1,45 @@
-# UIP Header
+# UIP Snippets
 
-**UIPHeader** - custom element, a container for [UIPSnippets](src/header/snippets/README.md) and [UIPOptions](src/header/options/README.md).
+**UIPSnippets** - the primary plugin to display snippets of the UI Playground.
 
-# Description
-By default *UIPHeader* initializes *UIPSnippets*, *UIPOptions* and a copy icon inside of it, so you need to add an empty *uip-header* tag only. But you can also manually set what you want it to render. The following example shows
-how only [UIPSnippets](src/header/snippets/README.md) can be displayed:
+UIPSnippets uses UIPSnippetsList to render the list of snippets and UIPSnippetsTitle to render the title of the list.
+UIPSnippets can be rendered in two modes: *list* and *dropdown*.
 
+# Usage
+
+The following sample will render snippets as a tab list in the header of the UI Playground:
 ```html
-<uip-header>
-    <uip-snippets></uip-snippets>
-</uip-editor>
+<uip-root>
+    <uip-snippets class="uip-toolbar"></uip-snippets>
+    ...
+</uip-root>
 ```
- 
- An empty *uip-header* is an equivalent to the next snippet:
 
+To render snippets as a dropdown list, use the following snippet:
+```html
+<uip-root>
+    <uip-snippets class="uip-toolbar" dropdown-view="all"></uip-snippets>
+    ...
+</uip-root>
+```
+
+The `dropdown-view` attribute can be any ESLMediaQuery value, so you can switch mode depending on the screen size.
+```html
+<uip-root>
+    <uip-snippets class="uip-toolbar" dropdown-view="(max-width: 768px)"></uip-snippets>
+    ...
+</uip-root>
+```
+
+The class `uip-toolbar` is used to style the section as a toolbar-header for the UI Playground.
+The combinations of `uip-snippets` and buttons (e.g. `uip-copy`, `uip-theme-toggle` or `uip-direction-toggle`) 
+are also allowed with additional div wrapper:
  ```html
  <uip-header>
-    <uip-snippets></uip-snippets>
-    <uip-options></uip-options>
-    <button class="copy-icon" title="copy markup"></button>
+    <div class="uip-toolbar">
+        <uip-snippets></uip-snippets>
+        <uip-theme-toggle></uip-theme-toggle>
+    </div>
+    ...
  </uip-header>
  ```
