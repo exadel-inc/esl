@@ -130,10 +130,8 @@ export class ESLPopup extends ESLToggleable {
 
   /** Get the size and position of the container */
   protected get containerRect(): Rect {
-    const {$container} = this;
-    if (!$container) return getWindowRect();
-    const containerRect = $container.getBoundingClientRect();
-    return new Rect(containerRect.left, containerRect.top + window.pageYOffset, containerRect.width, containerRect.height);
+    if (!this.$container) return getWindowRect();
+    return Rect.from(this.$container).shift(window.pageXOffset, window.pageYOffset);
   }
 
   @ready
