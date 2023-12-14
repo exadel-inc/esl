@@ -17,7 +17,7 @@ import type {IMediaQueryCondition} from '../../esl-media-query/core/conditions/m
 @ExportNs('Note')
 export class ESLNote extends ESLBaseElement {
   public static override is = 'esl-note';
-  public static observedAttributes = ['tooltip-shown', 'ignore'];
+  public static observedAttributes = ['ignore'];
 
   /** Timeout before activating note (to have time to show content with this note) */
   public static readonly activateTimeout = 100;
@@ -113,6 +113,12 @@ export class ESLNote extends ESLBaseElement {
     return (el) ? (el as HTMLElement).lang : '';
   }
 
+  /** @returns true if tooltip is active and activayted with the current note */
+  public get isTargetActive(): boolean {
+    const $target = ESLTooltip.sharedInstance;
+    return $target && $target.open && $target.activator === this;
+  }
+
   @ready
   protected override connectedCallback(): void {
     this.init();
@@ -129,9 +135,6 @@ export class ESLNote extends ESLBaseElement {
 
   protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected || oldVal === newVal) return;
-    if (attrName === 'tooltip-shown' && newVal === null) {
-      this._$footnotes?.turnOffHighlight(this);
-    }
     if (attrName === 'ignore') {
       this.updateIgnoredQuery();
     }
@@ -302,6 +305,16 @@ export class ESLNote extends ESLBaseElement {
   protected _onFootnotesReady(e: CustomEvent): void {
     if (this.linked) return;
     this._sendResponseToFootnote();
+  }
+
+  /** Handles ESLToggleable state change */
+  @listen({
+    event: 'esl:show esl:hide',
+    target: () => ESLTooltip.sharedInstance
+  })
+  protected _onTargetStateChange(event?: Event): void {
+    this.tooltipShown = ESLTooltip.open && this.isTargetActive;
+    if (!this.tooltipShown) this._$footnotes?.turnOffHighlight(this);
   }
 
   /** Sends the response to footnotes */
