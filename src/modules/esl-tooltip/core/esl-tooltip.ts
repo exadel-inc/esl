@@ -1,8 +1,8 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLPopup} from '../../esl-popup/core';
-import {memoize, attr, boolAttr, listen} from '../../esl-utils/decorators';
+import {memoize, attr, boolAttr, listen, prop} from '../../esl-utils/decorators';
 import {TAB} from '../../esl-utils/dom/keys';
-import {getKeyboardFocusableElements} from '../../esl-utils/dom/focus';
+import {getKeyboardFocusableElements, handleFocusChain} from '../../esl-utils/dom/focus';
 
 import type {PopupActionParams} from '../../esl-popup/core';
 import type {PositionType} from '../../esl-popup/core/esl-popup-position';
@@ -24,6 +24,8 @@ export interface TooltipActionParams extends PopupActionParams {
 export class ESLTooltip extends ESLPopup {
   static override is = 'esl-tooltip';
 
+  @prop(false) public hasFocusLoop: boolean;
+
   /**
    * Tooltip position relative to the trigger.
    * Currently supported: 'top', 'bottom', 'left', 'right' position types ('top' by default)
@@ -42,21 +44,17 @@ export class ESLTooltip extends ESLPopup {
     return document.createElement('esl-tooltip');
   }
 
-  /** List of all focusable elements inside Tooltip */
-  public get focusableElements(): Element[] {
-    return getKeyboardFocusableElements(this);
+  /** List of all focusable elements inside instance */
+  public get $focusables(): HTMLElement[] {
+    return getKeyboardFocusableElements(this) as HTMLElement[];
   }
 
-  /** First focusable element inside Tooltip */
-  public get firstFocusableElement(): Element | null {
-    const els = this.focusableElements;
-    return els.length ? els[0] : null;
-  }
-
-  /** Last focusable element inside Tooltip */
-  public get lastFocusableElement(): Element | null {
-    const els = this.focusableElements;
-    return els.length ? els[els.length - 1] : null;
+  /** First and last focusable elements inside instance */
+  public get $boundaryFocusable(): {$first: HTMLElement | undefined, $last: HTMLElement | undefined} {
+    const {$focusables} = this;
+    const $first = $focusables[0];
+    const $last = $focusables.pop();
+    return {$first, $last};
   }
 
   /** Active state marker */
@@ -131,16 +129,13 @@ export class ESLTooltip extends ESLPopup {
     if (e.key === TAB) this._onTabKey(e);
   }
 
+  /** Actions on TAB keypressed */
   protected _onTabKey(e: KeyboardEvent): void {
     if (!this.activator) return;
-    const {firstFocusableElement, lastFocusableElement} = this;
-    if (
-      !lastFocusableElement ||
-      e.target === lastFocusableElement && !e.shiftKey ||
-      e.target === firstFocusableElement && e.shiftKey
-    ) {
+    const {$first, $last} = this.$boundaryFocusable;
+    if (this.hasFocusLoop) return handleFocusChain(e, $first, $last) as void;
+    if (!$last || e.target === (e.shiftKey ? $first : $last)) {
       this.activator.focus();
-      e.stopPropagation();
       e.preventDefault();
     }
   }
