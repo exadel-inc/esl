@@ -118,7 +118,7 @@ export class ESLShare extends ESLTrigger {
   private onReady(): void {
     if (this.ready) return;
     this.$$attr('ready', true);
-    this.$$fire(this.SHARE_READY_EVENT, {bubbles: false});
+    this.$$fire(this.SHARE_READY_EVENT, {bubbles: true});
   }
 }
 
