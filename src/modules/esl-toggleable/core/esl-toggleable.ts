@@ -220,15 +220,16 @@ export class ESLToggleable extends ESLBaseElement {
 
   /** Actual show task to execute by toggleable task manger ({@link DelayedTask} out of the box) */
   protected showTask(params: ESLToggleableActionParams): void {
-    if (this.onBeforeShow(params) === false) return;
+    if (!this.shouldShow(params)) return;
     if (!params.silent && !this.$$fire(this.BEFORE_SHOW_EVENT, {detail: {params}})) return;
+    this.activator = params.activator;
     this.open = true;
     this.onShow(params);
     if (!params.silent) this.$$fire(this.SHOW_EVENT, {detail: {params}, cancelable: false});
   }
   /** Actual hide task to execute by toggleable task manger ({@link DelayedTask} out of the box) */
   protected hideTask(params: ESLToggleableActionParams): void {
-    if (this.onBeforeHide(params) === false) return;
+    if (!this.shouldHide(params)) return;
     if (!params.silent && !this.$$fire(this.BEFORE_HIDE_EVENT, {detail: {params}})) return;
     this.open = false;
     this.onHide(params);
@@ -240,9 +241,8 @@ export class ESLToggleable extends ESLBaseElement {
    * Actions to execute before showing of toggleable.
    * Returns false if the show action should not be executed.
    */
-  protected onBeforeShow(params: ESLToggleableActionParams): boolean | void {
-    this.activator = params.activator;
-    if (!params.force && this.open) return false;
+  protected shouldShow(params: ESLToggleableActionParams): boolean {
+    return params.force || !this.open;
   }
 
   /**
@@ -266,8 +266,8 @@ export class ESLToggleable extends ESLBaseElement {
    * Actions to execute before hiding of toggleable.
    * Returns false if the hide action should not be executed.
    */
-  protected onBeforeHide(params: ESLToggleableActionParams): boolean | undefined {
-    if (!params.force && !this.open) return false;
+  protected shouldHide(params: ESLToggleableActionParams): boolean {
+    return params.force || this.open;
   }
 
   /**
