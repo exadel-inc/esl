@@ -11,6 +11,7 @@ type ElementsAccessorTemplate<T extends {[key: string]: string}> = ESLTestTempla
 export class ESLTestTemplate {
   /** Div fragment container */
   public $fragment?: HTMLElement;
+  protected cache: any = {};
 
   /** Create template instance */
   static create(html: string): ESLTestTemplate;
@@ -58,7 +59,10 @@ export class ESLTestTemplate {
   /** Get element by selector */
   public get<Sel extends string>(selector: Sel): ElementType<Sel> | null {
     if (!this.$fragment) return null;
-    return this.$fragment.querySelector(selector);
+    if (!this.cache[selector]) {
+      this.cache[selector] = this.$fragment.querySelector(selector);
+    }
+    return this.cache[selector];
   }
   /** Get all elements by selector */
   public getAll<Sel extends string>(selector: string): ElementType<Sel>[] {
