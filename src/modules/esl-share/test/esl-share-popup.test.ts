@@ -11,6 +11,7 @@ import type {ESLShareButton} from '../core/esl-share-button';
 
 describe('ESLSharePopup tests', () => {
   beforeAll(() => {
+    jest.useFakeTimers();
     IntersectionObserverMock.mock();
     ESLShare.register();
   });
@@ -30,6 +31,7 @@ describe('ESLSharePopup tests', () => {
 
     const showPopupAndGetButton = (): ESLShareButton => {
       $trigger.showTarget();
+      jest.advanceTimersByTime(500);
       return document.querySelector('esl-share-button') as ESLShareButton;
     };
 
@@ -47,6 +49,7 @@ describe('ESLSharePopup tests', () => {
       $lvl.forEach(clearShareAttributes);
       clearShareAttributes($trigger);
       ESLSharePopup.sharedInstance.hide();
+      jest.advanceTimersByTime(500);
     });
 
     afterAll(() => {

@@ -1,3 +1,5 @@
+import type {Point} from '../point';
+
 /** Checks if the passed event is {@link MouseEvent} */
 export const isMouseEvent = (event: Event): event is MouseEvent => window.MouseEvent && event instanceof MouseEvent;
 
@@ -19,12 +21,6 @@ export const getCompositeTarget = (e: CustomEvent): EventTarget | null => {
   const targets = (e.composedPath && e.composedPath());
   return targets ? targets[0] : e.target;
 };
-
-/** Object that describes coordinates */
-export interface Point {
-  x: number;
-  y: number;
-}
 
 /** @returns touch point coordinates of {@link TouchEvent} or {@link PointerEvent} */
 export const getTouchPoint = (event: TouchEvent | PointerEvent | MouseEvent): Point => {

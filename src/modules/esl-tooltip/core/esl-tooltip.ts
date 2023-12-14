@@ -3,7 +3,6 @@ import {ESLPopup} from '../../esl-popup/core';
 import {memoize, attr, boolAttr, listen, prop} from '../../esl-utils/decorators';
 import {TAB} from '../../esl-utils/dom/keys';
 import {getKeyboardFocusableElements, handleFocusChain} from '../../esl-utils/dom/focus';
-import {CSSClassUtils} from '../../esl-utils/dom/class';
 
 import type {PopupActionParams} from '../../esl-popup/core';
 import type {PositionType} from '../../esl-popup/core/esl-popup-position';
@@ -96,10 +95,7 @@ export class ESLTooltip extends ESLPopup {
     }
     this.dir = params.dir || '';
     this.lang = params.lang || '';
-    if (params.extraClass) {
-      CSSClassUtils.add(this, params.extraClass);
-    }
-    document.body.appendChild(this);
+    this.parentNode !== document.body && document.body.appendChild(this);
     super.onShow(params);
     this._updateActivatorState(true);
   }
@@ -108,10 +104,7 @@ export class ESLTooltip extends ESLPopup {
   public override onHide(params: TooltipActionParams): void {
     this._updateActivatorState(false);
     super.onHide(params);
-    document.body.removeChild(this);
-    if (params.extraClass) {
-      CSSClassUtils.remove(this, params.extraClass);
-    }
+    this.parentNode === document.body && document.body.removeChild(this);
   }
 
   /**
@@ -126,6 +119,7 @@ export class ESLTooltip extends ESLPopup {
    * Actions to execute before hiding of popup.
    */
   protected override beforeOnHide(): void {
+    super.beforeOnHide();
     this.activator?.focus({preventScroll: true});
   }
 
