@@ -97,7 +97,7 @@ export class ESLTooltip extends ESLPopup {
     }
     this.dir = params.dir || '';
     this.lang = params.lang || '';
-    document.body.appendChild(this);
+    this.parentNode !== document.body && document.body.appendChild(this);
     super.onShow(params);
     this._updateActivatorState(true);
   }
@@ -106,7 +106,7 @@ export class ESLTooltip extends ESLPopup {
   public override onHide(params: TooltipActionParams): void {
     this._updateActivatorState(false);
     super.onHide(params);
-    document.body.removeChild(this);
+    this.parentNode === document.body && document.body.removeChild(this);
   }
 
   /**
@@ -121,6 +121,7 @@ export class ESLTooltip extends ESLPopup {
    * Actions to execute before hiding of popup.
    */
   protected override beforeOnHide(): void {
+    super.beforeOnHide();
     this.activator?.focus({preventScroll: true});
   }
 
