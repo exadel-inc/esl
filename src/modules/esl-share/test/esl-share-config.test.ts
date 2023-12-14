@@ -155,7 +155,6 @@ describe('ESLShareConfig tests', () => {
     });
   });
 
-
   describe('ESLShareConfig notify about changes', () => {
     const instance: ESLShareConfig = new (ESLShareConfig as any)();
     const callback = jest.fn();
@@ -228,7 +227,7 @@ describe('ESLShareConfig tests', () => {
     });
   });
 
-  describe('ESLShareConfig static API', () => {
+  describe('ESLShareConfig.set static API', () => {
     test('ESLShareConfig instance is a singleton', () => {
       expect(ESLShareConfig.instance).toBeInstanceOf(ESLShareConfig);
       expect(ESLShareConfig.instance).toBe(ESLShareConfig.instance);
@@ -264,6 +263,42 @@ describe('ESLShareConfig tests', () => {
       await promise;
       expect(ESLShareConfig.instance.buttons.length).toBe(3);
       expect(ESLShareConfig.instance.groups.length).toBe(1);
+    });
+  });
+
+  describe('ESLShareConfig.update', () => {
+    const instance: ESLShareConfig = new (ESLShareConfig as any)();
+
+    beforeEach(async () => {
+      instance.clear();
+      await Promise.resolve();
+    });
+
+    test('ESLShareConfig.update does not fail if no items with passed name', () => {
+      instance.append([SAMPLE_BUTTON_1, SAMPLE_BUTTON_2]);
+      instance.update('sn3', {title: 'SN3'});
+      expect(instance.buttons).toEqual([SAMPLE_BUTTON_1, SAMPLE_BUTTON_2]);
+    });
+
+    test('ESLShareConfig.update change a single button with the passed name', () => {
+      instance.append([SAMPLE_BUTTON_1, SAMPLE_BUTTON_2]);
+      instance.update('sn2', {title: 'SN2Updated', link: '#'});
+      expect(instance.get('sn2')).toEqual([expect.objectContaining({...SAMPLE_BUTTON_2, title: 'SN2Updated', link: '#'})]);
+    });
+
+    test('ESLShareConfig.update updates a group of items', () => {
+      instance.append([SAMPLE_BUTTON_1, SAMPLE_BUTTON_2]);
+      instance.append(SAMPLE_GROUP_1);
+      instance.update(SAMPLE_GROUP_1.name, {link: '#'});
+      for (const btn of instance.get(SAMPLE_GROUP_1.name)) {
+        expect(btn.link).toBe('#');
+      }
+    });
+
+    test('ESLShareConfig.update does not introduce new items', () => {
+      instance.append([SAMPLE_BUTTON_1, SAMPLE_BUTTON_2]);
+      instance.update('sn1', {title: 'SN3'});
+      expect(instance.buttons.length).toEqual(2);
     });
   });
 });
