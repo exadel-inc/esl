@@ -2,7 +2,7 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLMixinElement} from '../../esl-mixin-element/core';
 import {listen, attr, ready} from '../../esl-utils/decorators';
 import {ESLMediaQuery} from '../../esl-media-query/core';
-import {ESLToggleable} from '../../esl-toggleable/core/esl-toggleable';
+import {ESLToggleable} from '../../esl-toggleable/core';
 import type {ESLMediaChangeEvent} from '../../esl-media-query/core';
 
 /**

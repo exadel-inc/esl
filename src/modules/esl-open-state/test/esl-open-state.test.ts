@@ -9,7 +9,7 @@ jest.mock('../../esl-utils/dom/ready', () => ({
 
 describe('ESLOpenState (mixin): tests', () => {
   const TEST_MQ = '(min-width: 500px)';
-  const twoTicks = () => Promise.resolve().then(() => Promise.resolve());
+  const microtaskQueue = () => Promise.resolve().then(() => Promise.resolve());
 
   beforeAll(async () => {
     jest.useFakeTimers();
@@ -26,7 +26,7 @@ describe('ESLOpenState (mixin): tests', () => {
     const $el = ESLToggleable.create();
     $el.setAttribute(ESLOpenState.is, 'not all');
     document.body.append($el);
-    await twoTicks();
+    await microtaskQueue();
     expect(ESLOpenState.get($el)).toEqual(expect.any(ESLOpenState));
   });
 
@@ -35,7 +35,7 @@ describe('ESLOpenState (mixin): tests', () => {
     const hideSpy = jest.spyOn($el, 'hide');
     $el.setAttribute(ESLOpenState.is, 'not all');
     document.body.append($el);
-    await twoTicks();
+    await microtaskQueue();
     expect(hideSpy).toHaveBeenCalledWith(expect.objectContaining({initiator: ESLOpenState.is}));
   });
 
@@ -44,7 +44,7 @@ describe('ESLOpenState (mixin): tests', () => {
     const showSpy = jest.spyOn($el, 'show');
     $el.setAttribute(ESLOpenState.is, 'all');
     document.body.append($el);
-    await twoTicks();
+    await microtaskQueue();
     expect(showSpy).toHaveBeenCalledWith(expect.objectContaining({initiator: ESLOpenState.is}));
   });
 
@@ -54,7 +54,7 @@ describe('ESLOpenState (mixin): tests', () => {
     getMatchMediaMock(TEST_MQ).set(false);
     $el.setAttribute(ESLOpenState.is, TEST_MQ);
     document.body.append($el);
-    await twoTicks();
+    await microtaskQueue();
     expect(showSpy).not.toHaveBeenCalledWith(expect.objectContaining({initiator: ESLOpenState.is}));
 
     getMatchMediaMock(TEST_MQ).set(true);
@@ -68,7 +68,7 @@ describe('ESLOpenState (mixin): tests', () => {
     $el.setAttribute('open', '');
     $el.setAttribute(ESLOpenState.is, TEST_MQ);
     document.body.append($el);
-    await twoTicks();
+    await microtaskQueue();
     expect(hideSpy).not.toHaveBeenCalledWith(expect.objectContaining({initiator: ESLOpenState.is}));
 
     getMatchMediaMock(TEST_MQ).set(false);
