@@ -12,7 +12,7 @@ import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import type {ESLToggleable, ESLToggleableActionParams} from '../../esl-toggleable/core/esl-toggleable';
 
 /** Base class for elements that should trigger {@link ESLToggleable} instance */
-export abstract class ESLTriggerBase extends ESLBaseElement {
+export abstract class ESLBaseTrigger extends ESLBaseElement {
   /** Event that represents {@link ESLTrigger} state change */
   @prop('') public CHANGE_EVENT: string;
   /** Events to observe target {@link ESLToggleable} instance state */
@@ -97,7 +97,7 @@ export abstract class ESLTriggerBase extends ESLBaseElement {
   }
 
   /** Merge params to pass to the toggleable */
-  protected mergeToggleableParams(this: ESLTriggerBase, ...params: ESLToggleableActionParams[]): ESLToggleableActionParams {
+  protected mergeToggleableParams(this: ESLBaseTrigger, ...params: ESLToggleableActionParams[]): ESLToggleableActionParams {
     return Object.assign({
       initiator: 'trigger',
       activator: this
@@ -158,8 +158,8 @@ export abstract class ESLTriggerBase extends ESLBaseElement {
 
   /** Handles ESLToggleable state change */
   @listen({
-    event: (that: ESLTriggerBase) => that.OBSERVED_EVENTS,
-    target: (that: ESLTriggerBase) => that.$target
+    event: (that: ESLBaseTrigger) => that.OBSERVED_EVENTS,
+    target: (that: ESLBaseTrigger) => that.$target
   })
   protected _onTargetStateChange(originalEvent?: Event): void {
     if (!this.updateState()) return;

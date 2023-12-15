@@ -1,7 +1,7 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {attr, boolAttr, jsonAttr, prop, ready} from '../../esl-utils/decorators';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core';
-import {ESLTriggerBase} from '../../esl-trigger/core/esl-trigger.base';
+import {ESLBaseTrigger} from '../../esl-trigger/core';
 
 import {ESLSharePopup} from './esl-share-popup';
 
@@ -16,7 +16,7 @@ export type {ESLShareTagShape} from './esl-share.shape';
  * ESLShare is a component that allows triggering {@link ESLSharePopup} instance state changes.
  */
 @ExportNs('Share')
-export class ESLShare extends ESLTriggerBase {
+export class ESLShare extends ESLBaseTrigger {
   public static override is = 'esl-share';
   public static observedAttributes = ['list'];
 

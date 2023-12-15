@@ -4,13 +4,13 @@ import {attr, prop, ready} from '../../esl-utils/decorators';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {ESLToggleablePlaceholder} from '../../esl-toggleable/core';
 
-import {ESLTriggerBase} from './esl-trigger.base';
+import {ESLBaseTrigger} from './esl-base-trigger';
 
 import type {ESLToggleable} from '../../esl-toggleable/core/esl-toggleable';
 
 
 @ExportNs('Trigger')
-export class ESLTrigger extends ESLTriggerBase {
+export class ESLTrigger extends ESLBaseTrigger {
   public static override is = 'esl-trigger';
   public static observedAttributes = ['target'];
 

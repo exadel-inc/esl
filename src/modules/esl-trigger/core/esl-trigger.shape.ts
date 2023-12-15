@@ -1,12 +1,12 @@
 import type {ESLBaseElementShape} from '../../esl-base-element/core/esl-base-element.shape';
 import type {ESLTrigger} from './esl-trigger';
-import type {ESLTriggerBase} from './esl-trigger.base';
+import type {ESLBaseTrigger} from './esl-base-trigger';
 
 /**
  * Tag declaration interface of {@link ESLTrigger} element
  * Used for TSX declaration
  */
-export interface ESLTriggerTagShape<T extends ESLTriggerBase = ESLTrigger> extends ESLBaseElementShape<T> {
+export interface ESLTriggerTagShape<T extends ESLBaseTrigger = ESLTrigger> extends ESLBaseElementShape<T> {
   /** Define target Toggleable {@link ESLTraversingQuery} selector. `next` by default */
   'target'?: string;
 
