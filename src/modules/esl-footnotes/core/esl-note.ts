@@ -113,7 +113,7 @@ export class ESLNote extends ESLBaseElement {
     return (el) ? (el as HTMLElement).lang : '';
   }
 
-  /** @returns true if tooltip is active and activayted with the current note */
+  /** @returns true if tooltip is active and activated with the current note */
   public get isTargetActive(): boolean {
     const $target = ESLTooltip.sharedInstance;
     return $target && $target.open && $target.activator === this;
