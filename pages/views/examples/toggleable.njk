@@ -291,10 +291,12 @@ aside:
                       close-on=".close-button"
                       close-on-esc>
         <div class="alert alert-warning" role="alert">
-          <strong>This is a toggleable.</strong> It is open on @+MD using Open State.
           <button type="button" class="close close-button" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
+
+          <strong>This is a toggleable with the <code>esl-open-state</code> mixin. </strong>
+          <div>It automatically opens at @+MD breakpoints and closes when the screen condition becomes falsy.</div>
         </div>
       </esl-toggleable>
     </div>

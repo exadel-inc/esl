@@ -3,6 +3,7 @@ import {ESLMixinElement} from '../../esl-mixin-element/core';
 import {listen, attr, ready} from '../../esl-utils/decorators';
 import {ESLMediaQuery} from '../../esl-media-query/core';
 import {ESLToggleable} from '../../esl-toggleable/core';
+
 import type {ESLMediaChangeEvent} from '../../esl-media-query/core';
 
 /**
@@ -28,8 +29,9 @@ export class ESLOpenState extends ESLMixinElement {
 
   /** Handles query change and processes {@link ESLToggleable} toggle event in case query value is matched */
   @listen({event: 'change', target: ($this: ESLMediaChangeEvent) => $this.media})
-  protected onMediaChange(): void {
+  protected onMediaChange(event?: ESLMediaChangeEvent): void {
     this.$host.toggle(this.media.matches, {
+      event,
       initiator: (this.constructor as typeof ESLOpenState).is,
       activator: this.$host
     });
