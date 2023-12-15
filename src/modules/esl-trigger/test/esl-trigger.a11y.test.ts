@@ -6,12 +6,6 @@ jest.mock('../../esl-utils/dom/ready', () => ({
   onDocumentReady: (cb: any) => cb()
 }));
 
-function createTrigger(): ESLTrigger {
-  const trigger = ESLTrigger.create();
-  trigger.target = '';
-  return trigger;
-}
-
 describe('esl-trigger a11y attributes test', () => {
   const LABEL_ATTR = 'aria-label';
 
@@ -25,7 +19,7 @@ describe('esl-trigger a11y attributes test', () => {
       test(
         'default a11y target',
         () => {
-          const trigger = createTrigger();
+          const trigger = ESLTrigger.create();
           trigger.$target = createToggleableMock();
           document.body.append(trigger);
 
@@ -37,7 +31,7 @@ describe('esl-trigger a11y attributes test', () => {
       test(
         'invalid a11y target',
         () => {
-          const trigger = createTrigger();
+          const trigger = ESLTrigger.create();
           trigger.$target = createToggleableMock();
           trigger.a11yTarget = 'invalid';
           document.body.append(trigger);
@@ -57,7 +51,7 @@ describe('esl-trigger a11y attributes test', () => {
       describe(
         '"aria-controls" a11y attributes',
         () => {
-          const trigger = createTrigger();
+          const trigger = ESLTrigger.create();
           trigger.$target = createToggleableMock();
           const controlId = 'test-control';
 
@@ -79,7 +73,7 @@ describe('esl-trigger a11y attributes test', () => {
       describe(
         '"aria-expanded" a11y attributes',
         () => {
-          const trigger = createTrigger();
+          const trigger = ESLTrigger.create();
 
           beforeAll(() => {
             document.body.append(trigger);
@@ -104,7 +98,7 @@ describe('esl-trigger a11y attributes test', () => {
       describe(
         'a11yLabelActive attribute basic tests',
         () => {
-          const trigger = createTrigger();
+          const trigger = ESLTrigger.create();
 
           beforeAll(() => {
             trigger.a11yLabelActive = 'active';
@@ -145,7 +139,7 @@ describe('esl-trigger a11y attributes test', () => {
       describe(
         'a11yLabelInactive attribute basic tests',
         () => {
-          const trigger = createTrigger();
+          const trigger = ESLTrigger.create();
 
           beforeAll(() => {
             trigger.a11yLabelInactive = 'inactive';
@@ -182,7 +176,7 @@ describe('esl-trigger a11y attributes test', () => {
       describe(
         'a11yLabelActive and a11yLabelInactive are both present (+ initially active flow)',
         () => {
-          const trigger = createTrigger();
+          const trigger = ESLTrigger.create();
 
           beforeAll(() => {
             trigger.a11yLabelActive = 'active';
@@ -218,7 +212,7 @@ describe('esl-trigger a11y attributes test', () => {
         'a11yLabelInactive and a11yLabelActive attributes are not specified',
         () => {
           const INIT_VAL = 'test-init-val';
-          const trigger = createTrigger();
+          const trigger = ESLTrigger.create();
 
           beforeAll(() => {
             trigger.setAttribute(LABEL_ATTR, INIT_VAL);
