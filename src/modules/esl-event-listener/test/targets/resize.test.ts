@@ -1,7 +1,7 @@
 import {ESLResizeObserverTarget} from '../../core';
 import {getLastResizeObserverMock} from '../../../esl-utils/test/resizeObserver.mock';
 
-describe('ESLEventUtils: ResizeObserver EventTarget adapter', () => {
+describe('ESLResizeObserverTarget EventTarget adapter', () => {
   describe('ESLResizeObserverTarget creation relatively to the targets', () => {
     const el1 = document.createElement('div');
     const el2 = document.createElement('div');
@@ -14,6 +14,32 @@ describe('ESLEventUtils: ResizeObserver EventTarget adapter', () => {
       'Different elements produces different event targets',
       () => expect(ESLResizeObserverTarget.for(el1) === ESLResizeObserverTarget.for(el2)).toBe(false)
     );
+  });
+
+  describe('ESLResizeObserverTarget do not throws error on incorrect input (silent processing)', () => {
+    const consoleSpy = jest.spyOn(console, 'warn');
+    beforeEach(() => consoleSpy.mockReset().mockImplementation(() => void 0));
+    afterAll(() => consoleSpy.mockRestore());
+
+    test('ESLResizeObserverTarget.for(undefined) returns null without error', () => {
+      expect(ESLResizeObserverTarget.for(undefined as any)).toBeNull();
+      expect(consoleSpy).toBeCalled();
+    });
+
+    test('ESLResizeObserverTarget.for(null) returns null without error', () => {
+      expect(ESLResizeObserverTarget.for(null as any)).toBeNull();
+      expect(consoleSpy).toBeCalled();
+    });
+
+    test('ESLResizeObserverTarget.for(123) returns null without error', () => {
+      expect(ESLResizeObserverTarget.for(123 as any)).toBeNull();
+      expect(consoleSpy).toBeCalled();
+    });
+
+    test('ESLResizeObserverTarget.for({}) returns null without error', () => {
+      expect(ESLResizeObserverTarget.for({} as any)).toBeNull();
+      expect(consoleSpy).toBeCalled();
+    });
   });
 
   describe('ESLResizeObserverTarget livecycle', () => {

@@ -4,7 +4,7 @@ import {TAB} from './keys';
  * Chain focus order between passed elements.
  * Passive (should be called inside keyboard event handler)
  */
-export const handleFocusChain = (e: KeyboardEvent, first: HTMLElement, last: HTMLElement): boolean | undefined => {
+export const handleFocusChain = (e: KeyboardEvent, first: HTMLElement | undefined, last: HTMLElement | undefined): boolean | undefined => {
   if (e.key !== TAB) return;
   if (last && e.target === first && e.shiftKey) {
     last.focus();

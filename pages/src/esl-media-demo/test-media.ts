@@ -1,6 +1,6 @@
-import {ESLTraversingQuery} from '../../../src/modules/esl-traversing-query/core';
-import {ESLBaseElement} from '../../../src/modules/esl-base-element/core';
-import {attr, listen} from '../../../src/modules/esl-utils/decorators';
+import {ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
+import {ESLTraversingQuery} from '@exadel/esl/modules/esl-traversing-query/core';
+import {attr, listen} from '@exadel/esl/modules/esl-utils/decorators';
 
 interface MediaTarget {
   play(): any;

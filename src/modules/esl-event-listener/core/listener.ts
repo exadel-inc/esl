@@ -1,11 +1,11 @@
 import {wrap} from '../../esl-utils/misc/array';
-import {resolveProperty} from '../../esl-utils/misc/functions';
-import {memoize} from '../../esl-utils/decorators/memoize';
-import {isObject} from '../../esl-utils/misc/object/types';
-import {isSimilar} from '../../esl-utils/misc/object/compare';
-import {ESLTraversingQuery} from '../../esl-traversing-query/core';
+import {isElement} from '../../esl-utils/dom/api';
 import {isPassiveByDefault} from '../../esl-utils/dom/events/misc';
+import {resolveProperty} from '../../esl-utils/misc/functions';
+import {isObject, isSimilar} from '../../esl-utils/misc/object';
 import {resolveDomTarget} from '../../esl-utils/abstract/dom-target';
+import {memoize} from '../../esl-utils/decorators/memoize';
+import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 
 import type {PropertyProvider} from '../../esl-utils/misc/functions';
 import type {
@@ -69,7 +69,7 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
     if (isObject(target)) return wrap(target);
     const $host = resolveDomTarget(this.host);
     if (typeof target === 'string') return ESLTraversingQuery.all(target, $host);
-    if (typeof target === 'undefined' && $host instanceof Element) return [$host];
+    if (typeof target === 'undefined' && $host) return [$host];
     return [];
   }
 
@@ -107,17 +107,18 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
       : handlerFull;
   }
 
-  /** Executes handler if the passed event is accepted by the selector */
+  /** Executes a handler if the passed event is accepted by the selector */
   protected handleDelegation(e: Event, handler: EventListener): void {
     const {delegate} = this;
-    const target = e.target;
-    const current = e.currentTarget;
+    const {target, currentTarget} = e;
 
     if (typeof delegate !== 'string' || !delegate) return;
-    if (!(target instanceof Element) || !(current instanceof Element)) return;
+    if (!isElement(target)) return;
 
     const $delegate = target.closest(delegate);
-    if (current.contains($delegate)) handler(Object.assign(e, {$delegate}));
+    if (isElement(currentTarget) && !currentTarget.contains($delegate)) return;
+
+    handler(Object.assign(e, {$delegate}));
   }
 
   /**
@@ -153,7 +154,7 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
     if (!criteria.length) return listeners;
     return listeners.filter((listener) => criteria.every(listener.matches, listener));
   }
-  /** Adds listener to the listener store of the host object */
+  /** Adds a listener to the listener store of the host object */
   protected static add(host: object, instance: ESLEventListener): void {
     if (!isObject(host)) return;
     if (!Object.hasOwnProperty.call(host, LISTENERS)) (host as any)[LISTENERS] = [];
@@ -181,6 +182,17 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
     const eventDesc = handler !== descriptor ? Object.assign({}, handler, descriptor) : descriptor;
     const listeners = ESLEventListener.createOrResolve(host, handler, eventDesc);
     return listeners.filter((listener) => listener.subscribe());
+  }
+
+  /**
+   * Unsubscribes {@link ESLEventListener}(s) from the object
+   * @param host - host element that stores subscriptions (listeners context)
+   * @param criteria - optional set of criteria {@link ESLListenerCriteria} to filter listeners to remove
+   */
+  public static unsubscribe(host: object, ...criteria: ESLListenerCriteria[]): ESLEventListener[] {
+    const listeners = ESLEventListener.get(host, ...criteria);
+    listeners.forEach((listener) => listener.unsubscribe());
+    return listeners;
   }
 
   /** Creates or resolves existing event listeners by handler and descriptors */

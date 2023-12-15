@@ -3,7 +3,7 @@ import {defined} from '../../esl-utils/misc/object/utils';
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {afterNextRender} from '../../esl-utils/async/raf';
 import {debounce} from '../../esl-utils/async/debounce';
-import {decorate, memoize, attr, jsonAttr, prop, listen} from '../../esl-utils/decorators';
+import {decorate, memoize, attr, boolAttr, jsonAttr, prop, listen} from '../../esl-utils/decorators';
 import {format} from '../../esl-utils/misc/format';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ESLMediaQuery, ESLMediaRuleList} from '../../esl-media-query/core';
@@ -69,6 +69,8 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** Action params to pass into panels when executing reset action (happens when mode is changed) */
   @jsonAttr({defaultValue: {noAnimate: true}}) public transformParams: PanelActionParams;
 
+  /** Readonly attribute that indicates whether the panel group has opened panels */
+  @boolAttr({readonly: true}) public hasOpened: boolean;
 
   /** Height of previous active panel */
   protected _previousHeight: number = 0;
@@ -103,8 +105,13 @@ export class ESLPanelGroup extends ESLBaseElement {
 
     this.updateModeCls();
     this.reset();
+    this.updateMarkers();
 
     if (prevMode !== currentMode) this.$$fire(this.MODE_CHANGE_EVENT, {detail: {prevMode, currentMode}});
+  }
+
+  protected updateMarkers(): void {
+    this.$$attr('has-opened', this.$activePanels.length > 0);
   }
 
   /** Updates mode class marker */
@@ -238,19 +245,17 @@ export class ESLPanelGroup extends ESLBaseElement {
 
   /** Animates the height of the component */
   protected onAnimate(from: number, to: number): void {
-    const hasCurrent = this.style.height && this.style.height !== 'auto';
-    if (hasCurrent) {
+    // overrides initial value if animation is currently in progress
+    if (from < 0 || this.style.height && this.style.height !== 'auto') {
+      from = this.clientHeight;
+    }
+    // sets the initial height
+    this.style.height = `${from}px`;
+    // makes sure browser realized the height change
+    afterNextRender(() => {
       this.style.height = `${to}px`;
       this.fallbackAnimate();
-    } else {
-      // set initial height
-      this.style.height = `${from}px`;
-      // make sure that browser applies initial height to animate
-      afterNextRender(() => {
-        this.style.height = `${to}px`;
-        this.fallbackAnimate();
-      });
-    }
+    });
   }
 
   /** Checks if transition happens and runs afterAnimate step if transition is not presented */
@@ -285,7 +290,7 @@ export class ESLPanelGroup extends ESLBaseElement {
     const params = this.mergeActionParams({event: e});
     const balanceMarker = e.detail?.params?.event?.type !== 'esl:before:hide';
 
-    // All currently active except panel that requested to be open
+    // all currently active panels, except the one that requested to be open
     const $activePanels = this.$activePanels.filter((el) => el !== panel);
 
     // overflow = pretended to be active (current active + balanceMarker (1 if nothing hides)) - limit
@@ -294,18 +299,23 @@ export class ESLPanelGroup extends ESLBaseElement {
     $activePanels.slice(0, overflow).forEach((el) => el.hide(params));
 
     if (max <= 0) return e.preventDefault();
+
+    this._previousHeight = this.clientHeight;
   }
 
   /** Process {@link ESLPanel} show event */
-  @listen('esl:show')
-  protected _onShow(e: CustomEvent): void {
+  @listen('esl:show esl:hide')
+  protected _onStateChanged(e: CustomEvent): void {
     const panel = e.target;
     if (!this.includesPanel(panel)) return;
+    this.updateMarkers();
+
     if (this.currentMode !== 'tabs') return;
 
+    const targetHeight = panel.open ? panel.initialHeight : 0;
     this.beforeAnimate();
     if (this.shouldAnimate) {
-      this.onAnimate(this._previousHeight, panel.initialHeight);
+      this.onAnimate(this._previousHeight, targetHeight);
     } else {
       afterNextRender(() => this.afterAnimate(true));
     }
@@ -318,7 +328,7 @@ export class ESLPanelGroup extends ESLBaseElement {
     if (!this.includesPanel(panel)) return;
 
     const min = this.currentMinItems;
-    // Check if the hide event was produced by the show event
+    // checks if the hide event was produced by the show event
     const balanceMarker = detail?.params?.event?.type === 'esl:before:show';
     // activePanels = currentActivePanels - 1 (hide) + 1 if the event produced by 'before:show'
     const activeNumber = this.$activePanels.length - 1 + Number(balanceMarker);

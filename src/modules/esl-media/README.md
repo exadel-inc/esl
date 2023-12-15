@@ -1,6 +1,6 @@
 # [ESL](../../../) Media
 
-Version: *1.3.0*
+Version: *1.4.0*
 
 Authors: *Alexey Stsefanovich (ala'n)*, *Yuliya Adamskaya*, *Julia Murashko*, *Natallia Harshunova*
 
@@ -45,8 +45,14 @@ using a single tag as well as work with external providers using simple native-l
  - `ready-class` - class to add when the resource is ready
  - `ready-class-target` - [ESLTraversingQuery](../esl-traversing-query/README.md) to define a target for `ready-class`
 
- - `disabled` (boolean) - marker that prevents media api initialization
- 
+ - `lazy` - an attribute that governs the loading behavior of media resources on a webpage. 
+ This attribute provides enhanced control over when media content is fetched and displayed.
+   - `none` (or attribute absence) - triggers the immediate loading of media content as soon as the webpage is loaded;
+   - `manual` - in this mode, media content loading is blocked until the attribute is removed manually from the consumer's code;
+   - `auto` - the auto mode ensures that media content starts loading when it becomes visible in the browser viewport or is in close proximity to it. 
+ This behavior is determined using the Intersection Observer API, optimizing loading times for content that is likely to be viewed by the user.
+ If the media is both intersecting and has a sufficient intersection ratio, the lazy attribute is removed from the media element.
+
  - `fill-mode` (optional) - enables resource size management. Available options:
    - `auto` - default, media area will be stretched to element size
    - `cover` - media area will be zoomed in/out, cropped and centered to cover element area
@@ -71,6 +77,19 @@ using a single tag as well as work with external providers using simple native-l
  - `mute` (boolean) - mute media
  
  - `playsinline` (boolean) - allow playing media inline (media player will not request special control over device)
+
+ - `load-condition` (optional) - [ESLMediaQuery](../esl-media-query/README.md) syntax to define a condition to load the media. 
+    Works independently from `lazy` attribute.
+ - `load-condition-class` (optional) - class to add when the `load-condition` is met. 
+    Independent of the lazy state, use `ready-class` if you are interested in the final state of component.
+ - `load-condition-class-target` (optional) - [ESLTraversingQuery](../esl-traversing-query/README.md) to define a target for `load-condition-class`
+
+#### Deprecated attributes (going to be removed in the next major release):
+ - `load-cls-accepted` (optional) - class to add when the media is loaded and accepted by the load condition. Use `load-condition-class` instead.
+ - `load-cls-declined` (optional) - class to add when the media is loaded and rejected by the load condition. Use `load-condition-class` with inverted syntax (`!class`) instead.
+ - `load-cls-target` (optional) - [ESLTraversingQuery](../esl-traversing-query/README.md) to define a target for `load-cls-accepted` and `load-cls-declined`
+
+ - `disabled` (boolean) - marker that prevents media API initialization. Deprecated alias for *manual* mode of `lazy` attribute
 
 ### Readonly Attributes:
  

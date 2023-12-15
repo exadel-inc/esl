@@ -125,6 +125,30 @@ Here is the list of supported keys of `ESLEventDesriptor`:
 
   Supports `PropertyProvider` to declare the computed value as well.
 
+- #### `condition` key
+  
+  <u>Type:</u> `bollean | PropertyProvider<boolean>`
+  <u>Default Value:</u> `true`  
+  <u>Description:</u> the function predicate or boolean flag to check if the subscription should be created. Resolves right before the subscription.
+    
+  Useful in combination with `@listen` decorator to declare subscriptions.
+
+  ```typescript
+    class MyEl extends ESLBaseElement {
+        @attr() enabled = true;     
+  
+        @listen({event: 'click', condition: (that) => that.enabled})
+        onClick(e) {}
+  
+        attributeChangedCallback(name, oldValue, newValue) {
+          if (name === 'enabled') {
+              ESLEventUtils.unsubscribe(this, this.onClick);
+              ESLEventUtils.subscribe(this, this.onClick);
+          }
+        }
+    }
+  ```
+
 - #### `capture` key
 
   <u>Type:</u> `boolean`  
@@ -571,6 +595,104 @@ ESLEventUtils.subscribe(host, {
   target: (host) => ESLResizeObserverTarget.for(host.el)
 }, onResize);
 ```
+
+<a name="-esleventutilswipe"></a>
+
+### ⚡ `ESLSwipeGestureTarget.for` <i class="badge badge-sup badge-success">new</i>
+
+`ESLSwipeGestureTarget.for` is a simple and easy-to-use way to listen for swipe events on any element.
+
+`ESLSwipeGestureTarget.for` creates a synthetic target that produces `swipe` events. It detects `pointerdown` and 
+`pointerup` events and based on the distance (`threshold`) between start and end points and time (`timeout`) between 
+`pointerdown` and `pointerup` events, triggers `swipe` event on the target element.
+
+```typescript
+ESLSwipeGestureTarget.for(el: Element, settings?: ESLSwipeGestureSetting): ESLSwipeGestureTarget;
+```
+
+**Parameters**:
+
+- `el` - `Element` to listen for swipe events on.
+- `settings` - optional settings (`ESLSwipeGestureSetting`)
+
+Usage example:
+
+```typescript
+ESLEventUtils.subscribe(host, {
+  event: 'swipe',
+  target: ESLSwipeGestureTarget.for(el)
+}, onSwipe);
+// or
+ESLEventUtils.subscribe(host, {
+  event: 'swipe',
+  target: (host) => ESLSwipeGestureTarget.for(host.el, {
+    threshold: '30px',
+    timeout: 1000
+  })
+}, onSwipe);
+```
+
+<a name="-esleventutilwheel"></a>
+
+### ⚡ `ESLWheelTarget.for` <i class="badge badge-sup badge-success">new</i>
+
+`ESLWheelTarget.for` is a simple way to listen for 'inert' (long wheel) scrolls events on any element.
+This utility detects `wheel` events, and based on the total amount (distance) of `wheel` events and time (`timeout`) between the first and the last events, it triggers `longwheel` event on the target element.
+
+```typescript
+ESLWheelTarget.for(el: Element, settings?: ESLWheelTargetSetting): ESLWheelTarget;
+```
+
+**Parameters**:
+
+- `el` - `Element` to listen for long wheel events
+- `settings` - optional settings (`ESLWheelTargetSetting`)
+
+The `ESLWheelTargetSetting` configuration includes these optional attributes:
+- `distance` - the minimum distance to accept as a long scroll in pixels (400 by default)
+- `timeout` - the maximum duration of the wheel events to consider it inertial in milliseconds (100 by default)
+
+Usage example:
+
+```typescript
+ESLEventUtils.subscribe(host, {
+  event: 'longwheel',
+  target: ESLWheelTarget.for(el)
+}, onWheel);
+// or
+ESLEventUtils.subscribe(host, {
+  event: 'longwheel',
+  target: (host) => ESLWheelTarget.for(host.el, {
+    threshold: 30,
+    timeout: 1000
+  })
+}, onWheel);
+```
+
+<a name="-esleventutilintersection"></a>
+
+### ⚡ `ESLIntersectionTarget.for` <i class="badge badge-sup badge-success">new</i>
+
+`ESLIntersectionTarget.for` is a way to listen for intersections using Intersection Observer API but in an EventTarget
+way.
+
+`ESLIntersectionTarget.for` creates a synthetic target that produces `intersection` events. It detects intersections by
+creating `IntersectionObserver` instance, created using passed `settings: IntersectionObserverInit`.
+
+Note: `ESLIntersectionTarget` does not share `IntersectionObserver` instances unlike caching capabilities of adapters 
+mentioned above. 
+
+```typescript
+ESLIntersectionTarget.for(el: Element | Element[], settings?: IntersectionObserverInit): ESLIntersectionTarget;
+```
+
+**Parameters**:
+- `el` - `Element` or `Element[]` to listen for intersection events on;
+- `settings` - optional settings (`ESLIntersectionSetting`)
+
+Event API:
+Throws `ESLIntersectionEvent` that implements `IntersectionObserverEntry` original interface.
+
 
 ---
 

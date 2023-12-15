@@ -1,23 +1,28 @@
-import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement} from '../../esl-base-element/core';
-import {bind, prop, attr, boolAttr} from '../../esl-utils/decorators';
+import {ExportNs} from '../../esl-utils/environment/export-ns';
+import {isElement} from '../../esl-utils/dom/api';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
-import {rafDecorator} from '../../esl-utils/async/raf';
-import {debounce} from '../../esl-utils/async/debounce';
+import {SPACE, PAUSE} from '../../esl-utils/dom/keys';
+import {prop, attr, boolAttr, listen, decorate} from '../../esl-utils/decorators';
+import {debounce, rafDecorator} from '../../esl-utils/async';
 import {parseAspectRatio} from '../../esl-utils/misc/format';
 
 import {ESLMediaQuery} from '../../esl-media-query/core';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 
-import {SPACE, PAUSE} from '../../esl-utils/dom/keys';
 import {getIObserver} from './esl-media-iobserver';
 import {PlayerStates} from './esl-media-provider';
 import {ESLMediaProviderRegistry} from './esl-media-registry';
 import {MediaGroupRestrictionManager} from './esl-media-manager';
 
 import type {BaseProvider} from './esl-media-provider';
+import type {ESLMediaRegistryEvent} from './esl-media-registry.event';
 
 export type ESLMediaFillMode = 'cover' | 'inscribe' | '';
+
+export type ESLMediaLazyMode = 'auto' | 'manual' | 'none';
+const isLazyAttr = (v: string): v is ESLMediaLazyMode => ['auto', 'manual', 'none'].includes(v);
+const parseLazyAttr = (v: string): ESLMediaLazyMode => isLazyAttr(v) ? v : 'auto';
 
 /**
  * ESLMedia - custom element, that provides an ability to add and configure media (video / audio)
@@ -39,7 +44,8 @@ export class ESLMedia extends ESLBaseElement {
     'play-in-viewport',
     'muted',
     'loop',
-    'controls'
+    'controls',
+    'lazy'
   ];
 
   /** Event to dispatch on ready state */
@@ -70,10 +76,13 @@ export class ESLMedia extends ESLBaseElement {
   @attr() public fillMode: ESLMediaFillMode;
   /** Strict aspect ratio definition */
   @attr() public aspectRatio: string;
-
-
-  /** Disabled marker to prevent rendering */
+  /**
+   * Disabled marker to prevent rendering
+   * @deprecated replaced with {@link lazy} = "manual" functionality
+   */
   @boolAttr() public disabled: boolean;
+  /** Allows lazy load resource */
+  @attr({parser: parseLazyAttr, defaultValue: 'none'}) public lazy: ESLMediaLazyMode;
   /** Autoplay resource marker */
   @boolAttr() public autoplay: boolean;
   /** Autofocus on play marker */
@@ -97,14 +106,28 @@ export class ESLMedia extends ESLBaseElement {
   /** Ready state class/classes target */
   @attr() public readyClassTarget: string;
 
-  /** Class / classes to add when media is accepted */
+  /**
+   * Class / classes to add when media is accepted
+   * @deprecated use {@link loadConditionClass} instead (e.g. `load-condition-class="is-accepted"`)
+   */
   @attr() public loadClsAccepted: string;
-  /** Class / classes to add when media is declined */
+  /**
+   * Class / classes to add when media is declined
+   * @deprecated use {@link loadConditionClass} with negative class param instead (e.g. `load-condition-class="!is-declined"`)
+   */
   @attr() public loadClsDeclined: string;
+  /**
+   * Target element {@link ESLTraversingQuery} select to add accepted/declined classes
+   * @deprecated used with legacy load condition attributes, consider migration to {@link loadConditionClass}
+   */
+  @attr({defaultValue: '::parent'}) public loadClsTarget: string;
+
   /** Condition {@link ESLMediaQuery} to allow load of media resource. Default: `all` */
   @attr({defaultValue: 'all'}) public loadCondition: string;
-  /** Target element {@link ESLTraversingQuery} select to add accepted/declined classes */
-  @attr({defaultValue: '::parent'}) public loadClsTarget: string;
+  /** Class / classes to add when load media is accepted */
+  @attr() public loadConditionClass: string;
+  /** Target element {@link ESLTraversingQuery} select to toggle {@link loadConditionClass} classes */
+  @attr({defaultValue: '::parent'}) public loadConditionClassTarget: string;
 
   /** @readonly Ready state marker */
   @boolAttr({readonly: true}) public ready: boolean;
@@ -117,7 +140,6 @@ export class ESLMedia extends ESLBaseElement {
 
   private _provider: BaseProvider | null;
 
-  private deferredResize = rafDecorator(() => this._onResize());
   private deferredReinitialize = debounce(() => this.reinitInstance());
 
   /**
@@ -138,14 +160,12 @@ export class ESLMedia extends ESLBaseElement {
       this.setAttribute('role', 'application');
     }
     this.innerHTML += '<!-- Inner Content, do not modify it manually -->';
-    this.bindEvents();
-    this.attachViewportConstraint();
     this.deferredReinitialize();
+    this.reattachViewportConstraint();
   }
 
   protected override disconnectedCallback(): void {
     super.disconnectedCallback();
-    this.unbindEvents();
     this.detachViewportConstraint();
     this._provider && this._provider.unbind();
   }
@@ -159,6 +179,10 @@ export class ESLMedia extends ESLBaseElement {
       case 'media-type':
         this.deferredReinitialize();
         break;
+      case 'lazy':
+        this.reattachViewportConstraint();
+        this.deferredReinitialize();
+        break;
       case 'loop':
       case 'muted':
       case 'controls':
@@ -166,42 +190,23 @@ export class ESLMedia extends ESLBaseElement {
         break;
       case 'fill-mode':
       case 'aspect-ratio':
-        this.deferredResize();
+        this.$$off(this._onResize);
+        this.$$on(this._onResize);
+        this._onResize();
         break;
       case 'play-in-viewport':
-        this.playInViewport ?
-          this.attachViewportConstraint() :
-          this.detachViewportConstraint();
+        this.reattachViewportConstraint();
         break;
       case 'load-condition':
-        ESLMediaQuery.for(oldVal).removeEventListener(this.deferredReinitialize);
-        ESLMediaQuery.for(newVal).addEventListener(this.deferredReinitialize);
+        this.$$off(this._onConditionChange);
+        this.$$on(this._onConditionChange);
         this.deferredReinitialize();
         break;
     }
   }
 
-  protected bindEvents(): void {
-    ESLMediaProviderRegistry.instance.addListener(this._onRegistryStateChange);
-    this.conditionQuery.addEventListener(this.deferredReinitialize);
-    if (this.fillModeEnabled) {
-      window.addEventListener('resize', this.deferredResize);
-    }
-    window.addEventListener(this.REFRESH_EVENT, this._onRefresh);
-    this.addEventListener('keydown', this._onKeydown);
-  }
-  protected unbindEvents(): void {
-    ESLMediaProviderRegistry.instance.removeListener(this._onRegistryStateChange);
-    this.conditionQuery.removeEventListener(this.deferredReinitialize);
-    if (this.fillModeEnabled) {
-      window.removeEventListener('resize', this.deferredResize);
-    }
-    window.removeEventListener(this.REFRESH_EVENT, this._onRefresh);
-    this.removeEventListener('keydown', this._onKeydown);
-  }
-
   public canActivate(): boolean {
-    if (this.disabled) return false;
+    if (this.lazy !== 'none' || this.disabled) return false;
     return this.conditionQuery.matches;
   }
 
@@ -224,12 +229,15 @@ export class ESLMedia extends ESLBaseElement {
   }
 
   public updateContainerMarkers(): void {
-    const targetEl = ESLTraversingQuery.first(this.loadClsTarget, this) as HTMLElement;
-    if (!targetEl) return;
+    const active = this.conditionQuery.matches;
 
-    const active = this.canActivate();
-    CSSClassUtils.toggle(targetEl, this.loadClsAccepted, active);
-    CSSClassUtils.toggle(targetEl, this.loadClsDeclined, !active);
+    const $target = ESLTraversingQuery.first(this.loadConditionClassTarget, this) as HTMLElement;
+    $target && CSSClassUtils.toggle($target, this.loadConditionClass, active);
+
+    // Legacy attributes support
+    const targetEl = ESLTraversingQuery.first(this.loadClsTarget, this) as HTMLElement;
+    targetEl && CSSClassUtils.toggle(targetEl, this.loadClsAccepted, active);
+    targetEl && CSSClassUtils.toggle(targetEl, this.loadClsDeclined, !active);
   }
 
   /** Seek to given position of media */
@@ -239,10 +247,11 @@ export class ESLMedia extends ESLBaseElement {
 
   /**
    * Start playing media
-   * @param allowActivate - allows to remove disabled marker
+   * @param allowActivate - allows to remove manual lazy or disabled marker
    */
   public play(allowActivate: boolean = false): Promise<void> | null {
-    if (this.disabled && allowActivate) {
+    if (!this.ready && allowActivate) {
+      this.lazy = 'none';
       this.disabled = false;
       this.deferredReinitialize.cancel();
       this.reinitInstance();
@@ -276,8 +285,8 @@ export class ESLMedia extends ESLBaseElement {
     this.toggleAttribute('ready', true);
     this.toggleAttribute('error', false);
     this.updateReadyClass();
-    this.deferredResize();
     this.$$fire(this.READY_EVENT);
+    this._onResize();
   }
 
   public _onError(detail?: any, setReadyState = true): void {
@@ -297,11 +306,11 @@ export class ESLMedia extends ESLBaseElement {
 
   public _onPlay(): void {
     if (this.autofocus) this.focus();
-    this.deferredResize();
-    this.setAttribute('active', '');
-    this.setAttribute('played', '');
+    this.toggleAttribute('active', true);
+    this.toggleAttribute('played', true);
     this.$$fire(this.PLAY_EVENT);
     MediaGroupRestrictionManager.registerPlay(this);
+    this._onResize();
   }
 
   public _onPaused(): void {
@@ -316,7 +325,13 @@ export class ESLMedia extends ESLBaseElement {
     MediaGroupRestrictionManager.unregister(this);
   }
 
-  public _onResize(): void {
+  @listen({
+    event: 'resize',
+    target: window,
+    condition: ($this: ESLMedia) => $this.fillModeEnabled
+  })
+  @decorate(rafDecorator)
+  protected _onResize(): void {
     if (!this._provider) return;
     if (this.fillModeEnabled && this.actualAspectRatio > 0) {
       let stretchVertically = this.offsetWidth / this.offsetHeight < this.actualAspectRatio;
@@ -329,23 +344,32 @@ export class ESLMedia extends ESLBaseElement {
     }
   }
 
-  @bind
+  @listen({
+    event: ($this: ESLMedia) => $this.REFRESH_EVENT,
+    target: window
+  })
   protected _onRefresh(e: Event): void {
     const {target} = e;
-    if (target instanceof HTMLElement && target.contains(this)) {
-      this._onResize();
-    }
+    if (isElement(target) && target.contains(this)) this._onResize();
   }
 
-  @bind
-  protected _onRegistryStateChange(name: string): void {
-    const type = this.mediaType.toLowerCase() || 'auto';
-    if (name === type || (!this.providerType && type === 'auto')) {
-      this.reinitInstance();
-    }
+  @listen({
+    event: 'change',
+    target: () => ESLMediaProviderRegistry.instance
+  })
+  protected _onRegistryStateChange(e: ESLMediaRegistryEvent): void {
+    if (e.isRelates(this.mediaType)) this.reinitInstance();
   }
 
-  @bind
+  @listen({
+    event: 'change',
+    target: ($this: ESLMedia) => $this.conditionQuery
+  })
+  protected _onConditionChange(): void {
+    this.deferredReinitialize();
+  }
+
+  @listen('keydown')
   protected _onKeydown(e: KeyboardEvent): void {
     if (e.target !== this) return;
     if ([SPACE, PAUSE].includes(e.key)) {
@@ -402,10 +426,10 @@ export class ESLMedia extends ESLBaseElement {
     return this._provider ? this._provider.defaultAspectRatio : 0;
   }
 
-  protected attachViewportConstraint(): void {
-    if (this.playInViewport) {
-      getIObserver().observe(this);
-    }
+  protected reattachViewportConstraint(): void {
+    this.detachViewportConstraint();
+    if (!this.playInViewport && this.lazy !== 'auto') return;
+    getIObserver().observe(this);
   }
   protected detachViewportConstraint(): void {
     const observer = getIObserver(true);
