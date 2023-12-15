@@ -130,10 +130,8 @@ export class ESLPopup extends ESLToggleable {
 
   /** Get the size and position of the container */
   protected get containerRect(): Rect {
-    const {$container} = this;
-    if (!$container) return getWindowRect();
-    const containerRect = $container.getBoundingClientRect();
-    return new Rect(containerRect.left, containerRect.top + window.pageYOffset, containerRect.width, containerRect.height);
+    if (!this.$container) return getWindowRect();
+    return Rect.from(this.$container).shift(window.pageXOffset, window.pageYOffset);
   }
 
   @ready
@@ -180,16 +178,9 @@ export class ESLPopup extends ESLToggleable {
   }
 
   /** Runs additional actions on show popup request */
-  protected override onBeforeShow(params: ESLToggleableActionParams): boolean | void {
-    this.activator = params.activator;
-    if (this.open) {
-      this.afterOnHide();
-      this._extraClass = params.extraClass;
-      this._extraStyle = params.extraStyle;
-      this.afterOnShow();
-    }
-
-    if (!params.force && this.open) return false;
+  protected override shouldShow(params: ESLToggleableActionParams): boolean {
+    if (params.activator !== this.activator) return true;
+    return super.shouldShow(params);
   }
 
   /**
@@ -198,6 +189,12 @@ export class ESLPopup extends ESLToggleable {
    * Adds CSS classes, update a11y and fire esl:refresh event by default.
    */
   protected override onShow(params: PopupActionParams): void {
+    if (this.open) {
+      this.beforeOnHide();
+      super.onHide(params);
+      this.afterOnHide();
+    }
+
     super.onShow(params);
 
     // TODO: change flow to use merged params unless attribute state is used in CSS

@@ -77,6 +77,11 @@ export class ESLShareConfig extends SyntheticEventTarget {
     return ESLShareConfig.instance;
   }
 
+  /** Updates items by the name and passed changes */
+  public static update(name: string, changes: Partial<ESLShareButtonConfig>): ESLShareConfig {
+    return ESLShareConfig.instance.update(name, changes);
+  }
+
   /** Appends single button or group to current configuration */
   public static append(cfg: ESLShareButtonConfig | ESLShareGroupConfig | ESLShareButtonConfig[] | ESLShareGroupConfig[]): ESLShareConfig {
     return ESLShareConfig.instance.append(cfg);
@@ -165,6 +170,14 @@ export class ESLShareConfig extends SyntheticEventTarget {
       this.add(config);
     }
     this._onUpdate();
+    return this;
+  }
+
+  /** Updates items by the name and passed changes */
+  public update(name: string, changes: Partial<ESLShareButtonConfig>): ESLShareConfig {
+    for (const btn of this.get(name)) {
+      this.append(Object.assign({}, btn, changes));
+    }
     return this;
   }
 
