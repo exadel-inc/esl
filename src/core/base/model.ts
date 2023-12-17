@@ -2,7 +2,7 @@ import {SyntheticEventTarget} from '@exadel/esl/modules/esl-utils/dom';
 import {decorate} from '@exadel/esl/modules/esl-utils/decorators';
 import {microtask} from '@exadel/esl/modules/esl-utils/async';
 
-import {UIPHtmlNormalizationService} from '../utils/normalization';
+import {UIPHtmlNormalizationService} from '../processors/normalization';
 import {UIPSnippetItem} from './snippet';
 
 import type {UIPRoot} from './root';
