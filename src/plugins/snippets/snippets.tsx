@@ -7,11 +7,11 @@ import {ESLTrigger} from '@exadel/esl/modules/esl-trigger/core';
 
 import {UIPPlugin} from '../../core/base/plugin';
 import {UIPSnippetsIcon} from '../snippets-list/snippets.icon';
-import {UIPSnippetsTitle} from '../snippets-title/snippets-title';
+import type {UIPSnippetsTitle} from '../snippets-title/snippets-title';
 
 /**
- * Header {@link UIPPlugin} custom element definition
- * Container for {@link UIPSnippetsList} and {@link UIPOptions} elements
+ * Snippets {@link UIPPlugin} custom element definition
+ * Container for {@link UIPSnippetsList} element
  */
 export class UIPSnippets extends UIPPlugin {
   static override is = 'uip-snippets';

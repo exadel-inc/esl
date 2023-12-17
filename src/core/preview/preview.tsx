@@ -6,8 +6,8 @@ import {afterNextRender, skipOneRender} from '@exadel/esl/modules/esl-utils/asyn
 import {UIPPlugin} from '../base/plugin';
 
 /**
- * Preview {@link UIPPlugin} custom element definition
- * Element that displays active markup
+ * Preview {@link UIPPlugin} custom element definition.
+ * Mandatory for UI Playground rendering. Displays active playground content
  */
 export class UIPPreview extends UIPPlugin {
   static is = 'uip-preview';

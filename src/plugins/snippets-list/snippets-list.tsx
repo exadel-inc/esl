@@ -15,7 +15,7 @@ import type {UIPRoot} from '../../core/base/root';
 
 
 /**
- * Snippets {@link UIPPlugin} custom element definition
+ * Snippets List {@link UIPPlugin} custom element definition
  * Container class for snippets (component's templates)
  */
 export class UIPSnippetsList extends UIPPlugin {
@@ -30,7 +30,7 @@ export class UIPSnippetsList extends UIPPlugin {
 
   @memoize()
   public override get $root(): UIPRoot | null {
-    const parent = this.closest(`${UIPSnippets.is}`) as UIPSnippets;
+    const parent: UIPSnippets = this.closest(`${UIPSnippets.is}`)!;
     if (parent) return parent.$root;
     return super.$root;
   }

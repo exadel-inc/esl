@@ -116,7 +116,7 @@ export class UIPEditor extends UIPPluginPanel {
   }
 
   /** Change editor's markup from markup state changes */
-  @listen({event: 'uip:change', target: ($this: UIPEditor)=> $this.$root})
+  @listen({event: 'uip:change', target: ($this: UIPEditor) => $this.$root})
   protected _onRootStateChange(): void {
     if (this.model!.lastModifier === this) return;
     this.value = this.model!.html;

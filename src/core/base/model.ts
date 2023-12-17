@@ -95,7 +95,7 @@ export class UIPStateModel extends SyntheticEventTarget {
     this.setHtml(snippet.html, modifier);
     this.dispatchEvent(new CustomEvent('uip:model:snippet:change', {detail: this}));
   }
-  /** Apply an active snippet from DOM */
+  /** Applies an active snippet from DOM */
   public applyCurrentSnippet(modifier: UIPPlugin | UIPRoot): void {
     this.applySnippet(this.activeSnippet || this.snippets[0], modifier);
   }
