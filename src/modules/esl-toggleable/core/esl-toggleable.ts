@@ -14,6 +14,8 @@ import type {DelegatedEvent} from '../../esl-event-listener/core/types';
 
 /** Default Toggleable action params type definition */
 export interface ESLToggleableActionParams {
+  /** Action to execute */
+  readonly action?: 'show' | 'hide';
   /** Initiator string identifier */
   initiator?: string;
   /** Delay timeout for both show and hide actions */
@@ -220,6 +222,7 @@ export class ESLToggleable extends ESLBaseElement {
 
   /** Actual show task to execute by toggleable task manger ({@link DelayedTask} out of the box) */
   protected showTask(params: ESLToggleableActionParams): void {
+    Object.defineProperty(params, 'action', {value: 'show', writable: false});
     if (!this.shouldShow(params)) return;
     if (!params.silent && !this.$$fire(this.BEFORE_SHOW_EVENT, {detail: {params}})) return;
     this.activator = params.activator;
@@ -229,6 +232,7 @@ export class ESLToggleable extends ESLBaseElement {
   }
   /** Actual hide task to execute by toggleable task manger ({@link DelayedTask} out of the box) */
   protected hideTask(params: ESLToggleableActionParams): void {
+    Object.defineProperty(params, 'action', {value: 'hide', writable: false});
     if (!this.shouldHide(params)) return;
     if (!params.silent && !this.$$fire(this.BEFORE_HIDE_EVENT, {detail: {params}})) return;
     this.open = false;
