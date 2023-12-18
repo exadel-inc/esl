@@ -58,6 +58,7 @@ The ESLint plugin provides a separate rule for each deprecated utility within th
 - `@exadel/esl/deprecated-4/generate-uid` - Rule for deprecated `generateUId` alias for `randUID`.
 - `@exadel/esl/deprecated-4/deep-compare` - Rule for deprecated `deepCompare` alias for `isEqual`.
 - `@exadel/esl/deprecated-4/event-utils` - Rule for deprecated `EventUtils` alias for `ESLEventUtils`.
+- `@exadel/esl/deprecated-4/panel-action-params` - Rule for deprecated `PanelActionParams` alias for `ESLPanelActionParams`.
 - `@exadel/esl/deprecated-4/popup-action-params` - Rule for deprecated `PopupActionParams` alias for `ESLPopupActionParams`.
 - `@exadel/esl/deprecated-4/traversing-query` - Rule for deprecated `TraversingQuery` alias for `ESLTraversingQuery`.
 - `@exadel/esl/deprecated-4/toggleable-action-params` - Rule for deprecated `ToggleableActionParams` alias for `ESLToggleableActionParams`.

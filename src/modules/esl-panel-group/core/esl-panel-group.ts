@@ -10,7 +10,7 @@ import {ESLMediaQuery, ESLMediaRuleList} from '../../esl-media-query/core';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {ESLPanel} from '../../esl-panel/core';
 
-import type {PanelActionParams} from '../../esl-panel/core';
+import type {ESLPanelActionParams} from '../../esl-panel/core';
 
 /** Converts special 'all' value to positive infinity */
 const parseCount = (value: string): number => value === 'all' ? Number.POSITIVE_INFINITY : parseInt(value, 10);
@@ -67,7 +67,7 @@ export class ESLPanelGroup extends ESLBaseElement {
   @attr({defaultValue: 'last'}) public refreshStrategy: string;
 
   /** Action params to pass into panels when executing reset action (happens when mode is changed) */
-  @jsonAttr({defaultValue: {noAnimate: true}}) public transformParams: PanelActionParams;
+  @jsonAttr({defaultValue: {noAnimate: true}}) public transformParams: ESLPanelActionParams;
 
   /** Readonly attribute that indicates whether the panel group has opened panels */
   @boolAttr({readonly: true}) public hasOpened: boolean;
@@ -203,7 +203,7 @@ export class ESLPanelGroup extends ESLBaseElement {
   }
 
   /** @returns action params config that's used (inherited) by controlled {@link ESLPanel}s */
-  public get panelConfig(): PanelActionParams {
+  public get panelConfig(): ESLPanelActionParams {
     return {
       capturedBy: this.currentMode === 'tabs' ? this : undefined,
       noAnimate: !this.shouldAnimate || (this.currentMode === 'tabs')
@@ -211,7 +211,7 @@ export class ESLPanelGroup extends ESLBaseElement {
   }
 
   /** @returns merged panel action params for show/hide requests from the group */
-  protected mergeActionParams(...params: PanelActionParams[]): PanelActionParams {
+  protected mergeActionParams(...params: ESLPanelActionParams[]): ESLPanelActionParams {
     return Object.assign({initiator: 'group', activator: this}, ...params);
   }
 
@@ -222,11 +222,11 @@ export class ESLPanelGroup extends ESLBaseElement {
   }
 
   /** Shows all panels besides excluded ones */
-  public showAll(excluded: ESLPanel[] = [], params: PanelActionParams = {}): void {
+  public showAll(excluded: ESLPanel[] = [], params: ESLPanelActionParams = {}): void {
     this.$panels.forEach((el) => !excluded.includes(el) && el.show(this.mergeActionParams(params)));
   }
   /** Hides all active panels besides excluded ones */
-  public hideAll(excluded: ESLPanel[] = [], params: PanelActionParams = {}): void {
+  public hideAll(excluded: ESLPanel[] = [], params: ESLPanelActionParams = {}): void {
     this.$activePanels.forEach((el) => !excluded.includes(el) && el.hide(this.mergeActionParams(params)));
   }
 

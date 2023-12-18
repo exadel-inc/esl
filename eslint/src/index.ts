@@ -2,6 +2,7 @@ import deprecatedAlertActionParams from './rules/4/deprecated.alert-action-param
 import deprecatedGenerateUid from './rules/4/deprecated.generate-uid';
 import deprecatedDeepCompare from './rules/4/deprecated.deep-compare';
 import deprecatedEventUtils from './rules/4/deprecated.event-utils';
+import deprecatedPanelActionParams from './rules/4/deprecated.panel-action-params';
 import deprecatedPopupActionParams from './rules/4/deprecated.popup-action-params';
 import deprecatedTraversingQuery from './rules/4/deprecated.traversing-query';
 import deprecatedToggleableActionParams from './rules/4/deprecated.toggleable-action-params';
@@ -16,6 +17,7 @@ const DEPRECATED_4_RULES = {
   'deprecated-4/generate-uid': deprecatedGenerateUid,
   'deprecated-4/deep-compare': deprecatedDeepCompare,
   'deprecated-4/event-utils': deprecatedEventUtils,
+  'deprecated-4/panel-action-params': deprecatedPanelActionParams,
   'deprecated-4/popup-action-params': deprecatedPopupActionParams,
   'deprecated-4/traversing-query': deprecatedTraversingQuery,
   'deprecated-4/toggleable-action-params': deprecatedToggleableActionParams,
