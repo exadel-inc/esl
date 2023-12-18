@@ -97,12 +97,10 @@ export class ESLTooltip extends ESLPopup {
     this.lang = params.lang || '';
     this.parentNode !== document.body && document.body.appendChild(this);
     super.onShow(params);
-    this._updateActivatorState(true);
   }
 
   /** Actions to execute on Tooltip hiding. */
   public override onHide(params: TooltipActionParams): void {
-    this._updateActivatorState(false);
     super.onHide(params);
     this.parentNode === document.body && document.body.removeChild(this);
   }
@@ -138,10 +136,6 @@ export class ESLTooltip extends ESLPopup {
       this.activator.focus();
       e.preventDefault();
     }
-  }
-
-  protected _updateActivatorState(newState: boolean): void {
-    this.activator?.toggleAttribute('tooltip-shown', newState);
   }
 }
 
