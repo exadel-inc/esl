@@ -35,22 +35,21 @@ uip-dir-toggle {
     align-items: center;
   }
 
-
-  &.uip-settings-direction {
+  .uip-settings-container > & {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     height: auto;
   }
 
-  &.uip-settings-direction &-label {
+  .uip-settings-container > & &-label {
     display: block;
     &::after {
       content: ':';
     }
   }
 
-  &.uip-settings-direction &-figure {
+  .uip-settings-container > & &-figure {
     width: auto;
     min-height: 1.5em;
     vertical-align: middle;

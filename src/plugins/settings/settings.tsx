@@ -1,12 +1,12 @@
 import React from 'jsx-dom';
 
+import {isElement} from '@exadel/esl/modules/esl-utils/dom/api';
 import {debounce} from '@exadel/esl/modules/esl-utils/async/debounce';
 import {attr, boolAttr, decorate, listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 
 import {UIPPluginPanel} from '../../core/panel/plugin-panel';
 import {ThemeToggleIcon} from '../theme/theme-toggle.icon';
 
-import {UIPSetting} from './base-setting/base-setting';
 import {SettingsIcon} from './settings.icon';
 
 /**
@@ -32,6 +32,7 @@ export class UIPSettings extends UIPPluginPanel {
     const type = this.constructor as typeof UIPSettings;
     return (<div class={type.is + '-toolbar uip-plugin-header-toolbar'}>
       {this.themeToggle ? <uip-theme-toggle class={type.is + '-toolbar-option'}><ThemeToggleIcon/></uip-theme-toggle> : ''}
+      {this.dirToggle ? <uip-dir-toggle class={type.is + '-toolbar-option'}/> : ''}
     </div>) as HTMLElement;
   }
 
@@ -47,22 +48,27 @@ export class UIPSettings extends UIPPluginPanel {
   @memoize()
   protected get $container(): HTMLElement {
     const type = this.constructor as typeof UIPSettings;
-    return (<div class={type.is + '-container esl-scrollable-content'}>
-      {this.dirToggle ? <uip-dir-toggle class={type.is + '-direction'}/> : ''}
-    </div>) as HTMLElement;
+    return (<div class={type.is + '-container esl-scrollable-content'}/>) as HTMLElement;
+  }
+
+  /** @returns HTMLElement[] - all internal items marked as settings item */
+  protected get $items(): HTMLElement[] {
+    return [...this.childNodes].filter(
+      ($el: ChildNode): $el is HTMLElement => isElement($el) && $el.hasAttribute('uip-settings-content')
+    );
   }
 
   protected override connectedCallback(): void {
     super.connectedCallback();
     this.appendChild(this.$header);
     this.appendChild(this.$inner);
-    this.appendChild(this.$resizebar);
+    this.appendChild(this.$resize);
     this.invalidate();
   }
 
   protected override disconnectedCallback(): void {
     super.disconnectedCallback();
-    this.append(...this.settings);
+    this.append(...this.$items);
     this.removeChild(this.$header);
     this.removeChild(this.$inner);
   }
@@ -77,15 +83,9 @@ export class UIPSettings extends UIPPluginPanel {
     }
   }
 
-  /** Collects all {@link UIPSetting} items */
-  protected get settings(): UIPSetting[] {
-    return Array.from(this.$container.childNodes).filter(UIPSetting.isSetting);
-  }
-
   @decorate(debounce, 100)
   protected invalidate(): void {
-    const items = [...this.childNodes].filter(UIPSetting.isSetting);
-    const outside = items.filter((el) => el.parentElement !== this.$container);
+    const outside = this.$items.filter((el) => el.parentElement !== this.$container);
     outside.forEach((el) => this.$container.appendChild(el));
   }
 

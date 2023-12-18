@@ -87,7 +87,7 @@ export class UIPEditor extends UIPPluginPanel {
     // Prefill content
     this.appendChild(this.$header);
     this.appendChild(this.$inner);
-    this.appendChild(this.$resizebar);
+    this.appendChild(this.$resize);
 
     // Initial update
     this._onRootStateChange();

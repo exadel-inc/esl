@@ -34,6 +34,8 @@ export class UIPDirSwitcher extends UIPPluginButton {
 
   protected override connectedCallback(): void {
     if (!this.$root || !this.$preview) return;
+    this.$$attr('uip-settings-content', true);
+    this.$$fire('uip:settings:invalidate');
     super.connectedCallback();
     this.appendChild(this.$label);
     this.appendChild(this.$content);

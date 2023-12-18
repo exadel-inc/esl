@@ -59,8 +59,8 @@ export abstract class UIPPluginPanel extends UIPPlugin {
 
   /** Creates resize area element */
   @memoize()
-  protected get $resizebar(): HTMLElement {
-    return (<div class="uip-plugin-resizebar" />) as HTMLElement;
+  protected get $resize(): HTMLElement {
+    return (<div class="uip-plugin-resize-bar" />) as HTMLElement;
   }
 
   /** @returns if the plugin should be rendered vertically */
@@ -89,7 +89,9 @@ export abstract class UIPPluginPanel extends UIPPlugin {
     selector: '.uip-plugin-header-trigger',
   })
   protected _onCollapseClick(): void {
-    if (this.collapsible) this.collapsed = !this.collapsed;
+    if (!this.collapsible) return;
+    this.collapsed = !this.collapsed;
+    this.resizing = false;
   }
 
   /** Handles vertical media query change */
@@ -111,16 +113,16 @@ export abstract class UIPPluginPanel extends UIPPlugin {
   /** Handles resize start */
   @listen({
     event: 'pointerdown',
-    selector: '.uip-plugin-resizebar'
+    selector: '.uip-plugin-resize-bar'
   })
   protected _onPointerStart(event: PointerEvent): void {
-    if (!this.resizable) return;
+    if (!this.resizable || this.collapsed) return;
     const {isVertical} = this;
     this.resizing = true;
     const prop = isVertical ? '--uip-plugin-width' : '--uip-plugin-height';
     this._startSize = parseFloat(getComputedStyle(this).getPropertyValue(prop) || '0');
     this._startPoint = isVertical ? event.x : event.y;
-    if (this.$resizebar.setPointerCapture) this.$resizebar.setPointerCapture(event.pointerId);
+    if (this.$resize.setPointerCapture) this.$resize.setPointerCapture(event.pointerId);
 
     this.$$on(this._onPointerMove);
   }
@@ -128,11 +130,11 @@ export abstract class UIPPluginPanel extends UIPPlugin {
   /** Handles resize end */
   @listen({
     event: 'pointerup',
-    selector: '.uip-plugin-resizebar'
+    selector: '.uip-plugin-resize-bar'
   })
   protected _onPointerEnd(event: PointerEvent): void {
     this.resizing = false;
-    if (this.$resizebar.releasePointerCapture) this.$resizebar.releasePointerCapture(event.pointerId);
+    if (this.$resize.releasePointerCapture) this.$resize.releasePointerCapture(event.pointerId);
     this.$$off(this._onPointerMove);
   }
 
@@ -140,7 +142,7 @@ export abstract class UIPPluginPanel extends UIPPlugin {
   @listen({
     auto: false,
     event: 'pointermove',
-    selector: '.uip-plugin-resizebar'
+    selector: '.uip-plugin-resize-bar'
   })
   protected _onPointerMove(event: PointerEvent): void {
     if (!this.resizing) return;

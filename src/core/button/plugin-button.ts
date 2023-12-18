@@ -28,6 +28,7 @@ export abstract class UIPPluginButton extends UIPPlugin {
 
   protected override connectedCallback(): void {
     super.connectedCallback();
+    this.$$cls('uip-plugin-button', true);
     this.setAttribute('tabindex', '0');
     this.setAttribute('role', 'button');
 
