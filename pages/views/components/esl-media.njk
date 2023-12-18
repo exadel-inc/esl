@@ -14,8 +14,7 @@ aside:
 {% mdRender 'src/modules/esl-media/README.md', 'intro' %}
 
 <section class="col-12 row">
-  <uip-root uip-blue-theme>
-    <uip-header></uip-header>
+  <uip-root>
     <script type="text/html" uip-snippet label="Playground">
       <h3 class="text-center">ESL Media</h3>
       <div class="img-container img-container-16-9 img-container-loaded" style="border: solid black 1px;">
@@ -28,8 +27,10 @@ aside:
         <button class="btn btn-sec-blue" onclick="document.querySelector('.esl-media-demo-1').stop()">Stop</button>
       </div>
     </script>
+
+    <uip-snippets class="uip-toolbar"></uip-snippets>
     <uip-preview></uip-preview>
-    <uip-settings target=".esl-media">
+    <uip-settings target=".esl-media" label="Settings">
       <uip-select-setting label="Media type:" target=".esl-media" attribute="media-type">
         <option value="auto">- Auto -</option>
         <option value="audio">HTML Audio</option>

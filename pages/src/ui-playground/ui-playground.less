@@ -1,187 +1,39 @@
-@import (inline) '@exadel/ui-playground/esm/registration.css';
+@import (inline) '../../node_modules/@exadel/ui-playground/esm/registration.css';
 @import (reference) '../common/variables.less';
 
-uip-root {
-  opacity: 0;
-  transition: opacity 1s ease-in-out;
+// Default theme definition
+html {
+  --uip-bg: #fff;
+  --uip-fg: @body-fg;
 
-  &.uip-root {
-    opacity: 1;
-  }
+  --uip-header-bg: #112a47;
+  --uip-header-fg: #fff;
 
-  uip-settings:not(.uip-settings) {
-    display: none;
-  }
+  --uip-prview-max-height: 500px;
+
+  --uip-plugin-fg: #ccc;
+  --uip-plugin-bg: @primary-bg;
+  --uip-plugin-divider: #c8d6f0;
+
+  --uip-plugin-header-bg: #112a47;
+  --uip-plugin-header-fg: #fff;
+
+  --uip-plugin-fg-v: @body-fg;
+  --uip-plugin-bg-v: transparent;
+  --uip-plugin-divider-v: #c8d6f0;
 }
 
 .uip-root {
-  uip-preview.uip-preview {
-    color: @body-fg;
-    background-color: @body-bg;
-  }
+  overflow: hidden;
+  border: 1px solid #c8d6f0;
+  border-radius: 0.5rem;
 
-  &[settings-collapsed] {
-    grid-template-columns: none;
-  }
-
-  background-color: transparent;
-
-  .uip-snippets {
-    & > .snippets-title {
-      padding-left: 10px;
-    }
-  }
-
-  .uip-options {
-    width: auto;
+  .uip-plugin-header {
+    font-size: 1.1rem;
   }
 
   .uip-settings {
-    accent-color: @body-fg;
-
-    &-inner {
-      padding-left: 5px;
-      padding-right: 5px;
-    }
-  }
-
-  .uip-setting label {
-    width: 100%;
-  }
-
-  .uip-editor,
-  .editor-content {
-    border-top-left-radius: initial;
-    border-top-right-radius: initial;
-    border-bottom-left-radius: 0.5em;
-    border-bottom-right-radius: 0.5em;
-  }
-
-  // Not supported for now
-  .dark-theme-option,
-  .settings-collapsed-option {
-    display: none;
-  }
-}
-
-.uip-root[uip-blue-theme] {
-  .uip-header {
-    background: #112a47;
-    border-top-left-radius: 0.5em;
-    border-top-right-radius: 0.5em;
-  }
-
-  .uip-option {
-    &.dark-theme-option,
-    &.settings-collapsed-option {
-      svg {
-        stroke: #fff;
-      }
-    }
-
-    &.rtl-direction-option svg path {
-      fill: #fff;
-    }
-
-    &.editor-collapsed-option svg {
-      fill: #fff;
-    }
-  }
-
-  .uip-snippets {
-    @media @md-xl {
-      align-items: start;
-      flex-direction: column;
-
-      .snippets-dropdown {
-        position: initial;
-      }
-
-      .snippets-dropdown-wrapper {
-        max-height: initial;
-        visibility: visible;
-        background-color: transparent;
-        color: #fff;
-        border: none;
-        box-shadow: none;
-      }
-
-      .snippets-list {
-        display: flex;
-        flex-wrap: wrap;
-        margin-right: 0;
-        padding: 0 10px;
-      }
-
-      .snippets-list-item {
-        margin-right: 15px;
-        border-bottom: none;
-
-        &.active {
-          border-bottom: 1px solid #ebebeb;
-        }
-      }
-    }
-
-    .snippets-dropdown-control {
-      @media @md-xl {
-        display: none;
-
-        &:hover {
-          opacity: 1;
-        }
-
-        &::before {
-          display: none;
-        }
-      }
-
-      svg {
-        stroke: #fff;
-      }
-    }
-
-    .snippets-dropdown-wrapper {
-      color: #fff;
-    }
-
-    .snippets-title {
-      color: #fff;
-    }
-
-    .snippets-list {
-      background: #112a47;
-    }
-  }
-
-  .uip-preview {
-    border-left: 1px solid #c8d6f0;
-    border-right: 1px solid #c8d6f0;
-  }
-
-  .uip-settings-inner {
-    border-right: 1px solid #c8d6f0;
-    @media @xs-sm {
-      border-left: 1px solid #c8d6f0;
-      border-bottom: 1px solid #c8d6f0;
-    }
-  }
-}
-
-.uip-root {
-  &[editor-collapsed] {
-    .uip-preview {
-      border-bottom: 1px solid #c8d6f0;
-    }
-
-    .uip-settings-inner {
-      border-bottom: 1px solid #c8d6f0;
-    }
-  }
-
-  .uip-settings {
-    .esl-select {
-      background-color: #fff;
-    }
+    --uip-plugin-bg: @body-bg;
+    --uip-plugin-fg: @body-fg;
   }
 }
