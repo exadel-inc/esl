@@ -1,6 +1,7 @@
 import generateUID from './rules/4/deprecated.generate-uid';
 import deepCompare from './rules/4/deprecated.deep-compare';
 import eventUtils from './rules/4/deprecated.event-utils';
+import popupActionParams from './rules/4/deprecated.popup-action-params';
 import traversingQuery from './rules/4/deprecated.traversing-query';
 import toggleableParams from './rules/4/deprecated.toggleable-action-params';
 
@@ -12,6 +13,7 @@ const DEPRECATED_4_RULES = {
   'deprecated-4/generate-uid': generateUID,
   'deprecated-4/deep-compare': deepCompare,
   'deprecated-4/event-utils': eventUtils,
+  'deprecated-4/popup-action-params': popupActionParams,
   'deprecated-4/traversing-query': traversingQuery,
   'deprecated-4/toggleable-action-params': toggleableParams
 };

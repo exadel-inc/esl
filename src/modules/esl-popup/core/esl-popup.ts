@@ -20,7 +20,7 @@ import type {PositionType, IntersectionRatioRect} from './esl-popup-position';
 const INTERSECTION_LIMIT_FOR_ADJACENT_AXIS = 0.7;
 const DEFAULT_OFFSET_ARROW = 50;
 
-export interface PopupActionParams extends ESLToggleableActionParams {
+export interface ESLPopupActionParams extends ESLToggleableActionParams {
   /** popup position relative to trigger */
   position?: PositionType;
   /** popup behavior if it does not fit in the window */
@@ -52,12 +52,15 @@ export interface PopupActionParams extends ESLToggleableActionParams {
   extraStyle?: string;
 }
 
+/** @deprecated alias, use {@link ESLPopupActionParams} instead, will be removed in v5.0.0 */
+export type PopupActionParams = ESLPopupActionParams;
+
 @ExportNs('Popup')
 export class ESLPopup extends ESLToggleable {
   public static override is = 'esl-popup';
 
   /** Default params to pass into the popup on show/hide actions */
-  public static override DEFAULT_PARAMS: PopupActionParams = {
+  public static override DEFAULT_PARAMS: ESLPopupActionParams = {
     offsetTrigger: 3,
     offsetContainer: 15,
     intersectionMargin: '0px'
@@ -96,8 +99,8 @@ export class ESLPopup extends ESLToggleable {
   @attr() public container: string;
 
   /** Default show/hide params for current ESLAlert instance */
-  @jsonAttr<PopupActionParams>()
-  public override defaultParams: PopupActionParams;
+  @jsonAttr<ESLPopupActionParams>()
+  public override defaultParams: ESLPopupActionParams;
 
   @attr({parser: parseBoolean, serializer: toBooleanAttribute, defaultValue: true})
   public override closeOnEsc: boolean;
@@ -188,7 +191,7 @@ export class ESLPopup extends ESLToggleable {
    * Inner state and 'open' attribute are not affected and updated before `onShow` execution.
    * Adds CSS classes, update a11y and fire esl:refresh event by default.
    */
-  protected override onShow(params: PopupActionParams): void {
+  protected override onShow(params: ESLPopupActionParams): void {
     if (this.open) super.onHide(params);
 
     super.onShow(params);
@@ -220,7 +223,7 @@ export class ESLPopup extends ESLToggleable {
    * Inner state and 'open' attribute are not affected and updated before `onShow` execution.
    * Removes CSS classes and updates a11y by default.
    */
-  protected override onHide(params: PopupActionParams): void {
+  protected override onHide(params: ESLPopupActionParams): void {
     this.beforeOnHide(params);
     super.onHide(params);
     this.afterOnHide(params);
@@ -229,7 +232,7 @@ export class ESLPopup extends ESLToggleable {
   /**
    * Actions to execute after showing of popup.
    */
-  protected afterOnShow(params: PopupActionParams): void {
+  protected afterOnShow(params: ESLPopupActionParams): void {
     this._updatePosition();
 
     this.style.visibility = 'visible';
@@ -247,12 +250,12 @@ export class ESLPopup extends ESLToggleable {
   /**
    * Actions to execute before hiding of popup.
    */
-  protected beforeOnHide(params: PopupActionParams): void {}
+  protected beforeOnHide(params: ESLPopupActionParams): void {}
 
   /**
    * Actions to execute after hiding of popup.
    */
-  protected afterOnHide(params: PopupActionParams): void {
+  protected afterOnHide(params: ESLPopupActionParams): void {
     this._stopUpdateLoop();
 
     this.$$attr('style', '');

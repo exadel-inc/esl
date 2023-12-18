@@ -4,10 +4,10 @@ import {memoize, attr, boolAttr, listen, prop} from '../../esl-utils/decorators'
 import {TAB} from '../../esl-utils/dom/keys';
 import {getKeyboardFocusableElements, handleFocusChain} from '../../esl-utils/dom/focus';
 
-import type {PopupActionParams} from '../../esl-popup/core';
+import type {ESLPopupActionParams} from '../../esl-popup/core';
 import type {PositionType} from '../../esl-popup/core/esl-popup-position';
 
-export interface TooltipActionParams extends PopupActionParams {
+export interface TooltipActionParams extends ESLPopupActionParams {
   /** text to be shown */
   text?: string;
   /** html content to be shown */
