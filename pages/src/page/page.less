@@ -60,13 +60,19 @@ hr {
       justify-content: center;
       flex-direction: column;
       align-items: center;
+      min-height: 250px;
       height: 100%;
 
-      &.blue-clr {
-        svg {
-          fill: @blue-color;
-        }
+      .get-started svg {
+        margin-inline-start: 0.5em;
+        fill: currentColor;
+        vertical-align: middle;
+      }
+      .get-started span {
+        vertical-align: middle;
+      }
 
+      &.blue-clr {
         .get-started {
           border-color: @blue-color;
           color: @blue-color;
@@ -74,10 +80,6 @@ hr {
       }
 
       &.gray-clr {
-        svg {
-          fill: @landing-dark-bg;
-        }
-
         .get-started {
           border-color: @landing-dark-bg;
           color: @landing-dark-bg;
@@ -85,10 +87,6 @@ hr {
       }
 
       &.purple-clr {
-        svg {
-          fill: @purple-color;
-        }
-
         .get-started {
           border-color: @purple-color;
           color: @purple-color;
@@ -98,15 +96,11 @@ hr {
 
     .get-started {
       margin-top: 10px;
-      padding: 6px 8px;
-      border: 3px solid #4e4e4e;
+      padding: 0.5rem 2em;
       border-radius: 10px;
-      font-size: 26px;
-      color: @landing-dark-bg;
-
-      &::after {
-        content: attr(data-test-msg);
-      }
+      font-size: 3rem;
+      border: 4px solid @blue-color;
+      color: @blue-color;
     }
   }
 }
