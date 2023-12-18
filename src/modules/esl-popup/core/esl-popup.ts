@@ -189,11 +189,7 @@ export class ESLPopup extends ESLToggleable {
    * Adds CSS classes, update a11y and fire esl:refresh event by default.
    */
   protected override onShow(params: PopupActionParams): void {
-    if (this.open) {
-      this.beforeOnHide();
-      super.onHide(params);
-      this.afterOnHide();
-    }
+    if (this.open) super.onHide(params);
 
     super.onShow(params);
 
@@ -216,7 +212,7 @@ export class ESLPopup extends ESLToggleable {
 
     this.style.visibility = 'hidden'; // eliminates the blinking of the popup at the previous position
 
-    afterNextRender(() => this.afterOnShow()); // running as a separate task solves the problem with incorrect positioning on the first showing
+    afterNextRender(() => this.afterOnShow(params)); // running as a separate task solves the problem with incorrect positioning on the first showing
   }
 
   /**
@@ -225,15 +221,15 @@ export class ESLPopup extends ESLToggleable {
    * Removes CSS classes and updates a11y by default.
    */
   protected override onHide(params: PopupActionParams): void {
-    this.beforeOnHide();
+    this.beforeOnHide(params);
     super.onHide(params);
-    this.afterOnHide();
+    this.afterOnHide(params);
   }
 
   /**
    * Actions to execute after showing of popup.
    */
-  protected afterOnShow(): void {
+  protected afterOnShow(params: PopupActionParams): void {
     this._updatePosition();
 
     this.style.visibility = 'visible';
@@ -251,12 +247,12 @@ export class ESLPopup extends ESLToggleable {
   /**
    * Actions to execute before hiding of popup.
    */
-  protected beforeOnHide(): void {}
+  protected beforeOnHide(params: PopupActionParams): void {}
 
   /**
    * Actions to execute after hiding of popup.
    */
-  protected afterOnHide(): void {
+  protected afterOnHide(params: PopupActionParams): void {
     this._stopUpdateLoop();
 
     this.$$attr('style', '');

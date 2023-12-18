@@ -108,16 +108,16 @@ export class ESLTooltip extends ESLPopup {
   /**
    * Actions to execute after showing of popup.
    */
-  protected override afterOnShow(): void {
-    super.afterOnShow();
+  protected override afterOnShow(params: TooltipActionParams): void {
+    super.afterOnShow(params);
     this.focus({preventScroll: true});
   }
 
   /**
    * Actions to execute before hiding of popup.
    */
-  protected override beforeOnHide(): void {
-    super.beforeOnHide();
+  protected override beforeOnHide(params: TooltipActionParams): void {
+    super.beforeOnHide(params);
     this.activator?.focus({preventScroll: true});
   }
 
