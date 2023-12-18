@@ -7,7 +7,7 @@ import {getKeyboardFocusableElements, handleFocusChain} from '../../esl-utils/do
 import type {ESLPopupActionParams} from '../../esl-popup/core';
 import type {PositionType} from '../../esl-popup/core/esl-popup-position';
 
-export interface TooltipActionParams extends ESLPopupActionParams {
+export interface ESLTooltipActionParams extends ESLPopupActionParams {
   /** text to be shown */
   text?: string;
   /** html content to be shown */
@@ -19,6 +19,9 @@ export interface TooltipActionParams extends ESLPopupActionParams {
   /** tooltip without arrow */
   disableArrow?: boolean;
 }
+
+/** @deprecated alias, use {@link ESLTooltipActionParams} instead. Will be removed in v5.0.0. */
+export type TooltipActionParams = ESLTooltipActionParams;
 
 @ExportNs('Tooltip')
 export class ESLTooltip extends ESLPopup {
@@ -63,12 +66,12 @@ export class ESLTooltip extends ESLPopup {
   }
 
   /** Changes the element state to active */
-  public static show(params: TooltipActionParams = {}): void {
+  public static show(params: ESLTooltipActionParams = {}): void {
     this.sharedInstance.show(params);
   }
 
   /** Changes the element state to inactive */
-  public static hide(params: TooltipActionParams = {}): void {
+  public static hide(params: ESLTooltipActionParams = {}): void {
     this.sharedInstance.hide(params);
   }
 
@@ -83,7 +86,7 @@ export class ESLTooltip extends ESLPopup {
   protected override setInitialState(): void {}
 
   /** Actions to execute on show Tooltip. */
-  public override onShow(params: TooltipActionParams): void {
+  public override onShow(params: ESLTooltipActionParams): void {
     if (params.disableArrow) {
       this.disableArrow = params.disableArrow;
     }
@@ -100,7 +103,7 @@ export class ESLTooltip extends ESLPopup {
   }
 
   /** Actions to execute on Tooltip hiding. */
-  public override onHide(params: TooltipActionParams): void {
+  public override onHide(params: ESLTooltipActionParams): void {
     super.onHide(params);
     this.parentNode === document.body && document.body.removeChild(this);
   }
@@ -108,7 +111,7 @@ export class ESLTooltip extends ESLPopup {
   /**
    * Actions to execute after showing of popup.
    */
-  protected override afterOnShow(params: TooltipActionParams): void {
+  protected override afterOnShow(params: ESLTooltipActionParams): void {
     super.afterOnShow(params);
     this.focus({preventScroll: true});
   }
@@ -116,7 +119,7 @@ export class ESLTooltip extends ESLPopup {
   /**
    * Actions to execute before hiding of popup.
    */
-  protected override beforeOnHide(params: TooltipActionParams): void {
+  protected override beforeOnHide(params: ESLTooltipActionParams): void {
     super.beforeOnHide(params);
     this.activator?.focus({preventScroll: true});
   }

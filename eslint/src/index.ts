@@ -4,6 +4,7 @@ import eventUtils from './rules/4/deprecated.event-utils';
 import popupActionParams from './rules/4/deprecated.popup-action-params';
 import traversingQuery from './rules/4/deprecated.traversing-query';
 import toggleableParams from './rules/4/deprecated.toggleable-action-params';
+import tooltipActionParams from './rules/4/deprecated.tooltip-action-params';
 
 import type {Rule} from 'eslint';
 
@@ -15,7 +16,8 @@ const DEPRECATED_4_RULES = {
   'deprecated-4/event-utils': eventUtils,
   'deprecated-4/popup-action-params': popupActionParams,
   'deprecated-4/traversing-query': traversingQuery,
-  'deprecated-4/toggleable-action-params': toggleableParams
+  'deprecated-4/toggleable-action-params': toggleableParams,
+  'deprecated-4/tooltip-action-params': tooltipActionParams
 };
 
 const buildDefault = (definition: Record<string, Rule.RuleModule>, level: logLevel): Record<string, logLevel> => {

@@ -54,12 +54,13 @@ However, you still have the option to manually manage the rules if needed.
 
 The ESLint plugin provides a separate rule for each deprecated utility within the ESL project, that's considered to be deprecated. Below is the list of them:
 
-- `@exadel/esl/deprecated-4/generate-uid` - Rule for deprecated `generateUId` alias for [`randUID`](https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/misc/uid.ts#L20).
-- `@exadel/esl/deprecated-4/deep-compare` - Rule for deprecated `deepCompare` alias for [`isEqual`](https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/misc/object/compare.ts#L4).
-- `@exadel/esl/deprecated-4/event-utils` - Rule for deprecated `EventUtils` alias for [`ESLEventUtils`](https://github.com/exadel-inc/esl/tree/main/src/modules/esl-event-listener/core/api.ts#L13).
-- `@exadel/esl/deprecated-4/popup-action-params` - Rule for deprecated `PopupActionParams` alias for [`ESLPopupActionParams`](https://github.com/exadel-inc/esl/tree/main/src/modules/esl-popup/core/esl-popup.ts#L15).
-- `@exadel/esl/deprecated-4/traversing-query` - Rule for deprecated `TraversingQuery` alias for [`ESLTraversingQuery`](https://github.com/exadel-inc/esl/tree/main/src/modules/esl-traversing-query/core/esl-traversing-query.ts#L40).
-- `@exadel/esl/deprecated-4/toggleable-action-params` - Rule for deprecated `ToggleableActionParams` alias for [`ESLToggleableActionParams`](https://github.com/exadel-inc/esl/tree/main/src/modules/esl-toggleable/core/esl-toggleable.ts#L15).
+- `@exadel/esl/deprecated-4/generate-uid` - Rule for deprecated `generateUId` alias for `randUID`.
+- `@exadel/esl/deprecated-4/deep-compare` - Rule for deprecated `deepCompare` alias for `isEqual`.
+- `@exadel/esl/deprecated-4/event-utils` - Rule for deprecated `EventUtils` alias for `ESLEventUtils`.
+- `@exadel/esl/deprecated-4/popup-action-params` - Rule for deprecated `PopupActionParams` alias for `ESLPopupActionParams`.
+- `@exadel/esl/deprecated-4/traversing-query` - Rule for deprecated `TraversingQuery` alias for `ESLTraversingQuery`.
+- `@exadel/esl/deprecated-4/toggleable-action-params` - Rule for deprecated `ToggleableActionParams` alias for `ESLToggleableActionParams`.
+- `@exadel/esl/deprecated-4/tooltip-action-params` - Rule for deprecated `TooltipActionParams` alias for `ESLTooltipActionParams`.
 
 
 These rules can be configured manually inside the `rules` section of your ESLint configuration file.
