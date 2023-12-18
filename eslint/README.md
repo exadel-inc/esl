@@ -54,6 +54,7 @@ However, you still have the option to manually manage the rules if needed.
 
 The ESLint plugin provides a separate rule for each deprecated utility within the ESL project, that's considered to be deprecated. Below is the list of them:
 
+- `@exadel/esl/deprecated-4/alert-action-params` - Rule for deprecated `AlertActionParams` alias for `ESLAlertActionParams`.
 - `@exadel/esl/deprecated-4/generate-uid` - Rule for deprecated `generateUId` alias for `randUID`.
 - `@exadel/esl/deprecated-4/deep-compare` - Rule for deprecated `deepCompare` alias for `isEqual`.
 - `@exadel/esl/deprecated-4/event-utils` - Rule for deprecated `EventUtils` alias for `ESLEventUtils`.
@@ -64,18 +65,3 @@ The ESLint plugin provides a separate rule for each deprecated utility within th
 
 
 These rules can be configured manually inside the `rules` section of your ESLint configuration file.
-
-For example, previously mentioned `plugin:@exadel/esl/default-4` preset is configured according to the following snippet:
-
-```json
-{
-  // ...
-  "rules": {
-    "@exadel/esl/deprecated-4/generate-uid" : "warn",
-    "@exadel/esl/deprecated-4/deep-compare" : "warn",
-    "@exadel/esl/deprecated-4/event-utils" : "warn",
-    // ...
-  }
-  // ...
-}
-```
