@@ -27,6 +27,7 @@ parserOptions:
     - './tsconfig.json'
     - './eslint/tsconfig.json'
     - './pages/tsconfig.json'
+    - './integration/tsconfig.json'
   sourceType: module
 
 # Lint additional plugins
