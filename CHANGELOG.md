@@ -1,3 +1,10 @@
+# [5.0.0-beta.2](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.1...v5.0.0-beta.2) (2023-12-19)
+
+
+### Bug Fixes
+
+* **eslint:** fix peerDependency constraint ([20b5d9d](https://github.com/exadel-inc/esl/commit/20b5d9d2c8a1b1e51288524024dfe6c17b665671))
+
 # [5.0.0-beta.1](https://github.com/exadel-inc/esl/compare/v4.14.1...v5.0.0-beta.1) (2023-12-19)
 
 
