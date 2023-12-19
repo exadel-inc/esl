@@ -70,7 +70,9 @@ plugins:
 
   - - "@semantic-release/github"
     - assets:
-        - path: ./*.tgz
-          label: Released NPM Tarballs
+        - path: ./exadel-esl-*.tgz
+          label: Released Core NPM Tarball
+        - path: ./exadel-eslint-plugin-esl-*.tgz
+          label: Released ESLint NPM Tarball
         - path: CHANGELOG.md
           label: Changelog
