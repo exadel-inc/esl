@@ -32,7 +32,7 @@ describe('ESLAlert: events', () => {
   });
 
   test('Show/Hide events ', () => {
-    ESLEventUtils.dispatch($el, ESLAlert.prototype.SHOW_REQUEST_EVENT);
+    ESLEventUtils.dispatch($el, ESLAlert.prototype.SHOW_REQUEST_EVENT, {detail: {text: 'esl-alert-text'}});
     jest.advanceTimersByTime(1);
     expect($el.open).toBe(true);
     ESLEventUtils.dispatch($el, ESLAlert.prototype.HIDE_REQUEST_EVENT);
@@ -41,7 +41,7 @@ describe('ESLAlert: events', () => {
   });
 
   test('Auto hide by hideTime & hideDelay ', () => {
-    const params: CustomEventInit<ESLAlertActionParams> = {detail: {hideTime: 100, hideDelay: 100}};
+    const params: CustomEventInit<ESLAlertActionParams> = {detail: {hideTime: 100, hideDelay: 100, text: 'esl-alert-text'}};
     ESLEventUtils.dispatch($el, ESLAlert.prototype.SHOW_REQUEST_EVENT, params);
     jest.advanceTimersByTime(1);
     expect($el.open).toBe(true);

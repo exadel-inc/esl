@@ -45,6 +45,8 @@ export interface ESLPopupActionParams extends ESLToggleableActionParams {
   container?: string;
   /** Container element that defines bounds of popups visibility (is not taken into account if the container attr is set on popup) */
   containerEl?: HTMLElement;
+  /** Autofocus on popup/activator */
+  autofocus?: boolean;
 
   /** Extra class to add to popup on activation */
   extraClass?: string;
@@ -192,7 +194,11 @@ export class ESLPopup extends ESLToggleable {
    * Adds CSS classes, update a11y and fire esl:refresh event by default.
    */
   protected override onShow(params: ESLPopupActionParams): void {
-    if (this.open) super.onHide(params);
+    const wasOpened = this.open;
+    if (wasOpened) {
+      this.beforeOnHide(params);
+      this.afterOnHide(params);
+    }
 
     super.onShow(params);
 
@@ -215,7 +221,10 @@ export class ESLPopup extends ESLToggleable {
 
     this.style.visibility = 'hidden'; // eliminates the blinking of the popup at the previous position
 
-    afterNextRender(() => this.afterOnShow(params)); // running as a separate task solves the problem with incorrect positioning on the first showing
+    // running as a separate task solves the problem with incorrect positioning on the first showing
+    if (wasOpened) this.afterOnShow(params);
+    else afterNextRender(() => this.afterOnShow(params));
+    params.autofocus && this.focus({preventScroll: true});
   }
 
   /**
@@ -227,6 +236,7 @@ export class ESLPopup extends ESLToggleable {
     this.beforeOnHide(params);
     super.onHide(params);
     this.afterOnHide(params);
+    params.autofocus && this.activator?.focus({preventScroll: true});
   }
 
   /**

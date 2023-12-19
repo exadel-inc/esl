@@ -27,6 +27,12 @@ export type TooltipActionParams = ESLTooltipActionParams;
 export class ESLTooltip extends ESLPopup {
   static override is = 'esl-tooltip';
 
+  /** Default params to pass into the tooltip on show/hide actions */
+  public static override DEFAULT_PARAMS: ESLTooltipActionParams = {
+    ...ESLPopup.DEFAULT_PARAMS,
+    autofocus: true
+  };
+
   @prop(false) public hasFocusLoop: boolean;
 
   /**
@@ -106,22 +112,6 @@ export class ESLTooltip extends ESLPopup {
   public override onHide(params: ESLTooltipActionParams): void {
     super.onHide(params);
     this.parentNode === document.body && document.body.removeChild(this);
-  }
-
-  /**
-   * Actions to execute after showing of popup.
-   */
-  protected override afterOnShow(params: ESLTooltipActionParams): void {
-    super.afterOnShow(params);
-    this.focus({preventScroll: true});
-  }
-
-  /**
-   * Actions to execute before hiding of popup.
-   */
-  protected override beforeOnHide(params: ESLTooltipActionParams): void {
-    super.beforeOnHide(params);
-    this.activator?.focus({preventScroll: true});
   }
 
   @listen({inherit: true})
