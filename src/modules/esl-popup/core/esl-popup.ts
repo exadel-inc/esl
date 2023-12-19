@@ -224,7 +224,9 @@ export class ESLPopup extends ESLToggleable {
     // running as a separate task solves the problem with incorrect positioning on the first showing
     if (wasOpened) this.afterOnShow(params);
     else afterNextRender(() => this.afterOnShow(params));
-    params.autofocus && this.focus({preventScroll: true});
+
+    // Autofocus logic
+    afterNextRender(() => params.autofocus && this.focus({preventScroll: true}));
   }
 
   /**
