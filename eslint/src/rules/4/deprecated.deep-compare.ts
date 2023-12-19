@@ -5,5 +5,5 @@ import {buildRule} from '../../core/deprecated-alias';
  */
 export default buildRule({
   alias: 'isEqual',
-  deprecation: 'deepCompare',
+  deprecation: 'deepCompare'
 });
