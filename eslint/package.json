@@ -21,7 +21,7 @@
   ],
   "types": "dist/index.d.ts",
   "peerDependencies": {
-    "@exadel/esl": "^4.0.0",
+    "@exadel/esl": "*",
     "eslint": ">=8.0.0"
   }
 }
