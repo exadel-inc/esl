@@ -1,3 +1,47 @@
+# [5.0.0-beta.1](https://github.com/exadel-inc/esl/compare/v4.14.1...v5.0.0-beta.1) (2023-12-19)
+
+
+### Bug Fixes
+
+* **esl-event-listener:** fix delegation recognition on non-DOM targets ([4716947](https://github.com/exadel-inc/esl/commit/47169479b46994e4fd1571a8cefe0454c983a89b))
+* **esl-event-listener:** fix missing host in debug information of empty subscription ([4abfa1e](https://github.com/exadel-inc/esl/commit/4abfa1e12346662616cc7ac431bb9e0161fe0bf0)), closes [#2078](https://github.com/exadel-inc/esl/issues/2078)
+* **esl-event-listener:** improve compatibility of decorated event handler type ([de0c37e](https://github.com/exadel-inc/esl/commit/de0c37e2a399c2e88c16b10c2baaec662538e9a8))
+* **esl-panel-group:** `has-opened` attribute inconsistent ([13003e4](https://github.com/exadel-inc/esl/commit/13003e4b8d5bb039b7ae142739ea8a4667af4e2a))
+* **esl-popup:** create optional autofocus property; update flow with optimized rendering flow ([8e71d20](https://github.com/exadel-inc/esl/commit/8e71d208368f9208b167900211399d138ee7eaa6))
+* **esl-share:** fix focus behavior to a loop inside esl-share-popup ([e3393fe](https://github.com/exadel-inc/esl/commit/e3393fe6641497af149a6f9df5c87e98e7d637c4))
+* **esl-share:** fix share() method signature of print action ([ca7091d](https://github.com/exadel-inc/esl/commit/ca7091df6c6f361e4b8f3e2b328b08a9fb51044e))
+* **esl-toggleable:** rework actions pre-checks to fix flow on reopening toggleable ([c023e55](https://github.com/exadel-inc/esl/commit/c023e55da877a03e2378e6685d86839bcecb7dd1))
+* **esl-tooltip:** add constraints to fix DOM position management for `esl-tooltip` ([9c25137](https://github.com/exadel-inc/esl/commit/9c25137217b93e3ef2c22d5898d550eca0160c2f))
+* **esl-trigger:** default target for `esl-trigger` is not logically correct and obvious ([db4ffb8](https://github.com/exadel-inc/esl/commit/db4ffb8de4efb569587e56a978d8a23bb4671b50))
+
+
+### Code Refactoring
+
+* **esl-toggleable:** move `open` state updating to `onShow`/`onHide` callbacks ([b184eb1](https://github.com/exadel-inc/esl/commit/b184eb185c6816412c81a3a085e2cac276968165))
+
+
+### Features
+
+* **esl-event-listener:** `ESLWheelTarget` proxy target created to handle long wheel user actions ([#2031](https://github.com/exadel-inc/esl/issues/2031)) ([4dc4bfc](https://github.com/exadel-inc/esl/commit/4dc4bfcd3f2f16f9695b9fd468d3b5a6c587c8e8)), closes [#2017](https://github.com/exadel-inc/esl/issues/2017)
+* **esl-open-state:** create ESL Open State mixin ([a8327a8](https://github.com/exadel-inc/esl/commit/a8327a8671bde9544c05cb942589cf80415b84d8))
+* **esl-popup:** add support of `PopupActionParams.extraClass` on popup level ([32b6d0a](https://github.com/exadel-inc/esl/commit/32b6d0a62a10b9009ac1352c9f68b2e7128ec5b0))
+* **esl-popup:** add support of `PopupActionParams.extraStyle` ([399685b](https://github.com/exadel-inc/esl/commit/399685ba69e93a517ac9ec1d081c5926f51bd34b))
+* **esl-share:** add ability to update config items (single one or in batch) ([96eac6b](https://github.com/exadel-inc/esl/commit/96eac6b1ad93d50bf16d76c9f0716d570c625bd9))
+* **esl-share:** add OOTB configuration for the Skype share button ([c3a76c4](https://github.com/exadel-inc/esl/commit/c3a76c490288c61fb1f198d8792c407c350055c8))
+* **esl-share:** add OOTB configuration for the Tumblr share button ([bb73186](https://github.com/exadel-inc/esl/commit/bb731864a0448853f2bb8d96f978b5f8e4b6ab65))
+* **esl-share:** add OOTB configuration for the Viber share button ([5dd4ea4](https://github.com/exadel-inc/esl/commit/5dd4ea41a4700722d97cecdcf40193a5b7f01bd2))
+* **esl-share:** add OOTB configuration for the WhatsApp share button ([748117f](https://github.com/exadel-inc/esl/commit/748117f199fcebd596a2079eea03ca5a14f7fe3e))
+* **esl-utils:** improve `rect` utility (it's almost ready to be immutable) ([f82fb1e](https://github.com/exadel-inc/esl/commit/f82fb1eed5ca06bff3718ce1ac1c86c2769fb2f3))
+
+
+### BREAKING CHANGES
+
+* **esl-toggleable:** `this.open` of Toggleable`s does not updating util `super.onShow` / `super.onHide` called.
+Make sure you update `this.open` synchronously or manually notify consumers in case the super call of `onShow`/`onHide` should be postponed.
+* **esl-trigger:** `esl-trigger` does not have target defined to `::next` by default
+* **esl-toggleable:** `onBeforeShow` and `onBeforeHide` have retired. The constraint now inside `shouldShow`/`shouldHide` methods,
+activator change now is the part of main togglable flow
+
 ## [4.14.1](https://github.com/exadel-inc/esl/compare/v4.14.0...v4.14.1) (2023-11-27)
 
 
