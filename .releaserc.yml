@@ -22,10 +22,6 @@ plugins:
   - - "@semantic-release/commit-analyzer"
     - preset: angular
       releaseRules:
-        # Temporary release rule fix
-        - type: fix
-          breaking: true
-          release: minor
         - type: style
           release: patch
         - type: refactor
