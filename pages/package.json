@@ -4,12 +4,13 @@
   "private": true,
   "description": "ESL Website source",
   "homepage": "https://esl-ui.com/",
-  "license": "ISC",
+  "license": "MIT",
   "sideEffects": [
     "pages/src/**/*.ts"
   ],
   "scripts": {
     "start": "npm run clean && concurrently --kill-others \"npm run watch:lib\" \"npm run watch:ts\" \"npm run watch:less\" \"npm run watch:eleventy\"",
+    "start:test": "npm run clean && concurrently \"npm run build:ts\" \"npm run build:less && npm run minify:css\" && npm run run:eleventy",
     "test": "",
     "clean": "rimraf \"dist\"",
     "watch:lib": "cd .. && npm run watch",
@@ -17,6 +18,7 @@
     "watch:less": "chokidar --initial \"../node_modules/@exadel/esl/modules/**/*.less\" \"src/**/*.less\" -c \"npm run build:less\"",
     "watch:eleventy": "eleventy --serve --incremental -- --env=development",
     "minify:css": "cleancss -o \"dist/bundles/localdev.css\" \"dist/bundles/localdev.css\"",
+    "run:eleventy": "eleventy --serve -- --env=production",
     "build": "npm run clean && concurrently \"npm run build:ts\" \"npm run build:less && npm run minify:css\" && npm run build:eleventy",
     "build:ts": "webpack --mode=production",
     "build:less": "lessc \"src/localdev.less\" \"dist/bundles/localdev.css\" --source-map=dist/bundles/localdev.css.map",
