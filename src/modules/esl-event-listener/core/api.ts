@@ -85,11 +85,7 @@ export class ESLEventUtils {
   ): ESLEventListener[] {
     if (arguments.length === 1) {
       const descriptors = getAutoDescriptors(host);
-      // TODO: flatMap when ES5 will be out of support list
-      return descriptors.reduce(
-        (acc, desc) => acc.concat(ESLEventUtils.subscribe(host, desc)),
-        [] as ESLEventListener[]
-      );
+      return descriptors.flatMap((desc) => ESLEventUtils.subscribe(host, desc));
     }
     const desc = typeof eventDesc === 'string' ? {event: eventDesc} : eventDesc as ESLListenerDescriptor;
     if (Object.hasOwnProperty.call(desc, 'condition') && !resolveProperty(desc.condition, host)) return [];
