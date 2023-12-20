@@ -1,6 +1,6 @@
-import {ESLBaseElement} from '../../../../src/modules/esl-base-element/core';
-import {bind, ready, memoize, attr} from '../../../../src/modules/esl-utils/decorators';
-import {range} from '../../../../src/modules/esl-utils/misc/array';
+import {ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
+import {bind, ready, memoize, attr} from '@exadel/esl/modules/esl-utils/decorators';
+import {range} from '@exadel/esl/modules/esl-utils/misc/array';
 
 export class ESLDemoMarquee extends ESLBaseElement {
   static override is = 'esl-d-marquee';

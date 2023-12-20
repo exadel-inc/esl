@@ -8,7 +8,9 @@ import {
   format,
   parseNumber,
   parseBoolean,
-  parseString
+  parseString,
+  parseCSSTime,
+  parseCSSTimeSet
 } from '../format';
 
 describe('misc/format helper tests', () => {
@@ -104,7 +106,7 @@ describe('misc/format helper tests', () => {
       ['false', false],
       ['', true],
       ['true', true],
-      ['0', true],
+      ['0', false],
       ['1', true],
       ['brr', true]
     ])(
@@ -140,6 +142,64 @@ describe('misc/format helper tests', () => {
     ])(
       'args = %p, result: %p',
       (args, exp) => expect(parseNumber.apply(null, args)).toBe(exp)
+    );
+  });
+
+  describe('parseCSSTime', () => {
+    test.each([
+      // Positive integer
+      ['12s', 12000],
+      ['350ms', 350],
+      [' 12s ', 12000],
+      [' 350ms ', 350],
+      ['1024ms', 1024],
+      // Non-integer
+      ['.3s', 300],
+      ['.124s', 124],
+      ['.3ms', 0.3],
+      // Negative integer
+      ['-456ms', -456],
+      // Case insensitive
+      ['14mS', 14],
+      ['14S', 14000],
+      // Zero with leading +/-
+      ['+0s', 0],
+      ['-0ms', -0]
+    ])(
+      'valid time = %s parsed as %s',
+      (time: string, result: number) => expect(parseCSSTime(time)).toBe(result)
+    );
+    test.each([
+      // Although unitless zero is allowed for <length>s, it's invalid for <time>s.
+      '0',
+      // This is a <number>, not a <time>, because it's missing a unit.
+      '12.0',
+      // Invalid text
+      'five seconds',
+      's', 'ms',
+      '350.s',
+      ' s', ' ms',
+      '.s', '.ms',
+      // CSS time supports only seconds and milliseconds
+      '4min'
+    ])(
+      'invalid time = %p parsed as NaN',
+      (time: string) => expect(parseCSSTime(time)).toBe(NaN)
+    );
+  });
+
+  describe('parseCSSTimeSet', () => {
+    test.each([
+      [['.3s'], [300]],
+      [['.124s, .50s'], [124, 500]],
+      [['350ms, 1400ms'], [350, 1400]],
+      [['3s,1400ms'], [3000, 1400]],
+      [['1024ms, second'], [1024, NaN]],
+      [['350ms, 350.s'], [350, NaN]],
+      [['ms, s'], [NaN, NaN]]
+    ])(
+      'time = %p',
+      (time, num) => expect(parseCSSTimeSet.apply(null, time)).toStrictEqual(num)
     );
   });
 });

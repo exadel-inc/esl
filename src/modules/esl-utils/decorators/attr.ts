@@ -33,7 +33,7 @@ const buildAttrName =
  * @param config - mapping configuration. See {@link AttrDescriptor}
  */
 export const attr = <T = string>(config: AttrDescriptor<T> = {}): ESLAttributeDecorator => {
-  return (target: ESLDomElementTarget, propName: string): void => {
+  return (target: ESLDomElementTarget, propName: string): any => {
     const attrName = buildAttrName(config.name || propName, !!config.dataAttr);
 
     function get(): T | null {
@@ -46,5 +46,6 @@ export const attr = <T = string>(config: AttrDescriptor<T> = {}): ESLAttributeDe
     }
 
     Object.defineProperty(target, propName, config.readonly ? {get} : {get, set});
+    return {};
   };
 };

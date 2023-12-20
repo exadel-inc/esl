@@ -4,6 +4,7 @@ import {listen} from '../listen';
 import {ESLEventUtils} from '../../dom/events';
 
 import type {ESLListenerDescriptorFn} from '../../dom/events';
+import type {DelegatedEvent} from '../../../esl-event-listener/core/types';
 
 describe('Decorator: @listen', () => {
   test('Decorator listen should accept one argument call with an event type', () => {
@@ -165,5 +166,27 @@ describe('Decorator: @listen', () => {
       const test = new TestChild();
       expect(ESLEventUtils.getAutoDescriptors(test)).not.toContain(TestChild.prototype.onEventManual);
     });
+  });
+
+  test('@listen has additional information about delegated event target', () => {
+    class Test extends HTMLElement {
+      connectedCallback() {
+        const button = document.createElement('button');
+        this.appendChild(button);
+        ESLEventUtils.subscribe(this);
+      }
+
+      @listen({event: 'click', selector: 'button'})
+      onSomeEvent(e: DelegatedEvent<MouseEvent>) {
+        expect(e.$delegate).toBeInstanceOf(Element);
+      }
+    }
+
+    customElements.define('test-listen-selected-target', Test);
+    const test = new Test();
+    document.body.appendChild(test);
+
+    const button = test.querySelector('button');
+    button?.click();
   });
 });

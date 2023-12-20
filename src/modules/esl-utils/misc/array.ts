@@ -23,13 +23,16 @@ export const wrap = <T>(arr: undefined | null | T | T[]): T[] => {
   return [arr];
 };
 
-/** Unwraps and returns the first element if passed object is array-like, returns original object otherwise */
+/** Unwraps empty collection to `undefined` */
 export function unwrap(value: []): undefined;
+/** Unwraps and returns the first element of array-like object */
 export function unwrap<T>(value: (ArrayLike<T> & {0: T})): T;
+/** Unwraps and returns the first element if array-like object */
 export function unwrap<T>(value: ArrayLike<T>): T | undefined;
+/** Unwraps and returns the first element Node of passed NodeList object */
 export function unwrap<T extends Node>(value: NodeListOf<T>): T | undefined;
+/** Unwraps and returns the first element if passed object is array-like, returns an original object otherwise */
 export function unwrap<T>(value: T): T;
-export function unwrap(value: any): any;
 export function unwrap(value: any): any {
   return isArrayLike(value) ? value[0] : value;
 }

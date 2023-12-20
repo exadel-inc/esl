@@ -3,27 +3,11 @@ name: Release
 on:
   workflow_dispatch:
     inputs:
-      type:
-        description: 'Release Type'
-        required: true
-        default: 'dry-run'
-        type: choice
-        options:
-          - dry-run
-          - release
-          - release-beta
-          - release-next
-          - release-test
-    permissions:
-      teams:
-        - '@exadel-inc/esl-core-team'
-    branches:
-      - main
-      - main-beta
-      - main-next
-      - main-test
-
-permissions: write-all
+      dryRun:
+        type: boolean
+        default: true
+        required: false
+        description: 'Run in dry-run mode (no actual release)'
 
 env:
   node-version: 18.x
@@ -34,6 +18,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Check permissions
+      - uses: tspascoal/get-user-teams-membership@v2
+        id: permissions
+        with:
+          username: ${{ github.actor }}
+          team: 'ESL Core Maintainers'
+          GITHUB_TOKEN: ${{ secrets.PERMISSION_CHECK_TOKEN }}
+
+      - if: ${{ steps.permissions.outputs.isTeamMember == 'true' }}
+        name: Access Check Passed
+        run: echo ${{ github.actor }} is in 'ESL Core Maintainers' group
+      - if: ${{ steps.permissions.outputs.isTeamMember == 'false' }}
+        name: Access Denied
+        run: exit 1
+
+      # Start workflow
       - uses: actions/checkout@v3
         with:
           persist-credentials: false
@@ -47,42 +47,16 @@ jobs:
       - name: Install NPM Dependencies
         run: npm ci
 
-      - name: Git User Config
-        run: |
-          git config --global user.name "ala-n"
-          git config --global user.email "astsefanovich@exadel.com"
-
-      - name: Provide NPM Token
-        run: npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
+      - name: Run Semantic Release in Dry Run mode
+        if: ${{ inputs.dryRun }}
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Run Release in Dry Run mode
-        if: ${{ inputs.type == 'dry-run' }}
-        env:
           GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-        run: npx release-it --dry-run -W -V --changelog
+        run: npx semantic-release --dry-run
 
-      - name: Run Release
-        if: ${{ inputs.type == 'release' }}
+      - name: Run Semantic Release
+        if: ${{ !inputs.dryRun }}
         env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-        run: npx release-it --ci -V
-
-      - name: Run Beta Release
-        if: ${{ inputs.type == 'release-beta' }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-        run: npx release-it --preRelease=beta --ci -V
-
-      - name: Run Next Release
-        if: ${{ inputs.type == 'release-next' }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-        run: npx release-it --preRelease=next --ci -V
-
-      - name: Run Test Release
-        if: ${{ inputs.type == 'release-test' }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-        run: npx release-it --preRelease=test --ci -V --no-npm
+        run: npx semantic-release

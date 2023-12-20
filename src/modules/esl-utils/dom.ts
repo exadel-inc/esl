@@ -3,6 +3,7 @@ export * from './dom/class';
 export * from './dom/events';
 export * from './dom/focus';
 export * from './dom/keys';
+export * from './dom/point';
 export * from './dom/ready';
 export * from './dom/rtl';
 export * from './dom/sanitize';

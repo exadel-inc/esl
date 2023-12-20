@@ -1,7 +1,8 @@
-@import (reference) "../../common/variables.less";
+@import (reference) '../../common/variables.less';
 
 .overview {
   position: relative;
+  break-inside: avoid-page;
 
   &-carousel {
     width: 100%;
@@ -17,11 +18,12 @@
       width: 100%;
       // min-width: unset !important;
       margin: 0;
-      transition: transform .7s ease-in-out;
+      transition: transform 0.7s ease-in-out;
     }
   }
 
-  &-btn-prev-wrapper, &-btn-next-wrapper {
+  &-btn-prev-wrapper,
+  &-btn-next-wrapper {
     position: absolute;
     top: 50%;
     width: 40px;
@@ -46,7 +48,7 @@
     }
 
     &:hover {
-      opacity: .5;
+      opacity: 0.5;
     }
   }
 
@@ -67,4 +69,4 @@
   }
 }
 
-@import "./overview-item.less";
+@import './overview-item.less';

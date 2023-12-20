@@ -9,5 +9,5 @@ node_modules
 /modules
 /polyfills
 
-# TODO: Temporary before esl-carousel release and repository restructuring
-/src/modules/draft
+# Submodule output
+/eslint/dist

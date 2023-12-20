@@ -1,10 +1,10 @@
 // Support for ES5 bundle target
-import '../../src/polyfills/es5-target-shim';
+import '@exadel/esl/polyfills/es5-target-shim';
 // Validate environment
-import '../../src/polyfills/polyfills.validate';
+import '@exadel/esl/polyfills/polyfills.validate';
 
 // With Namespace
-import '../../src/modules/lib';
+import '@exadel/esl/modules/lib';
 // Config
 import './common/breakpoints';
 
@@ -27,42 +27,58 @@ import {
   ESLSelect,
   ESLSelectList,
   ESLNote,
+  ESLNoteIgnore,
   ESLFootnotes,
   ESLTooltip,
   ESLAnimate,
-  ESLRelatedTarget
-} from '../../src/modules/all';
+  ESLAnimateMixin,
+  ESLRelatedTarget,
+  ESLOpenState
+} from '@exadel/esl/modules/all';
 
-import '../../src/modules/esl-media/providers/iframe-provider';
-import '../../src/modules/esl-media/providers/html5/audio-provider';
-import '../../src/modules/esl-media/providers/html5/video-provider';
-import '../../src/modules/esl-media/providers/youtube-provider';
-import '../../src/modules/esl-media/providers/brightcove-provider';
+import {ESLRandomText} from '@exadel/esl/modules/esl-random-text/core';
 
-import {
-  ESLCarousel,
-  ESLCarouselPlugins
-} from '../../src/modules/draft/all';
+import '@exadel/esl/modules/esl-media/providers/iframe-provider';
+import '@exadel/esl/modules/esl-media/providers/html5/audio-provider';
+import '@exadel/esl/modules/esl-media/providers/html5/video-provider';
+import '@exadel/esl/modules/esl-media/providers/youtube-provider';
+import '@exadel/esl/modules/esl-media/providers/brightcove-provider';
+
+import '@exadel/esl/modules/esl-share/actions/copy-action';
+import '@exadel/esl/modules/esl-share/actions/external-action';
+import '@exadel/esl/modules/esl-share/actions/media-action';
+import '@exadel/esl/modules/esl-share/actions/native-action';
+import '@exadel/esl/modules/esl-share/actions/print-action';
 
 import './esl-media-demo/test-media';
 import './esl-media-demo/test-media-source';
 
+import {ESLDemoAutofocus} from './autofocus/autofocus-mixin';
 import {ESLDemoBackLink} from './back-link/back-link';
 import {ESLDemoMarquee} from './landing/landing';
 import {ESLDemoSearchBox} from './navigation/header/header-search';
 import {ESLDemoSearchPageWrapper} from './search/search';
 import {ESLDemoSidebar} from './navigation/navigation';
 import {ESLDemoAnchorLink} from './anchor/anchor-link';
+import {ESLDemoBanner} from './banner/banner';
+import {ESLDemoSwipeArea, ESLDemoWheelArea} from './esl-events-demo/esl-events-demo';
 
 ESLVSizeCSSProxy.observe();
 
 // Register Demo components
+ESLDemoAutofocus.register();
 ESLDemoSidebar.register();
 ESLDemoMarquee.register();
 ESLDemoSearchBox.register();
 ESLDemoSearchPageWrapper.register();
 ESLDemoAnchorLink.register();
 ESLDemoBackLink.register();
+ESLDemoBanner.register();
+ESLDemoSwipeArea.register();
+ESLDemoWheelArea.register();
+
+// Test Content
+ESLRandomText.register('lorem-ipsum');
 
 // Register ESL Components
 ESLImage.register();
@@ -94,15 +110,15 @@ ESLSelect.register();
 
 ESLFootnotes.register();
 ESLNote.register();
+ESLNoteIgnore.register();
 ESLTooltip.register();
 
 ESLAnimate.register();
-
-ESLCarousel.register();
-ESLCarouselPlugins.Dots.register();
-ESLCarouselPlugins.Link.register();
-ESLCarouselPlugins.Touch.register();
-ESLCarouselPlugins.Autoplay.register();
+ESLAnimateMixin.register();
 
 // Register ESL Mixins
 ESLRelatedTarget.register();
+ESLOpenState.register();
+
+// Share component loading
+import (/* webpackChunkName: 'common/esl-share' */'./esl-share/esl-share');

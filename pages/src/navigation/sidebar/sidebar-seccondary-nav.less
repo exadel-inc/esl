@@ -1,4 +1,4 @@
-@import (reference) "../../common/variables.less";
+@import (reference) '../../common/variables.less';
 
 esl-d-sidebar {
   .sidebar-nav-secondary {
@@ -21,7 +21,11 @@ esl-d-sidebar {
 
     &.active {
       color: @nav-dark-selected;
-      background: linear-gradient(to right, fade(@nav-dark-selected, 25%), fade(@nav-dark-selected, 0%));
+      background: linear-gradient(
+        to right,
+        fade(@nav-dark-selected, 25%),
+        fade(@nav-dark-selected, 0%)
+      );
     }
   }
   .sidebar-nav-secondary-link {

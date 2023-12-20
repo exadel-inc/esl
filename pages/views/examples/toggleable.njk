@@ -250,7 +250,7 @@ aside:
 <hr/>
 
 <section>
-  <h4 style="margin-bottom: 30px;">Example with Related Target</h2>
+  <h4 style="margin-bottom: 30px;">Example with Related Target</h4>
   <div class="row">
     <div class="col-12" style="margin-bottom: 15px;">
       <esl-trigger target="#toggleable10" mode="show" active-class-target="::parent(.col-12)" class="btn btn-sec-blue">Show</esl-trigger>
@@ -276,6 +276,33 @@ aside:
                      data-src-base="/assets/"></esl-image>
         </div>
       </esl-toggleable>
+    </div>
+  </div>
+</section>
+<hr/>
+
+<section class="row">
+  <div class="col-12">
+    <h4>Example with Open State</h4>
+    <div style="min-height: 70px;">
+      <esl-toggleable id="toggleable-open-state"
+                      body-class="toggleable-opened"
+                      esl-open-state="@+MD"
+                      close-on=".close-button"
+                      close-on-esc>
+        <div class="alert alert-warning" role="alert">
+          <button type="button" class="close close-button" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+
+          <strong>This is a toggleable with the <code>esl-open-state</code> mixin. </strong>
+          <div>It automatically opens at @+MD breakpoints and closes when the screen condition becomes falsy.</div>
+        </div>
+      </esl-toggleable>
+    </div>
+    <p>Triggers</p>
+    <div class="btn-container">
+      <esl-trigger target="#toggleable-open-state" mode="toggle" a11y-label-active a11y-label-inactive="expand" class="btn btn-sec-blue">Toggle</esl-trigger>
     </div>
   </div>
 </section>

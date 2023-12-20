@@ -167,6 +167,7 @@ export class BrightcoveProvider extends BaseProvider {
   }
 
   public stop(): void {
+    this._api.autoplay(false);
     this._api.currentTime(0);
     this._api.pause();
   }
@@ -177,7 +178,7 @@ export class BrightcoveProvider extends BaseProvider {
     return super.safePlay();
   }
   public override safeStop(): Promise<any> {
-    this._autoplay = true;
+    this._autoplay = false;
     return super.safeStop();
   }
 }

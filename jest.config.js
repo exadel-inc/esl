@@ -21,9 +21,9 @@ module.exports = {
     // cumulative exclude
     '!src/modules/*.ts',
     '!src/modules/*/*.ts',
-    // draft modules exclude
-    '!src/modules/draft/**',
     // libs exclude
-    '!**/node_modules/**'
+    '!**/node_modules/**',
+    // migration lint rules
+    'eslint/src/**'
   ]
 };
