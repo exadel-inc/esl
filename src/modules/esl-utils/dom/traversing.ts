@@ -72,18 +72,3 @@ export const findNextLooped =
  */
 export const findPrevLooped =
   createSequenceFinder((el) => el.previousElementSibling || (el.parentElement && el.parentElement.lastElementChild));
-
-/** @deprecated Cumulative traversing utility set */
-export abstract class TraversingUtils {
-  static isRelative = isRelativeNode;
-  static closestBy = findClosestBy;
-  static createSequenceFinder = createSequenceFinder;
-
-  static findNext = findNext;
-  static findPrev = findPrev;
-  static findParent = findParent;
-  static findClosest = findClosest;
-
-  static findAll = findAll;
-  static findChildren = findChildren;
-}

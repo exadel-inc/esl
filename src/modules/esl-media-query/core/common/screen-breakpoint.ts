@@ -43,9 +43,7 @@ export abstract class ESLScreenBreakpoints {
 
   /** All available breakpoints names */
   public static get names(): string[] {
-    const keys: string[] = [];
-    registry.forEach((value, key) => keys.push(key));
-    return keys;
+    return Array.from(registry.keys());
   }
 
   /** @returns breakpoints shortcut replacement */

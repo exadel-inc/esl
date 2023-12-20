@@ -1,7 +1,5 @@
 // Support for ES5 bundle target
 import '@exadel/esl/polyfills/es5-target-shim';
-// Builtin polyfills
-import '@exadel/esl/polyfills/polyfills.es6';
 // Validate environment
 import '@exadel/esl/polyfills/polyfills.validate';
 
