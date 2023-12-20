@@ -1,6 +1,7 @@
 // Core
-export {ESLBaseElement, ESLBaseElementShape} from './esl-base-element/core';
-export {ESLMixinElement} from './esl-mixin-element/core';
+export * from './esl-base-element/core';
+export * from './esl-mixin-element/core';
+
 export * from './esl-utils/all';
 export * from './esl-media-query/core';
 export * from './esl-traversing-query/core';

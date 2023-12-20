@@ -1,5 +1,4 @@
 import {rafDecorator} from '../async/raf';
-import {DeviceDetector} from '../environment/device-detector';
 
 /**
  * Small utility to provide 100vw and 100vh alternative CSS Variables
