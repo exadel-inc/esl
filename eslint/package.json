@@ -9,6 +9,10 @@
   "license": "MIT",
   "description": "Helper ESLint rules to find and migrate ESL (@exadel/esl) library deprecations",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*"
+  ],
   "scripts": {
     "prepare": "npm run build",
     "test": "jest",
@@ -16,10 +20,6 @@
     "build": "npm run clean && tsc --project tsconfig.json"
   },
   "dependencies": {},
-  "files": [
-    "dist/**/*"
-  ],
-  "types": "dist/index.d.ts",
   "peerDependencies": {
     "@exadel/esl": "*",
     "eslint": ">=8.0.0"
