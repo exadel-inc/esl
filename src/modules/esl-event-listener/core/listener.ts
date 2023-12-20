@@ -2,7 +2,7 @@ import {wrap} from '../../esl-utils/misc/array';
 import {isElement} from '../../esl-utils/dom/api';
 import {isPassiveByDefault} from '../../esl-utils/dom/events/misc';
 import {resolveProperty} from '../../esl-utils/misc/functions';
-import {isObject, isSimilar} from '../../esl-utils/misc/object';
+import {isObject, isObjectLike, isSimilar} from '../../esl-utils/misc/object';
 import {resolveDomTarget} from '../../esl-utils/abstract/dom-target';
 import {memoize} from '../../esl-utils/decorators/memoize';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core';
@@ -149,14 +149,14 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
    * Supports additional filtration criteria
    */
   public static get(host?: object, ...criteria: ESLListenerCriteria[]): ESLEventListener[] {
-    if (!isObject(host)) return [];
+    if (!isObjectLike(host)) return [];
     const listeners = ((host as any)[LISTENERS] || []) as ESLEventListener[];
     if (!criteria.length) return listeners;
     return listeners.filter((listener) => criteria.every(listener.matches, listener));
   }
   /** Adds a listener to the listener store of the host object */
   protected static add(host: object, instance: ESLEventListener): void {
-    if (!isObject(host)) return;
+    if (!isObjectLike(host)) return;
     if (!Object.hasOwnProperty.call(host, LISTENERS)) (host as any)[LISTENERS] = [];
     (host as any)[LISTENERS].push(instance);
   }
@@ -201,7 +201,7 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
     handler: ESLListenerHandler,
     desc: ESLListenerDescriptor
   ): ESLEventListener[] {
-    if (!isObject(host)) return [];
+    if (!isObjectLike(host)) return [];
     const eventString = resolveProperty(desc.event, host);
     const listeners: ESLEventListener[] = [];
     for (const event of splitEvents(eventString)) {
