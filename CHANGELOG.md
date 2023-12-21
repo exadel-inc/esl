@@ -1,3 +1,53 @@
+# [5.0.0-beta.3](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.2...v5.0.0-beta.3) (2023-12-21)
+
+
+### Bug Fixes
+
+* **esl-event-listener:** fix support for any object-like host ([9ca6aa4](https://github.com/exadel-inc/esl/commit/9ca6aa4e5a12971285c4af7d10a2ecf277c83197))
+* **esl-utils:** `createZIndexIframe` retired ([ad678cb](https://github.com/exadel-inc/esl/commit/ad678cb3d20e122c8e7a87cb19c9e92b3f129a0a))
+* **esl-utils:** `SyntheticEventTarget` optimizations ([a4c9b8d](https://github.com/exadel-inc/esl/commit/a4c9b8d4cfd9b9e3ad20b84a16b8eb6ccc5ae4c0))
+* **esl-utils:** clean IE11 micro-optimizations ([7ed8830](https://github.com/exadel-inc/esl/commit/7ed883054b43c8c142409e6c6539aca93ef0048b))
+* **esl-utils:** fix types for `unwrap` array utility ([a4b432a](https://github.com/exadel-inc/esl/commit/a4b432a8680b02cab6edb23a0fb3de85788a2985))
+* **esl-utils:** simplified `flat` array utility ([788a782](https://github.com/exadel-inc/esl/commit/788a782ec03af63d370dd0c2785c40547a0f7624))
+* **esl-utils:** simplified `union` utility ([043fe45](https://github.com/exadel-inc/esl/commit/043fe45054da7dd1c05c61ea16146ff53555c54e))
+* **esl-utils:** simplified `uniq` array utility ([45f282f](https://github.com/exadel-inc/esl/commit/45f282f05ef8d05d0035d1a99d45034d9a4cf790))
+
+
+### Code Refactoring
+
+* Drop Edge old versions (<14) support ([b577fd1](https://github.com/exadel-inc/esl/commit/b577fd1cc085a6a2c5fbdcfa97a5401e0ad7b259))
+* Drop IE11 support ([6d376ee](https://github.com/exadel-inc/esl/commit/6d376ee2a6a77ddff4827cda454b61b60a690d8a))
+* **esl-media:** remove legacy features of `esl-media` ([c19561d](https://github.com/exadel-inc/esl/commit/c19561d8b04e95ab9525d7ca2dee2ced261b94a8))
+* exclude duplicated exports of `esl-utils/decorators` ([f6c84af](https://github.com/exadel-inc/esl/commit/f6c84afe00558346994d4220db69ac102ccba817))
+
+
+### Features
+
+* drop deprecated aliases ([#1505](https://github.com/exadel-inc/esl/issues/1505)) ([df7f5e5](https://github.com/exadel-inc/esl/commit/df7f5e5c6a3fa62ad559bd93f4c56095def64a0c))
+
+
+### BREAKING CHANGES
+
+* **esl-media:** `load-cls-target`, `load-cls-accepted` and `load-cls-declined` use `load-condition-class` and `load-condition-class-target` instead
+* **esl-media:** `disabled` no longer supported use `lazy="manual"` instead
+* `prop`, `attr`, `boolAttr`, `jsonAttr`, `listen` no longer available in `esl-base-element` and `esl-mixin-element` exports
+* **esl-utils:** `createZIndexIframe` and `is-fixes` module no longer available due to drop of IE11 support
+* **esl-utils:** `hasEventListener` no longer accepts min number value use `this.getEventListeners(type).length` to make extended checks
+* **esl-utils:** `dispatchEvent` does not accepts target argument
+* `ESLEventUtils.descriptors` alias of `ESLEventUtils.getAutoDescriptors` is no longer supported
+* `EventUtils` alias of `ESLEventUtils` is no longer supported
+* `esl-media-quey` module no longer supports `addListener` and `removeListener` shorthand
+* `SynteticEventTarget` no longer supports `addListener` and `removeListener` shorthand
+* 'fallback-duration' is no longer in the JSX shape of ESLPanel and ESLPanelGroup
+* `ToggleableActionParams` alias of `ESLToggleableActionParams` is no longer supported
+* `TraversingQuery` alias of `ESLTraversingQuery` is no longer supported
+* `RTLUtils` retired use separate methods instead
+* `TraversingUtils` retired use separate methods instead
+* `deepCompare` alias of `isEqual` is no longer supported
+* `generateUId` alias of `randUID` no longer supported
+* ESL UI site renderer and ESL polyfills no longer support Edge old versions and ES6 polyfils.
+* ESL UI site renderer and ESL polyfills no longer support IE11 and ES5 target.
+
 # [5.0.0-beta.2](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.1...v5.0.0-beta.2) (2023-12-19)
 
 
