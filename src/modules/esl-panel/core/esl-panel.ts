@@ -8,12 +8,15 @@ import type {ESLPanelGroup} from '../../esl-panel-group/core';
 import type {ESLToggleableActionParams} from '../../esl-toggleable/core';
 
 /** {@link ESLPanel} action params interface */
-export interface PanelActionParams extends ESLToggleableActionParams {
+export interface ESLPanelActionParams extends ESLToggleableActionParams {
   /** Panel group */
   capturedBy?: ESLPanelGroup;
   /** Prevents collapsing/expanding animation */
   noAnimate?: boolean;
 }
+
+/** @deprecated alias, use {@link ESLPanelActionParams} instead. Will be removed in v5.0.0. */
+export type PanelActionParams = ESLPanelActionParams;
 
 /**
  * ESLPanel component
@@ -38,8 +41,8 @@ export class ESLPanel extends ESLToggleable {
   @attr({defaultValue: 'esl-panel-group'}) public panelGroupSel: string;
 
   /** Initial params for current ESLPanel instance */
-  @jsonAttr<PanelActionParams>({defaultValue: {force: true, initiator: 'init'}})
-  public override initialParams: PanelActionParams;
+  @jsonAttr<ESLPanelActionParams>({defaultValue: {force: true, initiator: 'init'}})
+  public override initialParams: ESLPanelActionParams;
 
   /** Active while animation in progress */
   @boolAttr({readonly: true}) public animating: boolean;
@@ -59,7 +62,7 @@ export class ESLPanel extends ESLToggleable {
   }
 
   /** Process show action */
-  protected override onShow(params: PanelActionParams): void {
+  protected override onShow(params: ESLPanelActionParams): void {
     this._initialHeight = this.scrollHeight;
     super.onShow(params);
 
@@ -69,7 +72,7 @@ export class ESLPanel extends ESLToggleable {
   }
 
   /** Process hide action */
-  protected override onHide(params: PanelActionParams): void {
+  protected override onHide(params: ESLPanelActionParams): void {
     this._initialHeight = this.scrollHeight;
     super.onHide(params);
 
