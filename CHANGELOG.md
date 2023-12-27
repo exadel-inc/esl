@@ -1,3 +1,16 @@
+# [2.0.0-beta.3](https://github.com/exadel-inc/ui-playground/compare/v2.0.0-beta.2...v2.0.0-beta.3) (2023-12-27)
+
+
+### Bug Fixes
+
+* fix resize feature / resize internal API ; ([792ac98](https://github.com/exadel-inc/ui-playground/commit/792ac98e830f984e859a9aee7f36b1c5f002751e))
+* fix visual accessibility, rework copy button icon ([c4eb87d](https://github.com/exadel-inc/ui-playground/commit/c4eb87d7dc8a10ddafc8529ef328b2c624bbca1d))
+
+
+### Features
+
+* add ability to use dummy text comments, refactor processors services ([696c4b7](https://github.com/exadel-inc/ui-playground/commit/696c4b7d648ab8882fb9b5251a2189bee50c7783))
+
 # [2.0.0-beta.2](https://github.com/exadel-inc/ui-playground/compare/v2.0.0-beta.1...v2.0.0-beta.2) (2023-12-13)
 
 
