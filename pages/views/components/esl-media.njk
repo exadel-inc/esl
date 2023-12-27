@@ -7,50 +7,7 @@ tags: components
 aside:
   source: src/modules/esl-media
   examples:
-    - embedded-video
-    - embedded-audio
+    - embedded-media
 ---
 
 {% mdRender 'src/modules/esl-media/README.md', 'intro' %}
-
-<section class="col-12 row">
-  <uip-root>
-    <script type="text/html" uip-snippet label="Playground">
-      <h3 class="text-center">ESL Media</h3>
-      <div class="img-container img-container-16-9 img-container-loaded" style="border: solid black 1px;">
-        <esl-media group="demo-media" class="esl-media esl-media-demo-1" controls tabindex="0"></esl-media>
-      </div>
-      {# ESL Media Controls #}
-      <div class="esl-media-control">
-        <button class="btn btn-sec-blue" onclick="document.querySelector('.esl-media-demo-1').play()">Play</button>
-        <button class="btn btn-sec-blue" onclick="document.querySelector('.esl-media-demo-1').pause()">Pause</button>
-        <button class="btn btn-sec-blue" onclick="document.querySelector('.esl-media-demo-1').stop()">Stop</button>
-      </div>
-    </script>
-
-    <uip-snippets class="uip-toolbar"></uip-snippets>
-    <uip-preview></uip-preview>
-    <uip-settings target=".esl-media" label="Settings">
-      <uip-select-setting label="Media type:" target=".esl-media" attribute="media-type">
-        <option value="auto">- Auto -</option>
-        <option value="audio">HTML Audio</option>
-        <option value="video">HTML Video</option>
-        <option value="youtube">Youtube</option>
-        <option value="brightcove">Brightcove</option>
-        <option value="iframe">Iframe</option>
-      </uip-select-setting>
-      <uip-text-setting label="Media src:" attribute="media-src" target=".esl-media"></uip-text-setting>
-      <uip-text-setting label="Media id:" attribute="media-id" target=".esl-media"></uip-text-setting>
-      <uip-text-setting label="Player id:" attribute="player-id" target=".esl-media"></uip-text-setting>
-      <uip-text-setting label="Player account:" attribute="player-account" target=".esl-media"></uip-text-setting>
-      <uip-select-setting label="Lazy:" target=".esl-media" attribute="lazy">
-        <option value="none" selected>None</option>
-        <option value="manual">Manual</option>
-        <option value="auto">Auto</option>
-      </uip-select-setting>
-      <uip-bool-setting label="Muted" attribute="muted" target=".esl-media"></uip-bool-setting>
-      <uip-bool-setting label="Autoplay" attribute="autoplay" target=".esl-media"></uip-bool-setting>
-    </uip-settings>
-    <uip-editor></uip-editor>
-  </uip-root>
-</section>
