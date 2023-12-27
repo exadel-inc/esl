@@ -8,7 +8,12 @@ const MINIFICATION_CFG = {
   minifyJS: true,
   minifyCSS: true,
   removeComments: true,
-  useShortDoctype: true
+  useShortDoctype: true,
+  ignoreCustomFragments: [
+    /<%[\s\S]*?%>/,
+    /<\?[\s\S]*?\?>/,
+    /<script\stype="text\/html"\s*[\s\S]*?<\/script>/i
+  ]
 };
 
 async function minifier(content, outputPath) {
