@@ -4,10 +4,11 @@ import {listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 import {afterNextRender, skipOneRender} from '@exadel/esl/modules/esl-utils/async';
 
 import {UIPPlugin} from '../base/plugin';
+import {UIPRenderingPreprocessorService} from '../processors/rendering';
 
 /**
- * Preview {@link UIPPlugin} custom element definition
- * Element that displays active markup
+ * Preview {@link UIPPlugin} custom element definition.
+ * Mandatory for UI Playground rendering. Displays active playground content
  */
 export class UIPPreview extends UIPPlugin {
   static is = 'uip-preview';
@@ -37,7 +38,7 @@ export class UIPPreview extends UIPPlugin {
   @listen({event: 'uip:change', target: ($this: UIPPreview) => $this.$root})
   protected _onRootStateChange(): void {
     this.$container.style.minHeight = `${this.$inner.offsetHeight}px`;
-    this.$inner.innerHTML = this.model!.html;
+    this.$inner.innerHTML = UIPRenderingPreprocessorService.preprocess(this.model!.html);
 
     afterNextRender(() => this.$container.style.minHeight = '0px');
     skipOneRender(() => {

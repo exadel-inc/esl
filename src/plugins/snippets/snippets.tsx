@@ -7,11 +7,11 @@ import {ESLTrigger} from '@exadel/esl/modules/esl-trigger/core';
 
 import {UIPPlugin} from '../../core/base/plugin';
 import {UIPSnippetsIcon} from '../snippets-list/snippets.icon';
-import {UIPSnippetsTitle} from '../snippets-title/snippets-title';
+import type {UIPSnippetsTitle} from '../snippets-title/snippets-title';
 
 /**
- * Header {@link UIPPlugin} custom element definition
- * Container for {@link UIPSnippetsList} and {@link UIPOptions} elements
+ * Snippets {@link UIPPlugin} custom element definition
+ * Container for {@link UIPSnippetsList} element
  */
 export class UIPSnippets extends UIPPlugin {
   static override is = 'uip-snippets';
@@ -28,31 +28,6 @@ export class UIPSnippets extends UIPPlugin {
   /** @returns true if dropdown mode should be active */
   public get isDropdown(): boolean { return ESLMediaQuery.for(this.dropdownView).matches; }
 
-  protected override connectedCallback(): void {
-    super.connectedCallback();
-    if (this.$root?.ready) this._onRootReady();
-  }
-
-  protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
-    super.attributeChangedCallback(attrName, oldVal, newVal);
-    if (attrName === 'dropdown-view') {
-      this.$$off(this._onBreakpointChange);
-      this.$$on(this._onBreakpointChange);
-      this._onBreakpointChange();
-    }
-  }
-
-  /** Renders {@link UIPSnippetsList} element */
-  protected renderSnippetsList(): void {
-    if (!this.model?.snippets.length) return;
-
-    if (this.model?.snippets.length > 1) {
-      this.appendChild(this.$trigger);
-      this.appendChild(this.$toggleable);
-    } else {
-      this.appendChild(this.$title);
-    }
-  }
 
   /** Builds inner {@link UIPSnippetsTitle} */
   @memoize()
@@ -82,9 +57,36 @@ export class UIPSnippets extends UIPPlugin {
     ) as ESLToggleable;
   }
 
+  protected override connectedCallback(): void {
+    super.connectedCallback();
+    if (this.$root?.ready) this._onRootReady();
+  }
+
+  protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
+    super.attributeChangedCallback(attrName, oldVal, newVal);
+    if (attrName === 'dropdown-view') {
+      this.$$off(this._onBreakpointChange);
+      this.$$on(this._onBreakpointChange);
+      this._onBreakpointChange();
+    }
+  }
+
+  /** Renders {@link UIPSnippetsList} element */
+  protected _renderSnippetsList(): void {
+    switch (this.model?.snippets.length) {
+      case 0: return;
+      case 1:
+        this.prepend(this.$title);
+        break;
+      default:
+        this.prepend(this.$trigger, this.$toggleable);
+        break;
+    }
+  }
+
   @listen({event: 'uip:root:ready', target: ($this: UIPPlugin) => $this.$root})
   protected _onRootReady(): void {
-    this.renderSnippetsList();
+    this._renderSnippetsList();
     this._onBreakpointChange();
   }
 

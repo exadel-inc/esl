@@ -20,7 +20,7 @@ As you can see, the flow is quite similar to what we usually do in [Observable](
 import {UIPPlugin} from "./plugin";
 
 class UIPComponent extends UIPPlugin {
-  @listen({event: 'uip:model:change', target: (that: UIPSetting)=> that.model})
+  @listen({event: 'uip:model:change', target: (that: UIPSetting) => that.model})
   protected _onRootStateChange(): void {
       // ...
   }
@@ -36,7 +36,7 @@ You can find a way of getting current markup in [UIPStateModel](src/core/README.
 import {UIPPlugin} from "./plugin";
 
 class UIPPreview extends UIPPlugin {
-  @listen({event: 'uip:model:change', target: (that: UIPSetting)=> that.model})
+  @listen({event: 'uip:model:change', target: (that: UIPSetting) => that.model})
   protected _onRootStateChange(): void {
     this.$inner.innerHTML = this.model!.html;
     this.innerHTML = '';

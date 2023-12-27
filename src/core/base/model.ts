@@ -2,7 +2,7 @@ import {SyntheticEventTarget} from '@exadel/esl/modules/esl-utils/dom';
 import {decorate} from '@exadel/esl/modules/esl-utils/decorators';
 import {microtask} from '@exadel/esl/modules/esl-utils/async';
 
-import {UIPHtmlNormalizationService} from '../utils/normalization';
+import {UIPHtmlNormalizationService} from '../processors/normalization';
 import {UIPSnippetItem} from './snippet';
 
 import type {UIPRoot} from './root';
@@ -95,7 +95,7 @@ export class UIPStateModel extends SyntheticEventTarget {
     this.setHtml(snippet.html, modifier);
     this.dispatchEvent(new CustomEvent('uip:model:snippet:change', {detail: this}));
   }
-  /** Apply an active snippet from DOM */
+  /** Applies an active snippet from DOM */
   public applyCurrentSnippet(modifier: UIPPlugin | UIPRoot): void {
     this.applySnippet(this.activeSnippet || this.snippets[0], modifier);
   }

@@ -14,7 +14,7 @@ export class UIPSnippetsTitle extends UIPPlugin {
 
   @memoize()
   public override get $root(): UIPRoot | null {
-    const parent = this.closest(`${UIPSnippets.is}`) as UIPSnippets;
+    const parent: UIPSnippets = this.closest(`${UIPSnippets.is}`)!;
     if (parent) return parent.$root;
     return super.$root;
   }
@@ -32,8 +32,8 @@ export class UIPSnippetsTitle extends UIPPlugin {
     setTimeout(() => this._onRootStateChange());
   }
 
-  /** Handle active snippet title change */
-  @listen({event: 'uip:snippet:change', target: ($this: UIPSnippetsTitle)=> $this.$root})
+  /** Handles active snippet title change */
+  @listen({event: 'uip:snippet:change', target: ($this: UIPSnippetsTitle) => $this.$root})
   protected _onRootStateChange(): void {
     this.$inner.textContent = this.model!.activeSnippet?.label || '';
   }

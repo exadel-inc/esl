@@ -8,13 +8,15 @@
     transition: none !important;
   }
 
-  .uip-plugin-resizebar {
+  .uip-plugin-resize-bar {
     border: 3px solid transparent;
     z-index: 10;
     margin: -3px;
     box-sizing: border-box;
   }
-  &:not([resizable]) .uip-plugin-resizebar {
+
+  &[collapsed] .uip-plugin-resize-bar,
+  &:not([resizable]) .uip-plugin-resize-bar {
     display: none;
   }
 
