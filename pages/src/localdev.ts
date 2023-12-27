@@ -46,8 +46,6 @@ import '@exadel/esl/modules/esl-media/providers/html5/video-provider';
 import '@exadel/esl/modules/esl-media/providers/youtube-provider';
 import '@exadel/esl/modules/esl-media/providers/brightcove-provider';
 
-import './esl-media-demo/test-media';
-
 import {ESLDemoAutofocus} from './autofocus/autofocus-mixin';
 import {ESLDemoBackLink} from './back-link/back-link';
 import {ESLDemoMarquee} from './landing/landing';
@@ -122,7 +120,7 @@ if (document.querySelector('uip-root')) {
   // Init UI Playground
   import (
     /* webpackPrefetch: true */
-    /* webpackChunkName: "playground" */
+    /* webpackChunkName: "common/playground" */
     '@exadel/ui-playground/esm/registration.js'
   ).then(({init}) => init());
 }
