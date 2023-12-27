@@ -16,11 +16,16 @@
 
     z-index: 1;
   }
-  .demo-content {
-    z-index: 2;
 
-    &.contrast {
-      color: white;
+  .demo-content {
+    color: inherit;
+    z-index: 2;
+  }
+
+  &.dark {
+    color: #fff;
+    background-color: #000;
+    .demo-content {
       text-shadow: 0 0 6px rgba(0, 0, 0, 0.9);
     }
   }

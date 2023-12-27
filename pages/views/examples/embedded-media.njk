@@ -18,7 +18,7 @@ aside:
             <esl-media group="demo-media" class="esl-media esl-media-demo-1" controls tabindex="0"></esl-media>
         </div>
 
-        <div class="esl-media-control">
+        <div class="btn-group btn-group-centered">
             <button class="btn btn-sec-blue" onclick="this.closest('uip-root').querySelector('.esl-media').play()">Play</button>
             <button class="btn btn-sec-blue" onclick="this.closest('uip-root').querySelector('.esl-media').pause()">Pause</button>
             <button class="btn btn-sec-blue" onclick="this.closest('uip-root').querySelector('.esl-media').stop()">Stop</button>
@@ -35,7 +35,7 @@ aside:
                    tabindex="0">
         </esl-media>
 
-        <div class="esl-media-control">
+        <div class="btn-group btn-group-centered">
             <button class="btn btn-sec-blue" onclick="this.closest('uip-root').querySelector('.esl-media').play()">Play</button>
             <button class="btn btn-sec-blue" onclick="this.closest('uip-root').querySelector('.esl-media').pause()">Pause</button>
             <button class="btn btn-sec-blue" onclick="this.closest('uip-root').querySelector('.esl-media').stop()">Stop</button>
@@ -56,7 +56,7 @@ aside:
             </esl-media>
         </div>
 
-        <div class="esl-media-control">
+        <div class="btn-group btn-group-centered">
             <button class="btn btn-sec-blue" onclick="this.closest('uip-root').querySelector('.esl-media').play()">Play</button>
             <button class="btn btn-sec-blue" onclick="this.closest('uip-root').querySelector('.esl-media').pause()">Pause</button>
             <button class="btn btn-sec-blue" onclick="this.closest('uip-root').querySelector('.esl-media').stop()">Stop</button>
@@ -79,7 +79,7 @@ aside:
             </esl-media>
         </div>
 
-        <div class="esl-media-control">
+        <div class="btn-group btn-group-centered">
             <button class="btn btn-sec-blue" onclick="this.closest('uip-root').querySelector('.esl-media').play()">Play</button>
             <button class="btn btn-sec-blue" onclick="this.closest('uip-root').querySelector('.esl-media').pause()">Pause</button>
             <button class="btn btn-sec-blue" onclick="this.closest('uip-root').querySelector('.esl-media').stop()">Stop</button>
@@ -109,7 +109,7 @@ aside:
             </esl-media>
         </div>
 
-        <div class="esl-media-control">
+        <div class="btn-group btn-group-centered">
             <button class="btn btn-sec-blue" onclick="this.closest('uip-root').querySelector('.esl-media').play()">Play</button>
             <button class="btn btn-sec-blue" onclick="this.closest('uip-root').querySelector('.esl-media').stop()">Stop</button>
         </div>
@@ -175,8 +175,7 @@ aside:
 
     <uip-root>
         <script type="text/html" uip-snippet label="Background Video">
-
-            <div class="demo-marquee" style="height: 400px">
+            <div class="demo-marquee dark" style="height: 400px">
                 <esl-media class="bg-content esl-media-bg esl-animate-fade"
                            ready-class="in"
                            media-type="video"
@@ -186,7 +185,7 @@ aside:
                            lazy
                            autoplay muted loop playsinline>
                 </esl-media>
-                <div class="demo-content contrast">
+                <div class="demo-content">
                     <p class="h3">Background media</p>
                     <p><!-- text x50 --></p>
                 </div>
@@ -194,8 +193,7 @@ aside:
         </script>
 
         <script type="text/html" uip-snippet label="Background Youtube Video">
-
-            <div class="demo-marquee" style="height: 400px">
+            <div class="demo-marquee dark" style="height: 400px">
                 <esl-media class="bg-content esl-media-bg esl-animate-fade"
                            ready-class="in"
                            media-type="youtube"
@@ -206,7 +204,7 @@ aside:
                            lazy="auto"
                            autoplay muted loop playsinline>
                 </esl-media>
-                <div class="demo-content contrast">
+                <div class="demo-content">
                     <p class="h3">Background media</p>
                     <p><!-- text x50 --></p>
                 </div>
