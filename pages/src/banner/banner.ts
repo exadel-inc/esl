@@ -1,4 +1,4 @@
-import {ESLToggleable} from '@exadel/esl/modules/esl-toggleable/core/esl-toggleable';
+import {ESLToggleable} from '@exadel/esl/modules/esl-toggleable/core';
 import {attr, memoize, prop} from '@exadel/esl/modules/esl-utils/decorators';
 
 import type {ESLToggleableActionParams} from '@exadel/esl/modules/esl-toggleable/core/esl-toggleable';

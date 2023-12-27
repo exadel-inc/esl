@@ -1,7 +1,9 @@
 import {ESLShareBaseAction} from '../core/esl-share-action';
 import {format} from '../../esl-utils/misc/format';
 
-/** Base action class for URL-based actions of share buttons {@link ESLShareButton} */
+/**
+ * Base {@link ESLShareBaseAction} implementation for actions, that use URL-based sharing mechanism
+ */
 export abstract class ESLShareUrlGenericAction extends ESLShareBaseAction {
 
   protected getFormatSource(shareData: ShareData): Record<string, string> {

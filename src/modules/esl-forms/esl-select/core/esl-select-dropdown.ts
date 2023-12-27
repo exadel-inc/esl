@@ -49,15 +49,14 @@ export class ESLSelectDropdown extends ESLPopup {
   }
 
   protected override onShow(params: ESLToggleableActionParams): void {
-    !this.connected && document.body.appendChild(this);
-    this._disposeTimeout && window.clearTimeout(this._disposeTimeout);
+    if (this.parentElement !== document.body) document.body.appendChild(this);
 
-    this.$$cls(this.$owner.dropdownClass, true);
     this.$list.pinSelected = this.$owner.pinSelected;
     this.$list.selectAllLabel = this.$owner.selectAllLabel;
     this.$list.$select = this.$owner.$select;
 
     super.onShow(params);
+    this._disposeTimeout && window.clearTimeout(this._disposeTimeout);
     const $focusable: HTMLElement | null = this.querySelector('[tabindex]');
     $focusable?.focus({preventScroll: true});
     this._updatePosition();
@@ -66,11 +65,16 @@ export class ESLSelectDropdown extends ESLPopup {
   protected override onHide(params: ESLToggleableActionParams): void {
     const $select = this.activator;
     super.onHide(params);
-    this._disposeTimeout = window.setTimeout(() => {
-      if (this.parentNode !== document.body) return;
-      document.body.removeChild(this);
-    }, 1000);
     $select && setTimeout(() => $select.focus({preventScroll: true}), 0);
+  }
+
+  protected override afterOnHide(params: ESLToggleableActionParams): void {
+    const afterOnHideTask = (): void => {
+      super.afterOnHide(params);
+      if (this.parentElement === document.body) document.body.removeChild(this);
+    };
+    if (params.action === 'show') afterOnHideTask();
+    else this._disposeTimeout = window.setTimeout(afterOnHideTask, 1000);
   }
 
   @listen('keydown')

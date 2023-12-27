@@ -16,6 +16,7 @@
 }
 
 .hide {
+  display: none !important;
   @media @xs {
     &-xs {
       display: none !important;
@@ -25,7 +26,7 @@
 .show {
   @media @sm-xl {
     &-xs {
-      display: none;
+      display: none !important;
     }
   }
 }

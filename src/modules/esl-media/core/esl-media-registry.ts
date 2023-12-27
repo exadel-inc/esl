@@ -1,6 +1,7 @@
-import {Observable} from '../../esl-utils/abstract/observable';
-import type {BaseProvider, ProviderType} from './esl-media-provider';
+import {SyntheticEventTarget} from '../../esl-utils/dom/events/target';
+import {ESLMediaRegistryEvent} from './esl-media-registry.event';
 
+import type {BaseProvider, ProviderType} from './esl-media-provider';
 import type {ESLMedia} from './esl-media';
 
 let evRegistryInstance: ESLMediaProviderRegistry | null = null;
@@ -8,8 +9,8 @@ let evRegistryInstance: ESLMediaProviderRegistry | null = null;
  * ESLMediaProviderRegistry class to store media API providers
  * @author Yuliya Adamskaya, Natallia Harshunova
  */
-export class ESLMediaProviderRegistry extends Observable<(name: string, provider: ProviderType) => void> {
-  private providersMap: Map<string, ProviderType> = new Map();
+export class ESLMediaProviderRegistry extends SyntheticEventTarget {
+  protected providersMap: Map<string, ProviderType> = new Map();
 
   public static get instance(): ESLMediaProviderRegistry {
     if (!evRegistryInstance) {
@@ -20,16 +21,14 @@ export class ESLMediaProviderRegistry extends Observable<(name: string, provider
 
   /** List of registered providers */
   public get providers(): ProviderType[] {
-    const list: ProviderType[] = [];
-    this.providersMap.forEach((provider) => list.push(provider));
-    return list;
+    return Array.from(this.providersMap.values());
   }
 
   /** Register provider */
   public register(provider: ProviderType): void {
     if (!provider.providerName) throw new Error('Provider should have a name');
     this.providersMap.set(provider.providerName, provider);
-    this.fire(provider.providerName, provider);
+    this.dispatchEvent(new ESLMediaRegistryEvent(this, provider));
   }
 
   /** Check that provider is registered for passed name */
