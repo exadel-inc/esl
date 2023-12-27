@@ -1,3 +1,10 @@
+# [2.0.0-beta.4](https://github.com/exadel-inc/ui-playground/compare/v2.0.0-beta.3...v2.0.0-beta.4) (2023-12-27)
+
+
+### Bug Fixes
+
+* **panel:** fix panel header width in vertical mode ([d7855dd](https://github.com/exadel-inc/ui-playground/commit/d7855dd854423ac520db27aed8635347c7a4472c))
+
 # [2.0.0-beta.3](https://github.com/exadel-inc/ui-playground/compare/v2.0.0-beta.2...v2.0.0-beta.3) (2023-12-27)
 
 
