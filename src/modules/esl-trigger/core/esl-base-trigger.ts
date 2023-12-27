@@ -42,13 +42,13 @@ export abstract class ESLBaseTrigger extends ESLBaseElement {
   @attr({defaultValue: 'none'}) public hideDelay: string;
 
   /**
-   * Show delay value override for hover.
-   * Note: the value should be numeric in order to delay hover action triggers for correct handling on mobile browsers.
+   * Alternative show delay value for hover action.
+   * Note: the value should be numeric in order to delay hover action.
    */
   @attr({defaultValue: '0'}) public hoverShowDelay: string;
   /**
-   * Hide delay value override for hover
-   * Note: the value should be numeric in order to delay hover action triggers for correct handling on mobile browsers.
+   * Alternative hide delay value for hover action.
+   * Note: the value should be numeric in order to delay hover action.
    */
   @attr({defaultValue: '0'}) public hoverHideDelay: string;
 
