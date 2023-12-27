@@ -27,6 +27,8 @@ module.exports = {
   },
   optimization: {
     concatenateModules: false,
+    removeAvailableModules: true,
+    splitChunks: false
   },
   output: {
     path: path.resolve(__dirname, 'dist/bundles'),

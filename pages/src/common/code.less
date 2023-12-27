@@ -1,5 +1,5 @@
+@import (inline) 'prismjs/themes/prism-tomorrow.css';
 @import (reference) './variables.less';
-@import (inline) '../../../node_modules/prismjs/themes/prism-tomorrow.css';
 
 pre,
 code {
@@ -14,12 +14,13 @@ code {
   word-wrap: break-word;
 }
 
-pre {
+pre,
+pre[class*='language-'] {
   display: block;
   font-size: 87.5%;
   color: #ccc;
   overflow: auto;
-  background: #131a2e;
+  background: @primary-bg;
   padding: 1em;
   margin: 0.5em 0;
   border-radius: 0.5em;

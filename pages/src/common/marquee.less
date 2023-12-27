@@ -1,15 +1,3 @@
-esl-d-media-source,
-esl-d-media-controls {
-  display: block;
-  padding: 5px;
-  text-align: center;
-  min-width: 250px;
-
-  .btn {
-    margin-right: 5px;
-  }
-}
-
 .demo-marquee {
   display: flex;
   justify-content: space-around;
@@ -28,11 +16,16 @@ esl-d-media-controls {
 
     z-index: 1;
   }
-  .demo-content {
-    z-index: 2;
 
-    &.contrast {
-      color: white;
+  .demo-content {
+    color: inherit;
+    z-index: 2;
+  }
+
+  &.dark {
+    color: #fff;
+    background-color: #000;
+    .demo-content {
       text-shadow: 0 0 6px rgba(0, 0, 0, 0.9);
     }
   }
