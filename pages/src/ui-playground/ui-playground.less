@@ -25,7 +25,7 @@ html {
 }
 
 .uip-root {
-  height: auto;
+  height: auto; // Fix in UIP
   margin-block-end: 1rem;
 
   overflow: hidden;
@@ -43,5 +43,10 @@ html {
   .uip-settings {
     --uip-plugin-bg: @body-bg;
     --uip-plugin-fg: @body-fg;
+  }
+
+  // Fix in UIP
+  .uip-copy {
+    display: inline-flex;
   }
 }
