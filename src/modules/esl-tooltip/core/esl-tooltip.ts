@@ -4,10 +4,10 @@ import {memoize, attr, boolAttr, listen, prop} from '../../esl-utils/decorators'
 import {TAB} from '../../esl-utils/dom/keys';
 import {getKeyboardFocusableElements, handleFocusChain} from '../../esl-utils/dom/focus';
 
-import type {PopupActionParams} from '../../esl-popup/core';
+import type {ESLPopupActionParams} from '../../esl-popup/core';
 import type {PositionType} from '../../esl-popup/core/esl-popup-position';
 
-export interface TooltipActionParams extends PopupActionParams {
+export interface ESLTooltipActionParams extends ESLPopupActionParams {
   /** text to be shown */
   text?: string;
   /** html content to be shown */
@@ -20,9 +20,18 @@ export interface TooltipActionParams extends PopupActionParams {
   disableArrow?: boolean;
 }
 
+/** @deprecated alias, use {@link ESLTooltipActionParams} instead. Will be removed in v5.0.0. */
+export type TooltipActionParams = ESLTooltipActionParams;
+
 @ExportNs('Tooltip')
 export class ESLTooltip extends ESLPopup {
   static override is = 'esl-tooltip';
+
+  /** Default params to pass into the tooltip on show/hide actions */
+  public static override DEFAULT_PARAMS: ESLTooltipActionParams = {
+    ...ESLPopup.DEFAULT_PARAMS,
+    autofocus: true
+  };
 
   @prop(false) public hasFocusLoop: boolean;
 
@@ -63,12 +72,12 @@ export class ESLTooltip extends ESLPopup {
   }
 
   /** Changes the element state to active */
-  public static show(params: TooltipActionParams = {}): void {
+  public static show(params: ESLTooltipActionParams = {}): void {
     this.sharedInstance.show(params);
   }
 
   /** Changes the element state to inactive */
-  public static hide(params: TooltipActionParams = {}): void {
+  public static hide(params: ESLTooltipActionParams = {}): void {
     this.sharedInstance.hide(params);
   }
 
@@ -83,7 +92,7 @@ export class ESLTooltip extends ESLPopup {
   protected override setInitialState(): void {}
 
   /** Actions to execute on show Tooltip. */
-  public override onShow(params: TooltipActionParams): void {
+  public override onShow(params: ESLTooltipActionParams): void {
     if (params.disableArrow) {
       this.disableArrow = params.disableArrow;
     }
@@ -100,25 +109,9 @@ export class ESLTooltip extends ESLPopup {
   }
 
   /** Actions to execute on Tooltip hiding. */
-  public override onHide(params: TooltipActionParams): void {
+  public override onHide(params: ESLTooltipActionParams): void {
     super.onHide(params);
     this.parentNode === document.body && document.body.removeChild(this);
-  }
-
-  /**
-   * Actions to execute after showing of popup.
-   */
-  protected override afterOnShow(): void {
-    super.afterOnShow();
-    this.focus({preventScroll: true});
-  }
-
-  /**
-   * Actions to execute before hiding of popup.
-   */
-  protected override beforeOnHide(): void {
-    super.beforeOnHide();
-    this.activator?.focus({preventScroll: true});
   }
 
   @listen({inherit: true})

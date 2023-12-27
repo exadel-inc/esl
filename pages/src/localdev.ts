@@ -1,7 +1,5 @@
 // Support for ES5 bundle target
 import '@exadel/esl/polyfills/es5-target-shim';
-// Builtin polyfills
-import '@exadel/esl/polyfills/polyfills.es6';
 // Validate environment
 import '@exadel/esl/polyfills/polyfills.validate';
 
@@ -34,7 +32,8 @@ import {
   ESLTooltip,
   ESLAnimate,
   ESLAnimateMixin,
-  ESLRelatedTarget
+  ESLRelatedTarget,
+  ESLOpenState
 } from '@exadel/esl/modules/all';
 
 import {ESLRandomText} from '@exadel/esl/modules/esl-random-text/core';
@@ -119,6 +118,7 @@ ESLAnimateMixin.register();
 
 // Register ESL Mixins
 ESLRelatedTarget.register();
+ESLOpenState.register();
 
 // Share component loading
 import (/* webpackChunkName: 'common/esl-share' */'./esl-share/esl-share');

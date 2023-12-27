@@ -14,6 +14,8 @@ import type {DelegatedEvent} from '../../esl-event-listener/core/types';
 
 /** Default Toggleable action params type definition */
 export interface ESLToggleableActionParams {
+  /** Action to execute */
+  readonly action?: 'show' | 'hide';
   /** Initiator string identifier */
   initiator?: string;
   /** Delay timeout for both show and hide actions */
@@ -41,9 +43,6 @@ export interface ESLToggleableRequestDetails extends ESLToggleableActionParams {
   // Selector to match or exact predicate to check if the target should process request
   match?: string | ((target: Element) => boolean);
 }
-
-/** @deprecated alias for ESLToggleableActionParams, will be removed in 5.0.0*/
-export type ToggleableActionParams = ESLToggleableActionParams;
 
 const activators: WeakMap<ESLToggleable, HTMLElement | undefined> = new WeakMap();
 
@@ -220,18 +219,18 @@ export class ESLToggleable extends ESLBaseElement {
 
   /** Actual show task to execute by toggleable task manger ({@link DelayedTask} out of the box) */
   protected showTask(params: ESLToggleableActionParams): void {
+    Object.defineProperty(params, 'action', {value: 'show', writable: false});
     if (!this.shouldShow(params)) return;
     if (!params.silent && !this.$$fire(this.BEFORE_SHOW_EVENT, {detail: {params}})) return;
     this.activator = params.activator;
-    this.open = true;
     this.onShow(params);
     if (!params.silent) this.$$fire(this.SHOW_EVENT, {detail: {params}, cancelable: false});
   }
   /** Actual hide task to execute by toggleable task manger ({@link DelayedTask} out of the box) */
   protected hideTask(params: ESLToggleableActionParams): void {
+    Object.defineProperty(params, 'action', {value: 'hide', writable: false});
     if (!this.shouldHide(params)) return;
     if (!params.silent && !this.$$fire(this.BEFORE_HIDE_EVENT, {detail: {params}})) return;
-    this.open = false;
     this.onHide(params);
     this.bindOutsideEventTracking(false);
     if (!params.silent) this.$$fire(this.HIDE_EVENT, {detail: {params}, cancelable: false});
@@ -251,6 +250,7 @@ export class ESLToggleable extends ESLBaseElement {
    * Adds CSS classes, update a11y and fire {@link ESLToggleable.REFRESH_EVENT} event by default.
    */
   protected onShow(params: ESLToggleableActionParams): void {
+    this.open = true;
     CSSClassUtils.add(this, this.activeClass);
     CSSClassUtils.add(document.body, this.bodyClass, this);
     if (this.containerActiveClass) {
@@ -276,6 +276,7 @@ export class ESLToggleable extends ESLBaseElement {
    * Removes CSS classes and update a11y by default.
    */
   protected onHide(params: ESLToggleableActionParams): void {
+    this.open = false;
     CSSClassUtils.remove(this, this.activeClass);
     CSSClassUtils.remove(document.body, this.bodyClass, this);
     if (this.containerActiveClass) {
