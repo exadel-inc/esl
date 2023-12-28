@@ -2,11 +2,11 @@ import React from 'jsx-dom';
 
 import {attr, listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 import {ESLMediaQuery} from '@exadel/esl/modules/esl-media-query/core';
-import {ESLToggleable} from '@exadel/esl/modules/esl-toggleable/core';
-import {ESLTrigger} from '@exadel/esl/modules/esl-trigger/core';
-
 import {UIPPlugin} from '../../core/base/plugin';
 import {UIPSnippetsIcon} from '../snippets-list/snippets.icon';
+
+import type {ESLTrigger} from '@exadel/esl/modules/esl-trigger/core';
+import type {ESLToggleable} from '@exadel/esl/modules/esl-toggleable/core';
 import type {UIPSnippetsTitle} from '../snippets-title/snippets-title';
 
 /**
@@ -17,16 +17,12 @@ export class UIPSnippets extends UIPPlugin {
   static override is = 'uip-snippets';
   static override observedAttributes = ['dropdown-view', ...UIPPlugin.observedAttributes];
 
-  static override register(...attr: any[]): void {
-    super.register(...attr);
-    ESLToggleable.register();
-    ESLTrigger.register();
-  }
-
   @attr({defaultValue: 'not all'}) public dropdownView: string;
 
   /** @returns true if dropdown mode should be active */
-  public get isDropdown(): boolean { return ESLMediaQuery.for(this.dropdownView).matches; }
+  public get isDropdown(): boolean {
+    return ESLMediaQuery.for(this.dropdownView).matches;
+  }
 
 
   /** Builds inner {@link UIPSnippetsTitle} */

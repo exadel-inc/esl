@@ -2,12 +2,12 @@
 
 # UIPPlugin
 
-**UIPPlugin** - base class for all UIP elements. 
+**UIPPlugin** - base class for all UIP elements.
 Should be used as a parent class for all custom plugins of UIP to correctly observe and change UIPModel state.
 
 ## Description
 
-All UIP elements are **UIPPlugin** instances. Plugin automatically sets *uip-plugin* class to its elements,
+All UIP elements are **UIPPlugin** instances. Plugin automatically sets _uip-plugin_ class to its elements,
 provides access to [UIPRoot](src/core/README.md#uip-root).
 
 After initialization **UIPPlugin** subscribes to [UIPStateModel](src/core/README.md#uip-state-model) changes and, after
@@ -17,15 +17,14 @@ As you can see, the flow is quite similar to what we usually do in [Observable](
 ## Processing markup changes
 
 ```typescript
-import {UIPPlugin} from "./plugin";
+import {UIPPlugin} from './plugin';
 
 class UIPComponent extends UIPPlugin {
   @listen({event: 'uip:model:change', target: (that: UIPSetting) => that.model})
   protected _onRootStateChange(): void {
-      // ...
+    // ...
   }
 }
-
 ```
 
 You can find a way of getting current markup in [UIPStateModel](src/core/README.md#uip-state-model) section.
@@ -33,7 +32,7 @@ You can find a way of getting current markup in [UIPStateModel](src/core/README.
 ## Example
 
 ```typescript
-import {UIPPlugin} from "./plugin";
+import {UIPPlugin} from './plugin';
 
 class UIPPreview extends UIPPlugin {
   @listen({event: 'uip:model:change', target: (that: UIPSetting) => that.model})
@@ -46,6 +45,7 @@ class UIPPreview extends UIPPlugin {
 ```
 
 ---
+
 <a href="#uip-root" id="uip-root"></a>
 
 # UIPRoot
@@ -80,35 +80,32 @@ As we already mentioned, **UIPStateModel** is an observable. It's fired every ti
 changes. To trigger the observable you need to change model's markup:
 
 ```typescript
-import {UIPPlugin} from "./plugin";
+import {UIPPlugin} from './plugin';
 
 class UIPComponent extends UIPPlugin {
-    protected _onComponentChange() {
-        // ...
-        this.model!.setHtml('New markup here!', this);
-        // ...
-    }
+  protected _onComponentChange() {
+    // ...
+    this.model!.setHtml('New markup here!', this);
+    // ...
+  }
 }
-
 ```
 
-Markup's setter takes two arguments: *markup* and *modifier*. *Markup* stands for the new markup, and
-*modifier* is a **UIPPlugin** instance which triggers changes.
-
+Markup's setter takes two arguments: _markup_ and _modifier_. _Markup_ stands for the new markup, and
+_modifier_ is a **UIPPlugin** instance which triggers changes.
 
 **UIPStateModel** also has a getter for current markup:
 
 ```typescript
-import {UIPPlugin} from "./plugin";
+import {UIPPlugin} from './plugin';
 
 class UIPComponent extends UIPPlugin {
-    protected processMarkup() {
-        // ...
-        const currentMarkup = this.model!.html;
-        // ...
-    }
+  protected processMarkup() {
+    // ...
+    const currentMarkup = this.model!.html;
+    // ...
+  }
 }
-
 ```
 
 ## Markup processing methods
@@ -117,39 +114,42 @@ class UIPComponent extends UIPPlugin {
 [UIPSettings](src/plugins/settings/README.md) and [UIPSetting](src/plugins/settings/README.md) plugins. These methods have the following signatures:
 
 ```typescript
-import {Observable} from "@exadel/esl";
+import {Observable} from '@exadel/esl';
 
 class UIPStateModel extends Observable {
-  public getAttribute(target: string, attr: string): (string | null)[] {};
-  public changeAttribute(cfg: ChangeAttrConfig) {};
+  public getAttribute(target: string, attr: string): (string | null)[] {}
+  public changeAttribute(cfg: ChangeAttrConfig) {}
 }
-
 ```
 
-*getAttribute()* method returns attributes (*attr* field) values from targets.
+_getAttribute()_ method returns attributes (_attr_ field) values from targets.
 
-*changeAttribute()* callback is used for changing elements attributes. As you can see, it takes *ChangeAttrConfig* as
+_changeAttribute()_ callback is used for changing elements attributes. As you can see, it takes _ChangeAttrConfig_ as
 a parameter. This type looks like this:
 
 ```typescript
-export type TransformSignature = (current: string | null) => string | boolean | null;
+export type TransformSignature = (
+  current: string | null
+) => string | boolean | null;
 
 export type ChangeAttrConfig = {
-  target: string,
-  attribute: string,
-  modifier: UIPPlugin
-} & ({
-  value: string | boolean
-} | {
-  transform: TransformSignature
-});
-
+  target: string;
+  attribute: string;
+  modifier: UIPPlugin;
+} & (
+  | {
+      value: string | boolean;
+    }
+  | {
+      transform: TransformSignature;
+    }
+);
 ```
 
-Here *attribute* stands for attribute name and *target* - for target elements. *Modifier* field represents the
+Here _attribute_ stands for attribute name and _target_ - for target elements. _Modifier_ field represents the
 **UIPPlugin** instance which triggers attribute's changes.
 
-The last field can either be *value* (this value replaces current *attribute*'s value) or *transform* function (it maps
+The last field can either be _value_ (this value replaces current _attribute_'s value) or _transform_ function (it maps
 current attribute value to the new one).
 
 Again, the examples of using this API can be found in [UIPSetting](src/plugins/settings/README.md)

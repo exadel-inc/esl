@@ -5,8 +5,6 @@ import {ESLTrigger} from '@exadel/esl/modules/esl-trigger/core';
 import {ESLToggleable} from '@exadel/esl/modules/esl-toggleable/core';
 import {ESLAlert} from '@exadel/esl/modules/esl-alert/core';
 
-import {init} from '../../src/registration';
-
 ESLSelect.register();
 ESLImage.register();
 ESLScrollbar.register();
@@ -14,4 +12,6 @@ ESLTrigger.register();
 ESLToggleable.register();
 ESLAlert.register();
 ESLAlert.init();
+
+import {init} from '@exadel/ui-playground/esm/registration.js';
 init();
