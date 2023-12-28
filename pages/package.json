@@ -1,0 +1,36 @@
+{
+  "name": "@exadel/ui-playground-site",
+  "version": "2.0.0",
+  "description": "Site of UI Playground project",
+  "main": ".eleventy.js",
+  "scripts": {
+    "start": "npm run clean && npm rum watch",
+    "clean": "rimraf \"dist\"",
+    "build": "npm run clean && concurrently \"npm run build:ts\" \"npm run build:less && npm run build:minify\" && npm run build:eleventy",
+    "build:ts": "webpack --mode=production",
+    "build:minify": "cleancss -o dist/bundles/playground.css dist/bundles/playground.css",
+    "build:less": "lessc --npm-import=\"prefix=~\" src/playground.less dist/bundles/playground.css --source-map=dist/bundles/playground.css.map",
+    "build:eleventy": "npx @11ty/eleventy -- --env=production",
+    "watch": "concurrently --kill-others \"npm run watch:lib\" \"npm run watch:eleventy\" \"npm run watch:ts\" \"npm run watch:less\"",
+    "watch:lib": "cd .. && npm run watch",
+    "watch:ts": "webpack --watch",
+    "watch:less": "chokidar --initial \"node_modules/@exadel/ui-playground/esm/**/*.less\" \"**/*.less\" -c \"npm run build:less\"",
+    "watch:eleventy": "npx @11ty/eleventy --serve --port=3005 -- --env=development",
+    "test": ""
+  },
+  "dependencies": {
+    "@exadel/esl": "^5.0.0-beta.3",
+    "@exadel/ui-playground": "../",
+    "@11ty/eleventy": "^2.0.1",
+    "@11ty/eleventy-dev-server": "^1.0.4",
+    "clean-css-cli": "^5.6.2",
+    "markdown-it": "^13.0.2",
+    "markdown-it-replace-link": "^1.2.0",
+    "out-url": "^1.1.3",
+    "ts-loader": "^9.5.0",
+    "webpack": "^5.89.0",
+    "webpack-bundle-analyzer": "^4.9.1",
+    "webpack-cli": "^5.1.4"
+  },
+  "license": "MIT"
+}

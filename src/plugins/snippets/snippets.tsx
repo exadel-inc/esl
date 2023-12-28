@@ -17,12 +17,6 @@ export class UIPSnippets extends UIPPlugin {
   static override is = 'uip-snippets';
   static override observedAttributes = ['dropdown-view', ...UIPPlugin.observedAttributes];
 
-  static override register(...attr: any[]): void {
-    super.register(...attr);
-    ESLToggleable.register();
-    ESLTrigger.register();
-  }
-
   @attr({defaultValue: 'not all'}) public dropdownView: string;
 
   /** @returns true if dropdown mode should be active */
