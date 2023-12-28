@@ -1,3 +1,10 @@
+# [2.0.0-beta.7](https://github.com/exadel-inc/ui-playground/compare/v2.0.0-beta.6...v2.0.0-beta.7) (2023-12-28)
+
+
+### Bug Fixes
+
+* fix build-files and peer dependency declaration ([557541a](https://github.com/exadel-inc/ui-playground/commit/557541a2b97ddf9f18ebf1bddcab48a984084e9d))
+
 # [2.0.0-beta.6](https://github.com/exadel-inc/ui-playground/compare/v2.0.0-beta.5...v2.0.0-beta.6) (2023-12-28)
 
 
