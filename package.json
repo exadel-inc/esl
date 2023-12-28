@@ -61,13 +61,16 @@
   "engines": {
     "node": ">=18.17.0"
   },
+  "workspaces": [
+    "pages"
+  ],
   "dependencies": {
     "codejar": "^4.2.0",
     "jsx-dom": "6.4.23",
     "prismjs": "^1.29.0"
   },
   "peerDependencies": {
-    "@exadel/esl": ">=4.14.0 <6.0.0"
+    "@exadel/esl": "^4.14.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^18.4.3",

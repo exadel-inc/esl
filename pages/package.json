@@ -1,6 +1,7 @@
 {
   "name": "@exadel/ui-playground-site",
   "version": "2.0.0",
+  "private": true,
   "description": "Site of UI Playground project",
   "main": ".eleventy.js",
   "scripts": {
@@ -19,7 +20,7 @@
     "test": ""
   },
   "dependencies": {
-    "@exadel/esl": "^5.0.0-beta.3",
+    "@exadel/esl": "^4.14.1",
     "@exadel/ui-playground": "../",
     "@11ty/eleventy": "^2.0.1",
     "@11ty/eleventy-dev-server": "^1.0.4",
