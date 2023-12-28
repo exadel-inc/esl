@@ -5,7 +5,7 @@ import {ESLMediaQuery} from '../../../esl-media-query/core';
 
 import {ESLCarouselPlugin} from '../esl-carousel.plugin';
 
-import type {Point} from '../../../esl-utils/dom/events';
+import type {Point} from '../../../esl-utils/dom';
 
 
 /**
