@@ -45,7 +45,6 @@
     "lint:js": "eslint src/**/*.ts",
     "lint:css": "stylelint src/**/*.less",
     "prepare": "husky install && npm run build",
-    "preversion": "npm test",
     "version": "cross-env-shell \"npm version $npm_package_version --no-git-tag-version --ws\" && git add **/package*.json"
   },
   "repository": {
