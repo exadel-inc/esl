@@ -41,7 +41,8 @@
     "lint": "concurrently \"npm run lint:js\" \"npm run lint:css\"",
     "lint:js": "eslint src/**/*.ts",
     "lint:css": "stylelint src/**/*.less",
-    "prepare": "husky install && npm run build"
+    "prepare": "husky install && npm run build",
+    "version": "cross-env-shell \"npm version $npm_package_version --no-git-tag-version --ws\" && git add **/package*.json"
   },
   "repository": {
     "type": "git",
@@ -87,6 +88,7 @@
     "chokidar-cli": "^3.0.0",
     "concurrently": "^8.2.2",
     "copyfiles": "^2.4.1",
+    "cross-env": "^7.0.3",
     "eslint": "^8.55.0",
     "eslint-plugin-editorconfig": "^4.0.3",
     "eslint-plugin-import": "^2.29.0",
