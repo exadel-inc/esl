@@ -1,3 +1,12 @@
+# [2.0.0-beta.6](https://github.com/exadel-inc/ui-playground/compare/v2.0.0-beta.5...v2.0.0-beta.6) (2023-12-28)
+
+
+### Bug Fixes
+
+* main module peer dependency esl restrictions actualized ([e77c6df](https://github.com/exadel-inc/ui-playground/commit/e77c6df9aeeeb9f8f7b918611ed4c8a8fef61f6d))
+* restructuring to separate site module; style fixes ([62bebc2](https://github.com/exadel-inc/ui-playground/commit/62bebc2825989c35fd204bb9a77ccea3bb0b7b10))
+* uip-root default height ([8c0e691](https://github.com/exadel-inc/ui-playground/commit/8c0e691e3aece4c4e48090e7e9c2f5f8d87ccad9))
+
 # [2.0.0-beta.5](https://github.com/exadel-inc/ui-playground/compare/v2.0.0-beta.4...v2.0.0-beta.5) (2023-12-28)
 
 
