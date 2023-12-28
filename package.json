@@ -18,19 +18,22 @@
   "module": "esm/registration.js",
   "style": "esm/registration.css",
   "files": [
-    "esm/**/*",
     "tsconfig.json",
     "README.md",
     "CLA.md",
-    "CHANGELOG.md"
+    "CHANGELOG.md",
+    "esm/**/*.js",
+    "esm/**/*.ts",
+    "esm/**/*.css",
+    "esm/**/*.less"
   ],
   "sideEffects": [
     "src/**/*.less"
   ],
   "scripts": {
     "start": "cd pages && npm run start",
-    "clean": "rimraf bundles esm",
-    "build": "npm run clean && concurrently \"npm run build:less\" \"npm run build:ts\"",
+    "clean": "rimraf esm",
+    "build": "npm run clean && npm run build:less && npm run build:ts",
     "build:ts": "tsc --project tsconfig.json",
     "build:less": "npm run build:less:cpy && npm run build:less:css",
     "build:less:cpy": "copyfiles -u 1 \"./src/**/*.less\" \"esm\"",
@@ -42,6 +45,7 @@
     "lint:js": "eslint src/**/*.ts",
     "lint:css": "stylelint src/**/*.less",
     "prepare": "husky install && npm run build",
+    "preversion": "npm test",
     "version": "cross-env-shell \"npm version $npm_package_version --no-git-tag-version --ws\" && git add **/package*.json"
   },
   "repository": {
@@ -71,7 +75,7 @@
     "prismjs": "^1.29.0"
   },
   "peerDependencies": {
-    "@exadel/esl": "^4.14.0, ^5.0.0, ^5.0.0-beta.0"
+    "@exadel/esl": "^4.13.0 || ^5.0.0 || ^5.0.0-beta.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^18.4.3",
@@ -102,6 +106,7 @@
     "lint-staged": "^15.2.0",
     "postcss": "^8.4.31",
     "postcss-less": "^6.0.0",
+    "postcss-preset-env": "^7.0.1",
     "prettier": "^3.1.1",
     "rimraf": "^5.0.5",
     "semantic-release": "^22.0.10",

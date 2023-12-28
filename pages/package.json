@@ -3,10 +3,9 @@
   "version": "2.0.0-beta.6",
   "private": true,
   "description": "Site of UI Playground project",
-  "main": ".eleventy.js",
   "scripts": {
     "start": "npm run clean && npm rum watch",
-    "clean": "rimraf \"dist\"",
+    "clean": "rimraf dist",
     "build": "npm run clean && concurrently \"npm run build:ts\" \"npm run build:less && npm run build:minify\" && npm run build:eleventy",
     "build:ts": "webpack --mode=production",
     "build:minify": "cleancss -o dist/bundles/playground.css dist/bundles/playground.css",
