@@ -10,7 +10,9 @@ import type {UIPPlugin} from './plugin';
 import type {UIPSnippetTemplate} from './snippet';
 
 /** Type for function to change attribute's current value */
-export type TransformSignature = (current: string | null) => string | boolean | null;
+export type TransformSignature = (
+  current: string | null
+) => string | boolean | null;
 
 /** Config for changing attribute's value */
 export type ChangeAttrConfig = {
@@ -89,11 +91,16 @@ export class UIPStateModel extends SyntheticEventTarget {
   }
 
   /** Changes current active snippet */
-  public applySnippet(snippet: UIPSnippetItem, modifier: UIPPlugin | UIPRoot): void {
+  public applySnippet(
+    snippet: UIPSnippetItem,
+    modifier: UIPPlugin | UIPRoot
+  ): void {
     if (!snippet) return;
-    this._snippets.forEach((s) => s.active = (s === snippet));
+    this._snippets.forEach((s) => (s.active = s === snippet));
     this.setHtml(snippet.html, modifier);
-    this.dispatchEvent(new CustomEvent('uip:model:snippet:change', {detail: this}));
+    this.dispatchEvent(
+      new CustomEvent('uip:model:snippet:change', {detail: this})
+    );
   }
   /** Applies an active snippet from DOM */
   public applyCurrentSnippet(modifier: UIPPlugin | UIPRoot): void {
@@ -107,7 +114,8 @@ export class UIPStateModel extends SyntheticEventTarget {
    * @returns array of matched elements attribute value (uses the element placement order)
    */
   public getAttribute(target: string, attr: string): (string | null)[] {
-    return Array.from(this._html.querySelectorAll(target)).map((el) => el.getAttribute(attr));
+    return Array.from(this._html.querySelectorAll(target))
+      .map((el) => el.getAttribute(attr));
   }
 
   /** Applies change config to current markup */
@@ -116,7 +124,11 @@ export class UIPStateModel extends SyntheticEventTarget {
     const elements = Array.from(this._html.querySelectorAll(target));
     if (!elements.length) return;
 
-    UIPStateModel.setAttribute(elements, attribute, 'transform' in cfg ? cfg.transform : cfg.value);
+    UIPStateModel.setAttribute(
+      elements,
+      attribute,
+      'transform' in cfg ? cfg.transform : cfg.value
+    );
     this._lastModifier = modifier;
     this.dispatchChange();
   }
@@ -124,7 +136,9 @@ export class UIPStateModel extends SyntheticEventTarget {
   /** Plans microtask to dispatch model change event */
   @decorate(microtask)
   protected dispatchChange(): void {
-    this.dispatchEvent(new CustomEvent('uip:model:change', {bubbles: true, detail: this}));
+    this.dispatchEvent(
+      new CustomEvent('uip:model:change', {bubbles: true, detail: this})
+    );
   }
 
   /**
@@ -133,9 +147,16 @@ export class UIPStateModel extends SyntheticEventTarget {
    * @param attr - attribute name
    * @param transform - value or function to change attribute value
    */
-  protected static setAttribute(elements: Element[], attr: string, transform: TransformSignature | string | boolean): void {
+  protected static setAttribute(
+    elements: Element[],
+    attr: string,
+    transform: TransformSignature | string | boolean
+  ): void {
     elements.forEach((el) => {
-      const transformed = typeof transform === 'function' ? transform(el.getAttribute(attr)) : transform;
+      const transformed =
+        typeof transform === 'function'
+          ? transform(el.getAttribute(attr))
+          : transform;
       if (typeof transformed === 'string') {
         el.setAttribute(attr, transformed);
       } else {

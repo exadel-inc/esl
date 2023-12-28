@@ -1,5 +1,10 @@
 import {ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
-import {memoize, boolAttr, listen, prop} from '@exadel/esl/modules/esl-utils/decorators';
+import {
+  memoize,
+  boolAttr,
+  listen,
+  prop
+} from '@exadel/esl/modules/esl-utils/decorators';
 
 import {UIPStateModel} from './model';
 
@@ -57,10 +62,17 @@ export class UIPRoot extends ESLBaseElement {
     this.model.snippets = [];
   }
 
-  protected attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null): void {
+  protected attributeChangedCallback(
+    name: string,
+    oldValue: string | null,
+    newValue: string | null
+  ): void {
     super.attributeChangedCallback(name, oldValue, newValue);
     if (name === 'dark-theme') {
-      this.$$fire(this.THEME_CHANGE_EVENT, {detail: this.darkTheme, bubbles: false});
+      this.$$fire(this.THEME_CHANGE_EVENT, {
+        detail: this.darkTheme,
+        bubbles: false
+      });
     }
   }
 
@@ -69,7 +81,10 @@ export class UIPRoot extends ESLBaseElement {
     this.$$fire(this.CHANGE_EVENT, {detail, bubbles: false});
   }
 
-  @listen({event: 'uip:model:snippet:change', target: ($this: UIPRoot) => $this.model})
+  @listen({
+    event: 'uip:model:snippet:change',
+    target: ($this: UIPRoot) => $this.model
+  })
   protected onSnippetChange({detail}: CustomEvent): void {
     this.$$fire(this.SNIPPET_CHANGE_EVENT, {detail, bubbles: false});
   }

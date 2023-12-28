@@ -2,7 +2,6 @@ import {intersection} from '@exadel/esl/modules/esl-utils/misc/set';
 
 /** Class for processing attribute's tokens */
 export class TokenListUtils {
-
   /**
    * Divides string by whitespace regexp
    * @returns array of items or empty array

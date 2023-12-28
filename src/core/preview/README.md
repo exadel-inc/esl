@@ -7,6 +7,7 @@
 The `uip-preview` should be placed inside [UIPRoot](src/core/README.md#uip-root) element.
 
 ## Example
+
 ```html
 <uip-preview></uip-preview>
 ```

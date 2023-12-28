@@ -15,7 +15,11 @@ export abstract class UIPPluginButton extends UIPPlugin {
    * @param content - inner content of created element
    * @param cls - class name of created element
    */
-  public static create<T extends typeof UIPPluginButton>(this: T, content?: string | Element | JSX.Element, cls: string = ''): InstanceType<T> {
+  public static create<T extends typeof UIPPluginButton>(
+    this: T,
+    content?: string | Element | JSX.Element,
+    cls: string = ''
+  ): InstanceType<T> {
     const $el = document.createElement(this.is) as InstanceType<T>;
     $el.className = cls;
     if (typeof content === 'string') $el.innerHTML = content;

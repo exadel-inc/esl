@@ -5,10 +5,7 @@ export type UIPSnippetTemplate = HTMLTemplateElement | HTMLScriptElement;
 
 /** Proxy-interface to access template elements properties */
 export class UIPSnippetItem {
-  public constructor(
-    protected readonly $element: UIPSnippetTemplate
-  ) {
-  }
+  public constructor(protected readonly $element: UIPSnippetTemplate) {}
 
   /** @returns snippet's label */
   @memoize()

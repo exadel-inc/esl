@@ -75,16 +75,18 @@
     max-height: 0;
     margin-top: 5px;
 
-    transition: max-height 0.3s ease-in-out,
-    visibility 0.3s,
-    box-shadow 0.3s ease-in-out;
+    transition:
+      max-height 0.3s ease-in-out,
+      visibility 0.3s,
+      box-shadow 0.3s ease-in-out;
 
     &.open {
       max-height: 250px;
       visibility: visible;
       box-shadow: 0 4px 5px -1px var(--uip-plugin-fg, #000);
-      transition: max-height 0.3s ease-in-out,
-      visibility 0s;
+      transition:
+        max-height 0.3s ease-in-out,
+        visibility 0s;
     }
   }
 
