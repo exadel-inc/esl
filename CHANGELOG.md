@@ -1,3 +1,10 @@
+# [2.0.0-beta.5](https://github.com/exadel-inc/ui-playground/compare/v2.0.0-beta.4...v2.0.0-beta.5) (2023-12-28)
+
+
+### Bug Fixes
+
+* fix esl version for consumption up to 6th ([ad18d67](https://github.com/exadel-inc/ui-playground/commit/ad18d6765e66a127e1d28c5b765cd0ee1bd48b21))
+
 # [2.0.0-beta.4](https://github.com/exadel-inc/ui-playground/compare/v2.0.0-beta.3...v2.0.0-beta.4) (2023-12-27)
 
 
