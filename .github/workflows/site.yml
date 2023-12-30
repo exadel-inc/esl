@@ -42,7 +42,7 @@ jobs:
       - name: Build ESL
         run: npm run build
       - name: Build Site
-        run: npm run build -w pages
+        run: npm run build -w site
         env:
           SITE_BASE_URL: ${{ steps.pages.outputs.base_url }}
           BUILD_VERSION: ${{ github.run_number }}
