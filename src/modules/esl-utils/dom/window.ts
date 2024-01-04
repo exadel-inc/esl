@@ -1,7 +1,7 @@
 import {Rect} from './rect';
 
 /**
- * Get the window object associated with a document of the specified element.
+ * Gets the window object associated with a document of the specified element.
  * @param node - element for which to get window
  * */
 export function getWindow(node: Node | Window): Window {
