@@ -136,7 +136,7 @@ export class ESLPopup extends ESLToggleable {
   /** Get the size and position of the container */
   protected get containerRect(): Rect {
     if (!this.$container) return getWindowRect();
-    return Rect.from(this.$container).shift(window.pageXOffset, window.pageYOffset);
+    return Rect.from(this.$container).shift(window.scrollX, window.scrollY);
   }
 
   @ready
@@ -396,7 +396,7 @@ export class ESLPopup extends ESLToggleable {
     const triggerRect = this.activator.getBoundingClientRect();
     const popupRect = this.getBoundingClientRect();
     const arrowRect = this.$arrow ? this.$arrow.getBoundingClientRect() : new Rect();
-    const trigger = new Rect(triggerRect.left + window.pageXOffset, triggerRect.top + window.pageYOffset, triggerRect.width, triggerRect.height);
+    const trigger = new Rect(triggerRect.left + window.scrollX, triggerRect.top + window.scrollY, triggerRect.width, triggerRect.height);
     const innerMargin = this._offsetTrigger + arrowRect.width / 2;
     const {containerRect} = this;
 
