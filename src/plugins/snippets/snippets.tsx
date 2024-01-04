@@ -35,7 +35,7 @@ export class UIPSnippets extends UIPPlugin {
   @memoize()
   protected get $trigger(): ESLTrigger {
     return (
-      <esl-trigger active-class="open" className="uip-snippets-trigger">
+      <esl-trigger active-class="open" className="uip-snippets-trigger" target="::next">
         <UIPSnippetsIcon/>
         {this.$title}
       </esl-trigger>
