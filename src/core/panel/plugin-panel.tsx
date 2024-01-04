@@ -8,7 +8,7 @@ import {attr, boolAttr, listen, memoize} from '@exadel/esl/modules/esl-utils/dec
 import {UIPPlugin} from '../base/plugin';
 
 export abstract class UIPPluginPanel extends UIPPlugin {
-  public static readonly observedAttributes: string[] = ['vertical', 'collapsed', ...UIPPlugin.observedAttributes];
+  public static readonly observedAttributes: string[] = ['vertical', 'collapsible', ...UIPPlugin.observedAttributes];
 
   /** Marker to collapse editor area */
   @boolAttr() public collapsed: boolean;
