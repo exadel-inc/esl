@@ -35,7 +35,7 @@
       bottom: 0;
 
       opacity: 0;
-      background: var(--uip-accent, transparent);
+      background: var(--uip-plugin-accent, transparent);
 
       transition: opacity 0.3s ease-in-out;
     }
@@ -67,13 +67,11 @@
     max-width: 100%;
     font-size: 1rem;
 
-    border: 1px solid var(--uip-plugin-divider, #ccc);
     color: var(--uip-plugin-fg, #000);
     background-color: var(--uip-plugin-bg, #fff);
 
     visibility: hidden;
     max-height: 0;
-    margin-top: 5px;
 
     transition:
       max-height 0.3s ease-in-out,
@@ -120,11 +118,11 @@
 
   .uip-snippets-item {
     font-weight: 400;
-    padding: 8px 24px;
+    padding: 6px 24px 8px;
   }
 
-  .uip-snippets-item-wrapper:not(:last-child) {
-    border-bottom: 1px solid var(--uip-plugin-divider, #ccc);
+  .uip-snippets-item-wrapper {
+    border-top: 1px solid var(--uip-plugin-divider, #ccc);
   }
 
   .uip-snippets-trigger {
