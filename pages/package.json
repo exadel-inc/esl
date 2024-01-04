@@ -14,7 +14,7 @@
     "watch": "concurrently --kill-others \"npm run watch:lib\" \"npm run watch:eleventy\" \"npm run watch:ts\" \"npm run watch:less\"",
     "watch:lib": "cd .. && npm run watch",
     "watch:ts": "webpack --watch",
-    "watch:less": "chokidar --initial \"node_modules/@exadel/ui-playground/esm/**/*.less\" \"**/*.less\" -c \"npm run build:less\"",
+    "watch:less": "chokidar --initial \"../node_modules/@exadel/ui-playground/esm/**/*.less\" \"**/*.less\" -c \"npm run build:less\"",
     "watch:eleventy": "npx @11ty/eleventy --serve --port=3005 -- --env=development",
     "test": "echo \"Warn: no test declared for module\" && exit 0"
   },
