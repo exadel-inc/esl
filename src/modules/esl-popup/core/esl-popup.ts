@@ -7,7 +7,7 @@ import {ESLToggleable} from '../../esl-toggleable/core';
 import {Rect} from '../../esl-utils/dom/rect';
 import {isRTL} from '../../esl-utils/dom/rtl';
 import {getListScrollParents} from '../../esl-utils/dom/scroll';
-import {getWindowRect} from '../../esl-utils/dom/window';
+import {getViewportRect} from '../../esl-utils/dom/window';
 import {parseBoolean, parseNumber, toBooleanAttribute} from '../../esl-utils/misc/format';
 import {copyDefinedKeys} from '../../esl-utils/misc/object';
 import {ESLIntersectionTarget, ESLIntersectionEvent} from '../../esl-event-listener/core/targets/intersection.target';
@@ -135,7 +135,7 @@ export class ESLPopup extends ESLToggleable {
 
   /** Get the size and position of the container */
   protected get containerRect(): Rect {
-    if (!this.$container) return getWindowRect();
+    if (!this.$container) return getViewportRect();
     return Rect.from(this.$container).shift(window.scrollX, window.scrollY);
   }
 
