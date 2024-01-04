@@ -1,3 +1,14 @@
+# [2.0.0-beta.8](https://github.com/exadel-inc/ui-playground/compare/v2.0.0-beta.7...v2.0.0-beta.8) (2024-01-04)
+
+
+### Bug Fixes
+
+* arrow animation due to re-rendering after collapsed state change ([dc08727](https://github.com/exadel-inc/ui-playground/commit/dc08727a327cf8a2097e6f931831217d5cef6072))
+* fix vertical resize divider line ([196231b](https://github.com/exadel-inc/ui-playground/commit/196231ba826af7781078cb1e304d4bc67d2e78f9))
+* remove ESL styles from the main output / create `registration.all` with full import ([345a32e](https://github.com/exadel-inc/ui-playground/commit/345a32e4929fef74a23d92a5eac79596e7b6bd94))
+* remove extra divider lines, rename some of the global properties ([96feca0](https://github.com/exadel-inc/ui-playground/commit/96feca0111f4fccac740c061d841f37d099a2958))
+* **snippets:** dropdown doesn't open if ESL 5.0.0 is being used ([c72371e](https://github.com/exadel-inc/ui-playground/commit/c72371e52daa45784452808422444f88bd52be60))
+
 # [2.0.0-beta.7](https://github.com/exadel-inc/ui-playground/compare/v2.0.0-beta.6...v2.0.0-beta.7) (2023-12-28)
 
 
