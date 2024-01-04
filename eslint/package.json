@@ -17,7 +17,7 @@
     "prepare": "npm run build",
     "test": "jest",
     "clean": "rimraf dist",
-    "build": "npm run clean && tsc --project tsconfig.json"
+    "build": "npm run clean && tsc --project tsconfig.build.json"
   },
   "dependencies": {},
   "peerDependencies": {

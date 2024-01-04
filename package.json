@@ -53,11 +53,11 @@
     "src/polyfills/**/*.ts"
   ],
   "workspaces": [
-    "pages",
+    "site",
     "eslint"
   ],
   "scripts": {
-    "start": "cd pages && npm run start",
+    "start": "cd site && npm run start",
     "clean": "rimraf modules polyfills",
     "build": "npm run clean && concurrently \"npm run build:less\" \"npm run build:ts\" \"npm run build:docs\"",
     "build:ts": "tsc --project tsconfig.build.json",
@@ -73,8 +73,8 @@
     "test:unit": "jest --silent --noStackTrace",
     "test:report": "jest --coverage",
     "lint": "concurrently \"npm run lint:js\" \"npm run lint:css\" && node build/catlog.js \"Linting passed\"",
-    "lint:js": "eslint \"src/**/*.ts\" \"pages/src/**/*.ts\" --max-warnings 3",
-    "lint:css": "stylelint \"src/**/*.less\" \"pages/src/**/*.less\"",
+    "lint:js": "eslint \"src/**/*.ts\" \"site/src/**/*.ts\" --max-warnings 3",
+    "lint:css": "stylelint \"src/**/*.less\" \"site/src/**/*.less\"",
     "prepare": "husky install && npm run build",
     "preversion": "npm test",
     "version": "cross-env-shell \"npm version $npm_package_version --no-git-tag-version --ws\" && git add **/package*.json",
@@ -97,8 +97,8 @@
     "@semantic-release/npm": "^11.0.2",
     "@semantic-release/release-notes-generator": "^12.1.0",
     "@types/jest": "^29.5.11",
-    "@typescript-eslint/eslint-plugin": "^6.16.0",
-    "@typescript-eslint/parser": "^6.16.0",
+    "@typescript-eslint/eslint-plugin": "^6.17.0",
+    "@typescript-eslint/parser": "^6.17.0",
     "chokidar-cli": "^3.0.0",
     "concurrently": "^8.2.2",
     "copyfiles": "^2.4.1",

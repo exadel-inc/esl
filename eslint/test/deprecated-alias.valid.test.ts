@@ -1,5 +1,5 @@
 import {RuleTester} from 'eslint';
-import {buildRule} from '../core/deprecated-alias';
+import {buildRule} from '../src/core/deprecated-alias';
 
 const VALID_CASES = [
   {
