@@ -13,7 +13,7 @@ node_modules
 
 # Build output
 target
-pages/dist
+site/dist
 
 # Generated surces
 /modules

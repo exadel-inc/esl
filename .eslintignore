@@ -8,3 +8,7 @@ node_modules
 # Generated surces
 /modules
 /polyfills
+
+# Submodule output
+/site/dist
+/eslint/dist

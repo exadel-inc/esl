@@ -11,7 +11,8 @@ node_modules
 # Build output
 *.tgz
 target
-pages/dist
+site/dist
+eslint/dist
 
 # Generated surces
 /modules
