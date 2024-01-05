@@ -59,7 +59,7 @@
   "scripts": {
     "start": "cd site && npm run start",
     "clean": "rimraf modules polyfills",
-    "build": "npm run clean && concurrently \"npm run build:less\" \"npm run build:ts\" \"npm run build:docs\"",
+    "build": "npm run clean && npm run build:less && npm run build:ts && npm run build:docs",
     "build:ts": "tsc --project tsconfig.build.json",
     "build:less": "npm run build:less:cpy && npm run build:less:css",
     "build:less:cpy": "copyfiles \"src/**/*.less\" \".\" --up 1 --all",
