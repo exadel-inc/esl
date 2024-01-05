@@ -393,12 +393,12 @@ export class ESLPopup extends ESLToggleable {
   protected _updatePosition(): void {
     if (!this.activator) return;
 
-    const triggerRect = this.activator.getBoundingClientRect();
-    const popupRect = this.getBoundingClientRect();
-    const arrowRect = this.$arrow ? this.$arrow.getBoundingClientRect() : new Rect();
-    const trigger = new Rect(triggerRect.left + window.scrollX, triggerRect.top + window.scrollY, triggerRect.width, triggerRect.height);
-    const innerMargin = this._offsetTrigger + arrowRect.width / 2;
+    const popupRect = Rect.from(this);
+    const arrowRect = this.$arrow ? Rect.from(this.$arrow) : new Rect();
+    const triggerRect = Rect.from(this.activator).shift(window.scrollX, window.scrollY);
     const {containerRect} = this;
+
+    const innerMargin = this._offsetTrigger + arrowRect.width / 2;
 
     const config = {
       position: this.position,
@@ -408,8 +408,8 @@ export class ESLPopup extends ESLToggleable {
       intersectionRatio: this._intersectionRatio,
       arrow: arrowRect,
       element: popupRect,
-      trigger,
-      inner: Rect.from(trigger).grow(innerMargin),
+      trigger: triggerRect,
+      inner: triggerRect.grow(innerMargin),
       outer: (typeof this._offsetContainer === 'number') ?
         containerRect.shrink(this._offsetContainer) :
         containerRect.shrink(...this._offsetContainer)

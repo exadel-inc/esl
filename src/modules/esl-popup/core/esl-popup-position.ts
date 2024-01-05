@@ -25,8 +25,8 @@ export interface PopupPositionConfig {
   marginArrow: number;
   offsetArrowRatio: number;
   intersectionRatio: IntersectionRatioRect;
-  arrow: DOMRect | Rect;
-  element: DOMRect;
+  arrow: Rect;
+  element: Rect;
   inner: Rect;
   outer: Rect;
   trigger: Rect;
