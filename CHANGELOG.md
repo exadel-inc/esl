@@ -1,3 +1,5 @@
+# [5.0.0-beta.7](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.6...v5.0.0-beta.7) (2024-01-05)
+
 # [5.0.0-beta.6](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.5...v5.0.0-beta.6) (2024-01-05)
 
 # [5.0.0-beta.5](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.4...v5.0.0-beta.5) (2024-01-05)
