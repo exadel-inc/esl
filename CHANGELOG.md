@@ -1,3 +1,21 @@
+# [5.0.0-beta.7](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.6...v5.0.0-beta.7) (2024-01-05)
+
+# [5.0.0-beta.6](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.5...v5.0.0-beta.6) (2024-01-05)
+
+# [5.0.0-beta.5](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.4...v5.0.0-beta.5) (2024-01-05)
+
+# [5.0.0-beta.4](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.3...v5.0.0-beta.4) (2024-01-05)
+
+
+### Bug Fixes
+
+* **esl-utils:** fix getting viewport sizes ([c17d2e3](https://github.com/exadel-inc/esl/commit/c17d2e3f9e5c9e3341857db65e43f6f83ddad240))
+
+
+### Features
+
+* **esl-toggleable:** introducing a base trigger class in purpose to simplify and make Trigger-Toggleable constructions more API strict in ESL ([4ea1565](https://github.com/exadel-inc/esl/commit/4ea1565d3fc29376f39920b392c9883065723382))
+
 # [5.0.0-beta.3](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.2...v5.0.0-beta.3) (2023-12-21)
 
 
