@@ -19,6 +19,9 @@ export * from './plugin/autoplay/esl-carousel.autoplay.mixin';
 // Link Utility
 export * from './plugin/relation/esl-carousel.relation.mixin';
 
+// Wheel support
+export * from './plugin/wheel/esl-carousel.wheel.mixin';
+
 // Renderer Default
 import './renderers/multi/esl-multi-carousel';
 import './renderers/slide/esl-slide-carousel';
