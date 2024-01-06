@@ -1,0 +1,22 @@
+{% extends './base.njk' %}
+
+{% block content %}
+  {% include 'navigation/header.njk' %}
+
+  <main class="esl-d-presentation">
+    <esl-carousel class="esl-d-presentation-carousel"
+                  count="1"
+                  esl-carousel-wheel
+                  esl-carousel-keyboard>
+      <div tabindex="-1" data-slides-area class="esl-d-presentation-carousel-inner">
+        {% for item in collections[slides] %}
+          <esl-carousel-slide {{ 'active' if loop.first}} class="esl-d-presentation-slide" title="{{ item.data.title }}">
+            <div class="container esl-d-presentation-content">
+              {{ item.content | safe or 'No content.' }}
+            </div>
+          </esl-carousel-slide>
+        {% endfor %}
+      </div>
+    </esl-carousel>
+  </main>
+{% endblock %}
