@@ -5,9 +5,8 @@ import type {ESLCarouselDirection} from '../../core/nav/esl-carousel.nav.types';
 @ESLCarouselRenderer.register
 export class ESLSlideCarouselRenderer extends ESLCarouselRenderer {
   public static override is = 'slide';
+  public static override classes: string[] = ['esl-slide-carousel'];
 
-  /** Slide width cached value */
-  protected slideWidth: number = 0;
   /** Active index */
   protected currentIndex: number = 0;
 
@@ -20,14 +19,7 @@ export class ESLSlideCarouselRenderer extends ESLCarouselRenderer {
     this.redraw();
   }
 
-  public override redraw(): void {
-    const {$slides, $slidesArea} = this.carousel;
-    if (!$slidesArea || !$slides.length) return;
-
-    const slideStyles = getComputedStyle($slides[this.currentIndex]);
-    this.slideWidth =  $slidesArea.offsetWidth - parseFloat(slideStyles.marginLeft) - parseFloat(slideStyles.marginRight);
-    $slides.forEach((slide) => slide.style.minWidth = this.slideWidth + 'px');
-  }
+  public override redraw(): void {}
 
   /**
    * Processes unbinding of defined view from the carousel {@link ESLCarousel}.
@@ -143,7 +135,7 @@ export class ESLSlideCarouselRenderer extends ESLCarouselRenderer {
   /** @returns marker if the carousel offset matches the loop borders */
   protected isNonLoopBorders(offset: number): boolean {
     if (this.loop) return true;
-    const shiftCount = Math.ceil(Math.abs(offset) / this.slideWidth);
+    const shiftCount = Math.ceil(Math.abs(offset) / this.$area.clientWidth);
     const {activeIndex} = this.carousel;
     const nextIndex = offset > 0 ?
       activeIndex - shiftCount :

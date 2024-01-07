@@ -1,4 +1,4 @@
-esl-carousel.multi-carousel {
+.esl-multi-carousel {
   @SLIDE_CAROUSEL_ANIMATION: 0.25s linear;
   &[animating] {
     [data-slides-area] {
@@ -11,5 +11,9 @@ esl-carousel.multi-carousel {
     &:not([visible]):not([active]) {
       visibility: hidden;
     }
+  }
+
+  &.esl-vertical-carousel [data-slides-area] {
+    flex-direction: column;
   }
 }

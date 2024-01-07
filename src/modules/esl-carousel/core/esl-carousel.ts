@@ -40,7 +40,7 @@ export class ESLCarousel extends ESLBaseElement {
   /** Media query pattern used for {@link ESLMediaRuleList} of `type`, `loop` and `count` (default: `all`) */
   @attr({name: 'media', defaultValue: 'all'}) public mediaCfg: string;
   /** Renderer type name (`multi` by default). Supports {@link ESLMediaRuleList} syntax */
-  @attr({name: 'type', defaultValue: 'multi'}) public typeCfg: string;
+  @attr({name: 'type', defaultValue: 'horizontal'}) public typeCfg: string;
   /** Marker to enable loop mode for carousel (`true` by default). Supports {@link ESLMediaRuleList} syntax */
   @attr({name: 'loop', defaultValue: 'false'}) public loopCfg: string;
   /** Count of slides to show on the screen (`1` by default). Supports {@link ESLMediaRuleList} syntax */
@@ -85,7 +85,7 @@ export class ESLCarousel extends ESLBaseElement {
   /** @returns currently active renderer */
   @memoize()
   public get renderer(): ESLCarouselRenderer {
-    const type = this.typeRule.value || 'multi';
+    const type = this.typeRule.value || 'horizontal';
     const renderer = ESLCarouselRenderer.registry.create(type, this);
     renderer && renderer.bind(); // TODO: small small - getter side effect
     return renderer;
