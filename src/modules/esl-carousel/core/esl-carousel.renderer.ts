@@ -4,9 +4,11 @@ import {ESLCarouselSlideEvent} from './esl-carousel.events';
 
 import type {ESLCarousel, ESLCarouselActionParams} from './esl-carousel';
 import type {ESLCarouselDirection} from './nav/esl-carousel.nav.types';
+import type {ESLCarouselSlide} from './esl-carousel.slide';
 
 export abstract class ESLCarouselRenderer {
   public static is: string;
+  public static classes: string[] = [];
 
   protected readonly carousel: ESLCarousel;
 
@@ -37,15 +39,20 @@ export abstract class ESLCarouselRenderer {
     return this.carousel.$slidesArea;
   }
 
+  /** @returns {@link ESLCarousel} `$slideArea` */
+  public get $slides(): ESLCarouselSlide[] {
+    return this.carousel.$slides || [];
+  }
+
   public bind(): void {
     const type = this.constructor as typeof ESLCarouselRenderer;
-    this.carousel.classList.add(`${type.is}-carousel`);
+    this.carousel.classList.add(...type.classes);
 
     this.onBind();
   }
   public unbind(): void {
     const type = this.constructor as typeof ESLCarouselRenderer;
-    this.carousel.classList.remove(`${type.is}-carousel`);
+    this.carousel.classList.remove(...type.classes);
 
     this.onUnbind();
   }

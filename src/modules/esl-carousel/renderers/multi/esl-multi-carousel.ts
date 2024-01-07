@@ -6,14 +6,19 @@ import {ESLCarouselSlideEvent} from '../../core/esl-carousel.events';
 
 import type {ESLCarouselDirection} from '../../core/nav/esl-carousel.nav.types';
 
-@ESLCarouselRenderer.register
-export class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
-  public static override is = 'multi';
+export abstract class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
+  public static override classes: string[] = ['esl-multi-carousel'];
 
-  /** Slides gap width */
-  protected gapWidth: number = 0;
-  /** Slide width cached value */
-  protected slideWidth: number = 0;
+  protected abstract clear(): void;
+  protected abstract resize(): void;
+
+  protected abstract getOffset(index: number): number;
+  protected abstract setTransformOffset(offset: number): void;
+
+  /** Slides gap size */
+  protected gap: number = 0;
+  /** Slide size cached value */
+  protected slideSize: number = 0;
   /** First index of active slides. */
   protected currentIndex: number = 0;
 
@@ -37,20 +42,20 @@ export class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
    * Clear animation.
    */
   public override onUnbind(): void {
-    this.carousel.$slides.forEach((el) => {
+    this.$slides.forEach((el) => {
       el.toggleAttribute('visible', false);
       el.style.removeProperty('order');
-      el.style.removeProperty('width');
     });
+    this.clear();
     this.$area.style.removeProperty('transform');
-    this.$area.style.transform = 'translate3d(0px, 0px, 0px)';
+    this.setTransformOffset(0);
     this.carousel.toggleAttribute('animating', false);
   }
 
   /** Pre-processing animation action. */
   public async onBeforeAnimate(): Promise<void> {
     if (this.carousel.hasAttribute('animating')) return Promise.reject('Already animating');
-    this.carousel.$slides.forEach((el) => el.toggleAttribute('visible', true));
+    this.$slides.forEach((el) => el.toggleAttribute('visible', true));
     return Promise.resolve();
   }
 
@@ -67,8 +72,8 @@ export class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
 
   /** Post-processing animation action. */
   public async onAfterAnimate(): Promise<void> {
-    this.$area.style.transform = 'translate3d(0px, 0px, 0px)';
-    this.carousel.$slides.forEach((el) => el.removeAttribute('visible'));
+    this.setTransformOffset(0);
+    this.$slides.forEach((el) => el.removeAttribute('visible'));
     return Promise.resolve();
   }
 
@@ -79,15 +84,15 @@ export class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
 
     // TODO: reflow
     const offsetIndex = direction === 'next' ? normalizeIndex(this.currentIndex + 1, this.size) : this.currentIndex;
-    const offset = this.carousel.$slides[offsetIndex].offsetLeft;
+    const offset = this.getOffset(offsetIndex);
     const shiftXBefore = direction === 'next' ? 0 : -offset;
-    this.$area.style.transform = `translate3d(${shiftXBefore}px, 0px, 0px)`;
+    this.setTransformOffset(shiftXBefore);
 
     +this.carousel.offsetLeft;
     this.carousel.toggleAttribute('animating', true);
 
     const shiftXAfter = direction === 'next' ? -offset : 0;
-    this.$area.style.transform = `translate3d(${shiftXAfter}px, 0px, 0px)`;
+    this.setTransformOffset(shiftXAfter);
 
     return promisifyTransition(this.$area, 'transform');
   }
@@ -95,7 +100,7 @@ export class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
   /** Post-processing the transition animation of one slide. */
   protected async onAfterStepAnimate(direction: ESLCarouselDirection): Promise<void> {
     // TODO: onAfterAnimate
-    this.$area.style.transform = 'translate3d(0px, 0px, 0px)';
+    this.setTransformOffset(0);
 
     this.currentIndex = direction === 'next' ? this.currentIndex + 1 : this.currentIndex - 1;
     this.currentIndex = normalizeIndex(this.currentIndex, this.size);
@@ -109,11 +114,11 @@ export class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
 
   /** Handles the slides transition. */
   public onMove(offset: number): void {
-    this.carousel.$slides.forEach((el) => el.toggleAttribute('visible', true));
+    this.$slides.forEach((el) => el.toggleAttribute('visible', true));
 
     const sign = offset < 0 ? 1 : -1;
-    const slideWidth = this.slideWidth + this.gapWidth;
-    const count = Math.floor(Math.abs(offset) / slideWidth);
+    const slideSize = this.slideSize + this.gap;
+    const count = Math.floor(Math.abs(offset) / slideSize);
     const currentIndex = normalizeIndex(this.carousel.activeIndex + count * sign, this.size);
 
     if (!this._checkNonLoop(offset)) return;
@@ -122,13 +127,13 @@ export class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
     this.reindex(orderIndex);
     this.currentIndex = currentIndex;
 
-    const stageOffset = offset < 0 ? offset + count * slideWidth : offset - (count + 1) * slideWidth;
-    this.$area.style.transform = `translateX(${stageOffset}px)`;
+    const stageOffset = offset < 0 ? offset + count * slideSize : offset - (count + 1) * slideSize;
+    this.setTransformOffset(stageOffset);
   }
 
   protected _checkNonLoop(offset: number): boolean {
     const sign = offset < 0 ? 1 : -1;
-    const count = Math.floor(Math.abs(offset) / (this.slideWidth + this.gapWidth));
+    const count = Math.floor(Math.abs(offset) / (this.slideSize + this.gap));
     const nextIndex = this.carousel.activeIndex + count * sign;
     const currentIndex = normalizeIndex(this.carousel.activeIndex + count * sign, this.size);
 
@@ -147,24 +152,24 @@ export class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
     const activeIndex = this.carousel.activeIndex;
     const achieveBorders = this._checkNonLoop(offset);
     if (achieveBorders) {
-      const slideWidth = this.slideWidth + this.gapWidth;
+      const slideSize = this.slideSize + this.gap;
       // calculate offset to move to
-      const shiftCount = Math.abs(offset) % slideWidth >= slideWidth / 4 ? 1 : 0;
-      const stageOffset = offset < 0 ? -shiftCount * slideWidth : (shiftCount - 1) * slideWidth - this.gapWidth;
+      const shiftCount = Math.abs(offset) % slideSize >= slideSize / 4 ? 1 : 0;
+      const stageOffset = offset < 0 ? -shiftCount * slideSize : (shiftCount - 1) * slideSize - this.gap;
 
       this.carousel.toggleAttribute('animating', true);
-      this.$area.style.transform = `translateX(${stageOffset}px)`;
+      this.setTransformOffset(stageOffset);
       await promisifyEvent(this.$area, 'transitionend').catch(resolvePromise);
     }
 
     // clear animation
     this.carousel.toggleAttribute('animating', false);
-    this.$area.style.transform = 'translateX(0)';
-    this.carousel.$slides.forEach((el) => el.toggleAttribute('visible', false));
+    this.setTransformOffset(0);
+    this.$slides.forEach((el) => el.toggleAttribute('visible', false));
 
     const sign = offset < 0 ? 1 : -1;
-    const count = Math.abs(offset) % this.slideWidth >= this.slideWidth / 4 ?
-      Math.ceil(Math.abs(offset) / this.slideWidth) : Math.floor(Math.abs(offset) / this.slideWidth);
+    const count = Math.abs(offset) % this.slideSize >= this.slideSize / 4 ?
+      Math.ceil(Math.abs(offset) / this.slideSize) : Math.floor(Math.abs(offset) / this.slideSize);
     const nextIndex = this.carousel.activeIndex + count * sign;
 
     if (this.loop) {
@@ -189,20 +194,9 @@ export class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
   }
 
   /** Sets order style property for slides starting at index */
-  protected resize(): void {
-    const {$slides, $slidesArea} = this.carousel;
-    if (!$slidesArea || !$slides.length) return;
-    const slidesAreaStyles = getComputedStyle($slidesArea);
-    const width = parseFloat(slidesAreaStyles.width);
-    this.gapWidth = parseFloat(slidesAreaStyles.columnGap);
-    this.slideWidth = (width - this.gapWidth * (this.count - 1)) / this.count;
-    $slides.forEach((slide) => slide.style.minWidth = this.slideWidth + 'px');
-  }
-
-  /** Sets order style property for slides starting at index */
   protected reindex(index: number = this.currentIndex): void {
     if (index < 0 || index > this.carousel.size) return;
-    const {size, $slides} = this.carousel;
+    const {size, $slides} = this;
     if (!$slides.length) return;
     for (let i = 0; i < size; ++i) {
       $slides[i].style.order = String((size + i - index) % size);
