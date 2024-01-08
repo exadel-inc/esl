@@ -54,42 +54,15 @@ However, you still have the option to manually manage the rules if needed.
 
 The ESLint plugin provides a separate rule for each deprecated utility within the ESL project, that's considered to be deprecated. Below is the list of them:
 
-- `@exadel/esl/deprecated-4/generate-uid` - Rule for deprecated `generateUId` alias for [`randUID`](https://github.com/exadel-inc/esl/blob/417eb781a99cd789b43e893a24540ea7ae831141/src/modules/esl-utils/misc/uid.ts#L20). Can be set to `warn` or `error`.
-- `@exadel/esl/deprecated-4/deep-compare` - Rule for deprecated `deepCompare` alias for [`isEqual`](https://github.com/exadel-inc/esl/blob/417eb781a99cd789b43e893a24540ea7ae831141/src/modules/esl-utils/misc/object/compare.ts#L4). Can be set to `warn` or `error`.
-- `@exadel/esl/deprecated-4/event-utils` - Rule for deprecated `EventUtils` alias for [`ESLEventUtils`](https://github.com/exadel-inc/esl/blob/417eb781a99cd789b43e893a24540ea7ae831141/src/modules/esl-event-listener/core/api.ts#L13). Can be set to `warn` or `error`.
-- `@exadel/esl/deprecated-4/traversing-query` - Rule for deprecated `TraversingQuery` alias for [`ESLTraversingQuery`](https://github.com/exadel-inc/esl/blob/417eb781a99cd789b43e893a24540ea7ae831141/src/modules/esl-traversing-query/core/esl-traversing-query.ts#L40). Can be set to `warn` or `error`.
-- `@exadel/esl/deprecated-4/toggleable-action-params` - Rule for deprecated `ToggleableActionParams` alias for [`ESLToggleableActionParams`](https://github.com/exadel-inc/esl/blob/417eb781a99cd789b43e893a24540ea7ae831141/src/modules/esl-toggleable/core/esl-toggleable.ts#L15). Can be set to `warn` or `error`.
+- `@exadel/esl/deprecated-4/alert-action-params` - Rule for deprecated `AlertActionParams` alias for `ESLAlertActionParams`.
+- `@exadel/esl/deprecated-4/generate-uid` - Rule for deprecated `generateUId` alias for `randUID`.
+- `@exadel/esl/deprecated-4/deep-compare` - Rule for deprecated `deepCompare` alias for `isEqual`.
+- `@exadel/esl/deprecated-4/event-utils` - Rule for deprecated `EventUtils` alias for `ESLEventUtils`.
+- `@exadel/esl/deprecated-4/panel-action-params` - Rule for deprecated `PanelActionParams` alias for `ESLPanelActionParams`.
+- `@exadel/esl/deprecated-4/popup-action-params` - Rule for deprecated `PopupActionParams` alias for `ESLPopupActionParams`.
+- `@exadel/esl/deprecated-4/traversing-query` - Rule for deprecated `TraversingQuery` alias for `ESLTraversingQuery`.
+- `@exadel/esl/deprecated-4/toggleable-action-params` - Rule for deprecated `ToggleableActionParams` alias for `ESLToggleableActionParams`.
+- `@exadel/esl/deprecated-4/tooltip-action-params` - Rule for deprecated `TooltipActionParams` alias for `ESLTooltipActionParams`.
+
 
 These rules can be configured manually inside the `rules` section of your ESLint configuration file.
-
-For example, previously mentioned `plugin:@exadel/esl/default-4` preset is equal to the following rules configuration:
-
-```json
-{
-  // ...
-  "rules": {
-    "@exadel/esl/deprecated-4/generate-uid" : "warn",
-    "@exadel/esl/deprecated-4/deep-compare" : "warn",
-    "@exadel/esl/deprecated-4/event-utils" : "warn",
-    "@exadel/esl/deprecated-4/traversing-query" : "warn",
-    "@exadel/esl/deprecated-4/toggleable-action-params" : "warn"
-  }
-  // ...
-}
-```
-
-And `plugin:@exadel/esl/default-5` is equal to:
-
-```json
-{
-  // ...
-  "rules": {
-    "@exadel/esl/deprecated-4/generate-uid" : "error",
-    "@exadel/esl/deprecated-4/deep-compare" : "error",
-    "@exadel/esl/deprecated-4/event-utils" : "error",
-    "@exadel/esl/deprecated-4/traversing-query" : "error",
-    "@exadel/esl/deprecated-4/toggleable-action-params" : "error"
-  }
-  // ...
-}
-```

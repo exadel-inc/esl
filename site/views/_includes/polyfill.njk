@@ -1,0 +1,7 @@
+<script>
+  (function () {
+    if (!window.scrollBy || !window.ResizeObserver) {
+      document.write('<script type="text/javascript" src="{{ '/bundles/polyfill.js' | url }}"><\/script>');
+    }
+  })();
+</script>

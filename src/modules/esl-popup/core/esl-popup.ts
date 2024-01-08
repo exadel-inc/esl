@@ -7,9 +7,9 @@ import {ESLToggleable} from '../../esl-toggleable/core';
 import {Rect} from '../../esl-utils/dom/rect';
 import {isRTL} from '../../esl-utils/dom/rtl';
 import {getListScrollParents} from '../../esl-utils/dom/scroll';
-import {getWindowRect} from '../../esl-utils/dom/window';
+import {getViewportRect} from '../../esl-utils/dom/window';
 import {parseBoolean, parseNumber, toBooleanAttribute} from '../../esl-utils/misc/format';
-import {copy} from '../../esl-utils/misc/object';
+import {copyDefinedKeys} from '../../esl-utils/misc/object';
 import {ESLIntersectionTarget, ESLIntersectionEvent} from '../../esl-event-listener/core/targets/intersection.target';
 import {calcPopupPosition, isMajorAxisHorizontal} from './esl-popup-position';
 import {ESLPopupPlaceholder} from './esl-popup-placeholder';
@@ -20,12 +20,7 @@ import type {PositionType, IntersectionRatioRect} from './esl-popup-position';
 const INTERSECTION_LIMIT_FOR_ADJACENT_AXIS = 0.7;
 const DEFAULT_OFFSET_ARROW = 50;
 
-const parsePercent = (value: string | number, nanValue: number = 0): number => {
-  const rawValue = parseNumber(value, nanValue);
-  return Math.max(0, Math.min(rawValue !== undefined ? rawValue : nanValue, 100));
-};
-
-export interface PopupActionParams extends ESLToggleableActionParams {
+export interface ESLPopupActionParams extends ESLToggleableActionParams {
   /** popup position relative to trigger */
   position?: PositionType;
   /** popup behavior if it does not fit in the window */
@@ -33,7 +28,7 @@ export interface PopupActionParams extends ESLToggleableActionParams {
   /** Disable hiding the popup depending on the visibility of the activator */
   disableActivatorObservation?: boolean;
   /** Margins on the edges of the arrow. */
-  marginArrow?: string;
+  marginArrow?: number;
   /** offset of the arrow as a percentage of the popup edge (0% - at the left edge, 100% - at the right edge, for RTL it is vice versa) */
   offsetArrow?: string;
   /** offset in pixels from trigger element */
@@ -50,14 +45,24 @@ export interface PopupActionParams extends ESLToggleableActionParams {
   container?: string;
   /** Container element that defines bounds of popups visibility (is not taken into account if the container attr is set on popup) */
   containerEl?: HTMLElement;
+  /** Autofocus on popup/activator */
+  autofocus?: boolean;
+
+  /** Extra class to add to popup on activation */
+  extraClass?: string;
+  /** Extra styles to add to popup on activation */
+  extraStyle?: string;
 }
+
+/** @deprecated alias, use {@link ESLPopupActionParams} instead, will be removed in v5.0.0 */
+export type PopupActionParams = ESLPopupActionParams;
 
 @ExportNs('Popup')
 export class ESLPopup extends ESLToggleable {
   public static override is = 'esl-popup';
 
   /** Default params to pass into the popup on show/hide actions */
-  public static override DEFAULT_PARAMS: PopupActionParams = {
+  public static override DEFAULT_PARAMS: ESLPopupActionParams = {
     offsetTrigger: 3,
     offsetContainer: 15,
     intersectionMargin: '0px'
@@ -83,7 +88,7 @@ export class ESLPopup extends ESLToggleable {
    * This is the value in pixels that will be between the edge of the popup and
    * the arrow at extreme positions of the arrow (when offsetArrow is set to 0 or 100)
    */
-  @attr({defaultValue: '5'}) public marginArrow: string;
+  @attr({defaultValue: 5, parser: parseInt}) public marginArrow: number;
 
   /**
    * Offset of the arrow as a percentage of the popup edge
@@ -96,8 +101,8 @@ export class ESLPopup extends ESLToggleable {
   @attr() public container: string;
 
   /** Default show/hide params for current ESLAlert instance */
-  @jsonAttr<PopupActionParams>()
-  public override defaultParams: PopupActionParams;
+  @jsonAttr<ESLPopupActionParams>()
+  public override defaultParams: ESLPopupActionParams;
 
   @attr({parser: parseBoolean, serializer: toBooleanAttribute, defaultValue: true})
   public override closeOnEsc: boolean;
@@ -105,6 +110,9 @@ export class ESLPopup extends ESLToggleable {
   public override closeOnOutsideAction: boolean;
 
   public $placeholder: ESLPopupPlaceholder | null;
+
+  protected _extraClass?: string;
+  protected _extraStyle?: string;
 
   protected _containerEl?: HTMLElement;
   protected _offsetTrigger: number;
@@ -127,10 +135,8 @@ export class ESLPopup extends ESLToggleable {
 
   /** Get the size and position of the container */
   protected get containerRect(): Rect {
-    const {$container} = this;
-    if (!$container) return getWindowRect();
-    const containerRect = $container.getBoundingClientRect();
-    return new Rect(containerRect.left, containerRect.top + window.pageYOffset, containerRect.width, containerRect.height);
+    if (!this.$container) return getViewportRect();
+    return Rect.from(this.$container).shift(window.scrollX, window.scrollY);
   }
 
   @ready
@@ -146,8 +152,10 @@ export class ESLPopup extends ESLToggleable {
 
   /** Get offsets arrow ratio */
   @memoize()
-  protected get _offsetArrowRatio(): number {
-    const ratio = parsePercent(this.offsetArrow, DEFAULT_OFFSET_ARROW) / 100;
+  protected get offsetArrowRatio(): number {
+    const offset = parseNumber(this.offsetArrow, DEFAULT_OFFSET_ARROW) || DEFAULT_OFFSET_ARROW;
+    const offsetNormalized = Math.max(0, Math.min(offset, 100));
+    const ratio = offsetNormalized / 100;
     return isRTL(this) ? 1 - ratio : ratio;
   }
 
@@ -175,14 +183,9 @@ export class ESLPopup extends ESLToggleable {
   }
 
   /** Runs additional actions on show popup request */
-  protected override onBeforeShow(params: ESLToggleableActionParams): boolean | void {
-    this.activator = params.activator;
-    if (this.open) {
-      this.afterOnHide();
-      this.afterOnShow();
-    }
-
-    if (!params.force && this.open) return false;
+  protected override shouldShow(params: ESLToggleableActionParams): boolean {
+    if (params.activator !== this.activator) return true;
+    return super.shouldShow(params);
   }
 
   /**
@@ -190,19 +193,27 @@ export class ESLPopup extends ESLToggleable {
    * Inner state and 'open' attribute are not affected and updated before `onShow` execution.
    * Adds CSS classes, update a11y and fire esl:refresh event by default.
    */
-  protected override onShow(params: PopupActionParams): void {
+  protected override onShow(params: ESLPopupActionParams): void {
+    const wasOpened = this.open;
+    if (wasOpened) {
+      this.beforeOnHide(params);
+      this.afterOnHide(params);
+    }
+
     super.onShow(params);
 
     // TODO: change flow to use merged params unless attribute state is used in CSS
-    Object.assign(this, copy({
+    Object.assign(this, copyDefinedKeys({
       position: params.position,
       behavior: params.behavior,
       container: params.container,
       marginArrow: params.marginArrow,
       offsetArrow: params.offsetArrow,
       disableActivatorObservation: params.disableActivatorObservation
-    }, (key, val): boolean => !!val));
+    }));
 
+    this._extraClass = params.extraClass;
+    this._extraStyle = params.extraStyle;
     this._containerEl = params.containerEl;
     this._offsetTrigger = params.offsetTrigger || 0;
     this._offsetContainer = params.offsetContainer || 0;
@@ -210,7 +221,12 @@ export class ESLPopup extends ESLToggleable {
 
     this.style.visibility = 'hidden'; // eliminates the blinking of the popup at the previous position
 
-    afterNextRender(() => this.afterOnShow()); // running as a separate task solves the problem with incorrect positioning on the first showing
+    // running as a separate task solves the problem with incorrect positioning on the first showing
+    if (wasOpened) this.afterOnShow(params);
+    else afterNextRender(() => this.afterOnShow(params));
+
+    // Autofocus logic
+    afterNextRender(() => params.autofocus && this.focus({preventScroll: true}));
   }
 
   /**
@@ -218,18 +234,22 @@ export class ESLPopup extends ESLToggleable {
    * Inner state and 'open' attribute are not affected and updated before `onShow` execution.
    * Removes CSS classes and updates a11y by default.
    */
-  protected override onHide(params: PopupActionParams): void {
-    this.beforeOnHide();
+  protected override onHide(params: ESLPopupActionParams): void {
+    this.beforeOnHide(params);
     super.onHide(params);
-    this.afterOnHide();
+    this.afterOnHide(params);
+    params.autofocus && this.activator?.focus({preventScroll: true});
   }
 
   /**
    * Actions to execute after showing of popup.
    */
-  protected afterOnShow(): void {
+  protected afterOnShow(params: ESLPopupActionParams): void {
     this._updatePosition();
+
     this.style.visibility = 'visible';
+    this.style.cssText += this._extraStyle || '';
+    this.$$cls(this._extraClass || '', true);
 
     this.$$on(this._onActivatorScroll);
     this.$$on(this._onActivatorIntersection);
@@ -242,20 +262,23 @@ export class ESLPopup extends ESLToggleable {
   /**
    * Actions to execute before hiding of popup.
    */
-  protected beforeOnHide(): void {}
+  protected beforeOnHide(params: ESLPopupActionParams): void {}
 
   /**
    * Actions to execute after hiding of popup.
    */
-  protected afterOnHide(): void {
+  protected afterOnHide(params: ESLPopupActionParams): void {
     this._stopUpdateLoop();
+
+    this.$$attr('style', '');
+    this.$$cls(this._extraClass || '', false);
 
     this.$$off(this._onActivatorScroll);
     this.$$off(this._onActivatorIntersection);
     this.$$off(this._onTransitionStart);
     this.$$off(this._onResize);
 
-    memoize.clear(this, ['_offsetArrowRatio', '$container']);
+    memoize.clear(this, ['offsetArrowRatio', '$container']);
   }
 
   protected get scrollTargets(): EventTarget[] {
@@ -370,23 +393,23 @@ export class ESLPopup extends ESLToggleable {
   protected _updatePosition(): void {
     if (!this.activator) return;
 
-    const triggerRect = this.activator.getBoundingClientRect();
-    const popupRect = this.getBoundingClientRect();
-    const arrowRect = this.$arrow ? this.$arrow.getBoundingClientRect() : new Rect();
-    const trigger = new Rect(triggerRect.left, triggerRect.top + window.pageYOffset, triggerRect.width, triggerRect.height);
-    const innerMargin = this._offsetTrigger + arrowRect.width / 2;
+    const popupRect = Rect.from(this);
+    const arrowRect = this.$arrow ? Rect.from(this.$arrow) : new Rect();
+    const triggerRect = Rect.from(this.activator).shift(window.scrollX, window.scrollY);
     const {containerRect} = this;
+
+    const innerMargin = this._offsetTrigger + arrowRect.width / 2;
 
     const config = {
       position: this.position,
       behavior: this.behavior,
-      marginArrow: +this.marginArrow,
-      offsetArrowRatio: this._offsetArrowRatio,
+      marginArrow: this.marginArrow,
+      offsetArrowRatio: this.offsetArrowRatio,
       intersectionRatio: this._intersectionRatio,
       arrow: arrowRect,
       element: popupRect,
-      trigger,
-      inner: Rect.from(trigger).grow(innerMargin),
+      trigger: triggerRect,
+      inner: triggerRect.grow(innerMargin),
       outer: (typeof this._offsetContainer === 'number') ?
         containerRect.shrink(this._offsetContainer) :
         containerRect.shrink(...this._offsetContainer)

@@ -3,14 +3,12 @@ import {ESLSharePopup} from '../core/esl-share-popup';
 import {ESLShare} from '../core/esl-share';
 import '../buttons/copy';
 
-// @ts-ignore
-import nestedElementsTemplate from './nested-elements-template.html';
-
 import type {ESLShareButton} from '../core/esl-share-button';
 
 
 describe('ESLSharePopup tests', () => {
   beforeAll(() => {
+    jest.useFakeTimers();
     IntersectionObserverMock.mock();
     ESLShare.register();
   });
@@ -30,12 +28,20 @@ describe('ESLSharePopup tests', () => {
 
     const showPopupAndGetButton = (): ESLShareButton => {
       $trigger.showTarget();
+      jest.advanceTimersByTime(500);
       return document.querySelector('esl-share-button') as ESLShareButton;
     };
 
     beforeAll(() => {
       document.title = 'Fallback title';
-      document.body.innerHTML = nestedElementsTemplate;
+      document.body.innerHTML = `
+        <div class="lvl-1">
+          <div class="lvl-2">
+            <div class="lvl-3">
+            </div>
+          </div>
+        </div>
+      `.trim();
       $lvl.push(document.body);
       ['.lvl-1', '.lvl-2', '.lvl-3'].forEach((selector) => $lvl.push(document.querySelector(selector) as HTMLElement));
       $trigger = ESLShare.create();
@@ -47,6 +53,7 @@ describe('ESLSharePopup tests', () => {
       $lvl.forEach(clearShareAttributes);
       clearShareAttributes($trigger);
       ESLSharePopup.sharedInstance.hide();
+      jest.advanceTimersByTime(500);
     });
 
     afterAll(() => {
