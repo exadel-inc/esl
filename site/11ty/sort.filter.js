@@ -25,6 +25,7 @@ module.exports = (config) => {
   const dateComparerStrict = (a, b) => resolveMetaDate(a) - resolveMetaDate(b);
 
   config.addFilter('sortByName', createSortFilter(nameComparer));
+  config.addFilter('sortByOrder', createSortFilter(orderComparer));
   config.addFilter('sortByNameAndOrder', createSortFilter(compose(orderComparer, nameComparer)));
   config.addFilter('sortByDate', createSortFilter(dateComparer));
   config.addFilter('sortByDateStrict', createSortFilter(dateComparerStrict));
