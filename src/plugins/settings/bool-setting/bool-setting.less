@@ -1,14 +1,19 @@
 .uip-bool-setting {
   label {
     display: inline-flex;
+    flex-wrap: wrap;
     align-items: center;
 
     input {
-      margin: 5px 6px 2px;
+      margin: 5px 0 2px 6px;
+    }
+
+    span {
+      margin-left: 6px;
     }
   }
 
-  .inconsistency-marker {
+  .inconsistency-msg {
     color: grey;
 
     &.disabled {

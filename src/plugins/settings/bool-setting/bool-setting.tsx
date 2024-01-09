@@ -38,23 +38,22 @@ export class UIPBoolSetting extends UIPSetting {
   @memoize()
   protected get $inner(): HTMLElement {
     return (
-      <>
-        <label>
-          {this.$field}
-          {this.label}
-        </label>
-      </>
+      <label>
+        {this.$field}
+        <span>{this.label}</span>
+      </label>
     ) as HTMLElement;
   }
 
   /** Container element for displaying inconsistency message */
   @memoize()
-  protected get $inconsistencyMarker(): HTMLElement {
-    return <div className="inconsistency-marker"/> as HTMLElement;
+  protected get $inconsistencyMsg(): HTMLElement {
+    return <span className="inconsistency-msg"/> as HTMLElement;
   }
 
   protected override connectedCallback(): void {
     super.connectedCallback();
+    this.innerHTML = '';
     this.appendChild(this.$inner);
   }
 
@@ -121,17 +120,17 @@ export class UIPBoolSetting extends UIPSetting {
     } else {
       this.$field.checked = value !== null;
     }
-    this.$inconsistencyMarker.remove();
+    this.$inconsistencyMsg.remove();
   }
 
   protected setInconsistency(msg = this.INCONSISTENT_VALUE_MSG): void {
     this.$field.checked = false;
-    this.$inconsistencyMarker.innerText = msg;
-    this.append(this.$inconsistencyMarker);
+    this.$inconsistencyMsg.innerText = msg;
+    this.$inner.append(this.$inconsistencyMsg);
   }
 
   set disabled(force: boolean) {
-    this.$inconsistencyMarker.classList.toggle('disabled', force);
+    this.$inconsistencyMsg.classList.toggle('disabled', force);
     this.$field.toggleAttribute('disabled', force);
   }
 }
