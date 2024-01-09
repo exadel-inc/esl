@@ -83,6 +83,7 @@ export abstract class UIPSetting extends UIPPlugin {
     if (!values.length) {
       this.disabled = true;
       this.setInconsistency(this.NO_TARGET_MSG);
+      this.classList.add('uip-inactive-setting');
     } else if (values.some((value) => value !== values[0])) {
       this.setInconsistency(this.MULTIPLE_VALUE_MSG);
     } else {
