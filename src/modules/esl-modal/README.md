@@ -10,7 +10,8 @@ Authors: *Anastasiya Lesun*, *Alexey Stsefanovich (ala'n)*.
 
 `ESLModal` is a special window with additional content that opens in overlay on top of the main content when `esl:show` DOM event is dispatched on the appropriate modal item. 
 By default, modal window before its opening is moved to the `document.body` (determined by `inject-to-body` attribute) and leaves an `ESLPopupPlaceholder` element in its place. 
-The process is followed by blocking all other workflows on the main page until `esl:hide` DOM event will be dispatched and modal will be closed (supports 'background' |'none' | 'native' | 'pseudo' locks using `scroll-lock-strategy` attribute).
+The process is followed by blocking all other workflows on the main page until `esl:hide` DOM event will be dispatched and modal will be closed 
+(supports 'background' |'none' | 'native' | 'pseudo' locks using `scroll-lock-strategy` attribute, background option is preferable).
 Modal opening is taken up by default by backdrop appearance and this functionality can be disabled with usage of `no-backdrop` attribute. 
 The component provides 2 possible types of smooth animation (defined by `animation-class`): fade with `esl-modal-fade` class (used by default) and zoom with `esl-modal-zoom`.
 Duration of animation can be changed by rewriting of `--esl-modal-animation-time` variable.

@@ -16,7 +16,7 @@ tags: [examples, beta]
   <div class="col-6 mb-2">
     <h4>Default example (zoom animation)</h4>
     <esl-trigger target="#modal-1" class="btn btn-sec-blue">Open modal</esl-trigger>
-    <esl-modal id="modal-1" class="esl-scrollable-content" animation-class="esl-modal-zoom" inject-to-body>
+    <esl-modal id="modal-1" class="esl-scrollable-content" animation-class="esl-modal-zoom">
       <div class="esl-modal-container">
         <esl-image mode="save-ratio" lazy
                    data-alt="Alt Text Test"
@@ -36,7 +36,7 @@ tags: [examples, beta]
   <div class="col-6 mb-2">
     <h4>Example with pseudo scroll lock strategy</h4>
     <esl-trigger target="#modal-2" class="btn btn-sec-blue">Open modal</esl-trigger>
-    <esl-modal id="modal-2" inject-to-body scroll-lock-strategy="pseudo">
+    <esl-modal id="modal-2" scroll-lock-strategy="pseudo">
       <div class="esl-modal-container">
         <div class="img-container img-container-16-9 img-container-loaded">
           <esl-media group="demo-media"
@@ -66,7 +66,7 @@ tags: [examples, beta]
   <div class="col-6 mb-2">
    <h4>Example with native scroll lock strategy and without backdrop</h4>
     <esl-trigger target="#modal-3" class="btn btn-sec-blue">Open modal</esl-trigger>
-    <esl-modal id="modal-3" inject-to-body scroll-lock-strategy="native" no-backdrop>
+    <esl-modal id="modal-3" scroll-lock-strategy="native" no-backdrop>
       <div class="esl-modal-container">
         <div class="esl-d-tabs">
             <esl-tabs class="esl-d-tab-control">
@@ -127,7 +127,7 @@ tags: [examples, beta]
   <div class="col-6 mb-2">
    <h4>Example without backdrop</h4>
     <esl-trigger target="#modal-4" class="btn btn-sec-blue">Open modal</esl-trigger>
-    <esl-modal id="modal-4" inject-to-body no-backdrop>
+    <esl-modal id="modal-4" no-backdrop>
       <div class="esl-modal-container">
         <p>{{ lorem.paragraphs(7) }}</p>
         <button type="button"
@@ -136,6 +136,34 @@ tags: [examples, beta]
                 title="close"
                 data-modal-close></button>
 
+      </div>
+    </esl-modal>
+  </div>
+
+  <div class="col-6 mb-2">
+    <h4>Example with nested modal</h4>
+    <esl-trigger target="#modal-nestd-sampl" class="btn btn-sec-blue">Open modal</esl-trigger>
+    <esl-modal id="modal-nestd-sampl">
+      <div class="esl-modal-container">
+        <p>{{ lorem.paragraphs(3) }}</p>
+        <esl-trigger target="#modal-nestd-sampl-inner" class="btn btn-sec-blue">Open modal</esl-trigger>
+        <p>{{ lorem.paragraphs(3) }}</p>
+        <esl-modal id="modal-nestd-sampl-inner">
+          <div class="esl-modal-container">
+            <p>{{ lorem.paragraphs(7) }}</p>
+            <button type="button"
+                    class="close-btn"
+                    aria-label="close"
+                    title="close"
+                    data-modal-close></button>
+          </div>
+        </esl-modal>
+
+        <button type="button"
+                class="close-btn"
+                aria-label="close"
+                title="close"
+                data-modal-close></button>
       </div>
     </esl-modal>
   </div>
@@ -149,7 +177,7 @@ tags: [examples, beta]
   <div class="col-6 mb-2">
     <h4>Default example</h4>
      <esl-trigger target="#modal-5" class="btn btn-sec-blue">Open modal</esl-trigger>
-     <esl-modal id="modal-5" class="esl-scrollable-content">
+     <esl-modal id="modal-5" class="esl-scrollable-content" inject-to-body="false">
        <div class="esl-modal-container">
          <esl-image mode="save-ratio" lazy
                     data-alt="Alt Text Test"
@@ -170,7 +198,7 @@ tags: [examples, beta]
  <div class="col-6 mb-2">
    <h4>Example with pseudo scroll lock strategy (zoom animation)</h4>
    <esl-trigger target="#modal-6" class="btn btn-sec-blue">Open modal</esl-trigger>
-   <esl-modal id="modal-6" animation-class="esl-modal-zoom" scroll-lock-strategy="pseudo">
+   <esl-modal id="modal-6" animation-class="esl-modal-zoom" inject-to-body="false" scroll-lock-strategy="pseudo">
      <div class="esl-modal-container">
        <div class="img-container img-container-16-9 img-container-loaded">
          <esl-media group="demo-media"
@@ -200,7 +228,7 @@ tags: [examples, beta]
  <div class="col-6 mb-2">
    <h4>Example with native scroll lock strategy and without backdrop</h4>
    <esl-trigger target="#modal-7" class="btn btn-sec-blue">Open modal</esl-trigger>
-   <esl-modal id="modal-7" scroll-lock-strategy="native" no-backdrop>
+   <esl-modal id="modal-7" scroll-lock-strategy="native" inject-to-body="false" no-backdrop>
      <div class="esl-modal-container">
        <div class="esl-d-tabs">
            <esl-tabs class="esl-d-tab-control">
@@ -262,7 +290,7 @@ tags: [examples, beta]
  <div class="col-6 mb-2">
  <h4>Example without backdrop</h4>
    <esl-trigger target="#modal-8" class="btn btn-sec-blue">Open modal</esl-trigger>
-   <esl-modal id="modal-8" no-backdrop>
+   <esl-modal id="modal-8" inject-to-body="false" no-backdrop>
      <div class="esl-modal-container">
        <p>{{ lorem.paragraphs(7) }}</p>
        <button type="button"
@@ -273,36 +301,6 @@ tags: [examples, beta]
      </div>
    </esl-modal>
  </div>
-</section>
-
-<section class="row">
-  <div class="col-6 mb-2">
-    <h4>Example with nested modal</h4>
-    <esl-trigger target="#modal-nestd-sampl" class="btn btn-sec-blue">Open modal</esl-trigger>
-    <esl-modal id="modal-nestd-sampl">
-      <div class="esl-modal-container">
-        <p>{{ lorem.paragraphs(3) }}</p>
-        <esl-trigger target="#modal-nestd-sampl-inner" class="btn btn-sec-blue">Open modal</esl-trigger>
-        <p>{{ lorem.paragraphs(3) }}</p>
-        <esl-modal id="modal-nestd-sampl-inner">
-          <div class="esl-modal-container">
-            <p>{{ lorem.paragraphs(7) }}</p>
-            <button type="button"
-                    class="close-btn"
-                    aria-label="close"
-                    title="close"
-                    data-modal-close></button>
-          </div>
-        </esl-modal>
-
-        <button type="button"
-                class="close-btn"
-                aria-label="close"
-                title="close"
-                data-modal-close></button>
-      </div>
-    </esl-modal>
-  </div>
 </section>
 
 <section>
