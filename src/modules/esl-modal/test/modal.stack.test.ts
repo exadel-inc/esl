@@ -57,7 +57,7 @@ describe('ESLModalStack work', () => {
       expect(ESLModalStack.store[1]).toBe(TEMPLATE.$modal2);
       expect(ESLModalStack.store.length).toBe(2);
     });
-    test('Closing and removing parent modal from store leads to hide all nested modals in case their are opened before target modal closes and its removing from store', () => {
+    test('Removing the parent modal leads to hiding all open nested modals', () => {
       ESLModalStack.instance.remove(TEMPLATE.$modal1 as ESLModal);
       jest.advanceTimersByTime(1);
       expect(ESLModalStack.store.length).toBe(0);

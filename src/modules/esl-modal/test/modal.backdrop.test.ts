@@ -10,7 +10,8 @@ describe('ESLModalBackdrop behavior', () => {
     ESLModal.register();
   });
 
-  const nextRender = async (): Promise<void> => {
+  const updateModal = async (): Promise<void> => {
+    jest.advanceTimersByTime(300);
     RAFMock.instance.triggerAllAnimationFrames();
     await Promise.resolve();
   };
@@ -28,12 +29,12 @@ describe('ESLModalBackdrop behavior', () => {
     });
     test('active while modal is open', async () => {
       $modal.show();
-      await nextRender();
+      await updateModal();
       expect(isActiveBackdrop()).toBe(true);
     });
-    test('not active when modal is closed', () => {
+    test('not active when modal is closed', async () => {
       $modal.hide();
-      jest.advanceTimersByTime(300);
+      await updateModal();
       expect(isActiveBackdrop()).toBe(false);
     });
   });
@@ -47,12 +48,12 @@ describe('ESLModalBackdrop behavior', () => {
     });
     test('not active when modal is open', async () => {
       $modal.show();
-      await nextRender();
+      await updateModal();
       expect(isActiveBackdrop()).toBe(false);
     });
-    test('not active when modal is closed', () => {
+    test('not active when modal is closed', async () => {
       $modal.hide();
-      jest.advanceTimersByTime(300);
+      await updateModal();
       expect(isActiveBackdrop()).toBe(false);
     });
   });
@@ -72,19 +73,17 @@ describe('ESLModalBackdrop behavior', () => {
 
     test('Backdrop is active after open nested modal', async () => {
       (NEW_TEMPLATE.$parentModal as ESLModal).show();
-      await nextRender();
-      jest.advanceTimersByTime(300);
+      await updateModal();
       expect(isActiveBackdrop()).toBe(false);
     });
     test('Backdrop is active after open nested modal', async () => {
       (NEW_TEMPLATE.$nestedModal as ESLModal).show();
-      await nextRender();
-      jest.advanceTimersByTime(300);
+      await updateModal();
       expect(isActiveBackdrop()).toBe(true);
     });
-    test('Backdrop is inactive after opening modal marked with no-backdrop attribute)', () => {
+    test('Backdrop is inactive after opening modal marked with no-backdrop attribute', async () => {
       (NEW_TEMPLATE.$parentModal as ESLModal).hide();
-      jest.advanceTimersByTime(1);
+      await updateModal();
       expect(isActiveBackdrop()).toBe(false);
     });
   });
@@ -95,12 +94,12 @@ describe('ESLModalBackdrop behavior', () => {
       document.body.append($modal);
       jest.advanceTimersByTime(300);
     });
-    test('Backdrop is inactive after click on backdrop', () => {
+    test('Backdrop is inactive after click on backdrop', async () => {
       $modal.show();
-      jest.advanceTimersByTime(1);
+      await updateModal();
       const backdrop = document.body.querySelector('esl-modal-backdrop');
       backdrop?.click();
-      jest.advanceTimersByTime(300);
+      await updateModal();
       expect(isActiveBackdrop()).toBe(false);
     });
   });
