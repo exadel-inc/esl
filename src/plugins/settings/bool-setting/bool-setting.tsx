@@ -38,10 +38,12 @@ export class UIPBoolSetting extends UIPSetting {
   @memoize()
   protected get $inner(): HTMLElement {
     return (
-      <label>
-        {this.$field}
-        {this.label}
-      </label>
+      <>
+        <label>
+          {this.$field}
+          {this.label}
+        </label>
+      </>
     ) as HTMLElement;
   }
 
@@ -53,7 +55,6 @@ export class UIPBoolSetting extends UIPSetting {
 
   protected override connectedCallback(): void {
     super.connectedCallback();
-    this.innerHTML = '';
     this.appendChild(this.$inner);
   }
 
@@ -81,15 +82,9 @@ export class UIPBoolSetting extends UIPSetting {
   }
 
   updateFrom(model: UIPStateModel): void {
-    this.disabled = false;
+    super.updateFrom(model);
     const attrValues = model.getAttribute(this.target, this.attribute);
-
-    if (!attrValues.length) {
-      this.disabled = true;
-      return this.setInconsistency(this.NO_TARGET_MSG);
-    }
-
-    this.mode === 'replace' ? this.updateReplace(attrValues) : this.updateAppend(attrValues);
+    if (attrValues.length) this.mode === 'replace' ? this.updateReplace(attrValues) : this.updateAppend(attrValues);
   }
 
   /** Updates setting's value for replace {@link mode} */
