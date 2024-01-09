@@ -28,9 +28,6 @@ export class ESLModal extends ESLToggleable {
 
   protected $placeholder: ESLModalPlaceholder | null;
 
-  /** Indicates that current modal is last open modal */
-  protected active: boolean = false;
-
   /**
    * Define option to lock scroll
    * @see ScrollLockOptions
@@ -38,11 +35,11 @@ export class ESLModal extends ESLToggleable {
   @attr({defaultValue: 'background'})
   public scrollLockStrategy: ScrollLockStrategies;
 
-  /** Do not activate backdrop */
-  @boolAttr() public noBackdrop: boolean;
+  /** Disallow backdrop activation */
+  @attr({parser: parseBoolean, serializer: toBooleanAttribute}) public noBackdrop: boolean;
 
   /** Indicates that `esl-modal` instances should be moved to body on activate */
-  @boolAttr() public injectToBody: boolean;
+  @attr({defaultValue: true, parser: parseBoolean, serializer: toBooleanAttribute}) public injectToBody: boolean;
 
   /** Marker of ongoing animation */
   @boolAttr({readonly: true}) public animating: boolean;
@@ -62,6 +59,11 @@ export class ESLModal extends ESLToggleable {
   /** Close the Toggleable on a click/tap outside (default disabled) */
   @attr({defaultValue: false, parser: parseBoolean, serializer: toBooleanAttribute})
   public override closeOnOutsideAction: boolean;
+
+  /** Indicates that current modal is last open modal */
+  public get active(): boolean {
+    return this.open && this === ESLModalStack.store.at(-1);
+  }
 
   public get $backdrop(): ESLModalBackdrop {
     return ESLModalBackdrop.instance;
@@ -87,6 +89,7 @@ export class ESLModal extends ESLToggleable {
   }
 
   public override async onShow(params: ModalActionParams): Promise<void> {
+    this.open = true;
     this.injectToBody && this.inject();
     this.$$attr('animating', true);
     await promisifyNextRender();
@@ -147,7 +150,6 @@ export class ESLModal extends ESLToggleable {
 
   @listen({event: 'stack:update', target: () => ESLModalStack.instance})
   protected onHandleStackUpdate(): void {
-    this.active = (this === ESLModalStack.store.at(-1));
     this.updateA11y();
   }
 
