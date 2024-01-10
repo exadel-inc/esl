@@ -16,15 +16,21 @@ export class ESLCarouselKeyboardMixin extends ESLCarouselPlugin {
   /** Prefix to request next/prev navigation */
   @attr({name: ESLCarouselKeyboardMixin.is}) public type: 'slide' | 'group';
 
+  /** @returns key code for next navigation */
+  protected get nextKey(): string {
+    return this.$host.config.vertical ? ARROW_DOWN : ARROW_RIGHT;
+  }
+  /** @returns key code for prev navigation */
+  protected get prevKey(): string {
+    return this.$host.config.vertical ? ARROW_UP : ARROW_LEFT;
+  }
+
   /** Handles `keydown` event */
   @listen('keydown')
   protected _onKeydown(event: KeyboardEvent): void {
-    if ([ARROW_LEFT, ARROW_UP].includes(event.key)) {
-      this.$host.goTo(`${this.type || 'slide'}:prev`);
-    }
-    if ([ARROW_RIGHT, ARROW_DOWN].includes(event.key)) {
-      this.$host.goTo(`${this.type || 'slide'}:next`);
-    }
+    if (!this.$host || this.$host.animating) return;
+    if (event.key === this.nextKey) this.$host.goTo(`${this.type || 'slide'}:next`);
+    if (event.key === this.prevKey) this.$host.goTo(`${this.type || 'slide'}:prev`);
   }
 }
 

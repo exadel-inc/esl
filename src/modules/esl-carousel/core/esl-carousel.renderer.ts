@@ -33,6 +33,10 @@ export abstract class ESLCarouselRenderer {
   public get loop(): boolean {
     return this.carousel.config.loop;
   }
+  /** @returns carousel if the carousel orientation hor */
+  public get vertical(): boolean {
+    return this.carousel.config.vertical;
+  }
 
   /** @returns {@link ESLCarousel} `$slideArea` */
   public get $area(): HTMLElement {
@@ -46,13 +50,15 @@ export abstract class ESLCarouselRenderer {
 
   public bind(): void {
     const type = this.constructor as typeof ESLCarouselRenderer;
-    this.carousel.classList.add(...type.classes);
+    const orientationCls = `esl-carousel-${this.vertical ? 'vertical' : 'horizontal'}`;
+    this.carousel.classList.add(orientationCls, ...type.classes);
 
     this.onBind();
   }
   public unbind(): void {
     const type = this.constructor as typeof ESLCarouselRenderer;
-    this.carousel.classList.remove(...type.classes);
+    const orientationCls = ['esl-carousel-vertical', 'esl-carousel-horizontal'];
+    this.carousel.classList.remove(...orientationCls, ...type.classes);
 
     this.onUnbind();
   }

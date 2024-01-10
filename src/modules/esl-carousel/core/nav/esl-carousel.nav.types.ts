@@ -24,6 +24,7 @@ export type ESLCarouselStaticState = {
   size: number;
   count: number;
   loop: boolean;
+  vertical: boolean;
 };
 
 /** Object describing carousel current configuration (contains active slide data) */
