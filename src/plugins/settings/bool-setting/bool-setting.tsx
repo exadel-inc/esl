@@ -32,15 +32,15 @@ export class UIPBoolSetting extends UIPSetting {
     const $field = document.createElement('input');
     $field.type = 'checkbox';
     $field.name = this.label;
+    $field.className = this.labelInputClass;
     return $field;
   }
 
   @memoize()
   protected get $inner(): HTMLElement {
     return (
-      <label>
-        {this.$field}
-        <span>{this.label}</span>
+      <label class={this.labelFieldClass}>
+        {this.$field}<span class={this.labelMsgClass}>{this.label}</span>
       </label>
     ) as HTMLElement;
   }
@@ -48,7 +48,7 @@ export class UIPBoolSetting extends UIPSetting {
   /** Container element for displaying inconsistency message */
   @memoize()
   protected get $inconsistencyMsg(): HTMLElement {
-    return <span className="inconsistency-msg"/> as HTMLElement;
+    return <span className={this.inconsistencyMsgClass}/> as HTMLElement;
   }
 
   protected override connectedCallback(): void {
