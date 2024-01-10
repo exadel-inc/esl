@@ -6,14 +6,10 @@ import {ESLCarouselSlideEvent} from '../../core/esl-carousel.events';
 
 import type {ESLCarouselDirection} from '../../core/nav/esl-carousel.nav.types';
 
-export abstract class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
+@ESLCarouselRenderer.register
+export class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
+  public static override is = 'default';
   public static override classes: string[] = ['esl-multi-carousel'];
-
-  protected abstract clear(): void;
-  protected abstract resize(): void;
-
-  protected abstract getOffset(index: number): number;
-  protected abstract setTransformOffset(offset: number): void;
 
   /** Slides gap size */
   protected gap: number = 0;
@@ -45,11 +41,23 @@ export abstract class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
     this.$slides.forEach((el) => {
       el.toggleAttribute('visible', false);
       el.style.removeProperty('order');
+      el.style.removeProperty('min-width');
+      el.style.removeProperty('min-height');
     });
-    this.clear();
     this.$area.style.removeProperty('transform');
     this.setTransformOffset(0);
     this.carousel.toggleAttribute('animating', false);
+  }
+
+  /** Get slide offset by the slide index */
+  protected getOffset(index: number): number {
+    const slide = this.$slides[index];
+    if (!slide) return 0;
+    return this.vertical ? slide.offsetTop : slide.offsetLeft;
+  }
+  /** Sets scene offset */
+  protected setTransformOffset(offset: number): void {
+    this.$area.style.transform = this.vertical ? `translate3d(0px, ${offset}px, 0px)` : `translate3d(${offset}px, 0px, 0px)`;
   }
 
   /** Pre-processing animation action. */
@@ -201,5 +209,19 @@ export abstract class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
     for (let i = 0; i < size; ++i) {
       $slides[i].style.order = String((size + i - index) % size);
     }
+  }
+
+  /** Sets min size for slides */
+  protected resize(): void {
+    if (!this.$area) return;
+    const areaStyles = getComputedStyle(this.$area);
+
+    this.gap = parseFloat(this.vertical ? areaStyles.rowGap : areaStyles.columnGap);
+    const areaSize = parseFloat(this.vertical ? areaStyles.height : areaStyles.width);
+    this.slideSize = (areaSize - this.gap * (this.count - 1)) / this.count;
+    this.$slides.forEach((slide) => {
+      const prop = this.vertical ? 'min-height' : 'min-width';
+      slide.style.setProperty(prop, this.slideSize + 'px');
+    });
   }
 }

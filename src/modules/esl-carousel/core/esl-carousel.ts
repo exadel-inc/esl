@@ -35,16 +35,18 @@ export interface ESLCarouselActionParams {
 @ExportNs('Carousel')
 export class ESLCarousel extends ESLBaseElement {
   public static override is = 'esl-carousel';
-  public static observedAttributes = ['media', 'type', 'loop', 'count'];
+  public static observedAttributes = ['media', 'type', 'loop', 'count', 'vertical'];
 
   /** Media query pattern used for {@link ESLMediaRuleList} of `type`, `loop` and `count` (default: `all`) */
   @attr({name: 'media', defaultValue: 'all'}) public mediaCfg: string;
   /** Renderer type name (`multi` by default). Supports {@link ESLMediaRuleList} syntax */
-  @attr({name: 'type', defaultValue: 'horizontal'}) public typeCfg: string;
+  @attr({name: 'type', defaultValue: 'default'}) public typeCfg: string;
   /** Marker to enable loop mode for carousel (`true` by default). Supports {@link ESLMediaRuleList} syntax */
   @attr({name: 'loop', defaultValue: 'false'}) public loopCfg: string;
   /** Count of slides to show on the screen (`1` by default). Supports {@link ESLMediaRuleList} syntax */
   @attr({name: 'count', defaultValue: '1'}) public countCfg: string;
+  /** Orientation of the carousel (`horizontal` by default). Supports {@link ESLMediaRuleList} syntax */
+  @attr({name: 'vertical', defaultValue: 'false'}) public verticalCfg: string;
 
   /** true if carousel is in process of animating */
   @boolAttr({readonly: true}) public animating: boolean;
@@ -65,13 +67,20 @@ export class ESLCarousel extends ESLBaseElement {
     return ESLMediaRuleList.parse(this.mediaCfg, this.countCfg, parseInt);
   }
 
+  /** Orientation of the carousel {@link ESLMediaRuleList} instance */
+  @memoize()
+  public get verticalRule(): ESLMediaRuleList<boolean> {
+    return ESLMediaRuleList.parse(this.mediaCfg, this.verticalCfg, parseBoolean);
+  }
+
   /** Carousel instance current {@link ESLCarouselStaticState} */
   @memoize()
   public get config(): ESLCarouselStaticState {
     return {
       size: this.$slides.length,
       count: this.countRule.value || 1,
-      loop: !!this.loopRule.value
+      loop: !!this.loopRule.value,
+      vertical: !!this.verticalRule.value
     };
   }
 
@@ -85,9 +94,9 @@ export class ESLCarousel extends ESLBaseElement {
   /** @returns currently active renderer */
   @memoize()
   public get renderer(): ESLCarouselRenderer {
-    const type = this.typeRule.value || 'horizontal';
+    const type = this.typeRule.value || 'default';
     const renderer = ESLCarouselRenderer.registry.create(type, this);
-    renderer && renderer.bind(); // TODO: small small - getter side effect
+    renderer && renderer.bind(); // TODO: small - getter side effect
     return renderer;
   }
 
@@ -117,18 +126,16 @@ export class ESLCarousel extends ESLBaseElement {
     const $oldSlides = this.$slides;
 
     memoize.clear(this, ['config', '$slides']);
-    if (oldType !== this.typeRule.value) {
-      this.renderer && this.renderer.unbind();
-      memoize.clear(this, 'renderer');
-    }
-    this.updateContainer();
-    this.renderer.redraw();
-
+    const config = this.config;
     const added = this.$slides.filter((slide) => !$oldSlides.includes(slide));
     const removed = $oldSlides.filter((slide) => !this.$slides.includes(slide));
-    const config = this.config;
 
-    if (!added.length && !removed.length && isEqual(config, oldConfig)) return;
+    if (!added.length && !removed.length && oldType === this.typeRule.value && isEqual(config, oldConfig)) return;
+
+    this.renderer && this.renderer.unbind();
+    memoize.clear(this, 'renderer');
+    this.updateContainer();
+    this.renderer.redraw();
     this.dispatchEvent(ESLCarouselChangeEvent.create({added, removed, config, oldConfig}));
   }
 
