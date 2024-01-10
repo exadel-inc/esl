@@ -27,6 +27,10 @@ export type ESLCarouselStaticState = {
   vertical: boolean;
 };
 
+export type ESLCarouselConfig = ESLCarouselStaticState & {
+  type: string;
+};
+
 /** Object describing carousel current configuration (contains active slide data) */
 export type ESLCarouselState = ESLCarouselStaticState & {
   activeIndex: number;

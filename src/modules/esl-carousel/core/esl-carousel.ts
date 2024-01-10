@@ -14,7 +14,7 @@ import {ESLCarouselSlide} from './esl-carousel.slide';
 import {ESLCarouselRenderer} from './esl-carousel.renderer';
 import {ESLCarouselChangeEvent} from './esl-carousel.events';
 
-import type {ESLCarouselState, ESLCarouselDirection, ESLCarouselSlideTarget, ESLCarouselStaticState} from './nav/esl-carousel.nav.types';
+import type {ESLCarouselState, ESLCarouselDirection, ESLCarouselSlideTarget, ESLCarouselStaticState, ESLCarouselConfig} from './nav/esl-carousel.nav.types';
 
 /** {@link ESLCarousel} action params interface */
 export interface ESLCarouselActionParams {
@@ -74,9 +74,14 @@ export class ESLCarousel extends ESLBaseElement {
   }
 
   /** Carousel instance current {@link ESLCarouselStaticState} */
-  @memoize()
   public get config(): ESLCarouselStaticState {
+    return this.renderer.config;
+  }
+
+  /** Carousel instance configured {@link ESLCarouselStaticState} */
+  public get configCurrent(): ESLCarouselConfig {
     return {
+      type: this.typeRule.value || 'default',
       size: this.$slides.length,
       count: this.countRule.value || 1,
       loop: !!this.loopRule.value,
@@ -86,7 +91,7 @@ export class ESLCarousel extends ESLBaseElement {
 
   /** Carousel instance current {@link ESLCarouselState} */
   public get state(): ESLCarouselState {
-    return Object.assign({}, this.config, {
+    return Object.assign({}, this.renderer.config, {
       activeIndex: this.activeIndex
     });
   }
@@ -94,10 +99,7 @@ export class ESLCarousel extends ESLBaseElement {
   /** @returns currently active renderer */
   @memoize()
   public get renderer(): ESLCarouselRenderer {
-    const type = this.typeRule.value || 'default';
-    const renderer = ESLCarouselRenderer.registry.create(type, this);
-    renderer && renderer.bind(); // TODO: small - getter side effect
-    return renderer;
+    return ESLCarouselRenderer.registry.create(this, this.configCurrent);
   }
 
   @ready
@@ -121,21 +123,20 @@ export class ESLCarousel extends ESLBaseElement {
   /** Updates the config and the state that is associated with */
   @decorate(microtask)
   public update(): void {
-    const oldType = this.renderer.type;
+    const config = this.configCurrent;
     const oldConfig = this.config;
     const $oldSlides = this.$slides;
 
-    memoize.clear(this, ['config', '$slides']);
-    const config = this.config;
+    memoize.clear(this, '$slides');
     const added = this.$slides.filter((slide) => !$oldSlides.includes(slide));
     const removed = $oldSlides.filter((slide) => !this.$slides.includes(slide));
 
-    if (!added.length && !removed.length && oldType === this.typeRule.value && isEqual(config, oldConfig)) return;
+    if (!added.length && !removed.length && this.renderer.supports(config)) return;
 
-    this.renderer && this.renderer.unbind();
+    this.renderer.unbind();
     memoize.clear(this, 'renderer');
+    this.renderer && this.renderer.bind();
     this.updateContainer();
-    this.renderer.redraw();
     this.dispatchEvent(ESLCarouselChangeEvent.create({added, removed, config, oldConfig}));
   }
 
@@ -143,7 +144,7 @@ export class ESLCarousel extends ESLBaseElement {
     if (!this.$container) return;
     this.$container.toggleAttribute('empty', this.size === 0);
     this.$container.toggleAttribute('single', this.size === 1);
-    this.$container.toggleAttribute('incomplete', this.size <= this.config.count);
+    this.$container.toggleAttribute('incomplete', this.size <= this.renderer.count);
   }
 
   /** Appends slide instance to the current carousel */
