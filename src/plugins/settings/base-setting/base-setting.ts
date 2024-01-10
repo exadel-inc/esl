@@ -24,6 +24,14 @@ export abstract class UIPSetting extends UIPPlugin {
   /** Invalid value message */
   @prop('Invalid setting value') public INVALID_VALUE_MSG: string;
 
+  /** Class for label field element */
+  @attr({defaultValue: 'label-field'}) public labelFieldClass: string;
+  /** Class for label input element */
+  @attr({defaultValue: 'label-input'}) public labelInputClass: string;
+  /** Class for label message element */
+  @attr({defaultValue: 'label-msg'}) public labelMsgClass: string;
+  /** Class for inconsistent message element */
+  @attr({defaultValue: 'inconsistency-msg'}) public inconsistencyMsgClass: string;
   /** {@link target} attribute which is changed by setting */
   @attr() public attribute: string;
 
@@ -83,6 +91,7 @@ export abstract class UIPSetting extends UIPPlugin {
     if (!values.length) {
       this.disabled = true;
       this.setInconsistency(this.NO_TARGET_MSG);
+      this.classList.add('uip-inactive-setting');
     } else if (values.some((value) => value !== values[0])) {
       this.setInconsistency(this.MULTIPLE_VALUE_MSG);
     } else {
