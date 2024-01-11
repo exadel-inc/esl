@@ -3,7 +3,7 @@ import {ESLBaseElement} from '../../esl-base-element/core';
 import {attr, boolAttr, ready, decorate, listen, memoize} from '../../esl-utils/decorators';
 
 import {microtask} from '../../esl-utils/async';
-import {parseBoolean, isEqual} from '../../esl-utils/misc';
+import {parseBoolean} from '../../esl-utils/misc';
 
 import {ESLMediaRuleList} from '../../esl-media-query/core';
 import {ESLResizeObserverTarget} from '../../esl-event-listener/core';
