@@ -1,19 +1,33 @@
 import {memoize} from '../../esl-utils/decorators';
+import {isEqual} from '../../esl-utils/misc/object';
 import {SyntheticEventTarget} from '../../esl-utils/dom';
 import {ESLCarouselSlideEvent} from './esl-carousel.events';
 
 import type {ESLCarousel, ESLCarouselActionParams} from './esl-carousel';
-import type {ESLCarouselDirection} from './nav/esl-carousel.nav.types';
+import type {ESLCarouselConfig, ESLCarouselDirection} from './nav/esl-carousel.nav.types';
 import type {ESLCarouselSlide} from './esl-carousel.slide';
 
-export abstract class ESLCarouselRenderer {
+export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
   public static is: string;
   public static classes: string[] = [];
 
-  protected readonly carousel: ESLCarousel;
+  protected readonly $carousel: ESLCarousel;
 
-  constructor(carousel: ESLCarousel) {
-    this.carousel = carousel; // TODO: unsafe while lifecycle is not clear
+  /** (visible) slide count per view */
+  public readonly count: number = 0;
+  /** cyclic carousel rendering mode */
+  public readonly loop: boolean = false;
+  /** vertical carousel rendering mode */
+  public readonly vertical: boolean = false;
+
+  /** marker if the renderer is applied to the carousel */
+  protected _bound: boolean = false;
+
+  constructor($carousel: ESLCarousel, options: ESLCarouselConfig) {
+    this.$carousel = $carousel;
+    this.count = options.count;
+    this.loop = options.loop;
+    this.vertical = options.vertical;
   }
 
   /** @returns renderer type name */
@@ -21,40 +35,46 @@ export abstract class ESLCarouselRenderer {
     return (this.constructor as typeof ESLCarouselRenderer).is;
   }
 
-  /** @returns count of carousel slides */
+  /** @returns slide total count or 0 if the renderer is not bound */
   public get size(): number {
-    return this.carousel.size;
+    return this._bound ? this.$slides.length : 0;
   }
-  /** @returns count of visible carousel slides */
-  public get count(): number {
-    return this.carousel.config.count;
-  }
-  /** @returns if the carousel is in a loop mode */
-  public get loop(): boolean {
-    return this.carousel.config.loop;
+
+  /** @returns renderer config */
+  public get config(): ESLCarouselConfig {
+    const {type, size, count, loop, vertical} = this;
+    return {type, size, count, loop, vertical};
   }
 
   /** @returns {@link ESLCarousel} `$slideArea` */
   public get $area(): HTMLElement {
-    return this.carousel.$slidesArea;
+    return this.$carousel.$slidesArea;
   }
 
   /** @returns {@link ESLCarousel} `$slideArea` */
   public get $slides(): ESLCarouselSlide[] {
-    return this.carousel.$slides || [];
+    return this.$carousel.$slides || [];
+  }
+
+  public supports(config: ESLCarouselConfig): boolean {
+    return isEqual(this.config, config);
   }
 
   public bind(): void {
+    this._bound = true;
     const type = this.constructor as typeof ESLCarouselRenderer;
-    this.carousel.classList.add(...type.classes);
+    const orientationCls = `esl-carousel-${this.vertical ? 'vertical' : 'horizontal'}`;
+    this.$carousel.classList.add(orientationCls, ...type.classes);
 
     this.onBind();
   }
   public unbind(): void {
     const type = this.constructor as typeof ESLCarouselRenderer;
-    this.carousel.classList.remove(...type.classes);
+    const orientationCls = ['esl-carousel-vertical', 'esl-carousel-horizontal'];
+    this.$carousel.classList.remove(...orientationCls, ...type.classes);
 
     this.onUnbind();
+    this._bound = false;
   }
 
   /** Processes binding of defined renderer to the carousel {@link ESLCarousel}. */
@@ -65,10 +85,10 @@ export abstract class ESLCarouselRenderer {
   public redraw(): void {}
   /** Process slide change process */
   public async navigate(index: number, direction: ESLCarouselDirection, {activator}: ESLCarouselActionParams): Promise<void> {
-    const {activeIndex, activeIndexes} = this.carousel;
+    const {activeIndex, activeIndexes} = this.$carousel;
 
     if (activeIndex === index && activeIndexes.length === this.count) return;
-    if (!this.carousel.dispatchEvent(ESLCarouselSlideEvent.create('BEFORE', {
+    if (!this.$carousel.dispatchEvent(ESLCarouselSlideEvent.create('BEFORE', {
       direction,
       activator,
       current: activeIndex,
@@ -85,7 +105,7 @@ export abstract class ESLCarouselRenderer {
 
     this.setActive(index);
 
-    this.carousel.dispatchEvent(ESLCarouselSlideEvent.create('AFTER', {
+    this.$carousel.dispatchEvent(ESLCarouselSlideEvent.create('AFTER', {
       direction,
       activator,
       current: index,
@@ -108,9 +128,9 @@ export abstract class ESLCarouselRenderer {
   /** Sets active slides from passed index **/
   public setActive(from: number): void {
     const count = Math.min(this.count, this.size);
-    this.carousel.$slides.forEach((el) => el.active = false);
+    this.$carousel.$slides.forEach((el) => el.active = false);
     for (let i = 0; i < count; i++) {
-      this.carousel.slideAt(from + i).active = true;
+      this.$carousel.slideAt(from + i).active = true;
     }
   }
 
@@ -124,15 +144,15 @@ export abstract class ESLCarouselRenderer {
   }
 }
 
-export type ESLCarouselRendererConstructor = (new(carousel: ESLCarousel) => ESLCarouselRenderer) & typeof ESLCarouselRenderer;
+export type ESLCarouselRendererConstructor = (new(carousel: ESLCarousel, config: ESLCarouselConfig) => ESLCarouselRenderer) & typeof ESLCarouselRenderer;
 
 export class ESLCarouselRendererRegistry extends SyntheticEventTarget {
   private store = new Map<string, ESLCarouselRendererConstructor>();
 
-  public create(name: string, carousel: ESLCarousel): ESLCarouselRenderer {
-    let Renderer = this.store.get(name);
+  public create(carousel: ESLCarousel, config: ESLCarouselConfig): ESLCarouselRenderer {
+    let Renderer = this.store.get(config.type);
     if (!Renderer) [Renderer] = this.store.values(); // take first Renderer in store
-    return new Renderer(carousel);
+    return new Renderer(carousel, config);
   }
 
   public register(view: ESLCarouselRendererConstructor): void {
