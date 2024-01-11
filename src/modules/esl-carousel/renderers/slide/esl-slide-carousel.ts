@@ -15,7 +15,7 @@ export class ESLSlideCarouselRenderer extends ESLCarouselRenderer {
    * Prepare to renderer animation.
    */
   public override onBind(): void {
-    this.currentIndex = this.carousel.activeIndex;
+    this.currentIndex = this.$carousel.activeIndex;
     this.redraw();
   }
 
@@ -27,9 +27,9 @@ export class ESLSlideCarouselRenderer extends ESLCarouselRenderer {
    */
   public override onUnbind(): void {
     // TODO: check transformation
-    this.carousel.toggleAttribute('animate', false);
-    this.carousel.toggleAttribute('direction', false);
-    this.carousel.$slides.forEach((slide) => {
+    this.$carousel.toggleAttribute('animate', false);
+    this.$carousel.toggleAttribute('direction', false);
+    this.$carousel.$slides.forEach((slide) => {
       slide.classList.remove('next');
       slide.classList.remove('prev');
     });
@@ -37,38 +37,38 @@ export class ESLSlideCarouselRenderer extends ESLCarouselRenderer {
 
   /** Pre-processing animation action. */
   public async onBeforeAnimate(index: number, direction: ESLCarouselDirection): Promise<void> {
-    if (this.carousel.hasAttribute('animate')) return Promise.reject();
+    if (this.$carousel.hasAttribute('animate')) return Promise.reject();
 
-    const {$activeSlide} = this.carousel;
+    const {$activeSlide} = this.$carousel;
     if (!$activeSlide) return; // TODO: error
 
     let $nextSlide = $activeSlide.$nextCyclic;
     let $prevSlide = $activeSlide.$prevCyclic;
 
-    if (direction === 'prev') $prevSlide = this.carousel.$slides[index];
-    if (direction === 'next') $nextSlide = this.carousel.$slides[index];
+    if (direction === 'prev') $prevSlide = this.$carousel.$slides[index];
+    if (direction === 'next') $nextSlide = this.$carousel.$slides[index];
 
     $prevSlide.classList.add('prev');
     $nextSlide.classList.add('next');
 
-    this.carousel.setAttribute('direction', direction);
+    this.$carousel.setAttribute('direction', direction);
     return promisifyNextRender();
   }
 
   /** Processes animation. */
   public async onAnimate(nextIndex: number, direction: ESLCarouselDirection): Promise<void> {
-    this.carousel.toggleAttribute('animate', true);
+    this.$carousel.toggleAttribute('animate', true);
 
     // TODO: !
-    return promisifyEvent(this.carousel.$slidesArea, 'transitionend')
+    return promisifyEvent(this.$carousel.$slidesArea, 'transitionend')
       .catch(resolvePromise);
   }
 
   /** Post-processing animation action. */
   public async onAfterAnimate(): Promise<void> {
-    this.carousel.toggleAttribute('animate', false);
-    this.carousel.toggleAttribute('direction', false);
-    this.carousel.$slides.forEach((slide) => {
+    this.$carousel.toggleAttribute('animate', false);
+    this.$carousel.toggleAttribute('direction', false);
+    this.$carousel.$slides.forEach((slide) => {
       slide.classList.remove('next');
       slide.classList.remove('prev');
     });
@@ -80,11 +80,11 @@ export class ESLSlideCarouselRenderer extends ESLCarouselRenderer {
   public onMove(offset: number): void {
     if (!this.isNonLoopBorders(offset)) return;
 
-    const width = parseFloat(getComputedStyle(this.carousel.$activeSlide as Element).width);
+    const width = parseFloat(getComputedStyle(this.$carousel.$activeSlide as Element).width);
 
     if (Math.abs(offset) > width) return;
 
-    const {$activeSlide} = this.carousel;
+    const {$activeSlide} = this.$carousel;
     if (!$activeSlide) return; // TODO: error
     const $nextSlide = $activeSlide.$nextCyclic;
     const $prevSlide = $activeSlide.$prevCyclic;
@@ -99,14 +99,14 @@ export class ESLSlideCarouselRenderer extends ESLCarouselRenderer {
   public async commit(offset: number): Promise<void> {
     if (!this.isNonLoopBorders(offset)) return;
 
-    const {$activeSlide} = this.carousel;
+    const {$activeSlide} = this.$carousel;
     if (!$activeSlide) return; // TODO: error
 
     const width = parseFloat(getComputedStyle($activeSlide as Element).width);
     const $nextSlide = $activeSlide.$nextCyclic;
     const $prevSlide = $activeSlide.$prevCyclic;
 
-    this.carousel.toggleAttribute('animate', true);
+    this.$carousel.toggleAttribute('animate', true);
 
     const sign = offset > 0 ? 1 : -1;
     const pos = $activeSlide.offsetLeft + sign * width;
@@ -120,13 +120,13 @@ export class ESLSlideCarouselRenderer extends ESLCarouselRenderer {
     $nextActiveSlide.active = true;
 
     this.$area.style.transform = 'translateX(0px)';
-    this.carousel.toggleAttribute('animate', false);
+    this.$carousel.toggleAttribute('animate', false);
     $prevSlide.classList.remove('prev');
     $nextSlide.classList.remove('next');
 
     // TODO: change info
     const direction = offset > 0 ? 'prev' : 'next';
-    this.carousel.$$fire('slide:changed', {
+    this.$carousel.$$fire('slide:changed', {
       detail: {direction},
       bubbles: false
     });
@@ -136,7 +136,7 @@ export class ESLSlideCarouselRenderer extends ESLCarouselRenderer {
   protected isNonLoopBorders(offset: number): boolean {
     if (this.loop) return true;
     const shiftCount = Math.ceil(Math.abs(offset) / this.$area.clientWidth);
-    const {activeIndex} = this.carousel;
+    const {activeIndex} = this.$carousel;
     const nextIndex = offset > 0 ?
       activeIndex - shiftCount :
       activeIndex + this.count + shiftCount - 1;
