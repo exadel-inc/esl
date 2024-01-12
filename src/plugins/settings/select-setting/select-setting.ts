@@ -97,14 +97,9 @@ export class UIPSelectSetting extends UIPSetting {
   }
 
   updateFrom(model: UIPStateModel): void {
-    this.reset();
+    super.updateFrom(model);
+    this.resetFieldValues();
     const attrValues = model.getAttribute(this.target, this.attribute);
-
-    if (!attrValues.length) {
-      this.disabled = true;
-      return this.setInconsistency(this.NO_TARGET_MSG);
-    }
-
     this.mode === 'replace' ? this.replaceFrom(attrValues) : this.appendFrom(attrValues);
   }
 
@@ -168,8 +163,7 @@ export class UIPSelectSetting extends UIPSetting {
   }
 
   /** Resets {@link UIPSelectSetting.prototype.$field} value */
-  protected reset(): void {
-    this.disabled = false;
+  protected resetFieldValues(): void {
     this.$field.options.forEach((opt) => opt.selected = false);
     this.$field.$select.remove(this.settingOptions.indexOf(UIPSelectSetting.inconsistentValue));
   }
