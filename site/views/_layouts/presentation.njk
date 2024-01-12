@@ -2,10 +2,12 @@
 {% set baseClass = 'presentation-layout' %}
 
 {% block content %}
-  {% include 'navigation/header.njk' %}
+  {% include 'presentation/header.njk' %}
+  {% include 'presentation/sidebar.njk' %}
 
   <main>
-    <esl-carousel class="presentation-carousel"
+    <esl-carousel id="presentation-carousel"
+                  class="presentation-carousel"
                   count="1"
                   vertical
                   esl-carousel-wheel
@@ -21,4 +23,6 @@
       </div>
     </esl-carousel>
   </main>
+
+  {% include 'presentation/footer.njk' %}
 {% endblock %}

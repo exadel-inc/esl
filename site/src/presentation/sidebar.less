@@ -1,0 +1,68 @@
+@import (reference) '../common/variables.less';
+
+.presentation-sidebar {
+  &,
+  &.esl-toggleable {
+    display: block;
+  }
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  z-index: 5;
+
+  padding-top: var(--_header-height);
+
+  color: @nav-dark-fg;
+  background: linear-gradient(
+    to right,
+    fadeout(@nav-dark-bg, 0%) 0%,
+    fadeout(@nav-dark-bg, 50%) 85%,
+    fadeout(@nav-dark-bg, 100%) 100%
+  );
+
+  overflow: hidden;
+  width: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    width 0.5s ease-in-out,
+    opacity 0.5s ease-in-out,
+    visibility 0.5s ease-in-out;
+
+  &.open {
+    opacity: 1;
+    visibility: visible;
+    transition:
+      width 0.5s ease-in-out,
+      opacity 0.5s ease-in-out,
+      visibility 0s ease-in-out;
+  }
+
+  &.open,
+  &-container {
+    width: 25rem;
+  }
+
+  &-menu {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 0 2rem 2rem;
+  }
+  &-item {
+    list-style-type: none;
+    margin: 0.5rem 0;
+  }
+  &-item &-link {
+    color: @nav-dark-fg;
+    text-decoration: none;
+    font-size: 1rem;
+    padding: 1rem;
+
+    &:hover {
+      color: @nav-dark-hover;
+      text-decoration: none;
+    }
+  }
+}
