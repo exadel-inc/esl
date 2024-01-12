@@ -19,6 +19,11 @@ export class UIPSnippetItem {
     return this.$element.innerHTML;
   }
 
+  /** @returns snippet's anchor id */
+  public get anchor(): string | undefined {
+    return this.$element.getAttribute('anchor') || undefined;
+  }
+
   /** @returns if the snippet is in active state */
   public get active(): boolean {
     return this.$element.hasAttribute('active');
