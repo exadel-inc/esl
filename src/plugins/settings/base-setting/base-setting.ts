@@ -92,16 +92,21 @@ export abstract class UIPSetting extends UIPPlugin {
       this.disabled = true;
       this.setInconsistency(this.NO_TARGET_MSG);
       this.classList.add('uip-inactive-setting');
-    } else if (values.some((value) => value !== values[0])) {
-      this.setInconsistency(this.MULTIPLE_VALUE_MSG);
     } else {
-      this.setValue(values[0]);
+      this.classList.remove('uip-inactive-setting');
+
+      if (values.some((value) => value !== values[0])) {
+        this.setInconsistency(this.MULTIPLE_VALUE_MSG);
+      } else {
+        this.setValue(values[0]);
+      }
     }
   }
 
   /** Updates {@link UIPSetting} values */
   @listen({event: 'uip:change', target: ($this: UIPSetting)=> $this.$root})
   protected _onRootStateChange(): void {
+    this.$$fire('uip:settings:state:change');
     this.updateFrom(this.model!);
   }
 
