@@ -20,8 +20,8 @@ export class UIPSnippetItem {
   }
 
   /** @returns snippet's anchor id */
-  public get anchor(): string | undefined {
-    return this.$element.getAttribute('anchor') || undefined;
+  public get anchor(): string | null {
+    return this.$element.getAttribute('anchor');
   }
 
   /** @returns if the snippet is in active state */
