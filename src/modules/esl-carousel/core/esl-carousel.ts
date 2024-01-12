@@ -131,7 +131,7 @@ export class ESLCarousel extends ESLBaseElement {
     const added = this.$slides.filter((slide) => !$oldSlides.includes(slide));
     const removed = $oldSlides.filter((slide) => !this.$slides.includes(slide));
 
-    if (!added.length && !removed.length && this.renderer.supports(config)) return;
+    if (!added.length && !removed.length && this.renderer.equal(config)) return;
 
     this.renderer.unbind();
     memoize.clear(this, 'renderer');
