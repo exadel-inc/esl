@@ -7,6 +7,7 @@ import {attr, boolAttr, decorate, listen, memoize} from '@exadel/esl/modules/esl
 import {UIPPluginPanel} from '../../core/panel/plugin-panel';
 import {ThemeToggleIcon} from '../theme/theme-toggle.icon';
 
+import {UIPSetting} from './base-setting/base-setting';
 import {SettingsIcon} from './settings.icon';
 
 /**
@@ -22,6 +23,9 @@ export class UIPSettings extends UIPPluginPanel {
 
   @boolAttr() public dirToggle: boolean;
   @boolAttr() public themeToggle: boolean;
+
+  /** @readonly internal settings items state marker */
+  @boolAttr({readonly: true}) public inactive: boolean;
 
   protected override get $icon(): JSX.Element {
     return <SettingsIcon/>;
@@ -58,6 +62,12 @@ export class UIPSettings extends UIPPluginPanel {
     );
   }
 
+  /** @returns Element[] - active internal settings items */
+  protected get $activeItems(): Element[] {
+    return Array.from(this.$inner.querySelectorAll(`.${UIPSetting.is}`)).filter(
+      ($el: Element) => !$el.classList.contains('uip-inactive-setting'));
+  }
+
   protected override connectedCallback(): void {
     super.connectedCallback();
     this.appendChild(this.$header);
@@ -92,5 +102,16 @@ export class UIPSettings extends UIPPluginPanel {
   @listen('uip:settings:invalidate')
   protected onInvalidate(): void {
     this.invalidate();
+  }
+
+  /** Handles internal settings items state change */
+  @listen('uip:settings:state:change')
+  @decorate(debounce, 100)
+  protected onSettingsStateChange(): void {
+    if (!this.$activeItems.length) {
+      this.setAttribute('inactive', '');
+    } else {
+      this.removeAttribute('inactive');
+    }
   }
 }
