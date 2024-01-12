@@ -1,0 +1,24 @@
+<esl-toggleable id="presentation-sidebar"
+                role="complementary"
+                class="presentation-sidebar"
+                close-on=".presentation-sidebar-link"
+                close-on-esc
+                close-on-outside-action>
+  <div class="presentation-sidebar-container esl-scrollable-content">
+    <ol class="presentation-sidebar-menu">
+      {% for item in collections[slides] | sortByOrder %}
+      <li class="presentation-sidebar-item">
+        <a href="javascript: void 0"
+           class="presentation-sidebar-link"
+           esl-carousel-nav="slide:{{ loop.index - 1 }}"
+           esl-carousel-nav-target="#presentation-carousel">
+          <span class="presentation-sidebar-item-index">{{ loop.index }}</span>
+          <span class="presentation-sidebar-item-title">{{ item.data.title }}</span>
+        </a>
+      </li>
+      {% endfor %}
+    </ol>
+  </div>
+  <esl-scrollbar target="::prev"
+                 class="presentation-sidebar-scroll"></esl-scrollbar>
+</esl-toggleable>

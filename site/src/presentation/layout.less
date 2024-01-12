@@ -1,6 +1,8 @@
 @import (reference) '../common/variables.less';
 
 .presentation-layout {
+  --_header-height: 60px;
+
   color: @landing-fg-color;
 
   @media screen {
@@ -8,7 +10,7 @@
       display: flex;
       justify-content: center;
       width: 100%;
-      height: calc(100svh - 85px);
+      height: calc(100svh - var(--_header-height));
 
       &:not(:has(.esl-carousel)) {
         overflow: auto;
@@ -17,8 +19,7 @@
   }
 
   background: @landing-bg-color url('/assets/common/stars.webp') repeat;
-  background-size: 50vw auto;
-  animation: slow-move-left 100s infinite linear;
+  animation: slow-move-bg 100s infinite linear;
 
   &::before {
     content: '';
@@ -38,7 +39,7 @@
     }
   }
 
-  @keyframes slow-move-left {
+  @keyframes slow-move-bg {
     0% {
       background-position: 100% 100%;
     }
@@ -64,3 +65,5 @@
 
 @import './carousel.less';
 @import './slide.less';
+@import './sidebar.less';
+@import './footer.less';
