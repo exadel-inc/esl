@@ -13,6 +13,7 @@ import type {ESLCarousel} from './esl-carousel';
 export class ESLCarouselSlide extends ESLBaseElement {
   /** @returns if the slide is active */
   @boolAttr() public active: boolean;
+  @boolAttr() public preActive: boolean;
 
   @memoize()
   public get $carousel(): ESLCarousel | undefined {
