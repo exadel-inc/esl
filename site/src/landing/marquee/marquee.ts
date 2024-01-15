@@ -2,9 +2,16 @@ import {ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
 import {bind, ready, memoize, attr} from '@exadel/esl/modules/esl-utils/decorators';
 import {range} from '@exadel/esl/modules/esl-utils/misc/array';
 
+import {ESLDMarqueeSecretLink} from './marquee.secret';
+
 export class ESLDemoMarquee extends ESLBaseElement {
   static override is = 'esl-d-marquee';
   static STARS_SEL = 'use';
+
+  public static override register(): void {
+    super.register();
+    ESLDMarqueeSecretLink.register();
+  }
 
   @attr({defaultValue: '4'}) public targetsNumber: string;
   @attr({defaultValue: '3000'}) public iterationTime: string;

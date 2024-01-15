@@ -15,9 +15,19 @@
   </div>
 
   <div class="marquee-illustration" role="presentation">
-    <div class="marquee-brand">
-      {% include 'static/assets/' + landing.marquee.logo %}
-    </div>
+    {% set easterSecret = landing.marquee.easterSecret %}
+    {% if easterSecret %}
+      <a esl-d-marquee-secret-link
+         href="{{ easterSecret.url | url }}" rel="nofollow"
+         class="marquee-brand"
+         aria-label="{{ easterSecret.text }}">
+        {% include 'static/assets/' + landing.marquee.logo %}
+      </a>
+    {% else %}
+      <div class="marquee-brand">
+        {% include 'static/assets/' + landing.marquee.logo %}
+      </div>
+    {% endif %}
   </div>
 
   <esl-animate>
