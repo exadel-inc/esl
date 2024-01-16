@@ -7,6 +7,7 @@ import {attr, boolAttr, decorate, listen, memoize} from '@exadel/esl/modules/esl
 import {UIPPluginPanel} from '../../core/panel/plugin-panel';
 import {ThemeToggleIcon} from '../theme/theme-toggle.icon';
 
+import {UIPSetting} from './base-setting/base-setting';
 import {SettingsIcon} from './settings.icon';
 
 /**
@@ -22,6 +23,9 @@ export class UIPSettings extends UIPPluginPanel {
 
   @boolAttr() public dirToggle: boolean;
   @boolAttr() public themeToggle: boolean;
+
+  /** @readonly internal settings items state marker */
+  @boolAttr({readonly: true}) public inactive: boolean;
 
   protected override get $icon(): JSX.Element {
     return <SettingsIcon/>;
@@ -51,11 +55,17 @@ export class UIPSettings extends UIPPluginPanel {
     return (<div class={type.is + '-container esl-scrollable-content'}/>) as HTMLElement;
   }
 
+  @memoize()
   /** @returns HTMLElement[] - all internal items marked as settings item */
   protected get $items(): HTMLElement[] {
     return [...this.childNodes].filter(
       ($el: ChildNode): $el is HTMLElement => isElement($el) && $el.hasAttribute('uip-settings-content')
     );
+  }
+
+  /** @returns Element[] - active internal settings items */
+  protected get $activeItems(): Element[] {
+    return this.$items.filter(($el: Element) => !$el.classList.contains('uip-inactive-setting'));
   }
 
   protected override connectedCallback(): void {
@@ -92,5 +102,12 @@ export class UIPSettings extends UIPPluginPanel {
   @listen('uip:settings:invalidate')
   protected onInvalidate(): void {
     this.invalidate();
+  }
+
+  /** Handles internal settings items state change */
+  @listen('uip:settings:state:change')
+  @decorate(debounce, 100)
+  protected onSettingsStateChange(): void {
+    this.$$attr('inactive', !this.$activeItems.length);
   }
 }
