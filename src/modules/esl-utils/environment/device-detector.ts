@@ -51,6 +51,9 @@ export const isTouchDevice = ((): boolean => {
 // Note: always true for IE
 export const hasHover = !matchMedia('(hover: none)').matches;
 
+/** true is user prefers minimize the amount of non-essential motion */
+export const isReducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 /**
  * Device detection utility
  * @readonly
