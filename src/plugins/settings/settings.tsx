@@ -55,6 +55,7 @@ export class UIPSettings extends UIPPluginPanel {
     return (<div class={type.is + '-container esl-scrollable-content'}/>) as HTMLElement;
   }
 
+  @memoize()
   /** @returns HTMLElement[] - all internal items marked as settings item */
   protected get $items(): HTMLElement[] {
     return [...this.childNodes].filter(
@@ -64,8 +65,7 @@ export class UIPSettings extends UIPPluginPanel {
 
   /** @returns Element[] - active internal settings items */
   protected get $activeItems(): Element[] {
-    return Array.from(this.$inner.querySelectorAll(`.${UIPSetting.is}`)).filter(
-      ($el: Element) => !$el.classList.contains('uip-inactive-setting'));
+    return this.$items.filter(($el: Element) => !$el.classList.contains('uip-inactive-setting'));
   }
 
   protected override connectedCallback(): void {
@@ -108,10 +108,6 @@ export class UIPSettings extends UIPPluginPanel {
   @listen('uip:settings:state:change')
   @decorate(debounce, 100)
   protected onSettingsStateChange(): void {
-    if (!this.$activeItems.length) {
-      this.setAttribute('inactive', '');
-    } else {
-      this.removeAttribute('inactive');
-    }
+    this.$$attr('inactive', !this.$activeItems.length);
   }
 }
