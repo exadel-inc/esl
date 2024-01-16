@@ -51,24 +51,10 @@ export const isTouchDevice = ((): boolean => {
 // Note: always true for IE
 export const hasHover = !matchMedia('(hover: none)').matches;
 
-type TouchEventsDefinition = {
-  START: string;
-  MOVE: string;
-  END: string;
-};
-/** @deprecated TODO: needs to be reworked or moved away from device detector */
-export const TOUCH_EVENTS = ((): TouchEventsDefinition => {
-  const isTouch = isTouchDevice;
-  return {
-    START: isTouch ? 'touchstart' : 'pointerdown',
-    MOVE: isTouch ? 'touchmove' : 'pointermove',
-    END: isTouch ? 'touchend' : 'pointerup'
-  };
-})();
-
 /**
  * Device detection utility
  * @readonly
+ * @deprecated use separate checks from the same module instead
  */
 @ExportNs('DeviceDetector')
 export abstract class DeviceDetector {
@@ -116,9 +102,6 @@ export abstract class DeviceDetector {
   // Hover check
   // Note: always true for IE
   public static hasHover = hasHover;
-
-  /** @deprecated TODO: needs to be reworked or moved away from device detector */
-  static TOUCH_EVENTS = TOUCH_EVENTS;
 }
 
 declare global {
