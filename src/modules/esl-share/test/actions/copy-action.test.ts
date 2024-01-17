@@ -23,7 +23,7 @@ describe('ESLShare: "copy" action public API', () => {
     document.body.appendChild($button);
     $button.setAttribute('share-title', 'Test button title');
     $button.setAttribute('share-url', '/test/button/url');
-    $button.setAttribute('additional', '{"alertText": "Copied to clipboard"}');
+    $button.setAttribute('additional', '{"copyAlertMsg": "Copied to clipboard"}');
   });
 
   afterEach(() => {
@@ -44,7 +44,7 @@ describe('ESLShare: "copy" action public API', () => {
     expect(mockClipboard.writeText).toBeCalledWith('http://localhost/test/button/url');
   });
 
-  test('should dispatch esl:alert:show with shareAdditional.alertText when share() calls', (done) => {
+  test('should dispatch esl:alert:show with shareAdditional.copyAlertMsg when share() calls', (done) => {
     document.body.addEventListener('esl:alert:show', (e) => {
       expect((e as CustomEvent).detail).toEqual({
         cls: 'esl-share-alert',

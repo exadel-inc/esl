@@ -11,6 +11,7 @@ describe('ESLShareConfig tests', () => {
   const SAMPLE_BUTTON_3: ESLShareButtonConfig = {name: 'sn3', title: 'SN3', action: 'media', link: 'https://sn3.com'};
   const SAMPLE_BUTTON_4: ESLShareButtonConfig = {name: 'sn4', title: 'SN4', action: 'media', link: 'https://sn4.com', icon: '<svg id="svg-4"></svg>'};
   const SAMPLE_BUTTON_5: ESLShareButtonConfig = {name: 'sn-5', title: 'SN5', action: 'media', link: 'https://sn5.com'};
+  const SAMPLE_BUTTON_6: ESLShareButtonConfig = {name: 'sn6', title: 'SN6', action: 'media', link: 'https://sn5.com', additional: {a: 1, b: 'test'}};
 
   describe('Getting ESLShareConfig state', () => {
     const instance: ESLShareConfig = new (ESLShareConfig as any)();
@@ -293,6 +294,12 @@ describe('ESLShareConfig tests', () => {
       for (const btn of instance.get(SAMPLE_GROUP_1.name)) {
         expect(btn.link).toBe('#');
       }
+    });
+
+    test('ESLShareConfig.update merge additional properties', () => {
+      instance.append(SAMPLE_BUTTON_6);
+      instance.update('sn6', {additional: {a: 2, c: 'test'}});
+      expect(instance.get('sn6')).toEqual([expect.objectContaining({...SAMPLE_BUTTON_6, additional: {a: 2, b: 'test', c: 'test'}})]);
     });
 
     test('ESLShareConfig.update does not introduce new items', () => {
