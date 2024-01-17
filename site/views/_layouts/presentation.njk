@@ -1,5 +1,5 @@
 {% extends './base.njk' %}
-{% set baseClass = 'presentation-layout' %}
+{% set baseClass = 'presentation-layout typo-large' %}
 
 {% block content %}
   {% include 'presentation/header.njk' %}
@@ -12,12 +12,13 @@
                   vertical
                   esl-carousel-wheel
                   esl-carousel-keyboard>
-      <div tabindex="-1" data-slides-area class="presentation-carousel-inner">
+      <div tabindex="-1" data-slides-area class="presentation-carousel-inner markdown-container">
         {% for item in collections[slides] | sortByOrder %}
           <esl-carousel-slide {{ 'active' if loop.first}} class="presentation-slide {{ item.data.cls }}" title="{{ item.data.title }}">
-            <div class="container presentation-content">
+            <div class="container presentation-content esl-scrollable-content">
               {{ item.content | safe or 'No content.' }}
             </div>
+            <esl-scrollbar target="::prev"></esl-scrollbar>
           </esl-carousel-slide>
         {% endfor %}
       </div>
