@@ -10,7 +10,7 @@ on:
         description: 'Run in dry-run mode (no actual release)'
 
 env:
-  node-version: 18.x
+  node-version: 20.x
 
 jobs:
   release:
@@ -19,7 +19,7 @@ jobs:
 
     steps:
       # Check permissions
-      - uses: tspascoal/get-user-teams-membership@v2
+      - uses: tspascoal/get-user-teams-membership@v3
         id: permissions
         with:
           username: ${{ github.actor }}
@@ -34,12 +34,12 @@ jobs:
         run: exit 1
 
       # Start workflow
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           persist-credentials: false
 
       - name: Use Node v${{ env.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           cache: 'npm'
           node-version: ${{ env.node-version }}
