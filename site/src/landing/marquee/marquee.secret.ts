@@ -1,6 +1,7 @@
 import {ESLMixinElement} from '@exadel/esl/modules/esl-mixin-element/core';
 import {listen, prop} from '@exadel/esl/modules/esl-utils/decorators';
 import {ENTER} from '@exadel/esl/modules/esl-utils/dom/keys';
+import {isReducedMotion} from '@exadel/esl/modules/esl-utils/environment';
 
 export class ESLDMarqueeSecretLink extends ESLMixinElement {
   static override is = 'esl-d-marquee-secret-link';
@@ -18,9 +19,8 @@ export class ESLDMarqueeSecretLink extends ESLMixinElement {
   }
 
   public activate(): void {
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    this.$$cls(this.cls, !reduce);
-    setTimeout(() => this.navigate(), reduce ? 0 : this.duration);
+    if (!isReducedMotion) this.$$cls(this.cls, true);
+    setTimeout(() => this.navigate(), isReducedMotion ? 0 : this.duration);
   }
 
   @listen('click')
