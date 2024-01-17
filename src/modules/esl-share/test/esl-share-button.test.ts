@@ -47,7 +47,7 @@ describe('ESLShareButton tests', () => {
     });
 
     test('shareAdditional getter available', () => {
-      expect($copyButton.shareAdditional).toEqual({alertText: 'Copied to clipboard'});
+      expect($copyButton.shareAdditional).toEqual({copyAlertMsg: 'Copied to clipboard'});
     });
     test('shareLink getter available', () => {
       expect($facebookButton.shareLink).toBe('//www.facebook.com/sharer.php?u={u}');

@@ -1,3 +1,11 @@
+# [5.0.0-beta.8](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.7...v5.0.0-beta.8) (2024-01-11)
+
+
+### Bug Fixes
+
+* **esl-share:** fix merging of `additional`(nested) params when `ESLShareConfig.update` method is called ([a1b1942](https://github.com/exadel-inc/esl/commit/a1b1942907e36597bac89166ba239be402b76df4))
+* **esl-share:** rename copy action `alertText` param to `copyAlertMsg` ([3ba61ac](https://github.com/exadel-inc/esl/commit/3ba61aca2d6bd44648ab70a7897dcbffcaaa9233))
+
 # [5.0.0-beta.7](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.6...v5.0.0-beta.7) (2024-01-05)
 
 # [5.0.0-beta.6](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.5...v5.0.0-beta.6) (2024-01-05)
