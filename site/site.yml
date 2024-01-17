@@ -8,7 +8,7 @@ github:
   srcUrl: "https://github.com/exadel-inc/esl/tree/main/"
 
 sitemapCollections:
-  - indexed
+  - index
   - introduction
   - core
   - components
