@@ -7,6 +7,14 @@ github:
   url: "https://github.com/exadel-inc/esl"
   srcUrl: "https://github.com/exadel-inc/esl/tree/main/"
 
+sitemapCollections:
+  - index
+  - introduction
+  - core
+  - components
+  - examples
+  - news
+
 rewriteRules:
   "CONTRIBUTING.md": "/introduction/contributing"
   "docs/INSTALLATION_GUIDE.md": "/introduction"

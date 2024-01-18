@@ -176,7 +176,7 @@ or for example the configuration of the copy button
     "name": "copy",
     "title": "Copy",
     "additional": {
-        "alertText": "Copied to clipboard"
+        "copyAlertMsg": "Copied to clipboard"
     }
 }
 ```
@@ -221,7 +221,7 @@ The group may include another group. So this configuration describing nested gro
 ### Share actions available for use
 
 ESLShare provides several actions available for you to use:
- - `copy` - action for copying to the clipboard. It can use additional params `alertText` (with message text) to show an alert to indicate a successful operation
+ - `copy` - action for copying to the clipboard. It can use additional params `copyAlertMsg` (with message text) to show an alert to indicate a successful operation
  - `external` - action for sharing via an external application. It is used to produce actions via external applications linked via schema in URL (for example mailto:, news: or tel: )
  - `media` - action for sharing via a link to share on a social media
  - `native` - action for sharing that invokes the native sharing mechanism of Web Share API
