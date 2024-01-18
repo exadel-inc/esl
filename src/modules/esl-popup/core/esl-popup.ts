@@ -100,7 +100,7 @@ export class ESLPopup extends ESLToggleable {
   /** Target to container element {@link ESLTraversingQuery} to define bounds of popups visibility (window by default) */
   @attr() public container: string;
 
-  /** Default show/hide params for current ESLAlert instance */
+  /** Default show/hide params for current ESLPopup instance */
   @jsonAttr<ESLPopupActionParams>()
   public override defaultParams: ESLPopupActionParams;
 
@@ -174,7 +174,7 @@ export class ESLPopup extends ESLToggleable {
   }
 
   /** Appends arrow to Popup */
-  public appendArrow(): HTMLElement {
+  protected appendArrow(): HTMLElement {
     const $arrow = document.createElement('span');
     $arrow.className = this.arrowClass;
     this.appendChild($arrow);
