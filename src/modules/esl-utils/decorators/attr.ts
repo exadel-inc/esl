@@ -17,7 +17,7 @@ type AttrDescriptor<T = string> = {
   readonly?: boolean;
   /** Use data-* attribute */
   dataAttr?: boolean;
-  /** Default property value. Used if no attribute is present on the element. Empty string by default. */
+  /** Default property value. Used if no attribute is present on the element. Empty string by default. Supports provider function. */
   defaultValue?: T | PropertyProvider<T>;
   /** Parser from attribute value */
   parser?: AttrParser<T>;
