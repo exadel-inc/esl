@@ -286,6 +286,7 @@ The principle of cascading is similar to CSS variables. The value is searched fr
  - `instance` - static getter that returns shared instance of `ESLShareConfig`
  - `append` - static method that appends single button or group to current configuration
  - `set` - static method that updates the configuration with promise resolved to `ESLShareConfigInit` or promise provider function
+ - `update` - static method that updates items configuration from the list with the specified partial config
  - `buttons` - getter that returns list of all available buttons
  - `groups` - getter that returns list of all available groups
  - `get` - selects the buttons for the given list and returns their configuration
@@ -293,6 +294,7 @@ The principle of cascading is similar to CSS variables. The value is searched fr
  - `getButton` - gets the button configuration for the given name
  - `getGroup` - gets the group of buttons configuration for the given name
  - `append` - updates the configuration with a `ESLShareButtonConfig`(s) or `ESLShareGroupConfig`(s)
+ - `update` - updates items configuration from the list with the specified partial config
 
 #### Events
 
@@ -323,7 +325,9 @@ The component is notified of any configuration changes. And, if during the check
 ### ESLSharePopup
 
 This element is based on [ESLPopup](../esl-popup/README.md) element and exists in a single instance. Its shared instance adds directly to the document's body when any of `ESLShare` requires showing this popup. It removes from the document's body on hide action. 
-`ESLSharePopup` renders buttons from the list on show action. If an `ESLSharePopup` element with the desired set of buttons already exists in the document body, the existing one will be reused. 
+`ESLSharePopup` renders buttons from the list on show action. If an `ESLSharePopup` element with the desired set of buttons already exists in the document body, the existing one will be reused.
+
+Since an `ESLSharePopup` element is created dynamically you may need to style some individual popups differently, for example on components with dark or light backgrounds. To do this, you can define an additional class or style that will be applied to the popup when it is opened. Simply define the `popup-params` attribute in the `ESLShare` element, in which you specify the desired `extraClass` or `extraStyle` property.
 
 #### Observing changes in configuration
 
@@ -335,7 +339,7 @@ The popup is notified of any configuration changes. In this case, the component 
 
 ### ESLShare
 
-A trigger element is based on [ESLTrigger](../esl-trigger/README.md) to activate the popup with share buttons, which will activate the popup when you hover over it. Also, one additional activity of the `ESLShare` is to forward the `share-title` and `share-url` attributes from the root `ESLShare` component (or its parents if not defined on the trigger element) to the popup. So it's possible for components with the same set of buttons but different URLs and titles to share to use the same popup.
+A trigger element is based on [ESLTrigger](../esl-trigger/README.md) to activate the popup with share buttons, which will activate the popup when you hover over it. Also, one additional activity of the `ESLShare` is to forward the `share-title` and `share-url` attributes from the root `ESLShare` component (or its parents if not defined on the trigger element) to the popup. So it's possible for components with the same set of buttons but different URLs and titles to share to use the same popup. Of course, every time you open a shared instance of a popup, you can give it a special class or style using the `popup-params` attribute with the `extraClass` or `extraStyle` properties. You can see the full list of available properties that you can pass through the `popup-params` attribute to the popup window in the documentation for the [ESLPopup](../esl-popup/README.md) component.
 
 #### Attributes / Properties
 
