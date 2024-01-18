@@ -97,18 +97,16 @@
   }
 
   &-utility {
+    flex: 1 0 0;
+    margin: 0 0 0 auto;
+    justify-self: flex-end;
+
     display: flex;
     align-items: center;
     justify-content: flex-end;
-
-    flex: 1 0 auto;
-    margin: 0 0 0 auto;
-    justify-self: flex-end;
   }
 
   &-logo {
-    flex: 1 0 auto;
-
     display: flex;
     align-items: center;
     white-space: nowrap;
@@ -124,6 +122,15 @@
       width: 48px;
       height: 48px;
     }
+  }
+
+  &-left {
+    flex: 1 0 0;
+  }
+
+  &-central {
+    flex: 0 0 auto;
+    margin-inline: auto;
   }
 
   @media @md-xl {

@@ -1,6 +1,12 @@
 <header class="header">
-  <nav class="header-container container">
-    <a class="header-link header-logo fill-light logo-animated animation-delay" href="{{ '/' | url }}"
+  <nav class="header-container container-fluid">
+    <div class="header-left">
+      <esl-trigger class="header-hamburger"
+                   target="#presentation-sidebar"
+                   a11y-label-active="Close navigation menu"
+                   a11y-label-inactive="Open navigation menu"></esl-trigger>
+    </div>
+    <a class="header-central header-link header-logo fill-light logo-animated animation-delay" href="{{ '/' | url }}"
        aria-label="Go to Exadel Smart Library landing page">
       {% include 'static/assets/logo.svg' %}
       <span class="header-short-name">esl</span>
@@ -27,12 +33,6 @@
           <esl-share-list list="group:site"></esl-share-list>
           <span class="esl-popup-arrow"></span>
         </esl-popup>
-      </li>
-      <li class="header-nav-item">
-        <esl-trigger class="header-hamburger"
-                     target="#presentation-sidebar"
-                     a11y-label-active="Close navigation menu"
-                     a11y-label-inactive="Open navigation menu"></esl-trigger>
       </li>
     </ul>
   </nav>
