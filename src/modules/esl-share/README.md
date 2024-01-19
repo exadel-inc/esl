@@ -327,7 +327,7 @@ The component is notified of any configuration changes. And, if during the check
 This element is based on [ESLPopup](../esl-popup/README.md) element and exists in a single instance. Its shared instance adds directly to the document's body when any of `ESLShare` requires showing this popup. It removes from the document's body on hide action. 
 `ESLSharePopup` renders buttons from the list on show action. If an `ESLSharePopup` element with the desired set of buttons already exists in the document body, the existing one will be reused.
 
-Since an `ESLSharePopup` element is created dynamically you may need to style some individual popups differently, for example on components with dark or light backgrounds. To do this, you can define an additional class or style that will be applied to the popup when it is opened. Simply define the `popup-params` attribute in the `ESLShare` element, in which you specify the desired `extraClass` or `extraStyle` property.
+Since an `ESLSharePopup` element is created dynamically you may need to style some individual popups differently, for example on components with dark or light backgrounds. To do this, you can define an additional class or style that will be applied to the popup when it is opened. Simply define the `popup-params` attribute in the `ESLShare` element, in which you specify the desired `extraClass` or `extraStyle` property. You can define any other popup parameters in the same way. For a complete list of available properties of popup parameters, see the [ESLPopup](../esl-popup/README.md) component documentation.
 
 #### Observing changes in configuration
 
@@ -339,12 +339,12 @@ The popup is notified of any configuration changes. In this case, the component 
 
 ### ESLShare
 
-A trigger element is based on [ESLTrigger](../esl-trigger/README.md) to activate the popup with share buttons, which will activate the popup when you hover over it. Also, one additional activity of the `ESLShare` is to forward the `share-title` and `share-url` attributes from the root `ESLShare` component (or its parents if not defined on the trigger element) to the popup. So it's possible for components with the same set of buttons but different URLs and titles to share to use the same popup. Of course, every time you open a shared instance of a popup, you can give it a special class or style using the `popup-params` attribute with the `extraClass` or `extraStyle` properties. You can see the full list of available properties that you can pass through the `popup-params` attribute to the popup window in the documentation for the [ESLPopup](../esl-popup/README.md) component.
+A trigger element is based on [ESLTrigger](../esl-trigger/README.md) to activate the popup with share buttons, which will activate the popup when you hover over it. Also, one additional activity of the `ESLShare` is to forward the `share-title` and `share-url` attributes from the root `ESLShare` component (or its parents if not defined on the trigger element) to the popup. So it's possible for components with the same set of buttons but different URLs and titles to share to use the same popup.
 
 #### Attributes / Properties
 
  - `list` - list of social networks or groups of them to display (all by default). The value - a string containing the names of the buttons or groups (specified with the prefix group:) separated by spaces. For example: `"facebook reddit group:default"`
- - `popup-params` - initial params to pass into popup on show action (Default: `{position: 'top', hideDelay: 220}`)
+ - `popup-params` - initial params to pass into popup on show action (Default: `{position: 'top', hideDelay: 220}`). For a complete list of available properties of popup parameters, see the [ESLPopup](../esl-popup/README.md) component documentation
  - `share-url` - URL to share (current page URL by default)
  - `share-title` - title to share (current document title by default)
  - `track-hover` - [MediaQuery](../esl-media-query/README.md) to define allowed to track hover event media. (Default: `all`)
