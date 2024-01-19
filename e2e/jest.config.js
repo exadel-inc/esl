@@ -4,10 +4,11 @@ require('events').EventEmitter.defaultMaxListeners  = 50;
 module.exports = {
   preset: "jest-puppeteer",
   transform: {
-    '^.+\\.tsx?$': 'ts-jest'
+    '^.+\\.tsx?$': 'ts-jest',
+    '^.+\\.feature$': './transformer/gherkin.js'
   },
   roots: ['./tests/'],
-  testRegex: '(.+)\\.(spec|test)\\.ts$',
-  moduleFileExtensions: ['ts', 'js'],
-  setupFilesAfterEnv: ['./setup/image.ts'],
+  testRegex: ['(.+)\\.(spec|test)\\.ts$', '(.+).feature'],
+  moduleFileExtensions: ['ts', 'js', 'feature'],
+  setupFilesAfterEnv: ['./setup/image.ts', './setup/scenarios.ts'],
 };
