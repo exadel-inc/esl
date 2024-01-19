@@ -1,12 +1,13 @@
 {
   "private": true,
-  "name": "@exadel/esl-integration-tests",
+  "name": "@exadel/esl-snapshot-tests",
   "version": "4.14.1",
-  "description": "Integration image snapshot tests for ESL",
+  "description": "Integration snapshot tests for ESL",
   "homepage": "https://esl-ui.com/",
   "license": "MIT",
   "scripts": {
-    "test": "jest"
+    "run": "jest",
+    "test": "eslint"
   },
   "dependencies": {
     "@types/jest-environment-puppeteer": "^5.0.6",

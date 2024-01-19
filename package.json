@@ -53,7 +53,7 @@
     "src/polyfills/**/*.ts"
   ],
   "workspaces": [
-    "integration",
+    "e2e",
     "site",
     "eslint"
   ],

@@ -1,7 +1,7 @@
 /** @type {import('jest-environment-puppeteer').JestPuppeteerConfig} */
 module.exports = {
   launch: {
-    headless: process.env.HEADLESS !== 'false' ? 'new' : false,
+    headless: 'new',
     product: 'chrome'
   },
   server: {
@@ -9,5 +9,5 @@ module.exports = {
     port: 3005,
     launchTimeout: 10000,
     debug: true
-  },
+  }
 };
