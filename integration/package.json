@@ -14,6 +14,6 @@
     "@types/puppeteer": "^7.0.4",
     "jest-image-snapshot": "^6.4.0",
     "jest-puppeteer": "^9.0.2",
-    "puppeteer": "^21.6.1"
+    "puppeteer": "^21.7.0"
   }
 }

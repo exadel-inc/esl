@@ -68,11 +68,13 @@ export class ESLSelectDropdown extends ESLPopup {
     $select && setTimeout(() => $select.focus({preventScroll: true}), 0);
   }
 
-  protected override afterOnHide(): void {
-    this._disposeTimeout = window.setTimeout(() => {
-      super.afterOnHide();
+  protected override afterOnHide(params: ESLToggleableActionParams): void {
+    const afterOnHideTask = (): void => {
+      super.afterOnHide(params);
       if (this.parentElement === document.body) document.body.removeChild(this);
-    }, 1000);
+    };
+    if (params.action === 'show') afterOnHideTask();
+    else this._disposeTimeout = window.setTimeout(afterOnHideTask, 1000);
   }
 
   @listen('keydown')
