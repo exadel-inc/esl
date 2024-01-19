@@ -14,7 +14,6 @@
   max-height: 100svh;
   z-index: 9;
 
-  pointer-events: none;
   padding-top: var(--_header-height);
 
   color: @nav-dark-fg;
@@ -42,7 +41,6 @@
   }
 
   &-container {
-    pointer-events: all;
     width: auto;
     flex: 1 1 auto;
     transition: transform 0.5s ease-in-out;
@@ -109,7 +107,6 @@
   }
 
   &-scroll.esl-scrollbar {
-    pointer-events: all;
     top: var(--_header-height);
     @media (hover: hover) {
       opacity: 0.4;
