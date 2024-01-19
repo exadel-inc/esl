@@ -14,46 +14,43 @@
   max-height: 100svh;
   z-index: 9;
 
+  pointer-events: none;
   padding-top: var(--_header-height);
 
   color: @nav-dark-fg;
   background: linear-gradient(
     to right,
-    fadeout(@nav-dark-bg, 0%) 0%,
-    fadeout(@nav-dark-bg, 50%) 85%,
+    fadeout(@nav-dark-bg, 20%) 0%,
     fadeout(@nav-dark-bg, 100%) 100%
   );
 
+  width: 100%;
+
   overflow: hidden;
-  width: 0;
-  opacity: 0;
-  visibility: hidden;
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0%);
+
   transition:
-    width 0.5s ease-in-out,
     opacity 0.5s ease-in-out,
-    visibility 0.5s ease-in-out;
+    transform 0.5s ease-in-out,
+    visibility 0s ease-in-out;
 
-  &.open {
-    opacity: 1;
-    visibility: visible;
+  &:not(.open) {
+    opacity: 0;
+    visibility: hidden;
+    @media @xs-sm {
+      transform: translateX(-100%);
+    }
     transition:
-      width 0.5s ease-in-out,
       opacity 0.5s ease-in-out,
-      visibility 0s ease-in-out;
-  }
-
-  &.open,
-  &-container {
-    width: 100%;
-    @media @sm {
-      width: 25rem;
-    }
-    @media @md-xl {
-      width: 30rem;
-    }
+      transform 0.5s ease-in-out,
+      visibility 0.5s ease-in-out;
   }
 
   &-container {
+    pointer-events: all;
+    width: auto;
     flex: 1 1 auto;
     padding: 2rem 0 2rem 20px;
     @media @sm {
@@ -65,10 +62,9 @@
     @media @lg-xl {
       padding-left: 60px;
     }
-  }
-
-  &-scroll.esl-scrollbar {
-    top: var(--_header-height);
+    @media @sm-xl {
+      width: 30rem;
+    }
   }
 
   &-menu {
@@ -96,22 +92,56 @@
     position: fixed;
     inset: 0;
     z-index: 8;
-    background: fadeout(@nav-dark-bg, 30%);
+    background: fadeout(@nav-dark-bg, 25%);
 
     visibility: hidden;
     opacity: 0;
     pointer-events: none;
     transition:
-      opacity 0.5s ease-in-out,
+      opacity 0.5s linear,
       visibility 0.5s linear;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('/assets/common/fog.webp') repeat;
+      background-size: 2500px 1500px;
+      transition: all linear 1s;
+    }
   }
 
   &.open + &-overlay {
     visibility: visible;
     opacity: 1;
-    pointer-events: auto;
     transition:
-      opacity 0.5s ease-in-out,
+      opacity 0.5s linear,
       visibility 0s linear;
+
+    &::before {
+      background-position: 10vw 0;
+    }
+  }
+
+  &-scroll.esl-scrollbar {
+    pointer-events: all;
+    top: var(--_header-height);
+    @media (hover: hover) {
+      opacity: 0.4;
+      transition: opacity 0.3s linear;
+    }
+
+    .scrollbar-track {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.4);
+    }
+
+    &[dragging] .scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.6);
+      box-shadow: inset 0 0 4px 0 rgba(255, 255, 255, 0.2);
+    }
   }
 }

@@ -27,7 +27,7 @@
     {% set tree = collections[slides] | sortByOrder | tree %}
     {{ menu(tree, '') }}
   </div>
-  <esl-scrollbar target="::prev"
+  <esl-scrollbar target="#presentation-sidebar .presentation-sidebar-container"
                  class="presentation-sidebar-scroll"></esl-scrollbar>
 </esl-toggleable>
 <div class="presentation-sidebar-overlay"></div>
