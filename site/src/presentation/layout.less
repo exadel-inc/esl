@@ -19,7 +19,8 @@
   }
 
   background: @landing-bg-color url('/assets/common/stars.webp') repeat;
-  animation: slow-move-bg 100s infinite linear;
+  background-size: 1000px 500px;
+  animation: p-slow-move-bg 90s infinite linear;
 
   &::before {
     content: '';
@@ -32,27 +33,18 @@
     opacity: 0.25;
     background: url('/assets/common/fog.webp') repeat;
     background-size: 100% 100%;
-    animation: slow-move-right 100s infinite linear;
 
     @media print {
       display: none;
     }
   }
 
-  @keyframes slow-move-bg {
+  @keyframes p-slow-move-bg {
     0% {
-      background-position: 100% 100%;
+      background-position: 1000px 500px;
     }
     100% {
       background-position: 0 0;
-    }
-  }
-  @keyframes slow-move-right {
-    0% {
-      background-position: 0 0;
-    }
-    100% {
-      background-position: 100% 0;
     }
   }
 
