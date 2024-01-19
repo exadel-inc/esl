@@ -5,6 +5,9 @@
   "description": "ESL Website source",
   "homepage": "https://esl-ui.com/",
   "license": "MIT",
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "scripts": {
     "start": "npm run clean && concurrently --kill-others \"npm run watch:lib\" \"npm run watch:ts\" \"npm run watch:less\" \"npm run watch:eleventy\"",
     "test": "",
