@@ -20,9 +20,10 @@
 <esl-toggleable id="presentation-sidebar"
                 role="complementary"
                 class="presentation-sidebar"
-                close-on=".presentation-sidebar-link"
+                close-on=".presentation-sidebar-link, .presentation-sidebar-overlay"
                 close-on-esc
                 close-on-outside-action>
+  <div class="presentation-sidebar-overlay"></div>
   <div class="presentation-sidebar-container esl-scrollable-content">
     {% set tree = collections[slides] | sortByOrder | tree %}
     {{ menu(tree, '') }}
@@ -30,5 +31,3 @@
   <esl-scrollbar target="#presentation-sidebar .presentation-sidebar-container"
                  class="presentation-sidebar-scroll"></esl-scrollbar>
 </esl-toggleable>
-<div class="presentation-sidebar-overlay"></div>
-

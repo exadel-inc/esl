@@ -25,33 +25,27 @@
   );
 
   width: 100%;
-
   overflow: hidden;
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(0%);
-
+  opacity: 0;
+  visibility: hidden;
   transition:
-    opacity 0.5s ease-in-out,
-    transform 0.5s ease-in-out,
-    visibility 0s ease-in-out;
+    opacity 0.5s linear,
+    visibility 0.5s linear;
 
-  &:not(.open) {
-    opacity: 0;
-    visibility: hidden;
-    @media @xs-sm {
-      transform: translateX(-100%);
-    }
+  &.open {
+    opacity: 1;
+    visibility: visible;
+
     transition:
-      opacity 0.5s ease-in-out,
-      transform 0.5s ease-in-out,
-      visibility 0.5s ease-in-out;
+      opacity 0.5s linear,
+      visibility 0s linear;
   }
 
   &-container {
     pointer-events: all;
     width: auto;
     flex: 1 1 auto;
+    transition: transform 0.5s ease-in-out;
     padding: 2rem 0 2rem 20px;
     @media @sm {
       padding-left: 30px;
@@ -65,6 +59,10 @@
     @media @sm-xl {
       width: 30rem;
     }
+  }
+
+  &:not(.open) &-container {
+    transform: translateX(-100%);
   }
 
   &-menu {
@@ -89,17 +87,10 @@
   }
 
   &-overlay {
-    position: fixed;
+    position: absolute;
     inset: 0;
-    z-index: 8;
+    z-index: -1;
     background: fadeout(@nav-dark-bg, 25%);
-
-    visibility: hidden;
-    opacity: 0;
-    pointer-events: none;
-    transition:
-      opacity 0.5s linear,
-      visibility 0.5s linear;
 
     &::before {
       content: '';
@@ -111,13 +102,7 @@
     }
   }
 
-  &.open + &-overlay {
-    visibility: visible;
-    opacity: 1;
-    transition:
-      opacity 0.5s linear,
-      visibility 0s linear;
-
+  &.open &-overlay {
     &::before {
       background-position: 10vw 0;
     }
