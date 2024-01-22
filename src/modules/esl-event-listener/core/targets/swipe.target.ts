@@ -10,7 +10,7 @@ import {ESLSwipeGestureEvent} from './swipe.target.event';
 
 import type {ElementScrollOffset} from '../../../esl-utils/dom//scroll';
 import type {CSSSize} from '../../../esl-utils/dom/units';
-import type {SwipeDirection, SwipeEventName, ESLSwipeGestureEventInfo} from './swipe.target.event';
+import type {SwipeDirection, ESLSwipeGestureEventInfo} from './swipe.target.event';
 import type {ESLDomElementTarget} from '../../../esl-utils/abstract/dom-target';
 
 export {ESLSwipeGestureEvent};
@@ -131,7 +131,7 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
       if (isOffsetChanged(this.startEventOffset.concat(offsets))) return;
     }
 
-    const event = ESLSwipeGestureEvent.fromConfig('swipe', this.target, eventDetails);
+    const event = ESLSwipeGestureEvent.fromConfig(this.target, eventDetails);
     // fire `swipe` event on the element that started the swipe
     if (!this.dispatchEvent(event)) endEvent.preventDefault();
   }
@@ -149,7 +149,7 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
    * Subscribes to pointerup and pointerdown event
    */
   public override addEventListener(callback: EventListener): void;
-  public override addEventListener(event: SwipeEventName, callback: EventListener): void;
+  public override addEventListener(event: typeof ESLSwipeGestureEvent.type, callback: EventListener): void;
   public override addEventListener(event: any, callback: EventListener = event): void {
     super.addEventListener(event, callback);
 
@@ -162,7 +162,7 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
    * Unsubscribes from the observed target {@link Element} changes
    */
   public override removeEventListener(callback: EventListener): void;
-  public override removeEventListener(event: SwipeEventName, callback: EventListener): void;
+  public override removeEventListener(event: typeof ESLSwipeGestureEvent.type, callback: EventListener): void;
   public override removeEventListener(event: any, callback: EventListener = event): void {
     super.removeEventListener(event, callback);
     if (!this.hasEventListener(event)) ESLEventListener.unsubscribe(this);

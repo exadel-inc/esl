@@ -1,11 +1,10 @@
+// TODO: make implemenatation immutable
+
 import {Rect} from '../../esl-utils/dom/rect';
 
-export type PositionType = 'top' | 'bottom' | 'left' | 'right';
+import type {Point} from '../../esl-utils/dom/point';
 
-export interface Point {
-  x: number;
-  y: number;
-}
+export type PositionType = 'top' | 'bottom' | 'left' | 'right';
 
 export interface PopupPositionValue {
   placedAt: PositionType;
@@ -26,8 +25,8 @@ export interface PopupPositionConfig {
   marginArrow: number;
   offsetArrowRatio: number;
   intersectionRatio: IntersectionRatioRect;
-  arrow: DOMRect | Rect;
-  element: DOMRect;
+  arrow: Rect;
+  element: Rect;
   inner: Rect;
   outer: Rect;
   trigger: Rect;
@@ -97,7 +96,7 @@ function getOppositePosition(position: PositionType): PositionType {
  * @param rect - popup position rect
  * @param arrow - arrow position value
  * */
-function fitOnMajorAxis(cfg: PopupPositionConfig, rect: Rect, arrow: Point): PositionType {
+function fitOnMajorAxis(cfg: PopupPositionConfig, rect: Rect): PositionType {
   if (cfg.behavior !== 'fit' && cfg.behavior !== 'fit-on-major') return cfg.position;
 
   let isMirrored = false;
@@ -232,7 +231,7 @@ export function calcPopupPosition(cfg: PopupPositionConfig): PopupPositionValue 
     position: cfg.position
   };
 
-  const placedAt = fitOnMajorAxis(cfg, popup, arrow);
+  const placedAt = fitOnMajorAxis(cfg, popup);
   fitOnMinorAxis(cfg, popup, arrow);
 
   return {

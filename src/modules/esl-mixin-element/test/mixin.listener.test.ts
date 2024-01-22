@@ -1,4 +1,5 @@
-import {ESLMixinElement, listen} from '../core';
+import {ESLMixinElement} from '../core';
+import {listen} from '../../esl-utils/decorators/listen';
 import {ESLEventUtils} from '../../esl-utils/dom/events';
 
 describe('ESLMixinElement: listeners', () => {

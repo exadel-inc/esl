@@ -1,20 +1,9 @@
-import generateUID from './rules/4/deprecated.generate-uid';
-import deepCompare from './rules/4/deprecated.deep-compare';
-import eventUtils from './rules/4/deprecated.event-utils';
-import traversingQuery from './rules/4/deprecated.traversing-query';
-import toggleableParams from './rules/4/deprecated.toggleable-action-params';
+import DEPRECATED_4_RULES from './rules/4/all.rules';
+import DEPRECATED_5_RULES from './rules/5/all.rules';
 
 import type {Rule} from 'eslint';
 
 export type logLevel = 'warn' | 'error';
-
-const DEPRECATED_4_RULES = {
-  'deprecated-4/generate-uid': generateUID,
-  'deprecated-4/deep-compare': deepCompare,
-  'deprecated-4/event-utils': eventUtils,
-  'deprecated-4/traversing-query': traversingQuery,
-  'deprecated-4/toggleable-action-params': toggleableParams
-};
 
 const buildDefault = (definition: Record<string, Rule.RuleModule>, level: logLevel): Record<string, logLevel> => {
   const config: Record<string, logLevel> = {};
@@ -25,7 +14,7 @@ const buildDefault = (definition: Record<string, Rule.RuleModule>, level: logLev
   return config;
 };
 
-export const rules = Object.assign({}, DEPRECATED_4_RULES);
+export const rules = Object.assign({}, DEPRECATED_4_RULES, DEPRECATED_5_RULES);
 
 export const configs = {
   'default-4': {
@@ -35,7 +24,12 @@ export const configs = {
   },
   'default-5': {
     rules: {
-      ...buildDefault(DEPRECATED_4_RULES, 'error')
+      ...buildDefault(DEPRECATED_5_RULES, 'warn')
+    }
+  },
+  'default': {
+    rules: {
+      ...buildDefault(DEPRECATED_5_RULES, 'warn')
     }
   }
 };

@@ -308,12 +308,6 @@ ESLEventUtils.descriptors(host?: any): ESLListenerDescriptorFn[]
 
 - `host` - object to get auto-collectable descriptors from;
 
-<a name="-esleventutilsdescriptors"></a>
-
-### ⚡ `ESLEventUtils.descriptors`
-
-Deprecated alias for `ESLEventUtils.getAutoDescriptors`
-
 <a name="-esleventutilsinitdescriptor"></a>
 
 ### ⚡ `ESLEventUtils.initDescriptor`
@@ -630,6 +624,43 @@ ESLEventUtils.subscribe(host, {
     timeout: 1000
   })
 }, onSwipe);
+```
+
+<a name="-esleventutilwheel"></a>
+
+### ⚡ `ESLWheelTarget.for` <i class="badge badge-sup badge-success">new</i>
+
+`ESLWheelTarget.for` is a simple way to listen for 'inert' (long wheel) scrolls events on any element.
+This utility detects `wheel` events, and based on the total amount (distance) of `wheel` events and time (`timeout`) between the first and the last events, it triggers `longwheel` event on the target element.
+
+```typescript
+ESLWheelTarget.for(el: Element, settings?: ESLWheelTargetSetting): ESLWheelTarget;
+```
+
+**Parameters**:
+
+- `el` - `Element` to listen for long wheel events
+- `settings` - optional settings (`ESLWheelTargetSetting`)
+
+The `ESLWheelTargetSetting` configuration includes these optional attributes:
+- `distance` - the minimum distance to accept as a long scroll in pixels (400 by default)
+- `timeout` - the maximum duration of the wheel events to consider it inertial in milliseconds (100 by default)
+
+Usage example:
+
+```typescript
+ESLEventUtils.subscribe(host, {
+  event: 'longwheel',
+  target: ESLWheelTarget.for(el)
+}, onWheel);
+// or
+ESLEventUtils.subscribe(host, {
+  event: 'longwheel',
+  target: (host) => ESLWheelTarget.for(host.el, {
+    threshold: 30,
+    timeout: 1000
+  })
+}, onWheel);
 ```
 
 <a name="-esleventutilintersection"></a>

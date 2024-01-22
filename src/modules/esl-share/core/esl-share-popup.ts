@@ -1,11 +1,10 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLTooltip} from '../../esl-tooltip/core/esl-tooltip';
-import {bind, listen, memoize} from '../../esl-utils/decorators';
+import {bind, listen, memoize, prop} from '../../esl-utils/decorators';
 import {ESLShareButton} from './esl-share-button';
 import {ESLShareConfig} from './esl-share-config';
 
-import type {ESLToggleableActionParams} from '../../esl-toggleable/core';
-import type {TooltipActionParams} from '../../esl-tooltip/core/esl-tooltip';
+import type {ESLTooltipActionParams} from '../../esl-tooltip/core/esl-tooltip';
 import type {ESLShareButtonConfig} from './esl-share-config';
 
 export type {ESLSharePopupTagShape} from './esl-share-popup.shape';
@@ -14,7 +13,7 @@ function stringifyButtonsList(btns: ESLShareButtonConfig[]): string {
   return btns.map((btn) => btn.name).join(',');
 }
 
-export interface ESLSharePopupActionParams extends TooltipActionParams {
+export interface ESLSharePopupActionParams extends ESLTooltipActionParams {
   /** list of social networks or groups of them to display */
   list?: string;
 }
@@ -54,21 +53,18 @@ export class ESLSharePopup extends ESLTooltip {
     return ESLSharePopup.create();
   }
 
+  @prop(true) public override hasFocusLoop: boolean;
+
   /** Hashstring with a list of buttons already rendered in the popup */
   protected _list: string = '';
 
-  /**
-   * Actions to execute before showing of popup.
-   * @returns false if the show task should be canceled
-   */
-  protected override onBeforeShow(params: ESLToggleableActionParams): boolean | void {
-    const result = super.onBeforeShow(params);
+  public override onShow(params: ESLTooltipActionParams): void {
     if (params.list) {
       const buttonsList = ESLShareConfig.instance.get(params.list);
       this.appendButtonsFromList(buttonsList);
     }
     this.forwardAttributes();
-    return result;
+    super.onShow(params);
   }
 
   /** Checks that the button list from the config was already rendered in the popup. */

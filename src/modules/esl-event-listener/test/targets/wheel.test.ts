@@ -3,7 +3,7 @@ import {ESLWheelEvent, ESLWheelTarget} from '../../core/targets/wheel.target';
 describe('ESLWheelTarget', () => {
   jest.useFakeTimers();
 
-  describe('ESLWheelTarget do not throws error on incorrect input (silent processing)', () => {
+  describe('ESLWheelTarget does not throw error on incorrect input (silent processing)', () => {
     const consoleSpy = jest.spyOn(console, 'warn');
     beforeEach(() => consoleSpy.mockReset().mockImplementation(() => void 0));
     afterAll(() => consoleSpy.mockRestore());

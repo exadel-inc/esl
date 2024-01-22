@@ -1,7 +1,6 @@
 module.exports = {
   transform: {
-    '^.+\\.tsx?$': 'ts-jest',
-    '^.+\\.html?$': './build/jest.html-loader.js'
+    '^.+\\.tsx?$': 'ts-jest'
   },
   testEnvironment: 'jsdom',
   roots: ['src/modules', 'src/polyfills'],

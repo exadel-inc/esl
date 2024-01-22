@@ -1,6 +1,6 @@
 import {decorate, memoize} from '../../esl-utils/decorators';
 import {microtask} from '../../esl-utils/async/microtask';
-import {isObject} from '../../esl-utils/misc/object/types';
+import {isObject, deepMerge} from '../../esl-utils/misc/object';
 import {uniq} from '../../esl-utils/misc/array';
 import {SyntheticEventTarget} from '../../esl-utils/dom/events/target';
 
@@ -75,6 +75,11 @@ export class ESLShareConfig extends SyntheticEventTarget {
     if (Array.isArray(provider.groups)) ESLShareConfig.instance.append(provider.groups);
     if (Array.isArray(provider.buttons)) ESLShareConfig.instance.append(provider.buttons);
     return ESLShareConfig.instance;
+  }
+
+  /** Updates items by the name and passed changes */
+  public static update(name: string, changes: Partial<ESLShareButtonConfig>): ESLShareConfig {
+    return ESLShareConfig.instance.update(name, changes);
   }
 
   /** Appends single button or group to current configuration */
@@ -165,6 +170,14 @@ export class ESLShareConfig extends SyntheticEventTarget {
       this.add(config);
     }
     this._onUpdate();
+    return this;
+  }
+
+  /** Updates items by the name and passed changes */
+  public update(name: string, changes: Partial<ESLShareButtonConfig>): ESLShareConfig {
+    for (const btn of this.get(name)) {
+      this.append(deepMerge({}, btn, changes));
+    }
     return this;
   }
 

@@ -145,9 +145,6 @@ export class ESLTraversingQuery {
   }
 }
 
-/** @deprecated alias for {@link ESLTraversingQuery} */
-export const TraversingQuery = ESLTraversingQuery;
-
 declare global {
   export interface ESLLibrary {
     TraversingQuery: typeof ESLTraversingQuery;
