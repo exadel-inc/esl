@@ -1,15 +1,7 @@
 export * from './core/api';
-export * from './core/targets/resize.adapter';
+
+export * from './core/targets/resize.target';
 export * from './core/targets/decorated.target';
-export type {
-  ESLListenerHandler,
-  ESLListenerCriteria,
-  ESLListenerDescriptor,
-  ESLListenerDescriptorFn,
-  ESLListenerDescriptorExt,
-  ESLListenerTarget,
-  ESLListenerDefinition
-} from './core/types';
-export type {
-  ESLEventListener,
-} from './core/listener';
+export * from './core/targets/swipe.target';
+export * from './core/targets/wheel.target';
+export * from './core/targets/intersection.target';

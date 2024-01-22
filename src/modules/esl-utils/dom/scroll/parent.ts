@@ -1,4 +1,4 @@
-import {getNodeName, getParentNode} from '../api';
+import {isElement, getNodeName, getParentNode} from '../api';
 
 /**
  * Get the list of all scroll parents, up the list of ancestors until we get to the top window object.
@@ -27,10 +27,7 @@ export function getScrollParent(node: Element): Element {
     return node.ownerDocument?.body as Element;
   }
 
-  if (node instanceof HTMLElement && isScrollable(node as Element)) {
-    return node as Element;
-  }
-
+  if (isElement(node) && isScrollable(node)) return node;
   return getScrollParent(getParentNode(node) as Element);
 }
 

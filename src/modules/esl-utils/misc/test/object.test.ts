@@ -12,7 +12,6 @@ import {
   getByPath,
   set,
   setByPath,
-  parseKeys,
   deepMerge,
   omit,
   getPropertyDescriptor
@@ -34,7 +33,6 @@ describe('misc/object: availability', () => {
     getByPath,
     set,
     setByPath,
-    parseKeys,
     deepMerge,
     omit,
     getPropertyDescriptor

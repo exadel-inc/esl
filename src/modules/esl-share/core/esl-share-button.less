@@ -1,11 +1,9 @@
 esl-share-button {
-  display: inline-block;
-  width: 40px;
-  height: 40px;
+  display: inline-flex;
   cursor: pointer;
 
   &:hover {
-    opacity: .6;
+    opacity: 0.6;
   }
 
   &[unavailable] {
@@ -13,10 +11,8 @@ esl-share-button {
   }
 
   .esl-share-icon {
-    display: inline-block;
     overflow: hidden;
-    background-color: #0097e7; // TODO: consider creating common variables.less file
-    width: 100%;
-    height: 100%;
+    width: var(--esl-share-icon-size, 40px);
+    height: var(--esl-share-icon-size, 40px);
   }
 }

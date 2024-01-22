@@ -14,7 +14,7 @@ This section describes the project structure and our development guidelines.
 
 ## Setup the project
 
-1.  To get started you will need Node.js version `>=18.13.0`.
+1.  To get started you will need Node.js version `>=20.8.1` and NPM version `>=9.0.0`. 
 
 2.  After cloning the repo, run:
     ```commandline
@@ -91,29 +91,34 @@ ESL project consists of the following directories:
   - [📁 polyfills](../src/polyfills) - small polyfills and shims distributed with the library
 
 
-- [📁 pages](../pages) - demo site root directory
-  - [📁 11ty](../pages/11ty) - demo site 11ty configuration files
+- [📁 site](../site) - demo site root directory
+  - [📁 11ty](../site/11ty) - demo site 11ty configuration files
     - 📄 *.js - will be applied to 11ty config automatically
     - 📄 _*.js - will not be applied to 11ty configuration
-  - [🔨📁 dist](../pages/dist) - demo site build output directory
-  - [📁 src](../pages/src) - demo site common styles and scripts sources
-  - [📁 static](../pages/static) - demo site common static assets sources
-    - [📁 assets](../pages/static/assets) - demo site static assets (images, fonts, icons)
-    - [📁 tools](../pages/static/tools) - common files to configure GH Pages
-  - [📁 views](../pages/views) - demo pages templates and 11ty common templates
-    - [📁 _data](../pages/views/_data) - 11ty [global data](https://www.11ty.dev/docs/data-global/) files
-    - [📁 _includes](../pages/views/_includes) - 11ty templates common parts
-    - [📁 _layouts](../pages/views/_layouts) - 11ty pages layouts definitions
-    - [📁 components](../pages/views/components) - ESL components articles
-    - [📁 examples](../pages/views/examples) - examples articles
-    - [📁 core](../pages/views/core) - ESL core articles
-  - [🔧 .eleventy.js](../pages/.eleventy.js) - main 11ty configuration file
-  - [🔧 tsconfig.json](../pages/tsconfig.json) - TS config for demo pages scripts
-  - [🔧 webpack.config.js](../pages/webpack.config.js) - webpack build file for demo pages
+  - [🔨📁 dist](../site/dist) - demo site build output directory
+  - [📁 src](../site/src) - demo site common styles and scripts sources
+  - [📁 static](../site/static) - demo site common static assets sources
+    - [📁 assets](../site/static/assets) - demo site static assets (images, fonts, icons)
+    - [📁 tools](../site/static/tools) - common files to configure GH Pages
+  - [📁 views](../site/views) - demo pages templates and 11ty common templates
+    - [📁 _data](../site/views/_data) - 11ty [global data](https://www.11ty.dev/docs/data-global/) files
+    - [📁 _includes](../site/views/_includes) - 11ty templates common parts
+    - [📁 _layouts](../site/views/_layouts) - 11ty pages layouts definitions
+    - [📁 components](../site/views/components) - ESL components articles
+    - [📁 examples](../site/views/examples) - examples articles
+    - [📁 core](../site/views/core) - ESL core articles
+  - [🔧 .eleventy.js](../site/.eleventy.js) - main 11ty configuration file
+  - [🔧 tsconfig.json](../site/tsconfig.json) - TS config for demo pages scripts
+  - [🔧 webpack.config.js](../site/webpack.config.js) - webpack build file for demo pages
+
+
+- [📁 eslint](../eslint) - sub-package root for ESL ESLint plugin 
+  - [📁 src](../eslint/src) - ESLint plugin sources
+  - [📁 test](../eslint/test) - ESLint plugin tests
 
 
 - [📁 build](../build) - library common build scripts
-- [📁 eslint](../eslint) - library es-lint rules configuration
+- [📁 linting](../linting) - ES Lint rule-sets
 - [📁 .github](../.github) - library repository configuration and documentation
 - [📁 .husky](../.husky) - git hooks configuration
 

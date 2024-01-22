@@ -1,8 +1,9 @@
+import {isElement} from '../../esl-utils/dom/api';
+import {isVisible} from '../../esl-utils/dom/visible';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {tuple, wrap, uniq} from '../../esl-utils/misc/array';
 import {unwrapParenthesis} from '../../esl-utils/misc/format';
 import {findAll, findChildren, findNext, findParent, findClosest, findPrev} from '../../esl-utils/dom/traversing';
-import {isVisible} from '../../esl-utils/dom/visible';
 
 type ProcessorDescriptor = [string?, string?];
 type ElementProcessor = (base: Element, sel: string) => Element | Element[] | null;
@@ -53,7 +54,7 @@ export class ESLTraversingQuery {
       return wrap(list[index - 1]);
     },
     '::not': (list: Element[], sel?: string) => list.filter((el) => !el.matches(sel || '')),
-    '::visible': (list: Element[]) => list.filter((el) => (el instanceof HTMLElement) && isVisible(el)),
+    '::visible': (list: Element[]) => list.filter((el) => isElement(el) && isVisible(el)),
     '::filter': (list: Element[], sel?: string) => list.filter((el) => el.matches(sel || ''))
   };
 
@@ -143,9 +144,6 @@ export class ESLTraversingQuery {
     return ESLTraversingQuery.traverse(query, false, base, scope);
   }
 }
-
-/** @deprecated alias for {@link ESLTraversingQuery} */
-export const TraversingQuery = ESLTraversingQuery;
 
 declare global {
   export interface ESLLibrary {

@@ -9,12 +9,17 @@
 node_modules
 
 # Build output
+*.tgz
 target
-pages/dist
+site/dist
+eslint/dist
 
 # Generated surces
 /modules
 /polyfills
+
+# NPM
+.npmrc
 
 # Logs & Tmp
 npm-debug.log

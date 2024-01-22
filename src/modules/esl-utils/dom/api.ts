@@ -1,3 +1,10 @@
+import {isObject, isPlainObject} from '../misc/object/types';
+
+/** Checks that passed value is an DOM Element Node */
+export const isElement = (el: any): el is Element => {
+  return isObject(el) && el.nodeType === 1 && !isPlainObject(el);
+};
+
 /**
  * Get the Element that is the root element of the document.
  * @param element - element for which to get the document element

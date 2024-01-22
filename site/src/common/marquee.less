@@ -1,0 +1,32 @@
+.demo-marquee {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  position: relative;
+  padding: 40px;
+  min-height: 340px;
+
+  .bg-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    z-index: 1;
+  }
+
+  .demo-content {
+    color: inherit;
+    z-index: 2;
+  }
+
+  &.dark {
+    color: #fff;
+    background-color: #000;
+    .demo-content {
+      text-shadow: 0 0 6px rgba(0, 0, 0, 0.9);
+    }
+  }
+}

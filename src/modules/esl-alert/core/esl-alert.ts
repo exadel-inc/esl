@@ -2,14 +2,12 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {attr, jsonAttr, prop, listen} from '../../esl-utils/decorators';
 import {isMatches} from '../../esl-utils/dom/traversing';
 import {ESLToggleable} from '../../esl-toggleable/core';
-import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
-import {createZIndexIframe} from '../../esl-utils/fixes/ie-fixes';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 
 import type {ESLToggleableActionParams, ESLToggleableRequestDetails} from '../../esl-toggleable/core';
 
-export interface AlertActionParams extends ESLToggleableRequestDetails {
+export interface ESLAlertActionParams extends ESLToggleableRequestDetails {
   /** text to be shown; passes empty string or null to hide */
   text?: string;
   /** html content */
@@ -19,6 +17,9 @@ export interface AlertActionParams extends ESLToggleableRequestDetails {
   /** timeout to clear classes */
   hideTime?: number;
 }
+
+/** @deprecated alias, use {@link ESLAlertActionParams} instead. Will be removed in v5.0.0. */
+export type AlertActionParams = ESLAlertActionParams;
 
 /**
  * ESLAlert component
@@ -31,8 +32,14 @@ export class ESLAlert extends ESLToggleable {
   public static override is = 'esl-alert';
   public static override observedAttributes = ['target'];
 
+  /**
+   * Legacy default show/hide params for all ESLAlert instances
+   * @deprecated Use {@link ESLAlert.DEFAULT_PARAMS} instead
+   */
+  public static defaultConfig: ESLAlertActionParams = {};
+
   /** Default show/hide params for all ESLAlert instances */
-  public static defaultConfig: AlertActionParams = {
+  public static override DEFAULT_PARAMS: ESLAlertActionParams = {
     hideTime: 300,
     hideDelay: 2500
   };
@@ -49,8 +56,8 @@ export class ESLAlert extends ESLToggleable {
   @attr({defaultValue: '::parent'}) public target: string;
 
   /** Default show/hide params for current ESLAlert instance */
-  @jsonAttr<AlertActionParams>()
-  public override defaultParams: AlertActionParams;
+  @jsonAttr<ESLAlertActionParams>()
+  public override defaultParams: ESLAlertActionParams;
 
   protected $content: HTMLElement;
   protected activeCls?: string;
@@ -70,7 +77,7 @@ export class ESLAlert extends ESLToggleable {
 
   protected override mergeDefaultParams(params?: ESLToggleableActionParams): ESLToggleableActionParams {
     const type = this.constructor as typeof ESLAlert;
-    return Object.assign({}, type.defaultConfig, this.defaultParams || {}, params || {});
+    return Object.assign({}, type.defaultConfig, type.DEFAULT_PARAMS, this.defaultParams || {}, params || {});
   }
 
   protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
@@ -87,7 +94,6 @@ export class ESLAlert extends ESLToggleable {
     this.$content.className = 'esl-alert-content';
     this.innerHTML = '';
     this.appendChild(this.$content);
-    if (DeviceDetector.isIE) this.appendChild(createZIndexIframe());
     if (this.target) {
       this.$target = ESLTraversingQuery.first(this.target, this) as EventTarget;
     }
@@ -103,7 +109,7 @@ export class ESLAlert extends ESLToggleable {
     this.$$on(this._onHideRequest);
   }
 
-  protected override onShow(params: AlertActionParams): void {
+  protected override onShow(params: ESLAlertActionParams): void {
     if (this._clearTimeout) window.clearTimeout(this._clearTimeout);
     if (params.html || params.text) {
       this.render(params);
@@ -111,12 +117,12 @@ export class ESLAlert extends ESLToggleable {
     }
     this.hide(params);
   }
-  protected override onHide(params: AlertActionParams): void {
+  protected override onHide(params: ESLAlertActionParams): void {
     super.onHide(params);
     this._clearTimeout = window.setTimeout(() => this.clear(), params.hideTime);
   }
 
-  protected render({text, html, cls}: AlertActionParams): void {
+  protected render({text, html, cls}: ESLAlertActionParams): void {
     CSSClassUtils.remove(this, this.activeCls);
     CSSClassUtils.add(this, this.activeCls = cls);
     if (html) this.$content.innerHTML = html;
@@ -127,7 +133,7 @@ export class ESLAlert extends ESLToggleable {
     CSSClassUtils.remove(this, this.activeCls);
   }
 
-  protected override buildRequestParams(e: CustomEvent<ESLToggleableRequestDetails>): AlertActionParams | null {
+  protected override buildRequestParams(e: CustomEvent<ESLToggleableRequestDetails>): ESLAlertActionParams | null {
     const detail = e.detail || {};
     if (!isMatches(this, detail.match)) return null;
     if (e.type === this.SHOW_REQUEST_EVENT) return Object.assign({}, detail, {force: true});

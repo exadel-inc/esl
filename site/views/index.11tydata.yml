@@ -1,0 +1,99 @@
+seoTitle: ESL — A Web Components Library
+description: >
+  ESL is an open-source UI component library based on web components.
+  Create user-friendly interfaces and build sites from the ground up faster using our framework agnostic web components.
+
+landing:
+  marquee:
+    logo: logo-pretty.svg
+    title: Exadel Smart Library
+    slogan: UI component library with flair and precision
+    description: >
+      ESL is an open-source web components library that helps developers
+      create modern-looking, effective, and user-friendly interfaces faster.
+    ctas:
+      - text: Get started
+        url: /introduction
+        style: sec-blue
+      - text: See the library in action
+        url: /examples
+        style: sec-orange
+
+  benefits:
+    title: Why the ESL Web Components Library?
+    items:
+      - icon: benefits/efficient.svg
+        name: Efficient
+        text: >
+          Our library reduces the work needed to create reusable UI components by giving you a reliable base
+          to customize and expand on for fast and accurate development.
+      - icon: benefits/fast.svg
+        name: Fast
+        text: >
+          With ESL, there’s no need to write lengthy markup — the reusable elements in our UI component library are small,
+          but they’re designed to be the optimal building blocks for your content.
+      - icon: benefits/light.svg
+        name: Light
+        text: >
+          We specifically designed our reusable web components to work quickly and efficiently in browsers,
+          cutting out the unnecessary code that takes a toll on user experience.
+      - icon: benefits/powerful.svg
+        name: Powerful
+        text: >
+          While the modules in our web components library may be small, they’re also universal,
+          allowing you to mix and match the UI components at will to create large modules.
+      - icon: benefits/tested.svg
+        name: Tested
+        text: >
+          We covered all of our utilities with unit tests to make ESL the best front end component library,
+          which means every new addition works just as expected.
+      - icon: benefits/versatile.svg
+        name: Versatile
+        text: >
+          Our UI component library doesn't introduce any additional restrictions — only benefits, as it offers
+          utilities and framework-agnostic web components that work with any tech stack.
+
+  news:
+    title: Our News
+    limit: 2
+    moreLimit: 3
+    moreCta: Show older news
+    cta:
+      text: Read more
+
+  support:
+    title: Browser Support
+    text:
+      - >
+        Our web components library uses built-in browser functionality — Web API and ECMAScript 6 features
+        that are fully supported by modern browsers such as Chrome, Firefox, Safari, or Edge.
+      - >
+        If you want our UI component library to work in older browsers,
+        you can use one of the polyfill lists — "light" or "full."
+    ctas:
+      - text: Read More
+        url: /introduction/browser-support
+        style: sec-blue
+
+  promo:
+    title: Let's Get Started
+    text: >
+      Join the array of consumers who successfully use our UI component library.
+      ESL brings to you a number of ultra-light reusable UI components to create unique layouts
+      and utilities to improve the development experience.
+    ctas:
+      - text: Get started
+        url: /introduction
+        style: sec-green
+      - text: Components Docs
+        url: /components
+        style: sec-blue
+
+footer:
+  additional:
+    - text: Our Company
+      url: https://exadel.com
+    - text: Our Solutions
+      url: https://exadel.com/services/marketing-technology/
+    - text: Next ESL Releases
+      url: https://github.com/exadel-inc/esl/milestones

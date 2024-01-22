@@ -22,11 +22,20 @@ export const unwrapParenthesis = (str: string): string => {
   return str.trim().replace(/^\((.*)\)$/, '$1').trim();
 };
 
+/**
+ * Serialize to boolean string (`'true'|'false'`)
+ * Preserve null, undefined and empty string
+ */
+export const toBooleanAttribute = (val: any): string | null => {
+  if (val === null || val === undefined) return val;
+  return String(!!val && val !== 'false' && val !== '0');
+};
+
 /** Parses `null` and `undefined` as an empty string */
 export const parseString = (val: string | null): string => String(val ?? '');
 
 /** Parses string representation of the boolean value */
-export const parseBoolean = (val: string | null): boolean => val !== null && val !== 'false';
+export const parseBoolean = (val: string | null): boolean => val !== null && val !== 'false' && val !== '0';
 
 /**
  * Parses number with the ability to pass an alternative fallback for NaN.
@@ -72,4 +81,26 @@ export function format(str: string, source: Record<string, any>, matcher: RegExp
     const val = get(source, key);
     return val === undefined ? match : val;
   });
+}
+/**
+ * Parses time string ([CSS style](https://developer.mozilla.org/en-US/docs/Web/CSS/time))
+ * @example
+ * `.3s`, `4.5s`, `1000ms`
+ * @returns number - time in milliseconds
+*/
+export function parseCSSTime(timeStr: string): number {
+  const str = timeStr.trim().toLowerCase();
+  if (!/\dm?s$/.test(str)) return NaN;
+  if (str.endsWith('ms')) return +str.slice(0, -2);
+  return +str.slice(0, -1) * 1000;
+}
+
+/**
+ * Parses string of times ([CSS style](https://developer.mozilla.org/en-US/docs/Web/CSS/time))
+ * @example
+ * `.3s`, `4.5s,1000ms`, `1s, 5s`
+ * @returns number[] - array of times in milliseconds
+*/
+export function parseCSSTimeSet(timeStr: string): number[] {
+  return timeStr.split(',').map((timeSubstr) => parseCSSTime(timeSubstr));
 }

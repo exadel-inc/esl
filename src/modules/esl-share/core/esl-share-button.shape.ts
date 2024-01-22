@@ -18,6 +18,8 @@ export interface ESLShareButtonTagShape extends ESLBaseElementShape<ESLShareButt
   'share-url'?: string;
   /** Define title to share (current document title by default) */
   'share-title'?: string;
+  /** Marker to render default icon inside button on init */
+  'default-icon'?: boolean;
 
   /** Allowed children */
   children?: any;

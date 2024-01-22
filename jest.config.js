@@ -1,7 +1,6 @@
 module.exports = {
   transform: {
-    '^.+\\.tsx?$': 'ts-jest',
-    '^.+\\.html?$': './build/jest.html-loader.js'
+    '^.+\\.tsx?$': 'ts-jest'
   },
   testEnvironment: 'jsdom',
   roots: ['src/modules', 'src/polyfills'],
@@ -21,9 +20,9 @@ module.exports = {
     // cumulative exclude
     '!src/modules/*.ts',
     '!src/modules/*/*.ts',
-    // draft modules exclude
-    '!src/modules/draft/**',
     // libs exclude
-    '!**/node_modules/**'
+    '!**/node_modules/**',
+    // migration lint rules
+    'eslint/src/**'
   ]
 };

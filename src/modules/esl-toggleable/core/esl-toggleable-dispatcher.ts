@@ -1,4 +1,5 @@
-import {ESLBaseElement, listen} from '../../esl-base-element/core';
+import {ESLBaseElement} from '../../esl-base-element/core';
+import {listen} from '../../esl-utils/decorators/listen';
 import {getCompositeTarget} from '../../esl-utils/dom/events';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLToggleable} from './esl-toggleable';
@@ -18,7 +19,7 @@ export class ESLToggleableDispatcher extends ESLBaseElement {
    * Uses esl-toggleable-dispatcher tag and document body root by default
    */
   public static init(root: HTMLElement = document.body, tagName: string = this.is): void {
-    if (!root) throw new Error('Root element should be specified');
+    if (!root) throw new Error('[ESL]: Root element should be specified');
     const instances = root.getElementsByTagName(tagName);
     if (instances.length) return;
     this.register(tagName);

@@ -64,4 +64,37 @@ describe('ESlEventListener subscription and delegation', () => {
     el.click();
     expect(handler).toBeCalledTimes(1);
   });
+
+  test('Click on the target element leads to correct delegate information', () => {
+    const handler = jest.fn();
+    ESLEventUtils.subscribe(host, {event: 'click', selector: '.btn'}, handler);
+    btn.click();
+    expect(handler).toBeCalledWith(expect.objectContaining({$delegate: btn}));
+  });
+
+  test('Click inside the target element leads to correct delegate information', () => {
+    const handler = jest.fn();
+    ESLEventUtils.subscribe(host, {event: 'click', selector: '.btn'}, handler);
+    btnSpan.click();
+    expect(handler).toBeCalledWith(expect.objectContaining({$delegate: btn}));
+  });
+
+  describe('Delegation on non DOM target works correctly', () => {
+    const $btn = document.createElement('button');
+    beforeEach(() => document.body.appendChild($btn));
+
+    test('Delegation of the click event on the document works correct', () => {
+      const handler = jest.fn();
+      ESLEventUtils.subscribe(host, {event: 'click', target: document, selector: 'button'}, handler);
+      $btn.click();
+      expect(handler).toBeCalledWith(expect.objectContaining({$delegate: $btn}));
+    });
+
+    test('Delegation of the click event on the window works correct', () => {
+      const handler = jest.fn();
+      ESLEventUtils.subscribe(host, {event: 'click', target: window, selector: 'button'}, handler);
+      $btn.click();
+      expect(handler).toBeCalledWith(expect.objectContaining({$delegate: $btn}));
+    });
+  });
 });

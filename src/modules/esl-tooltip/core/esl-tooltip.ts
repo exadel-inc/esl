@@ -1,25 +1,39 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLPopup} from '../../esl-popup/core';
-import {memoize, attr, boolAttr, listen} from '../../esl-utils/decorators';
+import {memoize, attr, boolAttr, listen, prop} from '../../esl-utils/decorators';
 import {TAB} from '../../esl-utils/dom/keys';
-import {getKeyboardFocusableElements} from '../../esl-utils/dom/focus';
-import {CSSClassUtils} from '../../esl-utils/dom/class';
+import {getKeyboardFocusableElements, handleFocusChain} from '../../esl-utils/dom/focus';
 
-import type {PopupActionParams} from '../../esl-popup/core';
+import type {ESLPopupActionParams} from '../../esl-popup/core';
 import type {PositionType} from '../../esl-popup/core/esl-popup-position';
 
-export interface TooltipActionParams extends PopupActionParams {
+export interface ESLTooltipActionParams extends ESLPopupActionParams {
   /** text to be shown */
   text?: string;
   /** html content to be shown */
   html?: string;
+  /** text directionality of tooltips content */
+  dir?: string;
+  /** language of tooltips text content */
+  lang?: string;
   /** tooltip without arrow */
   disableArrow?: boolean;
 }
 
+/** @deprecated alias, use {@link ESLTooltipActionParams} instead. Will be removed in v5.0.0. */
+export type TooltipActionParams = ESLTooltipActionParams;
+
 @ExportNs('Tooltip')
 export class ESLTooltip extends ESLPopup {
   static override is = 'esl-tooltip';
+
+  /** Default params to pass into the tooltip on show/hide actions */
+  public static override DEFAULT_PARAMS: ESLTooltipActionParams = {
+    ...ESLPopup.DEFAULT_PARAMS,
+    autofocus: true
+  };
+
+  @prop(false) public hasFocusLoop: boolean;
 
   /**
    * Tooltip position relative to the trigger.
@@ -39,21 +53,17 @@ export class ESLTooltip extends ESLPopup {
     return document.createElement('esl-tooltip');
   }
 
-  /** List of all focusable elements inside Tooltip */
-  public get focusableElements(): Element[] {
-    return getKeyboardFocusableElements(this);
+  /** List of all focusable elements inside instance */
+  public get $focusables(): HTMLElement[] {
+    return getKeyboardFocusableElements(this) as HTMLElement[];
   }
 
-  /** First focusable element inside Tooltip */
-  public get firstFocusableElement(): Element | null {
-    const els = this.focusableElements;
-    return els.length ? els[0] : null;
-  }
-
-  /** Last focusable element inside Tooltip */
-  public get lastFocusableElement(): Element | null {
-    const els = this.focusableElements;
-    return els.length ? els[els.length - 1] : null;
+  /** First and last focusable elements inside instance */
+  public get $boundaryFocusable(): {$first: HTMLElement | undefined, $last: HTMLElement | undefined} {
+    const {$focusables} = this;
+    const $first = $focusables[0];
+    const $last = $focusables.pop();
+    return {$first, $last};
   }
 
   /** Active state marker */
@@ -62,43 +72,27 @@ export class ESLTooltip extends ESLPopup {
   }
 
   /** Changes the element state to active */
-  public static show(params: TooltipActionParams = {}): void {
+  public static show(params: ESLTooltipActionParams = {}): void {
     this.sharedInstance.show(params);
   }
 
   /** Changes the element state to inactive */
-  public static hide(params: TooltipActionParams = {}): void {
+  public static hide(params: ESLTooltipActionParams = {}): void {
     this.sharedInstance.hide(params);
   }
 
   public override connectedCallback(): void {
-    if (!this.disableArrow) {
-      this._appendArrow();
-    }
     super.connectedCallback();
     this.classList.add(ESLPopup.is);
+    this.classList.toggle('disable-arrow', this.disableArrow);
     this.tabIndex = 0;
   }
 
   /** Sets initial state of the Tooltip */
   protected override setInitialState(): void {}
 
-  /** Creates arrow at Tooltip */
-  @memoize()
-  protected _createArrow(): HTMLElement {
-    const arrow = document.createElement('span');
-    arrow.className = 'esl-popup-arrow';
-    return arrow;
-  }
-
-  /** Appends arrow to Tooltip */
-  protected _appendArrow(): void {
-    this.$arrow = this._createArrow();
-    this.appendChild(this.$arrow);
-  }
-
   /** Actions to execute on show Tooltip. */
-  public override onShow(params: TooltipActionParams): void {
+  public override onShow(params: ESLTooltipActionParams): void {
     if (params.disableArrow) {
       this.disableArrow = params.disableArrow;
     }
@@ -108,37 +102,16 @@ export class ESLTooltip extends ESLPopup {
     if (params.html) {
       this.innerHTML = params.html;
     }
-    if (params.extraClass) {
-      CSSClassUtils.add(this, params.extraClass);
-    }
-    document.body.appendChild(this);
+    this.dir = params.dir || '';
+    this.lang = params.lang || '';
+    this.parentNode !== document.body && document.body.appendChild(this);
     super.onShow(params);
-    this._updateActivatorState(true);
   }
 
   /** Actions to execute on Tooltip hiding. */
-  public override onHide(params: TooltipActionParams): void {
-    this._updateActivatorState(false);
+  public override onHide(params: ESLTooltipActionParams): void {
     super.onHide(params);
-    document.body.removeChild(this);
-    if (params.extraClass) {
-      CSSClassUtils.remove(this, params.extraClass);
-    }
-  }
-
-  /**
-   * Actions to execute after showing of popup.
-   */
-  protected override afterOnShow(): void {
-    super.afterOnShow();
-    this.focus({preventScroll: true});
-  }
-
-  /**
-   * Actions to execute before hiding of popup.
-   */
-  protected override beforeOnHide(): void {
-    this.activator?.focus({preventScroll: true});
+    this.parentNode === document.body && document.body.removeChild(this);
   }
 
   @listen({inherit: true})
@@ -147,22 +120,15 @@ export class ESLTooltip extends ESLPopup {
     if (e.key === TAB) this._onTabKey(e);
   }
 
+  /** Actions on TAB keypressed */
   protected _onTabKey(e: KeyboardEvent): void {
     if (!this.activator) return;
-    const {firstFocusableElement, lastFocusableElement} = this;
-    if (
-      !lastFocusableElement ||
-      e.target === lastFocusableElement && !e.shiftKey ||
-      e.target === firstFocusableElement && e.shiftKey
-    ) {
+    const {$first, $last} = this.$boundaryFocusable;
+    if (this.hasFocusLoop) return handleFocusChain(e, $first, $last) as void;
+    if (!$last || e.target === (e.shiftKey ? $first : $last)) {
       this.activator.focus();
-      e.stopPropagation();
       e.preventDefault();
     }
-  }
-
-  protected _updateActivatorState(newState: boolean): void {
-    this.activator?.toggleAttribute('tooltip-shown', newState);
   }
 }
 
