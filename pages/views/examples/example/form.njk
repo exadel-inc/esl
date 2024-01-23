@@ -24,6 +24,13 @@ title: Example with form
       <input type="submit" value="Send">
     </form>
   </script>
+  <script type="text/plain" uip-js-snippet label="Example with form">
+    document.querySelector('form').onsubmit = (e) => {
+      e.preventDefault();
+      const json = JSON.stringify(Object.fromEntries(new FormData(e.target)));
+      alert(`Form submitted with ${json}!`);
+    };
+  </script>
 
   <uip-preview class="centered-content" resizable isolation></uip-preview>
 
@@ -32,4 +39,5 @@ title: Example with form
   </uip-settings>
 
   <uip-editor copy collapsible label="Markdown"></uip-editor>
+  <uip-editor script copy collapsible label="JavaScript"></uip-editor>
 </uip-root>
