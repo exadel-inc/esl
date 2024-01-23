@@ -263,7 +263,7 @@ export class ESLCarousel extends ESLBaseElement {
     this.renderer.navigate(index, direction, params);
   }
 
-  /** @returns side by index (supports not normalized indexes) */
+  /** @returns slide by index (supports not normalized indexes) */
   public slideAt(index: number): ESLCarouselSlide {
     return this.$slides[normalizeIndex(index, this.$slides.length)];
   }

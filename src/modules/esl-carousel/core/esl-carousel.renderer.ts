@@ -140,8 +140,11 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
   public setPreActive(from: number): void {
     this.clearPreActive();
     const count = Math.min(this.count, this.size);
-    for (let i = 0; i < count; i++) {
-      this.$carousel.slideAt(from + i).preActive = true;
+    for (let i = from; i < from + count; i++) {
+      const $slide = this.$carousel.slideAt(i);
+      if (!$slide.active) {
+        $slide.preActive = true;
+      }
     }
   }
 
