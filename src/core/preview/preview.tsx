@@ -89,8 +89,9 @@ export class UIPPreview extends UIPPlugin {
     }
 
     const title = this.model!.activeSnippet?.label || 'UI Playground';
+    const script = this.model!.js;
     const content = UIPRenderingPreprocessorService.preprocess(this.model!.html);
-    const html = UIPRenderingTemplatesService.render(this.isolationTemplate, {title, content});
+    const html = UIPRenderingTemplatesService.render(this.isolationTemplate, {title, content, script});
 
     this.$iframe.contentWindow?.document.open();
     this.$iframe.contentWindow?.document.write(html);

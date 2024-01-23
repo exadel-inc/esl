@@ -1,29 +1,34 @@
 /** Function to process html string for normalization*/
-export type UIPNormalizationProcessor = (input: string) => string;
+export type UIPNormalizationProcessor = ((input: string) => string) & {
+  htmlOnly?: boolean;
+};
 
-export class UIPHtmlNormalizationService {
+export class UIPNormalizationService {
   /** Processor storage */
   protected static processors: Record<string, UIPNormalizationProcessor> = {};
 
   /** Add processor function to normalization process */
   public static addProcessor(
     name: string,
-    processor: UIPNormalizationProcessor
+    processor: UIPNormalizationProcessor,
+    htmlOnly = false
   ): void {
-    UIPHtmlNormalizationService.processors[name] = processor;
+    Object.assign(processor, {htmlOnly});
+    UIPNormalizationService.processors[name] = processor;
   }
 
-  /** Normalizes passes html string by running all registered processors in chain */
-  public static normalize(html: string): string {
-    return Object.keys(UIPHtmlNormalizationService.processors)
-      .map((name) => UIPHtmlNormalizationService.processors[name])
+  /** Normalizes passes content string by running all registered processors in chain */
+  public static normalize(content: string, isHtml = true): string {
+    return Object.keys(UIPNormalizationService.processors)
+      .map((name) => UIPNormalizationService.processors[name])
       .filter((processor) => typeof processor === 'function')
-      .reduce((input, processor) => processor(input), html);
+      .filter((processor) => !processor.htmlOnly || isHtml)
+      .reduce((input, processor) => processor(input), content);
   }
 }
 
 /** Removes extra indents */
-UIPHtmlNormalizationService.addProcessor(
+UIPNormalizationService.addProcessor(
   'remove-indent',
   (input: string): string => {
     // Get all indents from text
@@ -40,14 +45,16 @@ UIPHtmlNormalizationService.addProcessor(
 );
 /** Removes extra spaces */
 // TODO: handle case with inline script with literal double spaces
-UIPHtmlNormalizationService.addProcessor('remove-trailing', (input: string) =>
-  input.replace(/\s*?$/gm, '')
+UIPNormalizationService.addProcessor(
+  'remove-trailing',
+  (input: string) => input.replace(/\s*?$/gm, ''),
+  true
 );
 /** Remove beginning spaces */
-UIPHtmlNormalizationService.addProcessor('left-trim', (input: string) =>
+UIPNormalizationService.addProcessor('left-trim', (input: string) =>
   input.replace(/^\s+/, '')
 );
 /** Remove ending spaces */
-UIPHtmlNormalizationService.addProcessor('right-trim', (input: string) =>
+UIPNormalizationService.addProcessor('right-trim', (input: string) =>
   input.replace(/\s+$/, '')
 );

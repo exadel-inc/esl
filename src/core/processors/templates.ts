@@ -2,6 +2,7 @@ import {format} from '@exadel/esl/modules/esl-utils/misc';
 
 interface UIPRenderingTemplateParams {
   title?: string;
+  script?: string;
   content: string;
   [additional: string]: string | number | boolean | undefined | null;
 }
@@ -31,9 +32,8 @@ UIPRenderingTemplatesService.add('default', `
   <html>
     <head>
       <title>{title}</title>
+      <script type="module">{script}</script>
     </head>
-    <body>
-      {content}
-    </body>
+    <body>{content}</body>
   </html>
 `);
