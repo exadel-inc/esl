@@ -26,6 +26,9 @@ export class UIPEditor extends UIPPluginPanel {
   /** Highlight method declaration  */
   public static highlight = (editor: HTMLElement): void => Prism.highlightElement(editor, false);
 
+  /** Marker of JS Editor */
+  @boolAttr() public script: boolean;
+
   /** Marker to display copy widget */
   @boolAttr({name: 'copy'}) public showCopy: boolean;
 
@@ -61,7 +64,8 @@ export class UIPEditor extends UIPPluginPanel {
   @memoize()
   protected get $code(): HTMLElement {
     const type = this.constructor as typeof UIPEditor;
-    return (<pre class={type.is + '-code language-html'}><code/></pre>) as HTMLElement;
+    const lang = this.script ? 'javascript' : 'html';
+    return (<pre class={type.is + '-code language-' + lang}><code/></pre>) as HTMLElement;
   }
 
   /** Wrapped [CodeJar](https://medv.io/codejar/) editor instance */
@@ -110,15 +114,16 @@ export class UIPEditor extends UIPPluginPanel {
   }
 
   /** Callback to call on an editor's content changes */
-  @decorate(debounce, 1000)
+  @decorate(debounce, 2000)
   protected _onChange(): void {
-    this.model!.setHtml(this.value, this);
+    if (this.script) this.model!.setJS(this.value, this);
+    else this.model!.setHtml(this.value, this);
   }
 
   /** Change editor's markup from markup state changes */
   @listen({event: 'uip:change', target: ($this: UIPEditor) => $this.$root})
   protected _onRootStateChange(): void {
     if (this.model!.lastModifier === this) return;
-    this.value = this.model!.html;
+    this.value = this.script ? this.model!.js : this.model!.html;
   }
 }
