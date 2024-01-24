@@ -21,7 +21,7 @@ What is a popup window? It is a rectangular area with content that is displayed 
 
 #### Popups arrow
 
-A popup is an element that is displayed quite often along with an arrow that is focused on the trigger element that activated this popup. An arrow is a regular span element inside a popup that has a special class (see `ESLPopup Attributes` section for how to define a custom arrow class) on it. The `ESLPopup` element always checks for the presence of an arrow inside and creates it in case of its absence. So if you need a popup without an arrow, add the `disable-arrow` class to `ESLPopup` element.
+A popup is an element that is displayed quite often, along with an arrow that focuses on the element that triggered the popup. An arrow is a regular span element inside a popup that has a special class (see `ESLPopup Attributes` section for how to define a custom arrow class) on it. The `ESLPopup` element always checks for the presence of an arrow inside and creates it in case of its absence. So if you need a popup without an arrow, add the `disable-arrow` class to `ESLPopup` element.
 
 #### Popups positioning
 

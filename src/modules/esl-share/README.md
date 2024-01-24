@@ -281,12 +281,15 @@ The principle of cascading is similar to CSS variables. The value is searched fr
 
 ### ESLShareConfig
 
+#### Static API
+
+ - `instance` - getter that returns shared instance of `ESLShareConfig`
+ - `append` - appends single button or group to current configuration
+ - `set` - updates the configuration with promise resolved to `ESLShareConfigInit` or promise provider function
+ - `update` - updates items configuration from the list with the specified partial config
+
 #### Public API
 
- - `instance` - static getter that returns shared instance of `ESLShareConfig`
- - `append` - static method that appends single button or group to current configuration
- - `set` - static method that updates the configuration with promise resolved to `ESLShareConfigInit` or promise provider function
- - `update` - static method that updates items configuration from the list with the specified partial config
  - `buttons` - getter that returns list of all available buttons
  - `groups` - getter that returns list of all available groups
  - `get` - selects the buttons for the given list and returns their configuration
@@ -333,9 +336,9 @@ Since an `ESLSharePopup` element is created dynamically you may need to style so
 
 The popup is notified of any configuration changes. In this case, the component is simply hidden if it is in an open state, i.e. there is a set of rendered buttons inside. So, when you open it again, it will simply redraw the new buttons inside.
 
-#### Public API
+#### Static API
 
- - `sharedInstance` - static getter that returns shared instance of ESLSharePopup
+ - `sharedInstance` - getter that returns shared instance of ESLSharePopup
 
 ### ESLShare
 
