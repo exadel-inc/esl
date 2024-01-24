@@ -12,7 +12,7 @@ export class UIPSnippetItem {
     const $root = this.$element.closest('uip-root') || document.body;
     const selectors = [];
     if (this.$element.id) selectors.push(`[uip-js-snippet="${this.$element.id}"]`);
-    if (this.label) selectors.push(`[uip-js-snippet="${this.label}"]`, `[uip-js-snippet][label="${this.label}"]`);
+    if (this.label) selectors.push(`[uip-js-snippet][label="${this.label}"]`);
     return $root.querySelector(selectors.join(',')) as UIPSnippetTemplate;
   }
 
