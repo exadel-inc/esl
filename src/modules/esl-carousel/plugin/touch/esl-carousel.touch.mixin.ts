@@ -1,32 +1,56 @@
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
-import {attr, prop, listen} from '../../../esl-utils/decorators';
-import {getTouchPoint, isMouseEvent, isTouchEvent} from '../../../esl-utils/dom';
-import {ESLMediaQuery} from '../../../esl-media-query/core';
+import {attr, prop, listen, memoize} from '../../../esl-utils/decorators';
+import {
+  ESLSwipeGestureEvent,
+  ESLSwipeGestureTarget,
+  getTouchPoint,
+  isMouseEvent,
+  isTouchEvent
+} from '../../../esl-utils/dom';
+import {ESLMediaRuleList} from '../../../esl-media-query/core';
 
 import {ESLCarouselPlugin} from '../esl-carousel.plugin';
 
 import type {Point} from '../../../esl-utils/dom';
 
+export type TouchType = 'drag' | 'swipe' | 'none';
+
+const toTouchType = (value: string): TouchType => {
+  value = value.toLowerCase();
+  if (value === ESLCarouselTouchMixin.DRAG_TYPE || value === ESLCarouselTouchMixin.SWIPE_TYPE) return value;
+  return 'none';
+};
 
 /**
  * {@link ESLCarousel} Touch handler mixin
  *
  * Usage:
  * ```
- * <esl-carousel esl-carousel-touch="all"></esl-carousel>
+ * <esl-carousel esl-carousel-touch></esl-carousel>
  *
- * <esl-carousel esl-carousel-touch="@mobile"></esl-carousel>
+ * <esl-carousel esl-carousel-touch="+@XS => swipe | +@SM => drag | none"></esl-carousel>
  * ```
  */
 @ExportNs('Carousel.Touch')
 export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
   public static override is = 'esl-carousel-touch';
+  public static readonly DRAG_TYPE = 'drag';
+  public static readonly SWIPE_TYPE = 'swipe';
 
-  /** Min distance in pixels to activate drugging mode */
+  /** Min distance in pixels to activate dragging mode */
   @prop(5) public tolerance: number;
 
-  /** {@link ESLMediaQuery} condition to have touch support active */
-  @attr({name: ESLCarouselTouchMixin.is}) public media: string;
+  /** Condition to have drag and swipe support active. Supports {@link ESLMediaRuleList} */
+  @attr({name: ESLCarouselTouchMixin.is, defaultValue: 'drag'}) public type: string;
+
+  /** Defines type of swipe */
+  @attr({name: 'esl-carousel-swipe-mode', defaultValue: 'group'}) public swipeType: 'group' | 'slide';
+
+  /** @returns rule {@link ESLMediaRuleList} for touch types */
+  @memoize()
+  public get typeRule(): ESLMediaRuleList<TouchType> {
+    return ESLMediaRuleList.parse(this.type, toTouchType);
+  }
 
   /** Point to start from */
   protected startPoint: Point = {x: 0, y: 0};
@@ -37,8 +61,6 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
   protected isIgnoredEvent(event: TouchEvent | PointerEvent | MouseEvent): boolean | undefined {
     // No nav required
     if (this.$host.size <= this.$host.config.count) return true;
-    // Check for media condition
-    if (!ESLMediaQuery.for(this.media).matches) return true;
     // Multi-touch gesture
     if (isTouchEvent(event) && event.touches.length !== 1) return true;
     // Non-primary mouse button initiate drug event
@@ -48,7 +70,10 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
   }
 
   /** Handles `mousedown` / `touchstart` event to manage thumb drag start and scroll clicks */
-  @listen('mousedown touchstart')
+  @listen({
+    event: 'mousedown touchstart',
+    condition: (that: ESLCarouselTouchMixin) => that.typeRule.value === ESLCarouselTouchMixin.DRAG_TYPE
+  })
   protected _onPointerDown(event: MouseEvent | TouchEvent): void {
     if (this.isTouchStarted || !this.$host.renderer || this.$host.animating) return;
 
@@ -67,7 +92,7 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
   protected _onPointerMove(event: TouchEvent | PointerEvent | MouseEvent): void {
     if (!this.isTouchStarted) return;
     const point = getTouchPoint(event);
-    const offset = point.x - this.startPoint.x;
+    const offset = this.$host.config.vertical ? point.y - this.startPoint.y : point.x - this.startPoint.x;
 
     if (!this.$host.hasAttribute('dragging')) {
       if (Math.abs(offset) < this.tolerance) return;
@@ -90,10 +115,31 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
     if (this.$$attr('dragging', false) !== null) {
       event.preventDefault();
       const point = getTouchPoint(event);
-      const offset = point.x - this.startPoint.x;
+      const offset = this.$host.config.vertical ? point.y - this.startPoint.y : point.x - this.startPoint.x;
       // ignore single click
       offset !== 0 && this.$host.renderer.commit(offset);
     }
+  }
+
+  /** Handles `swipe` event */
+  @listen({
+    event: ESLSwipeGestureEvent.type,
+    target: ESLSwipeGestureTarget.for,
+    condition: (that: ESLCarouselTouchMixin)=> that.typeRule.value === ESLCarouselTouchMixin.SWIPE_TYPE
+  })
+  protected _onSwipe(e: ESLSwipeGestureEvent): void {
+    if (!this.$host || this.$host.animating) return;
+    if (this.$host.config.vertical !== e.isVertical) return;
+    const direction = e.direction === 'left' || e.direction === 'up' ? 'next' : 'prev';
+    this.$host?.goTo(`${this.swipeType}:${direction}`);
+  }
+
+  @listen({event: 'change', target: (that: ESLCarouselTouchMixin) => that.typeRule})
+  protected _onTypeChanged(): void {
+    this.$$off(this._onPointerDown);
+    this.$$off(this._onSwipe);
+    this.$$on(this._onPointerDown);
+    this.$$on(this._onSwipe);
   }
 }
 
