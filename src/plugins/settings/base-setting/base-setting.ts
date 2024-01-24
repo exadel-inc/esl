@@ -119,7 +119,7 @@ export abstract class UIPSetting extends UIPPlugin {
    * By default is used when there are no setting's targets
    */
   public setDisabled(force: boolean): void {
-    return;
+    this.$$attr('disabled', force);
   }
 
   /**
