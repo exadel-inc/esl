@@ -129,8 +129,9 @@ export class UIPBoolSetting extends UIPSetting {
     this.$inner.append(this.$inconsistencyMsg);
   }
 
-  set disabled(force: boolean) {
+  public setDisabled(force: boolean): void {
     this.$inconsistencyMsg.classList.toggle('disabled', force);
     this.$field.toggleAttribute('disabled', force);
+    this.setInconsistency(this.NO_TARGET_MSG);
   }
 }
