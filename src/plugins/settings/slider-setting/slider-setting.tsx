@@ -3,6 +3,7 @@ import React from 'jsx-dom';
 import {attr, memoize, listen} from '@exadel/esl/modules/esl-utils/decorators';
 
 import {UIPSetting} from '../base-setting/base-setting';
+import type {UIPStateModel} from '../../../core/base/model';
 
 export class UIPSliderSetting extends UIPSetting {
   public static is = 'uip-slider-setting';
@@ -54,6 +55,12 @@ export class UIPSliderSetting extends UIPSetting {
     this.$fieldValue.textContent = `Value: ${this.$field.value}`;
   }
 
+  updateFrom(model: UIPStateModel): void {
+    super.updateFrom(model);
+    const values = model.getAttribute(this.target, this.attribute);
+    if (!values.length) this.setInconsistency(this.NO_TARGET_MSG);
+  }
+
   protected getDisplayedValue(): string {
     return this.$field.value;
   }
@@ -71,6 +78,5 @@ export class UIPSliderSetting extends UIPSetting {
   public setDisabled(force: boolean): void {
     this.$fieldValue.classList.toggle('disabled', force);
     this.$field.toggleAttribute('disabled', force);
-    this.setInconsistency(this.NO_TARGET_MSG);
   }
 }

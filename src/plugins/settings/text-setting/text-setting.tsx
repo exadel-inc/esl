@@ -3,6 +3,7 @@ import React from 'jsx-dom';
 import {attr, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 
 import {UIPSetting} from '../base-setting/base-setting';
+import type {UIPStateModel} from '../../../core/base/model';
 
 /**
  * Custom setting for inputting attribute's value
@@ -31,6 +32,12 @@ export class UIPTextSetting extends UIPSetting {
     this.appendChild($inner);
   }
 
+  updateFrom(model: UIPStateModel): void {
+    super.updateFrom(model);
+    const values = model.getAttribute(this.target, this.attribute);
+    if (!values.length) this.setInconsistency(this.NO_TARGET_MSG);
+  }
+
   protected getDisplayedValue(): string {
     return this.$field.value;
   }
@@ -47,6 +54,5 @@ export class UIPTextSetting extends UIPSetting {
 
   public setDisabled(force: boolean): void {
     this.$field.toggleAttribute('disabled', force);
-    this.setInconsistency(this.NO_TARGET_MSG);
   }
 }
