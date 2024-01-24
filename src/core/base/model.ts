@@ -2,7 +2,7 @@ import {SyntheticEventTarget} from '@exadel/esl/modules/esl-utils/dom';
 import {decorate} from '@exadel/esl/modules/esl-utils/decorators';
 import {microtask} from '@exadel/esl/modules/esl-utils/async';
 
-import {UIPNormalizationService} from '../processors/normalization';
+import {UIPJSNormalizationPreprocessors, UIPHTMLNormalizationPreprocessors} from '../processors/normalization';
 import {UIPSnippetItem} from './snippet';
 
 import type {UIPRoot} from './root';
@@ -55,7 +55,7 @@ export class UIPStateModel extends SyntheticEventTarget {
    * @param modifier - plugin, that initiates the change
    */
   public setJS(js: string, modifier: UIPPlugin | UIPRoot): void {
-    const script = UIPNormalizationService.normalize(js, false);
+    const script = UIPJSNormalizationPreprocessors.preprocess(js);
     if (this._js === script) return;
     this._js = script;
     this._lastModifier = modifier;
@@ -68,7 +68,7 @@ export class UIPStateModel extends SyntheticEventTarget {
    * @param modifier - plugin, that initiates the change
    */
   public setHtml(markup: string, modifier: UIPPlugin | UIPRoot): void {
-    const html = UIPNormalizationService.normalize(markup);
+    const html = UIPHTMLNormalizationPreprocessors.preprocess(markup);
     const root = new DOMParser().parseFromString(html, 'text/html').body;
     if (!root || root.innerHTML.trim() !== this.html.trim()) {
       this._html = root;

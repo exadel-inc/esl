@@ -7,7 +7,7 @@ import {afterNextRender, skipOneRender} from '@exadel/esl/modules/esl-utils/asyn
 
 import {UIPPlugin} from '../base/plugin';
 import {UIPRenderingTemplatesService} from '../processors/templates';
-import {UIPRenderingPreprocessorService} from '../processors/rendering';
+import {UIPJSRenderingPreprocessors, UIPHTMLRenderingPreprocessors} from '../processors/rendering';
 
 import type {ESLIntersectionEvent} from '@exadel/esl/modules/esl-event-listener/core';
 
@@ -76,7 +76,7 @@ export class UIPPreview extends UIPPlugin {
 
   /** Writes the content directly to the inner area (non-isolated frame) */
   protected writeContent(): void {
-    this.$inner.innerHTML = UIPRenderingPreprocessorService.preprocess(this.model!.html);
+    this.$inner.innerHTML = UIPHTMLRenderingPreprocessors.preprocess(this.model!.html);
     this.stopIframeResizeLoop();
   }
 
@@ -89,8 +89,8 @@ export class UIPPreview extends UIPPlugin {
     }
 
     const title = this.model!.activeSnippet?.label || 'UI Playground';
-    const script = this.model!.js;
-    const content = UIPRenderingPreprocessorService.preprocess(this.model!.html);
+    const script = UIPJSRenderingPreprocessors.preprocess(this.model!.js);
+    const content = UIPHTMLRenderingPreprocessors.preprocess(this.model!.html);
     const html = UIPRenderingTemplatesService.render(this.isolationTemplate, {title, content, script});
 
     this.$iframe.contentWindow?.document.open();
