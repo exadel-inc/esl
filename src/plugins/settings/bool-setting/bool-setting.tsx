@@ -82,8 +82,10 @@ export class UIPBoolSetting extends UIPSetting {
 
   updateFrom(model: UIPStateModel): void {
     super.updateFrom(model);
-    const attrValues = model.getAttribute(this.target, this.attribute);
-    if (attrValues.length) this.mode === 'replace' ? this.updateReplace(attrValues) : this.updateAppend(attrValues);
+    const values = model.getAttribute(this.target, this.attribute);
+    if (!values.length) {
+      this.setInconsistency(this.NO_TARGET_MSG);
+    } else this.mode === 'replace' ? this.updateReplace(values) : this.updateAppend(values);
   }
 
   /** Updates setting's value for replace {@link mode} */
@@ -129,7 +131,7 @@ export class UIPBoolSetting extends UIPSetting {
     this.$inner.append(this.$inconsistencyMsg);
   }
 
-  set disabled(force: boolean) {
+  public setDisabled(force: boolean): void {
     this.$inconsistencyMsg.classList.toggle('disabled', force);
     this.$field.toggleAttribute('disabled', force);
   }

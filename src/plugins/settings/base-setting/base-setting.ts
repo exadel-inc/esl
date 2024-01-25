@@ -85,26 +85,14 @@ export abstract class UIPSetting extends UIPPlugin {
    * Updates setting's value with active markup from {@link UIPStateModel}
    */
   public updateFrom(model: UIPStateModel): void {
-    this.disabled = false;
     const values = model.getAttribute(this.target, this.attribute);
-
-    if (!values.length) {
-      this.disabled = true;
-      this.setInconsistency(this.NO_TARGET_MSG);
-      this.classList.add('uip-inactive-setting');
-    } else {
-      this.classList.remove('uip-inactive-setting');
-
-      if (values.some((value) => value !== values[0])) {
-        this.setInconsistency(this.MULTIPLE_VALUE_MSG);
-      } else {
-        this.setValue(values[0]);
-      }
-    }
+    this.classList.toggle('uip-inactive-setting', !values.length);
+    this.setDisabled(!values.length);
+    if (values.length) this.setValue(values[0]);
   }
 
   /** Updates {@link UIPSetting} values */
-  @listen({event: 'uip:change', target: ($this: UIPSetting)=> $this.$root})
+  @listen({event: 'uip:change', target: ($this: UIPSetting) => $this.$root})
   protected _onRootStateChange(): void {
     this.$$fire('uip:settings:state:change');
     this.updateFrom(this.model!);
@@ -130,7 +118,7 @@ export abstract class UIPSetting extends UIPPlugin {
    * Disable setting
    * By default is used when there are no setting's targets
    */
-  public set disabled(force: boolean) {
+  public setDisabled(force: boolean): void {
     this.$$attr('disabled', force);
   }
 
