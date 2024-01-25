@@ -28,7 +28,7 @@ const toTouchType = (value: string): TouchType => {
  * ```
  * <esl-carousel esl-carousel-touch></esl-carousel>
  *
- * <esl-carousel esl-carousel-touch="+@XS => swipe | +@SM => drag | none"></esl-carousel>
+ * <esl-carousel esl-carousel-touch="@XS => swipe | @+SM => drag"></esl-carousel>
  * ```
  */
 @ExportNs('Carousel.Touch')
