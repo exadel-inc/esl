@@ -14,13 +14,18 @@ describe('sync/microtask', () => {
     await Promise.resolve();
     expect(fn).toBeCalledTimes(1);
   });
-  test('Decorated as microtask callback receives a list of call arguments', async () => {
+  test('Decorated as microtask callback receives a correct list of call arguments', async () => {
     const fn = jest.fn();
     const decorated = microtask(fn);
-    const params = [Symbol('Arg 1'), Symbol('Arg 2'), Symbol('Arg 3')];
+    const params1 = [Symbol('Arg 1'), Symbol('Arg 2'), Symbol('Arg 3')];
 
-    for (const param of params) decorated(param);
+    for (const param of params1) decorated(param);
     await Promise.resolve();
-    expect(fn).toBeCalledWith(expect.arrayContaining(params));
+    expect(fn).toBeCalledWith(params1);
+
+    const params2 = [Symbol('Arg 4'), Symbol('Arg 5')];
+    for (const param of params2) decorated(param);
+    await Promise.resolve();
+    expect(fn).lastCalledWith(params2);
   });
 });
