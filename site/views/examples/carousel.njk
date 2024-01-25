@@ -113,7 +113,7 @@ icon: examples/carousel.svg
         <span class="sr-only">Previous Slide</span>
      </button>
 
-     <esl-carousel esl-carousel-touch="@XS => drag | none" loop="true">
+     <esl-carousel esl-carousel-touch="none | @XS => drag" loop="true">
         <div data-slides-area>
           {% for i in range(0, 4) -%}
            <esl-carousel-slide>
