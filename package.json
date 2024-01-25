@@ -75,7 +75,7 @@
     "lint": "concurrently \"npm run lint:js\" \"npm run lint:css\" && node build/catlog.js \"Linting passed\"",
     "lint:js": "eslint \"src/**/*.ts\" \"site/src/**/*.ts\" --max-warnings 3",
     "lint:css": "stylelint \"src/**/*.less\" \"site/src/**/*.less\"",
-    "prepare": "husky install && npm run build",
+    "prepare": "husky && npm run build",
     "preversion": "npm test",
     "version": "cross-env-shell \"npm version $npm_package_version --no-git-tag-version --ws\" && git add **/package*.json",
     "postpack": "npm pack --workspace eslint",
