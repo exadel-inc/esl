@@ -1,0 +1,63 @@
+esl-modal {
+  display: none;
+}
+
+.esl-modal {
+  position: fixed;
+  z-index: 1000000;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  @supports (height: 100dvh) {
+    height: 100dvh;
+  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: hidden;
+  pointer-events: none;
+
+  &:not([animating]):not(.open) {
+    display: none;
+  }
+
+  &::before,
+  &::after {
+    content: '';
+    flex: 1 0 30px;
+  }
+
+  .esl-modal-container {
+    flex: 0 0 auto;
+    position: relative;
+    padding: 50px;
+    max-width: 100%;
+    width: 80%;
+    background-color: #fff;
+    overflow: auto;
+    pointer-events: auto;
+  }
+
+  .close-btn {
+    position: absolute;
+    inset-block-start: 15px;
+    inset-inline-end: 15px;
+    width: 20px;
+    height: 20px;
+    font-size: 19px;
+    line-height: 19px;
+
+    &::before {
+      content: '\2715';
+    }
+  }
+
+  > esl-scrollbar {
+    position: fixed;
+  }
+
+  &.handle-scrollbar {
+    overflow-y: scroll;
+  }
+}

@@ -1,12 +1,12 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {attr, boolAttr, jsonAttr, prop, ready} from '../../esl-utils/decorators';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core';
-import {ESLTrigger} from '../../esl-trigger/core';
+import {ESLBaseTrigger} from '../../esl-trigger/core';
+
 import {ESLSharePopup} from './esl-share-popup';
 
 import type {ESLToggleable} from '../../esl-toggleable/core/esl-toggleable';
 import type {ESLSharePopupActionParams} from './esl-share-popup';
-
 export type {ESLShareTagShape} from './esl-share.shape';
 
 /**
@@ -16,9 +16,9 @@ export type {ESLShareTagShape} from './esl-share.shape';
  * ESLShare is a component that allows triggering {@link ESLSharePopup} instance state changes.
  */
 @ExportNs('Share')
-export class ESLShare extends ESLTrigger {
+export class ESLShare extends ESLBaseTrigger {
   public static override is = 'esl-share';
-  public static override observedAttributes = ['list'];
+  public static observedAttributes = ['list'];
 
   /** Register {@link ESLShare} component and dependent {@link ESLSharePopup} */
   public static override register(): void {
@@ -51,7 +51,6 @@ export class ESLShare extends ESLTrigger {
   public override get $target(): ESLToggleable | null {
     return ESLSharePopup.sharedInstance;
   }
-  public override set $target(value: any) {}
 
   /** Checks that the target is in active state */
   public override get isTargetActive(): boolean {
@@ -78,7 +77,10 @@ export class ESLShare extends ESLTrigger {
   @ready
   protected override connectedCallback(): void {
     super.connectedCallback();
-    this.onReady();
+    if (!this.ready) {
+      this.$$attr('ready', true);
+      this.$$fire(this.SHARE_READY_EVENT, {bubbles: false});
+    }
   }
 
   protected override attributeChangedCallback(attrName: string, oldValue: string | null, newValue: string | null): void {
@@ -92,9 +94,6 @@ export class ESLShare extends ESLTrigger {
     this.$target?.hide();
   }
 
-  /** Updates `$target` Toggleable  from `target` selector */
-  public override updateTargetFromSelector(): void {}
-
   /** Gets attribute value from the closest element with group behavior settings */
   protected getClosestRelatedAttr(attrName: string): string | null {
     const relatedAttrName = `${this.baseTagName}-${attrName}`;
@@ -104,21 +103,13 @@ export class ESLShare extends ESLTrigger {
 
   /** Merges params to pass to the toggleable */
   protected override mergeToggleableParams(this: ESLShare, ...params: ESLSharePopupActionParams[]): ESLSharePopupActionParams {
-    return Object.assign({
+    return super.mergeToggleableParams({
       initiator: 'share',
-      activator: this,
       containerEl: this.$containerEl,
       list: this.list,
       dir: this.currentDir,
       lang: this.currentLang
     }, this.popupParams, ...params);
-  }
-
-  /** Actions on complete init and ready component */
-  private onReady(): void {
-    if (this.ready) return;
-    this.$$attr('ready', true);
-    this.$$fire(this.SHARE_READY_EVENT, {bubbles: false});
   }
 }
 

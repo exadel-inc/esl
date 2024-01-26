@@ -1,6 +1,7 @@
 // Core
-export {ESLBaseElement, ESLBaseElementShape} from './esl-base-element/core';
-export {ESLMixinElement} from './esl-mixin-element/core';
+export * from './esl-base-element/core';
+export * from './esl-mixin-element/core';
+
 export * from './esl-utils/all';
 export * from './esl-media-query/core';
 export * from './esl-traversing-query/core';
@@ -42,6 +43,9 @@ export * from './esl-tooltip/core';
 
 // Animate
 export * from './esl-animate/core';
+
+// Modal
+export * from './esl-modal/core';
 
 // Related Target Mixin
 export * from './esl-related-target/core';

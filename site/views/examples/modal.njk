@@ -1,0 +1,317 @@
+---
+layout: content
+title: Modal window
+seoTitle: Accordion UI examples based on ESL web components
+name: Modal window
+tags: [examples, beta]
+---
+{% import 'lorem.njk' as lorem %}
+{% set imageSrcBase = '/assets/' | url %}
+
+<section class="row">
+  <div class="col-12">
+    <h2>Modal moves to body</h2>
+  </div>
+
+  <div class="col-6 mb-2">
+    <h4>Default example (zoom animation)</h4>
+    <esl-trigger target="#modal-1" class="btn btn-sec-blue">Open modal</esl-trigger>
+    <esl-modal id="modal-1" class="esl-scrollable-content" animation-class="esl-modal-zoom">
+      <div class="esl-modal-container">
+        <esl-image mode="save-ratio" lazy
+                   data-alt="Alt Text Test"
+                   data-src="nature/forest+clouds.jpg"
+                   data-src-base="{{ imageSrcBase }}"></esl-image>
+        <p>{{ lorem.paragraphs(3) }}
+        <button type="button"
+                class="close-btn"
+                aria-label="close"
+                title="close"
+                data-modal-close></button>
+      </div>
+      <esl-scrollbar target="::parent"></esl-scrollbar>
+    </esl-modal>
+  </div>
+
+  <div class="col-6 mb-2">
+    <h4>Example with pseudo scroll lock strategy</h4>
+    <esl-trigger target="#modal-2" class="btn btn-sec-blue">Open modal</esl-trigger>
+    <esl-modal id="modal-2" scroll-lock-strategy="pseudo">
+      <div class="esl-modal-container">
+        <div class="img-container img-container-16-9 img-container-loaded">
+          <esl-media group="demo-media"
+                     media-type="youtube"
+                     media-id="hqc8EbfR5BE"
+                     load-condition="(min-width: 320px)"
+                     load-cls-target="::parent(section)"
+                     load-cls-accepted="show-video"
+                     load-cls-declined="hide-video"
+                     ready-class="video-ready"
+                     ready-class-target="::parent"
+                     controls
+                     tabindex="0">
+          </esl-media>
+        </div>
+        <p>{{ lorem.paragraphs(1) }}</p>
+        <button type="button"
+                class="close-btn"
+                aria-label="close"
+                title="close"
+                data-modal-close></button>
+
+      </div>
+    </esl-modal>
+  </div>
+
+  <div class="col-6 mb-2">
+   <h4>Example with native scroll lock strategy and without backdrop</h4>
+    <esl-trigger target="#modal-3" class="btn btn-sec-blue">Open modal</esl-trigger>
+    <esl-modal id="modal-3" scroll-lock-strategy="native" no-backdrop>
+      <div class="esl-modal-container">
+        <div class="esl-d-tabs">
+            <esl-tabs class="esl-d-tab-control">
+              <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
+
+              <ul class="esl-d-tab-list esl-tab-container" role="tablist">
+                <li class="esl-d-tab-item">
+                  <esl-tab class="h5"
+                           target="::parent(.esl-d-tabs)::find(.tab-1)">
+                    Tab #1 Lorem ipsum
+                  </esl-tab>
+                </li>
+                <li class="esl-d-tab-item">
+                  <esl-tab class="h5"
+                           target="::parent(.esl-d-tabs)::find(.tab-2)">
+                    Tab #2 Lorem ipsum
+                  </esl-tab>
+                </li>
+                <li class="esl-d-tab-item">
+                  <esl-tab class="h5"
+                           target="::parent(.esl-d-tabs)::find(.tab-3)">
+                    Tab #3 Lorem ipsum
+                  </esl-tab>
+                </li>
+              </ul>
+            </esl-tabs>
+
+            <esl-panel-group class="esl-d-tab-group"
+                             mode="tabs"
+                             mode-cls-target="::parent">
+              {% set testText = lorem.paragraphs(2) %}
+              <esl-panel class="esl-d-tab-panel tab-1" tabindex="0">
+                <div class="esl-d-tab-body">
+                  {{ testText }}
+                </div>
+              </esl-panel>
+              <esl-panel open class="esl-d-tab-panel tab-2" tabindex="0">
+                <div class="esl-d-tab-body">
+                  {{ testText }}
+                </div>
+              </esl-panel>
+              <esl-panel class="esl-d-tab-panel tab-3" tabindex="0">
+                <div class="esl-d-tab-body">
+                  {{ lorem.paragraphs(3) }}
+                </div>
+              </esl-panel>
+            </esl-panel-group>
+          </div>
+        <button type="button"
+                class="close-btn"
+                aria-label="close"
+                title="close"
+                data-modal-close></button>
+      </div>
+    </esl-modal>
+  </div>
+
+  <div class="col-6 mb-2">
+   <h4>Example without backdrop</h4>
+    <esl-trigger target="#modal-4" class="btn btn-sec-blue">Open modal</esl-trigger>
+    <esl-modal id="modal-4" no-backdrop>
+      <div class="esl-modal-container">
+        <p>{{ lorem.paragraphs(7) }}</p>
+        <button type="button"
+                class="close-btn"
+                aria-label="close"
+                title="close"
+                data-modal-close></button>
+
+      </div>
+    </esl-modal>
+  </div>
+
+  <div class="col-6 mb-2">
+    <h4>Example with nested modal</h4>
+    <esl-trigger target="#modal-nestd-sampl" class="btn btn-sec-blue">Open modal</esl-trigger>
+    <esl-modal id="modal-nestd-sampl">
+      <div class="esl-modal-container">
+        <p>{{ lorem.paragraphs(3) }}</p>
+        <esl-trigger target="#modal-nestd-sampl-inner" class="btn btn-sec-blue">Open modal</esl-trigger>
+        <p>{{ lorem.paragraphs(3) }}</p>
+        <esl-modal id="modal-nestd-sampl-inner">
+          <div class="esl-modal-container">
+            <p>{{ lorem.paragraphs(7) }}</p>
+            <button type="button"
+                    class="close-btn"
+                    aria-label="close"
+                    title="close"
+                    data-modal-close></button>
+          </div>
+        </esl-modal>
+
+        <button type="button"
+                class="close-btn"
+                aria-label="close"
+                title="close"
+                data-modal-close></button>
+      </div>
+    </esl-modal>
+  </div>
+</section>
+
+<section class="row">
+  <div class="col-12">
+    <h2>Modal doesn't moves to body</h2>
+  </div>
+
+  <div class="col-6 mb-2">
+    <h4>Default example</h4>
+     <esl-trigger target="#modal-5" class="btn btn-sec-blue">Open modal</esl-trigger>
+     <esl-modal id="modal-5" class="esl-scrollable-content" inject-to-body="false">
+       <div class="esl-modal-container">
+         <esl-image mode="save-ratio" lazy
+                    data-alt="Alt Text Test"
+                    data-src="nature/forest+clouds.jpg"
+                    data-src-base="{{ imageSrcBase }}"></esl-image>
+         <p>{{ lorem.paragraphs(3) }}</p>
+         <button type="button"
+                 class="close-btn"
+                 aria-label="close"
+                 title="close"
+                 data-modal-close></button>
+
+       </div>
+       <esl-scrollbar target="::parent"></esl-scrollbar>
+     </esl-modal>
+ </div>
+
+ <div class="col-6 mb-2">
+   <h4>Example with pseudo scroll lock strategy (zoom animation)</h4>
+   <esl-trigger target="#modal-6" class="btn btn-sec-blue">Open modal</esl-trigger>
+   <esl-modal id="modal-6" animation-class="esl-modal-zoom" inject-to-body="false" scroll-lock-strategy="pseudo">
+     <div class="esl-modal-container">
+       <div class="img-container img-container-16-9 img-container-loaded">
+         <esl-media group="demo-media"
+                    media-type="youtube"
+                    media-id="hqc8EbfR5BE"
+                    load-condition="(min-width: 320px)"
+                    load-cls-target="::parent(section)"
+                    load-cls-accepted="show-video"
+                    load-cls-declined="hide-video"
+                    ready-class="video-ready"
+                    ready-class-target="::parent"
+                    controls
+                    tabindex="0">
+         </esl-media>
+       </div>
+       <p>{{ lorem.paragraphs(1) }}</p>
+       <button type="button"
+               class="close-btn"
+               aria-label="close"
+               title="close"
+               data-modal-close></button>
+
+     </div>
+   </esl-modal>
+ </div>
+
+ <div class="col-6 mb-2">
+   <h4>Example with native scroll lock strategy and without backdrop</h4>
+   <esl-trigger target="#modal-7" class="btn btn-sec-blue">Open modal</esl-trigger>
+   <esl-modal id="modal-7" scroll-lock-strategy="native" inject-to-body="false" no-backdrop>
+     <div class="esl-modal-container">
+       <div class="esl-d-tabs">
+           <esl-tabs class="esl-d-tab-control">
+             <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
+
+             <ul class="esl-d-tab-list esl-tab-container" role="tablist">
+               <li class="esl-d-tab-item">
+                 <esl-tab class="h5"
+                          target="::parent(.esl-d-tabs)::find(.tab-1)">
+                   Tab #1 Lorem ipsum
+                 </esl-tab>
+               </li>
+               <li class="esl-d-tab-item">
+                 <esl-tab class="h5"
+                          target="::parent(.esl-d-tabs)::find(.tab-2)">
+                   Tab #2 Lorem ipsum
+                 </esl-tab>
+               </li>
+               <li class="esl-d-tab-item">
+                 <esl-tab class="h5"
+                          target="::parent(.esl-d-tabs)::find(.tab-3)">
+                   Tab #3 Lorem ipsum
+                 </esl-tab>
+               </li>
+             </ul>
+           </esl-tabs>
+
+           <esl-panel-group class="esl-d-tab-group"
+                            mode="tabs"
+                            mode-cls-target="::parent">
+             {% set testText = lorem.paragraphs(2) %}
+             <esl-panel class="esl-d-tab-panel tab-1" tabindex="0">
+               <div class="esl-d-tab-body">
+                 {{ testText }}
+               </div>
+             </esl-panel>
+             <esl-panel open class="esl-d-tab-panel tab-2" tabindex="0">
+               <div class="esl-d-tab-body">
+                 {{ testText }}
+               </div>
+             </esl-panel>
+             <esl-panel class="esl-d-tab-panel tab-3" tabindex="0">
+               <div class="esl-d-tab-body">
+                 {{ lorem.paragraphs(3) }}
+               </div>
+             </esl-panel>
+           </esl-panel-group>
+         </div>
+       <button type="button"
+               class="close-btn"
+               aria-label="close"
+               title="close"
+               data-modal-close></button>
+
+     </div>
+   </esl-modal>
+ </div>
+
+ <div class="col-6 mb-2">
+ <h4>Example without backdrop</h4>
+   <esl-trigger target="#modal-8" class="btn btn-sec-blue">Open modal</esl-trigger>
+   <esl-modal id="modal-8" inject-to-body="false" no-backdrop>
+     <div class="esl-modal-container">
+       <p>{{ lorem.paragraphs(7) }}</p>
+       <button type="button"
+               class="close-btn"
+               aria-label="close"
+               title="close"
+               data-modal-close></button>
+     </div>
+   </esl-modal>
+ </div>
+</section>
+
+<section>
+  <div class="esl-d-accordion">
+    <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+      Make page bigger :)
+    </esl-trigger>
+    <esl-panel class="esl-d-accordion-panel">
+      <div class="esl-d-accordion-body">
+        {{ lorem.paragraphs(10) }}
+      </div>
+    </esl-panel>
+  </div>
+</section>

@@ -1,7 +1,5 @@
 // Support for ES5 bundle target
 import '@exadel/esl/polyfills/es5-target-shim';
-// Builtin polyfills
-import '@exadel/esl/polyfills/polyfills.es6';
 // Validate environment
 import '@exadel/esl/polyfills/polyfills.validate';
 
@@ -32,6 +30,7 @@ import {
   ESLNoteIgnore,
   ESLFootnotes,
   ESLTooltip,
+  ESLModal,
   ESLAnimate,
   ESLAnimateMixin,
   ESLRelatedTarget,
@@ -105,6 +104,8 @@ ESLFootnotes.register();
 ESLNote.register();
 ESLNoteIgnore.register();
 ESLTooltip.register();
+
+ESLModal.register();
 
 ESLAnimate.register();
 ESLAnimateMixin.register();
