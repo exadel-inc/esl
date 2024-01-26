@@ -49,12 +49,22 @@ export class UIPRoot extends ESLBaseElement {
     return Array.from(this.querySelectorAll(UIPRoot.SNIPPET_SEL));
   }
 
+  protected delyedScrollIntoView(): void {
+    setTimeout(() => {
+      this.scrollIntoView({behavior: 'smooth', block: 'start'});
+    }, 100);
+  }
+
   protected override connectedCallback(): void {
     super.connectedCallback();
     this.model.snippets = this.$snippets;
     this.model.applyCurrentSnippet(this);
     this.$$attr('ready', true);
     this.$$fire(this.READY_EVENT, {bubbles: false});
+
+    if (this.model.anchorSnippet) {
+      this.delyedScrollIntoView();
+    }
   }
 
   protected override disconnectedCallback(): void {

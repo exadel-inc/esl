@@ -110,6 +110,11 @@ export class UIPStateModel extends SyntheticEventTarget {
     return this._snippets.find((snippet) => snippet.active);
   }
 
+  public get anchorSnippet(): UIPSnippetItem | undefined {
+    const anchor = window.location.hash.slice(1);
+    return this._snippets.find((snippet) => snippet.anchor === anchor);
+  }
+
   /** Changes current active snippet */
   public applySnippet(
     snippet: UIPSnippetItem,
@@ -125,7 +130,8 @@ export class UIPStateModel extends SyntheticEventTarget {
   }
   /** Applies an active snippet from DOM */
   public applyCurrentSnippet(modifier: UIPPlugin | UIPRoot): void {
-    this.applySnippet(this.activeSnippet || this.snippets[0], modifier);
+    const activeSnippet = this.anchorSnippet || this.activeSnippet || this.snippets[0];
+    this.applySnippet(activeSnippet, modifier);
   }
 
   /**
