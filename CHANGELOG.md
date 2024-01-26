@@ -1,3 +1,22 @@
+# [5.0.0-beta.9](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.8...v5.0.0-beta.9) (2024-01-19)
+
+
+### Code Refactoring
+
+* **esl-utils:** `TOUCH_EVENTS` from `device-detector` module retired, DeviceDetector is deprecated ([e9ed603](https://github.com/exadel-inc/esl/commit/e9ed603164f3cd913f6fe80027000f560aae454d))
+
+
+### Features
+
+* **attr:** add provider to default value in attr ([e482aaf](https://github.com/exadel-inc/esl/commit/e482aaf5fe6c33b482eecaadf65f00246dc14b8c))
+* **esl-utils:** `isReducedMotion` detection result constant created ([2f3dd13](https://github.com/exadel-inc/esl/commit/2f3dd134ecbbb25c7239f87690448a8f4941110d))
+
+
+### BREAKING CHANGES
+
+* **esl-utils:** both `DeviceDetector.TOUCH_EVENTS` and `TOUCH_EVENTS` are retired from `device-detector` module.
+Please also note that the DeviceDetector class is also deprecated.
+
 # [5.0.0-beta.8](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.7...v5.0.0-beta.8) (2024-01-11)
 
 
