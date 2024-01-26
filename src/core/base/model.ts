@@ -2,7 +2,7 @@ import {SyntheticEventTarget} from '@exadel/esl/modules/esl-utils/dom';
 import {decorate} from '@exadel/esl/modules/esl-utils/decorators';
 import {microtask} from '@exadel/esl/modules/esl-utils/async';
 
-import {UIPHtmlNormalizationService} from '../processors/normalization';
+import {UIPJSNormalizationPreprocessors, UIPHTMLNormalizationPreprocessors} from '../processors/normalization';
 import {UIPSnippetItem} from './snippet';
 
 import type {UIPRoot} from './root';
@@ -42,10 +42,25 @@ export class UIPStateModel extends SyntheticEventTarget {
   /** Snippets {@link UIPSnippetItem} value objects */
   private _snippets: UIPSnippetItem[];
 
+  /** Current js state */
+  private _js: string = '';
   /** Current markup state */
   private _html = new DOMParser().parseFromString('', 'text/html').body;
   /** Last {@link UIPPlugin} element which changed markup */
   private _lastModifier: UIPPlugin | UIPRoot;
+
+  /**
+   * Sets current js state to the passed one
+   * @param js - new state
+   * @param modifier - plugin, that initiates the change
+   */
+  public setJS(js: string, modifier: UIPPlugin | UIPRoot): void {
+    const script = UIPJSNormalizationPreprocessors.preprocess(js);
+    if (this._js === script) return;
+    this._js = script;
+    this._lastModifier = modifier;
+    this.dispatchChange();
+  }
 
   /**
    * Sets current markup state to the passed one
@@ -53,13 +68,18 @@ export class UIPStateModel extends SyntheticEventTarget {
    * @param modifier - plugin, that initiates the change
    */
   public setHtml(markup: string, modifier: UIPPlugin | UIPRoot): void {
-    const html = UIPHtmlNormalizationService.normalize(markup);
+    const html = UIPHTMLNormalizationPreprocessors.preprocess(markup);
     const root = new DOMParser().parseFromString(html, 'text/html').body;
     if (!root || root.innerHTML.trim() !== this.html.trim()) {
       this._html = root;
       this._lastModifier = modifier;
       this.dispatchChange();
     }
+  }
+
+  /** Current js state getter */
+  public get js(): string {
+    return this._js;
   }
 
   /** Current markup state getter */
@@ -98,6 +118,7 @@ export class UIPStateModel extends SyntheticEventTarget {
     if (!snippet) return;
     this._snippets.forEach((s) => (s.active = s === snippet));
     this.setHtml(snippet.html, modifier);
+    this.setJS(snippet.js, modifier);
     this.dispatchEvent(
       new CustomEvent('uip:model:snippet:change', {detail: this})
     );
