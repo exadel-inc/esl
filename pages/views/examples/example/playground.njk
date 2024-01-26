@@ -1,15 +1,12 @@
 ---
 title: Example with a playground that contains playground inside
 ---
-
+<uip-snippets root="::next"></uip-snippets>
 <uip-root>
-  <uip-header>
-    <uip-snippets></uip-snippets>
-    <uip-options hide-settings></uip-options>
-  </uip-header>
   <script type="text/html" uip-snippet label="Playground">
     <uip-root>
-      <uip-header></uip-header>
+      <uip-snippets class="uip-toolbar"></uip-snippets>
+      <uip-preview></uip-preview>
       <template uip-snippet label="List of aqua cards">
         <div class="card-list">
           <div class="card-item aqua">Card #1</div>
@@ -28,8 +25,7 @@ title: Example with a playground that contains playground inside
           <div class="card-item red">Card #7</div>
         </div>
       </template>
-      <uip-preview></uip-preview>
-      <uip-settings target=".card-list">
+      <uip-settings target=".card-list" vertical dir-toggle theme-toggle>
         <uip-select-setting label="Card color:" target=".card-item" attribute="class" mode="append">
           <option value="red">Red</option>
           <option value="aqua">Aqua</option>
@@ -37,7 +33,7 @@ title: Example with a playground that contains playground inside
         </uip-select-setting>
         <uip-bool-setting label="Wrap items" attribute="wrap-items"></uip-bool-setting>
       </uip-settings>
-      <uip-editor></uip-editor>
+      <uip-editor collapsible></uip-editor>
     </uip-root>
   </script>
   <script type="text/html" uip-snippet label="List of aqua cards">
@@ -48,5 +44,9 @@ title: Example with a playground that contains playground inside
     </div>
   </script>
   <uip-preview resizable></uip-preview>
-  <uip-editor></uip-editor>
+  <uip-editor collapsible></uip-editor>
+
+  <uip-settings collapsible vertical="@+sm" target=".demo-form">
+      <uip-bool-setting label="Snippets dropdown view" target="uip-snippets" attribute="dropdown-view" value="all"></uip-bool-setting>
+  </uip-settings>
 </uip-root>

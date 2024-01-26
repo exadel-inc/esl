@@ -4,8 +4,10 @@ import {UIPPlugin} from './base/plugin';
 
 import {UIPPreview} from './preview/preview';
 
-export * from './utils/normalization';
 export {UIPRoot, UIPPlugin, UIPStateModel, UIPPreview, ChangeAttrConfig};
+
+export * from './processors/normalization';
+export * from './processors/rendering';
 
 export const registerCore = (): void => {
   UIPRoot.register();

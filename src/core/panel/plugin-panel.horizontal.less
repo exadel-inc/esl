@@ -1,0 +1,72 @@
+.uip-plugin-panel:not(.vertical) {
+  flex-direction: column;
+  margin-bottom: 1px;
+
+  .uip-plugin-resize-bar {
+    order: 100;
+    cursor: row-resize;
+  }
+
+  .uip-plugin-inner {
+    position: relative;
+    height: auto;
+    overflow: hidden;
+    width: 100%;
+    max-width: 100%;
+    max-height: var(--uip-plugin-height, 325px);
+
+    transition:
+      visibility 0s linear,
+      padding-top 0.5s linear,
+      padding-bottom 0.5s linear,
+      max-height 0.5s linear;
+  }
+
+  &[collapsed] .uip-plugin-inner {
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+
+    transition:
+      visibility 0.5s linear,
+      padding-top 0.5s linear,
+      padding-bottom 0.5s linear,
+      max-height 0.5s linear;
+  }
+
+  .uip-plugin-header {
+    padding: 5px 10px;
+    width: 100%;
+  }
+
+  .uip-plugin-header-toolbar {
+    gap: 0.75rem;
+    margin-inline-end: 0.25rem;
+  }
+
+  &[collapsible] .uip-plugin-header::after {
+    content: '';
+    justify-self: flex-end;
+    position: relative;
+    margin: 5px 10px;
+    top: -2px;
+    width: 7px;
+    height: 7px;
+    z-index: 1;
+    pointer-events: none;
+
+    border-left: 2px solid currentColor;
+    border-top: 2px solid currentColor;
+
+    transform: rotate(225deg);
+    transform-origin: center;
+    transition:
+      transform 0.5s ease-in-out,
+      top 0.5s ease-in-out;
+  }
+
+  &[collapsible][collapsed] .uip-plugin-header::after {
+    top: 2px;
+    transform: rotate(45deg);
+  }
+}

@@ -1,0 +1,25 @@
+uip-theme-toggle {
+  display: none;
+  cursor: pointer;
+  .uip-root &.uip-theme-toggle {
+    display: inline-flex;
+  }
+
+  width: 1.5rem;
+  height: 1.5rem;
+
+  svg {
+    width: 100%;
+    height: 100%;
+
+    fill: currentColor;
+    stroke: currentColor;
+  }
+
+  &[theme='light'] > .uip-dark-theme {
+    display: none;
+  }
+  &[theme='dark'] > .uip-light-theme {
+    display: none;
+  }
+}

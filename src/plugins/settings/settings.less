@@ -1,47 +1,67 @@
-@import (reference) '../../common/mixins.less';
-@import (reference) '../../common/variables.less';
-
+uip-settings {
+  display: none;
+}
 .uip-settings {
   grid-area: settings;
-  width: 250px;
-  max-width: 250px;
-  max-height: 100%;
-  overflow: hidden;
-  transition:
-    max-width 0.3s ease-in-out,
-    max-height 0s;
-  accent-color: @dark-text;
+
+  accent-color: var(--uip-plugin-fg, #000);
 
   &-inner {
+    flex: 1 1 auto;
+    display: flex;
     position: relative;
-    height: 100%;
-    width: 250px;
-    border-left: 1px solid @section-border;
+    overflow: hidden;
+    padding: 0;
+  }
 
-    .esl-scrollbar {
-      padding-right: 0;
+  &-container {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    order: 0;
+
+    gap: 20px;
+    min-width: 200px;
+    padding: 20px 10px;
+  }
+
+  &-scrollbar {
+    position: relative;
+    flex: 0 0 auto;
+    order: 1;
+
+    &[inactive] {
+      display: none;
     }
   }
 
-  .settings-list {
-    height: 100%;
-    padding: 0 5px;
+  &-toolbar-option {
+    width: 1.25rem;
+    height: 1.25rem;
   }
 
-  @media @mobile {
-    width: 100%;
-    max-width: 100%;
-    max-height: 300px;
-    transition: max-height 0.3s ease-in-out;
+  // Rotate on collapsed state change
+  &[collapsed] .uip-plugin-header-icon {
+    animation: rotate 0.5s linear both;
+  }
+  &:not([collapsed]) .uip-plugin-header-icon {
+    animation: rotate-back 0.5s linear both;
+  }
+}
 
-    &-inner {
-      width: 100%;
-      padding: 15px 10px 20px 0;
-
-      border-left: none;
-      border-bottom: 1px solid @section-border;
-
-      .scrollbar-expanded();
-    }
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(180deg);
+  }
+}
+@keyframes rotate-back {
+  0% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(0deg);
   }
 }

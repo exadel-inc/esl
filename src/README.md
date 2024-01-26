@@ -18,7 +18,7 @@ Plugins:
       - [UIPSelectSetting](src/settings/select-setting/README.md)
       - [UIPTextSetting](src/settings/text-setting/README.md)
       - [UIPSliderSetting](src/settings/slider-setting/README.md)
-  - [UIPHeader](src/plugins/header/README.md)
+  - [UIPHeader](src/plugins/snippets/README.md)
       - [UIPOptions](src/header/options/README.md)
       - [UIPSnippets](src/header/snippets/README.md)
 
