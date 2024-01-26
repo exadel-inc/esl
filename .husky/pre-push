@@ -1,1 +1,2 @@
-npx lint-staged --verbose --quiet
+# ignore lint-staged if it is merge commit
+git rev-parse -q --no-revs --verify MERGE_HEAD || npx lint-staged --verbose --quiet

@@ -22,10 +22,7 @@
     "README.md",
     "CLA.md",
     "CHANGELOG.md",
-    "esm/**/*.js",
-    "esm/**/*.ts",
-    "esm/**/*.css",
-    "esm/**/*.less"
+    "esm/**/*.{js,ts,css,less}"
   ],
   "sideEffects": [
     "src/**/*.less"

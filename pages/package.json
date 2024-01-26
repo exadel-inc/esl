@@ -3,6 +3,10 @@
   "version": "2.0.0-beta.10",
   "private": true,
   "description": "Site of UI Playground project",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "scripts": {
     "start": "npm run clean && npm rum watch",
     "clean": "rimraf dist",
@@ -31,6 +35,5 @@
     "webpack": "^5.90.0",
     "webpack-bundle-analyzer": "^4.10.1",
     "webpack-cli": "^5.1.4"
-  },
-  "license": "MIT"
+  }
 }
