@@ -95,6 +95,8 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
       related: index
     }))) return;
 
+    this.setPreActive(index);
+
     try {
       await this.onBeforeAnimate(index, direction);
       await this.onAnimate(index, direction);
@@ -103,6 +105,7 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
       console.error(e);
     }
 
+    this.clearPreActive();
     this.setActive(index);
 
     this.$carousel.dispatchEvent(ESLCarouselSlideEvent.create('AFTER', {
@@ -127,11 +130,26 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
 
   /** Sets active slides from passed index **/
   public setActive(from: number): void {
-    const count = Math.min(this.count, this.size);
     this.$carousel.$slides.forEach((el) => el.active = false);
+    const count = Math.min(this.count, this.size);
     for (let i = 0; i < count; i++) {
       this.$carousel.slideAt(from + i).active = true;
     }
+  }
+
+  public setPreActive(from: number): void {
+    this.clearPreActive();
+    const count = Math.min(this.count, this.size);
+    for (let i = from; i < from + count; i++) {
+      const $slide = this.$carousel.slideAt(i);
+      if (!$slide.active) {
+        $slide.preActive = true;
+      }
+    }
+  }
+
+  public clearPreActive(): void {
+    this.$carousel.$slides.forEach((el) => el.preActive = false);
   }
 
   // Register API

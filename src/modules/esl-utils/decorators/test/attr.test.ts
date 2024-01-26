@@ -18,6 +18,8 @@ describe('Decorator: attr', () => {
     public readonlyField: string | null;
     @attr({defaultValue: 'def'})
     public defField: string | boolean;
+    @attr({defaultValue: () => 'test-provider'})
+    public defProvider: string;
   }
   customElements.define('test-el-attr', TestElement);
   const el = new TestElement();
@@ -99,6 +101,9 @@ describe('Decorator: attr', () => {
     el.defField = false;
     expect(el.defField).toBe('def');
     expect(el.hasAttribute('def-field')).toBe(false);
+    expect(el.defProvider).toBe('test-provider');
+    el.defProvider = '';
+    expect(el.defProvider).toBe('');
   });
 
   afterAll(() => {

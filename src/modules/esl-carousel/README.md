@@ -31,3 +31,16 @@ The elements are interrelated and don't make sense on their own. This is because
 ### ESLCarouselSlide Attributes | Properties:
 
 - `active` (boolean) - an active state marker
+
+### ESLCarouselTouchMixin 
+**ESLCarouselTouchMixin** is an ESL mixin attribute `esl-carousel-touch` that provide for `ESLCarousel` user support of `drag` and `swipe` events handling.
+By default, `drag` event is specified, but there is possibility to declare other configuration.
+
+#### `ESLCarouselTouchMixin` Attributes | Properties:
+- `esl-carousel-touch` - attribute defined by [ESLMediaRuleList](../esl-media-query/core/esl-media-rule-list.ts) to describe how touch events will be applied. 
+- `esl-carousel-swipe-mode` (`group` by default) - attribute to precise supportable type in case swipe event is allowed  (`group` or `slide`).
+
+#### Use cases
+```html
+<esl-carousel esl-carousel-touch="swipe | @+SM => drag | @+LG => none" esl-carousel-swipe-mode="slide" />
+```
