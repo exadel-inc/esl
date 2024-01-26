@@ -11,7 +11,7 @@ node_modules
 # Generated surces
 /bundles
 /esm
-/pages/dist
+/site/dist
 
 # Logs & Tmp
 npm-debug.log

@@ -28,7 +28,7 @@
     "src/**/*.less"
   ],
   "scripts": {
-    "start": "cd pages && npm run start",
+    "start": "cd site && npm run start",
     "clean": "rimraf esm",
     "build": "npm run clean && npm run build:less && npm run build:ts",
     "build:ts": "tsc --project tsconfig.json",
@@ -63,7 +63,7 @@
     "node": ">=18.17.0"
   },
   "workspaces": [
-    "pages"
+    "site"
   ],
   "dependencies": {
     "codejar": "^4.2.0",

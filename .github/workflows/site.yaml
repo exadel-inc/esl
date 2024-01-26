@@ -23,7 +23,7 @@ concurrency:
 
 jobs:
   # Build job
-  build-gh-pages:
+  build-site:
     name: Build
     runs-on: ubuntu-latest
     steps:
@@ -42,23 +42,23 @@ jobs:
       - name: Build UIP
         run: npm run build
       - name: Build Site
-        run: npm run build -w pages
+        run: npm run build -w site
         env:
           SITE_BASE_URL: ${{ steps.pages.outputs.base_url }}
           BUILD_VERSION: ${{ github.run_number }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./pages/dist
+          path: ./site/dist
 
   # Deployment job
-  deploy-gh-pages:
+  deploy-site:
     name: Deploy
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: build-gh-pages
+    needs: build-site
     steps:
       - name: Deploy to GitHub Pages
         id: deployment

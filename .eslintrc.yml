@@ -22,7 +22,7 @@ parser: '@typescript-eslint/parser'
 parserOptions:
   project:
     - './tsconfig.json'
-    - './pages/tsconfig.json'
+    - './site/tsconfig.json'
   sourceType: module
 
 # Lint additional plugins
