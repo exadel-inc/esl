@@ -14,7 +14,7 @@ on:
         description: 'Run in dry-run mode (no actual release)'
 
 env:
-  node-version: 18.x
+  node-version: 20.x
 
 jobs:
   release:
@@ -22,12 +22,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           persist-credentials: false
 
       - name: Use Node v${{ env.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           cache: 'npm'
           node-version: ${{ env.node-version }}

@@ -6,13 +6,13 @@ name: lint
 
 on:
   push:
-    branches: [ main, dev ]
+    branches: [ main, main-beta ]
   pull_request:
-    branches: [ main, dev ]
+    branches: [ main, main-beta ]
   workflow_dispatch:
 
 env:
-  node-version: 18.x
+  node-version: 20.x
 
 jobs:
   lint:
@@ -20,9 +20,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Use Node v${{ env.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           cache: 'npm'
           node-version: ${{ env.node-version }}
