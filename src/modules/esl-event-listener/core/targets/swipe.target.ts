@@ -19,8 +19,8 @@ export {ESLSwipeGestureEvent};
  * Describes settings object that could be passed to {@link ESLSwipeGestureTarget.for} as optional parameter
  */
 export interface ESLSwipeGestureSetting {
-  /** Flag to indicate if long event should be dispatched if scroll of content was detected (true by default) */
-  processOverflow?: boolean;
+  /** Flag to indicate if the swipe event should not be dispatched if a scroll of content was detected (true by default) */
+  skipOnScroll?: boolean;
   /** The minimum distance to accept swipe (supports `px`, `vw` and `vh` units) */
   threshold?: CSSSize;
   /** The maximum duration between `ponterdown` and `pointerup` events */
@@ -32,7 +32,7 @@ export interface ESLSwipeGestureSetting {
  */
 export class ESLSwipeGestureTarget extends SyntheticEventTarget {
   protected static defaultConfig: Required<ESLSwipeGestureSetting> = {
-    processOverflow: true,
+    skipOnScroll: true,
     threshold: '20px',
     timeout: 500
   };
@@ -76,7 +76,7 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
    * @param startEvent - initial pointer event
    */
   protected handleStart(startEvent: PointerEvent): void {
-    this.startEventOffset = this.config.processOverflow ? [] : getParentScrollOffsets(startEvent.target as Element, this.target);
+    this.startEventOffset = this.config.skipOnScroll ? getParentScrollOffsets(startEvent.target as Element, this.target) : [];
     this.startEvent = startEvent;
     ESLEventListener.subscribe(this, this.handleEnd, {
       event: this.endEventName,
@@ -126,7 +126,7 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
 
     // return if swipe took too long or distance is too short
     if (!this.isGestureAcceptable(eventDetails)) return;
-    if (!this.config.processOverflow) {
+    if (this.config.skipOnScroll) {
       const offsets = getParentScrollOffsets(endEvent.target as Element, this.target);
       if (isOffsetChanged(this.startEventOffset.concat(offsets))) return;
     }

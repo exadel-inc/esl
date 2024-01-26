@@ -3,36 +3,36 @@ import {isElement, getNodeName, getParentNode} from '../api';
 /**
  * Get the list of all scroll parents, up the list of ancestors until we get to the top window object.
  * @param element - element for which you want to get the list of all scroll parents
- * @param topElement - element which element considered a final scrollable parent target (optional, defaults to element.ownerDocument?.body)
+ * @param root - element which element considered a final scrollable parent target (optional, defaults to element.ownerDocument?.body)
  */
-export function getListScrollParents(element: Element, topElement?: Element): Element[] {
-  const targetParent = topElement || element.ownerDocument?.body;
-  const scrollParent = getScrollParent(element, targetParent);
+export function getListScrollParents(element: Element, root?: Element): Element[] {
+  const limitNode = root || element.ownerDocument?.body;
+  const scrollParent = getScrollParent(element, limitNode);
   if (!scrollParent) return [];
-  const isScrollableTarget = scrollParent === targetParent;
+  const isScrollableTarget = scrollParent === limitNode;
   if (isScrollableTarget) return isScrollable(scrollParent) ? [scrollParent] : [];
-  return [scrollParent].concat(getListScrollParents(getParentNode(scrollParent) as Element, targetParent));
+  return [scrollParent].concat(getListScrollParents(getParentNode(scrollParent) as Element, limitNode));
 }
 
 /**
  * Get the scroll parent of the specified element in the DOM tree.
  * @param node - element for which to get the scroll parent
- * @param topElement - element which element considered a final scrollable parent
+ * @param root - element which element considered a final scrollable parent
  */
-export function getScrollParent(node: Element, topElement: Element): Element | undefined;
+export function getScrollParent(node: Element, root: Element): Element | undefined;
 /**
  * Get the scroll parent of the specified element in the DOM tree.
  * @param node - element for which to get the scroll parent
  */
 export function getScrollParent(node: Element): Element;
-export function getScrollParent(node: Element, topElement?: Element): Element | undefined {
+export function getScrollParent(node: Element, root?: Element): Element | undefined {
   if (['html', 'body', '#document'].indexOf(getNodeName(node)) >= 0) {
     return node.ownerDocument?.body as Element;
   }
 
   if (isElement(node) && isScrollable(node)) return node;
-  if (node === topElement) return;
-  return getScrollParent(getParentNode(node) as Element, topElement!);
+  if (node === root) return;
+  return getScrollParent(getParentNode(node) as Element, root!);
 }
 
 /**

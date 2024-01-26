@@ -18,8 +18,8 @@ export {ESLWheelEvent};
  * Describes settings object that could be passed to {@link ESLWheelTarget.for} as optional parameter
  */
 export interface ESLWheelTargetSetting {
-  /** Flag to indicate if long event should be dispatched if scroll of content was detected (false by default) */
-  processOverflow?: boolean;
+  /** Flag to indicate if the `longwheel` event shouldn't be dispatched if scroll of content was detected (false by default) */
+  skipOnScroll?: boolean;
   /** The minimum distance to accept as a long scroll */
   distance?: number;
   /** The maximum duration of the wheel events to consider it inertial */
@@ -31,7 +31,7 @@ export interface ESLWheelTargetSetting {
  */
 export class ESLWheelTarget extends SyntheticEventTarget {
   protected static defaultConfig: Required<ESLWheelTargetSetting> = {
-    processOverflow: true,
+    skipOnScroll: true,
     distance: 400,
     timeout: 100
   };
@@ -70,7 +70,7 @@ export class ESLWheelTarget extends SyntheticEventTarget {
   /** Handles wheel events */
   @bind
   protected _onWheel(event: WheelEvent): void {
-    if (!this.config.processOverflow) this.scrollData = this.scrollData.concat(getParentScrollOffsets(event.target as Element, this.target));
+    if (this.config.skipOnScroll) this.scrollData = this.scrollData.concat(getParentScrollOffsets(event.target as Element, this.target));
     this.aggregateWheel(event);
   }
 
