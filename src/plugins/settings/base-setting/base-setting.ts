@@ -24,6 +24,14 @@ export abstract class UIPSetting extends UIPPlugin {
   /** Invalid value message */
   @prop('Invalid setting value') public INVALID_VALUE_MSG: string;
 
+  /** Class for label field element */
+  @attr({defaultValue: 'label-field'}) public labelFieldClass: string;
+  /** Class for label input element */
+  @attr({defaultValue: 'label-input'}) public labelInputClass: string;
+  /** Class for label message element */
+  @attr({defaultValue: 'label-msg'}) public labelMsgClass: string;
+  /** Class for inconsistent message element */
+  @attr({defaultValue: 'inconsistency-msg'}) public inconsistencyMsgClass: string;
   /** {@link target} attribute which is changed by setting */
   @attr() public attribute: string;
 
@@ -77,22 +85,16 @@ export abstract class UIPSetting extends UIPPlugin {
    * Updates setting's value with active markup from {@link UIPStateModel}
    */
   public updateFrom(model: UIPStateModel): void {
-    this.disabled = false;
     const values = model.getAttribute(this.target, this.attribute);
-
-    if (!values.length) {
-      this.disabled = true;
-      this.setInconsistency(this.NO_TARGET_MSG);
-    } else if (values.some((value) => value !== values[0])) {
-      this.setInconsistency(this.MULTIPLE_VALUE_MSG);
-    } else {
-      this.setValue(values[0]);
-    }
+    this.classList.toggle('uip-inactive-setting', !values.length);
+    this.setDisabled(!values.length);
+    if (values.length) this.setValue(values[0]);
   }
 
   /** Updates {@link UIPSetting} values */
-  @listen({event: 'uip:change', target: ($this: UIPSetting)=> $this.$root})
+  @listen({event: 'uip:change', target: ($this: UIPSetting) => $this.$root})
   protected _onRootStateChange(): void {
+    this.$$fire('uip:settings:state:change');
     this.updateFrom(this.model!);
   }
 
@@ -116,7 +118,7 @@ export abstract class UIPSetting extends UIPPlugin {
    * Disable setting
    * By default is used when there are no setting's targets
    */
-  public set disabled(force: boolean) {
+  public setDisabled(force: boolean): void {
     this.$$attr('disabled', force);
   }
 

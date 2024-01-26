@@ -1,3 +1,17 @@
+# [2.0.0-beta.10](https://github.com/exadel-inc/ui-playground/compare/v2.0.0-beta.9...v2.0.0-beta.10) (2024-01-16)
+
+
+### Features
+
+* add settings state change handler and state marker ([bfca95c](https://github.com/exadel-inc/ui-playground/commit/bfca95cce99e6f04bf9391709f2abd9e27250e7d))
+
+# [2.0.0-beta.9](https://github.com/exadel-inc/ui-playground/compare/v2.0.0-beta.8...v2.0.0-beta.9) (2024-01-11)
+
+
+### Features
+
+* add inactive class to base setting ([e669223](https://github.com/exadel-inc/ui-playground/commit/e66922390dabe66e13a22522889ac1986216a577))
+
 # [2.0.0-beta.8](https://github.com/exadel-inc/ui-playground/compare/v2.0.0-beta.7...v2.0.0-beta.8) (2024-01-04)
 
 

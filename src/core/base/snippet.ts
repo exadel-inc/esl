@@ -7,6 +7,15 @@ export type UIPSnippetTemplate = HTMLTemplateElement | HTMLScriptElement;
 export class UIPSnippetItem {
   public constructor(protected readonly $element: UIPSnippetTemplate) {}
 
+  @memoize()
+  public get $elementJS(): UIPSnippetTemplate | null {
+    const $root = this.$element.closest('uip-root') || document.body;
+    const selectors = [];
+    if (this.$element.id) selectors.push(`[uip-js-snippet="${this.$element.id}"]`);
+    if (this.label) selectors.push(`[uip-js-snippet][label="${this.label}"]`);
+    return $root.querySelector(selectors.join(',')) as UIPSnippetTemplate;
+  }
+
   /** @returns snippet's label */
   @memoize()
   public get label(): string {
@@ -17,6 +26,11 @@ export class UIPSnippetItem {
   @memoize()
   public get html(): string {
     return this.$element.innerHTML;
+  }
+
+  @memoize()
+  public get js(): string {
+    return this.$elementJS ? this.$elementJS.innerHTML : '';
   }
 
   /** @returns snippet's anchor id */
@@ -31,7 +45,7 @@ export class UIPSnippetItem {
 
   /** Sets the snippet active state */
   public set active(active: boolean) {
-    if (active) this.$element.setAttribute('active', '');
-    else this.$element.removeAttribute('active');
+    this.$element.toggleAttribute('active', active);
+    this.$elementJS?.toggleAttribute('active', active);
   }
 }

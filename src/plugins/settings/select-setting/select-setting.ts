@@ -97,14 +97,9 @@ export class UIPSelectSetting extends UIPSetting {
   }
 
   updateFrom(model: UIPStateModel): void {
-    this.reset();
+    super.updateFrom(model);
+    this.resetFieldValues();
     const attrValues = model.getAttribute(this.target, this.attribute);
-
-    if (!attrValues.length) {
-      this.disabled = true;
-      return this.setInconsistency(this.NO_TARGET_MSG);
-    }
-
     this.mode === 'replace' ? this.replaceFrom(attrValues) : this.appendFrom(attrValues);
   }
 
@@ -163,13 +158,8 @@ export class UIPSelectSetting extends UIPSetting {
     this.select.remove(this.settingOptions.indexOf(UIPSelectSetting.inconsistentValue));
   }
 
-  set disabled(force: boolean) {
-    this.$field.toggleAttribute('disabled', force);
-  }
-
   /** Resets {@link UIPSelectSetting.prototype.$field} value */
-  protected reset(): void {
-    this.disabled = false;
+  protected resetFieldValues(): void {
     this.$field.options.forEach((opt) => opt.selected = false);
     this.$field.$select.remove(this.settingOptions.indexOf(UIPSelectSetting.inconsistentValue));
   }
@@ -183,6 +173,9 @@ export class UIPSelectSetting extends UIPSetting {
     (this.$field as any).$dropdown.toggleAttribute('dark-theme', isDark);
   }
 
+  public setDisabled(force: boolean): void {
+    this.$field.toggleAttribute('disabled', force);
+  }
   public static register(): void {
     customElements.whenDefined('esl-select').then(() => super.register());
   }

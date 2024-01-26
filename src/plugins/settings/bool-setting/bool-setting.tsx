@@ -32,23 +32,23 @@ export class UIPBoolSetting extends UIPSetting {
     const $field = document.createElement('input');
     $field.type = 'checkbox';
     $field.name = this.label;
+    $field.className = this.labelInputClass;
     return $field;
   }
 
   @memoize()
   protected get $inner(): HTMLElement {
     return (
-      <label>
-        {this.$field}
-        {this.label}
+      <label class={this.labelFieldClass}>
+        {this.$field}<span class={this.labelMsgClass}>{this.label}</span>
       </label>
     ) as HTMLElement;
   }
 
   /** Container element for displaying inconsistency message */
   @memoize()
-  protected get $inconsistencyMarker(): HTMLElement {
-    return <div className="inconsistency-marker"/> as HTMLElement;
+  protected get $inconsistencyMsg(): HTMLElement {
+    return <span className={this.inconsistencyMsgClass}/> as HTMLElement;
   }
 
   protected override connectedCallback(): void {
@@ -81,15 +81,11 @@ export class UIPBoolSetting extends UIPSetting {
   }
 
   updateFrom(model: UIPStateModel): void {
-    this.disabled = false;
-    const attrValues = model.getAttribute(this.target, this.attribute);
-
-    if (!attrValues.length) {
-      this.disabled = true;
-      return this.setInconsistency(this.NO_TARGET_MSG);
-    }
-
-    this.mode === 'replace' ? this.updateReplace(attrValues) : this.updateAppend(attrValues);
+    super.updateFrom(model);
+    const values = model.getAttribute(this.target, this.attribute);
+    if (!values.length) {
+      this.setInconsistency(this.NO_TARGET_MSG);
+    } else this.mode === 'replace' ? this.updateReplace(values) : this.updateAppend(values);
   }
 
   /** Updates setting's value for replace {@link mode} */
@@ -126,17 +122,17 @@ export class UIPBoolSetting extends UIPSetting {
     } else {
       this.$field.checked = value !== null;
     }
-    this.$inconsistencyMarker.remove();
+    this.$inconsistencyMsg.remove();
   }
 
   protected setInconsistency(msg = this.INCONSISTENT_VALUE_MSG): void {
     this.$field.checked = false;
-    this.$inconsistencyMarker.innerText = msg;
-    this.append(this.$inconsistencyMarker);
+    this.$inconsistencyMsg.innerText = msg;
+    this.$inner.append(this.$inconsistencyMsg);
   }
 
-  set disabled(force: boolean) {
-    this.$inconsistencyMarker.classList.toggle('disabled', force);
+  public setDisabled(force: boolean): void {
+    this.$inconsistencyMsg.classList.toggle('disabled', force);
     this.$field.toggleAttribute('disabled', force);
   }
 }
