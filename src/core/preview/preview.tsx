@@ -1,6 +1,6 @@
 import React from 'jsx-dom';
 
-import {attr, listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
+import {attr, listen, memoize, prop} from '@exadel/esl/modules/esl-utils/decorators';
 import {ESLIntersectionTarget} from '@exadel/esl/modules/esl-event-listener/core';
 import {parseBoolean, toBooleanAttribute} from '@exadel/esl/modules/esl-utils/misc';
 import {afterNextRender, skipOneRender} from '@exadel/esl/modules/esl-utils/async';
@@ -18,6 +18,9 @@ import type {ESLIntersectionEvent} from '@exadel/esl/modules/esl-event-listener/
 export class UIPPreview extends UIPPlugin {
   static is = 'uip-preview';
   static observedAttributes: string[] = ['dir', 'resizable', 'isolation', 'isolation-template'];
+
+  /** Sync height with inner iframe content height */
+  @prop(true) public resizeLoop: boolean;
 
   /** Marker to use iframe isolated rendering */
   @attr({parser: parseBoolean, serializer: toBooleanAttribute}) public isolation: boolean;
@@ -51,19 +54,6 @@ export class UIPPreview extends UIPPlugin {
     ) as HTMLElement;
   }
 
-  /** Updates preview content from the model state changes */
-  @listen({event: 'uip:change', target: ($this: UIPPreview) => $this.$root})
-  protected _onRootStateChange(): void {
-    this.$container.style.minHeight = `${this.$inner.offsetHeight}px`;
-    this.isolation ? this.writeContentIsolated() : this.writeContent();
-
-    afterNextRender(() => this.$container.style.minHeight = '0px');
-    skipOneRender(() => {
-      if (this.$container.clientHeight !== this.$inner.offsetHeight) return;
-      this.$container.style.removeProperty('min-height');
-    });
-  }
-
   protected override connectedCallback(): void {
     super.connectedCallback();
     this.appendChild(this.$container);
@@ -72,6 +62,15 @@ export class UIPPreview extends UIPPlugin {
   protected override disconnectedCallback(): void {
     this.$container.remove();
     super.disconnectedCallback();
+  }
+
+  protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
+    if (attrName === 'resizable' && newVal === null) this.clearInlineSize();
+    if (attrName === 'dir') this.updateDir();
+    if (attrName === 'isolation' || attrName === 'isolation-template') {
+      this.$$on(this._onIframeLoad);
+      this._onRootStateChange();
+    }
   }
 
   /** Writes the content directly to the inner area (non-isolated frame) */
@@ -85,21 +84,15 @@ export class UIPPreview extends UIPPlugin {
     if (this.$iframe.parentElement !== this.$inner) {
       this.$inner.innerHTML = '';
       this.$inner.appendChild(this.$iframe);
-      this.startIframeResizeLoop();
     }
-
-    const title = this.model!.activeSnippet?.label || 'UI Playground';
-    const script = UIPJSRenderingPreprocessors.preprocess(this.model!.js);
-    const content = UIPHTMLRenderingPreprocessors.preprocess(this.model!.html);
-    const html = UIPRenderingTemplatesService.render(this.isolationTemplate, {title, content, script});
-
-    this.$iframe.contentWindow?.document.open();
-    this.$iframe.contentWindow?.document.write(html);
-    this.$iframe.contentWindow?.document.close();
+    this.stopIframeResizeLoop();
+    this.$iframe.src = '';
+    this.startIframeResizeLoop();
   }
 
   /** Start and do a resize sync-loop iteration. Recall itself on the next frame. */
   protected startIframeResizeLoop(): void {
+    if (!this.resizeLoop) return;
     // Prevents multiple loops
     if (this._iframeResizeRAF) cancelAnimationFrame(this._iframeResizeRAF);
     // Addition loop fallback for iframe removal
@@ -116,12 +109,6 @@ export class UIPPreview extends UIPPlugin {
     this._iframeResizeRAF = 0;
   }
 
-  protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
-    if (attrName === 'resizable' && newVal === null) this.clearInlineSize();
-    if (attrName === 'dir') this.updateDir();
-    if (attrName === 'isolation' || attrName === 'isolation-template') this._onRootStateChange();
-  }
-
   /** Resets element both inline height and width properties */
   protected clearInlineSize(): void {
     this.$inner.style.removeProperty('height');
@@ -131,6 +118,37 @@ export class UIPPreview extends UIPPlugin {
     const isChanged = this.dir !== this.$inner.dir;
     this.$inner.dir = this.dir;
     isChanged && this.$$fire('uip:dirchange');
+  }
+
+  @listen({
+    event: 'load',
+    target: ($this: UIPPreview) => $this.$iframe,
+    condition: ($this: UIPPreview) => $this.isolation
+  })
+  protected _onIframeLoad(): void {
+    if (!this.$iframe.contentWindow) return;
+
+    const title = this.model!.activeSnippet?.label || 'UI Playground';
+    const script = UIPJSRenderingPreprocessors.preprocess(this.model!.js);
+    const content = UIPHTMLRenderingPreprocessors.preprocess(this.model!.html);
+    const html = UIPRenderingTemplatesService.render(this.isolationTemplate, {title, content, script});
+
+    this.$iframe.contentWindow?.document.close();
+    this.$iframe.contentWindow?.document.write(html);
+    this.$iframe.contentWindow?.document.close();
+  }
+
+  /** Updates preview content from the model state changes */
+  @listen({event: 'uip:change', target: ($this: UIPPreview) => $this.$root})
+  protected _onRootStateChange(): void {
+    this.$container.style.minHeight = `${this.$inner.offsetHeight}px`;
+    this.isolation ? this.writeContentIsolated() : this.writeContent();
+
+    afterNextRender(() => this.$container.style.minHeight = '0px');
+    skipOneRender(() => {
+      if (this.$container.clientHeight !== this.$inner.offsetHeight) return;
+      this.$container.style.removeProperty('min-height');
+    });
   }
 
   /** Handles end of animation playing while the demo content change */

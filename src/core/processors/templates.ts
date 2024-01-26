@@ -32,6 +32,7 @@ UIPRenderingTemplatesService.add('default', `
   <html>
     <head>
       <title>{title}</title>
+      <base href="${location.origin}"/>
       <script type="module">{script}</script>
     </head>
     <body>{content}</body>
