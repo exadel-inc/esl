@@ -49,7 +49,7 @@ export class UIPRoot extends ESLBaseElement {
     return Array.from(this.querySelectorAll(UIPRoot.SNIPPET_SEL));
   }
 
-  public processScroll(): void {
+  protected delyedScrollIntoView(): void {
     setTimeout(() => {
       this.scrollIntoView({behavior: 'smooth', block: 'start'});
     }, 100);
@@ -63,7 +63,7 @@ export class UIPRoot extends ESLBaseElement {
     this.$$fire(this.READY_EVENT, {bubbles: false});
 
     if (this.model.anchorSnippet) {
-      this.processScroll();
+      this.delyedScrollIntoView();
     }
   }
 
