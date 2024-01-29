@@ -41,3 +41,15 @@ ESLPopup extends [ESLToggleable](../esl-toggleable/README.md) you can find other
 ### Readonly Attributes
 
 - `placed-at` (string) - popup updated position relative to the trigger. In other words, this is the real position of the popup relative to the trigger after the position update in the case when 'fit' behavior is enabled
+
+### Styles
+
+ESLPopup is a non-trivial component that calculates its position depending on user settings. So for styling, it would be advisable to use the basic styles that we provide with our library. You can easily override most of the rules from the base styles. Some properties are calculated, so you can't override them directly, but it is possible to set the value through CSS variables. For now, you can use the following variables:
+
+- `--esl-popup-arrow-size` - arrow size (default '20px')
+- `--esl-popup-background-color` - background color of the popup ('#fff' by default)
+- `--esl-popup-border-color` - popup border color (default value is '#dbdbdb')
+- `--esl-popup-border-width` - border width of the popup ('1px' by default)
+- `--esl-popup-z-index` - z-index of the popup (default is '999')
+
+Or if you are using the LESS preprocessor, you can optionally use mixins instead of CSS variables. However, we would recommend using the general approach with CSS variables.
