@@ -18,7 +18,7 @@ export {ESLWheelEvent};
  * Describes settings object that could be passed to {@link ESLWheelTarget.for} as optional parameter
  */
 export interface ESLWheelTargetSetting {
-  /** Flag to indicate if the `longwheel` event shouldn't be dispatched if scroll of content was detected (false by default) */
+  /** Flag to indicate if the `longwheel` event shouldn't be dispatched if scroll of content was detected (true by default) */
   skipOnScroll?: boolean;
   /** The minimum distance to accept as a long scroll */
   distance?: number;
