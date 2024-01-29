@@ -167,7 +167,9 @@ export class ESLCarousel extends ESLBaseElement {
   }
 
   protected updateA11y(): void {
-    // TODO: update a11y -> check a11y everywhere
+    if (!this.$slidesArea.hasAttribute('role')) {
+      this.$slidesArea.setAttribute('role', 'list');
+    }
   }
 
   @listen({
