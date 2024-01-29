@@ -25,7 +25,7 @@
                 close-on-outside-action>
   <div class="presentation-sidebar-overlay"></div>
   <div class="presentation-sidebar-container esl-scrollable-content">
-    {% set tree = collections[slides] | sortByOrder | tree %}
+    {% set tree = collections[slides] | sortByPathAndOrder | tree %}
     {{ menu(tree, '') }}
   </div>
   <esl-scrollbar target="#presentation-sidebar .presentation-sidebar-container"

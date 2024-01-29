@@ -16,17 +16,21 @@ module.exports = (config) => {
   const compose = (...cmps) => (a, b) => cmps.reduce((res, cmp) => res || cmp(a, b), 0);
 
   /** Name metadata comparer */
-  const nameComparer = (a, b) => a.data.name.localeCompare(b.data.name);
+  const nameComparer = (a, b) => (a.data.name || '').localeCompare(b.data.name || '');
   /** Order metadata comparer */
   const orderComparer = (a, b) => (a.data.order || 0) - (b.data.order || 0);
   /** Date metadata comparer */
   const dateComparer = (a, b) => resolveDate(a) - resolveDate(b);
   /** Date metadata comparer (will not use file creation date) */
   const dateComparerStrict = (a, b) => resolveMetaDate(a) - resolveMetaDate(b);
+  /** Path comparer */
+  const pathComparer = (a, b) => (a.inputPath || '').localeCompare(b.inputPath || '');
 
   config.addFilter('sortByName', createSortFilter(nameComparer));
   config.addFilter('sortByOrder', createSortFilter(orderComparer));
   config.addFilter('sortByNameAndOrder', createSortFilter(compose(orderComparer, nameComparer)));
   config.addFilter('sortByDate', createSortFilter(dateComparer));
   config.addFilter('sortByDateStrict', createSortFilter(dateComparerStrict));
+  config.addFilter('sortByPath', createSortFilter(pathComparer));
+  config.addFilter('sortByPathAndOrder', createSortFilter(compose(pathComparer, orderComparer)));
 };
