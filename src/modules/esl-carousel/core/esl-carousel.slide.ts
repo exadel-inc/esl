@@ -59,7 +59,7 @@ export class ESLCarouselSlide extends ESLBaseElement {
   }
 
   protected updateA11y(): void {
-    this.setAttribute('role', 'group');
+    this.setAttribute('role', 'listitem');
     if (!this.hasAttribute('aria-roledescription')) {
       this.setAttribute('aria-roledescription', 'slide');
     }
