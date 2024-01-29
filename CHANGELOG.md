@@ -1,3 +1,10 @@
+# [2.0.0-beta.12](https://github.com/exadel-inc/ui-playground/compare/v2.0.0-beta.11...v2.0.0-beta.12) (2024-01-29)
+
+
+### Bug Fixes
+
+* **preview:** fix isolated content rendering problems ([2f9b628](https://github.com/exadel-inc/ui-playground/commit/2f9b6281e7b81cc820f224ce75d456578adeaf76))
+
 # [2.0.0-beta.11](https://github.com/exadel-inc/ui-playground/compare/v2.0.0-beta.10...v2.0.0-beta.11) (2024-01-26)
 
 
