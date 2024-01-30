@@ -113,13 +113,13 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
     const offset = this.getOffset(event);
 
     if (!this.$host.hasAttribute('dragging')) {
-      // Prevents content scrolled
+      // Prevents draggable state if the content is scrolled
       if (isOffsetChanged(this.startEventOffset)) return this._onPointerUp(event);
-      // Prevents if text is selected
+      // Prevents draggable state if the text is selected
       if (document.getSelection()?.isCollapsed === false) return this._onPointerUp(event);
-      // Early exit if swipe timeout tolerance is not reached
+      // Early exit, if the swipe timeout tolerance is not reached
       if (this.isSwipeMode || event.timeStamp - this.startTimestamp > this.swipeTimeout) return this._onPointerUp(event);
-      // Does not start dragging mode if offset have not reached tolerance
+      // Does not initiate dragging state if the offset has not reached tolerance
       if (Math.abs(offset) < this.tolerance) return;
       this.$$attr('dragging', true);
     }
@@ -150,9 +150,9 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
     if (this.isDragMode) this.$host.renderer.commit(offset);
     // Swipe final check
     if (this.isSwipeMode) {
-      // Prevents if content scrolled
+      // Prevents draggable state if the content is scrolled
       if (isOffsetChanged(this.startEventOffset)) return;
-      // Prevents if offset is not reached tolerance or swipe timeout is reached
+      // Prevents if the offset is not reached tolerance or the swipe timeout is reached
       if (Math.abs(offset) < this.swipeDistance || event.timeStamp - this.startTimestamp > this.swipeTimeout) return;
       const target = `${this.swipeType}:${offset < 0 ? 'next' : 'prev'}`;
       if (this.$host.canNavigate(target)) this.$host.goTo(target);
