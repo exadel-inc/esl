@@ -118,5 +118,5 @@ import (/* webpackChunkName: 'common/esl-share' */'./esl-share/esl-share');
 
 if (document.querySelector('uip-root')) {
   // Init UI Playground
-  import (/* webpackChunkName: "common/playground" */'./ui-playground/ui-playground');
+  import (/* webpackChunkName: "common/playground" */'./playground/ui-playground');
 }
