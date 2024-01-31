@@ -71,17 +71,30 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
     if (name === ESLCarouselTouchMixin.is) memoize.clear(this, 'typeRule');
   }
 
-  /** @returns marker whether the event should be ignored. */
-  protected isIgnoredEvent(event: TouchEvent | PointerEvent | MouseEvent): boolean | undefined {
-    if (this.typeRule.value === ESLCarouselTouchMixin.NONE_TYPE) return false;
+  /** @returns if the initial event should be ignored */
+  protected isStartPrevented(event: TouchEvent | PointerEvent | MouseEvent): boolean | undefined {
+    // Carousel is not ready
+    if (!this.$host.renderer || this.$host.animating) return true;
+    // Plugin is disabled
+    if (this.typeRule.value === ESLCarouselTouchMixin.NONE_TYPE) return true;
     // No nav required
     if (this.$host.size <= this.$host.config.count) return true;
     // Multi-touch gesture
     if (isTouchEvent(event) && event.touches.length !== 1) return true;
     // Non-primary mouse button initiate drug event
     if (isMouseEvent(event) && event.button !== 0) return true;
-    // Check for form target
+    // Check for form targets
     return !!(event.target as HTMLElement).closest('input, textarea, [editable]');
+  }
+
+  /** @returns if the event should prevent touch action */
+  protected isTouchActionPrevented(event: TouchEvent | PointerEvent | MouseEvent): boolean {
+    // Prevents content scrolled
+    if (isOffsetChanged(this.startEventOffset)) return true;
+    // Prevents if text is selected
+    if (document.getSelection()?.isCollapsed === false) return true;
+    // Early exit if swipe timeout tolerance is not reached
+    return this.isSwipeMode && event.timeStamp - this.startTimestamp > this.swipeTimeout;
   }
 
   /** @returns offset between start point and passed event point */
@@ -93,10 +106,8 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
   /** Handles `mousedown` / `touchstart` event to manage thumb drag start and scroll clicks */
   @listen('mousedown touchstart')
   protected _onPointerDown(event: MouseEvent | TouchEvent): void {
-    if (this.isTouchStarted || !this.$host.renderer || this.$host.animating) return;
-    if (this.isIgnoredEvent(event)) return;
+    if (this.isStartPrevented(event)) return;
 
-    this.isTouchStarted = true;
     this.startPoint = getTouchPoint(event);
     this.startTimestamp = event.timeStamp;
     this.startEventOffset = getParentScrollOffsets(event.target as Element, this.$host);
@@ -109,25 +120,17 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
 
   /** Processes `mousemove` and `touchmove` events. */
   protected _onPointerMove(event: TouchEvent | PointerEvent | MouseEvent): void {
-    if (!this.isTouchStarted) return;
     const offset = this.getOffset(event);
 
     if (!this.$host.hasAttribute('dragging')) {
-      // Prevents content scrolled
-      if (isOffsetChanged(this.startEventOffset)) return this._onPointerUp(event);
-      // Prevents if text is selected
-      if (document.getSelection()?.isCollapsed === false) return this._onPointerUp(event);
-      // Early exit if swipe timeout tolerance is not reached
-      if (this.isSwipeMode || event.timeStamp - this.startTimestamp > this.swipeTimeout) return this._onPointerUp(event);
+      // Stop tracking if prevented before dragging started
+      if (this.isTouchActionPrevented(event)) return this._onPointerUp(event);
       // Does not start dragging mode if offset have not reached tolerance
       if (Math.abs(offset) < this.tolerance) return;
       this.$$attr('dragging', true);
     }
-
     event.preventDefault();
 
-    // ignore single click
-    if (offset === 0) return;
     if (this.isDragMode) this.$host.renderer.onMove(offset);
   }
 
@@ -137,23 +140,16 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
     this.$$off(this._onPointerMove);
     this.$$off(this._onPointerUp);
 
-    this.isTouchStarted = false;
-
     if (this.$$attr('dragging', false) === null) return;
     event.preventDefault();
 
     const offset = this.getOffset(event);
     // ignore single click
     if (offset === 0) return;
-
     // Commit drag offset
     if (this.isDragMode) this.$host.renderer.commit(offset);
     // Swipe final check
-    if (this.isSwipeMode) {
-      // Prevents if content scrolled
-      if (isOffsetChanged(this.startEventOffset)) return;
-      // Prevents if offset is not reached tolerance or swipe timeout is reached
-      if (Math.abs(offset) < this.swipeDistance || event.timeStamp - this.startTimestamp > this.swipeTimeout) return;
+    if (this.isSwipeMode && !this.isTouchActionPrevented(event)) {
       const target = `${this.swipeType}:${offset < 0 ? 'next' : 'prev'}`;
       if (this.$host.canNavigate(target)) this.$host.goTo(target);
     }
