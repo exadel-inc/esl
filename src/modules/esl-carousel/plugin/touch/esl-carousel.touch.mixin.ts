@@ -89,11 +89,11 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
 
   /** @returns if the event should prevent touch action */
   protected isTouchActionPrevented(event: TouchEvent | PointerEvent | MouseEvent): boolean {
-    // Prevents content scrolled
+    // Prevents draggable state if the content is scrolled
     if (isOffsetChanged(this.startEventOffset)) return true;
-    // Prevents if text is selected
+    // Prevents draggable state if the text is selected
     if (document.getSelection()?.isCollapsed === false) return true;
-    // Early exit if swipe timeout tolerance is not reached
+    // Prevents draggable state if the offset is not reached tolerance or the swipe timeout
     return this.isSwipeMode && event.timeStamp - this.startTimestamp > this.swipeTimeout;
   }
 
