@@ -1,5 +1,6 @@
 import {SyntheticEventTarget} from '../../../esl-utils/dom/events/target';
 import {resolveDomTarget} from '../../../esl-utils/abstract/dom-target';
+import {getParentScrollOffsets, isOffsetChanged} from '../../../esl-utils/dom/scroll';
 import {isElement} from '../../../esl-utils/dom/api';
 import {bind} from '../../../esl-utils/decorators/bind';
 import {aggregate} from '../../../esl-utils/async/aggregate';
@@ -9,6 +10,7 @@ import {ESLWheelEvent} from './wheel.target.event';
 
 import type {ESLWheelEventInfo} from './wheel.target.event';
 import type {ESLDomElementTarget} from '../../../esl-utils/abstract/dom-target';
+import type {ElementScrollOffset} from '../../../esl-utils/dom/scroll';
 
 export {ESLWheelEvent};
 
@@ -16,6 +18,8 @@ export {ESLWheelEvent};
  * Describes settings object that could be passed to {@link ESLWheelTarget.for} as optional parameter
  */
 export interface ESLWheelTargetSetting {
+  /** Flag to indicate if the `longwheel` event shouldn't be dispatched if scroll of content was detected (true by default) */
+  skipOnScroll?: boolean;
   /** The minimum distance to accept as a long scroll */
   distance?: number;
   /** The maximum duration of the wheel events to consider it inertial */
@@ -27,11 +31,14 @@ export interface ESLWheelTargetSetting {
  */
 export class ESLWheelTarget extends SyntheticEventTarget {
   protected static defaultConfig: Required<ESLWheelTargetSetting> = {
+    skipOnScroll: true,
     distance: 400,
     timeout: 100
   };
 
   protected readonly config: Required<ESLWheelTargetSetting>;
+
+  protected scrollData: ElementScrollOffset[] = [];
 
   /** Function for aggregating wheel events into array of events */
   protected aggregateWheel: (event: WheelEvent) => void;
@@ -63,12 +70,20 @@ export class ESLWheelTarget extends SyntheticEventTarget {
   /** Handles wheel events */
   @bind
   protected _onWheel(event: WheelEvent): void {
+    if (this.config.skipOnScroll) {
+      const offsets = getParentScrollOffsets(event.target as Element, this.target);
+      this.scrollData = this.scrollData.concat(offsets);
+    }
     this.aggregateWheel(event);
   }
 
   /** Handles aggregated wheel events */
   protected handleAggregatedWheel(events: WheelEvent[]): void {
     const wheelInfo =  this.resolveEventDetails(events);
+
+    const isBlocked = isOffsetChanged(this.scrollData);
+    this.scrollData = [];
+    if (isBlocked) return;
     if (Math.abs(wheelInfo.deltaX) >= this.config.distance) this.dispatchWheelEvent('x', wheelInfo);
     if (Math.abs(wheelInfo.deltaY) >= this.config.distance) this.dispatchWheelEvent('y', wheelInfo);
   }
