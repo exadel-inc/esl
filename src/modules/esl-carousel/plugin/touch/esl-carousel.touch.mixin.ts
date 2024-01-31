@@ -50,8 +50,6 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
   protected startTimestamp = 0;
   /** Initial scroll offsets */
   protected startEventOffset: ElementScrollOffset[];
-  /** Marker whether touch event is started */
-  protected isTouchStarted = false;
 
   /** @returns rule {@link ESLMediaRuleList} for touch types */
   @memoize()
