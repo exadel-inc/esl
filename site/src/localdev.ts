@@ -11,7 +11,6 @@ import '@exadel/esl/modules/lib';
 import './common/breakpoints';
 
 import {
-  ESLVSizeCSSProxy,
   ESLImage,
   ESLMedia,
   ESLToggleable,
@@ -55,8 +54,6 @@ import {ESLDemoSidebar} from './navigation/navigation';
 import {ESLDemoAnchorLink} from './anchor/anchor-link';
 import {ESLDemoBanner} from './banner/banner';
 import {ESLDemoSwipeArea, ESLDemoWheelArea} from './esl-events-demo/esl-events-demo';
-
-ESLVSizeCSSProxy.observe();
 
 // Register Demo components
 ESLDemoAutofocus.register();

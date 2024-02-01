@@ -13,10 +13,11 @@
 
     body {
       width: 100%;
-      /* stylelint-disable */
       height: 100vh;
-      height: var(--100vh, 100vh);
-      /* stylelint-enable */
+
+      @supports (height: 100dvh) {
+        height: 100dvh;
+      }
     }
   }
 

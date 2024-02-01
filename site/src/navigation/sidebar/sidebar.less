@@ -58,11 +58,12 @@ esl-d-sidebar {
   @media @md-xl {
     position: relative;
     top: 0;
-    /* stylelint-disable */
     height: 100vh;
-    height: var(--100vh, 100vh);
-    /* stylelint-enable */
     max-width: 72px;
+
+    @supports (height: 100dvh) {
+      height: 100dvh;
+    }
   }
 
   &.open {
