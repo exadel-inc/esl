@@ -41,7 +41,7 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
   /** Defines distance tolerance to swipe */
   @attr({name: 'esl-carousel-swipe-distance', defaultValue: 20, parser: parseInt}) public swipeDistance: number;
   /** Defines timeout tolerance to swipe */
-  @attr({name: 'esl-carousel-swipe-timeout', defaultValue: 700, parser: parseInt}) public swipeTimeout: number;
+  @attr({name: 'esl-carousel-swipe-timeout', defaultValue: 2000, parser: parseInt}) public swipeTimeout: number;
 
   /** Coordinate of touch start event */
   protected startPoint: Point = {x: 0, y: 0};
@@ -75,28 +75,26 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
     return this.$host.size <= this.$host.config.count;
   }
 
+  /** @returns whether the drugging is prevented by external conditions (scroll, selection) */
+  public get isPrevented(): boolean {
+    // Prevents draggable state if the content is scrolled
+    if (isOffsetChanged(this.startScrollOffsets)) return true;
+    // Prevents draggable state if the text is selected
+    return document.getSelection()?.isCollapsed === false;
+  }
+
   protected override attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null): void {
     if (name === ESLCarouselTouchMixin.is) memoize.clear(this, 'typeRule');
   }
 
-  /** @returns if the initial event should be ignored */
-  protected isStartPrevented(event: TouchEvent | PointerEvent | MouseEvent): boolean | undefined {
+  /** @returns if the event should initiate tracking */
+  protected shouldTrack(event: TouchEvent | PointerEvent | MouseEvent): boolean | undefined {
     // Multi-touch gesture
-    if (isTouchEvent(event) && event.touches.length !== 1) return true;
+    if (isTouchEvent(event) && event.touches.length !== 1) return false;
     // Non-primary mouse button initiate drug event
-    if (isMouseEvent(event) && event.button !== 0) return true;
-    // Check for form targets
-    return !!(event.target as HTMLElement).closest('input, textarea, [editable]');
-  }
-
-  /** @returns if the event should prevent touch action */
-  protected isTouchActionPrevented(event: TouchEvent | PointerEvent | MouseEvent): boolean {
-    // Prevents draggable state if the content is scrolled
-    if (isOffsetChanged(this.startScrollOffsets)) return true;
-    // Prevents draggable state if the text is selected
-    if (document.getSelection()?.isCollapsed === false) return true;
-    // Prevents draggable state if the offset is not reached tolerance or the swipe timeout
-    return this.isSwipeMode && event.timeStamp - this.startTimestamp > this.swipeTimeout;
+    if (isMouseEvent(event) && event.button !== 0) return false;
+    // Ignore touch tracking in case it starts inside form or editable elements
+    return !(event.target as HTMLElement).closest('input, textarea, [editable]');
   }
 
   /** @returns offset between start point and passed event point */
@@ -105,11 +103,18 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
     return this.$host.config.vertical ? point.y - this.startPoint.y : point.x - this.startPoint.x;
   }
 
+  /** @returns if the passed event leads to swipe action */
+  protected isSwipeAccepted(event: TouchEvent | PointerEvent | MouseEvent): boolean {
+    // Ignore swipe if timeout threshold exceeded
+    if (event.timeStamp - this.startTimestamp > this.swipeTimeout) return false;
+    // Ignore swipe if offset is not enough
+    return Math.abs(this.getOffset(event)) > this.swipeDistance;
+  }
+
   /** Handles `mousedown` / `touchstart` event to manage thumb drag start and scroll clicks */
   @listen('mousedown touchstart')
   protected _onPointerDown(event: MouseEvent | TouchEvent): void {
-    if (this.isDisabled) return;
-    if (this.isStartPrevented(event)) return;
+    if (this.isDisabled || !this.shouldTrack(event)) return;
 
     this.startPoint = getTouchPoint(event);
     this.startTimestamp = event.timeStamp;
@@ -127,7 +132,7 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
 
     if (!this.$host.hasAttribute('dragging')) {
       // Stop tracking if prevented before dragging started
-      if (this.isTouchActionPrevented(event)) return this._onPointerUp(event);
+      if (this.isPrevented) return this._onPointerUp(event);
       // Does not start dragging mode if offset have not reached tolerance
       if (Math.abs(offset) < this.tolerance) return;
       this.$$attr('dragging', true);
@@ -152,7 +157,7 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
     // Commit drag offset
     if (this.isDragMode) this.$host.renderer.commit(offset);
     // Swipe final check
-    if (this.isSwipeMode && !this.isTouchActionPrevented(event)) {
+    if (this.isSwipeMode && !this.isPrevented && this.isSwipeAccepted(event)) {
       const target = `${this.swipeType}:${offset < 0 ? 'next' : 'prev'}`;
       if (this.$host.canNavigate(target)) this.$host.goTo(target);
     }
