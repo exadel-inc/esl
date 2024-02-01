@@ -193,9 +193,13 @@ aside:
       <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
       <uip-preview></uip-preview>
       <uip-settings target="esl-tabs" label="Settings" resizable vertical="@+sm">
+        <uip-select-setting label="Alignment:" attribute="class" mode="append">
+          <option value="">Left</option>
+          <option value="center-alignment">Center</option>
+          <option value="right-alignment">Right</option>
+        </uip-select-setting>
         <uip-bool-setting label="Match Height" target="esl-panel-group" attribute="class" mode="append" value="esl-tabs-equal-height"></uip-bool-setting>
         <uip-bool-setting label="Scrollable" attribute="scrollable"></uip-bool-setting>
-        <uip-bool-setting label="Center Aligned" attribute="class" mode="append" value="center-alignment"></uip-bool-setting>
       </uip-settings>
       <uip-editor label="Source code" collapsible copy></uip-editor>
     </uip-root>
