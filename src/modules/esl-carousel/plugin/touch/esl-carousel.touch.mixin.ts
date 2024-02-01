@@ -27,7 +27,6 @@ const toTouchType: (str: string) => TouchType = buildEnumParser('none', 'drag', 
 export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
   public static override is = 'esl-carousel-touch';
 
-  public static readonly NONE_TYPE = 'none';
   public static readonly DRAG_TYPE = 'drag';
   public static readonly SWIPE_TYPE = 'swipe';
 
@@ -44,18 +43,19 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
   /** Defines timeout tolerance to swipe */
   @attr({name: 'esl-carousel-swipe-timeout', defaultValue: 700, parser: parseInt}) public swipeTimeout: number;
 
-  /** Point to start from */
+  /** Coordinate of touch start event */
   protected startPoint: Point = {x: 0, y: 0};
-  /** Timestamp of start event */
+  /** Timestamp of touch start event */
   protected startTimestamp = 0;
-  /** Initial scroll offsets */
-  protected startEventOffset: ElementScrollOffset[];
+  /** Initial scroll offsets, filled on touch action start */
+  protected startScrollOffsets: ElementScrollOffset[];
 
   /** @returns rule {@link ESLMediaRuleList} for touch types */
   @memoize()
   public get typeRule(): ESLMediaRuleList<TouchType> {
     return ESLMediaRuleList.parse(this.type || ESLCarouselTouchMixin.DRAG_TYPE, toTouchType);
   }
+
   /** @returns whether the swipe mode is active */
   public get isSwipeMode(): boolean {
     return this.typeRule.value === ESLCarouselTouchMixin.SWIPE_TYPE;
@@ -65,18 +65,22 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
     return this.typeRule.value === ESLCarouselTouchMixin.DRAG_TYPE;
   }
 
+  /** @returns whether the plugin is disabled (due to carousel state or plugin config) */
+  public get isDisabled(): boolean {
+    // Plugin is disabled
+    if (!this.isDragMode && !this.isSwipeMode) return true;
+    // Carousel is not ready
+    if (!this.$host.renderer || this.$host.animating) return true;
+    // No nav required
+    return this.$host.size <= this.$host.config.count;
+  }
+
   protected override attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null): void {
     if (name === ESLCarouselTouchMixin.is) memoize.clear(this, 'typeRule');
   }
 
   /** @returns if the initial event should be ignored */
   protected isStartPrevented(event: TouchEvent | PointerEvent | MouseEvent): boolean | undefined {
-    // Carousel is not ready
-    if (!this.$host.renderer || this.$host.animating) return true;
-    // Plugin is disabled
-    if (this.typeRule.value === ESLCarouselTouchMixin.NONE_TYPE) return true;
-    // No nav required
-    if (this.$host.size <= this.$host.config.count) return true;
     // Multi-touch gesture
     if (isTouchEvent(event) && event.touches.length !== 1) return true;
     // Non-primary mouse button initiate drug event
@@ -88,7 +92,7 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
   /** @returns if the event should prevent touch action */
   protected isTouchActionPrevented(event: TouchEvent | PointerEvent | MouseEvent): boolean {
     // Prevents draggable state if the content is scrolled
-    if (isOffsetChanged(this.startEventOffset)) return true;
+    if (isOffsetChanged(this.startScrollOffsets)) return true;
     // Prevents draggable state if the text is selected
     if (document.getSelection()?.isCollapsed === false) return true;
     // Prevents draggable state if the offset is not reached tolerance or the swipe timeout
@@ -104,11 +108,12 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
   /** Handles `mousedown` / `touchstart` event to manage thumb drag start and scroll clicks */
   @listen('mousedown touchstart')
   protected _onPointerDown(event: MouseEvent | TouchEvent): void {
+    if (this.isDisabled) return;
     if (this.isStartPrevented(event)) return;
 
     this.startPoint = getTouchPoint(event);
     this.startTimestamp = event.timeStamp;
-    this.startEventOffset = getParentScrollOffsets(event.target as Element, this.$host);
+    this.startScrollOffsets = getParentScrollOffsets(event.target as Element, this.$host);
 
     isMouseEvent(event) && this.$$on({event: 'mousemove', target: window}, this._onPointerMove);
     isMouseEvent(event) && this.$$on({event: 'mouseup', target: window}, this._onPointerUp);

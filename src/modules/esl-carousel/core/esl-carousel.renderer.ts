@@ -157,7 +157,7 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
   public static get registry(): ESLCarouselRendererRegistry {
     return new ESLCarouselRendererRegistry();
   }
-  public static register(view: ESLCarouselRendererConstructor): void {
+  public static register(view: ESLCarouselRendererConstructor = this as any): void {
     ESLCarouselRenderer.registry.register(view);
   }
 }
