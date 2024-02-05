@@ -17,49 +17,89 @@ components:
     <!-- Show Long Alert -->
     <uip-root>
       <script type="text/html" uip-snippet label="Show Long">
-        <button type="button" class="btn btn-sec-blue esl-alert-show" onclick="ESL.EventUtils.dispatch(document.body, 'esl:alert:show', {
-          detail: {
-            text: 'Global Alert Long',
-            cls: 'alert alert-warning',
-          }})">
+        <button type="button" id="showAlertButton" class="btn btn-sec-orange esl-alert-show" style="margin:10px;">
           Show Long
         </button>
       </script>
 
+      <script type="text/plain" uip-js-snippet label="Show Long">
+        import {ESLEventUtils, ESLAlert} from '@exadel/esl';
+        ESLAlert.register();
+        ESLAlert.init();
+
+        const showAlertButton = document.getElementById('showAlertButton');
+        showAlertButton.addEventListener('click', () => {
+          ESLEventUtils.dispatch(document.body, 'esl:alert:show', {
+            detail: {
+              text: 'Global Alert Long',
+              cls: 'alert alert-info'
+            }
+          });
+        });
+
+      </script>
+
       <!-- Show Quick and Hide Alert -->
-      <script type="text/html" uip-snippet label="Show Quick">
-        <button type="button" class="btn btn-sec-blue esl-alert-show" onclick="ESL.EventUtils.dispatch(document.body, 'esl:alert:show', {
-          detail: {
-            text: 'Global Alert Short',
-            cls: 'alert alert-info',
-            delay: '1500'
-          }
-        })">
-          Show Long
+      <script type="text/html" uip-snippet label="Show Short">
+        <button type="button" id="showAlertButton" class="btn btn-sec-blue esl-alert-show" style="margin:10px;">
+          Show Short
         </button>
-        <button type="button" class="btn btn-sec-blue esl-alert-hide" onclick="ESL.EventUtils.dispatch(document.body, 'esl:alert:hide')">
+        <button type="button" id="hideAlertButton" class="btn btn-sec-blue esl-alert-hide" style="margin:10px;">
           Hide
         </button>
+      </script>
+      <script type="text/plain" uip-js-snippet label="Show Short">
+        import {ESLEventUtils, ESLAlert} from '@exadel/esl';
+        ESLAlert.register();
+        ESLAlert.init();
+
+        const showAlertButton = document.getElementById('showAlertButton');
+        const hideAlertButton = document.getElementById('hideAlertButton');
+        showAlertButton.addEventListener('click', () => {
+          ESLEventUtils.dispatch(document.body, 'esl:alert:show', {
+            detail: {
+              html: 'Inner <h2>Alert</h2> Short',
+              cls: 'alert alert-info',
+              delay: '1500'
+            }
+          });
+        });
+
+        hideAlertButton.addEventListener('click', () => {
+          ESLEventUtils.dispatch(document.body, 'esl:alert:hide');
+        })
       </script>
 
       <!-- Triggers Encapsulated -->
       <script type="text/html" uip-snippet label="Triggers Encapsulated">
         <div class="border p-3" style="min-height: 210px">
-          <button type="button" class="btn btn-sec-orange esl-alert-show" onclick="ESL.EventUtils.dispatch(this, 'esl:alert:show', {bubbles: true,
-            detail: {
-              cls: 'alert alert-info',
-              html: 'Inner <h2>Alert</h2> Long'
-            }})">
+          <button type="button" id="showAlertButton" class="btn btn-sec-orange esl-alert-show">
             Show Long
           </button>
           <esl-alert default-params="{cls: 'alert alert-info'}"></esl-alert>
         </div>
       </script>
+      <script type="text/plain" uip-js-snippet label="Triggers Encapsulated">
+        import {ESLEventUtils, ESLAlert} from '@exadel/esl';
+        ESLAlert.register();
+        ESLAlert.init();
+
+        const showAlertButton = document.getElementById('showAlertButton');
+        showAlertButton.addEventListener('click', () => {
+          ESLEventUtils.dispatch(document.body, 'esl:alert:show', {
+            bubbles: true,
+            detail: {
+              cls: 'alert alert-info',
+              html: 'Inner <h2>Alert</h2> Long'
+            }})
+          });
+      </script>
 
 
       <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
-      <uip-preview></uip-preview>
-      <uip-editor label="Source code" collapsible copy></uip-editor>
+      <uip-preview resizable isolation></uip-preview>
+      <uip-editor label="Source code (HTML)" collapsible copy></uip-editor>
+      <uip-editor script label="Source code (JS)" collapsible copy></uip-editor>
     </uip-root>
   </div>
 </section>
