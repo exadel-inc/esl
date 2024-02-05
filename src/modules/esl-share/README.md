@@ -281,11 +281,15 @@ The principle of cascading is similar to CSS variables. The value is searched fr
 
 ### ESLShareConfig
 
+#### Static API
+
+ - `instance` - getter that returns shared instance of `ESLShareConfig`
+ - `append` - appends single button or group to current configuration
+ - `set` - updates the configuration with promise resolved to `ESLShareConfigInit` or promise provider function
+ - `update` - updates items configuration from the list with the specified partial config
+
 #### Public API
 
- - `instance` - static getter that returns shared instance of `ESLShareConfig`
- - `append` - static method that appends single button or group to current configuration
- - `set` - static method that updates the configuration with promise resolved to `ESLShareConfigInit` or promise provider function
  - `buttons` - getter that returns list of all available buttons
  - `groups` - getter that returns list of all available groups
  - `get` - selects the buttons for the given list and returns their configuration
@@ -293,6 +297,7 @@ The principle of cascading is similar to CSS variables. The value is searched fr
  - `getButton` - gets the button configuration for the given name
  - `getGroup` - gets the group of buttons configuration for the given name
  - `append` - updates the configuration with a `ESLShareButtonConfig`(s) or `ESLShareGroupConfig`(s)
+ - `update` - updates items configuration from the list with the specified partial config
 
 #### Events
 
@@ -323,15 +328,17 @@ The component is notified of any configuration changes. And, if during the check
 ### ESLSharePopup
 
 This element is based on [ESLPopup](../esl-popup/README.md) element and exists in a single instance. Its shared instance adds directly to the document's body when any of `ESLShare` requires showing this popup. It removes from the document's body on hide action. 
-`ESLSharePopup` renders buttons from the list on show action. If an `ESLSharePopup` element with the desired set of buttons already exists in the document body, the existing one will be reused. 
+`ESLSharePopup` renders buttons from the list on show action. If an `ESLSharePopup` element with the desired set of buttons already exists in the document body, the existing one will be reused.
+
+Since an `ESLSharePopup` element is created dynamically you may need to style some individual popups differently, for example on components with dark or light backgrounds. To do this, you can define an additional class or style that will be applied to the popup when it is opened. Simply define the `popup-params` attribute in the `ESLShare` element, in which you specify the desired `extraClass` or `extraStyle` property. You can define any other popup parameters in the same way. For a complete list of available properties of popup parameters, see the [ESLPopup](../esl-popup/README.md) component documentation.
 
 #### Observing changes in configuration
 
 The popup is notified of any configuration changes. In this case, the component is simply hidden if it is in an open state, i.e. there is a set of rendered buttons inside. So, when you open it again, it will simply redraw the new buttons inside.
 
-#### Public API
+#### Static API
 
- - `sharedInstance` - static getter that returns shared instance of ESLSharePopup
+ - `sharedInstance` - getter that returns shared instance of ESLSharePopup
 
 ### ESLShare
 
@@ -340,7 +347,7 @@ A trigger element is based on [ESLTrigger](../esl-trigger/README.md) to activate
 #### Attributes / Properties
 
  - `list` - list of social networks or groups of them to display (all by default). The value - a string containing the names of the buttons or groups (specified with the prefix group:) separated by spaces. For example: `"facebook reddit group:default"`
- - `popup-params` - initial params to pass into popup on show action (Default: `{position: 'top', hideDelay: 220}`)
+ - `popup-params` - initial params to pass into popup on show action (Default: `{position: 'top', hideDelay: 220}`). For a complete list of available properties of popup parameters, see the [ESLPopup](../esl-popup/README.md) component documentation
  - `share-url` - URL to share (current page URL by default)
  - `share-title` - title to share (current document title by default)
  - `track-hover` - [MediaQuery](../esl-media-query/README.md) to define allowed to track hover event media. (Default: `all`)
