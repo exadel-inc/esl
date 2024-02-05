@@ -20,7 +20,7 @@ branches:
 # Release configuration
 plugins:
   - - "@semantic-release/commit-analyzer"
-    - preset: angular
+    - preset: conventionalcommits
       releaseRules:
         - type: style
           release: patch
@@ -43,7 +43,7 @@ plugins:
           release: patch
 
   - - "@semantic-release/release-notes-generator"
-    - preset: angular
+    - preset: conventionalcommits
       parserOpts:
         noteKeywords:
           - BREAKING CHANGE
