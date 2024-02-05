@@ -46,10 +46,10 @@ ESLPopup extends [ESLToggleable](../esl-toggleable/README.md) you can find other
 
 ESLPopup is a non-trivial component that calculates its position depending on user settings. So for styling, it would be advisable to use the basic styles that we provide with our library. You can easily override most of the rules from the base styles. Some properties are calculated, so you can't override them directly, but it is possible to set the value through CSS variables. For now, you can use the following variables:
 
-- `--esl-popup-arrow-size` - arrow size (default '20px')
+- `--esl-popup-arrow-size` - arrow size ('20px' by default)
 - `--esl-popup-background-color` - background color of the popup ('#fff' by default)
-- `--esl-popup-border-color` - popup border color (default value is '#dbdbdb')
+- `--esl-popup-border-color` - popup border color ('#dbdbdb' by default)
 - `--esl-popup-border-width` - border width of the popup ('1px' by default)
-- `--esl-popup-z-index` - z-index of the popup (default is '999')
+- `--esl-popup-z-index` - z-index of the popup ('999' by default)
 
 Or if you are using the LESS preprocessor, you can optionally use mixins instead of CSS variables. However, we would recommend using the general approach with CSS variables.
