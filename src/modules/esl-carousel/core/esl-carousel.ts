@@ -167,8 +167,14 @@ export class ESLCarousel extends ESLBaseElement {
   }
 
   protected updateA11y(): void {
+    const $container = this.$container || this;
+    if (!$container.hasAttribute('role')) {
+      $container.setAttribute('role', 'region');
+      $container.setAttribute('aria-roledescription', 'Carousel');
+    }
     if (!this.$slidesArea.hasAttribute('role')) {
       this.$slidesArea.setAttribute('role', 'list');
+      // this.$slidesArea.setAttribute('aria-live', 'polite');
     }
   }
 
