@@ -23,7 +23,7 @@ aside:
     <uip-root>
       <script type="text/html" uip-snippet label="Simple Tabs">
         <div class="esl-d-tabs">
-          <esl-tabs class="esl-d-tab-control">
+          <esl-tabs class="esl-d-tab-control tabs-alignment">
             <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
 
             <div class="arrow-prev" data-tab-direction="left">
@@ -68,10 +68,18 @@ aside:
           </esl-panel-group>
         </div>
       </script>
+      <script type="text/plain" uip-js-snippet label="Simple Tabs">
+        import { ESLPanelGroup, ESLPanel, ESLTab } from '@exadel/esl';
+        ESLPanelGroup.register();
+        ESLPanel.register();
+        ESLTab.register();
+        ESLTabs.register();
+      </script>
       <script type="text/html" uip-snippet label="Tabs with accordion transformation">
-        <p>Example with a simple tab mode that transforms to accordion on XS and SM. Accordion restores last state, tabs restore initial state</p>
+        <p>Example with a simple tab mode that transforms to accordion on XS and SM. Accordion restores last state, tabs
+          restore initial state</p>
         <div class="esl-d-tabs">
-          <esl-tabs class="esl-d-tab-control">
+          <esl-tabs class="esl-d-tab-control tabs-accordion">
             <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
 
             <div class="arrow-prev" data-tab-direction="left">
@@ -80,13 +88,19 @@ aside:
 
             <ul class="esl-d-tab-list esl-tab-container" role="tablist">
               <li class="esl-d-tab-item">
-                <esl-tab class="h5" target="::parent(.esl-d-tabs)::find(.tab-1)">Tab #1 tabs with accordion transformation</esl-tab>
+                <esl-tab class="h5" target="::parent(.esl-d-tabs)::find(.tab-1)">Tab #1 tabs with accordion
+                  transformation
+                </esl-tab>
               </li>
               <li class="esl-d-tab-item">
-                <esl-tab class="h5" target="::parent(.esl-d-tabs)::find(.tab-2)">Tab #2 tabs with accordion transformation</esl-tab>
+                <esl-tab class="h5" target="::parent(.esl-d-tabs)::find(.tab-2)">Tab #2 tabs with accordion
+                  transformation
+                </esl-tab>
               </li>
               <li class="esl-d-tab-item">
-                <esl-tab class="h5" target="::parent(.esl-d-tabs)::find(.tab-3)">Tab #3 tabs with accordion transformation</esl-tab>
+                <esl-tab class="h5" target="::parent(.esl-d-tabs)::find(.tab-3)">Tab #3 tabs with accordion
+                  transformation
+                </esl-tab>
               </li>
             </ul>
 
@@ -104,7 +118,8 @@ aside:
             <esl-a11y-group targets="::child(esl-trigger)"></esl-a11y-group>
 
             <esl-trigger class="esl-d-accordion-header esl-d-accordion-header-arrow h5"
-                         target="::next">Toggle Tab #1</esl-trigger>
+                         target="::next">Toggle Tab #1
+            </esl-trigger>
             <esl-panel class="esl-d-tab-panel tab-1" tabindex="0">
               <div class="esl-d-tab-body">
                 <!-- text 130 -->
@@ -112,7 +127,8 @@ aside:
             </esl-panel>
 
             <esl-trigger class="esl-d-accordion-header esl-d-accordion-header-arrow h5"
-                         target="::next">Toggle Tab #2</esl-trigger>
+                         target="::next">Toggle Tab #2
+            </esl-trigger>
             <esl-panel open class="esl-d-tab-panel tab-2" tabindex="0">
               <div class="esl-d-tab-body">
                 <!-- text 100 -->
@@ -120,7 +136,8 @@ aside:
             </esl-panel>
 
             <esl-trigger class="esl-d-accordion-header esl-d-accordion-header-arrow h5"
-                         target="::next">Toggle Tab #3</esl-trigger>
+                         target="::next">Toggle Tab #3
+            </esl-trigger>
             <esl-panel class="esl-d-tab-panel tab-3" tabindex="0">
               <div class="esl-d-tab-body">
                 <!-- text 150 -->
@@ -129,10 +146,17 @@ aside:
           </esl-panel-group>
         </div>
       </script>
+      <script type="text/plain" uip-js-snippet label="Tabs with accordion transformation">
+        import { ESLPanelGroup, ESLPanel, ESLTab } from '@exadel/esl';
+        ESLPanelGroup.register();
+        ESLPanel.register();
+        ESLTab.register();
+        ESLTabs.register();
+      </script>
       <script type="text/html" uip-snippet label="Tabs with open state">
         <p>Example with a simple tab mode, transforms to default cards on XS and SM</p>
         <div class="esl-d-tabs">
-          <esl-tabs class="esl-d-tab-control">
+          <esl-tabs class="esl-d-tab-control tabs-alignment">
             <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
 
             <div class="arrow-prev" data-tab-direction="left">
@@ -164,7 +188,8 @@ aside:
             <esl-a11y-group targets="::child(esl-trigger)"></esl-a11y-group>
 
             <esl-trigger class="esl-d-accordion-header esl-d-accordion-header-arrow h5"
-                         target="::next">Toggle Tab #1</esl-trigger>
+                         target="::next">Toggle Tab #1
+            </esl-trigger>
             <esl-panel class="esl-d-tab-panel tab-1" tabindex="0">
               <div class="esl-d-tab-body">
                 <!-- text 100 -->
@@ -172,7 +197,8 @@ aside:
             </esl-panel>
 
             <esl-trigger class="esl-d-accordion-header esl-d-accordion-header-arrow h5"
-                         target="::next">Toggle Tab #2</esl-trigger>
+                         target="::next">Toggle Tab #2
+            </esl-trigger>
             <esl-panel open class="esl-d-tab-panel tab-2" tabindex="0">
               <div class="esl-d-tab-body">
                 <!-- text 100 -->
@@ -180,7 +206,8 @@ aside:
             </esl-panel>
 
             <esl-trigger class="esl-d-accordion-header esl-d-accordion-header-arrow h5"
-                         target="::next">Toggle Tab #3</esl-trigger>
+                         target="::next">Toggle Tab #3
+            </esl-trigger>
             <esl-panel class="esl-d-tab-panel tab-3" tabindex="0">
               <div class="esl-d-tab-body">
                 <!-- text 100 -->
@@ -189,17 +216,24 @@ aside:
           </esl-panel-group>
         </div>
       </script>
+      <script type="text/plain" uip-js-snippet label="Tabs with open state">
+        import { ESLPanelGroup, ESLPanel, ESLTab } from '@exadel/esl';
+        ESLPanelGroup.register();
+        ESLPanel.register();
+        ESLTab.register();
+        ESLTabs.register();
+      </script>
 
       <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
-      <uip-preview></uip-preview>
+      <uip-preview isolation></uip-preview>
       <uip-settings target="esl-tabs" label="Settings" resizable vertical="@+sm">
-        <uip-select-setting label="Alignment:" attribute="class" mode="append">
+        <uip-select-setting target="esl-tabs.tabs-alignment" label="Alignment:" attribute="class" mode="append">
           <option value="">Left</option>
           <option value="center-alignment">Center</option>
           <option value="right-alignment">Right</option>
         </uip-select-setting>
         <uip-bool-setting label="Match Height" target="esl-panel-group" attribute="class" mode="append" value="esl-tabs-equal-height"></uip-bool-setting>
-        <uip-bool-setting label="Scrollable" attribute="scrollable"></uip-bool-setting>
+        <uip-bool-setting target="esl-tabs.tabs-accordion" label="Scrollable" attribute="scrollable"></uip-bool-setting>
       </uip-settings>
       <uip-editor label="Source code" collapsible copy></uip-editor>
     </uip-root>
