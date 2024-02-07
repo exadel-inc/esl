@@ -134,9 +134,5 @@ import (/* webpackChunkName: 'common/esl-share' */'./esl-share/esl-share');
 
 if (document.querySelector('uip-root')) {
   // Init UI Playground
-  import (
-    /* webpackPrefetch: true */
-    /* webpackChunkName: "common/playground" */
-    '@exadel/ui-playground/esm/registration.js'
-  ).then(({init}) => init());
+  import (/* webpackChunkName: "common/playground" */'./playground/ui-playground');
 }
