@@ -167,13 +167,9 @@ export class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
       await promisifyEvent(this.$area, 'transitionend').catch(resolvePromise);
     }
 
-    // clear animation
-    this.$carousel.toggleAttribute('animating', false);
-    this.setTransformOffset(0);
-    this.$slides.forEach((el) => el.toggleAttribute('visible', false));
-
     const sign = offset < 0 ? 1 : -1;
-    const count = Math.abs(offset) % this.slideSize >= this.slideSize / 4 ?
+    const slideSize = this.slideSize + this.gap;
+    const count = Math.abs(offset) % slideSize >= slideSize / 4 ?
       Math.ceil(Math.abs(offset) / this.slideSize) : Math.floor(Math.abs(offset) / this.slideSize);
     const nextIndex = this.$carousel.activeIndex + count * sign;
 
@@ -188,6 +184,11 @@ export class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
     this.reindex(this.currentIndex);
 
     this.setActive(this.currentIndex);
+
+    // clear animation
+    this.$carousel.toggleAttribute('animating', false);
+    this.setTransformOffset(0);
+    this.$slides.forEach((el) => el.toggleAttribute('visible', false));
 
     if (activeIndex !== this.currentIndex) {
       this.$carousel.dispatchEvent(ESLCarouselSlideEvent.create('AFTER', {
