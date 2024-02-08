@@ -7,6 +7,7 @@
   "license": "MIT",
   "scripts": {
     "run": "jest",
+    "run:server": "cd .. && npm run start:test --workspace=site",
     "test": "eslint"
   },
   "dependencies": {
