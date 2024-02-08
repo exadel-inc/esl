@@ -10,7 +10,7 @@
   },
   "scripts": {
     "start": "npm run clean && concurrently --kill-others \"npm run watch:lib\" \"npm run watch:ts\" \"npm run watch:less\" \"npm run watch:eleventy\"",
-    "start:test": "npm run clean && concurrently \"npm run build:ts\" \"npm run build:less && npm run minify:css\" && npm run run:eleventy",
+    "start:test": "npm run clean && npm run build:ts && npm run build:less:site && npm run build:less:lib && npm run run:eleventy",
     "test": "",
     "clean": "rimraf \"dist\"",
     "watch:lib": "cd .. && npm run watch",
