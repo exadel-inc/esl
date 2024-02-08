@@ -5,7 +5,7 @@ module.exports = {
     product: 'chrome'
   },
   server: {
-    command: 'cd ../site & npm run start:test',
+    command: 'npm run run:server',
     port: 3005,
     launchTimeout: 20000,
     debug: true
