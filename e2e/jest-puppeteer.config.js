@@ -7,7 +7,7 @@ module.exports = {
   server: {
     command: 'cd ../ & npm run start:test --workspace site',
     port: 3005,
-    launchTimeout: 10000,
+    launchTimeout: 20000,
     debug: true
   }
 };
