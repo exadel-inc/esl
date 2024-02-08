@@ -30,3 +30,8 @@ jobs:
         with:
           name: automation-diff-report
           path: e2e/.diff
+      - name: Render Report
+        if: always()
+        shell: bash
+        run: |
+          cat e2e/.diff/index.md >> $GITHUB_STEP_SUMMARY

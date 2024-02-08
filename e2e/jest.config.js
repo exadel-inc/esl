@@ -11,5 +11,9 @@ module.exports = {
   testRegex: ['(.+)\\.(spec|test)\\.ts$', '(.+).feature'],
   moduleFileExtensions: ['ts', 'js', 'feature'],
   setupFilesAfterEnv: ['./setup/image.ts', './setup/scenarios.ts'],
-  reporters: [['github-actions', {silent: false}], 'summary']
+  reporters: [
+    ["jest-md-dashboard", { title: 'Test Results', outputPath: './.diff/index.md' }],
+    ['github-actions', {silent: false}],
+    'summary'
+  ]
 };
