@@ -25,7 +25,8 @@ jobs:
       - name: Run Tests
         run: npm run test:e2e
       - name: Collect Report & Upload artifact
+        if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: code-coverage-report
+          name: automation-diff-report
           path: e2e/.diff
