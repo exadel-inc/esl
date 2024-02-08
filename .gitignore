@@ -28,3 +28,4 @@ npm-debug.log
 # Jest & Sonar
 /.report
 /.scannerwork
+/e2e/.diff
