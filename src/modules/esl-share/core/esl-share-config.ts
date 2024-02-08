@@ -1,6 +1,6 @@
 import {decorate, memoize} from '../../esl-utils/decorators';
 import {microtask} from '../../esl-utils/async/microtask';
-import {isObject} from '../../esl-utils/misc/object/types';
+import {isObject, deepMerge} from '../../esl-utils/misc/object';
 import {uniq} from '../../esl-utils/misc/array';
 import {SyntheticEventTarget} from '../../esl-utils/dom/events/target';
 
@@ -77,9 +77,9 @@ export class ESLShareConfig extends SyntheticEventTarget {
     return ESLShareConfig.instance;
   }
 
-  /** Updates items by the name and passed changes */
-  public static update(name: string, changes: Partial<ESLShareButtonConfig>): ESLShareConfig {
-    return ESLShareConfig.instance.update(name, changes);
+  /** Updates items configuration from the list with the specified partial config */
+  public static update(query: string, changes: Partial<ESLShareButtonConfig>): ESLShareConfig {
+    return ESLShareConfig.instance.update(query, changes);
   }
 
   /** Appends single button or group to current configuration */
@@ -173,10 +173,10 @@ export class ESLShareConfig extends SyntheticEventTarget {
     return this;
   }
 
-  /** Updates items by the name and passed changes */
-  public update(name: string, changes: Partial<ESLShareButtonConfig>): ESLShareConfig {
-    for (const btn of this.get(name)) {
-      this.append(Object.assign({}, btn, changes));
+  /** Updates items configuration from the list with the specified partial config */
+  public update(query: string, changes: Partial<ESLShareButtonConfig>): ESLShareConfig {
+    for (const btn of this.get(query)) {
+      this.append(deepMerge({}, btn, changes));
     }
     return this;
   }

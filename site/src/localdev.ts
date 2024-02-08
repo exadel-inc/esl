@@ -1,7 +1,5 @@
 // Support for ES5 bundle target
 import '@exadel/esl/polyfills/es5-target-shim';
-// Builtin polyfills
-import '@exadel/esl/polyfills/polyfills.es6';
 // Validate environment
 import '@exadel/esl/polyfills/polyfills.validate';
 
@@ -118,9 +116,5 @@ import (/* webpackChunkName: 'common/esl-share' */'./esl-share/esl-share');
 
 if (document.querySelector('uip-root')) {
   // Init UI Playground
-  import (
-    /* webpackPrefetch: true */
-    /* webpackChunkName: "common/playground" */
-    '@exadel/ui-playground/esm/registration.js'
-  ).then(({init}) => init());
+  import (/* webpackChunkName: "common/playground" */'./playground/ui-playground');
 }

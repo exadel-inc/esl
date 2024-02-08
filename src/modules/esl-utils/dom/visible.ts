@@ -1,6 +1,6 @@
 import {Rect} from './rect';
 import {isElement} from './api';
-import {getWindowRect} from './window';
+import {getViewportRect} from './window';
 import {getListScrollParents} from './scroll';
 import {findClosestBy, findHost} from './traversing';
 
@@ -36,7 +36,7 @@ export function isVisible(el: Element, options: VisibilityOptions = {visibility:
  * @param el - element to be checked
  */
 export function isInViewport(el: Element): boolean {
-  const wndIntersection = Rect.from(el).intersect(getWindowRect());
+  const wndIntersection = Rect.from(el).intersect(getViewportRect());
   if (wndIntersection.area === 0) return false;
   return !getListScrollParents(el).some(
     (parent: Element) => Rect.from(parent).intersect(wndIntersection).area === 0
