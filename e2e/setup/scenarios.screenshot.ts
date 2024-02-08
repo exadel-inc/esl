@@ -18,5 +18,5 @@ cucumber.defineRule('check if the screenshot is exactly equal to the snapshoted 
 cucumber.defineRule('check if the screenshot is equal to the snapshoted version', (world: TestEnv) => {
   if (!world.screenshots.length) throw new Error('E2E: there is no any screenshot, make sure you have "Take a screenshot" before');
   const image = world.screenshots.pop();
-  expect(image).toMatchImageSnapshot({failureThreshold: 5, failureThresholdType: 'percent'});
+  expect(image).toMatchImageSnapshot({failureThreshold: 5, failureThresholdType: 'pixel'});
 });
