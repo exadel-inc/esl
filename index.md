@@ -3,7 +3,7 @@
   
 | :clock10: Start time | :hourglass: Duration |
 | --- | ---: |
-|2/9/2024, 8:39:14 PM|5.02ss|
+|2/9/2024, 8:46:31 PM|5.12ss|
 
 | | :white_check_mark: Passed | :x: Failed | :construction: Todo | :white_circle: Total |
 | --- | ---: | ---: | ---:| ---: |
@@ -17,6 +17,6 @@
   ### tests/homepage.feature
 <table>
 <tr><th>Test</th><th>Status</th><th>Time</th></tr>
-<tr><td>Feature: Homepage looks fine:test homepage screen</td><td>:x:</td><td>3157s</td></tr>
-<tr><td colspan="3"><img src="https://github.com/exadel-inc/esl/blob/diff-report/homepage-feature-feature-homepage-looks-fine-test-homepage-screen-1-snap-diff.png" alt="Test Diff homepage-feature-feature-homepage-looks-fine-test-homepage-screen-1-snap-diff.png"/></td></tr><table>
+<tr><td>Feature: Homepage looks fine:test homepage screen</td><td>:x:</td><td>3213s</td></tr>
+<tr><td colspan="3"><img src="https://github.com/exadel-inc/esl/blob/diff-report/homepage-feature-feature-homepage-looks-fine-test-homepage-screen-1-snap-diff.png?raw=true" alt="Test Diff homepage-feature-feature-homepage-looks-fine-test-homepage-screen-1-snap-diff.png"/></td></tr><table>
 
