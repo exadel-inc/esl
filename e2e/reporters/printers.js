@@ -3,7 +3,7 @@ const printSummary = (stats) => {
 
   text += '| :clock10: Start time | :hourglass: Duration |\n';
   text += '| --- | ---: |\n';
-  text += `|${stats.startTimeStr}|${stats.totalTimeStr}s|\n`;
+  text += `|${stats.startTimeStr}|${stats.totalTimeStr}|\n`;
   text += '\n';
 
   text += '| | :white_check_mark: Passed | :x: Failed | :construction: Todo | :white_circle: Total |\n';
@@ -30,7 +30,7 @@ function printFiles(fileStat, basePath) {
     text += '<tr><th>Test</th><th>Status</th><th>Time</th></tr>\n';
     for (const test of file.tests) {
       const statusTest = test.status === 'passed' ? ':white_check_mark:' : ':x:';
-      const timeStr = test.time < 1 ? `${test.time * 1000}ms` : `${test.time}s`;
+      const timeStr = test.time < 1000 ? `${test.time}ms` : `${test.time / 1000}s`;
 
       text += `<tr><td>${test.name}:${test.title}</td><td>${statusTest}</td><td>${timeStr}</td></tr>\n`;
 
