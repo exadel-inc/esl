@@ -1,5 +1,3 @@
-const path = require('path');
-
 const printSummary = (stats) => {
   let text = '\n';
 
@@ -17,6 +15,12 @@ const printSummary = (stats) => {
   return text;
 };
 
+const resolveURL = (basePath, snapshot) => {
+  if (!basePath) return snapshot;
+  const path = basePath + (basePath.endsWith('/') ? '' : '/') + snapshot;
+  return path.replace(/\\/g, '/');
+};
+
 function printFiles(fileStat, basePath) {
   let text = '';
   for (const file of fileStat) {
@@ -30,8 +34,7 @@ function printFiles(fileStat, basePath) {
       text += `<tr><td>${test.name}:${test.title}</td><td>${statusTest}</td><td>${timeStr}</td></tr>\n`;
 
       if (test.status !== 'passed' && test.hasSnapshot) {
-        const imgPath = path.join(basePath, test.snapshot);
-        text += `<tr><td colspan="3"><img src="${imgPath}" alt="Test Diff ${test.snapshot}"/></td></tr>`;
+        text += `<tr><td colspan="3"><img src="${resolveURL(basePath, test.snapshot)}" alt="Test Diff ${test.snapshot}"/></td></tr>`;
       }
       if (test.status !== 'passed' && !test.hasSnapshot) {
         text += `<tr><td colspan="3">\n`;
