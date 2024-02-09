@@ -12,7 +12,11 @@ module.exports = {
   moduleFileExtensions: ['ts', 'js', 'feature'],
   setupFilesAfterEnv: ['./setup/image.ts', './setup/scenarios.ts'],
   reporters: [
-    ["jest-md-dashboard", { title: 'Test Results', outputPath: './.diff/index.md' }],
+    ['./reporters/reporter.js', {
+      diffDir: './.diff',
+      outputPath: './.diff/README.md',
+      outputPublishPath: './.diff/index.md'
+    }],
     ['github-actions', {silent: false}],
     'default'
   ]

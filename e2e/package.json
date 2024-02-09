@@ -10,14 +10,13 @@
     "run:update": "jest -u",
     "run:update:only": "jest -u --no-autorun",
     "run:tests:only": "jest --no-autorun",
-    "run:server": "cd .. && npm run start:test --workspace=site",
+    "run:server": "cd .. && cross-env-shell PORT=3007 npm run start:test --workspace=site",
     "test": "eslint"
   },
   "dependencies": {
     "@types/jest-environment-puppeteer": "^5.0.6",
     "@types/jest-image-snapshot": "^6.4.0",
     "@types/puppeteer": "^7.0.4",
-    "jest-md-dashboard": "^0.7.2",
     "jest-image-snapshot": "^6.4.0",
     "jest-puppeteer": "^9.0.2",
     "puppeteer": "^22.0.0",
