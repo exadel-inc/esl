@@ -1,6 +1,6 @@
 import {cucumber} from '../transformer/gherkin';
 
-const port = process.env.PORT || 3005;
+const port = process.env.PORT || 3007;
 
 cucumber.defineRule('a page {string}', async (world: unknown, path: string) => {
   const url = new URL(path, `http://localhost:${port}/`);
