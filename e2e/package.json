@@ -7,6 +7,9 @@
   "license": "MIT",
   "scripts": {
     "run": "jest",
+    "run:update": "jest -u",
+    "run:update:only": "jest -u --no-autorun",
+    "run:tests:only": "jest --no-autorun",
     "run:server": "cd .. && npm run start:test --workspace=site",
     "test": "eslint"
   },

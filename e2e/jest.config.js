@@ -14,6 +14,6 @@ module.exports = {
   reporters: [
     ["jest-md-dashboard", { title: 'Test Results', outputPath: './.diff/index.md' }],
     ['github-actions', {silent: false}],
-    'summary'
+    'default'
   ]
 };
