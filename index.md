@@ -18,5 +18,5 @@
 <table>
 <tr><th>Test</th><th>Status</th><th>Time</th></tr>
 <tr><td>Feature: Homepage looks fine:test homepage screen</td><td>:x:</td><td>3210s</td></tr>
-<tr><td colspan="3"><img src="homepage-feature-feature-homepage-looks-fine-test-homepage-screen-1-snap-diff.png" alt="Test Diff homepage-feature-feature-homepage-looks-fine-test-homepage-screen-1-snap-diff.png"/></td></tr><table>
+<tr><td colspan="3"><img src="https:/github.com/exadel-inc/esl/blob/diff-report/homepage-feature-feature-homepage-looks-fine-test-homepage-screen-1-snap-diff.png" alt="Test Diff homepage-feature-feature-homepage-looks-fine-test-homepage-screen-1-snap-diff.png"/></td></tr><table>
 
