@@ -1,14 +1,10 @@
 import {cucumber} from '../transformer/gherkin';
 
+const port = process.env.PORT || 3005;
+
 cucumber.defineRule('a page {string}', async (world: unknown, path: string) => {
-  const url = new URL(path, 'http://localhost:3005/');
+  const url = new URL(path, `http://localhost:${port}/`);
   await page.goto(url.toString());
-  await page.addStyleTag({
-    // TODO: move to generic file
-    content: `
-      .landing-layout::before { display: none !important; }
-    `
-  });
 });
 
 cucumber.defineRule('on mobile', async () => {
