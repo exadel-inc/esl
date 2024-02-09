@@ -7,8 +7,6 @@ on:
 
 env:
   node-version: 20.x
-
-variables:
   DIFF_REPORT_BRANCH: diff-report
 
 permissions:
