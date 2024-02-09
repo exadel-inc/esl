@@ -3,3 +3,4 @@ jest.config.js
 
 # Common directories
 transformer
+reporters

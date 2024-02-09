@@ -8,6 +8,15 @@ on:
 env:
   node-version: 20.x
 
+variables:
+  DIFF_REPORT_BRANCH: diff-report
+
+permissions:
+  contents: write
+  pages: none
+  deployments: none
+  pull-requests: write
+
 jobs:
   e2e-tests:
     name: Automation Testing
@@ -30,6 +39,13 @@ jobs:
         with:
           name: automation-diff-report
           path: e2e/.diff
+      - name: Deploy latest report to branch
+        if: failure()
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: e2e/.diff
+          publish_branch: ${{ env.DIFF_REPORT_BRANCH }}
       - name: Render Report
         if: always()
         shell: bash
