@@ -45,7 +45,8 @@ function printFiles(fileStat, basePath) {
         text += `</td></tr>\n`;
       }
     }
-    text += `<table>\n`;
+    text += `</table>`;
+    text += '\n\n';
   }
   return text;
 }
