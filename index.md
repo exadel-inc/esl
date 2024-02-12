@@ -3,7 +3,7 @@
   
 | :clock10: Start time | :hourglass: Duration |
 | --- | ---: |
-|2/12/2024, 6:23:03 PM|6.65s|
+|2/12/2024, 7:03:11 PM|6.62s|
 
 | | :white_check_mark: Passed | :x: Failed | :construction: Todo | :white_circle: Total |
 | --- | ---: | ---: | ---:| ---: |
@@ -17,11 +17,13 @@
   ### tests/homepage-err.feature
 <table>
 <tr><th>Test</th><th>Status</th><th>Time</th></tr>
-<tr><td>Feature: Homepage temporary error case:test homepage screen when it is not ready</td><td>:x:</td><td>1.858s</td></tr>
-<tr><td colspan="3"><img src="https://github.com/exadel-inc/esl/blob/diff-report/homepage-err-feature-feature-homepage-temporary-error-case-test-homepage-screen-when-it-is-not-ready-1-snap-diff.png?raw=true" alt="Test Diff homepage-err-feature-feature-homepage-temporary-error-case-test-homepage-screen-when-it-is-not-ready-1-snap-diff.png"/></td></tr><table>
+<tr><td>Feature: Homepage temporary error case:test homepage screen when it is not ready</td><td>:x:</td><td>1.814s</td></tr>
+<tr><td colspan="3"><img src="https://github.com/exadel-inc/esl/blob/diff-report/homepage-err-feature-feature-homepage-temporary-error-case-test-homepage-screen-when-it-is-not-ready-1-snap-diff.png?raw=true" alt="Test Diff homepage-err-feature-feature-homepage-temporary-error-case-test-homepage-screen-when-it-is-not-ready-1-snap-diff.png"/></td></tr></table>
+
 ### tests/homepage.feature
 <table>
 <tr><th>Test</th><th>Status</th><th>Time</th></tr>
-<tr><td>Feature: Homepage looks fine:test homepage screen</td><td>:x:</td><td>3.264s</td></tr>
-<tr><td colspan="3"><img src="https://github.com/exadel-inc/esl/blob/diff-report/homepage-feature-feature-homepage-looks-fine-test-homepage-screen-1-snap-diff.png?raw=true" alt="Test Diff homepage-feature-feature-homepage-looks-fine-test-homepage-screen-1-snap-diff.png"/></td></tr><table>
+<tr><td>Feature: Homepage looks fine:test homepage screen</td><td>:x:</td><td>3.249s</td></tr>
+<tr><td colspan="3"><img src="https://github.com/exadel-inc/esl/blob/diff-report/homepage-feature-feature-homepage-looks-fine-test-homepage-screen-1-snap-diff.png?raw=true" alt="Test Diff homepage-feature-feature-homepage-looks-fine-test-homepage-screen-1-snap-diff.png"/></td></tr></table>
+
 
