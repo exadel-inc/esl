@@ -1,4 +1,4 @@
-import {hasAttr, getAttr, setAttr} from '../attr';
+import {hasAttr, getAttr, setAttr, getClosestAttr} from '../attr';
 
 describe('Attribute', () => {
   const attrName = 'test-attr';
@@ -116,6 +116,30 @@ describe('Attribute', () => {
       expect($el1.getAttribute(attrName)).toBe(attrValue);
       expect($el2.getAttribute(attrName)).toBe(attrValue);
       expect($el3.getAttribute(attrName)).toBe(attrValue);
+    });
+  });
+
+
+  describe('getClosestAttr', () => {
+    const $el = document.createElement('div');
+    $el.setAttribute(attrName, attrValue);
+
+    const $parent = document.createElement('div');
+    const $parentName = 'parent-attr';
+    const $parentValue = 'parent-value';
+    $parent.setAttribute($parentName, $parentValue);
+
+    $parent.append($el);
+    document.body.append($parent);
+
+    test('finds indicated attribute on this element', () => {
+      expect(getClosestAttr($el, attrName)).toBe(attrValue);
+    });
+    test('finds indicated attribute on closest parent in DOM', () => {
+      expect(getClosestAttr($el, $parentName)).toBe($parentValue);
+    });
+    test('returns null in case indicated attribute is absent in DOM', () => {
+      expect(getClosestAttr($el, 'name')).toBe(null);
     });
   });
 });

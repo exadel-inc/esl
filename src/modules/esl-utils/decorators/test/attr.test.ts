@@ -106,6 +106,103 @@ describe('Decorator: attr', () => {
     expect(el.defProvider).toBe('');
   });
 
+  describe('inherit parameter', () => {
+    class FirstElement extends HTMLElement {}
+    customElements.define('first-el', FirstElement);
+    const el1 = new FirstElement();
+
+    class SecondElement extends HTMLElement {
+      @attr({inherit: 'box'})
+      public container: string;
+      @attr({inherit: 'parent', dataAttr: true})
+      public ignore: string;
+      @attr({inherit: true})
+      public disallow: string;
+      @attr({inherit: true, dataAttr: true})
+      public allow: string;
+    }
+
+    customElements.define('second-el', SecondElement);
+    const el2 = new SecondElement();
+
+    beforeAll(() => {
+      el1.append(el2);
+      document.body.append(el1);
+    });
+
+    describe('value of inherit is presented in string format', () => {
+      test('declared inherit is on this element', () => {
+        el2.setAttribute('box', 'value');
+        expect(el2.container).toBe('value');
+      });
+      test('change of inherit value leads to change of getter value', () => {
+        el2.setAttribute('box', 'container');
+        expect(el2.container).toBe('container');
+      });
+      test('declared inherit is found on the closest element in DOM', () => {
+        el2.removeAttribute('box');
+        el1.setAttribute('box', 'carousel');
+        expect(el2.container).toBe('carousel');
+      });
+      test('elements with declared inherit are absent in DOM and returns empty string', () => {
+        el1.removeAttribute('box');
+        expect(el2.container).toBe('');
+      });
+    });
+
+    describe('value of inherit is presented in string format with data-prefix', () => {
+      test('declared closest is on this element', () => {
+        el2.setAttribute('data-ignore', 'swipe');
+        expect(el2.ignore).toBe('swipe');
+      });
+      test('change of inherit value leads to change of getter value', () => {
+        el2.setAttribute('data-ignore', 'touch');
+        expect(el2.ignore).toBe('touch');
+      });
+      test('declared inherit is found on the closest element in DOM', () => {
+        el2.removeAttribute('data-ignore');
+        el1.setAttribute('parent', 'close');
+        expect(el2.ignore).toBe('close');
+      });
+      test('elements with declared inherit are absent in DOM and returns empty string', () => {
+        el1.removeAttribute('parent');
+        expect(el2.ignore).toBe('');
+      });
+    });
+
+    describe('inherit is boolean', () => {
+      test('declared inherit is on this element', () => {
+        el2.setAttribute('disallow', 'scroll');
+        expect(el2.disallow).toBe('scroll');
+      });
+      test('declared inherit is found on the closest element in DOM', () => {
+        el2.removeAttribute('disallow');
+        el1.setAttribute('disallow', 'activator');
+        expect(el2.disallow).toBe('activator');
+      });
+      test('elements with declared inherit are absent in DOM and returns empty string', () => {
+        el1.removeAttribute('disallow');
+        expect(el2.disallow).toBe('');
+      });
+    });
+
+    describe('inherit is boolean with data prefix', () => {
+      test('declared inherit is on this element', () => {
+        el2.setAttribute('data-allow', 'option');
+        expect(el2.allow).toBe('option');
+      });
+      test('declared inherit is found on the closest element in DOM', () => {
+        el2.removeAttribute('data-allow');
+        el1.setAttribute('data-allow', 'scroll');
+        expect(el2.allow).toBe('scroll');
+      });
+      test('elements with declared inherit are absent in DOM and returns empty string', () => {
+        el1.removeAttribute('data-allow');
+        expect(el2.allow).toBe('');
+      });
+    });
+  });
+
   afterAll(() => {
     document.body.removeChild(el);
   });
