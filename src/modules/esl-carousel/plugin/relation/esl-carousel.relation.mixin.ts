@@ -1,10 +1,12 @@
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
 import {attr, listen, memoize} from '../../../esl-utils/decorators';
+import {parseBoolean} from '../../../esl-utils/misc/format';
 import {ESLTraversingQuery} from '../../../esl-traversing-query/core';
 
 import {ESLCarousel} from '../../core/esl-carousel';
 import {ESLCarouselPlugin} from '../esl-carousel.plugin';
 import {ESLCarouselSlideEvent} from '../../core/esl-carousel.events';
+
 
 /**
  * Slide Carousel Link plugin mixin to bind carousel positions
@@ -16,6 +18,13 @@ export class ESLCarouselRelateToMixin extends ESLCarouselPlugin {
   @attr({name: ESLCarouselRelateToMixin.is})
   public target: string;
 
+  @attr({name: ESLCarouselRelateToMixin.is + '-proactive', parser: parseBoolean})
+  public proactive: boolean;
+
+  protected get event(): string {
+    return this.proactive ? ESLCarouselSlideEvent.BEFORE : ESLCarouselSlideEvent.AFTER;
+  }
+
   /** @returns ESLCarousel target to share state changes */
   @memoize()
   public get $target(): ESLCarousel | null {
@@ -24,11 +33,13 @@ export class ESLCarouselRelateToMixin extends ESLCarouselPlugin {
   }
 
   protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
+    this.$$off(this._onSlideChange);
     memoize.clear(this, '$target');
+    this.$$on(this._onSlideChange);
   }
 
   /** Handles event that fires when the carousel slides state is changed. */
-  @listen(ESLCarouselSlideEvent.AFTER)
+  @listen({event: ($this: ESLCarouselRelateToMixin) => $this.event})
   protected _onSlideChange(e: ESLCarouselSlideEvent): void {
     if (!this.$target) return;
     if (e.activator !== this) {
