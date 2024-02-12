@@ -1,15 +1,15 @@
-import {promisifyEvent, promisifyTransition, resolvePromise} from '../../../esl-utils/async';
+import {promisifyEvent, promisifyTransition, resolvePromise} from '../../esl-utils/async';
 
-import {boundIndex, calcDirection, normalizeIndex} from '../../core/nav/esl-carousel.nav.utils';
-import {ESLCarouselRenderer} from '../../core/esl-carousel.renderer';
-import {ESLCarouselSlideEvent} from '../../core/esl-carousel.events';
+import {boundIndex, calcDirection, normalizeIndex} from '../core/nav/esl-carousel.nav.utils';
+import {ESLCarouselRenderer} from '../core/esl-carousel.renderer';
+import {ESLCarouselSlideEvent} from '../core/esl-carousel.events';
 
-import type {ESLCarouselDirection} from '../../core/nav/esl-carousel.nav.types';
+import type {ESLCarouselDirection} from '../core/nav/esl-carousel.nav.types';
 
 @ESLCarouselRenderer.register
-export class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
+export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
   public static override is = 'default';
-  public static override classes: string[] = ['esl-multi-carousel'];
+  public static override classes: string[] = ['esl-carousel-default-renderer'];
 
   /** Slides gap size */
   protected gap: number = 0;
