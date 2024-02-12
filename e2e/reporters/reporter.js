@@ -5,6 +5,14 @@ const {print} = require('./printers');
 
 const sanitize = (str) => (str || '').replace(/\W+/g, '-').toLowerCase();
 
+const writeFileSafe = (filename, data) => {
+  const dirname = path.dirname(filename);
+  if (!fs.existsSync(dirname)) {
+    fs.mkdirSync(dirname, {recursive: true});
+  }
+  fs.writeFileSync(filename, data);
+};
+
 class SnapshotAwareReporter {
   constructor(globalConfig, options) {
     this._globalConfig = globalConfig;
@@ -70,14 +78,14 @@ class SnapshotAwareReporter {
   async onRunComplete(contexts, results) {
     const stats = this.buildStats(results);
     const files = this.buildTestResults(results);
-    fs.writeFileSync(this._options.outputPath, print({stats, files}));
+    writeFileSafe(this._options.outputPath, print({stats, files}));
 
     if (process.env.GITHUB_ACTIONS && process.env.DIFF_REPORT_BRANCH && this._options.outputPublishPath) {
       const serverUrl = process.env.GITHUB_SERVER_URL;
       const repository = process.env.GITHUB_REPOSITORY;
       const branch = process.env.DIFF_REPORT_BRANCH;
       const basePath = `${serverUrl}/${repository}/blob/${branch}/`;
-      fs.writeFileSync(this._options.outputPublishPath, print({stats, files, basePath}));
+      writeFileSafe(this._options.outputPublishPath, print({stats, files, basePath}));
     }
   }
 }
