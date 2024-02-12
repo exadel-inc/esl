@@ -72,6 +72,7 @@
     "test": "concurrently \"npm run lint\" \"npm run test:unit\"",
     "test:ci": "jest --coverage --silent --noStackTrace",
     "test:e2e": "npm run run --workspace e2e",
+    "test:e2e:update": "npm run run:update --workspace e2e",
     "test:unit": "jest --silent --noStackTrace",
     "test:report": "jest --coverage",
     "lint": "concurrently \"npm run lint:js\" \"npm run lint:css\" && node build/catlog.js \"Linting passed\"",

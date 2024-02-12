@@ -72,7 +72,7 @@ jobs:
       - name: Install NPM Dependencies
         run: npm ci
       - name: Update Test Snapshots
-        run: npm run test:e2e -- -u
+        run: npm run test:e2e:update
       - name: Commit & Push Snapshot Changes
         uses: actions/github-script@v5
         with:
