@@ -10,6 +10,7 @@
                   class="presentation-carousel"
                   vertical count="1"
                   esl-carousel-wheel
+                  esl-carousel-touch="@mobile => swipe"
                   esl-carousel-keyboard>
       <div tabindex="-1" data-slides-area class="presentation-carousel-inner markdown-container">
         {% for item in collections[slides] | sortByPathAndOrder %}
