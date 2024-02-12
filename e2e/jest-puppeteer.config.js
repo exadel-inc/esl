@@ -22,7 +22,7 @@ module.exports = {
   server: {
     command: 'npm run run:server',
     port: process.env.PORT,
-    launchTimeout: 20000,
+    launchTimeout: 120000,
     debug: true
   }
 };
