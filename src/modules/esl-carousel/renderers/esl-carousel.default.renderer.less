@@ -1,0 +1,17 @@
+.esl-carousel-default-renderer {
+  esl-carousel-slide {
+    &:not([visible]):not([active]) {
+      visibility: hidden;
+    }
+  }
+
+  [data-slides-area] {
+    display: flex;
+    flex-wrap: nowrap;
+    transition: none;
+  }
+
+  &[animating] [data-slides-area] {
+    transition: transform 0.25s linear;
+  }
+}

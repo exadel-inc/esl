@@ -18,6 +18,13 @@ esl-carousel {
     transform: translate3d(0px, 0px, 0px);
   }
 
+  &.esl-carousel-vertical [data-slides-area] {
+    flex-direction: column;
+  }
+  &.esl-carousel-horizontal [data-slides-area] {
+    flex-direction: row;
+  }
+
   &[dragging] {
     cursor: grabbing;
   }
@@ -28,20 +35,22 @@ esl-carousel {
     touch-action: pan-y;
     pointer-events: none;
   }
+}
 
-  &-slide {
-    display: flex;
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+esl-carousel-slide {
+  // TODO: Do we need to set display: block?
+  display: flex;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 
-    position: relative;
-    left: 0;
-    z-index: 1;
+  position: relative;
+  left: 0;
+  z-index: 1;
 
-    min-width: 250px;
-    min-height: 150px;
-  }
+  // TODO: magic numbers
+  min-width: 250px;
+  min-height: 150px;
 }
 
 [esl-carousel-container] {

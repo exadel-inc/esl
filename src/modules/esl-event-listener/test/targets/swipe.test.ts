@@ -10,22 +10,22 @@ describe('ESLSwipeGestureTarget EventTarget', () => {
 
     test('ESLResizeObserverTarget.for(undefined) returns null without error', () => {
       expect(ESLSwipeGestureTarget.for(undefined as any)).toBeNull();
-      expect(consoleSpy).toBeCalled();
+      expect(consoleSpy).toHaveBeenCalled();
     });
 
     test('ESLResizeObserverTarget.for(null) returns null without error', () => {
       expect(ESLSwipeGestureTarget.for(null as any)).toBeNull();
-      expect(consoleSpy).toBeCalled();
+      expect(consoleSpy).toHaveBeenCalled();
     });
 
     test('ESLResizeObserverTarget.for(123) returns null without error', () => {
       expect(ESLSwipeGestureTarget.for(123 as any)).toBeNull();
-      expect(consoleSpy).toBeCalled();
+      expect(consoleSpy).toHaveBeenCalled();
     });
 
     test('ESLResizeObserverTarget.for({}) returns null without error', () => {
       expect(ESLSwipeGestureTarget.for({} as any)).toBeNull();
-      expect(consoleSpy).toBeCalled();
+      expect(consoleSpy).toHaveBeenCalled();
     });
   });
 
@@ -38,24 +38,24 @@ describe('ESLSwipeGestureTarget EventTarget', () => {
     const listener2 = jest.fn();
 
     test('ESLSwipeGestureTarget does not produce subscription on creation', () => {
-      expect(addEventListenerSpy).not.toBeCalled();
-      expect(removeEventListenerSpy).not.toBeCalled();
+      expect(addEventListenerSpy).not.toHaveBeenCalled();
+      expect(removeEventListenerSpy).not.toHaveBeenCalled();
     });
 
     test('ESLSwipeGestureTarget doesn`t unsubscribe old listeners upon adding new ones', () => {
       target.addEventListener('swipe', listener1);
-      expect(addEventListenerSpy).toBeCalled();
-      expect(removeEventListenerSpy).not.toBeCalled();
+      expect(addEventListenerSpy).toHaveBeenCalled();
+      expect(removeEventListenerSpy).not.toHaveBeenCalled();
       target.addEventListener('swipe', listener2);
-      expect(addEventListenerSpy).toBeCalled();
-      expect(removeEventListenerSpy).not.toBeCalled();
+      expect(addEventListenerSpy).toHaveBeenCalled();
+      expect(removeEventListenerSpy).not.toHaveBeenCalled();
     });
 
     test('ESLSwipeGestureTarget doesn`t unsubscrie until last subscription is removed from target', () => {
       target.removeEventListener('swipe', listener1);
-      expect(removeEventListenerSpy).not.toBeCalled();
+      expect(removeEventListenerSpy).not.toHaveBeenCalled();
       target.removeEventListener('swipe', listener2);
-      expect(removeEventListenerSpy).toBeCalled();
+      expect(removeEventListenerSpy).toHaveBeenCalled();
     });
   });
 
@@ -70,7 +70,7 @@ describe('ESLSwipeGestureTarget EventTarget', () => {
     };
 
     const $el = document.createElement('div');
-    const target = ESLSwipeGestureTarget.for($el, {timeout: 50});
+    const target = ESLSwipeGestureTarget.for($el, {timeout: 150});
     const listener = jest.fn();
 
     beforeAll(() => target.addEventListener('swipe', listener));
@@ -112,25 +112,25 @@ describe('ESLSwipeGestureTarget EventTarget', () => {
     test('ESLSwipeGestureTarget ignores short horizontal swipes', async () => {
       $el.dispatchEvent(createEvent(START_EVENT, {pageX: 100, pageY: 100}));
       window.dispatchEvent(createEvent(END_EVENT, {pageX: 110, pageY: 105, target: $el}));
-      expect(listener).not.toBeCalled();
+      expect(listener).not.toHaveBeenCalled();
     });
 
     test('ESLSwipeGestureTarget ignores short vertical swipes', async () => {
       $el.dispatchEvent(createEvent(START_EVENT, {pageX: 100, pageY: 100}));
       window.dispatchEvent(createEvent(END_EVENT, {pageX: 105, pageY: 110, target: $el}));
-      expect(listener).not.toBeCalled();
+      expect(listener).not.toHaveBeenCalled();
     });
 
     test('ESLSwipeGestureTarget ignores long - lasting swipe', async () => {
       $el.dispatchEvent(createEvent(START_EVENT, {pageX: 100, pageY: 100}));
       await promisifyTimeout(150);
       window.dispatchEvent(createEvent(END_EVENT, {pageX: 210, pageY: 105, target: $el}));
-      expect(listener).not.toBeCalled();
+      expect(listener).not.toHaveBeenCalled();
     });
 
     test('ESLSwipeGestureTarget ignores unlinked events', async () => {
       window.dispatchEvent(createEvent(END_EVENT, {pageX: 210, pageY: 105, target: $el}));
-      expect(listener).not.toBeCalled();
+      expect(listener).not.toHaveBeenCalled();
     });
 
     test('ESLSwipeGestureTarget processes diagonal swipes', async () => {

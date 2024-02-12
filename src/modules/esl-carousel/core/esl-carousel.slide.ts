@@ -11,6 +11,8 @@ import type {ESLCarousel} from './esl-carousel';
  * ESLCarouselSlide - a component that provides content for ESLCarousel {@link ESLCarousel}
  */
 export class ESLCarouselSlide extends ESLBaseElement {
+  public static observedAttributes = ['active'];
+
   /** @returns if the slide is active */
   @boolAttr() public active: boolean;
   @boolAttr() public preActive: boolean;
@@ -32,6 +34,10 @@ export class ESLCarouselSlide extends ESLBaseElement {
     this.$carousel?.removeSlide && this.$carousel.removeSlide(this);
     memoize.clear(this, '$carousel');
     super.disconnectedCallback();
+  }
+
+  protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
+    if (attrName === 'active') this.updateActiveStateA11y();
   }
 
   /** @returns index of the slide in the carousel. */
@@ -58,6 +64,7 @@ export class ESLCarouselSlide extends ESLBaseElement {
     return findPrevLooped(this, (this.constructor as typeof ESLCarouselSlide).is) as ESLCarouselSlide;
   }
 
+  /** Updates initial A11y attributes */
   protected updateA11y(): void {
     this.setAttribute('role', 'listitem');
     if (!this.hasAttribute('aria-roledescription')) {
@@ -66,6 +73,11 @@ export class ESLCarouselSlide extends ESLBaseElement {
     if (!this.hasAttribute('aria-label')) {
       this.setAttribute('aria-label', `carousel item ${this.index + 1}`);
     }
+    this.updateActiveStateA11y();
+  }
+  /** Updates A11y attributes related to active state */
+  protected updateActiveStateA11y(): void {
+    this.setAttribute('aria-hidden', String(!this.active));
   }
 
   /** Creates slide element, use passed content as slide inner */

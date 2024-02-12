@@ -1,11 +1,12 @@
-import {promisifyEvent, promisifyNextRender, resolvePromise} from '../../../esl-utils/async/promise';
-import {ESLCarouselRenderer} from '../../core/esl-carousel.renderer';
-import type {ESLCarouselDirection} from '../../core/nav/esl-carousel.nav.types';
+import {promisifyEvent, promisifyNextRender, resolvePromise} from '../../esl-utils/async/promise';
+import {ESLCarouselRenderer} from '../core/esl-carousel.renderer';
+import type {ESLCarouselDirection} from '../core/nav/esl-carousel.nav.types';
 
+/** @deprecated mode is under development at that moment */
 @ESLCarouselRenderer.register
 export class ESLSlideCarouselRenderer extends ESLCarouselRenderer {
-  public static override is = 'slide';
-  public static override classes: string[] = ['esl-slide-carousel'];
+  public static override is = 'css-only';
+  public static override classes: string[] = ['esl-carousel-css-renderer'];
 
   /** Active index */
   protected currentIndex: number = 0;
@@ -16,10 +17,7 @@ export class ESLSlideCarouselRenderer extends ESLCarouselRenderer {
    */
   public override onBind(): void {
     this.currentIndex = this.$carousel.activeIndex;
-    this.redraw();
   }
-
-  public override redraw(): void {}
 
   /**
    * Processes unbinding of defined view from the carousel {@link ESLCarousel}.
@@ -60,8 +58,7 @@ export class ESLSlideCarouselRenderer extends ESLCarouselRenderer {
     this.$carousel.toggleAttribute('animate', true);
 
     // TODO: !
-    return promisifyEvent(this.$carousel.$slidesArea, 'transitionend')
-      .catch(resolvePromise);
+    return promisifyEvent(this.$carousel.$slidesArea, 'transitionend').catch(resolvePromise);
   }
 
   /** Post-processing animation action. */
