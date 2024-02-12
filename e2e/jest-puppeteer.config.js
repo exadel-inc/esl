@@ -8,7 +8,16 @@ if (!process.argv.includes('--no-autorun') && !process.env.PORT) {
 module.exports = {
   launch: {
     headless: 'new',
-    product: 'chrome'
+    product: 'chrome',
+    args: [
+      '--no-sandbox',
+      '--disable-gpu',
+      '--disable-setuid-sandbox',
+      '--disable-background-timer-throttling',
+      '--disable-backgrounding-occluded-windows',
+      '--disable-renderer-backgrounding',
+      '--font-render-hinting=none'
+    ]
   },
   server: {
     command: 'npm run run:server',
