@@ -4,8 +4,8 @@ import type {ESLCarouselDirection} from '../core/nav/esl-carousel.nav.types';
 
 /** @deprecated mode is under development at that moment */
 @ESLCarouselRenderer.register
-export class ESLSlideCarouselRenderer extends ESLCarouselRenderer {
-  public static override is = 'css-only';
+export class ESLCSSCarouselRenderer extends ESLCarouselRenderer {
+  public static override is = 'css';
   public static override classes: string[] = ['esl-carousel-css-renderer'];
 
   /** Active index */
