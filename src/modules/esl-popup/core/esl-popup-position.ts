@@ -97,7 +97,7 @@ function getOppositePosition(position: PositionType): PositionType {
  * @param arrow - arrow position value
  * */
 function fitOnMajorAxis(cfg: PopupPositionConfig, rect: Rect): PositionType {
-  if (cfg.behavior !== 'fit' && cfg.behavior !== 'fit-on-major') return cfg.position;
+  if (cfg.behavior !== 'fit' && cfg.behavior !== 'fit-major') return cfg.position;
 
   let isMirrored = false;
   const actionsToFit: Record<PositionType, () => void> = {
@@ -172,7 +172,7 @@ function adjustAlignmentBySide(elCoord: number, outerCoord: number, arrowCoord: 
  * @param arrow - arrow position value
  * */
 function fitOnMinorAxis(cfg: PopupPositionConfig, rect: Rect, arrow: Point): void {
-  if (cfg.behavior !== 'fit' && cfg.behavior !== 'fit-on-minor') return;
+  if (cfg.behavior !== 'fit' && cfg.behavior !== 'fit-minor') return;
 
   const isHorizontal = isMajorAxisHorizontal(cfg.position);
   const start = isHorizontal ? 'y' : 'x';
@@ -228,7 +228,6 @@ export function calcPopupPosition(cfg: PopupPositionConfig): PopupPositionValue 
   const arrow = {
     x: calcArrowPosition(cfg, 'width'),
     y: calcArrowPosition(cfg, 'height'),
-    position: cfg.position
   };
 
   const placedAt = fitOnMajorAxis(cfg, popup);
