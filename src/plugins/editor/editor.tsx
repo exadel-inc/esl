@@ -15,6 +15,8 @@ import {CopyIcon} from '../copy/copy-button.icon';
 
 import {EditorIcon} from './editor.icon';
 
+import type {UIPChangeEvent} from '../../core/base/model.change';
+
 /**
  * Editor {@link UIPPlugin} custom element definition
  * Uses Codejar code editor to provide an ability to modify UIP state markup
@@ -122,8 +124,9 @@ export class UIPEditor extends UIPPluginPanel {
 
   /** Change editor's markup from markup state changes */
   @listen({event: 'uip:change', target: ($this: UIPEditor) => $this.$root})
-  protected _onRootStateChange(): void {
-    if (this.model!.lastModifier === this) return;
+  protected _onRootStateChange(e?: UIPChangeEvent): void {
+    if (!e || e.isOnlyModifier(this)) return;
+    if (e && !(this.script ? e.jsChanges.length : e.htmlChanges.length)) return;
     this.value = this.script ? this.model!.js : this.model!.html;
   }
 }
