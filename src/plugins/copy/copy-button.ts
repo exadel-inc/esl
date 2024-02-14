@@ -18,6 +18,18 @@ export class UIPCopy extends UIPPluginButton {
     cls: 'uip-copy-alert'
   };
 
+  /** Content to copy */
+  protected get content(): string | undefined {
+    switch (this.source) {
+      case 'js':
+      case 'javascript':
+        return this.model?.js;
+      case 'html':
+      default:
+        return this.model?.html;
+    }
+  }
+
   protected override connectedCallback(): void {
     if (!navigator.clipboard) this.hidden = true;
     super.connectedCallback();
@@ -35,7 +47,6 @@ export class UIPCopy extends UIPPluginButton {
 
   /** Copy model content to clipboard */
   public copy(): Promise<void> {
-    const text = this.source === 'js' ? this.model!.js : this.model!.html;
-    return navigator.clipboard.writeText(text);
+    return navigator.clipboard.writeText(this.content || '');
   }
 }

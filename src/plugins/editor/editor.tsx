@@ -8,7 +8,7 @@ import Prism from 'prismjs';
 import {CodeJar} from 'codejar';
 
 import {debounce} from '@exadel/esl/modules/esl-utils/async/debounce';
-import {boolAttr, decorate, listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
+import {attr, boolAttr, decorate, listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 
 import {UIPPluginPanel} from '../../core/panel/plugin-panel';
 import {CopyIcon} from '../copy/copy-button.icon';
@@ -28,8 +28,8 @@ export class UIPEditor extends UIPPluginPanel {
   /** Highlight method declaration  */
   public static highlight = (editor: HTMLElement): void => Prism.highlightElement(editor, false);
 
-  /** Marker of JS Editor */
-  @boolAttr() public script: boolean;
+  /** Source for Editor plugin (default: 'html') */
+  @attr({defaultValue: 'html'}) public source: 'js' | 'javascript' | 'html';
 
   /** Marker to display copy widget */
   @boolAttr({name: 'copy'}) public showCopy: boolean;
@@ -43,7 +43,7 @@ export class UIPEditor extends UIPPluginPanel {
     const type = this.constructor as typeof UIPEditor;
     return (
       <div class={type.is + '-toolbar uip-plugin-header-toolbar'}>
-        {this.showCopy ? <uip-copy class={type.is + '-header-copy'} source={this.script ? 'js' : 'html'}><CopyIcon/></uip-copy> : ''}
+        {this.showCopy ? <uip-copy class={type.is + '-header-copy'} source={this.source}><CopyIcon/></uip-copy> : ''}
       </div>
     ) as HTMLElement;
   }
@@ -66,7 +66,7 @@ export class UIPEditor extends UIPPluginPanel {
   @memoize()
   protected get $code(): HTMLElement {
     const type = this.constructor as typeof UIPEditor;
-    const lang = this.script ? 'javascript' : 'html';
+    const lang = this.source === 'js' ? 'javascript' : this.source;
     return (<pre class={type.is + '-code language-' + lang}><code/></pre>) as HTMLElement;
   }
 
@@ -118,15 +118,29 @@ export class UIPEditor extends UIPPluginPanel {
   /** Callback to call on an editor's content changes */
   @decorate(debounce, 2000)
   protected _onChange(): void {
-    if (this.script) this.model!.setJS(this.value, this);
-    else this.model!.setHtml(this.value, this);
+    switch (this.source) {
+      case 'js':
+      case 'javascript':
+        this.model!.setJS(this.value, this);
+        break;
+      case 'html':
+        this.model!.setHtml(this.value, this);
+    }
   }
 
   /** Change editor's markup from markup state changes */
   @listen({event: 'uip:change', target: ($this: UIPEditor) => $this.$root})
   protected _onRootStateChange(e?: UIPChangeEvent): void {
-    if (!e || e.isOnlyModifier(this)) return;
-    if (e && !(this.script ? e.jsChanges.length : e.htmlChanges.length)) return;
-    this.value = this.script ? this.model!.js : this.model!.html;
+    if (e && e.isOnlyModifier(this)) return;
+    switch (this.source) {
+      case 'js':
+      case 'javascript':
+        if (e && !e.jsChanges.length) return;
+        this.value = this.model!.js;
+        break;
+      case 'html':
+        if (e && !e.htmlChanges.length) return;
+        this.value = this.model!.html;
+    }
   }
 }
