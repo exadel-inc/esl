@@ -60,9 +60,9 @@ export class UIPSliderSetting extends UIPSetting {
     const values = model.getAttribute(this.target, this.attribute);
     if (!values.length) {
       this.setInconsistency(this.NO_TARGET_MSG);
-      return;
-    }
-    if (!values[0]) this.setInconsistency(this.NOT_VALUE_SPECIFIED_MSG);
+    } else if (!values[0]) {
+      this.setInconsistency(this.NOT_VALUE_SPECIFIED_MSG);
+    } else this.setValue(values[0]);
   }
 
   protected getDisplayedValue(): string {
