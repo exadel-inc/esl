@@ -163,3 +163,50 @@ Update of css rules order.
 
 Close PR #123.
 ```
+
+### \<scope\>
+
+Scope is an optional part of your commit message.
+
+Utilize a scope to clarify the area of changes.
+
+Scope should be enclosed in parentheses after the type but before :.
+
+Scope should be in lowercase.
+```text
+fix(esl-utils): Fixed IE compatibility for scroll type detection
+```
+
+**Permissible Scope Values**
+
+To ensure consistency and clarity in commit messages, the following are the permissible scope values:
+
+- esl-a11y-group
+- esl-alert
+- esl-animate
+- esl-base-element
+- esl-carousel
+- esl-event-listener
+- esl-footnotes
+- esl-forms
+- esl-image
+- esl-media
+- esl-media-query
+- esl-mixin-element
+- esl-open-state
+- esl-panel
+- esl-panel-group
+- esl-popup
+- esl-random-text
+- esl-related-target
+- esl-scrollbar
+- esl-share
+- esl-tab
+- esl-toggleable
+- esl-tooltip
+- esl-traversing-query
+- esl-trigger
+- esl-utils
+- site
+- deps
+- lint
