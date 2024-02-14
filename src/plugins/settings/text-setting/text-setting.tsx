@@ -35,7 +35,11 @@ export class UIPTextSetting extends UIPSetting {
   updateFrom(model: UIPStateModel): void {
     super.updateFrom(model);
     const values = model.getAttribute(this.target, this.attribute);
-    if (!values.length) this.setInconsistency(this.NO_TARGET_MSG);
+    if (!values.length) {
+      this.setInconsistency(this.NO_TARGET_MSG);
+    } else {
+      this.setValue(values[0]);
+    }
   }
 
   protected getDisplayedValue(): string {

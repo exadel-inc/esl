@@ -90,7 +90,6 @@ export abstract class UIPSetting extends UIPPlugin {
     const values = model.getAttribute(this.target, this.attribute);
     this.classList.toggle('uip-inactive-setting', !values.length);
     this.setDisabled(!values.length);
-    if (values.length) this.setValue(values[0]);
   }
 
   /** Updates {@link UIPSetting} values */
