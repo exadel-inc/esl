@@ -9,11 +9,11 @@ export class UIPSnippetItem {
 
   @memoize()
   public get $elementJS(): UIPSnippetTemplate | null {
-    const $root = this.$element.closest('uip-root') || document.body;
+    const $root: Element = this.$element.closest('uip-root') || document.body;
     const selectors = [];
     if (this.$element.id) selectors.push(`[uip-js-snippet="${this.$element.id}"]`);
     if (this.label) selectors.push(`[uip-js-snippet][label="${this.label}"]`);
-    return $root.querySelector(selectors.join(',')) as UIPSnippetTemplate;
+    return $root.querySelector(selectors.join(','))!;
   }
 
   /** @returns snippet's label */

@@ -8,6 +8,7 @@ import {UIPSnippetItem} from './snippet';
 import type {UIPRoot} from './root';
 import type {UIPPlugin} from './plugin';
 import type {UIPSnippetTemplate} from './snippet';
+import type {UIPChangeInfo} from './model.change';
 
 /** Type for function to change attribute's current value */
 export type TransformSignature = (
@@ -46,8 +47,9 @@ export class UIPStateModel extends SyntheticEventTarget {
   private _js: string = '';
   /** Current markup state */
   private _html = new DOMParser().parseFromString('', 'text/html').body;
-  /** Last {@link UIPPlugin} element which changed markup */
-  private _lastModifier: UIPPlugin | UIPRoot;
+
+  /** Last changes history (used to dispatch changes) */
+  private _changes: UIPChangeInfo[] = [];
 
   /**
    * Sets current js state to the passed one
@@ -58,7 +60,7 @@ export class UIPStateModel extends SyntheticEventTarget {
     const script = UIPJSNormalizationPreprocessors.preprocess(js);
     if (this._js === script) return;
     this._js = script;
-    this._lastModifier = modifier;
+    this._changes.push({modifier, type: 'js'});
     this.dispatchChange();
   }
 
@@ -72,7 +74,7 @@ export class UIPStateModel extends SyntheticEventTarget {
     const root = new DOMParser().parseFromString(html, 'text/html').body;
     if (!root || root.innerHTML.trim() !== this.html.trim()) {
       this._html = root;
-      this._lastModifier = modifier;
+      this._changes.push({modifier, type: 'html'});
       this.dispatchChange();
     }
   }
@@ -85,11 +87,6 @@ export class UIPStateModel extends SyntheticEventTarget {
   /** Current markup state getter */
   public get html(): string {
     return this._html ? this._html.innerHTML : '';
-  }
-
-  /** Last markup state modifier */
-  public get lastModifier(): UIPPlugin | UIPRoot {
-    return this._lastModifier;
   }
 
   /** Snippets template-holders getter */
@@ -105,11 +102,12 @@ export class UIPStateModel extends SyntheticEventTarget {
     });
   }
 
-  /** Current active {@link SnippetTemplate} getter */
+  /** Current active {@link UIPSnippetItem} getter */
   public get activeSnippet(): UIPSnippetItem | undefined {
     return this._snippets.find((snippet) => snippet.active);
   }
 
+  /** Snippet that relates to current anchor */
   public get anchorSnippet(): UIPSnippetItem | undefined {
     const anchor = window.location.hash.slice(1);
     return this._snippets.find((snippet) => snippet.anchor === anchor);
@@ -156,15 +154,19 @@ export class UIPStateModel extends SyntheticEventTarget {
       attribute,
       'transform' in cfg ? cfg.transform : cfg.value
     );
-    this._lastModifier = modifier;
+    this._changes.push({modifier, type: 'html'});
     this.dispatchChange();
   }
 
   /** Plans microtask to dispatch model change event */
   @decorate(microtask)
   protected dispatchChange(): void {
+    if (!this._changes.length) return;
+    const changes = this._changes;
+    this._changes = [];
+
     this.dispatchEvent(
-      new CustomEvent('uip:model:change', {bubbles: true, detail: this})
+      new CustomEvent('uip:model:change', {bubbles: true, detail: changes})
     );
   }
 
