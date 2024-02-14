@@ -2,6 +2,7 @@ import type {ESLBaseElementShape} from '@exadel/esl/modules/esl-base-element/cor
 import type {UIPCopy} from './copy-button';
 
 export interface UIPCopyShape extends ESLBaseElementShape<UIPCopy> {
+  source?: 'js' | 'html';
   children?: any;
 }
 

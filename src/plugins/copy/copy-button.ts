@@ -1,15 +1,19 @@
 import './copy-button.shape';
 
+import {attr} from '@exadel/esl/modules/esl-utils/decorators';
 import {UIPPluginButton} from '../../core/button/plugin-button';
 
-import type {AlertActionParams} from '@exadel/esl/modules/esl-alert/core';
+import type {ESLAlertActionParams} from '@exadel/esl/modules/esl-alert/core';
 
 /** Button-plugin to copy snippet to clipboard */
 export class UIPCopy extends UIPPluginButton {
   public static override is = 'uip-copy';
   public static override defaultTitle = 'Copy to clipboard';
 
-  public static msgConfig: AlertActionParams = {
+  /** Source type to copy (html | js) */
+  @attr({defaultValue: 'html'}) public source: string;
+
+  public static msgConfig: ESLAlertActionParams = {
     text: 'Playground content copied to clipboard',
     cls: 'uip-copy-alert'
   };
@@ -31,6 +35,7 @@ export class UIPCopy extends UIPPluginButton {
 
   /** Copy model content to clipboard */
   public copy(): Promise<void> {
-    return navigator.clipboard.writeText(this.model!.html);
+    const text = this.source === 'js' ? this.model!.js : this.model!.html;
+    return navigator.clipboard.writeText(text);
   }
 }

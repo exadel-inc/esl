@@ -43,7 +43,7 @@ export class UIPEditor extends UIPPluginPanel {
     const type = this.constructor as typeof UIPEditor;
     return (
       <div class={type.is + '-toolbar uip-plugin-header-toolbar'}>
-        {this.showCopy ? <uip-copy class={type.is + '-header-copy'}><CopyIcon/></uip-copy> : ''}
+        {this.showCopy ? <uip-copy class={type.is + '-header-copy'} source={this.script ? 'js' : 'html'}><CopyIcon/></uip-copy> : ''}
       </div>
     ) as HTMLElement;
   }
