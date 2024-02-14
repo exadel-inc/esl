@@ -9,6 +9,7 @@ import {UIPPlugin} from '../base/plugin';
 import {UIPRenderingTemplatesService} from '../processors/templates';
 import {UIPJSRenderingPreprocessors, UIPHTMLRenderingPreprocessors} from '../processors/rendering';
 
+import type {UIPChangeEvent} from '../base/model.change';
 import type {ESLIntersectionEvent} from '@exadel/esl/modules/esl-event-listener/core';
 
 /**
@@ -24,6 +25,8 @@ export class UIPPreview extends UIPPlugin {
 
   /** Marker to use iframe isolated rendering */
   @attr({parser: parseBoolean, serializer: toBooleanAttribute}) public isolation: boolean;
+  /** Marker to use iframe isolated rendering */
+  @attr({parser: parseBoolean, serializer: toBooleanAttribute}) public forceUpdate: boolean;
   /** Template to use for isolated rendering */
   @attr({defaultValue: 'default'}) public isolationTemplate: string;
 
@@ -73,6 +76,12 @@ export class UIPPreview extends UIPPlugin {
     }
   }
 
+  protected update(e?: UIPChangeEvent): void {
+    if (!this.isolation) return this.writeContent();
+    if (!e || e.jsChanges.length || this.forceUpdate) this.writeContentIsolated();
+    this._onIframeLoad();
+  }
+
   /** Writes the content directly to the inner area (non-isolated frame) */
   protected writeContent(): void {
     this.$inner.innerHTML = UIPHTMLRenderingPreprocessors.preprocess(this.model!.html);
@@ -97,8 +106,11 @@ export class UIPPreview extends UIPPlugin {
     if (this._iframeResizeRAF) cancelAnimationFrame(this._iframeResizeRAF);
     // Addition loop fallback for iframe removal
     if (this.$iframe.parentElement !== this.$inner) return;
+    const $document = this.$iframe.contentWindow?.document;
+    const $root = $document?.querySelector('[uip-content-root]') || $document?.body;
+    if (!$root) return;
     // Reflect iframe height with inner content
-    this.$iframe.style.height = `${this.$iframe.contentWindow?.document.body.scrollHeight}px`;
+    this.$iframe.style.height = `${$root.scrollHeight}px`;
     this._iframeResizeRAF = requestAnimationFrame(this.startIframeResizeLoop.bind(this));
   }
 
@@ -140,9 +152,9 @@ export class UIPPreview extends UIPPlugin {
 
   /** Updates preview content from the model state changes */
   @listen({event: 'uip:change', target: ($this: UIPPreview) => $this.$root})
-  protected _onRootStateChange(): void {
+  protected _onRootStateChange(e?: UIPChangeEvent): void {
     this.$container.style.minHeight = `${this.$inner.offsetHeight}px`;
-    this.isolation ? this.writeContentIsolated() : this.writeContent();
+    this.update(e);
 
     afterNextRender(() => this.$container.style.minHeight = '0px');
     skipOneRender(() => {
