@@ -99,8 +99,13 @@ export class UIPSelectSetting extends UIPSetting {
   updateFrom(model: UIPStateModel): void {
     super.updateFrom(model);
     this.resetFieldValues();
-    const attrValues = model.getAttribute(this.target, this.attribute);
-    this.mode === 'replace' ? this.replaceFrom(attrValues) : this.appendFrom(attrValues);
+    const values: (string | null)[] = model.getAttribute(this.target, this.attribute);
+    const specifiedValues: (string | null)[] = values.filter((value: string | null) => value !== null);
+    if (!specifiedValues.length) {
+      this.setInconsistency(this.NOT_VALUE_SPECIFIED_MSG);
+    } else if (specifiedValues.length && specifiedValues.length !== values.length) {
+      this.setInconsistency(this.MULTIPLE_VALUE_MSG);
+    } else this.mode === 'replace' ? this.replaceFrom(values) : this.appendFrom(values);
   }
 
   /** Updates setting's value for replace {@link mode} */
@@ -139,7 +144,7 @@ export class UIPSelectSetting extends UIPSetting {
 
   protected setValue(value: string): void {
     this.$$off(this._onChange);
-    if (value) value.split(' ').forEach((opt) => this.$field.setSelected(opt, true));
+    value.split(' ').forEach((opt) => this.$field.setSelected(opt, true));
     this.$$on(this._onChange);
   }
 
