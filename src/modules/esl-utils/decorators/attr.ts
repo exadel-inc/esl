@@ -15,11 +15,15 @@ type AttrDescriptor<T = string> = {
   name?: string;
   /** Create getter only */
   readonly?: boolean;
-  /** Find value to inherit across closest elements in DOM tree based on declared attribute name (in case of string format)
-   * or same attribute name of current element (boolean value).
-   * Example, attribute 'ignore' with configuration:
-   * inherit: 'alt-ignore' - searches ignore or data-ignore attr (in case of dataAttr: true) on this element or alt-ignore attribute on closest parent
-   * inherit: true - searches ignore or data-ignore attr (in case of dataAttr: true) on this element or on closest parent
+  /**
+   * Specifies the attribute inheritance behavior.
+   * If `inherit` is set to `true`, the attribute will inherit the value from the same-named attribute of the closest parent element in the DOM tree.
+   * For instance, `@attr({inherit: true}) ignore;` will look for an `ignore` attribute in the parent elements if it's not defined in the current element.
+   * If `dataAttr` is also true, it will search for `data-ignore` instead.
+   *
+   * If `inherit` is set to a string, it will use this string as the attribute name to search for in the parent elements.
+   * For example, `@attr({inherit: 'alt-ignore'}) ignore;` will first look for its own `ignore` attribute (or 'data-ignore' if `dataAttr` is true),
+   * and if not found, it will look for an `alt-ignore` attribute in the parent elements.
    */
   inherit?: boolean | string;
   /** Use data-* attribute */
