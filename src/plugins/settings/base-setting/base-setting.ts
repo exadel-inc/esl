@@ -23,6 +23,8 @@ export abstract class UIPSetting extends UIPPlugin {
   @prop('Multiple values') public MULTIPLE_VALUE_MSG: string;
   /** Invalid value message */
   @prop('Invalid setting value') public INVALID_VALUE_MSG: string;
+  /** No value specified */
+  @prop('No value specified') public NOT_VALUE_SPECIFIED_MSG: string;
 
   /** Class for label field element */
   @attr({defaultValue: 'label-field'}) public labelFieldClass: string;
@@ -88,7 +90,6 @@ export abstract class UIPSetting extends UIPPlugin {
     const values = model.getAttribute(this.target, this.attribute);
     this.classList.toggle('uip-inactive-setting', !values.length);
     this.setDisabled(!values.length);
-    if (values.length) this.setValue(values[0]);
   }
 
   /** Updates {@link UIPSetting} values */
