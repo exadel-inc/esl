@@ -105,7 +105,9 @@ export class UIPSelectSetting extends UIPSetting {
       this.setInconsistency(this.NOT_VALUE_SPECIFIED_MSG);
     } else if (specifiedValues.length && specifiedValues.length !== values.length) {
       this.setInconsistency(this.MULTIPLE_VALUE_MSG);
-    } else this.mode === 'replace' ? this.replaceFrom(values) : this.appendFrom(values);
+    } else {
+      this.mode === 'replace' ? this.replaceFrom(values) : this.appendFrom(values);
+    }
   }
 
   /** Updates setting's value for replace {@link mode} */

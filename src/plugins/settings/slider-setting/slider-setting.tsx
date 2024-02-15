@@ -62,7 +62,9 @@ export class UIPSliderSetting extends UIPSetting {
       this.setInconsistency(this.NO_TARGET_MSG);
     } else if (!values[0]) {
       this.setInconsistency(this.NOT_VALUE_SPECIFIED_MSG);
-    } else this.setValue(values[0]);
+    } else {
+      this.setValue(values[0]);
+    }
   }
 
   protected getDisplayedValue(): string {
