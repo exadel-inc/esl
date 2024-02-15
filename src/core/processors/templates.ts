@@ -35,7 +35,7 @@ UIPRenderingTemplatesService.add('default', `
       <base href="${location.origin}"/>
       <script type="module">{script}</script>
     </head>
-    <body>
+    <body style="overflow: hidden;">
       <div uip-content-root>{content}</div>
     </body>
   </html>
