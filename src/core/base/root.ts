@@ -9,6 +9,7 @@ import {
 import {UIPStateModel} from './model';
 
 import type {UIPSnippetTemplate} from './snippet';
+import {UIPChangeEvent, UIPChangeInfo} from './model.change';
 
 /**
  * UI Playground root custom element definition
@@ -87,8 +88,8 @@ export class UIPRoot extends ESLBaseElement {
   }
 
   @listen({event: 'uip:model:change', target: ($this: UIPRoot) => $this.model})
-  protected onModelChange({detail}: CustomEvent): void {
-    this.$$fire(this.CHANGE_EVENT, {detail, bubbles: false});
+  protected onModelChange({detail}: CustomEvent<UIPChangeInfo[]>): void {
+    this.dispatchEvent(new UIPChangeEvent(this.CHANGE_EVENT, this, detail));
   }
 
   @listen({
