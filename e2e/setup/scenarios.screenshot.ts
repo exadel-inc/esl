@@ -3,7 +3,7 @@ import type {TestEnv} from './scenarious.world';
 import type {MatchImageSnapshotOptions} from 'jest-image-snapshot';
 
 const DIFF_CONFIG: MatchImageSnapshotOptions = {
-  customDiffDir: '.diff',
+  customDiffDir: '.diff'
 };
 
 cucumber.defineRule('take a screenshot', async (world: TestEnv) => {

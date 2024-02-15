@@ -52,7 +52,7 @@ class SnapshotAwareReporter {
     if (status === 'passed') return statBase;
 
     const snapshotParts = [filename, ...ancestorTitles, title, '1-snap', 'diff'];
-    const snapshotName = snapshotParts.map(sanitize).join('-') + '.png'
+    const snapshotName = snapshotParts.map(sanitize).join('-') + '.png';
     const snapshotPath = path.join(this._options.diffDir, snapshotName);
     const snapshotExists = fs.existsSync(snapshotPath);
 

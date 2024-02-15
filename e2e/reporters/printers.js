@@ -18,7 +18,7 @@ const printSummary = (stats) => {
 const resolveURL = (basePath, snapshot) => {
   if (!basePath) return snapshot;
   let path = basePath + (basePath.endsWith('/') ? '' : '/') + snapshot;
-  if (basePath.includes('github')) path+= '?raw=true';
+  if (basePath.includes('github')) path += '?raw=true';
   return path.replace(/\\/g, '/');
 };
 
