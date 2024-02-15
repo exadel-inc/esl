@@ -56,7 +56,7 @@ import {ESLDemoAnchorLink} from './anchor/anchor-link';
 import {ESLDemoBanner} from './banner/banner';
 import {ESLDemoSwipeArea, ESLDemoWheelArea} from './esl-events-demo/esl-events-demo';
 
-ESLVSizeCSSProxy.observe();
+if (!CSS.supports('(height: 100dvh) or (width: 100dvw)')) ESLVSizeCSSProxy.observe();
 
 // Register Demo components
 ESLDemoAutofocus.register();
@@ -118,9 +118,5 @@ import (/* webpackChunkName: 'common/esl-share' */'./esl-share/esl-share');
 
 if (document.querySelector('uip-root')) {
   // Init UI Playground
-  import (
-    /* webpackPrefetch: true */
-    /* webpackChunkName: "common/playground" */
-    '@exadel/ui-playground/esm/registration.js'
-  ).then(({init}) => init());
+  import (/* webpackChunkName: "common/playground" */'./playground/ui-playground');
 }
