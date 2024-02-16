@@ -1,3 +1,5 @@
+## [2.0.1-beta.1](https://github.com/exadel-inc/ui-playground/compare/v2.0.0...v2.0.1-beta.1) (2024-02-16)
+
 # [2.0.0](https://github.com/exadel-inc/ui-playground/compare/v1.0.0...v2.0.0) (2024-02-16)
 
 
