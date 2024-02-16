@@ -3,7 +3,7 @@
   
 | :clock10: Start time | :hourglass: Duration |
 | --- | ---: |
-|2/16/2024, 11:37:13 AM|5.23s|
+|2/16/2024, 11:50:32 AM|5.28s|
 
 | | :white_check_mark: Passed | :x: Failed | :construction: Todo | :white_circle: Total |
 | --- | ---: | ---: | ---:| ---: |
@@ -17,7 +17,7 @@
   ### tests/homepage.feature
 <table>
 <tr><th>Test</th><th>Status</th><th>Time</th></tr>
-<tr><td>Feature: Homepage looks fine:test homepage screen</td><td>:x:</td><td>3.264s</td></tr>
+<tr><td>Feature: Homepage looks fine:test homepage screen</td><td>:x:</td><td>3.233s</td></tr>
 <tr><td colspan="3"><img src="homepage-feature-feature-homepage-looks-fine-test-homepage-screen-1-snap-diff.png" alt="Test Diff homepage-feature-feature-homepage-looks-fine-test-homepage-screen-1-snap-diff.png"/></td></tr></table>
 
 
