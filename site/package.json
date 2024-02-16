@@ -1,6 +1,6 @@
 {
   "name": "@exadel/ui-playground-site",
-  "version": "2.0.0-beta.10",
+  "version": "2.0.0",
   "private": true,
   "description": "Site of UI Playground project",
   "license": "MIT",
