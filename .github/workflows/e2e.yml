@@ -98,7 +98,8 @@ jobs:
           title: ${{ env.UPD_COMMIT_MSG }} for ${{ github.ref }}
           body: |
             This PR was automatically created by the e2e-tests-update-snapshots workflow to actualize snapshots on the ${{ github.ref }} branch.
-          branch: tests/snapshots
+          branch: tests/snapshots-patch
+          branch-suffix: timestamp
           labels: automation, update-snapshots
           reviewers: ${{ github.actor }}
           assignees: ${{ github.actor }}
