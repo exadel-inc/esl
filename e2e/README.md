@@ -9,9 +9,9 @@ It is designed to be used by the ESL team to test the ESL library by checking th
 There are no extra pre-conditions to develop new visual tests locally, 
 everything to start will be already installed with root package installation.
 
-**⚠️ Except for one critical thing: all final snapshots should be created on Linux based OS (the latest version of Ubuntu is recommended) ⚠️**
+**⚠️ Except for one critical thing: all final snapshots should be created on Linux based OS (the latest LTS version of Ubuntu is recommended) ⚠️**
 
-Visual testing depends on font rendering so snapshots created on different OS may be different.
+Visual testing depends on font rendering so snapshots created on different OS may vary.
 The main (remote) environment for visual testing runs via GitHub Workflows on the latest version of Ubuntu.
 
 ### Creating snapshots and running existing tests on Windows
@@ -49,7 +49,7 @@ TODO: add instructions for Mac OS
 
 ### Creating snapshots and running existing tests on Linux
 
-To create snapshots on Linux, you can use any Linux distribution, but the latest version of Ubuntu is recommended.
+To create snapshots on Linux, you can use any Linux distribution, but the latest LTS version of Ubuntu is recommended.
 
 1. Install the ESL root package and all dependencies according to the root package README.md.
 2. Ensure you have Chromium browser installed:

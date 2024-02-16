@@ -9,7 +9,7 @@ on:
         type: boolean
         default: false
         required: false
-        description: 'Update snapshots during the run on the current brunch'
+        description: 'Update snapshots during the run on the current branch'
 
 env:
   node-version: 20.x
@@ -38,13 +38,13 @@ jobs:
         run: npm ci
       - name: Run Tests
         run: npm run test:e2e
-      - name: Collect Report & Upload artifact
+      - name: Collect Report & Upload Artifact
         if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: automation-diff-report
           path: e2e/.diff
-      - name: Deploy latest issued report to branch
+      - name: Deploy Latest Issued Report To Branch
         if: failure()
         uses: peaceiris/actions-gh-pages@v3
         with:

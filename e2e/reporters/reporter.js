@@ -44,7 +44,7 @@ class SnapshotAwareReporter {
   }
 
   buildTestStat(test, testPath) {
-    const { ancestorTitles, status, title, duration} = test;
+    const {ancestorTitles, status, title, duration} = test;
     const filename = path.basename(testPath);
     const name = ancestorTitles.join(' > ');
     const statBase = {name, filename, status, title, time: duration};

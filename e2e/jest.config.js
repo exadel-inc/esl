@@ -2,7 +2,7 @@
 require('events').EventEmitter.defaultMaxListeners  = 50;
 
 module.exports = {
-  preset: "jest-puppeteer",
+  preset: 'jest-puppeteer',
   transform: {
     '^.+\\.tsx?$': 'ts-jest',
     '^.+\\.feature$': './transformer/gherkin.js'
