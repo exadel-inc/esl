@@ -11,7 +11,7 @@ import {getViewportRect} from '../../esl-utils/dom/window';
 import {parseBoolean, parseNumber, toBooleanAttribute} from '../../esl-utils/misc/format';
 import {copyDefinedKeys} from '../../esl-utils/misc/object';
 import {ESLIntersectionTarget, ESLIntersectionEvent} from '../../esl-event-listener/core/targets/intersection.target';
-import {calcPopupPosition, isMajorAxisHorizontal} from './esl-popup-position';
+import {calcPopupPosition, isOnHorizontalAxis} from './esl-popup-position';
 import {ESLPopupPlaceholder} from './esl-popup-placeholder';
 
 import type {ESLToggleableActionParams} from '../../esl-toggleable/core';
@@ -309,7 +309,7 @@ export class ESLPopup extends ESLToggleable {
       return;
     }
 
-    const isHorizontal = isMajorAxisHorizontal(this.position);
+    const isHorizontal = isOnHorizontalAxis(this.position);
     const checkIntersection = (isMajorAxis: boolean, intersectionRatio: number): void => {
       if (isMajorAxis && intersectionRatio < INTERSECTION_LIMIT_FOR_ADJACENT_AXIS) this.hide();
     };
@@ -421,12 +421,11 @@ export class ESLPopup extends ESLToggleable {
     // set popup position
     this.style.left = `${popup.x}px`;
     this.style.top = `${popup.y}px`;
+    if (!this.$arrow) return;
     // set arrow position
-    if (this.$arrow) {
-      const isHorizontal = isMajorAxisHorizontal(this.position);
-      this.$arrow.style.left = isHorizontal ? '' : `${arrow.x}px`;
-      this.$arrow.style.top = isHorizontal ? `${arrow.y}px` : '';
-    }
+    const isHorizontal = isOnHorizontalAxis(this.position);
+    this.$arrow.style.left = isHorizontal ? '' : `${arrow.x}px`;
+    this.$arrow.style.top = isHorizontal ? `${arrow.y}px` : '';
   }
 }
 
