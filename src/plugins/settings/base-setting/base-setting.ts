@@ -4,6 +4,7 @@ import {getAttr, setAttr} from '@exadel/esl/modules/esl-utils/dom/attr';
 import {UIPPlugin} from '../../../core/base/plugin';
 
 import type {UIPStateModel} from '../../../core/base/model';
+import type {UIPChangeEvent} from '../../../core/base/model.change';
 
 /**
  * Custom element for manipulating with elements attributes
@@ -23,6 +24,8 @@ export abstract class UIPSetting extends UIPPlugin {
   @prop('Multiple values') public MULTIPLE_VALUE_MSG: string;
   /** Invalid value message */
   @prop('Invalid setting value') public INVALID_VALUE_MSG: string;
+  /** No value specified */
+  @prop('No value specified') public NOT_VALUE_SPECIFIED_MSG: string;
 
   /** Class for label field element */
   @attr({defaultValue: 'label-field'}) public labelFieldClass: string;
@@ -88,14 +91,15 @@ export abstract class UIPSetting extends UIPPlugin {
     const values = model.getAttribute(this.target, this.attribute);
     this.classList.toggle('uip-inactive-setting', !values.length);
     this.setDisabled(!values.length);
-    if (values.length) this.setValue(values[0]);
   }
 
   /** Updates {@link UIPSetting} values */
   @listen({event: 'uip:change', target: ($this: UIPSetting) => $this.$root})
-  protected _onRootStateChange(): void {
-    this.$$fire('uip:settings:state:change');
+  protected _onRootStateChange(e?: UIPChangeEvent): void {
+    if (e && !e.htmlChanges.length) return;
     this.updateFrom(this.model!);
+    // TODO: throw only if real state change
+    this.$$fire('uip:settings:state:change');
   }
 
   /**

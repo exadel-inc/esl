@@ -21,6 +21,104 @@
 * **preview:** add isolated (iframe) mod support for preview area ([e435b3c](https://github.com/exadel-inc/ui-playground/commit/e435b3ccb4efc27c3055be0dfc8d8f0199922b6d))
 * simplify processors and split instances for each source type ([c6fceb0](https://github.com/exadel-inc/ui-playground/commit/c6fceb04424cbe4eab4e9b8329021632b29ddd45))
 
+# [2.0.0](https://github.com/exadel-inc/ui-playground/compare/v1.0.0...v2.0.0) (2024-02-16)
+
+
+### Bug Fixes
+
+* add empty value check when it's changing ([5256743](https://github.com/exadel-inc/ui-playground/commit/52567431b04695d26340bce738dea74b1f463c36))
+* add LTR icon ([05120e0](https://github.com/exadel-inc/ui-playground/commit/05120e0da96115695fa5b1d697b561575b4be298))
+* arrow animation due to re-rendering after collapsed state change ([dc08727](https://github.com/exadel-inc/ui-playground/commit/dc08727a327cf8a2097e6f931831217d5cef6072))
+* **copy:** incorrect content to copy from JS editor ([f2081d5](https://github.com/exadel-inc/ui-playground/commit/f2081d55d597a4d42c62c9c04a863681cc3fd5d8))
+* **core:** a11y of hidden panel ([df30bfd](https://github.com/exadel-inc/ui-playground/commit/df30bfdc4bfc89b5c2d8284f022b2fdddf1d631d))
+* **core:** add embedded normalization utils for UIPModel to resolve multiple extra refreshes ([0fc8891](https://github.com/exadel-inc/ui-playground/commit/0fc8891c1f1bfd45707929a409bce36153c9ecab))
+* **core:** fix `jsx-dom` dependency to be main dependency (instead of dev one) ([b0de47d](https://github.com/exadel-inc/ui-playground/commit/b0de47d34209d26526638455198a462f97816f54))
+* **core:** fix css/less output of the project ([82d88d4](https://github.com/exadel-inc/ui-playground/commit/82d88d4a91e4cb3681ce0aad8146a7ddb691c86d))
+* **core:** fix layout according to marker change ([ad91915](https://github.com/exadel-inc/ui-playground/commit/ad9191597c16306c9133b1437337a05fd23ab511))
+* **core:** lazy update and alternative re-size control for `uip-preview` ([50fdf15](https://github.com/exadel-inc/ui-playground/commit/50fdf1597eb2f51d20b6bc7855e0abba528891d9))
+* **editor:** fix extra actions of editor module, fix flow. Reduce risks of extra reinitialization without content change ([6319288](https://github.com/exadel-inc/ui-playground/commit/6319288ab1f84e2d55297148892dd43cbe909722))
+* **editor:** inline dark-theme styles ([39bac5d](https://github.com/exadel-inc/ui-playground/commit/39bac5d2701cd9bffaebf4bd50c6ad24b327cdc8))
+* **editor:** make editor update only if corresponding change was made ([a735e2f](https://github.com/exadel-inc/ui-playground/commit/a735e2fec465409dbb69345a9e8c32c0befffa55))
+* **editor:** pr fix ([697370a](https://github.com/exadel-inc/ui-playground/commit/697370a00a4eafb0dd959ef0b68dcf8dae63562c))
+* **editor:** rework editor type marker - `script` bollean marker replaced with `source` attribute ([85fc641](https://github.com/exadel-inc/ui-playground/commit/85fc641fbac3007de9dee3cd67c499c7d33065d4))
+* fix build-files and peer dependency declaration ([557541a](https://github.com/exadel-inc/ui-playground/commit/557541a2b97ddf9f18ebf1bddcab48a984084e9d))
+* fix dropdown control dark theme coloring ([cc35b47](https://github.com/exadel-inc/ui-playground/commit/cc35b4792bb11b9f5bc0721481f0fae392149286))
+* fix esl version for consumption up to 6th ([ad18d67](https://github.com/exadel-inc/ui-playground/commit/ad18d6765e66a127e1d28c5b765cd0ee1bd48b21))
+* fix multiple playground options missing ([efbb8bf](https://github.com/exadel-inc/ui-playground/commit/efbb8bfc52804455011e21ce5c8d2dbda9919097))
+* fix resize feature / resize internal API ; ([792ac98](https://github.com/exadel-inc/ui-playground/commit/792ac98e830f984e859a9aee7f36b1c5f002751e))
+* fix vertical resize divider line ([196231b](https://github.com/exadel-inc/ui-playground/commit/196231ba826af7781078cb1e304d4bc67d2e78f9))
+* fix visual accessibility, rework copy button icon ([c4eb87d](https://github.com/exadel-inc/ui-playground/commit/c4eb87d7dc8a10ddafc8529ef328b2c624bbca1d))
+* fixed collapsed settings blinking during resize ([dabe412](https://github.com/exadel-inc/ui-playground/commit/dabe412dcec01d47d50ec3942bb34b7461dbafd5))
+* main module peer dependency esl restrictions actualized ([e77c6df](https://github.com/exadel-inc/ui-playground/commit/e77c6df9aeeeb9f8f7b918611ed4c8a8fef61f6d))
+* **options:** specify click event target ([be10ce9](https://github.com/exadel-inc/ui-playground/commit/be10ce9ba45e67eb079f081382f2e69c05094ac3))
+* **panel:** fix panel header width in vertical mode ([d7855dd](https://github.com/exadel-inc/ui-playground/commit/d7855dd854423ac520db27aed8635347c7a4472c))
+* pr fixes ([aa5938d](https://github.com/exadel-inc/ui-playground/commit/aa5938d61be826083ebb58bea390f1085f0222ac))
+* **preview:** fix isolated content rendering problems ([2f9b628](https://github.com/exadel-inc/ui-playground/commit/2f9b6281e7b81cc820f224ce75d456578adeaf76))
+* remove ESL styles from the main output / create `registration.all` with full import ([345a32e](https://github.com/exadel-inc/ui-playground/commit/345a32e4929fef74a23d92a5eac79596e7b6bd94))
+* remove extra divider lines, rename some of the global properties ([96feca0](https://github.com/exadel-inc/ui-playground/commit/96feca0111f4fccac740c061d841f37d099a2958))
+* remove setting inconsistent value change from  updateFrom  of Base Setting ([3dd80d1](https://github.com/exadel-inc/ui-playground/commit/3dd80d16744b646cb2e850994cc643949156bfd0))
+* remove unnecessary imports ([387d436](https://github.com/exadel-inc/ui-playground/commit/387d43685176a52dbe9081e4e2b687b6848d9e12))
+* restructuring to separate site module; style fixes ([62bebc2](https://github.com/exadel-inc/ui-playground/commit/62bebc2825989c35fd204bb9a77ccea3bb0b7b10))
+* **settings:** make setting update only if corresponding change was made ([2d77e97](https://github.com/exadel-inc/ui-playground/commit/2d77e970b64d0ce2c14dbf85c0a3bb88323110df))
+* **snippets:** dropdown doesn't open if ESL 5.0.0 is being used ([c72371e](https://github.com/exadel-inc/ui-playground/commit/c72371e52daa45784452808422444f88bd52be60))
+* **styles:** remove unused dark theme styles ([a972a53](https://github.com/exadel-inc/ui-playground/commit/a972a53f57d41c9e9380a278d876a04a3ffb4939))
+* uip-root default height ([8c0e691](https://github.com/exadel-inc/ui-playground/commit/8c0e691e3aece4c4e48090e7e9c2f5f8d87ccad9))
+
+
+### Code Refactoring
+
+* **uip-option:** `uip-options` removed ([86d52f0](https://github.com/exadel-inc/ui-playground/commit/86d52f0b1b0fbc5039283236ce7aa293f5050a38))
+
+
+* feat!: finalizing update `2.0.0` ([595c3f9](https://github.com/exadel-inc/ui-playground/commit/595c3f92fbb0583b2bad65e5f617e9baf2e4d603))
+
+
+### Features
+
+* ability to set active snippet by anchor ([75dad49](https://github.com/exadel-inc/ui-playground/commit/75dad4999d6aff553796300ed09044a0893ea712))
+* add ability to use dummy text comments, refactor processors services ([696c4b7](https://github.com/exadel-inc/ui-playground/commit/696c4b7d648ab8882fb9b5251a2189bee50c7783))
+* add copy svg to OptionIcons class, fix click events ([c0438fb](https://github.com/exadel-inc/ui-playground/commit/c0438fb9c8c17d5f13ceb7b3b55f406dc0ae9379))
+* add inactive class to base setting ([e669223](https://github.com/exadel-inc/ui-playground/commit/e66922390dabe66e13a22522889ac1986216a577))
+* add resize feature for plugin panels ([45d5bf9](https://github.com/exadel-inc/ui-playground/commit/45d5bf99261e55840edb6957d437ba1db83c171e))
+* add script support to isolated template (including formatting, rendering, store and snippets support) ([1c0aac8](https://github.com/exadel-inc/ui-playground/commit/1c0aac8992e0c036cc567c8be69fb46c604ed8c2))
+* add settings state change handler and state marker ([bfca95c](https://github.com/exadel-inc/ui-playground/commit/bfca95cce99e6f04bf9391709f2abd9e27250e7d))
+* add type import ([033e362](https://github.com/exadel-inc/ui-playground/commit/033e3621d19d30c255613f2a0b29fe641a6fd8e4))
+* complete UX API rework of panel-plugins ([d2b6884](https://github.com/exadel-inc/ui-playground/commit/d2b6884d8ad0e54f99264698e238bc1493991e2c))
+* create OptionIcons class, update options config and styles ([f906155](https://github.com/exadel-inc/ui-playground/commit/f9061557650bf32e2337f47a6322d31589b553be))
+* **editor:** add script editor mode ([d35fdc5](https://github.com/exadel-inc/ui-playground/commit/d35fdc53504024de2e9d4bba94039ca6875bfbea))
+* **editor:** implement wrap attribute ([8f9f204](https://github.com/exadel-inc/ui-playground/commit/8f9f204051f211b2ebbee8fb554469d39945951f))
+* **editor:** replace ace with jar editor ([3cbfd6d](https://github.com/exadel-inc/ui-playground/commit/3cbfd6d179dffc6dafb1eb3c4e321130c1596bcc))
+* **editor:** update editor's docs ([15798b4](https://github.com/exadel-inc/ui-playground/commit/15798b4bc2d99d6e3eab49abb0727e3b8435a5b1))
+* introduce uip-header reimplementation ([7c63ba5](https://github.com/exadel-inc/ui-playground/commit/7c63ba5ad41b680cb608229fc3da5121c553ae75))
+* plugin structure and API rework (new abstraction layer and events) ([318668f](https://github.com/exadel-inc/ui-playground/commit/318668f8980419163de36cf68584add4228c7d9f))
+* pr fixes ([474cf20](https://github.com/exadel-inc/ui-playground/commit/474cf201d0f87156a931609c97cff59b08c73008))
+* pr fixes ([90cfbaf](https://github.com/exadel-inc/ui-playground/commit/90cfbaf842418a82b6e79662024dc9b5feca28ae))
+* pr fixes ([3462491](https://github.com/exadel-inc/ui-playground/commit/3462491b848b00df30806e2eb2f2b647207b0393))
+* **preview:** add isolated (iframe) mod support for preview area ([e435b3c](https://github.com/exadel-inc/ui-playground/commit/e435b3ccb4efc27c3055be0dfc8d8f0199922b6d))
+* replace browser scroll with esl scrollbar ([11f2935](https://github.com/exadel-inc/ui-playground/commit/11f293505c5b1b17adfc90c785effc506335cc7b))
+* simplify processors and split instances for each source type ([c6fceb0](https://github.com/exadel-inc/ui-playground/commit/c6fceb04424cbe4eab4e9b8329021632b29ddd45))
+* **snippets:** add manual root detection for plugins ([ff6ddf7](https://github.com/exadel-inc/ui-playground/commit/ff6ddf7146973b61b0d6e1ce342ee9e64b371c68))
+* **snippets:** add tab mode ([24ee727](https://github.com/exadel-inc/ui-playground/commit/24ee727139c484d38278a4bb0ba0df1af9b80df2))
+* **theme:** add dark theme to jar editor ([f03e35f](https://github.com/exadel-inc/ui-playground/commit/f03e35ffc0c8a8fe1307d7a30b2bd7e952690e6a))
+* **uip-copy:** create separate `uip-copy` plugin ([38de6ba](https://github.com/exadel-inc/ui-playground/commit/38de6baee22992c46bea0dade29b1e19fd8e8ab1))
+* **uip-editor:** `uip-editor` reworked to use latest version of CodeJar and Prism without producing side-effects ([8216d2a](https://github.com/exadel-inc/ui-playground/commit/8216d2aa321b345c638ac311bdd6fbc677e47c8d))
+* **uip-editor:** rework `uip-editor` plugin with self UI state management and header section support ([4330698](https://github.com/exadel-inc/ui-playground/commit/43306988cebad7528bbb353fd224defe85018493))
+* **uip-preview:** add preview plugin smooth content change animation ([aaeb33d](https://github.com/exadel-inc/ui-playground/commit/aaeb33d5d7d776fb10329b29c08ea489e5cde206))
+* **uip-preview:** fix resize feature, add scrollbars for preview area ([46a99de](https://github.com/exadel-inc/ui-playground/commit/46a99de5675f87dd0b69949080aaeb1c9802037e))
+* **uip-settings:** new `uip-settings` tag API ([b4e5622](https://github.com/exadel-inc/ui-playground/commit/b4e5622ccfdac0a839c174b8116557ea3ded3407))
+* **uip-snippets:** totally rework header and snippets modules ([ebeb66b](https://github.com/exadel-inc/ui-playground/commit/ebeb66b41e93d9c7cd27e7eed051222249181a11))
+* **uip-toggle-dir:** separate uip-toggle-dir widget to control uip-preview direction ([d778ec8](https://github.com/exadel-inc/ui-playground/commit/d778ec80b2ff560183a0ffaa5587757ead8120b9))
+* **uip-toggle-theme:** separate uip-toggle-theme widget to control UIP instance theme ([52a4bd2](https://github.com/exadel-inc/ui-playground/commit/52a4bd2f91421ae19d0c69a99f39fbf5111b6afc))
+
+
+### BREAKING CHANGES
+
+* `uip-header` and `uip-options` are removed. Use `uip-snippets` (`uip-snippets-list`, `uip-snippets-title`),
+or combine it with buttons (`uip-copy`, `uip-theme-toggle`, `uip-direction-toggle`)
+* **uip-option:** `uip-options` plugin removed
+* #512, #519 - Replace ACE editor with CodeJar + PrismJs
+* #525 - rework UIP general livecycle
+
 # [2.0.0-beta.10](https://github.com/exadel-inc/ui-playground/compare/v2.0.0-beta.9...v2.0.0-beta.10) (2024-01-16)
 
 

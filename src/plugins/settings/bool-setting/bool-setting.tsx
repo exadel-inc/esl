@@ -85,7 +85,9 @@ export class UIPBoolSetting extends UIPSetting {
     const values = model.getAttribute(this.target, this.attribute);
     if (!values.length) {
       this.setInconsistency(this.NO_TARGET_MSG);
-    } else this.mode === 'replace' ? this.updateReplace(values) : this.updateAppend(values);
+    } else {
+      this.mode === 'replace' ? this.updateReplace(values) : this.updateAppend(values);
+    }
   }
 
   /** Updates setting's value for replace {@link mode} */

@@ -58,7 +58,13 @@ export class UIPSliderSetting extends UIPSetting {
   updateFrom(model: UIPStateModel): void {
     super.updateFrom(model);
     const values = model.getAttribute(this.target, this.attribute);
-    if (!values.length) this.setInconsistency(this.NO_TARGET_MSG);
+    if (!values.length) {
+      this.setInconsistency(this.NO_TARGET_MSG);
+    } else if (!values[0]) {
+      this.setInconsistency(this.NOT_VALUE_SPECIFIED_MSG);
+    } else {
+      this.setValue(values[0]);
+    }
   }
 
   protected getDisplayedValue(): string {
@@ -66,12 +72,13 @@ export class UIPSliderSetting extends UIPSetting {
   }
 
   protected setValue(value: string | null): void {
-    this.$field.value = value || this.min;
-    this.updateSliderValue();
+    if (value) {
+      this.$field.value = value;
+      this.updateSliderValue();
+    }
   }
 
   protected setInconsistency(msg = this.INCONSISTENT_VALUE_MSG): void {
-    this.$field.value = this.min;
     this.$fieldValue.textContent = msg;
   }
 
