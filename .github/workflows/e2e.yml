@@ -9,23 +9,23 @@ on:
         type: boolean
         default: false
         required: false
-        description: 'Update snapshots during the run on the current branch'
+        description: 'Create a pull request to update snapshots on the current branch'
 
 env:
   node-version: 20.x
   DIFF_REPORT_BRANCH: diff-report
-
-permissions:
-  contents: write
-  pages: none
-  deployments: none
-  pull-requests: write
 
 jobs:
   e2e-tests:
     name: Automation Testing
     runs-on: ubuntu-latest
     if: ${{ !inputs.updateSnapshots }}
+
+    permissions:
+      contents: write
+      pull-requests: write
+      pages: none
+      deployments: none
 
     steps:
       - uses: actions/checkout@v4
@@ -61,9 +61,14 @@ jobs:
     name: Update Automation Testing Snapshots
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'workflow_dispatch' && inputs.updateSnapshots }}
+    env:
+      UPD_COMMIT_MSG: 'test(e2e): update snapshots (via GitHub Actions)'
+
+    permissions: write-all
 
     steps:
       - uses: actions/checkout@v4
+
       - name: Use Node v${{ env.node-version }}
         uses: actions/setup-node@v4
         with:
@@ -73,14 +78,16 @@ jobs:
         run: npm ci
       - name: Update Test Snapshots
         run: npm run test:e2e:update
-      - name: Commit & Push Snapshot Changes
-        uses: actions/github-script@v5
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
         with:
-          script: |
-            const git = require('simple-git')();
-            const currentBranch = '${{ github.ref }}'.split('/').pop();
-            await git.addConfig('user.email', '${{ github.actor }}@users.noreply.github.com');
-            await git.addConfig('user.name', '${{ github.actor }}');
-            await git.add('*.png');
-            await git.commit('test(e2e): update snapshots (via GitHub Actions))');
-            await git.push('origin', currentBranch);
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: ${{ env.UPD_COMMIT_MSG }}
+          title: ${{ env.UPD_COMMIT_MSG }} for ${{ github.ref }}
+          body: |
+            This PR was automatically created by the e2e-tests-update-snapshots workflow to actualize snapshots on the ${{ github.ref }} branch.
+          branch: tests/snapshots
+          labels: automation, update-snapshots
+          reviewers: ${{ github.actor }}
+          assignees: ${{ github.actor }}
