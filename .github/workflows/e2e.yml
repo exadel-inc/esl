@@ -15,6 +15,10 @@ env:
   node-version: 20.x
   DIFF_REPORT_BRANCH: diff-report
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   e2e-tests:
     name: Automation Testing
