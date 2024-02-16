@@ -1,26 +1,3 @@
-# [2.0.0-beta.12](https://github.com/exadel-inc/ui-playground/compare/v2.0.0-beta.11...v2.0.0-beta.12) (2024-01-29)
-
-
-### Bug Fixes
-
-* **preview:** fix isolated content rendering problems ([2f9b628](https://github.com/exadel-inc/ui-playground/commit/2f9b6281e7b81cc820f224ce75d456578adeaf76))
-
-# [2.0.0-beta.11](https://github.com/exadel-inc/ui-playground/compare/v2.0.0-beta.10...v2.0.0-beta.11) (2024-01-26)
-
-
-### Bug Fixes
-
-* remove setting inconsistent value change from  updateFrom  of Base Setting ([3dd80d1](https://github.com/exadel-inc/ui-playground/commit/3dd80d16744b646cb2e850994cc643949156bfd0))
-
-
-### Features
-
-* ability to set active snippet by anchor ([75dad49](https://github.com/exadel-inc/ui-playground/commit/75dad4999d6aff553796300ed09044a0893ea712))
-* add script support to isolated template (including formatting, rendering, store and snippets support) ([1c0aac8](https://github.com/exadel-inc/ui-playground/commit/1c0aac8992e0c036cc567c8be69fb46c604ed8c2))
-* **editor:** add script editor mode ([d35fdc5](https://github.com/exadel-inc/ui-playground/commit/d35fdc53504024de2e9d4bba94039ca6875bfbea))
-* **preview:** add isolated (iframe) mod support for preview area ([e435b3c](https://github.com/exadel-inc/ui-playground/commit/e435b3ccb4efc27c3055be0dfc8d8f0199922b6d))
-* simplify processors and split instances for each source type ([c6fceb0](https://github.com/exadel-inc/ui-playground/commit/c6fceb04424cbe4eab4e9b8329021632b29ddd45))
-
 # [2.0.0](https://github.com/exadel-inc/ui-playground/compare/v1.0.0...v2.0.0) (2024-02-16)
 
 
@@ -114,10 +91,34 @@
 ### BREAKING CHANGES
 
 * `uip-header` and `uip-options` are removed. Use `uip-snippets` (`uip-snippets-list`, `uip-snippets-title`),
-or combine it with buttons (`uip-copy`, `uip-theme-toggle`, `uip-direction-toggle`)
+  or combine it with buttons (`uip-copy`, `uip-theme-toggle`, `uip-direction-toggle`)
 * **uip-option:** `uip-options` plugin removed
 * #512, #519 - Replace ACE editor with CodeJar + PrismJs
 * #525 - rework UIP general livecycle
+
+ 
+# [2.0.0-beta.12](https://github.com/exadel-inc/ui-playground/compare/v2.0.0-beta.11...v2.0.0-beta.12) (2024-01-29)
+
+
+### Bug Fixes
+
+* **preview:** fix isolated content rendering problems ([2f9b628](https://github.com/exadel-inc/ui-playground/commit/2f9b6281e7b81cc820f224ce75d456578adeaf76))
+
+# [2.0.0-beta.11](https://github.com/exadel-inc/ui-playground/compare/v2.0.0-beta.10...v2.0.0-beta.11) (2024-01-26)
+
+
+### Bug Fixes
+
+* remove setting inconsistent value change from  updateFrom  of Base Setting ([3dd80d1](https://github.com/exadel-inc/ui-playground/commit/3dd80d16744b646cb2e850994cc643949156bfd0))
+
+
+### Features
+
+* ability to set active snippet by anchor ([75dad49](https://github.com/exadel-inc/ui-playground/commit/75dad4999d6aff553796300ed09044a0893ea712))
+* add script support to isolated template (including formatting, rendering, store and snippets support) ([1c0aac8](https://github.com/exadel-inc/ui-playground/commit/1c0aac8992e0c036cc567c8be69fb46c604ed8c2))
+* **editor:** add script editor mode ([d35fdc5](https://github.com/exadel-inc/ui-playground/commit/d35fdc53504024de2e9d4bba94039ca6875bfbea))
+* **preview:** add isolated (iframe) mod support for preview area ([e435b3c](https://github.com/exadel-inc/ui-playground/commit/e435b3ccb4efc27c3055be0dfc8d8f0199922b6d))
+* simplify processors and split instances for each source type ([c6fceb0](https://github.com/exadel-inc/ui-playground/commit/c6fceb04424cbe4eab4e9b8329021632b29ddd45))
 
 # [2.0.0-beta.10](https://github.com/exadel-inc/ui-playground/compare/v2.0.0-beta.9...v2.0.0-beta.10) (2024-01-16)
 
