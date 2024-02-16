@@ -81,6 +81,10 @@ function calcPopupBasicRect(cfg: PopupPositionConfig): Rect {
   return new Rect(x, y, element.width, element.height);
 }
 
+/**
+ * Calculates position for all sub-parts of popup for given popup position config.
+ * @param cfg - popup position config
+ * */
 function calcBasicPosition(cfg: PopupPositionConfig): PopupPositionValue {
   const popup = calcPopupBasicRect(cfg);
   const arrow = {
