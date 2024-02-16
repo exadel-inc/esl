@@ -29,7 +29,7 @@ module.exports = (config) => {
   });
 
   config.setServerOptions({
-    port: 3005,
+    port: process.env.PORT || 3005,
     watch: [
       'dist/bundles/*.js',
       'dist/bundles/*.css'
