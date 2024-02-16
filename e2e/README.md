@@ -91,7 +91,7 @@ To trigger the workflow manually, follow these steps:
 6. Make sure you check the "Update snapshots" checkbox
 7. Click on the "Run workflow" button. 
 
-The update-commit will be created and pushed to the specified branch under your GitHub account.
+The job will create a pull request with updated snapshots against the specified branch.
 
 ## Check Automation Test Results
 
