@@ -50,7 +50,7 @@ export const attr = <T = string>(config: AttrDescriptor<T> = {}): ESLAttributeDe
     const inheritAttrName = typeof config.inherit === 'string' ? config.inherit : attrName;
 
     function get(): T | null {
-      const val = config.inherit ? getClosestAttr(this, inheritAttrName) || getAttr(this, attrName) : getAttr(this, attrName);
+      const val = config.inherit ? getAttr(this, attrName) || getClosestAttr(this, inheritAttrName) : getAttr(this, attrName);
       if (val === null && 'defaultValue' in config) return resolveProperty(config.defaultValue, this) as T;
       return (config.parser || parseString as AttrParser<any>)(val);
     }
