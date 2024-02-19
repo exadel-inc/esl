@@ -3,6 +3,7 @@ overrides:
   # Allow the use of custom TypeScript modules and namespaces for JSX shapes
   - files:
       - '**/*.test.ts'
+      - '**/*.spec.ts'
     rules:
       # no class count limit for tests
       'max-classes-per-file': off

@@ -25,6 +25,7 @@ parser: '@typescript-eslint/parser'
 parserOptions:
   project:
     - './tsconfig.json'
+    - './e2e/tsconfig.json'
     - './site/tsconfig.json'
     - './eslint/tsconfig.json'
   sourceType: module
