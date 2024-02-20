@@ -313,6 +313,10 @@ aside:
         </uip-select-setting>
         <uip-bool-setting label="Match Height" target="esl-panel-group" attribute="class" mode="append" value="esl-tabs-equal-height"></uip-bool-setting>
         <uip-bool-setting target="esl-tabs.multiple-tabs" label="Scrollable" attribute="scrollable"></uip-bool-setting>
+        <uip-select-setting target="esl-tabs.multiple-tabs" label="Scrollable mode:" attribute="scrollable" mode="append" inconsistency="Disabled">
+          <option value="">Side</option>
+          <option value="center">Center</option>
+        </uip-select-setting>
       </uip-settings>
       <uip-editor label="Source code" collapsible copy></uip-editor>
       <uip-editor script copy collapsible label="JavaScript"></uip-editor>
