@@ -99,6 +99,15 @@ aside:
               <li class="esl-d-tab-item">
                 <esl-tab class="h5" target="::parent(.esl-d-tabs)::find(.tab-7)">Tab #7 multi tabs</esl-tab>
               </li>
+              <li class="esl-d-tab-item">
+                <esl-tab class="h5" target="::parent(.esl-d-tabs)::find(.tab-8)">Tab #8 multi tabs</esl-tab>
+              </li>
+              <li class="esl-d-tab-item">
+                <esl-tab class="h5" target="::parent(.esl-d-tabs)::find(.tab-9)">Tab #9 multi tabs</esl-tab>
+              </li>
+              <li class="esl-d-tab-item">
+                <esl-tab class="h5" target="::parent(.esl-d-tabs)::find(.tab-10)">Tab #10 multi tabs</esl-tab>
+              </li>
             </ul>
 
             <div class="arrow-next" data-tab-direction="right">
@@ -140,6 +149,21 @@ aside:
               </div>
             </esl-panel>
             <esl-panel open class="esl-d-tab-panel tab-7" tabindex="0">
+              <div class="esl-d-tab-body">
+                <!-- text 100 -->
+              </div>
+            </esl-panel>
+            <esl-panel open class="esl-d-tab-panel tab-8" tabindex="0">
+              <div class="esl-d-tab-body">
+                <!-- text 150 -->
+              </div>
+            </esl-panel>
+            <esl-panel open class="esl-d-tab-panel tab-9" tabindex="0">
+              <div class="esl-d-tab-body">
+                <!-- text 100 -->
+              </div>
+            </esl-panel>
+            <esl-panel open class="esl-d-tab-panel tab-10" tabindex="0">
               <div class="esl-d-tab-body">
                 <!-- text 100 -->
               </div>
@@ -314,7 +338,7 @@ aside:
         <uip-bool-setting label="Match Height" target="esl-panel-group" attribute="class" mode="append" value="esl-tabs-equal-height"></uip-bool-setting>
         <uip-bool-setting target="esl-tabs.multiple-tabs" label="Scrollable" attribute="scrollable"></uip-bool-setting>
         <uip-select-setting target="esl-tabs.multiple-tabs" label="Scrollable mode:" attribute="scrollable" mode="append" inconsistency="Disabled">
-          <option value="">Side</option>
+          <option value="side">Side</option>
           <option value="center">Center</option>
         </uip-select-setting>
       </uip-settings>
