@@ -97,17 +97,24 @@ BREAKING CHANGES:
 
 ### \<scope\>
 
-Scope is an optional but "nice to have" part of your commit message.
+Scope is highly recommended part of your commit message.
 
-Use a scope to clarify changes area (module, component, feature or epic).
+Using a scope enhances clarity and organization in commit messages, allowing for better categorization of changes.
 
-Scope should be placed in parentheses after type but before `:`.
+Utilize a scope to clarify the area of changes (module, component, feature, or epic).
 
-The scope should be compatibly short and in lowercase.
+Scope should be enclosed in parentheses after the type but before `:`.
+
+Scope should be in lowercase.
 
 ```text
-fix(esl-component): IE compatibility
+fix(esl-utils): Fixed IE compatibility for scroll type detection
 ```
+
+**Permissible Scope Values**
+
+To ensure consistency and clarity in commit messages, refer to
+the [list of permissible scope values](https://github.com/exadel-inc/esl/blob/58095ed129ae6fcc0e1a2e32f099af36c090a176/.commitlintrc.yml).
 
 ---
 
@@ -164,49 +171,3 @@ Update of css rules order.
 Close PR #123.
 ```
 
-### \<scope\>
-
-Scope is an optional part of your commit message.
-
-Utilize a scope to clarify the area of changes.
-
-Scope should be enclosed in parentheses after the type but before :.
-
-Scope should be in lowercase.
-```text
-fix(esl-utils): Fixed IE compatibility for scroll type detection
-```
-
-**Permissible Scope Values**
-
-To ensure consistency and clarity in commit messages, the following are the permissible scope values:
-
-- esl-a11y-group
-- esl-alert
-- esl-animate
-- esl-base-element
-- esl-carousel
-- esl-event-listener
-- esl-footnotes
-- esl-forms
-- esl-image
-- esl-media
-- esl-media-query
-- esl-mixin-element
-- esl-open-state
-- esl-panel
-- esl-panel-group
-- esl-popup
-- esl-random-text
-- esl-related-target
-- esl-scrollbar
-- esl-share
-- esl-tab
-- esl-toggleable
-- esl-tooltip
-- esl-traversing-query
-- esl-trigger
-- esl-utils
-- site
-- deps
-- lint
