@@ -66,8 +66,8 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to fit-minor', ()
 
   describe('should not adjust the position in case:', () => {
     test('when the popup size is greater than the outer limiter size', () => {
-      const container = trigger.grow(50);
-      const cfg = {...cfgRef, position: 'top', outer: container} as PopupPositionConfig;
+      const narrowContainer = trigger.grow(50);
+      const cfg = {...cfgRef, position: 'top', outer: narrowContainer} as PopupPositionConfig;
       const expected = Object.assign({}, expectedRef) as PopupPositionValue;
       expected.popup = popup.shift(360, 290);
       expect(calcPopupPosition(cfg)).toEqual(expected);
