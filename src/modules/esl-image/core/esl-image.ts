@@ -161,7 +161,7 @@ export class ESLImage extends ESLBaseElement {
     if (this.loaded) this.syncImage();
   }
 
-  update(force: boolean = false): void {
+  protected update(force: boolean = false): void {
     if (!this.canUpdate) return;
 
     const src = this.getPath(this.srcRules.activeValue);
