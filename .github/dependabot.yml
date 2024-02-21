@@ -33,3 +33,22 @@ updates:
         patterns:
           - "semantic-release"
           - "@semantic-release/*"
+  # Maintain dependencies for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    versioning-strategy: increase
+    open-pull-requests-limit: 10
+    schedule:
+      interval: "daily"
+    reviewers:
+      - "@exadel-inc/esl-core-maintainers"
+    assignees:
+      - "ala-n"
+      - "abarmina"
+      - "NastaLeo"
+    groups:
+      gh-pages:
+        patterns:
+          - "actions/configure-pages"
+          - "actions/upload-pages-artifact"
+          - "actions/deploy-pages"
