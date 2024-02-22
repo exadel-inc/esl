@@ -1,0 +1,14 @@
+name: Test
+
+on: workflow_dispatch
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get repository code
+        uses: actions/checkout@v3
+      - name: Install NPM Dependencies
+        run: npm ci
+      - name: Run tests
+        run: npm run test
