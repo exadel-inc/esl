@@ -18,6 +18,7 @@ updates:
     assignees:
       - "ala-n"
       - "abarmina"
+      - "NastaLeo"
     groups:
       typescript-eslint:
         patterns:
@@ -33,13 +34,13 @@ updates:
         patterns:
           - "semantic-release"
           - "@semantic-release/*"
+
   # Maintain dependencies for GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
-    versioning-strategy: increase
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 5
     schedule:
-      interval: "daily"
+      interval: "daily" # change to "weekly"
     reviewers:
       - "@exadel-inc/esl-core-maintainers"
     assignees:
