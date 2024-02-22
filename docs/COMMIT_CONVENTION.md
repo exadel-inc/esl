@@ -103,15 +103,15 @@ Using a scope enhances clarity and organization in commit messages, allowing for
 
 Utilize a scope to clarify the area of changes (module, component, feature, or epic).
 
-Scope should be enclosed in parentheses after the type but before `:`.
+The scope should be enclosed in parentheses after the type but before `:`.
 
-Scope should be in lowercase.
+The scope should be in lowercase.
 
 ```text
-fix(esl-utils): Fixed IE compatibility for scroll type detection
+fix(esl-utils): fix IE compatibility for scroll type detection
 ```
 
-**Permissible Scope Values**
+**Valid Scope Values**
 
 To ensure consistency and clarity in commit messages, refer to
 the [list of permissible scope values](https://github.com/exadel-inc/esl/blob/58095ed129ae6fcc0e1a2e32f099af36c090a176/.commitlintrc.yml).
