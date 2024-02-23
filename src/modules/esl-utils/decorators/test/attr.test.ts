@@ -138,6 +138,7 @@ describe('Decorator: attr', () => {
     `, SCOPE).bind('beforeeach');
 
     describe('Inherit searches for the closest element with explicitly declared name', () => {
+      //  @attr({inherit: 'box'}) public container: string;
       test('The attribute inherit the value from own same-named attribute', () => {
         TEMPLATE.$thirdEl.setAttribute('container', 'value');
         expect(TEMPLATE.$thirdEl.container).toBe('value');
@@ -160,6 +161,7 @@ describe('Decorator: attr', () => {
     });
 
     describe('Inherit searches for the closest element with explicitly declared name', () => {
+      // @attr({inherit: 'parent', dataAttr: true}) public ignore: string;
       test('The attribute inherit the value from the same-named data-attribute', () => {
         TEMPLATE.$thirdEl.setAttribute('data-ignore', 'swipe');
         expect(TEMPLATE.$thirdEl.ignore).toBe('swipe');
@@ -182,6 +184,7 @@ describe('Decorator: attr', () => {
     });
 
     describe('Inherit searches for the closest element with the same attribute name in DOM', () => {
+      // @attr({inherit: true}) public disallow: string;
       test('The attribute inherit the value from the same attribute name', () => {
         TEMPLATE.$thirdEl.disallow = 'scroll';
         expect(TEMPLATE.$thirdEl.disallow).toBe('scroll');
@@ -200,6 +203,7 @@ describe('Decorator: attr', () => {
     });
 
     describe('Inherit searches for the closest element with the same data-attribute name in DOM', () => {
+      // @attr({inherit: true, dataAttr: true}) public allow: string;
       test('The attribute inherit the value from the same attribute name', () => {
         TEMPLATE.$thirdEl.allow = 'option';
         expect(TEMPLATE.$thirdEl.allow).toBe('option');
