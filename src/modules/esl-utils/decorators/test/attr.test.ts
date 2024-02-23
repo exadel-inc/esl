@@ -160,7 +160,7 @@ describe('Decorator: attr', () => {
       });
     });
 
-    describe('Inherit searches for the closest element with explicitly declared name', () => {
+    describe('Inherit searches for the closest element with explicitly declared data attribute name', () => {
       // @attr({inherit: 'parent', dataAttr: true}) public ignore: string;
       test('The attribute inherit the value from the same-named data-attribute', () => {
         TEMPLATE.$thirdEl.setAttribute('data-ignore', 'swipe');
