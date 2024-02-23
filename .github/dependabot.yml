@@ -40,7 +40,7 @@ updates:
     directory: "/"
     open-pull-requests-limit: 5
     schedule:
-      interval: "daily" # change to "weekly"
+      interval: "weekly"
     reviewers:
       - "@exadel-inc/esl-core-maintainers"
     assignees:
