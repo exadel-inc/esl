@@ -107,7 +107,7 @@ describe('Decorator: attr', () => {
     expect(el.defProvider).toBe('');
   });
 
-  describe('inherit parameter', () => {
+  describe('Inherit parameter', () => {
 
     class ThirdElement extends HTMLElement {
       @attr({inherit: 'box'})
@@ -147,7 +147,7 @@ describe('Decorator: attr', () => {
         TEMPLATE.$thirdEl.container = 'container';
         expect(TEMPLATE.$thirdEl.container).toBe('container');
       });
-      test('The value resolves from the closest element (custom-element) in DOM', () => {
+      test('The value should be resolved from the closest DOM element (custom-element)', () => {
         TEMPLATE.$secondEl.setAttribute('box', 'carousel');
         expect(TEMPLATE.$thirdEl.container).toBe('carousel');
       });
