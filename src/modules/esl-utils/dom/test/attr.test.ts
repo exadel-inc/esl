@@ -132,13 +132,13 @@ describe('Attribute', () => {
     $parent.append($el);
     document.body.append($parent);
 
-    test('finds indicated attribute on this element', () => {
+    test('should return attribute from the current element', () => {
       expect(getClosestAttr($el, attrName)).toBe(attrValue);
     });
-    test('finds indicated attribute on closest parent in DOM', () => {
+    test('should return an attribute from the parent DOM element', () => {
       expect(getClosestAttr($el, $parentName)).toBe($parentValue);
     });
-    test('returns null in case indicated attribute is absent in DOM', () => {
+    test('should return null in case the specified attribute is absent at the current element and its parents', () => {
       expect(getClosestAttr($el, 'name')).toBe(null);
     });
   });
