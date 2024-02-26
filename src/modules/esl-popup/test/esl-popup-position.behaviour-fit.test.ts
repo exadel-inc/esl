@@ -138,7 +138,7 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to fit-major', ()
       expect(calcPopupPosition(cfg)).toEqual(expected);
     });
 
-    describe('when the popup has a position on the vertical axe and', () => {
+    describe('when the popup has a position on the vertical axis', () => {
       const expected = Object.assign({}, expectedRef) as PopupPositionValue;
       expected.popup = popup.shift(360, 290);
       test('when the trigger is outside of the outer limiting element by the own left edge', () => {
@@ -152,7 +152,7 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to fit-major', ()
       });
     });
 
-    describe('when the popup has a position on the horizontal axe and', () => {
+    describe('when the popup has a position on the horizontal axis', () => {
       const expected = Object.assign({}, expectedRef) as PopupPositionValue;
       expected.popup = popup.shift(530, 410);
       expected.placedAt = 'right';
@@ -167,7 +167,7 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to fit-major', ()
       });
     });
 
-    describe('when there is a lack of space for position adjustment on the horizontal axe:', () => {
+    describe('when there is a lack of space for position adjustment on the horizontal axis:', () => {
       const expected = Object.assign({}, expectedRef) as PopupPositionValue;
       expected.popup = popup.shift(360, 530);
       expected.placedAt = 'bottom';
@@ -183,7 +183,7 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to fit-major', ()
       });
     });
 
-    describe('when there is a lack of space for position adjustment on the vertical axe:', () => {
+    describe('when there is a lack of space for position adjustment on the vertical axis:', () => {
       const expected = Object.assign({}, expectedRef) as PopupPositionValue;
       expected.popup = popup.shift(530, 410);
       expected.placedAt = 'right';
