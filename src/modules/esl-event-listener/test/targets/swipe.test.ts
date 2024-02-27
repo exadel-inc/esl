@@ -123,7 +123,7 @@ describe('ESLSwipeGestureTarget EventTarget', () => {
 
     test('ESLSwipeGestureTarget ignores long - lasting swipe', async () => {
       $el.dispatchEvent(createEvent(START_EVENT, {pageX: 100, pageY: 100}));
-      await promisifyTimeout(150);
+      await promisifyTimeout(200);
       window.dispatchEvent(createEvent(END_EVENT, {pageX: 210, pageY: 105, target: $el}));
       expect(listener).not.toHaveBeenCalled();
     });
