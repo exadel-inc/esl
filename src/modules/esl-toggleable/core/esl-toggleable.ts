@@ -339,7 +339,7 @@ export class ESLToggleable extends ESLBaseElement {
   @listen({
     auto: false,
     event: 'keydown mouseup touchend',
-    target: document.body,
+    target: document,
     capture: true
   })
   protected _onOutsideAction(e: Event): void {
