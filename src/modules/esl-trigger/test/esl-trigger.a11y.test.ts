@@ -52,11 +52,11 @@ describe('esl-trigger a11y attributes test', () => {
         '"aria-controls" a11y attributes',
         () => {
           const trigger = ESLTrigger.create();
-          trigger.$target = createToggleableMock();
           const controlId = 'test-control';
 
           beforeAll(() => {
             document.body.append(trigger);
+            trigger.$target = createToggleableMock();
             Object.assign(trigger.$target!, {id: controlId});
           });
 
@@ -102,8 +102,8 @@ describe('esl-trigger a11y attributes test', () => {
 
           beforeAll(() => {
             trigger.a11yLabelActive = 'active';
-            trigger.$target = createToggleableMock();
             document.body.append(trigger);
+            trigger.$target = createToggleableMock();
           });
 
           test(
