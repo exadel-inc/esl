@@ -16,6 +16,10 @@ branches:
   - name: main-next
     channel: next
     prerelease: next
+  # Maintenance branches:
+  - name: release-4.x
+    range: 4.x
+    channel: 4.x
 
 # Release configuration
 plugins:
