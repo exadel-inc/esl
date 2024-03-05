@@ -7,13 +7,13 @@ import type {Point} from './point';
  */
 export class Rect implements Point {
   /** The X coordinate of the Rect's origin (top-left corner of the rectangle). */
-  public x;
+  public readonly x;
   /** The Y coordinate of the Rect's origin (top-left corner of the rectangle). */
-  public y;
+  public readonly y;
   /** The width of the Rect. */
-  public width;
+  public readonly width;
   /** The height of the Rect. */
-  public height;
+  public readonly height;
 
   /**
    * The static method creates a new Rect instance from a DOMRect object of BoundingClientRect.
