@@ -16,7 +16,7 @@ Authors: *Alexey Stsefanovich (ala'n)*, *Julia Murashko*.
 
 - `active-class-target` - target element ESLTraversingQuery selector to set `active-class`
 
-- `target` - target Toggleable ESLTraversingQuery selector
+- `target` - target Toggleable ESLTraversingQuery selector (`next` by default)
 
 - `track-click` - [MediaQuery](../esl-media-query/README.md) to define allowed to track click event media. (Default: `all`)
   
