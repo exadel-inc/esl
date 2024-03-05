@@ -136,6 +136,11 @@ export class Rect implements Point {
     return new Rect(this.x + x, this.y + y, this.width, this.height);
   }
 
+  /** @returns new {@link Rect} that is resized by x and y axis */
+  public resize(xDelta: number = 0, yDelta: number = 0): Rect {
+    return new Rect(this.x, this.y, this.width + xDelta, this.height + yDelta);
+  }
+
   /** @returns new {@link Rect} an intersection of current and passed Rectangle */
   public intersect(rect: Rect): Rect {
     const top = Math.max(this.top, rect.top);
