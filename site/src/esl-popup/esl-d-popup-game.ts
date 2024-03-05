@@ -1,7 +1,6 @@
 import {ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
 import {attr, boolAttr, decorate, listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 import {rafDecorator} from '@exadel/esl/modules//esl-utils/async';
-import {ESLResizeObserverTarget} from '@exadel/esl/modules/esl-utils/dom/events';
 import {ESLTraversingQuery} from '@exadel/esl/modules/esl-traversing-query/core';
 
 /** Fun component like a game for checking popup positioning on edge cases */
@@ -16,13 +15,6 @@ export class ESLDemoPopupGame extends ESLBaseElement {
   @memoize()
   get $trigger(): HTMLElement | undefined {
     if (this.trigger) return ESLTraversingQuery.first(this.trigger, this) as HTMLElement | undefined;
-  }
-
-  protected update(): void {
-    if (!this.$trigger) return;
-    if (this.dragging) this._onDragStop();
-    this.$$off(this._onDragStart);
-    this.$$on(this._onDragStart);
   }
 
   protected updateTriggerPosition(dX: number, dY: number): void {
@@ -42,12 +34,7 @@ export class ESLDemoPopupGame extends ESLBaseElement {
     this.$trigger.style.left = `${x}px`;
   }
 
-  @listen({event: 'resize', target: ESLResizeObserverTarget.for})
-  protected onResize(): void {
-    this.update();
-  }
-
-  @listen({auto: false, event: 'mousedown'})
+  @listen({event: 'mousedown'})
   protected _onDragStart(event: MouseEvent): void {
     this.dragging = true;
     this.$$on(this._onDragging);
