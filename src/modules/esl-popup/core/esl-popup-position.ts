@@ -28,6 +28,16 @@ export interface PopupPositionConfig {
   inner: Rect;
   outer: Rect;
   trigger: Rect;
+  isRTL: boolean;
+}
+
+interface PopupAlignmentConfig {
+  isHorizontal: boolean;
+  start: 'x' | 'y';
+  end: 'right' | 'bottom';
+  dimension: 'width' | 'height';
+  isOutAtStart: boolean;
+  isOutAtEnd: boolean;
 }
 
 /**
@@ -114,7 +124,7 @@ function getOppositePosition(position: PositionType): PositionType {
  * @returns updated popup position value
  * */
 function fitOnMajorAxis(cfg: PopupPositionConfig, value: PopupPositionValue): PopupPositionValue {
-  if (cfg.behavior !== 'fit' && cfg.behavior !== 'fit-major') return value;
+  if (!['fit', 'fit-major'].includes(cfg.behavior)) return value;
 
   const intersectionRatio = cfg.intersectionRatio[cfg.position] || 0;
   const leftComparand = isStartingSide(cfg.position) ? value.popup[cfg.position] : cfg.outer[cfg.position];
@@ -151,7 +161,7 @@ function adjustAlongMajorAxis(cfg: PopupPositionConfig, value: PopupPositionValu
  * @param diffCoord - distance between the popup and the outer (container) bounding
  * @param arrowCoord - coordinate of the arrow
  * @param arrowLimit - the limit value of the arrow coordinate
- * @param isStart - is it starting side?
+ * @param isStart - should it rely on the starting side?
  * @returns adjustment value for the coordinates of the arrow and the popup
  */
 function adjustAlignmentBySide(diffCoord: number, arrowCoord: number, arrowLimit: number, isStart: boolean): number {
@@ -160,23 +170,46 @@ function adjustAlignmentBySide(diffCoord: number, arrowCoord: number, arrowLimit
   if (isStart ? diffCoord < 0 : diffCoord > 0) {
     arrowAdjust = diffCoord;
     const newCoord = arrowCoord + arrowAdjust;
+
     if (isStart ? newCoord < arrowLimit : newCoord > arrowLimit) {
-      arrowAdjust = 0;
+      arrowAdjust -= newCoord - arrowLimit;
     }
-    /** It was decided that if the relative positions of the trigger and container
-     *  do not allow the popup to be displayed correctly together with the arrow,
-     *  the popup should be displayed as-is without adjusting the position of the minor axis
-     *
-     *  The following code adheres to a different strategy - maximum position adaptation,
-     *  with the popup having minimal overhang outside the container.
-     *  Perhaps in the future, we should allow the user to choose the strategy.
-     *
-     * const func = isStartingSide ? Math.max : Math.min;
-     * arrowAdjust = func(diffCoord, arrowLimit - arrowCoord);
-     */
   }
 
   return arrowAdjust;
+}
+
+/**
+ * Sets up the configuration for adjusting position along the minor axis
+ * @param cfg - popup position config
+ * @param popup - current popup's position value
+ * @returns configuration for adjusting position along the minor axis
+ */
+function setupAlignmentBySide(cfg: PopupPositionConfig, popup: Rect): PopupAlignmentConfig {
+  const isHorizontal = isOnHorizontalAxis(cfg.position);
+  const start = isHorizontal ? 'y' : 'x';
+  const end = isHorizontal ? 'bottom' : 'right';
+  const dimension = isHorizontal ? 'height' : 'width';
+  const isOutAtStart = popup[start] < cfg.outer[start];
+  const isOutAtEnd = popup[end] > cfg.outer[end];
+
+  return {isHorizontal, start, end, dimension, isOutAtStart, isOutAtEnd};
+}
+
+/**
+ * Determines whether the side for adjusting the position of the pop-up window is the starting side
+ * @param isOutAtStart - is the popup out at the start side?
+ * @param isOutAtEnd - is the popup out at the end side?
+ * @param isRTL - is the text direction right-to-left?
+ * @returns true for starting side, false for ending side, undefined when no adjusting is required
+ */
+function isRelyOnStartingSide(isOutAtStart: boolean, isOutAtEnd: boolean, isRTL: boolean): boolean | undefined {
+  if (isOutAtStart && isOutAtEnd) {
+    // the side for adjusting should be determined by text direction on the popup in the case when both sides outing
+    return !isRTL;
+  } else if (isOutAtStart) return true; // adjust the start side when there is start-side outing
+  else if (isOutAtEnd) return false; // adjust the end side when there is end-side outing
+  else return; // nothing to do when there is no outing
 }
 
 /**
@@ -186,34 +219,28 @@ function adjustAlignmentBySide(diffCoord: number, arrowCoord: number, arrowLimit
  * @returns updated popup position value
  * */
 function fitOnMinorAxis(cfg: PopupPositionConfig, value: PopupPositionValue): PopupPositionValue {
-  if (cfg.behavior !== 'fit' && cfg.behavior !== 'fit-minor') return value;
-
-  const isHorizontal = isOnHorizontalAxis(cfg.position);
-  const start = isHorizontal ? 'y' : 'x';
-  const end = isHorizontal ? 'bottom' : 'right';
-  const dimension = isHorizontal ? 'height' : 'width';
-
-  if (cfg.outer[dimension] < cfg.element[dimension] ||  // cancel fit mode if the popup size is greater than the outer limiter size
-      cfg.trigger[start] < cfg.outer[start] ||          // or the trigger is outside the outer limiting element
-      cfg.trigger[end] > cfg.outer[end]
-  ) return value;
+  if (!['fit', 'fit-minor'].includes(cfg.behavior)) return value;
 
   const {popup, arrow} = value;
-  // check the starting side of the axis
-  let arrowLimit = cfg.marginArrow;
-  let coordAdjust = adjustAlignmentBySide(popup[start] - cfg.outer[start], arrow[start], arrowLimit, true);
-  if (coordAdjust) {
-    popup[start] -= coordAdjust;
-    arrow[start] += coordAdjust;
+  const {isHorizontal, start, end, dimension, isOutAtStart, isOutAtEnd} = setupAlignmentBySide(cfg, popup);
+
+  const isStarting = isRelyOnStartingSide(isOutAtStart, isOutAtEnd, cfg.isRTL);
+  if (isStarting === undefined) return value;
+
+  const arrowLimit = cfg.marginArrow + (isStarting ? 0 : calcUsableSizeForArrow(cfg, dimension));
+  let diff = isStarting ? popup[start] - cfg.outer[start] : popup[end] - cfg.outer[end];
+  if (cfg.outer[dimension] < cfg.element[dimension]) {
+    // apply another value on case when popup is greater than the outer container
+    diff = cfg.isRTL ? popup[end] - cfg.outer[end] : popup[start] - cfg.outer[start];
   }
-  // check the final side of the axis
-  arrowLimit += calcUsableSizeForArrow(cfg, dimension);
-  coordAdjust = adjustAlignmentBySide(popup[end] - cfg.outer[end], arrow[start], arrowLimit, false);
-  if (coordAdjust) {
-    popup[start] -= coordAdjust;
-    arrow[start] += coordAdjust;
-  }
-  return {...value, popup, arrow};
+
+  const shift = adjustAlignmentBySide(diff, arrow[start], arrowLimit, isStarting);
+  arrow[start] += shift;
+  return {
+    ...value,
+    popup: isHorizontal ? popup.shift(0, -shift) : popup.shift(-shift, 0),
+    arrow
+  };
 }
 
 /**
