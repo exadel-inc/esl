@@ -244,8 +244,15 @@ export class ESLToggleable extends ESLBaseElement {
    * Returns false if the show action should not be executed.
    */
   protected shouldShow(params: ESLToggleableActionParams): boolean {
+    if (typeof this.onBeforeShow === 'function') return this.onBeforeShow(params) === false;
     return params.force || !this.open;
   }
+
+  /**
+   * Called before show action to check if the action should be executed.
+   * @deprecated use {@link shouldShow} and immutable aproach instead
+   */
+  protected onBeforeShow?: (params: ESLToggleableActionParams) => boolean | void;
 
   /**
    * Actions to execute on show toggleable.
@@ -270,8 +277,15 @@ export class ESLToggleable extends ESLBaseElement {
    * Returns false if the hide action should not be executed.
    */
   protected shouldHide(params: ESLToggleableActionParams): boolean {
+    if (typeof this.onBeforeHide === 'function') return this.onBeforeHide(params) === false;
     return params.force || this.open;
   }
+
+  /**
+   * Called before hide action to check if the action should be executed.
+   * @deprecated use {@link shouldHide} and immutable aproach instead
+   */
+  protected onBeforeHide?: (params: ESLToggleableActionParams) => boolean | void;
 
   /**
    * Actions to execute on hide toggleable.
