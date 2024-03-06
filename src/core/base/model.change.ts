@@ -7,10 +7,11 @@ import type {UIPStateModel} from './model';
 export type UIPChangeInfo = {
   modifier: UIPPlugin | UIPRoot;
   type: 'html' | 'js';
+  force?: boolean;
 };
 
 export class UIPChangeEvent extends Event {
-  public readonly target: UIPRoot;
+  public override readonly target: UIPRoot;
 
   public constructor(
     type: string,
@@ -23,6 +24,10 @@ export class UIPChangeEvent extends Event {
 
   public get model(): UIPStateModel {
     return this.target.model;
+  }
+
+  public get force(): boolean {
+    return this.changes.some((change) => change.force);
   }
 
   public get jsChanges(): UIPChangeInfo[] {

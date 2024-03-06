@@ -60,7 +60,7 @@ export class UIPStateModel extends SyntheticEventTarget {
     const script = UIPJSNormalizationPreprocessors.preprocess(js);
     if (this._js === script) return;
     this._js = script;
-    this._changes.push({modifier, type: 'js'});
+    this._changes.push({modifier, type: 'js', force: true});
     this.dispatchChange();
   }
 
@@ -68,13 +68,14 @@ export class UIPStateModel extends SyntheticEventTarget {
    * Sets current markup state to the passed one
    * @param markup - new state
    * @param modifier - plugin, that initiates the change
+   * @param force - marker, that indicates if html changes require iframe rerender
    */
-  public setHtml(markup: string, modifier: UIPPlugin | UIPRoot): void {
+  public setHtml(markup: string, modifier: UIPPlugin | UIPRoot, force: boolean = false): void {
     const html = UIPHTMLNormalizationPreprocessors.preprocess(markup);
     const root = new DOMParser().parseFromString(html, 'text/html').body;
     if (!root || root.innerHTML.trim() !== this.html.trim()) {
       this._html = root;
-      this._changes.push({modifier, type: 'html'});
+      this._changes.push({modifier, type: 'html', force});
       this.dispatchChange();
     }
   }
@@ -120,7 +121,7 @@ export class UIPStateModel extends SyntheticEventTarget {
   ): void {
     if (!snippet) return;
     this._snippets.forEach((s) => (s.active = s === snippet));
-    this.setHtml(snippet.html, modifier);
+    this.setHtml(snippet.html, modifier, true);
     this.setJS(snippet.js, modifier);
     this.dispatchEvent(
       new CustomEvent('uip:model:snippet:change', {detail: this})
