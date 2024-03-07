@@ -22,11 +22,9 @@ describe('ESLTrigger event handling', () => {
   describe('Click actions', () => {
     describe('Default click tracking', () => {
       const $trigger = ESLTrigger.create();
+      $trigger.$target = createToggleableMock();
 
-      beforeAll(() => {
-        document.body.append($trigger);
-        $trigger.$target = createToggleableMock();
-      });
+      beforeAll(() => document.body.append($trigger));
 
       test('toggle (show)', () => {
         $trigger.click();
@@ -41,12 +39,10 @@ describe('ESLTrigger event handling', () => {
 
     describe('Click tracking disabled', () => {
       const $trigger = ESLTrigger.create();
+      $trigger.$target = createToggleableMock();
       $trigger.trackClick = 'none';
 
-      beforeAll(() => {
-        document.body.append($trigger);
-        $trigger.$target = createToggleableMock();
-      });
+      beforeAll(() => document.body.append($trigger));
 
       test('toggle (show) disabled', () => {
         $trigger.click();
@@ -61,12 +57,10 @@ describe('ESLTrigger event handling', () => {
 
     describe('Click tracking only for show actions', () => {
       const $trigger = ESLTrigger.create();
+      $trigger.$target = createToggleableMock();
       $trigger.mode = 'show';
 
-      beforeAll(() => {
-        document.body.append($trigger);
-        $trigger.$target = createToggleableMock();
-      });
+      beforeAll(() => document.body.append($trigger));
 
       test('click toggle (show)', () => {
         $trigger.dispatchEvent(new MouseEvent('click'));
@@ -81,12 +75,10 @@ describe('ESLTrigger event handling', () => {
 
     describe('Click tracking only for hide actions', () => {
       const $trigger = ESLTrigger.create();
+      $trigger.$target = createToggleableMock();
       $trigger.mode = 'hide';
 
-      beforeAll(() => {
-        document.body.append($trigger);
-        $trigger.$target = createToggleableMock();
-      });
+      beforeAll(() => document.body.append($trigger));
 
       test('toggle (hide)', () => {
         $trigger.click();
@@ -101,12 +93,12 @@ describe('ESLTrigger event handling', () => {
 
     describe('Not igonred target', () => {
       const $trigger = ESLTrigger.create();
+      $trigger.$target = createToggleableMock();
       $trigger.ignore = '';
       const $target = document.createElement('div');
 
       beforeAll(() => {
         document.body.append($trigger);
-        $trigger.$target = createToggleableMock();
         $trigger.append($target);});
 
       test('toggle (show)', () => {
@@ -122,12 +114,12 @@ describe('ESLTrigger event handling', () => {
 
     describe('Igonred target', () => {
       const $trigger = ESLTrigger.create();
+      $trigger.$target = createToggleableMock();
       $trigger.ignore = 'div';
       const div = document.createElement('div');
 
       beforeAll(() => {
         document.body.append($trigger);
-        $trigger.$target = createToggleableMock();
         $trigger.append(div);});
 
       test('toggle (show) ignored', () => {
@@ -145,11 +137,9 @@ describe('ESLTrigger event handling', () => {
   describe('Keydown', () => {
     describe('Default behavior', () => {
       const $trigger = ESLTrigger.create();
+      $trigger.$target = createToggleableMock();
 
-      beforeAll(() => {
-        document.body.append($trigger);
-        $trigger.$target = createToggleableMock();
-      });
+      beforeAll(() => document.body.append($trigger));
 
       test('toggle (show)', () => {
         $trigger.dispatchEvent(new KeyboardEvent('keydown', {key: 'Enter'}));
@@ -164,11 +154,9 @@ describe('ESLTrigger event handling', () => {
 
     describe('Invalid key', () => {
       const $trigger = ESLTrigger.create();
+      $trigger.$target = createToggleableMock();
 
-      beforeAll(() => {
-        document.body.append($trigger);
-        $trigger.$target = createToggleableMock();
-      });
+      beforeAll(() => document.body.append($trigger));
 
       test('toggle (show) ignored', () => {
         $trigger.dispatchEvent(new KeyboardEvent('keydown', {key: 'invalid'}));
@@ -183,12 +171,10 @@ describe('ESLTrigger event handling', () => {
 
     describe('Escape key tracking disabled', () => {
       const $trigger = ESLTrigger.create();
+      $trigger.$target = createToggleableMock();
       $trigger.ignoreEsc = true;
 
-      beforeAll(() => {
-        document.body.append($trigger);
-        $trigger.$target = createToggleableMock();
-      });
+      beforeAll(() => document.body.append($trigger));
 
       test('toggle (show) ignored', () => {
         $trigger.dispatchEvent(new KeyboardEvent('keydown', {key: 'Escape'}));
@@ -205,12 +191,10 @@ describe('ESLTrigger event handling', () => {
   describe('Hover', () => {
     describe('Hover tracking enabled', () => {
       const $trigger = ESLTrigger.create();
+      $trigger.$target = createToggleableMock();
       $trigger.trackHover = 'all';
 
-      beforeAll(() => {
-        document.body.append($trigger);
-        $trigger.$target = createToggleableMock();
-      });
+      beforeAll(() => document.body.append($trigger));
 
       test('change event fired', () => {
         $trigger.dispatchEvent(new MouseEvent('mouseenter'));
@@ -225,12 +209,10 @@ describe('ESLTrigger event handling', () => {
 
     describe('Hover tracking disabled', () => {
       const $trigger = ESLTrigger.create();
+      $trigger.$target = createToggleableMock();
       $trigger.trackHover = 'none';
 
-      beforeAll(() => {
-        document.body.append($trigger);
-        $trigger.$target = createToggleableMock();
-      });
+      beforeAll(() => document.body.append($trigger));
 
       test('toggle (show) ignored', () => {
         $trigger.dispatchEvent(new MouseEvent('mouseenter'));
@@ -245,13 +227,11 @@ describe('ESLTrigger event handling', () => {
 
     describe('Hover tracking with show only mode', () => {
       const $trigger = ESLTrigger.create();
+      $trigger.$target = createToggleableMock();
       $trigger.trackHover = 'all';
       $trigger.mode = 'show';
 
-      beforeAll(() => {
-        document.body.append($trigger);
-        $trigger.$target = createToggleableMock();
-      });
+      beforeAll(() => document.body.append($trigger));
 
       test('toggle (show)', () => {
         $trigger.dispatchEvent(new MouseEvent('mouseenter'));
@@ -266,13 +246,11 @@ describe('ESLTrigger event handling', () => {
 
     describe('hover tracking with hide only mode', () => {
       const $trigger = ESLTrigger.create();
+      $trigger.$target = createToggleableMock();
       $trigger.trackHover = 'all';
       $trigger.mode = 'hide';
 
-      beforeAll(() => {
-        document.body.append($trigger);
-        $trigger.$target = createToggleableMock();
-      });
+      beforeAll(() => document.body.append($trigger));
 
       test('toggle (show) ignored', () => {
         $trigger.dispatchEvent(new MouseEvent('mouseenter'));
