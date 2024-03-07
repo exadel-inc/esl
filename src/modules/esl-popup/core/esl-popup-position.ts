@@ -215,11 +215,12 @@ function fitOnMinorAxis(cfg: PopupPositionConfig, value: PopupPositionValue): Po
   // start-side adjusting happens if there is only start-side outing or LTR content direction
   const isStarting = isOutAtStart && (!isOutAtEnd || !cfg.isRTL);
 
-  let diff = isStarting ? popup[start] - cfg.outer[start] : popup[end] - cfg.outer[end];
-  if (isWider) {
-    // apply another value on case when popup is greater than the outer container
-    diff = cfg.isRTL ? popup[end] - cfg.outer[end] : popup[start] - cfg.outer[start];
-  }
+  // the side for calculating the distance between the popup and the outer (container) bounding should be:
+  // - when the popup is wider than the container the diff side should depend on the text direction
+  //   (start side for LTR, end side for RTL)
+  // - else we should choose start side if start-side outing or end side if end-side outing
+  const diffSide = (isWider ? !cfg.isRTL : isStarting) ? start : end;
+  const diff = popup[diffSide] - cfg.outer[diffSide];
   const shift = adjustAlignmentBySide(cfg, diff, arrow[start], isStarting);
   arrow[start] += shift;
   return {
