@@ -194,7 +194,8 @@ export class ESLPopup extends ESLToggleable {
    * Adds CSS classes, update a11y and fire esl:refresh event by default.
    */
   protected override onShow(params: ESLPopupActionParams): void {
-    if (this.wasOpened) {
+    const wasOpened = this.open;
+    if (wasOpened) {
       this.beforeOnHide(params);
       this.afterOnHide(params);
     }
@@ -221,7 +222,7 @@ export class ESLPopup extends ESLToggleable {
     this.style.visibility = 'hidden'; // eliminates the blinking of the popup at the previous position
 
     // running as a separate task solves the problem with incorrect positioning on the first showing
-    if (this.wasOpened) this.afterOnShow(params);
+    if (wasOpened) this.afterOnShow(params);
     else afterNextRender(() => this.afterOnShow(params));
 
     // Autofocus logic

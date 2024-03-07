@@ -129,12 +129,6 @@ export class ESLToggleable extends ESLBaseElement {
   /** Inner state */
   private _open: boolean = false;
 
-  /**
-   * Marker of last opened state.
-   * @deprecated and will be removed in 5.0.0 (`this.open` will be moved inside `onShow` and `onHide` methods)
-   */
-  protected wasOpened: boolean = false;
-
   /** Inner show/hide task manager instance */
   protected _task: DelayedTask = new DelayedTask();
   /** Marker for current hover listener state */
@@ -229,8 +223,6 @@ export class ESLToggleable extends ESLBaseElement {
     if (!this.shouldShow(params)) return;
     if (!params.silent && !this.$$fire(this.BEFORE_SHOW_EVENT, {detail: {params}})) return;
     this.activator = params.activator;
-    this.wasOpened = this.open;
-    this.open = true;
     this.onShow(params);
     if (!params.silent) this.$$fire(this.SHOW_EVENT, {detail: {params}, cancelable: false});
   }
@@ -239,8 +231,6 @@ export class ESLToggleable extends ESLBaseElement {
     Object.defineProperty(params, 'action', {value: 'hide', writable: false});
     if (!this.shouldHide(params)) return;
     if (!params.silent && !this.$$fire(this.BEFORE_HIDE_EVENT, {detail: {params}})) return;
-    this.wasOpened = this.open;
-    this.open = false;
     this.onHide(params);
     this.bindOutsideEventTracking(false);
     if (!params.silent) this.$$fire(this.HIDE_EVENT, {detail: {params}, cancelable: false});
@@ -267,6 +257,7 @@ export class ESLToggleable extends ESLBaseElement {
    * Adds CSS classes, update a11y and fire {@link ESLToggleable.REFRESH_EVENT} event by default.
    */
   protected onShow(params: ESLToggleableActionParams): void {
+    this.open = true;
     CSSClassUtils.add(this, this.activeClass);
     CSSClassUtils.add(document.body, this.bodyClass, this);
     if (this.containerActiveClass) {
@@ -299,6 +290,7 @@ export class ESLToggleable extends ESLBaseElement {
    * Removes CSS classes and update a11y by default.
    */
   protected onHide(params: ESLToggleableActionParams): void {
+    this.open = false;
     CSSClassUtils.remove(this, this.activeClass);
     CSSClassUtils.remove(document.body, this.bodyClass, this);
     if (this.containerActiveClass) {
