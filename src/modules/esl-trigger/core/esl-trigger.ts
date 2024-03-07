@@ -20,8 +20,8 @@ export class ESLTrigger extends ESLBaseTrigger {
   /** Selector for ignored inner elements */
   @attr({defaultValue: 'a[href]'}) public ignore: string;
 
-  /** Target Toggleable {@link ESLTraversingQuery} selector */
-  @attr({defaultValue: ''}) public target: string;
+  /** Target Toggleable {@link ESLTraversingQuery} selector. `::next` by default */
+  @attr({defaultValue: '::next'}) public target: string;
   /** Action to pass to the Toggleable. Supports `show`, `hide` and `toggle` values. `toggle` by default */
   @attr({defaultValue: 'toggle'}) public override mode: 'toggle' | 'show' | 'hide';
 
