@@ -7,7 +7,7 @@ date: 2024-03-11
 link: https://github.com/exadel-inc/esl/releases/tag/v4.15.0
 ---
 
-ESL v2.0.0 is in progress and currently under beta channel.
+ESL v5.0.0 is in progress and currently under beta channel.
 But we decided to release a couple minor versions of ESL v4 to allow you to be more up to date with upcoming 5th version.
 
 ---
