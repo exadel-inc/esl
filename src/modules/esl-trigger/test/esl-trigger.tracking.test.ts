@@ -10,8 +10,8 @@ describe('ESLTrigger find target according to the query in target attribute', ()
   const $trigger = ESLTrigger.create();
 
   beforeEach(() => {
-    $trigger.$target = createToggleableMock();
     document.body.append($trigger);
+    $trigger.$target = createToggleableMock();
     document.body.append($trigger.$target);
   });
   afterEach(() => {
