@@ -23,7 +23,7 @@
     "test": "echo \"Warn: no test declared for module\" && exit 0"
   },
   "dependencies": {
-    "@exadel/esl": "^5.0.0-beta.9",
+    "@exadel/esl": "^5.0.0-beta.11",
     "@exadel/ui-playground": "../",
     "@11ty/eleventy": "^2.0.1",
     "@11ty/eleventy-dev-server": "^1.0.4",
@@ -32,7 +32,7 @@
     "markdown-it-replace-link": "^1.2.1",
     "out-url": "^1.2.2",
     "ts-loader": "^9.5.1",
-    "webpack": "^5.90.1",
+    "webpack": "^5.90.3",
     "webpack-bundle-analyzer": "^4.10.1",
     "webpack-cli": "^5.1.4"
   }
