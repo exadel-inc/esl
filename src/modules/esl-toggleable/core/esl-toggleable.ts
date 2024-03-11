@@ -134,7 +134,7 @@ export class ESLToggleable extends ESLBaseElement {
 
   /**
    * Marker of last opened state.
-   * @deprecated and will be removed in 5.0.0 (`this.open` mutstion will be moved inside `onShow` and `onHide` methods,
+   * @deprecated and will be removed in 5.0.0 (`this.open` mutation will be moved inside `onShow` and `onHide` methods,
    * so it became possible to track the initial state of the toggleable inside of action hooks)
    */
   protected wasOpened: boolean = false;
