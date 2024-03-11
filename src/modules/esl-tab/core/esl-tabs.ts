@@ -1,7 +1,7 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {rafDecorator} from '../../esl-utils/async/raf';
-import {memoize, attr, listen, decorate} from '../../esl-utils/decorators';
+import {memoize, attr, listen, decorate, ready} from '../../esl-utils/decorators';
 import {isRTL, RTLScroll} from '../../esl-utils/dom/rtl';
 import {debounce} from '../../esl-utils/async/debounce';
 import {ESLResizeObserverTarget} from '../../esl-event-listener/core';
@@ -51,6 +51,7 @@ export class ESLTabs extends ESLBaseElement {
     return this.scrollableTypeRules.activeValue || 'side';
   }
 
+  @ready
   protected override connectedCallback(): void {
     super.connectedCallback();
     this.updateScrollableType();
