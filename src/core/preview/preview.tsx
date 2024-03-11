@@ -18,17 +18,13 @@ import type {ESLIntersectionEvent} from '@exadel/esl/modules/esl-event-listener/
  */
 export class UIPPreview extends UIPPlugin {
   static is = 'uip-preview';
-  static observedAttributes: string[] = ['dir', 'resizable', 'isolation', 'isolation-template'];
+  static observedAttributes: string[] = ['dir', 'resizable'];
 
   /** Sync height with inner iframe content height */
   @prop(true) public resizeLoop: boolean;
 
-  /** Marker to use iframe isolated rendering */
-  @attr({parser: parseBoolean, serializer: toBooleanAttribute}) public isolation: boolean;
-  /** Marker to use iframe isolated rendering */
+  /** Marker to force iframe rerendering */
   @attr({parser: parseBoolean, serializer: toBooleanAttribute}) public forceUpdate: boolean;
-  /** Template to use for isolated rendering */
-  @attr({defaultValue: 'default'}) public isolationTemplate: string;
 
   protected _iframeResizeRAF: number = 0;
 
@@ -70,15 +66,13 @@ export class UIPPreview extends UIPPlugin {
   protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (attrName === 'resizable' && newVal === null) this.clearInlineSize();
     if (attrName === 'dir') this.updateDir();
-    if (attrName === 'isolation' || attrName === 'isolation-template') {
-      this.$$on(this._onIframeLoad);
-      this._onRootStateChange();
-    }
   }
 
   protected update(e?: UIPChangeEvent): void {
-    if (!this.isolation) return this.writeContent();
-    if (!e || e.jsChanges.length || this.forceUpdate) this.writeContentIsolated();
+    const isolated = this.model!.activeSnippet?.isolated || false;
+
+    if (!isolated) return this.writeContent();
+    if (!e || this.forceUpdate || e.force) this.writeContentIsolated();
     this._onIframeLoad();
   }
 
@@ -134,8 +128,7 @@ export class UIPPreview extends UIPPlugin {
 
   @listen({
     event: 'load',
-    target: ($this: UIPPreview) => $this.$iframe,
-    condition: ($this: UIPPreview) => $this.isolation
+    target: ($this: UIPPreview) => $this.$iframe
   })
   protected _onIframeLoad(): void {
     if (!this.$iframe.contentWindow) return;
@@ -143,7 +136,8 @@ export class UIPPreview extends UIPPlugin {
     const title = this.model!.activeSnippet?.label || 'UI Playground';
     const script = UIPJSRenderingPreprocessors.preprocess(this.model!.js);
     const content = UIPHTMLRenderingPreprocessors.preprocess(this.model!.html);
-    const html = UIPRenderingTemplatesService.render(this.isolationTemplate, {title, content, script});
+    const isolatedTemplate = this.model!.activeSnippet?.isolatedTemplate || 'default';
+    const html = UIPRenderingTemplatesService.render(isolatedTemplate, {title, content, script});
 
     this.$iframe.contentWindow?.document.close();
     this.$iframe.contentWindow?.document.write(html);

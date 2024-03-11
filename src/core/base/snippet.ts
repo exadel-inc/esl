@@ -33,6 +33,17 @@ export class UIPSnippetItem {
     return this.$elementJS ? this.$elementJS.innerHTML : '';
   }
 
+  /** @returns template to use for isolated rendering */
+  @memoize()
+  public get isolatedTemplate(): string {
+    return this.$element.getAttribute('isolated-template') || '';
+  }
+
+  /** @returns if snippet should preview in isolated iframe */
+  public get isolated(): boolean {
+    return this.$element.hasAttribute('uip-isolated');
+  }
+
   /** @returns snippet's anchor id */
   public get anchor(): string | null {
     return this.$element.getAttribute('anchor');
