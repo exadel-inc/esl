@@ -57,7 +57,7 @@ describe('esl-trigger a11y attributes test', () => {
           beforeAll(() => {
             document.body.append(trigger);
             trigger.$target = createToggleableMock();
-            Object.assign(trigger.$target!, {id: controlId});
+            Object.assign(trigger.$target, {id: controlId});
           });
 
           test(
