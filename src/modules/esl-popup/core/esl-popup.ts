@@ -412,7 +412,8 @@ export class ESLPopup extends ESLToggleable {
       inner: triggerRect.grow(innerMargin),
       outer: (typeof this._offsetContainer === 'number') ?
         containerRect.shrink(this._offsetContainer) :
-        containerRect.shrink(...this._offsetContainer)
+        containerRect.shrink(...this._offsetContainer),
+      isRTL: isRTL(this)
     };
 
     const {placedAt, popup, arrow} = calcPopupPosition(config);
