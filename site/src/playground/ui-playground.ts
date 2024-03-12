@@ -16,7 +16,9 @@ UIPRenderingTemplatesService.add('default', `
       <link rel="stylesheet" href="/bundles/lib.css">
       <script type="module">{script}</script>
     </head>
-    <body>{content}</body>
+    <body style="overflow: hidden;">
+      <div uip-content-root>{content}</div>
+    </body>
   </html>
 `);
 
