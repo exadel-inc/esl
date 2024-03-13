@@ -3,7 +3,7 @@ layout: content
 title: Menu
 seoTitle: Simple menu ui example based on ESL web components
 name: Menu
-tags: examples
+tags: [examples, playground]
 icon: examples/menu.svg
 aside:
   components:
@@ -15,123 +15,71 @@ aside:
 
 <section class="row">
   <div class="col-12">
-    <h2>Simple Hover Menu:</h2>
-
-    <ul class="esl-example-menu">
-      <li class="menu-item">
-        <esl-trigger class="menu-item-btn menu-item-arrow"
-                     target="::next"
-                     track-hover
-                     hover-hide-delay="400">
-          Hover Menu 1
-        </esl-trigger>
-        <esl-panel class="menu-container"
-                   group="test-nav-group"
-                   fallback-duration="400"
-                   close-on="li" close-on-esc close-on-outside-action>
-          <ul class="esl-example-sub-menu">
-            <li>1</li>
-            <li>2</li>
-            <li>3</li>
-            <li>4</li>
-            <li>5</li>
-            <li>6</li>
-          </ul>
-        </esl-panel>
-      </li>
-      <li class="menu-item">
-        <esl-trigger class="menu-item-btn menu-item-arrow"
-                     target="::next"
-                     track-hover
-                     hover-hide-delay="400">
-          Hover Menu 2
-        </esl-trigger>
-        <esl-panel class="menu-container"
-                   group="test-nav-group"
-                   fallback-duration="400"
-                   close-on-esc close-on-outside-action>
-          <div class="esl-example-menu-400">{{ lorem.paragraphs(1) }}</div>
-        </esl-panel>
-      </li>
-      <li class="menu-item">
-        <esl-trigger class="menu-item-btn menu-item-arrow"
-                     target="::next"
-                     track-hover
-                     hover-hide-delay="400">
-          Hover Menu 3
-        </esl-trigger>
-        <esl-panel class="menu-container"
-                   group="test-nav-group"
-                   fallback-duration="400"
-                   close-on="li" close-on-esc close-on-outside-action>
-          <ul class="esl-example-sub-menu">
-            <li>1</li>
-            <li>2</li>
-            <li>3</li>
-            <li>4</li>
-            <li>5</li>
-            <li>6</li>
-            <li>7</li>
-            <li>8</li>
-            <li>9</li>
-            <li>10</li>
-          </ul>
-        </esl-panel>
-      </li>
-    </ul>
+    <uip-root>
+      <script type="text/html" uip-snippet label="Simple Menu">
+        <ul class="esl-example-menu">
+          <li class="menu-item">
+            <esl-trigger class="menu-item-btn menu-item-arrow" target="::next">Menu 1</esl-trigger>
+            <esl-panel class="menu-container"
+                       group="test-nav-group"
+                       fallback-duration="400"
+                       close-on="li" close-on-esc close-on-outside-action>
+              <ul class="esl-example-sub-menu">
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+                <li>5</li>
+                <li>6</li>
+              </ul>
+            </esl-panel>
+          </li>
+          <li class="menu-item">
+            <esl-trigger class="menu-item-btn menu-item-arrow" target="::next">Menu 2</esl-trigger>
+            <esl-panel class="menu-container"
+                       group="test-nav-group"
+                       fallback-duration="400"
+                       close-on-esc close-on-outside-action>
+              <div class="esl-example-menu-400">
+                <!-- text 100 -->
+              </div>
+            </esl-panel>
+          </li>
+          <li class="menu-item">
+            <esl-trigger class="menu-item-btn menu-item-arrow" target="::next">Menu 3</esl-trigger>
+            <esl-panel class="menu-container"
+                       group="test-nav-group"
+                       fallback-duration="400"
+                       close-on="li" close-on-esc close-on-outside-action>
+              <ul class="esl-example-sub-menu">
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+                <li>5</li>
+                <li>6</li>
+                <li>7</li>
+                <li>8</li>
+                <li>9</li>
+                <li>10</li>
+              </ul>
+            </esl-panel>
+          </li>
+        </ul>
+      </script>
+      <script type="text/plain" uip-js-snippet label="Simple Menu">
+        import { ESLPanel, ESLTrigger } from '@exadel/esl';
+        ESLPanel.register();
+        ESLTrigger.register();
+      </script>
+      <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
+      <uip-preview isolation></uip-preview>
+      <uip-settings target="esl-trigger" label="Settings" resizable vertical="@+sm">
+        <uip-bool-setting label="Hover" attribute="track-hover"></uip-bool-setting>
+      </uip-settings>
+      <uip-editor label="Source code" collapsible copy></uip-editor>
+      <uip-editor source="js" copy collapsible label="JavaScript"></uip-editor>
+    </uip-root>
   </div>
 </section>
 
-<section class="row">
-  <div class="col-12">
-    <h2>Simple Menu:</h2>
-
-    <ul class="esl-example-menu">
-      <li class="menu-item">
-        <esl-trigger class="menu-item-btn menu-item-arrow" target="::next">Menu 1</esl-trigger>
-        <esl-panel class="menu-container"
-                   group="test-nav-group"
-                   fallback-duration="400"
-                   close-on="li" close-on-esc close-on-outside-action>
-          <ul class="esl-example-sub-menu">
-            <li>1</li>
-            <li>2</li>
-            <li>3</li>
-            <li>4</li>
-            <li>5</li>
-            <li>6</li>
-          </ul>
-        </esl-panel>
-      </li>
-      <li class="menu-item">
-        <esl-trigger class="menu-item-btn menu-item-arrow" target="::next">Menu 2</esl-trigger>
-        <esl-panel class="menu-container"
-                   group="test-nav-group"
-                   fallback-duration="400"
-                   close-on-esc close-on-outside-action>
-          <div class="esl-example-menu-400">{{ lorem.paragraphs(1) }}</div>
-        </esl-panel>
-      </li>
-      <li class="menu-item">
-        <esl-trigger class="menu-item-btn menu-item-arrow" target="::next">Menu 3</esl-trigger>
-        <esl-panel class="menu-container"
-                   group="test-nav-group"
-                   fallback-duration="400"
-                   close-on="li" close-on-esc close-on-outside-action>
-          <ul class="esl-example-sub-menu">
-            <li>1</li>
-            <li>2</li>
-            <li>3</li>
-            <li>4</li>
-            <li>5</li>
-            <li>6</li>
-            <li>7</li>
-            <li>8</li>
-            <li>9</li>
-            <li>10</li>
-          </ul>
-        </esl-panel>
-      </li>
-    </ul>
-  </div>
-</section>
