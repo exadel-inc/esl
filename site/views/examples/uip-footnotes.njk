@@ -1,0 +1,917 @@
+---
+layout: content
+title: Footnotes
+seoTitle: Auto-collected footnotes custom elements example based on ESL web components
+name: Footnotes
+tags: [examples, playground]
+icon: examples/footnotes.svg
+aside:
+components:
+- esl-footnotes
+- esl-popup
+---
+{% import 'lorem.njk' as lorem %}
+
+<section class="row">
+  <div class="col-12">
+    <uip-root>
+      <script type="text/html" uip-snippet label="Simple text with notes">
+        <div>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore <esl-note>et dolore magna</esl-note> aliqua.
+            Donec massa sapien faucibus et molestie ac. Mi sit amet mauris commodo quis imperdiet massa. Viverra nibh cras pulvinar mattis nunc sed blandit.
+            In nisl nisi scelerisque eu. Vel turpis nunc eget lorem dolor sed. Nisl pretium fusce id velit. Quam id leo in vitae turpis massa sed.
+            Mauris sit amet <esl-note>massa vitae tortor</esl-note>. Ut aliquam purus sit amet luctus venenatis lectus magna.
+          </p>
+          <p>
+            Dolor magna eget est lorem ipsum dolor sit amet. Vel orci porta non pulvinar neque laoreet suspendisse interdum consectetur.
+            In vitae turpis massa sed elementum tempus egestas sed. Dui accumsan sit amet nulla facilisi morbi tempus.
+            Diam quam nulla porttitor massa. Aliquet enim tortor at auctor urna nunc id cursus metus. Volutpat maecenas volutpat blandit aliquam etiam erat.
+            Est pellentesque elit <esl-note>ullamcorper dignissim cras</esl-note> tincidunt lobortis feugiat. Sagittis purus sit amet volutpat consequat.
+            Sit amet porttitor eget dolor morbi. Et netus et malesuada fames ac turpis. Egestas egestas fringilla phasellus faucibus scelerisque eleifend donec pretium vulputate.
+            Pulvinar pellentesque habitant morbi tristique senectus et netus et malesuada. Sit amet cursus sit amet dictum.
+            Potenti nullam ac tortor vitae purus faucibus ornare. In nulla posuere sollicitudin aliquam ultrices sagittis orci.
+            Blandit volutpat maecenas volutpat blandit aliquam etiam erat. Aliquam ultrices sagittis orci a.
+            Sit amet consectetur adipiscing elit pellentesque habitant.
+          </p>
+          <p>
+            Mattis molestie a iaculis at erat pellentesque adipiscing commodo. Massa tincidunt nunc pulvinar sapien et ligula.
+            Lectus urna duis convallis convallis tellus id interdum. Elit sed vulputate mi sit. Adipiscing commodo elit at imperdiet dui accumsan sit amet nulla.
+            Lacus viverra vitae congue eu consequat ac felis donec et. Eget mauris pharetra et ultrices neque ornare <esl-note>aenean euismod elementum</esl-note>.
+            Mattis aliquam faucibus purus in massa tempor nec feugiat nisl. Est ante in nibh <esl-note>mauris cursus mattis molestie</esl-note>.
+            Velit dignissim sodales ut eu. Quam lacus suspendisse faucibus interdum posuere. Magna fringilla urna porttitor rhoncus dolor purus non enim praesent.
+            Vulputate enim nulla aliquet porttitor. Facilisi etiam dignissim diam quis enim lobortis scelerisque fermentum dui.
+            Arcu non sodales neque sodales ut etiam. Adipiscing enim eu turpis egestas pretium aenean pharetra magna ac.
+            A scelerisque purus semper eget duis at tellus at urna. Feugiat nibh sed pulvinar proin gravida hendrerit lectus.
+            Arcu bibendum at varius <esl-note>et dolore magna</esl-note> vel pharetra vel turpis.
+          </p>
+          <esl-footnotes grouping="disable" back-to-note-label="Return to note"></esl-footnotes>
+        </div>
+      </script>
+      <script type="text/html" uip-snippet label="Text without footnotes container">
+        <div>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+            <esl-note>et dolore magna</esl-note> aliqua. Donec massa sapien faucibus et molestie ac.
+            Mi sit amet mauris commodo quis imperdiet massa. Viverra nibh cras pulvinar mattis nunc sed blandit.
+            In nisl nisi scelerisque eu. Vel turpis nunc eget lorem dolor sed. Nisl pretium fusce id velit.
+            Quam id leo in vitae turpis massa sed. Mauris sit amet <esl-note>massa vitae tortor</esl-note>.
+            Ut aliquam purus sit amet luctus venenatis lectus magna.
+          </p>
+          <div class="alert alert-info mt-2">Text without footnotes container</div>
+        </div>
+      </script>
+      <script type="text/html" uip-snippet label="Nested notes">
+        <div class="demo-nested">
+          <div class="row">
+            <div class="col-md-4">
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore <esl-note>et dolore magna</esl-note> aliqua.
+                Donec massa sapien faucibus et molestie ac. Mi sit amet mauris commodo quis imperdiet massa. Viverra nibh cras pulvinar mattis nunc sed blandit.
+                In nisl nisi scelerisque eu. Vel turpis nunc eget lorem dolor sed. Nisl pretium fusce id velit. Quam id leo in vitae turpis massa sed.
+                Mauris sit amet <esl-note>massa vitae <a href="https://github.com">eiusmod</a> tortor</esl-note>. Ut aliquam purus sit amet luctus venenatis lectus magna.
+              </p>
+
+              <esl-footnotes></esl-footnotes>
+            </div>
+            <div class="col-md-4">
+              <p>
+                Dolor magna eget est lorem ipsum dolor sit amet. Vel orci porta non pulvinar neque laoreet suspendisse interdum consectetur.
+                In vitae turpis massa sed elementum tempus egestas sed. Dui accumsan sit amet nulla facilisi morbi tempus. Diam quam nulla porttitor massa.
+                Aliquet enim tortor at auctor urna nunc id cursus metus. Volutpat maecenas volutpat blandit aliquam etiam erat.
+                Est pellentesque elit <esl-note>ullamcorper dignissim cras</esl-note> tincidunt lobortis feugiat. Sagittis purus sit amet volutpat consequat.
+                Sit amet porttitor eget dolor morbi. Et netus et malesuada fames ac turpis. Egestas egestas fringilla phasellus faucibus scelerisque eleifend donec pretium vulputate.
+                Pulvinar pellentesque habitant morbi tristique senectus et netus et malesuada. Sit amet cursus sit amet dictum. Potenti nullam ac tortor vitae purus faucibus ornare.
+                In nulla posuere sollicitudin aliquam ultrices sagittis orci. Blandit volutpat maecenas volutpat blandit aliquam etiam erat.
+                Aliquam ultrices sagittis orci a<esl-note>et dolore magna</esl-note>. Sit amet consectetur adipiscing elit pellentesque habitant.
+              </p>
+            </div>
+            <div class="col-md-4">
+              <p>
+                Mattis molestie a iaculis at erat pellentesque adipiscing commodo. Massa tincidunt nunc pulvinar sapien et ligula. Lectus urna duis convallis convallis tellus id interdum.
+                Elit sed vulputate mi sit. Adipiscing commodo elit at imperdiet dui accumsan sit amet nulla. Lacus viverra vitae congue eu consequat ac felis donec et.
+                Eget mauris pharetra et ultrices neque ornare <esl-note>aenean euismod elementum</esl-note>. Mattis aliquam faucibus purus in massa tempor nec feugiat nisl.
+                Est ante in nibh <esl-note>mauris cursus mattis molestie</esl-note>. Velit dignissim sodales ut eu. Quam lacus suspendisse faucibus interdum posuere.
+                Magna fringilla urna porttitor rhoncus dolor purus non enim praesent. Vulputate enim nulla aliquet porttitor. Facilisi etiam dignissim diam quis enim lobortis scelerisque fermentum dui.
+                Arcu non sodales neque sodales ut etiam. Adipiscing enim eu turpis egestas pretium aenean pharetra magna ac. A scelerisque purus semper eget duis at tellus at urna.
+                Feugiat nibh sed pulvinar proin gravida hendrerit lectus. Arcu bibendum at varius vel pharetra vel turpis.
+              </p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-6">
+              <p>
+                Ullamcorper a lacus vestibulum sed arcu. Egestas tellus rutrum tellus pellentesque. Egestas diam in arcu <esl-note>cursus</esl-note>.
+                Diam volutpat commodo sed egestas. Sit amet justo donec enim diam vulputate ut pharetra. Facilisis mauris sit amet massa vitae tortor condimentum lacinia.
+                Fames ac turpis egestas integer eget. Id volutpat lacus laoreet non curabitur gravida. Orci phasellus egestas tellus rutrum tellus pellentesque eu.
+                At risus viverra adipiscing at in tellus integer feugiat. Semper quis lectus nulla at. Massa id neque aliquam vestibulum morbi.
+                Eget nunc lobortis mattis aliquam faucibus purus in. Urna porttitor rhoncus dolor purus non enim praesent elementum.
+                Amet consectetur adipiscing elit pellentesque habitant morbi. Ullamcorper malesuada proin libero nunc consequat interdum varius sit.
+                Ridiculus mus mauris vitae ultricies leo integer malesuada nunc. At varius vel pharetra vel turpis nunc eget.
+              </p>
+            </div>
+            <div class="col-sm-6">
+              <p>
+                Lobortis elementum nibh tellus molestie nunc non. Tellus orci ac auctor augue. Orci nulla pellentesque dignissim enim sit amet.
+                Massa tincidunt dui ut ornare lectus sit amet est placerat. Nisl pretium fusce id velit ut tortor pretium viverra. Porttitor massa id neque aliquam.
+                Pulvinar proin gravida hendrerit lectus. Gravida neque convallis a cras. Urna nunc id cursus metus aliquam eleifend mi in nulla.
+                Eu turpis egestas pretium aenean pharetra magna ac placerat vestibulum. Sed odio morbi quis commodo odio aenean.
+                Molestie ac feugiat sed lectus vestibulum. Consequat semper viverra nam libero justo laoreet. Et netus et malesuada fames ac turpis egestas integer eget.
+                Commodo nulla facilisi nullam vehicula ipsum a arcu cursus. Molestie at elementum eu facilisis. Sit amet consectetur adipiscing elit ut.
+                Fermentum iaculis <esl-note>et dolore magna</esl-note> eu non diam phasellus vestibulum lorem sed.
+              </p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <esl-footnotes scope-target="::parent(.demo-nested)"></esl-footnotes>
+            </div>
+          </div>
+        </div>
+      </script>
+      <script type="text/html" uip-snippet label="Simple Menu with notes">
+        <ul class="esl-example-menu mb-4">
+          <li class="menu-item">
+            <esl-trigger target="::next" class="menu-item-btn menu-item-arrow">Menu 1</esl-trigger>
+            <esl-panel class="menu-container"
+                       group="test-nav-group"
+                       fallback-duration="400"
+                       close-on-esc close-on-outside-action>
+              <ul class="esl-example-sub-menu">
+                <li>1 <esl-note>I am note 1 from menu</esl-note></li>
+                <li>2</li>
+                <li>3</li>
+              </ul>
+            </esl-panel>
+          </li>
+          <li class="menu-item">
+            <esl-trigger target="::next" class="menu-item-btn menu-item-arrow">Menu 2</esl-trigger>
+            <esl-panel class="menu-container"
+                       group="test-nav-group"
+                       fallback-duration="400"
+                       close-on-esc close-on-outside-action>
+              <div class="esl-example-menu-400">Feugiat vivamus at augue eget arcu dictum varius duis at. Ullamcorper sit amet <esl-note>I am note 2 from menu</esl-note> risus nullam eget felis eget nunc lobortis. Ut morbi tincidunt augue interdum velit euismod in pellentesque massa.</div>
+            </esl-panel>
+          </li>
+          <li class="menu-item">
+            <esl-trigger target="::next" class="menu-item-btn menu-item-arrow">Menu 3</esl-trigger>
+            <esl-panel class="menu-container"
+                       group="test-nav-group"
+                       fallback-duration="400"
+                       close-on-esc close-on-outside-action>
+              <ul class="esl-example-sub-menu">
+                <li>1</li>
+                <li>2</li>
+                <li>3 <esl-note>I am note 3 from menu</esl-note></li>
+              </ul>
+            </esl-panel>
+          </li>
+        </ul>
+        <esl-footnotes></esl-footnotes>
+      </script>
+      <script type="text/html" uip-snippet label="Accordion with notes">
+        <esl-panel-group class="accordion-group mb-4">
+          <div class="esl-d-accordion">
+            <esl-trigger target="::next" class="esl-d-accordion-header h4 esl-d-accordion-header-arrow">
+              Toggle Accordion #1
+            </esl-trigger>
+            <esl-panel open class="esl-d-accordion-panel">
+              <div class="esl-d-accordion-body">
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore <esl-note>I am note 1 from accordion</esl-note> aliqua.
+                  Donec massa sapien faucibus <esl-note>I am note 2 from accordion</esl-note> et molestie ac. Mi sit amet mauris commodo quis imperdiet massa.
+                  Viverra nibh cras pulvinar mattis nunc sed blandit. In nisl nisi scelerisque eu. Vel turpis nunc eget lorem dolor sed.
+                  Nisl pretium fusce id velit. Quam id leo in vitae turpis massa sed. Mauris sit amet. Ut aliquam purus sit amet luctus venenatis lectus magna.
+                </p>
+              </div>
+            </esl-panel>
+          </div>
+          <div class="esl-d-accordion">
+            <esl-trigger target="::next" class="esl-d-accordion-header h4 esl-d-accordion-header-arrow">
+              Toggle Accordion #2
+            </esl-trigger>
+            <esl-panel class="esl-d-accordion-panel">
+              <div class="esl-d-accordion-body">
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore <esl-note intersection-margin="-90px 0px -90px 0px">I am note 3 from accordion</esl-note> aliqua.
+                  Donec massa sapien faucibus et molestie ac. Mi sit amet mauris commodo <esl-note intersection-margin="-10%">I am note 4 from accordion</esl-note> quis imperdiet massa.
+                  Viverra nibh cras pulvinar mattis nunc sed blandit. In nisl nisi scelerisque eu. Vel turpis nunc eget lorem dolor sed. Nisl pretium fusce id velit.
+                  Quam id leo in vitae turpis massa sed. Mauris sit amet. Ut aliquam purus sit amet luctus venenatis lectus magna.
+                </p>
+              </div>
+            </esl-panel>
+          </div>
+          <div class="esl-d-accordion">
+            <esl-trigger target="::next" class="esl-d-accordion-header h4 esl-d-accordion-header-arrow">
+              Toggle Accordion #3
+            </esl-trigger>
+            <esl-panel class="esl-d-accordion-panel">
+              <div class="esl-d-accordion-body">
+                <p>
+                  Nam libero justo laoreet sit amet cursus. Nibh ipsum consequat nisl vel pretium. Elit sed vulputate mi sit amet.
+                  Urna condimentum mattis pellentesque id. Non nisi est sit amet facilisis magna etiam tempor. Arcu risus quis varius quam quisque.
+                  At auctor urna nunc id cursus metus aliquam eleifend. Dignissim suspendisse in est ante in nibh mauris cursus mattis.
+                  Phasellus vestibulum lorem sed risus ultricies tristique nulla. Cursus risus at ultrices mi tempus imperdiet nulla malesuada.
+                  Ultrices dui sapien eget mi proin sed libero. Quis risus sed vulputate odio ut enim. Morbi tristique senectus et netus.
+                  Tellus mauris a diam maecenas sed enim ut. Id leo in vitae turpis massa sed.
+                </p>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore <esl-note>I am note 5 from accordion</esl-note> aliqua.
+                  Donec massa sapien faucibus et molestie ac. Mi sit amet mauris commodo quis imperdiet massa. Viverra nibh <esl-note>I am note 6 from accordion</esl-note> cras pulvinar mattis nunc sed blandit.
+                  In nisl nisi scelerisque eu. Vel turpis nunc eget lorem dolor sed. Nisl pretium fusce id velit. Quam id leo in vitae turpis massa sed. Mauris sit amet.
+                  Ut aliquam purus sit amet luctus venenatis lectus magna.
+                </p>
+              </div>
+            </esl-panel>
+          </div>
+        </esl-panel-group>
+        <esl-footnotes></esl-footnotes>
+      </script>
+      <script type="text/html" uip-snippet label="Tabs with notes">
+        <div class="esl-d-tabs mb-4">
+          <esl-tabs class="esl-d-tab-control">
+            <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
+
+            <ul class="esl-d-tab-list esl-tab-container" role="tablist">
+              <li class="esl-d-tab-item">
+                <esl-tab class="h5"
+                         target="::parent(.esl-d-tabs)::find(.tab-1)">
+                  Tab #1 Lorem ipsum
+                </esl-tab>
+              </li>
+              <li class="esl-d-tab-item">
+                <esl-tab class="h5"
+                         target="::parent(.esl-d-tabs)::find(.tab-2)">
+                  Tab #2 <esl-note>Lorem ipsum</esl-note>
+                </esl-tab>
+              </li>
+              <li class="esl-d-tab-item">
+                <esl-tab class="h5"
+                         target="::parent(.esl-d-tabs)::find(.tab-3)">
+                  Tab #3 Lorem ipsum
+                </esl-tab>
+              </li>
+            </ul>
+          </esl-tabs>
+
+          <esl-panel-group class="esl-d-tab-group"
+                           mode="tabs"
+                           mode-cls-target="::parent">
+            <esl-panel class="esl-d-tab-panel tab-1" tabindex="0">
+              <div class="esl-d-tab-body">
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor <esl-note>I am note 1 from tabs</esl-note> incididunt ut labore aliqua.
+                  Donec massa sapien faucibus <esl-note>I am note 2 from tabs</esl-note> et molestie ac. Mi sit amet mauris commodo quis imperdiet massa.
+                  Viverra nibh cras pulvinar mattis nunc sed blandit. In nisl nisi scelerisque eu. Vel turpis nunc eget lorem dolor sed.
+                  Nisl pretium fusce id velit. Quam id leo in vitae turpis massa sed. Mauris sit amet. Ut aliquam purus sit amet luctus venenatis lectus magna.
+                </p>
+              </div>
+            </esl-panel>
+            <esl-panel open class="esl-d-tab-panel tab-2" tabindex="0">
+              <div class="esl-d-tab-body">
+                <p>
+                  Auctor neque vitae tempus quam. In mollis nunc sed id semper risus in hendrerit gravida. Nulla <esl-note>I am note 3 from tabs</esl-note> pharetra diam sit amet.
+                  Id neque aliquam vestibulum morbi blandit cursus risus at. Amet commodo nulla facilisi nullam vehicula. Magna ac placerat vestibulum lectus.
+                  Adipiscing at in tellus integer feugiat scelerisque.
+                </p>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore aliqua. Donec massa sapien faucibus et molestie ac.
+                  Mi sit amet mauris commodo quis imperdiet massa. Viverra nibh cras pulvinar mattis nunc sed blandit. In nisl nisi scelerisque eu. Vel turpis nunc eget lorem dolor sed.
+                  Nisl pretium fusce id velit. Quam id leo in vitae turpis massa sed. Mauris sit amet. Ut aliquam purus <esl-note>I am note 4 from tabs</esl-note> sit amet luctus venenatis lectus magna.
+                </p>
+              </div>
+            </esl-panel>
+            <esl-panel class="esl-d-tab-panel tab-3" tabindex="0">
+              <div class="esl-d-tab-body">
+                <p>
+                  Nam libero justo laoreet sit amet cursus. Nibh ipsum consequat nisl vel pretium. Elit sed vulputate mi sit amet. Urna condimentum <esl-note>I am note 5 from tabs</esl-note> mattis pellentesque id.
+                  Non nisi est sit amet facilisis magna etiam tempor. Arcu risus quis varius quam quisque. At auctor urna nunc id cursus metus aliquam eleifend. Dignissim suspendisse in est ante in nibh mauris cursus mattis.
+                  Phasellus vestibulum lorem sed risus ultricies tristique nulla. Cursus risus at ultrices mi tempus imperdiet nulla malesuada. Ultrices dui sapien eget mi proin sed libero.
+                  Quis risus sed vulputate odio ut enim. Morbi tristique senectus et netus. Tellus mauris a diam maecenas sed enim ut. Id leo in vitae turpis massa sed.
+                </p>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore aliqua. Donec massa sapien faucibus <esl-note>I am note 6 from tabs</esl-note> et molestie ac.
+                  Mi sit amet mauris commodo quis imperdiet massa. Viverra nibh cras pulvinar mattis nunc sed blandit. In nisl nisi scelerisque eu. Vel turpis nunc eget lorem dolor sed. Nisl pretium fusce id velit.
+                  Quam id leo in vitae turpis massa sed. Mauris sit amet. Ut aliquam purus sit amet luctus venenatis lectus magna.
+                </p>
+              </div>
+            </esl-panel>
+          </esl-panel-group>
+        </div>
+        <esl-footnotes></esl-footnotes>
+      </script>
+      <script type="text/html" uip-snippet label="Multilang text with notes">
+        <div style="text-align: start">
+          <p lang="bg">
+            Противно на всеобщото вярване, Lorem Ipsum не е просто случаен текст. Неговите корени са в класическата Латинска литература от 45г.пр.Хр.,
+            което прави преди<esl-note>Lorem Ipsum пасаж</esl-note> повече от 2000 години. Richard McClintock, професор по Латински от колежа Hampden-Sydney College във Вирджиния,
+            изучавайки една от най-неясните латински думи "consectetur" в един от пасажите на Lorem Ipsum, и търсейки цитати на думата в класическата литература, открива точния източник.
+            Lorem Ipsum е намерен в секции 1.10.32 и 1.10.33 от "de Finibus Bonorum et Malorum"(Крайностите на Доброто и Злото) от Цицерон, написан през 45г.пр.Хр.
+            Тази книга е трактат по теория на етиката, много популярна през Ренесанса. Първият ред на Lorem Ipsum идва от ред, намерен в секция 1.10.32.
+          </p>
+
+          <p lang="ka">
+            ცნობილი ფაქტია, რომ გვერდის წაკითხვად შიგთავსს შეუძლია მკითხველის ყურადღება მიიზიდოს და დიზაინის<esl-note>200-მდე</esl-note> აღქმაში
+            ხელი შეუშალოს. Lorem Ipsum-ის გამოყენებით ვღებულობთ იმაზე მეტ-ნაკლებად სწორი გადანაწილების ტექსტს, ვიდრე ერთიდაიგივე გამეორებადი
+            სიტყვებია ხოლმე. შედეგად, ტექსტი ჩვეულებრივ ინგლისურს გავს, მისი წაითხვა კი შეუძლებელია. დღეს უამრავი პერსონალური საგამომცემლო
+            პროგრამა და ვებგვერდი იყენებს Lorem Ipsum-ს, როგორც დროებით ტექსტს წყობის შესავსებად; Lorem Ipsum-ის მოძებნისას კი საძიებო სისტემები ბევრ
+            დაუსრულებელ გვერდს გვიჩვენებენ. წლების მანძილზე ამ ტექსტის უამრავი ვერსია გამოჩნდა, ზოგი შემთხვევით დაშვებული შეცდომის გამო, ზოგი კი — განზრახ, ხუმრობით.
+          </p>
+
+          <p dir="rtl" lang="ar">
+            هناك حقيقة مثبتة منذ زمن طويل وهي أن
+            المحتوى المقروء لصفحة ما سيلهي القارئ عن التركيز على الشكل الخارجي للنص أو شكل توضع الفقرات في الصفحة<esl-note>حتى صار</esl-note>
+            التي يقرأها. ولذلك يتم استخدام طريقة لوريم إيبسوم لأنها تعطي توزيعاَ طبيعياَ -إلى حد ما- للأحرف عوضاً عن استخدام
+            "هنا يوجد محتوى نصي، هنا يوجد محتوى نصي" فتجعلها تبدو (أي الأحرف) وكأنها نص مقروء. العديد من برامح النشر المكتبي
+            وبرامح تحرير صفحات الويب تستخدم لوريم إيبسوم بشكل إفتراضي كنموذج عن النص، وإذا قمت بإدخال "lorem ipsum" في أي
+            محرك بحث ستظهر العديد من المواقع الحديثة العهد في نتائج البحث. على مدى السنين ظهرت نسخ جديدة
+            ومختلفة من نص لوريم إيبسوم، أحياناً عن طريق الصدفة،
+          </p>
+
+          <p lang="cn">
+            无可否认，当读者在浏览一个页面的排版时，难免会被可阅读的内容所分散注意力。Lorem Ipsum的目的就是为了保持字母多多少少标准及平均的分配，
+            而不是“此处有文本，此处有文本”，从而让内容更像可读的英语。如今，很多桌面排版软件以及网页编辑用Lorem Ipsum<esl-note>你好，陌生人</esl-note>作为默认的示范文本，
+            搜一搜“Lorem Ipsum”就能找到这些网站的雏形。这些年来Lorem Ipsum演变出了各式各样的版本，有些出于偶然，有些则是故意的（刻意的幽默之类的）。
+          </p>
+
+          <p dir="rtl" lang="he">
+            יש המון גרסאות זמינות לפסקאות של Lorem Ipsum. אבל רובם עברו שינויים בצורה זו או
+            <esl-note>את אחת</esl-note>אחרת, על ידי השתלת הומור או מילים אקראיות שלאראות אפילו מעט אמינות. אם אתה הולך להשתמש במקטעים של של Lorem Ipsum
+            אתה צריך להיות בטוח שאין משהו מביך חבוי בתוך הטקסט. כל מחוללי הטקסט של Lorem Ipsum שנמצאים ברשת האינטרנט מכוונים לחזור על טקסטים מוגדרים מראש לפי הנדרש.
+            וזה הופך אותנו למחוללי טקסט אמיתיים ראשונים באינטרנט. אנו משתמשים במילון עם מעל 200 ערכים בלטינית משולבים במבני
+            משפטים על מנת לשוות לטקט מראה הגיוני. ולכן הטקסט של Lorem Ipsum לעולם לא יכיל טקסטים חוזרים, הומור, או מילים לא מאופייניות וכדומה
+          </p>
+
+          <esl-footnotes></esl-footnotes>
+        </div>
+      </script>
+      <script type="text/html" uip-snippet label="Stand-alone notes and ordinary notes">
+        <div>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore <esl-note ignore="all" html="I am stand-alone note" standalone-label="~">@</esl-note> aliqua.
+            Donec massa sapien faucibus <esl-note>I am ordinary note</esl-note> et molestie ac. Mi sit amet mauris commodo quis imperdiet massa. Viverra nibh cras pulvinar mattis nunc sed blandit.
+            In nisl nisi scelerisque eu. Vel turpis nunc eget lorem dolor sed. Nisl pretium fusce id velit. Quam id leo in vitae turpis massa sed. Mauris sit amet. Ut aliquam purus sit amet luctus venenatis lectus magna.
+          </p>
+          <esl-footnotes></esl-footnotes>
+        </div>
+      </script>
+      <script type="text/html" uip-snippet label="Stand-alone notes only without footnotes">
+        <div>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore <esl-note ignore="all" html="I am stand-alone note">@</esl-note> aliqua.
+            Donec massa sapien faucibus <esl-note html="I am not a linked note">#</esl-note> et molestie ac. Mi sit amet mauris commodo quis imperdiet massa.
+            Viverra nibh cras pulvinar mattis nunc sed blandit. In nisl nisi scelerisque eu. Vel turpis nunc eget lorem dolor sed. Nisl pretium fusce id velit.
+            Quam id leo in vitae turpis massa sed. Mauris sit amet. Ut aliquam purus sit amet luctus venenatis lectus magna.
+          </p>
+        </div>
+      </script>
+      <script type="text/html" uip-snippet label="Text inside container">
+        <div class="col-12" esl-note-container=".demo-visibility">
+          <div style="height:350px; overflow: scroll;">
+            <div class="row">
+              <div class="col-md-4" esl-note-ignore="@-SM">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore <esl-note>et dolore magna</esl-note> aliqua. Donec massa sapien faucibus et molestie ac. Mi sit amet mauris commodo quis imperdiet massa. Viverra nibh cras pulvinar mattis nunc sed blandit. In nisl nisi scelerisque eu. Vel turpis nunc eget lorem dolor sed. Nisl pretium fusce id velit. Quam id leo in vitae turpis massa sed. Mauris sit amet <esl-note>massa vitae <a href="https://github.com">eiusmod</a> tortor</esl-note>. Ut aliquam purus sit amet luctus venenatis lectus magna.</p>
+                <p esl-note-ignore="@XS">Tincidunt arcu non sodales neque. Lectus quam id leo in vitae turpis massa sed. Iaculis at erat pellentesque adipiscing. Cras pulvinar mattis nunc sed blandit. Vel orci porta non pulvinar neque laoreet suspendisse. A arcu cursus vitae congue mauris rhoncus aenean <esl-note>Mattis cursus mattis molestie</esl-note> vel. Integer vitae justo eget magna fermentum iaculis. Et leo duis ut diam quam nulla porttitor. Blandit volutpat maecenas volutpat blandit aliquam etiam erat velit scelerisque. Nibh nisl condimentum id venenatis a condimentum vitae sapien pellentesque. Pellentesque habitant morbi tristique senectus et netus. Nisl vel pretium lectus quam id leo in vitae. Ac odio tempor orci dapibus ultrices in iaculis nunc sed. Laoreet id donec ultrices tincidunt arcu non sodales neque. Fames ac turpis egestas sed tempus urna et. Nisi scelerisque eu ultrices vitae.</p>
+              </div>
+              <div class="col-md-4">
+                <p>Dolor magna eget est lorem ipsum dolor sit amet. Vel orci porta non pulvinar neque laoreet suspendisse interdum consectetur. In vitae turpis massa sed elementum tempus egestas sed. Dui accumsan sit amet nulla facilisi morbi tempus. Diam quam nulla porttitor massa. Aliquet enim tortor at auctor urna nunc id cursus metus. Volutpat maecenas volutpat blandit aliquam etiam erat. Est pellentesque elit <esl-note>ullamcorper dignissim cras</esl-note> tincidunt lobortis feugiat. Sagittis purus sit amet volutpat consequat. Sit amet porttitor eget dolor morbi. Et netus et malesuada fames ac turpis. Egestas egestas fringilla phasellus faucibus scelerisque eleifend donec pretium vulputate. Pulvinar pellentesque habitant morbi tristique senectus et netus et malesuada. Sit amet cursus sit amet dictum. Potenti nullam ac tortor vitae purus faucibus ornare. In nulla posuere sollicitudin aliquam ultrices sagittis orci. Blandit volutpat maecenas volutpat blandit aliquam etiam erat. Aliquam ultrices sagittis orci a<esl-note>et dolore magna</esl-note>. Sit amet consectetur adipiscing elit pellentesque habitant.</p>
+              </div>
+              <div class="col-md-4">
+                <p>Mattis molestie a iaculis at erat pellentesque adipiscing commodo. Massa tincidunt nunc pulvinar sapien et ligula. Lectus urna duis convallis convallis tellus id interdum. Elit sed vulputate mi sit. Adipiscing commodo elit at imperdiet dui accumsan sit amet nulla. Lacus viverra vitae congue eu consequat ac felis donec et. Eget mauris pharetra et ultrices neque ornare <esl-note>aenean euismod elementum</esl-note>. Mattis aliquam faucibus purus in massa tempor nec feugiat nisl. Est ante in nibh <esl-note>mauris cursus mattis molestie</esl-note>. Velit dignissim sodales ut eu. Quam lacus suspendisse faucibus interdum posuere. Pellentesque habitant morbi tristique senectus et netus. Nisl vel pretium lectus quam id leo in vitae. Magna fringilla urna porttitor rhoncus dolor purus non enim praesent. Vulputate enim nulla aliquet porttitor. Facilisi etiam dignissim diam quis enim lobortis scelerisque fermentum dui. Arcu non sodales neque sodales ut etiam. Adipiscing enim eu turpis egestas pretium aenean pharetra magna ac. A scelerisque purus semper eget duis at tellus at <esl-note>Adipiscing elit pellentesque habitant</esl-note> urna. Feugiat nibh sed pulvinar proin gravida hendrerit lectus. Arcu bibendum at varius <esl-note>Tellus urna cursus mattis molestie</esl-note> vel pharetra vel turpis.</p>
+              </div>
+            </div>
+
+            <esl-footnotes scope-target="::parent(.demo-visibility)"></esl-footnotes>
+          </div>
+        </div>
+      </script>
+      <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
+      <uip-preview></uip-preview>
+      <uip-editor label="Source code" collapsible copy></uip-editor>
+    </uip-root>
+  </div>
+</section>
+
+<section class="row">
+  <div class="col-12">
+    <uip-root>
+      <script type="text/html" uip-snippet label="Simple text with notes">
+        <div>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore <esl-note>et dolore magna</esl-note> aliqua.
+            Donec massa sapien faucibus et molestie ac. Mi sit amet mauris commodo quis imperdiet massa. Viverra nibh cras pulvinar mattis nunc sed blandit.
+            In nisl nisi scelerisque eu. Vel turpis nunc eget lorem dolor sed. Nisl pretium fusce id velit. Quam id leo in vitae turpis massa sed.
+            Mauris sit amet <esl-note>massa vitae tortor</esl-note>. Ut aliquam purus sit amet luctus venenatis lectus magna.
+          </p>
+          <p>
+            Dolor magna eget est lorem ipsum dolor sit amet. Vel orci porta non pulvinar neque laoreet suspendisse interdum consectetur.
+            In vitae turpis massa sed elementum tempus egestas sed. Dui accumsan sit amet nulla facilisi morbi tempus.
+            Diam quam nulla porttitor massa. Aliquet enim tortor at auctor urna nunc id cursus metus. Volutpat maecenas volutpat blandit aliquam etiam erat.
+            Est pellentesque elit <esl-note>ullamcorper dignissim cras</esl-note> tincidunt lobortis feugiat. Sagittis purus sit amet volutpat consequat.
+            Sit amet porttitor eget dolor morbi. Et netus et malesuada fames ac turpis. Egestas egestas fringilla phasellus faucibus scelerisque eleifend donec pretium vulputate.
+            Pulvinar pellentesque habitant morbi tristique senectus et netus et malesuada. Sit amet cursus sit amet dictum.
+            Potenti nullam ac tortor vitae purus faucibus ornare. In nulla posuere sollicitudin aliquam ultrices sagittis orci.
+            Blandit volutpat maecenas volutpat blandit aliquam etiam erat. Aliquam ultrices sagittis orci a.
+            Sit amet consectetur adipiscing elit pellentesque habitant.
+          </p>
+          <p>
+            Mattis molestie a iaculis at erat pellentesque adipiscing commodo. Massa tincidunt nunc pulvinar sapien et ligula.
+            Lectus urna duis convallis convallis tellus id interdum. Elit sed vulputate mi sit. Adipiscing commodo elit at imperdiet dui accumsan sit amet nulla.
+            Lacus viverra vitae congue eu consequat ac felis donec et. Eget mauris pharetra et ultrices neque ornare <esl-note>aenean euismod elementum</esl-note>.
+            Mattis aliquam faucibus purus in massa tempor nec feugiat nisl. Est ante in nibh <esl-note>mauris cursus mattis molestie</esl-note>.
+            Velit dignissim sodales ut eu. Quam lacus suspendisse faucibus interdum posuere. Magna fringilla urna porttitor rhoncus dolor purus non enim praesent.
+            Vulputate enim nulla aliquet porttitor. Facilisi etiam dignissim diam quis enim lobortis scelerisque fermentum dui.
+            Arcu non sodales neque sodales ut etiam. Adipiscing enim eu turpis egestas pretium aenean pharetra magna ac.
+            A scelerisque purus semper eget duis at tellus at urna. Feugiat nibh sed pulvinar proin gravida hendrerit lectus.
+            Arcu bibendum at varius <esl-note>et dolore magna</esl-note> vel pharetra vel turpis.
+          </p>
+          <esl-footnotes grouping="disable" back-to-note-label="Return to note"></esl-footnotes>
+        </div>
+      </script>
+      <script type="text/plain" uip-js-snippet label="Simple text with notes">
+        import { ESLFootnotes, ESLNote, ESLNoteIgnore, ESLTooltip } from '@exadel/esl';
+        ESLFootnotes.register();
+        ESLNote.register();
+        ESLNoteIgnore.register();
+        ESLTooltip.register();
+      </script>
+      <script type="text/html" uip-snippet label="Text without footnotes container">
+        <div>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+            <esl-note>et dolore magna</esl-note> aliqua. Donec massa sapien faucibus et molestie ac.
+            Mi sit amet mauris commodo quis imperdiet massa. Viverra nibh cras pulvinar mattis nunc sed blandit.
+            In nisl nisi scelerisque eu. Vel turpis nunc eget lorem dolor sed. Nisl pretium fusce id velit.
+            Quam id leo in vitae turpis massa sed. Mauris sit amet <esl-note>massa vitae tortor</esl-note>.
+            Ut aliquam purus sit amet luctus venenatis lectus magna.
+          </p>
+          <div class="alert alert-info mt-2">Text without footnotes container</div>
+        </div>
+      </script>
+      <script type="text/plain" uip-js-snippet label="Text without footnotes container">
+        import { ESLFootnotes, ESLNote, ESLNoteIgnore, ESLTooltip } from '@exadel/esl';
+        ESLFootnotes.register();
+        ESLNote.register();
+        ESLNoteIgnore.register();
+        ESLTooltip.register();
+      </script>
+      <script type="text/html" uip-snippet label="Nested notes">
+        <div class="demo-nested">
+          <div class="row">
+            <div class="col-md-4">
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore <esl-note>et dolore magna</esl-note> aliqua.
+                Donec massa sapien faucibus et molestie ac. Mi sit amet mauris commodo quis imperdiet massa. Viverra nibh cras pulvinar mattis nunc sed blandit.
+                In nisl nisi scelerisque eu. Vel turpis nunc eget lorem dolor sed. Nisl pretium fusce id velit. Quam id leo in vitae turpis massa sed.
+                Mauris sit amet <esl-note>massa vitae <a href="https://github.com">eiusmod</a> tortor</esl-note>. Ut aliquam purus sit amet luctus venenatis lectus magna.
+              </p>
+
+              <esl-footnotes></esl-footnotes>
+            </div>
+            <div class="col-md-4">
+              <p>
+                Dolor magna eget est lorem ipsum dolor sit amet. Vel orci porta non pulvinar neque laoreet suspendisse interdum consectetur.
+                In vitae turpis massa sed elementum tempus egestas sed. Dui accumsan sit amet nulla facilisi morbi tempus. Diam quam nulla porttitor massa.
+                Aliquet enim tortor at auctor urna nunc id cursus metus. Volutpat maecenas volutpat blandit aliquam etiam erat.
+                Est pellentesque elit <esl-note>ullamcorper dignissim cras</esl-note> tincidunt lobortis feugiat. Sagittis purus sit amet volutpat consequat.
+                Sit amet porttitor eget dolor morbi. Et netus et malesuada fames ac turpis. Egestas egestas fringilla phasellus faucibus scelerisque eleifend donec pretium vulputate.
+                Pulvinar pellentesque habitant morbi tristique senectus et netus et malesuada. Sit amet cursus sit amet dictum. Potenti nullam ac tortor vitae purus faucibus ornare.
+                In nulla posuere sollicitudin aliquam ultrices sagittis orci. Blandit volutpat maecenas volutpat blandit aliquam etiam erat.
+                Aliquam ultrices sagittis orci a<esl-note>et dolore magna</esl-note>. Sit amet consectetur adipiscing elit pellentesque habitant.
+              </p>
+            </div>
+            <div class="col-md-4">
+              <p>
+                Mattis molestie a iaculis at erat pellentesque adipiscing commodo. Massa tincidunt nunc pulvinar sapien et ligula. Lectus urna duis convallis convallis tellus id interdum.
+                Elit sed vulputate mi sit. Adipiscing commodo elit at imperdiet dui accumsan sit amet nulla. Lacus viverra vitae congue eu consequat ac felis donec et.
+                Eget mauris pharetra et ultrices neque ornare <esl-note>aenean euismod elementum</esl-note>. Mattis aliquam faucibus purus in massa tempor nec feugiat nisl.
+                Est ante in nibh <esl-note>mauris cursus mattis molestie</esl-note>. Velit dignissim sodales ut eu. Quam lacus suspendisse faucibus interdum posuere.
+                Magna fringilla urna porttitor rhoncus dolor purus non enim praesent. Vulputate enim nulla aliquet porttitor. Facilisi etiam dignissim diam quis enim lobortis scelerisque fermentum dui.
+                Arcu non sodales neque sodales ut etiam. Adipiscing enim eu turpis egestas pretium aenean pharetra magna ac. A scelerisque purus semper eget duis at tellus at urna.
+                Feugiat nibh sed pulvinar proin gravida hendrerit lectus. Arcu bibendum at varius vel pharetra vel turpis.
+              </p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-6">
+              <p>
+                Ullamcorper a lacus vestibulum sed arcu. Egestas tellus rutrum tellus pellentesque. Egestas diam in arcu <esl-note>cursus</esl-note>.
+                Diam volutpat commodo sed egestas. Sit amet justo donec enim diam vulputate ut pharetra. Facilisis mauris sit amet massa vitae tortor condimentum lacinia.
+                Fames ac turpis egestas integer eget. Id volutpat lacus laoreet non curabitur gravida. Orci phasellus egestas tellus rutrum tellus pellentesque eu.
+                At risus viverra adipiscing at in tellus integer feugiat. Semper quis lectus nulla at. Massa id neque aliquam vestibulum morbi.
+                Eget nunc lobortis mattis aliquam faucibus purus in. Urna porttitor rhoncus dolor purus non enim praesent elementum.
+                Amet consectetur adipiscing elit pellentesque habitant morbi. Ullamcorper malesuada proin libero nunc consequat interdum varius sit.
+                Ridiculus mus mauris vitae ultricies leo integer malesuada nunc. At varius vel pharetra vel turpis nunc eget.
+              </p>
+            </div>
+            <div class="col-sm-6">
+              <p>
+                Lobortis elementum nibh tellus molestie nunc non. Tellus orci ac auctor augue. Orci nulla pellentesque dignissim enim sit amet.
+                Massa tincidunt dui ut ornare lectus sit amet est placerat. Nisl pretium fusce id velit ut tortor pretium viverra. Porttitor massa id neque aliquam.
+                Pulvinar proin gravida hendrerit lectus. Gravida neque convallis a cras. Urna nunc id cursus metus aliquam eleifend mi in nulla.
+                Eu turpis egestas pretium aenean pharetra magna ac placerat vestibulum. Sed odio morbi quis commodo odio aenean.
+                Molestie ac feugiat sed lectus vestibulum. Consequat semper viverra nam libero justo laoreet. Et netus et malesuada fames ac turpis egestas integer eget.
+                Commodo nulla facilisi nullam vehicula ipsum a arcu cursus. Molestie at elementum eu facilisis. Sit amet consectetur adipiscing elit ut.
+                Fermentum iaculis <esl-note>et dolore magna</esl-note> eu non diam phasellus vestibulum lorem sed.
+              </p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <esl-footnotes scope-target="::parent(.demo-nested)"></esl-footnotes>
+            </div>
+          </div>
+        </div>
+      </script>
+      <script type="text/plain" uip-js-snippet label="Nested notes">
+        import { ESLFootnotes, ESLNote, ESLNoteIgnore, ESLTooltip } from '@exadel/esl';
+        ESLFootnotes.register();
+        ESLNote.register();
+        ESLNoteIgnore.register();
+        ESLTooltip.register();
+      </script>
+      <script type="text/html" uip-snippet label="Simple Menu with notes">
+        <ul class="esl-example-menu mb-4">
+          <li class="menu-item">
+            <esl-trigger target="::next" class="menu-item-btn menu-item-arrow">Menu 1</esl-trigger>
+            <esl-panel class="menu-container"
+                       group="test-nav-group"
+                       fallback-duration="400"
+                       close-on-esc close-on-outside-action>
+              <ul class="esl-example-sub-menu">
+                <li>1 <esl-note>I am note 1 from menu</esl-note></li>
+                <li>2</li>
+                <li>3</li>
+              </ul>
+            </esl-panel>
+          </li>
+          <li class="menu-item">
+            <esl-trigger target="::next" class="menu-item-btn menu-item-arrow">Menu 2</esl-trigger>
+            <esl-panel class="menu-container"
+                       group="test-nav-group"
+                       fallback-duration="400"
+                       close-on-esc close-on-outside-action>
+              <div class="esl-example-menu-400">Feugiat vivamus at augue eget arcu dictum varius duis at. Ullamcorper sit amet <esl-note>I am note 2 from menu</esl-note> risus nullam eget felis eget nunc lobortis. Ut morbi tincidunt augue interdum velit euismod in pellentesque massa.</div>
+            </esl-panel>
+          </li>
+          <li class="menu-item">
+            <esl-trigger target="::next" class="menu-item-btn menu-item-arrow">Menu 3</esl-trigger>
+            <esl-panel class="menu-container"
+                       group="test-nav-group"
+                       fallback-duration="400"
+                       close-on-esc close-on-outside-action>
+              <ul class="esl-example-sub-menu">
+                <li>1</li>
+                <li>2</li>
+                <li>3 <esl-note>I am note 3 from menu</esl-note></li>
+              </ul>
+            </esl-panel>
+          </li>
+        </ul>
+        <esl-footnotes></esl-footnotes>
+      </script>
+      <script type="text/plain" uip-js-snippet label="Simple Menu with notes">
+        import { ESLFootnotes, ESLNote, ESLNoteIgnore, ESLPanel, ESLTooltip, ESLTrigger } from '@exadel/esl';
+        ESLFootnotes.register();
+        ESLNote.register();
+        ESLNoteIgnore.register();
+        ESLPanel.register();
+        ESLTooltip.register();
+        ESLTrigger.register();
+      </script>
+      <script type="text/html" uip-snippet label="Accordion with notes">
+        <esl-panel-group class="accordion-group mb-4">
+          <div class="esl-d-accordion">
+            <esl-trigger target="::next" class="esl-d-accordion-header h4 esl-d-accordion-header-arrow">
+              Toggle Accordion #1
+            </esl-trigger>
+            <esl-panel open class="esl-d-accordion-panel">
+              <div class="esl-d-accordion-body">
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore <esl-note>I am note 1 from accordion</esl-note> aliqua.
+                  Donec massa sapien faucibus <esl-note>I am note 2 from accordion</esl-note> et molestie ac. Mi sit amet mauris commodo quis imperdiet massa.
+                  Viverra nibh cras pulvinar mattis nunc sed blandit. In nisl nisi scelerisque eu. Vel turpis nunc eget lorem dolor sed.
+                  Nisl pretium fusce id velit. Quam id leo in vitae turpis massa sed. Mauris sit amet. Ut aliquam purus sit amet luctus venenatis lectus magna.
+                </p>
+              </div>
+            </esl-panel>
+          </div>
+          <div class="esl-d-accordion">
+            <esl-trigger target="::next" class="esl-d-accordion-header h4 esl-d-accordion-header-arrow">
+              Toggle Accordion #2
+            </esl-trigger>
+            <esl-panel class="esl-d-accordion-panel">
+              <div class="esl-d-accordion-body">
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore <esl-note intersection-margin="-90px 0px -90px 0px">I am note 3 from accordion</esl-note> aliqua.
+                  Donec massa sapien faucibus et molestie ac. Mi sit amet mauris commodo <esl-note intersection-margin="-10%">I am note 4 from accordion</esl-note> quis imperdiet massa.
+                  Viverra nibh cras pulvinar mattis nunc sed blandit. In nisl nisi scelerisque eu. Vel turpis nunc eget lorem dolor sed. Nisl pretium fusce id velit.
+                  Quam id leo in vitae turpis massa sed. Mauris sit amet. Ut aliquam purus sit amet luctus venenatis lectus magna.
+                </p>
+              </div>
+            </esl-panel>
+          </div>
+          <div class="esl-d-accordion">
+            <esl-trigger target="::next" class="esl-d-accordion-header h4 esl-d-accordion-header-arrow">
+              Toggle Accordion #3
+            </esl-trigger>
+            <esl-panel class="esl-d-accordion-panel">
+              <div class="esl-d-accordion-body">
+                <p>
+                  Nam libero justo laoreet sit amet cursus. Nibh ipsum consequat nisl vel pretium. Elit sed vulputate mi sit amet.
+                  Urna condimentum mattis pellentesque id. Non nisi est sit amet facilisis magna etiam tempor. Arcu risus quis varius quam quisque.
+                  At auctor urna nunc id cursus metus aliquam eleifend. Dignissim suspendisse in est ante in nibh mauris cursus mattis.
+                  Phasellus vestibulum lorem sed risus ultricies tristique nulla. Cursus risus at ultrices mi tempus imperdiet nulla malesuada.
+                  Ultrices dui sapien eget mi proin sed libero. Quis risus sed vulputate odio ut enim. Morbi tristique senectus et netus.
+                  Tellus mauris a diam maecenas sed enim ut. Id leo in vitae turpis massa sed.
+                </p>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore <esl-note>I am note 5 from accordion</esl-note> aliqua.
+                  Donec massa sapien faucibus et molestie ac. Mi sit amet mauris commodo quis imperdiet massa. Viverra nibh <esl-note>I am note 6 from accordion</esl-note> cras pulvinar mattis nunc sed blandit.
+                  In nisl nisi scelerisque eu. Vel turpis nunc eget lorem dolor sed. Nisl pretium fusce id velit. Quam id leo in vitae turpis massa sed. Mauris sit amet.
+                  Ut aliquam purus sit amet luctus venenatis lectus magna.
+                </p>
+              </div>
+            </esl-panel>
+          </div>
+        </esl-panel-group>
+        <esl-footnotes></esl-footnotes>
+      </script>
+      <script type="text/plain" uip-js-snippet label="Accordion with notes">
+        import { ESLFootnotes, ESLNote, ESLNoteIgnore, ESLPanel, ESLTooltip, ESLTrigger } from '@exadel/esl';
+        ESLFootnotes.register();
+        ESLNote.register();
+        ESLNoteIgnore.register();
+        ESLPanel.register();
+        ESLTooltip.register();
+        ESLTrigger.register();
+      </script>
+      <script type="text/html" uip-snippet label="Tabs with notes">
+        <div class="esl-d-tabs mb-4">
+          <esl-tabs class="esl-d-tab-control">
+            <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
+
+            <ul class="esl-d-tab-list esl-tab-container" role="tablist">
+              <li class="esl-d-tab-item">
+                <esl-tab class="h5"
+                         target="::parent(.esl-d-tabs)::find(.tab-1)">
+                  Tab #1 Lorem ipsum
+                </esl-tab>
+              </li>
+              <li class="esl-d-tab-item">
+                <esl-tab class="h5"
+                         target="::parent(.esl-d-tabs)::find(.tab-2)">
+                  Tab #2 <esl-note>Lorem ipsum</esl-note>
+                </esl-tab>
+              </li>
+              <li class="esl-d-tab-item">
+                <esl-tab class="h5"
+                         target="::parent(.esl-d-tabs)::find(.tab-3)">
+                  Tab #3 Lorem ipsum
+                </esl-tab>
+              </li>
+            </ul>
+          </esl-tabs>
+
+          <esl-panel-group class="esl-d-tab-group"
+                           mode="tabs"
+                           mode-cls-target="::parent">
+            <esl-panel class="esl-d-tab-panel tab-1" tabindex="0">
+              <div class="esl-d-tab-body">
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor <esl-note>I am note 1 from tabs</esl-note> incididunt ut labore aliqua.
+                  Donec massa sapien faucibus <esl-note>I am note 2 from tabs</esl-note> et molestie ac. Mi sit amet mauris commodo quis imperdiet massa.
+                  Viverra nibh cras pulvinar mattis nunc sed blandit. In nisl nisi scelerisque eu. Vel turpis nunc eget lorem dolor sed.
+                  Nisl pretium fusce id velit. Quam id leo in vitae turpis massa sed. Mauris sit amet. Ut aliquam purus sit amet luctus venenatis lectus magna.
+                </p>
+              </div>
+            </esl-panel>
+            <esl-panel open class="esl-d-tab-panel tab-2" tabindex="0">
+              <div class="esl-d-tab-body">
+                <p>
+                  Auctor neque vitae tempus quam. In mollis nunc sed id semper risus in hendrerit gravida. Nulla <esl-note>I am note 3 from tabs</esl-note> pharetra diam sit amet.
+                  Id neque aliquam vestibulum morbi blandit cursus risus at. Amet commodo nulla facilisi nullam vehicula. Magna ac placerat vestibulum lectus.
+                  Adipiscing at in tellus integer feugiat scelerisque.
+                </p>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore aliqua. Donec massa sapien faucibus et molestie ac.
+                  Mi sit amet mauris commodo quis imperdiet massa. Viverra nibh cras pulvinar mattis nunc sed blandit. In nisl nisi scelerisque eu. Vel turpis nunc eget lorem dolor sed.
+                  Nisl pretium fusce id velit. Quam id leo in vitae turpis massa sed. Mauris sit amet. Ut aliquam purus <esl-note>I am note 4 from tabs</esl-note> sit amet luctus venenatis lectus magna.
+                </p>
+              </div>
+            </esl-panel>
+            <esl-panel class="esl-d-tab-panel tab-3" tabindex="0">
+              <div class="esl-d-tab-body">
+                <p>
+                  Nam libero justo laoreet sit amet cursus. Nibh ipsum consequat nisl vel pretium. Elit sed vulputate mi sit amet. Urna condimentum <esl-note>I am note 5 from tabs</esl-note> mattis pellentesque id.
+                  Non nisi est sit amet facilisis magna etiam tempor. Arcu risus quis varius quam quisque. At auctor urna nunc id cursus metus aliquam eleifend. Dignissim suspendisse in est ante in nibh mauris cursus mattis.
+                  Phasellus vestibulum lorem sed risus ultricies tristique nulla. Cursus risus at ultrices mi tempus imperdiet nulla malesuada. Ultrices dui sapien eget mi proin sed libero.
+                  Quis risus sed vulputate odio ut enim. Morbi tristique senectus et netus. Tellus mauris a diam maecenas sed enim ut. Id leo in vitae turpis massa sed.
+                </p>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore aliqua. Donec massa sapien faucibus <esl-note>I am note 6 from tabs</esl-note> et molestie ac.
+                  Mi sit amet mauris commodo quis imperdiet massa. Viverra nibh cras pulvinar mattis nunc sed blandit. In nisl nisi scelerisque eu. Vel turpis nunc eget lorem dolor sed. Nisl pretium fusce id velit.
+                  Quam id leo in vitae turpis massa sed. Mauris sit amet. Ut aliquam purus sit amet luctus venenatis lectus magna.
+                </p>
+              </div>
+            </esl-panel>
+          </esl-panel-group>
+        </div>
+        <esl-footnotes></esl-footnotes>
+      </script>
+      <script type="text/plain" uip-js-snippet label="Tabs with notes">
+        import { ESLFootnotes, ESLNote, ESLNoteIgnore, ESLPanelGroup, ESLPanel, ESLTab, ESLTabs, ESLTooltip } from '@exadel/esl';
+        ESLFootnotes.register();
+        ESLNote.register();
+        ESLNoteIgnore.register();
+        ESLPanelGroup.register();
+        ESLPanel.register();
+        ESLTab.register();
+        ESLTabs.register();
+        ESLTooltip.register();
+      </script>
+      <script type="text/html" uip-snippet label="Multilang text with notes">
+        <div style="text-align: start">
+          <p lang="bg">
+            Противно на всеобщото вярване, Lorem Ipsum не е просто случаен текст. Неговите корени са в класическата Латинска литература от 45г.пр.Хр.,
+            което прави преди<esl-note>Lorem Ipsum пасаж</esl-note> повече от 2000 години. Richard McClintock, професор по Латински от колежа Hampden-Sydney College във Вирджиния,
+            изучавайки една от най-неясните латински думи "consectetur" в един от пасажите на Lorem Ipsum, и търсейки цитати на думата в класическата литература, открива точния източник.
+            Lorem Ipsum е намерен в секции 1.10.32 и 1.10.33 от "de Finibus Bonorum et Malorum"(Крайностите на Доброто и Злото) от Цицерон, написан през 45г.пр.Хр.
+            Тази книга е трактат по теория на етиката, много популярна през Ренесанса. Първият ред на Lorem Ipsum идва от ред, намерен в секция 1.10.32.
+          </p>
+
+          <p lang="ka">
+            ცნობილი ფაქტია, რომ გვერდის წაკითხვად შიგთავსს შეუძლია მკითხველის ყურადღება მიიზიდოს და დიზაინის<esl-note>200-მდე</esl-note> აღქმაში
+            ხელი შეუშალოს. Lorem Ipsum-ის გამოყენებით ვღებულობთ იმაზე მეტ-ნაკლებად სწორი გადანაწილების ტექსტს, ვიდრე ერთიდაიგივე გამეორებადი
+            სიტყვებია ხოლმე. შედეგად, ტექსტი ჩვეულებრივ ინგლისურს გავს, მისი წაითხვა კი შეუძლებელია. დღეს უამრავი პერსონალური საგამომცემლო
+            პროგრამა და ვებგვერდი იყენებს Lorem Ipsum-ს, როგორც დროებით ტექსტს წყობის შესავსებად; Lorem Ipsum-ის მოძებნისას კი საძიებო სისტემები ბევრ
+            დაუსრულებელ გვერდს გვიჩვენებენ. წლების მანძილზე ამ ტექსტის უამრავი ვერსია გამოჩნდა, ზოგი შემთხვევით დაშვებული შეცდომის გამო, ზოგი კი — განზრახ, ხუმრობით.
+          </p>
+
+          <p dir="rtl" lang="ar">
+            هناك حقيقة مثبتة منذ زمن طويل وهي أن
+            المحتوى المقروء لصفحة ما سيلهي القارئ عن التركيز على الشكل الخارجي للنص أو شكل توضع الفقرات في الصفحة<esl-note>حتى صار</esl-note>
+            التي يقرأها. ولذلك يتم استخدام طريقة لوريم إيبسوم لأنها تعطي توزيعاَ طبيعياَ -إلى حد ما- للأحرف عوضاً عن استخدام
+            "هنا يوجد محتوى نصي، هنا يوجد محتوى نصي" فتجعلها تبدو (أي الأحرف) وكأنها نص مقروء. العديد من برامح النشر المكتبي
+            وبرامح تحرير صفحات الويب تستخدم لوريم إيبسوم بشكل إفتراضي كنموذج عن النص، وإذا قمت بإدخال "lorem ipsum" في أي
+            محرك بحث ستظهر العديد من المواقع الحديثة العهد في نتائج البحث. على مدى السنين ظهرت نسخ جديدة
+            ومختلفة من نص لوريم إيبسوم، أحياناً عن طريق الصدفة،
+          </p>
+
+          <p lang="cn">
+            无可否认，当读者在浏览一个页面的排版时，难免会被可阅读的内容所分散注意力。Lorem Ipsum的目的就是为了保持字母多多少少标准及平均的分配，
+            而不是“此处有文本，此处有文本”，从而让内容更像可读的英语。如今，很多桌面排版软件以及网页编辑用Lorem Ipsum<esl-note>你好，陌生人</esl-note>作为默认的示范文本，
+            搜一搜“Lorem Ipsum”就能找到这些网站的雏形。这些年来Lorem Ipsum演变出了各式各样的版本，有些出于偶然，有些则是故意的（刻意的幽默之类的）。
+          </p>
+
+          <p dir="rtl" lang="he">
+            יש המון גרסאות זמינות לפסקאות של Lorem Ipsum. אבל רובם עברו שינויים בצורה זו או
+            <esl-note>את אחת</esl-note>אחרת, על ידי השתלת הומור או מילים אקראיות שלאראות אפילו מעט אמינות. אם אתה הולך להשתמש במקטעים של של Lorem Ipsum
+            אתה צריך להיות בטוח שאין משהו מביך חבוי בתוך הטקסט. כל מחוללי הטקסט של Lorem Ipsum שנמצאים ברשת האינטרנט מכוונים לחזור על טקסטים מוגדרים מראש לפי הנדרש.
+            וזה הופך אותנו למחוללי טקסט אמיתיים ראשונים באינטרנט. אנו משתמשים במילון עם מעל 200 ערכים בלטינית משולבים במבני
+            משפטים על מנת לשוות לטקט מראה הגיוני. ולכן הטקסט של Lorem Ipsum לעולם לא יכיל טקסטים חוזרים, הומור, או מילים לא מאופייניות וכדומה
+          </p>
+
+          <esl-footnotes></esl-footnotes>
+        </div>
+      </script>
+      <script type="text/plain" uip-js-snippet label="Multilang text with notes">
+        import { ESLFootnotes, ESLNote, ESLNoteIgnore, ESLTooltip } from '@exadel/esl';
+        ESLFootnotes.register();
+        ESLNote.register();
+        ESLNoteIgnore.register();
+        ESLTooltip.register();
+      </script>
+      <script type="text/html" uip-snippet label="Stand-alone notes and ordinary notes">
+        <div>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore <esl-note ignore="all" html="I am stand-alone note" standalone-label="~">@</esl-note> aliqua.
+            Donec massa sapien faucibus <esl-note>I am ordinary note</esl-note> et molestie ac. Mi sit amet mauris commodo quis imperdiet massa. Viverra nibh cras pulvinar mattis nunc sed blandit.
+            In nisl nisi scelerisque eu. Vel turpis nunc eget lorem dolor sed. Nisl pretium fusce id velit. Quam id leo in vitae turpis massa sed. Mauris sit amet. Ut aliquam purus sit amet luctus venenatis lectus magna.
+          </p>
+          <esl-footnotes></esl-footnotes>
+        </div>
+      </script>
+      <script type="text/plain" uip-js-snippet label="Stand-alone notes and ordinary notes">
+        import { ESLFootnotes, ESLNote, ESLNoteIgnore, ESLTooltip } from '@exadel/esl';
+        ESLFootnotes.register();
+        ESLNote.register();
+        ESLNoteIgnore.register();
+        ESLTooltip.register();
+      </script>
+      <script type="text/html" uip-snippet label="Stand-alone notes only without footnotes">
+        <div>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore <esl-note ignore="all" html="I am stand-alone note">@</esl-note> aliqua.
+            Donec massa sapien faucibus <esl-note html="I am not a linked note">#</esl-note> et molestie ac. Mi sit amet mauris commodo quis imperdiet massa.
+            Viverra nibh cras pulvinar mattis nunc sed blandit. In nisl nisi scelerisque eu. Vel turpis nunc eget lorem dolor sed. Nisl pretium fusce id velit.
+            Quam id leo in vitae turpis massa sed. Mauris sit amet. Ut aliquam purus sit amet luctus venenatis lectus magna.
+          </p>
+        </div>
+      </script>
+      <script type="text/plain" uip-js-snippet label="Stand-alone notes only without footnotes">
+        import { ESLFootnotes, ESLNote, ESLNoteIgnore, ESLTooltip } from '@exadel/esl';
+        ESLFootnotes.register();
+        ESLNote.register();
+        ESLNoteIgnore.register();
+        ESLTooltip.register();
+      </script>
+      <script type="text/html" uip-snippet label="Text inside container">
+        <div class="col-12" esl-note-container=".demo-visibility">
+          <div style="height:350px; overflow: scroll;">
+            <div class="row">
+              <div class="col-md-4" esl-note-ignore="@-SM">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore <esl-note>et dolore magna</esl-note> aliqua. Donec massa sapien faucibus et molestie ac. Mi sit amet mauris commodo quis imperdiet massa. Viverra nibh cras pulvinar mattis nunc sed blandit. In nisl nisi scelerisque eu. Vel turpis nunc eget lorem dolor sed. Nisl pretium fusce id velit. Quam id leo in vitae turpis massa sed. Mauris sit amet <esl-note>massa vitae <a href="https://github.com">eiusmod</a> tortor</esl-note>. Ut aliquam purus sit amet luctus venenatis lectus magna.</p>
+                <p esl-note-ignore="@XS">Tincidunt arcu non sodales neque. Lectus quam id leo in vitae turpis massa sed. Iaculis at erat pellentesque adipiscing. Cras pulvinar mattis nunc sed blandit. Vel orci porta non pulvinar neque laoreet suspendisse. A arcu cursus vitae congue mauris rhoncus aenean <esl-note>Mattis cursus mattis molestie</esl-note> vel. Integer vitae justo eget magna fermentum iaculis. Et leo duis ut diam quam nulla porttitor. Blandit volutpat maecenas volutpat blandit aliquam etiam erat velit scelerisque. Nibh nisl condimentum id venenatis a condimentum vitae sapien pellentesque. Pellentesque habitant morbi tristique senectus et netus. Nisl vel pretium lectus quam id leo in vitae. Ac odio tempor orci dapibus ultrices in iaculis nunc sed. Laoreet id donec ultrices tincidunt arcu non sodales neque. Fames ac turpis egestas sed tempus urna et. Nisi scelerisque eu ultrices vitae.</p>
+              </div>
+              <div class="col-md-4">
+                <p>Dolor magna eget est lorem ipsum dolor sit amet. Vel orci porta non pulvinar neque laoreet suspendisse interdum consectetur. In vitae turpis massa sed elementum tempus egestas sed. Dui accumsan sit amet nulla facilisi morbi tempus. Diam quam nulla porttitor massa. Aliquet enim tortor at auctor urna nunc id cursus metus. Volutpat maecenas volutpat blandit aliquam etiam erat. Est pellentesque elit <esl-note>ullamcorper dignissim cras</esl-note> tincidunt lobortis feugiat. Sagittis purus sit amet volutpat consequat. Sit amet porttitor eget dolor morbi. Et netus et malesuada fames ac turpis. Egestas egestas fringilla phasellus faucibus scelerisque eleifend donec pretium vulputate. Pulvinar pellentesque habitant morbi tristique senectus et netus et malesuada. Sit amet cursus sit amet dictum. Potenti nullam ac tortor vitae purus faucibus ornare. In nulla posuere sollicitudin aliquam ultrices sagittis orci. Blandit volutpat maecenas volutpat blandit aliquam etiam erat. Aliquam ultrices sagittis orci a<esl-note>et dolore magna</esl-note>. Sit amet consectetur adipiscing elit pellentesque habitant.</p>
+              </div>
+              <div class="col-md-4">
+                <p>Mattis molestie a iaculis at erat pellentesque adipiscing commodo. Massa tincidunt nunc pulvinar sapien et ligula. Lectus urna duis convallis convallis tellus id interdum. Elit sed vulputate mi sit. Adipiscing commodo elit at imperdiet dui accumsan sit amet nulla. Lacus viverra vitae congue eu consequat ac felis donec et. Eget mauris pharetra et ultrices neque ornare <esl-note>aenean euismod elementum</esl-note>. Mattis aliquam faucibus purus in massa tempor nec feugiat nisl. Est ante in nibh <esl-note>mauris cursus mattis molestie</esl-note>. Velit dignissim sodales ut eu. Quam lacus suspendisse faucibus interdum posuere. Pellentesque habitant morbi tristique senectus et netus. Nisl vel pretium lectus quam id leo in vitae. Magna fringilla urna porttitor rhoncus dolor purus non enim praesent. Vulputate enim nulla aliquet porttitor. Facilisi etiam dignissim diam quis enim lobortis scelerisque fermentum dui. Arcu non sodales neque sodales ut etiam. Adipiscing enim eu turpis egestas pretium aenean pharetra magna ac. A scelerisque purus semper eget duis at tellus at <esl-note>Adipiscing elit pellentesque habitant</esl-note> urna. Feugiat nibh sed pulvinar proin gravida hendrerit lectus. Arcu bibendum at varius <esl-note>Tellus urna cursus mattis molestie</esl-note> vel pharetra vel turpis.</p>
+              </div>
+            </div>
+
+            <esl-footnotes scope-target="::parent(.demo-visibility)"></esl-footnotes>
+          </div>
+        </div>
+      </script>
+      <script type="text/plain" uip-js-snippet label="Text inside container">
+        import { ESLFootnotes, ESLNote, ESLNoteIgnore, ESLTooltip } from '@exadel/esl';
+        ESLFootnotes.register();
+        ESLNote.register();
+        ESLNoteIgnore.register();
+        ESLTooltip.register();
+      </script>
+      <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
+      <uip-preview isolation></uip-preview>
+      <uip-editor label="Source code" collapsible copy></uip-editor>
+      <uip-editor source="js" copy collapsible label="JavaScript"></uip-editor>
+    </uip-root>
+  </div>
+</section>
+
+<section class="row">
+  <div class="col-12">
+    <uip-root>
+      <script type="text/html" uip-snippet label="Notes is ignored on specified breakpoints">
+        <div>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore <esl-note ignore="all">I am always ignored</esl-note> aliqua.
+            Donec massa sapien faucibus <esl-note ignore="not all">I am never ignored</esl-note> et molestie ac. Mi sit amet mauris commodo quis imperdiet massa.
+            Viverra nibh cras pulvinar mattis nunc sed blandit. In nisl nisi scelerisque eu.
+          </p>
+          <p>
+            Feugiat pretium nibh ipsum consequat. Ipsum dolor sit amet consectetur. Id porta nibh venenatis cras sed felis. Nam aliquam sem et tortor consequat. Vestibulum sed arcu non odio euismod lacinia at quis risus.
+            Augue ut lectus arcu bibendum at varius <esl-note ignore="@-SM">I am ignored at a XS, SM breakpoint</esl-note> vel pharetra.
+            Felis eget velit aliquet <esl-note ignore="@+MD">I am ignored at a MD, LG, XL breakpoints</esl-note> sagittis id consectetur purus.
+            At <esl-note ignore="@XL">I am ignored at a XL breakpoint</esl-note> lectus urna duis <esl-note ignore="@LG">I am ignored at a LG breakpoint</esl-note> convallis.
+            Tempus quam pellentesque <esl-note ignore="@MD">I am ignored at a MD breakpoint</esl-note> nec nam aliquam.
+          </p>
+          <p>
+            Bibendum <esl-note ignore="@SM">I am ignored at a SM breakpoint</esl-note> neque egestas congue <esl-note ignore="@XS">I am ignored at a XS breakpoint</esl-note> quisque egestas diam in arcu cursus.
+            Enim tortor at auctor urna nunc id cursus metus. Et malesuada fames ac turpis. Duis tristique sollicitudin nibh sit amet commodo nulla facilisi nullam. Massa id neque aliquam vestibulum morbi.
+            In mollis nunc sed id semper. Massa tincidunt dui ut ornare lectus sit amet est placerat. Nunc congue nisi vitae suscipit tellus mauris a. Lobortis scelerisque fermentum dui faucibus in ornare.
+          </p>
+          <esl-footnotes></esl-footnotes>
+          <div class="alert alert-info mt-2">Example with notes that is ignored on specified breakpoints</div>
+        </div>
+      </script>
+      <script type="text/plain" uip-js-snippet label="Notes is ignored on specified breakpoints">
+        import { ESLFootnotes, ESLNote, ESLNoteIgnore, ESLTooltip } from '@exadel/esl';
+        ESLFootnotes.register();
+        ESLNote.register();
+        ESLNoteIgnore.register();
+        ESLTooltip.register();
+      </script>
+      <script type="text/html" uip-snippet label="Notes is ignored by group element at XS, SM">
+        <div esl-note-ignore="@-SM">
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore <esl-note>I am note 1</esl-note> aliqua.
+            Donec massa sapien faucibus <esl-note ignore="not all">I am never ignored, but the group element changes behavior</esl-note> et molestie ac.
+            Mi sit amet mauris commodo quis imperdiet massa. Viverra nibh cras pulvinar mattis nunc sed blandit. In nisl nisi scelerisque eu.
+            Vel turpis nunc eget lorem dolor sed. Nisl pretium fusce id velit.
+          </p>
+          <esl-footnotes></esl-footnotes>
+          <div class="alert alert-info mt-2">Example with notes that is ignored on XS and SM</div>
+        </div>
+      </script>
+      <script type="text/plain" uip-js-snippet label="Notes is ignored by group element at XS, SM">
+        import { ESLFootnotes, ESLNote, ESLNoteIgnore, ESLTooltip } from '@exadel/esl';
+        ESLFootnotes.register();
+        ESLNote.register();
+        ESLNoteIgnore.register();
+        ESLTooltip.register();
+      </script>
+      <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
+      <uip-preview isolation></uip-preview>
+      <uip-settings label="Settings" resizable vertical="@+sm"></uip-settings>
+      <uip-editor label="Source code" collapsible copy></uip-editor>
+      <uip-editor source="js" copy collapsible label="JavaScript"></uip-editor>
+    </uip-root>
+  </div>
+</section>
