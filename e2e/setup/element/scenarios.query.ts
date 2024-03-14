@@ -1,7 +1,7 @@
-import {cucumber} from '../transformer/gherkin';
+import {cucumber} from '../../transformer/gherkin';
 
 import type {ElementHandle} from 'puppeteer';
-import type {TestEnv} from './scenarious.world';
+import type {TestEnv} from '../scenarious.world';
 
 cucumber.defineRule('find the element by selector {string}', async (world: TestEnv, selector: string) => {
   world.elements = (await findElementsBySelector(selector)).slice(0, 1);
