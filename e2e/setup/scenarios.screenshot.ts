@@ -1,5 +1,5 @@
 import {cucumber} from '../transformer/gherkin';
-import type {TestEnv} from './scenarious.world';
+import type {TestEnv} from './scenarios.world';
 import type {MatchImageSnapshotOptions} from 'jest-image-snapshot';
 
 const DIFF_CONFIG: MatchImageSnapshotOptions = {
