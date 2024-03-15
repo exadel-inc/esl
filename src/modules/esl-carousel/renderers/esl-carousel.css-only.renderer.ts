@@ -1,6 +1,7 @@
 import {promisifyEvent, promisifyNextRender, resolvePromise} from '../../esl-utils/async/promise';
 import {ESLCarouselRenderer} from '../core/esl-carousel.renderer';
 import {ESLCarouselSlideEvent} from '../core/esl-carousel.events';
+import {CSSClassUtils} from '../../esl-utils/dom/class';
 import type {ESLCarouselDirection} from '../core/nav/esl-carousel.nav.types';
 
 /** @deprecated mode is under development at that moment */
@@ -32,9 +33,6 @@ export class ESLCSSCarouselRenderer extends ESLCarouselRenderer {
   public async onBeforeAnimate(index: number, direction: ESLCarouselDirection): Promise<void> {
     if (this.$carousel.hasAttribute('animating')) throw new Error('[ESL] Carousel: already animating');
 
-    const {$activeSlide} = this.$carousel;
-    if (!$activeSlide) throw new Error('[ESL] Carousel: not have active slide');
-
     const $nextSlide = this.$carousel.$slides[index];
     $nextSlide.classList.add('next');
 
@@ -61,19 +59,14 @@ export class ESLCSSCarouselRenderer extends ESLCarouselRenderer {
 
     $activeSlide.classList.add(to);
     $nextSlide.classList.add(to);
+
     return promisifyEvent(this.$carousel.$slidesArea, 'transitionend').catch(resolvePromise);
   }
 
   /** Post-processing animation action. */
   public async onAfterAnimate(): Promise<void> {
     this.$carousel.toggleAttribute('animating', false);
-    this.$carousel.$slides.forEach((slide) => {
-      slide.classList.remove('next');
-      slide.classList.remove('left');
-      slide.classList.remove('right');
-      slide.classList.remove('forward');
-      slide.classList.remove('backward');
-    });
+    CSSClassUtils.remove(this.$carousel.$slides, 'next left right forward backward');
 
     return Promise.resolve();
   }
@@ -101,24 +94,22 @@ export class ESLCSSCarouselRenderer extends ESLCarouselRenderer {
     const {$activeSlide} = this.$carousel;
     if (!$activeSlide) throw new Error('[ESL] Carousel: not have active slide');
 
-    const width = parseFloat(getComputedStyle($activeSlide as Element).width);
-
     this.$carousel.toggleAttribute('animating', true);
 
-    const offsetArea = offset < 0 ? -width : width;
-    this.$area.style.setProperty('--offsetArea',  width / 2 > Math.abs(offset)  ? '0px' : `${offsetArea}px`);
+    const width = parseFloat(getComputedStyle($activeSlide as Element).width);
+    const isOldSlide = width / 2 > Math.abs(offset);
+    const offsetArea = isOldSlide ? 0 : (offset > 0 ? width : -width);
+    this.$area.style.setProperty('--offsetArea',  `${offsetArea}px`);
 
     await promisifyEvent(this.$area, 'transitionend').catch(resolvePromise);
 
     const $nextSlide = offset > 0 ? $activeSlide.$prevCyclic : $activeSlide.$nextCyclic;
-    const $nextActiveSlide = width / 2 > Math.abs(offset) ? $activeSlide : $nextSlide;
+    const $nextActiveSlide = isOldSlide ? $activeSlide : $nextSlide;
 
     $activeSlide.active = false;
     $nextActiveSlide.active = true;
 
-    $nextActiveSlide.classList.remove('next');
-    $nextActiveSlide.classList.remove('left');
-    $nextActiveSlide.classList.remove('right');
+    CSSClassUtils.remove($nextActiveSlide, 'next left right');
 
     this.$carousel.toggleAttribute('animating', false);
     this.$area.style.setProperty('--offsetArea',  '0px');
