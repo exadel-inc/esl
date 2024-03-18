@@ -1,3 +1,11 @@
+# [2.1.0-beta.1](https://github.com/exadel-inc/ui-playground/compare/v2.0.1-beta.1...v2.1.0-beta.1) (2024-03-18)
+
+
+### Features
+
+* **preview:** removed 'isolation' marker from preview plugin ([4361dfb](https://github.com/exadel-inc/ui-playground/commit/4361dfbcb7fb77187f7f95704de8ab8bb341b39b))
+* **snippet:** added 'uip-isolated' marker on snippet to track if it should render in iframe; ([60991eb](https://github.com/exadel-inc/ui-playground/commit/60991ebb1ddc079ab63b783df75071bb676bcc20))
+
 ## [2.0.1-beta.1](https://github.com/exadel-inc/ui-playground/compare/v2.0.0...v2.0.1-beta.1) (2024-02-16)
 
 # [2.0.0](https://github.com/exadel-inc/ui-playground/compare/v1.0.0...v2.0.0) (2024-02-16)
