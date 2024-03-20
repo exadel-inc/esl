@@ -9,20 +9,13 @@
     transform: translate3d(var(--offsetArea, 0), 0, 0);
   }
 
-  &[animating] [data-slides-area] {
-    transition: transform @SLIDE_CAROUSEL_ANIMATION;
-  }
-
   esl-carousel-slide {
     position: relative;
     display: none;
     backface-visibility: hidden;
   }
 
-  esl-carousel-slide.forward,
-  esl-carousel-slide.backward,
-  esl-carousel-slide.right,
-  esl-carousel-slide.left {
+  &[animating] esl-carousel-slide {
     transition: transform @SLIDE_CAROUSEL_ANIMATION;
   }
 
@@ -63,5 +56,9 @@
 
   esl-carousel-slide.next.left {
     left: -100%;
+  }
+
+  &[touch-animating] [data-slides-area] {
+    transition: transform @SLIDE_CAROUSEL_ANIMATION;
   }
 }

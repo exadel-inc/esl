@@ -60,6 +60,9 @@ export class ESLCSSCarouselRenderer extends ESLCarouselRenderer {
     $activeSlide.classList.add(to);
     $nextSlide.classList.add(to);
 
+    // TODO: we need to leave some more options to catch this animation. E.g. make user able to use animation instead of transition.
+    // It looks like it works (or may works incorrectly) from targeting perspective. We need to observe for transition of specific properties and for slide itself
+    // We need to create good promisifyTransition/promisifyAnimation option + Note we have a global bug with non considering transitioncancel and the same problem in default renderer
     return promisifyEvent(this.$carousel.$slidesArea, 'transitionend').catch(resolvePromise);
   }
 
@@ -94,7 +97,7 @@ export class ESLCSSCarouselRenderer extends ESLCarouselRenderer {
     const {$activeSlide} = this.$carousel;
     if (!$activeSlide) throw new Error('[ESL] Carousel: not have active slide');
 
-    this.$carousel.toggleAttribute('animating', true);
+    this.$carousel.toggleAttribute('touch-animating', true);
 
     const width = parseFloat(getComputedStyle($activeSlide as Element).width);
     const isOldSlide = width / 2 > Math.abs(offset);
@@ -111,7 +114,7 @@ export class ESLCSSCarouselRenderer extends ESLCarouselRenderer {
 
     CSSClassUtils.remove($nextActiveSlide, 'next left right');
 
-    this.$carousel.toggleAttribute('animating', false);
+    this.$carousel.toggleAttribute('touch-animating', false);
     this.$area.style.setProperty('--offsetArea',  '0px');
 
     const activeIndex = $nextActiveSlide.index;
