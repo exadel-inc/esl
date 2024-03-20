@@ -33,7 +33,16 @@ import {
   ESLAnimate,
   ESLAnimateMixin,
   ESLRelatedTarget,
-  ESLOpenState
+  ESLOpenState,
+
+  ESLCarousel,
+  ESLCarouselNavDots,
+  ESLCarouselNavMixin,
+  ESLCarouselTouchMixin,
+  ESLCarouselWheelMixin,
+  ESLCarouselKeyboardMixin,
+  ESLCarouselRelateToMixin,
+  ESLCarouselAutoplayMixin
 } from '@exadel/esl/modules/all';
 
 import {ESLRandomText} from '@exadel/esl/modules/esl-random-text/core';
@@ -105,6 +114,15 @@ ESLFootnotes.register();
 ESLNote.register();
 ESLNoteIgnore.register();
 ESLTooltip.register();
+
+ESLCarousel.register();
+ESLCarouselNavDots.register();
+ESLCarouselNavMixin.register();
+ESLCarouselTouchMixin.register();
+ESLCarouselKeyboardMixin.register();
+ESLCarouselRelateToMixin.register();
+ESLCarouselAutoplayMixin.register();
+ESLCarouselWheelMixin.register();
 
 ESLAnimate.register();
 ESLAnimateMixin.register();
