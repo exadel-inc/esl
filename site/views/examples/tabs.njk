@@ -21,7 +21,7 @@ aside:
 <section class="row">
   <div class="col-12">
     <uip-root>
-      <script type="text/html" uip-snippet label="Simple Tabs">
+      <script type="text/html" uip-snippet uip-isolated label="Simple Tabs">
         <div class="esl-d-tabs">
           <esl-tabs class="esl-d-tab-control tabs-alignment">
             <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
@@ -69,7 +69,7 @@ aside:
         ESLTabs.register();
       </script>
 
-      <script type="text/html" uip-snippet label="Tabs overflow">
+      <script type="text/html" uip-snippet uip-isolated label="Tabs overflow">
         <div class="esl-d-tabs">
           <esl-tabs class="esl-d-tab-control multiple-tabs" scrollable="side">
             <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
@@ -179,7 +179,8 @@ aside:
         ESLTab.register();
         ESLTabs.register();
       </script>
-      <script type="text/html" uip-snippet label="Tabs/Accordion transformation">
+
+      <script type="text/html" uip-snippet uip-isolated label="Tabs/Accordion transformation">
         <div class="esl-d-tabs">
           <esl-tabs class="esl-d-tab-control">
             <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
@@ -256,7 +257,8 @@ aside:
         ESLTabs.register();
         ESLTrigger.register();
       </script>
-      <script type="text/html" uip-snippet label="Tabs/Open state transformation">
+
+      <script type="text/html" uip-snippet uip-isolated label="Tabs/Open state transformation">
         <div class="esl-d-tabs">
           <esl-tabs class="esl-d-tab-control tabs-alignment">
             <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
@@ -308,7 +310,7 @@ aside:
       </script>
 
       <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
-      <uip-preview isolation></uip-preview>
+      <uip-preview></uip-preview>
       <uip-settings target="esl-tabs" label="Settings" resizable vertical="@+sm">
         <uip-select-setting target="esl-tabs.tabs-alignment" label="Alignment:" attribute="class" mode="append">
           <option value="">Left</option>
