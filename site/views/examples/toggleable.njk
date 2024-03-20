@@ -18,7 +18,7 @@ aside:
 <section class="row">
   <div class="col-12">
     <uip-root>
-      <script type="text/html" uip-snippet label="Simple Toggleable">
+      <script type="text/html" uip-snippet uip-isolated label="Simple Toggleable">
         <div style="min-height: 70px;">
           <esl-toggleable id="toggleable1"
                           body-class="toggleable-opened"
@@ -46,7 +46,8 @@ aside:
         ESLToggleable.register();
         ESLTrigger.register();
       </script>
-      <script type="text/html" uip-snippet label="Class Toggle">
+
+      <script type="text/html" uip-snippet uip-isolated label="Class Toggle">
         <div class="container-cls">
           <div style="min-height: 70px;">
             <esl-toggleable class="d-block alert" active-class="alert-success !alert-danger">
@@ -67,7 +68,8 @@ aside:
         ESLToggleable.register();
         ESLTrigger.register();
       </script>
-      <script type="text/html" uip-snippet label="Close on body click">
+
+      <script type="text/html" uip-snippet uip-isolated label="Close on body click">
         <div style="height: 130px;">
           <esl-toggleable id="toggleable-body-click"
                           class="toggleable"
@@ -102,76 +104,77 @@ aside:
         ESLToggleable.register();
         ESLTrigger.register();
       </script>
-      <script type="text/html" uip-snippet label="Group of Toggleables">
-        <div>
+
+      <script type="text/html" uip-snippet uip-isolated label="Group of Toggleables">
+        <div class="m-1 btn-container">
+          <esl-trigger target="#toggleable-group-1" a11y-target="button">
+            <button type="button" class="btn btn-sec-blue">Toggle 1</button>
+          </esl-trigger>
+          <esl-trigger target="#toggleable-group-2" a11y-target="button">
+            <button type="button" class="btn btn-sec-blue">Toggle 2</button>
+          </esl-trigger>
+          <esl-trigger target="#toggleable-group-3" a11y-target="button">
+            <button type="button" class="btn btn-sec-blue">Toggle 3</button>
+          </esl-trigger>
+        </div>
+
+        <div class="b-marker alert alert-info">
           <style>
             body:not(.body-marker) .b-marker {
               display: none
             }
           </style>
-          <div class="b-marker alert alert-info">Body class marker active</div>
-
-          <div style="min-height: 70px;">
-            <esl-toggleable id="toggleable-group-1"
-                            group="group1"
-                            body-class="body-marker"
-                            close-on=".close-button" open>
-              <div class="alert alert-warning" role="alert">
-                <strong>This is a toggleable.</strong> You can control it using the triggers below.
-                <button type="button" class="close close-button" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-            </esl-toggleable>
-          </div>
-          <div style="min-height: 70px;">
-            <esl-toggleable id="toggleable-group-2"
-                            group="group1"
-                            body-class="body-marker"
-                            close-on=".close-button">
-              <div class="alert alert-warning" role="alert">
-                <strong>This is a toggleable.</strong> You can control it using the triggers below.
-                <button type="button" class="close close-button" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-            </esl-toggleable>
-          </div>
-          <div style="min-height: 70px;">
-            <esl-toggleable id="toggleable-group-3"
-                            group="group1"
-                            body-class="body-marker"
-                            close-on=".close-button">
-              <div class="alert alert-warning" role="alert">
-                <strong>This is a toggleable.</strong> You can control it using the triggers below.
-                <button type="button" class="close close-button" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-            </esl-toggleable>
-          </div>
-          <div class="m-1">
-            <p>Triggers</p>
-            <div class="btn-container">
-              <esl-trigger target="#toggleable-group-1" mode="toggle" a11y-target="button">
-                <button type="button" class="btn btn-sec-blue">Toggle 1</button>
-              </esl-trigger>
-              <esl-trigger target="#toggleable-group-2" mode="toggle" a11y-target="button">
-                <button type="button" class="btn btn-sec-blue">Toggle 2</button>
-              </esl-trigger>
-              <esl-trigger target="#toggleable-group-3" mode="toggle" a11y-target="button">
-                <button type="button" class="btn btn-sec-blue">Toggle 3</button>
-              </esl-trigger>
+          Body class marker active
+        </div>
+        <div style="min-height: 70px;">
+          <esl-toggleable id="toggleable-group-1"
+                          group="group1"
+                          body-class="body-marker"
+                          close-on=".close-button" open>
+            <div class="alert alert-warning" role="alert">
+              <strong>This is a toggleable.</strong> You can control it using the triggers below.
+              <button type="button" class="close close-button" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
-          </div>
+          </esl-toggleable>
+        </div>
+        <div style="min-height: 70px;">
+          <esl-toggleable id="toggleable-group-2"
+                          group="group1"
+                          body-class="body-marker"
+                          close-on=".close-button">
+            <div class="alert alert-warning" role="alert">
+              <strong>This is a toggleable.</strong> You can control it using the triggers below.
+              <button type="button" class="close close-button" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          </esl-toggleable>
+        </div>
+        <div style="min-height: 70px;">
+          <esl-toggleable id="toggleable-group-3"
+                          group="group1"
+                          body-class="body-marker"
+                          close-on=".close-button">
+            <div class="alert alert-warning" role="alert">
+              <strong>This is a toggleable.</strong> You can control it using the triggers below.
+              <button type="button" class="close close-button" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          </esl-toggleable>
         </div>
       </script>
       <script type="text/html" uip-js-snippet label="Group of Toggleables">
-        import { ESLToggleable, ESLTrigger } from '@exadel/esl';
+        import { ESLToggleable, ESLToggleableDispatcher, ESLTrigger } from '@exadel/esl';
+        // Note: ESLToggleableGroup should be registered to make group attribute work
+        ESLToggleableDispatcher.init();
         ESLToggleable.register();
         ESLTrigger.register();
       </script>
-      <script type="text/html" uip-snippet label="Related Target">
+
+      <script type="text/html" uip-snippet uip-isolated label="Related Target">
         <div class="col-12 m-1">
           <esl-trigger target="#toggleable-main" mode="show" active-class-target="::parent(.col-12)" class="btn btn-sec-blue">Show</esl-trigger>
           <esl-trigger target="#toggleable-main" mode="hide" class="btn btn-sec-blue">Hide</esl-trigger>
@@ -203,7 +206,8 @@ aside:
         ESLRelatedTarget.register();
         ESLTrigger.register();
       </script>
-      <script type="text/html" uip-snippet label="Open State">
+
+      <script type="text/html" uip-snippet uip-isolated label="Open State">
         <div style="min-height: 70px;">
           <esl-toggleable id="toggleable-open-state"
                           body-class="toggleable-opened"
@@ -232,8 +236,9 @@ aside:
         ESLOpenState.register();
         ESLTrigger.register();
       </script>
+
       <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
-      <uip-preview isolation></uip-preview>
+      <uip-preview></uip-preview>
       <uip-settings target="esl-trigger" label="Settings" resizable vertical="@+sm">
         <uip-bool-setting label="Track hover event" attribute="track-hover"></uip-bool-setting>
         <uip-bool-setting target="esl-toggleable" label="Close on body click" attribute="close-on-outside-action"></uip-bool-setting>
