@@ -24,3 +24,4 @@ export * from './plugin/wheel/esl-carousel.wheel.mixin';
 
 // Renderer Default
 import './renderers/esl-carousel.default.renderer';
+import './renderers/esl-carousel.css-only.renderer';
