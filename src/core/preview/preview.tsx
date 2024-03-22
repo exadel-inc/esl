@@ -72,14 +72,22 @@ export class UIPPreview extends UIPPlugin {
     const isolated = this.model!.activeSnippet?.isolated || false;
 
     if (!isolated) return this.writeContent();
-    if (!e || this.forceUpdate || e.force) this.writeContentIsolated();
-    this._onIframeLoad();
+    if (!e || this.forceUpdate || e.force) return this.writeContentIsolated();
+    this.updateContentIsolated();
   }
 
   /** Writes the content directly to the inner area (non-isolated frame) */
   protected writeContent(): void {
     this.$inner.innerHTML = UIPHTMLRenderingPreprocessors.preprocess(this.model!.html);
     this.stopIframeResizeLoop();
+  }
+
+  protected updateContentIsolated(): void {
+    if (!this.$iframe.contentWindow) return;
+    const $document = this.$iframe.contentWindow?.document;
+    const $root = $document?.querySelector('[uip-content-root]') || $document?.body;
+
+    if ($root) $root.innerHTML = UIPHTMLRenderingPreprocessors.preprocess(this.model!.html);
   }
 
   /** Writes the content to the iframe inner (isolated frame) */
@@ -89,7 +97,8 @@ export class UIPPreview extends UIPPlugin {
       this.$inner.appendChild(this.$iframe);
     }
     this.stopIframeResizeLoop();
-    this.$iframe.src = '';
+    this.$iframe.src = 'about:blank';
+    this.$iframe.hidden = true;
     this.startIframeResizeLoop();
   }
 
@@ -110,8 +119,7 @@ export class UIPPreview extends UIPPlugin {
 
   /** Stop resize loop iterations created by `startIframeResizeLoop` */
   protected stopIframeResizeLoop(): void {
-    if (!this._iframeResizeRAF) return;
-    cancelAnimationFrame(this._iframeResizeRAF);
+    if (this._iframeResizeRAF) cancelAnimationFrame(this._iframeResizeRAF);
     this._iframeResizeRAF = 0;
   }
 
@@ -142,6 +150,8 @@ export class UIPPreview extends UIPPlugin {
     this.$iframe.contentWindow?.document.close();
     this.$iframe.contentWindow?.document.write(html);
     this.$iframe.contentWindow?.document.close();
+
+    setTimeout(() => this.$iframe.hidden = false, 100);
   }
 
   /** Updates preview content from the model state changes */
