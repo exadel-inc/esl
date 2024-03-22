@@ -16,7 +16,7 @@ aside:
 <section class="row">
   <div class="col-12">
     <uip-root>
-      <script type="text/html" uip-snippet label="Simple Menu">
+      <script type="text/html" uip-snippet uip-isolated label="Simple Menu">
         <ul class="esl-example-menu">
           <li class="menu-item">
             <esl-trigger class="menu-item-btn menu-item-arrow" target="::next">Menu 1</esl-trigger>
@@ -72,10 +72,28 @@ aside:
         ESLPanel.register();
         ESLTrigger.register();
       </script>
+      <script type="text/html" uip-snippet label="Popup Menu">
+        <esl-trigger target="#demo-popup" mode="toggle" class="btn btn-sec-blue">Popup menu</esl-trigger>
+        <esl-popup id="demo-popup" position="top">
+          <div class="m-1" style=" width:250px;"> <!-- text 20 --></div>
+        </esl-popup>
+      </script>
+      <script type="text/plain" uip-js-snippet label="Popup Menu">
+        import { ESLPanel, ESLPopup, ESLTrigger } from '@exadel/esl';
+        ESLPanel.register();
+        ESLPopup.register();
+        ESLTrigger.register();
+      </script>
       <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
-      <uip-preview isolation></uip-preview>
+      <uip-preview></uip-preview>
       <uip-settings target="esl-trigger" label="Settings" resizable vertical="@+sm">
-        <uip-bool-setting label="Hover" attribute="track-hover"></uip-bool-setting>
+        <uip-bool-setting target=".menu-item-btn" label="Hover" attribute="track-hover"></uip-bool-setting>
+        <uip-select-setting target="esl-popup" label="Position:" attribute="position" mode="append">
+          <option value="top">Top</option>
+          <option value="bottom">Bottom</option>
+          <option value="left">Left</option>
+          <option value="right">Right</option>
+        </uip-select-setting>
       </uip-settings>
       <uip-editor label="Source code" collapsible copy></uip-editor>
       <uip-editor source="js" copy collapsible label="JavaScript"></uip-editor>
