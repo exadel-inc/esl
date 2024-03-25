@@ -41,7 +41,7 @@ aside:
                        fallback-duration="400"
                        close-on-esc close-on-outside-action>
               <div class="esl-example-menu-400">
-                <!-- text 100 -->
+                <!-- text 50 -->
               </div>
             </esl-panel>
           </li>
@@ -56,12 +56,6 @@ aside:
                 <li>2</li>
                 <li>3</li>
                 <li>4</li>
-                <li>5</li>
-                <li>6</li>
-                <li>7</li>
-                <li>8</li>
-                <li>9</li>
-                <li>10</li>
               </ul>
             </esl-panel>
           </li>
@@ -73,10 +67,40 @@ aside:
         ESLTrigger.register();
       </script>
       <script type="text/html" uip-snippet label="Popup Menu">
-        <esl-trigger target="#demo-popup" mode="toggle" class="btn btn-sec-blue">Popup menu</esl-trigger>
-        <esl-popup id="demo-popup" position="top">
-          <div class="m-1" style=" width:250px;"> <!-- text 20 --></div>
-        </esl-popup>
+        <ul class="esl-example-menu">
+          <li class="menu-item">
+            <esl-trigger mode="toggle" class="menu-item-btn menu-item-arrow" target="::next">Menu 1</esl-trigger>
+            <esl-popup position="top">
+              <ul class="esl-example-sub-menu">
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+                <li>5</li>
+                <li>6</li>
+              </ul>
+            </esl-popup>
+          </li>
+          <li class="menu-item">
+            <esl-trigger mode="toggle" class="menu-item-btn menu-item-arrow" target="::next">Menu 2</esl-trigger>
+            <esl-popup position="top">
+              <div class="esl-example-menu-400">
+                <!-- text 50 -->
+              </div>
+            </esl-popup>
+          </li>
+          <li class="menu-item">
+            <esl-trigger mode="toggle" class="menu-item-btn menu-item-arrow" target="::next">Menu 3</esl-trigger>
+            <esl-popup position="top">
+              <ul class="esl-example-sub-menu">
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+              </ul>
+            </esl-popup>
+          </li>
+        </ul>
       </script>
       <script type="text/plain" uip-js-snippet label="Popup Menu">
         import { ESLPanel, ESLPopup, ESLTrigger } from '@exadel/esl';
