@@ -76,6 +76,10 @@ export class UIPEditor extends UIPPluginPanel {
     return CodeJar(this.$code, UIPEditor.highlight, {tab: '\t'});
   }
 
+  public get isJsReadonly(): boolean {
+    return !this.model?.activeSnippet?.isolated && this.source !== 'html';
+  }
+
   /** @returns editor's content */
   public get value(): string {
     return this.editor.toString();
@@ -83,7 +87,9 @@ export class UIPEditor extends UIPPluginPanel {
 
   /** Preformat and set editor's content */
   public set value(value: string) {
-    this.editor.updateCode(value);
+    if (this.isJsReadonly) {
+      this.$code.innerHTML = value.trim();
+    } else this.editor.updateCode(value);
   }
 
   protected override connectedCallback(): void {
@@ -98,7 +104,9 @@ export class UIPEditor extends UIPPluginPanel {
     // Initial update
     this._onRootStateChange();
     // Postpone subscription
-    Promise.resolve().then(() => this.editor?.onUpdate(this._onChange));
+    if (!this.isJsReadonly) {
+      Promise.resolve().then(() => this.editor?.onUpdate(this._onChange));
+    }
   }
 
   protected override disconnectedCallback(): void {
