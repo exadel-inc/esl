@@ -36,6 +36,11 @@ export abstract class UIPPluginPanel extends UIPPlugin {
     return null;
   }
 
+  /** Plugin header label */
+  protected get $label(): JSX.Element | null {
+    return <span class="uip-plugin-header-title">{this.label}</span>;
+  }
+
   /** Plugin header additional buttons section */
   protected get $toolbar(): HTMLElement | null {
     return null;
@@ -50,7 +55,7 @@ export abstract class UIPPluginPanel extends UIPPlugin {
     return (
       <div class={type.is + '-header uip-plugin-header' + (this.label ? '' : ' no-label') + (hasToolbar ? ' has-toolbar' : '')}>
         {this.$icon ? <span class="uip-plugin-header-icon" title={this.label}>{this.$icon}</span> : ''}
-        <span class="uip-plugin-header-title">{this.label}</span>
+        {this.$label}
         {this.collapsible ? <button type="button" class="uip-plugin-header-trigger" aria-label={a11yLabel} title={a11yLabel}/> : ''}
         {hasToolbar ? this.$toolbar : ''}
       </div>
