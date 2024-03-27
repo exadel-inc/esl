@@ -38,6 +38,11 @@ export class UIPEditor extends UIPPluginPanel {
     return <EditorIcon/>;
   }
 
+  protected override get $label(): JSX.Element {
+    return <span class={'uip-plugin-header-title' + `${this.isJsReadonly ? ' readonly' : ''}`}>
+      {this.label + `${this.isJsReadonly ? ' (readonly)' : ''}`}</span>;
+  }
+
   @memoize()
   protected override get $toolbar(): HTMLElement {
     const type = this.constructor as typeof UIPEditor;
@@ -88,7 +93,8 @@ export class UIPEditor extends UIPPluginPanel {
   /** Preformat and set editor's content */
   public set value(value: string) {
     if (this.isJsReadonly) {
-      this.$code.innerHTML = value.trim();
+      this.$code.textContent = value.trim();
+      UIPEditor.highlight(this.$code);
     } else this.editor.updateCode(value);
   }
 
