@@ -38,7 +38,7 @@ export abstract class UIPPluginPanel extends UIPPlugin {
 
   /** Plugin header label */
   protected get $label(): JSX.Element {
-    return <span className='uip-plugin-header-titl'>{this.label}</span>;
+    return <span className='uip-plugin-header-title'>{this.label}</span>;
   }
 
   /** Plugin header additional buttons section */
