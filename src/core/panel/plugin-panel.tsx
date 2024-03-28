@@ -37,8 +37,8 @@ export abstract class UIPPluginPanel extends UIPPlugin {
   }
 
   /** Plugin header label */
-  protected get $label(): JSX.Element | null {
-    return <span class="uip-plugin-header-title">{this.label}</span>;
+  protected get $label(): JSX.Element {
+    return <span className='uip-plugin-header-titl'>{this.label}</span>;
   }
 
   /** Plugin header additional buttons section */
@@ -53,10 +53,9 @@ export abstract class UIPPluginPanel extends UIPPlugin {
     const a11yLabel = this.collapsible ? 'Collapse/expand' + this.label : this.label;
     const hasToolbar = this.$toolbar?.children.length;
     return (
-      <div class={type.is + '-header uip-plugin-header' + (this.label ? '' : ' no-label') + (hasToolbar ? ' has-toolbar' : '')}>
-        {this.$icon ? <span class="uip-plugin-header-icon" title={this.label}>{this.$icon}</span> : ''}
-        {this.$label}
-        {this.collapsible ? <button type="button" class="uip-plugin-header-trigger" aria-label={a11yLabel} title={a11yLabel}/> : ''}
+      <div className={type.is + '-header uip-plugin-header' + (this.label ? '' : ' no-label') + (hasToolbar ? ' has-toolbar' : '')}>
+        {this.$icon ? <span className='uip-plugin-header-icon' title={this.label}>{this.$icon}</span> : ''}{this.$label}
+        {this.collapsible ? <button type='button' className='uip-plugin-header-trigger' aria-label={a11yLabel} title={a11yLabel}/> : ''}
         {hasToolbar ? this.$toolbar : ''}
       </div>
     ) as HTMLElement;
@@ -65,7 +64,7 @@ export abstract class UIPPluginPanel extends UIPPlugin {
   /** Creates resize area element */
   @memoize()
   protected get $resize(): HTMLElement {
-    return (<div class="uip-plugin-resize-bar" />) as HTMLElement;
+    return (<div className='uip-plugin-resize-bar' />) as HTMLElement;
   }
 
   /** @returns if the plugin should be rendered vertically */
