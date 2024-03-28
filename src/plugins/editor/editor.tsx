@@ -39,7 +39,7 @@ export class UIPEditor extends UIPPluginPanel {
   }
 
   protected override get $label(): JSX.Element {
-    return <span class={'uip-plugin-header-title' + `${this.isJsReadonly ? ' readonly' : ''}`}>
+    return <span className={'uip-plugin-header-title' + `${this.isJsReadonly ? ' readonly' : ''}`}>
       {this.label + `${this.isJsReadonly ? ' (readonly)' : ''}`}</span>;
   }
 
@@ -47,7 +47,7 @@ export class UIPEditor extends UIPPluginPanel {
   protected override get $toolbar(): HTMLElement {
     const type = this.constructor as typeof UIPEditor;
     return (
-      <div class={type.is + '-toolbar uip-plugin-header-toolbar'}>
+      <div className={type.is + '-toolbar uip-plugin-header-toolbar'}>
         {this.showCopy ? <uip-copy class={type.is + '-header-copy'} source={this.source}><CopyIcon/></uip-copy> : ''}
       </div>
     ) as HTMLElement;
@@ -60,7 +60,7 @@ export class UIPEditor extends UIPPluginPanel {
     return (
       <div className={`${type.is}-inner uip-plugin-inner uip-plugin-inner-bg`}>
         <esl-scrollbar class={type.is + '-scrollbar'} target="::next"/>
-        <div class={type.is + '-container esl-scrollable-content'}>
+        <div className={type.is + '-container esl-scrollable-content'}>
           {this.$code}
         </div>
       </div>
