@@ -39,8 +39,9 @@ export class UIPEditor extends UIPPluginPanel {
   }
 
   protected override get $label(): JSX.Element {
-    return <span className={'uip-plugin-header-title' + `${this.isJsReadonly ? ' readonly' : ''}`}>
-      {this.label + `${this.isJsReadonly ? ' (readonly)' : ''}`}</span>;
+    return <span className='uip-plugin-header-title'>
+      {this.label}{this.isJsReadonly && <span className='readonly-label'> (readonly)</span>}
+    </span>;
   }
 
   @memoize()
