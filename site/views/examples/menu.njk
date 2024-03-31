@@ -19,7 +19,7 @@ aside:
       <script type="text/html" uip-snippet uip-isolated label="Simple Menu">
         <ul class="esl-example-menu">
           <li class="menu-item">
-            <esl-trigger class="menu-item-btn menu-item-arrow" target="::next">Menu 1</esl-trigger>
+            <esl-trigger class="menu-item-btn" target="::next">Menu 1</esl-trigger>
             <esl-panel class="menu-container"
                        group="test-nav-group"
                        fallback-duration="400"
@@ -35,7 +35,7 @@ aside:
             </esl-panel>
           </li>
           <li class="menu-item">
-            <esl-trigger class="menu-item-btn menu-item-arrow" target="::next">Menu 2</esl-trigger>
+            <esl-trigger class="menu-item-btn" target="::next">Menu 2</esl-trigger>
             <esl-panel class="menu-container"
                        group="test-nav-group"
                        fallback-duration="400"
@@ -46,7 +46,7 @@ aside:
             </esl-panel>
           </li>
           <li class="menu-item">
-            <esl-trigger class="menu-item-btn menu-item-arrow" target="::next">Menu 3</esl-trigger>
+            <esl-trigger class="menu-item-btn" target="::next">Menu 3</esl-trigger>
             <esl-panel class="menu-container"
                        group="test-nav-group"
                        fallback-duration="400"
@@ -69,8 +69,8 @@ aside:
       <script type="text/html" uip-snippet label="Popup Menu">
         <ul class="esl-example-menu">
           <li class="menu-item">
-            <esl-trigger mode="toggle" class="menu-item-btn menu-item-arrow" target="::next">Menu 1</esl-trigger>
-            <esl-popup position="top">
+            <esl-trigger mode="toggle" class="menu-item-btn" target="::next">Menu 1</esl-trigger>
+            <esl-popup class="esl-popup-menu disable-arrow" offset-arrow="20">
               <ul class="esl-example-sub-menu">
                 <li>1</li>
                 <li>2</li>
@@ -82,16 +82,16 @@ aside:
             </esl-popup>
           </li>
           <li class="menu-item">
-            <esl-trigger mode="toggle" class="menu-item-btn menu-item-arrow" target="::next">Menu 2</esl-trigger>
-            <esl-popup position="top">
+            <esl-trigger mode="toggle" class="menu-item-btn" target="::next">Menu 2</esl-trigger>
+            <esl-popup class="esl-popup-menu disable-arrow" offset-arrow="13">
               <div class="esl-example-menu-400">
                 <!-- text 50 -->
               </div>
             </esl-popup>
           </li>
           <li class="menu-item">
-            <esl-trigger mode="toggle" class="menu-item-btn menu-item-arrow" target="::next">Menu 3</esl-trigger>
-            <esl-popup position="top">
+            <esl-trigger mode="toggle" class="menu-item-btn" target="::next">Menu 3</esl-trigger>
+            <esl-popup class="esl-popup-menu disable-arrow" offset-arrow="20">
               <ul class="esl-example-sub-menu">
                 <li>1</li>
                 <li>2</li>
@@ -112,12 +112,6 @@ aside:
       <uip-preview></uip-preview>
       <uip-settings target="esl-trigger" label="Settings" resizable vertical="@+sm">
         <uip-bool-setting target=".menu-item-btn" label="Hover" attribute="track-hover"></uip-bool-setting>
-        <uip-select-setting target="esl-popup" label="Position:" attribute="position" mode="append">
-          <option value="top">Top</option>
-          <option value="bottom">Bottom</option>
-          <option value="left">Left</option>
-          <option value="right">Right</option>
-        </uip-select-setting>
       </uip-settings>
       <uip-editor label="Source code" collapsible copy></uip-editor>
       <uip-editor source="js" copy collapsible label="JavaScript"></uip-editor>
