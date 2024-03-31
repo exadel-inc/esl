@@ -15,6 +15,7 @@ import {CopyIcon} from '../copy/copy-button.icon';
 
 import {EditorIcon} from './editor.icon';
 
+import type {UIPSnippetsList} from '../snippets-list/snippets-list';
 import type {UIPChangeEvent} from '../../core/base/model.change';
 
 /**
@@ -23,7 +24,7 @@ import type {UIPChangeEvent} from '../../core/base/model.change';
  */
 export class UIPEditor extends UIPPluginPanel {
   public static override is = 'uip-editor';
-  public static override observedAttributes = ['copy', ...UIPPluginPanel.observedAttributes];
+  public static override observedAttributes = ['readonly', 'copy', ...UIPPluginPanel.observedAttributes];
 
   /** Highlight method declaration  */
   public static highlight = (editor: HTMLElement): void => Prism.highlightElement(editor, false);
@@ -34,13 +35,16 @@ export class UIPEditor extends UIPPluginPanel {
   /** Marker to display copy widget */
   @boolAttr({name: 'copy'}) public showCopy: boolean;
 
+  /** Marker to show editor is in readonly mode */
+  @boolAttr() public readonly: boolean;
+
   protected override get $icon(): JSX.Element {
     return <EditorIcon/>;
   }
 
   protected override get $label(): JSX.Element {
     return <span className='uip-plugin-header-title'>
-      {this.label}{this.isJsReadonly && <span className='readonly-label'> (readonly)</span>}
+      {this.label} {this.readonly && <span className='readonly-label'>(readonly)</span>}
     </span>;
   }
 
@@ -82,10 +86,6 @@ export class UIPEditor extends UIPPluginPanel {
     return CodeJar(this.$code, UIPEditor.highlight, {tab: '\t'});
   }
 
-  public get isJsReadonly(): boolean {
-    return !this.model?.activeSnippet?.isolated && this.source !== 'html';
-  }
-
   /** @returns editor's content */
   public get value(): string {
     return this.editor.toString();
@@ -93,15 +93,18 @@ export class UIPEditor extends UIPPluginPanel {
 
   /** Preformat and set editor's content */
   public set value(value: string) {
-    if (this.isJsReadonly) {
+    if (this.readonly) {
       this.$code.textContent = value.trim();
       UIPEditor.highlight(this.$code);
-    } else this.editor.updateCode(value);
+    } else {
+      this.editor.updateCode(value);
+    }
   }
 
   protected override connectedCallback(): void {
     super.connectedCallback();
     this.innerHTML = '';
+    this.readonly = !this.model?.activeSnippet?.isolated && this.source !== 'html';
 
     // Prefill content
     this.appendChild(this.$header);
@@ -111,7 +114,7 @@ export class UIPEditor extends UIPPluginPanel {
     // Initial update
     this._onRootStateChange();
     // Postpone subscription
-    if (!this.isJsReadonly) {
+    if (!this.readonly) {
       Promise.resolve().then(() => this.editor?.onUpdate(this._onChange));
     }
   }
@@ -157,5 +160,12 @@ export class UIPEditor extends UIPPluginPanel {
         if (e && !e.htmlChanges.length) return;
         this.value = this.model!.html;
     }
+  }
+
+  /** Handles snippet change to set readonly value */
+  @listen({event: 'uip:snippet:change', target: ($this: UIPSnippetsList) => $this.$root})
+  protected _onSnippetChange(): void {
+    this.readonly = !this.model?.activeSnippet?.isolated;
+    Promise.resolve().then(() => this.editor?.onUpdate(this._onChange));
   }
 }
