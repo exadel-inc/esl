@@ -6,14 +6,21 @@ title: Example with image
     <uip-snippets dropdown-view="all"></uip-snippets>
     <uip-theme-toggle></uip-theme-toggle>
   </div>
-  <script type="text/html" uip-snippet uip-isolated label="Example with image">
+  <script type="text/html" uip-snippet-note="snippet-note1" uip-snippet uip-isolated label="Example with image">
     <img class="demo-img" alt="patrick" src="{{ '/assets/patrick.png' | url }}" height="500" width="500">
   </script>
-  <script type="text/html" uip-snippet label="Example with image link">
+  <script type="text/html" uip-snippet-note="snippet-note2" uip-snippet label="Example with image link">
     <a class="img-link" href="https://www.google.com/">
       <img class="demo-img" alt="patrick2" src="{{ '/assets/patrick.png' | url }}" height="500" width="500">
     </a>
   </script>
+  <script id="snippet-note1" type="text/html">
+    Snippet note 1
+  </script>
+  <script id="snippet-note2" type="text/html">
+    Snippet note 2
+  </script>
+  <uip-note></uip-note>
   <uip-preview></uip-preview>
   <uip-settings target=".demo-img" vertical collapsible>
     <uip-text-setting label="Source:" attribute="src"></uip-text-setting>

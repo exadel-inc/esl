@@ -17,6 +17,9 @@ export {UIPSetting, UIPSettings, UIPTextSetting, UIPBoolSetting, UIPSelectSettin
 import {UIPCopy} from './copy/copy-button';
 export {UIPCopy};
 
+import {UIPNote} from './note/note';
+export {UIPNote};
+
 import {UIPDirSwitcher} from './direction/dir-toggle';
 import {UIPThemeSwitcher} from './theme/theme-toggle';
 export {UIPDirSwitcher, UIPThemeSwitcher};
@@ -39,4 +42,5 @@ export const registerPlugins = (): void => {
   UIPSnippetsTitle.register();
 
   UIPEditor.register();
+  UIPNote.register();
 };
