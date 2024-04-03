@@ -9,22 +9,14 @@ export class UIPSnippetItem {
 
   /** @returns snippet's js element */
   @memoize()
-  public get $elementJS(): UIPSnippetTemplate | null {
-    const $root: Element = this.$element.closest('uip-root') || document.body;
-    const selectors = [];
-    if (this.jsSnippetId) selectors.push(`[id="${this.jsSnippetId}"]`);
-    if (this.label) selectors.push(`[id][label="${this.label}"]`);
-    return $root.querySelector(selectors.join(','))!;
+  public get $elementJS(): HTMLElement | null {
+    return this.jsSnippetId ? document.getElementById(this.jsSnippetId) : null;
   }
 
   /** @returns snippet's note element */
   @memoize()
-  public get $elementNote(): UIPSnippetTemplate | null {
-    const $root: Element = this.$element.closest('uip-root') || document.body;
-    const selectors = [];
-    if (this.noteSnippetId) selectors.push(`[id="${this.noteSnippetId}"]`);
-    if (this.label) selectors.push(`[id][label="${this.label}"]`);
-    return $root.querySelector(selectors.join(','))!;
+  public get $elementNote(): HTMLElement | null {
+    return this.noteSnippetId ? document.getElementById(this.noteSnippetId) : null;
   }
 
   /** @returns snippet's label */

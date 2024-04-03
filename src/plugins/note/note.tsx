@@ -29,7 +29,7 @@ export class UIPNote extends UIPPlugin {
   }
 
   protected writeContent(): void {
-    const content = `<span><b>${UIPNote.title}</b></span><span>${this.model!.note}</span>`;
+    const content = this.model!.note ? `<span><b>${UIPNote.title}</b></span><span>${this.model!.note}</span>` : '';
     this.$inner.innerHTML = content;
   }
 }

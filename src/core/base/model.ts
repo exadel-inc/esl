@@ -71,7 +71,7 @@ export class UIPStateModel extends SyntheticEventTarget {
    * @param text - new state
    */
   public setNote(text: string): void {
-    const note = UIPJSNormalizationPreprocessors.preprocess(text);
+    const note = UIPHTMLNormalizationPreprocessors.preprocess(text);
     this._note = note;
   }
 
