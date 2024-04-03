@@ -43,6 +43,12 @@
     width: 100%;
     height: 100%;
     border: none;
+
+    animation: uip-iframe-fade-in 0.4s ease-in;
+    &[hidden] {
+      display: none;
+      animation: ui-iframe-fade-out 0.4s ease-out;
+    }
   }
 
   &.centered-content &-inner {
@@ -77,5 +83,29 @@
       visibility: hidden;
       height: 0;
     }
+  }
+}
+
+@keyframes uip-iframe-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes uip-iframe-fade-out {
+  from {
+    display: block;
+    opacity: 1;
+  }
+  99% {
+    display: block;
+    opacity: 0;
+  }
+  to {
+    display: none;
+    opacity: 0;
   }
 }
