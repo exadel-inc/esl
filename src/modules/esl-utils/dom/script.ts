@@ -1,9 +1,17 @@
+export interface loadScriptOptions {
+  crossorigin?: boolean | 'anonymous' | 'use-credentials' | '';
+  integrity?: string;
+  referrerpolicy?: ReferrerPolicy;
+}
+
 /**
  * Creates new script element with specified attributes
  */
-const createScript = (attrs: Record<string, string | boolean>): HTMLScriptElement => {
+const createScript = (id: string, src: string, options: loadScriptOptions): HTMLScriptElement => {
   const script = document.createElement('script');
-  Object.entries(attrs).forEach(([name, value]) => value && script.setAttribute(name, value === true ? '' : value));
+  script.id = id;
+  script.src = src;
+  Object.entries(options).forEach(([name, value]) => value && script.setAttribute(name, value === true ? '' : value));
   return script;
 };
 
@@ -13,10 +21,10 @@ const createScript = (attrs: Record<string, string | boolean>): HTMLScriptElemen
  * @param src - script src (url) to load
  * @param options - additional attributes to set on the script tag
  */
-export function loadScript(id: string, src: string, options: Record<string, string | boolean> = {}): Promise<Event> {
+export function loadScript(id: string, src: string, options: loadScriptOptions = {}): Promise<Event> {
   return new Promise((resolve, reject) => {
     const script: HTMLScriptElement =
-      (document.getElementById(id) || createScript({async: true, ...options, src, id})) as HTMLScriptElement;
+      (document.getElementById(id) || createScript(id, src, options)) as HTMLScriptElement;
     const state = script.getAttribute('state');
 
     switch (state) {

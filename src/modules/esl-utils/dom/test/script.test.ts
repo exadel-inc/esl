@@ -33,26 +33,25 @@ describe('loadScript', () => {
       expect(script && script.getAttribute('crossorigin')).toBe('anonymous');
     });
     test('should create an attribute without value when passed a true boolean value', () => {
-      loadScript('test', 'http://example.com', {async: true});
+      loadScript('test', 'http://example.com', {crossorigin: true});
       const script = document.querySelector('head > script#test') as HTMLScriptElement;
-      expect(script && script.getAttribute('async')).toBe('');
+      expect(script && script.getAttribute('crossorigin')).toBe('');
     });
     test('should not create an attribute when passed a false boolean value', () => {
-      loadScript('test', 'http://example.com', {nomodule: false});
+      loadScript('test', 'http://example.com', {crossorigin: false});
       const script = document.querySelector('head > script#test') as HTMLScriptElement;
-      expect(script && script.getAttribute('nomodule')).toBe(null);
+      expect(script && script.getAttribute('crossorigin')).toBe(null);
     });
     test('should have all attributes specified by the list', () => {
-      loadScript('test', 'http://example.com', {async: true, crossorigin: 'anonymous', referrerpolicy: 'no-referrer'});
+      loadScript('test', 'http://example.com', {
+        crossorigin: true,
+        integrity: 'sha384-abcde...',
+        referrerpolicy: 'no-referrer'
+      });
       const script = document.querySelector('head > script#test') as HTMLScriptElement;
-      expect(script && script.hasAttribute('async')).toBe(true);
       expect(script && script.hasAttribute('crossorigin')).toBe(true);
+      expect(script && script.hasAttribute('integrity')).toBe(true);
       expect(script && script.hasAttribute('referrerpolicy')).toBe(true);
-    });
-    test('should be able to redeclare an implicitly defined attribute async', () => {
-      loadScript('test', 'http://example.com', {async: false});
-      const script = document.querySelector('head > script#test') as HTMLScriptElement;
-      expect(script && script.getAttribute('async')).toBe(null);
     });
   });
 
