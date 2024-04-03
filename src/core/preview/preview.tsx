@@ -72,8 +72,8 @@ export class UIPPreview extends UIPPlugin {
     const isolated = this.model!.activeSnippet?.isolated || false;
 
     if (!isolated) return this.writeContent();
-    if (!e || this.forceUpdate || e.force) return this.writeContentIsolated();
-    this.updateContentIsolated();
+    if (!e || this.forceUpdate || e.force) return this.writeIsolatedContent();
+    this.updateIsolatedContent();
   }
 
   /** Writes the content directly to the inner area (non-isolated frame) */
@@ -82,7 +82,7 @@ export class UIPPreview extends UIPPlugin {
     this.stopIframeResizeLoop();
   }
 
-  protected updateContentIsolated(): void {
+  protected updateIsolatedContent(): void {
     if (!this.$iframe.contentWindow) return;
     const $document = this.$iframe.contentWindow?.document;
     const $root = $document?.querySelector('[uip-content-root]') || $document?.body;
@@ -91,7 +91,7 @@ export class UIPPreview extends UIPPlugin {
   }
 
   /** Writes the content to the iframe inner (isolated frame) */
-  protected writeContentIsolated(): void {
+  protected writeIsolatedContent(): void {
     if (this.$iframe.parentElement !== this.$inner) {
       this.$inner.innerHTML = '';
       this.$inner.appendChild(this.$iframe);
