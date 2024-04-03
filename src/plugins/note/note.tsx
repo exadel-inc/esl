@@ -4,8 +4,8 @@ import {listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 import {UIPPlugin} from '../../core/base/plugin';
 
 export class UIPNote extends UIPPlugin {
-  static is = 'uip-note';
-  static title = 'Note! ';
+  public static override is = 'uip-note';
+  public static title = 'Note! ';
 
   @memoize()
   protected get $inner(): HTMLElement {
