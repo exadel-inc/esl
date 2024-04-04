@@ -3,11 +3,11 @@ layout: content
 name: ESL v4.15.0
 title: ESL v4.15.0
 tags: [news]
-date: 2024-03-11
+date: 2024-04-05
 link: https://github.com/exadel-inc/esl/releases/tag/v4.15.0
 ---
 
-ESL v5.0.0 is in progress and currently under beta channel.
+ESL v5.0.0 is still in progress and currently under beta channel.
 But we decided to release a couple of minor versions of ESL v4 to allow you to be more up to date with the upcoming 5th version.
 
 ---
