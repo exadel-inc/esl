@@ -5,7 +5,7 @@ title: Example with dummy text (pre-processors)
 <uip-root role="presentation">
   <uip-snippets class="uip-toolbar"></uip-snippets>
 
-  <script type="text/html" uip-snippet label="Example with dummy text 1">
+  <script type="text/html" uip-snippet-js="snippet-js-1" uip-snippet label="Example with dummy text 1">
     <h2><!-- text --></h2>
     <div class="text">
       <!-- paragraph x2 -->
@@ -14,14 +14,14 @@ title: Example with dummy text (pre-processors)
       <!-- text x5 -->
     </button>
   </script>
-  <script type="text/plain" uip-js-snippet label="Example with dummy text 1">
+  <script type="text/plain" id="snippet-js-1">
     document.querySelector('form').onsubmit = (e) => {
       e.preventDefault();
       const json = JSON.stringify(Object.fromEntries(new FormData(e.target)));
       alert(`Form submitted with ${json}!`);
     };
   </script>
-  <script type="text/html" uip-snippet uip-isolated label="Example with dummy text 2">
+  <script type="text/html" uip-snippet-js="snippet-js-2" uip-snippet uip-isolated label="Example with dummy text 2">
     <h2><!-- text --></h2>
     <div class="text">
       <!-- paragraph x2 -->
@@ -30,7 +30,7 @@ title: Example with dummy text (pre-processors)
       <!-- text x5 -->
     </button>
   </script>
-  <script type="text/plain" uip-js-snippet label="Example with dummy text 2">
+  <script type="text/plain" id="snippet-js-2">
     document.querySelector('form').onsubmit = (e) => {
       e.preventDefault();
       const json = JSON.stringify(Object.fromEntries(new FormData(e.target)));
