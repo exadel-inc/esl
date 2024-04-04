@@ -6,55 +6,61 @@ name: Notification
 tags: [examples, playground]
 icon: examples/notification.svg
 aside:
-components:
-- esl-alert
+  components:
+    - esl-alert
 ---
-{% import 'lorem.njk' as lorem %}
 
 <section class="row">
   <div class="col-12">
-    <h2>Triggers</h2>
-    <!-- Show Long Alert -->
     <uip-root>
-      <script type="text/html" uip-snippet label="Show Long">
-        <button type="button" class="btn btn-sec-orange esl-alert-show" onclick="ESL.EventUtils.dispatch(document.body, 'esl:alert:show', {
-          detail: {
-            text: 'Global Alert Long',
-            cls: 'alert alert-warning',
-          }})">Show Long
+      <script type="text/html"
+              label="Show Long"
+              uip-snippet
+              uip-snippet-js="js-snippet-alert-registration">
+        <button type="button" class="btn btn-sec-orange esl-alert-show"
+                onclick="ESL.EventUtils.dispatch(document.body, 'esl:alert:show', {
+                  detail: {
+                    text: 'Global Alert Long',
+                    cls: 'alert alert-warning',
+                  }
+                })">
+          Show Long
         </button>
-      </script>
-
-      <script type="text/plain" uip-js-snippet label="Show Long">
-        import {ESLEventUtils, ESLAlert} from '@exadel/esl';
-        ESLAlert.register();
-        ESLAlert.init();
-
-
       </script>
 
       <!-- Show Quick and Hide Alert -->
-      <script type="text/html" uip-snippet label="Show Short">
-        <button type="button" class="btn btn-sec-orange esl-alert-show" onclick="ESL.EventUtils.dispatch(document.body, 'esl:alert:show', {
-          detail: {
-              html: 'Inner <h2>Alert</h2> Short',
-              cls: 'alert alert-info',
-              delay: '1500'
-            }})">Show Shot
+      <script type="text/html"
+              label="Show Short"
+              uip-snippet
+              uip-snippet-js="js-snippet-alert-registration">
+        <button type="button" class="btn btn-sec-orange esl-alert-show"
+                onclick="ESL.EventUtils.dispatch(document.body, 'esl:alert:show', {
+                  detail: {
+                    html: 'Inner <h2>Alert</h2> Short',
+                    cls: 'alert alert-info',
+                    hideDelay: 1500
+                  }
+                })">
+          Show Shot
         </button>
         <button type="button" class="btn btn-sec-blue esl-alert-hide"
-                onclick="ESL.EventUtils.dispatch(document.body, 'esl:alert:hide')">Hide
+                onclick="ESL.EventUtils.dispatch(document.body, 'esl:alert:hide')">
+          Hide
         </button>
       </script>
-      <script type="text/plain" uip-js-snippet label="Show Short">
+
+      <script id="js-snippet-alert-registration" type="text/plain">
         import {ESLEventUtils, ESLAlert} from '@exadel/esl';
         ESLAlert.register();
         ESLAlert.init();
-
       </script>
 
       <!-- Triggers Encapsulated -->
-      <script type="text/html" uip-snippet uip-isolated label="Triggers Encapsulated">
+      <script type="text/html"
+              label="Triggers Encapsulated"
+              uip-snippet
+              uip-snippet-js="js-snippet-alert-registration-n-handler"
+              uip-isolated>
         <div class="border p-3" style="min-height: 310px">
           <button type="button" id="showAlertButton" class="btn btn-sec-orange esl-alert-show">
             Show Long
@@ -62,7 +68,8 @@ components:
           <esl-alert default-params="{cls: 'alert alert-info'}"></esl-alert>
         </div>
       </script>
-      <script type="text/plain" uip-js-snippet label="Triggers Encapsulated">
+
+      <script id="js-snippet-alert-registration-n-handler" type="text/plain">
         import {ESLEventUtils, ESLAlert} from '@exadel/esl';
         ESLAlert.register();
         ESLAlert.init();
@@ -70,7 +77,6 @@ components:
         const showAlertButton = document.getElementById('showAlertButton');
         showAlertButton.addEventListener('click', () => {
           ESLEventUtils.dispatch(document.body, 'esl:alert:show', {
-            bubbles: true,
             detail: {
               cls: 'alert alert-info',
               html: 'Inner <h2>Alert</h2> Long'
@@ -82,7 +88,7 @@ components:
       <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
       <uip-preview resizable></uip-preview>
       <uip-editor label="Source code (HTML)" collapsible copy></uip-editor>
-      <uip-editor source="js" copy collapsible label="JavaScript"></uip-editor>
+      <uip-editor source="js" label="JavaScript" collapsible copy></uip-editor>
     </uip-root>
   </div>
 </section>

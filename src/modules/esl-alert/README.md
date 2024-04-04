@@ -34,6 +34,9 @@ Use CustomEvent `details` to customize alert. Alert `details` accepts the follow
 - `cls` - to pass class or classes(separated by space) to add to alert inner.
 - `text` - to specify alert text content
 - `html` - to alternatively specify alert HTML content
+- `hideDelay` - to specify the time in milliseconds after which the alert will be hidden automatically.
+- `hideTime` - to specify internal hide timeout in milliseconds to clear inner content. 
+  Starts when alert become visually hidden (e.g. after `hideDelay` passed).
 
 If one of `esl-alert`s catches the activation event it will prevent its propagation to parent elements.
 
