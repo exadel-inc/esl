@@ -2,7 +2,12 @@ import {SyntheticEventTarget} from '@exadel/esl/modules/esl-utils/dom';
 import {decorate} from '@exadel/esl/modules/esl-utils/decorators';
 import {microtask} from '@exadel/esl/modules/esl-utils/async';
 
-import {UIPJSNormalizationPreprocessors, UIPHTMLNormalizationPreprocessors} from '../processors/normalization';
+import {
+  UIPJSNormalizationPreprocessors,
+  UIPHTMLNormalizationPreprocessors,
+  UIPNoteNormalizationPreprocessors
+} from '../processors/normalization';
+
 import {UIPSnippetItem} from './snippet';
 
 import type {UIPRoot} from './root';
@@ -70,9 +75,12 @@ export class UIPStateModel extends SyntheticEventTarget {
    * Sets current note state to the passed one
    * @param text - new state
    */
-  public setNote(text: string): void {
-    const note = UIPHTMLNormalizationPreprocessors.preprocess(text);
+  public setNote(text: string, modifier: UIPPlugin | UIPRoot): void {
+    const note = UIPNoteNormalizationPreprocessors.preprocess(text);
+    if (this._note === note) return;
     this._note = note;
+    this._changes.push({modifier, type: 'note'});
+    this.dispatchChange();
   }
 
   /**
@@ -139,7 +147,7 @@ export class UIPStateModel extends SyntheticEventTarget {
     this._snippets.forEach((s) => (s.active = s === snippet));
     this.setHtml(snippet.html, modifier, true);
     this.setJS(snippet.js, modifier);
-    this.setNote(snippet.note);
+    this.setNote(snippet.note, modifier);
     this.dispatchEvent(
       new CustomEvent('uip:model:snippet:change', {detail: this})
     );
@@ -180,11 +188,10 @@ export class UIPStateModel extends SyntheticEventTarget {
   @decorate(microtask)
   protected dispatchChange(): void {
     if (!this._changes.length) return;
-    const changes = this._changes;
+    const detail = this._changes;
     this._changes = [];
-
     this.dispatchEvent(
-      new CustomEvent('uip:model:change', {bubbles: true, detail: changes})
+      new CustomEvent('uip:model:change', {detail})
     );
   }
 

@@ -6,7 +6,7 @@ import type {UIPStateModel} from './model';
 
 export type UIPChangeInfo = {
   modifier: UIPPlugin | UIPRoot;
-  type: 'html' | 'js';
+  type: 'html' | 'js' | 'note';
   force?: boolean;
 };
 

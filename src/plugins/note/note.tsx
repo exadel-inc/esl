@@ -5,20 +5,27 @@ import {UIPPlugin} from '../../core/base/plugin';
 
 export class UIPNote extends UIPPlugin {
   public static override is = 'uip-note';
-  public static title = 'Note! ';
+  public static title = 'Note: ';
 
   @memoize()
   protected get $inner(): HTMLElement {
     return (<div class={UIPNote.is + '-inner uip-plugin-inner uip-plugin-inner-bg'}></div>) as HTMLElement;
   }
 
+  @memoize()
+  protected get $title(): HTMLElement {
+    return (<div class={UIPNote.is + '-title'}>{UIPNote.title}</div>) as HTMLElement;
+  }
+
   protected override connectedCallback(): void {
     super.connectedCallback();
+    this.appendChild(this.$title);
     this.appendChild(this.$inner);
   }
 
   protected override disconnectedCallback(): void {
     this.removeChild(this.$inner);
+    this.removeChild(this.$title);
     super.disconnectedCallback();
   }
 
@@ -29,7 +36,7 @@ export class UIPNote extends UIPPlugin {
   }
 
   protected writeContent(): void {
-    const content = this.model!.note ? `<span><b>${UIPNote.title}</b></span><span>${this.model!.note}</span>` : '';
-    this.$inner.innerHTML = content;
+    this.$title.textContent = UIPNote.title;
+    this.$inner.innerHTML = this.model!.note || '';
   }
 }

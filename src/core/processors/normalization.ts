@@ -10,6 +10,11 @@ export const UIPJSNormalizationPreprocessors = new UIPPreprocessorService();
  * Normalization transformation are used to normalize content before displaying or processing.
  */
 export const UIPHTMLNormalizationPreprocessors = new UIPPreprocessorService();
+/**
+ * Normalization processors store for Notes content (could be HTML).
+ * Normalization transformation are used to normalize content before displaying or processing.
+ */
+export const UIPNoteNormalizationPreprocessors = new UIPPreprocessorService();
 
 
 /** Removes extra indents to beautify content alignment */
@@ -27,10 +32,12 @@ export function removeIndent(input: string): string {
 }
 UIPJSNormalizationPreprocessors.add('remove-leading-indent', removeIndent);
 UIPHTMLNormalizationPreprocessors.add('remove-leading-indent', removeIndent);
+UIPNoteNormalizationPreprocessors.add('remove-leading-indent', removeIndent);
 
 /** Trim content */
 UIPJSNormalizationPreprocessors.add('trim', (content: string) => content.trim());
 UIPHTMLNormalizationPreprocessors.add('trim', (content: string) => content.trim());
+UIPNoteNormalizationPreprocessors.add('trim', (content: string) => content.trim());
 
 /** Removes extra spaces inside the content. Applicable for HTML only */
-UIPHTMLNormalizationPreprocessors.addRegexReplacer('remove-trailing', /\s*?$/gm, '');
+UIPHTMLNormalizationPreprocessors.addRegexReplacer('remove-trailing', /\s*?$/gm, ''); // TODO: possibly problem here
