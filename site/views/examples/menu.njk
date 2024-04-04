@@ -16,7 +16,11 @@ aside:
 <section class="row">
   <div class="col-12">
     <uip-root>
-      <script type="text/html" uip-snippet uip-isolated label="Simple Menu">
+      <script type="text/html"
+              label="Simple Menu"
+              uip-snippet
+              uip-snippet-js="js-snippet-simple-menu"
+              uip-isolated>
         <ul class="esl-example-menu">
           <li class="menu-item">
             <esl-trigger class="menu-item-btn" target="::next">Menu 1</esl-trigger>
@@ -61,12 +65,16 @@ aside:
           </li>
         </ul>
       </script>
-      <script type="text/plain" uip-js-snippet label="Simple Menu">
+      <script id="js-snippet-simple-menu" type="text/plain">
         import { ESLPanel, ESLTrigger } from '@exadel/esl';
         ESLPanel.register();
         ESLTrigger.register();
       </script>
-      <script type="text/html" uip-snippet label="Popup Menu">
+
+      <script type="text/html"
+              label="Popup Menu"
+              uip-snippet
+              uip-snippet-js="js-snippet-popup-menu">
         <ul class="esl-example-menu">
           <li class="menu-item">
             <esl-trigger mode="toggle" class="menu-item-btn" target="::next">Menu 1</esl-trigger>
@@ -102,18 +110,19 @@ aside:
           </li>
         </ul>
       </script>
-      <script type="text/plain" uip-js-snippet label="Popup Menu">
+      <script id="js-snippet-popup-menu" type="text/plain">
         import { ESLPopup, ESLTrigger } from '@exadel/esl';
         ESLPopup.register();
         ESLTrigger.register();
       </script>
+
       <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
       <uip-preview></uip-preview>
       <uip-settings target="esl-trigger" label="Settings" resizable vertical="@+sm">
         <uip-bool-setting target=".menu-item-btn" label="Hover" attribute="track-hover"></uip-bool-setting>
       </uip-settings>
       <uip-editor label="Source code" collapsible copy></uip-editor>
-      <uip-editor source="js" copy collapsible label="JavaScript"></uip-editor>
+      <uip-editor label="JavaScript" source="js" copy collapsible></uip-editor>
     </uip-root>
   </div>
 </section>
