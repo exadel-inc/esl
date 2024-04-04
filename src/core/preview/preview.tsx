@@ -3,7 +3,12 @@ import React from 'jsx-dom';
 import {attr, listen, memoize, prop} from '@exadel/esl/modules/esl-utils/decorators';
 import {ESLIntersectionTarget} from '@exadel/esl/modules/esl-event-listener/core';
 import {parseBoolean, toBooleanAttribute} from '@exadel/esl/modules/esl-utils/misc';
-import {afterNextRender, skipOneRender} from '@exadel/esl/modules/esl-utils/async';
+import {
+  afterNextRender,
+  promisifyEvent,
+  promisifyNextRender,
+  promisifyTimeout,
+} from '@exadel/esl/modules/esl-utils/async';
 
 import {UIPPlugin} from '../base/plugin';
 import {UIPRenderingTemplatesService} from '../processors/templates';
@@ -25,6 +30,9 @@ export class UIPPreview extends UIPPlugin {
 
   /** Marker to force iframe rerendering */
   @attr({parser: parseBoolean, serializer: toBooleanAttribute}) public forceUpdate: boolean;
+
+  /** Delay to show new content after isolated full refresh */
+  @attr({defaultValue: 150, parser: parseInt}) public refreshDelay: number;
 
   protected _iframeResizeRAF: number = 0;
 
@@ -68,30 +76,34 @@ export class UIPPreview extends UIPPlugin {
     if (attrName === 'dir') this.updateDir();
   }
 
-  protected update(e?: UIPChangeEvent): void {
+  protected async update(e?: UIPChangeEvent): Promise<void> {
     const isolated = this.model!.activeSnippet?.isolated || false;
 
     if (!isolated) return this.writeContent();
     if (!e || this.forceUpdate || e.force) return this.writeIsolatedContent();
-    this.updateIsolatedContent();
+    return this.updateIsolatedContent();
   }
 
   /** Writes the content directly to the inner area (non-isolated frame) */
-  protected writeContent(): void {
+  protected async writeContent(): Promise<void> {
     this.$inner.innerHTML = UIPHTMLRenderingPreprocessors.preprocess(this.model!.html);
     this.stopIframeResizeLoop();
+    return promisifyNextRender();
   }
 
-  protected updateIsolatedContent(): void {
+  protected async updateIsolatedContent(): Promise<void> {
     if (!this.$iframe.contentWindow) return;
     const $document = this.$iframe.contentWindow?.document;
     const $root = $document?.querySelector('[uip-content-root]') || $document?.body;
 
-    if ($root) $root.innerHTML = UIPHTMLRenderingPreprocessors.preprocess(this.model!.html);
+    if ($root) {
+      $root.innerHTML = UIPHTMLRenderingPreprocessors.preprocess(this.model!.html);
+      return promisifyNextRender();
+    }
   }
 
   /** Writes the content to the iframe inner (isolated frame) */
-  protected writeIsolatedContent(): void {
+  protected async writeIsolatedContent(): Promise<void> {
     if (this.$iframe.parentElement !== this.$inner) {
       this.$inner.innerHTML = '';
       this.$inner.appendChild(this.$iframe);
@@ -100,6 +112,9 @@ export class UIPPreview extends UIPPlugin {
     this.$iframe.src = 'about:blank';
     this.$iframe.hidden = true;
     this.startIframeResizeLoop();
+
+    await promisifyEvent(this.$iframe, 'load');
+    await promisifyTimeout(this.refreshDelay);
   }
 
   /** Start and do a resize sync-loop iteration. Recall itself on the next frame. */
@@ -150,19 +165,21 @@ export class UIPPreview extends UIPPlugin {
     this.$iframe.contentWindow?.document.close();
     this.$iframe.contentWindow?.document.write(html);
     this.$iframe.contentWindow?.document.close();
+    this.$iframe.hidden = false;
     this.$iframe.title = title;
-
-    setTimeout(() => this.$iframe.hidden = false, 100);
   }
 
   /** Updates preview content from the model state changes */
   @listen({event: 'uip:change', target: ($this: UIPPreview) => $this.$root})
-  protected _onRootStateChange(e?: UIPChangeEvent): void {
+  protected async _onRootStateChange(e?: UIPChangeEvent): Promise<void> {
     this.$container.style.minHeight = `${this.$inner.offsetHeight}px`;
-    this.update(e);
+    this.$$attr('loading', true);
 
-    afterNextRender(() => this.$container.style.minHeight = '0px');
-    skipOneRender(() => {
+    await this.update(e);
+
+    this.$container.style.minHeight = '0px';
+    this.$$attr('loading', false);
+    afterNextRender(() => {
       if (this.$container.clientHeight !== this.$inner.offsetHeight) return;
       this.$container.style.removeProperty('min-height');
     });
