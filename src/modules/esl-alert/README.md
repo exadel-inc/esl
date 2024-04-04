@@ -31,12 +31,12 @@ ESL Alert listens to the following events:
 
 Use CustomEvent `details` to customize alert. Alert `details` accepts the following properties:
 
-- `cls` - to pass class or classes(separated by space) to add to alert inner.
+- `cls` - to pass class or classes(separated by space) to add to alert inner
 - `text` - to specify alert text content
 - `html` - to alternatively specify alert HTML content
-- `hideDelay` - to specify the time in milliseconds after which the alert will be hidden automatically.
+- `hideDelay` - to specify the time in milliseconds after which the alert will be hidden automatically
 - `hideTime` - to specify internal hide timeout in milliseconds to clear inner content. 
-  Starts when alert becomes visually hidden (e.g. after `hideDelay` passed).
+  Starts when alert becomes visually hidden (e.g. after `hideDelay` passed)
 
 If one of `esl-alert`s catches the activation event it will prevent its propagation to parent elements.
 
