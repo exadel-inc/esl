@@ -38,6 +38,3 @@ UIPNoteNormalizationPreprocessors.add('remove-leading-indent', removeIndent);
 UIPJSNormalizationPreprocessors.add('trim', (content: string) => content.trim());
 UIPHTMLNormalizationPreprocessors.add('trim', (content: string) => content.trim());
 UIPNoteNormalizationPreprocessors.add('trim', (content: string) => content.trim());
-
-/** Removes extra spaces inside the content. Applicable for HTML only */
-UIPHTMLNormalizationPreprocessors.addRegexReplacer('remove-trailing', /\s*?$/gm, ''); // TODO: possibly problem here
