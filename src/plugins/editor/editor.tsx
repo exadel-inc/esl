@@ -15,6 +15,7 @@ import {CopyIcon} from '../copy/copy-button.icon';
 
 import {EditorIcon} from './editor.icon';
 
+import type {UIPSnippetsList} from '../snippets-list/snippets-list';
 import type {UIPChangeEvent} from '../../core/base/model.change';
 
 /**
@@ -42,7 +43,7 @@ export class UIPEditor extends UIPPluginPanel {
   protected override get $toolbar(): HTMLElement {
     const type = this.constructor as typeof UIPEditor;
     return (
-      <div class={type.is + '-toolbar uip-plugin-header-toolbar'}>
+      <div className={type.is + '-toolbar uip-plugin-header-toolbar'}>
         {this.showCopy ? <uip-copy class={type.is + '-header-copy'} source={this.source}><CopyIcon/></uip-copy> : ''}
       </div>
     ) as HTMLElement;
@@ -55,7 +56,7 @@ export class UIPEditor extends UIPPluginPanel {
     return (
       <div className={`${type.is}-inner uip-plugin-inner uip-plugin-inner-bg`}>
         <esl-scrollbar class={type.is + '-scrollbar'} target="::next"/>
-        <div class={type.is + '-container esl-scrollable-content'}>
+        <div className={type.is + '-container esl-scrollable-content'}>
           {this.$code}
         </div>
       </div>
@@ -74,6 +75,21 @@ export class UIPEditor extends UIPPluginPanel {
   @memoize()
   protected get editor(): CodeJar {
     return CodeJar(this.$code, UIPEditor.highlight, {tab: '\t'});
+  }
+
+  /** @returns if editing is allowed */
+  public get editable(): boolean {
+    return !this.$$cls('readonly');
+  }
+  /** Changes editor readonly mode */
+  public set editable(value: boolean) {
+    this.$$cls('readonly', !value);
+    this.$code.setAttribute('contenteditable', value ? 'plaintext-only' : 'false');
+  }
+
+  /** @returns if the editor is in js readonly mode */
+  public get isSnippetEditable(): boolean {
+    return this.source !== 'js' || !this.model?.activeSnippet?.isJsReadonly;
   }
 
   /** @returns editor's content */
@@ -97,6 +113,7 @@ export class UIPEditor extends UIPPluginPanel {
 
     // Initial update
     this._onRootStateChange();
+    this._onSnippetChange();
     // Postpone subscription
     Promise.resolve().then(() => this.editor?.onUpdate(this._onChange));
   }
@@ -118,6 +135,7 @@ export class UIPEditor extends UIPPluginPanel {
   /** Callback to call on an editor's content changes */
   @decorate(debounce, 2000)
   protected _onChange(): void {
+    if (!this.editable) return;
     switch (this.source) {
       case 'js':
       case 'javascript':
@@ -142,5 +160,11 @@ export class UIPEditor extends UIPPluginPanel {
         if (e && !e.htmlChanges.length) return;
         this.value = this.model!.html;
     }
+  }
+
+  /** Handles snippet change to set readonly value */
+  @listen({event: 'uip:snippet:change', target: ($this: UIPSnippetsList) => $this.$root})
+  protected _onSnippetChange(): void {
+    this.editable = this.isSnippetEditable;
   }
 }
