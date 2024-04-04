@@ -24,7 +24,7 @@ import type {UIPChangeEvent} from '../../core/base/model.change';
  */
 export class UIPEditor extends UIPPluginPanel {
   public static override is = 'uip-editor';
-  public static override observedAttributes = ['readonly', 'copy', ...UIPPluginPanel.observedAttributes];
+  public static override observedAttributes = ['copy', ...UIPPluginPanel.observedAttributes];
 
   /** Highlight method declaration  */
   public static highlight = (editor: HTMLElement): void => Prism.highlightElement(editor, false);
@@ -37,13 +37,6 @@ export class UIPEditor extends UIPPluginPanel {
 
   protected override get $icon(): JSX.Element {
     return <EditorIcon/>;
-  }
-
-  @memoize()
-  protected override get $label(): JSX.Element {
-    return <span className='uip-plugin-header-title'>
-      {this.label} {this.isJsReadonlyMode && <span className="readonly-label">(readonly)</span>}
-    </span>;
   }
 
   @memoize()
@@ -84,9 +77,19 @@ export class UIPEditor extends UIPPluginPanel {
     return CodeJar(this.$code, UIPEditor.highlight, {tab: '\t'});
   }
 
+  /** @returns if editing is allowed */
+  public get editable(): boolean {
+    return !this.$$cls('readonly');
+  }
+  /** Changes editor readonly mode */
+  public set editable(value: boolean) {
+    this.$$cls('readonly', !value);
+    this.$code.setAttribute('contenteditable', value ? 'plaintext-only' : 'false');
+  }
+
   /** @returns if the editor is in js readonly mode */
-  public get isJsReadonlyMode(): boolean | undefined {
-    return this.source !== 'html' && this.model?.activeSnippet?.isJsReadonly;
+  public get isSnippetEditable(): boolean {
+    return this.source !== 'js' || !this.model?.activeSnippet?.isJsReadonly;
   }
 
   /** @returns editor's content */
@@ -96,12 +99,7 @@ export class UIPEditor extends UIPPluginPanel {
 
   /** Preformat and set editor's content */
   public set value(value: string) {
-    if (this.isJsReadonlyMode) {
-      this.$code.textContent = value.trim();
-      UIPEditor.highlight(this.$code);
-    } else {
-      this.editor.updateCode(value);
-    }
+    this.editor.updateCode(value);
   }
 
   protected override connectedCallback(): void {
@@ -115,10 +113,9 @@ export class UIPEditor extends UIPPluginPanel {
 
     // Initial update
     this._onRootStateChange();
+    this._onSnippetChange();
     // Postpone subscription
-    if (!this.isJsReadonlyMode) {
-      Promise.resolve().then(() => this.editor?.onUpdate(this._onChange));
-    }
+    Promise.resolve().then(() => this.editor?.onUpdate(this._onChange));
   }
 
   protected override disconnectedCallback(): void {
@@ -138,6 +135,7 @@ export class UIPEditor extends UIPPluginPanel {
   /** Callback to call on an editor's content changes */
   @decorate(debounce, 2000)
   protected _onChange(): void {
+    if (!this.editable) return;
     switch (this.source) {
       case 'js':
       case 'javascript':
@@ -167,9 +165,6 @@ export class UIPEditor extends UIPPluginPanel {
   /** Handles snippet change to set readonly value */
   @listen({event: 'uip:snippet:change', target: ($this: UIPSnippetsList) => $this.$root})
   protected _onSnippetChange(): void {
-    if (!this.isJsReadonlyMode) {
-      this.$label.querySelector('.readonly-label')?.remove();
-      Promise.resolve().then(() => this.editor?.onUpdate(this._onChange));
-    }
+    this.editable = this.isSnippetEditable;
   }
 }

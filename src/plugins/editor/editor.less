@@ -42,4 +42,13 @@
   &:not(.vertical):last-child {
     margin-bottom: 0;
   }
+
+  &.readonly &-title {
+    &::after {
+      content: ' (readonly)';
+    }
+    &[data-label-readonly]::after {
+      content: ' (' attr(data-label-readonly) ')';
+    }
+  }
 }
