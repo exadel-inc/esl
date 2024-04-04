@@ -45,6 +45,8 @@ export class UIPStateModel extends SyntheticEventTarget {
 
   /** Current js state */
   private _js: string = '';
+  /** Current note state */
+  private _note: string = '';
   /** Current markup state */
   private _html = new DOMParser().parseFromString('', 'text/html').body;
 
@@ -62,6 +64,15 @@ export class UIPStateModel extends SyntheticEventTarget {
     this._js = script;
     this._changes.push({modifier, type: 'js', force: true});
     this.dispatchChange();
+  }
+
+  /**
+   * Sets current note state to the passed one
+   * @param text - new state
+   */
+  public setNote(text: string): void {
+    const note = UIPHTMLNormalizationPreprocessors.preprocess(text);
+    this._note = note;
   }
 
   /**
@@ -88,6 +99,11 @@ export class UIPStateModel extends SyntheticEventTarget {
   /** Current markup state getter */
   public get html(): string {
     return this._html ? this._html.innerHTML : '';
+  }
+
+  /** Current note state getter */
+  public get note(): string {
+    return this._note;
   }
 
   /** Snippets template-holders getter */
@@ -123,6 +139,7 @@ export class UIPStateModel extends SyntheticEventTarget {
     this._snippets.forEach((s) => (s.active = s === snippet));
     this.setHtml(snippet.html, modifier, true);
     this.setJS(snippet.js, modifier);
+    this.setNote(snippet.note);
     this.dispatchEvent(
       new CustomEvent('uip:model:snippet:change', {detail: this})
     );
