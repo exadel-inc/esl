@@ -10,7 +10,7 @@ import type {ChangeAttrConfig, UIPStateModel} from '../../../core/base/model';
  * Custom setting to add/remove attributes or append values to attribute
  */
 export class UIPBoolSetting extends UIPSetting {
-  public static is = 'uip-bool-setting';
+  public static override is = 'uip-bool-setting';
 
   /** Setting's visible name */
   @attr({defaultValue: ''}) public label: string;

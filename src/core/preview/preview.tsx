@@ -17,8 +17,8 @@ import type {ESLIntersectionEvent} from '@exadel/esl/modules/esl-event-listener/
  * Mandatory for UI Playground rendering. Displays active playground content
  */
 export class UIPPreview extends UIPPlugin {
-  static is = 'uip-preview';
-  static observedAttributes: string[] = ['dir', 'resizable'];
+  public static override is = 'uip-preview';
+  public static override observedAttributes: string[] = ['dir', 'resizable'];
 
   /** Sync height with inner iframe content height */
   @prop(true) public resizeLoop: boolean;
@@ -150,6 +150,7 @@ export class UIPPreview extends UIPPlugin {
     this.$iframe.contentWindow?.document.close();
     this.$iframe.contentWindow?.document.write(html);
     this.$iframe.contentWindow?.document.close();
+    this.$iframe.title = title;
 
     setTimeout(() => this.$iframe.hidden = false, 100);
   }
