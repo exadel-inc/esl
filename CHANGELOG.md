@@ -1,3 +1,17 @@
+# [2.1.0-beta.2](https://github.com/exadel-inc/ui-playground/compare/v2.1.0-beta.1...v2.1.0-beta.2) (2024-04-04)
+
+
+### Bug Fixes
+
+* **core:** isolated content rendering fixes ([0468bfe](https://github.com/exadel-inc/ui-playground/commit/0468bfe6cfb45e7edaf9b052c5a787628a92032c))
+* **core:** rework refresh animation and behaviour (embedded async flow) + remove redundant normalization for HTML ([f673588](https://github.com/exadel-inc/ui-playground/commit/f6735886e709d482ef996aaada9aaad377e2d7e5))
+
+
+### Features
+
+* add readonly mode for js editor ([161190d](https://github.com/exadel-inc/ui-playground/commit/161190d234ce5f75e72d8c7b79418e0719b73185))
+* changed snippet js declaration; added snippet not declaration ([65985df](https://github.com/exadel-inc/ui-playground/commit/65985df4e8680bb1175a86367338fc0a4af7941d))
+
 # [2.1.0-beta.1](https://github.com/exadel-inc/ui-playground/compare/v2.0.1-beta.1...v2.1.0-beta.1) (2024-03-18)
 
 
