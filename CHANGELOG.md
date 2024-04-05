@@ -1,3 +1,10 @@
+# [2.1.0-beta.3](https://github.com/exadel-inc/ui-playground/compare/v2.1.0-beta.2...v2.1.0-beta.3) (2024-04-05)
+
+
+### Bug Fixes
+
+* **preview:** fix min-height animation of preview area, simplify animation control ([4d73468](https://github.com/exadel-inc/ui-playground/commit/4d734685bdd846b45effeda43afab4d295a7516e))
+
 # [2.1.0-beta.2](https://github.com/exadel-inc/ui-playground/compare/v2.1.0-beta.1...v2.1.0-beta.2) (2024-04-04)
 
 
