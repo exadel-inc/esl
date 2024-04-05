@@ -3,12 +3,7 @@ import React from 'jsx-dom';
 import {attr, listen, memoize, prop} from '@exadel/esl/modules/esl-utils/decorators';
 import {ESLIntersectionTarget} from '@exadel/esl/modules/esl-event-listener/core';
 import {parseBoolean, toBooleanAttribute} from '@exadel/esl/modules/esl-utils/misc';
-import {
-  afterNextRender,
-  promisifyEvent,
-  promisifyNextRender,
-  promisifyTimeout,
-} from '@exadel/esl/modules/esl-utils/async';
+import {promisifyEvent, promisifyNextRender, promisifyTimeout} from '@exadel/esl/modules/esl-utils/async';
 
 import {UIPPlugin} from '../base/plugin';
 import {UIPRenderingTemplatesService} from '../processors/templates';
@@ -172,26 +167,14 @@ export class UIPPreview extends UIPPlugin {
   /** Updates preview content from the model state changes */
   @listen({event: 'uip:change', target: ($this: UIPPreview) => $this.$root})
   protected async _onRootStateChange(e?: UIPChangeEvent): Promise<void> {
+    this.$container.style.transition = 'none';
     this.$container.style.minHeight = `${this.$inner.offsetHeight}px`;
+
     this.$$attr('loading', true);
-
     await this.update(e);
-
-    this.$container.style.minHeight = '0px';
     this.$$attr('loading', false);
-    afterNextRender(() => {
-      if (this.$container.clientHeight !== this.$inner.offsetHeight) return;
-      this.$container.style.removeProperty('min-height');
-    });
-  }
 
-  /** Handles end of animation playing while the demo content change */
-  @listen({
-    event: 'transitionend',
-    target: (preview: UIPPreview) => preview.$container,
-  })
-  protected _onTransitionEnd(e: TransitionEvent): void {
-    if (e.propertyName !== 'min-height') return;
+    this.$container.style.removeProperty('transition');
     this.$container.style.removeProperty('min-height');
   }
 
