@@ -21,7 +21,11 @@ aside:
 <section class="row">
   <div class="col-12">
     <uip-root>
-      <script type="text/html" uip-snippet label="Simple Tabs">
+      <script type="text/html"
+              label="Simple Tabs"
+              uip-snippet
+              uip-snippet-js="js-snippet-only-tabs"
+              uip-isolated>
         <div class="esl-d-tabs">
           <esl-tabs class="esl-d-tab-control tabs-alignment">
             <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
@@ -61,15 +65,12 @@ aside:
           </esl-panel-group>
         </div>
       </script>
-      <script type="text/plain" uip-js-snippet label="Simple Tabs">
-        import { ESLPanelGroup, ESLPanel, ESLTab, ESLTabs } from '@exadel/esl';
-        ESLPanelGroup.register();
-        ESLPanel.register();
-        ESLTab.register();
-        ESLTabs.register();
-      </script>
 
-      <script type="text/html" uip-snippet label="Tabs overflow">
+      <script type="text/html"
+              label="Tabs overflow"
+              uip-snippet
+              uip-snippet-js="js-snippet-only-tabs"
+              uip-isolated>
         <div class="esl-d-tabs">
           <esl-tabs class="esl-d-tab-control multiple-tabs" scrollable="side">
             <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
@@ -172,14 +173,12 @@ aside:
           </esl-panel-group>
         </div>
       </script>
-      <script type="text/plain" uip-js-snippet label="Tabs overflow">
-        import { ESLPanelGroup, ESLPanel, ESLTab, ESLTabs } from '@exadel/esl';
-        ESLPanelGroup.register();
-        ESLPanel.register();
-        ESLTab.register();
-        ESLTabs.register();
-      </script>
-      <script type="text/html" uip-snippet label="Tabs/Accordion transformation">
+
+      <script type="text/html"
+              label="Tabs/Accordion transformation"
+              uip-snippet
+              uip-snippet-js="js-snippet-tabs-n-accordion"
+              uip-isolated>
         <div class="esl-d-tabs">
           <esl-tabs class="esl-d-tab-control">
             <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
@@ -248,15 +247,12 @@ aside:
         <div class="alert alert-info mt-2">Example with a simple tab mode that transforms to accordion on XS and SM. Accordion restores last state, tabs
           restore initial state</div>
       </script>
-      <script type="text/plain" uip-js-snippet label="Tabs/Accordion transformation">
-        import { ESLPanelGroup, ESLPanel, ESLTab, ESLTabs, ESLTrigger } from '@exadel/esl';
-        ESLPanelGroup.register();
-        ESLPanel.register();
-        ESLTab.register();
-        ESLTabs.register();
-        ESLTrigger.register();
-      </script>
-      <script type="text/html" uip-snippet label="Tabs/Open state transformation">
+
+      <script type="text/html"
+              label="Tabs/Open state transformation"
+              uip-snippet
+              uip-snippet-js="js-snippet-only-tabs"
+              uip-isolated>
         <div class="esl-d-tabs">
           <esl-tabs class="esl-d-tab-control tabs-alignment">
             <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
@@ -277,15 +273,15 @@ aside:
 
           <esl-panel-group class="esl-d-tab-group"
                            mode="accordion | @+MD => tabs"
-                           min-open-items="@-SM => all | @+MD => 1"
-                           max-open-items="@+MD => 1"
+                           min-open-items="all | @+MD => 1"
+                           max-open-items="all | @+MD => 1"
                            mode-cls-target="::parent">
             <esl-panel class="esl-d-tab-panel tab-1" tabindex="0">
               <div class="esl-d-tab-body">
                 <!-- text 100 -->
               </div>
             </esl-panel>
-            <esl-panel open class="esl-d-tab-panel tab-2" tabindex="0">
+            <esl-panel open class="esl-d-tab-panel tab-2 open" tabindex="0">
               <div class="esl-d-tab-body">
                 <!-- text 150 -->
               </div>
@@ -299,16 +295,26 @@ aside:
         </div>
         <div class="alert alert-info mt-2">Example with a simple tab mode. It transforms to default (open) cards on XS and SM</div>
       </script>
-      <script type="text/plain" uip-js-snippet label="Tabs/Open state transformation">
+
+      <script id="js-snippet-only-tabs" type="text/plain">
         import { ESLPanelGroup, ESLPanel, ESLTab, ESLTabs } from '@exadel/esl';
         ESLPanelGroup.register();
         ESLPanel.register();
         ESLTab.register();
         ESLTabs.register();
       </script>
+      <script id="js-snippet-tabs-n-accordion" type="text/plain">
+        import { ESLPanelGroup, ESLPanel, ESLTab, ESLTabs, ESLTrigger } from '@exadel/esl';
+        ESLPanelGroup.register();
+        ESLPanel.register();
+        ESLTab.register();
+        ESLTabs.register();
+        ESLTrigger.register();
+      </script>
+
 
       <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
-      <uip-preview isolation></uip-preview>
+      <uip-preview></uip-preview>
       <uip-settings target="esl-tabs" label="Settings" resizable vertical="@+sm">
         <uip-select-setting target="esl-tabs.tabs-alignment" label="Alignment:" attribute="class" mode="append">
           <option value="">Left</option>
@@ -322,8 +328,8 @@ aside:
           <option value="center">Center</option>
         </uip-select-setting>
       </uip-settings>
-      <uip-editor label="Source code" collapsible copy></uip-editor>
-      <uip-editor source="js" copy collapsible label="JavaScript"></uip-editor>
+      <uip-editor label="Source code (HTML)" collapsible copy></uip-editor>
+      <uip-editor source="js" label="Source code (JS)" collapsible collapsed copy></uip-editor>
     </uip-root>
   </div>
 </section>

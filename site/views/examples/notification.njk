@@ -3,73 +3,92 @@ layout: content
 title: Notification
 seoTitle: Notifications UI example based on ESL web components
 name: Notification
-tags: examples
+tags: [examples, playground]
 icon: examples/notification.svg
 aside:
   components:
     - esl-alert
 ---
-{% import 'lorem.njk' as lorem %}
 
 <section class="row">
   <div class="col-12">
-    <h2>Triggers</h2>
-    <div class="btn-container">
-      <button type="button" class="btn btn-sec-blue esl-alert-show"
-              data-text="Global Alert Long" data-cls="alert alert-warning">Show Long
-      </button>
-      <button type="button" class="btn btn-sec-blue esl-alert-show"
-              data-text="Global Alert Short" data-delay="1500" data-cls="alert alert-info">Show Quick
-      </button>
-      <button type="button" class="btn btn-sec-blue esl-alert-hide">Hide</button>
-    </div>
+    <uip-root>
+      <script type="text/html"
+              label="Show Long"
+              uip-snippet
+              uip-snippet-js="js-snippet-alert-registration">
+        <button type="button" class="btn btn-sec-orange esl-alert-show"
+                onclick="ESL.EventUtils.dispatch(document.body, 'esl:alert:show', {
+                  detail: {
+                    text: 'Global Alert !!',
+                    cls: 'alert alert-warning',
+                  }
+                })">
+          Show Alert
+        </button>
+        <button type="button" class="btn btn-sec-blue esl-alert-hide"
+                onclick="ESL.EventUtils.dispatch(document.body, 'esl:alert:hide')">
+          Immediately Hide Alert
+        </button>
+      </script>
+
+      <!-- Show Quick and Hide Alert -->
+      <script type="text/html"
+              label="Show Short"
+              uip-snippet
+              uip-snippet-js="js-snippet-alert-registration">
+        <button type="button" class="btn btn-sec-orange esl-alert-show"
+                onclick="ESL.EventUtils.dispatch(document.body, 'esl:alert:show', {
+                  detail: {
+                    html: 'Inner <h2>Alert</h2> Short',
+                    cls: 'alert alert-info',
+                    hideDelay: 1500
+                  }
+                })">
+          Show Short Time Alert with HTML content
+        </button>
+      </script>
+
+      <script id="js-snippet-alert-registration" type="text/plain">
+        import {ESLEventUtils, ESLAlert} from '@exadel/esl';
+        ESLAlert.register();
+        ESLAlert.init();
+      </script>
+
+      <!-- Triggers Encapsulated -->
+      <script type="text/html"
+              label="Triggers Encapsulated"
+              uip-snippet
+              uip-snippet-js="js-snippet-alert-registration-n-handler"
+              uip-isolated>
+        <div class="border p-3" style="min-height: 310px">
+          <button type="button" id="showAlertButton" class="btn btn-sec-orange esl-alert-show">
+            Show Alert (Encapsulated)
+          </button>
+          <esl-alert default-params="{cls: 'alert alert-info'}"></esl-alert>
+        </div>
+      </script>
+
+      <script id="js-snippet-alert-registration-n-handler" type="text/plain">
+        import {ESLEventUtils, ESLAlert} from '@exadel/esl';
+        ESLAlert.register();
+        ESLAlert.init();
+
+        const showAlertButton = document.getElementById('showAlertButton');
+        showAlertButton.addEventListener('click', () => {
+          ESLEventUtils.dispatch(document.body, 'esl:alert:show', {
+            detail: {
+              cls: 'alert alert-info',
+              html: 'Inner <h2>Alert</h2> Long'
+            }})
+          });
+      </script>
+
+
+      <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
+      <uip-preview resizable></uip-preview>
+      <uip-editor label="Source code (HTML)" collapsible copy></uip-editor>
+      <uip-editor source="js" label="Source code (JS)" collapsible collapsed copy></uip-editor>
+    </uip-root>
   </div>
 </section>
-
-<section class="row">
-  <div class="col-12">
-    <h2>Triggers Encapsulated</h2>
-    <div class="border p-3" style="min-height: 210px">
-      <div class="btn-container">
-        <button type="button" class="btn btn-sec-orange esl-alert-show"
-                data-cls="alert alert-success"
-                data-html="Inner <h2>Alert</h2> Long">Show Long
-        </button>
-        <button type="button" class="btn btn-sec-orange esl-alert-show"
-                data-cls="alert alert-danger"
-                data-text="Inner Alert Short" data-delay="1500">Show Quick
-        </button>
-        <button type="button" class="btn btn-sec-orange esl-alert-hide">Hide</button>
-      </div>
-
-      <esl-alert default-params="{cls: 'bg-warn'}"></esl-alert>
-    </div>
-  </div>
-</section>
-
-<script type="text/javascript">
-  document.body.addEventListener('click', function (e) {
-    /** @type HTMLElement */
-    var el = e.target;
-    var params = {};
-
-    if (el && el.matches('.esl-alert-show')) {
-      if (el.dataset.cls) {
-        params.cls = el.dataset.cls;
-      }
-      if (el.dataset.text) {
-        params.text = el.dataset.text;
-      }
-      if (el.dataset.html) {
-        params.html = el.dataset.html;
-      }
-      if (el.dataset.delay) {
-        params.hideDelay = +el.dataset.delay;
-      }
-      el.dispatchEvent(new CustomEvent(`esl:alert:show`, {bubbles: true, detail: params}));
-    }
-    if (el && el.matches('.esl-alert-hide')) {
-      el.dispatchEvent(new CustomEvent(`esl:alert:hide`, {bubbles: true}));
-    }
-  });
-</script>
