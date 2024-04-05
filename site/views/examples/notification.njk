@@ -20,11 +20,15 @@ aside:
         <button type="button" class="btn btn-sec-orange esl-alert-show"
                 onclick="ESL.EventUtils.dispatch(document.body, 'esl:alert:show', {
                   detail: {
-                    text: 'Global Alert Long',
+                    text: 'Global Alert !!',
                     cls: 'alert alert-warning',
                   }
                 })">
-          Show Long
+          Show Alert
+        </button>
+        <button type="button" class="btn btn-sec-blue esl-alert-hide"
+                onclick="ESL.EventUtils.dispatch(document.body, 'esl:alert:hide')">
+          Immediately Hide Alert
         </button>
       </script>
 
@@ -41,11 +45,7 @@ aside:
                     hideDelay: 1500
                   }
                 })">
-          Show Shot
-        </button>
-        <button type="button" class="btn btn-sec-blue esl-alert-hide"
-                onclick="ESL.EventUtils.dispatch(document.body, 'esl:alert:hide')">
-          Hide
+          Show Short Time Alert with HTML content
         </button>
       </script>
 
@@ -63,7 +63,7 @@ aside:
               uip-isolated>
         <div class="border p-3" style="min-height: 310px">
           <button type="button" id="showAlertButton" class="btn btn-sec-orange esl-alert-show">
-            Show Long
+            Show Alert (Encapsulated)
           </button>
           <esl-alert default-params="{cls: 'alert alert-info'}"></esl-alert>
         </div>
