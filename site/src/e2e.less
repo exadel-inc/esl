@@ -1,0 +1,23 @@
+// Fallback font for automated tests
+@font-face {
+  font-family: 'E2EMonoFont';
+  src: url('/assets/fonts/OpenSans-VariableFont_wdth,wght.ttf')
+    format('opentype');
+}
+
+@font-face {
+  font-family: 'E2EMonoFont';
+  font-style: italic;
+  src: url('/assets/fonts/OpenSans-Italic-VariableFont_wdth,wght.ttf')
+    format('opentype');
+}
+
+body {
+  font-family: 'E2EMonoFont', sans-serif !important;
+  font-variation-settings: 'wdth' 96;
+}
+
+// Remove background fog with animation for automated tests
+.landing-layout::before {
+  display: none !important;
+}

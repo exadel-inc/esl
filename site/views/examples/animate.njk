@@ -12,14 +12,21 @@ aside:
 <section class="row">
   <div class="col-12">
     <uip-root>
-      <script type="text/html" uip-snippet label="Simple animation">
+      <script type="text/html"
+              label="Simple animation"
+              uip-snippet
+              uip-snippet-js="js-snippet-animate-element">
         <div class="simple-grid simple-grid-compact">
           <esl-animate repeat class="esl-animate-fade esl-animate-slide simple-grid-cell bg-green round text-white h3 text-center">
             ESL Animate
           </esl-animate>
         </div>
       </script>
-      <script type="text/html" uip-snippet label="Grouped and repetitive animation">
+
+      <script type="text/html"
+              label="Grouped and repetitive animation"
+              uip-snippet
+              uip-snippet-js="js-snippet-animate-element">
         <ul class="round simple-grid">
           <esl-animate class="esl-animate-group" target="::parent::child(li)" group repeat></esl-animate>
           {% for i in range(0, 20) -%}
@@ -27,7 +34,11 @@ aside:
           {%- endfor %}
         </ul>
       </script>
-      <script type="text/html" uip-snippet label="Grouped animation with custom delay by mixin">
+
+      <script type="text/html"
+              label="Grouped animation with custom delay by mixin"
+              uip-snippet
+              uip-snippet-js="js-snippet-animate-mixin">
         <button class="btn btn-sec-orange"
                 onclick="[...document.querySelectorAll('[esl-animate].re-1')].forEach((el) => ESL.AnimateMixin.get(el).reanimate())">
           Re-animate
@@ -38,6 +49,15 @@ aside:
               esl-animate="{group: true, groupDelay: 50}"></li>
           {%- endfor %}
         </ul>
+      </script>
+
+      <script id="js-snippet-animate-element" type="text/plain">
+        import { ESLAnimate } from '@exadel/esl';
+        ESLAnimate.register();
+      </script>
+      <script id="js-snippet-animate-mixin" type="text/plain">
+        import { ESLAnimate } from '@exadel/esl';
+        ESLAnimate.register();
       </script>
 
       <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
@@ -54,7 +74,8 @@ aside:
         <uip-bool-setting label="Group" target=".esl-animate-group" attribute="group"></uip-bool-setting>
         <uip-slider-setting label="Animation delay:" target=".esl-animate-group" attribute="group-delay" min="100" max="1000"></uip-slider-setting>
       </uip-settings>
-      <uip-editor label="Source code" collapsible copy></uip-editor>
+      <uip-editor label="Source code (HTML)" collapsible copy></uip-editor>
+      <uip-editor source="js" label="Source code (JS)" collapsible collapsed copy></uip-editor>
     </uip-root>
   </div>
 </section>

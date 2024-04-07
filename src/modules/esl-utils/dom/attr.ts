@@ -35,3 +35,10 @@ export function setAttr($el: ESLAttributeTarget, name: string, value: undefined 
     $el.setAttribute(name, value === true ? '' : value);
   }
 }
+
+/** Gets attribute value from the closest element with group behavior settings */
+export function getClosestAttr($el: ESLAttributeTarget, attrName: string): string | null {
+  if (!($el = resolveDomTarget($el))) return null;
+  const $closest = $el.closest(`[${attrName}]`);
+  return $closest ? $closest.getAttribute(attrName) : null;
+}

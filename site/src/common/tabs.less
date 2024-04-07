@@ -3,8 +3,7 @@
 .esl-d-tab-group {
   &,
   & > .esl-d-tab-panel {
-    border-bottom-left-radius: calc(0.5rem - 1px);
-    border-bottom-right-radius: calc(0.5rem - 1px);
+    border-radius: calc(0.5rem - 1px);
   }
 
   & > .esl-d-accordion-header {
@@ -29,14 +28,20 @@
   > .esl-d-tab-group > .esl-d-tab-panel {
     background: #fff;
     border: 1px solid @secondary-blue;
-    border-top: none;
 
     margin-bottom: 0.5rem;
   }
+
   > .esl-d-tab-group > .esl-d-accordion-header {
     display: block;
     background: #fff;
     border: 1px solid @secondary-blue;
+
+    & + .esl-d-tab-panel {
+      border-top: none;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
   }
 }
 

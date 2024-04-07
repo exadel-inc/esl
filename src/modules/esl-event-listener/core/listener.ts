@@ -116,7 +116,7 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
     if (!isElement(target)) return;
 
     const $delegate = target.closest(delegate);
-    if (isElement(currentTarget) && !currentTarget.contains($delegate)) return;
+    if (!isElement($delegate) || isElement(currentTarget) && !currentTarget.contains($delegate)) return;
 
     handler(Object.assign(e, {$delegate}));
   }

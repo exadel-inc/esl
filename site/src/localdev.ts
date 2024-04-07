@@ -62,6 +62,7 @@ import {ESLDemoSidebar} from './navigation/navigation';
 import {ESLDemoAnchorLink} from './anchor/anchor-link';
 import {ESLDemoBanner} from './banner/banner';
 import {ESLDemoSwipeArea, ESLDemoWheelArea} from './esl-events-demo/esl-events-demo';
+import {ESLDemoPopupGame} from './esl-popup/esl-d-popup-game';
 
 if (!CSS.supports('(height: 100dvh) or (width: 100dvw)')) ESLVSizeCSSProxy.observe();
 
@@ -76,6 +77,7 @@ ESLDemoBackLink.register();
 ESLDemoBanner.register();
 ESLDemoSwipeArea.register();
 ESLDemoWheelArea.register();
+ESLDemoPopupGame.register();
 
 // Test Content
 ESLRandomText.register('lorem-ipsum');
