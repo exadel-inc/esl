@@ -1,8 +1,6 @@
-import {promisifyEvent, promisifyTransition, resolvePromise} from '../../esl-utils/async';
-
-import {boundIndex, calcDirection, normalizeIndex} from '../core/nav/esl-carousel.nav.utils';
+import {promisifyTransition} from '../../esl-utils/async';
+import {boundIndex, normalizeIndex} from '../core/nav/esl-carousel.nav.utils';
 import {ESLCarouselRenderer} from '../core/esl-carousel.renderer';
-import {ESLCarouselSlideEvent} from '../core/esl-carousel.events';
 
 import type {ESLCarouselDirection} from '../core/nav/esl-carousel.nav.types';
 
@@ -31,6 +29,7 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     this.resize();
     this.reindex();
     this.setActive(this.currentIndex);
+    this.setTransformOffset(-this.getOffset(this.currentIndex));
   }
 
   /**
@@ -59,6 +58,14 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     this.$area.style.transform = this.vertical ? `translate3d(0px, ${offset}px, 0px)` : `translate3d(${offset}px, 0px, 0px)`;
   }
 
+  protected getTransformOffset(): number {
+    // computed value is matrix(a, b, c, d, tx, ty)
+    const transform = getComputedStyle(this.$area).transform;
+    if (!transform || transform === 'none') return 0;
+    const position = this.vertical ? 5 : 4; // tx or ty position
+    return parseInt(transform.split(',')[position], 10);
+  }
+
   /** Pre-processing animation action. */
   public async onBeforeAnimate(): Promise<void> {
     if (this.$carousel.hasAttribute('animating')) throw new Error('[ESL] Carousel: already animating');
@@ -78,61 +85,37 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
 
   /** Post-processing animation action. */
   public async onAfterAnimate(): Promise<void> {
-    this.setTransformOffset(0);
+    this.setTransformOffset(-this.getOffset(this.currentIndex));
     this.$slides.forEach((el) => el.removeAttribute('visible'));
   }
 
   /** Pre-processing the transition animation of one slide. */
   protected async onBeforeStepAnimate(direction: ESLCarouselDirection): Promise<void> {
-    const orderIndex = direction === 'next' ? this.currentIndex : normalizeIndex(this.currentIndex - 1, this.size);
-    this.reindex(orderIndex);
+    this.reindex(this.currentIndex, direction === 'prev');
 
-    // TODO: reflow
-    const offsetIndex = direction === 'next' ? normalizeIndex(this.currentIndex + 1, this.size) : this.currentIndex;
-    const offset = this.getOffset(offsetIndex);
-    const shiftXBefore = direction === 'next' ? 0 : -offset;
-    this.setTransformOffset(shiftXBefore);
+    const offsetIndex = normalizeIndex(this.currentIndex + (direction === 'next' ? 1 : -1), this.size);
+    const offsetFrom = -this.getOffset(this.currentIndex);
 
-    +this.$carousel.offsetLeft;
+    this.setTransformOffset(offsetFrom);
+    const offsetTo = -this.getOffset(offsetIndex);
+
     this.$carousel.toggleAttribute('animating', true);
+    this.setTransformOffset(offsetTo);
 
-    const shiftXAfter = direction === 'next' ? -offset : 0;
-    this.setTransformOffset(shiftXAfter);
-
+    if (offsetTo === offsetFrom) return;
     await promisifyTransition(this.$area, 'transform');
   }
 
   /** Post-processing the transition animation of one slide. */
   protected async onAfterStepAnimate(direction: ESLCarouselDirection): Promise<void> {
-    // TODO: onAfterAnimate
-    this.setTransformOffset(0);
-
     this.currentIndex = direction === 'next' ? this.currentIndex + 1 : this.currentIndex - 1;
     this.currentIndex = normalizeIndex(this.currentIndex, this.size);
 
     this.reindex(this.currentIndex);
 
+    this.setTransformOffset(-this.getOffset(this.currentIndex));
     this.$carousel.toggleAttribute('animating', false);
     +this.$carousel.offsetLeft;
-  }
-
-  /** Handles the slides transition. */
-  public onMove(offset: number): void {
-    this.$slides.forEach((el) => el.toggleAttribute('visible', true));
-
-    const sign = offset < 0 ? 1 : -1;
-    const slideSize = this.slideSize + this.gap;
-    const count = Math.floor(Math.abs(offset) / slideSize);
-    const currentIndex = normalizeIndex(this.$carousel.activeIndex + count * sign, this.size);
-
-    if (!this._checkNonLoop(offset)) return;
-
-    const orderIndex = offset < 0 ? currentIndex : normalizeIndex(currentIndex - 1, this.size);
-    this.reindex(orderIndex);
-    this.currentIndex = currentIndex;
-
-    const stageOffset = offset < 0 ? offset + count * slideSize : offset - (count + 1) * slideSize;
-    this.setTransformOffset(stageOffset);
   }
 
   protected _checkNonLoop(offset: number): boolean {
@@ -150,61 +133,64 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     return !(offset < 0 && currentIndex + 1 + this.count > this.$carousel.size);
   }
 
-  /** Ends current transition and make permanent all changes performed in the transition. */
-  // eslint-disable-next-line sonarjs/cognitive-complexity
-  public async commit(offset: number): Promise<void> {
-    const activeIndex = this.$carousel.activeIndex;
-    const achieveBorders = this._checkNonLoop(offset);
-    if (achieveBorders) {
-      const slideSize = this.slideSize + this.gap;
-      // calculate offset to move to
-      const shiftCount = Math.abs(offset) % slideSize >= slideSize / 4 ? 1 : 0;
-      const stageOffset = offset < 0 ? -shiftCount * slideSize : (shiftCount - 1) * slideSize;
-
-      this.$carousel.toggleAttribute('animating', true);
-      this.setTransformOffset(stageOffset);
-      await promisifyEvent(this.$area, 'transitionend').catch(resolvePromise);
-    }
+  /** Handles the slides transition. */
+  public onMove(offset: number): void {
+    this.$slides.forEach((el) => el.toggleAttribute('visible', true));
 
     const sign = offset < 0 ? 1 : -1;
     const slideSize = this.slideSize + this.gap;
+    const count = Math.floor(Math.abs(offset) / slideSize);
+    const currentIndex = normalizeIndex(this.$carousel.activeIndex + count * sign, this.size);
+
+    if (!this._checkNonLoop(offset)) return;
+
+    const orderIndex = offset < 0 ? currentIndex : normalizeIndex(currentIndex - 1, this.size);
+    this.reindex(orderIndex);
+    this.currentIndex = currentIndex;
+
+    const stageOffset = this.getOffset(this.currentIndex) - (offset % slideSize);
+    this.setTransformOffset(-stageOffset);
+  }
+
+  /** Ends current transition and make permanent all changes performed in the transition. */
+  // eslint-disable-next-line sonarjs/cognitive-complexity
+  public async commit(offset: number): Promise<void> {
+    const sign = offset < 0 ? 1 : -1;
+    const slideSize = this.slideSize + this.gap;
+
     const count = Math.abs(offset) % slideSize >= slideSize / 4 ?
       Math.ceil(Math.abs(offset) / this.slideSize) : Math.floor(Math.abs(offset) / this.slideSize);
     const nextIndex = this.$carousel.activeIndex + count * sign;
-
     if (this.loop) {
       this.currentIndex = normalizeIndex(nextIndex, this.size);
     } else {
       this.currentIndex = boundIndex(nextIndex, this.size - this.count);
     }
 
-    let direction: ESLCarouselDirection = offset > 0 ? 'prev' : 'next';
-    direction = direction || calcDirection(this.$carousel.activeIndex, this.currentIndex, this.size);
-    this.reindex(this.currentIndex);
+    this.$carousel.toggleAttribute('animating', true);
+    const stageOffset = -this.getOffset(this.currentIndex);
 
-    this.setActive(this.currentIndex);
-
-    // clear animation
-    this.$carousel.toggleAttribute('animating', false);
-    this.setTransformOffset(0);
-    this.$slides.forEach((el) => el.toggleAttribute('visible', false));
-
-    if (activeIndex !== this.currentIndex) {
-      this.$carousel.dispatchEvent(ESLCarouselSlideEvent.create('AFTER', {
-        direction,
-        current: this.currentIndex,
-        related: activeIndex
-      }));
+    this.setTransformOffset(stageOffset);
+    if (stageOffset !== this.getTransformOffset()) {
+      await promisifyTransition(this.$area, 'transform');
     }
+
+    this.$carousel.toggleAttribute('animating', false);
+    this.reindex(this.currentIndex);
+    this.setTransformOffset(-this.getOffset(this.currentIndex));
+    this.setActive(this.currentIndex, {direction: sign > 0 ? 'next' : 'prev'});
+    this.$slides.forEach((el) => el.toggleAttribute('visible', false));
   }
 
   /** Sets order style property for slides starting at index */
-  protected reindex(index: number = this.currentIndex): void {
+  protected reindex(index: number = this.currentIndex, back = this.loop): void {
     if (index < 0 || index > this.$carousel.size) return;
     const {size, $slides} = this;
     if (!$slides.length) return;
     for (let i = 0; i < size; ++i) {
-      $slides[i].style.order = String((size + i - index) % size);
+      let offset = (size + i - index) % size;
+      if (back && offset >= size - 1) offset = offset - size;
+      $slides[i].style.order = String(offset);
     }
   }
 
