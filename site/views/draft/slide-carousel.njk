@@ -14,12 +14,12 @@ icon: examples/carousel.svg
   <div class="row flex-column" esl-carousel-container>
     <button type="button" esl-carousel-nav="group:prev"></button>
 
-    <esl-carousel esl-carousel-touch type="slide">
+    <esl-carousel esl-carousel-touch type="css">
       <div data-slides-area>
         <!-- CAROUSEL-ITEM -->
         {% for i in range(0, 4) %}
         <esl-carousel-slide {% if i == 0 %} active {% endif %}>
-          <div class="card post-text" style="background: {{ functions.randomColor() }}">
+          <div class="card post-text" style="background: {{ functions.randomColor() }}; height: 150px;">
             <p><b>{{i + 1}}</b></p>
           </div>
         </esl-carousel-slide>
