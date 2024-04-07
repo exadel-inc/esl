@@ -3,7 +3,7 @@ import type {ESLCarouselSlide} from './esl-carousel.slide';
 import type {ESLCarouselDirection, ESLCarouselStaticState} from './nav/esl-carousel.nav.types';
 
 /** {@link ESLCarouselSlideEvent} init object */
-interface ESLCarouselSlideEventInit {
+export interface ESLCarouselSlideEventInit {
   /** Current slide index */
   current: number;
   /** Related slide index (target on pre-event, current on post-event) */

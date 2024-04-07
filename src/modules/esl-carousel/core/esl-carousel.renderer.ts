@@ -2,10 +2,12 @@ import {memoize} from '../../esl-utils/decorators';
 import {isEqual} from '../../esl-utils/misc/object';
 import {SyntheticEventTarget} from '../../esl-utils/dom';
 import {ESLCarouselSlideEvent} from './esl-carousel.events';
+import {calcDirection} from './nav/esl-carousel.nav.utils';
 
 import type {ESLCarousel, ESLCarouselActionParams} from './esl-carousel';
 import type {ESLCarouselConfig, ESLCarouselDirection} from './nav/esl-carousel.nav.types';
 import type {ESLCarouselSlide} from './esl-carousel.slide';
+import type {ESLCarouselSlideEventInit} from './esl-carousel.events';
 
 export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
   public static is: string;
@@ -106,14 +108,7 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
     }
 
     this.clearPreActive();
-    this.setActive(index);
-
-    this.$carousel.dispatchEvent(ESLCarouselSlideEvent.create('AFTER', {
-      direction,
-      activator,
-      current: index,
-      related: activeIndex
-    }));
+    this.setActive(index, {direction, activator});
   }
 
   /** Pre-processing animation action. */
@@ -129,11 +124,19 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
   public abstract commit(offset?: number): void;
 
   /** Sets active slides from passed index **/
-  public setActive(from: number): void {
+  public setActive(current: number, event?: Partial<ESLCarouselSlideEventInit>): void {
+    const related = this.$carousel.activeIndex;
+
     this.$carousel.$slides.forEach((el) => el.active = false);
     const count = Math.min(this.count, this.size);
     for (let i = 0; i < count; i++) {
-      this.$carousel.slideAt(from + i).active = true;
+      this.$carousel.slideAt(current + i).active = true;
+    }
+
+    if (event && typeof event === 'object') {
+      const direction = event.direction || calcDirection(related, current, this.size);
+      const details = {...event, direction, current, related};
+      this.$carousel.dispatchEvent(ESLCarouselSlideEvent.create('AFTER', details));
     }
   }
 
