@@ -45,7 +45,6 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
       el.style.removeProperty('min-height');
     });
     this.$area.style.removeProperty('transform');
-    this.setTransformOffset(0);
     this.$carousel.toggleAttribute('animating', false);
   }
 

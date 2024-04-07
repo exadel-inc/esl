@@ -41,7 +41,7 @@ icon: examples/carousel.svg
   <div class="row flex-column" esl-carousel-container>
     <button type="button" esl-carousel-nav="group:prev"></button>
 
-    <esl-carousel esl-carousel-touch type="slide">
+    <esl-carousel esl-carousel-touch="swipe" type="css">
       <div data-slides-area>
         <!-- CAROUSEL-ITEM -->
         {% for i in range(0, 5) %}
@@ -68,7 +68,7 @@ icon: examples/carousel.svg
   <div class="row flex-column" esl-carousel-container>
     <button type="button" esl-carousel-nav="group:prev"></button>
 
-    <esl-carousel class="vertical-carousel" esl-carousel-touch type="slide">
+    <esl-carousel esl-carousel-touch type="slide">
       <div data-slides-area>
         <!-- CAROUSEL-ITEM -->
         {% for i in range(0, 5) %}
