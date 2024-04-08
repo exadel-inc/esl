@@ -41,19 +41,16 @@ esl-carousel {
 }
 
 esl-carousel-slide {
-  // TODO: Do we need to set display: block?
-  display: flex;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  flex: 0 0 auto;
 
+  // TODO: Do we need to set display: block?
+  display: flex;
   position: relative;
   left: 0;
   z-index: 1;
-
-  // TODO: magic numbers
-  min-width: 250px;
-  min-height: 150px;
 }
 
 [esl-carousel-container] {

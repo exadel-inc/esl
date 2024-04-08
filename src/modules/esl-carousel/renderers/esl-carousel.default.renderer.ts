@@ -9,6 +9,11 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
   public static override is = 'default';
   public static override classes: string[] = ['esl-carousel-default-renderer'];
 
+  /** CSS variable name for slide auto size */
+  public static SIZE_PROP = '--esl-slide-size';
+
+  /** Min slides to position from both sides if possible */
+  protected reserve: number = 1;
   /** Slides gap size */
   protected gap: number = 0;
   /** Slide size cached value */
@@ -40,10 +45,9 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     this.$slides.forEach((el) => {
       el.toggleAttribute('visible', false);
       el.style.removeProperty('order');
-      el.style.removeProperty('min-width');
-      el.style.removeProperty('min-height');
     });
     this.$area.style.removeProperty('transform');
+    this.$area.style.removeProperty(ESLDefaultCarouselRenderer.SIZE_PROP);
     this.$carousel.toggleAttribute('animating', false);
   }
 
@@ -183,13 +187,19 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
   }
 
   /** Sets order style property for slides starting at index */
-  protected reindex(index: number = this.currentIndex, back = this.loop): void {
+  protected reindex(index: number = this.currentIndex, back?: boolean): void {
     if (index < 0 || index > this.$carousel.size) return;
     const {size, $slides} = this;
     if (!$slides.length) return;
+
+    // max reserve limited to a half of free slides, unless backward reindex requested (for back animation)
+    const maxReserve = Math.max(back ? 1 : 0, Math.floor((this.size - this.count) / 2));
+    // reserve slides from both sides if requested (or for loop carousel by default); reserve in normal direction is in priority
+    const reserve = Math.min((typeof back === 'boolean' ? back : this.loop) ? this.reserve : 0, maxReserve);
     for (let i = 0; i < size; ++i) {
       let offset = (size + i - index) % size;
-      if (back && offset >= size - 1) offset = offset - size;
+      // inverses index for backward reserve
+      if (offset >= size - reserve) offset -= size;
       $slides[i].style.order = String(offset);
     }
   }
@@ -202,9 +212,6 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     this.gap = parseFloat(this.vertical ? areaStyles.rowGap : areaStyles.columnGap);
     const areaSize = parseFloat(this.vertical ? areaStyles.height : areaStyles.width);
     this.slideSize = (areaSize - this.gap * (this.count - 1)) / this.count;
-    this.$slides.forEach((slide) => {
-      const prop = this.vertical ? 'min-height' : 'min-width';
-      slide.style.setProperty(prop, this.slideSize + 'px');
-    });
+    this.$area.style.setProperty(ESLDefaultCarouselRenderer.SIZE_PROP, this.slideSize + 'px');
   }
 }

@@ -1,17 +1,27 @@
 .esl-carousel-default-renderer {
-  esl-carousel-slide {
-    &:not([visible]):not([active]) {
-      visibility: hidden;
-    }
+  esl-carousel-slide:not(:is([active], [visible])) {
+    visibility: hidden;
+  }
+  &.esl-no-hidden-slides esl-carousel-slide {
+    visibility: visible;
   }
 
   [data-slides-area] {
     display: flex;
     flex-wrap: nowrap;
     transition: none;
+    max-width: 100%;
+    max-height: 100%;
   }
 
   &[animating] [data-slides-area] {
     transition: transform 0.25s linear;
+  }
+
+  &.esl-carousel-horizontal esl-carousel-slide {
+    width: var(--esl-slide-size);
+  }
+  &.esl-carousel-vertical esl-carousel-slide {
+    height: var(--esl-slide-size);
   }
 }
