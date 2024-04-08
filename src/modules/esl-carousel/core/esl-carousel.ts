@@ -38,15 +38,15 @@ export class ESLCarousel extends ESLBaseElement {
   public static observedAttributes = ['media', 'type', 'loop', 'count', 'vertical'];
 
   /** Media query pattern used for {@link ESLMediaRuleList} of `type`, `loop` and `count` (default: `all`) */
-  @attr({name: 'media', defaultValue: 'all'}) public mediaCfg: string;
+  @attr({defaultValue: 'all'}) public media: string;
   /** Renderer type name (`multi` by default). Supports {@link ESLMediaRuleList} syntax */
-  @attr({name: 'type', defaultValue: 'default'}) public typeCfg: string;
+  @attr({defaultValue: 'default'}) public type: string;
   /** Marker to enable loop mode for carousel (`true` by default). Supports {@link ESLMediaRuleList} syntax */
-  @attr({name: 'loop', defaultValue: 'false'}) public loopCfg: string;
+  @attr({defaultValue: 'false'}) public loop: string;
   /** Count of slides to show on the screen (`1` by default). Supports {@link ESLMediaRuleList} syntax */
-  @attr({name: 'count', defaultValue: '1'}) public countCfg: string;
+  @attr({defaultValue: '1'}) public count: string;
   /** Orientation of the carousel (`horizontal` by default). Supports {@link ESLMediaRuleList} syntax */
-  @attr({name: 'vertical', defaultValue: 'false'}) public verticalCfg: string;
+  @attr({defaultValue: 'false'}) public vertical: string;
 
   /** true if carousel is in process of animating */
   @boolAttr({readonly: true}) public animating: boolean;
@@ -54,23 +54,23 @@ export class ESLCarousel extends ESLBaseElement {
   /** Renderer type {@link ESLMediaRuleList} instance */
   @memoize()
   public get typeRule(): ESLMediaRuleList<string> {
-    return ESLMediaRuleList.parse(this.mediaCfg, this.typeCfg);
+    return ESLMediaRuleList.parse(this.media, this.type);
   }
   /** Loop marker {@link ESLMediaRuleList} instance */
   @memoize()
   public get loopRule(): ESLMediaRuleList<boolean> {
-    return ESLMediaRuleList.parse(this.mediaCfg, this.loopCfg, parseBoolean);
+    return ESLMediaRuleList.parse(this.media, this.loop, parseBoolean);
   }
   /** Count of visible slides {@link ESLMediaRuleList} instance */
   @memoize()
   public get countRule(): ESLMediaRuleList<number> {
-    return ESLMediaRuleList.parse(this.mediaCfg, this.countCfg, parseInt);
+    return ESLMediaRuleList.parse(this.media, this.count, parseInt);
   }
 
   /** Orientation of the carousel {@link ESLMediaRuleList} instance */
   @memoize()
   public get verticalRule(): ESLMediaRuleList<boolean> {
-    return ESLMediaRuleList.parse(this.mediaCfg, this.verticalCfg, parseBoolean);
+    return ESLMediaRuleList.parse(this.media, this.vertical, parseBoolean);
   }
 
   /** Carousel instance current {@link ESLCarouselStaticState} */
