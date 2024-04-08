@@ -2,7 +2,7 @@ import {memoize} from '../../esl-utils/decorators';
 import {isEqual} from '../../esl-utils/misc/object';
 import {SyntheticEventTarget} from '../../esl-utils/dom';
 import {ESLCarouselSlideEvent} from './esl-carousel.events';
-import {calcDirection} from './nav/esl-carousel.nav.utils';
+import {calcDirection, normalizeIndex} from './nav/esl-carousel.nav.utils';
 
 import type {ESLCarousel, ESLCarouselActionParams} from './esl-carousel';
 import type {ESLCarouselConfig, ESLCarouselDirection} from './nav/esl-carousel.nav.types';
@@ -126,11 +126,14 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
   /** Sets active slides from passed index **/
   public setActive(current: number, event?: Partial<ESLCarouselSlideEventInit>): void {
     const related = this.$carousel.activeIndex;
+    const nextIndex = normalizeIndex(current + this.count, this.size);
+    const prevIndex = normalizeIndex(current - 1, this.size);
 
-    this.$carousel.$slides.forEach((el) => el.active = false);
-    const count = Math.min(this.count, this.size);
-    for (let i = 0; i < count; i++) {
-      this.$carousel.slideAt(current + i).active = true;
+    for (let i = 0; i < this.size; i++) {
+      this.$slides[i].active = i >= current && i < current + this.count;
+      if (this.$slides[i].active) continue; // skip next/prev calculation for active slides
+      this.$slides[i].next = i === nextIndex;
+      this.$slides[i].prev = i === prevIndex;
     }
 
     if (event && typeof event === 'object') {

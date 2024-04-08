@@ -31,7 +31,8 @@ icon: examples/carousel.svg
               </div>
               <div class="card-content p-3">
                 <h5>{{ item.name }}</h5>
-                {{ lorem.string(12) }}
+                <p>{{ lorem.string(12) }}</p>
+                <button type="button" class="btn" onclick="alert('I\'m alive')">Hey cart!</button>
               </div>
             </div>
           </esl-carousel-slide>
@@ -46,7 +47,7 @@ icon: examples/carousel.svg
   </div>
 </section>
 
-
+<a href="#"> Something accessible</a>
 <section>
   <h2>Carousel with siblings: </h2>
   <div esl-carousel-container>
@@ -54,8 +55,7 @@ icon: examples/carousel.svg
       <span class="sr-only">Previous Slide</span>
     </button>
 
-    <esl-carousel class="esl-no-hidden-slides"
-                  style="padding-inline: 60px"
+    <esl-carousel style="padding-inline: 60px"
                   esl-carousel-touch
                   count="2"
                   loop="true">

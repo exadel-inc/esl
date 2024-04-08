@@ -73,7 +73,7 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
   /** Pre-processing animation action. */
   public override async onBeforeAnimate(): Promise<void> {
     if (this.$carousel.hasAttribute('animating')) throw new Error('[ESL] Carousel: already animating');
-    this.$slides.forEach((el) => el.toggleAttribute('visible', true));
+    this.$carousel.toggleAttribute('active', true);
   }
 
   /** Processes animation. */
@@ -90,7 +90,7 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
   /** Post-processing animation action. */
   public override async onAfterAnimate(): Promise<void> {
     this.setTransformOffset(-this.getOffset(this.currentIndex));
-    this.$slides.forEach((el) => el.removeAttribute('visible'));
+    this.$carousel.toggleAttribute('active', false);
   }
 
   /** Pre-processing the transition animation of one slide. */
@@ -107,6 +107,7 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     this.setTransformOffset(offsetTo);
 
     if (offsetTo === offsetFrom) return;
+    // TODO: still not catches cases with no animation (
     await promisifyTransition(this.$area, 'transform');
   }
 
@@ -140,7 +141,7 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
 
   /** Handles the slides transition. */
   public onMove(offset: number): void {
-    this.$slides.forEach((el) => el.toggleAttribute('visible', true));
+    this.$carousel.toggleAttribute('active', true);
 
     if (!this._checkNonLoop(offset)) return;
 
@@ -184,7 +185,7 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     this.reorder(this.currentIndex);
     this.setTransformOffset(-this.getOffset(this.currentIndex));
     this.setActive(this.currentIndex, {direction: sign > 0 ? 'next' : 'prev'});
-    this.$slides.forEach((el) => el.toggleAttribute('visible', false));
+    this.$carousel.toggleAttribute('active', false);
   }
 
   /** Sets order style property for slides starting at index */
@@ -212,7 +213,7 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
 
     this.gap = parseFloat(this.vertical ? areaStyles.rowGap : areaStyles.columnGap);
     const areaSize = parseFloat(this.vertical ? areaStyles.height : areaStyles.width);
-    this.slideSize = (areaSize - this.gap * (this.count - 1)) / this.count;
+    this.slideSize = Math.floor((areaSize - this.gap * (this.count - 1)) / this.count);
     this.$area.style.setProperty(ESLDefaultCarouselRenderer.SIZE_PROP, this.slideSize + 'px');
   }
 }

@@ -41,7 +41,7 @@ export class ESLCarousel extends ESLBaseElement {
   @attr({defaultValue: 'all'}) public media: string;
   /** Renderer type name (`multi` by default). Supports {@link ESLMediaRuleList} syntax */
   @attr({defaultValue: 'default'}) public type: string;
-  /** Marker to enable loop mode for carousel (`true` by default). Supports {@link ESLMediaRuleList} syntax */
+  /** Marker to enable loop mode for a carousel (`true` by default). Supports {@link ESLMediaRuleList} syntax */
   @attr({defaultValue: 'false'}) public loop: string;
   /** Count of slides to show on the screen (`1` by default). Supports {@link ESLMediaRuleList} syntax */
   @attr({defaultValue: '1'}) public count: string;

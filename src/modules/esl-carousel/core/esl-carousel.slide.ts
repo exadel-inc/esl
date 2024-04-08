@@ -1,5 +1,6 @@
 import {ESLBaseElement} from '../../esl-base-element/core';
-import {boolAttr, memoize, ready} from '../../esl-utils/decorators';
+import {microtask} from '../../esl-utils/async/microtask';
+import {boolAttr, decorate, memoize, ready} from '../../esl-utils/decorators';
 import {findNext, findPrev, findNextLooped, findPrevLooped} from '../../esl-utils/dom/traversing';
 
 import type {ESLCarousel} from './esl-carousel';
@@ -13,9 +14,18 @@ import type {ESLCarousel} from './esl-carousel';
 export class ESLCarouselSlide extends ESLBaseElement {
   public static observedAttributes = ['active'];
 
+  /** Carousel marker to omit `inert` attribute on slides */
+  public static readonly NO_INERT_MARKER = 'no-inert';
+
   /** @returns if the slide is active */
   @boolAttr() public active: boolean;
+  /** @returns if slide is going to be next active */
   @boolAttr() public preActive: boolean;
+
+  /** Slide is next to active slide */
+  @boolAttr() public next: boolean;
+  /** Slide is previous to active slide */
+  @boolAttr() public prev: boolean;
 
   @memoize()
   public get $carousel(): ESLCarousel | undefined {
@@ -78,6 +88,16 @@ export class ESLCarouselSlide extends ESLBaseElement {
   /** Updates A11y attributes related to active state */
   protected updateActiveStateA11y(): void {
     this.setAttribute('aria-hidden', String(!this.active));
+    if (!this.$carousel?.hasAttribute(ESLCarouselSlide.NO_INERT_MARKER)) {
+      this.toggleAttribute('inert', !this.active);
+    }
+    if (!this.active) this.blurIfInactive();
+  }
+
+  @decorate(microtask)
+  protected blurIfInactive(): void {
+    if (this.active || !this.contains(document.activeElement)) return;
+    this.$carousel?.focus({preventScroll: true});
   }
 
   /** Creates slide element, use passed content as slide inner */
