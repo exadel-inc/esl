@@ -32,7 +32,7 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
 
   public override redraw(): void {
     this.resize();
-    this.reindex();
+    this.reorder();
     this.setActive(this.currentIndex);
     this.setTransformOffset(-this.getOffset(this.currentIndex));
   }
@@ -71,7 +71,7 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
   }
 
   /** Pre-processing animation action. */
-  public async onBeforeAnimate(): Promise<void> {
+  public override async onBeforeAnimate(): Promise<void> {
     if (this.$carousel.hasAttribute('animating')) throw new Error('[ESL] Carousel: already animating');
     this.$slides.forEach((el) => el.toggleAttribute('visible', true));
   }
@@ -88,14 +88,14 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
   }
 
   /** Post-processing animation action. */
-  public async onAfterAnimate(): Promise<void> {
+  public override async onAfterAnimate(): Promise<void> {
     this.setTransformOffset(-this.getOffset(this.currentIndex));
     this.$slides.forEach((el) => el.removeAttribute('visible'));
   }
 
   /** Pre-processing the transition animation of one slide. */
   protected async onBeforeStepAnimate(direction: ESLCarouselDirection): Promise<void> {
-    this.reindex(this.currentIndex, direction === 'prev');
+    this.reorder(this.currentIndex, direction === 'prev');
 
     const offsetIndex = normalizeIndex(this.currentIndex + (direction === 'next' ? 1 : -1), this.size);
     const offsetFrom = -this.getOffset(this.currentIndex);
@@ -115,7 +115,7 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     this.currentIndex = direction === 'next' ? this.currentIndex + 1 : this.currentIndex - 1;
     this.currentIndex = normalizeIndex(this.currentIndex, this.size);
 
-    this.reindex(this.currentIndex);
+    this.reorder(this.currentIndex);
 
     this.setTransformOffset(-this.getOffset(this.currentIndex));
     this.$carousel.toggleAttribute('animating', false);
@@ -123,12 +123,13 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
   }
 
   protected _checkNonLoop(offset: number): boolean {
+    if (this.loop) return true;
+
     const sign = offset < 0 ? 1 : -1;
     const count = Math.floor(Math.abs(offset) / (this.slideSize + this.gap));
     const nextIndex = this.$carousel.activeIndex + count * sign;
     const currentIndex = normalizeIndex(this.$carousel.activeIndex + count * sign, this.size);
 
-    if (this.loop) return true;
     // check non-loop state
     if (nextIndex >= this.$carousel.size || nextIndex < 0) return false;
     // check left border of non-loop state
@@ -141,15 +142,15 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
   public onMove(offset: number): void {
     this.$slides.forEach((el) => el.toggleAttribute('visible', true));
 
+    if (!this._checkNonLoop(offset)) return;
+
     const sign = offset < 0 ? 1 : -1;
     const slideSize = this.slideSize + this.gap;
     const count = Math.floor(Math.abs(offset) / slideSize);
     const currentIndex = normalizeIndex(this.$carousel.activeIndex + count * sign, this.size);
 
-    if (!this._checkNonLoop(offset)) return;
-
     const orderIndex = offset < 0 ? currentIndex : normalizeIndex(currentIndex - 1, this.size);
-    this.reindex(orderIndex);
+    this.reorder(orderIndex);
     this.currentIndex = currentIndex;
 
     const stageOffset = this.getOffset(this.currentIndex) - (offset % slideSize);
@@ -180,19 +181,19 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     }
 
     this.$carousel.toggleAttribute('animating', false);
-    this.reindex(this.currentIndex);
+    this.reorder(this.currentIndex);
     this.setTransformOffset(-this.getOffset(this.currentIndex));
     this.setActive(this.currentIndex, {direction: sign > 0 ? 'next' : 'prev'});
     this.$slides.forEach((el) => el.toggleAttribute('visible', false));
   }
 
   /** Sets order style property for slides starting at index */
-  protected reindex(index: number = this.currentIndex, back?: boolean): void {
+  protected reorder(index: number = this.currentIndex, back?: boolean): void {
     if (index < 0 || index > this.$carousel.size) return;
     const {size, $slides} = this;
     if (!$slides.length) return;
 
-    // max reserve limited to a half of free slides, unless backward reindex requested (for back animation)
+    // max reserve limited to a half of free slides, unless backward reorder requested (for back animation)
     const maxReserve = Math.max(back ? 1 : 0, Math.floor((this.size - this.count) / 2));
     // reserve slides from both sides if requested (or for loop carousel by default); reserve in normal direction is in priority
     const reserve = Math.min((typeof back === 'boolean' ? back : this.loop) ? this.reserve : 0, maxReserve);
