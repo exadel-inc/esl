@@ -112,11 +112,11 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
   }
 
   /** Pre-processing animation action. */
-  public abstract onBeforeAnimate(index?: number, direction?: ESLCarouselDirection): Promise<void>;
+  public async onBeforeAnimate(index?: number, direction?: ESLCarouselDirection): Promise<void> {}
   /** Processes animation. */
   public abstract onAnimate(index: number, direction: ESLCarouselDirection): Promise<void>;
   /** Post-processing animation action. */
-  public abstract onAfterAnimate(index: number, direction: ESLCarouselDirection): Promise<void>;
+  public async onAfterAnimate(index: number, direction: ESLCarouselDirection): Promise<void> {}
 
   /** Handles the slides transition. */
   public abstract onMove(offset: number): void;

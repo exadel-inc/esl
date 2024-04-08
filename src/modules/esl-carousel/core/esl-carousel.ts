@@ -66,7 +66,6 @@ export class ESLCarousel extends ESLBaseElement {
   public get countRule(): ESLMediaRuleList<number> {
     return ESLMediaRuleList.parse(this.media, this.count, parseInt);
   }
-
   /** Orientation of the carousel {@link ESLMediaRuleList} instance */
   @memoize()
   public get verticalRule(): ESLMediaRuleList<boolean> {

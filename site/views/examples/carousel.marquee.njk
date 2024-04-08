@@ -10,6 +10,7 @@ icon: examples/carousel.svg
 <section class="marquee-carousel">
   <div class="flex-column main-carousel" esl-carousel-container>
     <esl-carousel id="main-carousel"
+                  type="default"
                   esl-carousel-touch
                   esl-carousel-relate-to="#nav-carousel">
       <div data-slides-area>
@@ -32,12 +33,12 @@ icon: examples/carousel.svg
 
     <esl-carousel id="nav-carousel"
                   esl-carousel-touch
-                  type="@+LG"
+                  type="default"
                   count="5">
       <div data-slides-area>
         {% for item in slides %}
         <esl-carousel-slide>
-          <div class="img-container"
+          <div class="img-container img-container-4-3"
                esl-carousel-nav="slide:{{ loop.index - 1 }}"
                esl-carousel-nav-target="#main-carousel">
             <esl-image mode="cover" lazy

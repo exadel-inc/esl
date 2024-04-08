@@ -23,5 +23,5 @@ export * from './plugin/relation/esl-carousel.relation.mixin';
 export * from './plugin/wheel/esl-carousel.wheel.mixin';
 
 // Renderer Default
+import './renderers/esl-carousel.none.renderer';
 import './renderers/esl-carousel.default.renderer';
-import './renderers/esl-carousel.css-only.renderer';

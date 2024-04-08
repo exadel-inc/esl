@@ -30,7 +30,7 @@ export class ESLCSSCarouselRenderer extends ESLCarouselRenderer {
   }
 
   /** Pre-processing animation action. */
-  public async onBeforeAnimate(index: number, direction: ESLCarouselDirection): Promise<void> {
+  public override async onBeforeAnimate(index: number, direction: ESLCarouselDirection): Promise<void> {
     if (this.$carousel.hasAttribute('animating')) throw new Error('[ESL] Carousel: already animating');
 
     const $nextSlide = this.$carousel.$slides[index];
@@ -67,7 +67,7 @@ export class ESLCSSCarouselRenderer extends ESLCarouselRenderer {
   }
 
   /** Post-processing animation action. */
-  public async onAfterAnimate(): Promise<void> {
+  public override async onAfterAnimate(): Promise<void> {
     this.$carousel.toggleAttribute('animating', false);
     CSSClassUtils.remove(this.$carousel.$slides, 'next left right forward backward');
 
