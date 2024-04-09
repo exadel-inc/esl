@@ -11,7 +11,7 @@ import {ESLMediaQuery} from '../../esl-media-query/core';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 
 import type {ESLFootnotes} from './esl-footnotes';
-import type {TooltipActionParams} from '../../esl-tooltip/core/esl-tooltip';
+import type {ESLTooltipActionParams} from '../../esl-tooltip/core/esl-tooltip';
 import type {IMediaQueryCondition} from '../../esl-media-query/core/conditions/media-query-base';
 
 @ExportNs('Note')
@@ -214,7 +214,7 @@ export class ESLNote extends ESLBaseElement {
   }
 
   /** Merge params to pass to the toggleable */
-  protected mergeToggleableParams(this: ESLNote, ...params: TooltipActionParams[]): TooltipActionParams {
+  protected mergeToggleableParams(this: ESLNote, ...params: ESLTooltipActionParams[]): ESLTooltipActionParams {
     const container = this.getClosestRelatedAttr('container') || this.container;
     const containerEl = container ? ESLTraversingQuery.first(container, this) as HTMLElement : undefined;
     return Object.assign({
@@ -229,7 +229,7 @@ export class ESLNote extends ESLBaseElement {
   }
 
   /** Shows tooltip with passed params */
-  public showTooltip(params: TooltipActionParams = {}): void {
+  public showTooltip(params: ESLTooltipActionParams = {}): void {
     const actionParams = this.mergeToggleableParams({
     }, params);
     if (ESLTooltip.open) {
@@ -239,13 +239,13 @@ export class ESLNote extends ESLBaseElement {
     this.highlight();
   }
   /** Hides tooltip with passed params */
-  public hideTooltip(params: TooltipActionParams = {}): void {
+  public hideTooltip(params: ESLTooltipActionParams = {}): void {
     const actionParams = this.mergeToggleableParams({
     }, params);
     ESLTooltip.hide(actionParams);
   }
   /** Toggles tooltip with passed params */
-  public toggleTooltip(params: TooltipActionParams = {}, state: boolean = !this.tooltipShown): void {
+  public toggleTooltip(params: ESLTooltipActionParams = {}, state: boolean = !this.tooltipShown): void {
     state ? this.showTooltip(params) : this.hideTooltip(params);
   }
 

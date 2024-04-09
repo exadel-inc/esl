@@ -1,0 +1,299 @@
+---
+layout: content
+title: Accordion
+seoTitle: Accordion UI examples based on ESL web components
+name: Accordion
+tags: [examples, playground]
+icon: examples/accordion.svg
+aside:
+  components:
+    - esl-panel
+    - esl-panel-group
+    - esl-trigger
+    - esl-toggleable
+  examples:
+    - tabs
+    - toggleable
+---
+
+<section class="row">
+  <div class="col-12">
+    <uip-root>
+      <script type="text/html"
+              label="Default configuration"
+              uip-snippet
+              uip-snippet-js="js-snippet-accordion-init">
+        <esl-panel-group class="accordion-group">
+          <div class="esl-d-accordion">
+            <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+              Toggle Accordion #1
+            </esl-trigger>
+            <esl-panel open class="esl-d-accordion-panel">
+              <div class="esl-d-accordion-body">
+                <!-- text 100 -->
+              </div>
+            </esl-panel>
+          </div>
+          <div class="esl-d-accordion">
+            <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+              Toggle Accordion #2
+            </esl-trigger>
+            <esl-panel class="esl-d-accordion-panel">
+              <div class="esl-d-accordion-body">
+                <!-- text 100 -->
+              </div>
+            </esl-panel>
+          </div>
+          <div class="esl-d-accordion">
+            <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+              Toggle Accordion #3
+            </esl-trigger>
+            <esl-panel class="esl-d-accordion-panel">
+              <div class="esl-d-accordion-body">
+                <!-- text 100 -->
+              </div>
+            </esl-panel>
+          </div>
+        </esl-panel-group>
+      </script>
+
+      <script type="text/html"
+              label="Allows all panels to be closed"
+              uip-snippet
+              uip-snippet-js="js-snippet-accordion-init">
+        <esl-panel-group class="accordion-group" min-open-items="0">
+          <div class="esl-d-accordion">
+            <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+              Toggle Accordion #1
+            </esl-trigger>
+            <esl-panel class="esl-d-accordion-panel">
+              <div class="esl-d-accordion-body">
+                <!-- text 100 -->
+              </div>
+            </esl-panel>
+          </div>
+          <div class="esl-d-accordion">
+            <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+              Toggle Accordion #2
+            </esl-trigger>
+            <esl-panel class="esl-d-accordion-panel">
+              <div class="esl-d-accordion-body">
+                <!-- text 100 -->
+              </div>
+            </esl-panel>
+          </div>
+          <div class="esl-d-accordion">
+            <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+              Toggle Accordion #3
+            </esl-trigger>
+            <esl-panel class="esl-d-accordion-panel">
+              <div class="esl-d-accordion-body">
+                <!-- text 100 -->
+              </div>
+            </esl-panel>
+          </div>
+        </esl-panel-group>
+      </script>
+
+      <script type="text/html"
+              label="Hover accordion"
+              uip-snippet
+              uip-snippet-js="js-snippet-accordion-init">
+        <esl-panel-group class="accordion-group" min-open-items="0">
+          <div class="esl-d-accordion">
+            <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next"
+                         track-click="not all" track-hover hide-delay="250">
+              Toggle Accordion #1
+            </esl-trigger>
+            <esl-panel class="esl-d-accordion-panel" default-params="{hideDelay: 100}">
+              <div class="esl-d-accordion-body">
+                <!-- text 100 -->
+              </div>
+            </esl-panel>
+          </div>
+          <div class="esl-d-accordion">
+            <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next"
+                         track-click="not all" track-hover hide-delay="250">
+              Toggle Accordion #2
+            </esl-trigger>
+            <esl-panel class="esl-d-accordion-panel" default-params="{hideDelay: 100}">
+              <div class="esl-d-accordion-body">
+                <!-- text 100 -->
+              </div>
+            </esl-panel>
+          </div>
+          <div class="esl-d-accordion">
+            <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next"
+                         track-click="not all" track-hover hide-delay="250">
+              Toggle Accordion #3
+            </esl-trigger>
+            <esl-panel class="esl-d-accordion-panel" default-params="{hideDelay: 100}">
+              <div class="esl-d-accordion-body">
+                <!-- text 100 -->
+              </div>
+            </esl-panel>
+          </div>
+        </esl-panel-group>
+      </script>
+
+      <script type="text/html"
+              label="Multiple accordion"
+              uip-snippet
+              uip-snippet-js="js-snippet-accordion-init">
+        <esl-panel-group class="accordion-group" min-open-items="0" max-open-items="all">
+          <div class="esl-d-accordion">
+            <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+              Toggle Accordion #1
+            </esl-trigger>
+            <esl-panel class="esl-d-accordion-panel">
+              <div class="esl-d-accordion-body">
+                <!-- text 100 -->
+              </div>
+            </esl-panel>
+          </div>
+          <div class="esl-d-accordion">
+            <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+              Toggle Accordion #2
+            </esl-trigger>
+            <esl-panel open class="esl-d-accordion-panel">
+              <div class="esl-d-accordion-body">
+                <!-- text 100 -->
+              </div>
+            </esl-panel>
+          </div>
+          <div class="esl-d-accordion">
+            <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+              Toggle Accordion #3
+            </esl-trigger>
+            <esl-panel open class="esl-d-accordion-panel">
+              <div class="esl-d-accordion-body">
+                <!-- text 100 -->
+              </div>
+            </esl-panel>
+          </div>
+        </esl-panel-group>
+      </script>
+
+      <script type="text/html"
+              label="Auto-closable nested panels"
+              uip-snippet
+              uip-snippet-js="js-snippet-accordion-init">
+        <esl-panel-group class="accordion-group" min-open-items="0" max-open-items="all">
+          <div class="esl-d-accordion">
+            <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+              Toggle Accordion #1 (auto-closable)
+            </esl-trigger>
+            <esl-panel class="esl-d-accordion-panel"
+                       esl-related-target="::find(esl-panel)"
+                       esl-related-target-action="hide">
+              <div class="esl-d-accordion-body">
+                <!-- text 100 -->
+                <esl-panel-group class="accordion-group" max-open-items="all" min-open-items="0">
+                  <div class="esl-d-accordion">
+                    <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+                      Toggle Nested Accordion #1.1
+                    </esl-trigger>
+                    <esl-panel class="esl-d-accordion-panel">
+                      <div class="esl-d-accordion-body">
+                        <!-- text 100 -->
+                      </div>
+                    </esl-panel>
+                  </div>
+                  <div class="esl-d-accordion">
+                    <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+                      Toggle Nested Accordion #1.2
+                    </esl-trigger>
+                    <esl-panel class="esl-d-accordion-panel">
+                      <div class="esl-d-accordion-body">
+                        <!-- text 100 -->
+                      </div>
+                    </esl-panel>
+                  </div>
+                  <div class="esl-d-accordion">
+                    <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+                      Toggle Nested Accordion #1.3 (auto-closable)
+                    </esl-trigger>
+                    <esl-panel class="esl-d-accordion-panel"
+                               esl-related-target="::find(esl-panel)"
+                               esl-related-target-action="hide">
+                      <div class="esl-d-accordion-body">
+                        <!-- text 100 -->
+                        <esl-panel-group class="accordion-group" max-open-items="all" min-open-items="0">
+                          <div class="esl-d-accordion">
+                            <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+                              Toggle Nested Accordion #1.3.1
+                            </esl-trigger>
+                            <esl-panel class="esl-d-accordion-panel">
+                              <div class="esl-d-accordion-body">
+                                <!-- text 100 -->
+                              </div>
+                            </esl-panel>
+                          </div>
+                          <div class="esl-d-accordion">
+                            <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+                              Toggle Nested Accordion #1.3.2
+                            </esl-trigger>
+                            <esl-panel class="esl-d-accordion-panel">
+                              <div class="esl-d-accordion-body">
+                                <!-- text 100 -->
+                              </div>
+                            </esl-panel>
+                          </div>
+                          <div class="esl-d-accordion">
+                            <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+                              Toggle Nested Accordion #1.3.3
+                            </esl-trigger>
+                            <esl-panel class="esl-d-accordion-panel">
+                              <div class="esl-d-accordion-body">
+                                <!-- text 100 -->
+                              </div>
+                            </esl-panel>
+                          </div>
+                        </esl-panel-group>
+                        <!-- text 100 -->
+                      </div>
+                    </esl-panel>
+                  </div>
+                </esl-panel-group>
+              </div>
+            </esl-panel>
+          </div>
+          <div class="esl-d-accordion">
+            <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+              Toggle Accordion #2 (not auto-closable)
+            </esl-trigger>
+            <esl-panel class="esl-d-accordion-panel (not auto-closable)">
+              <div class="esl-d-accordion-body">
+                <!-- text 100 -->
+                <esl-panel-group class="accordion-group" max-open-items="all" min-open-items="0">
+                  <div class="esl-d-accordion">
+                    <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+                      Toggle Nested Accordion #2.1
+                    </esl-trigger>
+                    <esl-panel class="esl-d-accordion-panel">
+                      <div class="esl-d-accordion-body">
+                        <!-- text 100 -->
+                      </div>
+                    </esl-panel>
+                  </div>
+                </esl-panel-group>
+              </div>
+            </esl-panel>
+          </div>
+        </esl-panel-group>
+      </script>
+
+      <script id="js-snippet-accordion-init" type="text/plain">
+        import { ESLPanelGroup, ESLPanel, ESLTrigger } from '@exadel/esl';
+        ESLPanelGroup.register();
+        ESLPanel.register();
+        ESLTrigger.register();
+      </script>
+
+      <uip-snippets dropdown-view="@xs" class="uip-toolbar"></uip-snippets>
+      <uip-preview></uip-preview>
+      <uip-editor label="Source code (HTML)" collapsible copy></uip-editor>
+      <uip-editor source="js" label="Source code (JS)" collapsible collapsed copy></uip-editor>
+    </uip-root>
+  </div>
+</section>

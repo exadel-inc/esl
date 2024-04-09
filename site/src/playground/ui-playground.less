@@ -1,0 +1,57 @@
+@import (inline) '../../node_modules/@exadel/ui-playground/esm/registration.css';
+@import (reference) '../common/variables.less';
+
+// Default theme definition
+html {
+  --uip-bg: #fff;
+  --uip-fg: @body-fg;
+
+  --uip-header-bg: #112a47;
+  --uip-header-fg: #fff;
+
+  --uip-prview-max-height: 500px;
+
+  --uip-plugin-fg: #ccc;
+  --uip-plugin-bg: @primary-bg;
+  --uip-plugin-divider: #c8d6f0;
+
+  --uip-plugin-header-bg: #112a47;
+  --uip-plugin-header-fg: #fff;
+
+  --uip-plugin-fg-v: @body-fg;
+  --uip-plugin-bg-v: transparent;
+}
+
+.uip-root {
+  margin-block-end: 1rem;
+
+  overflow: hidden;
+  border: 1px solid #112a47;
+  border-radius: 0.5rem;
+
+  // Stylistic update for "readonly" label
+  .uip-editor-title::after {
+    opacity: 0.5;
+  }
+
+  .uip-plugin-header {
+    font-size: 1.1rem;
+  }
+
+  .uip-snippets[view='dropdown'] .uip-snippets-dropdown {
+    width: 100%;
+  }
+
+  .uip-settings {
+    --uip-plugin-bg: @body-bg;
+    --uip-plugin-fg: @body-fg;
+  }
+
+  .uip-inactive-setting {
+    display: none;
+  }
+
+  .uip-preview-h-scroll[inactive] {
+    display: none;
+  }
+}

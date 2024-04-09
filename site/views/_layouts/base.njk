@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="{{ lang or 'en' }}" {% if scrollbar %} class="esl-scrollable-content" {% endif %}>
+<head>
+  <title>{{ seoTitle or title or site.description }}</title>
+  <link rel="canonical" href="{{ canonicalURL or page.url | canonical | url }}"/>
+  {# Site meta information #}
+  <meta charset="UTF-8">
+  <meta name="generator" content="Eleventy">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% if description %}
+    <meta name="description" content="{{ description | escape}}">
+  {% endif %}
+
+  {# Additional site meta information #}
+  {% block meta %}{% endblock meta %}
+  {# Site icon #}
+  <link rel="icon" href="{{ '/favicon.ico' | url }}" sizes="any" />
+  <link rel="icon" href="{{ '/assets/favicon/icon.svg' | url }}" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="{{ '/assets/favicon/apple-touch-icon.png' | url }}" />
+  <link rel="manifest" href="{{ '/manifest.webmanifest' | url }}" />
+
+
+  {% if not env.isDev %}
+    {% include 'analytics.njk' %}
+  {% endif %}
+  {% block polyfils %}
+    {% include 'polyfill.njk' %}
+  {% endblock %}
+  {% block headlib %}
+    <link rel="stylesheet" type="text/css" href="{{ '/bundles/localdev.css' | url }}" />
+  {% endblock %}
+  {% if env.isE2E %}
+    <link rel="stylesheet" type="text/css" href="{{ '/bundles/e2e.css' | url }}" />
+  {% endif %}
+</head>
+<body>
+
+<div class="page {{ baseClass }}">
+  {% block content %}{% endblock %}
+</div>
+
+{% block body %}{% endblock %}
+
+{% if scrollbar %}
+  <esl-scrollbar class="page-scrollbar" target="html"></esl-scrollbar>
+{% endif %}
+
+{% block bodylib %}
+  <script src="{{ '/bundles/localdev.js' | url }}"></script>
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,287 @@
+---
+layout: content
+title: Embedded Audio / Video
+seoTitle: Embedded audio or video examples based on ESL web components
+name: Embedded Media
+tags: [examples, playground]
+icon: examples/embedded-video.svg
+aside:
+  components:
+    - esl-media
+---
+
+<uip-root>
+  <script type="text/html"
+          label="Playground"
+          uip-snippet
+          uip-snippet-js="js-snippet-media">
+    <h3 class="text-center">ESL Media</h3>
+
+    <div class="img-container img-container-16-9 img-container-loaded" style="border: solid black 1px;">
+      <esl-media group="demo-media" class="esl-media esl-media-demo-1" controls tabindex="0"></esl-media>
+    </div>
+
+    <div class="btn-group btn-group-centered">
+      <button class="btn btn-sec-blue" onclick="this.closest('uip-root').querySelector('.esl-media').play()">Play
+      </button>
+      <button class="btn btn-sec-blue" onclick="this.closest('uip-root').querySelector('.esl-media').pause()">Pause
+      </button>
+      <button class="btn btn-sec-blue" onclick="this.closest('uip-root').querySelector('.esl-media').stop()">Stop
+      </button>
+    </div>
+  </script>
+
+  <script type="text/html"
+          label="Basic Audio"
+          uip-snippet
+          uip-snippet-js="js-snippet-media">
+    <h2>Basic Audio Example</h2>
+    <p>ESL Media supports simple HTML audio in mp3, wav or aac formats:</p>
+
+    <esl-media controls
+               media-type="audio"
+               media-src="{{ '/assets/media/audio.mp3' | url }}"
+               tabindex="0">
+    </esl-media>
+
+    <div class="btn-group btn-group-centered">
+      <button class="btn btn-sec-blue" onclick="this.closest('uip-root').querySelector('.esl-media').play()">Play
+      </button>
+      <button class="btn btn-sec-blue" onclick="this.closest('uip-root').querySelector('.esl-media').pause()">Pause
+      </button>
+      <button class="btn btn-sec-blue" onclick="this.closest('uip-root').querySelector('.esl-media').stop()">Stop
+      </button>
+    </div>
+  </script>
+
+  <script type="text/html"
+          label="Basic Video"
+          uip-snippet
+          uip-snippet-js="js-snippet-media">
+    <h2 class="text-center">HTML video</h2>
+    <p>ESL Media can be used for simple HTML videos.
+      It brings us the ability to use extra features (like lazy loading or cropping) for simple videos.</p>
+
+    <div class="img-container img-container-16-9 img-container-loaded">
+      <esl-media group="demo-media"
+                 media-type="video"
+                 media-src="{{ '/assets/media/video_1.mp4' | url }}"
+                 controls
+                 tabindex="0">
+      </esl-media>
+    </div>
+
+    <div class="btn-group btn-group-centered">
+      <button class="btn btn-sec-blue" onclick="this.closest('uip-root').querySelector('.esl-media').play()">Play
+      </button>
+      <button class="btn btn-sec-blue" onclick="this.closest('uip-root').querySelector('.esl-media').pause()">Pause
+      </button>
+      <button class="btn btn-sec-blue" onclick="this.closest('uip-root').querySelector('.esl-media').stop()">Stop
+      </button>
+    </div>
+  </script>
+
+  <script type="text/html"
+          label="Youtube Video"
+          uip-snippet
+          uip-snippet-js="js-snippet-media">
+    <h2 class="text-center">YouTube video</h2>
+    <p>ESL Media has full support of YouTube provider. And you can use esl media component the same way as a native
+      video element</p>
+    <p>Note: that ready class is used to provide spinner while video provider is loading </p>
+
+    <div class="img-container img-container-16-9">
+      <esl-media group="demo-media"
+                 media-type="youtube"
+                 media-id="hqc8EbfR5BE"
+                 ready-class="img-container-loaded"
+                 ready-class-target="::parent"
+                 controls
+                 tabindex="0">
+      </esl-media>
+    </div>
+
+    <div class="btn-group btn-group-centered">
+      <button class="btn btn-sec-blue" onclick="this.closest('uip-root').querySelector('.esl-media').play()">Play
+      </button>
+      <button class="btn btn-sec-blue" onclick="this.closest('uip-root').querySelector('.esl-media').pause()">Pause
+      </button>
+      <button class="btn btn-sec-blue" onclick="this.closest('uip-root').querySelector('.esl-media').stop()">Stop
+      </button>
+    </div>
+
+    <style>
+      .img-container:not(.img-container-loaded)::after {
+        content: url({{ '/assets/common/loader.gif' | url }});
+        position: absolute;
+        width: 10%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    </style>
+  </script>
+
+  <script type="text/html"
+          label="Abstract Video (iframe)"
+          uip-snippet
+          uip-snippet-js="js-snippet-media">
+    <h2 class="text-center">Basic Iframe Example</h2>
+    <p>ESL Media also has build-in provider to wrap abstract iframe source. Here is a simple example for Vimeo media
+      source</p>
+    <p class="alert alert-warning">Basic Iframe provider has limited API so you can only show/hide/reinitialize inner
+      iframe</p>
+
+    <div class="img-container img-container-16-9 img-container-loaded">
+      <esl-media media-type="iframe"
+                 media-src="https://player.vimeo.com/video/1084537"
+                 tabindex="0">
+      </esl-media>
+    </div>
+
+    <div class="btn-group btn-group-centered">
+      <button class="btn btn-sec-blue" onclick="this.closest('uip-root').querySelector('.esl-media').play()">Play
+      </button>
+      <button class="btn btn-sec-blue" onclick="this.closest('uip-root').querySelector('.esl-media').stop()">Stop
+      </button>
+    </div>
+  </script>
+
+
+  <script type="text/html"
+          label="Load Condition"
+          uip-snippet
+          uip-snippet-js="js-snippet-media">
+    <h2 class="text-center">ESL Media conditions</h2>
+    <p>Resize the window to see condition change</p>
+
+    <style>
+      .img-container.show-video {
+        border: solid green 2px;
+      }
+
+      .img-container.hide-video {
+        border: solid red 2px;
+      }
+    </style>
+    <div class="img-container img-container-16-9 img-container-loaded">
+      <esl-media group="demo-media"
+                 media-type="video"
+                 media-src="{{ '/assets/media/video_1.mp4' | url }}"
+                 load-condition="(min-width: 600px)"
+                 load-cls-target="::parent(.img-container)"
+                 load-cls-accepted="show-video"
+                 load-cls-declined="hide-video"
+                 controls
+                 tabindex="0">
+      </esl-media>
+    </div>
+  </script>
+
+  <script id="js-snippet-media" type="text/plain">
+    import { ESLMedia } from '@exadel/esl';
+
+    // Keep only those you need
+    import '@exadel/esl/modules/esl-media/providers/iframe-provider'; // Recommended as a fallback
+    import '@exadel/esl/modules/esl-media/providers/html5/audio-provider';
+    import '@exadel/esl/modules/esl-media/providers/html5/video-provider';
+    import '@exadel/esl/modules/esl-media/providers/youtube-provider';
+
+    ESLMedia.register();
+  </script>
+
+  <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
+  <uip-preview></uip-preview>
+  <uip-settings target="esl-media" label="Settings" resizable vertical="@+sm">
+    <uip-select-setting label="Media type:" attribute="media-type">
+      <option value="auto">- Auto -</option>
+      <option value="audio">HTML Audio</option>
+      <option value="video">HTML Video</option>
+      <option value="youtube">Youtube</option>
+      <option value="brightcove">Brightcove</option>
+      <option value="iframe">Iframe</option>
+    </uip-select-setting>
+    <uip-text-setting label="Media src:" attribute="media-src"></uip-text-setting>
+    <uip-text-setting label="Media id:" attribute="media-id"></uip-text-setting>
+    <uip-text-setting label="Player id:" attribute="player-id"></uip-text-setting>
+    <uip-text-setting label="Player account:" attribute="player-account"></uip-text-setting>
+    <uip-select-setting label="Lazy:" attribute="lazy">
+      <option value="none" selected>None</option>
+      <option value="manual">Manual</option>
+      <option value="auto">Auto</option>
+    </uip-select-setting>
+    <uip-bool-setting label="Muted" attribute="muted"></uip-bool-setting>
+    <uip-bool-setting label="Autoplay" attribute="autoplay"></uip-bool-setting>
+  </uip-settings>
+  <uip-editor label="Source code (HTML)" collapsible copy></uip-editor>
+  <uip-editor source="js" label="Source code (JS)" collapsible collapsed copy></uip-editor>
+</uip-root>
+
+<hr/>
+
+<section>
+  <h2 class="text-center">Video background</h2>
+  <p class="text-center">Cropping and decorations features of ESL Media allows us to use it as an active background for
+    the block.</p>
+
+  <uip-root>
+    <script type="text/html"
+            label="Background Video"
+            uip-snippet
+            uip-snippet-js="js-snippet-media-bg">
+      <div class="demo-marquee dark" style="height: 400px">
+        <esl-media class="bg-content esl-media-bg esl-animate-fade"
+                   ready-class="in"
+                   media-type="video"
+                   media-src="{{ '/assets/media/video.mp4' | url }}"
+                   fill-mode="cover"
+                   play-in-viewport
+                   lazy
+                   autoplay muted loop playsinline>
+        </esl-media>
+        <div class="demo-content">
+          <p class="h3">Background media</p>
+          <p><!-- text x50 --></p>
+        </div>
+      </div>
+    </script>
+
+    <script type="text/html"
+            label="Background Youtube Video"
+            uip-snippet
+            uip-snippet-js="js-snippet-media-bg">
+      <div class="demo-marquee dark" style="height: 400px">
+        <esl-media class="bg-content esl-media-bg esl-animate-fade"
+                   ready-class="in"
+                   media-type="youtube"
+                   media-id="5ryf1AVl8Wg"
+                   fill-mode="cover"
+                   aspect-ratio="4:3"
+                   play-in-viewport
+                   lazy="auto"
+                   autoplay muted loop playsinline>
+        </esl-media>
+        <div class="demo-content">
+          <p class="h3">Background media</p>
+          <p><!-- text x50 --></p>
+        </div>
+      </div>
+    </script>
+
+    <script id="js-snippet-media-bg" type="text/plain">
+      import { ESLMedia } from '@exadel/esl';
+
+      // Keep only those you need
+      import '@exadel/esl/modules/esl-media/providers/html5/video-provider';
+      import '@exadel/esl/modules/esl-media/providers/youtube-provider';
+
+      ESLMedia.register();
+    </script>
+
+    <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
+    <uip-preview></uip-preview>
+    <uip-editor label="Source code" collapsible copy></uip-editor>
+    <uip-editor label="Source code (HTML)" collapsible copy></uip-editor>
+    <uip-editor source="js" label="Source code (JS)" collapsible collapsed copy></uip-editor>
+  </uip-root>
+</section>

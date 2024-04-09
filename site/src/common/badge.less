@@ -1,0 +1,88 @@
+@import (reference) './variables.less';
+
+.badge {
+  display: inline-block;
+  text-transform: uppercase;
+  padding: 0.45em 0.4em;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25rem;
+  transition:
+    color 0.15s ease-in-out,
+    background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+
+  &:not(&-img):empty {
+    display: none;
+  }
+
+  &-sidebar {
+    position: absolute;
+    top: 50%;
+    left: 35px;
+    transform: translate(-50%, -50%);
+  }
+
+  &-md {
+    padding: 0.4em 0.8em;
+    font-size: 80%;
+  }
+
+  &-warning {
+    color: #fff;
+    background-color: @warning;
+  }
+
+  &-danger {
+    color: #fff;
+    background-color: @danger;
+  }
+
+  &-success {
+    color: #fff;
+    background-color: @success;
+  }
+
+  &-link {
+    font-weight: 500;
+    background-color: #fff;
+    border: 1px solid @secondary-blue;
+  }
+
+  &-sup {
+    display: inline-block;
+    font-size: 52%;
+    font-weight: 700;
+    vertical-align: super;
+    letter-spacing: 0.5px;
+    text-shadow: 0 0 1px #2125293d;
+  }
+  &-sup&-small {
+    font-size: 40%;
+  }
+
+  &-img {
+    width: 20px;
+    height: 20px;
+  }
+
+  &-playground {
+    &::after {
+      position: absolute;
+      content: '';
+      inset: 0;
+      background-position: center;
+      background-image: url("data:image/svg+xml,%3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26.1 11.7' fill='white' xml:space='preserve'%3E%3Cpath d='M2.8 5.9 6.7 2a1 1 0 0 0 0-1.6C6.2-.1 5.5-.1 5 .4L.7 4.6l-.2.3-.2.2a1 1 0 0 0 0 1.6L5 11.4c.5.4 1.2.4 1.6 0a1 1 0 0 0 0-1.6L2.8 5.9zM14.4 1.3l2 1.2L12 9.9l-2-1.1zM11.9 10.2 9.9 9l-.2 2.6zM14.8.6c.3-.5 1-.7 1.6-.4.6.3.7 1 .4 1.6l-.3.5-2-1.1.3-.6zM25.7 6.7l-.2.2-.2.3-4.3 4.2c-.5.4-1.2.4-1.6 0a1 1 0 0 1 0-1.6L23.3 6l-3.9-4a1 1 0 0 1 0-1.6c.5-.4 1.2-.4 1.6 0l4.7 4.7c.5.4.5 1.1 0 1.6z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}

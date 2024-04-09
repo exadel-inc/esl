@@ -1,4 +1,6 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
+# Do not run in GitHub Actions
+if [ -n "$GITHUB_ACTIONS" ]; then
+  exit 0
+fi
 
 npm run test -ws --include-workspace-root

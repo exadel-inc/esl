@@ -73,7 +73,7 @@ rules:
 
 overrides:
   # Demo site pages sources
-  - files: pages/**/*.{css,less}
+  - files: site/**/*.{css,less}
     rules:
       # Warn about duplicate properties within declaration blocks
       declaration-block-no-duplicate-properties:

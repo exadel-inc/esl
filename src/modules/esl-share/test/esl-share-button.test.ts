@@ -3,9 +3,6 @@ import {ESLShareCopyAction} from '../actions/copy-action';
 import '../buttons/copy';
 import {facebook} from '../buttons/facebook';
 
-// @ts-ignore
-import nestedElementsTemplate from './nested-elements-template.html';
-
 describe('ESLShareButton tests', () => {
   beforeAll(() => ESLShareButton.register());
 
@@ -87,7 +84,14 @@ describe('ESLShareButton tests', () => {
 
     beforeAll(() => {
       document.title = 'Fallback title';
-      document.body.innerHTML = nestedElementsTemplate;
+      document.body.innerHTML = `
+        <div class="lvl-1">
+          <div class="lvl-2">
+            <div class="lvl-3">
+            </div>
+          </div>
+        </div>
+      `.trim();
       $lvl.push(document.body);
       ['.lvl-1', '.lvl-2', '.lvl-3'].forEach((selector) => $lvl.push(document.querySelector(selector) as HTMLElement));
       $button = ESLShareButton.create('copy');

@@ -1,0 +1,48 @@
+@import (inline) 'prismjs/themes/prism-tomorrow.css';
+@import (reference) './variables.less';
+
+pre,
+code {
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+    'Courier New', monospace;
+  font-size: 1em;
+}
+
+code {
+  font-size: 87.5%;
+  color: #0077b7;
+  word-wrap: break-word;
+}
+
+pre,
+pre[class*='language-'] {
+  display: block;
+  font-size: 87.5%;
+  color: #ccc;
+  overflow: auto;
+  background: @primary-bg;
+  padding: 1em;
+  margin: 0.5em 0;
+  border-radius: 0.5em;
+
+  code {
+    font-size: inherit;
+    color: inherit;
+    word-break: normal;
+  }
+}
+
+.code-block {
+  position: relative;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+  border-radius: 0.25rem;
+
+  font-weight: bolder;
+}
+
+.language-html {
+  .token.attr-name {
+    color: #f08d49;
+  }
+}

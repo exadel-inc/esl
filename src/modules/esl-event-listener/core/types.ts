@@ -60,7 +60,7 @@ export interface ESLListenerDefinition<EType extends keyof ESLListenerEventMap =
 }
 
 /** Describes callback handler */
-export type ESLListenerHandler<EType extends Event = Event> = (event: EType) => void;
+export type ESLListenerHandler<EType extends Event = Event> = ((event: EType) => void) | (() => void);
 
 /** Condition (criteria) to find {@link ESLListenerDescriptor} */
 export type ESLListenerCriteria =

@@ -10,4 +10,5 @@ node_modules
 /polyfills
 
 # Submodule output
+/site/dist
 /eslint/dist

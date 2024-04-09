@@ -1,6 +1,6 @@
 {
   "name": "@exadel/eslint-plugin-esl",
-  "version": "4.14.1",
+  "version": "4.15.0",
   "keywords": [
     "eslint",
     "eslint-plugin",
@@ -13,7 +13,7 @@
     "prepare": "npm run build",
     "test": "jest",
     "clean": "rimraf dist",
-    "build": "npm run clean && tsc --project tsconfig.json"
+    "build": "npm run clean && tsc --project tsconfig.build.json"
   },
   "dependencies": {},
   "files": [

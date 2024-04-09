@@ -4,7 +4,7 @@ import {bind, listen, memoize, prop} from '../../esl-utils/decorators';
 import {ESLShareButton} from './esl-share-button';
 import {ESLShareConfig} from './esl-share-config';
 
-import type {TooltipActionParams} from '../../esl-tooltip/core/esl-tooltip';
+import type {ESLTooltipActionParams} from '../../esl-tooltip/core/esl-tooltip';
 import type {ESLShareButtonConfig} from './esl-share-config';
 
 export type {ESLSharePopupTagShape} from './esl-share-popup.shape';
@@ -13,7 +13,7 @@ function stringifyButtonsList(btns: ESLShareButtonConfig[]): string {
   return btns.map((btn) => btn.name).join(',');
 }
 
-export interface ESLSharePopupActionParams extends TooltipActionParams {
+export interface ESLSharePopupActionParams extends ESLTooltipActionParams {
   /** list of social networks or groups of them to display */
   list?: string;
 }
@@ -58,7 +58,7 @@ export class ESLSharePopup extends ESLTooltip {
   /** Hashstring with a list of buttons already rendered in the popup */
   protected _list: string = '';
 
-  public override onShow(params: TooltipActionParams): void {
+  public override onShow(params: ESLTooltipActionParams): void {
     if (params.list) {
       const buttonsList = ESLShareConfig.instance.get(params.list);
       this.appendButtonsFromList(buttonsList);

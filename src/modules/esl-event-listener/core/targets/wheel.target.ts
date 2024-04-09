@@ -99,7 +99,7 @@ export class ESLWheelTarget extends SyntheticEventTarget {
 
   /**
    * Calculates the scroll pixels for a given wheel event
-   * @param events - An event to retrieve scroll value from
+   * @param event - An event to retrieve scroll value from
    * @param isVertical - A boolean indicating the axis (vertical or horizontal) for scroll calculation
    * @returns The number of pixels scrolled
    */
@@ -123,7 +123,7 @@ export class ESLWheelTarget extends SyntheticEventTarget {
 
   /** Subscribes to wheel event */
   public override addEventListener(callback: EventListener): void;
-  public override addEventListener(event: string, callback: EventListener): void;
+  public override addEventListener(event: typeof ESLWheelEvent.type, callback: EventListener): void;
   public override addEventListener(event: any, callback: EventListener = event): void {
     super.addEventListener(event, callback);
 
@@ -133,7 +133,7 @@ export class ESLWheelTarget extends SyntheticEventTarget {
 
   /** Unsubscribes from the observed target {@link Element} wheel events */
   public override removeEventListener(callback: EventListener): void;
-  public override removeEventListener(event: string, callback: EventListener): void;
+  public override removeEventListener(event: typeof ESLWheelEvent.type, callback: EventListener): void;
   public override removeEventListener(event: any, callback: EventListener = event): void {
     super.removeEventListener(event, callback);
 

@@ -1,0 +1,335 @@
+---
+layout: content
+title: Tabs
+seoTitle: Tabs UI examples based on ESL web components
+name: Tabs
+tags: [examples, playground]
+icon: examples/tabs.svg
+aside:
+  components:
+    - esl-tabs
+    - esl-panel
+    - esl-panel-group
+    - esl-trigger
+    - esl-toggleable
+  examples:
+    - accordion
+    - toggleable
+---
+{% import 'lorem.njk' as lorem %}
+
+<section class="row">
+  <div class="col-12">
+    <uip-root>
+      <script type="text/html"
+              label="Simple Tabs"
+              uip-snippet
+              uip-snippet-js="js-snippet-only-tabs"
+              uip-isolated>
+        <div class="esl-d-tabs">
+          <esl-tabs class="esl-d-tab-control tabs-alignment">
+            <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
+
+            <ul class="esl-d-tab-list esl-tab-container" role="tablist">
+              <li class="esl-d-tab-item">
+                <esl-tab class="h5" target="::parent(.esl-d-tabs)::find(.tab-1)">Tab #1 simple tabs</esl-tab>
+              </li>
+              <li class="esl-d-tab-item">
+                <esl-tab class="h5" target="::parent(.esl-d-tabs)::find(.tab-2)">Tab #2 simple tabs</esl-tab>
+              </li>
+              <li class="esl-d-tab-item">
+                <esl-tab class="h5" target="::parent(.esl-d-tabs)::find(.tab-3)">Tab #3 simple tabs</esl-tab>
+              </li>
+            </ul>
+
+          </esl-tabs>
+
+          <esl-panel-group class="esl-d-tab-group"
+                           mode="tabs"
+                           mode-cls-target="::parent">
+            <esl-panel class="esl-d-tab-panel tab-1" tabindex="0">
+              <div class="esl-d-tab-body">
+                <!-- text 100 -->
+              </div>
+            </esl-panel>
+            <esl-panel open class="esl-d-tab-panel tab-2" tabindex="0">
+              <div class="esl-d-tab-body">
+                <!-- text 100 -->
+              </div>
+            </esl-panel>
+            <esl-panel class="esl-d-tab-panel tab-3" tabindex="0">
+              <div class="esl-d-tab-body">
+                <!-- text 150 -->
+              </div>
+            </esl-panel>
+          </esl-panel-group>
+        </div>
+      </script>
+
+      <script type="text/html"
+              label="Tabs overflow"
+              uip-snippet
+              uip-snippet-js="js-snippet-only-tabs"
+              uip-isolated>
+        <div class="esl-d-tabs">
+          <esl-tabs class="esl-d-tab-control multiple-tabs" scrollable="side">
+            <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
+
+            <div class="arrow-prev" data-tab-direction="left">
+              <span class="icon-arrow-prev"></span>
+            </div>
+
+            <ul class="esl-d-tab-list esl-tab-container" role="tablist">
+              <li class="esl-d-tab-item">
+                <esl-tab class="h5" target="::parent(.esl-d-tabs)::find(.tab-1)">Tab #1 multi tabs</esl-tab>
+              </li>
+              <li class="esl-d-tab-item">
+                <esl-tab class="h5" target="::parent(.esl-d-tabs)::find(.tab-2)">Tab #2 multi tabs</esl-tab>
+              </li>
+              <li class="esl-d-tab-item">
+                <esl-tab class="h5" target="::parent(.esl-d-tabs)::find(.tab-3)">Tab #3 multi tabs</esl-tab>
+              </li>
+              <li class="esl-d-tab-item">
+                <esl-tab class="h5" target="::parent(.esl-d-tabs)::find(.tab-4)">Tab #4 multi tabs</esl-tab>
+              </li>
+              <li class="esl-d-tab-item">
+                <esl-tab class="h5" target="::parent(.esl-d-tabs)::find(.tab-5)">Tab #5 multi tabs</esl-tab>
+              </li>
+              <li class="esl-d-tab-item">
+                <esl-tab class="h5" target="::parent(.esl-d-tabs)::find(.tab-6)">Tab #6 multi tabs</esl-tab>
+              </li>
+              <li class="esl-d-tab-item">
+                <esl-tab class="h5" target="::parent(.esl-d-tabs)::find(.tab-7)">Tab #7 multi tabs</esl-tab>
+              </li>
+              <li class="esl-d-tab-item">
+                <esl-tab class="h5" target="::parent(.esl-d-tabs)::find(.tab-8)">Tab #8 multi tabs</esl-tab>
+              </li>
+              <li class="esl-d-tab-item">
+                <esl-tab class="h5" target="::parent(.esl-d-tabs)::find(.tab-9)">Tab #9 multi tabs</esl-tab>
+              </li>
+              <li class="esl-d-tab-item">
+                <esl-tab class="h5" target="::parent(.esl-d-tabs)::find(.tab-10)">Tab #10 multi tabs</esl-tab>
+              </li>
+            </ul>
+
+            <div class="arrow-next" data-tab-direction="right">
+              <span class="icon-arrow-next"></span>
+            </div>
+          </esl-tabs>
+
+          <esl-panel-group class="esl-d-tab-group"
+                           mode="tabs"
+                           mode-cls-target="::parent">
+            <esl-panel class="esl-d-tab-panel tab-1" tabindex="0">
+              <div class="esl-d-tab-body">
+                <!-- text 100 -->
+              </div>
+            </esl-panel>
+            <esl-panel open class="esl-d-tab-panel tab-2" tabindex="0">
+              <div class="esl-d-tab-body">
+                <!-- text 100 -->
+              </div>
+            </esl-panel>
+            <esl-panel class="esl-d-tab-panel tab-3" tabindex="0">
+              <div class="esl-d-tab-body">
+                <!-- text 150 -->
+              </div>
+            </esl-panel>
+            <esl-panel class="esl-d-tab-panel tab-4" tabindex="0">
+              <div class="esl-d-tab-body">
+                <!-- text 100 -->
+              </div>
+            </esl-panel>
+            <esl-panel class="esl-d-tab-panel tab-5" tabindex="0">
+              <div class="esl-d-tab-body">
+                <!-- text 100 -->
+              </div>
+            </esl-panel>
+            <esl-panel class="esl-d-tab-panel tab-6" tabindex="0">
+              <div class="esl-d-tab-body">
+                <!-- text 150 -->
+              </div>
+            </esl-panel>
+            <esl-panel class="esl-d-tab-panel tab-7" tabindex="0">
+              <div class="esl-d-tab-body">
+                <!-- text 100 -->
+              </div>
+            </esl-panel>
+            <esl-panel class="esl-d-tab-panel tab-8" tabindex="0">
+              <div class="esl-d-tab-body">
+                <!-- text 150 -->
+              </div>
+            </esl-panel>
+            <esl-panel class="esl-d-tab-panel tab-9" tabindex="0">
+              <div class="esl-d-tab-body">
+                <!-- text 100 -->
+              </div>
+            </esl-panel>
+            <esl-panel class="esl-d-tab-panel tab-10" tabindex="0">
+              <div class="esl-d-tab-body">
+                <!-- text 100 -->
+              </div>
+            </esl-panel>
+          </esl-panel-group>
+        </div>
+      </script>
+
+      <script type="text/html"
+              label="Tabs/Accordion transformation"
+              uip-snippet
+              uip-snippet-js="js-snippet-tabs-n-accordion"
+              uip-isolated>
+        <div class="esl-d-tabs">
+          <esl-tabs class="esl-d-tab-control">
+            <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
+
+            <ul class="esl-d-tab-list esl-tab-container" role="tablist">
+              <li class="esl-d-tab-item">
+                <esl-tab class="h5" target="::parent(.esl-d-tabs)::find(.tab-1)">Tab #1</esl-tab>
+              </li>
+              <li class="esl-d-tab-item">
+                <esl-tab class="h5" target="::parent(.esl-d-tabs)::find(.tab-2)">Tab #2</esl-tab>
+              </li>
+              <li class="esl-d-tab-item">
+                <esl-tab class="h5" target="::parent(.esl-d-tabs)::find(.tab-3)">Tab #3</esl-tab>
+              </li>
+              <li class="esl-d-tab-item">
+                <esl-tab class="h5" target="::parent(.esl-d-tabs)::find(.tab-4)">Tab #4</esl-tab>
+              </li>
+            </ul>
+          </esl-tabs>
+
+          <esl-panel-group class="esl-d-tab-group"
+                           mode="@-SM => accordion | @+MD => tabs"
+                           min-open-items="0 | @+MD => 1"
+                           max-open-items="all | @+MD => 1"
+                           refresh-strategy="@-SM => last | @+MD => initial"
+                           mode-cls-target="::parent">
+            <esl-a11y-group targets="::child(esl-trigger)"></esl-a11y-group>
+
+            <esl-trigger class="esl-d-accordion-header esl-d-accordion-header-arrow h5"
+                         target="::next">Toggle Tab #1
+            </esl-trigger>
+            <esl-panel class="esl-d-tab-panel tab-1" tabindex="0">
+              <div class="esl-d-tab-body">
+                <!-- text 130 -->
+              </div>
+            </esl-panel>
+
+            <esl-trigger class="esl-d-accordion-header esl-d-accordion-header-arrow h5"
+                         target="::next">Toggle Tab #2
+            </esl-trigger>
+            <esl-panel open class="esl-d-tab-panel tab-2" tabindex="0">
+              <div class="esl-d-tab-body">
+                <!-- text 100 -->
+              </div>
+            </esl-panel>
+
+            <esl-trigger class="esl-d-accordion-header esl-d-accordion-header-arrow h5"
+                         target="::next">Toggle Tab #3
+            </esl-trigger>
+            <esl-panel class="esl-d-tab-panel tab-3" tabindex="0">
+              <div class="esl-d-tab-body">
+                <!-- text 150 -->
+              </div>
+            </esl-panel>
+
+            <esl-trigger class="esl-d-accordion-header esl-d-accordion-header-arrow h5"
+                         target="::next">Toggle Tab #4
+            </esl-trigger>
+            <esl-panel class="esl-d-tab-panel tab-4" tabindex="0">
+              <div class="esl-d-tab-body">
+                <!-- text 150 -->
+              </div>
+            </esl-panel>
+          </esl-panel-group>
+        </div>
+        <div class="alert alert-info mt-2">Example with a simple tab mode that transforms to accordion on XS and SM. Accordion restores last state, tabs
+          restore initial state</div>
+      </script>
+
+      <script type="text/html"
+              label="Tabs/Open state transformation"
+              uip-snippet
+              uip-snippet-js="js-snippet-only-tabs"
+              uip-isolated>
+        <div class="esl-d-tabs">
+          <esl-tabs class="esl-d-tab-control tabs-alignment">
+            <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
+
+            <ul class="esl-d-tab-list esl-tab-container" role="tablist">
+              <li class="esl-d-tab-item">
+                <esl-tab class="h5" target="::parent(.esl-d-tabs)::find(.tab-1)">Tab #1</esl-tab>
+              </li>
+              <li class="esl-d-tab-item">
+                <esl-tab class="h5" target="::parent(.esl-d-tabs)::find(.tab-2)">Tab #2</esl-tab>
+              </li>
+              <li class="esl-d-tab-item">
+                <esl-tab class="h5" target="::parent(.esl-d-tabs)::find(.tab-3)">Tab #3</esl-tab>
+              </li>
+            </ul>
+
+          </esl-tabs>
+
+          <esl-panel-group class="esl-d-tab-group"
+                           mode="accordion | @+MD => tabs"
+                           min-open-items="all | @+MD => 1"
+                           max-open-items="all | @+MD => 1"
+                           mode-cls-target="::parent">
+            <esl-panel class="esl-d-tab-panel tab-1" tabindex="0">
+              <div class="esl-d-tab-body">
+                <!-- text 100 -->
+              </div>
+            </esl-panel>
+            <esl-panel open class="esl-d-tab-panel tab-2 open" tabindex="0">
+              <div class="esl-d-tab-body">
+                <!-- text 150 -->
+              </div>
+            </esl-panel>
+            <esl-panel class="esl-d-tab-panel tab-3" tabindex="0">
+              <div class="esl-d-tab-body">
+                <!-- text 100 -->
+              </div>
+            </esl-panel>
+          </esl-panel-group>
+        </div>
+        <div class="alert alert-info mt-2">Example with a simple tab mode. It transforms to default (open) cards on XS and SM</div>
+      </script>
+
+      <script id="js-snippet-only-tabs" type="text/plain">
+        import { ESLPanelGroup, ESLPanel, ESLTab, ESLTabs } from '@exadel/esl';
+        ESLPanelGroup.register();
+        ESLPanel.register();
+        ESLTab.register();
+        ESLTabs.register();
+      </script>
+      <script id="js-snippet-tabs-n-accordion" type="text/plain">
+        import { ESLPanelGroup, ESLPanel, ESLTab, ESLTabs, ESLTrigger } from '@exadel/esl';
+        ESLPanelGroup.register();
+        ESLPanel.register();
+        ESLTab.register();
+        ESLTabs.register();
+        ESLTrigger.register();
+      </script>
+
+
+      <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
+      <uip-preview></uip-preview>
+      <uip-settings target="esl-tabs" label="Settings" resizable vertical="@+sm">
+        <uip-select-setting target="esl-tabs.tabs-alignment" label="Alignment:" attribute="class" mode="append">
+          <option value="">Left</option>
+          <option value="center-alignment">Center</option>
+          <option value="right-alignment">Right</option>
+        </uip-select-setting>
+        <uip-bool-setting label="Match Height" target="esl-panel-group" attribute="class" mode="append" value="esl-tabs-equal-height"></uip-bool-setting>
+        <uip-select-setting target="esl-tabs.multiple-tabs" label="Scrollable mode:" attribute="scrollable" mode="append" inconsistency="Disabled">
+          <option value="disabled" selected>None</option>
+          <option value="side">Side</option>
+          <option value="center">Center</option>
+        </uip-select-setting>
+      </uip-settings>
+      <uip-editor label="Source code (HTML)" collapsible copy></uip-editor>
+      <uip-editor source="js" label="Source code (JS)" collapsible collapsed copy></uip-editor>
+    </uip-root>
+  </div>
+</section>
