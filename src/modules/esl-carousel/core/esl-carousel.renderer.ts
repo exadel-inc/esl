@@ -126,14 +126,13 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
   /** Sets active slides from passed index **/
   public setActive(current: number, event?: Partial<ESLCarouselSlideEventInit>): void {
     const related = this.$carousel.activeIndex;
-    const nextIndex = normalizeIndex(current + this.count, this.size);
-    const prevIndex = normalizeIndex(current - 1, this.size);
+    const count = Math.min(this.count, this.size);
 
     for (let i = 0; i < this.size; i++) {
-      this.$slides[i].active = i >= current && i < current + this.count;
-      if (this.$slides[i].active) continue; // skip next/prev calculation for active slides
-      this.$slides[i].next = i === nextIndex;
-      this.$slides[i].prev = i === prevIndex;
+      const position = normalizeIndex(i + current, this.size);
+      this.$slides[position].active = i < count;
+      this.$slides[position].next = i === count && (this.loop || position !== 0);
+      this.$slides[position].prev = i === this.size - 1 && i >= count && (this.loop || position !== this.size - 1);
     }
 
     if (event && typeof event === 'object') {
