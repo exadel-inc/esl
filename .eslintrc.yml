@@ -10,7 +10,7 @@ extends:
   - 'eslint:recommended'
   - 'plugin:import/typescript'
   - 'plugin:@typescript-eslint/recommended'
-  - 'plugin:@exadel/esl/default-4'
+  - 'plugin:@exadel/esl/default'
 
   # Library base set
   - './linting/codestyle.eslintrc.yml'
