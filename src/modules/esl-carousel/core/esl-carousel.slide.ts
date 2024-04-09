@@ -58,36 +58,36 @@ export class ESLCarouselSlide extends ESLBaseElement {
 
   /** @returns next slide sibling. */
   public get $next(): ESLCarouselSlide {
-    return findNext(this, (this.constructor as typeof ESLCarouselSlide).is) as ESLCarouselSlide;
+    return findNext(this, this.baseTagName) as ESLCarouselSlide;
   }
   /** @returns prev slide sibling. */
   public get $prev(): ESLCarouselSlide {
-    return findPrev(this, (this.constructor as typeof ESLCarouselSlide).is) as ESLCarouselSlide;
+    return findPrev(this, this.baseTagName) as ESLCarouselSlide;
   }
 
   /** @returns next slide sibling (uses cyclic find). */
   public get $nextCyclic(): ESLCarouselSlide {
-    return findNextLooped(this, (this.constructor as typeof ESLCarouselSlide).is) as ESLCarouselSlide;
+    return findNextLooped(this, this.baseTagName) as ESLCarouselSlide;
   }
   /** @returns previous slide sibling (uses cyclic find). */
   public get $prevCyclic(): ESLCarouselSlide {
-    return findPrevLooped(this, (this.constructor as typeof ESLCarouselSlide).is) as ESLCarouselSlide;
+    return findPrevLooped(this, this.baseTagName) as ESLCarouselSlide;
   }
 
   /** Updates initial A11y attributes */
   protected updateA11y(): void {
-    this.setAttribute('role', 'listitem');
+    this.$$attr('role', 'listitem');
     if (!this.hasAttribute('aria-roledescription')) {
-      this.setAttribute('aria-roledescription', 'slide');
+      this.$$attr('aria-roledescription', 'slide');
     }
     if (!this.hasAttribute('aria-label')) {
-      this.setAttribute('aria-label', `carousel item ${this.index + 1}`);
+      this.$$attr('aria-label', `carousel item ${this.index + 1}`);
     }
     this.updateActiveStateA11y();
   }
   /** Updates A11y attributes related to active state */
   protected updateActiveStateA11y(): void {
-    this.setAttribute('aria-hidden', String(!this.active));
+    this.$$attr('aria-hidden', String(!this.active));
     if (!this.$carousel?.hasAttribute(ESLCarouselSlide.NO_INERT_MARKER)) {
       this.toggleAttribute('inert', !this.active);
     }
@@ -100,7 +100,7 @@ export class ESLCarouselSlide extends ESLBaseElement {
     this.$carousel?.focus({preventScroll: true});
   }
 
-  /** Creates slide element, use passed content as slide inner */
+  /** Creates slide element, uses passed content as slide inner */
   public static override create(content?: HTMLElement | DocumentFragment): ESLCarouselSlide {
     const $slide = super.create() as ESLCarouselSlide;
     if (content) $slide.appendChild(content);

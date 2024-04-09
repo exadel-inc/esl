@@ -10,7 +10,7 @@ export interface ESLCarouselSlideEventInit {
   related: number;
   /** Direction of slide animation */
   direction: ESLCarouselDirection;
-  /** Auxiliary request attribute that represents object that initiate slide change */
+  /** Auxiliary request attribute that represents object that initiates slide change */
   activator?: any;
 }
 
@@ -50,9 +50,9 @@ interface ESLCarouselChangeEventInit {
   config: ESLCarouselStaticState;
   /** Previous {@link ESLCarousel} instance config */
   oldConfig?: ESLCarouselStaticState;
-  /** A list of {@link ESLCarouselSlide}s that have added to the current carousel instance */
+  /** A list of {@link ESLCarouselSlide}s that has been added to the current carousel instance */
   added: ESLCarouselSlide[];
-  /** A list of {@link ESLCarouselSlide}s that have removed from the current carousel instance */
+  /** A list of {@link ESLCarouselSlide}s that has been removed from the current carousel instance */
   removed: ESLCarouselSlide[];
 }
 

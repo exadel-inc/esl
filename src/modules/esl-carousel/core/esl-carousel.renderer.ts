@@ -48,12 +48,12 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
     return {type, size, count, loop, vertical};
   }
 
-  /** @returns {@link ESLCarousel} `$slideArea` */
+  /** @returns {@link ESLCarousel} `$slidesArea` */
   public get $area(): HTMLElement {
     return this.$carousel.$slidesArea;
   }
 
-  /** @returns {@link ESLCarousel} `$slideArea` */
+  /** @returns {@link ESLCarousel} `$slides` */
   public get $slides(): ESLCarouselSlide[] {
     return this.$carousel.$slides || [];
   }
@@ -85,7 +85,7 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
   public onUnbind(): void {}
   /** Processes drawing of the carousel {@link ESLCarousel}. */
   public redraw(): void {}
-  /** Process slide change process */
+  /** Processes changing slides */
   public async navigate(index: number, direction: ESLCarouselDirection, {activator}: ESLCarouselActionParams): Promise<void> {
     const {activeIndex, activeIndexes} = this.$carousel;
 
@@ -120,7 +120,7 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
 
   /** Handles the slides transition. */
   public abstract onMove(offset: number): void;
-  /** Ends current transition and make permanent all changes performed in the transition. */
+  /** Ends current transition and makes permanent all changes performed in the transition. */
   public abstract commit(offset?: number): void;
 
   /** Sets active slides from passed index **/
@@ -179,7 +179,7 @@ export class ESLCarouselRendererRegistry extends SyntheticEventTarget {
   }
 
   public register(view: ESLCarouselRendererConstructor): void {
-    if (!view || !view.is) throw Error('[ESL]: CarouselRendererRegistry] incorrect registration request');
+    if (!view || !view.is) throw Error('[ESL]: CarouselRendererRegistry: incorrect registration request');
     if (this.store.has(view.is)) throw Error(`View with name ${view.is} already defined`);
     this.store.set(view.is, view);
     const detail = {name: view.is, view};

@@ -208,7 +208,7 @@ export class ESLCarousel extends ESLBaseElement {
     return this.closest(`[${ESLCarousel.is}-container]`);
   }
 
-  /** @returns slides carousel area */
+  /** @returns carousel slides area */
   @memoize()
   public get $slidesArea(): HTMLElement {
     const $provided = this.querySelector('[data-slides-area]');
