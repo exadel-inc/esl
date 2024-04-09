@@ -116,7 +116,7 @@ export class ESLCarousel extends ESLBaseElement {
 
   protected override disconnectedCallback(): void {
     super.disconnectedCallback();
-    memoize.clear(this, ['$container', '$slides', '$slidesArea']);
+    memoize.clear(this, ['$container', '$slides', '$slidesArea', 'typeRule', 'loopRule', 'countRule', 'verticalRule']);
   }
 
   /** Updates the config and the state that is associated with */
