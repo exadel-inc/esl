@@ -14,7 +14,7 @@ import {ESLTrigger} from '../../esl-trigger/core';
 export class ESLTab extends ESLTrigger {
   public static override is = 'esl-tab';
 
-  @attr({defaultValue: 'show'}) public override mode: string;
+  @attr({defaultValue: 'show'}) public override mode: 'show' | 'toggle' | 'hide';
   @attr({defaultValue: 'active'}) public override activeClass: string;
 
   public override initA11y(): void {
