@@ -42,16 +42,14 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
    * Clear animation.
    */
   public override onUnbind(): void {
-    this.$slides.forEach((el) => {
-      el.toggleAttribute('visible', false);
-      el.style.removeProperty('order');
-    });
+    this.$slides.forEach((el) => el.style.removeProperty('order'));
     this.$area.style.removeProperty('transform');
     this.$area.style.removeProperty(ESLDefaultCarouselRenderer.SIZE_PROP);
-    this.$carousel.toggleAttribute('animating', false);
+    this.$carousel.$$attr('animating', false);
+    this.$carousel.$$attr('active', false);
   }
 
-  /** Get slide offset by the slide index */
+  /** @returns slide offset by the slide index */
   protected getOffset(index: number): number {
     const slide = this.$slides[index];
     if (!slide) return 0;
@@ -59,9 +57,10 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
   }
   /** Sets scene offset */
   protected setTransformOffset(offset: number): void {
-    this.$area.style.transform = this.vertical ? `translate3d(0px, ${offset}px, 0px)` : `translate3d(${offset}px, 0px, 0px)`;
+    this.$area.style.transform = `translate3d(${this.vertical ? `0px, ${offset}px` : `${offset}px, 0px`}, 0px)`;
   }
 
+  /** @returns current slide area's transform offset */
   protected getTransformOffset(): number {
     // computed value is matrix(a, b, c, d, tx, ty)
     const transform = getComputedStyle(this.$area).transform;
@@ -73,7 +72,7 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
   /** Pre-processing animation action. */
   public override async onBeforeAnimate(): Promise<void> {
     if (this.$carousel.hasAttribute('animating')) throw new Error('[ESL] Carousel: already animating');
-    this.$carousel.toggleAttribute('active', true);
+    this.$carousel.$$attr('active', true);
   }
 
   /** Processes animation. */
@@ -90,10 +89,10 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
   /** Post-processing animation action. */
   public override async onAfterAnimate(): Promise<void> {
     this.setTransformOffset(-this.getOffset(this.currentIndex));
-    this.$carousel.toggleAttribute('active', false);
+    this.$carousel.$$attr('active', false);
   }
 
-  /** Pre-processing the transition animation of one slide. */
+  /** Makes pre-processing the transition animation of one slide. */
   protected async onBeforeStepAnimate(direction: ESLCarouselDirection): Promise<void> {
     this.reorder(this.currentIndex, direction === 'prev');
 
@@ -103,7 +102,7 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     this.setTransformOffset(offsetFrom);
     const offsetTo = -this.getOffset(offsetIndex);
 
-    this.$carousel.toggleAttribute('animating', true);
+    this.$carousel.$$attr('animating', true);
     this.setTransformOffset(offsetTo);
 
     if (offsetTo === offsetFrom) return;
@@ -111,7 +110,7 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     await promisifyTransition(this.$area, 'transform');
   }
 
-  /** Post-processing the transition animation of one slide. */
+  /** Makes post-processing the transition animation of one slide. */
   protected async onAfterStepAnimate(direction: ESLCarouselDirection): Promise<void> {
     this.currentIndex = direction === 'next' ? this.currentIndex + 1 : this.currentIndex - 1;
     this.currentIndex = normalizeIndex(this.currentIndex, this.size);
@@ -119,11 +118,12 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     this.reorder(this.currentIndex);
 
     this.setTransformOffset(-this.getOffset(this.currentIndex));
-    this.$carousel.toggleAttribute('animating', false);
+    this.$carousel.$$attr('animating', false);
     +this.$carousel.offsetLeft;
   }
 
   protected _checkNonLoop(offset: number): boolean {
+    // TODO: get rid of this method by revisiting methods below
     if (this.loop) return true;
 
     const sign = offset < 0 ? 1 : -1;
@@ -173,7 +173,7 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
       this.currentIndex = boundIndex(nextIndex, this.size - this.count);
     }
 
-    this.$carousel.toggleAttribute('animating', true);
+    this.$carousel.$$attr('animating', true);
     const stageOffset = -this.getOffset(this.currentIndex);
 
     this.setTransformOffset(stageOffset);
@@ -181,11 +181,11 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
       await promisifyTransition(this.$area, 'transform');
     }
 
-    this.$carousel.toggleAttribute('animating', false);
+    this.$carousel.$$attr('animating', false);
     this.reorder(this.currentIndex);
     this.setTransformOffset(-this.getOffset(this.currentIndex));
     this.setActive(this.currentIndex, {direction: sign > 0 ? 'next' : 'prev'});
-    this.$carousel.toggleAttribute('active', false);
+    this.$carousel.$$attr('active', false);
   }
 
   /** Sets order style property for slides starting at index */
