@@ -1,4 +1,4 @@
-export interface loadScriptOptions {
+export interface LoadScriptAttributes {
   crossorigin?: boolean | 'anonymous' | 'use-credentials' | '';
   integrity?: string;
   referrerpolicy?: ReferrerPolicy;
@@ -6,12 +6,13 @@ export interface loadScriptOptions {
 
 /**
  * Creates new script element with specified attributes
+ * Note: as the script will be added dynamically, it will be treated as async by the browser
  */
-const createScript = (id: string, src: string, options: loadScriptOptions): HTMLScriptElement => {
+const createScript = (id: string, src: string, attrs: LoadScriptAttributes): HTMLScriptElement => {
   const script = document.createElement('script');
   script.id = id;
   script.src = src;
-  Object.entries(options).forEach(([name, value]) => value && script.setAttribute(name, value === true ? '' : value));
+  Object.entries(attrs).forEach(([name, value]) => value && script.setAttribute(name, value === true ? '' : value));
   return script;
 };
 
@@ -19,12 +20,12 @@ const createScript = (id: string, src: string, options: loadScriptOptions): HTML
  * Common function that loads script async
  * @param id - unique script id that is used as a marker to prevent future load
  * @param src - script src (url) to load
- * @param options - additional attributes to set on the script tag
+ * @param attrs - additional attributes to set on the script tag
  */
-export function loadScript(id: string, src: string, options: loadScriptOptions = {}): Promise<Event> {
+export function loadScript(id: string, src: string, attrs: LoadScriptAttributes = {}): Promise<Event> {
   return new Promise((resolve, reject) => {
     const script: HTMLScriptElement =
-      (document.getElementById(id) || createScript(id, src, options)) as HTMLScriptElement;
+      (document.getElementById(id) || createScript(id, src, attrs)) as HTMLScriptElement;
     const state = script.getAttribute('state');
 
     switch (state) {
