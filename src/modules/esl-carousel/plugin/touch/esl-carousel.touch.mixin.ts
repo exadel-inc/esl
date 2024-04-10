@@ -120,13 +120,13 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
     this.startTimestamp = event.timeStamp;
     this.startScrollOffsets = getParentScrollOffsets(event.target as Element, this.$host);
 
-    isMouseEvent(event) && this.$$on({event: 'mousemove', target: window}, this._onPointerMove);
-    isMouseEvent(event) && this.$$on({event: 'mouseup', target: window}, this._onPointerUp);
-    isTouchEvent(event) && this.$$on({event: 'touchmove', target: window}, this._onPointerMove);
-    isTouchEvent(event) && this.$$on({event: 'touchend', target: window}, this._onPointerUp);
+    const isMouse = isMouseEvent(event);
+    this.$$on(isMouse ? 'mousemove' : 'touchmove', this._onPointerMove);
+    this.$$on(isMouse ? 'mouseup' : 'touchend', this._onPointerUp);
   }
 
   /** Processes `mousemove` and `touchmove` events. */
+  @listen({auto: false, target: window, passive: false})
   protected _onPointerMove(event: TouchEvent | PointerEvent | MouseEvent): void {
     const offset = this.getOffset(event);
 
@@ -143,6 +143,7 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
   }
 
   /** Processes `mouseup` and `touchend` events. */
+  @listen({auto: false, target: window})
   protected _onPointerUp(event: TouchEvent | PointerEvent | MouseEvent): void {
     // Unbinds drag listeners
     this.$$off(this._onPointerMove);
