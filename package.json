@@ -47,7 +47,7 @@
     "modules/esl-carousel/core.js",
     "modules/esl-carousel/renderers/**/*.js",
     "modules/esl-share/buttons/**/*.js",
-    "src/modules/lib.ts",
+    "src/modules/lib.js",
     "src/modules/esl-media/providers/**/*.ts",
     "src/modules/esl-share/actions/**/*.ts",
     "src/modules/esl-share/buttons/**/*.ts",
