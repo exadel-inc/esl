@@ -1,3 +1,5 @@
+import {setAttr} from './attr';
+
 export interface LoadScriptAttributes {
   crossorigin?: boolean | 'anonymous' | 'use-credentials' | '';
   integrity?: string;
@@ -12,7 +14,7 @@ const createScript = (id: string, src: string, attrs: LoadScriptAttributes): HTM
   const script = document.createElement('script');
   script.id = id;
   script.src = src;
-  Object.entries(attrs).forEach(([name, value]) => value && script.setAttribute(name, value === true ? '' : value));
+  Object.entries(attrs).forEach(([name, value]) => setAttr(script, name, value));
   return script;
 };
 
