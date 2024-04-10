@@ -75,9 +75,9 @@ export class ESLCarouselNavDots extends ESLBaseElement {
   }
 
   protected updateA11y(): void {
-    this.setAttribute('role', 'group');
+    this.$$attr('role', 'group');
     if (!this.hasAttribute('aria-label')) {
-      this.setAttribute('aria-label', 'Carousel dots');
+      this.$$attr('aria-label', 'Carousel dots');
     }
   }
 
@@ -105,8 +105,8 @@ export class ESLCarouselNavDots extends ESLBaseElement {
   protected _onKeydown(event: KeyboardEvent): void {
     const $eventTarget: HTMLElement = event.target as HTMLElement;
     if (ARROW_LEFT === event.key) {
-      const $nextDot = findPrevLooped($eventTarget, '.carousel-dot') as HTMLElement;
-      $nextDot.click();
+      const $prevDot = findPrevLooped($eventTarget, '.carousel-dot') as HTMLElement;
+      $prevDot.click();
     }
     if (ARROW_RIGHT === event.key) {
       const $nextDot = findNextLooped($eventTarget, '.carousel-dot') as HTMLElement;
