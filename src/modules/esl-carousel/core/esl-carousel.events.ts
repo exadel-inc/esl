@@ -17,9 +17,9 @@ export interface ESLCarouselSlideEventInit {
 /** {@link ESLCarousel} event that represents slide change event */
 export class ESLCarouselSlideEvent extends Event implements ESLCarouselSlideEventInit {
   /** {@link ESLCarouselSlideEvent} event type dispatched before slide change (pre-event) */
-  public static readonly BEFORE = 'esl:before:slide:change';
+  public static readonly BEFORE = 'esl:before:slide-change';
   /** {@link ESLCarouselSlideEvent} event type dispatched after slide change (post-event) */
-  public static readonly AFTER = 'esl:slide:change';
+  public static readonly AFTER = 'esl:slide-change';
 
   public override readonly target: ESLCarousel;
   public readonly current: number;
