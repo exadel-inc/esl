@@ -49,6 +49,7 @@ export function indexToGroup(index: number, count: number, size: number): number
   return (firstGroupCount >= secondGroupCount) ? firstGroupIndex : secondGroupIndex;
 }
 
+/** @returns closest direction to move to the passed index */
 export function indexToDirection(index: number, {activeIndex, size, loop}: ESLCarouselState): ESLCarouselDirection | null {
   if (loop) return calcDirection(activeIndex, index, size);
   if (activeIndex < index) return 'next';
@@ -56,17 +57,17 @@ export function indexToDirection(index: number, {activeIndex, size, loop}: ESLCa
   return null;
 }
 
+/** Splits target string into type and index parts */
 function splitTarget(target: string): {index: string, type: string} {
   // Sanitize value
   target = String(target).replace(/\s/, '');
-  // Normalize shortcuts
-  target = target.includes(':') ? target : `slide:${target}`;
   // Split type and index part
   const [type, index] = String(target).split(':');
-  return {type, index};
+  // 'slide' type is used if no prefix provided
+  return index ? {type, index} : {type: 'slide', index: target};
 }
 
-/** Parse index value defining its value and type (absolute|relative)*/
+/** Parses index value defining its value and type (absolute|relative) */
 function parseIndex(index: string | ESLCarouselNavIndex): {value: number, isRelative: boolean, dir?: ESLCarouselDirection} {
   if (typeof index === 'number') return {value: index, isRelative: false};
   index = index.trim();
@@ -115,6 +116,10 @@ export function toIndex(target: ESLCarouselSlideTarget, cfg: ESLCarouselState): 
   return {index: cfg.activeIndex, dir: null};
 }
 
+/**
+ * @returns whether the carousel can navigate to the target passed as {@link ESLCarouselSlideTarget}
+ * E.g.: carousel can't navigate to invalid target or to the next slide if it's the last slide and loop is disabled
+ */
 export function canNavigate(target: ESLCarouselSlideTarget, cfg: ESLCarouselState): boolean {
   const {dir, index} = toIndex(target, cfg);
   if (!cfg.loop && index > cfg.activeIndex && dir === 'prev') return false;
