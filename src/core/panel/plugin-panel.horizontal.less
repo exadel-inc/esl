@@ -15,23 +15,23 @@
     max-width: 100%;
     max-height: var(--uip-plugin-height, 325px);
 
+    grid-template-rows: 1fr;
     transition:
       visibility 0s linear,
       padding-top 0.5s linear,
       padding-bottom 0.5s linear,
-      max-height 0.5s linear;
+      grid-template-rows 0.5s linear;
   }
 
   &[collapsed] .uip-plugin-inner {
-    max-height: 0;
     padding-top: 0;
     padding-bottom: 0;
-
+    grid-template-rows: 0fr;
     transition:
       visibility 0.5s linear,
       padding-top 0.5s linear,
       padding-bottom 0.5s linear,
-      max-height 0.5s linear;
+      grid-template-rows 0.5s linear;
   }
 
   .uip-plugin-header {
