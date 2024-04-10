@@ -20,15 +20,15 @@ export class ESLShareCopyAction extends ESLShareBaseAction {
     if (!this.isAvailable || !url) return;
 
     await navigator.clipboard.writeText(url);
-    this.showCopyAlert($button.shareAdditional?.alertText);
+    this.showCopyAlert($button.shareAdditional?.copyAlertMsg);
   }
 
   /** Shows alert about the successful action completion */
-  protected showCopyAlert(alertText: string): void {
-    if (!alertText) return;
+  protected showCopyAlert(msg: string): void {
+    if (!msg) return;
     const detail = {
       cls: 'esl-share-alert',
-      html: `<span>${alertText}</span>`
+      html: `<span>${msg}</span>`
     };
     ESLEventUtils.dispatch(document.body, 'esl:alert:show', {detail});
   }
