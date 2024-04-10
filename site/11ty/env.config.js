@@ -4,7 +4,7 @@ const isDev = env === 'development' || isE2E;
 const date = new Date();
 
 const buildVersion = process.env['BUILD_VERSION'] || 'local';
-const packageVersion = process.env.npm_package_version;
+const packageVersion = require('@exadel/esl/package.json').version;
 const version = `${packageVersion}-${buildVersion}`; // e.g. 1.0.0-123
 
 const context = {isDev, isE2E, version, env, date, buildVersion, packageVersion};

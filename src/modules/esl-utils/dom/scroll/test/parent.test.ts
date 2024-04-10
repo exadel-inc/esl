@@ -86,6 +86,27 @@ describe('Function getScrollParent', () => {
       expect(getScrollParent(thirdLevelChild)).toEqual(target);
     });
   });
+
+  describe('Limit search to top target element', () => {
+    const firstLevelChild = document.createElement('div');
+    target.appendChild(firstLevelChild);
+
+    firstLevelChild.style.overflow = 'auto';
+
+    beforeAll(() => target.style.overflow = '');
+
+    test('should detect first scrollable parent element', () => {
+      expect(getScrollParent(firstLevelChild, target)).toEqual(firstLevelChild);
+    });
+
+    test('should accept body element as top target element', () => {
+      expect(getScrollParent(target, $body)).toEqual($body);
+    });
+
+    test('should return undefined if any scrollable parents found', () => {
+      expect(getScrollParent(target, target)).toEqual(undefined);
+    });
+  });
 });
 
 describe('Function getListScrollParents', () => {
@@ -119,5 +140,20 @@ describe('Function getListScrollParents', () => {
     firstLevelChild.appendChild(secondLevelChild);
 
     expect(getListScrollParents(thirdLevelChild)).toEqual([thirdLevelChild, firstLevelChild, $body]);
+  });
+
+  test('target should only detect scrollable elements up to top target element', () => {
+    const firstLevelChild = document.createElement('div');
+    const secondLevelChild = document.createElement('div');
+    const thirdLevelChild = document.createElement('div');
+
+    firstLevelChild.style.overflow = 'auto';
+    thirdLevelChild.style.overflow = 'auto';
+
+    secondLevelChild.appendChild(thirdLevelChild);
+    target.appendChild(firstLevelChild);
+    firstLevelChild.appendChild(secondLevelChild);
+
+    expect(getListScrollParents(thirdLevelChild, secondLevelChild)).toEqual([thirdLevelChild]);
   });
 });
