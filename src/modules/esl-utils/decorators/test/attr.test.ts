@@ -1,5 +1,6 @@
 import '../../../../polyfills/es5-target-shim';
 import {attr} from '../attr';
+import {ESLTestTemplate} from '../../test/template';
 
 describe('Decorator: attr', () => {
 
@@ -18,6 +19,8 @@ describe('Decorator: attr', () => {
     public readonlyField: string | null;
     @attr({defaultValue: 'def'})
     public defField: string | boolean;
+    @attr({defaultValue: () => 'test-provider'})
+    public defProvider: string;
   }
   customElements.define('test-el-attr', TestElement);
   const el = new TestElement();
@@ -99,6 +102,124 @@ describe('Decorator: attr', () => {
     el.defField = false;
     expect(el.defField).toBe('def');
     expect(el.hasAttribute('def-field')).toBe(false);
+    expect(el.defProvider).toBe('test-provider');
+    el.defProvider = '';
+    expect(el.defProvider).toBe('');
+  });
+
+  describe('Inherit parameter', () => {
+
+    class ThirdElement extends HTMLElement {
+      @attr({inherit: 'box'})
+      public container: string;
+      @attr({inherit: 'parent', dataAttr: true})
+      public ignore: string;
+      @attr({inherit: true})
+      public disallow: string;
+      @attr({inherit: true, dataAttr: true})
+      public allow: string;
+    }
+    customElements.define('third-el', ThirdElement);
+
+    class SecondElement extends HTMLElement {}
+    customElements.define('second-el', SecondElement);
+
+    const SCOPE: any = {
+      firstEl: '#first-el',
+      secondEl: '#second-el',
+      thirdEl: '#third-el',
+    };
+    const TEMPLATE = ESLTestTemplate.create(`
+      <div id="first-el">
+        <second-el id="second-el">
+          <third-el id="third-el"></third-el>
+        </second-el>
+      </div>
+    `, SCOPE).bind('beforeeach');
+
+    describe('Inherit searches for the closest element with explicitly declared name', () => {
+      //  @attr({inherit: 'box'}) public container: string;
+      test('The attribute inherit the value from own same-named attribute', () => {
+        TEMPLATE.$thirdEl.setAttribute('container', 'value');
+        expect(TEMPLATE.$thirdEl.container).toBe('value');
+      });
+      test('Own attribute setter changes the own value', () => {
+        TEMPLATE.$thirdEl.container = 'container';
+        expect(TEMPLATE.$thirdEl.container).toBe('container');
+      });
+      test('The value should be resolved from the closest DOM element (custom-element)', () => {
+        TEMPLATE.$secondEl.setAttribute('box', 'carousel');
+        expect(TEMPLATE.$thirdEl.container).toBe('carousel');
+      });
+      test('The value resolves from the closest element (non-custom-element) in DOM', () => {
+        TEMPLATE.$firstEl.setAttribute('box', 'slide');
+        expect(TEMPLATE.$thirdEl.container).toBe('slide');
+      });
+      test('Elements with declared inherit are absent in DOM and returns empty string', () => {
+        expect(TEMPLATE.$thirdEl.container).toBe('');
+      });
+    });
+
+    describe('Inherit searches for the closest element with explicitly declared data attribute name', () => {
+      // @attr({inherit: 'parent', dataAttr: true}) public ignore: string;
+      test('The attribute inherit the value from the same-named data-attribute', () => {
+        TEMPLATE.$thirdEl.setAttribute('data-ignore', 'swipe');
+        expect(TEMPLATE.$thirdEl.ignore).toBe('swipe');
+      });
+      test('Own attribute setter changes the own value', () => {
+        TEMPLATE.$thirdEl.ignore = 'touch';
+        expect(TEMPLATE.$thirdEl.ignore).toBe('touch');
+      });
+      test('The value resolves from the closest element (custom-element) in DOM', () => {
+        TEMPLATE.$secondEl.setAttribute('parent', 'close');
+        expect(TEMPLATE.$thirdEl.ignore).toBe('close');
+      });
+      test('The value resolves from the closest element (non-custom-element) in DOM', () => {
+        TEMPLATE.$firstEl.setAttribute('parent', 'open');
+        expect(TEMPLATE.$thirdEl.ignore).toBe('open');
+      });
+      test('Elements with declared inherit are absent in DOM and returns empty string', () => {
+        expect(TEMPLATE.$thirdEl.ignore).toBe('');
+      });
+    });
+
+    describe('Inherit searches for the closest element with the same attribute name in DOM', () => {
+      // @attr({inherit: true}) public disallow: string;
+      test('The attribute inherit the value from the same attribute name', () => {
+        TEMPLATE.$thirdEl.disallow = 'scroll';
+        expect(TEMPLATE.$thirdEl.disallow).toBe('scroll');
+      });
+      test('The value resolves from the closest element (custom-element) in DOM with the same attribute name', () => {
+        TEMPLATE.$secondEl.setAttribute('disallow', 'activator');
+        expect(TEMPLATE.$thirdEl.disallow).toBe('activator');
+      });
+      test('The value resolves from the closest element (non-custom-element) in DOM with the same attribute name', () => {
+        TEMPLATE.$firstEl.setAttribute('disallow', 'deactivator');
+        expect(TEMPLATE.$thirdEl.disallow).toBe('deactivator');
+      });
+      test('Elements with declared inherit are absent in DOM and returns empty string', () => {
+        expect(TEMPLATE.$thirdEl.disallow).toBe('');
+      });
+    });
+
+    describe('Inherit searches for the closest element with the same data-attribute name in DOM', () => {
+      // @attr({inherit: true, dataAttr: true}) public allow: string;
+      test('The attribute inherit the value from the same attribute name', () => {
+        TEMPLATE.$thirdEl.allow = 'option';
+        expect(TEMPLATE.$thirdEl.allow).toBe('option');
+      });
+      test('The value resolves from the closest element (custom-element) in DOM with the same data-attribute name', () => {
+        TEMPLATE.$secondEl.setAttribute('data-allow', 'scroll');
+        expect(TEMPLATE.$thirdEl.allow).toBe('scroll');
+      });
+      test('The value resolves from the closest element (non-custom-element) in DOM with the same data-attribute name', () => {
+        TEMPLATE.$firstEl.setAttribute('data-allow', 'swipe');
+        expect(TEMPLATE.$thirdEl.allow).toBe('swipe');
+      });
+      test('Elements with declared inherit are absent in DOM and returns empty string', () => {
+        expect(TEMPLATE.$thirdEl.allow).toBe('');
+      });
+    });
   });
 
   afterAll(() => {
