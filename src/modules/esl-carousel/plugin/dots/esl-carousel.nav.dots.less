@@ -1,0 +1,42 @@
+// DOTS navigation
+.esl-carousel-dots {
+  display: inline-block;
+  width: fit-content;
+  text-align: center;
+
+  [disabled] & {
+    display: none;
+  }
+}
+
+.esl-carousel-dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  margin: 0 5px;
+  vertical-align: middle;
+  border-radius: 100%;
+  cursor: pointer;
+  appearance: none;
+
+  &, &:focus {
+    background: rgba(118, 118, 118, 0.5);
+    border: 1px solid transparent;
+  }
+
+  &:active, &:hover {
+    background: rgba(118, 118, 118, 0.5);
+    border: 1px solid rgba(118, 118, 118, 0.5);
+  }
+
+  &[active] {
+    width: 11px;
+    height: 11px;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid #bababa;
+  }
+
+  &:focus-visible {
+    outline: #1fc2ff solid 1px;
+  }
+}
