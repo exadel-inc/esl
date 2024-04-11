@@ -105,7 +105,7 @@
     "postcss-preset-env": "^9.5.4",
     "prettier": "^3.2.5",
     "rimraf": "^5.0.5",
-    "semantic-release": "^23.0.7",
+    "semantic-release": "^23.0.8",
     "stylelint": "^16.3.1",
     "stylelint-prettier": "^5.0.0",
     "typescript": "5.4.4"
