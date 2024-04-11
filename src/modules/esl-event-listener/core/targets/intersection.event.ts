@@ -5,7 +5,12 @@ import {overrideEvent} from '../../../esl-utils/dom/events/misc';
  * Based on the {@link IntersectionObserverEntry} object.
  */
 export class ESLIntersectionEvent extends Event implements IntersectionObserverEntry {
-  public static readonly type = 'intersects';
+  public static readonly OUT_TYPE = 'intersects:out';
+  public static readonly IN_TYPE = 'intersects:in';
+  public static readonly BASE_TYPE = 'intersects';
+
+  public static readonly type:
+    typeof ESLIntersectionEvent.BASE_TYPE | typeof ESLIntersectionEvent.IN_TYPE | typeof ESLIntersectionEvent.OUT_TYPE = ESLIntersectionEvent.BASE_TYPE;
 
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/IntersectionObserverEntry/target) */
   public override readonly target: Element;
@@ -22,14 +27,25 @@ export class ESLIntersectionEvent extends Event implements IntersectionObserverE
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/IntersectionObserverEntry/time) */
   public readonly time: DOMHighResTimeStamp;
 
-  protected constructor(target: Element) {
-    super(ESLIntersectionEvent.type, {bubbles: false, cancelable: false});
+  protected constructor(target: Element, eventName: typeof ESLIntersectionEvent.type) {
+    super(eventName, {bubbles: false, cancelable: false});
     overrideEvent(this, 'target', target);
   }
 
-  /** Creates {@link ESLIntersectionEvent} from {@link ESLIntersectionEvent} */
-  public static fromEntry(entry: IntersectionObserverEntry): ESLIntersectionEvent {
-    const event = new ESLIntersectionEvent(entry.target);
+  /** Validates event name. Accepted values are 'intersects:out', 'intersects:in', 'intersects' */
+  public static isValidEventType(event: string): boolean {
+    return event === ESLIntersectionEvent.BASE_TYPE || event === ESLIntersectionEvent.IN_TYPE || event === ESLIntersectionEvent.OUT_TYPE;
+  }
+
+  /** Creates {@link ESLIntersectionEvent} from {@link ESLIntersectionEvent}
+    * @param entry - The intersection observer entry.
+    * @param eventName - Custom event name ('intersects' by default. Accepted values are 'intersects:out', 'intersects:in', 'intersects').
+   */
+  public static fromEntry(
+    entry: IntersectionObserverEntry,
+    eventName: typeof ESLIntersectionEvent.type = ESLIntersectionEvent.BASE_TYPE): ESLIntersectionEvent {
+    if (!ESLIntersectionEvent.isValidEventType(eventName)) eventName = ESLIntersectionEvent.BASE_TYPE;
+    const event = new ESLIntersectionEvent(entry.target, eventName);
     const {
       boundingClientRect,
       intersectionRatio,

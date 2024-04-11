@@ -50,7 +50,10 @@ export class ESLIntersectionTarget extends SyntheticEventTarget {
   /** Internal method to handle {@link IntersectionObserver} entry change */
   protected handleChange(entries: IntersectionObserverEntry[]): void {
     entries.forEach(
-      (entry) => this.dispatchEvent(ESLIntersectionEvent.fromEntry(entry))
+      (entry) => {
+        this.dispatchEvent(ESLIntersectionEvent.fromEntry(entry, entry.isIntersecting ? ESLIntersectionEvent.IN_TYPE : ESLIntersectionEvent.OUT_TYPE));
+        this.dispatchEvent(ESLIntersectionEvent.fromEntry(entry));
+      }
     );
   }
 
@@ -58,13 +61,13 @@ export class ESLIntersectionTarget extends SyntheticEventTarget {
   public override addEventListener(callback: EventListener): void;
   public override addEventListener(event: typeof ESLIntersectionEvent.type, callback: EventListener): void;
   public override addEventListener(event: any, callback: EventListener = event): void {
-    if (typeof event !== 'string') event = ESLIntersectionEvent.type;
-    if (event !== ESLIntersectionEvent.type) {
+    if (typeof event !== 'string') event = ESLIntersectionEvent.BASE_TYPE;
+    if (!ESLIntersectionEvent.isValidEventType(event)) {
       console.warn(`[ESL]: ESLIntersectionTarget does not support '${event}' type`);
       return;
     }
-    super.addEventListener(ESLIntersectionEvent.type, callback);
-    if (this.getEventListeners(ESLIntersectionEvent.type).length > 1) return;
+    super.addEventListener(event, callback);
+    if (this.getEventListeners(event).length > 1) return;
     this.targets.forEach((target: Element) => this.observer$$.observe(target));
   }
 
@@ -72,10 +75,10 @@ export class ESLIntersectionTarget extends SyntheticEventTarget {
   public override removeEventListener(callback: EventListener): void;
   public override removeEventListener(event: typeof ESLIntersectionEvent.type, callback: EventListener): void;
   public override removeEventListener(event: any, callback: EventListener = event): void {
-    if (typeof event !== 'string') event = ESLIntersectionEvent.type;
-    if (event !== ESLIntersectionEvent.type) return;
+    if (typeof event !== 'string') event = ESLIntersectionEvent.BASE_TYPE;
+    if (!ESLIntersectionEvent.isValidEventType(event)) return;
     super.removeEventListener(event, callback);
-    if (this.hasEventListener(ESLIntersectionEvent.type)) return;
+    if (this.hasEventListener(event)) return;
     this.observer$$.disconnect();
   }
 }
