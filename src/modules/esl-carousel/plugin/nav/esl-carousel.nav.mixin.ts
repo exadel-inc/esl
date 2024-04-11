@@ -64,7 +64,7 @@ export class ESLCarouselNavMixin extends ESLMixinElement {
     this.$$attr('disabled', !canNavigate);
   }
 
-  /** Handles nat target clicks */
+  /** Handles $host element click */
   @listen('click')
   protected _onClick(e: PointerEvent): void {
     if (!this.$carousel || typeof this.$carousel.goTo !== 'function') return;
