@@ -1,0 +1,57 @@
+// CORE styles
+esl-carousel {
+  position: relative;
+  display: block;
+  max-width: 100%;
+  // Important to ignore padding/margin hack
+  box-sizing: content-box;
+  margin: -5px;
+  padding: 5px;
+
+  overflow: hidden; // Fallback
+  /* stylelint-disable-next-line */
+  overflow: clip;
+
+  [data-slides-area] {
+    position: relative;
+    width: 100%;
+    display: flex;
+    gap: 20px;
+    z-index: 0;
+    transform: translate3d(0px, 0px, 0px);
+  }
+
+  &.esl-carousel-vertical [data-slides-area] {
+    flex-direction: column;
+  }
+  &.esl-carousel-horizontal [data-slides-area] {
+    flex-direction: row;
+  }
+
+  &[dragging] {
+    cursor: grabbing;
+  }
+
+  &[dragging] [data-slides-area],
+  &[animating] [data-slides-area] {
+    user-select: none;
+    touch-action: pan-y;
+    pointer-events: none;
+  }
+}
+
+esl-carousel-slide {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  flex: 0 0 auto;
+
+  display: block;
+  position: relative;
+  left: 0;
+  z-index: 1;
+}
+
+[esl-carousel-container] {
+  position: relative;
+}

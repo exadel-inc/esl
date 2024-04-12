@@ -1,0 +1,28 @@
+// TODO: refactor
+// DOTS navigation
+.esl-carousel-dots {
+  display: block;
+  text-align: center;
+  opacity: 1;
+  transition: opacity 0.5s ease-out;
+  cursor: default;
+
+  .carousel-dot {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    margin: 0 5px;
+    vertical-align: middle;
+    background: rgba(118, 118, 118, 0.5);
+    border: none;
+    border-radius: 100%;
+    cursor: pointer;
+  }
+
+  .active-dot {
+    width: 11px;
+    height: 11px;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid #bababa;
+  }
+}

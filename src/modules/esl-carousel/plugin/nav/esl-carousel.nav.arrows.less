@@ -1,0 +1,66 @@
+/** Arrow navigation styles */
+[esl-carousel-container] {
+  --esl-carousel-arrow-size: 40px;
+  --esl-carousel-arrow-offset: clamp(
+    -40px,
+    calc(40px - 40 * 100% / 700),
+    -25px
+  );
+
+  .esl-carousel-arrow {
+    display: flex;
+
+    position: absolute;
+    z-index: 3;
+    top: 50%;
+    transform: translateY(-50%);
+
+    background: none;
+    border: none;
+    cursor: pointer;
+    appearance: none;
+
+    &[disabled] {
+      opacity: 0.25;
+    }
+  }
+
+  // Positioning
+  .esl-carousel-arrow {
+    width: var(--esl-carousel-arrow-size);
+    height: 100%;
+    left: var(--esl-carousel-arrow-offset);
+
+    padding-bottom: 30px;
+
+    &.inner {
+      left: 0;
+    }
+  }
+  esl-carousel + .esl-carousel-arrow {
+    left: auto;
+    right: var(--esl-carousel-arrow-offset);
+
+    &.inner {
+      left: auto;
+      right: 0;
+    }
+  }
+
+  .icon-arrow-next::before,
+  .icon-arrow-prev::before {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    opacity: 0.75;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='black' viewBox='5 5 40 40'%3E%3Cpolygon points='31 40 16 25 31 10 33 12 20 25 33 38'/%3E%3C/svg%3E")
+      no-repeat center center;
+
+    filter: drop-shadow(0 0 4px #fff);
+  }
+  .icon-arrow-next::before {
+    transform: scaleX(-1);
+  }
+}
