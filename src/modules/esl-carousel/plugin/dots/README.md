@@ -1,132 +1,112 @@
+# ESLCarouselNavDots
 
-# ESLCarouselNavPlugin
+`ESLCarouselNavDots` is auxiliary custom tag for ESLCarousel that provides dots navigation control for the carousel. 
 
-ESL Carousel Dots should have the following structure:
-```html
-<esl-carousel-dots role="tablist">
-   <button tabindex="-1"
-           role="tab"
-           class="esl-carousel-dot" 
-           aria-label="Go to slide $index"
-           aria-disabled="!$isActive"
-           aria-current="$isActive"
-           data-index="$index"></button>
-   ...
-</esl-carousel-dots>
-```
+`ESLCarouselNavDots` relay on slide groups(sets), so one dot is created for each slide group. 
+Slide group is a set of slides that are displayed together in the carousel (you can control it by `count` attribute of carousel).
 
-Or (ideally but questionable):
-```html
-<esl-carousel-dots>
-    <ul role="tablist">
-        <li role="presentation">
-            <button tabindex="-1"
-                    role="tab"
-                    class="esl-carousel-dot" 
-                    aria-label="Go to slide $index"
-                    aria-disabled="!$isActive"
-                    aria-current="$isActive"
-                    data-index="$index"></button>
-        </li>
-        ...
-        </li>
-    </ul>
-</esl-carousel-dots>
-```
+## Dots Plugin API
 
-## Notes
+### Attributes
 
-- We should be able to chose between dots as single control element, which is recommended by ARIA and dots as a group of buttons
-- We should be able to add custom attributes to the dot element (analytics attributes, etc.)
-- The attributes `aria-disabled`, `aria-current` and `data-index` should be managed by the ESLCarouselNavPlugin
-- User may want to use custom `aria-label`, dot content based on slide index, count, etc.
+- `target` (`ESLCarouselNavDots.prototype.carousel`) - `ESLTraversingQuery` to specify the carousel instance to control. 
+  Finds the carousel in the closest `esl-carousel-container` by default.  
 
-### NTH Notes
+- `dot-label-format` (`ESLCarouselNavDots.prototype.dotLabelFormat`) - format string for dot label. 
+  The string can contain `{index}` and `{count}` placeholders. 
+  Default is `Go to slide {index}` or `Go to slide group {index}` (based on carousel visible slides `count`).
 
-- It may be useful if user can use more then just an index to define dot, ideally it should be able to use slide data...
+  
+### Static API
 
---- 
-## Problem & Questions
+- `ESLCarouselNavDots.dotsBuilder` - define global [dot builder](#dot-builder--updater) function.
+- `ESLCarouselNavDots.defaultDotBuilder` - default [dot builder](#dot-builder--updater) function.
+- `ESLCarouselNavDots.dotUpdater` - define global [dot updater](#dot-builder--updater) function.
+- `ESLCarouselNavDots.defaultDotUpdater` - default [dot updater](#dot-builder--updater) function.
 
-### 1. Make user able to define custom attributes on carousel dot
+### Instance API
 
-#### Solution 1: Make user able to use template
+- `dotsBuilder` - define [dot builder](#dot-builder--updater) function for instance. Default is `ESLCarouselNavDots.dotBuilder`.
+- `dotUpdater` - define [dot updater](#dot-builder--updater) function for instance. Default is `ESLCarouselNavDots.dotUpdater`.
 
-```html
-<esl-carousel-dots>
-   <template type="text/html">
-      <button class="esl-carousel-dot" aria-label="Go to slide {index}"></button>
-   </template>
-</esl-carousel-dots>
-```
+- `update` - updates dots based on current carousel state. Redraws dots if needed. 
+  Uses `dotBuilder` (to create dot) and `dotUpdater` (to update dot state) functions.
 
-Pros: 
- - simple & obvious
- - It is possible to use default template and override it with JS as well
 
-Cons:
- - What if the user define system attribute ('aria-disabled', 'aria-current', 'data-index') in the template? Should we ignore them?
- - We can provide just a limited set of variables to the template (index, count, isActive, etc.)
- - We have no template engine to process conditions
- - We do not have a way replace dot builder except inheritance from ESLCarouselNavPlugin
 
-Note:
- - It might be possible to pass custom data from slide using some data attributes
+## Dot Builder & Updater
 
-#### Solution 2: Make user able to define custom attributes in the ESLCarouselNavPlugin
+`ESLCarouselNavDots` uses `dotBuilder` and `dotUpdater` functions to create and update dots.
+Both functions are can be changed globally for all instances of `ESLCarouselNavDots` or for a specific instance.
+However, the `ESLCarouselNavDots` provides qute flexible default implementation, so you may not need to change it.
 
-```ts
-  ESLCarouselNavDots.defineAttributes((index, count, slide) => ({
-    'aria-label': `Go to slide ${slide.title} with index ${index}`,
-    'data-analytics': `slide-${slide.id}`
-  }));
-```
+The `dotBuilder` function is called for each dot to create a new dot element. 
+But note that the dot element is not added to the DOM and does not know it's state at this stage.
+Also note that the element provided by the `dotBuilder` function should have `esl-carousel-dot` attribute with the dot index, 
+otherwise the plugin will not work correctly.
 
-Pros:
- - It is possible to use any data from slide
- - It is possible to use any logic to define attributes
- - It is possible to use any attributes (except system attributes)
+The builder signature is `(index: number, count: number, $plugin: ESLCarouselNavDots) => HTMLElement`.
 
-Cons:
- - There is no way to change DOM structure and dot tag (do we need it?)
- - It is not clear how to manage inner content of the dot element
+The `dotUpdater` function is called for each dot to update it's state based on the current carousel state.
+In the updater function you can set it as active, disabled, etc.
 
-Note:
- - Probably the inner content could be manged by `textContent` or `innerHTML` passed as a part of the attributes object
+The updater signature is `(dot: HTMLElement, index: number, $plugin: ESLCarouselNavDots) => void`.
 
-#### Solution 3: Make user able to define custom builder
+### Default Dot Builder
+The default dot builder is stored under `ESLCarouselNavDots.defaultDotBuilder`.
+It creates a button element as a dot item with the following attributes:
+  - `esl-carousel-dot` - index of the dot (0-based)  
+    NOTE: The `esl-carousel-dot` is critical for the plugin to work correctly. In case you define custom dot builder from scratch, make sure to include this attribute.
+  - `role="tab"` (the `esl-carousel-dots` element has `role="tablist"`)
+  - `aria-label` based on `dot-label-format` attribute (default is `Go to slide {index}` or `Go to slide group {index}` for multiple slides per view)
+  - `class="esl-carousel-dot"` - default CSS class for dot element is `esl-carousel-dot`
+  - `tabindex="-1"` or `tabindex="0"` based on `tabindex` attribute of the `esl-carousel-dots` element. 
+  
+#### Focus Management  
+If non-negative `tabindex` is set for the `esl-carousel-dots` element, inner dots will have `tabindex="-1"` to prevent focus on them. So the dots control acts as a single focusable element. 
+If `tabindex` is unset or negative, the dot will have `tabindex="0"` so each dot can be focused separately.
+
+### Default Dot Updater
+The default dot updater is stored under `ESLCarouselNavDots.defaultDotUpdater`.
+It updates the dot element based on the current carousel state with the following logic:
+  - `active` if the current dot is active
+  - `aria-current="true"` if the dot is active
+  - `aria-disabled="true"` if the dot is active
+
+### Customizing Use Cases
+  
+#### Dots with custom content
+If you need to customize the dot content, you can define a custom dot builder function.
+The following example shows how to create a dot with a dot index as content:
 
 ```ts
-  ESLCarouselNavDots.setDotBuilder((index, count, slide) => {
-    const dot = document.createElement('button');
-    dot.classList.add('esl-carousel-dot');
-    dot.setAttribute('aria-label', `Go to slide ${slide.title} with index ${index}`);
-    dot.setAttribute('data-analytics', `slide-${slide.id}`);
-    return dot;
-  });
+ESLCarouselNavDots.dotsBuilder = (index, count, $plugin) => {
+  const dot = ESLCarouselNavDots.defaultDotBuilder(index, count, $plugin);
+  dot.textContent = `${index + 1}`;
+  return dot;
+};
 ```
 
-Pros:
- - It is possible to use any data from slide
- - It is possible to use any logic to define attributes
- - It is possible to use any attributes (except system attributes)
- - It is possible to change DOM structure and dot tag
- - It is possible to use JSX or any other template engine
+#### Dots with a static custom attributes (e.g. analytics)
+If you need to add static custom attributes to the dot, you can define a custom dot builder function as well.
+The following example shows how to add a custom `data-analytics` attribute to the dot:
 
-Cons:
- - Is it overkill?
-
-Note:
- - We can make both instance and static methods to define builder
- - We can make dots responsive to `setDotBuilder` call
-
- - Probably we can combine some approaches
-
- - to access default builder we can use `ESLCarouselNavDots.defaultDotBuilder`, eg:
 ```ts
-    ESLCarouselNavDots.setDotBuilder((index, count, slide) => {
-        const dot = ESLCarouselNavDots.defaultDotBuilder(index, count, slide);
-        dot.setAttribute('data-analytics', `slide-${slide.id}`);
-        return dot;
-    });
+ESLCarouselNavDots.dotsBuilder = (index, count, $plugin) => {
+  const dot = ESLCarouselNavDots.defaultDotBuilder(index, count, $plugin);
+  dot.setAttribute('data-analytics', `carousel-dot-${index}`);
+  return dot;
+};
+```
+
+#### Dots with dynamic custom attributes (e.g. activeness title)
+To change dynamic behavior of the dot, you should consider defining a custom dot updater function.
+
+The following example shows how to change the dot label if the dot is active:
+
+```ts
+ESLCarouselNavDots.dotUpdater = (dot, active, $plugin) => {
+  ESLCarouselNavDots.defaultDotUpdater(dot, index, $plugin);
+  dot.textContent = active ? `Active slide ${index + 1}` : `Slide ${index + 1}`;
+};
 ```
