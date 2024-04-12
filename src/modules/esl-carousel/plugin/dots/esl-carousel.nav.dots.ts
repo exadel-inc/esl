@@ -1,6 +1,7 @@
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
-import {attr, listen, memoize, prop, ready} from '../../../esl-utils/decorators';
+import {format} from '../../../esl-utils/misc/format';
 import {ARROW_LEFT, ARROW_RIGHT} from '../../../esl-utils/dom/keys';
+import {attr, listen, memoize, prop} from '../../../esl-utils/decorators';
 import {ESLBaseElement} from '../../../esl-base-element/core';
 import {ESLTraversingQuery} from '../../../esl-traversing-query/core';
 
@@ -9,6 +10,7 @@ import {ESLCarouselChangeEvent, ESLCarouselSlideEvent} from '../../core/esl-caro
 
 import type {ESLCarousel} from '../../core/esl-carousel';
 import type {DelegatedEvent} from '../../../esl-event-listener/core/types';
+
 
 export type ESLCarouselNavDotsBuilder = (index: number, $dots: ESLCarouselNavDots) => HTMLElement;
 export type ESLCarouselNavDotsUpdater = ($dot: HTMLElement, isActive: boolean, $dots: ESLCarouselNavDots) => void;
@@ -26,21 +28,29 @@ export class ESLCarouselNavDots extends ESLBaseElement {
   public static override is = 'esl-carousel-dots';
   public static observedAttributes = ['target', 'mode'];
 
-  /** Default dot template */
-  public static defaultDotBuilder: ESLCarouselNavDotsBuilder = (index: number, {tabIndex, mode}: ESLCarouselNavDots): HTMLElement => {
+  public static DEFAULT_ARIA_LABEL = 'Carousel dots';
+
+  /** Default dot template implementation (readonly) */
+  public static defaultDotBuilder(index: number, {tabIndex, dotLabelFormat}: ESLCarouselNavDots): HTMLElement {
     const dot = document.createElement('button');
     dot.className = 'esl-carousel-dot';
     dot.setAttribute('role', 'tab');
     dot.setAttribute('tabindex', tabIndex >= 0 ? '-1' : '0');
     dot.setAttribute('esl-carousel-dot', `${index}`);
-    dot.setAttribute('aria-label', `Show ${mode} ${index + 1}`);
+    dot.setAttribute('aria-label', format(dotLabelFormat, {index: index + 1}));
     return dot;
-  };
-  /** Default dot updater */
-  public static defaultDotUpdater: ESLCarouselNavDotsUpdater = ($dot: HTMLElement, active: boolean): void => {
+  }
+  /** Default dot updater implementation (readonly)*/
+  public static defaultDotUpdater($dot: HTMLElement, active: boolean): void {
     $dot.toggleAttribute('active', active);
-    $dot.setAttribute('aria-current', active.toString());
-  };
+    $dot.setAttribute('aria-disabled', String(!active));
+    $dot.setAttribute('aria-current', String(active));
+  }
+
+  /** Default dots builder function {@link ESLCarouselNavDotsBuilder} */
+  public static dotsBuilder: ESLCarouselNavDotsBuilder = ESLCarouselNavDots.defaultDotBuilder;
+  /** Default dots updater function {@link ESLCarouselNavDotsUpdater} */
+  public static dotsUpdater: ESLCarouselNavDotsUpdater = ESLCarouselNavDots.defaultDotUpdater;
 
   /** {@link ESLTraversingQuery} string to find {@link ESLCarousel} instance */
   @attr({
@@ -49,37 +59,44 @@ export class ESLCarouselNavDots extends ESLBaseElement {
   })
   public carousel: string;
 
-  /** Rendering mode: dot per slide / dot per group(set) */
-  @attr({defaultValue: 'group'}) public mode: 'group' | 'slide';
+  /** Label format (supports `index` key) */
+  @attr({defaultValue: ($this: ESLCarouselNavDots) => `Go to slide ${$this.groupSize > 1  ? 'group ' : ''}{index}`})
+  public dotLabelFormat: string;
 
-  @prop(ESLCarouselNavDots.defaultDotBuilder) public builder: ESLCarouselNavDotsBuilder;
-  @prop(ESLCarouselNavDots.defaultDotUpdater) public updater: ESLCarouselNavDotsUpdater;
+  /** Dots builder function {@link ESLCarouselNavDotsBuilder} */
+  @prop(ESLCarouselNavDots.dotsBuilder) public dotsBuilder: ESLCarouselNavDotsBuilder;
+  /** Dots updater function {@link ESLCarouselNavDotsUpdater} */
+  @prop(ESLCarouselNavDots.dotsUpdater) public dotsUpdater: ESLCarouselNavDotsUpdater;
 
+  public get groupSize(): number {
+    return this.$carousel?.state.count || 0;
+  }
+
+  /** Dots number according carousel config */
   public get count(): number {
     if (!this.$carousel) return 0;
     const {count, size} = this.$carousel.state;
-    return this.mode === 'group' ? Math.ceil(size / count) : size;
+    return Math.ceil(size / count);
   }
 
-  public get active(): number {
+  /** Active dot index according to carousel config */
+  public get activeIndex(): number {
     if (!this.$carousel) return 0;
     const {activeIndex, count, size} = this.$carousel.state;
-    return this.mode === 'group' ? indexToGroup(activeIndex, count, size) : activeIndex;
+    return indexToGroup(activeIndex, count, size);
   }
-  public get prev(): number {
-    return this.active > 0 ? this.active - 1 : this.count - 1;
+  /** Previous dot index (cycled) */
+  public get prevIndex(): number {
+    return this.activeIndex > 0 ? this.activeIndex - 1 : this.count - 1;
   }
-  public get next(): number {
-    return this.active < this.count - 1 ? this.active + 1 : 0;
+  /** Next dot index (cycled) */
+  public get nextIndex(): number {
+    return this.activeIndex < this.count - 1 ? this.activeIndex + 1 : 0;
   }
 
-  @memoize()
+  /** Current dots collection */
   public get $dots(): HTMLElement[] {
     return [...this.querySelectorAll('[esl-carousel-dot]')] as HTMLElement[];
-  }
-  public set $dots(dots: HTMLElement[]) {
-    memoize.clear(this, '$dots');
-    this.replaceChildren(...dots);
   }
 
   /** @returns ESLCarousel instance; based on {@link carousel} attribute */
@@ -88,13 +105,11 @@ export class ESLCarouselNavDots extends ESLBaseElement {
     return ESLTraversingQuery.first(this.carousel, this) as ESLCarousel;
   }
 
-  @ready
   public override async connectedCallback(): Promise<void> {
     this.$$attr('disabled', true);
     if (!this.$carousel) return;
     await customElements.whenDefined(this.$carousel.tagName.toLowerCase());
     super.connectedCallback();
-    this.rebuild();
     this.update();
     this.updateA11y();
   }
@@ -111,27 +126,26 @@ export class ESLCarouselNavDots extends ESLBaseElement {
       this.$$off(this._onSlideChange);
       this.$$on(this._onSlideChange);
     }
-    this.rebuild();
     this.update();
     this.updateA11y();
   }
 
-  public rebuild(): void {
-    if (!this.$carousel) return;
-    const {count} = this;
-    this.$dots = new Array(count).fill(null).map((_, index) => this.builder(index, this));
-  }
-
+  /** Updates dots state (initiates updater for dot elements, but doesn't rerender them) */
   public update(): void {
     if (!this.$carousel) return;
-    const {$dots, active} = this;
-    $dots.forEach(($dot, index) => this.updater($dot, index === active, this));
+    const {count, activeIndex} = this;
+    if (this.$dots.length !== count) {
+      const $dots = new Array(count).fill(null).map((_, index) => this.dotsBuilder(index, this));
+      this.replaceChildren(...$dots);
+    }
+    this.$dots.forEach(($dot, index) => this.dotsUpdater($dot, index === activeIndex, this));
   }
 
+  /** Updates a11y of `ESLCarouselNavDots` as a container */
   protected updateA11y(): void {
     this.$$attr('role', 'tablist');
     if (!this.hasAttribute('aria-label')) {
-      this.$$attr('aria-label', 'Carousel dots');
+      this.$$attr('aria-label', ESLCarouselNavDots.DEFAULT_ARIA_LABEL);
     }
   }
 
@@ -142,7 +156,6 @@ export class ESLCarouselNavDots extends ESLBaseElement {
   })
   protected _onSlideChange(e: Event): void {
     if (this.$carousel !== e.target) return;
-    if (this.$dots.length !== this.count) this.rebuild();
     this.update();
   }
 
@@ -152,7 +165,7 @@ export class ESLCarouselNavDots extends ESLBaseElement {
     if (!this.$carousel || typeof this.$carousel.goTo !== 'function') return;
     const $btn = event.$delegate as HTMLElement;
     const target = $btn.getAttribute('esl-carousel-dot') || '';
-    this.$carousel.goTo(`${this.mode}:${+target}`);
+    this.$carousel.goTo(`group:${+target}`);
     (this.tabIndex >= 0 ? this : $btn).focus({preventScroll: true});
   }
 
@@ -160,10 +173,10 @@ export class ESLCarouselNavDots extends ESLBaseElement {
   @listen('keydown')
   protected _onKeydown(event: KeyboardEvent): void {
     if (ARROW_LEFT === event.key) {
-      this.$dots[this.prev]?.click();
+      this.$dots[this.prevIndex]?.click();
     }
     if (ARROW_RIGHT === event.key) {
-      this.$dots[this.next]?.click();
+      this.$dots[this.nextIndex]?.click();
     }
   }
 }
