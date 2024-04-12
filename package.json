@@ -1,6 +1,6 @@
 {
   "name": "@exadel/esl",
-  "version": "5.0.0-beta.11",
+  "version": "5.0.0-beta.12",
   "private": false,
   "description": "Exadel Smart Library (ESL) is the lightweight custom elements library that provide a set of super-flexible components",
   "license": "MIT",
@@ -47,14 +47,12 @@
     "modules/esl-share/buttons/**/*.js",
     "modules/esl-carousel/core.js",
     "modules/esl-carousel/renderers/**/*.js",
-
     "src/modules/lib.ts",
     "src/modules/esl-media/providers/**/*.ts",
     "src/modules/esl-share/actions/**/*.ts",
     "src/modules/esl-share/buttons/**/*.ts",
     "src/modules/esl-carousel/core.ts",
     "src/modules/esl-carousel/renderers/**/*.ts",
-
     "polyfills/**/*.js",
     "src/polyfills/**/*.ts"
   ],
