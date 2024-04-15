@@ -52,7 +52,7 @@ export class UIPSettings extends UIPPluginPanel {
   @memoize()
   protected get $container(): HTMLElement {
     const type = this.constructor as typeof UIPSettings;
-    return (<div class={type.is + '-container esl-scrollable-content'}/>) as HTMLElement;
+    return (<div class={`uip-plugin-content ${type.is}-container esl-scrollable-content`}/>) as HTMLElement;
   }
 
   @memoize()

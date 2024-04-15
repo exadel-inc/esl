@@ -48,7 +48,7 @@ export class UIPPreview extends UIPPlugin {
   protected get $container(): HTMLElement {
     const type = this.constructor as typeof UIPPreview;
     return (
-      <div class={type.is + '-container'}>
+      <div class={`uip-plugin-content ${type.is}-container`}>
         <esl-scrollbar class={type.is + '-v-scroll'} target="::next(.uip-plugin-inner)"/>
         <esl-scrollbar class={type.is + '-h-scroll'} target="::next(.uip-plugin-inner)" horizontal/>
         {this.$inner}
