@@ -50,7 +50,7 @@ export class ESLCarouselSlide extends ESLBaseElement {
     if (attrName === 'active') this.updateActiveStateA11y();
   }
 
-  /** @returns index of the slide in the carousel. */
+  /** @returns slide index. */
   public get index(): number {
     if (!this.parentNode) return NaN;
     return Array.prototype.indexOf.call(this.parentNode.children, this);
