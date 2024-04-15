@@ -10,11 +10,12 @@
   .uip-plugin-inner {
     position: relative;
     display: grid;
+    place-items: start;
     height: auto;
-    overflow: hidden;
+    overflow: hidden; // Fallback
+    overflow: clip;
     width: 100%;
     max-width: 100%;
-    max-height: var(--uip-plugin-height, 325px);
 
     grid-template-rows: 1fr;
     transition:
@@ -22,6 +23,10 @@
       padding-top 0.5s linear,
       padding-bottom 0.5s linear,
       grid-template-rows 0.5s linear;
+  }
+
+  .uip-plugin-content {
+    max-height: var(--uip-plugin-height, 325px);
   }
 
   &[collapsed] .uip-plugin-inner {

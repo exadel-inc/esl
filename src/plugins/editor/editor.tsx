@@ -56,7 +56,7 @@ export class UIPEditor extends UIPPluginPanel {
     return (
       <div className={`${type.is}-inner uip-plugin-inner uip-plugin-inner-bg`}>
         <esl-scrollbar class={type.is + '-scrollbar'} target="::next"/>
-        <div className={type.is + '-container esl-scrollable-content'}>
+        <div className={`uip-plugin-content ${type.is}-container esl-scrollable-content`}>
           {this.$code}
         </div>
       </div>
