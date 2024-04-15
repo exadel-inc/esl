@@ -1,3 +1,11 @@
+# [2.1.0-beta.4](https://github.com/exadel-inc/ui-playground/compare/v2.1.0-beta.3...v2.1.0-beta.4) (2024-04-15)
+
+
+### Bug Fixes
+
+* **uip-editor:** fix editor is not editable in FF due to `contentEditable` partial support ([e2858f7](https://github.com/exadel-inc/ui-playground/commit/e2858f70695bb0b2c0d250e0ee1d2505a8cca795)), closes [#722](https://github.com/exadel-inc/ui-playground/issues/722)
+* update horizontal editor animation ([7f17967](https://github.com/exadel-inc/ui-playground/commit/7f179676ef63d5e533f21184f321421aa048fb71))
+
 # [2.1.0-beta.3](https://github.com/exadel-inc/ui-playground/compare/v2.1.0-beta.2...v2.1.0-beta.3) (2024-04-05)
 
 
