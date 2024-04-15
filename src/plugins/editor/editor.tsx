@@ -84,7 +84,13 @@ export class UIPEditor extends UIPPluginPanel {
   /** Changes editor readonly mode */
   public set editable(value: boolean) {
     this.$$cls('readonly', !value);
-    this.$code.setAttribute('contenteditable', value ? 'plaintext-only' : 'false');
+    if (value) {
+      this.$code.contentEditable = 'plaintext-only';
+      // FF doesn't support 'plaintext-only' mode
+      if (this.$code.contentEditable !== 'plaintext-only') this.$code.contentEditable = 'true';
+    } else {
+      this.$code.contentEditable = 'false';
+    }
   }
 
   /** @returns if the editor is in js readonly mode */
