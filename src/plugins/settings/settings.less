@@ -11,7 +11,7 @@ uip-settings {
     display: flex;
     position: relative;
     overflow: hidden;
-    padding: 0;
+    padding: 20px 10px;
   }
 
   &-container {
@@ -19,19 +19,38 @@ uip-settings {
     flex: 1 1 auto;
     flex-direction: column;
     order: 0;
-
     gap: 20px;
-    min-width: 200px;
-    padding: 20px 10px;
+    width: 100%;
   }
 
   &-scrollbar {
-    position: relative;
     flex: 0 0 auto;
     order: 1;
+  }
 
-    &[inactive] {
-      display: none;
+  &.vertical {
+    .uip-settings-container {
+      min-width: 200px;
+    }
+    .uip-settings-scrollbar {
+      position: relative;
+      padding-right: 0;
+
+      &[inactive] {
+        display: none;
+      }
+    }
+  }
+
+  &:not(.vertical) {
+    .uip-settings-scrollbar {
+      order: -1;
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+    }
+    &:not([collapsed]) .uip-settings-scrollbar:not([inactive]) {
+      opacity: 1;
+      transition-delay: 0.5s;
     }
   }
 
