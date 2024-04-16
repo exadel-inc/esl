@@ -80,46 +80,38 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     const {activeIndex, $slidesArea} =  this.$carousel;
     this.currentIndex = activeIndex;
     if (!$slidesArea) return;
-    while (this.currentIndex !== nextIndex) {
-      await this.onBeforeStepAnimate(direction);
-      await this.onAfterStepAnimate(direction);
-    }
+    while (this.currentIndex !== nextIndex) await this.onStepAnimate(direction);
   }
 
   /** Post-processing animation action. */
   public override async onAfterAnimate(): Promise<void> {
+    // Make sure we end up in a defined state on transition end
+    this.reorder(this.currentIndex);
     this.setTransformOffset(-this.getOffset(this.currentIndex));
     this.$carousel.$$attr('active', false);
   }
 
   /** Makes pre-processing the transition animation of one slide. */
-  protected async onBeforeStepAnimate(direction: ESLCarouselDirection): Promise<void> {
-    this.reorder(this.currentIndex, direction === 'prev');
+  protected async onStepAnimate(direction: ESLCarouselDirection): Promise<void> {
+    const index = normalize(this.currentIndex + (direction === 'next' ? 1 : -1), this.size);
 
-    const offsetIndex = normalize(this.currentIndex + (direction === 'next' ? 1 : -1), this.size);
+    // Make sure there is a slide in required direction
+    this.reorder(index, direction !== 'prev');
+
     const offsetFrom = -this.getOffset(this.currentIndex);
-
     this.setTransformOffset(offsetFrom);
-    const offsetTo = -this.getOffset(offsetIndex);
 
+    // here is the final reflow before transition
+    const offsetTo = -this.getOffset(index);
+    // Allow animation and move to the target slide
     this.$carousel.$$attr('animating', true);
     this.setTransformOffset(offsetTo);
+    if (offsetTo !== offsetFrom) {
+      await promisifyTransition(this.$area, 'transform');
+    }
 
-    if (offsetTo === offsetFrom) return;
-    // TODO: still not catches cases with no animation (
-    await promisifyTransition(this.$area, 'transform');
-  }
-
-  /** Makes post-processing the transition animation of one slide. */
-  protected async onAfterStepAnimate(direction: ESLCarouselDirection): Promise<void> {
-    this.currentIndex = direction === 'next' ? this.currentIndex + 1 : this.currentIndex - 1;
-    this.currentIndex = normalize(this.currentIndex, this.size);
-
-    this.reorder(this.currentIndex);
-
-    this.setTransformOffset(-this.getOffset(this.currentIndex));
+    this.currentIndex = index;
     this.$carousel.$$attr('animating', false);
-    +this.$carousel.offsetLeft;
   }
 
   /** Handles the slides transition. */
