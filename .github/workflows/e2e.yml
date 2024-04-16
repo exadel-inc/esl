@@ -50,7 +50,7 @@ jobs:
           path: e2e/.diff
       - name: Deploy Latest Issued Report To Branch
         if: failure()
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: e2e/.diff
