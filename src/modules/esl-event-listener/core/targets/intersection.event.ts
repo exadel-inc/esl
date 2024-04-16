@@ -31,7 +31,7 @@ export class ESLIntersectionEvent extends Event implements IntersectionObserverE
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/IntersectionObserverEntry/time) */
   public readonly time: DOMHighResTimeStamp;
 
-  protected constructor(target: Element, eventName: ESLIntersectionEventType) {
+  protected constructor(eventName: ESLIntersectionEventType, target: Element) {
     super(eventName, {bubbles: false, cancelable: false});
     overrideEvent(this, 'target', target);
   }
@@ -46,7 +46,7 @@ export class ESLIntersectionEvent extends Event implements IntersectionObserverE
     * @param entry - The intersection observer entry.
    */
   public static fromEntry(eventName: ESLIntersectionEventType, entry: IntersectionObserverEntry): ESLIntersectionEvent {
-    const event = new ESLIntersectionEvent(entry.target, eventName);
+    const event = new ESLIntersectionEvent(eventName, entry.target);
     const {
       boundingClientRect,
       intersectionRatio,
