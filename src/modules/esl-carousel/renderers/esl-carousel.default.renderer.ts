@@ -1,5 +1,5 @@
 import {promisifyTransition} from '../../esl-utils/async';
-import {boundIndex, normalizeIndex} from '../core/nav/esl-carousel.nav.utils';
+import {normalize, normalizeIndex} from '../core/nav/esl-carousel.nav.utils';
 import {ESLCarouselRenderer} from '../core/esl-carousel.renderer';
 
 import type {ESLCarouselDirection} from '../core/nav/esl-carousel.nav.types';
@@ -96,7 +96,7 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
   protected async onBeforeStepAnimate(direction: ESLCarouselDirection): Promise<void> {
     this.reorder(this.currentIndex, direction === 'prev');
 
-    const offsetIndex = normalizeIndex(this.currentIndex + (direction === 'next' ? 1 : -1), this.size);
+    const offsetIndex = normalize(this.currentIndex + (direction === 'next' ? 1 : -1), this.size);
     const offsetFrom = -this.getOffset(this.currentIndex);
 
     this.setTransformOffset(offsetFrom);
@@ -113,7 +113,7 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
   /** Makes post-processing the transition animation of one slide. */
   protected async onAfterStepAnimate(direction: ESLCarouselDirection): Promise<void> {
     this.currentIndex = direction === 'next' ? this.currentIndex + 1 : this.currentIndex - 1;
-    this.currentIndex = normalizeIndex(this.currentIndex, this.size);
+    this.currentIndex = normalize(this.currentIndex, this.size);
 
     this.reorder(this.currentIndex);
 
@@ -136,8 +136,8 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     // check right border of non-loop state
     if (!this.loop && offset < 0 && index + 1 + this.count > this.$carousel.size) return;
 
-    const currentIndex = normalizeIndex(index, this.size);
-    const orderIndex = offset < 0 ? currentIndex : normalizeIndex(currentIndex - 1, this.size);
+    const currentIndex = normalize(index, this.size);
+    const orderIndex = offset < 0 ? currentIndex : normalize(currentIndex - 1, this.size);
 
     this.reorder(orderIndex);
     this.currentIndex = currentIndex;
@@ -152,24 +152,21 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     const sign = offset < 0 ? 1 : -1;
     const slideSize = this.slideSize + this.gap;
 
-    const count = Math.abs(offset) % slideSize >= slideSize / 4 ?
-      Math.ceil(Math.abs(offset) / this.slideSize) : Math.floor(Math.abs(offset) / this.slideSize);
-    const nextIndex = this.$carousel.activeIndex + count * sign;
-    if (this.loop) {
-      this.currentIndex = normalizeIndex(nextIndex, this.size);
-    } else {
-      this.currentIndex = boundIndex(nextIndex, this.size - this.count);
-    }
+    const amount = Math.abs(offset) / slideSize;
+    const count = (amount - Math.floor(amount)) > 0.25 ? Math.ceil(amount) : Math.floor(amount);
+    const index = this.$carousel.activeIndex + count * sign;
 
+    this.currentIndex = normalizeIndex(index, this);
+
+    // Hm ... that's what actually happens on slide step
     this.$carousel.$$attr('animating', true);
     const stageOffset = -this.getOffset(this.currentIndex);
-
     this.setTransformOffset(stageOffset);
     if (stageOffset !== this.getTransformOffset()) {
       await promisifyTransition(this.$area, 'transform');
     }
-
     this.$carousel.$$attr('animating', false);
+
     this.reorder(this.currentIndex);
     this.setTransformOffset(-this.getOffset(this.currentIndex));
     this.setActive(this.currentIndex, {direction: sign > 0 ? 'next' : 'prev'});

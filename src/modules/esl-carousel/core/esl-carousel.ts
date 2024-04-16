@@ -8,7 +8,7 @@ import {parseBoolean} from '../../esl-utils/misc';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
 import {ESLResizeObserverTarget} from '../../esl-event-listener/core';
 
-import {normalizeIndex, toIndex, canNavigate} from './nav/esl-carousel.nav.utils';
+import {normalize, toIndex, canNavigate} from './nav/esl-carousel.nav.utils';
 
 import {ESLCarouselSlide} from './esl-carousel.slide';
 import {ESLCarouselRenderer} from './esl-carousel.renderer';
@@ -226,7 +226,7 @@ export class ESLCarousel extends ESLBaseElement {
     if (actives.length === this.$slides.length) return this.$slides[0];
 
     for (const slide of actives) {
-      const prevIndex = normalizeIndex(slide.index - 1, this.size);
+      const prevIndex = normalize(slide.index - 1, this.size);
       if (!this.$slides[prevIndex].active) return slide;
     }
     return this.$slides[0];
@@ -272,7 +272,7 @@ export class ESLCarousel extends ESLBaseElement {
 
   /** @returns slide by index (supports not normalized indexes) */
   public slideAt(index: number): ESLCarouselSlide {
-    return this.$slides[normalizeIndex(index, this.$slides.length)];
+    return this.$slides[normalize(index, this.$slides.length)];
   }
 
   /** @returns if the passed slide target can be reached */
