@@ -1,13 +1,39 @@
 # ESLCarouselNavDots
 
-`ESLCarouselNavDots` is auxiliary custom tag for ESLCarousel that provides dots navigation control for the carousel. 
+`ESLCarouselNavDots` is an auxiliary custom tag for ESLCarousel that provides dot navigation control for the carousel. 
 
 `ESLCarouselNavDots` relays on slide groups, so one dot is created for each slide group.
 Slide group is a set of slides that are displayed together in the carousel (you can control it by `count` attribute of carousel).
 
+Example:
+```html
+    <esl-carousel-slide esl-carousel-container>
+      <esl-carousel count="1">
+        <div data-slides-area>
+          <esl-carousel-slide>Slide 1</esl-carousel-slide>
+          <esl-carousel-slide>Slide 2</esl-carousel-slide>
+          <esl-carousel-slide>Slide 3</esl-carousel-slide>
+          <esl-carousel-slide>Slide 4</esl-carousel-slide>
+        </div>
+      </esl-carousel>
+
+      <esl-carousel-nav-dots></esl-carousel-nav-dots>
+    </div>
+```
+
 Please note, the plugin does not render if the carousel not found or expected amount of dots is less than 2.
-The `esl-carousel-dots` element does not allow any children except `esl-carousel-dot` elements.
-You can use CSS `:empty` selector to style as inactive state indicator.
+
+The `esl-carousel-dots` element does not allow any children except `esl-carousel-dot` elements, 
+so you can use CSS `:empty` selector to style as inactive state indicator.
+
+For example, you might want to perceive space that dots nav take, so you can use the following CSS to do that:
+```css
+    .esl-carousel-dots:empty {
+      display: block; /* Override default display: none */
+      visibility: hidden; /* Hide empty dots nav */
+      height: 1em; /* Set height to keep space */
+    }
+```
 
 ## Dots Plugin API
 
