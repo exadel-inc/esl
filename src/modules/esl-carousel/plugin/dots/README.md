@@ -2,7 +2,7 @@
 
 `ESLCarouselNavDots` is auxiliary custom tag for ESLCarousel that provides dots navigation control for the carousel. 
 
-`ESLCarouselNavDots` relay on slide groups(sets), so one dot is created for each slide group. 
+`ESLCarouselNavDots` relays on slide groups, so one dot is created for each slide group.
 Slide group is a set of slides that are displayed together in the carousel (you can control it by `count` attribute of carousel).
 
 Please note, the plugin does not render if the carousel not found or expected amount of dots is less than 2.
@@ -23,14 +23,14 @@ You can use CSS `:empty` selector to style as inactive state indicator.
   
 ### Static API
 
-- `ESLCarouselNavDots.dotsBuilder` - define global [dot builder](#dot-builder--updater) function.
+- `ESLCarouselNavDots.dotBuilder` - define global [dot builder](#dot-builder--updater) function.
 - `ESLCarouselNavDots.defaultDotBuilder` - default [dot builder](#dot-builder--updater) function.
 - `ESLCarouselNavDots.dotUpdater` - define global [dot updater](#dot-builder--updater) function.
 - `ESLCarouselNavDots.defaultDotUpdater` - default [dot updater](#dot-builder--updater) function.
 
 ### Instance API
 
-- `dotsBuilder` - define [dot builder](#dot-builder--updater) function for instance. Default is `ESLCarouselNavDots.dotBuilder`.
+- `dotBuilder` - define [dot builder](#dot-builder--updater) function for instance. Default is `ESLCarouselNavDots.dotBuilder`.
 - `dotUpdater` - define [dot updater](#dot-builder--updater) function for instance. Default is `ESLCarouselNavDots.dotUpdater`.
 
 - `update` - updates dots based on current carousel state. Redraws dots if needed. 
@@ -84,7 +84,7 @@ If you need to customize the dot content, you can define a custom dot builder fu
 The following example shows how to create a dot with a dot index as content:
 
 ```ts
-ESLCarouselNavDots.dotsBuilder = (index, count, $plugin) => {
+ESLCarouselNavDots.dotBuilder = (index, count, $plugin) => {
   const dot = ESLCarouselNavDots.defaultDotBuilder(index, count, $plugin);
   dot.textContent = `${index + 1}`;
   return dot;
@@ -96,7 +96,7 @@ If you need to add static custom attributes to the dot, you can define a custom 
 The following example shows how to add a custom `data-analytics` attribute to the dot:
 
 ```ts
-ESLCarouselNavDots.dotsBuilder = (index, count, $plugin) => {
+ESLCarouselNavDots.dotBuilder = (index, count, $plugin) => {
   const dot = ESLCarouselNavDots.defaultDotBuilder(index, count, $plugin);
   dot.setAttribute('data-analytics', `carousel-dot-${index}`);
   return dot;

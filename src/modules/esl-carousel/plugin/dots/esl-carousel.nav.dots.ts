@@ -11,8 +11,10 @@ import {ESLCarouselChangeEvent, ESLCarouselSlideEvent} from '../../core/esl-caro
 import type {ESLCarousel} from '../../core/esl-carousel';
 import type {DelegatedEvent} from '../../../esl-event-listener/core/types';
 
-export type ESLCarouselNavDotsBuilder = (index: number, $dots: ESLCarouselNavDots) => HTMLElement;
-export type ESLCarouselNavDotsUpdater = ($dot: HTMLElement, index: number, $dots: ESLCarouselNavDots) => void;
+/** Function to generate dot element. Note it's not aware of actual carousel state, so it cannot be used to add dynamic attributes */
+export type ESLCarouselNavDotBuilder = (index: number, $dots: ESLCarouselNavDots) => HTMLElement;
+/** Function to update dot element upon carousel state changes */
+export type ESLCarouselNavDotUpdater = ($dot: HTMLElement, index: number, $dots: ESLCarouselNavDots) => void;
 
 /**
  * {@link ESLCarousel} Dots navigation element
@@ -25,7 +27,7 @@ export type ESLCarouselNavDotsUpdater = ($dot: HTMLElement, index: number, $dots
 @ExportNs('Carousel.Dots')
 export class ESLCarouselNavDots extends ESLBaseElement {
   public static override is = 'esl-carousel-dots';
-  public static observedAttributes = ['target', 'mode'];
+  public static observedAttributes = ['target'];
 
   public static DEFAULT_ARIA_LABEL = 'Carousel dots';
 
@@ -46,10 +48,10 @@ export class ESLCarouselNavDots extends ESLBaseElement {
     $dot.setAttribute('aria-current', String(isActive));
   }
 
-  /** Default dots builder function {@link ESLCarouselNavDotsBuilder} */
-  public static dotsBuilder: ESLCarouselNavDotsBuilder = ESLCarouselNavDots.defaultDotBuilder;
-  /** Default dots updater function {@link ESLCarouselNavDotsUpdater} */
-  public static dotsUpdater: ESLCarouselNavDotsUpdater = ESLCarouselNavDots.defaultDotUpdater;
+  /** Default dots builder function {@link ESLCarouselNavDotBuilder} */
+  public static dotBuilder: ESLCarouselNavDotBuilder = ESLCarouselNavDots.defaultDotBuilder;
+  /** Default dots updater function {@link ESLCarouselNavDotUpdater} */
+  public static dotUpdater: ESLCarouselNavDotUpdater = ESLCarouselNavDots.defaultDotUpdater;
 
   /** {@link ESLTraversingQuery} string to find {@link ESLCarousel} instance */
   @attr({
@@ -67,10 +69,10 @@ export class ESLCarouselNavDots extends ESLBaseElement {
   // @attr({defaultValue: true, parser: parseBoolean})
   // public keyboardArrows: boolean;
 
-  /** Dots builder function {@link ESLCarouselNavDotsBuilder} */
-  @prop(ESLCarouselNavDots.dotsBuilder) public dotsBuilder: ESLCarouselNavDotsBuilder;
-  /** Dots updater function {@link ESLCarouselNavDotsUpdater} */
-  @prop(ESLCarouselNavDots.dotsUpdater) public dotsUpdater: ESLCarouselNavDotsUpdater;
+  /** Dots builder function {@link ESLCarouselNavDotBuilder} */
+  @prop(ESLCarouselNavDots.dotBuilder) public dotBuilder: ESLCarouselNavDotBuilder;
+  /** Dots updater function {@link ESLCarouselNavDotUpdater} */
+  @prop(ESLCarouselNavDots.dotUpdater) public dotUpdater: ESLCarouselNavDotUpdater;
 
   /**
    * Dots number according carousel config.
@@ -148,12 +150,12 @@ export class ESLCarouselNavDots extends ESLBaseElement {
   public update(): void {
     memoize.clear(this, ['count', 'activeIndex']); // invalidate state memoization
     if (this.$dots.length !== this.count) {
-      const $dots = new Array(this.count).fill(null).map((_, index) => this.dotsBuilder(index, this));
+      const $dots = new Array(this.count).fill(null).map((_, index) => this.dotBuilder(index, this));
       $dots.forEach(($dot, index) => $dot.setAttribute('esl-carousel-dot', String(index)));
       memoize.clear(this, '$dots');
       this.replaceChildren(...$dots);
     }
-    this.$dots.forEach(($dot, index) => this.dotsUpdater($dot, index, this));
+    this.$dots.forEach(($dot, index) => this.dotUpdater($dot, index, this));
   }
 
   /** Updates a11y of `ESLCarouselNavDots` as a container */
