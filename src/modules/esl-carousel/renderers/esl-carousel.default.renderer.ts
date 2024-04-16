@@ -122,35 +122,23 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     +this.$carousel.offsetLeft;
   }
 
-  protected _checkNonLoop(offset: number): boolean {
-    // TODO: get rid of this method by revisiting methods below
-    if (this.loop) return true;
-
-    const sign = offset < 0 ? 1 : -1;
-    const count = Math.floor(Math.abs(offset) / (this.slideSize + this.gap));
-    const nextIndex = this.$carousel.activeIndex + count * sign;
-    const currentIndex = normalizeIndex(this.$carousel.activeIndex + count * sign, this.size);
-
-    // check non-loop state
-    if (nextIndex >= this.$carousel.size || nextIndex < 0) return false;
-    // check left border of non-loop state
-    if (offset > 0 && currentIndex - 1 < 0) return false;
-    // check right border of non-loop state
-    return !(offset < 0 && currentIndex + 1 + this.count > this.$carousel.size);
-  }
-
   /** Handles the slides transition. */
   public onMove(offset: number): void {
     this.$carousel.toggleAttribute('active', true);
 
-    if (!this._checkNonLoop(offset)) return;
-
     const sign = offset < 0 ? 1 : -1;
     const slideSize = this.slideSize + this.gap;
     const count = Math.floor(Math.abs(offset) / slideSize);
-    const currentIndex = normalizeIndex(this.$carousel.activeIndex + count * sign, this.size);
+    const index = this.$carousel.activeIndex + count * sign;
 
+    // check left border of non-loop state
+    if (!this.loop && offset > 0 && index - 1 < 0) return;
+    // check right border of non-loop state
+    if (!this.loop && offset < 0 && index + 1 + this.count > this.$carousel.size) return;
+
+    const currentIndex = normalizeIndex(index, this.size);
     const orderIndex = offset < 0 ? currentIndex : normalizeIndex(currentIndex - 1, this.size);
+
     this.reorder(orderIndex);
     this.currentIndex = currentIndex;
 
