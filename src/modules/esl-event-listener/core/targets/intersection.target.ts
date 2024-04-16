@@ -4,6 +4,8 @@ import {wrap} from '../../../esl-utils/misc/array';
 
 import {ESLIntersectionEvent} from './intersection.event';
 
+import type {ESLIntersectionEventType} from './intersection.event';
+
 export {ESLIntersectionEvent};
 
 /**
@@ -51,17 +53,17 @@ export class ESLIntersectionTarget extends SyntheticEventTarget {
   protected handleChange(entries: IntersectionObserverEntry[]): void {
     entries.forEach(
       (entry) => {
-        this.dispatchEvent(ESLIntersectionEvent.fromEntry(entry, entry.isIntersecting ? ESLIntersectionEvent.IN_TYPE : ESLIntersectionEvent.OUT_TYPE));
-        this.dispatchEvent(ESLIntersectionEvent.fromEntry(entry));
+        this.dispatchEvent(ESLIntersectionEvent.fromEntry(entry.isIntersecting ? ESLIntersectionEvent.IN : ESLIntersectionEvent.OUT, entry));
+        this.dispatchEvent(ESLIntersectionEvent.fromEntry(ESLIntersectionEvent.TYPE, entry));
       }
     );
   }
 
   /** Subscribes to the observed target {@link Element} changes */
   public override addEventListener(callback: EventListener): void;
-  public override addEventListener(event: typeof ESLIntersectionEvent.type, callback: EventListener): void;
+  public override addEventListener(event: ESLIntersectionEventType, callback: EventListener): void;
   public override addEventListener(event: any, callback: EventListener = event): void {
-    if (typeof event !== 'string') event = ESLIntersectionEvent.BASE_TYPE;
+    if (typeof event !== 'string') event = ESLIntersectionEvent.TYPE;
     if (!ESLIntersectionEvent.isValidEventType(event)) {
       console.warn(`[ESL]: ESLIntersectionTarget does not support '${event}' type`);
       return;
@@ -73,9 +75,9 @@ export class ESLIntersectionTarget extends SyntheticEventTarget {
 
   /** Unsubscribes from the observed target {@link Element} changes */
   public override removeEventListener(callback: EventListener): void;
-  public override removeEventListener(event: typeof ESLIntersectionEvent.type, callback: EventListener): void;
+  public override removeEventListener(event: ESLIntersectionEventType, callback: EventListener): void;
   public override removeEventListener(event: any, callback: EventListener = event): void {
-    if (typeof event !== 'string') event = ESLIntersectionEvent.BASE_TYPE;
+    if (typeof event !== 'string') event = ESLIntersectionEvent.TYPE;
     if (!ESLIntersectionEvent.isValidEventType(event)) return;
     super.removeEventListener(event, callback);
     if (this.hasEventListener(event)) return;
