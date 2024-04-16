@@ -12,7 +12,7 @@ esl-carousel {
   /* stylelint-disable-next-line */
   overflow: clip;
 
-  [data-slides-area] {
+  [esl-carousel-slides] {
     position: relative;
     width: 100%;
     display: flex;
@@ -21,10 +21,10 @@ esl-carousel {
     transform: translate3d(0px, 0px, 0px);
   }
 
-  &.esl-carousel-vertical [data-slides-area] {
+  &.esl-carousel-vertical [esl-carousel-slides] {
     flex-direction: column;
   }
-  &.esl-carousel-horizontal [data-slides-area] {
+  &.esl-carousel-horizontal [esl-carousel-slides] {
     flex-direction: row;
   }
 
@@ -32,8 +32,8 @@ esl-carousel {
     cursor: grabbing;
   }
 
-  &[dragging] [data-slides-area],
-  &[animating] [data-slides-area] {
+  &[dragging] [esl-carousel-slides],
+  &[animating] [esl-carousel-slides] {
     user-select: none;
     touch-action: pan-y;
     pointer-events: none;
