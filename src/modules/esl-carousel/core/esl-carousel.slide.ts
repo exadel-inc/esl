@@ -1,9 +1,10 @@
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {microtask} from '../../esl-utils/async/microtask';
-import {boolAttr, decorate, memoize, ready} from '../../esl-utils/decorators';
+import {attr, boolAttr, decorate, memoize, ready} from '../../esl-utils/decorators';
 import {findNext, findPrev, findNextLooped, findPrevLooped} from '../../esl-utils/dom/traversing';
 
 import type {ESLCarousel} from './esl-carousel';
+import {CSSClassUtils} from '../../esl-utils/dom/class';
 
 /**
  * ESLCarouselSlide component
@@ -27,6 +28,9 @@ export class ESLCarouselSlide extends ESLBaseElement {
   /** Slide is previous to active slide */
   @boolAttr() public prev: boolean;
 
+  /** Class(-es) to add on carousel container whe slide is active. Supports {@link CSSClassUtils} syntax */
+  @attr() public containerClass: string;
+
   @memoize()
   public get $carousel(): ESLCarousel | undefined {
     const carouselTag = this.baseTagName.replace('-slide', '');
@@ -38,6 +42,7 @@ export class ESLCarouselSlide extends ESLBaseElement {
     super.connectedCallback();
     this.$carousel?.addSlide && this.$carousel.addSlide(this);
     this.updateA11y();
+    this.updateActiveState();
   }
 
   protected override disconnectedCallback(): void {
@@ -47,7 +52,7 @@ export class ESLCarouselSlide extends ESLBaseElement {
   }
 
   protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
-    if (attrName === 'active') this.updateActiveStateA11y();
+    if (attrName === 'active') this.updateActiveState();
   }
 
   /** @returns slide index. */
@@ -83,14 +88,15 @@ export class ESLCarouselSlide extends ESLBaseElement {
     if (!this.hasAttribute('aria-label')) {
       this.$$attr('aria-label', `carousel item ${this.index + 1}`);
     }
-    this.updateActiveStateA11y();
   }
   /** Updates A11y attributes related to active state */
-  protected updateActiveStateA11y(): void {
+  protected updateActiveState(): void {
     this.$$attr('aria-hidden', String(!this.active));
     if (!this.$carousel?.hasAttribute(ESLCarouselSlide.NO_INERT_MARKER)) {
       this.toggleAttribute('inert', !this.active);
     }
+    if (!this.$carousel) return;
+    CSSClassUtils.toggle(this.$carousel.$container || this.$carousel, this.containerClass, this.active, this);
     if (!this.active) this.blurIfInactive();
   }
 
