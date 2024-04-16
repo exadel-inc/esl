@@ -70,9 +70,19 @@ export class ESLCarouselNavDots extends ESLBaseElement {
   // public keyboardArrows: boolean;
 
   /** Dots builder function {@link ESLCarouselNavDotBuilder} */
-  @prop(ESLCarouselNavDots.dotBuilder) public dotBuilder: ESLCarouselNavDotBuilder;
+  public get dotBuilder(): ESLCarouselNavDotBuilder {
+    return (this.constructor as typeof ESLCarouselNavDots).dotBuilder;
+  }
+  public set dotBuilder(value: ESLCarouselNavDotBuilder) {
+    Object.defineProperty(this, 'dotBuilder', {value, writable: true, configurable: true});
+  }
   /** Dots updater function {@link ESLCarouselNavDotUpdater} */
-  @prop(ESLCarouselNavDots.dotUpdater) public dotUpdater: ESLCarouselNavDotUpdater;
+  public get dotUpdater(): ESLCarouselNavDotUpdater {
+    return (this.constructor as typeof ESLCarouselNavDots).dotUpdater;
+  }
+  public set dotUpdater(value: ESLCarouselNavDotUpdater) {
+    Object.defineProperty(this, 'dotUpdater', {value, writable: true, configurable: true});
+  }
 
   /**
    * Dots number according carousel config.
