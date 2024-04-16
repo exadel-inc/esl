@@ -1,42 +1,40 @@
-// DOTS navigation
+/* ESLCarouselNavDots default styles */
 .esl-carousel-dots {
-  display: inline-block;
-  width: fit-content;
-  text-align: center;
+  --esl-carousel-dot-color: rgba(118, 118, 118, 0.5);
+  --esl-carousel-dot-border: 1px solid transparent;
+  --esl-carousel-dot-active-color: rgba(255, 255, 255, 0.5);
+  --esl-carousel-dot-active-border: 1px solid #bababa;
 
-  [disabled] & {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  gap: 0.5rem;
+  margin: 1rem auto;
+
+  &:empty {
     display: none;
   }
 }
 
 .esl-carousel-dot {
-  display: inline-block;
-  width: 9px;
-  height: 9px;
-  margin: 0 5px;
-  vertical-align: middle;
+  flex: 0 0 auto;
+  min-width: 9px;
+  box-sizing: content-box;
+  aspect-ratio: 1;
   border-radius: 100%;
+
+  text-align: center;
+  vertical-align: middle;
   cursor: pointer;
   appearance: none;
 
-  &, &:focus {
-    background: rgba(118, 118, 118, 0.5);
-    border: 1px solid transparent;
-  }
-
-  &:active, &:hover {
-    background: rgba(118, 118, 118, 0.5);
-    border: 1px solid rgba(118, 118, 118, 0.5);
+  &:is(*, :focus, :active, :hover) {
+    border: var(--esl-carousel-dot-border);
+    background: var(--esl-carousel-dot-color) content-box;
   }
 
   &[active] {
-    width: 11px;
-    height: 11px;
-    background: rgba(255, 255, 255, 0.5);
-    border: 1px solid #bababa;
-  }
-
-  &:focus-visible {
-    outline: #1fc2ff solid 1px;
+    border: var(--esl-carousel-dot-active-border);
+    background: var(--esl-carousel-dot-active-color);
   }
 }

@@ -11,9 +11,8 @@ import {ESLCarouselChangeEvent, ESLCarouselSlideEvent} from '../../core/esl-caro
 import type {ESLCarousel} from '../../core/esl-carousel';
 import type {DelegatedEvent} from '../../../esl-event-listener/core/types';
 
-
 export type ESLCarouselNavDotsBuilder = (index: number, $dots: ESLCarouselNavDots) => HTMLElement;
-export type ESLCarouselNavDotsUpdater = ($dot: HTMLElement, isActive: boolean, $dots: ESLCarouselNavDots) => void;
+export type ESLCarouselNavDotsUpdater = ($dot: HTMLElement, index: number, $dots: ESLCarouselNavDots) => void;
 
 /**
  * {@link ESLCarousel} Dots navigation element
@@ -41,10 +40,10 @@ export class ESLCarouselNavDots extends ESLBaseElement {
     return dot;
   }
   /** Default dot updater implementation (readonly)*/
-  public static defaultDotUpdater($dot: HTMLElement, active: boolean): void {
-    $dot.toggleAttribute('active', active);
-    $dot.setAttribute('aria-disabled', String(!active));
-    $dot.setAttribute('aria-current', String(active));
+  public static defaultDotUpdater($dot: HTMLElement, index: number, {activeIndex}: ESLCarouselNavDots): void {
+    const isActive = index === activeIndex;
+    $dot.toggleAttribute('active', isActive);
+    $dot.setAttribute('aria-current', String(isActive));
   }
 
   /** Default dots builder function {@link ESLCarouselNavDotsBuilder} */
@@ -63,28 +62,37 @@ export class ESLCarouselNavDots extends ESLBaseElement {
   @attr({defaultValue: ($this: ESLCarouselNavDots) => `Go to slide ${$this.groupSize > 1  ? 'group ' : ''}{index}`})
   public dotLabelFormat: string;
 
+  // TODO: implement in future
+  // /** Use arrow keys to navigate */
+  // @attr({defaultValue: true, parser: parseBoolean})
+  // public keyboardArrows: boolean;
+
   /** Dots builder function {@link ESLCarouselNavDotsBuilder} */
   @prop(ESLCarouselNavDots.dotsBuilder) public dotsBuilder: ESLCarouselNavDotsBuilder;
   /** Dots updater function {@link ESLCarouselNavDotsUpdater} */
   @prop(ESLCarouselNavDots.dotsUpdater) public dotsUpdater: ESLCarouselNavDotsUpdater;
 
-  public get groupSize(): number {
-    return this.$carousel?.state.count || 0;
-  }
-
-  /** Dots number according carousel config */
+  /**
+   * Dots number according carousel config.
+   * Will be 0 if carousel does not require dots (carousel incomplete).
+   * (Note: memoization used during update stage)
+   */
+  @memoize()
   public get count(): number {
     if (!this.$carousel) return 0;
     const {count, size} = this.$carousel.state;
-    return Math.ceil(size / count);
+    const value = Math.ceil(size / count);
+    return value > 1 ? value : 0;
   }
 
-  /** Active dot index according to carousel config */
+  /** Active dot index according to carousel config. (Note: memoization used during update stage) */
+  @memoize()
   public get activeIndex(): number {
     if (!this.$carousel) return 0;
     const {activeIndex, count, size} = this.$carousel.state;
     return indexToGroup(activeIndex, count, size);
   }
+
   /** Previous dot index (cycled) */
   public get prevIndex(): number {
     return this.activeIndex > 0 ? this.activeIndex - 1 : this.count - 1;
@@ -94,7 +102,13 @@ export class ESLCarouselNavDots extends ESLBaseElement {
     return this.activeIndex < this.count - 1 ? this.activeIndex + 1 : 0;
   }
 
+  /** Returns amount of slides associated with one group(dot) */
+  public get groupSize(): number {
+    return this.$carousel?.state.count || 0;
+  }
+
   /** Current dots collection */
+  @memoize()
   public get $dots(): HTMLElement[] {
     return [...this.querySelectorAll('[esl-carousel-dot]')] as HTMLElement[];
   }
@@ -106,7 +120,7 @@ export class ESLCarouselNavDots extends ESLBaseElement {
   }
 
   public override async connectedCallback(): Promise<void> {
-    this.$$attr('disabled', true);
+    this.replaceChildren();
     if (!this.$carousel) return;
     await customElements.whenDefined(this.$carousel.tagName.toLowerCase());
     super.connectedCallback();
@@ -130,15 +144,16 @@ export class ESLCarouselNavDots extends ESLBaseElement {
     this.updateA11y();
   }
 
-  /** Updates dots state (initiates updater for dot elements, but doesn't rerender them) */
+  /** Updates dots state, rebuilds dots if needed */
   public update(): void {
-    if (!this.$carousel) return;
-    const {count, activeIndex} = this;
-    if (this.$dots.length !== count) {
-      const $dots = new Array(count).fill(null).map((_, index) => this.dotsBuilder(index, this));
+    memoize.clear(this, ['count', 'activeIndex']); // invalidate state memoization
+    if (this.$dots.length !== this.count) {
+      const $dots = new Array(this.count).fill(null).map((_, index) => this.dotsBuilder(index, this));
+      $dots.forEach(($dot, index) => $dot.setAttribute('esl-carousel-dot', String(index)));
+      memoize.clear(this, '$dots');
       this.replaceChildren(...$dots);
     }
-    this.$dots.forEach(($dot, index) => this.dotsUpdater($dot, index === activeIndex, this));
+    this.$dots.forEach(($dot, index) => this.dotsUpdater($dot, index, this));
   }
 
   /** Updates a11y of `ESLCarouselNavDots` as a container */
@@ -155,8 +170,7 @@ export class ESLCarouselNavDots extends ESLBaseElement {
     target: ($el: ESLCarouselNavDots) => $el.$carousel
   })
   protected _onSlideChange(e: Event): void {
-    if (this.$carousel !== e.target) return;
-    this.update();
+    if (this.$carousel === e.target) this.update();
   }
 
   /** Handles `click` on the dots */
