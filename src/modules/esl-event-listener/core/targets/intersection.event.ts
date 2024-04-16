@@ -7,9 +7,14 @@ export type ESLIntersectionEventType = typeof ESLIntersectionEvent.TYPE | typeof
  * Based on the {@link IntersectionObserverEntry} object.
  */
 export class ESLIntersectionEvent extends Event implements IntersectionObserverEntry {
+  /** Type of event that will be dispatched on viewport exit */
   public static readonly OUT = 'intersects:out';
+  /** Type of event that will be dispatched on viewport enter */
   public static readonly IN = 'intersects:in';
+  /** Type of event that will be dispatched on both viewport enter and exit */
   public static readonly TYPE = 'intersects';
+  /** @deprecated use {@link TYPE} instead */
+  public static readonly type = this.TYPE;
 
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/IntersectionObserverEntry/target) */
   public override readonly target: Element;
