@@ -1,10 +1,5 @@
 /* ESLCarouselNavDots default styles */
 .esl-carousel-dots {
-  --esl-carousel-dot-color: rgba(118, 118, 118, 0.5);
-  --esl-carousel-dot-border: 1px solid transparent;
-  --esl-carousel-dot-active-color: rgba(255, 255, 255, 0.5);
-  --esl-carousel-dot-active-border: 1px solid #bababa;
-
   display: flex;
   align-items: center;
   width: fit-content;
@@ -29,12 +24,14 @@
   appearance: none;
 
   &:is(*, :focus, :active, :hover) {
-    border: var(--esl-carousel-dot-border);
-    background: var(--esl-carousel-dot-color) content-box;
+    border: var(--esl-carousel-dot-border, 1px solid transparent);
+    background: var(--esl-carousel-dot-color, rgba(118, 118, 118, 0.5));
+    background-clip: content-box;
   }
 
   &[active] {
-    border: var(--esl-carousel-dot-active-border);
-    background: var(--esl-carousel-dot-active-color);
+    border: var(--esl-carousel-dot-active-border, 1px solid #bababa);
+    background: var(--esl-carousel-dot-active-color, rgba(255, 255, 255, 0.5));
+    background-clip: content-box;
   }
 }
