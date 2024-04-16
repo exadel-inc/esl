@@ -13,7 +13,7 @@ icon: examples/carousel.svg
                   type="default"
                   esl-carousel-touch
                   esl-carousel-relate-to="#nav-carousel">
-      <div data-slides-area>
+      <div esl-carousel-slides>
         {% for item in slides %}
         <esl-carousel-slide>
         <div class="img-container">
@@ -35,7 +35,7 @@ icon: examples/carousel.svg
                   esl-carousel-touch
                   type="default"
                   count="5">
-      <div data-slides-area>
+      <div esl-carousel-slides>
         {% for item in slides %}
         <esl-carousel-slide>
           <div class="img-container img-container-4-3"

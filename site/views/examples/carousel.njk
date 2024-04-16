@@ -19,7 +19,7 @@ icon: examples/carousel.svg
                   media="@XS|@SM|@MD|@LG|@XL"
                   loop="true"
                   count="1|2|3|4|5">
-      <div data-slides-area>
+      <div esl-carousel-slides>
         {% for item in cards %}
           <esl-carousel-slide {{ 'active' if loop.first }}>
             <div class="card">
@@ -59,7 +59,7 @@ icon: examples/carousel.svg
                   esl-carousel-touch
                   count="2"
                   loop="true">
-      <div data-slides-area>
+      <div esl-carousel-slides>
         {% for i in range(0, 6) -%}
           <esl-carousel-slide style="max-width: 50%">
             <div class="card">
@@ -91,7 +91,7 @@ icon: examples/carousel.svg
                    media="@XS|@SM|@MD|@LG|@XL"
                    count="2|3|4|5|6"
                    loop="true">
-        <div data-slides-area>
+        <div esl-carousel-slides>
         {% for item in items %}
            <esl-carousel-slide {{ 'active' if loop.first }}>
               <div class="card" style="justify-content: center; background: {{item.background}}">
@@ -121,7 +121,7 @@ icon: examples/carousel.svg
     <esl-carousel esl-carousel-touch="none | @XS => drag"
                   media="@XS|@SM|@MD|@LG|@XL"
                   count="2|3|4|5|6">
-      <div data-slides-area>
+      <div esl-carousel-slides>
         {% for item in items %}
           <esl-carousel-slide {{ 'active' if loop.first }}>
             <div class="card" style="justify-content: center; background: {{item.background}}">
@@ -149,7 +149,7 @@ icon: examples/carousel.svg
      </button>
 
      <esl-carousel esl-carousel-touch="@touch => swipe" loop="true">
-        <div data-slides-area>
+        <div esl-carousel-slides>
           {% for i in range(0, 4) -%}
            <esl-carousel-slide>
               <div class="card">
