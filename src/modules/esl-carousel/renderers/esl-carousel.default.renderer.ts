@@ -12,6 +12,9 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
   /** CSS variable name for slide auto size */
   public static SIZE_PROP = '--esl-slide-size';
 
+  /** Tolerance to treat offset enough to move to the next slide. Relative (0-1) to slide width */
+  public static readonly NEXT_SLIDE_TOLERANCE = 0.25;
+
   /** Min slides to position from both sides if possible */
   protected reserve: number = 1;
   /** Slides gap size */
@@ -145,7 +148,8 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     const slideSize = this.slideSize + this.gap;
 
     const amount = Math.abs(offset) / slideSize;
-    const count = (amount - Math.floor(amount)) > 0.25 ? Math.ceil(amount) : Math.floor(amount);
+    const tolerance = ESLDefaultCarouselRenderer.NEXT_SLIDE_TOLERANCE;
+    const count = (amount - Math.floor(amount)) > tolerance ? Math.ceil(amount) : Math.floor(amount);
     const index = this.$carousel.activeIndex + count * sign;
 
     this.currentIndex = normalizeIndex(index, this);
