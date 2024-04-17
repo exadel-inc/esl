@@ -6,7 +6,6 @@ import {calcDirection, normalize} from './nav/esl-carousel.nav.utils';
 
 import type {ESLCarousel, ESLCarouselActionParams} from './esl-carousel';
 import type {ESLCarouselConfig, ESLCarouselDirection} from './nav/esl-carousel.nav.types';
-import type {ESLCarouselSlide} from './esl-carousel.slide';
 import type {ESLCarouselSlideEventInit} from './esl-carousel.events';
 
 export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
@@ -54,7 +53,7 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
   }
 
   /** @returns {@link ESLCarousel} `$slides` */
-  public get $slides(): ESLCarouselSlide[] {
+  public get $slides(): HTMLElement[] {
     return this.$carousel.$slides || [];
   }
 
@@ -130,9 +129,10 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
 
     for (let i = 0; i < this.size; i++) {
       const position = normalize(i + current, this.size);
-      this.$slides[position].active = i < count;
-      this.$slides[position].next = i === count && (this.loop || position !== 0);
-      this.$slides[position].prev = i === this.size - 1 && i >= count && (this.loop || position !== this.size - 1);
+      const $slide = this.$slides[position];
+      $slide.toggleAttribute('active', i < count);
+      $slide.toggleAttribute('next', i === count && (this.loop || position !== 0));
+      $slide.toggleAttribute('prev', i === this.size - 1 && i >= count && (this.loop || position !== this.size - 1));
     }
 
     if (event && typeof event === 'object') {
@@ -147,14 +147,14 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
     const count = Math.min(this.count, this.size);
     for (let i = from; i < from + count; i++) {
       const $slide = this.$carousel.slideAt(i);
-      if (!$slide.active) {
-        $slide.preActive = true;
+      if (!$slide.hasAttribute('active')) {
+        $slide.setAttribute('pre-active', '');
       }
     }
   }
 
   public clearPreActive(): void {
-    this.$carousel.$slides.forEach((el) => el.preActive = false);
+    this.$carousel.$slides.forEach((el) => el.removeAttribute('pre-active'));
   }
 
   // Register API

@@ -19,9 +19,9 @@ icon: examples/carousel.svg
                   media="@XS|@SM|@MD|@LG|@XL"
                   loop="true"
                   count="1|2|3|4|5">
-      <div esl-carousel-slides>
+      <ul esl-carousel-slides>
         {% for item in cards %}
-          <esl-carousel-slide {{ 'active' if loop.first }}>
+          <li esl-carousel-slide {{ 'active' if loop.first }}>
             <div class="card">
               <div class="card-image img-container img-container-16-9">
                 <esl-image lazy
@@ -35,9 +35,9 @@ icon: examples/carousel.svg
                 <button type="button" class="btn" onclick="alert('I\'m alive')">Hey cart!</button>
               </div>
             </div>
-          </esl-carousel-slide>
+          </li>
         {% endfor %}
-      </div>
+      </ul>
     </esl-carousel>
 
     <button class="esl-carousel-arrow icon-arrow-next hide-xs"
@@ -59,17 +59,17 @@ icon: examples/carousel.svg
                   esl-carousel-touch
                   count="2"
                   loop="true">
-      <div esl-carousel-slides>
+      <ul esl-carousel-slides>
         {% for i in range(0, 6) -%}
-          <esl-carousel-slide style="max-width: 50%">
+          <li esl-carousel-slide style="max-width: 50%">
             <div class="card">
               <esl-image mode="cover" lazy
                          data-alt="Alt Text Test"
                          data-src="{{ '/assets/carousel/' + loop.index + '-sm.jpg' | url }}"></esl-image>
             </div>
-          </esl-carousel-slide>
+          </li>
         {%- endfor %}
-      </div>
+      </ul>
     </esl-carousel>
 
     <button class="esl-carousel-arrow inner hide-xs" esl-carousel-nav="group:next">
@@ -91,15 +91,15 @@ icon: examples/carousel.svg
                    media="@XS|@SM|@MD|@LG|@XL"
                    count="2|3|4|5|6"
                    loop="true">
-        <div esl-carousel-slides>
+        <ul esl-carousel-slides>
         {% for item in items %}
-           <esl-carousel-slide {{ 'active' if loop.first }}>
+           <li esl-carousel-slide {{ 'active' if loop.first }}>
               <div class="card" style="justify-content: center; background: {{item.background}}">
                   <h4 class="text-center mb-0">{{ item.name }}</h4>
               </div>
-           </esl-carousel-slide>
+           </li>
         {% endfor %}
-        </div>
+        </ul>
      </esl-carousel>
 
      <button class="esl-carousel-arrow icon-arrow-next hide-xs" esl-carousel-nav="group:next">
@@ -121,15 +121,15 @@ icon: examples/carousel.svg
     <esl-carousel esl-carousel-touch="none | @XS => drag"
                   media="@XS|@SM|@MD|@LG|@XL"
                   count="2|3|4|5|6">
-      <div esl-carousel-slides>
+      <ul esl-carousel-slides>
         {% for item in items %}
-          <esl-carousel-slide {{ 'active' if loop.first }}>
+          <li esl-carousel-slide {{ 'active' if loop.first }}>
             <div class="card" style="justify-content: center; background: {{item.background}}">
               <h4 class="text-center mb-0">{{ item.name }}</h4>
             </div>
-          </esl-carousel-slide>
+          </li>
         {% endfor %}
-      </div>
+      </ul>
     </esl-carousel>
 
     <button class="esl-carousel-arrow icon-arrow-next hide-xs" esl-carousel-nav="group:next">
@@ -149,9 +149,9 @@ icon: examples/carousel.svg
      </button>
 
      <esl-carousel esl-carousel-touch="@touch => swipe" loop="true">
-        <div esl-carousel-slides>
+        <ul esl-carousel-slides>
           {% for i in range(0, 4) -%}
-           <esl-carousel-slide>
+           <li esl-carousel-slide>
               <div class="card">
                   <div class="img-container img-container-16-9">
                       <esl-image mode="cover" lazy
@@ -159,9 +159,9 @@ icon: examples/carousel.svg
                                  data-src="{{ '/assets/carousel/' + loop.index + '-sm.jpg' | url }}"></esl-image>
                   </div>
               </div>
-           </esl-carousel-slide>
+           </li>
           {%- endfor %}
-        </div>
+        </ul>
      </esl-carousel>
 
      <button class="esl-carousel-arrow icon-arrow-next hide-xs" esl-carousel-nav="group:next">

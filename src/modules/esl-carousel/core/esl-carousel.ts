@@ -30,7 +30,7 @@ export interface ESLCarouselActionParams {
  * ESLCarousel component
  * @author Julia Murashko, Alexey Stsefanovich (ala'n)
  *
- * ESLCarousel - a slideshow component for cycling through slides {@link ESLCarouselSlide}.
+ * ESLCarousel - a slideshow component for cycling through slides.
  */
 @ExportNs('Carousel')
 export class ESLCarousel extends ESLBaseElement {
@@ -147,9 +147,9 @@ export class ESLCarousel extends ESLBaseElement {
   }
 
   /** Appends slide instance to the current carousel */
-  public addSlide(slide: HTMLElement | ESLCarouselSlide): void {
+  public addSlide(slide: HTMLElement): void {
     if (!slide) return;
-    if (!(slide instanceof ESLCarouselSlide)) return this.addSlide(ESLCarouselSlide.create(slide));
+    if (!ESLCarouselSlide.isSlide(slide)) slide.setAttribute(ESLCarouselSlide.is, '');
     if (slide.parentNode !== this.$slidesArea) {
       slide.remove();
       this.$slidesArea?.appendChild(slide);
@@ -158,9 +158,9 @@ export class ESLCarousel extends ESLBaseElement {
   }
 
   /** Remove slide instance from the current carousel */
-  public removeSlide(slide: HTMLElement | ESLCarouselSlide): void {
+  public removeSlide(slide: HTMLElement): void {
     if (!slide) return;
-    if (!(slide instanceof ESLCarouselSlide)) return this.removeSlide(slide.closest(ESLCarouselSlide.is)!);
+    if (!ESLCarouselSlide.isSlide(slide)) return this.removeSlide(slide.closest(`[${ESLCarouselSlide.is}]`)!);
     if (slide.parentNode === this.$slidesArea) this.$slidesArea?.removeChild(slide);
     this.update();
   }
@@ -197,15 +197,15 @@ export class ESLCarousel extends ESLBaseElement {
 
   /** @returns slides that are processed by the current carousel. */
   @memoize()
-  public get $slides(): ESLCarouselSlide[] {
-    const els = this.$slidesArea ? [...this.$slidesArea.children] : [];
-    return els.filter((slide): slide is ESLCarouselSlide  => slide.matches(ESLCarouselSlide.is));
+  public get $slides(): HTMLElement[] {
+    const els = this.$slidesArea ? [...this.$slidesArea.children] as HTMLElement[] : [];
+    return els.filter(ESLCarouselSlide.isSlide, ESLCarouselSlide);
   }
 
   /** @returns carousel container */
   @memoize()
   public get $container(): HTMLElement | null {
-    return this.closest(`[${ESLCarousel.is}-container]`);
+    return this.closest(`[${this.tagName}-container]`);
   }
 
   /** @returns carousel slides area */
@@ -220,29 +220,13 @@ export class ESLCarousel extends ESLBaseElement {
   }
 
   /** @returns first active slide */
-  public get $activeSlide(): ESLCarouselSlide | null {
-    const actives = this.$slides.filter((el) => el.active);
-    if (actives.length === 0) return null;
-    if (actives.length === this.$slides.length) return this.$slides[0];
-
-    for (const slide of actives) {
-      const prevIndex = normalize(slide.index - 1, this.size);
-      if (!this.$slides[prevIndex].active) return slide;
-    }
-    return this.$slides[0];
+  public get $activeSlide(): HTMLElement | undefined {
+    return this.$slides[this.activeIndex];
   }
 
   /** @returns list of active slides. */
-  public get $activeSlides(): ESLCarouselSlide[] {
-    let $slide = this.$activeSlide;
-    let i = this.size;
-    const arr: ESLCarouselSlide[] = [];
-    while ($slide?.active && i > 0) {
-      arr.push($slide);
-      $slide = $slide.$nextCyclic;
-      i--;
-    }
-    return arr;
+  public get $activeSlides(): HTMLElement[] {
+    return this.activeIndexes.map((index) => this.$slides[index]);
   }
 
   /** @returns count of slides. */
@@ -250,16 +234,27 @@ export class ESLCarousel extends ESLBaseElement {
     return this.$slides.length || 0;
   }
 
-  /** @returns index of first active slide. */
+  /** @returns index of first (the most left in the loop) active slide */
   public get activeIndex(): number {
-    return this.$activeSlide?.index || 0;
+    if (this.size <= 0) return -1;
+    if (this.$slides[0].hasAttribute('active')) {
+      for (let i = this.size - 1; i > 0; --i) {
+        if (!this.$slides[i].hasAttribute('active')) return normalize(i + 1, this.size);
+      }
+    }
+    return this.$slides.findIndex((slide) => slide.hasAttribute('active'));
   }
+
   /** @returns list of active slide indexes. */
   public get activeIndexes(): number[] {
-    return this.$slides.reduce((activeIndexes: number[], el, index) => {
-      if (el.active) activeIndexes.push(index);
-      return activeIndexes;
-    }, []);
+    const start = this.activeIndex;
+    if (start < 0) return [];
+    const indexes = [];
+    for (let i = 0; i < this.size; i++) {
+      const index = normalize(i + start, this.size);
+      if (this.$slides[index].hasAttribute('active')) indexes.push(index);
+    }
+    return indexes;
   }
 
   /** Goes to the target according to passed params */
@@ -271,8 +266,13 @@ export class ESLCarousel extends ESLBaseElement {
   }
 
   /** @returns slide by index (supports not normalized indexes) */
-  public slideAt(index: number): ESLCarouselSlide {
+  public slideAt(index: number): HTMLElement {
     return this.$slides[normalize(index, this.$slides.length)];
+  }
+
+  /** @returns index of the passed slide */
+  public indexOf(slide: HTMLElement): number {
+    return this.$slides.indexOf(slide);
   }
 
   /** @returns if the passed slide target can be reached */
@@ -285,8 +285,8 @@ export class ESLCarousel extends ESLBaseElement {
    * @param tagName - custom tag name to register custom element
    */
   public static override register(tagName?: string): void {
-    ESLCarouselSlide.register((tagName || ESLCarousel.is) + '-slide');
-    customElements.whenDefined(ESLCarouselSlide.is).then(() => super.register.call(this, tagName));
+    ESLCarouselSlide.register();
+    super.register(tagName);
   }
 }
 
@@ -297,6 +297,5 @@ declare global {
   }
   export interface HTMLElementTagNameMap {
     'esl-carousel': ESLCarousel;
-    'esl-carousel-slide': ESLCarouselSlide;
   }
 }
