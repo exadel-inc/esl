@@ -2,7 +2,7 @@ import {memoize} from '../../esl-utils/decorators';
 import {isEqual} from '../../esl-utils/misc/object';
 import {SyntheticEventTarget} from '../../esl-utils/dom';
 import {ESLCarouselSlideEvent} from './esl-carousel.events';
-import {calcDirection, normalizeIndex} from './nav/esl-carousel.nav.utils';
+import {calcDirection, normalize} from './nav/esl-carousel.nav.utils';
 
 import type {ESLCarousel, ESLCarouselActionParams} from './esl-carousel';
 import type {ESLCarouselConfig, ESLCarouselDirection} from './nav/esl-carousel.nav.types';
@@ -129,7 +129,7 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
     const count = Math.min(this.count, this.size);
 
     for (let i = 0; i < this.size; i++) {
-      const position = normalizeIndex(i + current, this.size);
+      const position = normalize(i + current, this.size);
       this.$slides[position].active = i < count;
       this.$slides[position].next = i === count && (this.loop || position !== 0);
       this.$slides[position].prev = i === this.size - 1 && i >= count && (this.loop || position !== this.size - 1);
