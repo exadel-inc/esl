@@ -6,9 +6,7 @@ jest.mock('../../esl-utils/dom/ready', () => ({
 }));
 
 jest.mock('../../esl-utils/environment/device-detector', () => ({
-  DeviceDetector: {
-    hasHover: true
-  }
+  hasHover: true
 }));
 
 describe('ESLTrigger event handling', () => {

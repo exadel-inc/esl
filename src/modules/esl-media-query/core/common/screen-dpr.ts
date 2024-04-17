@@ -1,5 +1,5 @@
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
-import {DeviceDetector} from '../../../esl-utils/environment/device-detector';
+import {isBot, isSafari} from '../../../esl-utils/environment/device-detector';
 
 /**
  * DPR preprocessor. Used to replace DPR shortcuts.
@@ -22,8 +22,8 @@ export class ESLScreenDPR {
     if (!ESLScreenDPR.VALUE_REGEXP.test(match)) return;
     const dpr = parseFloat(match);
     if (dpr < 0 || isNaN(dpr)) return;
-    if (ESLScreenDPR.ignoreBotsDpr && DeviceDetector.isBot && dpr > 1) return 'not all';
-    if (DeviceDetector.isSafari) return `(-webkit-min-device-pixel-ratio: ${dpr})`;
+    if (ESLScreenDPR.ignoreBotsDpr && isBot && dpr > 1) return 'not all';
+    if (isSafari) return `(-webkit-min-device-pixel-ratio: ${dpr})`;
     return `(min-resolution: ${ESLScreenDPR.toDPI(dpr)}dpi)`;
   }
 }

@@ -1,5 +1,5 @@
 import {ESLBaseElement} from '../../esl-base-element/core';
-import {DeviceDetector} from '../../esl-utils/environment/device-detector';
+import {hasHover} from '../../esl-utils/environment/device-detector';
 import {isElement} from '../../esl-utils/dom/api';
 import {setAttr} from '../../esl-utils/dom/attr';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
@@ -74,7 +74,7 @@ export abstract class ESLBaseTrigger extends ESLBaseElement {
 
   /** Marker to allow track hover */
   public get allowHover(): boolean {
-    return DeviceDetector.hasHover && ESLMediaQuery.for(this.trackHover).matches;
+    return hasHover && ESLMediaQuery.for(this.trackHover).matches;
   }
   /** Marker to allow track clicks */
   public get allowClick(): boolean {
