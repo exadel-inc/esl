@@ -1,10 +1,10 @@
 import {ESLBaseElement} from '../../esl-base-element/core';
+import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {microtask} from '../../esl-utils/async/microtask';
 import {attr, boolAttr, decorate, memoize, ready} from '../../esl-utils/decorators';
 import {findNext, findPrev, findNextLooped, findPrevLooped} from '../../esl-utils/dom/traversing';
 
 import type {ESLCarousel} from './esl-carousel';
-import {CSSClassUtils} from '../../esl-utils/dom/class';
 
 /**
  * ESLCarouselSlide component
