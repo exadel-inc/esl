@@ -28,7 +28,7 @@ export class ESLCarouselSlide extends ESLBaseElement {
   /** Slide is previous to active slide */
   @boolAttr() public prev: boolean;
 
-  /** Class(-es) to add on carousel container whe slide is active. Supports {@link CSSClassUtils} syntax */
+  /** Class(-es) to add on carousel container when slide is active. Supports {@link CSSClassUtils} syntax */
   @attr() public containerClass: string;
 
   @memoize()
