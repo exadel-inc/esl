@@ -48,8 +48,6 @@ export class ESLCarousel extends ESLBaseElement {
   /** Orientation of the carousel (`horizontal` by default). Supports {@link ESLMediaRuleList} syntax */
   @attr({defaultValue: 'false'}) public vertical: string;
 
-  // active attribute
-
   /** true if carousel is in process of animating */
   @boolAttr({readonly: true}) public animating: boolean;
 
@@ -200,7 +198,8 @@ export class ESLCarousel extends ESLBaseElement {
   @memoize()
   public get $slides(): HTMLElement[] {
     const els = this.$slidesArea ? [...this.$slidesArea.children] as HTMLElement[] : [];
-    return els.filter(this.isSlide, this);
+    const slideAttr = this.tagName + '-slide';
+    return els.filter((el) => el.hasAttribute(slideAttr));
   }
 
   /** @returns carousel container */
@@ -281,25 +280,25 @@ export class ESLCarousel extends ESLBaseElement {
     return canNavigate(target, this.state);
   }
 
+  /** @returns if the passed element (or slide on a passed index) is an active slide */
   public isActive(el: number | HTMLElement): boolean {
-    if (typeof el === 'number') return this.isActive(this.slideAt(el));
-    return el.hasAttribute('active');
+    if (typeof el === 'number') return this.isActive(this.$slides[el]);
+    return el && el.hasAttribute('active');
   }
+  /** @returns if the passed element (or slide on a passed index) is a slide in pre-active state */
   public isPreActive(el: number | HTMLElement): boolean {
-    if (typeof el === 'number') return this.isPreActive(this.slideAt(el));
-    return el.hasAttribute('pre-active');
+    if (typeof el === 'number') return this.isPreActive(this.$slides[el]);
+    return el && el.hasAttribute('pre-active');
   }
+  /** @returns if the passed element (or slide on a passed index) is a next slide */
   public isNext(el: number | HTMLElement): boolean {
-    if (typeof el === 'number') return this.isNext(this.slideAt(el));
-    return el.hasAttribute('next');
+    if (typeof el === 'number') return this.isNext(this.$slides[el]);
+    return el && el.hasAttribute('next');
   }
+  /** @returns if the passed element (or slide on a passed index) is a prev slide */
   public isPrev(el: number | HTMLElement): boolean {
-    if (typeof el === 'number') return this.isPrev(this.slideAt(el));
-    return el.hasAttribute('prev');
-  }
-  /** @returns if the passed element is a slide */
-  public isSlide(el: HTMLElement): boolean {
-    return el.hasAttribute(this.tagName + '-slide');
+    if (typeof el === 'number') return this.isPrev(this.$slides[el]);
+    return el && el.hasAttribute('prev');
   }
 
   /**

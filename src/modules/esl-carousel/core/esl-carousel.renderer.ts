@@ -1,6 +1,6 @@
 import {memoize} from '../../esl-utils/decorators';
 import {isEqual} from '../../esl-utils/misc/object';
-import {setAttr, SyntheticEventTarget} from '../../esl-utils/dom';
+import {SyntheticEventTarget} from '../../esl-utils/dom';
 import {ESLCarouselSlideEvent} from './esl-carousel.events';
 import {calcDirection, normalize} from './nav/esl-carousel.nav.utils';
 
@@ -96,7 +96,7 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
       related: index
     }))) return;
 
-    // this.setPreActive(index);
+    this.setPreActive(index);
 
     try {
       await this.onBeforeAnimate(index, direction);
@@ -106,7 +106,6 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
       console.error(e);
     }
 
-    // this.setPreActive(0, false);
     this.setActive(index, {direction, activator});
   }
 
@@ -131,6 +130,7 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
       const position = normalize(i + current, this.size);
       const $slide = this.$slides[position];
       $slide.toggleAttribute('active', i < count);
+      $slide.toggleAttribute('pre-active', false);
       $slide.toggleAttribute('next', i === count && (this.loop || position !== 0));
       $slide.toggleAttribute('prev', i === this.size - 1 && i >= count && (this.loop || position !== this.size - 1));
     }
