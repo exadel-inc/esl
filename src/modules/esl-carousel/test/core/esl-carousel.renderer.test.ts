@@ -1,6 +1,5 @@
 import {ESLCarousel} from '../../core/esl-carousel';
 import {ESLCarouselDummyRenderer} from '../common/esl-carousel.dummy.renderer';
-import {ESLCarouselSlide} from '../../core/esl-carousel.slide';
 
 jest.mock('../../../esl-utils/dom/ready', () => ({
   onDocumentReady: (cb: any) => cb()
@@ -14,6 +13,7 @@ describe('ESLCarouselRenderer: base class tests', () => {
     const $carousel = ESLCarousel.create();
     const $slides = Array.from({length: 5}, () => {
       const $el = document.createElement('div');
+      // TODO: mb constant
       $el.setAttribute('esl-carousel-slide', '');
       return $el;
     });
@@ -45,41 +45,41 @@ describe('ESLCarouselRenderer: base class tests', () => {
 
       test('First slide set active slides defined correctly', () => {
         $carousel.renderer.setActive(0);
-        expect($carousel.$slides.map(ESLCarouselSlide.isActive)).toEqual([true, true, true, false, false]);
+        expect($carousel.$slides.map(ESLCarousel.prototype.isActive)).toEqual([true, true, true, false, false]);
       });
       test('Middle slide set active slides defined correctly', () => {
         $carousel.renderer.setActive(1);
-        expect($carousel.$slides.map(ESLCarouselSlide.isActive)).toEqual([false, true, true, true, false]);
+        expect($carousel.$slides.map(ESLCarousel.prototype.isActive)).toEqual([false, true, true, true, false]);
       });
       test('Last slide set active slides defined correctly', () => {
         $carousel.renderer.setActive(2);
-        expect($carousel.$slides.map(ESLCarouselSlide.isActive)).toEqual([false, false, true, true, true]);
+        expect($carousel.$slides.map(ESLCarousel.prototype.isActive)).toEqual([false, false, true, true, true]);
       });
 
       test('First slide set next marker defined correctly', () => {
         $carousel.renderer.setActive(0);
-        expect($carousel.$slides.map(ESLCarouselSlide.isNext)).toEqual([false, false, false, true, false]);
+        expect($carousel.$slides.map(ESLCarousel.prototype.isNext)).toEqual([false, false, false, true, false]);
       });
       test('Middle slide set next marker defined correctly', () => {
         $carousel.renderer.setActive(1);
-        expect($carousel.$slides.map(ESLCarouselSlide.isNext)).toEqual([false, false, false, false, true]);
+        expect($carousel.$slides.map(ESLCarousel.prototype.isNext)).toEqual([false, false, false, false, true]);
       });
       test('Last slide set next marker defined correctly', () => {
         $carousel.renderer.setActive(2);
-        expect($carousel.$slides.map(ESLCarouselSlide.isNext)).toEqual([false, false, false, false, false]);
+        expect($carousel.$slides.map(ESLCarousel.prototype.isNext)).toEqual([false, false, false, false, false]);
       });
 
       test('First slide set prev marker defined correctly', () => {
         $carousel.renderer.setActive(0);
-        expect($carousel.$slides.map(ESLCarouselSlide.isPrev)).toEqual([false, false, false, false, false]);
+        expect($carousel.$slides.map(ESLCarousel.prototype.isPrev)).toEqual([false, false, false, false, false]);
       });
       test('Middle slide set prev marker defined correctly', () => {
         $carousel.renderer.setActive(1);
-        expect($carousel.$slides.map(ESLCarouselSlide.isPrev)).toEqual([true, false, false, false, false]);
+        expect($carousel.$slides.map(ESLCarousel.prototype.isPrev)).toEqual([true, false, false, false, false]);
       });
       test('Last slide set prev marker defined correctly', () => {
         $carousel.renderer.setActive(2);
-        expect($carousel.$slides.map(ESLCarouselSlide.isPrev)).toEqual([false, true, false, false, false]);
+        expect($carousel.$slides.map(ESLCarousel.prototype.isPrev)).toEqual([false, true, false, false, false]);
       });
     });
 
@@ -99,65 +99,65 @@ describe('ESLCarouselRenderer: base class tests', () => {
 
       test('First slide set active slides defined correctly', () => {
         $carousel.renderer.setActive(0);
-        expect($carousel.$slides.map(ESLCarouselSlide.isActive)).toEqual([true, true, true, false, false]);
+        expect($carousel.$slides.map(ESLCarousel.prototype.isActive)).toEqual([true, true, true, false, false]);
       });
       test('Second slide set active slides defined correctly', () => {
         $carousel.renderer.setActive(1);
-        expect($carousel.$slides.map(ESLCarouselSlide.isActive)).toEqual([false, true, true, true, false]);
+        expect($carousel.$slides.map(ESLCarousel.prototype.isActive)).toEqual([false, true, true, true, false]);
       });
       test('Third slide set active slides defined correctly', () => {
         $carousel.renderer.setActive(2);
-        expect($carousel.$slides.map(ESLCarouselSlide.isActive)).toEqual([false, false, true, true, true]);
+        expect($carousel.$slides.map(ESLCarousel.prototype.isActive)).toEqual([false, false, true, true, true]);
       });
       test('Fourth slide set active slides defined correctly', () => {
         $carousel.renderer.setActive(3);
-        expect($carousel.$slides.map(ESLCarouselSlide.isActive)).toEqual([true, false, false, true, true]);
+        expect($carousel.$slides.map(ESLCarousel.prototype.isActive)).toEqual([true, false, false, true, true]);
       });
       test('Fifth slide set active slides defined correctly', () => {
         $carousel.renderer.setActive(4);
-        expect($carousel.$slides.map(ESLCarouselSlide.isActive)).toEqual([true, true, false, false, true]);
+        expect($carousel.$slides.map(ESLCarousel.prototype.isActive)).toEqual([true, true, false, false, true]);
       });
 
       test('First slide set next marker defined correctly', () => {
         $carousel.renderer.setActive(0);
-        expect($carousel.$slides.map(ESLCarouselSlide.isNext)).toEqual([false, false, false, true, false]);
+        expect($carousel.$slides.map(ESLCarousel.prototype.isNext)).toEqual([false, false, false, true, false]);
       });
       test('Second slide set next marker defined correctly', () => {
         $carousel.renderer.setActive(1);
-        expect($carousel.$slides.map(ESLCarouselSlide.isNext)).toEqual([false, false, false, false, true]);
+        expect($carousel.$slides.map(ESLCarousel.prototype.isNext)).toEqual([false, false, false, false, true]);
       });
       test('Third slide set next marker defined correctly', () => {
         $carousel.renderer.setActive(2);
-        expect($carousel.$slides.map(ESLCarouselSlide.isNext)).toEqual([true, false, false, false, false]);
+        expect($carousel.$slides.map(ESLCarousel.prototype.isNext)).toEqual([true, false, false, false, false]);
       });
       test('Fourth slide set next marker defined correctly', () => {
         $carousel.renderer.setActive(3);
-        expect($carousel.$slides.map(ESLCarouselSlide.isNext)).toEqual([false, true, false, false, false]);
+        expect($carousel.$slides.map(ESLCarousel.prototype.isNext)).toEqual([false, true, false, false, false]);
       });
       test('Fifth slide set next marker defined correctly', () => {
         $carousel.renderer.setActive(4);
-        expect($carousel.$slides.map(ESLCarouselSlide.isNext)).toEqual([false, false, true, false, false]);
+        expect($carousel.$slides.map(ESLCarousel.prototype.isNext)).toEqual([false, false, true, false, false]);
       });
 
       test('First slide set prev marker defined correctly', () => {
         $carousel.renderer.setActive(0);
-        expect($carousel.$slides.map(ESLCarouselSlide.isPrev)).toEqual([false, false, false, false, true]);
+        expect($carousel.$slides.map(ESLCarousel.prototype.isPrev)).toEqual([false, false, false, false, true]);
       });
       test('Second slide set prev marker defined correctly', () => {
         $carousel.renderer.setActive(1);
-        expect($carousel.$slides.map(ESLCarouselSlide.isPrev)).toEqual([true, false, false, false, false]);
+        expect($carousel.$slides.map(ESLCarousel.prototype.isPrev)).toEqual([true, false, false, false, false]);
       });
       test('Third slide set prev marker defined correctly', () => {
         $carousel.renderer.setActive(2);
-        expect($carousel.$slides.map(ESLCarouselSlide.isPrev)).toEqual([false, true, false, false, false]);
+        expect($carousel.$slides.map(ESLCarousel.prototype.isPrev)).toEqual([false, true, false, false, false]);
       });
       test('Fourth slide set prev marker defined correctly', () => {
         $carousel.renderer.setActive(3);
-        expect($carousel.$slides.map(ESLCarouselSlide.isPrev)).toEqual([false, false, true, false, false]);
+        expect($carousel.$slides.map(ESLCarousel.prototype.isPrev)).toEqual([false, false, true, false, false]);
       });
       test('Fifth slide set prev marker defined correctly', () => {
         $carousel.renderer.setActive(4);
-        expect($carousel.$slides.map(ESLCarouselSlide.isPrev)).toEqual([false, false, false, true, false]);
+        expect($carousel.$slides.map(ESLCarousel.prototype.isPrev)).toEqual([false, false, false, true, false]);
       });
     });
 
@@ -174,15 +174,15 @@ describe('ESLCarouselRenderer: base class tests', () => {
 
       test('The only slide set have all active slides', () => {
         $carousel.renderer.setActive(0);
-        expect($carousel.$slides.map(ESLCarouselSlide.isActive)).toEqual([true, true, true, true, true]);
+        expect($carousel.$slides.map(ESLCarousel.prototype.isActive)).toEqual([true, true, true, true, true]);
       });
       test('The only slide set have no next slides', () => {
         $carousel.renderer.setActive(0);
-        expect($carousel.$slides.map(ESLCarouselSlide.isNext)).toEqual([false, false, false, false, false]);
+        expect($carousel.$slides.map(ESLCarousel.prototype.isNext)).toEqual([false, false, false, false, false]);
       });
       test('The only slide set have no prev slides', () => {
         $carousel.renderer.setActive(0);
-        expect($carousel.$slides.map(ESLCarouselSlide.isPrev)).toEqual([false, false, false, false, false]);
+        expect($carousel.$slides.map(ESLCarousel.prototype.isPrev)).toEqual([false, false, false, false, false]);
       });
     });
 
@@ -199,15 +199,15 @@ describe('ESLCarouselRenderer: base class tests', () => {
 
       test('First slide set have all active slides', () => {
         $carousel.renderer.setActive(0);
-        expect($carousel.$slides.map(ESLCarouselSlide.isActive)).toEqual([true, true, true, true, true]);
+        expect($carousel.$slides.map(ESLCarousel.prototype.isActive)).toEqual([true, true, true, true, true]);
       });
       test('First slide set have no next slides', () => {
         $carousel.renderer.setActive(0);
-        expect($carousel.$slides.map(ESLCarouselSlide.isNext)).toEqual([false, false, false, false, false]);
+        expect($carousel.$slides.map(ESLCarousel.prototype.isNext)).toEqual([false, false, false, false, false]);
       });
       test('First slide set have no prev slides', () => {
         $carousel.renderer.setActive(0);
-        expect($carousel.$slides.map(ESLCarouselSlide.isPrev)).toEqual([false, false, false, false, false]);
+        expect($carousel.$slides.map(ESLCarousel.prototype.isPrev)).toEqual([false, false, false, false, false]);
       });
     });
   });

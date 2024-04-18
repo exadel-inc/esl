@@ -1,6 +1,6 @@
 import {memoize} from '../../esl-utils/decorators';
 import {isEqual} from '../../esl-utils/misc/object';
-import {SyntheticEventTarget} from '../../esl-utils/dom';
+import {setAttr, SyntheticEventTarget} from '../../esl-utils/dom';
 import {ESLCarouselSlideEvent} from './esl-carousel.events';
 import {calcDirection, normalize} from './nav/esl-carousel.nav.utils';
 
@@ -96,7 +96,7 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
       related: index
     }))) return;
 
-    this.setPreActive(index);
+    // this.setPreActive(index);
 
     try {
       await this.onBeforeAnimate(index, direction);
@@ -106,7 +106,7 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
       console.error(e);
     }
 
-    this.clearPreActive();
+    // this.setPreActive(0, false);
     this.setActive(index, {direction, activator});
   }
 
@@ -142,19 +142,12 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
     }
   }
 
-  public setPreActive(from: number): void {
-    this.clearPreActive();
+  public setPreActive(from: number, force = true): void {
     const count = Math.min(this.count, this.size);
-    for (let i = from; i < from + count; i++) {
-      const $slide = this.$carousel.slideAt(i);
-      if (!$slide.hasAttribute('active')) {
-        $slide.setAttribute('pre-active', '');
-      }
+    for (let i = 0; i < this.size; ++i) {
+      const $slide = this.$slides[normalize(i + from, this.size)];
+      $slide.toggleAttribute('pre-active', force && i < count);
     }
-  }
-
-  public clearPreActive(): void {
-    this.$carousel.$slides.forEach((el) => el.removeAttribute('pre-active'));
   }
 
   // Register API

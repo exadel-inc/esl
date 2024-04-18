@@ -48,6 +48,8 @@ export class ESLCarousel extends ESLBaseElement {
   /** Orientation of the carousel (`horizontal` by default). Supports {@link ESLMediaRuleList} syntax */
   @attr({defaultValue: 'false'}) public vertical: string;
 
+  // active attribute
+
   /** true if carousel is in process of animating */
   @boolAttr({readonly: true}) public animating: boolean;
 
@@ -70,6 +72,11 @@ export class ESLCarousel extends ESLBaseElement {
   @memoize()
   public get verticalRule(): ESLMediaRuleList<boolean> {
     return ESLMediaRuleList.parse(this.media, this.vertical, parseBoolean);
+  }
+
+  /** Returns observed media rules */
+  public get observedRules(): ESLMediaRuleList[] {
+    return [this.typeRule, this.loopRule, this.countRule, this.verticalRule];
   }
 
   /** Carousel instance current {@link ESLCarouselStaticState} */
@@ -149,7 +156,7 @@ export class ESLCarousel extends ESLBaseElement {
   /** Appends slide instance to the current carousel */
   public addSlide(slide: HTMLElement): void {
     if (!slide) return;
-    slide.setAttribute(ESLCarouselSlide.is, '');
+    slide.setAttribute(this.tagName + '-slide', '');
     if (slide.parentNode === this.$slidesArea) return this.update();
     if (slide.parentNode) slide.remove();
     Promise.resolve().then(() => this.$slidesArea.appendChild(slide));
@@ -174,10 +181,7 @@ export class ESLCarousel extends ESLBaseElement {
     }
   }
 
-  @listen({
-    event: 'change',
-    target: ({typeRule, countRule, loopRule}: ESLCarousel) => [typeRule, countRule, loopRule]
-  })
+  @listen({event: 'change', target: ($this: ESLCarousel) => $this.observedRules})
   protected _onRuleUpdate(): void {
     this.update();
   }
@@ -196,7 +200,7 @@ export class ESLCarousel extends ESLBaseElement {
   @memoize()
   public get $slides(): HTMLElement[] {
     const els = this.$slidesArea ? [...this.$slidesArea.children] as HTMLElement[] : [];
-    return els.filter(ESLCarouselSlide.isSlide, ESLCarouselSlide);
+    return els.filter(this.isSlide, this);
   }
 
   /** @returns carousel container */
@@ -208,10 +212,10 @@ export class ESLCarousel extends ESLBaseElement {
   /** @returns carousel slides area */
   @memoize()
   public get $slidesArea(): HTMLElement {
-    const $provided = this.querySelector('[esl-carousel-slides]');
+    const $provided = this.querySelector(`[${this.tagName}-slides]`);
     if ($provided) return $provided as HTMLElement;
     const $container = document.createElement('div');
-    $container.setAttribute('esl-carousel-slides', '');
+    $container.setAttribute(this.tagName + '-slides', '');
     this.appendChild($container);
     return $container ;
   }
@@ -234,12 +238,12 @@ export class ESLCarousel extends ESLBaseElement {
   /** @returns index of first (the most left in the loop) active slide */
   public get activeIndex(): number {
     if (this.size <= 0) return -1;
-    if (this.$slides[0].hasAttribute('active')) {
+    if (this.isActive(0)) {
       for (let i = this.size - 1; i > 0; --i) {
-        if (!this.$slides[i].hasAttribute('active')) return normalize(i + 1, this.size);
+        if (!this.isActive(i)) return normalize(i + 1, this.size);
       }
     }
-    return this.$slides.findIndex((slide) => slide.hasAttribute('active'));
+    return this.$slides.findIndex(this.isActive, this);
   }
 
   /** @returns list of active slide indexes. */
@@ -249,17 +253,17 @@ export class ESLCarousel extends ESLBaseElement {
     const indexes = [];
     for (let i = 0; i < this.size; i++) {
       const index = normalize(i + start, this.size);
-      if (this.$slides[index].hasAttribute('active')) indexes.push(index);
+      if (this.isActive(index)) indexes.push(index);
     }
     return indexes;
   }
 
   /** Goes to the target according to passed params */
-  public goTo(target: ESLCarouselSlideTarget, params: ESLCarouselActionParams = {}): void {
-    if (!this.renderer) return;
+  public goTo(target: ESLCarouselSlideTarget, params: ESLCarouselActionParams = {}): Promise<void> {
+    if (!this.renderer) return Promise.reject();
     const {index, dir} = toIndex(target, this.state);
     const direction = params.direction || dir || 'next';
-    this.renderer.navigate(index, direction, params);
+    return this.renderer.navigate(index, direction, params);
   }
 
   /** @returns slide by index (supports not normalized indexes) */
@@ -277,11 +281,33 @@ export class ESLCarousel extends ESLBaseElement {
     return canNavigate(target, this.state);
   }
 
+  public isActive(el: number | HTMLElement): boolean {
+    if (typeof el === 'number') return this.isActive(this.slideAt(el));
+    return el.hasAttribute('active');
+  }
+  public isPreActive(el: number | HTMLElement): boolean {
+    if (typeof el === 'number') return this.isPreActive(this.slideAt(el));
+    return el.hasAttribute('pre-active');
+  }
+  public isNext(el: number | HTMLElement): boolean {
+    if (typeof el === 'number') return this.isNext(this.slideAt(el));
+    return el.hasAttribute('next');
+  }
+  public isPrev(el: number | HTMLElement): boolean {
+    if (typeof el === 'number') return this.isPrev(this.slideAt(el));
+    return el.hasAttribute('prev');
+  }
+  /** @returns if the passed element is a slide */
+  public isSlide(el: HTMLElement): boolean {
+    return el.hasAttribute(this.tagName + '-slide');
+  }
+
   /**
    * Registers component in the {@link customElements} registry
    * @param tagName - custom tag name to register custom element
    */
   public static override register(tagName?: string): void {
+    ESLCarouselSlide.is = this.is + '-slide';
     ESLCarouselSlide.register();
     super.register(tagName);
   }
