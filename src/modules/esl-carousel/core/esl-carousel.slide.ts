@@ -19,14 +19,14 @@ export class ESLCarouselSlide extends ESLMixinElement {
   public static readonly NO_INERT_MARKER = 'no-inert';
 
   /** @returns if the slide is active */
-  @boolAttr() public active: boolean;
+  @boolAttr({readonly: true}) public active: boolean;
   /** @returns if slide is going to be next active */
-  @boolAttr() public preActive: boolean;
+  @boolAttr({readonly: true}) public preActive: boolean;
 
   /** Slide is next to active slide */
-  @boolAttr() public next: boolean;
+  @boolAttr({readonly: true}) public next: boolean;
   /** Slide is previous to active slide */
-  @boolAttr() public prev: boolean;
+  @boolAttr({readonly: true}) public prev: boolean;
 
   /** Class(-es) to add on carousel container when slide is active. Supports {@link CSSClassUtils} syntax */
   @attr() public containerClass: string;
@@ -40,8 +40,8 @@ export class ESLCarouselSlide extends ESLMixinElement {
 
   @ready
   protected override connectedCallback(): void {
-    super.connectedCallback();
     this.$carousel?.addSlide && this.$carousel.addSlide(this.$host);
+    super.connectedCallback();
     this.updateA11y();
     this.updateActiveState();
   }

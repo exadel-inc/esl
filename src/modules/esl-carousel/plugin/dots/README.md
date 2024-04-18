@@ -9,12 +9,12 @@ Example:
 ```html
     <esl-carousel-slide esl-carousel-container>
       <esl-carousel count="1">
-        <div esl-carousel-slides>
-          <esl-carousel-slide>Slide 1</esl-carousel-slide>
-          <esl-carousel-slide>Slide 2</esl-carousel-slide>
-          <esl-carousel-slide>Slide 3</esl-carousel-slide>
-          <esl-carousel-slide>Slide 4</esl-carousel-slide>
-        </div>
+        <ul esl-carousel-slides>
+          <li esl-carousel-slide>Slide 1</li>
+          <li esl-carousel-slide>Slide 2</li>
+          <li esl-carousel-slide>Slide 3</li>
+          <li esl-carousel-slide>Slide 4</li>
+        </ul>
       </esl-carousel>
 
       <esl-carousel-nav-dots></esl-carousel-nav-dots>
