@@ -13,7 +13,6 @@ describe('ESLCarouselRenderer: base class tests', () => {
     const $carousel = ESLCarousel.create();
     const $slides = Array.from({length: 5}, () => {
       const $el = document.createElement('div');
-      // TODO: mb constant
       $el.setAttribute('esl-carousel-slide', '');
       return $el;
     });
