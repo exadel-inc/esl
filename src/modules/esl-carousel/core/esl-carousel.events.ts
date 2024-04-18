@@ -59,6 +59,7 @@ interface ESLCarouselChangeEventInit {
 export class ESLCarouselChangeEvent extends Event implements ESLCarouselChangeEventInit {
   /** {@link ESLCarouselSlideEvent} event type dispatched on carousel config changes */
   public static readonly TYPE = 'esl:carousel:change';
+  public static readonly INITIAL = 'esl:carousel:init';
 
   public override readonly target: ESLCarousel;
   public readonly config: ESLCarouselStaticState;
@@ -66,8 +67,11 @@ export class ESLCarouselChangeEvent extends Event implements ESLCarouselChangeEv
   public readonly added: HTMLElement[] = [];
   public readonly removed: HTMLElement[] = [];
 
-  protected constructor(init: ESLCarouselChangeEventInit) {
-    super(ESLCarouselChangeEvent.TYPE, {
+  protected constructor(
+    type: typeof ESLCarouselChangeEvent.TYPE | typeof ESLCarouselChangeEvent.INITIAL,
+    init: ESLCarouselChangeEventInit
+  ) {
+    super(type, {
       bubbles: true,
       cancelable: false,
       composed: true
@@ -76,6 +80,13 @@ export class ESLCarouselChangeEvent extends Event implements ESLCarouselChangeEv
   }
 
   public static create(init: ESLCarouselChangeEventInit): ESLCarouselChangeEvent {
-    return new ESLCarouselChangeEvent(init);
+    return new ESLCarouselChangeEvent(ESLCarouselChangeEvent.TYPE, init);
+  }
+  public static createInitial(carousel: ESLCarousel): ESLCarouselChangeEvent {
+    return new ESLCarouselChangeEvent(ESLCarouselChangeEvent.INITIAL, {
+      added: carousel.$slides,
+      removed: [],
+      config: carousel.config
+    });
   }
 }

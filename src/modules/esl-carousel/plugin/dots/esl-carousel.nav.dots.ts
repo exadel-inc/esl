@@ -1,7 +1,7 @@
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
 import {format} from '../../../esl-utils/misc/format';
 import {ARROW_LEFT, ARROW_RIGHT} from '../../../esl-utils/dom/keys';
-import {attr, listen, memoize, prop} from '../../../esl-utils/decorators';
+import {attr, listen, memoize, prop, ready} from '../../../esl-utils/decorators';
 import {ESLBaseElement} from '../../../esl-base-element/core';
 import {ESLTraversingQuery} from '../../../esl-traversing-query/core';
 
@@ -32,19 +32,21 @@ export class ESLCarouselNavDots extends ESLBaseElement {
   public static DEFAULT_ARIA_LABEL = 'Carousel dots';
 
   /** Default dot template implementation (readonly) */
-  public static defaultDotBuilder(index: number, {tabIndex, dotLabelFormat}: ESLCarouselNavDots): HTMLElement {
+  public static defaultDotBuilder(index: number, {tabIndex, dotLabelFormat, targetID}: ESLCarouselNavDots): HTMLElement {
     const dot = document.createElement('button');
     dot.className = 'esl-carousel-dot';
     dot.setAttribute('role', 'tab');
     dot.setAttribute('tabindex', tabIndex >= 0 ? '-1' : '0');
     dot.setAttribute('esl-carousel-dot', `${index}`);
     dot.setAttribute('aria-label', format(dotLabelFormat, {index: index + 1}));
+    dot.setAttribute('aria-controls', targetID);
     return dot;
   }
   /** Default dot updater implementation (readonly)*/
   public static defaultDotUpdater($dot: HTMLElement, index: number, {activeIndex}: ESLCarouselNavDots): void {
     const isActive = index === activeIndex;
     $dot.toggleAttribute('active', isActive);
+    $dot.setAttribute('aria-selected', String(isActive));
     $dot.setAttribute('aria-current', String(isActive));
   }
 
@@ -121,6 +123,12 @@ export class ESLCarouselNavDots extends ESLBaseElement {
     return ESLTraversingQuery.first(this.carousel, this) as ESLCarousel;
   }
 
+  /** @returns accessible target ID */
+  public get targetID(): string {
+    return this.$carousel ? this.$carousel.$slidesArea.id : '';
+  }
+
+  @ready
   public override async connectedCallback(): Promise<void> {
     this.replaceChildren();
     if (!this.$carousel) return;
@@ -147,9 +155,9 @@ export class ESLCarouselNavDots extends ESLBaseElement {
   }
 
   /** Updates dots state, rebuilds dots if needed */
-  public update(): void {
+  public update(force?: boolean): void {
     memoize.clear(this, ['count', 'activeIndex']); // invalidate state memoization
-    if (this.$dots.length !== this.count) {
+    if (force || this.$dots.length !== this.count) {
       const $dots = new Array(this.count).fill(null).map((_, index) => this.dotBuilder(index, this));
       $dots.forEach(($dot, index) => $dot.setAttribute('esl-carousel-dot', String(index)));
       memoize.clear(this, '$dots');

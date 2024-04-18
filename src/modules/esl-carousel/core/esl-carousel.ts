@@ -3,7 +3,7 @@ import {ESLBaseElement} from '../../esl-base-element/core';
 import {attr, boolAttr, ready, decorate, listen, memoize} from '../../esl-utils/decorators';
 
 import {microtask} from '../../esl-utils/async';
-import {parseBoolean} from '../../esl-utils/misc';
+import {parseBoolean, sequentialUID} from '../../esl-utils/misc';
 
 import {ESLMediaRuleList} from '../../esl-media-query/core';
 import {ESLResizeObserverTarget} from '../../esl-event-listener/core';
@@ -111,6 +111,7 @@ export class ESLCarousel extends ESLBaseElement {
     super.connectedCallback();
     this.update();
     this.updateA11y();
+    Promise.resolve().then(() => this.dispatchEvent(ESLCarouselChangeEvent.createInitial(this)));
   }
 
   protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
@@ -169,14 +170,13 @@ export class ESLCarousel extends ESLBaseElement {
 
   protected updateA11y(): void {
     const $container = this.$container || this;
-    if (!$container.hasAttribute('role')) {
+    if (!$container.role) {
       $container.setAttribute('role', 'region');
       $container.setAttribute('aria-roledescription', 'Carousel');
     }
-    if (!this.$slidesArea.hasAttribute('role')) {
-      this.$slidesArea.setAttribute('role', 'list');
-      // this.$slidesArea.setAttribute('aria-live', 'polite');
-    }
+    if (!this.id) this.id = sequentialUID('esl-carousel-');
+    if (!this.$slidesArea.id) this.$slidesArea.id = `${this.id}-slides`;
+    if (!this.$slidesArea.role) this.$slidesArea.role = 'list';
   }
 
   @listen({event: 'change', target: ($this: ESLCarousel) => $this.observedRules})

@@ -90,6 +90,7 @@ The default dot builder is stored under `ESLCarouselNavDots.defaultDotBuilder`.
 It creates a button element as a dot item with the following attributes:
   - `role="tab"` (the `esl-carousel-dots` element has `role="tablist"`)
   - `aria-label` based on `dot-label-format` attribute (default is `Go to slide {index}` or `Go to slide group {index}` for multiple slides per view)
+  - `aria-controls` based on the `esl-carousel-slides` element id
   - `class="esl-carousel-dot"` - default CSS class for dot element is `esl-carousel-dot`
   - `tabindex="-1"` or `tabindex="0"` based on `tabindex` attribute of the `esl-carousel-dots` element. 
   
@@ -101,6 +102,7 @@ If `tabindex` is unset or negative, the dot will have `tabindex="0"` so each dot
 The default dot updater is stored under `ESLCarouselNavDots.defaultDotUpdater`.
 It updates the dot element based on the current carousel state with the following logic:
   - `active` if the current dot is active
+  - `aria-selected="true"` if the dot is active
   - `aria-current="true"` if the dot is active
 
 ### Customizing Use Cases
