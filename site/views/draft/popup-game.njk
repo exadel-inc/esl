@@ -23,8 +23,8 @@ aside:
     --_font-size: calc(min(var(--_height, 300px), var(--_width, 300px)) / 3);
     position: relative;
     display: inline-block;
-    height: var(--_height, 300px);
-    width: var(--_width, 300px);
+    height: 300px;
+    width: 100%;
     background-color: #fff;
   }
   esl-d-popup-game:before, esl-d-popup-game:after {
@@ -45,7 +45,7 @@ aside:
     position: absolute;
     display: inline-block;
     z-index: 1;
-    transition: top 0.15s ease-in-out, left 0.15s ease-in-out;
+    transition: top 0.01s ease-in-out, left 0.01s ease-in-out;
     padding: 2px 6px;
     border: none;
     border-radius: 50%;
@@ -54,7 +54,7 @@ aside:
     font-size: 2rem;
   }
   .popup-game {
-    --_margin-arrow: 35px;
+    --_margin-arrow: 25px;
   }
   .popup-h[dir="rtl"] {
     text-align: right;
@@ -88,86 +88,82 @@ aside:
 <p>This cool game will let you play with a popup.</p>
 <p>Drag a trigger element and watch how the popup and its arrow move. Use the mouse wheel to resize the container. Use shift to switch the resize direction.</p>
 <p>The green area on the edges of the container is determined by the offsetContainer value and means the safe zone in which popup can't come. The red zone on the edges of popup demonstrates the limits of arrow placement.</p>
-<h2>Horizontal, direction: LTR</h2>
 <section class="row">
-  <div>
-    <div class="boundary-container boundary-container-1">
-      <esl-d-popup-game trigger="::find(.game-popup-trigger)">
-        <esl-trigger
-          target="#game-popup-h-ltr"
-          mode="toggle"
-          class="game-popup-trigger"
-          style="top: 124px; left: 124px;">
-          🚀
-        </esl-trigger>
-      </esl-d-popup-game>
-    </div>
+  <div class="col-12">
+    <uip-root>
+      <script type="text/html"
+              label="Horizontal"
+              uip-snippet
+              uip-snippet-js="js-snippet-popup-game">
+        <esl-d-popup-game trigger="::find(.game-popup-trigger)">
+          <esl-trigger
+            target="#game-popup-h"
+            mode="toggle"
+            class="game-popup-trigger"
+            style="top: 124px; left: 124px;">
+            🚀
+          </esl-trigger>
+        </esl-d-popup-game>
+        <esl-popup
+          id="game-popup-h"
+          class="popup-game popup-h"
+          position="top"
+          container=".uip-preview-inner"
+          dir="ltr"
+          margin-arrow="35">
+          <div class="popup-content-wrapper">
+            <div class="popup-content"> 🇭 🇴 🇷 I Z 🇴 N 🇹 A 🇱 🐶 🐼</div>
+          </div>
+          <span class="esl-popup-arrow"></span>
+        </esl-popup>
+      </script>
+
+      <script type="text/html"
+        label="Vertical"
+        uip-snippet
+        uip-snippet-js="js-snippet-popup-game">
+        <esl-d-popup-game trigger="::find(.game-popup-trigger)">
+          <esl-trigger
+            target="#game-popup-v"
+            mode="toggle"
+            class="game-popup-trigger"
+            style="top: 124px; left: 124px;">
+            🚀
+          </esl-trigger>
+        </esl-d-popup-game>
+        <esl-popup
+          id="game-popup-v"
+          class="popup-game popup-v"
+          position="left"
+          container=".uip-preview-inner"
+          dir="ltr"
+          margin-arrow="35">
+          <div class="popup-content-wrapper">
+            <div class="popup-content"> V E 🇷 🇹 I C A 🇱 🐼 </div>
+          </div>
+          <span class="esl-popup-arrow"></span>
+        </esl-popup>
+      </script>
+
+      <script id="js-snippet-popup-game" type="text/plain">
+        import { ESLPopup, ESLTrigger } from '@exadel/esl';
+        ESLPopup.register();
+        ESLTrigger.register();
+      </script>
+
+      <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
+      <uip-preview></uip-preview>
+      <uip-settings target="esl-popup" label="Settings" resizable vertical="@+sm">
+        <uip-select-setting label="Position" target="esl-popup" attribute="position">
+          <option value="top">Top</option>
+          <option value="bottom">Bottom</option>
+          <option value="left">Left</option>
+          <option value="right">Right</option>
+        </uip-select-setting>
+        <uip-bool-setting label="RTL" target="#game-popup-h" attribute="dir" value="rtl"></uip-bool-setting>
+      </uip-settings>
+      <uip-editor label="Source code (HTML)" collapsible copy></uip-editor>
+      <uip-editor source="js" label="Source code (JS)" collapsible collapsed copy></uip-editor>
+    </uip-root>
   </div>
-  <esl-popup
-    id="game-popup-h-ltr"
-    class="popup-game popup-h"
-    position="top"
-    container=".boundary-container-1"
-    dir="ltr"
-    margin-arrow="35">
-    <div class="popup-content-wrapper">
-      <div class="popup-content"> 🇱 🇹 🇷 🐶 🐼</div>
-    </div>
-    <span class="esl-popup-arrow"></span>
-  </esl-popup>
-</section>
-<h2>Horizontal, direction: RTL</h2>
-<section class="row">
-  <div>
-    <div class="boundary-container boundary-container-2">
-      <esl-d-popup-game trigger="::find(.game-popup-trigger)">
-        <esl-trigger
-          target="#game-popup-h-rtl"
-          mode="toggle"
-          class="game-popup-trigger"
-          style="top: 124px; left: 124px;">
-          🚀
-        </esl-trigger>
-      </esl-d-popup-game>
-    </div>
-  </div>
-  <esl-popup
-    id="game-popup-h-rtl"
-    class="popup-game popup-h"
-    position="top"
-    container=".boundary-container-2"
-    dir="rtl"
-    margin-arrow="35">
-    <div class="popup-content-wrapper">
-      <div class="popup-content"> 🇷 🇹 🇱 🦝 🐱 </div>
-    </div>
-    <span class="esl-popup-arrow"></span>
-  </esl-popup>
-</section>
-<h2>Vertical</h2>
-<section class="row">
-  <div>
-    <div class="boundary-container boundary-container-3">
-      <esl-d-popup-game trigger="::find(.game-popup-trigger)">
-        <esl-trigger
-          target="#game-popup-v"
-          mode="toggle"
-          class="game-popup-trigger"
-          style="top: 124px; left: 124px;">
-          🚀
-        </esl-trigger>
-      </esl-d-popup-game>
-    </div>
-  </div>
-  <esl-popup
-    id="game-popup-v"
-    class="popup-game popup-v"
-    position="left"
-    container=".boundary-container-3"
-    margin-arrow="35">
-    <div class="popup-content-wrapper">
-      <div class="popup-content"> V E 🇷 🇹 I C A 🇱 🐼 </div>
-    </div>
-    <span class="esl-popup-arrow"></span>
-  </esl-popup>
 </section>

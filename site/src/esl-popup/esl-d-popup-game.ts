@@ -42,14 +42,14 @@ export class ESLDemoPopupGame extends ESLBaseElement {
     event.preventDefault();
   }
 
-  @listen({auto: false, event: 'mouseleave mouseup'})
+  @listen({auto: false, event: 'mouseup', target: () => document.body})
   protected _onDragStop(): void {
     this.dragging = false;
     this.$$off(this._onDragging);
     this.$$off(this._onDragStop);
   }
 
-  @listen({auto: false, event: 'mousemove'})
+  @listen({auto: false, event: 'mousemove', target: () => document.body})
   @decorate(rafDecorator)
   protected _onDragging(event: MouseEvent): void {
     if (!this.dragging || !this.$trigger) return;
