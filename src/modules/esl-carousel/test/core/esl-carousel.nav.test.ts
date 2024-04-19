@@ -1,5 +1,5 @@
 import {
-  normalizeIndex,
+  normalize,
   calcDirection,
   groupToIndex,
   indexToGroup,
@@ -13,7 +13,7 @@ import type {
 } from '../../core/nav/esl-carousel.nav.types';
 
 describe('ESLCarousel: Nav Utils', () => {
-  describe('normalizeIndex', () => {
+  describe('normalize', () => {
     test.each([
       // [index, size, result]
       [0, 5, 0],
@@ -26,7 +26,7 @@ describe('ESLCarousel: Nav Utils', () => {
       [-21, 10, 9]
     ])(
       '(index = %d, size = %d) => %d',
-      (i: number, size: number, result: number) => expect(normalizeIndex(i, size)).toBe(result)
+      (i: number, size: number, result: number) => expect(normalize(i, size)).toBe(result)
     );
   });
 

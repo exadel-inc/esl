@@ -24,19 +24,19 @@ aside:
       </script>
 
       <script type="text/html"
-              label="Grouped and repetitive animation"
+              label="Grouped and repetitive animation with custom delay"
               uip-snippet
               uip-snippet-js="js-snippet-animate-element">
         <ul class="round simple-grid">
           <esl-animate class="esl-animate-group" target="::parent::child(li)" group repeat></esl-animate>
           {% for i in range(0, 20) -%}
-          <li class="bg-blue round esl-animate-slide up simple-grid-cell {{ 'hide-xs' if i >= 12 }}"></li>
+          <li class="bg-blue round esl-animate-slide esl-animate-fade simple-grid-cell {{ 'hide-xs' if i >= 12 }}"></li>
           {%- endfor %}
         </ul>
       </script>
 
       <script type="text/html"
-              label="Grouped animation with custom delay by mixin"
+              label="Grouped animation by mixin"
               uip-snippet
               uip-snippet-js="js-snippet-animate-mixin">
         <button class="btn btn-sec-orange"
@@ -45,7 +45,7 @@ aside:
         </button>
         <ul class="round simple-grid">
           {% for i in range(0, 20) -%}
-          <li class="re-1 bg-orange round esl-animate-slide up left simple-grid-cell {{ 'hide-xs' if i >= 12 }}"
+          <li class="re-1 bg-orange round esl-animate-slide esl-animate-fade simple-grid-cell {{ 'hide-xs' if i >= 12 }}"
               esl-animate="{group: true, groupDelay: 50}"></li>
           {%- endfor %}
         </ul>
@@ -62,7 +62,7 @@ aside:
 
       <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
       <uip-preview></uip-preview>
-      <uip-settings target="esl-animate" label="Settings" resizable vertical="@+sm">
+      <uip-settings target=".esl-animate-slide" label="Settings" resizable vertical="@+sm">
         <uip-select-setting label="Animation type:" attribute="class" mode="append">
           <option value="esl-animate-fade">Fade</option>
           <option value="up">Slide Up</option>
