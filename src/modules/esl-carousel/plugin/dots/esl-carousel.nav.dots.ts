@@ -66,15 +66,18 @@ export class ESLCarouselNavDots extends ESLBaseElement {
   @attr({defaultValue: ($this: ESLCarouselNavDots) => `Go to slide ${$this.groupSize > 1  ? 'group ' : ''}{index}`})
   public dotLabelFormat: string;
 
+  /** Dots builder function {@link ESLCarouselNavDotBuilder} */
+  @prop(($this: ESLCarouselNavDots) => ($this.constructor as typeof ESLCarouselNavDots).dotBuilder)
+  public dotBuilder: ESLCarouselNavDotBuilder;
+
+  /** Dots updater function {@link ESLCarouselNavDotUpdater} */
+  @prop(($this: ESLCarouselNavDots) => ($this.constructor as typeof ESLCarouselNavDots).dotUpdater)
+  public dotUpdater: ESLCarouselNavDotUpdater;
+
   // TODO: implement in future
   // /** Use arrow keys to navigate */
   // @attr({defaultValue: true, parser: parseBoolean})
   // public keyboardArrows: boolean;
-
-  /** Dots builder function {@link ESLCarouselNavDotBuilder} */
-  @prop(ESLCarouselNavDots.dotBuilder) public dotBuilder: ESLCarouselNavDotBuilder;
-  /** Dots updater function {@link ESLCarouselNavDotUpdater} */
-  @prop(ESLCarouselNavDots.dotUpdater) public dotUpdater: ESLCarouselNavDotUpdater;
 
   /**
    * Dots number according carousel config.
