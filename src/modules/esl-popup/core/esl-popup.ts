@@ -298,7 +298,7 @@ export class ESLPopup extends ESLToggleable {
   /** Actions to execute on activator intersection event. */
   @listen({
     auto: false,
-    event: ESLIntersectionEvent.type,
+    event: ESLIntersectionEvent.TYPE,
     target: ($popup: ESLPopup) => $popup.activator ? ESLIntersectionTarget.for($popup.activator, $popup.intersectionOptions) : [],
     condition: ($popup: ESLPopup) => !$popup.disableActivatorObservation
   })
