@@ -51,6 +51,11 @@ export class ESLCarousel extends ESLBaseElement {
   /** true if carousel is in process of animating */
   @boolAttr({readonly: true}) public animating: boolean;
 
+  /** Marker/mixin attribute to define slide element */
+  public get slideAttrName(): string {
+    return this.tagName + '-slide';
+  }
+
   /** Renderer type {@link ESLMediaRuleList} instance */
   @memoize()
   public get typeRule(): ESLMediaRuleList<string> {
@@ -155,7 +160,7 @@ export class ESLCarousel extends ESLBaseElement {
   /** Appends slide instance to the current carousel */
   public addSlide(slide: HTMLElement): void {
     if (!slide) return;
-    slide.setAttribute(this.tagName + '-slide', '');
+    slide.setAttribute(this.slideAttrName, '');
     if (slide.parentNode === this.$slidesArea) return this.update();
     if (slide.parentNode) slide.remove();
     Promise.resolve().then(() => this.$slidesArea.appendChild(slide));
@@ -197,9 +202,9 @@ export class ESLCarousel extends ESLBaseElement {
   /** @returns slides that are processed by the current carousel. */
   @memoize()
   public get $slides(): HTMLElement[] {
+    const {slideAttrName} = this;
     const els = this.$slidesArea ? [...this.$slidesArea.children] as HTMLElement[] : [];
-    const slideAttr = this.tagName + '-slide';
-    return els.filter((el) => el.hasAttribute(slideAttr));
+    return els.filter((el) => el.hasAttribute(slideAttrName));
   }
 
   /** @returns carousel container */

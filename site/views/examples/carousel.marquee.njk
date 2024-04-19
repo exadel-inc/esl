@@ -17,9 +17,10 @@ icon: examples/carousel.svg
         {% for item in slides %}
         <li esl-carousel-slide>
           <div class="img-container">
-            <esl-image mode="cover" lazy
-                          data-alt="{{ 'Carousel slide ' + loop.index }}"
-                          data-src="{{ '/assets/carousel/' + loop.index + '-sm.jpg'  | url }}"></esl-image>
+            <esl-image mode="cover"
+                       lazy
+                       data-alt="{{ 'Carousel slide ' + loop.index }}"
+                       data-src="{{ '/assets/carousel/' + loop.index + '-sm.jpg'  | url }}"></esl-image>
           </div>
         </li>
         {% endfor %}
