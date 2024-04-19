@@ -37,7 +37,6 @@ export class ESLCarouselNavDots extends ESLBaseElement {
     dot.className = 'esl-carousel-dot';
     dot.setAttribute('role', 'tab');
     dot.setAttribute('tabindex', tabIndex >= 0 ? '-1' : '0');
-    dot.setAttribute('esl-carousel-dot', `${index}`);
     dot.setAttribute('aria-label', format(dotLabelFormat, {index: index + 1}));
     dot.setAttribute('aria-controls', targetID);
     return dot;
@@ -162,6 +161,7 @@ export class ESLCarouselNavDots extends ESLBaseElement {
     memoize.clear(this, ['count', 'activeIndex']); // invalidate state memoization
     if (force || this.$dots.length !== this.count) {
       const $dots = new Array(this.count).fill(null).map((_, index) => this.dotBuilder(index, this));
+      // Attribute `esl-carousel-dot` is necessary for proper work of ESLCarouselNavDots plugin, we do not relay on customizable dotBuilder(including default)
       $dots.forEach(($dot, index) => $dot.setAttribute('esl-carousel-dot', String(index)));
       memoize.clear(this, '$dots');
       this.replaceChildren(...$dots);
