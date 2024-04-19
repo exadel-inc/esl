@@ -1,11 +1,20 @@
+import {setAttr} from './attr';
+
+export interface LoadScriptAttributes {
+  crossorigin?: boolean | 'anonymous' | 'use-credentials' | '';
+  integrity?: string;
+  referrerpolicy?: ReferrerPolicy;
+}
+
 /**
- * Creates new async script tag by id and src
+ * Creates new script element with specified attributes
+ * Note: as the script will be added dynamically, it will be treated as async by the browser
  */
-const createAsyncScript = (id: string, src: string): HTMLScriptElement => {
+const createScript = (id: string, src: string, attrs: LoadScriptAttributes): HTMLScriptElement => {
   const script = document.createElement('script');
   script.id = id;
-  script.async = true;
   script.src = src;
+  Object.entries(attrs).forEach(([name, value]) => setAttr(script, name, value));
   return script;
 };
 
@@ -13,11 +22,12 @@ const createAsyncScript = (id: string, src: string): HTMLScriptElement => {
  * Common function that loads script async
  * @param id - unique script id that is used as a marker to prevent future load
  * @param src - script src (url) to load
+ * @param attrs - additional attributes to set on the script tag
  */
-export function loadScript(id: string, src: string): Promise<Event> {
+export function loadScript(id: string, src: string, attrs: LoadScriptAttributes = {}): Promise<Event> {
   return new Promise((resolve, reject) => {
     const script: HTMLScriptElement =
-      (document.getElementById(id) || createAsyncScript(id, src)) as HTMLScriptElement;
+      (document.getElementById(id) || createScript(id, src, attrs)) as HTMLScriptElement;
     const state = script.getAttribute('state');
 
     switch (state) {
