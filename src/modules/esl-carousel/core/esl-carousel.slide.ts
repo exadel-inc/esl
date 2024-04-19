@@ -26,15 +26,15 @@ export class ESLCarouselSlide extends ESLMixinElement {
   public get active(): boolean {
     return this.$carousel!.isActive(this.$host);
   }
-  /** @returns whether the slide is active */
+  /** @returns whether the slide is in pre-active state */
   public get preActive(): boolean {
     return this.$carousel!.isPreActive(this.$host);
   }
-  /** @returns whether the slide is active */
+  /** @returns whether the slide is next in navigation */
   public get next(): boolean {
     return this.$carousel!.isNext(this.$host);
   }
-  /** @returns whether the slide is active */
+  /** @returns whether the slide is previous in navigation*/
   public get prev(): boolean {
     return this.$carousel!.isPrev(this.$host);
   }
