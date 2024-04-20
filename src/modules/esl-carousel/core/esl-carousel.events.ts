@@ -1,5 +1,4 @@
 import type {ESLCarousel} from './esl-carousel';
-import type {ESLCarouselSlide} from './esl-carousel.slide';
 import type {ESLCarouselDirection, ESLCarouselStaticState} from './nav/esl-carousel.nav.types';
 
 /** {@link ESLCarouselSlideEvent} init object */
@@ -50,25 +49,29 @@ interface ESLCarouselChangeEventInit {
   config: ESLCarouselStaticState;
   /** Previous {@link ESLCarousel} instance config */
   oldConfig?: ESLCarouselStaticState;
-  /** A list of {@link ESLCarouselSlide}s that has been added to the current carousel instance */
-  added: ESLCarouselSlide[];
-  /** A list of {@link ESLCarouselSlide}s that has been removed from the current carousel instance */
-  removed: ESLCarouselSlide[];
+  /** A list of slides that has been added to the current carousel instance */
+  added: HTMLElement[];
+  /** A list of slides that has been removed from the current carousel instance */
+  removed: HTMLElement[];
 }
 
 /** {@link ESLCarousel} event that represents slide configuration change */
 export class ESLCarouselChangeEvent extends Event implements ESLCarouselChangeEventInit {
   /** {@link ESLCarouselSlideEvent} event type dispatched on carousel config changes */
   public static readonly TYPE = 'esl:carousel:change';
+  public static readonly INITIAL = 'esl:carousel:init';
 
   public override readonly target: ESLCarousel;
   public readonly config: ESLCarouselStaticState;
   public readonly oldConfig?: ESLCarouselStaticState;
-  public readonly added: ESLCarouselSlide[] = [];
-  public readonly removed: ESLCarouselSlide[] = [];
+  public readonly added: HTMLElement[] = [];
+  public readonly removed: HTMLElement[] = [];
 
-  protected constructor(init: ESLCarouselChangeEventInit) {
-    super(ESLCarouselChangeEvent.TYPE, {
+  protected constructor(
+    type: typeof ESLCarouselChangeEvent.TYPE | typeof ESLCarouselChangeEvent.INITIAL,
+    init: ESLCarouselChangeEventInit
+  ) {
+    super(type, {
       bubbles: true,
       cancelable: false,
       composed: true
@@ -77,6 +80,13 @@ export class ESLCarouselChangeEvent extends Event implements ESLCarouselChangeEv
   }
 
   public static create(init: ESLCarouselChangeEventInit): ESLCarouselChangeEvent {
-    return new ESLCarouselChangeEvent(init);
+    return new ESLCarouselChangeEvent(ESLCarouselChangeEvent.TYPE, init);
+  }
+  public static createInitial(carousel: ESLCarousel): ESLCarouselChangeEvent {
+    return new ESLCarouselChangeEvent(ESLCarouselChangeEvent.INITIAL, {
+      added: carousel.$slides,
+      removed: [],
+      config: carousel.config
+    });
   }
 }

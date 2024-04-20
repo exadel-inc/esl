@@ -29,7 +29,7 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
    * Prepare to renderer animation.
    */
   public override onBind(): void {
-    this.currentIndex = this.$carousel.activeIndex;
+    this.currentIndex = this.$carousel.activeIndex >= 0 ? this.$carousel.activeIndex : 0;
     this.redraw();
   }
 
