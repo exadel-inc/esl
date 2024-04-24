@@ -306,6 +306,15 @@ export class ESLCarousel extends ESLBaseElement {
     return el && el.hasAttribute('prev');
   }
 
+  // Navigates to requested slide
+  @listen('esl:show:request')
+  protected onHandleFootnotes(e: CustomEvent): void {
+    const target = (e.target as HTMLElement).closest('[esl-carousel-slide]') as HTMLElement;
+    const index = this.$slides.indexOf(target);
+    if (index === -1) return;
+    this.goTo(`slide:${index}`);
+  }
+
   /**
    * Registers component in the {@link customElements} registry
    * @param tagName - custom tag name to register custom element
