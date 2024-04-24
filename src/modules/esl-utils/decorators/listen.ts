@@ -1,7 +1,7 @@
 import {ESLEventUtils} from '../../esl-event-listener/core';
 
 import type {PropertyProvider} from '../misc/functions';
-import type {ESLListenerHandler, ESLListenerDescriptorExt} from '../dom/events';
+import type {DelegatedEvent, ESLListenerHandler, ESLListenerDescriptorExt} from '../../esl-event-listener/core';
 
 type ListenDecorator<EType extends Event> =
   (target: any, property: string, descriptor: TypedPropertyDescriptor<ESLListenerHandler<EType>>) => void;
@@ -12,6 +12,19 @@ type ListenDecorator<EType extends Event> =
  * @param event - event type string or event provider function
  */
 export function listen<K extends keyof ESLListenerEventMap>(event: K | PropertyProvider<K>): ListenDecorator<ESLListenerEventMap[K]>;
+/**
+ * Decorator to declare listener ({@link ESLEventListener}) meta information using {@link ESLListenerDescriptor}
+ * Defines auto-subscribable event by default
+ * @param desc - event listener configuration {@link ESLListenerDescriptor}
+ *
+ * Note: you are using delegation as you declare `selector` property in `desc`.
+ * Consider using {@link DelegatedEvent} event type wrapper in case you need to access `event.$delegate` property
+ *
+ * @see DelegatedEvent.prototype.$delegate
+ */
+export function listen<K extends keyof ESLListenerEventMap>(
+  desc: ESLListenerDescriptorExt<K> & {selector: string | PropertyProvider<string>}
+): ListenDecorator<DelegatedEvent<ESLListenerEventMap[K]>>;
 /**
  * Decorator to declare listener ({@link ESLEventListener}) meta information using {@link ESLListenerDescriptor}
  * Defines auto-subscribable event by default
