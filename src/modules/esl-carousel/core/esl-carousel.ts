@@ -1,7 +1,7 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {attr, boolAttr, ready, decorate, listen, memoize} from '../../esl-utils/decorators';
-
+import {isMatches} from '../../esl-utils/dom/traversing';
 import {microtask} from '../../esl-utils/async';
 import {parseBoolean, sequentialUID} from '../../esl-utils/misc';
 
@@ -14,7 +14,13 @@ import {ESLCarouselSlide} from './esl-carousel.slide';
 import {ESLCarouselRenderer} from './esl-carousel.renderer';
 import {ESLCarouselChangeEvent} from './esl-carousel.events';
 
-import type {ESLCarouselState, ESLCarouselDirection, ESLCarouselSlideTarget, ESLCarouselStaticState, ESLCarouselConfig} from './nav/esl-carousel.nav.types';
+import type {
+  ESLCarouselState,
+  ESLCarouselDirection,
+  ESLCarouselSlideTarget,
+  ESLCarouselStaticState,
+  ESLCarouselConfig
+} from './nav/esl-carousel.nav.types';
 
 /** {@link ESLCarousel} action params interface */
 export interface ESLCarouselActionParams {
@@ -199,6 +205,14 @@ export class ESLCarousel extends ESLBaseElement {
     this.renderer && this.renderer.redraw();
   }
 
+  @listen('esl:show:request')
+  protected onHandleFootnotes(e: CustomEvent): void {
+    const detail = e.detail || {};
+    if (!isMatches(this, detail.match)) return;
+    const index = this.$slides.findIndex(($slide) => $slide.contains(e.target as Element));
+    if (index !== -1 && !this.isActive(index)) this.goTo(index);
+  }
+
   /** @returns slides that are processed by the current carousel. */
   @memoize()
   public get $slides(): HTMLElement[] {
@@ -221,7 +235,7 @@ export class ESLCarousel extends ESLBaseElement {
     const $container = document.createElement('div');
     $container.setAttribute(this.tagName + '-slides', '');
     this.appendChild($container);
-    return $container ;
+    return $container;
   }
 
   /** @returns first active slide */
@@ -306,15 +320,6 @@ export class ESLCarousel extends ESLBaseElement {
     return el && el.hasAttribute('prev');
   }
 
-  // Navigates to requested slide
-  @listen('esl:show:request')
-  protected onHandleFootnotes(e: CustomEvent): void {
-    const target = (e.target as HTMLElement).closest('[esl-carousel-slide]') as HTMLElement;
-    const index = this.$slides.indexOf(target);
-    if (index === -1) return;
-    this.goTo(`slide:${index}`);
-  }
-
   /**
    * Registers component in the {@link customElements} registry
    * @param tagName - custom tag name to register custom element
@@ -327,10 +332,13 @@ export class ESLCarousel extends ESLBaseElement {
 }
 
 declare global {
-  export interface ESLCarouselNS {}
+  export interface ESLCarouselNS {
+  }
+
   export interface ESLLibrary {
     Carousel: typeof ESLCarousel & ESLCarouselNS;
   }
+
   export interface HTMLElementTagNameMap {
     'esl-carousel': ESLCarousel;
   }
