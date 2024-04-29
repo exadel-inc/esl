@@ -5,8 +5,8 @@ esl-carousel {
   max-width: 100%;
   // Important to ignore padding/margin hack
   box-sizing: content-box;
-  margin: calc(var(--esl-carousel-clip-shift, 0) * -1);
-  padding: var(--esl-carousel-clip-shift, 0);
+  margin: calc(var(--esl-carousel-side-space, 0) * -1);
+  padding: var(--esl-carousel-side-space, 0);
 
   overflow: hidden; // Fallback
   /* stylelint-disable-next-line */
@@ -50,6 +50,6 @@ esl-carousel {
 }
 
 [esl-carousel-container] {
-  --esl-carousel-clip-shift: 5px;
+  --esl-carousel-side-space: 5px;
   position: relative;
 }
