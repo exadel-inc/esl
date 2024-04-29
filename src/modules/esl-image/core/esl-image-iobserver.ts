@@ -1,4 +1,4 @@
-import {DeviceDetector} from '../../esl-utils/environment/device-detector';
+import {isMobile} from '../../esl-utils/environment/device-detector';
 import type {ESLImage} from './esl-image';
 
 let iObserver: IntersectionObserver;
@@ -10,7 +10,7 @@ export function getIObserver(): IntersectionObserver {
       entries.forEach(handleViewport);
     }, {
       threshold: [0.01], // 0 + 1 are not correctly handled by all browsers
-      rootMargin: DeviceDetector.isMobile ? '250px' : '500px' // rootMargin value for IntersectionObserver
+      rootMargin: isMobile ? '250px' : '500px' // rootMargin value for IntersectionObserver
     });
   }
   return iObserver;
