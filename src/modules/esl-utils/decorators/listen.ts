@@ -24,7 +24,7 @@ export function listen<K extends keyof ESLListenerEventMap>(event: K | PropertyP
  */
 export function listen<K extends keyof ESLListenerEventMap>(
   desc: ESLListenerDescriptorExt<K> & {selector: string | PropertyProvider<string>}
-): ListenDecorator<DelegatedEvent<ESLListenerEventMap[K]>>;
+): ListenDecorator<DelegatedEvent<ESLListenerEventMap[K]> | ESLListenerEventMap[K]>;
 /**
  * Decorator to declare listener ({@link ESLEventListener}) meta information using {@link ESLListenerDescriptor}
  * Defines auto-subscribable event by default
