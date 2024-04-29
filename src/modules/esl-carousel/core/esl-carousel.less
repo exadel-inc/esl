@@ -24,9 +24,11 @@ esl-carousel {
 
   &.esl-carousel-vertical [esl-carousel-slides] {
     flex-direction: column;
+    touch-action: pan-x;
   }
   &.esl-carousel-horizontal [esl-carousel-slides] {
     flex-direction: row;
+    touch-action: pan-y;
   }
 
   &[dragging] {
@@ -35,8 +37,8 @@ esl-carousel {
 
   &[dragging] [esl-carousel-slides],
   &[animating] [esl-carousel-slides] {
+    touch-action: none;
     user-select: none;
-    touch-action: pan-y;
     pointer-events: none;
   }
 }
