@@ -206,7 +206,7 @@ export class ESLCarousel extends ESLBaseElement {
   }
 
   @listen('esl:show:request')
-  protected onHandleFootnotes(e: CustomEvent): void {
+  protected onShowRequest(e: CustomEvent): void {
     const detail = e.detail || {};
     if (!isMatches(this, detail.match)) return;
     const index = this.$slides.findIndex(($slide) => $slide.contains(e.target as Element));
