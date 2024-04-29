@@ -1,4 +1,17 @@
-import {DeviceDetector} from '../../../esl-utils/environment/device-detector';
+import {
+  isAndroid,
+  isBlink,
+  isBot,
+  isEdgeHTML,
+  isGecko,
+  isIE,
+  isMobile,
+  isMobileIOS,
+  isMobileSafari,
+  isSafari,
+  isTouchDevice,
+  isWebkit
+} from '../../../esl-utils/environment/device-detector';
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
 
 const shortcuts = new Map<string, string | boolean>();
@@ -36,23 +49,23 @@ export class ESLEnvShortcuts {
 }
 
 // Touch check
-ESLEnvShortcuts.add('touch', DeviceDetector.isTouchDevice);
+ESLEnvShortcuts.add('touch', isTouchDevice);
 
 // Basic device type shortcuts
-ESLEnvShortcuts.add('bot', DeviceDetector.isBot);
-ESLEnvShortcuts.add('mobile', DeviceDetector.isMobile);
-ESLEnvShortcuts.add('desktop', !DeviceDetector.isMobile);
-ESLEnvShortcuts.add('android', DeviceDetector.isAndroid);
-ESLEnvShortcuts.add('ios', DeviceDetector.isMobileIOS);
+ESLEnvShortcuts.add('bot', isBot);
+ESLEnvShortcuts.add('mobile', isMobile);
+ESLEnvShortcuts.add('desktop', !isMobile);
+ESLEnvShortcuts.add('android', isAndroid);
+ESLEnvShortcuts.add('ios', isMobileIOS);
 
 // Basic browser shortcuts
-ESLEnvShortcuts.add('ie', DeviceDetector.isIE);
-ESLEnvShortcuts.add('edge', DeviceDetector.isEdgeHTML);
-ESLEnvShortcuts.add('gecko', DeviceDetector.isGecko);
-ESLEnvShortcuts.add('webkit', DeviceDetector.isWebkit);
-ESLEnvShortcuts.add('blink', DeviceDetector.isBlink);
-ESLEnvShortcuts.add('safari', DeviceDetector.isSafari);
-ESLEnvShortcuts.add('safari-ios', DeviceDetector.isMobileSafari);
+ESLEnvShortcuts.add('ie', isIE);
+ESLEnvShortcuts.add('edge', isEdgeHTML);
+ESLEnvShortcuts.add('gecko', isGecko);
+ESLEnvShortcuts.add('webkit', isWebkit);
+ESLEnvShortcuts.add('blink', isBlink);
+ESLEnvShortcuts.add('safari', isSafari);
+ESLEnvShortcuts.add('safari-ios', isMobileSafari);
 
 declare global {
   export interface ESLLibrary {

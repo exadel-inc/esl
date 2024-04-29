@@ -6,7 +6,7 @@ import {promisifyTimeout, repeatSequence} from '../../esl-utils/async';
 import {ESLEventUtils} from '../../esl-utils/dom/events';
 import {ENTER, SPACE} from '../../esl-utils/dom/keys';
 import {scrollIntoView} from '../../esl-utils/dom/scroll';
-import {DeviceDetector} from '../../esl-utils/environment/device-detector';
+import {hasHover} from '../../esl-utils/environment/device-detector';
 import {ESLMediaQuery} from '../../esl-media-query/core';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 
@@ -61,7 +61,7 @@ export class ESLNote extends ESLBaseElement {
 
   /** Marker to allow track hover */
   public get allowHover(): boolean {
-    return DeviceDetector.hasHover && ESLMediaQuery.for(this.trackHover).matches;
+    return hasHover && ESLMediaQuery.for(this.trackHover).matches;
   }
   /** Marker to allow track clicks */
   public get allowClick(): boolean {
