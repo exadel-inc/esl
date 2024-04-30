@@ -189,4 +189,22 @@ describe('Decorator: @listen', () => {
     const button = test.querySelector('button');
     button?.click();
   });
+
+  test('Delegation types are correct (build time)', () => {
+    class Test extends HTMLElement {
+      @listen({event: 'click', selector: '.btn'})
+      onEvent1(e: MouseEvent) {}
+      @listen({event: 'keyup keydown', selector: '.btn'})
+      onEvent2(e: KeyboardEvent) {}
+      @listen({event: 'touchstart mousedown', selector: '.btn'})
+      onEvent3(e: PointerEvent) {}
+      @listen({event: 'click', selector: '.btn'})
+      onEvent4(e: DelegatedEvent<MouseEvent>) {}
+      @listen({event: 'keyup keydown', selector: '.btn'})
+      onEvent5(e: DelegatedEvent<KeyboardEvent>) {}
+      @listen({event: 'touchstart mousedown', selector: '.btn'})
+      onEvent6(e: DelegatedEvent<PointerEvent>) {}
+    }
+    expect(Test).toBe(Test);
+  });
 });
