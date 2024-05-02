@@ -42,7 +42,7 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
   @attr({name: 'esl-carousel-swipe-timeout', defaultValue: 2000, parser: parseInt}) public swipeTimeout: number;
 
   /** Start pointer event to detect action */
-  protected startEvent: PointerEvent;
+  protected startEvent?: PointerEvent;
   /** Initial scroll offsets, filled on touch action start */
   protected startScrollOffsets: ElementScrollOffset[];
 
@@ -86,13 +86,14 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
   /** @returns offset between start point and passed event point */
   protected getOffset(event: PointerEvent): number {
     const property = this.$host.config.vertical ? 'clientY' : 'clientX';
-    return event[property] - this.startEvent[property];
+    return this.startEvent ? (event[property] - this.startEvent[property]) : 0;
   }
 
   /** @returns if the passed event leads to swipe action */
   protected isSwipeAccepted(event: PointerEvent): boolean {
+    if (!this.startEvent) return false;
     // Ignore swipe if timeout threshold exceeded
-    if (event.timeStamp - this.startEvent?.timeStamp > this.swipeTimeout) return false;
+    if (event.timeStamp - this.startEvent.timeStamp > this.swipeTimeout) return false;
     // Ignore swipe if offset is not enough
     return Math.abs(this.getOffset(event)) > this.swipeDistance;
   }
@@ -150,6 +151,8 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
       const target = `${this.swipeType}:${offset < 0 ? 'next' : 'prev'}`;
       if (this.$host.canNavigate(target)) this.$host.goTo(target);
     }
+
+    delete this.startEvent;
   }
 }
 
