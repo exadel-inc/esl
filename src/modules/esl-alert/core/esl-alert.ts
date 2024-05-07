@@ -2,7 +2,7 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {attr, jsonAttr, prop, listen} from '../../esl-utils/decorators';
 import {isMatches} from '../../esl-utils/dom/traversing';
 import {ESLToggleable} from '../../esl-toggleable/core';
-import {DeviceDetector} from '../../esl-utils/environment/device-detector';
+import {isIE} from '../../esl-utils/environment/device-detector';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {createZIndexIframe} from '../../esl-utils/fixes/ie-fixes';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core';
@@ -96,7 +96,7 @@ export class ESLAlert extends ESLToggleable {
     this.$content.className = 'esl-alert-content';
     this.innerHTML = '';
     this.appendChild(this.$content);
-    if (DeviceDetector.isIE) this.appendChild(createZIndexIframe());
+    if (isIE) this.appendChild(createZIndexIframe());
     if (this.target) {
       this.$target = ESLTraversingQuery.first(this.target, this) as EventTarget;
     }

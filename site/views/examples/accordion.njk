@@ -19,7 +19,10 @@ aside:
 <section class="row">
   <div class="col-12">
     <uip-root>
-      <script type="text/html" uip-snippet label="Default configuration">
+      <script type="text/html"
+              label="Default configuration"
+              uip-snippet
+              uip-snippet-js="js-snippet-accordion-init">
         <esl-panel-group class="accordion-group">
           <div class="esl-d-accordion">
             <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
@@ -53,7 +56,11 @@ aside:
           </div>
         </esl-panel-group>
       </script>
-      <script type="text/html" uip-snippet label="Allows all panels to be closed">
+
+      <script type="text/html"
+              label="Allows all panels to be closed"
+              uip-snippet
+              uip-snippet-js="js-snippet-accordion-init">
         <esl-panel-group class="accordion-group" min-open-items="0">
           <div class="esl-d-accordion">
             <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
@@ -87,7 +94,11 @@ aside:
           </div>
         </esl-panel-group>
       </script>
-      <script type="text/html" uip-snippet label="Hover accordion">
+
+      <script type="text/html"
+              label="Hover accordion"
+              uip-snippet
+              uip-snippet-js="js-snippet-accordion-init">
         <esl-panel-group class="accordion-group" min-open-items="0">
           <div class="esl-d-accordion">
             <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next"
@@ -124,7 +135,11 @@ aside:
           </div>
         </esl-panel-group>
       </script>
-      <script type="text/html" uip-snippet label="Multiple accordion">
+
+      <script type="text/html"
+              label="Multiple accordion"
+              uip-snippet
+              uip-snippet-js="js-snippet-accordion-init">
         <esl-panel-group class="accordion-group" min-open-items="0" max-open-items="all">
           <div class="esl-d-accordion">
             <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
@@ -158,7 +173,11 @@ aside:
           </div>
         </esl-panel-group>
       </script>
-      <script type="text/html" uip-snippet label="Auto-closable nested panels">
+
+      <script type="text/html"
+              label="Auto-closable nested panels"
+              uip-snippet
+              uip-snippet-js="js-snippet-accordion-init">
         <esl-panel-group class="accordion-group" min-open-items="0" max-open-items="all">
           <div class="esl-d-accordion">
             <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
@@ -264,9 +283,17 @@ aside:
         </esl-panel-group>
       </script>
 
+      <script id="js-snippet-accordion-init" type="text/plain">
+        import { ESLPanelGroup, ESLPanel, ESLTrigger } from '@exadel/esl';
+        ESLPanelGroup.register();
+        ESLPanel.register();
+        ESLTrigger.register();
+      </script>
+
       <uip-snippets dropdown-view="@xs" class="uip-toolbar"></uip-snippets>
       <uip-preview></uip-preview>
-      <uip-editor label="Source code" collapsible copy></uip-editor>
+      <uip-editor label="Source code (HTML)" collapsible copy></uip-editor>
+      <uip-editor source="js" label="Source code (JS)" collapsible collapsed copy></uip-editor>
     </uip-root>
   </div>
 </section>

@@ -11,7 +11,7 @@ export const copy: ESLShareButtonConfig = {
   name: 'copy',
   title: 'Copy',
   additional: {
-    alertText: 'Copied to clipboard'
+    copyAlertMsg: 'Copied to clipboard'
   }
 };
 ESLShareConfig.append(copy);

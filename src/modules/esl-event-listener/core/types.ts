@@ -9,7 +9,8 @@ declare global {
 }
 
 /** Extended event with a delegated event target */
-export type DelegatedEvent<EventType extends Event> = EventType & {
+export type DelegatedEvent<EventType extends Event = Event> = EventType & {
+  /** Delegated target element, that exactly accepted by `selector` CSS selector */
   $delegate: Element | null;
 };
 

@@ -1,4 +1,5 @@
 import {SyntheticEventTarget} from '../../../esl-utils/dom/events/target';
+import {getParentScrollOffsets, isOffsetChanged} from '../../../esl-utils/dom/scroll';
 import {getTouchPoint, isMouseEvent, isTouchEvent} from '../../../esl-utils/dom/events/misc';
 import {resolveDomTarget} from '../../../esl-utils/abstract/dom-target';
 import {isElement} from '../../../esl-utils/dom/api';
@@ -7,6 +8,7 @@ import {resolveCSSSize} from '../../../esl-utils/dom/units';
 import {ESLEventListener} from '../listener';
 import {ESLSwipeGestureEvent} from './swipe.target.event';
 
+import type {ElementScrollOffset} from '../../../esl-utils/dom//scroll';
 import type {CSSSize} from '../../../esl-utils/dom/units';
 import type {SwipeDirection, ESLSwipeGestureEventInfo} from './swipe.target.event';
 import type {ESLDomElementTarget} from '../../../esl-utils/abstract/dom-target';
@@ -17,6 +19,8 @@ export {ESLSwipeGestureEvent};
  * Describes settings object that could be passed to {@link ESLSwipeGestureTarget.for} as optional parameter
  */
 export interface ESLSwipeGestureSetting {
+  /** Flag to indicate if the swipe event should not be dispatched if a scroll of content was detected (true by default) */
+  skipOnScroll?: boolean;
   /** The minimum distance to accept swipe (supports `px`, `vw` and `vh` units) */
   threshold?: CSSSize;
   /** The maximum duration between `ponterdown` and `pointerup` events */
@@ -28,6 +32,7 @@ export interface ESLSwipeGestureSetting {
  */
 export class ESLSwipeGestureTarget extends SyntheticEventTarget {
   protected static defaultConfig: Required<ESLSwipeGestureSetting> = {
+    skipOnScroll: true,
     threshold: '20px',
     timeout: 500
   };
@@ -49,6 +54,7 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
   protected readonly config: Required<ESLSwipeGestureSetting>;
 
   protected startEvent: PointerEvent;
+  protected startEventOffset: ElementScrollOffset[];
 
   protected constructor(
     protected readonly target: Element,
@@ -70,6 +76,7 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
    * @param startEvent - initial pointer event
    */
   protected handleStart(startEvent: PointerEvent): void {
+    this.startEventOffset = this.config.skipOnScroll ? getParentScrollOffsets(startEvent.target as Element, this.target) : [];
     this.startEvent = startEvent;
     ESLEventListener.subscribe(this, this.handleEnd, {
       event: this.endEventName,
@@ -119,6 +126,10 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
 
     // return if swipe took too long or distance is too short
     if (!this.isGestureAcceptable(eventDetails)) return;
+    if (this.config.skipOnScroll) {
+      const offsets = getParentScrollOffsets(endEvent.target as Element, this.target);
+      if (isOffsetChanged(this.startEventOffset.concat(offsets))) return;
+    }
 
     const event = ESLSwipeGestureEvent.fromConfig(this.target, eventDetails);
     // fire `swipe` event on the element that started the swipe
@@ -138,7 +149,7 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
    * Subscribes to pointerup and pointerdown event
    */
   public override addEventListener(callback: EventListener): void;
-  public override addEventListener(event: typeof ESLSwipeGestureEvent.type, callback: EventListener): void;
+  public override addEventListener(event: typeof ESLSwipeGestureEvent.TYPE, callback: EventListener): void;
   public override addEventListener(event: any, callback: EventListener = event): void {
     super.addEventListener(event, callback);
 
@@ -151,7 +162,7 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
    * Unsubscribes from the observed target {@link Element} changes
    */
   public override removeEventListener(callback: EventListener): void;
-  public override removeEventListener(event: typeof ESLSwipeGestureEvent.type, callback: EventListener): void;
+  public override removeEventListener(event: typeof ESLSwipeGestureEvent.TYPE, callback: EventListener): void;
   public override removeEventListener(event: any, callback: EventListener = event): void {
     super.removeEventListener(event, callback);
     if (!this.hasEventListener(event)) ESLEventListener.unsubscribe(this);

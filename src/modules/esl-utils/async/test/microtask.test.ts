@@ -23,4 +23,16 @@ describe('sync/microtask', () => {
     await Promise.resolve();
     expect(fn).toBeCalledWith(expect.arrayContaining(params));
   });
+  test('Decorated as microtask callback refreshes after decorated method call (leak protected)', async () => {
+    const fn = jest.fn();
+    const decorated = microtask(fn);
+    const params1 = [Symbol('Arg 1'), Symbol('Arg 2')];
+    for (const param of params1) decorated(param);
+    await Promise.resolve();
+
+    const params2 = [Symbol('Arg 3'), Symbol('Arg 4')];
+    for (const param of params2) decorated(param);
+    await Promise.resolve();
+    expect(fn).lastCalledWith(params2);
+  });
 });

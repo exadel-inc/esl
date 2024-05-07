@@ -114,7 +114,7 @@ describe('ESLIntersectionTarget proxy', () => {
         intersectionRatio: 0.5
       });
       IntersectionObserverMock.trigger($el, entry);
-      expect(listener).lastCalledWith(expect.objectContaining({type: ESLIntersectionEvent.type}));
+      expect(listener).lastCalledWith(expect.objectContaining({type: ESLIntersectionEvent.TYPE}));
       expect(listener).lastCalledWith(expect.objectContaining(entry));
     });
   });

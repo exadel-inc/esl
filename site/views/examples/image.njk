@@ -16,7 +16,10 @@ aside:
 <section class="row">
   <div class="col-12">
     <uip-root>
-      <script type="text/html" uip-snippet label="Save ratio mode">
+      <script type="text/html"
+              label="Save ratio mode"
+              uip-snippet
+              uip-snippet-js="js-snippet-image-element">
         <div class="d-flex">
           <div class="col-sm-6">
             <esl-image mode="save-ratio" lazy
@@ -31,7 +34,11 @@ aside:
           </div>
         </div>
       </script>
-      <script type="text/html" uip-snippet label="Fit mode">
+
+      <script type="text/html"
+              label="Fit mode"
+              uip-snippet
+              uip-snippet-js="js-snippet-image-element">
         <div class="d-flex">
           <div class="col-sm-6">
             <style>
@@ -59,7 +66,11 @@ aside:
           </div>
         </div>
       </script>
-      <script type="text/html" uip-snippet label="Origin mode">
+
+      <script type="text/html"
+              label="Origin mode"
+              uip-snippet
+              uip-snippet-js="js-snippet-image-element">
         <div class="d-flex">
           <div class="d-flex col-sm-6">
             <esl-image mode="origin"
@@ -75,7 +86,11 @@ aside:
           </div>
         </div>
       </script>
-      <script type="text/html" uip-snippet label="Cover mode">
+
+      <script type="text/html"
+              label="Cover mode"
+              uip-snippet
+              uip-snippet-js="js-snippet-image-element">
         <div class="d-flex">
           <div class="col-sm-6">
             <style>
@@ -104,7 +119,11 @@ aside:
           </div>
         </div>
       </script>
-      <script type="text/html" uip-snippet label="SVG Inline loading">
+
+      <script type="text/html"
+              label="SVG Inline loading"
+              uip-snippet
+              uip-snippet-js="js-snippet-image-element">
         <div class="d-flex">
           <div class="col-sm-6">
             <style>
@@ -132,7 +151,11 @@ aside:
           </div>
         </div>
       </script>
-      <script type="text/html" uip-snippet label="ESL Query Rules">
+
+      <script type="text/html"
+              label="ESL Query Rules"
+              uip-snippet
+              uip-snippet-js="js-snippet-image-element">
         <div class="d-flex">
           <div class="col-sm-6">
             <style>
@@ -166,6 +189,11 @@ aside:
         </div>
       </script>
 
+      <script id="js-snippet-image-element" type="text/plain">
+        import { ESLImage } from '@exadel/esl';
+        ESLImage.register();
+      </script>
+
       <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
       <uip-preview></uip-preview>
       <uip-settings label="Settings" resizable vertical="@+sm">
@@ -189,7 +217,8 @@ aside:
         <uip-bool-setting label="Border" target=".img-container" mode="append" attribute="class" value="border"></uip-bool-setting>
         <uip-bool-setting label="Inscribe" target=".cover-mode-image" mode="append" attribute="class" value="bg-inscribe"></uip-bool-setting>
       </uip-settings>
-      <uip-editor label="Source code" collapsible copy></uip-editor>
+      <uip-editor label="Source code (HTML)" collapsible copy></uip-editor>
+      <uip-editor source="js" label="Source code (JS)" collapsible collapsed copy></uip-editor>
     </uip-root>
   </div>
 </section>
