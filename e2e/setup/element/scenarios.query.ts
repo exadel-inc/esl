@@ -11,10 +11,7 @@ cucumber.defineRule('find the elements by selector {string}', async (world: Test
   world.elements = await findElementsBySelector(selector);
 });
 
-cucumber.defineRule('check if the element is present', async (world: TestEnv) => {
-  expect(world.elements.length).toBeGreaterThan(0);
-});
-cucumber.defineRule('check if the elements is present', async (world: TestEnv) => {
+cucumber.defineRule(/check if the elements? is present/, async (world: TestEnv) => {
   expect(world.elements.length).toBeGreaterThan(0);
 });
 
