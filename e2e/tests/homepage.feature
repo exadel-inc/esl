@@ -9,7 +9,7 @@ Feature: Homepage looks fine
   Scenario: test homepage screen on mobile
     Given a page "/"
     When on mobile
-    Then wait for 2s
+    Then wait for 2.5s
     And take a screenshot of a full page
     Then check if the screenshot is equal to the snapshoted version
 
