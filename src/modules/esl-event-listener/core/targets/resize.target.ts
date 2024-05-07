@@ -54,7 +54,7 @@ export class ESLResizeObserverTarget extends SyntheticEventTarget {
 
   /** Subscribes to the observed target {@link Element} changes */
   public override addEventListener(callback: EventListener): void;
-  public override addEventListener(event: typeof ESLElementResizeEvent.type, callback: EventListener): void;
+  public override addEventListener(event: typeof ESLElementResizeEvent.TYPE, callback: EventListener): void;
   public override addEventListener(event: any, callback: EventListener = event): void {
     if (typeof event === 'string' && event !== 'resize') {
       console.warn(`[ESL]: ESLResizeObserverTarget does not support '${event}' type`);
@@ -68,7 +68,7 @@ export class ESLResizeObserverTarget extends SyntheticEventTarget {
 
   /** Unsubscribes from the observed target {@link Element} changes */
   public override removeEventListener(callback: EventListener): void;
-  public override removeEventListener(event: typeof ESLElementResizeEvent.type, callback: EventListener): void;
+  public override removeEventListener(event: typeof ESLElementResizeEvent.TYPE, callback: EventListener): void;
   public override removeEventListener(event: any, callback: EventListener = event): void {
     if (typeof event === 'string' && event !== 'resize') return;
 

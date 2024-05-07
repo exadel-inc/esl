@@ -4,7 +4,9 @@ import type {ESLResizeObserverTarget} from './resize.target';
 
 /** Custom event that {@link ESLResizeObserverTarget} produces */
 export class ESLElementResizeEvent extends UIEvent implements ResizeObserverEntry {
-  public static readonly type = 'resize';
+  public static readonly TYPE = 'resize';
+  /** @deprecated Use {@link TYPE} instead */
+  public static readonly type = this.TYPE;
 
   /** A reference to the {@link Element} or SVGElement being observed */
   public override readonly target: Element;
@@ -36,7 +38,7 @@ export class ESLElementResizeEvent extends UIEvent implements ResizeObserverEntr
   public readonly devicePixelContentBoxSize: readonly ResizeObserverSize[];
 
   protected constructor(target: Element) {
-    super(ESLElementResizeEvent.type, {bubbles: false, cancelable: false});
+    super(ESLElementResizeEvent.TYPE, {bubbles: false, cancelable: false});
     overrideEvent(this, 'target', target);
   }
 

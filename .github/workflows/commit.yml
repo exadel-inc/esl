@@ -23,7 +23,7 @@ jobs:
       - name: Install NPM Dependencies
         run: npm ci
       - name: Run Commit Lint
-        uses: wagoid/commitlint-github-action@v5
+        uses: wagoid/commitlint-github-action@v6
         with:
           helpURL: 'https://github.com/exadel-inc/esl/blob/main/docs/COMMIT_CONVENTION.md'
         env:

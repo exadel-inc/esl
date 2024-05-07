@@ -5,7 +5,7 @@ import {prop, attr, jsonAttr, listen} from '../../esl-utils/decorators';
 import {defined, copyDefinedKeys} from '../../esl-utils/misc/object';
 import {parseBoolean, toBooleanAttribute} from '../../esl-utils/misc/format';
 import {sequentialUID} from '../../esl-utils/misc/uid';
-import {DeviceDetector} from '../../esl-utils/environment/device-detector';
+import {hasHover} from '../../esl-utils/environment/device-detector';
 import {DelayedTask} from '../../esl-utils/async/delayed-task';
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {findParent, isMatches} from '../../esl-utils/dom/traversing';
@@ -132,6 +132,13 @@ export class ESLToggleable extends ESLBaseElement {
   /** Inner state */
   private _open: boolean = false;
 
+  /**
+   * Marker of last opened state.
+   * @deprecated and will be removed in 5.0.0 (`this.open` mutation will be moved inside `onShow` and `onHide` methods,
+   * so it became possible to track the initial state of the toggleable inside of action hooks)
+   */
+  protected wasOpened: boolean = false;
+
   /** Inner show/hide task manager instance */
   protected _task: DelayedTask = new DelayedTask();
   /** Marker for current hover listener state */
@@ -183,7 +190,7 @@ export class ESLToggleable extends ESLBaseElement {
   }
   /** Bind hover events listeners for the Toggleable itself */
   protected bindHoverStateTracking(track: boolean, hideDelay?: number | string): void {
-    if (!DeviceDetector.hasHover) return;
+    if (!hasHover) return;
     this._trackHoverDelay = track && hideDelay !== undefined ? +hideDelay : undefined;
     if (this._trackHover === track) return;
     this._trackHover = track;
@@ -226,6 +233,8 @@ export class ESLToggleable extends ESLBaseElement {
     if (!this.shouldShow(params)) return;
     if (!params.silent && !this.$$fire(this.BEFORE_SHOW_EVENT, {detail: {params}})) return;
     this.activator = params.activator;
+    this.wasOpened = this.open;
+    this.open = true;
     this.onShow(params);
     if (!params.silent) this.$$fire(this.SHOW_EVENT, {detail: {params}, cancelable: false});
   }
@@ -234,6 +243,8 @@ export class ESLToggleable extends ESLBaseElement {
     Object.defineProperty(params, 'action', {value: 'hide', writable: false});
     if (!this.shouldHide(params)) return;
     if (!params.silent && !this.$$fire(this.BEFORE_HIDE_EVENT, {detail: {params}})) return;
+    this.wasOpened = this.open;
+    this.open = false;
     this.onHide(params);
     this.bindOutsideEventTracking(false);
     if (!params.silent) this.$$fire(this.HIDE_EVENT, {detail: {params}, cancelable: false});
@@ -244,8 +255,15 @@ export class ESLToggleable extends ESLBaseElement {
    * Returns false if the show action should not be executed.
    */
   protected shouldShow(params: ESLToggleableActionParams): boolean {
+    if (typeof this.onBeforeShow === 'function') return this.onBeforeShow(params) === false;
     return params.force || !this.open;
   }
+
+  /**
+   * Called before show action to check if the action should be executed.
+   * @deprecated use {@link shouldShow} and immutable aproach instead
+   */
+  protected onBeforeShow?: (params: ESLToggleableActionParams) => boolean | void;
 
   /**
    * Actions to execute on show toggleable.
@@ -253,7 +271,6 @@ export class ESLToggleable extends ESLBaseElement {
    * Adds CSS classes, update a11y and fire {@link ESLToggleable.REFRESH_EVENT} event by default.
    */
   protected onShow(params: ESLToggleableActionParams): void {
-    this.open = true;
     CSSClassUtils.add(this, this.activeClass);
     CSSClassUtils.add(document.body, this.bodyClass, this);
     if (this.containerActiveClass) {
@@ -270,8 +287,15 @@ export class ESLToggleable extends ESLBaseElement {
    * Returns false if the hide action should not be executed.
    */
   protected shouldHide(params: ESLToggleableActionParams): boolean {
+    if (typeof this.onBeforeHide === 'function') return this.onBeforeHide(params) === false;
     return params.force || this.open;
   }
+
+  /**
+   * Called before hide action to check if the action should be executed.
+   * @deprecated use {@link shouldHide} and immutable aproach instead
+   */
+  protected onBeforeHide?: (params: ESLToggleableActionParams) => boolean | void;
 
   /**
    * Actions to execute on hide toggleable.
@@ -279,7 +303,6 @@ export class ESLToggleable extends ESLBaseElement {
    * Removes CSS classes and update a11y by default.
    */
   protected onHide(params: ESLToggleableActionParams): void {
-    this.open = false;
     CSSClassUtils.remove(this, this.activeClass);
     CSSClassUtils.remove(document.body, this.bodyClass, this);
     if (this.containerActiveClass) {

@@ -1,4 +1,5 @@
 import {ESLEventUtils} from '../core/api';
+import type {DelegatedEvent} from '../core/api';
 
 describe('ESlEventListener subscription and delegation', () => {
   const host = document.createElement('section');
@@ -103,5 +104,15 @@ describe('ESlEventListener subscription and delegation', () => {
       $btn.click();
       expect(handler).toHaveBeenCalledWith(expect.objectContaining({$delegate: $btn}));
     });
+  });
+
+  test('Delegation types are correct (build time)', () => {
+    ESLEventUtils.subscribe(host, {event: 'click', selector: '.btn'}, (e: MouseEvent) => void 0);
+    ESLEventUtils.subscribe(host, {event: 'keyup keydown', selector: '.btn'}, (e: KeyboardEvent) => void 0);
+    ESLEventUtils.subscribe(host, {event: 'touchstart mousedown', selector: '.btn'}, (e: MouseEvent) => void 0);
+    ESLEventUtils.subscribe(host, {event: 'click', selector: '.btn'}, (e: DelegatedEvent<MouseEvent>) => void 0);
+    ESLEventUtils.subscribe(host, {event: 'keyup keydown', selector: '.btn'}, (e: DelegatedEvent<KeyboardEvent>) => void 0);
+    ESLEventUtils.subscribe(host, {event: 'touchstart mousedown', selector: '.btn'}, (e: DelegatedEvent<PointerEvent>) => void 0);
+    expect(true).toBe(true);
   });
 });
