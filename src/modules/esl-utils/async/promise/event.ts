@@ -34,7 +34,7 @@ export function promisifyEvent(
       setTimeout(eventCallback, timeout);
     }
     if (typeof options === 'object') {
-      options?.signal?.addEventListener('abort', () => reject(new Error('Rejected by abort signal')), {once: true});
+      options.signal?.addEventListener('abort', () => reject(new Error('Rejected by abort signal')), {once: true});
     }
   });
 }
