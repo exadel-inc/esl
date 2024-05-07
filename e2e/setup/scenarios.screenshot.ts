@@ -14,11 +14,18 @@ cucumber.defineRule('take a screenshot of a full page', async (world: TestEnv) =
   world.screenshots.push(await page.screenshot({fullPage: true}));
 });
 
+cucumber.defineRule('scroll to the element', async (world: TestEnv) => {
+  const element = world.elements[0];
+  if (!element) throw new Error('E2E: there is no any element, make sure you have "Find the element by selector" before');
+  await element.scrollIntoView();
+});
+
 cucumber.defineRule('take a screenshot of the element', async (world: TestEnv) => {
   const element = world.elements[0];
-  const clip = await element?.boundingBox();
-  if (!clip) return;
-  world.screenshots.push(await page.screenshot({clip}));
+  if (!element) throw new Error('E2E: there is no any element, make sure you have "Find the element by selector" before');
+
+  await element.scrollIntoView();
+  world.screenshots.push(await element.screenshot());
 });
 
 cucumber.defineRule('check if the screenshot is exactly equal to the snapshoted version', (world: TestEnv) => {
