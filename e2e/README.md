@@ -71,7 +71,7 @@ Use explicit workspace name to run following commands from the root package.
 - `npm run run:update` - update all snapshots (run server automatically)
 - `npm run run:server` - shortcut to run server for visual tests (uses `esl-website` package)
 - `npm run run:update:only` - update all snapshots, does not run server (ensure you run server manually)
-- `npm run run:tests:only` - run server for visual tests, does not run tests
+- `npm run run:tests:only` - run visual tests, does not run server
 
 Note: default server port for visual tests is `3007`.
 
