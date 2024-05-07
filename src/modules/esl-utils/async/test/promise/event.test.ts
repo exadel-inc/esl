@@ -37,6 +37,13 @@ describe('async/promise/event', () => {
         expect(spy).toBeCalledWith('test', expect.any(Function), undefined);
       }
     });
+    test('Rejected by abort signal', async () => {
+      const el = document.createElement('div');
+      const controller = new AbortController();
+      const promise$ = promisifyEvent(el, 'test', null, {signal: controller.signal});
+      controller.abort();
+      await expect(promise$).rejects.toBeInstanceOf(Error);
+    });
   });
 
   describe('promisifyMarker', () => {
