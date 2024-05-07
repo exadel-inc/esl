@@ -49,6 +49,8 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
   public readonly auto?: boolean;
   public readonly passive?: boolean;
 
+  public readonly group?: string;
+
   protected constructor(
     public readonly host: object,
     public readonly event: string,
