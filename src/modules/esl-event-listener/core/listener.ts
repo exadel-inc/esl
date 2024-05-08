@@ -42,6 +42,7 @@ export const splitEvents = (events: string): string[] => {
  * */
 export class ESLEventListener implements ESLListenerDefinition, EventListenerObject {
   public readonly target?: ESLListenerTarget | PropertyProvider<ESLListenerTarget>;
+  public readonly condition?: PropertyProvider<boolean>;
   public readonly selector?: string;
   public readonly capture?: boolean;
 
@@ -130,8 +131,8 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
   public subscribe(): boolean {
     const {passive, capture} = this;
     this.unsubscribe();
-    memoize.clear(this, '$targets');
-    memoize.clear(this, 'handleEvent');
+    memoize.clear(this, ['$targets', 'handleEvent']);
+    if (resolveProperty(this.condition, this.host) === false) return false;
     if (!this.$targets.length) return false;
     this.$targets.forEach((el: EventTarget) => el.addEventListener(this.event, this, {passive, capture}));
     ESLEventListener.add(this.host, this);
