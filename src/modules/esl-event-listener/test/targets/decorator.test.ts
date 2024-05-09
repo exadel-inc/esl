@@ -53,9 +53,9 @@ describe('ESLDecoratedEventTarget proxy', () => {
 
     test('Creation happens once on subscription', () => {
       const fn = jest.fn();
-      decorated.addEventListener(fn);
-      expect(dec).toBeCalled();
-      expect(handler).not.toBeCalled();
+      decorated.addEventListener('something', fn);
+      expect(dec).toHaveBeenCalled();
+      expect(handler).not.toHaveBeenCalled();
       decorated.removeEventListener(fn);
     });
 
