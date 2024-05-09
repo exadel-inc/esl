@@ -37,7 +37,7 @@ describe('Decorator: @prop', () => {
     });
 
     test('If provider function passed - provider receives instance as a context and argument', () => {
-      provider.mockImplementation(function() { return this; });
+      provider.mockImplementation(function () { return this; });
       const obj = new TestClass();
       expect(obj.field).toBe(obj);
       expect(provider).toHaveBeenCalledWith(obj);
