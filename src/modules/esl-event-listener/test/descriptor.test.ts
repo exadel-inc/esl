@@ -63,14 +63,14 @@ describe('dom/events: ESLEventUtils: ESLListenerDescriptor Utils', () => {
         const host = {fn: () => void 0};
         const desc = ESLEventUtils.initDescriptor(host, 'fn', {event: 'event'});
         expect(desc.auto).toBe(false);
-        expect(ESLEventUtils.getAutoDescriptors(host)).not.toContain(desc);
+        expect(ESLEventUtils.getDescriptors(host, {auto: true})).not.toContain(desc);
       });
 
       test('ESLEventUtils.initDescriptor: auto=true makes descriptor auto-subscribable', () => {
         const host = {fn: () => void 0};
         const desc = ESLEventUtils.initDescriptor(host, 'fn', {event: 'event', auto: true});
         expect(desc.auto).toBe(true);
-        expect(ESLEventUtils.getAutoDescriptors(host)).toContain(desc);
+        expect(ESLEventUtils.getDescriptors(host, {auto: true})).toContain(desc);
       });
     });
 
@@ -110,13 +110,23 @@ describe('dom/events: ESLEventUtils: ESLListenerDescriptor Utils', () => {
         const desc = ESLEventUtils.initDescriptor(host, 'fn', {inherit: true});
         expect(parentDesc.auto).toBe(true);
         expect(desc.auto).toBe(true);
-        expect(ESLEventUtils.getAutoDescriptors(host)).toContain(desc);
+        expect(ESLEventUtils.getDescriptors(host, {auto: true})).toContain(desc);
+      });
+
+      test('ESLEventUtils.getDescriptors({auto: true}): does not catch prototype-level declared manual descriptor', () => {
+        class Test {
+          onEvent() {}
+        }
+        ESLEventUtils.initDescriptor(Test.prototype, 'onEvent', {event: 'event'});
+
+        const instance = new Test();
+        expect(ESLEventUtils.getDescriptors(instance, {auto: true})).toEqual([]);
       });
     });
   });
 
-  describe('ESLEventUtils.getAutoDescriptors', () => {
-    describe('ESLEventUtils.getAutoDescriptors: empty cases', () => {
+  describe('ESLEventUtils.getDescriptors', () => {
+    describe('ESLEventUtils.getDescriptors: empty cases', () => {
       test.each([
         [undefined],
         [null],
@@ -124,58 +134,108 @@ describe('dom/events: ESLEventUtils: ESLListenerDescriptor Utils', () => {
         [{}],
         [{event: ''}],
         [{onEvent() {}}],
-        [new (class Test {onEvent() {}})()]
-      ])('host = %p', (host: any) => expect(ESLEventUtils.getAutoDescriptors(host)).toEqual([]));
+        [new (class Test {
+          onEvent() {}
+        })()]
+      ])('host = %p', (host: any) => expect(ESLEventUtils.getDescriptors(host)).toEqual([]));
     });
 
-    test('ESLEventUtils.getAutoDescriptors: catch prototype-level declared descriptor', () => {
-      class Test { onEvent() {}}
-      ESLEventUtils.initDescriptor(Test.prototype, 'onEvent', {event: 'event', auto: true});
+    test('ESLEventUtils.getDescriptors: catch prototype-level declared descriptor', () => {
+      class Test {onEvent() {}}
+      ESLEventUtils.initDescriptor(Test.prototype, 'onEvent', {event: 'event'});
 
       const instance = new Test();
-      expect(ESLEventUtils.getAutoDescriptors(instance)).toEqual([Test.prototype.onEvent]);
+      expect(ESLEventUtils.getDescriptors(instance)).toEqual([Test.prototype.onEvent]);
     });
 
-    test('ESLEventUtils.getAutoDescriptors: does not catch prototype-level declared manual descriptor', () => {
-      class Test { onEvent() {}}
-      ESLEventUtils.initDescriptor(Test.prototype, 'onEvent', {event: 'event', auto: false});
+    describe('ESLEventUtils.getDescriptors: handles deep inheritance cases', () => {
+      class Base {
+        onEvent() {}
+      }
+      ESLEventUtils.initDescriptor(Base.prototype, 'onEvent', {event: 'event'});
 
-      const instance = new Test();
-      expect(ESLEventUtils.getAutoDescriptors(instance)).toEqual([]);
-    });
-
-    describe('ESLEventUtils.getAutoDescriptors: handles deep inheritance cases', () => {
-      class Base { onEvent() {}}
-      ESLEventUtils.initDescriptor(Base.prototype, 'onEvent', {event: 'event', auto: true});
-
-      test('ESLEventUtils.getAutoDescriptors: catch superclass level descriptor', () => {
+      test('ESLEventUtils.getDescriptors: catch superclass level descriptor', () => {
         class Child extends Base {}
         const instance = new Child();
-        expect(ESLEventUtils.getAutoDescriptors(instance)).toEqual([Base.prototype.onEvent]);
+        expect(ESLEventUtils.getDescriptors(instance)).toEqual([Base.prototype.onEvent]);
       });
 
-      test('ESLEventUtils.getAutoDescriptors: simple override exclude descriptor from auto-subscription', () => {
+      test('ESLEventUtils.getDescriptors: simple override exclude descriptor', () => {
         class Child extends Base {
           public override onEvent() {}
         }
         const instance = new Child();
-        expect(ESLEventUtils.getAutoDescriptors(instance)).toEqual([]);
+        expect(ESLEventUtils.getDescriptors(instance)).toEqual([]);
       });
 
-      test('ESLEventUtils.getAutoDescriptors: override with descriptor declaration consumes overridden descriptor', () => {
+      test('ESLEventUtils.getDescriptors: override with descriptor declaration consumes overridden descriptor', () => {
         class Child extends Base {
           public override onEvent() {}
         }
         ESLEventUtils.initDescriptor(Child.prototype, 'onEvent', {inherit: true});
         const instance = new Child();
-        expect(ESLEventUtils.getAutoDescriptors(instance)).toEqual([Child.prototype.onEvent]);
+        expect(ESLEventUtils.getDescriptors(instance)).toEqual([Child.prototype.onEvent]);
       });
     });
 
-    test('ESLEventUtils.getAutoDescriptors: low level API consumes own properties as well', () => {
+    test('ESLEventUtils.getDescriptors: low level API consumes own properties as well', () => {
       const obj = {onEvent: () => void 0};
-      ESLEventUtils.initDescriptor(obj, 'onEvent', {event: 'event', auto: true});
-      expect(ESLEventUtils.getAutoDescriptors(obj)).toEqual([obj.onEvent]);
+      ESLEventUtils.initDescriptor(obj, 'onEvent', {event: 'event'});
+      expect(ESLEventUtils.getDescriptors(obj)).toEqual([obj.onEvent]);
+    });
+
+    describe('ESLEventUtils.getDescriptors: filters by criteria', () => {
+      class Test {
+        onEvent() {}
+        onEventWithGroup() {}
+        onEvent2WithGroup() {}
+        onEventAuto() {}
+      }
+      ESLEventUtils.initDescriptor(Test.prototype, 'onEvent', {event: 'event'});
+      ESLEventUtils.initDescriptor(Test.prototype, 'onEventWithGroup', {event: 'event', group: 'group'});
+      ESLEventUtils.initDescriptor(Test.prototype, 'onEvent2WithGroup', {event: 'event2', group: 'group'});
+      ESLEventUtils.initDescriptor(Test.prototype, 'onEventAuto', {event: 'event', auto: true});
+
+      test('ESLEventUtils.getDescriptors: filters by event name', () => {
+        const instance = new Test();
+        expect(ESLEventUtils.getDescriptors(instance, 'event')).toEqual([
+          Test.prototype.onEvent,
+          Test.prototype.onEventWithGroup,
+          Test.prototype.onEventAuto
+        ]);
+      });
+
+      test('ESLEventUtils.getDescriptors: filters by group name', () => {
+        const instance = new Test();
+        expect(ESLEventUtils.getDescriptors(instance, {group: 'group'})).toEqual([
+          Test.prototype.onEventWithGroup,
+          Test.prototype.onEvent2WithGroup
+        ]);
+      });
+
+      test('ESLEventUtils.getDescriptors: filters by auto:true criteria', () => {
+        const instance = new Test();
+        expect(ESLEventUtils.getDescriptors(instance, {auto: true})).toEqual([Test.prototype.onEventAuto]);
+      });
+
+      test('ESLEventUtils.getDescriptors: filters by auto:false criteria', () => {
+        const instance = new Test();
+        expect(ESLEventUtils.getDescriptors(instance, {auto: false})).toEqual([
+          Test.prototype.onEvent,
+          Test.prototype.onEventWithGroup,
+          Test.prototype.onEvent2WithGroup
+        ]);
+      });
+
+      test('ESLEventUtils.getDescriptors: filters by event name and group name', () => {
+        const instance = new Test();
+        expect(ESLEventUtils.getDescriptors(instance, {event: 'event', group: 'group'})).toEqual([Test.prototype.onEventWithGroup]);
+      });
+
+      test('ESLEventUtils.getDescriptors: filters by multiple criteria', () => {
+        const instance = new Test();
+        expect(ESLEventUtils.getDescriptors(instance, 'event', {group: 'group'})).toEqual([Test.prototype.onEventWithGroup]);
+      });
     });
   });
 });

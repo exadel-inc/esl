@@ -2,7 +2,7 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {dispatchCustomEvent} from '../../esl-utils/dom/events/misc';
 
 import {ESLEventListener} from './listener';
-import {getAutoDescriptors, isEventDescriptor, initDescriptor} from './descriptors';
+import {getDescriptors, isEventDescriptor, initDescriptor} from './descriptors';
 
 import type {
   ESLListenerHandler,
@@ -23,10 +23,13 @@ export class ESLEventUtils {
   public static dispatch = dispatchCustomEvent;
 
   /** @deprecated alias for {@link getAutoDescriptors} */
-  public static descriptors = getAutoDescriptors;
+  public static descriptors = (host: object): ESLListenerDescriptorFn[] => getDescriptors(host, {auto: true});
+
+  /** @deprecated use {@link getDescriptors} with a filter instead */
+  public static getAutoDescriptors = (host: object): ESLListenerDescriptorFn[] => getDescriptors(host, {auto: true});
 
   /** Gets {@link ESLListenerDescriptorFn}s of the passed object */
-  public static getAutoDescriptors = getAutoDescriptors;
+  public static getDescriptors = getDescriptors;
 
   /**
    * Decorates passed `key` of the `host` as an {@link ESLListenerDescriptorFn} using `desc` meta information
@@ -86,7 +89,7 @@ export class ESLEventUtils {
     handler: ESLListenerHandler = eventDesc as ESLListenerDescriptorFn
   ): ESLEventListener[] {
     if (arguments.length === 1) {
-      const descriptors = getAutoDescriptors(host);
+      const descriptors = getDescriptors(host, {auto: true});
       // TODO: flatMap when ES5 will be out of support list
       return descriptors.reduce(
         (acc, desc) => acc.concat(ESLEventUtils.subscribe(host, desc)),
