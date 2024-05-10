@@ -219,6 +219,7 @@ export class ESLMedia extends ESLBaseElement {
       this._provider = ESLMediaProviderRegistry.instance.createFor(this);
       if (this._provider) {
         this._provider.bind();
+        if ((this._provider.constructor as typeof BaseProvider).isReplacable) this.$$off(this._onResize);
         console.debug('[ESL] Media provider bound', this._provider);
       } else {
         this._onError();
@@ -332,16 +333,7 @@ export class ESLMedia extends ESLBaseElement {
   })
   @decorate(rafDecorator)
   protected _onResize(): void {
-    if (!this._provider) return;
-    if (this.fillModeEnabled && this.actualAspectRatio > 0) {
-      let stretchVertically = this.offsetWidth / this.offsetHeight < this.actualAspectRatio;
-      if (this.fillMode === 'inscribe') stretchVertically = !stretchVertically; // Inscribe behaves inversely
-      stretchVertically ?
-        this._provider.setSize(this.actualAspectRatio * this.offsetHeight, this.offsetHeight) : // h
-        this._provider.setSize(this.offsetWidth, this.offsetWidth / this.actualAspectRatio);   // w
-    } else {
-      this._provider.setSize('auto', 'auto');
-    }
+    this._provider?.updateFitMode();
   }
 
   @listen({

@@ -34,6 +34,7 @@ export type ProviderObservedParams = 'loop' | 'muted' | 'controls';
  */
 export abstract class BaseProvider {
   static readonly providerName: string;
+  static readonly isReplacable: boolean = false;
 
   static parseUrl(url: string): Partial<MediaProviderConfig> | null {
     return null;
@@ -118,6 +119,20 @@ export abstract class BaseProvider {
     if (!this._el) return;
     this._el.style.setProperty('width', width === 'auto' ? null : `${width}px`);
     this._el.style.setProperty('height', height === 'auto' ? null : `${height}px`);
+  }
+
+  public updateFitMode(): void {
+    if (!this._el) return;
+    const {fillModeEnabled, actualAspectRatio, fillMode, offsetHeight, offsetWidth} = this.component;
+    if (fillModeEnabled && actualAspectRatio > 0) {
+      let stretchVertically = offsetWidth / offsetHeight < actualAspectRatio;
+      if (fillMode === 'inscribe') stretchVertically = !stretchVertically; // Inscribe behaves inversely
+      stretchVertically ?
+        this.setSize(actualAspectRatio * offsetHeight, offsetHeight) : // h
+        this.setSize(offsetWidth, offsetWidth / actualAspectRatio);   // w
+    } else {
+      this.setSize('auto', 'auto');
+    }
   }
 
   /**
