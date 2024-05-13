@@ -190,7 +190,7 @@ export class ESLMedia extends ESLBaseElement {
         break;
       case 'fill-mode':
       case 'aspect-ratio':
-        this.refreshFillMode();
+        this.refreshSize();
         break;
       case 'play-in-viewport':
         this.reattachViewportConstraint();
@@ -284,7 +284,7 @@ export class ESLMedia extends ESLBaseElement {
     this.toggleAttribute('error', false);
     this.updateReadyClass();
     this.$$fire(this.READY_EVENT);
-    this.refreshFillMode();
+    this.refreshSize();
   }
 
   public _onError(detail?: any, setReadyState = true): void {
@@ -308,7 +308,7 @@ export class ESLMedia extends ESLBaseElement {
     this.toggleAttribute('played', true);
     this.$$fire(this.PLAY_EVENT);
     MediaGroupRestrictionManager.registerPlay(this);
-    this.refreshFillMode();
+    this.refreshSize();
   }
 
   public _onPaused(): void {
@@ -323,7 +323,7 @@ export class ESLMedia extends ESLBaseElement {
     MediaGroupRestrictionManager.unregister(this);
   }
 
-  protected refreshFillMode(): void {
+  protected refreshSize(): void {
     this._provider?.refreshProviderSize();
   }
 
@@ -333,7 +333,7 @@ export class ESLMedia extends ESLBaseElement {
   })
   protected _onRefresh(e: Event): void {
     const {target} = e;
-    if (isElement(target) && target.contains(this)) this.refreshFillMode();
+    if (isElement(target) && target.contains(this)) this.refreshSize();
   }
 
   @listen({
