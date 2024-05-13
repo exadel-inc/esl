@@ -219,7 +219,7 @@ export class ESLMedia extends ESLBaseElement {
       this._provider = ESLMediaProviderRegistry.instance.createFor(this);
       if (this._provider) {
         this._provider.bind();
-        if ((this._provider.constructor as typeof BaseProvider).isReplacable) this.$$off(this._onResize);
+        if (!(this._provider.constructor as typeof BaseProvider).isReplacable) this.$$on(this._onResize);
         console.debug('[ESL] Media provider bound', this._provider);
       } else {
         this._onError();
@@ -329,6 +329,7 @@ export class ESLMedia extends ESLBaseElement {
   @listen({
     event: 'resize',
     target: window,
+    auto: false,
     condition: ($this: ESLMedia) => $this.fillModeEnabled
   })
   @decorate(rafDecorator)
