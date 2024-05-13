@@ -106,7 +106,7 @@
     "prettier": "^3.2.5",
     "rimraf": "^5.0.7",
     "semantic-release": "^23.1.1",
-    "stylelint": "^16.4.0",
+    "stylelint": "^16.5.0",
     "stylelint-prettier": "^5.0.0",
     "typescript": "5.4.5"
   },
