@@ -52,6 +52,9 @@ export type ESLListenerDescriptor<EType extends keyof ESLListenerEventMap = stri
   auto?: boolean;
   /** A boolean value indicating that the listener should be invoked at most once after being added */
   once?: boolean;
+
+  /** Auxiliary group name to group listeners. Used for a batch un/re-subscribe */
+  group?: string;
 };
 
 /** Resolved descriptor (definition) to create {@link ESLEventListener} */
