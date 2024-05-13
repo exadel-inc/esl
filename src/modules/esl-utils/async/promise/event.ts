@@ -24,18 +24,27 @@ export function promisifyEvent(
   options?: boolean | AddEventListenerOptions
 ): Promise<Event> {
   return new Promise((resolve, reject) => {
+    const signal = (options as AddEventListenerOptions)?.signal;
+    if (signal?.aborted) return rejectOnSignal();
+
     function eventCallback(e?: Event): void {
       target.removeEventListener(event, eventCallback, options);
       e ? resolve(e) : reject(new Error('Rejected by timeout'));
+      signalCallback();
+    }
+    function signalCallback(e?: Event): void {
+      signal?.removeEventListener('abort', signalCallback);
+      e && rejectOnSignal();
+    }
+    function rejectOnSignal(): void {
+      reject(new Error('Rejected by abort signal'));
     }
 
     target.addEventListener(event, eventCallback, options);
     if (typeof timeout === 'number' && timeout >= 0) {
       setTimeout(eventCallback, timeout);
     }
-    if (typeof options === 'object') {
-      options.signal?.addEventListener('abort', () => reject(new Error('Rejected by abort signal')), {once: true});
-    }
+    signal?.addEventListener('abort', signalCallback);
   });
 }
 
