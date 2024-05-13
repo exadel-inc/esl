@@ -66,6 +66,10 @@ uip-settings {
   &:not([collapsed]) .uip-plugin-header-icon {
     animation: rotate-back 0.5s linear both;
   }
+
+  &[inactive]&[hideable] {
+    display: none;
+  }
 }
 
 @keyframes rotate {
