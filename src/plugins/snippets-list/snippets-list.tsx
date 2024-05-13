@@ -27,6 +27,8 @@ export class UIPSnippetsList extends UIPPlugin {
   @attr({defaultValue: 'uip-snippets-item'}) public itemBtnCls: string;
   /** CSS Class added to active snippet */
   @attr({defaultValue: 'uip-snippets-item-active'}) public activeCls: string;
+  /** CSS Class added to isolated snippet */
+  @attr({defaultValue: 'uip-snippets-item-isolated'}) public isolatedCls: string;
 
   @memoize()
   public override get $root(): UIPRoot | null {
@@ -74,6 +76,8 @@ export class UIPSnippetsList extends UIPPlugin {
 
     const classes = [this.itemCls];
     if (snippet.active) classes.push(this.activeCls);
+    if (snippet.isolated) classes.push(this.isolatedCls);
+
     return <li className={classes.join(' ')}>
       <button type="button" className={this.itemBtnCls} uip-snippet-index={index}>{snippet.label}</button>
     </li> as HTMLElement;

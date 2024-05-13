@@ -1,5 +1,5 @@
 .uip-preview {
-  display: block;
+  display: flex;
   overflow: hidden;
   grid-area: preview;
 
@@ -10,8 +10,6 @@
   background: var(--uip-bg);
 
   &-container {
-    margin: auto;
-
     position: relative;
     display: grid;
     grid-template:
@@ -21,7 +19,7 @@
     grid-template-rows: 1fr auto;
 
     overflow: hidden;
-    width: auto;
+    width: 100%;
     height: auto;
     max-width: 100%;
     max-height: 100%;

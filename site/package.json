@@ -23,10 +23,10 @@
     "test": "echo \"Warn: no test declared for module\" && exit 0"
   },
   "dependencies": {
-    "@exadel/esl": "^5.0.0-beta.12",
+    "@exadel/esl": "^5.0.0-beta.16",
     "@exadel/ui-playground": "../",
     "@11ty/eleventy": "^2.0.1",
-    "@11ty/eleventy-dev-server": "^1.0.4",
+    "@11ty/eleventy-dev-server": "^2.0.0",
     "clean-css-cli": "^5.6.3",
     "markdown-it": "^14.1.0",
     "markdown-it-replace-link": "^1.2.1",
