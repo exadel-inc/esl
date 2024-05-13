@@ -1,6 +1,9 @@
 import {BaseProvider} from '../../core/esl-media-provider';
 import {HTMLMediaProvider} from './media-provider';
 
+import type {ESLMedia} from '../../core/esl-media';
+import type {MediaProviderConfig} from '../../core/esl-media-provider';
+
 /**
  * Simple Video API provider for {@link ESLMedia}
  * @author Yuliya Adamskaya
@@ -9,20 +12,20 @@ import {HTMLMediaProvider} from './media-provider';
 export class VideoProvider extends HTMLMediaProvider {
   static override readonly providerName: string = 'video';
   static override readonly urlPattern = /\.(mp4|webm|ogv|mov)(\?|$)/;
-  static override readonly isReplacable = true;
 
   protected override _el: HTMLVideoElement;
+
+  public constructor(component: ESLMedia, config: MediaProviderConfig) {
+    super(component, config);
+    window.removeEventListener('resize', this.refreshProviderSize);
+  }
+
+  protected override onResize(): void {}
 
   protected createElement(): HTMLVideoElement {
     const el = document.createElement('video');
     el.src = this.config.mediaSrc || '';
     return el;
-  }
-
-  public override updateFitMode(): void {
-    if (!this._el) return;
-    const {fillMode} = this.component;
-    this._el.style.setProperty('object-fit', fillMode === 'inscribe' ? 'contain' : fillMode);
   }
 
   get defaultAspectRatio(): number {

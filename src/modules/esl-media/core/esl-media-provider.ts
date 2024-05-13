@@ -1,3 +1,4 @@
+import {rafDecorator} from '../../esl-utils/async';
 import {ESLMediaProviderRegistry} from './esl-media-registry';
 
 import type {ESLMedia} from './esl-media';
@@ -34,7 +35,6 @@ export type ProviderObservedParams = 'loop' | 'muted' | 'controls';
  */
 export abstract class BaseProvider {
   static readonly providerName: string;
-  static readonly isReplacable: boolean = false;
 
   static parseUrl(url: string): Partial<MediaProviderConfig> | null {
     return null;
@@ -51,10 +51,12 @@ export abstract class BaseProvider {
   protected component: ESLMedia;
   protected _el: HTMLElement;
   protected _ready: Promise<any>;
+  public refreshProviderSize = rafDecorator(() => this.onResize());
 
   public constructor(component: ESLMedia, config: MediaProviderConfig) {
     this.config = config;
     this.component = component;
+    window.addEventListener('resize', this.refreshProviderSize);
   }
 
   /** Wraps _ready promise */
@@ -72,6 +74,7 @@ export abstract class BaseProvider {
 
   /** Unbind the provider instance from the component */
   public unbind(): void {
+    window.removeEventListener('resize', this.refreshProviderSize);
     Array.from(this.component.querySelectorAll('.esl-media-inner'))
       .forEach((el: Node) => el.parentNode && el.parentNode.removeChild(el));
   }
@@ -121,9 +124,11 @@ export abstract class BaseProvider {
     this._el.style.setProperty('height', height === 'auto' ? null : `${height}px`);
   }
 
-  public updateFitMode(): void {
+  protected onResize(): void {
     if (!this._el) return;
-    const {fillModeEnabled, actualAspectRatio, fillMode, offsetHeight, offsetWidth} = this.component;
+    const {fillModeEnabled, actualAspectRatio, fillMode} = this.component;
+    const {offsetHeight, offsetWidth} = this._el;
+
     if (fillModeEnabled && actualAspectRatio > 0) {
       let stretchVertically = offsetWidth / offsetHeight < actualAspectRatio;
       if (fillMode === 'inscribe') stretchVertically = !stretchVertically; // Inscribe behaves inversely

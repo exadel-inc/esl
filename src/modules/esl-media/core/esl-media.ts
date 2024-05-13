@@ -3,8 +3,8 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {isElement} from '../../esl-utils/dom/api';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {SPACE, PAUSE} from '../../esl-utils/dom/keys';
-import {prop, attr, boolAttr, listen, decorate} from '../../esl-utils/decorators';
-import {debounce, rafDecorator} from '../../esl-utils/async';
+import {prop, attr, boolAttr, listen} from '../../esl-utils/decorators';
+import {debounce} from '../../esl-utils/async';
 import {parseAspectRatio} from '../../esl-utils/misc/format';
 
 import {ESLMediaQuery} from '../../esl-media-query/core';
@@ -190,9 +190,7 @@ export class ESLMedia extends ESLBaseElement {
         break;
       case 'fill-mode':
       case 'aspect-ratio':
-        this.$$off(this._onResize);
-        this.$$on(this._onResize);
-        this._onResize();
+        this.refreshFillMode();
         break;
       case 'play-in-viewport':
         this.reattachViewportConstraint();
@@ -219,7 +217,6 @@ export class ESLMedia extends ESLBaseElement {
       this._provider = ESLMediaProviderRegistry.instance.createFor(this);
       if (this._provider) {
         this._provider.bind();
-        if (!(this._provider.constructor as typeof BaseProvider).isReplacable) this.$$on(this._onResize);
         console.debug('[ESL] Media provider bound', this._provider);
       } else {
         this._onError();
@@ -287,7 +284,7 @@ export class ESLMedia extends ESLBaseElement {
     this.toggleAttribute('error', false);
     this.updateReadyClass();
     this.$$fire(this.READY_EVENT);
-    this._onResize();
+    this.refreshFillMode();
   }
 
   public _onError(detail?: any, setReadyState = true): void {
@@ -311,7 +308,7 @@ export class ESLMedia extends ESLBaseElement {
     this.toggleAttribute('played', true);
     this.$$fire(this.PLAY_EVENT);
     MediaGroupRestrictionManager.registerPlay(this);
-    this._onResize();
+    this.refreshFillMode();
   }
 
   public _onPaused(): void {
@@ -326,15 +323,8 @@ export class ESLMedia extends ESLBaseElement {
     MediaGroupRestrictionManager.unregister(this);
   }
 
-  @listen({
-    event: 'resize',
-    target: window,
-    auto: false,
-    condition: ($this: ESLMedia) => $this.fillModeEnabled
-  })
-  @decorate(rafDecorator)
-  protected _onResize(): void {
-    this._provider?.updateFitMode();
+  protected refreshFillMode(): void {
+    this._provider?.refreshProviderSize();
   }
 
   @listen({
@@ -343,7 +333,7 @@ export class ESLMedia extends ESLBaseElement {
   })
   protected _onRefresh(e: Event): void {
     const {target} = e;
-    if (isElement(target) && target.contains(this)) this._onResize();
+    if (isElement(target) && target.contains(this)) this.refreshFillMode();
   }
 
   @listen({
