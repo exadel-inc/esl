@@ -22,7 +22,7 @@ export class VideoProvider extends HTMLMediaProvider {
   public override updateFitMode(): void {
     if (!this._el) return;
     const {fillMode} = this.component;
-    this._el.style.setProperty('object-fit', fillMode === 'inscribe' ? 'contain' : fillMode === 'cover' ? 'cover' : 'auto');
+    this._el.style.setProperty('object-fit', fillMode === 'inscribe' ? 'contain' : fillMode);
   }
 
   get defaultAspectRatio(): number {
