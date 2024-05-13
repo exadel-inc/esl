@@ -1,3 +1,16 @@
+# [2.1.0-beta.5](https://github.com/exadel-inc/ui-playground/compare/v2.1.0-beta.4...v2.1.0-beta.5) (2024-05-13)
+
+
+### Bug Fixes
+
+* change grid rows template, update and add note.less to registration ([5a21892](https://github.com/exadel-inc/ui-playground/commit/5a2189264866bddb552b5f42096e3d63def8b27c))
+
+
+### Features
+
+* make `uip-settings` hideable ([1a31e8e](https://github.com/exadel-inc/ui-playground/commit/1a31e8e031803cce835661aa5e40185d1d4cd9d8))
+* **uip-snippets:** add a marker of isolated snippets items ([117c295](https://github.com/exadel-inc/ui-playground/commit/117c2956be9a34a47fe24630e0c7d5410daf29a7))
+
 # [2.1.0-beta.4](https://github.com/exadel-inc/ui-playground/compare/v2.1.0-beta.3...v2.1.0-beta.4) (2024-04-15)
 
 
