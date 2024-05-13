@@ -324,7 +324,7 @@ export class ESLMedia extends ESLBaseElement {
   }
 
   protected refreshSize(): void {
-    this._provider?.refreshProviderSize();
+    this._provider?.refreshElementSize();
   }
 
   @listen({

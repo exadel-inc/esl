@@ -17,7 +17,7 @@ export class VideoProvider extends HTMLMediaProvider {
 
   public constructor(component: ESLMedia, config: MediaProviderConfig) {
     super(component, config);
-    window.removeEventListener('resize', this.refreshProviderSize);
+    window.removeEventListener('resize', this.refreshElementSize);
   }
 
   protected override onResize(): void {}

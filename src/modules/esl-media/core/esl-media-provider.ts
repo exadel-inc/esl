@@ -51,12 +51,12 @@ export abstract class BaseProvider {
   protected component: ESLMedia;
   protected _el: HTMLElement;
   protected _ready: Promise<any>;
-  public refreshProviderSize = rafDecorator(() => this.onResize());
+  public refreshElementSize = rafDecorator(() => this.onResize());
 
   public constructor(component: ESLMedia, config: MediaProviderConfig) {
     this.config = config;
     this.component = component;
-    window.addEventListener('resize', this.refreshProviderSize);
+    window.addEventListener('resize', this.refreshElementSize);
   }
 
   /** Wraps _ready promise */
@@ -74,7 +74,7 @@ export abstract class BaseProvider {
 
   /** Unbind the provider instance from the component */
   public unbind(): void {
-    window.removeEventListener('resize', this.refreshProviderSize);
+    window.removeEventListener('resize', this.refreshElementSize);
     Array.from(this.component.querySelectorAll('.esl-media-inner'))
       .forEach((el: Node) => el.parentNode && el.parentNode.removeChild(el));
   }
