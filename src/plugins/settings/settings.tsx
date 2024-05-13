@@ -106,7 +106,6 @@ export class UIPSettings extends UIPPluginPanel {
 
   /** Handles internal settings items state change */
   @listen('uip:settings:state:change')
-  @decorate(debounce, 100)
   protected onSettingsStateChange(): void {
     this.$$attr('inactive', !this.$activeItems.length);
   }
