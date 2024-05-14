@@ -2,8 +2,8 @@ import {cucumber} from '../transformer/gherkin';
 
 cucumber.defineRule('on mobile', async () => {
   await page.setViewport({
-    width: 500,
-    height: 960,
+    width: 450,
+    height: 900,
     deviceScaleFactor: 1
   });
 });
