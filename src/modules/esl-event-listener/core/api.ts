@@ -1,5 +1,4 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {resolveProperty} from '../../esl-utils/misc/functions';
 import {dispatchCustomEvent} from '../../esl-utils/dom/events/misc';
 
 import {ESLEventListener} from './listener';
@@ -88,10 +87,7 @@ export class ESLEventUtils {
       return descriptors.flatMap((desc) => ESLEventUtils.subscribe(host, desc));
     }
     const desc = typeof eventDesc === 'string' ? {event: eventDesc} : eventDesc as ESLListenerDescriptor;
-    if (Object.hasOwnProperty.call(desc, 'condition') && !resolveProperty(desc.condition, host)) return [];
-    const listeners = ESLEventListener.subscribe(host, handler, desc);
-    if (!listeners.length) emptySubscriptionWarning(host, desc, handler);
-    return listeners;
+    return ESLEventListener.subscribe(host, handler, desc);
   }
 
   /**
@@ -100,10 +96,4 @@ export class ESLEventUtils {
    * @param criteria - optional set of criteria {@link ESLListenerCriteria} to filter listeners to remove
    */
   public static unsubscribe = ESLEventListener.unsubscribe;
-}
-
-function emptySubscriptionWarning(host: object, descriptor: ESLListenerDescriptor, handler: ESLListenerHandler): void {
-  const event = resolveProperty(descriptor.event, host);
-  const target = resolveProperty(descriptor.target, host);
-  console.warn('[ESL]: Empty subscription %o', {host, descriptor, handler, event, target});
 }

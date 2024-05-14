@@ -89,17 +89,17 @@ describe('ESLEventUtils:subscribe tests', () => {
     });
 
     test('ESLEventListener can not subscribe for primitive host', () => {
-      jest.spyOn(console, 'warn').mockImplementationOnce(() => {});
-      const handle = jest.fn();
-      const count = ESLEventUtils.subscribe(1 as any, {event: 'click', target: document.body}, handle).length;
-      expect(count).toBe(0);
+      expect(() => {
+        const handle = jest.fn();
+        ESLEventUtils.subscribe(1 as any, {event: 'click', target: document.body}, handle).length;
+      }).toThrow();
     });
 
     test('ESLEventListener can not subscribe for null host', () => {
-      jest.spyOn(console, 'warn').mockImplementationOnce(() => {});
-      const handle = jest.fn();
-      const count = ESLEventUtils.subscribe(null as any, {event: 'click', target: document.body}, handle).length;
-      expect(count).toBe(0);
+      expect(() => {
+        const handle = jest.fn();
+        ESLEventUtils.subscribe(null as any, {event: 'click', target: document.body}, handle).length;
+      }).toThrow();
     });
   });
 });
