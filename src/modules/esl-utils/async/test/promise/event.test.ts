@@ -20,11 +20,11 @@ describe('async/promise/event', () => {
       return expect(spy).toBeCalledWith('test', expect.any(Function), undefined);
     });
 
-    test('Rejected by timeout if it is exceeded', () => {
+    test('Rejected by timeout if it is exceeded', async () => {
       const el = document.createElement('div');
       const promise$ = promisifyEvent(el, 'test', 10);
       jest.advanceTimersByTime(100);
-      return expect(promise$).rejects.toBeInstanceOf(Error);
+      await expect(promise$).rejects.toThrow(new Error('Rejected by timeout'));
     });
     test('Listener unsubscribed if promise was rejected by timeout', async () => {
       const el = document.createElement('div');
@@ -36,6 +36,56 @@ describe('async/promise/event', () => {
       } catch {
         expect(spy).toBeCalledWith('test', expect.any(Function), undefined);
       }
+    });
+    describe('AbortSignal handling', () => {
+      test('Rejected when was passed options with signal and invoked abort', async () => {
+        const el = document.createElement('div');
+        const controller = new AbortController();
+        const promise$ = promisifyEvent(el, 'test', null, {signal: controller.signal});
+        controller.abort();
+        await expect(promise$).rejects.toThrow(new Error('Rejected by abort signal'));
+      });
+      test('Rejected when was passed options with signal in aborted state', async () => {
+        const el = document.createElement('div');
+        const promise$ = promisifyEvent(el, 'test', null, {signal: AbortSignal.abort()});
+        await expect(promise$).rejects.toThrow(new Error('Rejected by abort signal'));
+      });
+      test('AbortSignal listener unsubscribed if the promise was resolved by event', async () => {
+        const el = document.createElement('div');
+        const controller = new AbortController();
+        const signal = controller.signal;
+        const spy = jest.spyOn(signal, 'removeEventListener');
+        const promise$ = promisifyEvent(el, 'test', null, {signal});
+        el.dispatchEvent(new CustomEvent('test'));
+        await promise$;
+        return expect(spy).toBeCalledWith('abort', expect.any(Function));
+      });
+      test('AbortSignal listener unsubscribed if the promise was rejected by timeout', async () => {
+        const el = document.createElement('div');
+        const controller = new AbortController();
+        const signal = controller.signal;
+        const spy = jest.spyOn(signal, 'removeEventListener');
+        const promise$ = promisifyEvent(el, 'test', 10, {signal});
+        jest.advanceTimersByTime(100);
+        try {
+          await promise$;
+        } catch {
+          expect(spy).toBeCalledWith('abort', expect.any(Function));
+        }
+      });
+      test('AbortSignal listener unsubscribed if the promise was rejected by signal', async () => {
+        const el = document.createElement('div');
+        const controller = new AbortController();
+        const signal = controller.signal;
+        const spy = jest.spyOn(signal, 'removeEventListener');
+        const promise$ = promisifyEvent(el, 'test', null, {signal});
+        controller.abort();
+        try {
+          await promise$;
+        } catch {
+          expect(spy).toBeCalledWith('abort', expect.any(Function));
+        }
+      });
     });
   });
 
