@@ -1,6 +1,5 @@
 import {ESLEventUtils} from '../core/api';
 
-
 describe('ESLEventUtils.subscribe resubscribing event', () => {
   const $host = document.createElement('div');
   const $el1 = document.createElement('button');
@@ -93,7 +92,7 @@ describe('ESLEventUtils.subscribe resubscribing event', () => {
         expect(ESLEventUtils.listeners(instance).length).toBe(1);
       });
 
-      test('Subscription removed when condition dynamically ', () => {
+      test('Subscription removed when condition change dynamically', () => {
         instance.allowed = false;
         ESLEventUtils.subscribe(instance);
         expect(ESLEventUtils.listeners(instance).length).toBe(0);
