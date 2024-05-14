@@ -24,7 +24,6 @@ describe('async/promise/event', () => {
       const el = document.createElement('div');
       const promise$ = promisifyEvent(el, 'test', 10);
       jest.advanceTimersByTime(100);
-      await expect(promise$).rejects.toBeInstanceOf(Error);
       await expect(promise$).rejects.toThrow(new Error('Rejected by timeout'));
     });
     test('Listener unsubscribed if promise was rejected by timeout', async () => {
@@ -44,13 +43,11 @@ describe('async/promise/event', () => {
         const controller = new AbortController();
         const promise$ = promisifyEvent(el, 'test', null, {signal: controller.signal});
         controller.abort();
-        await expect(promise$).rejects.toBeInstanceOf(Error);
         await expect(promise$).rejects.toThrow(new Error('Rejected by abort signal'));
       });
       test('Rejected when was passed options with signal in aborted state', async () => {
         const el = document.createElement('div');
         const promise$ = promisifyEvent(el, 'test', null, {signal: AbortSignal.abort()});
-        await expect(promise$).rejects.toBeInstanceOf(Error);
         await expect(promise$).rejects.toThrow(new Error('Rejected by abort signal'));
       });
       test('AbortSignal listener unsubscribed if the promise was resolved by event', async () => {
