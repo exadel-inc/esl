@@ -4,4 +4,4 @@ Feature: Test page looks fine
     When on desktop
     Then wait for 2s
     And take a screenshot of a full page
-    Then check if the screenshot is equal to the snapshoted version
+    Then check if the screenshot is equal to the snapshotted version
