@@ -1,3 +1,10 @@
+# [2.1.0-beta.6](https://github.com/exadel-inc/ui-playground/compare/v2.1.0-beta.5...v2.1.0-beta.6) (2024-05-15)
+
+
+### Bug Fixes
+
+* **uip-settings:** fix UIPSettings does not move UIPSetting-s to proper container ([2d2d143](https://github.com/exadel-inc/ui-playground/commit/2d2d143376e5666185735880d539ef4c71a10e8b))
+
 # [2.1.0-beta.5](https://github.com/exadel-inc/ui-playground/compare/v2.1.0-beta.4...v2.1.0-beta.5) (2024-05-13)
 
 
