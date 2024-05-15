@@ -33,7 +33,7 @@
     "@11ty/eleventy": "^2.0.1",
     "@11ty/eleventy-dev-server": "^2.0.0",
     "@exadel/esl": "../",
-    "@exadel/ui-playground": "2.1.0-beta.5",
+    "@exadel/ui-playground": "2.1.0-beta.6",
     "@juggle/resize-observer": "^3.4.0",
     "@types/prismjs": "^1.26.4",
     "@types/smoothscroll-polyfill": "^0.3.4",
