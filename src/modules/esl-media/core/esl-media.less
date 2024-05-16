@@ -1,7 +1,12 @@
 // ESL Media core definition mixin
 .esl-media-init(@tagName: esl-media) {
   @{tagName} {
-    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    container-type: size;
+    overflow: hidden;
 
     .esl-media-inner {
       display: block;
@@ -51,11 +56,22 @@
       }
     }
 
-    &[fill-mode='cover'] .esl-media-inner{
+    &[fill-mode='inscribe'] .esl-media-inner {
+      height: 100%;
+      width: auto;
+    }
+
+    &[fill-mode='cover'] .esl-media-inner {
+      height: auto;
+      width: 100%;
+    }
+
+    // Remove
+    &[fill-mode='cover-fit-demo'] .esl-media-inner {
       object-fit: cover;
     }
 
-    &[fill-mode='inscribe'] .esl-media-inner{
+    &[fill-mode='inscribe-fit-demo'] .esl-media-inner {
       object-fit: contain;
     }
   }

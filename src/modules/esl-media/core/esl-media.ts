@@ -1,10 +1,9 @@
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {isElement} from '../../esl-utils/dom/api';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {SPACE, PAUSE} from '../../esl-utils/dom/keys';
-import {prop, attr, boolAttr, listen} from '../../esl-utils/decorators';
-import {debounce} from '../../esl-utils/async';
+import {prop, attr, boolAttr, listen, decorate} from '../../esl-utils/decorators';
+import {debounce, rafDecorator} from '../../esl-utils/async';
 import {parseAspectRatio} from '../../esl-utils/misc/format';
 
 import {ESLMediaQuery} from '../../esl-media-query/core';
@@ -323,17 +322,16 @@ export class ESLMedia extends ESLBaseElement {
     MediaGroupRestrictionManager.unregister(this);
   }
 
-  protected refreshSize(): void {
-    this._provider?.refreshElementSize();
-  }
-
   @listen({
-    event: ($this: ESLMedia) => $this.REFRESH_EVENT,
-    target: window
+    event: 'resize',
+    target: window,
+    condition: ($this: ESLMedia) => $this.fillModeEnabled
   })
-  protected _onRefresh(e: Event): void {
-    const {target} = e;
-    if (isElement(target) && target.contains(this)) this.refreshSize();
+  @decorate(rafDecorator)
+  protected refreshSize(): void {
+    const {actualAspectRatio} = this;
+    if (!this._provider || !this.fillModeEnabled || actualAspectRatio <= 0) return;
+    this._provider?.setAspectRatio(actualAspectRatio);
   }
 
   @listen({

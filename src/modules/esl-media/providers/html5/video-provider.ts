@@ -1,9 +1,6 @@
 import {BaseProvider} from '../../core/esl-media-provider';
 import {HTMLMediaProvider} from './media-provider';
 
-import type {ESLMedia} from '../../core/esl-media';
-import type {MediaProviderConfig} from '../../core/esl-media-provider';
-
 /**
  * Simple Video API provider for {@link ESLMedia}
  * @author Yuliya Adamskaya
@@ -14,13 +11,6 @@ export class VideoProvider extends HTMLMediaProvider {
   static override readonly urlPattern = /\.(mp4|webm|ogv|mov)(\?|$)/;
 
   protected override _el: HTMLVideoElement;
-
-  public constructor(component: ESLMedia, config: MediaProviderConfig) {
-    super(component, config);
-    window.removeEventListener('resize', this.refreshElementSize);
-  }
-
-  protected override onResize(): void {}
 
   protected createElement(): HTMLVideoElement {
     const el = document.createElement('video');

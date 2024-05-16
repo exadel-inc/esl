@@ -1,4 +1,3 @@
-import {rafDecorator} from '../../esl-utils/async';
 import {ESLMediaProviderRegistry} from './esl-media-registry';
 
 import type {ESLMedia} from './esl-media';
@@ -51,12 +50,10 @@ export abstract class BaseProvider {
   protected component: ESLMedia;
   protected _el: HTMLElement;
   protected _ready: Promise<any>;
-  public refreshElementSize = rafDecorator(() => this.onResize());
 
   public constructor(component: ESLMedia, config: MediaProviderConfig) {
     this.config = config;
     this.component = component;
-    window.addEventListener('resize', this.refreshElementSize);
   }
 
   /** Wraps _ready promise */
@@ -74,7 +71,6 @@ export abstract class BaseProvider {
 
   /** Unbind the provider instance from the component */
   public unbind(): void {
-    window.removeEventListener('resize', this.refreshElementSize);
     Array.from(this.component.querySelectorAll('.esl-media-inner'))
       .forEach((el: Node) => el.parentNode && el.parentNode.removeChild(el));
   }
@@ -124,20 +120,8 @@ export abstract class BaseProvider {
     this._el.style.setProperty('height', height === 'auto' ? null : `${height}px`);
   }
 
-  protected onResize(): void {
-    if (!this._el) return;
-    const {fillModeEnabled, actualAspectRatio, fillMode} = this.component;
-    const {offsetHeight, offsetWidth} = this._el;
-
-    if (fillModeEnabled && actualAspectRatio > 0) {
-      let stretchVertically = offsetWidth / offsetHeight < actualAspectRatio;
-      if (fillMode === 'inscribe') stretchVertically = !stretchVertically; // Inscribe behaves inversely
-      stretchVertically ?
-        this.setSize(actualAspectRatio * offsetHeight, offsetHeight) : // h
-        this.setSize(offsetWidth, offsetWidth / actualAspectRatio);   // w
-    } else {
-      this.setSize('auto', 'auto');
-    }
+  public setAspectRatio(ratio: number): void {
+    this._el.style?.setProperty('aspect-ratio', ratio.toString());
   }
 
   /**
