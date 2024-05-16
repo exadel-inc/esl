@@ -189,7 +189,9 @@ export class ESLMedia extends ESLBaseElement {
         break;
       case 'fill-mode':
       case 'aspect-ratio':
-        this.refreshSize();
+        this.$$off(this._onResize);
+        this.$$on(this._onResize);
+        this._onResize();
         break;
       case 'play-in-viewport':
         this.reattachViewportConstraint();
@@ -283,7 +285,7 @@ export class ESLMedia extends ESLBaseElement {
     this.toggleAttribute('error', false);
     this.updateReadyClass();
     this.$$fire(this.READY_EVENT);
-    this.refreshSize();
+    this._onResize();
   }
 
   public _onError(detail?: any, setReadyState = true): void {
@@ -307,7 +309,7 @@ export class ESLMedia extends ESLBaseElement {
     this.toggleAttribute('played', true);
     this.$$fire(this.PLAY_EVENT);
     MediaGroupRestrictionManager.registerPlay(this);
-    this.refreshSize();
+    this._onResize();
   }
 
   public _onPaused(): void {
@@ -328,7 +330,7 @@ export class ESLMedia extends ESLBaseElement {
     condition: ($this: ESLMedia) => $this.fillModeEnabled
   })
   @decorate(rafDecorator)
-  protected refreshSize(): void {
+  protected _onResize(): void {
     const {actualAspectRatio} = this;
     if (!this._provider || !this.fillModeEnabled || actualAspectRatio <= 0) return;
     this._provider?.setAspectRatio(actualAspectRatio);

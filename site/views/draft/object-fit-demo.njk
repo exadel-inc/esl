@@ -1,0 +1,142 @@
+---
+layout: content
+title: Media object-fit example
+seoTitle: Embedded audio or video examples based on ESL web components
+name: Object-fit
+tags: [draft]
+icon: examples/embedded-video.svg
+aside:
+  components:
+    - esl-media
+---
+
+<h2 class="text-center">Inscribe (non 'object-fit')</h2>
+
+<div class="demo-marquee dark" style="height: 600px">
+  <esl-media class="bg-content esl-media-bg esl-animate-fade"
+              ready-class="in"
+              media-type="video"
+              media-src="{{ '/assets/media/demo-video.mp4' | url }}"
+              fill-mode="inscribe"
+              lazy
+              autoplay muted loop playsinline>
+  </esl-media>
+</div>
+
+<h2 class="text-center">Inscribe (object-fit)</h2>
+
+<div class="demo-marquee dark" style="height: 600px">
+  <esl-media class="bg-content esl-media-bg esl-animate-fade"
+              ready-class="in"
+              media-type="video"
+              media-src="{{ '/assets/media/demo-video.mp4' | url }}"
+              fill-mode="inscribe-fit-demo"
+              lazy
+              autoplay muted loop playsinline>
+  </esl-media>
+</div>
+
+<h2 class="text-center">Cover (non `object-fit`)</h2>
+
+<div class="demo-marquee dark" style="height: 400px">
+  <esl-media class="bg-content esl-media-bg esl-animate-fade"
+              ready-class="in"
+              media-type="video"
+              media-src="{{ '/assets/media/demo-video.mp4' | url }}"
+              fill-mode="cover"
+              lazy
+              autoplay muted loop playsinline>
+  </esl-media>
+</div>
+
+<h2 class="text-center">Cover (object-fit)</h2>
+
+<div class="demo-marquee dark" style="height: 400px">
+  <esl-media class="bg-content esl-media-bg esl-animate-fade"
+              ready-class="in"
+              media-type="video"
+              media-src="{{ '/assets/media/demo-video.mp4' | url }}"
+              fill-mode="cover-fit-demo"
+              lazy
+              autoplay muted loop playsinline>
+  </esl-media>
+</div>
+
+
+<section>
+  <h2 class="text-center">Video background</h2>
+  <p class="text-center">Cropping and decorations features of ESL Media allows us to use it as an active background for
+    the block.</p>
+
+  <uip-root>
+    <script type="text/html"
+            label="Background Video"
+            uip-snippet
+            uip-snippet-js="js-snippet-media-bg">
+      <div class="demo-marquee dark" style="height: 400px">
+        <esl-media class="bg-content esl-media-bg esl-animate-fade"
+                   ready-class="in"
+                   media-type="video"
+                   media-src="{{ '/assets/media/video.mp4' | url }}"
+                   fill-mode="cover"
+                   play-in-viewport
+                   lazy
+                   autoplay muted loop playsinline>
+        </esl-media>
+        <div class="demo-content">
+          <p class="h3">Background media</p>
+          <p><!-- text x50 --></p>
+        </div>
+      </div>
+    </script>
+
+    <script type="text/html"
+            label="Background Youtube Video"
+            uip-snippet
+            uip-snippet-js="js-snippet-media-bg">
+      <div class="demo-marquee dark" style="height: 400px">
+        <esl-media class="bg-content esl-media-bg esl-animate-fade"
+                   ready-class="in" 
+                   media-type="youtube"
+                   media-id="5ryf1AVl8Wg"
+                   fill-mode="auto"
+                   aspect-ratio="1.5"
+                   play-in-viewport
+                   lazy="auto"
+                   autoplay muted loop playsinline>
+        </esl-media>
+        <div class="demo-content">
+          <p class="h3">Background media</p>
+          <p><!-- text x50 --></p>
+        </div>
+      </div>
+    </script>
+
+    <script id="js-snippet-media-bg" type="text/plain">
+      import { ESLMedia } from '@exadel/esl';
+
+      // Keep only those you need
+      import '@exadel/esl/modules/esl-media/providers/html5/video-provider';
+      import '@exadel/esl/modules/esl-media/providers/youtube-provider';
+
+      ESLMedia.register();
+    </script>
+
+    <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
+    <uip-preview></uip-preview>
+
+    <uip-settings target="esl-media" label="Settings" resizable vertical="@+sm">
+      <uip-select-setting label="Media type:" attribute="fill-mode">
+        <option value="auto">- Auto -</option>
+        <option value="cover">cover</option>
+        <option value="inscribe">inscribe</option>
+      </uip-select-setting>
+    </uip-settings>
+
+    <uip-editor label="Source code" collapsible copy></uip-editor>
+    <uip-editor label="Source code (HTML)" collapsible copy></uip-editor>
+    <uip-editor source="js" label="Source code (JS)" collapsible collapsed copy></uip-editor>
+  </uip-root>
+</section>
+
+<hr/>
