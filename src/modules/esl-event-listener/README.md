@@ -309,25 +309,44 @@ Predicate to check if the passed argument is a type of `ESLListenerDescriptorFn 
 ESLEventUtils.isEventDescriptor(obj: any): obj is ESLListenerDescriptorFn;
 ```
 
-<a name="-esleventutilsgetautodescriptors"></a>
+<a name="-esleventutilsdescriptors"></a>
 
-### ⚡ `ESLEventUtils.getAutoDescriptors`
+### ⚡ `ESLEventUtils.descriptors`
 
 Gathers auto-subscribable (collectable) descriptors from the passed object.
 
+Note: the method is going to be updated in the next release to support the `criteria` parameter. 
+It's strongly recommended to pass criteria `{auto: true}` already to have no issues with the future update.
+
 ```typescript
+// Note: deprecated in current version due to the future update
 ESLEventUtils.descriptors(host?: any): ESLListenerDescriptorFn[]
+
+// Recommended usage
+ESLEventUtils.descriptors(host?: any, criteria: {auto: true}): ESLListenerDescriptorFn[]
 ```
 
 **Parameters**:
 
 - `host` - object to get auto-collectable descriptors from;
 
-<a name="-esleventutilsdescriptors"></a>
 
-### ⚡ `ESLEventUtils.descriptors`
+<a name="-esleventutilsgetautodescriptors"></a>
 
-Deprecated alias for `ESLEventUtils.getAutoDescriptors`
+### ⚡ `ESLEventUtils.getAutoDescriptors`
+
+Gathers auto-subscribable (collectable) descriptors from the passed object.
+
+Deprecated: prefer using `ESLEventUtils.descriptors` with the `{auto: true}` criteria. As the `getAutoDescriptors` method is going to be removed in 6th release.
+
+```typescript
+ESLEventUtils.getAutoDescriptors(host?: any): ESLListenerDescriptorFn[]
+```
+
+**Parameters**:
+
+- `host` - object to get auto-collectable descriptors from;
+
 
 <a name="-esleventutilsinitdescriptor"></a>
 
