@@ -66,6 +66,14 @@ export abstract class BaseProvider {
     return this._ready;
   }
 
+  public get aspectRatio(): number {
+    return this._el?.offsetWidth / this._el?.offsetHeight;
+  }
+
+  public set aspectRatio(ratio: number) {
+    this._el?.style.setProperty('aspect-ratio', ratio.toString());
+  }
+
   /** Bind the provider instance to the component */
   public abstract bind(): void;
 
@@ -118,10 +126,6 @@ export abstract class BaseProvider {
     if (!this._el) return;
     this._el.style.setProperty('width', width === 'auto' ? null : `${width}px`);
     this._el.style.setProperty('height', height === 'auto' ? null : `${height}px`);
-  }
-
-  public setAspectRatio(ratio: number): void {
-    this._el.style?.setProperty('aspect-ratio', ratio.toString());
   }
 
   /**
