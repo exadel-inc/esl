@@ -12,7 +12,7 @@ aside:
 
 <h2 class="text-center">Inscribe (non 'object-fit')</h2>
 
-<div class="demo-marquee dark" style="height: 600px">
+<div class="demo-marquee dark" style="height: 2000px">
   <esl-media class="bg-content esl-media-bg esl-animate-fade"
               ready-class="in"
               media-type="video"
@@ -25,7 +25,7 @@ aside:
 
 <h2 class="text-center">Inscribe (object-fit)</h2>
 
-<div class="demo-marquee dark" style="height: 600px">
+<div class="demo-marquee dark" style="height: 2000px">
   <esl-media class="bg-content esl-media-bg esl-animate-fade"
               ready-class="in"
               media-type="video"
@@ -38,7 +38,7 @@ aside:
 
 <h2 class="text-center">Cover (non `object-fit`)</h2>
 
-<div class="demo-marquee dark" style="height: 400px">
+<div class="demo-marquee dark" style="height: 2000px">
   <esl-media class="bg-content esl-media-bg esl-animate-fade"
               ready-class="in"
               media-type="video"
@@ -51,7 +51,7 @@ aside:
 
 <h2 class="text-center">Cover (object-fit)</h2>
 
-<div class="demo-marquee dark" style="height: 400px">
+<div class="demo-marquee dark" style="height: 2000px">
   <esl-media class="bg-content esl-media-bg esl-animate-fade"
               ready-class="in"
               media-type="video"
@@ -62,6 +62,57 @@ aside:
   </esl-media>
 </div>
 
+<h2 class="text-center">Wide Inscribe (non 'object-fit')</h2>
+
+<div class="demo-marquee dark" style="height: 400px">
+  <esl-media class="bg-content esl-media-bg esl-animate-fade"
+              ready-class="in"
+              media-type="video"
+              media-src="{{ '/assets/media/demo-video.mp4' | url }}"
+              fill-mode="inscribe"
+              lazy
+              autoplay muted loop playsinline>
+  </esl-media>
+</div>
+
+<h2 class="text-center">Wide Inscribe (object-fit)</h2>
+
+<div class="demo-marquee dark" style="height: 400px">
+  <esl-media class="bg-content esl-media-bg esl-animate-fade"
+              ready-class="in"
+              media-type="video"
+              media-src="{{ '/assets/media/demo-video.mp4' | url }}"
+              fill-mode="inscribe-fit-demo"
+              lazy
+              autoplay muted loop playsinline>
+  </esl-media>
+</div>
+
+<h2 class="text-center">Wide Cover (non `object-fit`)</h2>
+
+<div class="demo-marquee dark" style="height: 400px">
+  <esl-media class="bg-content esl-media-bg esl-animate-fade"
+              ready-class="in"
+              media-type="video"
+              media-src="{{ '/assets/media/demo-video.mp4' | url }}"
+              fill-mode="cover"
+              lazy
+              autoplay muted loop playsinline>
+  </esl-media>
+</div>
+
+<h2 class="text-center">Wide Cover (object-fit)</h2>
+
+<div class="demo-marquee dark" style="height: 400px">
+  <esl-media class="bg-content esl-media-bg esl-animate-fade"
+              ready-class="in"
+              media-type="video"
+              media-src="{{ '/assets/media/demo-video.mp4' | url }}"
+              fill-mode="cover-fit-demo"
+              lazy
+              autoplay muted loop playsinline>
+  </esl-media>
+</div>
 
 <section>
   <h2 class="text-center">Video background</h2>

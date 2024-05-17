@@ -136,6 +136,8 @@ export class ESLMedia extends ESLBaseElement {
   @boolAttr({readonly: true}) public played: boolean;
   /** @readonly Error state marker */
   @boolAttr({readonly: true}) public error: boolean;
+  /** @readonly Width is greater than height state marker */
+  @boolAttr({readonly: true}) public wide: boolean;
 
   private _provider: BaseProvider | null;
 
@@ -332,8 +334,10 @@ export class ESLMedia extends ESLBaseElement {
   @decorate(rafDecorator)
   protected _onResize(): void {
     const {actualAspectRatio} = this;
-    if (!this._provider || !this.fillModeEnabled || actualAspectRatio <= 0) return;
-    this._provider?.setAspectRatio(actualAspectRatio);
+    if (!this._provider) return;
+    this.toggleAttribute('wide', this.offsetWidth / this.offsetHeight > this._provider.defaultAspectRatio);
+    if (!this.fillModeEnabled || actualAspectRatio <= 0) return;
+    this._provider.setAspectRatio(actualAspectRatio);
   }
 
   @listen({
