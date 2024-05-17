@@ -309,9 +309,7 @@ Predicate to check if the passed argument is a type of `ESLListenerDescriptorFn 
 ESLEventUtils.isEventDescriptor(obj: any): obj is ESLListenerDescriptorFn;
 ```
 
-<a name="-esleventutilsgetautodescriptors"></a>
-
-<a name="-esleventutilsgetdescriptors"></a>
+<a name="-esleventutilsdescriptors"></a>
 
 ### ⚡ `ESLEventUtils.descriptors`
 
@@ -323,10 +321,18 @@ Accept criteria to filter the descriptors list.
   ESLEventUtils.descriptors(host?: any, ...criteria: ESLListenerDescriptorCriteria[]): ESLListenerDescriptorFn[];
 ```
 
-### ⚡ `ESLEventUtils.getAutoDescriptors`
+**Parameters**:
+
+- `host` - object to get auto-collectable descriptors from;
+
+
+<a name="-esleventutilsgetautodescriptors"></a>
+
+### ⚡ <strike>`ESLEventUtils.getAutoDescriptors`</strike>
 
 Gathers auto-subscribable (collectable) descriptors from the passed object.
-Deprecated in favor of `ESLEventUtils.descriptors(host, {auto: true})`.
+
+Deprecated: prefer using `ESLEventUtils.descriptors` with the `{auto: true}` criteria. As the `getAutoDescriptors` method is going to be removed in 6th release.
 
 ```typescript
 ESLEventUtils.getAutoDescriptors(host?: any): ESLListenerDescriptorFn[]
