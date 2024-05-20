@@ -3,11 +3,12 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {isElement} from '../../esl-utils/dom/api';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {SPACE, PAUSE} from '../../esl-utils/dom/keys';
-import {prop, attr, boolAttr, listen, decorate} from '../../esl-utils/decorators';
-import {debounce, rafDecorator} from '../../esl-utils/async';
+import {prop, attr, boolAttr, listen} from '../../esl-utils/decorators';
+import {debounce} from '../../esl-utils/async';
 import {parseAspectRatio} from '../../esl-utils/misc/format';
 
 import {ESLMediaQuery} from '../../esl-media-query/core';
+import {ESLResizeObserverTarget} from '../../esl-event-listener/core';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 
 import {getIObserver} from './esl-media-iobserver';
@@ -190,7 +191,6 @@ export class ESLMedia extends ESLBaseElement {
         break;
       case 'fill-mode':
       case 'aspect-ratio':
-        this.$$off(this._onResize);
         this.$$on(this._onResize);
         this._onResize();
         break;
@@ -198,7 +198,6 @@ export class ESLMedia extends ESLBaseElement {
         this.reattachViewportConstraint();
         break;
       case 'load-condition':
-        this.$$off(this._onConditionChange);
         this.$$on(this._onConditionChange);
         this.deferredReinitialize();
         break;
@@ -327,10 +326,9 @@ export class ESLMedia extends ESLBaseElement {
 
   @listen({
     event: 'resize',
-    target: window,
+    target: ESLResizeObserverTarget.for,
     condition: ($this: ESLMedia) => $this.fillModeEnabled
   })
-  @decorate(rafDecorator)
   protected _onResize(): void {
     if (!this._provider) return;
     if (this.fillModeEnabled && this.actualAspectRatio > 0) {
