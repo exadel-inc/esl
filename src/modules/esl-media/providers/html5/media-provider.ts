@@ -61,6 +61,10 @@ export abstract class HTMLMediaProvider extends BaseProvider {
     return Promise.resolve();
   }
 
+  protected get mediaSrc(): string {
+    return `${this.config.mediaSrc}${this.config.startTime ? `#t=${this.config.startTime}` : ''}`;
+  }
+
   public get state(): PlayerStates {
     if (!this._el) return PlayerStates.UNINITIALIZED;
     if (this._el.ended) return PlayerStates.ENDED;
