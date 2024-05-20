@@ -22,10 +22,22 @@ export class ESLEventUtils {
    */
   public static dispatch = dispatchCustomEvent;
 
-  /** @deprecated alias for {@link getAutoDescriptors} */
-  public static descriptors = getAutoDescriptors;
+  /**
+   * @deprecated going to be updated in 5.0.0 to return all descriptors,
+   * it's recommended to change to `descriptors(host, {auto: true})` method, to have compatibility with future versions
+   */
+  public static descriptors(host: object): ESLListenerDescriptorFn[];
+  /** Gets auto {@link ESLListenerDescriptorFn}s of the passed object */
+  public static descriptors(host: object, criteria: {auto: true}): ESLListenerDescriptorFn[];
+  public static descriptors(host: object): ESLListenerDescriptorFn[]  {
+    return getAutoDescriptors(host);
+  }
 
-  /** Gets {@link ESLListenerDescriptorFn}s of the passed object */
+  /**
+   * Gets auto {@link ESLListenerDescriptorFn}s of the passed object
+   *
+   * @deprecated alias for `descriptors(host, {auto: true})`
+   */
   public static getAutoDescriptors = getAutoDescriptors;
 
   /**
