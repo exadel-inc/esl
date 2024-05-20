@@ -166,7 +166,7 @@ export class YouTubeProvider extends BaseProvider {
   }
 
   public seekTo(pos: number): void {
-    this._api.seekTo(pos, false);
+    this._api.seekTo(pos, true);
   }
 
   public play(): void {
