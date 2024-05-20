@@ -61,7 +61,7 @@ export abstract class HTMLMediaProvider extends BaseProvider {
     return Promise.resolve();
   }
 
-  protected get mediaSrc(): string {
+  protected get src(): string {
     return `${this.config.mediaSrc}${this.config.startTime ? `#t=${this.config.startTime}` : ''}`;
   }
 

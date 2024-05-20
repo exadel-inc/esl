@@ -98,7 +98,7 @@ export class ESLMedia extends ESLBaseElement {
   /** Allows play resource only in viewport area */
   @boolAttr() public playInViewport: boolean;
   /** Allows to start viewing a resource from a specific time offset. */
-  @attr() public startTime: number;
+  @attr({parser: parseInt}) public startTime: number;
 
   /** Preload resource */
   @attr({defaultValue: 'auto'}) public preload: 'none' | 'metadata' | 'auto' | '';
