@@ -14,7 +14,7 @@ export class VideoProvider extends HTMLMediaProvider {
 
   protected createElement(): HTMLVideoElement {
     const el = document.createElement('video');
-    el.src = this.config.mediaSrc || '';
+    el.src = this.src;
     return el;
   }
 
