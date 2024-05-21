@@ -2,7 +2,7 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {dispatchCustomEvent} from '../../esl-utils/dom/events/misc';
 
 import {ESLEventListener} from './listener';
-import {getAutoDescriptors, isEventDescriptor, initDescriptor} from './descriptors';
+import {getDescriptors, isEventDescriptor, initDescriptor} from './descriptors';
 
 import type {
   ESLListenerHandler,
@@ -23,7 +23,14 @@ export class ESLEventUtils {
   public static dispatch = dispatchCustomEvent;
 
   /** Gets {@link ESLListenerDescriptorFn}s of the passed object */
-  public static getAutoDescriptors = getAutoDescriptors;
+  public static descriptors = getDescriptors;
+
+  /**
+   * Gets auto {@link ESLListenerDescriptorFn}s of the passed object
+   *
+   * @deprecated alias for `descriptors(host, {auto: true})`
+   */
+  public static getAutoDescriptors = (host: object): ESLListenerDescriptorFn[] => getDescriptors(host, {auto: true});
 
   /**
    * Decorates passed `key` of the `host` as an {@link ESLListenerDescriptorFn} using `desc` meta information
@@ -83,7 +90,7 @@ export class ESLEventUtils {
     handler: ESLListenerHandler = eventDesc as ESLListenerDescriptorFn
   ): ESLEventListener[] {
     if (arguments.length === 1) {
-      const descriptors = getAutoDescriptors(host);
+      const descriptors = getDescriptors(host, {auto: true});
       return descriptors.flatMap((desc) => ESLEventUtils.subscribe(host, desc));
     }
     const desc = typeof eventDesc === 'string' ? {event: eventDesc} : eventDesc as ESLListenerDescriptor;
