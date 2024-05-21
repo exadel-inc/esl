@@ -19,6 +19,10 @@ updates:
       - "ala-n"
       - "abarmina"
       - "NastaLeo"
+    commit-message:
+      prefix: fix
+      prefix-development: chore
+      include: scope
     groups:
       typescript-eslint:
         patterns:
@@ -47,6 +51,9 @@ updates:
       - "ala-n"
       - "abarmina"
       - "NastaLeo"
+    commit-message:
+      prefix: chore
+      include: scope
     groups:
       gh-pages:
         patterns:
