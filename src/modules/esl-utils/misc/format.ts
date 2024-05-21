@@ -44,7 +44,7 @@ export const parseBoolean = (val: string | null): boolean => val !== null && val
 export function parseNumber(str: string | number): number | undefined;
 /**
  * Parses number with the ability to pass an alternative fallback for NaN.
- * Note: falsy values except 0 are treated as NaN3
+ * Note: falsy values except 0 are treated as NaN
 */
 export function parseNumber(str: string | number, nanValue: number): number;
 export function parseNumber(str: string | number, nanValue?: number): number | undefined {

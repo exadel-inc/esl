@@ -153,7 +153,7 @@ export class ESLPopup extends ESLToggleable {
   /** Get offsets arrow ratio */
   @memoize()
   protected get offsetArrowRatio(): number {
-    const offset = parseNumber(this.offsetArrow, DEFAULT_OFFSET_ARROW) || DEFAULT_OFFSET_ARROW;
+    const offset = parseNumber(this.offsetArrow, DEFAULT_OFFSET_ARROW);
     const offsetNormalized = Math.max(0, Math.min(offset, 100));
     const ratio = offsetNormalized / 100;
     return isRTL(this) ? 1 - ratio : ratio;
