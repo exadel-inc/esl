@@ -1,3 +1,24 @@
+## [5.0.0-beta.17](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.16...v5.0.0-beta.17) (2024-05-21)
+
+
+### Features
+
+* **esl-event-listener:** add a `group` key to process batch subscription operations ([3d1ece0](https://github.com/exadel-inc/esl/commit/3d1ece0fcf747efdb7de7fcfb125c4ad02390e50)), closes [#2381](https://github.com/exadel-inc/esl/issues/2381)
+* **esl-event-listener:** rework and make warnings of event listener system with more strict and truthful detection of a problem ([f6fd40b](https://github.com/exadel-inc/esl/commit/f6fd40b8e370de1bcc61cb3d6862b2be9188018a))
+* **esl-event-listener:** update listener internal mechanics to store and collect descriptors (with ability to filter them) ([48bf06a](https://github.com/exadel-inc/esl/commit/48bf06a7b26c057a8f08953466fa339ab819ca77))
+* **esl-media:** add ability to provide video initial position (start time) ([7367bb7](https://github.com/exadel-inc/esl/commit/7367bb78c50514a96edbf4cef7b56b2bf0fe0340))
+* **esl-utils:** add ability to reject promisifyEvent by using AbortSignal ([b49da0e](https://github.com/exadel-inc/esl/commit/b49da0e533de7771ccc50465d15a51f157bde568))
+
+
+### Bug Fixes
+
+* **esl-event-listener:** `ESLEventUtils.descriptors` api notes correction ([309c130](https://github.com/exadel-inc/esl/commit/309c130a7e62348fd02f8bf71cc546f9eab3fe21))
+* **esl-event-listener:** fix re-subscription when condition is used ([b304c52](https://github.com/exadel-inc/esl/commit/b304c52a30d86d462e2d5e03b00353b7bbf39cb7))
+* **esl-media:** add exact element resize observation reduce; extra subscriptions manipulation ([7e58bbd](https://github.com/exadel-inc/esl/commit/7e58bbdc981ec54902bb7940242e238df5780df5))
+* **esl-media:** seekTo leads to no proper behavior when YouTube video is not ready ([f5a0762](https://github.com/exadel-inc/esl/commit/f5a0762301b4e108b708ea1e75834be0b74d2827))
+* **esl-popup:** fix it is not possible to set the offset-arrow to 0 ([c6f1a9f](https://github.com/exadel-inc/esl/commit/c6f1a9f2ddfcbbc5bad2adb3da6a73bc34e50277))
+* **esl-utils:** fix parseNumber signature (undefined when default provided) ([647b736](https://github.com/exadel-inc/esl/commit/647b7364e3a8024d9d3d4cdef464dc98078a0d01))
+
 ## [5.0.0-beta.16](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.15...v5.0.0-beta.16) (2024-04-30)
 
 
