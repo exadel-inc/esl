@@ -314,7 +314,7 @@ ESLEventUtils.isEventDescriptor(obj: any): obj is ESLListenerDescriptorFn;
 ### ⚡ `ESLEventUtils.descriptors`
 
 Gathers descriptors from the passed object.
-Accept criteria to filter the descriptors list.
+Accepts criteria to filter the descriptors list.
 
 ```typescript
   ESLEventUtils.descriptors(host?: any): ESLListenerDescriptorFn[];
