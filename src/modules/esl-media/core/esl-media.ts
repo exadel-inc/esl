@@ -1,5 +1,6 @@
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
+import {isElement} from '../../esl-utils/dom/api';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {SPACE, PAUSE} from '../../esl-utils/dom/keys';
 import {prop, attr, boolAttr, listen} from '../../esl-utils/decorators';
@@ -302,10 +303,17 @@ export class ESLMedia extends ESLBaseElement {
   })
   protected _onResize(): void {
     const {actualAspectRatio} = this;
-    if (!this._provider) return;
-    this.toggleAttribute('wide', this.offsetWidth / this.offsetHeight > this._provider.aspectRatio);
-    if (!this.fillModeEnabled || actualAspectRatio <= 0) return;
-    this._provider.aspectRatio = actualAspectRatio;
+    this.toggleAttribute('wide', this.offsetWidth / this.offsetHeight > actualAspectRatio);
+    if (this._provider && this.fillModeEnabled && actualAspectRatio > 0) this._provider.aspectRatio = actualAspectRatio;
+  }
+
+  @listen({
+    event: ($this: ESLMedia) => $this.REFRESH_EVENT,
+    target: window
+  })
+  protected _onRefresh(e: Event): void {
+    const {target} = e;
+    if (isElement(target) && target.contains(this)) this._onResize();
   }
 
   @listen({

@@ -67,10 +67,6 @@ export abstract class BaseProvider {
     return this._ready;
   }
 
-  public get aspectRatio(): number {
-    return this._el?.offsetWidth / this._el?.offsetHeight;
-  }
-
   public set aspectRatio(ratio: number) {
     this._el?.style.setProperty('aspect-ratio', ratio.toString());
   }
