@@ -175,8 +175,8 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
       const freeSlides = size - count;
       // no need to reorder if there are no free slides or loop is disabled
       if (!loop || !freeSlides) return 0;
-      // if there is only one free slide, it should be rendered after the current one unless it's the first slide and back option is not set
-      if (freeSlides === 1 && !back) return !currentIndex ? 0 : 1;
+      // if back option is not set, prefer to reserve slides with respect to semantic order
+      if (typeof back !== 'boolean') back = !!currentIndex;
       // otherwise, ensure that there are at least half of free slides reserved (if the back option is set - round up, otherwise - round down)
       return Math.min(count, back ? Math.ceil(freeSlides / 2) : Math.floor(freeSlides / 2));
     })();
