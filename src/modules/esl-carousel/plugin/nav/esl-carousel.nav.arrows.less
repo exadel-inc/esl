@@ -1,0 +1,64 @@
+/** Arrow navigation styles */
+[esl-carousel-container] {
+  --esl-carousel-arrow-size: 40px;
+  --esl-carousel-arrow-offset: calc(
+    (var(--esl-carousel-arrow-size) + var(--esl-carousel-side-space)) * -1
+  );
+  --esl-carousel-arrow-bg: grey;
+
+  .esl-carousel-arrow {
+    position: absolute;
+    z-index: 3;
+    top: 50%;
+    transform: translateY(-50%);
+
+    display: grid;
+    place-content: center;
+
+    background: none;
+    border: none;
+    cursor: pointer;
+    appearance: none;
+    filter: drop-shadow(0 0 4px var(--esl-carousel-arrow-bg));
+
+    opacity: 0.75;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    &[disabled] {
+      opacity: 0.25;
+    }
+  }
+
+  // Positioning
+  .esl-carousel-arrow.prev {
+    left: var(--esl-carousel-arrow-offset);
+
+    &.inner {
+      left: 0;
+    }
+  }
+
+  .esl-carousel-arrow.next {
+    right: var(--esl-carousel-arrow-offset);
+
+    &.inner {
+      right: 0;
+    }
+  }
+
+  .esl-carousel-arrow::before {
+    content: '';
+    display: block;
+    width: var(--esl-carousel-arrow-size);
+    height: var(--esl-carousel-arrow-size);
+    background: var(--esl-carousel-arrow-bg);
+    clip-path: polygon(20% 50%, 70% 0%, 80% 5%, 35% 50%, 80% 95%, 70% 100%);
+  }
+
+  .esl-carousel-arrow.next::before {
+    transform: scaleX(-1);
+  }
+}

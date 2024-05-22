@@ -1,6 +1,6 @@
 {
   "name": "@exadel/eslint-plugin-esl",
-  "version": "4.16.0",
+  "version": "5.0.0-beta.17",
   "keywords": [
     "eslint",
     "eslint-plugin",
@@ -9,6 +9,10 @@
   "license": "MIT",
   "description": "Helper ESLint rules to find and migrate ESL (@exadel/esl) library deprecations",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*.{js,ts,md}"
+  ],
   "scripts": {
     "prepare": "npm run build",
     "test": "jest",
@@ -16,12 +20,8 @@
     "build": "npm run clean && tsc --project tsconfig.build.json"
   },
   "dependencies": {},
-  "files": [
-    "dist/**/*"
-  ],
-  "types": "dist/index.d.ts",
   "peerDependencies": {
-    "@exadel/esl": "^4.0.0",
+    "@exadel/esl": "*",
     "eslint": ">=8.0.0"
   }
 }

@@ -1,5 +1,4 @@
 import {rafDecorator} from '../async/raf';
-import {isIE} from '../environment/device-detector';
 
 /**
  * Small utility to provide 100vw and 100vh alternative CSS Variables
@@ -12,9 +11,6 @@ export class ESLVSizeCSSProxy {
 
   /** Inits custom CSS variables for viewport sizes and it's observation */
   public static observe(): void {
-    // IE doesn’t support CSS Variables (hopefully same as 100vh issue :D)
-    if (isIE) return;
-
     this.update();
     window.addEventListener('resize', this.updateDebounced);
   }

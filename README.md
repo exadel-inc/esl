@@ -40,7 +40,6 @@ to meet your project needs.
 
 ESL is based solely on Web API and ECMAScript 6 features, which let our web UI components library work 
 well across all modern browsers such as Firefox, Chrome, Safari, Opera, and Edge. 
-ESL can also work on IE11 when the whole list of polyfills is provided (see [Browser support & Polyfills](https://github.com/exadel-inc/esl/blob/HEAD/docs/BROWSER_SUPPORT.md) for more details).
 
 ## Library Structure
 

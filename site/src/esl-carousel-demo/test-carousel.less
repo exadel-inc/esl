@@ -1,0 +1,78 @@
+@import (reference) '../common/variables.less';
+
+// TODO: Cleanup according to core styles update
+
+.marquee-carousel [esl-carousel-container] {
+  esl-carousel {
+    margin: 0;
+    padding: 0;
+  }
+  .img-container {
+    width: 100%;
+    height: 100%;
+  }
+
+  button.arrow-prev {
+    left: 0;
+    &::before {
+      background: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='50' fill='%23fff'%3E%3Cpath d='M31 40 16 25l15-15 2 2-13 13 13 13z'/%3E%3C/svg%3E");
+    }
+  }
+  button.arrow-next {
+    right: 0;
+    &::before {
+      background: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='50' fill='%23fff'%3E%3Cpath d='M31 40 16 25l15-15 2 2-13 13 13 13z'/%3E%3C/svg%3E");
+    }
+  }
+  button.arrow-prev::before,
+  button.arrow-next::before {
+    width: 60px;
+    height: 60px;
+  }
+  .carousel-dots-wrapper {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, 0%);
+    @media @lg-xl {
+      display: none;
+    }
+  }
+
+  &.main-carousel {
+    div[esl-carousel-slides] {
+      min-height: 500px;
+      gap: 0;
+    }
+    [esl-carousel-slide] {
+      padding: 0;
+    }
+    button.arrow-prev,
+    button.arrow-next {
+      @media @lg-xl {
+        display: none;
+      }
+    }
+  }
+
+  &.marquee-nav-carousel {
+    padding: 0 60px;
+    [esl-carousel-slide] {
+      margin: 10px 0;
+    }
+    &::before {
+      position: absolute;
+      content: '';
+      background: black;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 0;
+      overflow: hidden;
+    }
+    @media @xs-md {
+      display: none;
+    }
+  }
+}

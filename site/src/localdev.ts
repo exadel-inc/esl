@@ -1,7 +1,5 @@
 // Support for ES5 bundle target
 import '@exadel/esl/polyfills/es5-target-shim';
-// Builtin polyfills
-import '@exadel/esl/polyfills/polyfills.es6';
 // Validate environment
 import '@exadel/esl/polyfills/polyfills.validate';
 
@@ -35,7 +33,16 @@ import {
   ESLAnimate,
   ESLAnimateMixin,
   ESLRelatedTarget,
-  ESLOpenState
+  ESLOpenState,
+
+  ESLCarousel,
+  ESLCarouselNavDots,
+  ESLCarouselNavMixin,
+  ESLCarouselTouchMixin,
+  ESLCarouselWheelMixin,
+  ESLCarouselKeyboardMixin,
+  ESLCarouselRelateToMixin,
+  ESLCarouselAutoplayMixin
 } from '@exadel/esl/modules/all';
 
 import {ESLRandomText} from '@exadel/esl/modules/esl-random-text/core';
@@ -55,6 +62,7 @@ import {ESLDemoSidebar} from './navigation/navigation';
 import {ESLDemoAnchorLink} from './anchor/anchor-link';
 import {ESLDemoBanner} from './banner/banner';
 import {ESLDemoSwipeArea, ESLDemoWheelArea} from './esl-events-demo/esl-events-demo';
+import {ESLDemoPopupGame} from './esl-popup/esl-d-popup-game';
 
 if (!CSS.supports('(height: 100dvh) or (width: 100dvw)')) ESLVSizeCSSProxy.observe();
 
@@ -69,6 +77,7 @@ ESLDemoBackLink.register();
 ESLDemoBanner.register();
 ESLDemoSwipeArea.register();
 ESLDemoWheelArea.register();
+ESLDemoPopupGame.register();
 
 // Test Content
 ESLRandomText.register('lorem-ipsum');
@@ -105,6 +114,15 @@ ESLFootnotes.register();
 ESLNote.register();
 ESLNoteIgnore.register();
 ESLTooltip.register();
+
+ESLCarousel.register();
+ESLCarouselNavDots.register();
+ESLCarouselNavMixin.register();
+ESLCarouselTouchMixin.register();
+ESLCarouselKeyboardMixin.register();
+ESLCarouselRelateToMixin.register();
+ESLCarouselAutoplayMixin.register();
+ESLCarouselWheelMixin.register();
 
 ESLAnimate.register();
 ESLAnimateMixin.register();

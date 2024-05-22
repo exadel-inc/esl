@@ -42,12 +42,15 @@ export const splitEvents = (events: string): string[] => {
  * */
 export class ESLEventListener implements ESLListenerDefinition, EventListenerObject {
   public readonly target?: ESLListenerTarget | PropertyProvider<ESLListenerTarget>;
+  public readonly condition?: PropertyProvider<boolean>;
   public readonly selector?: string;
   public readonly capture?: boolean;
 
   public readonly once?: boolean;
   public readonly auto?: boolean;
   public readonly passive?: boolean;
+
+  public readonly group?: string;
 
   protected constructor(
     public readonly host: object,
@@ -128,9 +131,12 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
   public subscribe(): boolean {
     const {passive, capture} = this;
     this.unsubscribe();
-    memoize.clear(this, '$targets');
-    memoize.clear(this, 'handleEvent');
-    if (!this.$targets.length) return false;
+    memoize.clear(this, ['$targets', 'handleEvent']);
+    if (resolveProperty(this.condition, this.host) === false) return false;
+    if (!this.$targets.length) {
+      console.warn('[ESL]: No targets found for event listener', this);
+      return false;
+    }
     this.$targets.forEach((el: EventTarget) => el.addEventListener(this.event, this, {passive, capture}));
     ESLEventListener.add(this.host, this);
     return true;
@@ -156,7 +162,6 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
   }
   /** Adds a listener to the listener store of the host object */
   protected static add(host: object, instance: ESLEventListener): void {
-    if (!isObjectLike(host)) return;
     if (!Object.hasOwnProperty.call(host, LISTENERS)) (host as any)[LISTENERS] = [];
     (host as any)[LISTENERS].push(instance);
   }
@@ -180,6 +185,7 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
   ): ESLEventListener[] {
     if (typeof handler !== 'function') return [];
     const eventDesc = handler !== descriptor ? Object.assign({}, handler, descriptor) : descriptor;
+    if (eventDesc.condition === false) return [];
     const listeners = ESLEventListener.createOrResolve(host, handler, eventDesc);
     return listeners.filter((listener) => listener.subscribe());
   }
@@ -201,10 +207,11 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
     handler: ESLListenerHandler,
     desc: ESLListenerDescriptor
   ): ESLEventListener[] {
-    if (!isObjectLike(host)) return [];
-    const eventString = resolveProperty(desc.event, host);
+    if (!isObjectLike(host)) throw new Error('[ESL]: Host object is not provided for event listener subscription');
+    const events = splitEvents(resolveProperty(desc.event, host));
+    if (events.length === 0) console.warn('[ESL]: No valid events passed for event listener %o of host %o', desc, host);
     const listeners: ESLEventListener[] = [];
-    for (const event of splitEvents(eventString)) {
+    for (const event of events) {
       const subscribed = ESLEventListener.get(host, event, handler, {
         target: desc.target,
         selector: desc.selector,

@@ -41,11 +41,17 @@ export const parseBoolean = (val: string | null): boolean => val !== null && val
  * Parses number with the ability to pass an alternative fallback for NaN.
  * Note: falsy values except 0 are treated as NaN
  */
-export const parseNumber = (str: string | number, nanValue?: number | undefined): number | undefined => {
+export function parseNumber(str: string | number): number | undefined;
+/**
+ * Parses number with the ability to pass an alternative fallback for NaN.
+ * Note: falsy values except 0 are treated as NaN
+*/
+export function parseNumber(str: string | number, nanValue: number): number;
+export function parseNumber(str: string | number, nanValue?: number): number | undefined {
   if (str === 0) return 0;
   const value = +(str || NaN);
   return isNaN(value) ? nanValue : value;
-};
+}
 
 /**
  * Common function that returns coefficient aspect ratio

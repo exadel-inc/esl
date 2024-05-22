@@ -5,8 +5,8 @@ describe('ESLEventUtils:unsubscribe successfully removes listener', () => {
   const div = document.createElement('div');
 
   beforeEach(() => {
-    ESLEventUtils.subscribe(div, {event: 'click'}, handle);
-    ESLEventUtils.subscribe(div, {event: 'event'}, handle);
+    ESLEventUtils.subscribe(div, {event: 'click', group: 'test'}, handle);
+    ESLEventUtils.subscribe(div, {event: 'event', group: 'test'}, handle);
   });
 
   test('all', ()  => {
@@ -36,6 +36,11 @@ describe('ESLEventUtils:unsubscribe successfully removes listener', () => {
     ESLEventUtils.unsubscribe(div, () => 1);
     expect(ESLEventUtils.listeners(div).length).toBe(2);
     ESLEventUtils.unsubscribe(div, handle);
+    expect(ESLEventUtils.listeners(div).length).toBe(0);
+  });
+
+  test('by group', ()  => {
+    ESLEventUtils.unsubscribe(div, {group: 'test'});
     expect(ESLEventUtils.listeners(div).length).toBe(0);
   });
 

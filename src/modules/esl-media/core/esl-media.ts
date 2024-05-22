@@ -2,11 +2,12 @@ import {ESLBaseElement} from '../../esl-base-element/core';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {SPACE, PAUSE} from '../../esl-utils/dom/keys';
-import {prop, attr, boolAttr, listen, decorate} from '../../esl-utils/decorators';
-import {debounce, rafDecorator} from '../../esl-utils/async';
+import {prop, attr, boolAttr, listen} from '../../esl-utils/decorators';
+import {debounce} from '../../esl-utils/async';
 import {parseAspectRatio} from '../../esl-utils/misc/format';
 
 import {ESLMediaQuery} from '../../esl-media-query/core';
+import {ESLResizeObserverTarget} from '../../esl-event-listener/core';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 
 import {getIObserver} from './esl-media-iobserver';
@@ -33,7 +34,6 @@ const parseLazyAttr = (v: string): ESLMediaLazyMode => isLazyAttr(v) ? v : 'auto
 export class ESLMedia extends ESLBaseElement {
   public static override is = 'esl-media';
   public static observedAttributes = [
-    'disabled',
     'load-condition',
     'media-type',
     'media-id',
@@ -75,11 +75,6 @@ export class ESLMedia extends ESLBaseElement {
   @attr() public fillMode: ESLMediaFillMode;
   /** Strict aspect ratio definition */
   @attr() public aspectRatio: string;
-  /**
-   * Disabled marker to prevent rendering
-   * @deprecated replaced with {@link lazy} = "manual" functionality
-   */
-  @boolAttr() public disabled: boolean;
   /** Allows lazy load resource */
   @attr({parser: parseLazyAttr, defaultValue: 'none'}) public lazy: ESLMediaLazyMode;
   /** Autoplay resource marker */
@@ -96,6 +91,8 @@ export class ESLMedia extends ESLBaseElement {
   @boolAttr() public playsinline: boolean;
   /** Allows play resource only in viewport area */
   @boolAttr() public playInViewport: boolean;
+  /** Allows to start viewing a resource from a specific time offset. */
+  @attr({parser: parseInt}) public startTime: number;
 
   /** Preload resource */
   @attr({defaultValue: 'auto'}) public preload: 'none' | 'metadata' | 'auto' | '';
@@ -105,25 +102,9 @@ export class ESLMedia extends ESLBaseElement {
   /** Ready state class/classes target */
   @attr() public readyClassTarget: string;
 
-  /**
-   * Class / classes to add when media is accepted
-   * @deprecated use {@link loadConditionClass} instead (e.g. `load-condition-class="is-accepted"`)
-   */
-  @attr() public loadClsAccepted: string;
-  /**
-   * Class / classes to add when media is declined
-   * @deprecated use {@link loadConditionClass} with negative class param instead (e.g. `load-condition-class="!is-declined"`)
-   */
-  @attr() public loadClsDeclined: string;
-  /**
-   * Target element {@link ESLTraversingQuery} select to add accepted/declined classes
-   * @deprecated used with legacy load condition attributes, consider migration to {@link loadConditionClass}
-   */
-  @attr({defaultValue: '::parent'}) public loadClsTarget: string;
-
   /** Condition {@link ESLMediaQuery} to allow load of media resource. Default: `all` */
   @attr({defaultValue: 'all'}) public loadCondition: string;
-  /** Class / classes to add when load media is accepted */
+  /** Class / classes to add when load media is accepted. Supports multiple and inverted classes */
   @attr() public loadConditionClass: string;
   /** Target element {@link ESLTraversingQuery} select to toggle {@link loadConditionClass} classes */
   @attr({defaultValue: '::parent'}) public loadConditionClassTarget: string;
@@ -174,7 +155,6 @@ export class ESLMedia extends ESLBaseElement {
   protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected || oldVal === newVal) return;
     switch (attrName) {
-      case 'disabled':
       case 'media-id':
       case 'media-src':
       case 'media-type':
@@ -191,7 +171,6 @@ export class ESLMedia extends ESLBaseElement {
         break;
       case 'fill-mode':
       case 'aspect-ratio':
-        this.$$off(this._onResize);
         this.$$on(this._onResize);
         this._onResize();
         break;
@@ -199,7 +178,6 @@ export class ESLMedia extends ESLBaseElement {
         this.reattachViewportConstraint();
         break;
       case 'load-condition':
-        this.$$off(this._onConditionChange);
         this.$$on(this._onConditionChange);
         this.deferredReinitialize();
         break;
@@ -207,8 +185,7 @@ export class ESLMedia extends ESLBaseElement {
   }
 
   public canActivate(): boolean {
-    if (this.lazy !== 'none' || this.disabled) return false;
-    return this.conditionQuery.matches;
+    return this.lazy === 'none' && this.conditionQuery.matches;
   }
 
   private reinitInstance(): void {
@@ -230,15 +207,8 @@ export class ESLMedia extends ESLBaseElement {
   }
 
   public updateContainerMarkers(): void {
-    const active = this.conditionQuery.matches;
-
     const $target = ESLTraversingQuery.first(this.loadConditionClassTarget, this) as HTMLElement;
-    $target && CSSClassUtils.toggle($target, this.loadConditionClass, active);
-
-    // Legacy attributes support
-    const targetEl = ESLTraversingQuery.first(this.loadClsTarget, this) as HTMLElement;
-    targetEl && CSSClassUtils.toggle(targetEl, this.loadClsAccepted, active);
-    targetEl && CSSClassUtils.toggle(targetEl, this.loadClsDeclined, !active);
+    $target && CSSClassUtils.toggle($target, this.loadConditionClass, this.conditionQuery.matches);
   }
 
   /** Seek to given position of media */
@@ -248,12 +218,11 @@ export class ESLMedia extends ESLBaseElement {
 
   /**
    * Start playing media
-   * @param allowActivate - allows to remove manual lazy or disabled marker
+   * @param allowActivate - allows to remove manual lazy loading restrictions
    */
   public play(allowActivate: boolean = false): Promise<void> | null {
     if (!this.ready && allowActivate) {
       this.lazy = 'none';
-      this.disabled = false;
       this.deferredReinitialize.cancel();
       this.reinitInstance();
     }
@@ -328,10 +297,9 @@ export class ESLMedia extends ESLBaseElement {
 
   @listen({
     event: 'resize',
-    target: window,
+    target: ESLResizeObserverTarget.for,
     condition: ($this: ESLMedia) => $this.fillModeEnabled
   })
-  @decorate(rafDecorator)
   protected _onResize(): void {
     const {actualAspectRatio} = this;
     if (!this._provider) return;

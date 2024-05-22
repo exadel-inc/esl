@@ -61,6 +61,7 @@ All active subscriptions are stored in a hidden property of the `host` object.
 - `capture` - marker to use the capture phase of the DOM event life-cycle;
 - `passive` - marker to use passive (non-blocking) subscription of the native event (if supported);
 - `once` - marker to destroy the subscription after the first event catch.
+- `group` - auxiliary property to group subscriptions. Does not affect the subscription behavior. Can be used for filtering and bulk operations.
 
 All of the `ESLEventListener` instance fields are read-only; the subscription can't be changed once created.
 
@@ -170,6 +171,19 @@ Here is the list of supported keys of `ESLEventDesriptor`:
   <u>Default Value:</u> `false`  
   <u>Description:</u> marker to unsubscribe the listener after the first successful handling of the event.
 
+
+- #### `group` key
+  <u>Type:</u> `string`  
+  <u>Description:</u> auxiliary property to group subscriptions. Does not affect the subscription behavior. Can be used for filtering and bulk operations.
+  
+  E.g.:
+  ```typescript
+    ESLEventUtils.subscribe(host, {event: 'click', group: 'group'}, handler1);
+    ESLEventUtils.subscribe(host, {event: 'click', group: 'group'}, handler2);
+    // ...
+    ESLEventUtils.unsubscribe(host, {group: 'group'}); // Unsubscribes all subscriptions with the 'group' key
+  ```
+
 - #### `auto` key (for `ESLEventDesriptorFn` declaration only)
   <u>Type:</u> `boolean`  
   <u>Default Value:</u> `false` for `ESLEventUtils.initDescriptor`, `true` for `@listen` decorator
@@ -179,6 +193,7 @@ Here is the list of supported keys of `ESLEventDesriptor`:
   <u>Description:</u> available in extended version of `ESLEventDesriptor` that is used in the descriptor declaration API.
   Allows to inherit `ESLEventDesriptor` data from the `ESLEventDesriptorFn` from the prototype chain.
   See [`initDescriptor`](#-esleventutilsinitdescriptor) usages example.
+
 
 ### <a name="automatic-collectable-descriptors">Automatic (collectable) descriptors</a>
 
@@ -294,25 +309,39 @@ Predicate to check if the passed argument is a type of `ESLListenerDescriptorFn 
 ESLEventUtils.isEventDescriptor(obj: any): obj is ESLListenerDescriptorFn;
 ```
 
-<a name="-esleventutilsgetautodescriptors"></a>
+<a name="-esleventutilsdescriptors"></a>
 
-### ⚡ `ESLEventUtils.getAutoDescriptors`
+### ⚡ `ESLEventUtils.descriptors`
 
-Gathers auto-subscribable (collectable) descriptors from the passed object.
+Gathers descriptors from the passed object.
+Accepts criteria to filter the descriptors list.
 
 ```typescript
-ESLEventUtils.descriptors(host?: any): ESLListenerDescriptorFn[]
+  ESLEventUtils.descriptors(host?: any): ESLListenerDescriptorFn[];
+  ESLEventUtils.descriptors(host?: any, ...criteria: ESLListenerDescriptorCriteria[]): ESLListenerDescriptorFn[];
 ```
 
 **Parameters**:
 
 - `host` - object to get auto-collectable descriptors from;
 
-<a name="-esleventutilsdescriptors"></a>
 
-### ⚡ `ESLEventUtils.descriptors`
+<a name="-esleventutilsgetautodescriptors"></a>
 
-Deprecated alias for `ESLEventUtils.getAutoDescriptors`
+### ⚡ <strike>`ESLEventUtils.getAutoDescriptors`</strike>
+
+Gathers auto-subscribable (collectable) descriptors from the passed object.
+
+Deprecated: prefer using `ESLEventUtils.descriptors` with the `{auto: true}` criteria. As the `getAutoDescriptors` method is going to be removed in 6th release.
+
+```typescript
+ESLEventUtils.getAutoDescriptors(host?: any): ESLListenerDescriptorFn[]
+```
+
+**Parameters**:
+
+- `host` - object to get auto-collectable descriptors from;
+
 
 <a name="-esleventutilsinitdescriptor"></a>
 

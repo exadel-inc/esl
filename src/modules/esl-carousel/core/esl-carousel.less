@@ -1,0 +1,58 @@
+// CORE styles
+esl-carousel {
+  position: relative;
+  display: block;
+  max-width: 100%;
+  // Important to ignore padding/margin hack
+  box-sizing: content-box;
+  margin: calc(var(--esl-carousel-side-space, 0) * -1);
+  padding: var(--esl-carousel-side-space, 0);
+
+  overflow: hidden; // Fallback
+  /* stylelint-disable-next-line */
+  overflow: clip;
+
+  [esl-carousel-slides] {
+    position: relative;
+    width: 100%;
+    margin: 0;
+    display: flex;
+    gap: 20px;
+    z-index: 0;
+    transform: translate3d(0px, 0px, 0px);
+  }
+
+  &.esl-carousel-vertical [esl-carousel-slides] {
+    flex-direction: column;
+    touch-action: pan-x;
+  }
+  &.esl-carousel-horizontal [esl-carousel-slides] {
+    flex-direction: row;
+    touch-action: pan-y;
+  }
+
+  &[dragging] {
+    cursor: grabbing;
+  }
+
+  &[dragging] [esl-carousel-slides],
+  &[animating] [esl-carousel-slides] {
+    touch-action: none;
+    user-select: none;
+    pointer-events: none;
+  }
+}
+
+[esl-carousel-slide] {
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  z-index: 1;
+  list-style: none;
+}
+
+[esl-carousel-container] {
+  --esl-carousel-side-space: 5px;
+  position: relative;
+}

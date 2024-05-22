@@ -1,9 +1,8 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {resolveProperty} from '../../esl-utils/misc/functions';
 import {dispatchCustomEvent} from '../../esl-utils/dom/events/misc';
 
 import {ESLEventListener} from './listener';
-import {getAutoDescriptors, isEventDescriptor, initDescriptor} from './descriptors';
+import {getDescriptors, isEventDescriptor, initDescriptor} from './descriptors';
 
 import type {
   ESLListenerHandler,
@@ -23,11 +22,15 @@ export class ESLEventUtils {
    */
   public static dispatch = dispatchCustomEvent;
 
-  /** @deprecated alias for {@link getAutoDescriptors} */
-  public static descriptors = getAutoDescriptors;
-
   /** Gets {@link ESLListenerDescriptorFn}s of the passed object */
-  public static getAutoDescriptors = getAutoDescriptors;
+  public static descriptors = getDescriptors;
+
+  /**
+   * Gets auto {@link ESLListenerDescriptorFn}s of the passed object
+   *
+   * @deprecated alias for `descriptors(host, {auto: true})`
+   */
+  public static getAutoDescriptors = (host: object): ESLListenerDescriptorFn[] => getDescriptors(host, {auto: true});
 
   /**
    * Decorates passed `key` of the `host` as an {@link ESLListenerDescriptorFn} using `desc` meta information
@@ -87,18 +90,11 @@ export class ESLEventUtils {
     handler: ESLListenerHandler = eventDesc as ESLListenerDescriptorFn
   ): ESLEventListener[] {
     if (arguments.length === 1) {
-      const descriptors = getAutoDescriptors(host);
-      // TODO: flatMap when ES5 will be out of support list
-      return descriptors.reduce(
-        (acc, desc) => acc.concat(ESLEventUtils.subscribe(host, desc)),
-        [] as ESLEventListener[]
-      );
+      const descriptors = getDescriptors(host, {auto: true});
+      return descriptors.flatMap((desc) => ESLEventUtils.subscribe(host, desc));
     }
     const desc = typeof eventDesc === 'string' ? {event: eventDesc} : eventDesc as ESLListenerDescriptor;
-    if (Object.hasOwnProperty.call(desc, 'condition') && !resolveProperty(desc.condition, host)) return [];
-    const listeners = ESLEventListener.subscribe(host, handler, desc);
-    if (!listeners.length) emptySubscriptionWarning(host, desc, handler);
-    return listeners;
+    return ESLEventListener.subscribe(host, handler, desc);
   }
 
   /**
@@ -108,12 +104,3 @@ export class ESLEventUtils {
    */
   public static unsubscribe = ESLEventListener.unsubscribe;
 }
-
-function emptySubscriptionWarning(host: object, descriptor: ESLListenerDescriptor, handler: ESLListenerHandler): void {
-  const event = resolveProperty(descriptor.event, host);
-  const target = resolveProperty(descriptor.target, host);
-  console.warn('[ESL]: Empty subscription %o', {host, descriptor, handler, event, target});
-}
-
-/** @deprecated alias for {@link ESLEventUtils} */
-export const EventUtils = ESLEventUtils;
