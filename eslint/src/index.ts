@@ -29,6 +29,7 @@ export const configs = {
   },
   'default': {
     rules: {
+      ...buildDefault(DEPRECATED_4_RULES, 'error'),
       ...buildDefault(DEPRECATED_5_RULES, 'warn')
     }
   }
