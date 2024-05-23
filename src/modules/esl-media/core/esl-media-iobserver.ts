@@ -1,6 +1,6 @@
 import type {ESLMedia} from './esl-media';
 
-const RATIO_TO_PLAY = 0.75; // TODO: customizable, at least global
+const RATIO_TO_PLAY = 0.5; // TODO: customizable, at least global
 const RATIO_TO_STOP = 0.20; // TODO: customizable, at least global
 
 const RATIO_TO_ACTIVATE = 0.05;
