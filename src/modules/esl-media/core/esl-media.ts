@@ -46,7 +46,8 @@ export class ESLMedia extends ESLBaseElement {
     'muted',
     'loop',
     'controls',
-    'lazy'
+    'lazy',
+    'start-time'
   ];
 
   /** Event to dispatch on ready state */
@@ -180,6 +181,7 @@ export class ESLMedia extends ESLBaseElement {
       case 'media-id':
       case 'media-src':
       case 'media-type':
+      case 'start-time':
         this.deferredReinitialize();
         break;
       case 'lazy':
