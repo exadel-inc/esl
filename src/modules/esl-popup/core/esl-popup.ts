@@ -4,6 +4,7 @@ import {bind, memoize, ready, attr, boolAttr, jsonAttr, listen, decorate} from '
 import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {afterNextRender, rafDecorator} from '../../esl-utils/async/raf';
 import {ESLToggleable} from '../../esl-toggleable/core';
+import {isElement} from '../../esl-utils/dom/api';
 import {Rect} from '../../esl-utils/dom/rect';
 import {isRTL} from '../../esl-utils/dom/rtl';
 import {getListScrollParents} from '../../esl-utils/dom/scroll';
@@ -254,6 +255,7 @@ export class ESLPopup extends ESLToggleable {
     this.$$on(this._onActivatorIntersection);
     this.$$on(this._onTransitionStart);
     this.$$on(this._onResize);
+    this.$$on(this._onRefresh);
 
     this._startUpdateLoop();
   }
@@ -272,10 +274,7 @@ export class ESLPopup extends ESLToggleable {
     this.$$attr('style', '');
     this.$$cls(this._extraClass || '', false);
 
-    this.$$off(this._onActivatorScroll);
-    this.$$off(this._onActivatorIntersection);
-    this.$$off(this._onTransitionStart);
-    this.$$off(this._onResize);
+    this.$$off({group: 'observer'});
 
     memoize.clear(this, ['offsetArrowRatio', '$container']);
   }
@@ -297,6 +296,7 @@ export class ESLPopup extends ESLToggleable {
   /** Actions to execute on activator intersection event. */
   @listen({
     auto: false,
+    group: 'observer',
     event: ESLIntersectionEvent.TYPE,
     target: ($popup: ESLPopup) => $popup.activator ? ESLIntersectionTarget.for($popup.activator, $popup.intersectionOptions) : [],
     condition: ($popup: ESLPopup) => !$popup.disableActivatorObservation
@@ -331,21 +331,29 @@ export class ESLPopup extends ESLToggleable {
   }
 
   /** Actions to execute on activator scroll event. */
-  @listen({auto: false, event: 'scroll', target: ($popup: ESLPopup) => $popup.scrollTargets})
+  @listen({auto: false, group: 'observer', event: 'scroll', target: ($popup: ESLPopup) => $popup.scrollTargets})
   protected _onActivatorScroll(e: Event): void {
     if (this._updateLoopID) return;
     this._updatePosition();
   }
 
-  @listen({auto: false, event: 'transitionstart', target: document.body})
+  @listen({auto: false, group: 'observer', event: 'transitionstart', target: document.body})
   protected _onTransitionStart(): void {
     this._startUpdateLoop();
   }
 
-  @listen({auto: false, event: 'resize', target: window})
+  @listen({auto: false, group: 'observer', event: 'resize', target: window})
   @decorate(rafDecorator)
   protected _onResize(): void {
     this._updatePosition();
+  }
+
+  @listen({auto: false, group: 'observer', event: ($popup: ESLPopup) => $popup.REFRESH_EVENT, target: window})
+  protected _onRefresh(e: Event): void {
+    const {target} = e;
+    if (!isElement(target)) return;
+    const {activator, $container} = this;
+    if ($container === target || this.contains(target) || activator?.contains(target)) this._updatePosition();
   }
 
   /**
