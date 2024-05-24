@@ -90,7 +90,7 @@ export class ESLPanel extends ESLToggleable {
 
   /** Handles post animation process to initiate after animate step */
   protected postAnimate(capturedBy?: ESLPanelGroup | null): void {
-    if (capturedBy) {
+    if (capturedBy && capturedBy.animating) {
       capturedBy.$$on({
         event: capturedBy.AFTER_ANIMATE_EVENT,
         once: true
