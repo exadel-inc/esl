@@ -15,8 +15,6 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
   /** Tolerance to treat offset enough to move to the next slide. Relative (0-1) to slide width */
   public static readonly NEXT_SLIDE_TOLERANCE = 0.25;
 
-  /** Min slides to position from both sides if possible */
-  protected reserve: number = 1;
   /** Slides gap size */
   protected gap: number = 0;
   /** Slide size cached value */
@@ -89,7 +87,7 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
   /** Post-processing animation action. */
   public override async onAfterAnimate(): Promise<void> {
     // Make sure we end up in a defined state on transition end
-    this.reorder(this.currentIndex);
+    this.reorder();
     this.setTransformOffset(-this.getOffset(this.currentIndex));
     this.$carousel.$$attr('active', false);
   }
@@ -99,7 +97,7 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     const index = normalize(this.currentIndex + (direction === 'next' ? 1 : -1), this.size);
 
     // Make sure there is a slide in required direction
-    this.reorder(index, direction !== 'prev');
+    this.reorder(direction === 'prev');
 
     const offsetFrom = -this.getOffset(this.currentIndex);
     this.setTransformOffset(offsetFrom);
@@ -131,11 +129,8 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     // check right border of non-loop state
     if (!this.loop && offset < 0 && index + 1 + this.count > this.$carousel.size) return;
 
-    const currentIndex = normalize(index, this.size);
-    const orderIndex = offset < 0 ? currentIndex : normalize(currentIndex - 1, this.size);
-
-    this.reorder(orderIndex);
-    this.currentIndex = currentIndex;
+    this.currentIndex = normalize(index, this.size);
+    this.reorder(offset > 0);
 
     const stageOffset = this.getOffset(this.currentIndex) - (offset % slideSize);
     this.setTransformOffset(-stageOffset);
@@ -163,22 +158,30 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     }
     this.$carousel.$$attr('animating', false);
 
-    this.reorder(this.currentIndex);
+    this.reorder();
     this.setTransformOffset(-this.getOffset(this.currentIndex));
     this.setActive(this.currentIndex, {direction: sign > 0 ? 'next' : 'prev'});
     this.$carousel.$$attr('active', false);
   }
 
-  /** Sets order style property for slides starting at index */
-  protected reorder(index: number = this.currentIndex, back?: boolean): void {
-    if (index < 0 || index > this.$carousel.size) return;
-    const {size, $slides} = this;
-    if (!$slides.length) return;
+  /**
+   * Sets order style property for slides starting at index
+   * @param back - if true, ensures that there is a slide rendered before the current one
+   */
+  protected reorder(back?: boolean): void {
+    const {size, count, loop, currentIndex, $slides} = this;
 
-    // max reserve limited to a half of free slides, unless backward reorder requested (for back animation)
-    const maxReserve = Math.max(back ? 1 : 0, Math.floor((this.size - this.count) / 2));
-    // reserve slides from both sides if requested (or for loop carousel by default); reserve in normal direction is in priority
-    const reserve = Math.min((typeof back === 'boolean' ? back : this.loop) ? this.reserve : 0, maxReserve);
+    const reserve = ((): number => {
+      const freeSlides = size - count;
+      // no need to reorder if there are no free slides or loop is disabled
+      if (!loop || !freeSlides) return 0;
+      // if back option is not set, prefer to reserve slides with respect to semantic order
+      if (typeof back !== 'boolean') back = !!currentIndex;
+      // otherwise, ensure that there are at least half of free slides reserved (if the back option is set - round up, otherwise - round down)
+      return Math.min(count, back ? Math.ceil(freeSlides / 2) : Math.floor(freeSlides / 2));
+    })();
+
+    const index = loop ? currentIndex : 0;
     for (let i = 0; i < size; ++i) {
       let offset = (size + i - index) % size;
       // inverses index for backward reserve
