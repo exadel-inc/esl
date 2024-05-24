@@ -102,7 +102,7 @@
     "lint-staged": "^15.2.2",
     "postcss": "^8.4.36",
     "postcss-less": "^6.0.0",
-    "postcss-preset-env": "^9.5.12",
+    "postcss-preset-env": "^9.5.13",
     "prettier": "^3.2.5",
     "rimraf": "^5.0.7",
     "semantic-release": "^23.1.1",
