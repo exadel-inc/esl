@@ -72,6 +72,9 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** Readonly attribute that indicates whether the panel group has opened panels */
   @boolAttr({readonly: true}) public hasOpened: boolean;
 
+  /** Active while animation in progress */
+  @boolAttr({readonly: true}) public animating: boolean;
+
   /** Height of previous active panel */
   protected _previousHeight: number = 0;
 
@@ -268,6 +271,7 @@ export class ESLPanelGroup extends ESLBaseElement {
 
   /** Pre-processing animation action */
   protected beforeAnimate(): void {
+    this.$$attr('animating', true);
     CSSClassUtils.add(this, this.animationClass);
   }
 
@@ -275,6 +279,7 @@ export class ESLPanelGroup extends ESLBaseElement {
   protected afterAnimate(silent?: boolean): void {
     this.style.removeProperty('height');
     CSSClassUtils.remove(this, this.animationClass);
+    this.$$attr('animating', false);
 
     if (silent) return;
     this.$$fire(this.AFTER_ANIMATE_EVENT, {bubbles: false});
