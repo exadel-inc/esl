@@ -302,9 +302,10 @@ export class ESLMedia extends ESLBaseElement {
     condition: ($this: ESLMedia) => $this.fillModeEnabled
   })
   protected _onResize(): void {
+    if (!this._provider) return;
     const {actualAspectRatio} = this;
-    this.toggleAttribute('wide', this.offsetWidth / this.offsetHeight > actualAspectRatio);
-    if (this._provider && this.fillModeEnabled && actualAspectRatio > 0) this._provider.aspectRatio = actualAspectRatio;
+    this.$$attr('wide', this.offsetWidth / this.offsetHeight > actualAspectRatio);
+    this._provider.setAspectRatio(actualAspectRatio);
   }
 
   @listen({

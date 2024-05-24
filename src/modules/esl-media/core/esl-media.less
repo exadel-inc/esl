@@ -57,28 +57,14 @@
       }
     }
 
-    &[wide] {
-      &[fill-mode='inscribe'] .esl-media-inner {
-        height: 100%;
-        width: auto;
-      }
-  
-      &[fill-mode='cover'] .esl-media-inner {
-        height: auto;
-        width: 100%;
-      }  
+    &:not([wide])[fill-mode='cover'] .esl-media-inner, &[wide][fill-mode='inscribe'] .esl-media-inner {
+      width: auto;
+      height: 100%;
     }
 
-    &:not([wide])  {
-      &[fill-mode='cover'] .esl-media-inner {
-        height: 100%;
-        width: auto;
-      }
-  
-      &[fill-mode='inscribe'] .esl-media-inner {
-        height: auto;
-        width: 100%;
-      }  
+    &:not([wide])[fill-mode='inscribe'] .esl-media-inner, &[wide][fill-mode='cover'] .esl-media-inner {
+      width: 100%;
+      height: auto;
     }
   }
 }
