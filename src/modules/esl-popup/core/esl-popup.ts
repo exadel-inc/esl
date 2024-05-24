@@ -4,11 +4,7 @@ import {bind, memoize, ready, attr, boolAttr, jsonAttr, listen, decorate} from '
 import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {afterNextRender, rafDecorator} from '../../esl-utils/async/raf';
 import {ESLToggleable} from '../../esl-toggleable/core';
-import {isElement} from '../../esl-utils/dom/api';
-import {Rect} from '../../esl-utils/dom/rect';
-import {isRTL} from '../../esl-utils/dom/rtl';
-import {getListScrollParents} from '../../esl-utils/dom/scroll';
-import {getWindowRect} from '../../esl-utils/dom/window';
+import {isElement, isRelativeNode, isRTL, Rect, getListScrollParents, getWindowRect} from '../../esl-utils/dom';
 import {parseBoolean, parseNumber, toBooleanAttribute} from '../../esl-utils/misc/format';
 import {copyDefinedKeys} from '../../esl-utils/misc/object';
 import {ESLIntersectionTarget, ESLIntersectionEvent} from '../../esl-event-listener/core/targets/intersection.target';
@@ -349,11 +345,10 @@ export class ESLPopup extends ESLToggleable {
   }
 
   @listen({auto: false, group: 'observer', event: ($popup: ESLPopup) => $popup.REFRESH_EVENT, target: window})
-  protected _onRefresh(e: Event): void {
-    const {target} = e;
+  protected _onRefresh({target}: Event): void {
     if (!isElement(target)) return;
     const {activator, $container} = this;
-    if ($container === target || this.contains(target) || activator?.contains(target)) this._updatePosition();
+    if ($container === target || this.contains(target) || activator && isRelativeNode(activator, target)) this._updatePosition();
   }
 
   /**
