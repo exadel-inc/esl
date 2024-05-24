@@ -121,6 +121,10 @@ export abstract class BaseProvider {
     this._el.style.setProperty('height', height === 'auto' ? null : `${height}px`);
   }
 
+  public setAspectRatio(aspectRatio: number): void {
+    this._el?.style.setProperty('aspect-ratio', aspectRatio > 0 ? `${aspectRatio}` : null);
+  }
+
   /**
    * Executes toggle action:
    * If the player is PAUSED then it starts playing otherwise it pause playing
