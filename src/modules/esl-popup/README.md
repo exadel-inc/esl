@@ -41,3 +41,7 @@ ESLPopup extends [ESLToggleable](../esl-toggleable/README.md) you can find other
 ### Readonly Attributes
 
 - `placed-at` (string) - popup updated position relative to the trigger. In other words, this is the real position of the popup relative to the trigger after the position update in the case when 'fit' behavior is enabled
+
+### Refreshing popup position
+
+The popup component watches for outside events and updates its position automatically. In case when you require a popup position update and it can't do it automatically you should use `esl:refresh` event. The popup window will update its position in case when esl:refresh event was emitted from popup content, the container element, or popups trigger.
