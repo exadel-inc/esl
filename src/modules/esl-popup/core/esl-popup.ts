@@ -348,7 +348,7 @@ export class ESLPopup extends ESLToggleable {
   protected _onRefresh({target}: Event): void {
     if (!isElement(target)) return;
     const {activator, $container} = this;
-    if ($container === target || this.contains(target) || activator && isRelativeNode(activator, target)) this._updatePosition();
+    if ($container === target || this.contains(target) || isRelativeNode(activator ?? null, target)) this._updatePosition();
   }
 
   /**
