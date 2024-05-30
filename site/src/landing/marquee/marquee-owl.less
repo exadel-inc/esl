@@ -1,0 +1,48 @@
+@import (reference) '../../common/variables.less';
+
+esl-d-marquee-owl {
+  display: block;
+  @media @xs-sm {
+    display: none;
+  }
+
+  & path {
+    stroke-dasharray: 1679px;
+    stroke-dashoffset: 1679px;
+  }
+  & :is(image, text) {
+    opacity: 0;
+  }
+
+  & image {
+    pointer-events: all;
+  }
+
+  &[active] {
+    path {
+      animation: anim-box 2s ease;
+      animation-delay: 0.5s;
+      animation-iteration-count: 1;
+      animation-fill-mode: both;
+    }
+    &[active] :is(image, text) {
+      animation: anim-visibility 0.5s ease;
+      animation-iteration-count: 1;
+      animation-fill-mode: both;
+    }
+    &[active] text {
+      animation-delay: 0.9s;
+    }
+  }
+
+  @keyframes anim-box {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  @keyframes anim-visibility {
+    to {
+      opacity: 1;
+    }
+  }
+}

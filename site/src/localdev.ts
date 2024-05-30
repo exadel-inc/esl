@@ -48,7 +48,7 @@ import '@exadel/esl/modules/esl-media/providers/brightcove-provider';
 
 import {ESLDemoAutofocus} from './autofocus/autofocus-mixin';
 import {ESLDemoBackLink} from './back-link/back-link';
-import {ESLDemoMarquee} from './landing/landing';
+import {ESLDemoMarquee, ESLDemoMarqueeOwl} from './landing/landing';
 import {ESLDemoSearchBox} from './navigation/header/header-search';
 import {ESLDemoSearchPageWrapper} from './search/search';
 import {ESLDemoSidebar} from './navigation/navigation';
@@ -62,6 +62,7 @@ if (!CSS.supports('(height: 100dvh) or (width: 100dvw)')) ESLVSizeCSSProxy.obser
 ESLDemoAutofocus.register();
 ESLDemoSidebar.register();
 ESLDemoMarquee.register();
+ESLDemoMarqueeOwl.register();
 ESLDemoSearchBox.register();
 ESLDemoSearchPageWrapper.register();
 ESLDemoAnchorLink.register();
