@@ -6,6 +6,7 @@ import {getDescriptors, isEventDescriptor, initDescriptor} from './descriptors';
 
 import type {
   ESLListenerHandler,
+  ESLListenerCriteria,
   ESLListenerDescriptor,
   ESLListenerDescriptorFn
 } from './types';
@@ -56,12 +57,21 @@ export class ESLEventUtils {
    * @param host - host object (listeners context) to find descriptors and associate subscription
    * */
   public static subscribe(host: object): ESLEventListener[];
+  /** Subscribes (or resubscribes) all known descriptors that matches criteria */
+  public static subscribe(host: object, criteria: ESLListenerCriteria): ESLEventListener[];
   /**
    * Subscribes decorated as an {@link ESLListenerDescriptorFn} `handler` function
    * @param host - host object (listeners context) to associate subscription
    * @param handler - handler function decorated as {@link ESLListenerDescriptorFn}
    */
   public static subscribe(host: object, handler: ESLListenerHandler): ESLEventListener[];
+  /**
+   * Subscribes all descriptors that matches criteria, with a passed descriptor override
+   * @param host - host object (listeners context) to associate subscription
+   * @param descriptor - event or {@link ESLListenerDescriptor} with defined event type
+   * @param criteria - optional set of criteria {@link ESLListenerCriteria} to filter listeners list
+   */
+  public static subscribe(host: object, descriptor: Partial<ESLListenerDescriptor>, criteria: ESLListenerCriteria): ESLEventListener[];
   /**
    * Subscribes `handler` function with the passed event type or {@link ESLListenerDescriptor} with event type declared
    * @param host - host object (listeners context) to associate subscription
@@ -86,15 +96,15 @@ export class ESLEventUtils {
   ): ESLEventListener[];
   public static subscribe(
     host: object,
-    eventDesc?: string | Partial<ESLListenerDescriptor> | ESLListenerHandler,
-    handler: ESLListenerHandler = eventDesc as ESLListenerDescriptorFn
+    eventDesc: any = {auto: true},
+    handler: any = eventDesc
   ): ESLEventListener[] {
-    if (arguments.length === 1) {
-      const descriptors = getDescriptors(host, {auto: true});
-      return descriptors.flatMap((desc) => ESLEventUtils.subscribe(host, desc));
+    if (typeof eventDesc === 'string') eventDesc = {event: eventDesc} as ESLListenerDescriptor;
+    if (typeof handler === 'function') {
+      if (typeof eventDesc === 'function' && eventDesc !== handler) throw new Error('[ESL] Multiple handler functions passed');
+      return ESLEventListener.subscribe(host, handler, eventDesc);
     }
-    const desc = typeof eventDesc === 'string' ? {event: eventDesc} : eventDesc as ESLListenerDescriptor;
-    return ESLEventListener.subscribe(host, handler, desc);
+    return getDescriptors(host, handler).flatMap((desc) => ESLEventListener.subscribe(host, desc, eventDesc));
   }
 
   /**
