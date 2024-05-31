@@ -64,5 +64,26 @@ The ESLint plugin provides a separate rule for each deprecated utility within th
 - `@exadel/esl/deprecated-4/toggleable-action-params` - Rule for deprecated `ToggleableActionParams` alias for `ESLToggleableActionParams`.
 - `@exadel/esl/deprecated-4/tooltip-action-params` - Rule for deprecated `TooltipActionParams` alias for `ESLTooltipActionParams`.
 
+- `@exadel/esl/deprecated-4/base-decorators-path` - Rule for deprecated `@attr`, `@prop`, `@boolAttr`, `@jsonAttr`, `@listen` import paths.
+
+- `@exadel/esl/deprecated-5/alert-action-params` - Rule for deprecated `AlertActionParams` alias for `ESLAlertActionParams`.
+- `@exadel/esl/deprecated-5/panel-action-params` - Rule for deprecated `PanelActionParams` alias for `ESLPanelActionParams`.
+- `@exadel/esl/deprecated-5/popup-action-params` - Rule for deprecated `PopupActionParams` alias for `ESLPopupActionParams`.
+- `@exadel/esl/deprecated-5/tooltip-action-params` - Rule for deprecated `TooltipActionParams` alias for `ESLTooltipActionParams`.
 
 These rules can be configured manually inside the `rules` section of your ESLint configuration file.
+
+### Running ESL ESLint with CLI (without ESLint installed)
+
+⚠️ **Note**: This approach is not recommended. If you use ESL, consider installing ESLint with the ESL plugin and keep it in your project.
+
+If you do not have ESLint installed, you can still run ESL ESLint with the following command:
+```bash
+npm i -g eslint @babel/eslint-parser @typescript-eslint/parser
+npx eslint --plugin @exadel/esl --no-eslintrc --config https://raw.githubusercontent.com/exadel-inc/esl/main/eslint/eslint/defaults/ts-config-default.eslint.yml --ext .js,.ts,.jsx,.tsx .
+```
+
+There are a couple of basic [configurations](https://github.com/exadel-inc/esl/tree/main/eslint/defaults):
+  - defaults/es-config-default.eslint.yml
+  - defaults/ts-config-default.eslint.yml
+Note: You may still need to configure them temporarily in the root of the project to ensure ESLint can parse your code correctly.
