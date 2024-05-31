@@ -4,7 +4,7 @@ import type {Rule} from 'eslint';
 const meta: Rule.RuleModule['meta'] = {
   type: 'suggestion',
   docs: {
-    description: 'replace deprecated path with a recommend one or use the library root & tree shaking',
+    description: 'replace deprecated path with a recommended one or use the library root & tree shaking',
     recommended: true
   }
 };
