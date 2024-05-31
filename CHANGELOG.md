@@ -1,3 +1,19 @@
+## [5.0.0-beta.19](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.18...v5.0.0-beta.19) (2024-05-31)
+
+
+### Features
+
+* **esl-event-listener:** add support for criteria-based subscriptions ([b571d88](https://github.com/exadel-inc/esl/commit/b571d888afdf4748b110b13f0c642d257e99af36))
+* **esl-popup:** add handler for refresh event ([5864c92](https://github.com/exadel-inc/esl/commit/5864c9293046a43d49b900818573b4fd879b6834))
+* **lint:** add deprecation warning regarding incorrect direct imports for `attr`, `prop`, `jsonAttr`, `boolAttr`, `listen` ([e592048](https://github.com/exadel-inc/esl/commit/e592048d19aa4575f89e056632e7455a50f47eac))
+
+
+### Bug Fixes
+
+* **deps:** bump pug from 3.0.2 to 3.0.3 ([8006a45](https://github.com/exadel-inc/esl/commit/8006a45a96aaf52e9a341bf13768613cc0bf17b4))
+* **esl-utils:** fix event cancellation handling ([8e45a75](https://github.com/exadel-inc/esl/commit/8e45a7560c3260f21dbe22e9beaa64c8afe19ca5))
+* **esl-utils:** fix isRelativeNode signature (can accept undefined as a node) ([4e2c7af](https://github.com/exadel-inc/esl/commit/4e2c7af179d186de521e7a55c0be66d1e3dc68fa))
+
 ## [5.0.0-beta.18](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.17...v5.0.0-beta.18) (2024-05-24)
 
 
