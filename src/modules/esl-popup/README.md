@@ -141,3 +141,7 @@ ESLPopup is a non-trivial component that calculates its position depending on us
 - `--esl-popup-z-index` - z-index of the popup ('999' by default)
 
 Or if you are using the LESS preprocessor, you can optionally use mixins instead of CSS variables. However, we would recommend using the general approach with CSS variables.
+
+### Refreshing popup position
+
+The popup component watches for outside events and updates its position automatically. In case when you require a popup position update and it can't do it automatically you should use `esl:refresh` event. The popup window will update its position in case when esl:refresh event was emitted from popup content, the container element, or popups trigger.
