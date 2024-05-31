@@ -3,7 +3,7 @@ layout: content
 name: ESL v4.17.0
 title: ESL v4.17.0
 tags: [news]
-date: 2024-06-01
+date: 2024-05-31
 link: https://github.com/exadel-inc/esl/releases/tag/v4.17.0
 ---
 
