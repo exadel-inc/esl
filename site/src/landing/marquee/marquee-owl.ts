@@ -7,15 +7,15 @@ export class ESLDemoMarqueeOwl extends ESLBaseElement {
   static readonly RESET_TIMEOUT = 4000;
   static readonly MAX_LINES_LENGTH = 16;
 
-  static readonly INITIAL_PHRASE = 'Are you come to contribute?';
+  static readonly INITIAL_PHRASE = 'Did you come to contribute?';
   static readonly PHRASES = [
     'Yes...',
     'What\'s up?',
-    'What are you want?',
+    'What do you want?',
     'What?',
     'I am not going to fly away...',
     'Whoo, whoo, whoo!!!',
-    'Well, let\'s say "Caw, caw, caw !!!"'
+    'Well, let\'s say Caw, caw, caw!'
   ];
 
   protected _timeout: number = 0;
@@ -37,6 +37,11 @@ export class ESLDemoMarqueeOwl extends ESLBaseElement {
       }
       $line.textContent = line;
     }
+  }
+
+  protected override connectedCallback(): void {
+    super.connectedCallback();
+    this.text = ESLDemoMarqueeOwl.INITIAL_PHRASE;
   }
 
   // Activator of interactive actions
