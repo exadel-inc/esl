@@ -22,6 +22,7 @@ export interface MediaProviderConfig {
   title: string;
   preload?: 'none' | 'metadata' | 'auto' | '';
   playsinline?: boolean;
+  startTime?: number;
 }
 
 export type ProviderType = (new(component: ESLMedia, config: MediaProviderConfig) => BaseProvider) & typeof BaseProvider;
@@ -39,8 +40,8 @@ export abstract class BaseProvider {
     return null;
   }
   static parseConfig(component: ESLMedia): MediaProviderConfig {
-    const {loop, muted, controls, autoplay, title, preload, playsinline, mediaId, mediaSrc} = component;
-    const config = {loop, muted, controls, autoplay, title, preload, playsinline};
+    const {loop, muted, controls, autoplay, title, preload, playsinline, mediaId, mediaSrc, startTime} = component;
+    const config = {loop, muted, controls, autoplay, title, preload, playsinline, startTime};
     if (mediaId) Object.assign(config, {mediaId});
     if (mediaSrc) Object.assign(config, {mediaSrc});
     return config;
@@ -118,6 +119,10 @@ export abstract class BaseProvider {
     if (!this._el) return;
     this._el.style.setProperty('width', width === 'auto' ? null : `${width}px`);
     this._el.style.setProperty('height', height === 'auto' ? null : `${height}px`);
+  }
+
+  public setAspectRatio(aspectRatio: number): void {
+    this._el?.style.setProperty('aspect-ratio', aspectRatio > 0 ? `${aspectRatio}` : null);
   }
 
   /**

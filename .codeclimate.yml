@@ -43,3 +43,4 @@ exclude_patterns:
   - "**/vendor/"
   - "**/*.d.ts"
   - "**/*.test.ts"
+  - "e2e/setup/**/*.ts"

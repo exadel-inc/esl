@@ -41,6 +41,8 @@ export type ESLMediaTagShape = ({
   'preload'?: 'none' | 'metadata' | 'auto' | '';
   /** Allow play media inline */
   'playsinline'?: boolean;
+  /** Allows to start viewing a resource from a specific time offset */
+  'start-time'?: number;
 
   /** Optional BC provider player id */
   'data-player-id'?: string;

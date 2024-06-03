@@ -149,7 +149,7 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
    * Subscribes to pointerup and pointerdown event
    */
   public override addEventListener(callback: EventListener): void;
-  public override addEventListener(event: typeof ESLSwipeGestureEvent.type, callback: EventListener): void;
+  public override addEventListener(event: typeof ESLSwipeGestureEvent.TYPE, callback: EventListener): void;
   public override addEventListener(event: any, callback: EventListener = event): void {
     super.addEventListener(event, callback);
 
@@ -162,7 +162,7 @@ export class ESLSwipeGestureTarget extends SyntheticEventTarget {
    * Unsubscribes from the observed target {@link Element} changes
    */
   public override removeEventListener(callback: EventListener): void;
-  public override removeEventListener(event: typeof ESLSwipeGestureEvent.type, callback: EventListener): void;
+  public override removeEventListener(event: typeof ESLSwipeGestureEvent.TYPE, callback: EventListener): void;
   public override removeEventListener(event: any, callback: EventListener = event): void {
     super.removeEventListener(event, callback);
     if (!this.hasEventListener(event)) ESLEventListener.unsubscribe(this);

@@ -210,6 +210,7 @@ aside:
       <option value="manual">Manual</option>
       <option value="auto">Auto</option>
     </uip-select-setting>
+    <uip-text-setting label="Start time:" attribute="start-time"></uip-text-setting>
     <uip-bool-setting label="Muted" attribute="muted"></uip-bool-setting>
     <uip-bool-setting label="Autoplay" attribute="autoplay"></uip-bool-setting>
   </uip-settings>
@@ -256,7 +257,7 @@ aside:
                    media-type="youtube"
                    media-id="5ryf1AVl8Wg"
                    fill-mode="cover"
-                   aspect-ratio="4:3"
+                   aspect-ratio="16:9"
                    play-in-viewport
                    lazy="auto"
                    autoplay muted loop playsinline>
@@ -280,7 +281,6 @@ aside:
 
     <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
     <uip-preview></uip-preview>
-    <uip-editor label="Source code" collapsible copy></uip-editor>
     <uip-editor label="Source code (HTML)" collapsible copy></uip-editor>
     <uip-editor source="js" label="Source code (JS)" collapsible collapsed copy></uip-editor>
   </uip-root>

@@ -127,6 +127,7 @@ export function toIndex(target: ESLCarouselSlideTarget, cfg: ESLCarouselState): 
  * E.g.: carousel can't navigate to invalid target or to the next slide if it's the last slide and loop is disabled
  */
 export function canNavigate(target: ESLCarouselSlideTarget, cfg: ESLCarouselState): boolean {
+  if (cfg.size <= cfg.count) return false;
   const {dir, index} = toIndex(target, cfg);
   if (!cfg.loop && index > cfg.activeIndex && dir === 'prev') return false;
   if (!cfg.loop && index < cfg.activeIndex && dir === 'next') return false;

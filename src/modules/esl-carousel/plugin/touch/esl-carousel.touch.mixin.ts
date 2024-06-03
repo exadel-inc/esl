@@ -1,13 +1,11 @@
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
 import {attr, prop, listen, memoize} from '../../../esl-utils/decorators';
-import {getTouchPoint, isMouseEvent, isTouchEvent} from '../../../esl-utils/dom/events';
 import {getParentScrollOffsets, isOffsetChanged} from '../../../esl-utils/dom/scroll';
 import {buildEnumParser} from '../../../esl-utils/misc/enum';
 import {ESLMediaRuleList} from '../../../esl-media-query/core';
 
 import {ESLCarouselPlugin} from '../esl-carousel.plugin';
 
-import type {Point} from '../../../esl-utils/dom/point';
 import type {ElementScrollOffset} from '../../../esl-utils/dom/scroll';
 
 export type TouchType = 'drag' | 'swipe' | 'none';
@@ -43,10 +41,8 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
   /** Defines timeout tolerance to swipe */
   @attr({name: 'esl-carousel-swipe-timeout', defaultValue: 2000, parser: parseInt}) public swipeTimeout: number;
 
-  /** Coordinate of touch start event */
-  protected startPoint: Point = {x: 0, y: 0};
-  /** Timestamp of touch start event */
-  protected startTimestamp = 0;
+  /** Start pointer event to detect action */
+  protected startEvent?: PointerEvent;
   /** Initial scroll offsets, filled on touch action start */
   protected startScrollOffsets: ElementScrollOffset[];
 
@@ -87,47 +83,36 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
     if (name === ESLCarouselTouchMixin.is) memoize.clear(this, 'typeRule');
   }
 
-  /** @returns if the event should initiate tracking */
-  protected shouldTrack(event: TouchEvent | PointerEvent | MouseEvent): boolean | undefined {
-    // Multi-touch gesture
-    if (isTouchEvent(event) && event.touches.length !== 1) return false;
-    // Non-primary mouse button initiate drug event
-    if (isMouseEvent(event) && event.button !== 0) return false;
-    // Ignore touch tracking in case it starts inside form or editable elements
-    return !(event.target as HTMLElement).closest('input, textarea, [editable]');
-  }
-
   /** @returns offset between start point and passed event point */
-  protected getOffset(event: TouchEvent | PointerEvent | MouseEvent): number {
-    const point = getTouchPoint(event);
-    return this.$host.config.vertical ? point.y - this.startPoint.y : point.x - this.startPoint.x;
+  protected getOffset(event: PointerEvent): number {
+    const property = this.$host.config.vertical ? 'clientY' : 'clientX';
+    return this.startEvent ? (event[property] - this.startEvent[property]) : 0;
   }
 
   /** @returns if the passed event leads to swipe action */
-  protected isSwipeAccepted(event: TouchEvent | PointerEvent | MouseEvent): boolean {
+  protected isSwipeAccepted(event: PointerEvent): boolean {
+    if (!this.startEvent) return false;
     // Ignore swipe if timeout threshold exceeded
-    if (event.timeStamp - this.startTimestamp > this.swipeTimeout) return false;
+    if (event.timeStamp - this.startEvent.timeStamp > this.swipeTimeout) return false;
     // Ignore swipe if offset is not enough
     return Math.abs(this.getOffset(event)) > this.swipeDistance;
   }
 
   /** Handles `mousedown` / `touchstart` event to manage thumb drag start and scroll clicks */
-  @listen('mousedown touchstart')
-  protected _onPointerDown(event: MouseEvent | TouchEvent): void {
-    if (this.isDisabled || !this.shouldTrack(event)) return;
+  @listen('pointerdown')
+  protected _onPointerDown(event: PointerEvent): void {
+    if (this.isDisabled) return;
 
-    this.startPoint = getTouchPoint(event);
-    this.startTimestamp = event.timeStamp;
+    this.startEvent = event;
     this.startScrollOffsets = getParentScrollOffsets(event.target as Element, this.$host);
 
-    const isMouse = isMouseEvent(event);
-    this.$$on(isMouse ? 'mousemove' : 'touchmove', this._onPointerMove);
-    this.$$on(isMouse ? 'mouseup' : 'touchend', this._onPointerUp);
+    this.$$on('pointermove', this._onPointerMove);
+    this.$$on('pointerup pointercancel', this._onPointerUp);
   }
 
   /** Processes `mousemove` and `touchmove` events. */
-  @listen({auto: false, target: window, passive: false})
-  protected _onPointerMove(event: TouchEvent | PointerEvent | MouseEvent): void {
+  @listen({auto: false})
+  protected _onPointerMove(event: PointerEvent): void {
     const offset = this.getOffset(event);
 
     if (!this.$host.hasAttribute('dragging')) {
@@ -137,20 +122,24 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
       if (Math.abs(offset) < this.tolerance) return;
       this.$$attr('dragging', true);
     }
-    event.preventDefault();
+
+    this.$host.setPointerCapture(event.pointerId);
 
     if (this.isDragMode) this.$host.renderer.onMove(offset);
   }
 
   /** Processes `mouseup` and `touchend` events. */
-  @listen({auto: false, target: window})
-  protected _onPointerUp(event: TouchEvent | PointerEvent | MouseEvent): void {
+  @listen({auto: false})
+  protected _onPointerUp(event: PointerEvent): void {
     // Unbinds drag listeners
     this.$$off(this._onPointerMove);
     this.$$off(this._onPointerUp);
 
+    if (this.$host.hasPointerCapture(event.pointerId)) {
+      this.$host.releasePointerCapture(event.pointerId);
+    }
+
     if (this.$$attr('dragging', false) === null) return;
-    event.preventDefault();
 
     const offset = this.getOffset(event);
     // ignore single click
@@ -162,6 +151,8 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
       const target = `${this.swipeType}:${offset < 0 ? 'next' : 'prev'}`;
       if (this.$host.canNavigate(target)) this.$host.goTo(target);
     }
+
+    delete this.startEvent;
   }
 }
 

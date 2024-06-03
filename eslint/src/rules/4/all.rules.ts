@@ -4,10 +4,15 @@ import deprecatedEventUtils from './deprecated.event-utils';
 import deprecatedTraversingQuery from './deprecated.traversing-query';
 import deprecatedToggleableActionParams from './deprecated.toggleable-action-params';
 
+import deprecatedBaseDecoratorsPath from './deprecated.base-decorators-path';
+
 export default {
+  // Aliases
   'deprecated-4/generate-uid': deprecatedGenerateUid,
   'deprecated-4/deep-compare': deprecatedDeepCompare,
   'deprecated-4/event-utils': deprecatedEventUtils,
   'deprecated-4/traversing-query': deprecatedTraversingQuery,
-  'deprecated-4/toggleable-action-params': deprecatedToggleableActionParams
+  'deprecated-4/toggleable-action-params': deprecatedToggleableActionParams,
+  // Paths
+  'deprecated-4/base-decorators-path': deprecatedBaseDecoratorsPath
 };

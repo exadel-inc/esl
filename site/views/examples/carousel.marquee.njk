@@ -13,31 +13,32 @@ icon: examples/carousel.svg
                   type="default"
                   esl-carousel-touch
                   esl-carousel-relate-to="#nav-carousel">
-      <div esl-carousel-slides>
+      <ul esl-carousel-slides>
         {% for item in slides %}
-        <esl-carousel-slide>
-        <div class="img-container">
-          <esl-image mode="cover" lazy
-                        data-alt="{{ 'Carousel slide ' + loop.index }}"
-                        data-src="{{ '/assets/carousel/' + loop.index + '-sm.jpg'  | url }}"></esl-image>
-        </div>
-        </esl-carousel-slide>
+        <li esl-carousel-slide>
+          <div class="img-container img-container-16-9">
+            <esl-image mode="cover"
+                       lazy
+                       data-alt="{{ 'Carousel slide ' + loop.index }}"
+                       data-src="{{ '/assets/carousel/' + loop.index + '-sm.jpg'  | url }}"></esl-image>
+          </div>
+        </li>
         {% endfor %}
-      </div>
+      </ul>
     </esl-carousel>
 
     <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
   </div>
   <div class="flex-column marquee-nav-carousel" esl-carousel-container>
-    <button class="esl-carousel-arrow inner icon-arrow-prev" esl-carousel-nav="-4"></button>
+    <button class="esl-carousel-arrow inner prev" esl-carousel-nav="-4"></button>
 
     <esl-carousel id="nav-carousel"
                   esl-carousel-touch
                   type="default"
                   count="5">
-      <div esl-carousel-slides>
+      <ul esl-carousel-slides>
         {% for item in slides %}
-        <esl-carousel-slide>
+        <li esl-carousel-slide>
           <div class="img-container img-container-4-3"
                esl-carousel-nav="slide:{{ loop.index - 1 }}"
                esl-carousel-nav-target="#main-carousel">
@@ -45,11 +46,11 @@ icon: examples/carousel.svg
                        data-alt="{{ 'Carousel slide ' + loop.index }}"
                        data-src="{{ '/assets/carousel/' + loop.index + '-sm.jpg'  | url }}"></esl-image>
           </div>
-        </esl-carousel-slide>
+        </li>
         {% endfor %}
-      </div>
+      </ul>
     </esl-carousel>
 
-    <button class="esl-carousel-arrow inner icon-arrow-next" esl-carousel-nav="+4"></button>
+    <button class="esl-carousel-arrow inner next" esl-carousel-nav="+4"></button>
   </div>
 </section>

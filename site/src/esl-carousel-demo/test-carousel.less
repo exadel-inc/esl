@@ -1,5 +1,7 @@
 @import (reference) '../common/variables.less';
 
+// TODO: Cleanup according to core styles update
+
 .marquee-carousel [esl-carousel-container] {
   esl-carousel {
     margin: 0;
@@ -43,7 +45,7 @@
       min-height: 500px;
       gap: 0;
     }
-    esl-carousel-slide {
+    [esl-carousel-slide] {
       padding: 0;
     }
     button.arrow-prev,
@@ -56,7 +58,7 @@
 
   &.marquee-nav-carousel {
     padding: 0 60px;
-    esl-carousel-slide {
+    [esl-carousel-slide] {
       margin: 10px 0;
     }
     &::before {

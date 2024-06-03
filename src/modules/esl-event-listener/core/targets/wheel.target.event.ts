@@ -20,7 +20,9 @@ export interface ESLWheelEventInfo {
  * Wheel event dispatched by {@link ESLWheelTarget}
  */
 export class ESLWheelEvent extends UIEvent implements ESLWheelEventInfo {
-  public static readonly type = 'longwheel';
+  public static readonly TYPE = 'longwheel';
+  /** @deprecated Use {@link TYPE} instead */
+  public static readonly type = this.TYPE;
 
   public override readonly target: Element;
 
@@ -31,7 +33,7 @@ export class ESLWheelEvent extends UIEvent implements ESLWheelEventInfo {
   public readonly duration: number;
 
   protected constructor(target: Element, wheelInfo: ESLWheelEventInfo) {
-    super(ESLWheelEvent.type);
+    super(ESLWheelEvent.TYPE);
     overrideEvent(this, 'target', target);
     Object.assign(this, wheelInfo);
   }

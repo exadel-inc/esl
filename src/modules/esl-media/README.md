@@ -84,6 +84,9 @@ using a single tag as well as work with external providers using simple native-l
     Independent of the lazy state, use `ready-class` if you are interested in the final state of component.
  - `load-condition-class-target` (optional) - [ESLTraversingQuery](../esl-traversing-query/README.md) to define a target for `load-condition-class`
 
+ - `start-time` - attribute that allows a user to start viewing a video from a specific time offset. The value is simple time in seconds. By default, it is undefined which means to start from the beginning.
+*(note: that feature doesn't work for Abstract Iframe provider, also doesn't work for HTMLAudio and HTMLVideo providers in case when Web-server when hosted resource doesn't support ['Accept-Ranges' HTTP response marker](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Ranges))*
+
 #### Deprecated attributes (going to be removed in the next major release):
  - `load-cls-accepted` (optional) - class to add when the media is loaded and accepted by the load condition. Use `load-condition-class` instead.
  - `load-cls-declined` (optional) - class to add when the media is loaded and rejected by the load condition. Use `load-condition-class` with inverted syntax (`!class`) instead.

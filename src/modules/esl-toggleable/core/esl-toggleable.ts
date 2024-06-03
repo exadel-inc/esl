@@ -5,7 +5,7 @@ import {prop, attr, jsonAttr, listen} from '../../esl-utils/decorators';
 import {defined, copyDefinedKeys} from '../../esl-utils/misc/object';
 import {parseBoolean, toBooleanAttribute} from '../../esl-utils/misc/format';
 import {sequentialUID} from '../../esl-utils/misc/uid';
-import {DeviceDetector} from '../../esl-utils/environment/device-detector';
+import {hasHover} from '../../esl-utils/environment/device-detector';
 import {DelayedTask} from '../../esl-utils/async/delayed-task';
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {findParent, isMatches} from '../../esl-utils/dom/traversing';
@@ -180,7 +180,7 @@ export class ESLToggleable extends ESLBaseElement {
   }
   /** Bind hover events listeners for the Toggleable itself */
   protected bindHoverStateTracking(track: boolean, hideDelay?: number | string): void {
-    if (!DeviceDetector.hasHover) return;
+    if (!hasHover) return;
     this._trackHoverDelay = track && hideDelay !== undefined ? +hideDelay : undefined;
     if (this._trackHover === track) return;
     this._trackHover = track;

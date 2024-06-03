@@ -31,7 +31,9 @@ export interface ESLSwipeGestureEventInfo {
  * Swipe event dispatched by {@link ESLSwipeGestureTarget}
  */
 export class ESLSwipeGestureEvent extends UIEvent implements ESLSwipeGestureEventInfo {
-  public static readonly type = 'swipe';
+  public static readonly TYPE = 'swipe';
+  /** @deprecated Use {@link TYPE} instead */
+  public static readonly type = this.TYPE;
 
   public override readonly target: Element;
 
@@ -50,7 +52,7 @@ export class ESLSwipeGestureEvent extends UIEvent implements ESLSwipeGestureEven
   }
 
   protected constructor(target: Element, swipeInfo: ESLSwipeGestureEventInfo) {
-    super(ESLSwipeGestureEvent.type, {bubbles: false, cancelable: true});
+    super(ESLSwipeGestureEvent.TYPE, {bubbles: false, cancelable: true});
     overrideEvent(this, 'target', target);
     Object.assign(this, swipeInfo);
   }
