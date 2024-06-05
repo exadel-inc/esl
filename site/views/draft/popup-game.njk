@@ -80,9 +80,9 @@ aside:
     margin: auto;
   }
 
-  .popup-content[collapsed] :is(.popup-g-hide-btn, .popup-g-text),
-  .popup-content:not([collapsed]) :is(.popup-g-continue-btn, .popup-g-text-preview) {
-    display: none !important;
+  .popup-content[collapsed] .popup-g-hide-btn,
+  .popup-content:not([collapsed]) .popup-g-continue-btn {
+    display: none;
   }
   
 </style>
@@ -114,10 +114,9 @@ aside:
           margin-arrow="35">
           <div class="popup-content-wrapper">
             <div collapsed class="popup-content">
-              <a class="popup-g-hide-btn" href="javascript:void(0)" role="button">collapse</a>
-              <p class="popup-g-text-preview">Lorem ipsum dolor...</p>
-              <lorem-ipsum class="popup-g-text" paragraphs="1"></lorem-ipsum>
-              <a class="popup-g-continue-btn" href="javascript:void(0)" role="button">expand</a>
+              <a class="popup-g-hide-btn" href="javascript:void(0)" role="button">Collapse</a>
+              <lorem-ipsum class="popup-g-text" paragraphs=".03"></lorem-ipsum>
+              <a class="popup-g-continue-btn" href="javascript:void(0)" role="button">Expand</a>
             </div>
           </div>
           <span class="esl-popup-arrow"></span>
@@ -132,7 +131,8 @@ aside:
 
       <script>
         function _onClick() {
-          document.querySelector('.popup-content').toggleAttribute('collapsed');
+          const collapsed = document.querySelector('.popup-content').toggleAttribute('collapsed');
+          document.querySelector('.popup-g-text').setAttribute('paragraphs', collapsed ? '.03' : '1');
         }
 
         document.querySelector('uip-root').addEventListener('uip:change', () => onUIPChange());
