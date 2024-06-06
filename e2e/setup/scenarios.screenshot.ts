@@ -11,7 +11,7 @@ const DIFF_CONFIG: MatchImageSnapshotOptions = {
 
 async function pushWebPScreenshot(screenshots: (string | Buffer)[], options: ScreenshotOptions = {}): Promise<void> {
   const screenshotBuffer = await page.screenshot(options);
-  const webpScreenshot = await sharp(screenshotBuffer).webp().toBuffer();
+  const webpScreenshot = await sharp(screenshotBuffer).webp({lossless: true}).toBuffer();
   screenshots.push(webpScreenshot);
 }
 
