@@ -78,9 +78,14 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
   public static parse(query: string, ...common: (string | RulePayloadParser<any>)[]): ESLMediaRuleList {
     const parser: RulePayloadParser<any> = typeof common[common.length - 1] === 'function' ? common.pop() as any : String;
     const value = common.pop();
-    return typeof value === 'string' ?
+    return typeof value === 'string' && !ESLMediaRuleList.isQuerySyntax(query) ?
       ESLMediaRuleList.parseTuple(query, value, parser) :
       ESLMediaRuleList.parseQuery(query, parser);
+  }
+
+  /** Checks if the string is a query arrow syntax */
+  private static isQuerySyntax(value: string): boolean {
+    return value.includes('=>');
   }
 
   /**

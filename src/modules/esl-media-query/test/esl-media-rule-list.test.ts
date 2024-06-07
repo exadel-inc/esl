@@ -178,4 +178,25 @@ describe('ESLMediaRuleList', () => {
       expect(() => ESLMediaRuleList.parseTuple('@xs', '1|2|3')).toThrowError();
     });
   });
+
+  describe('Mixed cases parsing', () => {
+    test('Query parse rule should ignore tuple values', () => {
+      const mrl = ESLMediaRuleList.parse('@sm => 1 | @md => 2', '3|4');
+
+      mockSmMatchMedia.matches = false;
+      expect(mrl.value).toBe(undefined);
+
+      mockSmMatchMedia.matches = true;
+      expect(mrl.value).toBe('1');
+
+      mockSmMatchMedia.matches = false;
+      mockMdMatchMedia.matches = true;
+      expect(mrl.value).toBe('2');
+    });
+
+    afterEach(() => {
+      mockSmMatchMedia.matches = false;
+      mockMdMatchMedia.matches = false;
+    });
+  });
 });
