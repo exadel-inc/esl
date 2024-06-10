@@ -180,6 +180,11 @@ describe('ESLMediaRuleList', () => {
   });
 
   describe('Mixed cases parsing', () => {
+    test('Should apply single value to all by default', () => {
+      const mrl = ESLMediaRuleList.parse('1');
+      expect(mrl.value).toBe('1');
+    });
+
     test('Query parse rule should ignore tuple values', () => {
       const mrl = ESLMediaRuleList.parse('@sm => 1 | @md => 2', '3|4');
 
@@ -192,6 +197,42 @@ describe('ESLMediaRuleList', () => {
       mockSmMatchMedia.matches = false;
       mockMdMatchMedia.matches = true;
       expect(mrl.value).toBe('2');
+    });
+
+    test('Tuple parse', () => {
+      const mrl = ESLMediaRuleList.parse('0 | 1', '@+xs | @+sm');
+
+      expect(mrl.rules[0].payload).toBe('@+xs');
+      expect(mrl.rules[0].query.toString()).toBe('0');
+
+      expect(mrl.rules[1].payload).toBe('@+sm');
+      expect(mrl.rules[1].query.toString()).toBe('1');
+    });
+
+    test('Complex query parse', () => {
+      const mrl = ESLMediaRuleList.parse('0 | (min-width: 100px) => 1 | (min-width: 200px) => 2');
+
+      expect(mrl.rules[0].payload).toBe('0');
+      expect(mrl.rules[0].query.toString()).toBe('all');
+
+      expect(mrl.rules[1].payload).toBe('1');
+      expect(mrl.rules[1].query.toString()).toBe('(min-width: 100px)');
+
+      expect(mrl.rules[2].payload).toBe('2');
+      expect(mrl.rules[2].query.toString()).toBe('(min-width: 200px)');
+    });
+
+    test('Complex query parse rule should ignore tuple values', () => {
+      const mrl = ESLMediaRuleList.parse('0 | (min-width: 100px) => 1 | (min-width: 200px) => 2', '@+xs | @+sm');
+
+      expect(mrl.rules[0].payload).toBe('0');
+      expect(mrl.rules[0].query.toString()).toBe('all');
+
+      expect(mrl.rules[1].payload).toBe('1');
+      expect(mrl.rules[1].query.toString()).toBe('(min-width: 100px)');
+
+      expect(mrl.rules[2].payload).toBe('2');
+      expect(mrl.rules[2].query.toString()).toBe('(min-width: 200px)');
     });
 
     afterEach(() => {
