@@ -22,7 +22,7 @@ class SnapshotMatcher {
   protected currentImg: sharp.Sharp;
 
   constructor(context: jest.MatcherContext, received: Buffer, options: SnapshotMatcherOptions = {}) {
-    this.testName = context.currentTestName!.replace(/\s+/g, '-').toLowerCase();
+    this.testName = context.currentTestName!.replace(/([^a-z0-9]+)/gi, '-').toLowerCase();
     this.config = Object.assign({}, options, SnapshotMatcher.defaultOptions);
     this.currentImg = sharp(received).webp();
   }
