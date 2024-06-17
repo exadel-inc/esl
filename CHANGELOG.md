@@ -1,3 +1,10 @@
+# [2.1.0-beta.7](https://github.com/exadel-inc/ui-playground/compare/v2.1.0-beta.6...v2.1.0-beta.7) (2024-06-17)
+
+
+### Features
+
+* ability to use more than one option value ([3a1b6aa](https://github.com/exadel-inc/ui-playground/commit/3a1b6aa5b1424358dd77fee82cc1e8ce5b7a48b8))
+
 # [2.1.0-beta.6](https://github.com/exadel-inc/ui-playground/compare/v2.1.0-beta.5...v2.1.0-beta.6) (2024-05-15)
 
 
