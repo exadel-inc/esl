@@ -89,8 +89,9 @@ export class UIPSelectSetting extends UIPSetting {
   transformValue(value: string, attrValue: string | null): string | null {
     if (!attrValue) return value || null;
 
-    const attrTokens = this.settingOptions.reduce((tokens, option) =>
-      TokenListUtils.remove(tokens, option), TokenListUtils.split(attrValue));
+    const attrTokens = this.settingOptions.reduce((tokens, option) => {
+      return TokenListUtils.split(option).reduce((token, optionItem) => TokenListUtils.remove(token, optionItem), tokens);
+    }, TokenListUtils.split(attrValue));
     value && attrTokens.push(value);
 
     return TokenListUtils.join(attrTokens);
@@ -125,7 +126,10 @@ export class UIPSelectSetting extends UIPSetting {
   /** Updates setting's value for {@link mode} = "append" */
   protected appendFrom(attrValues: (string | null)[]): void {
     // array of each attribute's value intersection with select options
-    const valuesOptions = attrValues.map((val) => TokenListUtils.intersection(this.settingOptions, TokenListUtils.split(val)));
+    const valuesOptions: string[] = this.settingOptions.filter((option) => {
+      return TokenListUtils.split(option).length ===
+        TokenListUtils.intersection(TokenListUtils.split(option), TokenListUtils.split(attrValues[0])).length;
+    });
 
     // make empty option active if no options intersections among attribute values
     if (this.settingOptions.includes('') && valuesOptions.every((inter) => !inter.length)) {
@@ -133,7 +137,7 @@ export class UIPSelectSetting extends UIPSetting {
     }
 
     // common options among all attribute values
-    const commonOptions = TokenListUtils.intersection(...valuesOptions);
+    const commonOptions = TokenListUtils.intersection(valuesOptions);
 
     if (this.multiple || commonOptions.length) return this.setValue(TokenListUtils.join(commonOptions));
 
@@ -146,7 +150,7 @@ export class UIPSelectSetting extends UIPSetting {
 
   protected setValue(value: string): void {
     this.$$off(this._onChange);
-    value.split(' ').forEach((opt) => this.$field.setSelected(opt, true));
+    this.$field.setSelected(value, true);
     this.$$on(this._onChange);
   }
 
