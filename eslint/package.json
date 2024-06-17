@@ -19,7 +19,9 @@
     "clean": "rimraf dist",
     "build": "npm run clean && tsc --project tsconfig.build.json"
   },
-  "dependencies": {},
+  "dependencies": {
+    "semver": "^7.6.2"
+  },
   "peerDependencies": {
     "@exadel/esl": "*",
     "eslint": ">=8.0.0"
