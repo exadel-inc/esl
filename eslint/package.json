@@ -1,6 +1,6 @@
 {
   "name": "@exadel/eslint-plugin-esl",
-  "version": "4.17.0",
+  "version": "4.17.1",
   "keywords": [
     "eslint",
     "eslint-plugin",
@@ -15,7 +15,9 @@
     "clean": "rimraf dist",
     "build": "npm run clean && tsc --project tsconfig.build.json"
   },
-  "dependencies": {},
+  "dependencies": {
+    "semver": "^7.6.2"
+  },
   "files": [
     "dist/**/*"
   ],
