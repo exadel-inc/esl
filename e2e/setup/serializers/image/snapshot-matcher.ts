@@ -23,17 +23,19 @@ export class SnapshotMatcher {
   protected config: SnapshotMatcherOptions;
   protected testName: string;
   protected currentImg: sharp.Sharp;
+  protected shouldUpdateImg: boolean;
 
   constructor(context: jest.MatcherContext, received: Buffer, options: SnapshotMatcherOptions = {}) {
     this.testName = context.currentTestName!.replace(/([^a-z0-9]+)/gi, '-').toLowerCase();
     this.config = Object.assign({}, SnapshotMatcher.defaultOptions, options);
     this.currentImg = sharp(received).webp();
+    this.shouldUpdateImg = context.snapshotState._updateSnapshot === 'all';
   }
 
   public async match(): Promise<jest.CustomMatcherResult> {
     this.updateDirectory(SnapshotMatcher.SNAPSHOT_DIR);
     const prevImgPath = path.join(SnapshotMatcher.SNAPSHOT_DIR, `${this.testName}.webp`);
-    if (!fs.existsSync(prevImgPath)) {
+    if (!fs.existsSync(prevImgPath) || this.shouldUpdateImg) {
       await this.currentImg.toFile(prevImgPath);
       return this.getMatcherResult(true, `New snapshot was created: ${prevImgPath}`);
     }
