@@ -25,7 +25,9 @@ aside:
         <esl-d-popup-game trigger="::find(.game-popup-trigger)">
           <esl-trigger
             target="#game-popup"
-            mode="toggle"
+            track-click="not" 
+            track-hover
+            hover-hide-delay="250"
             class="game-popup-trigger">
             🚀
           </esl-trigger>
