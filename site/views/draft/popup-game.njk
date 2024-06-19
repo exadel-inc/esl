@@ -12,81 +12,6 @@ aside:
     - esl-trigger
 ---
 
-<style>
-  esl-d-popup-game {
-    --_font-size: calc(min(var(--_height, 300px), var(--_width, 300px)) / 3);
-    position: relative;
-    display: inline-block;
-    min-height: 300px;
-    height: 95%;
-    width: 100%;
-    border: 1px solid #000;
-    background-color: #fff;
-  }
-  esl-d-popup-game:before, esl-d-popup-game:after {
-    position: absolute;
-    font-size: var(--_font-size);
-    display: inline-block;
-    opacity: 0.3;
-  }
-  esl-d-popup-game:before {
-    content: '🌒';
-  }
-  esl-d-popup-game:after {
-    content: '🪐';
-    bottom: 0;
-    right: 0;
-  }
-  .game-popup-trigger {
-    position: absolute;
-    z-index: 1;
-    padding: 2px 6px;
-    border: none;
-    border-radius: 50%;
-    box-shadow: none !important;
-    background-color: #bce0ff45;
-    font-size: 2rem;
-  }
-  .popup-game {
-    --_margin-arrow: 35px;
-  }
-  .popup-h[dir="rtl"] {
-    text-align: right;
-  }
-  .popup-content-wrapper {
-    display: flex;
-  }
-  .popup-v .popup-content-wrapper {
-    writing-mode: vertical-rl;
-  }
-  .popup-v .popup-content-wrapper {
-    min-width: 50px;
-    height: 250px;
-    width: auto;
-  }
-  .popup-h .popup-content-wrapper {
-    min-height: 50px;
-    height: auto;
-    width: 250px;
-  }
-  .popup-content-wrapper:before,
-  .popup-content-wrapper:after {
-    content: '';
-    display: block;
-    flex: 0 0 var(--_margin-arrow);
-  }
-  .popup-content {
-    flex: 1;
-    margin: auto;
-  }
-
-  .popup-content[collapsed] .popup-g-hide-btn,
-  .popup-content:not([collapsed]) .popup-g-continue-btn {
-    display: none;
-  }
-  
-</style>
-
 <p>This cool game will let you play with a popup.</p>
 <p>Drag a trigger element and watch how the popup and its arrow move. Use the mouse wheel to resize the container. Use shift to switch the resize direction.</p>
 <p>The green area on the edges of the container is determined by the offsetContainer value and means the safe zone in which popup can't come. The red zone on the edges of popup demonstrates the limits of arrow placement.</p>
@@ -112,36 +37,55 @@ aside:
           container=".uip-preview-inner"
           dir="ltr"
           margin-arrow="35">
-          <div class="popup-content-wrapper">
-            <div collapsed class="popup-content">
-              <a class="popup-g-hide-btn" href="javascript:void(0)" role="button">Collapse</a>
-              <lorem-ipsum class="popup-g-text" paragraphs=".03"></lorem-ipsum>
-              <a class="popup-g-continue-btn" href="javascript:void(0)" role="button">Expand</a>
-            </div>
+          <div class="popup-content">
+            <div>
+              <p>Space exploration has always captured the imagination of humanity.</p>
+              
+              <details>
+                  <summary>Early History</summary>
+                  <p>Since the dawn of time, humans have looked up at the stars with wonder. Early civilizations like the Babylonians, Greeks, and Chinese made significant contributions to our understanding of the cosmos.
+                  <p>The 20th century marked the beginning of modern space exploration with the launch of Sputnik 1 by the Soviet Union in 1957, followed by Yuri Gagarin's historic flight in 1961, making him the first human in space.
+                  <p>NASA's Apollo program achieved a monumental milestone in 1969 when Neil Armstrong and Buzz Aldrin walked on the moon, a feat watched by millions around the globe.</p>
+              </details>
+              
+              <details>
+                  <summary>Modern Missions</summary>
+                  <p>In recent decades, space exploration has seen significant advancements with the development of the International Space Station (ISS), a collaborative effort involving multiple countries. The ISS serves as a hub for scientific research and international cooperation.
+                  Private companies like SpaceX, Blue Origin, and others are revolutionizing space travel with reusable rockets, reducing the cost of access to space and paving the way for potential future missions to Mars and beyond.
+                  Recent missions to Mars, such as NASA's Perseverance rover and China's Tianwen-1, aim to uncover the mysteries of the Red Planet and search for signs of past or present life.</p>
+              </details>
           </div>
           <span class="esl-popup-arrow"></span>
         </esl-popup>
+
+        <style>
+          .popup-content {
+            display: flex;
+          }
+          .popup-v .popup-content {
+            writing-mode: vertical-rl;
+            min-width: 50px;
+            height: 250px;
+            width: auto;
+          }
+          .popup-h .popup-content {
+            min-height: 50px;
+            height: auto;
+            width: 250px;
+          }
+          .popup-content:before,
+          .popup-content:after {
+            content: '';
+            display: block;
+            flex: 0 0 35px;
+          }
+        </style>
       </script>
 
       <script id="js-snippet-popup-game" type="text/plain">
         import { ESLPopup, ESLTrigger } from '@exadel/esl';
         ESLPopup.register();
         ESLTrigger.register();
-      </script>
-
-      <script>
-        function _onClick() {
-          const collapsed = document.querySelector('.popup-content').toggleAttribute('collapsed');
-          document.querySelector('.popup-g-text').setAttribute('paragraphs', collapsed ? '.03' : '1');
-        }
-
-        document.querySelector('uip-root').addEventListener('uip:change', () => onUIPChange());
-
-        async function onUIPChange() {
-          await Promise.resolve();
-          document.querySelector('.popup-g-continue-btn').addEventListener('click', () => _onClick());
-          document.querySelector('.popup-g-hide-btn').addEventListener('click', () => _onClick());
-        }
       </script>
 
       <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
