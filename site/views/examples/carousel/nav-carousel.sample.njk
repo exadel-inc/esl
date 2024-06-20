@@ -1,0 +1,48 @@
+---
+title: Carousel (Multislide)
+order: 10
+tags: carousel-sample
+---
+<div class="flex-column main-carousel" esl-carousel-container>
+  <esl-carousel demo-options-target
+                id="main-carousel"
+                type="default"
+                esl-carousel-touch
+                esl-carousel-relate-to="#nav-carousel">
+    <ul esl-carousel-slides>
+      {% for item in range(0, 8) %}
+        <li esl-carousel-slide>
+          <div class="img-container img-container-16-9">
+            <esl-image mode="cover"
+                       lazy
+                       data-alt="{{ 'Carousel slide ' + loop.index }}"
+                       data-src="{{ '/assets/carousel/' + loop.index + '-sm.jpg'  | url }}"></esl-image>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  </esl-carousel>
+</div>
+<div class="flex-column marquee-nav-carousel" esl-carousel-container>
+  <button class="esl-carousel-arrow inner prev" esl-carousel-nav="-4"></button>
+
+  <esl-carousel id="nav-carousel"
+                esl-carousel-touch="drag"
+                count="5">
+    <ul esl-carousel-slides>
+      {% for item in range(0, 16) %}
+        <li esl-carousel-slide>
+          <div class="img-container img-container-4-3"
+               esl-carousel-nav="slide:{{ loop.index - 1 }}"
+               esl-carousel-nav-target="#main-carousel">
+            <esl-image mode="cover" lazy
+                       data-alt="{{ 'Carousel slide ' + loop.index }}"
+                       data-src="{{ '/assets/carousel/' + loop.index + '-sm.jpg'  | url }}"></esl-image>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  </esl-carousel>
+
+  <button class="esl-carousel-arrow inner next" esl-carousel-nav="+4"></button>
+</div>

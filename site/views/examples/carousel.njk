@@ -1,257 +1,46 @@
 ---
 layout: content
-title: Carousel Example
-name: Carousel Example
-tags: [examples, draft]
+title: Carousel
+name: Carousel
+tags: [examples, beta]
 icon: examples/carousel.svg
+eleventyImport:
+  collections: ["carousel-sample"]
 ---
 {% import 'lorem.njk' as lorem %}
 
-<section>
-  <h2>Multi-slide Carousel (cards, adaptive, loop): </h2>
-  <div esl-carousel-container>
-    <button class="esl-carousel-arrow prev hide-xs"
-            esl-carousel-nav="group:prev"><span class="sr-only">Previous Slide</span></button>
+<p class="text-warning">Available from 5.0.0</p>
 
-    <esl-carousel esl-carousel-touch
-                  esl-carousel-keyboard
-                  tabindex="0"
-                  media="@XS|@SM|@MD|@LG|@XL"
-                  loop="true"
-                  count="1|2|3|4|5">
-      <ul esl-carousel-slides>
-        {% for item in cards %}
-          <li esl-carousel-slide {{ 'active' if loop.first }}>
-            <div class="card">
-              <div class="card-image img-container img-container-16-9">
-                <esl-image lazy
-                           mode="cover"
-                           data-alt="{{ 'Carousel slide ' + loop.index }}"
-                           data-src="{{ '/assets/carousel/' + loop.index + '-sm.jpg'  | url }}"></esl-image>
-              </div>
-              <div class="card-content p-3">
-                <h5>{{ item.name }}</h5>
-                <p>{{ lorem.string(12) }}</p>
-                <button type="button" class="btn" onclick="alert('I\'m alive')">Hey cart!</button>
-              </div>
-            </div>
-          </li>
-        {% endfor %}
-      </ul>
-    </esl-carousel>
 
-    <button class="esl-carousel-arrow next hide-xs"
-            esl-carousel-nav="group:next"><span class="sr-only">Next Slide</span></button>
+<section class="row">
+  <div class="col-12">
+    <uip-root>
+      {% for sample in collections['carousel-sample'] | sortByNameAndOrder %}
+        <script type="text/html"
+                label=" {{ sample.data.title }}"
+                uip-snippet
+                uip-snippet-js="js-snippet-carousel-registration">
+          {{ sample.content | safe }}
+        </script>
+      {% endfor %}
 
-    <esl-carousel-dots class="carousel-dots-wrapper" tabindex="0"></esl-carousel-dots>
+      <script id="js-snippet-carousel-registration" type="text/plain">
+        import {ESLCarousel} from '@exadel/esl';
+        ESLCarousel.register();
+      </script>
+
+      <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
+      <uip-preview></uip-preview>
+      <uip-settings target="[demo-options-target]" label="Quick Options" collapsible collapsed>
+        <uip-bool-setting label="Loop" attribute="loop"></uip-bool-setting>
+        <uip-select-setting label="Touch Plugin:" attribute="esl-carousel-touch" mode="replace">
+          <option value="none">Disable</option>
+          <option value="drag">Always Drag</option>
+          <option value="swipe">Always Swipe</option>
+        </uip-select-setting>
+      </uip-settings>
+      <uip-editor label="Source code (HTML)" collapsible copy></uip-editor>
+      <uip-editor source="js" label="Source code (JS)" collapsible collapsed copy></uip-editor>
+    </uip-root>
   </div>
 </section>
-
-<section>
-  <h2>Multi-slide Carousel (cards, adaptive, loop, with footnotes example): </h2>
-  <div esl-carousel-container>
-    <button class="esl-carousel-arrow prev hide-xs"
-            esl-carousel-nav="group:prev"><span class="sr-only">Previous Slide</span></button>
-
-    <esl-carousel esl-carousel-touch
-                  esl-carousel-keyboard
-                  tabindex="0"
-                  media="@XS|@SM|@MD|@LG|@XL"
-                  loop="true"
-                  count="1|2|3|4|5">
-      <ul esl-carousel-slides>
-        {% for item in cards | limit(5) %}
-          <li esl-carousel-slide {{ 'active' if loop.first }}>
-            <div class="card">
-              <div class="card-image img-container img-container-16-9">
-                <esl-image lazy
-                           mode="cover"
-                           data-alt="{{ 'Carousel slide ' + loop.index }}"
-                           data-src="{{ '/assets/carousel/' + loop.index + '-sm.jpg'  | url }}"></esl-image>
-              </div>
-              <div class="card-content p-3">
-                <h5>{{ item.name }}<esl-note>{{ loop.index }}</esl-note></h5>
-                <p>{{ lorem.string(12) }}</p>
-                <button type="button" class="btn" onclick="alert('I\'m alive')">Hey cart!</button>
-              </div>
-            </div>
-          </li>
-        {% endfor %}
-      </ul>
-    </esl-carousel>
-
-    <button class="esl-carousel-arrow next hide-xs"
-            esl-carousel-nav="group:next"><span class="sr-only">Next Slide</span></button>
-
-    <esl-carousel-dots class="carousel-dots-wrapper" tabindex="0"></esl-carousel-dots>
-  </div>
-
-  <esl-footnotes class="mt-2" scope-target="::parent(section)"></esl-footnotes>
-</section>
-
-
-<section>
-  <h2>Multi-slide Carousel (cards, adaptive, loop): </h2>
-  <div esl-carousel-container>
-    <button class="esl-carousel-arrow prev hide-xs"
-            esl-carousel-nav="group:prev"><span class="sr-only">Previous Slide</span></button>
-
-    <esl-carousel esl-carousel-touch
-                  esl-carousel-keyboard
-                  tabindex="0"
-                  media="@XS|@SM|@MD|@LG|@XL"
-                  loop="true"
-                  count="1|2|3|4|5">
-      <ul esl-carousel-slides>
-        {% for item in cards | limit(4) %}
-          <li esl-carousel-slide {{ 'active' if loop.first }}>
-            <div class="card">
-              <div class="card-image img-container img-container-16-9">
-                <esl-image lazy
-                           mode="cover"
-                           data-alt="{{ 'Carousel slide ' + loop.index }}"
-                           data-src="{{ '/assets/carousel/' + loop.index + '-sm.jpg'  | url }}"></esl-image>
-              </div>
-              <div class="card-content p-3">
-                <h5>{{ item.name }}</h5>
-                <p>{{ lorem.string(12) }}</p>
-                <button type="button" class="btn" onclick="alert('I\'m alive')">Hey cart!</button>
-              </div>
-            </div>
-          </li>
-        {% endfor %}
-      </ul>
-    </esl-carousel>
-
-    <button class="esl-carousel-arrow next hide-xs"
-            esl-carousel-nav="group:next"><span class="sr-only">Next Slide</span></button>
-
-    <esl-carousel-dots class="carousel-dots-wrapper" tabindex="0"></esl-carousel-dots>
-  </div>
-</section>
-
-<a href="#"> Something accessible</a>
-<section>
-  <h2>Carousel with siblings: </h2>
-  <div esl-carousel-container>
-    <button class="esl-carousel-arrow inner prev hide-xs" esl-carousel-nav="group:prev">
-      <span class="sr-only">Previous Slide</span>
-    </button>
-
-    <esl-carousel style="padding-inline: 60px"
-                  esl-carousel-touch
-                  count="2"
-                  loop="true">
-      <ul esl-carousel-slides>
-        {% for i in range(0, 6) -%}
-          <li esl-carousel-slide style="max-width: 50%">
-            <div class="card">
-              <esl-image mode="cover" lazy
-                         data-alt="Alt Text Test"
-                         data-src="{{ '/assets/carousel/' + loop.index + '-sm.jpg' | url }}"></esl-image>
-            </div>
-          </li>
-        {%- endfor %}
-      </ul>
-    </esl-carousel>
-
-    <button class="esl-carousel-arrow inner next hide-xs" esl-carousel-nav="group:next">
-      <span class="sr-only">Next Slide</span>
-    </button>
-
-    <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
-  </div>
-</section>
-
-<section>
-  <h2>Multi-slide Carousel (simplified cards, adaptive, loop): </h2>
-  <div esl-carousel-container>
-     <button class="esl-carousel-arrow prev hide-xs" esl-carousel-nav="group:prev">
-        <span class="sr-only">Previous Slide</span>
-     </button>
-
-     <esl-carousel esl-carousel-touch="none | @XS => drag"
-                   media="@XS|@SM|@MD|@LG|@XL"
-                   count="2|3|4|5|6"
-                   loop="true">
-        <ul esl-carousel-slides>
-        {% for item in items %}
-           <li esl-carousel-slide {{ 'active' if loop.first }}>
-              <div class="card" style="justify-content: center; background: {{item.background}}">
-                  <h4 class="text-center mb-0">{{ item.name }}</h4>
-              </div>
-           </li>
-        {% endfor %}
-        </ul>
-     </esl-carousel>
-
-     <button class="esl-carousel-arrow next hide-xs" esl-carousel-nav="group:next">
-        <span class="sr-only">Next Slide</span>
-     </button>
-
-     <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
-  </div>
-</section>
-
-
-<section>
-  <h2>Multi-slide Carousel (simplified cards, adaptive, without loop): </h2>
-  <div esl-carousel-container>
-    <button class="esl-carousel-arrow prev hide-xs" esl-carousel-nav="group:prev">
-      <span class="sr-only">Previous Slide</span>
-    </button>
-
-    <esl-carousel esl-carousel-touch="none | @XS => drag"
-                  media="@XS|@SM|@MD|@LG|@XL"
-                  count="2|3|4|5|6">
-      <ul esl-carousel-slides>
-        {% for item in items %}
-          <li esl-carousel-slide {{ 'active' if loop.first }}>
-            <div class="card" style="justify-content: center; background: {{item.background}}">
-              <h4 class="text-center mb-0">{{ item.name }}</h4>
-            </div>
-          </li>
-        {% endfor %}
-      </ul>
-    </esl-carousel>
-
-    <button class="esl-carousel-arrow next hide-xs" esl-carousel-nav="group:next">
-      <span class="sr-only">Next Slide</span>
-    </button>
-
-    <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
-  </div>
-</section>
-
-
-<section>
-  <h2>Single active slide demo: </h2>
-  <div esl-carousel-container>
-     <button class="esl-carousel-arrow prev hide-xs" esl-carousel-nav="group:prev">
-        <span class="sr-only">Previous Slide</span>
-     </button>
-
-     <esl-carousel esl-carousel-touch="@touch => swipe" loop="true">
-        <ul esl-carousel-slides>
-          {% for i in range(0, 4) -%}
-           <li esl-carousel-slide>
-              <div class="card">
-                  <div class="img-container img-container-16-9">
-                      <esl-image mode="cover" lazy
-                                 data-alt="Alt Text Test"
-                                 data-src="{{ '/assets/carousel/' + loop.index + '-sm.jpg' | url }}"></esl-image>
-                  </div>
-              </div>
-           </li>
-          {%- endfor %}
-        </ul>
-     </esl-carousel>
-
-     <button class="esl-carousel-arrow next hide-xs" esl-carousel-nav="group:next">
-        <span class="sr-only">Next Slide</span>
-     </button>
-
-     <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
-  </div>
-</section>
-
