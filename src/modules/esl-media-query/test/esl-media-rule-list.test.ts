@@ -182,62 +182,69 @@ describe('ESLMediaRuleList', () => {
   describe('Mixed cases parsing', () => {
     test('Should apply single value to all by default', () => {
       const mrl = ESLMediaRuleList.parse('1');
-      expect(mrl.value).toBe('1');
+      expect(mrl.toString()).toBe('all => 1');
     });
 
-    test('Query parse rule should ignore tuple values', () => {
-      const mrl = ESLMediaRuleList.parse('@sm => 1 | @md => 2', '3|4');
-
-      mockSmMatchMedia.matches = false;
-      expect(mrl.value).toBe(undefined);
-
-      mockSmMatchMedia.matches = true;
-      expect(mrl.value).toBe('1');
-
-      mockSmMatchMedia.matches = false;
-      mockMdMatchMedia.matches = true;
-      expect(mrl.value).toBe('2');
+    test('Should ignore arrow syntax if values provided', () => {
+      const mrl = ESLMediaRuleList.parse('0 | (min-width: 100px) => 1 |  (min-width: 200px) => 2', '@+xs | @+sm');
+      expect(mrl.toString()).toBe('0 => @+xs|(min-width: 100px) => 1 => @+sm|(min-width: 200px) => 2 => @+sm');
     });
 
-    test('Tuple parse', () => {
-      const mrl = ESLMediaRuleList.parse('0 | 1', '@+xs | @+sm');
-
-      expect(mrl.rules[0].payload).toBe('@+xs');
-      expect(mrl.rules[0].query.toString()).toBe('0');
-
-      expect(mrl.rules[1].payload).toBe('@+sm');
-      expect(mrl.rules[1].query.toString()).toBe('1');
+    test('Should parse like a regular tuple', () => {
+      const mrl = ESLMediaRuleList.parse('@+xs | @+sm', '0 | 1');
+      expect(mrl.toString()).toBe('(min-width: 1px) => 0|(min-width: 768px) => 1');
     });
 
-    test('Complex query parse', () => {
-      const mrl = ESLMediaRuleList.parse('0 | (min-width: 100px) => 1 | (min-width: 200px) => 2');
-
-      expect(mrl.rules[0].payload).toBe('0');
-      expect(mrl.rules[0].query.toString()).toBe('all');
-
-      expect(mrl.rules[1].payload).toBe('1');
-      expect(mrl.rules[1].query.toString()).toBe('(min-width: 100px)');
-
-      expect(mrl.rules[2].payload).toBe('2');
-      expect(mrl.rules[2].query.toString()).toBe('(min-width: 200px)');
+    test('Should parse like a regular tuple with default value', () => {
+      const mrl = ESLMediaRuleList.parse('all|@sm|@md', '1|2|3');
+      expect(mrl.toString()).toBe('all => 1|(min-width: 768px) and (max-width: 991px) => 2|(min-width: 992px) and (max-width: 1199px) => 3');
     });
 
-    test('Complex query parse rule should ignore tuple values', () => {
-      const mrl = ESLMediaRuleList.parse('0 | (min-width: 100px) => 1 | (min-width: 200px) => 2', '@+xs | @+sm');
+    test('Should throw error if arrow syntax provided instead of tuple\'s mask', () => {
+      try {
+        ESLMediaRuleList.parse('(min-width: 100px) => 123', '3|4');
+      } catch (e) {
+        expect(e.toString()).toBe('Error: Value doesn\'t correspond to mask');
+      }
+    });
+  });
 
-      expect(mrl.rules[0].payload).toBe('0');
-      expect(mrl.rules[0].query.toString()).toBe('all');
-
-      expect(mrl.rules[1].payload).toBe('1');
-      expect(mrl.rules[1].query.toString()).toBe('(min-width: 100px)');
-
-      expect(mrl.rules[2].payload).toBe('2');
-      expect(mrl.rules[2].query.toString()).toBe('(min-width: 200px)');
+  describe('Parse Adaptive', () => {
+    test('Throw error if tuple\'s mask is not provided', () => {
+      try {
+        ESLMediaRuleList.parseAdaptive('1 | 2');
+      } catch (e) {
+        expect(e.toString()).toBe('Error: Value doesn\'t correspond to mask');
+      }
     });
 
-    afterEach(() => {
-      mockSmMatchMedia.matches = false;
-      mockMdMatchMedia.matches = false;
+    test('Handle tuple with equal mask/value pair as regular', () => {
+      const mask = '@sm|@md|@lg';
+      const values = '1|2|3';
+      const mrl = ESLMediaRuleList.parseAdaptive(values, mask);
+      expect(mrl.toString()).toBe(ESLMediaRuleList.parseTuple(mask, values).toString());
+      expect(mrl.toString()).toBe(
+        '(min-width: 768px) and (max-width: 991px) => 1|(min-width: 992px) and (max-width: 1199px) => 2|(min-width: 1200px) and (max-width: 1599px) => 3');
+    });
+
+    test('Handle tuple with not equal mask/value pair as regular', () => {
+      const mask = '@sm|@md|@lg';
+      const values = '1|2';
+      const mrl = ESLMediaRuleList.parseAdaptive(values, mask);
+      expect(mrl.toString()).toBe(ESLMediaRuleList.parseTuple(mask, values).toString());
+      expect(mrl.toString()).toBe(
+        '(min-width: 768px) and (max-width: 991px) => 1|(min-width: 992px) and (max-width: 1199px) => 2|(min-width: 1200px) and (max-width: 1599px) => 2');
+    });
+
+    test.each([
+      [['1 | @+sm => 2 | @+md => 3', '@+xs|@+sm'], 'all => 1|(min-width: 768px) => 2|(min-width: 992px) => 3'],
+      [['1|2', '@+xs|@+sm', '@+xs|@+sm'], '(min-width: 1px) => 1|(min-width: 768px) => 2'],
+      [['1|2', '@+xs|@+sm'], '(min-width: 1px) => 1|(min-width: 768px) => 2'],
+      [['1 | @+sm => 2', '@sm'], 'all => 1|(min-width: 768px) => 2'],
+      [['1 | @+sm => 2 | @+md => 3'], 'all => 1|(min-width: 768px) => 2|(min-width: 992px) => 3'],
+      [['1 | @+sm => 2 | @+md => 3', '@+xs|@+sm'], 'all => 1|(min-width: 768px) => 2|(min-width: 992px) => 3'],
+    ])('Should correctly parse "%s" with media condition "%s"', (params: any[], canonical: string) => {
+      expect(ESLMediaRuleList.parseAdaptive.apply(null, params).toString()).toBe(canonical);
     });
   });
 });

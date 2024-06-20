@@ -208,12 +208,18 @@ ESLMediaRuleList.parse('@XS => {option: 1} | @+SM => {option: 2}', evaluate); //
 // Tupple parsing
 ESLMediaRuleList.parseTuple('@xs|@sm|@md|@lg|@xl', '1|2|3|4|5') // String payload example
 ESLMediaRuleList.parseTuple('@xs|@sm|@md|@lg|@xl', '1|2|3|4|5',  Number) // Numeric payload sample
+
+// Adaptive parsing
+ESLMediaRuleList.parseAdaptive('1 | @XS => 2'); // Acts like regular 'parseQuery'
+ESLMediaRuleList.parseAdaptive('@xs|@sm|@md|@lg|@xl', '1|2|3|4|5') // Acts like 'parseTuple'
 ```
 
 #### ESLMediaRuleList API
 
 - `ESLMediaRuleList.parse(ruleset: string)` - parse media ruleset defined with classic syntax mentioned in section above.
 Rules separated by `|` symbol, query and value separated by `=>` for each rule, query is optional.
+
+- `ESLMediaRuleList.parseAdaptive(values: string, mask?: string)` - parse media ruleset dynamically, which means method will parse both syntaxes, one where rule mask and value are passed as a separate arguments, and another where query and value passed as a single argument separated by `=>` for each rule.
 
 - `ESLMediaRuleList.parseTuple(queries: string, values: string)` - parse media ruleset from tuple of
 queries and values, all separated via `|` symbol
