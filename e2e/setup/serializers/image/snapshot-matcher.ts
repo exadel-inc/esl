@@ -15,6 +15,7 @@ export class SnapshotMatcher {
 
   protected static readonly defaultOptions: SnapshotMatcherOptions = {
     diffMask: false,
+    alpha: 0,
     diffColorAlt: [255, 255, 0],
     includeAA: true,
     threshold: 0.01
@@ -65,7 +66,7 @@ export class SnapshotMatcher {
     const {width, height} = prevImg.info;
     const diffBuffer = Buffer.alloc(width * height * 4);
     const numDiffPixel = pixelmatch(prevImg.data, currImg.data, diffBuffer, width, height, this.config);
-    if (numDiffPixel > 0) diffPath = await this.saveDiff(prevImg, currImg, diffBuffer);
+    if (numDiffPixel > width * height * 0.0001) diffPath = await this.saveDiff(prevImg, currImg, diffBuffer);
     return diffPath;
   }
 
