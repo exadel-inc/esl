@@ -29,6 +29,9 @@
     {% block headlib %}
       <link rel="stylesheet" type="text/css" href="{{ '/bundles/localdev.css' | url }}" />
     {% endblock %}
+    {% if env.isE2E %}
+      <link rel="stylesheet" type="text/css" href="{{ '/bundles/e2e.css' | url }}" />
+    {% endif %}
   </head>
 
   <body>

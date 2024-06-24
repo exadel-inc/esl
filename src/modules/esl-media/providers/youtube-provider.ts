@@ -59,7 +59,8 @@ export class YouTubeProvider extends BaseProvider {
       controls: Number(cfg.controls),
       playsinline: Number(cfg.playsinline),
       disablekb: Number(!cfg.controls), // TODO: criteria
-      autohide: Number(!cfg.controls) // TODO: criteria
+      autohide: Number(!cfg.controls), // TODO: criteria
+      start: cfg.startTime
     };
   }
 
@@ -166,7 +167,7 @@ export class YouTubeProvider extends BaseProvider {
   }
 
   public seekTo(pos: number): void {
-    this._api.seekTo(pos, false);
+    this._api.seekTo(pos, true);
   }
 
   public play(): void {

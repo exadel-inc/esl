@@ -1,0 +1,105 @@
+name: Automation Testing (Draft)
+
+on:
+  push:
+    branches: [ main, main-beta, epic/* ]
+  workflow_dispatch:
+    inputs:
+      updateSnapshots:
+        type: boolean
+        default: false
+        required: false
+        description: 'Create a pull request to update snapshots on the current branch'
+
+env:
+  node-version: 20.x
+  DIFF_REPORT_BRANCH: diff-report
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  e2e-tests:
+    name: Automation Testing
+    runs-on: ubuntu-latest
+    if: ${{ !inputs.updateSnapshots }}
+
+    permissions:
+      contents: write
+      pull-requests: write
+      pages: none
+      deployments: none
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node v${{ env.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          cache: 'npm'
+          node-version: ${{ env.node-version }}
+      - name: Install NPM Dependencies
+        run: npm ci
+      - name: Run Tests
+        run: npm run test:e2e
+      - name: Collect Report & Upload Artifact
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: automation-diff-report
+          path: e2e/.diff
+      - name: Deploy Latest Issued Report To Branch
+        if: failure()
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: e2e/.diff
+          publish_branch: ${{ env.DIFF_REPORT_BRANCH }}
+      - name: Render Report
+        if: always()
+        shell: bash
+        run: |
+          cat e2e/.diff/index.md >> $GITHUB_STEP_SUMMARY
+
+  e2e-tests-update-snapshots:
+    name: Update Automation Testing Snapshots
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.updateSnapshots }}
+    env:
+      UPD_COMMIT_MSG: 'test(e2e): update snapshots (via GitHub Actions)'
+
+    permissions:
+      actions: write
+      checks: write
+      contents: write
+      id-token: write
+      issues: write
+      pull-requests: write
+      statuses: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node v${{ env.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          cache: 'npm'
+          node-version: ${{ env.node-version }}
+      - name: Install NPM Dependencies
+        run: npm ci
+      - name: Update Test Snapshots
+        run: npm run test:e2e:update
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: ${{ env.UPD_COMMIT_MSG }}
+          title: ${{ env.UPD_COMMIT_MSG }} for ${{ github.ref }}
+          body: |
+            This PR was automatically created by the e2e-tests-update-snapshots workflow to actualize snapshots on the ${{ github.ref }} branch.
+          branch: tests/snapshots-patch
+          branch-suffix: timestamp
+          labels: automation, update-snapshots
+          reviewers: ${{ github.actor }}
+          assignees: ${{ github.actor }}

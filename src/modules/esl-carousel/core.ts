@@ -5,7 +5,7 @@ export {ESLCarouselSlide} from './core/esl-carousel.slide';
 
 // Navigation
 export * from './plugin/nav/esl-carousel.nav.mixin';
-export * from './plugin/nav/esl-carousel.nav.dots';
+export * from './plugin/dots/esl-carousel.nav.dots';
 
 // Touch support
 export * from './plugin/touch/esl-carousel.touch.mixin';
@@ -23,4 +23,5 @@ export * from './plugin/relation/esl-carousel.relation.mixin';
 export * from './plugin/wheel/esl-carousel.wheel.mixin';
 
 // Renderer Default
+import './renderers/esl-carousel.none.renderer';
 import './renderers/esl-carousel.default.renderer';

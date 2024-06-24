@@ -18,6 +18,11 @@ updates:
     assignees:
       - "ala-n"
       - "abarmina"
+      - "NastaLeo"
+    commit-message:
+      prefix: fix
+      prefix-development: chore
+      include: scope
     groups:
       typescript-eslint:
         patterns:
@@ -33,3 +38,25 @@ updates:
         patterns:
           - "semantic-release"
           - "@semantic-release/*"
+
+  # Maintain dependencies for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    open-pull-requests-limit: 5
+    schedule:
+      interval: "weekly"
+    reviewers:
+      - "@exadel-inc/esl-core-maintainers"
+    assignees:
+      - "ala-n"
+      - "abarmina"
+      - "NastaLeo"
+    commit-message:
+      prefix: chore
+      include: scope
+    groups:
+      gh-pages:
+        patterns:
+          - "actions/configure-pages"
+          - "actions/upload-pages-artifact"
+          - "actions/deploy-pages"

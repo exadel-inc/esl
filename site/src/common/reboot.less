@@ -14,16 +14,11 @@
 * {
   margin: 0;
   padding: 0;
-
-  &:focus-visible {
-    outline: 2px dashed @focus-color;
-  }
 }
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji',
+  font-family: system-ui, 'Segoe UI', sans-serif, 'Apple Color Emoji',
     'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   font-size: 1rem;
   font-weight: 400;
@@ -146,5 +141,14 @@ fieldset {
 audio {
   &::-webkit-media-controls-enclosure {
     border: 1px solid rgba(0, 0, 0, 0.6);
+  }
+}
+
+// Focus state
+*,
+a,
+button {
+  &:focus-visible {
+    outline: 2px dashed @focus-color;
   }
 }

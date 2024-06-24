@@ -1,0 +1,38 @@
+// Fallback font for automated tests
+@font-face {
+  font-family: 'E2EMonoFont';
+  src: url('/assets/fonts/OpenSans-VariableFont_wdth,wght.ttf')
+    format('opentype');
+}
+
+@font-face {
+  font-family: 'E2EMonoFont';
+  font-style: italic;
+  src: url('/assets/fonts/OpenSans-Italic-VariableFont_wdth,wght.ttf')
+    format('opentype');
+}
+
+body {
+  font-family: 'E2EMonoFont', sans-serif !important;
+  font-variation-settings: 'wdth' 96;
+}
+
+// Remove background fog with animation for automated tests
+.landing-layout::before {
+  display: none !important;
+}
+
+.esl-animate-fade,
+.esl-animate-slide {
+  transition: none !important;
+}
+
+// Footer version is dynamic so no need to check it with screenshot tests
+.footer-copyright {
+  opacity: 0 !important;
+}
+
+// No need for "easter egg" in automated tests
+esl-d-marquee-owl {
+  display: none !important;
+}

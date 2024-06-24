@@ -5,54 +5,59 @@ esl-carousel {
   max-width: 100%;
   // Important to ignore padding/margin hack
   box-sizing: content-box;
-  margin: -5px;
-  padding: 5px;
-  overflow: hidden;
+  margin: calc(var(--esl-carousel-side-space, 0) * -1);
+  padding: var(--esl-carousel-side-space, 0);
 
-  [data-slides-area] {
+  overflow: hidden; // Fallback
+  /* stylelint-disable-next-line */
+  overflow: clip;
+
+  [esl-carousel-slides] {
     position: relative;
     width: 100%;
+    margin: 0;
     display: flex;
     gap: 20px;
     z-index: 0;
     transform: translate3d(0px, 0px, 0px);
   }
 
-  &.esl-carousel-vertical [data-slides-area] {
+  &.esl-carousel-vertical [esl-carousel-slides] {
     flex-direction: column;
+    touch-action: pan-x;
   }
-  &.esl-carousel-horizontal [data-slides-area] {
+  &.esl-carousel-horizontal [esl-carousel-slides] {
     flex-direction: row;
+    touch-action: pan-y;
   }
 
   &[dragging] {
     cursor: grabbing;
   }
 
-  &[dragging] [data-slides-area],
-  &[animating] [data-slides-area] {
+  &[dragging] [esl-carousel-slides],
+  &[animating] [esl-carousel-slides] {
+    touch-action: none;
     user-select: none;
-    touch-action: pan-y;
     pointer-events: none;
   }
 }
 
-esl-carousel-slide {
-  // TODO: Do we need to set display: block?
-  display: flex;
-  box-sizing: border-box;
+[esl-carousel-slide] {
+  flex: 0 0 auto;
   margin: 0;
   padding: 0;
-
   position: relative;
-  left: 0;
   z-index: 1;
-
-  // TODO: magic numbers
-  min-width: 250px;
-  min-height: 150px;
+  list-style: none;
 }
 
 [esl-carousel-container] {
+  --esl-carousel-control-visibility: visible;
+  --esl-carousel-side-space: 5px;
   position: relative;
+}
+
+[esl-carousel-container][incomplete] {
+  --esl-carousel-control-visibility: hidden;
 }

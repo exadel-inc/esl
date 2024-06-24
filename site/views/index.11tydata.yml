@@ -58,7 +58,7 @@ landing:
 
   news:
     title: Our News
-    limit: 2
+    limit: 3
     moreLimit: 3
     moreCta: Show older news
     cta:

@@ -29,7 +29,8 @@ module.exports = (config) => {
   });
 
   config.setServerOptions({
-    port: 3005,
+    port: process.env.PORT || 3005,
+    domDiff: false, // Disabled until https://github.com/11ty/eleventy-dev-server/issues/77 is fixed
     watch: [
       'dist/bundles/*.js',
       'dist/bundles/*.css'

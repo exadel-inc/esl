@@ -1,8 +1,63 @@
 extends:
   - "@commitlint/config-conventional"
 rules:
-  header-max-length: [1, 'always', 120]
-  body-max-length: [1, 'always', 150]
-  body-max-line-length: [1, 'always', 150]
-  footer-max-line-length: [1, 'always', 120]
-  subject-case: [1, 'never', ['sentence-case', 'start-case', 'pascal-case', 'upper-case']]
+  header-max-length:
+    - 1
+    - always
+    - 120
+  body-max-length:
+    - 1
+    - always
+    - 150
+  body-max-line-length:
+    - 1
+    - always
+    - 150
+  footer-max-line-length:
+    - 1
+    - always
+    - 120
+  subject-case:
+    - 1
+    - never
+    -
+      - sentence-case
+      - start-case
+      - pascal-case
+      - upper-case
+  scope-enum:
+    - 2
+    - always
+    -
+      - esl-a11y-group
+      - esl-alert
+      - esl-animate
+      - esl-base-element
+      - esl-carousel
+      - esl-event-listener
+      - esl-footnotes
+      - esl-forms
+      - esl-image
+      - esl-media
+      - esl-media-query
+      - esl-mixin-element
+      - esl-open-state
+      - esl-panel
+      - esl-panel-group
+      - esl-popup
+      - esl-random-text
+      - esl-related-target
+      - esl-scrollbar
+      - esl-share
+      - esl-tab
+      - esl-toggleable
+      - esl-tooltip
+      - esl-traversing-query
+      - esl-trigger
+      - esl-utils
+      - site
+      - patch
+      - deps
+      - deps-dev
+      - lint
+      - e2e

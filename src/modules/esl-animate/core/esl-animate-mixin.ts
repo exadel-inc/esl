@@ -31,15 +31,19 @@ export class ESLAnimateMixin extends ESLMixinElement {
   }
 
   @ready
-  public override connectedCallback(): void {
+  protected override connectedCallback(): void {
     super.connectedCallback();
     this.reanimate();
   }
 
   @ready
-  public override disconnectedCallback(): void {
+  protected override disconnectedCallback(): void {
     super.disconnectedCallback();
     ESLAnimateService.unobserve(this.$host);
+  }
+
+  protected override attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null): void {
+    this.reanimate();
   }
 
   /** Reinitialize {@link ESLAnimateService} for target */

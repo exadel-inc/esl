@@ -21,6 +21,7 @@ export abstract class ESLCarouselPlugin extends ESLMixinElement {
     }
   }
 
+  /** Register mixin-plugin in ESLMixinRegistry */
   public static override register(): void {
     ESLCarousel.registered.then(() => super.register());
   }

@@ -19,12 +19,14 @@ extends:
   - './linting/sonarjs.eslintrc.yml'
   - './linting/tests.eslintrc.yml'
   - './linting/eslint.eslintrc.yml'
+  - './linting/site.eslintrc.yml'
 
 # TS configuration
 parser: '@typescript-eslint/parser'
 parserOptions:
   project:
     - './tsconfig.json'
+    - './e2e/tsconfig.json'
     - './site/tsconfig.json'
     - './eslint/tsconfig.json'
   sourceType: module

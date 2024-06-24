@@ -40,6 +40,11 @@ export class ESLCarouselNavMixin extends ESLMixinElement {
     return ESLTraversingQuery.first(this.carousel, this.$host) as ESLCarousel;
   }
 
+  /** @returns accessible target ID */
+  public get targetID(): string {
+    return this.$carousel ? this.$carousel.$slidesArea.id : '';
+  }
+
   @ready
   public override async connectedCallback(): Promise<void> {
     this.$$attr('disabled', true);
@@ -47,6 +52,7 @@ export class ESLCarouselNavMixin extends ESLMixinElement {
     await customElements.whenDefined(this.$carousel.tagName.toLowerCase());
     super.connectedCallback();
     this._onSlideChange();
+    this.$$attr('aria-controls', this.targetID);
   }
 
   public override disconnectedCallback(): void {
@@ -64,7 +70,7 @@ export class ESLCarouselNavMixin extends ESLMixinElement {
     this.$$attr('disabled', !canNavigate);
   }
 
-  /** Handles nat target clicks */
+  /** Handles $host element click */
   @listen('click')
   protected _onClick(e: PointerEvent): void {
     if (!this.$carousel || typeof this.$carousel.goTo !== 'function') return;

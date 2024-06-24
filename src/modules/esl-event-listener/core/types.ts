@@ -9,7 +9,8 @@ declare global {
 }
 
 /** Extended event with a delegated event target */
-export type DelegatedEvent<EventType extends Event> = EventType & {
+export type DelegatedEvent<EventType extends Event = Event> = EventType & {
+  /** Delegated target element, that exactly accepted by `selector` CSS selector */
   $delegate: Element | null;
 };
 
@@ -51,6 +52,9 @@ export type ESLListenerDescriptor<EType extends keyof ESLListenerEventMap = stri
   auto?: boolean;
   /** A boolean value indicating that the listener should be invoked at most once after being added */
   once?: boolean;
+
+  /** Auxiliary group name to group listeners. Used for a batch un/re-subscribe */
+  group?: string;
 };
 
 /** Resolved descriptor (definition) to create {@link ESLEventListener} */
@@ -63,11 +67,13 @@ export interface ESLListenerDefinition<EType extends keyof ESLListenerEventMap =
 export type ESLListenerHandler<EType extends Event = Event> = ((event: EType) => void) | (() => void);
 
 /** Condition (criteria) to find {@link ESLListenerDescriptor} */
-export type ESLListenerCriteria =
+export type ESLListenerDescriptorCriteria =
   | undefined
   | keyof ESLListenerEventMap
-  | ESLListenerHandler
   | Partial<ESLListenerDefinition>;
+
+/** Condition (criteria) to find {@link ESLEventListener} */
+export type ESLListenerCriteria = ESLListenerDescriptorCriteria | ESLListenerHandler;
 
 /** Function decorated as {@link ESLListenerDescriptor} */
 export type ESLListenerDescriptorFn<EType extends keyof ESLListenerEventMap = string> =

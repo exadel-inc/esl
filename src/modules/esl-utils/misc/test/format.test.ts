@@ -133,6 +133,7 @@ describe('misc/format helper tests', () => {
       [['123'], 123],
       [['123', 1], 123],
       [[0], 0],
+      [[0, 1], 0],
       [['a'], undefined],
       [['b', undefined], undefined],
       [['abc', NaN], NaN],

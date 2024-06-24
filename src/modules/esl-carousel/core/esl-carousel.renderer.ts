@@ -2,10 +2,11 @@ import {memoize} from '../../esl-utils/decorators';
 import {isEqual} from '../../esl-utils/misc/object';
 import {SyntheticEventTarget} from '../../esl-utils/dom';
 import {ESLCarouselSlideEvent} from './esl-carousel.events';
+import {calcDirection, normalize} from './nav/esl-carousel.nav.utils';
 
 import type {ESLCarousel, ESLCarouselActionParams} from './esl-carousel';
 import type {ESLCarouselConfig, ESLCarouselDirection} from './nav/esl-carousel.nav.types';
-import type {ESLCarouselSlide} from './esl-carousel.slide';
+import type {ESLCarouselSlideEventInit} from './esl-carousel.events';
 
 export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
   public static is: string;
@@ -46,13 +47,13 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
     return {type, size, count, loop, vertical};
   }
 
-  /** @returns {@link ESLCarousel} `$slideArea` */
+  /** @returns {@link ESLCarousel} `$slidesArea` */
   public get $area(): HTMLElement {
     return this.$carousel.$slidesArea;
   }
 
-  /** @returns {@link ESLCarousel} `$slideArea` */
-  public get $slides(): ESLCarouselSlide[] {
+  /** @returns {@link ESLCarousel} `$slides` */
+  public get $slides(): HTMLElement[] {
     return this.$carousel.$slides || [];
   }
 
@@ -83,7 +84,7 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
   public onUnbind(): void {}
   /** Processes drawing of the carousel {@link ESLCarousel}. */
   public redraw(): void {}
-  /** Process slide change process */
+  /** Processes changing slides */
   public async navigate(index: number, direction: ESLCarouselDirection, {activator}: ESLCarouselActionParams): Promise<void> {
     const {activeIndex, activeIndexes} = this.$carousel;
 
@@ -105,51 +106,48 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
       console.error(e);
     }
 
-    this.clearPreActive();
-    this.setActive(index);
-
-    this.$carousel.dispatchEvent(ESLCarouselSlideEvent.create('AFTER', {
-      direction,
-      activator,
-      current: index,
-      related: activeIndex
-    }));
+    this.setActive(index, {direction, activator});
   }
 
   /** Pre-processing animation action. */
-  public abstract onBeforeAnimate(index?: number, direction?: ESLCarouselDirection): Promise<void>;
+  public async onBeforeAnimate(index?: number, direction?: ESLCarouselDirection): Promise<void> {}
   /** Processes animation. */
   public abstract onAnimate(index: number, direction: ESLCarouselDirection): Promise<void>;
   /** Post-processing animation action. */
-  public abstract onAfterAnimate(index: number, direction: ESLCarouselDirection): Promise<void>;
+  public async onAfterAnimate(index: number, direction: ESLCarouselDirection): Promise<void> {}
 
   /** Handles the slides transition. */
   public abstract onMove(offset: number): void;
-  /** Ends current transition and make permanent all changes performed in the transition. */
+  /** Ends current transition and makes permanent all changes performed in the transition. */
   public abstract commit(offset?: number): void;
 
   /** Sets active slides from passed index **/
-  public setActive(from: number): void {
-    this.$carousel.$slides.forEach((el) => el.active = false);
+  public setActive(current: number, event?: Partial<ESLCarouselSlideEventInit>): void {
+    const related = this.$carousel.activeIndex;
     const count = Math.min(this.count, this.size);
-    for (let i = 0; i < count; i++) {
-      this.$carousel.slideAt(from + i).active = true;
+
+    for (let i = 0; i < this.size; i++) {
+      const position = normalize(i + current, this.size);
+      const $slide = this.$slides[position];
+      $slide.toggleAttribute('active', i < count);
+      $slide.toggleAttribute('pre-active', false);
+      $slide.toggleAttribute('next', i === count && (this.loop || position !== 0));
+      $slide.toggleAttribute('prev', i === this.size - 1 && i >= count && (this.loop || position !== this.size - 1));
+    }
+
+    if (event && typeof event === 'object') {
+      const direction = event.direction || calcDirection(related, current, this.size);
+      const details = {...event, direction, current, related};
+      this.$carousel.dispatchEvent(ESLCarouselSlideEvent.create('AFTER', details));
     }
   }
 
-  public setPreActive(from: number): void {
-    this.clearPreActive();
+  public setPreActive(from: number, force = true): void {
     const count = Math.min(this.count, this.size);
-    for (let i = from; i < from + count; i++) {
-      const $slide = this.$carousel.slideAt(i);
-      if (!$slide.active) {
-        $slide.preActive = true;
-      }
+    for (let i = 0; i < this.size; ++i) {
+      const $slide = this.$slides[normalize(i + from, this.size)];
+      $slide.toggleAttribute('pre-active', force && i < count);
     }
-  }
-
-  public clearPreActive(): void {
-    this.$carousel.$slides.forEach((el) => el.preActive = false);
   }
 
   // Register API
@@ -174,7 +172,7 @@ export class ESLCarouselRendererRegistry extends SyntheticEventTarget {
   }
 
   public register(view: ESLCarouselRendererConstructor): void {
-    if (!view || !view.is) throw Error('[ESL]: CarouselRendererRegistry] incorrect registration request');
+    if (!view || !view.is) throw Error('[ESL]: CarouselRendererRegistry: incorrect registration request');
     if (this.store.has(view.is)) throw Error(`View with name ${view.is} already defined`);
     this.store.set(view.is, view);
     const detail = {name: view.is, view};

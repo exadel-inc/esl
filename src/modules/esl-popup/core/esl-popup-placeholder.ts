@@ -8,6 +8,11 @@ export class ESLPopupPlaceholder extends ESLToggleablePlaceholder {
   public static override is = 'esl-popup-placeholder';
 
   public override $origin: ESLPopup | null;
+
+  protected override disconnectedCallback(): void {
+    this.$origin?.remove();
+    super.disconnectedCallback();
+  }
 }
 
 declare global {

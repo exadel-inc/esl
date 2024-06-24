@@ -7,7 +7,6 @@ import {ESLCarousel} from '../../core/esl-carousel';
 import {ESLCarouselPlugin} from '../esl-carousel.plugin';
 import {ESLCarouselSlideEvent} from '../../core/esl-carousel.events';
 
-
 /**
  * Slide Carousel Link plugin mixin to bind carousel positions
  */
@@ -41,12 +40,10 @@ export class ESLCarouselRelateToMixin extends ESLCarouselPlugin {
   /** Handles event that fires when the carousel slides state is changed. */
   @listen({event: ($this: ESLCarouselRelateToMixin) => $this.event})
   protected _onSlideChange(e: ESLCarouselSlideEvent): void {
-    if (!this.$target) return;
-    if (e.activator !== this) {
-      this.$target.goTo(this.$host.activeIndex, {
-        activator: this
-      });
-    }
+    if (!this.$target || e.activator === this) return;
+    this.$target.goTo(this.$host.activeIndex, {
+      activator: this
+    });
   }
 }
 

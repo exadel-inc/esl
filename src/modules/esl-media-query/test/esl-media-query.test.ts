@@ -1,11 +1,11 @@
-import {DDMock} from '../../esl-utils/test/deviceDetector.mock';
+import {DevicesMock} from '../../esl-utils/test/deviceDetector.mock';
 import {ESLMediaQuery, ESLScreenBreakpoints, ESLScreenDPR} from '../core';
 import {getMatchMediaMock} from '../../esl-utils/test/matchMedia.mock';
 import {ESLMediaChangeEvent} from '../core/conditions/media-query-base';
 
 /**
  * ESL Media Query tests
- * Require mocked DeviceDetector and matchMedia
+ * Require mocked matchMedia and environment device checks
  *
  * Realization of ESL Media Query implies next query parsing cases
  * (examples for desktop device):
@@ -88,19 +88,19 @@ describe('ESLMediaQuery', () => {
       ['@1x', '(-webkit-min-device-pixel-ratio: 1)'],
       ['@2.3x', '(-webkit-min-device-pixel-ratio: 2.3)'],
     ])('Dpr %s replacement', (query, expected) => {
-      DDMock.isSafari = true;
+      DevicesMock.isSafari = true;
       expect(ESLMediaQuery.from(query).toString()).toBe(expected);
-      DDMock.isSafari = false;
+      DevicesMock.isSafari = false;
     });
 
     test('Bot DPR override test', () => {
-      DDMock.isBot = true;
+      DevicesMock.isBot = true;
       ESLScreenDPR.ignoreBotsDpr = true;
 
       expect(ESLMediaQuery.from('@1x').toString()).toBe('(min-resolution: 96.0dpi)');
       expect(ESLMediaQuery.from('@3x, @2.4x').toString()).toBe('not all');
 
-      DDMock.isBot = false;
+      DevicesMock.isBot = false;
       ESLScreenDPR.ignoreBotsDpr = false;
     });
   });
