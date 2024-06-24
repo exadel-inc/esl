@@ -22,7 +22,7 @@ export class ESLGridCarouselRenderer extends ESLDefaultCarouselRenderer {
     return Array.from({length: this.ROWS - count}, this.buildFakeSlide.bind(this));
   }
 
-  /** @returns all slides including {@link $fakeSlides} slides created in grid mode */
+  /** @returns all slides including {@link ESLGridCarouselRenderer.$fakeSlides} slides created in grid mode */
   public override get $slides(): HTMLElement[] {
     return (this.$carousel.$slides || []).concat(this.$fakeSlides);
   }
