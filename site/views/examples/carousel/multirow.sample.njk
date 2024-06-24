@@ -1,6 +1,6 @@
 ---
-title: Carousel (Multi-slide)
-order: 1
+title: Carousel (Multi-row, multi-slide)
+order: 4
 tags: carousel-sample
 ---
 <div class="mx-6" esl-carousel-container>
@@ -11,8 +11,9 @@ tags: carousel-sample
                 esl-carousel-touch
                 esl-carousel-keyboard
                 tabindex="0"
-                media="@XS|@SM|@MD|@LG|@XL"
-                count="1|2|3|4|5"
+                media="@-SM|@MD|@LG|@XL"
+                type="default|default|grid|grid"
+                count="1|2|6|8"
                 loop="true">
     <ul esl-carousel-slides>
       {% for item in range(0, 16) %}

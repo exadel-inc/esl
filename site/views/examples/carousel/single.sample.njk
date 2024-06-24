@@ -9,7 +9,9 @@ tags: carousel-sample
     <span class="sr-only">Previous Slide</span>
   </button>
 
-  <esl-carousel esl-carousel-touch="@touch => swipe" loop="true">
+  <esl-carousel demo-options-target
+                esl-carousel-touch="@touch => swipe"
+                loop="true">
     <ul esl-carousel-slides>
       {% for i in range(0, 4) -%}
         <li esl-carousel-slide>
