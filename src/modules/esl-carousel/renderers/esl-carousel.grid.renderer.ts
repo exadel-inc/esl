@@ -19,12 +19,19 @@ export class ESLGridCarouselRenderer extends ESLDefaultCarouselRenderer {
   public get $fakeSlides(): HTMLElement[] {
     const count = this.$carousel.$slides.length % this.ROWS;
     if (count === 0) return [];
-    return Array.from({length: this.ROWS - count}, () => document.createElement('div'));
+    return Array.from({length: this.ROWS - count}, this.buildFakeSlide.bind(this));
   }
 
   /** @returns all slides including {@link $fakeSlides} slides created in grid mode */
   public override get $slides(): HTMLElement[] {
     return (this.$carousel.$slides || []).concat(this.$fakeSlides);
+  }
+
+  /** creates fake slide element */
+  public buildFakeSlide(): HTMLElement {
+    const $slide = document.createElement('div');
+    $slide.setAttribute('esl-carousel-fake-slide', '');
+    return $slide;
   }
 
   /**
