@@ -12,21 +12,21 @@
                   esl-carousel-wheel
                   esl-carousel-touch="@mobile => swipe"
                   esl-carousel-keyboard>
-      <div tabindex="-1" data-slides-area class="presentation-carousel-inner markdown-container">
+      <ul esl-carousel-slides tabindex="-1" class="presentation-carousel-inner markdown-container">
         {% for item in collections[slides] | sortByPathAndOrder %}
-          <esl-carousel-slide {{ 'active' if loop.first}} class="presentation-slide {{ item.data.cls }}">
-            <div class="container presentation-content esl-scrollable-content">
-              {% if item.data.titleTag and item.data.titleTag !== 'none' %}
-                <{{ item.data.titleTag }} class="presentation-title {{ item.data.titleCls }}">
-                  {{ item.data.title | safe or 'No title.' }}
-                </{{ item.data.titleTag }}>
-              {% endif %}
-              {{ item.content | safe or 'No content.' }}
-            </div>
-            <esl-scrollbar target="::prev"></esl-scrollbar>
-          </esl-carousel-slide>
+        <li esl-carousel-slide {{ 'active' if loop.first}} class="presentation-slide {{ item.data.cls }}">
+          <div class="container presentation-content esl-scrollable-content">
+            {% if item.data.titleTag and item.data.titleTag !== 'none' %}
+            <{{ item.data.titleTag }} class="presentation-title {{ item.data.titleCls }}">
+            {{ item.data.title | safe or 'No title.' }}
+          </{{ item.data.titleTag }}>
+          {% endif %}
+          {{ item.content | safe or 'No content.' }}
+          </div>
+          <esl-scrollbar target="::prev"></esl-scrollbar>
+        </li>
         {% endfor %}
-      </div>
+      </ul>
     </esl-carousel>
   </main>
 
