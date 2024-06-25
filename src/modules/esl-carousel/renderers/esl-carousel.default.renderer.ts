@@ -81,7 +81,7 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     const {activeIndex, $slidesArea} =  this.$carousel;
     this.currentIndex = activeIndex;
     if (!$slidesArea) return;
-    while (this.currentIndex !== nextIndex) await this.onStepAnimate(direction);
+    while (this.currentIndex !== nextIndex) await this.onStepAnimate(direction === 'next' ? 1 : -1);
   }
 
   /** Post-processing animation action. */
@@ -93,11 +93,11 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
   }
 
   /** Makes pre-processing the transition animation of one slide. */
-  protected async onStepAnimate(direction: ESLCarouselDirection): Promise<void> {
-    const index = normalize(this.currentIndex + (direction === 'next' ? 1 : -1), this.size);
+  protected async onStepAnimate(indexOffset: number): Promise<void> {
+    const index = normalize(this.currentIndex + indexOffset, this.size);
 
     // Make sure there is a slide in required direction
-    this.reorder(direction === 'prev');
+    this.reorder(indexOffset < 0);
 
     const offsetFrom = -this.getOffset(this.currentIndex);
     this.setTransformOffset(offsetFrom);
@@ -115,19 +115,22 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     this.$carousel.$$attr('animating', false);
   }
 
+  protected indexByOffset(count: number): number {
+    return this.$carousel.activeIndex + count;
+  }
+
   /** Handles the slides transition. */
   public onMove(offset: number): void {
     this.$carousel.toggleAttribute('active', true);
 
-    const sign = offset < 0 ? 1 : -1;
     const slideSize = this.slideSize + this.gap;
     const count = Math.floor(Math.abs(offset) / slideSize);
-    const index = this.$carousel.activeIndex + count * sign;
+    const index = this.indexByOffset(count * (offset < 0 ? 1 : -1));
 
     // check left border of non-loop state
-    if (!this.loop && offset > 0 && index - 1 < 0) return;
+    if (!this.loop && offset > 0 && index <= 0) return;
     // check right border of non-loop state
-    if (!this.loop && offset < 0 && index + 1 + this.count > this.$carousel.size) return;
+    if (!this.loop && offset < 0 && index + this.count >= this.size) return;
 
     this.currentIndex = normalize(index, this.size);
     this.reorder(offset > 0);
@@ -139,13 +142,12 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
   /** Ends current transition and make permanent all changes performed in the transition. */
   // eslint-disable-next-line sonarjs/cognitive-complexity
   public async commit(offset: number): Promise<void> {
-    const sign = offset < 0 ? 1 : -1;
     const slideSize = this.slideSize + this.gap;
 
     const amount = Math.abs(offset) / slideSize;
     const tolerance = ESLDefaultCarouselRenderer.NEXT_SLIDE_TOLERANCE;
     const count = (amount - Math.floor(amount)) > tolerance ? Math.ceil(amount) : Math.floor(amount);
-    const index = this.$carousel.activeIndex + count * sign;
+    const index = this.indexByOffset(count * (offset < 0 ? 1 : -1));
 
     this.currentIndex = normalizeIndex(index, this);
 
@@ -160,8 +162,22 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
 
     this.reorder();
     this.setTransformOffset(-this.getOffset(this.currentIndex));
-    this.setActive(this.currentIndex, {direction: sign > 0 ? 'next' : 'prev'});
+    this.setActive(this.currentIndex, {direction: offset < 0 ? 'next' : 'prev'});
     this.$carousel.$$attr('active', false);
+  }
+
+  /**
+   * @returns count of slides to be rendered (reserved) before the first slide
+   */
+  protected calcReserveCount(back?: boolean): number {
+    const {size, count, loop, currentIndex} = this;
+    const freeSlides = size - count;
+    // no need to reorder if there are no free slides or loop is disabled
+    if (!loop || !freeSlides) return 0;
+    // if back option is not set, prefer to reserve slides with respect to semantic order
+    if (typeof back !== 'boolean') back = !!currentIndex;
+    // otherwise, ensure that there are at least half of free slides reserved (if the back option is set - round up, otherwise - round down)
+    return Math.min(count, back ? Math.ceil(freeSlides / 2) : Math.floor(freeSlides / 2));
   }
 
   /**
@@ -169,17 +185,8 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
    * @param back - if true, ensures that there is a slide rendered before the current one
    */
   protected reorder(back?: boolean): void {
-    const {size, count, loop, currentIndex, $slides} = this;
-
-    const reserve = ((): number => {
-      const freeSlides = size - count;
-      // no need to reorder if there are no free slides or loop is disabled
-      if (!loop || !freeSlides) return 0;
-      // if back option is not set, prefer to reserve slides with respect to semantic order
-      if (typeof back !== 'boolean') back = !!currentIndex;
-      // otherwise, ensure that there are at least half of free slides reserved (if the back option is set - round up, otherwise - round down)
-      return Math.min(count, back ? Math.ceil(freeSlides / 2) : Math.floor(freeSlides / 2));
-    })();
+    const {size, loop, currentIndex, $slides} = this;
+    const reserve = this.calcReserveCount(back);
 
     const index = loop ? currentIndex : 0;
     for (let i = 0; i < size; ++i) {
