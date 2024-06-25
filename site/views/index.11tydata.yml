@@ -12,7 +12,7 @@ landing:
       ESL is an open-source web components library that helps developers
       create modern-looking, effective, and user-friendly interfaces faster.
     easterSecret:
-      url: /overview
+      url: /overview/quick
       text: About ESL presentation
     ctas:
       - text: Get started
