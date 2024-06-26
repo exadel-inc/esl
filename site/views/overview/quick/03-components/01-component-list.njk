@@ -1,0 +1,10 @@
+---
+title: Wide list of Components
+tags: overview-quick
+cls: full-width
+parent: 00-components
+---
+
+{% from 'navigation/collection-grid.njk' import grid with context %}
+
+{{ grid('components', {isList: true, noBadge: true}) }}

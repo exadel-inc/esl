@@ -1,0 +1,16 @@
+---
+title: Custom Attributes
+tags: overview-quick
+parent: 00-core
+---
+
+<h3>Components based on custom attribute - <code>ESLMixinElement</code></h3>
+<div class="esl-animate-slide up" esl-animate="{repeat: true}">
+  <p>In addition to custom tags powered by web components standard, ESL UI library provides a way to create components based on custom attributes.</p>
+  <p>ESLMixinElement is a base class for such components and it gives you this capability in almost the same way as ESLBaseElement does for custom tags.</p>
+  <p>Same as ESLBaseElement, ESLMixinElement's instances are created automatically when the attribute is found in the DOM, and destroyed when the attribute is removed.</p>
+
+  {% code 'html', 'code-block' %}
+    <div my-custom-attr="world"></div>
+  {% endcode %}
+</div>
