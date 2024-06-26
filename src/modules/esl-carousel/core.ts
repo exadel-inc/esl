@@ -22,6 +22,9 @@ export * from './plugin/relation/esl-carousel.relation.mixin';
 // Wheel support
 export * from './plugin/wheel/esl-carousel.wheel.mixin';
 
+// Anchors support
+export * from './plugin/anchor/esl-carousel.anchor.mixin';
+
 // Renderer Default
 import './renderers/esl-carousel.none.renderer';
 import './renderers/esl-carousel.default.renderer';

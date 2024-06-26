@@ -277,7 +277,8 @@ export class ESLCarousel extends ESLBaseElement {
   }
 
   /** Goes to the target according to passed params */
-  public goTo(target: ESLCarouselSlideTarget, params: ESLCarouselActionParams = {}): Promise<void> {
+  public goTo(target: HTMLElement | ESLCarouselSlideTarget, params: ESLCarouselActionParams = {}): Promise<void> {
+    if (target instanceof HTMLElement) return this.goTo(this.indexOf(target), params);
     if (!this.renderer) return Promise.reject();
     const {index, dir} = toIndex(target, this.state);
     const direction = params.direction || dir || 'next';

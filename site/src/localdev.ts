@@ -40,6 +40,7 @@ import {
   ESLCarouselNavMixin,
   ESLCarouselTouchMixin,
   ESLCarouselWheelMixin,
+  ESLCarouselAnchorMixin,
   ESLCarouselKeyboardMixin,
   ESLCarouselRelateToMixin,
   ESLCarouselAutoplayMixin
@@ -124,6 +125,7 @@ ESLCarouselKeyboardMixin.register();
 ESLCarouselRelateToMixin.register();
 ESLCarouselAutoplayMixin.register();
 ESLCarouselWheelMixin.register();
+ESLCarouselAnchorMixin.register();
 
 ESLAnimate.register();
 ESLAnimateMixin.register();

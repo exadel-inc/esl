@@ -11,7 +11,8 @@
                   vertical count="1"
                   esl-carousel-wheel
                   esl-carousel-touch="@mobile => swipe"
-                  esl-carousel-keyboard>
+                  esl-carousel-keyboard
+                  esl-carousel-anchored>
       <ul esl-carousel-slides tabindex="-1" class="presentation-carousel-inner markdown-container">
         {% for item in collections[slides] | sortByPathAndOrder %}
         <li esl-carousel-slide
