@@ -14,12 +14,23 @@ export class ESLGridCarouselRenderer extends ESLDefaultCarouselRenderer {
   @prop(2, {readonly: true})
   public readonly ROWS: number;
 
-  /** @returns fake slides collection to fill the last "row" in grid mode */
+  /** @returns count of fake slides to fill the last "row" or incomplete carousel state */
+  public get fakeSlidesCount(): number {
+    if (this.$carousel.$slides.length < this.count) {
+      return this.count - this.$carousel.$slides.length;
+    }
+    return this.$carousel.$slides.length % this.ROWS;
+  }
+
+  /**
+   * @returns fake slides collection
+   * @see ESLGridCarouselRenderer.fakeSlidesCount
+   */
   @memoize()
   public get $fakeSlides(): HTMLElement[] {
-    const count = this.$carousel.$slides.length % this.ROWS;
-    if (count === 0) return [];
-    return Array.from({length: this.ROWS - count}, this.buildFakeSlide.bind(this));
+    const length = this.fakeSlidesCount;
+    if (length === 0) return [];
+    return Array.from({length}, this.buildFakeSlide.bind(this));
   }
 
   /** @returns all slides including {@link ESLGridCarouselRenderer.$fakeSlides} slides created in grid mode */
