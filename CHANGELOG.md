@@ -1,3 +1,9 @@
+## [5.0.0-beta.22](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.21...v5.0.0-beta.22) (2024-06-26)
+
+### Bug Fixes
+
+* **esl-carousel:** fix incorrect alignment of the grid carousel renderer if there are no enough slides ([6956729](https://github.com/exadel-inc/esl/commit/69567295a56d0017e6364f3aa558f10d79efac38))
+
 ## [5.0.0-beta.21](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.20...v5.0.0-beta.21) (2024-06-25)
 
 ### Features
