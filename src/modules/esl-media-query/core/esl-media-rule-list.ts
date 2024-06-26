@@ -141,7 +141,7 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
     while (valueList.length < queries.length && valueList.length !== 0) valueList.push(valueList[valueList.length - 1]);
     if (valueList.length !== queries.length) throw Error('Value doesn\'t correspond to mask');
     const rules: (ESLMediaRule | undefined)[] = queries.map((query, i) => ESLMediaRule.create(valueList[i], query, parser));
-    const validRules = rules.filter((rule) => !!rule) as ESLMediaRule[];
+    const validRules = rules.filter((rule) => !!rule);
     return new ESLMediaRuleList(validRules);
   }
 
