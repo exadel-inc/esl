@@ -14,7 +14,10 @@
                   esl-carousel-keyboard>
       <ul esl-carousel-slides tabindex="-1" class="presentation-carousel-inner markdown-container">
         {% for item in collections[slides] | sortByPathAndOrder %}
-        <li esl-carousel-slide {{ 'active' if loop.first}} class="presentation-slide {{ item.data.cls }}">
+        <li esl-carousel-slide
+            {% if item.data.hash %}id="slide-{{ item.data.hash }}" {% endif %}
+            {{ 'active' if loop.first}}
+            class="presentation-slide {{ item.data.cls }}">
           <div class="container presentation-content esl-scrollable-content">
             {% if item.data.titleTag and item.data.titleTag !== 'none' %}
             <{{ item.data.titleTag }} class="presentation-title {{ item.data.titleCls }}">
