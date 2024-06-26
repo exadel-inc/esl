@@ -3,42 +3,6 @@ layout: content
 banner:
   disabled: true
 ---
-<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap" rel="stylesheet">
 
-<ul class="collection-grid unstyled-list {{ 'collection-grid-column' if list }}">
-  {% for item in collections[collection] | released | exclude('data.hidden') | sortByNameAndOrder %}
-    {% set isDraft = [].concat(item.data.tags).includes('draft') %}
-    {% set isBeta = [].concat(item.data.tags).includes('beta') %}
-    {% set isNew = [].concat(item.data.tags).includes('new') %}
-    <li>
-      <a class="collection-grid-item {{ 'draft' if isDraft }}"
-         href="{{ item.url | url }}">
-        <div class="collection-grid-title collection-grid-box">
-          <span>{{ item.data.name }}
-            {% if isBeta %}
-              <sup class="badge badge-sup badge-warning">beta</sup>
-            {% endif %}
-            {% if isDraft %}
-              <sup class="badge badge-sup badge-danger">draft</sup>
-            {% endif %}
-            {% if isNew %}
-              <sup class="badge badge-sup badge-success">new</sup>
-            {% endif %}
-          </span>
-        </div>
-        <hr class="collection-grid-divider"/>
-        <div class="collection-grid-box collection-grid-svg">
-          {% if item.data.icon %}
-            {% include "static/assets/" + item.data.icon %}
-          {% elseif list %}
-            <span class="arrows-icon right"></span>
-          {% elseif item.data.iconAlt %}
-            <div class="collection-grid-alt {{ 'collection-grid-alt-small' if item.data.iconAlt.length >= 20 }}">
-              {{ item.data.iconAlt }}
-            </div>
-          {% endif %}
-        </div>
-      </a>
-    </li>
-  {% endfor %}
-</ul>
+{% from 'navigation/collection-grid.njk' import grid with context %}
+{{ grid(collection) }}
