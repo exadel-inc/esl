@@ -1,11 +1,12 @@
-{% macro grid(collection) %}
+{% macro grid(collection, options = {}) %}
   <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap" rel="stylesheet">
 
-  <ul class="collection-grid unstyled-list {{ 'collection-grid-column' if list }}">
+  <ul class="collection-grid unstyled-list {{ 'collection-grid-column' if options.isList }} {{ options.classes or ''}}">
     {% for item in collections[collection] | released | exclude('data.hidden') | sortByNameAndOrder %}
-      {% set isDraft = [].concat(item.data.tags).includes('draft') %}
-      {% set isBeta = [].concat(item.data.tags).includes('beta') %}
-      {% set isNew = [].concat(item.data.tags).includes('new') %}
+      {% set badgeAllowed = not options.noBadge %}
+      {% set isDraft = badgeAllowed and [].concat(item.data.tags).includes('draft') %}
+      {% set isBeta = badgeAllowed and [].concat(item.data.tags).includes('beta') %}
+      {% set isNew = badgeAllowed and [].concat(item.data.tags).includes('new') %}
       <li>
         <a class="collection-grid-item {{ 'draft' if isDraft }}"
            href="{{ item.url | url }}">
@@ -26,7 +27,7 @@
           <div class="collection-grid-box collection-grid-svg">
             {% if item.data.icon %}
               {% include "static/assets/" + item.data.icon %}
-            {% elseif list %}
+            {% elseif options.isList %}
               <span class="arrows-icon right"></span>
             {% elseif item.data.iconAlt %}
               <div class="collection-grid-alt {{ 'collection-grid-alt-small' if item.data.iconAlt.length >= 20 }}">
