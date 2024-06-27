@@ -1,4 +1,6 @@
-import {init, UIPJSRenderingPreprocessors, UIPRenderingTemplatesService} from '@exadel/ui-playground';
+import {ESLEventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
+import {init, UIPJSRenderingPreprocessors, UIPRenderingTemplatesService, UIPEditor} from '@exadel/ui-playground';
+
 
 // Add ESL lib alias
 UIPJSRenderingPreprocessors.addRegexReplacer(
@@ -7,7 +9,9 @@ UIPJSRenderingPreprocessors.addRegexReplacer(
   '"/bundles/lib.js"'
 );
 
-// Add template
+// Store default template as empty
+UIPRenderingTemplatesService.add('empty', UIPRenderingTemplatesService.get('default')!);
+// Add default template with ESL context
 UIPRenderingTemplatesService.add('default', `
   <html>
     <head>
@@ -21,5 +25,9 @@ UIPRenderingTemplatesService.add('default', `
     </body>
   </html>
 `);
+
+// Add to UIP by default
+(UIPEditor.prototype as any)._onWheel = (e: WheelEvent): void => e.stopPropagation();
+ESLEventUtils.initDescriptor(UIPEditor.prototype as any, '_onWheel', {auto: true, event: 'wheel'});
 
 init();
