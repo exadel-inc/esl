@@ -9,6 +9,7 @@ import {ESLEventListener} from '../listener';
 import {ESLWheelEvent} from './wheel.target.event';
 
 import type {ESLWheelEventInfo} from './wheel.target.event';
+import type {Predicate} from '../../../esl-utils/misc/functions';
 import type {ESLDomElementTarget} from '../../../esl-utils/abstract/dom-target';
 import type {ElementScrollOffset} from '../../../esl-utils/dom/scroll';
 
@@ -24,6 +25,8 @@ export interface ESLWheelTargetSetting {
   distance?: number;
   /** The maximum duration of the wheel events to consider it inertial */
   timeout?: number;
+  /** Predicate to ignore wheel events */
+  ignore?: Predicate<WheelEvent>;
 }
 
 /**
@@ -33,7 +36,8 @@ export class ESLWheelTarget extends SyntheticEventTarget {
   protected static defaultConfig: Required<ESLWheelTargetSetting> = {
     skipOnScroll: true,
     distance: 400,
-    timeout: 100
+    timeout: 100,
+    ignore: () => false
   };
 
   protected readonly config: Required<ESLWheelTargetSetting>;
@@ -70,6 +74,7 @@ export class ESLWheelTarget extends SyntheticEventTarget {
   /** Handles wheel events */
   @bind
   protected _onWheel(event: WheelEvent): void {
+    if (this.config.ignore(event)) return;
     if (this.config.skipOnScroll) {
       const offsets = getParentScrollOffsets(event.target as Element, this.target);
       this.scrollData = this.scrollData.concat(offsets);
