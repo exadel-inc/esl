@@ -1,6 +1,6 @@
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
 import {throttle} from '../../../esl-utils/async/throttle';
-import {attr, decorate, listen} from '../../../esl-utils/decorators';
+import {attr, bind, decorate, listen} from '../../../esl-utils/decorators';
 import {ESLWheelEvent, ESLWheelTarget} from '../../../esl-event-listener/core';
 
 import {ESLCarouselPlugin} from '../esl-carousel.plugin';
@@ -18,10 +18,24 @@ export class ESLCarouselWheelMixin extends ESLCarouselPlugin {
   /** Prefix to request next/prev navigation */
   @attr({name: ESLCarouselWheelMixin.is}) public type: 'slide' | 'group';
 
+  /** CSS selector to ignore wheel event from */
+  @attr({
+    name: ESLCarouselWheelMixin.is + '-ignore',
+    defaultValue: '[contenteditable]'
+  })
+  public ignore: string;
+
+  @bind
+  protected isEventIgnored(e: WheelEvent & {target: Element}): boolean {
+    return !!this.ignore && !!e.target.closest(this.ignore);
+  }
+
   /** Handles auxiliary events to pause/resume timer */
   @listen({
     event: ESLWheelEvent.TYPE,
-    target: (plugin: ESLCarouselWheelMixin) => ESLWheelTarget.for(plugin.$host, {distance: 1})
+    target: (plugin: ESLCarouselWheelMixin) => ESLWheelTarget.for(plugin.$host, {
+      ignore: plugin.isEventIgnored
+    })
   })
   @decorate(throttle, 400)
   protected _onWheel(e: ESLWheelEvent): void {
