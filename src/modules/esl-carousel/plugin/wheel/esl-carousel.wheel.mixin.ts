@@ -20,7 +20,7 @@ export class ESLCarouselWheelMixin extends ESLCarouselPlugin {
 
   /** Handles auxiliary events to pause/resume timer */
   @listen({
-    event: ESLWheelEvent.type,
+    event: ESLWheelEvent.TYPE,
     target: (plugin: ESLCarouselWheelMixin) => ESLWheelTarget.for(plugin.$host, {distance: 1})
   })
   @decorate(throttle, 400)
