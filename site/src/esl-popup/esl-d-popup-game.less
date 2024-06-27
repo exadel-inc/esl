@@ -1,0 +1,35 @@
+esl-d-popup-game {
+  position: relative;
+  display: inline-block;
+
+  border: 1px solid #000;
+
+  min-height: 300px;
+  height: 95%;
+  width: 100%;
+
+  &::before, &::after {
+    position: absolute;
+    font-size: calc(min(100vh, 300px) / 3);
+    display: inline-block;
+    opacity: 0.3;
+  }
+
+  &::before {
+    content: '🌒';
+  }
+
+  &::after {
+    content: '🪐';
+    bottom: 0;
+    right: 0;
+  }
+}
+
+.game-popup-trigger {
+  position: absolute;
+  padding: 2px 6px;
+  border-radius: 50%;
+  background-color: #bce0ff45;
+  font-size: 2rem;
+}
