@@ -14,11 +14,6 @@ parent: 00-core
 
 {% code 'typescript', 'code-block' %}
   class MyComponent extends ESLBaseElement {
-    @listen('click')
-    onClick(event) {
-      console.log('Component clicked', event);
-    }
-
     @listen({event: 'click', selector: 'button'})
     onBtnClick(event) {
       console.log('Button click catched with delegation', event);
