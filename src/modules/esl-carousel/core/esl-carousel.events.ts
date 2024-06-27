@@ -38,6 +38,16 @@ export class ESLCarouselSlideEvent extends Event implements ESLCarouselSlideEven
     Object.assign(this, init);
   }
 
+  /** @returns current slide element */
+  public get $currentSlide(): HTMLElement | null {
+    return this.target.slideAt(this.current);
+  }
+
+  /** @returns related slide element */
+  public get $relatedSlide(): HTMLElement | null {
+    return this.target.slideAt(this.related);
+  }
+
   public static create(type: 'BEFORE' | 'AFTER', init: ESLCarouselSlideEventInit): ESLCarouselSlideEvent {
     return new ESLCarouselSlideEvent(ESLCarouselSlideEvent[type], init);
   }
