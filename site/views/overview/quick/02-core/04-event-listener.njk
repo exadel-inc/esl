@@ -11,3 +11,22 @@ parent: 00-core
   ESL provides ability to register event listeners in declarative way using TS <code>@listen</code> decorator.
   Module supports event delegation, custom event targets. Listeners registration works on the "host" concept that allows you to link the listener to the specific component instance (to manage subscriptions automatically.
 </p>
+
+{% code 'typescript', 'code-block' %}
+  class MyComponent extends ESLBaseElement {
+    @listen('click')
+    onClick(event) {
+      console.log('Component clicked', event);
+    }
+
+    @listen({event: 'click', selector: 'button'})
+    onBtnClick(event) {
+      console.log('Button click catched with delegation', event);
+    }
+
+    @listen({event: 'resize', target: ESLResizeObserverTarget.for})
+    onResize(event) {
+      console.log('Component resized', event);
+    }
+  }
+{% endcode %}

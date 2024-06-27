@@ -1,0 +1,19 @@
+---
+title: ESL Extended Syntax - Traversing Query
+hash: esl-utils-traversing-query
+tags: overview-quick
+parent: 00-core
+---
+
+<h3>{{ title }}</h3>
+
+{% code 'typescript', 'code-block' %}
+  import {ESLTraversingQuery} from '@exadel/esl';
+
+  const $base = ...; // some base element (as context)
+
+  const $result = ESLTraversingQuery.find($base, '::find(button)::visible'); // find all visible buttons in the base element
+  const $result = ESLTraversingQuery.find($base, '::find(button)::nth(2)'); // find second button in the base element
+  const $result = ESLTraversingQuery.find($base, '::next'); // get next sibling of the base element
+  const $result = ESLTraversingQuery.find($base, '::prev(a)'); // get previous sibling of the base element that is an anchor
+{% endcode %}

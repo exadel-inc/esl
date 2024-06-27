@@ -1,0 +1,23 @@
+---
+title: ESL Extended Syntax - Media Query
+hash: esl-utils-media-query
+tags: overview-quick
+parent: 00-core
+---
+
+<h3>{{ title }}</h3>
+
+{% code 'typescript', 'code-block' %}
+  import {ESLMediaQuery} from '@exadel/esl';
+
+  ESLMediaQuery.for('@XS').addListener((event) => {
+  console.log('Media query changed', event.matches);
+  })
+
+  class Test {
+  @listen({event: 'change', target: ESLMediaQuery.for('@XS or @SM')})
+  onMediaQueryChange(event) {
+  console.log('Media query changed', event.matches);
+  }
+  }
+{% endcode %}

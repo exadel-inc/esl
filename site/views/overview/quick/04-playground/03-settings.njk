@@ -4,3 +4,31 @@ hash: uip-settings
 tags: overview-quick
 parent: 00-playground
 ---
+
+<h3>UI Playground - Quick Settings plugin</h3>
+
+<p>UI Playground allows you to add quick options to manipulate your demo content.</p>
+
+<uip-root>
+  <script type="text/html"
+          label="Embedded content is in page context"
+          uip-snippet
+          uip-isolated
+          uip-snippet-js="js-source-uip">
+    <div class="p-2">
+      <button class="btn">Click me!</button>
+    </div>
+  </script>
+
+  <uip-settings target=".btn" label="Settings" resizable vertical="@+sm">
+    <uip-select-setting label="Style:" attribute="class" mode="append" inconsistency="Unknown">
+      <option value="" selected>None</option>
+      <option value="btn-link">Link</option>
+      <option value="btn-sec-blue">Secondary Blue</option>
+      <option value="btn-sec-green">Secondary Green</option>
+      <option value="btn-sec-orange">Secondary Orange</option>
+    </uip-select-setting>
+  </uip-settings>
+  <uip-preview></uip-preview>
+  <uip-editor label="Source code (HTML)" collapsible copy></uip-editor>
+</uip-root>

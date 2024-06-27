@@ -7,15 +7,20 @@ parent: 00-components
 
 <h3>Built-In Responsiveness and Flexibility</h3>
 
-<p class="esl-animate-slide up" esl-animate="{repeat: true}">
+<p class="esl-animate-slide up" esl-animate="{repeat: true, group: true}">
   ESL components can adapt their behavior based on patterns or device sizes.
 </p>
-<p class="esl-animate-slide up" esl-animate="{repeat: true}">
-  The same Tab component can be presented as an Accordion on smaller screens without needing separate markup—just change one parameter!
-  <esl-trigger class="btn btn-link hide-mobile" target="#demo-accordion-example">(see the example)</esl-trigger>
+<p class="esl-animate-slide up" esl-animate="{repeat: true, group: true}">
+  The same Tab component can be presented as an Accordion on smaller screens without needing separate markup—just change
+  one parameter!
 </p>
 
-<esl-panel id="demo-accordion-example">
+<p class="esl-animate-slide up" esl-animate="{repeat: true, group: true}">
+  <esl-trigger class="btn btn-link" target="::parent::next">
+    See Example
+  </esl-trigger>
+</p>
+<esl-panel class="esl-d-accordion-panel">
   <uip-root style="min-height: 330px">
     <script type="text/html"
             label="Tabs/Accordion transformation"
@@ -43,7 +48,8 @@ parent: 00-components
                          max-open-items="all | @+MD => 1"
                          mode-cls-target="::parent">
           <esl-trigger class="esl-d-accordion-header esl-d-accordion-header-arrow h5"
-                       target="::next">Toggle Tab #1</esl-trigger>
+                       target="::next">Toggle Tab #1
+          </esl-trigger>
           <esl-panel class="esl-d-tab-panel tab-1" tabindex="0">
             <div class="esl-d-tab-body">
               <!-- text 130 -->
@@ -51,7 +57,8 @@ parent: 00-components
           </esl-panel>
 
           <esl-trigger class="esl-d-accordion-header esl-d-accordion-header-arrow h5"
-                       target="::next">Toggle Tab #2</esl-trigger>
+                       target="::next">Toggle Tab #2
+          </esl-trigger>
           <esl-panel open class="esl-d-tab-panel tab-2" tabindex="0">
             <div class="esl-d-tab-body">
               <!-- text 100 -->
@@ -59,7 +66,8 @@ parent: 00-components
           </esl-panel>
 
           <esl-trigger class="esl-d-accordion-header esl-d-accordion-header-arrow h5"
-                       target="::next">Toggle Tab #3</esl-trigger>
+                       target="::next">Toggle Tab #3
+          </esl-trigger>
           <esl-panel class="esl-d-tab-panel tab-3" tabindex="0">
             <div class="esl-d-tab-body">
               <!-- text 150 -->

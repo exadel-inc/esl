@@ -4,3 +4,31 @@ hash: uip-editors
 tags: overview-quick
 parent: 00-playground
 ---
+
+<h3>UIP Editors</h3>
+
+<p>UI Playground allows you to see and edit source code of example and see changes in real time.</p>
+
+<uip-root>
+  <script type="text/html"
+          label="Embedded content is in page context"
+          uip-snippet
+          uip-isolated
+          uip-snippet-js="js-source-uip">
+    <div class="p-2">
+      <button class="btn">Click me!</button>
+    </div>
+  </script>
+
+  <script id="js-source-uip"
+          type="text/plain">
+    import {ESLEventUtils} from '@exadel/esl';
+    ESLEventUtils.subscribe(document.body, {event: 'click', selector: 'button'}, () => {
+      alert('hey!');
+    });
+  </script>
+
+  <uip-preview></uip-preview>
+  <uip-editor label="Source code (HTML)" collapsible copy></uip-editor>
+  <uip-editor source="js" label="Source code (JS)" collapsible copy></uip-editor>
+</uip-root>
