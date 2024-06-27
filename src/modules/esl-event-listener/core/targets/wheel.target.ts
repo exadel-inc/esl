@@ -27,6 +27,8 @@ export interface ESLWheelTargetSetting {
   timeout?: number;
   /** Predicate to ignore wheel events */
   ignore?: Predicate<WheelEvent>;
+  /** Prevent default action for wheel event */
+  preventDefault?: boolean;
 }
 
 /**
@@ -37,6 +39,7 @@ export class ESLWheelTarget extends SyntheticEventTarget {
     skipOnScroll: true,
     distance: 400,
     timeout: 100,
+    preventDefault: false,
     ignore: () => false
   };
 
@@ -79,6 +82,7 @@ export class ESLWheelTarget extends SyntheticEventTarget {
       const offsets = getParentScrollOffsets(event.target as Element, this.target);
       this.scrollData = this.scrollData.concat(offsets);
     }
+    if (this.config.preventDefault) event.preventDefault();
     this.aggregateWheel(event);
   }
 
@@ -148,7 +152,11 @@ export class ESLWheelTarget extends SyntheticEventTarget {
     super.addEventListener(event, callback);
 
     if (this.getEventListeners().length > 1) return;
-    ESLEventListener.subscribe(this, this._onWheel, {event: 'wheel', capture: false, target: this.target});
+    ESLEventListener.subscribe(this, this._onWheel, {
+      event: 'wheel',
+      passive: !this.config.preventDefault,
+      target: this.target
+    });
   }
 
   /** Unsubscribes from the observed target {@link Element} wheel events */
