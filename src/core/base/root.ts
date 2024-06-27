@@ -3,9 +3,10 @@ import {
   memoize,
   boolAttr,
   listen,
-  prop
+  prop,
+  attr
 } from '@exadel/esl/modules/esl-utils/decorators';
-
+import {sequentialUID} from '@exadel/esl/modules/esl-utils/misc';
 import {UIPStateModel} from './model';
 
 import type {UIPSnippetTemplate} from './snippet';
@@ -33,6 +34,8 @@ export class UIPRoot extends ESLBaseElement {
   /** CSS query for snippets */
   public static SNIPPET_SEL = '[uip-snippet]';
 
+  @attr() public uipId: string = sequentialUID(UIPRoot.is);
+
   /** Indicates that the UIP components' theme is dark */
   @boolAttr() public darkTheme: boolean;
 
@@ -50,7 +53,7 @@ export class UIPRoot extends ESLBaseElement {
     return Array.from(this.querySelectorAll(UIPRoot.SNIPPET_SEL));
   }
 
-  protected delyedScrollIntoView(): void {
+  protected delayedScrollIntoView(): void {
     setTimeout(() => {
       this.scrollIntoView({behavior: 'smooth', block: 'start'});
     }, 100);
@@ -64,7 +67,7 @@ export class UIPRoot extends ESLBaseElement {
     this.$$fire(this.READY_EVENT, {bubbles: false});
 
     if (this.model.anchorSnippet) {
-      this.delyedScrollIntoView();
+      this.delayedScrollIntoView();
     }
   }
 
