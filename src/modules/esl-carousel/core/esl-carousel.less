@@ -53,6 +53,15 @@ esl-carousel {
 }
 
 [esl-carousel-container] {
+  --esl-carousel-control-visibility: visible;
   --esl-carousel-side-space: 5px;
   position: relative;
+}
+
+[esl-carousel-container][incomplete] {
+  --esl-carousel-control-visibility: hidden;
+}
+
+.esl-carousel-no-extra-space {
+  --esl-carousel-side-space: 0;
 }
