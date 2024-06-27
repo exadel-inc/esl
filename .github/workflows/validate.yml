@@ -45,7 +45,7 @@ jobs:
       - name: Run Tests
         run: npm run test:ci
       - name: Collect and Publish coverage to Code Climate
-        uses: paambaati/codeclimate-action@v5.0.0
+        uses: paambaati/codeclimate-action@v8.0.0
         continue-on-error: true
         env:
           CC_TEST_REPORTER_ID: ${{secrets.CC_REPORTER_ID}}
