@@ -5,13 +5,20 @@ tags: overview-quick
 parent: 00-core
 ---
 
-<h3>{{ title }}</h3>
+<h3 class="text-center">{{ title }}</h3>
 
-{% code 'typescript', 'code-block' %}
-  const $base = ...; // some base element (as context)
+<p class="esl-animate-slide up" esl-animate="{repeat: true}">
+  <i>ESLTraversingQuery</i> is a set of utilities to simplify DOM traversing, element selection and filtering.
+</p>
 
-  ESLTraversingQuery.find($base, '::find(button)::visible'); // find all visible buttons in the base element
-  ESLTraversingQuery.find($base, '::find(button)::nth(2)'); // find second button in the base element
-  ESLTraversingQuery.find($base, '::next'); // get next sibling of the base element
-  ESLTraversingQuery.find($base, '::prev(a)'); // get previous sibling of the base element that is an anchor
-{% endcode %}
+<div class="esl-animate-slide up" esl-animate="{repeat: true}">
+  {% code 'typescript', 'code-block' %}
+    const $base = ...; // some base element (as context)
+
+    ESLTraversingQuery.first($base, '::next'); // get next sibling of the base element
+    ESLTraversingQuery.first($base, '::prev(a)'); // get previous sibling of the base element that is an anchor
+    ESLTraversingQuery.first($base, '::find(button)::nth(2)'); // find second button in the base element
+    ESLTraversingQuery.all($base, '::next'); // find all next siblings of the base element
+    ESLTraversingQuery.all($base, '::find(button)::visible'); // find all visible buttons in the base element
+  {% endcode %}
+</div>

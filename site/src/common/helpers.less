@@ -179,9 +179,20 @@
   border: 0;
 }
 
+.list-spaced {
+  > li {
+    margin-block-end: 0.5rem;
+  }
+}
+
 .icon-inline {
   display: inline-flex;
 
   min-width: 1em;
   height: 1em;
+
+  &.large {
+    min-width: 2em;
+    height: 2em;
+  }
 }
