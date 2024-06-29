@@ -6,8 +6,14 @@ title: Example with dummy text (pre-processors)
   <uip-snippets class="uip-toolbar"></uip-snippets>
 
   <script type="text/html" uip-snippet-js="snippet-js-1" uip-snippet label="Example with dummy text 1">
+    <style>
+      .text {
+        color: green;
+      }
+    </style>
     <h2><!-- text --></h2>
     <div class="text">
+      Hello text
       <!-- paragraph x2 -->
     </div>
     <button type="button">
@@ -23,6 +29,11 @@ title: Example with dummy text (pre-processors)
   </script>
   <script type="text/html" uip-snippet-js="snippet-js-2" uip-snippet uip-isolated label="Example with dummy text 2">
     <h2><!-- text --></h2>
+    <style>
+      button {
+        border-color: blue;
+      }
+    </style>
     <div class="text">
       <!-- paragraph x2 -->
     </div>
@@ -31,6 +42,34 @@ title: Example with dummy text (pre-processors)
     </button>
   </script>
   <script type="text/plain" id="snippet-js-2">
+    document.querySelector('form').onsubmit = (e) => {
+      e.preventDefault();
+      const json = JSON.stringify(Object.fromEntries(new FormData(e.target)));
+      alert(`Form submitted with ${json}!`);
+    };
+  </script>
+  <script type="text/html" uip-snippet-js="snippet-js-3" uip-snippet label="Example with dummy text 3">
+    <style>
+      .text {
+        color: purple;
+      }
+    </style>
+    <style>
+      .text {
+        font-style: italic;
+      }
+    </style>
+
+    <h2><!-- text --></h2>
+    <div class="text">
+      Hello text
+      <!-- paragraph x2 -->
+    </div>
+    <button type="button">
+      <!-- text x5 -->
+    </button>
+  </script>
+  <script type="text/plain" id="snippet-js-3">
     document.querySelector('form').onsubmit = (e) => {
       e.preventDefault();
       const json = JSON.stringify(Object.fromEntries(new FormData(e.target)));
