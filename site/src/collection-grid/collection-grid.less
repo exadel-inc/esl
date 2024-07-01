@@ -103,8 +103,10 @@
   &-column {
     grid-template-columns: repeat(2, 1fr);
   }
-  &-column&-compact {
-    grid-template-columns: repeat(4, 1fr);
+  @media @md-xl {
+    &-column&-compact {
+      grid-template-columns: repeat(4, 1fr);
+    }
   }
 
   &-column &-item {
