@@ -5,7 +5,7 @@ import {ESLCarouselPlugin} from '../esl-carousel.plugin';
 import {ESLCarouselSlideEvent} from '../../core/esl-carousel.events';
 
 /**
- * {@link ESLCarousel} auto-play (auto-advance) plugin mixin
+ * {@link ESLCarousel} autoplay (auto-advance) plugin mixin
  * Automatically switch slides by timeout
  *
  * @author Alexey Stsefanovich (ala'n)
