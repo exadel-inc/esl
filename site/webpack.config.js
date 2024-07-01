@@ -32,9 +32,7 @@ module.exports = [{
   ...BASE_CONFIG,
   entry: {
     'localdev': './src/localdev.ts',
-    'polyfill-full': './src/polyfill-full.ts',
-    'polyfill-medium': './src/polyfill-medium.ts',
-    'polyfill-light': './src/polyfill-light.ts'
+    'polyfill': './src/polyfill.ts'
   },
   output: {
     path: path.resolve(__dirname, 'dist/bundles'),

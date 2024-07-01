@@ -177,7 +177,7 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** @returns panels that are processed by the current panel group */
   public get $panels(): ESLPanel[] {
     const els = Array.from(this.querySelectorAll(this.panelSel));
-    return els.filter((el) => this.includesPanel(el)) as ESLPanel[];
+    return els.filter((el) => this.includesPanel(el));
   }
 
   /** @returns panels that are active */
