@@ -91,15 +91,16 @@ export class UIPStateModel extends SyntheticEventTarget {
    */
   public setHtml(markup: string, modifier: UIPPlugin | UIPRoot, force: boolean = false): void {
     const html = UIPHTMLNormalizationPreprocessors.preprocess(markup);
-    const head = new DOMParser().parseFromString(html, 'text/html').head;
-    const root = new DOMParser().parseFromString(html, 'text/html').body;
-    if (!root || root.innerHTML.trim() !== this.html.trim()) {
-      if (!head || head.innerHTML.trim() !== this.html.trim()) {
-        Array.from(head.children).reverse().forEach((el) => {
-          root.innerHTML = '\n' + root.innerHTML;
-          root.insertBefore(el, root.firstChild);
-        });
+    const {head, body: root} = new DOMParser().parseFromString(html, 'text/html');
+
+    Array.from(head.children).reverse().forEach((el) => {
+      if (el.tagName === 'STYLE') {
+        root.innerHTML = '\n' + root.innerHTML;
+        root.insertBefore(el, root.firstChild);
       }
+    });
+
+    if (root.innerHTML.trim() !== this.html.trim()) {
       this._html = root;
       this._changes.push({modifier, type: 'html', force});
       this.dispatchChange();
