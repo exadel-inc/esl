@@ -168,6 +168,7 @@ export class ESLCarousel extends ESLBaseElement {
     if (!slide) return;
     slide.setAttribute(this.slideAttrName, '');
     if (slide.parentNode === this.$slidesArea) return this.update();
+    console.debug('[ESL]: ESLCarousel moves slide to correct location', slide);
     if (slide.parentNode) slide.remove();
     Promise.resolve().then(() => this.$slidesArea.appendChild(slide));
   }
@@ -277,7 +278,8 @@ export class ESLCarousel extends ESLBaseElement {
   }
 
   /** Goes to the target according to passed params */
-  public goTo(target: ESLCarouselSlideTarget, params: ESLCarouselActionParams = {}): Promise<void> {
+  public goTo(target: HTMLElement | ESLCarouselSlideTarget, params: ESLCarouselActionParams = {}): Promise<void> {
+    if (target instanceof HTMLElement) return this.goTo(this.indexOf(target), params);
     if (!this.renderer) return Promise.reject();
     const {index, dir} = toIndex(target, this.state);
     const direction = params.direction || dir || 'next';

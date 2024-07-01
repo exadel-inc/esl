@@ -51,6 +51,7 @@ export class ESLCarouselSlide extends ESLMixinElement {
 
   @ready
   protected override connectedCallback(): void {
+    if (!this.$carousel) return;
     this.$carousel?.addSlide && this.$carousel.addSlide(this.$host);
     super.connectedCallback();
     this.updateA11y();

@@ -15,7 +15,7 @@ export abstract class ESLCarouselPlugin extends ESLMixinElement {
       return true;
     } else {
       const {is} = this.constructor as typeof ESLCarouselPlugin;
-      console.error('[ESL]: %o is not correct target for %o', $host, is);
+      console.warn('[ESL]: ESLCarousel %s plugin rejected for non correct target %o', is, $host);
       this.$host.removeAttribute(is);
       return false;
     }
