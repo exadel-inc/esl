@@ -57,6 +57,13 @@ export class ESLCarousel extends ESLBaseElement {
   /** true if carousel is in process of animating */
   @boolAttr({readonly: true}) public animating: boolean;
 
+  /**
+   * Flag to disable DOM auto-reorganization (to move slides to the right place in the DOM tree).
+   * Note: use this option only if you are sure what you are doing.
+   * The slides cannot be managed by caroursel if thay are not direct children of the carousel area element.
+   */
+  @boolAttr() public noDomReorganization: boolean;
+
   /** Marker/mixin attribute to define slide element */
   public get slideAttrName(): string {
     return this.tagName + '-slide';
@@ -168,6 +175,7 @@ export class ESLCarousel extends ESLBaseElement {
     if (!slide) return;
     slide.setAttribute(this.slideAttrName, '');
     if (slide.parentNode === this.$slidesArea) return this.update();
+    if (this.noDomReorganization) return;
     if (slide.parentNode) slide.remove();
     Promise.resolve().then(() => this.$slidesArea.appendChild(slide));
   }
