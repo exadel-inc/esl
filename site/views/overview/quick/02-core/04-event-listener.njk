@@ -15,40 +15,36 @@ parent: 00-core
 <div class="row">
   <div class="col-6">
     <div class="text-gray tag-h5">Before</div>
-    <div style="overflow: auto; max-height: 350px">
+    <div style="overflow: auto; font-size: 1.2rem">
       {% code 'typescript', 'code-block' %}
         connectedCallback() {
           this.onBtnClick = this.onBtnClick.bind(this);
           this.addEventListener('click', this.onBtnClick);
-
           this.onResize = this.onResize.bind(this);
           this._resizeObserver = new ResizeObserver(this.onResize);
           this._resizeObserver.observe(this);
         }
-
         disconnectedCallback() {
           this.removeEventListener('click', this.onBtnClick);
           this._resizeObserver.disconnect();
         }
-
         onBtnClick(event) {
-          if (event.target.closest('button')) {
-            // Button click
-          }
+          if (event.target.closest('button')) {/* Btn click */}
         }
-
         onResize() {/* Resize subscription for component */}
       {% endcode %}
     </div>
   </div>
   <div class="col-6">
     <div class="text-gray tag-h5">With ESL</div>
-    {% code 'typescript', 'code-block' %}
-      @listen({event: 'click', selector: 'button'})
-      onBtnClick(event) {/* Click subscription with delegation */}
+    <div style="overflow: auto; font-size: 1.2rem">
+      {% code 'typescript', 'code-block' %}
+        @listen({event: 'click', selector: 'button'})
+        onBtnClick(event) {/* Click subscription with delegation */}
 
-      @listen({event: 'resize', target: ESLResizeObserverTarget.for})
-      onResize(event) {/* Resize subscription for component */}
-    {% endcode %}
+        @listen({event: 'resize', target: ESLResizeObserverTarget.for})
+        onResize(event) {/* Resize subscription for component */}
+      {% endcode %}
+    </div>
   </div>
 </div>

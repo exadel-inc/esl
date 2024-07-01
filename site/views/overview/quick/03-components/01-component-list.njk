@@ -6,8 +6,8 @@ cls: full-width
 parent: 00-components
 ---
 
-<p class="text-center"> Here is a list of all component modules available in ESL. </p>
+<p class="text-center"> Here is a list of all component modules available in ESL: </p>
 
 {% from 'navigation/collection-grid.njk' import grid with context %}
 
-{{ grid('components', {isList: true, noBadge: true}) }}
+{{ grid('components', {isList: true, noBadge: true, classes: 'collection-grid-compact'}) }}

@@ -43,6 +43,9 @@
     padding: 5px 15px;
     transition: color 0.25s ease-in-out;
   }
+  &-compact &-title {
+    min-height: 50px;
+  }
 
   &-item.draft &-box {
     opacity: 0.3;
@@ -71,6 +74,12 @@
       max-height: 160px;
     }
   }
+  &-compact &-svg {
+    min-height: 180px;
+    svg {
+      max-height: 140px;
+    }
+  }
 
   &-alt {
     text-align: center;
@@ -92,7 +101,10 @@
   }
 
   &-column {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  &-column&-compact {
+    grid-template-columns: repeat(4, 1fr);
   }
 
   &-column &-item {

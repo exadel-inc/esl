@@ -3,9 +3,35 @@ title: ESL Media Query
 tags: overview
 parent: 05-0-Utils
 ---
-<h4>{{ title }}</h4>
 
-<p>
-  <code>ESLMediaQuery</code> is an extended browser <code>MediaQueryList</code> object and related utils such as rule-value pairs
-  called <code>ESLMediaRuleList</code>.
+<h3 class="text-center">{{ title }}</h3>
+
+<p class="esl-animate-slide up" esl-animate="{repeat: true}">
+  <i>ESLMediaQuery</i> is an extended browser <i>MediaQueryList</i> object and related utils such as rule-value pairs
+  called <i>ESLMediaRuleList</i>.
 </p>
+
+<p class="esl-animate-slide up" esl-animate="{repeat: true}">
+  In addition to the standard <i>MediaQueryList</i> API, <i>ESLMediaQuery</i> provides support of Breakpoint and media condition aliases,
+  extended boolean logic.
+</p>
+
+<div class="esl-animate-slide up" esl-animate="{repeat: true}">
+  {% code 'typescript', 'code-block' %}
+    ESLMediaQuery.for('@XS').matches; // XS breakpoint declared globally
+  {% endcode %}
+</div>
+
+<div class="esl-animate-slide up" esl-animate="{repeat: true}">
+  {% code 'typescript', 'code-block' %}
+    @listen({event: 'change', target: ESLMediaQuery.for('@XS or @SM')})
+    onMediaQueryChange(event) {/* It is true event target */}
+  {% endcode %}
+</div>
+
+<div class="esl-animate-slide up" esl-animate="{repeat: true}">
+  {% code 'typescript', 'code-block' %}
+    ESLMediaRuleList.parse('@XS | @SM | @MD', '1 | 2 | 3').value // 1, 2 or 3 according to current breakpoint
+    ESLMediaRuleList.parse('@XS => 1 | @SM => 2 | @MD => 3').value // alternative way to define the same
+  {% endcode %}
+</div>
