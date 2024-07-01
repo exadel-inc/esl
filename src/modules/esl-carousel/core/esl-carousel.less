@@ -12,16 +12,6 @@ esl-carousel {
   /* stylelint-disable-next-line */
   overflow: clip;
 
-  [esl-carousel-slides] {
-    position: relative;
-    width: 100%;
-    margin: 0;
-    display: flex;
-    gap: 20px;
-    z-index: 0;
-    transform: translate3d(0px, 0px, 0px);
-  }
-
   &.esl-carousel-vertical [esl-carousel-slides] {
     flex-direction: column;
     touch-action: pan-x;
@@ -43,6 +33,18 @@ esl-carousel {
   }
 }
 
+/* Default carousel area styles */
+[esl-carousel-slides] {
+  position: relative;
+  width: 100%;
+  margin: 0;
+  display: flex;
+  gap: 20px;
+  z-index: 0;
+  transform: translate3d(0px, 0px, 0px);
+}
+
+/* Default carousel slide styles */
 [esl-carousel-slide] {
   flex: 0 0 auto;
   margin: 0;
