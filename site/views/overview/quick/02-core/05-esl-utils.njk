@@ -1,0 +1,39 @@
+---
+title: ESL Utils and syntax sugar
+hash: esl-utils
+tags: overview-quick
+parent: 00-core
+---
+
+<h3 class="text-center">{{ title }}</h3>
+
+<p class="esl-animate-slide up" esl-animate="{repeat: true}">
+  ESL Core provides big amount of utils and syntax sugar to simplify development process.
+</p>
+
+<ul class="list-spaced">
+  <li class="esl-animate-slide up" esl-animate="{repeat: true, group: true}">
+    <h5>Extended Media Query Syntax</h5>
+
+    <p>
+      Extended syntax for media queries allows to use breakpoint aliases and extended boolean logic.
+    </p>
+    <code class="language-css">(min-width: 600px) and (max-width: 1200px)</code> -> <code class="language-html">@SM</code>
+  </li>
+  <li class="esl-animate-slide up" esl-animate="{repeat: true, group: true}">
+    <h5>Extended Media Conditions Mapping</h5>
+
+    <p>
+      Ability to map extended media conditions to values.
+    </p>
+    <code class="language-html">@XS => accordion | @+SM => tabs</code>
+  </li>
+  <li class="esl-animate-slide up" esl-animate="{repeat: true, group: true}">
+    <h5>Extended Traversing Syntax</h5>
+
+    <p>
+      Extended syntax for DOM traversing, very similar to JQuery, with support for relative selectors.
+    </p>
+    <code class="language-html">::parent::next(esl-toggleable)</code>
+  </li>
+</ul>

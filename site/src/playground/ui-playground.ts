@@ -26,8 +26,4 @@ UIPRenderingTemplatesService.add('default', `
   </html>
 `);
 
-// Add to UIP by default
-(UIPEditor.prototype as any)._onWheel = (e: WheelEvent): void => e.stopPropagation();
-ESLEventUtils.initDescriptor(UIPEditor.prototype as any, '_onWheel', {auto: true, event: 'wheel'});
-
 init();
