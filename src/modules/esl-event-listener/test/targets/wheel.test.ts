@@ -78,7 +78,7 @@ describe('ESLWheelTarget', () => {
       expect(listener).not.toHaveBeenCalled();
     });
 
-    test('ESLWheelTarget ignores horizontal scroll when predicate filter deltaX amount', () => {
+    test('ESLWheelTarget doesn\'t ignore horizontal scroll when predicate filter deltaX amount', () => {
       $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 100, deltaY: 0}));
       jest.advanceTimersByTime(100);
       expect(listener).toHaveBeenCalled();
