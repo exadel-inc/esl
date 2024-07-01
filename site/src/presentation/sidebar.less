@@ -4,6 +4,10 @@
   &,
   &.esl-toggleable {
     display: flex;
+
+    @media print {
+      display: none;
+    }
   }
 
   flex-direction: column;

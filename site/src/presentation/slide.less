@@ -3,6 +3,12 @@
   position: relative;
   max-height: 100%;
 
+  @media print {
+    // A4 landscape height
+    min-height: 210mm;
+    page-break-after: always;
+  }
+
   .presentation-content {
     padding-block: 2rem;
     max-height: 100%;
