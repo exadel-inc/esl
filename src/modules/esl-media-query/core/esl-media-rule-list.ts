@@ -35,7 +35,7 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
   public static OBJECT_PARSER = <U = any>(val: string): U | undefined => evaluate(val);
 
   /**
-   * Creates `ESLMediaRuleList` from string query representation
+   * Creates {@link ESLMediaRuleList} from string query representation
    * Expect serialized {@link ESLMediaRule}s separated by '|'
    * Uses exact strings as rule list values
    *
@@ -43,7 +43,7 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
    */
   public static parse(query: string): ESLMediaRuleList<string>;
   /**
-   * Creates `ESLMediaRuleList` from string query representation.
+   * Creates {@link ESLMediaRuleList} from string query representation.
    * Expect serialized {@link ESLMediaRule}s separated by '|'
    *
    * @param query - query string
@@ -51,7 +51,7 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
    */
   public static parse<U>(query: string, parser: RulePayloadParser<U>): ESLMediaRuleList<U>;
   /**
-   * Creates `ESLMediaRuleList` from two strings with conditions and values sequences
+   * Creates {@link ESLMediaRuleList} from two strings with conditions and values sequences
    *
    * @param mask - media conditions tuple string (uses '|' as separator)
    * @param values - values tuple string (uses '|' as separator)
@@ -63,7 +63,7 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
    */
   public static parse(mask: string, values: string): ESLMediaRuleList<string>;
   /**
-   * Creates `ESLMediaRuleList` from two strings with conditions and values sequences
+   * Creates {@link ESLMediaRuleList} from two strings with conditions and values sequences
    *
    * @param mask - media conditions tuple string (uses '|' as separator)
    * @param values - values tuple string (uses '|' as separator)
@@ -84,7 +84,37 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
   }
 
   /**
-   * Creates `ESLMediaRuleList` from string query representation
+   * Creates {@link ESLMediaRuleList} based off the passed query syntax string
+   * @param query - query string
+   */
+  public static parseAdaptive(query: string): ESLMediaRuleList;
+  /**
+   * Creates {@link ESLMediaRuleList} based off the passed query syntax string
+   * @param query - query string
+   * @param parser - value parser function
+   */
+  public static parseAdaptive<U>(query: string, parser: RulePayloadParser<U>): ESLMediaRuleList;
+  /**
+   * Creates {@link ESLMediaRuleList} based off the passed tuple string sequences
+   * @param values - values tuple string (uses '|' as separator)
+   * @param mask - media conditions tuple string (uses '|' as separator)
+   */
+  public static parseAdaptive(values: string, mask: string): ESLMediaRuleList;
+  /**
+   * Creates {@link ESLMediaRuleList} based off the passed tuple string sequences
+   * @param values - values tuple string (uses '|' as separator)
+   * @param mask - media conditions tuple string (uses '|' as separator)
+   * @param parser - value parser function
+   */
+  public static parseAdaptive<U>(values: string, mask: string, parser: RulePayloadParser<U>): ESLMediaRuleList;
+  public static parseAdaptive(values: string, ...common: (string | RulePayloadParser<any>)[]): ESLMediaRuleList {
+    const parser: RulePayloadParser<any> = typeof common[common.length - 1] === 'function' ? common.pop() as any : String;
+    if (values.includes('=>')) return ESLMediaRuleList.parse(values, parser);
+    return ESLMediaRuleList.parse(common.pop() as string || '', values, parser);
+  }
+
+  /**
+   * Creates {@link ESLMediaRuleList} from string query representation
    * Uses exact strings as rule list values
    * @param query - query string
    */
@@ -103,7 +133,7 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
   }
 
   /**
-   * Creates `ESLMediaRuleList` from two strings with conditions and values sequences
+   * Creates {@link ESLMediaRuleList} from two strings with conditions and values sequences
    *
    * @param mask - media conditions tuple string (uses '|' as separator)
    * @param values - values tuple string (uses '|' as separator)
@@ -115,7 +145,7 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
    */
   public static parseTuple(mask: string, values: string): ESLMediaRuleList<string>;
   /**
-   * Creates `ESLMediaRuleList` from two strings with conditions and values sequences
+   * Creates {@link ESLMediaRuleList} from two strings with conditions and values sequences
    *
    * @param mask - media conditions tuple string (uses '|' as separator)
    * @param values - values tuple string (uses '|' as separator)
