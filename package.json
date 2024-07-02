@@ -127,7 +127,7 @@
     "stylelint": "^16.6.1",
     "stylelint-prettier": "^5.0.0",
     "ts-jest": "^29.1.5",
-    "typescript": "5.5.2"
+    "typescript": "5.5.3"
   },
   "browserslist": [
     "last 3 versions",
