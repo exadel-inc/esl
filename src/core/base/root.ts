@@ -3,14 +3,13 @@ import {
   memoize,
   boolAttr,
   listen,
-  prop,
-  attr
+  prop
 } from '@exadel/esl/modules/esl-utils/decorators';
-import {sequentialUID} from '@exadel/esl/modules/esl-utils/misc';
 import {UIPStateModel} from './model';
+import {UIPChangeEvent} from './model.change';
 
+import type {UIPChangeInfo} from './model.change';
 import type {UIPSnippetTemplate} from './snippet';
-import {UIPChangeEvent, UIPChangeInfo} from './model.change';
 
 /**
  * UI Playground root custom element definition
@@ -33,8 +32,6 @@ export class UIPRoot extends ESLBaseElement {
 
   /** CSS query for snippets */
   public static SNIPPET_SEL = '[uip-snippet]';
-
-  @attr() public uipId: string = sequentialUID(UIPRoot.is);
 
   /** Indicates that the UIP components' theme is dark */
   @boolAttr() public darkTheme: boolean;

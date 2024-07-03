@@ -13,7 +13,6 @@ import {attr, boolAttr, decorate, listen, memoize} from '@exadel/esl/modules/esl
 import {UIPPluginPanel} from '../../core/panel/plugin-panel';
 import {CopyIcon} from '../copy/copy-button.icon';
 
-import {EditorStorage} from './editor-storage';
 import {EditorIcon} from './editor.icon';
 
 import type {UIPSnippetsList} from '../snippets-list/snippets-list';
@@ -166,31 +165,12 @@ export class UIPEditor extends UIPPluginPanel {
       case 'html':
         if (e && !e.htmlChanges.length) return;
         this.value = this.model!.html;
-        if (e && !e.force) this.saveState();
     }
-  }
-
-  protected saveState(): void {
-    const key = this.getStateKey();
-    if (key && this.value) EditorStorage.save(key, this.value);
-  }
-
-  protected getStateKey(): string | null {
-    if (!this.model?.activeSnippet || !this.$root) return null;
-    return JSON.stringify({html: this.model.activeSnippet.html, id: this.$root.uipId});
   }
 
   /** Handles snippet change to set readonly value */
   @listen({event: 'uip:snippet:change', target: ($this: UIPSnippetsList) => $this.$root})
   protected _onSnippetChange(): void {
     this.editable = this.isSnippetEditable;
-    this.loadState();
-  }
-
-  protected loadState(): void {
-    if (!this.model?.activeSnippet) return;
-    const key = this.getStateKey();
-    const state = key && EditorStorage.load(key);
-    if (state) this.model.setHtml(state, this);
   }
 }
