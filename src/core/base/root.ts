@@ -5,6 +5,7 @@ import {
   listen,
   prop
 } from '@exadel/esl/modules/esl-utils/decorators';
+
 import {UIPStateModel} from './model';
 import {UIPChangeEvent} from './model.change';
 
