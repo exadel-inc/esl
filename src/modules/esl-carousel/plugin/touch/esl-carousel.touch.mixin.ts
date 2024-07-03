@@ -2,7 +2,6 @@ import {ExportNs} from '../../../esl-utils/environment/export-ns';
 import {attr, prop, listen, memoize} from '../../../esl-utils/decorators';
 import {getParentScrollOffsets, isOffsetChanged} from '../../../esl-utils/dom/scroll';
 import {buildEnumParser} from '../../../esl-utils/misc/enum';
-import {ESLEventUtils} from '../../../esl-event-listener/core';
 import {ESLMediaRuleList} from '../../../esl-media-query/core';
 
 import {ESLCarouselPlugin} from '../esl-carousel.plugin';
