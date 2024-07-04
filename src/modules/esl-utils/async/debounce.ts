@@ -3,10 +3,14 @@ import {createDeferred} from './promise/defered';
 import type {AnyToAnyFnSignature} from '../misc/functions';
 import type {Deferred} from './promise/defered';
 
+type UnwrapPromise<T> = T extends Promise<infer U> ? UnwrapPromise<U> : T;
+
 /** Debounced<F> is a function wrapper type for a function decorated via debounce */
 export interface Debounced<F extends AnyToAnyFnSignature> {
   /** Debounced method signature */
-  (...args: Parameters<F>): void;
+  (...args: Parameters<F>): ReturnType<F> extends Promise<any>
+    ? Promise<UnwrapPromise<ReturnType<F>>>
+    : ReturnType<F> | void;
   /** Promise of deferred function call */
   promise: Promise<ReturnType<F> | void>;
   /** Cancel debounced call */
@@ -27,7 +31,7 @@ export function debounce<F extends AnyToAnyFnSignature>(fn: F, wait = 10, thisAr
   let timeout: number | null = null;
   let deferred: Deferred<ReturnType<F>> | null = null;
 
-  function debouncedSubject(...args: any[]): void {
+  function debouncedSubject(...args: any[]): Promise<ReturnType<F> | void> {
     deferred = deferred || createDeferred();
     (typeof timeout === 'number') && clearTimeout(timeout);
     timeout = window.setTimeout(() => {
@@ -37,7 +41,9 @@ export function debounce<F extends AnyToAnyFnSignature>(fn: F, wait = 10, thisAr
       deferred && deferred.resolve(result);
       deferred = null;
     }, wait);
+    return deferred.promise;
   }
+
   function cancel(): void {
     (typeof timeout === 'number') && clearTimeout(timeout);
     timeout = null;

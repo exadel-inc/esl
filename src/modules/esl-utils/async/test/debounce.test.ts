@@ -8,13 +8,12 @@ describe('async/debounce', () => {
     const fn = jest.fn();
     const debounced = debounce(fn, 50);
 
-    expect(debounced()).toBeUndefined();
     debounced();
     jest.advanceTimersByTime(25);
-    expect(debounced()).toBeUndefined();
     expect(fn).toBeCalledTimes(0);
     jest.advanceTimersByTime(50);
     expect(fn).toBeCalledTimes(1);
+    expect(debounced()).resolves.toBeUndefined();
   });
 
   test('call context', () => {
