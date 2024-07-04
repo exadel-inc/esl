@@ -39,7 +39,7 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
   /** Defines distance tolerance to swipe */
   @attr({name: 'esl-carousel-swipe-distance', defaultValue: 20, parser: parseInt}) public swipeDistance: number;
   /** Defines timeout tolerance to swipe */
-  @attr({name: 'esl-carousel-swipe-timeout', defaultValue: 2000, parser: parseInt}) public swipeTimeout: number;
+  @attr({name: 'esl-carousel-swipe-timeout', defaultValue: 400, parser: parseInt}) public swipeTimeout: number;
 
   /** Start pointer event to detect action */
   protected startEvent?: PointerEvent;
@@ -85,6 +85,7 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
 
   /** @returns offset between start point and passed event point */
   protected getOffset(event: PointerEvent): number {
+    if (event.type === 'pointercancel') return 0;
     const property = this.$host.config.vertical ? 'clientY' : 'clientX';
     return this.startEvent ? (event[property] - this.startEvent[property]) : 0;
   }
@@ -106,12 +107,11 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
     this.startEvent = event;
     this.startScrollOffsets = getParentScrollOffsets(event.target as Element, this.$host);
 
-    this.$$on('pointermove', this._onPointerMove);
-    this.$$on('pointerup pointercancel', this._onPointerUp);
+    this.$$on({group: 'pointer'});
   }
 
   /** Processes `mousemove` and `touchmove` events. */
-  @listen({auto: false})
+  @listen({auto: false, event: 'pointermove', group: 'pointer'})
   protected _onPointerMove(event: PointerEvent): void {
     const offset = this.getOffset(event);
 
@@ -129,11 +129,10 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
   }
 
   /** Processes `mouseup` and `touchend` events. */
-  @listen({auto: false})
+  @listen({auto: false, event: 'pointerup pointercancel', group: 'pointer'})
   protected _onPointerUp(event: PointerEvent): void {
     // Unbinds drag listeners
-    this.$$off(this._onPointerMove);
-    this.$$off(this._onPointerUp);
+    this.$$off({group: 'pointer'});
 
     if (this.$host.hasPointerCapture(event.pointerId)) {
       this.$host.releasePointerCapture(event.pointerId);
@@ -142,17 +141,13 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
     if (this.$$attr('dragging', false) === null) return;
 
     const offset = this.getOffset(event);
-    // ignore single click
-    if (offset === 0) return;
-    // Commit drag offset
+    // Commit drag offset (should be commited to 0 if the event is canceled)
     if (this.isDragMode) this.$host.renderer.commit(offset);
     // Swipe final check
-    if (this.isSwipeMode && !this.isPrevented && this.isSwipeAccepted(event)) {
+    if (this.isSwipeMode && offset && !this.isPrevented && this.isSwipeAccepted(event)) {
       const target = `${this.swipeType}:${offset < 0 ? 'next' : 'prev'}`;
       if (this.$host.canNavigate(target)) this.$host.goTo(target);
     }
-
-    delete this.startEvent;
   }
 }
 
