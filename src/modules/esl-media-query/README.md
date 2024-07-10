@@ -209,6 +209,7 @@ ESLMediaRuleList.parse('@XS => {option: 1} | @+SM => {option: 2}', evaluate); //
 ESLMediaRuleList.parseTuple('@xs|@sm|@md|@lg|@xl', '1|2|3|4|5') // String payload example
 ESLMediaRuleList.parseTuple('@xs|@sm|@md|@lg|@xl', '1|2|3|4|5',  Number) // Numeric payload sample
 ```
+**Note**: Method `ESLMediaRuleList.parse` is deprecated, and will be reintroduced in ESL v5.0.0 with a different signature. For now use `ESLMediaRuleList.parseTuple` or `ESLMediaRuleList.parseQuery` instead.
 
 #### ESLMediaRuleList API
 
