@@ -25,6 +25,11 @@ esl-carousel {
     cursor: grabbing;
   }
 
+  &[animating] {
+    padding-inline: 0;
+    margin-inline: 0;
+  }
+
   &[dragging] [esl-carousel-slides],
   &[animating] [esl-carousel-slides] {
     touch-action: none;
