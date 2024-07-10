@@ -18,7 +18,7 @@ eleventyImport:
 <section class="row">
   <div class="col-12">
     <uip-root>
-      {% for sample in collections['carousel-sample'] | sortByNameAndOrder %}
+      {% for sample in collections['carousel-sample'] | sortBy('order', 'title') %}
         <script type="text/html"
                 label=" {{ sample.data.title }}"
                 uip-snippet
