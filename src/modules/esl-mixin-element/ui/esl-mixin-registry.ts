@@ -170,9 +170,15 @@ export class ESLMixinRegistry {
     delete store[mixin];
   }
 
-  /** Destroys all mixins on the element */
-  private static destroyAll(el: HTMLElement): void {
+  /**
+   * Destroys all mixins on the element
+   * @param el - host element to destroy all mixins
+   * @param deep - if true, will destroy all mixins on the subtree
+   */
+  private static destroyAll(el: HTMLElement, deep = true): void {
     const store = (el as any)[STORE] as Record<string, ESLMixinElement> | undefined;
     store && Object.keys(store).forEach((name) => ESLMixinRegistry.destroy(el, name));
+    if (!deep || !el.children || !el.children.length) return;
+    Array.prototype.forEach.call(el.children, (child: Element) => ESLMixinRegistry.destroyAll(child as HTMLElement));
   }
 }
