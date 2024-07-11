@@ -69,7 +69,7 @@ export class ESLMixinRegistry {
   public invalidateRecursive(root: HTMLElement = document.body, name?: string): void {
     if (!root) return;
     name ? this.invalidate(root, name) : this.invalidateAll(root);
-    if (!root.children || !root.children.length) return;
+    if (!root.children?.length) return;
     Array.prototype.forEach.call(root.children, (child: Element) => this.invalidateRecursive(child as HTMLElement, name));
   }
 
@@ -170,9 +170,11 @@ export class ESLMixinRegistry {
     delete store[mixin];
   }
 
-  /** Destroys all mixins on the element */
+  /** Destroys all mixins on the element and its subtree */
   private static destroyAll(el: HTMLElement): void {
     const store = (el as any)[STORE] as Record<string, ESLMixinElement> | undefined;
     store && Object.keys(store).forEach((name) => ESLMixinRegistry.destroy(el, name));
+    if (!el.children?.length) return;
+    Array.prototype.forEach.call(el.children, (child: Element) => ESLMixinRegistry.destroyAll(child as HTMLElement));
   }
 }
