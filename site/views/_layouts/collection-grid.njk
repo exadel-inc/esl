@@ -6,7 +6,7 @@ banner:
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap" rel="stylesheet">
 
 <ul class="collection-grid unstyled-list {{ 'collection-grid-column' if list }}">
-  {% for item in collections[collection] | released | exclude('data.hidden') | sortByNameAndOrder %}
+  {% for item in collections[collection] | released | exclude('data.hidden') | sortBy('order', 'name') %}
     {% set isDraft = [].concat(item.data.tags).includes('draft') %}
     {% set isBeta = [].concat(item.data.tags).includes('beta') %}
     {% set isNew = [].concat(item.data.tags).includes('new') %}

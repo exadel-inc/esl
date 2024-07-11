@@ -1,5 +1,5 @@
 {% from 'landing/newsline-item.njk' import newsitem with context %}
-{% set releasedNews = collections.news | released | sortByDateStrict | reverse %}
+{% set releasedNews = collections.news | released | sortBy('meta-date') | reverse %}
 {% if releasedNews.length %}
   <div class="newsline container">
     <h2>{{ landing.news.title }}</h2>
