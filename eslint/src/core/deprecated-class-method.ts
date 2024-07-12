@@ -10,13 +10,18 @@ const meta: Rule.RuleModule['meta'] = {
   fixable: 'code'
 };
 
+export interface replacementMethodConfig {
+  replacement?: string;
+  message: string;
+}
+
 export interface ESLintDeprecationStaticMethodCfg {
   /** Class name */
   className: string;
   /** Deprecated static method name */
   deprecatedMethod: string;
   /** Function that returns recommended method */
-  getReplacemetMethod: (expression: ESTree.CallExpression) => string;
+  getReplacemetMethod: (expression: ESTree.CallExpression) => replacementMethodConfig;
 }
 
 type StaticMethodNode = ESTree.MemberExpression & Rule.NodeParentExtension;
@@ -26,10 +31,7 @@ export function buildRule(config: ESLintDeprecationStaticMethodCfg): Rule.RuleMo
   const create = (context: Rule.RuleContext): Rule.RuleListener => {
     return {
       MemberExpression(node: StaticMethodNode): null {
-        if (!isDeprecatedMethod(node, config)) return null;
-        const {type} = node.parent;
-        if (type === 'CallExpression') handleCallExpression(node, context, config);
-        else if (type === 'ExpressionStatement' || type === 'VariableDeclarator') handleAssignmentExpression(node, context, config);
+        if (isDeprecatedMethod(node, config)) handleCallExpression(node, context, config);
         return null;
       }
     };
@@ -44,20 +46,11 @@ function isDeprecatedMethod(node: StaticMethodNode, config: ESLintDeprecationSta
 }
 
 function handleCallExpression(node: StaticMethodNode, context: Rule.RuleContext, config: ESLintDeprecationStaticMethodCfg): void {
-  const recommendedMethod = config.getReplacemetMethod(node.parent as ESTree.CallExpression);
+  const {replacement, message} = config.getReplacemetMethod(node.parent as ESTree.CallExpression);
 
   context.report({
     node,
-    message: `[ESL Lint]: Deprecated static method ${config.className}.${config.deprecatedMethod}, use ${config.className}.${recommendedMethod} instead`,
-    fix: (fixer) => fixer.replaceText(node.property, recommendedMethod)
-  });
-}
-
-function handleAssignmentExpression(node: StaticMethodNode, context: Rule.RuleContext, config: ESLintDeprecationStaticMethodCfg): void {
-  const recommendedMethod = config.getReplacemetMethod(node.parent as ESTree.CallExpression);
-  context.report({
-    node,
-    message: `[ESL Lint]: Deprecated static method ${config.className}.${config.deprecatedMethod}, 
-use ${config.className}'s ${recommendedMethod} methods instead`.replace(/\n|\r/g, ''),
+    message: `[ESL Lint]: Deprecated static method ${config.className}.${config.deprecatedMethod}, use ${config.className}.${message} instead`,
+    fix: replacement ? (fixer): Rule.Fix => fixer.replaceText(node.property, replacement) : undefined
   });
 }

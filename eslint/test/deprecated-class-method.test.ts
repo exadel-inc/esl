@@ -64,13 +64,15 @@ const INVALID_CASES_TEST_CLASS = [
       '[ESL Lint]: Deprecated static method TestClass.oldMethod, use TestClass.newMethodNoArgs instead'
     ],
     output: `
-      TestClass.newMethodNoArgs();
+      TestClass.oldMethod();
     `
   }, {
     code: `
       TestClass.oldMethod(1, () => {});
     `,
-    errors: [{ message: '[ESL Lint]: Deprecated static method TestClass.oldMethod, use TestClass.newMethodMultipleArgsNonLiteral instead' }],
+    errors: [
+      '[ESL Lint]: Deprecated static method TestClass.oldMethod, use TestClass.newMethodMultipleArgsNonLiteral instead'
+    ],
     output: `
       TestClass.newMethodMultipleArgsNonLiteral(1, () => {});
     `
@@ -103,7 +105,7 @@ const INVALID_CASES_RULE_LIST = [
       const t = ESLMediaRuleList.parse;
     `,
     errors: [
-      '[ESL Lint]: Deprecated static method ESLMediaRuleList.parse, use ESLMediaRuleList\'s parseQuery or parseTuple methods instead'
+      '[ESL Lint]: Deprecated static method ESLMediaRuleList.parse, use ESLMediaRuleList.parseQuery or parseTuple instead'
     ],
     output: `
       const t = ESLMediaRuleList.parse;
@@ -113,7 +115,7 @@ const INVALID_CASES_RULE_LIST = [
       ESLMediaRuleList.parse;
     `,
     errors: [
-      '[ESL Lint]: Deprecated static method ESLMediaRuleList.parse, use ESLMediaRuleList\'s parseQuery or parseTuple methods instead'
+      '[ESL Lint]: Deprecated static method ESLMediaRuleList.parse, use ESLMediaRuleList.parseQuery or parseTuple instead'
     ],
     output: `
       ESLMediaRuleList.parse;
@@ -177,15 +179,15 @@ describe('ESL Migration Rules: Deprecated Static Method: valid', () => {
     deprecatedMethod: 'oldMethod',
     getReplacemetMethod: (expression) => {
       const args = expression.arguments;
-      if (args.length === 0) {
-        return 'newMethodNoArgs';
-      } else if (args.length === 1) {
-        return 'newMethodOneArg';
-      } else if (args.length > 1 && args[args.length - 1].type !== 'Literal' && args[args.length - 1].type !== 'TemplateLiteral') {
-        return 'newMethodMultipleArgsNonLiteral';
-      } else {
-        return 'newMethodMultipleArgs';
+      if (args.length === 0) return {message: 'newMethodNoArgs'};
+
+      let methodName;
+      if (args.length === 1) methodName = 'newMethodOneArg';
+      else if (args.length > 1 && args[args.length - 1].type !== 'Literal' && args[args.length - 1].type !== 'TemplateLiteral') {
+        methodName = 'newMethodMultipleArgsNonLiteral';
       }
+      else methodName = 'newMethodMultipleArgs';
+      return {message: methodName, replacement: methodName};
     }
   });
 
