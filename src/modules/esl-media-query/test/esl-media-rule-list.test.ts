@@ -8,7 +8,7 @@ describe('ESLMediaRuleList', () => {
 
   describe('Integration cases:', () => {
     test('Basic case: "1 | @sm => 2 | @md => 3" parsed correctly', () => {
-      const mrl = ESLMediaRuleList.parse('1 | @sm => 2 | @md => 3');
+      const mrl = ESLMediaRuleList.parseQuery('1 | @sm => 2 | @md => 3');
       expect(mrl.rules.length).toBe(3);
 
       mockSmMatchMedia.matches = false;
@@ -30,7 +30,7 @@ describe('ESLMediaRuleList', () => {
     });
 
     test('Extended media case parsed correctly: "1 | @sm and @md => 2"', () => {
-      const mrl = ESLMediaRuleList.parse('1 | @sm and @md => 2');
+      const mrl = ESLMediaRuleList.parseQuery('1 | @sm and @md => 2');
       const listener = jest.fn();
 
       expect(mrl.rules.length).toBe(2);
@@ -57,7 +57,7 @@ describe('ESLMediaRuleList', () => {
     });
 
     test('Extended media case parsed correctly: "1 | @sm or @md => 2"', () => {
-      const mrl = ESLMediaRuleList.parse('1 | @sm or @md => 2');
+      const mrl = ESLMediaRuleList.parseQuery('1 | @sm or @md => 2');
       const listener = jest.fn();
 
       expect(mrl.rules.length).toBe(2);
@@ -112,7 +112,7 @@ describe('ESLMediaRuleList', () => {
 
   describe('Basic cases:', () => {
     test('Single value parsed to the single "all" rule', () => {
-      const mrl = ESLMediaRuleList.parse('123');
+      const mrl = ESLMediaRuleList.parseQuery('123');
       expect(mrl.rules.length).toBe(1);
       expect(mrl.active.length).toBeGreaterThan(0);
       expect(mrl.value).toBe('123');
@@ -120,12 +120,12 @@ describe('ESLMediaRuleList', () => {
     });
 
     test('Single rule with media query "@sm => 1"', () => {
-      const mrl = ESLMediaRuleList.parse('@sm => 1');
+      const mrl = ESLMediaRuleList.parseQuery('@sm => 1');
       expect(mrl.rules.length).toBe(1);
     });
 
     test('Single rule "@sm => 1" response to the matcher correctly', () => {
-      const mrl = ESLMediaRuleList.parse('@sm => 1');
+      const mrl = ESLMediaRuleList.parseQuery('@sm => 1');
 
       mockSmMatchMedia.matches = false;
       expect(mrl.value).toBe(undefined);
