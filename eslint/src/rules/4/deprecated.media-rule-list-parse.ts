@@ -7,7 +7,7 @@ import type {replacementMethodCfg} from '../../core/deprecated-class-method';
 export default buildRule({
   className: 'ESLMediaRuleList',
   deprecatedMethod: 'parse',
-  getReplacemetMethod: (expression): replacementMethodCfg => {
+  getReplacementMethod: (expression): replacementMethodCfg => {
     const args = expression.arguments;
     if (expression.type !== 'CallExpression') return {message: 'parseQuery or parseTuple'};
     const methodName = args.length === 1 || (args[1]?.type !== 'Literal' && args[1]?.type !== 'TemplateLiteral') ? 'parseQuery' : 'parseTuple';
