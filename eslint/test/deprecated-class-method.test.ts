@@ -175,8 +175,9 @@ describe('ESL Migration Rules: Deprecated Static Method: valid', () => {
   const rule = buildRule({
     className: 'TestClass',
     deprecatedMethod: 'oldMethod',
-    recommendedMethod: (args) => {
-      if (!args || args.length === 0) {
+    getReplacemetMethod: (expression) => {
+      const args = expression.arguments;
+      if (args.length === 0) {
         return 'newMethodNoArgs';
       } else if (args.length === 1) {
         return 'newMethodOneArg';
