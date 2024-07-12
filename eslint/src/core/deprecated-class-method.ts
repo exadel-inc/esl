@@ -10,7 +10,7 @@ const meta: Rule.RuleModule['meta'] = {
   fixable: 'code'
 };
 
-export interface replacementMethodConfig {
+export interface replacementMethodCfg {
   replacement?: string;
   message: string;
 }
@@ -21,7 +21,7 @@ export interface ESLintDeprecationStaticMethodCfg {
   /** Deprecated static method name */
   deprecatedMethod: string;
   /** Function that returns recommended method */
-  getReplacemetMethod: (expression: ESTree.CallExpression) => replacementMethodConfig;
+  getReplacemetMethod: (expression: ESTree.CallExpression) => replacementMethodCfg;
 }
 
 type StaticMethodNode = ESTree.MemberExpression & Rule.NodeParentExtension;
