@@ -64,6 +64,8 @@ The ESLint plugin provides a separate rule for each deprecated utility within th
 - `@exadel/esl/deprecated-4/toggleable-action-params` - Rule for deprecated `ToggleableActionParams` alias for `ESLToggleableActionParams`.
 - `@exadel/esl/deprecated-4/tooltip-action-params` - Rule for deprecated `TooltipActionParams` alias for `ESLTooltipActionParams`.
 
+- `@exadel/esl/deprecated-4/media-rule-list-parse` - Rule for deprecated `ESLMediaRuleList.parse` alias for `ESLMediaRuleList.parseQuery` or `ESLMediaRuleList.parseTuple`.
+
 - `@exadel/esl/deprecated-4/base-decorators-path` - Rule for deprecated `@attr`, `@prop`, `@boolAttr`, `@jsonAttr`, `@listen` import paths.
 
 - `@exadel/esl/deprecated-5/alert-action-params` - Rule for deprecated `AlertActionParams` alias for `ESLAlertActionParams`.
