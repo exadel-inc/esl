@@ -9,7 +9,7 @@ const LOGGERS = {
 const HEADERS = {
   error: color.red('[ESL Lint Plugin] ❌ Error:'),
   warn: color.yellow('[ESL Lint Plugin] ⚠️ Warning:'),
-  off: color.green('[ESL Lint Plugin] ℹ️ Info:'),
+  off: color.blue('[ESL Lint Plugin] ℹ️ Info:'),
 };
 
 export function log(msg: string, severity: 'error' | 'warn' | 'off' = 'off'): void {
