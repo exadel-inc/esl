@@ -68,7 +68,7 @@ export class ESLImage extends ESLBaseElement {
     this.alt =
       this.alt || this.getAttribute('aria-label') || this.getAttribute('data-alt') || '';
     this.updateA11y();
-    this.srcRules = ESLMediaRuleList.parse(this.src);
+    this.srcRules = ESLMediaRuleList.parseQuery(this.src);
     if (this.lazyObservable) {
       this.removeAttribute('lazy-triggered');
       getIObserver().observe(this);
@@ -100,7 +100,7 @@ export class ESLImage extends ESLBaseElement {
         this.updateA11y();
         break;
       case 'data-src':
-        this.srcRules = ESLMediaRuleList.parse(newVal);
+        this.srcRules = ESLMediaRuleList.parseQuery(newVal);
         this.refresh();
         break;
       case 'data-src-base':
@@ -117,7 +117,7 @@ export class ESLImage extends ESLBaseElement {
 
   public get srcRules(): ESLMediaRuleList<string> {
     if (!this._srcRules) {
-      this.srcRules = ESLMediaRuleList.parse(this.src);
+      this.srcRules = ESLMediaRuleList.parseQuery(this.src);
     }
     return this._srcRules;
   }

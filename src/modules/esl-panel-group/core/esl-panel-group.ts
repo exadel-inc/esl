@@ -132,25 +132,25 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** @returns ESLMediaRuleList instance of the mode mapping */
   @memoize()
   public get modeRules(): ESLMediaRuleList<string> {
-    return ESLMediaRuleList.parse(this.mode);
+    return ESLMediaRuleList.parseQuery(this.mode);
   }
 
   /** @returns ESLMediaRuleList instance of the min-open-items mapping */
   @memoize()
   public get minValueRules(): ESLMediaRuleList<number> {
-    return ESLMediaRuleList.parse(this.minOpenItems, parseCount);
+    return ESLMediaRuleList.parseQuery(this.minOpenItems, parseCount);
   }
 
   /** @returns ESLMediaRuleList instance of the max-open-items mapping */
   @memoize()
   public get maxValueRules(): ESLMediaRuleList<number> {
-    return ESLMediaRuleList.parse(this.maxOpenItems, parseCount);
+    return ESLMediaRuleList.parseQuery(this.maxOpenItems, parseCount);
   }
 
   /** @returns ESLMediaRuleList instance of the refresh-strategy mapping */
   @memoize()
   public get refreshRules(): ESLMediaRuleList<string> {
-    return ESLMediaRuleList.parse(this.refreshStrategy);
+    return ESLMediaRuleList.parseQuery(this.refreshStrategy);
   }
 
   /** @returns current mode */
