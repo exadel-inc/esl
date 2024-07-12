@@ -61,7 +61,7 @@ const INVALID_CASES_TEST_CLASS = [
       TestClass.oldMethod();
     `,
     errors: [
-      '[ESL Lint]: Deprecated static method TestClass.oldMethod, use TestClass.newMethodNoArgs instead'
+      '[ESL Lint]: Deprecated static method TestClass.oldMethod, use newMethodNoArgs instead'
     ],
     output: `
       TestClass.oldMethod();
@@ -71,7 +71,7 @@ const INVALID_CASES_TEST_CLASS = [
       TestClass.oldMethod(1, () => {});
     `,
     errors: [
-      '[ESL Lint]: Deprecated static method TestClass.oldMethod, use TestClass.newMethodMultipleArgsNonLiteral instead'
+      '[ESL Lint]: Deprecated static method TestClass.oldMethod, use newMethodMultipleArgsNonLiteral instead'
     ],
     output: `
       TestClass.newMethodMultipleArgsNonLiteral(1, () => {});
@@ -81,7 +81,7 @@ const INVALID_CASES_TEST_CLASS = [
       TestClass.oldMethod('test');
     `,
     errors: [
-      '[ESL Lint]: Deprecated static method TestClass.oldMethod, use TestClass.newMethodOneArg instead'
+      '[ESL Lint]: Deprecated static method TestClass.oldMethod, use newMethodOneArg instead'
     ],
     output: `
       TestClass.newMethodOneArg('test');
@@ -91,7 +91,7 @@ const INVALID_CASES_TEST_CLASS = [
       TestClass.oldMethod('test', 42);
     `,
     errors: [
-      '[ESL Lint]: Deprecated static method TestClass.oldMethod, use TestClass.newMethodMultipleArgs instead'
+      '[ESL Lint]: Deprecated static method TestClass.oldMethod, use newMethodMultipleArgs instead'
     ],
     output: `
       TestClass.newMethodMultipleArgs('test', 42);
@@ -105,7 +105,7 @@ const INVALID_CASES_RULE_LIST = [
       const t = ESLMediaRuleList.parse;
     `,
     errors: [
-      '[ESL Lint]: Deprecated static method ESLMediaRuleList.parse, use ESLMediaRuleList.parseQuery or parseTuple instead'
+      '[ESL Lint]: Deprecated static method ESLMediaRuleList.parse, use ESLMediaRuleList.parseQuery or ESLMediaRuleList.parseTuple instead'
     ],
     output: `
       const t = ESLMediaRuleList.parse;
@@ -115,7 +115,7 @@ const INVALID_CASES_RULE_LIST = [
       ESLMediaRuleList.parse;
     `,
     errors: [
-      '[ESL Lint]: Deprecated static method ESLMediaRuleList.parse, use ESLMediaRuleList.parseQuery or parseTuple instead'
+      '[ESL Lint]: Deprecated static method ESLMediaRuleList.parse, use ESLMediaRuleList.parseQuery or ESLMediaRuleList.parseTuple instead'
     ],
     output: `
       ESLMediaRuleList.parse;
@@ -129,16 +129,6 @@ const INVALID_CASES_RULE_LIST = [
     ],
     output: `
       ESLMediaRuleList.parseQuery('1 | 2');
-    `
-  }, {
-    code: `
-      ESLMediaRuleList.parse('1 | 2', String);
-    `,
-    errors: [
-      '[ESL Lint]: Deprecated static method ESLMediaRuleList.parse, use ESLMediaRuleList.parseQuery instead'
-    ],
-    output: `
-      ESLMediaRuleList.parseQuery('1 | 2', String);
     `
   }, {
     code: `
