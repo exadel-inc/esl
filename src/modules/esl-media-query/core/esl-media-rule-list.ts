@@ -35,6 +35,8 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
   public static OBJECT_PARSER = <U = any>(val: string): U | undefined => evaluate(val);
 
   /**
+   * @deprecated Method will be reintroduced in v5.0.0 with a different signature. For now use ESLMediaRuleList.parseQuery instead
+   *
    * Creates `ESLMediaRuleList` from string query representation
    * Expect serialized {@link ESLMediaRule}s separated by '|'
    * Uses exact strings as rule list values
@@ -43,6 +45,8 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
    */
   public static parse(query: string): ESLMediaRuleList<string>;
   /**
+   * @deprecated Method will be reintroduced in v5.0.0 with a different signature. For now use ESLMediaRuleList.parseQuery instead
+   *
    * Creates `ESLMediaRuleList` from string query representation.
    * Expect serialized {@link ESLMediaRule}s separated by '|'
    *
@@ -51,6 +55,8 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
    */
   public static parse<U>(query: string, parser: RulePayloadParser<U>): ESLMediaRuleList<U>;
   /**
+   * @deprecated Method will be reintroduced in v5.0.0 with a different signature. For now use ESLMediaRuleList.parseTuple instead
+
    * Creates `ESLMediaRuleList` from two strings with conditions and values sequences
    *
    * @param mask - media conditions tuple string (uses '|' as separator)
@@ -63,6 +69,8 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
    */
   public static parse(mask: string, values: string): ESLMediaRuleList<string>;
   /**
+   * @deprecated Method will be reintroduced in v5.0.0 with a different signature. For now use ESLMediaRuleList.parseTuple instead
+   *
    * Creates `ESLMediaRuleList` from two strings with conditions and values sequences
    *
    * @param mask - media conditions tuple string (uses '|' as separator)
@@ -133,7 +141,7 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
     while (valueList.length < queries.length && valueList.length !== 0) valueList.push(valueList[valueList.length - 1]);
     if (valueList.length !== queries.length) throw Error('Value doesn\'t correspond to mask');
     const rules: (ESLMediaRule | undefined)[] = queries.map((query, i) => ESLMediaRule.create(valueList[i], query, parser));
-    const validRules = rules.filter((rule) => !!rule) as ESLMediaRule[];
+    const validRules = rules.filter((rule) => !!rule);
     return new ESLMediaRuleList(validRules);
   }
 
