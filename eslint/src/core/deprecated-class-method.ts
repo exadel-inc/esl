@@ -22,41 +22,43 @@ export interface ESLintDeprecationStaticMethodCfg {
 type StaticMethodNode = ESTree.MemberExpression & Rule.NodeParentExtension;
 
 /** Builds deprecation rule from {@link ESLintDeprecationStaticMethodCfg} object */
-export function buildRule(configs: ESLintDeprecationStaticMethodCfg | ESLintDeprecationStaticMethodCfg[]): Rule.RuleModule {
-  configs = Array.isArray(configs) ? configs : [configs];
-  const create = (context: Rule.RuleContext): Rule.RuleListener => ({
-    MemberExpression(node: StaticMethodNode): null {
-      const {object, property} = node;
-
-      if (!(object.type === 'Identifier' && property.type === 'Identifier')) return null;
-      const className = object.name;
-      const methodName = property.name;
-
-      for (const cfg of configs) {
-        if (!(className === cfg.className && methodName === cfg.deprecatedMethod)) continue;
-        const {parent} = node;
-        const {type} = parent;
-        if (type === 'ExpressionStatement' || type === 'VariableDeclarator') {
-          context.report({
-            node,
-            message: `[ESL Lint]: Deprecated static method ${cfg.className}.${cfg.deprecatedMethod}, 
-use ${cfg.className}'s ${cfg.recommendedMethod()} methods instead`.replace(/\n|\r/g, ''),
-          });
-        }
-
-        if (type === 'CallExpression') {
-          const args = parent.arguments;
-          const recommendedMethod = cfg.recommendedMethod(args);
-
-          context.report({
-            node,
-            message: `[ESL Lint]: Deprecated static method ${cfg.className}.${cfg.deprecatedMethod}, use ${cfg.className}.${recommendedMethod} instead`,
-            fix: (fixer) => fixer.replaceText(property, recommendedMethod)
-          });
-        }
+export function buildRule(config: ESLintDeprecationStaticMethodCfg): Rule.RuleModule {
+  const create = (context: Rule.RuleContext): Rule.RuleListener => {
+    return {
+      MemberExpression(node: StaticMethodNode): null {
+        if (!isDeprecatedMethod(node, config)) return null;
+        const {type} = node.parent;
+        if (type === 'CallExpression') handleCallExpression(node, context, config);
+        else if (type === 'ExpressionStatement' || type === 'VariableDeclarator') handleAssignmentExpression(node, context, config);
+        return null;
       }
-      return null;
-    }
-  });
+    };
+  };
+
   return {meta, create};
+}
+
+function isDeprecatedMethod(node: StaticMethodNode, config: ESLintDeprecationStaticMethodCfg): boolean {
+  const {object, property} = node;
+  return object.type === 'Identifier' && property.type === 'Identifier' && object.name === config.className && property.name === config.deprecatedMethod;
+}
+
+function handleCallExpression(node: StaticMethodNode, context: Rule.RuleContext, config: ESLintDeprecationStaticMethodCfg): void {
+  const callExpression = node.parent as ESTree.CallExpression;
+  const args = callExpression.arguments;
+  const recommendedMethod = config.recommendedMethod(args);
+
+  context.report({
+    node,
+    message: `[ESL Lint]: Deprecated static method ${config.className}.${config.deprecatedMethod}, use ${config.className}.${recommendedMethod} instead`,
+    fix: (fixer) => fixer.replaceText(node.property, recommendedMethod)
+  });
+}
+
+function handleAssignmentExpression(node: StaticMethodNode, context: Rule.RuleContext, config: ESLintDeprecationStaticMethodCfg): void {
+  context.report({
+    node,
+    message: `[ESL Lint]: Deprecated static method ${config.className}.${config.deprecatedMethod}, 
+use ${config.className}'s ${config.recommendedMethod()} methods instead`.replace(/\n|\r/g, ''),
+  });
 }

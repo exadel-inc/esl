@@ -1,6 +1,8 @@
 import {RuleTester} from 'eslint';
 import {buildRule} from '../src/core/deprecated-class-method';
 
+import deprecatedMediaRuleListParse from '../src/rules/4/deprecated.media-rule-list-parse';
+
 const VALID_CASES = [
   {
     code: `
@@ -53,7 +55,49 @@ const VALID_CASES = [
   }
 ];
 
-const INVALID_CASES = [
+const INVALID_CASES_TEST_CLASS = [
+  {
+    code: `
+      TestClass.oldMethod();
+    `,
+    errors: [
+      '[ESL Lint]: Deprecated static method TestClass.oldMethod, use TestClass.newMethodNoArgs instead'
+    ],
+    output: `
+      TestClass.newMethodNoArgs();
+    `
+  }, {
+    code: `
+      TestClass.oldMethod(1, () => {});
+    `,
+    errors: [{ message: '[ESL Lint]: Deprecated static method TestClass.oldMethod, use TestClass.newMethodMultipleArgsNonLiteral instead' }],
+    output: `
+      TestClass.newMethodMultipleArgsNonLiteral(1, () => {});
+    `
+  }, {
+    code: `
+      TestClass.oldMethod('test');
+    `,
+    errors: [
+      '[ESL Lint]: Deprecated static method TestClass.oldMethod, use TestClass.newMethodOneArg instead'
+    ],
+    output: `
+      TestClass.newMethodOneArg('test');
+    `
+  }, {
+    code: `
+      TestClass.oldMethod('test', 42);
+    `,
+    errors: [
+      '[ESL Lint]: Deprecated static method TestClass.oldMethod, use TestClass.newMethodMultipleArgs instead'
+    ],
+    output: `
+      TestClass.newMethodMultipleArgs('test', 42);
+    `
+  }
+];
+
+const INVALID_CASES_RULE_LIST = [
   {
     code: `
       const t = ESLMediaRuleList.parse;
@@ -124,76 +168,39 @@ const INVALID_CASES = [
     output: `
       ESLMediaRuleList.parseTuple('1 | 2', '3|4', String);
     `
-  }, {
-    code: `
-      TestClass.oldMethod();
-    `,
-    errors: [
-      '[ESL Lint]: Deprecated static method TestClass.oldMethod, use TestClass.newMethodNoArgs instead'
-    ],
-    output: `
-      TestClass.newMethodNoArgs();
-    `
-  }, {
-    code: `
-      TestClass.oldMethod(1, () => {});
-    `,
-    errors: [{ message: '[ESL Lint]: Deprecated static method TestClass.oldMethod, use TestClass.newMethodMultipleArgsNonLiteral instead' }],
-    output: `
-      TestClass.newMethodMultipleArgsNonLiteral(1, () => {});
-    `
-  }, {
-    code: `
-      TestClass.oldMethod('test');
-    `,
-    errors: [
-      '[ESL Lint]: Deprecated static method TestClass.oldMethod, use TestClass.newMethodOneArg instead'
-    ],
-    output: `
-      TestClass.newMethodOneArg('test');
-    `
-  }, {
-    code: `
-      TestClass.oldMethod('test', 42);
-    `,
-    errors: [
-      '[ESL Lint]: Deprecated static method TestClass.oldMethod, use TestClass.newMethodMultipleArgs instead'
-    ],
-    output: `
-      TestClass.newMethodMultipleArgs('test', 42);
-    `
   }
 ];
 
 describe('ESL Migration Rules: Deprecated Static Method: valid', () => {
-  const rule = buildRule([
-    {
-      className: 'ESLMediaRuleList',
-      deprecatedMethod: 'parse',
-      recommendedMethod: (args): string => {
-        if (!args) return 'parseQuery or parseTuple';
-        return args.length === 1 || (args[1]?.type !== 'Literal' && args[1]?.type !== 'TemplateLiteral') ? 'parseQuery' : 'parseTuple';
-      }
-    }, {
-      className: 'TestClass',
-      deprecatedMethod: 'oldMethod',
-      recommendedMethod: (args) => {
-        if (!args || args.length === 0) {
-          return 'newMethodNoArgs';
-        } else if (args.length === 1) {
-          return 'newMethodOneArg';
-        } else if (args.length > 1 && args[args.length - 1].type !== 'Literal' && args[args.length - 1].type !== 'TemplateLiteral') {
-          return 'newMethodMultipleArgsNonLiteral';
-        } else {
-          return 'newMethodMultipleArgs';
-        }
+  const rule = buildRule({
+    className: 'TestClass',
+    deprecatedMethod: 'oldMethod',
+    recommendedMethod: (args) => {
+      if (!args || args.length === 0) {
+        return 'newMethodNoArgs';
+      } else if (args.length === 1) {
+        return 'newMethodOneArg';
+      } else if (args.length > 1 && args[args.length - 1].type !== 'Literal' && args[args.length - 1].type !== 'TemplateLiteral') {
+        return 'newMethodMultipleArgsNonLiteral';
+      } else {
+        return 'newMethodMultipleArgs';
       }
     }
-  ]);
+  });
 
   const ruleTester = new RuleTester({
     parser: require.resolve('@typescript-eslint/parser')
   });
 
-  ruleTester.run('deprecated-static-method', rule, {valid: VALID_CASES, invalid: INVALID_CASES});
+  ruleTester.run('deprecated-static-method', rule, {valid: VALID_CASES, invalid: INVALID_CASES_TEST_CLASS});
+});
+
+describe('ESL Migration Rules: Deprecated Static Method: valid', () => {
+  const rule = deprecatedMediaRuleListParse;
+
+  const ruleTester = new RuleTester({
+    parser: require.resolve('@typescript-eslint/parser')
+  });
+
+  ruleTester.run('deprecated-static-method', rule, {valid: VALID_CASES, invalid: INVALID_CASES_RULE_LIST});
 });
