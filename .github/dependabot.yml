@@ -20,8 +20,7 @@ updates:
       - "abarmina"
       - "NastaLeo"
     commit-message:
-      prefix: "chore(deps)"
-      prefix-development: "chore(deps-dev)"
+      prefix: "chore"
       include: "scope"
     groups:
       typescript-eslint:
@@ -52,7 +51,7 @@ updates:
       - "abarmina"
       - "NastaLeo"
     commit-message:
-      prefix: "chore(ci)"
+      prefix: "chore"
       include: "scope"
     groups:
       gh-pages:

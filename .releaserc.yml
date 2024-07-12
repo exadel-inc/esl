@@ -44,6 +44,9 @@ plugins:
         - type: chore
           scope: patch
           release: patch
+        - type: feat
+          scope: lint
+          release: patch
 
   - - "@semantic-release/release-notes-generator"
     - preset: conventionalcommits
