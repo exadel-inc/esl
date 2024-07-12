@@ -1,3 +1,21 @@
+# [4.18.0](https://github.com/exadel-inc/esl/compare/v4.17.1...v4.18.0) (2024-07-12)
+
+
+### Bug Fixes
+
+* **deps:** bump puppeteer from 22.11.1 to 22.11.2 ([8a824cf](https://github.com/exadel-inc/esl/commit/8a824cffc9ba70a56bc877fcf6683fb5a80d9b6f))
+* **deps:** bump puppeteer from 22.11.2 to 22.12.0 ([2a5c371](https://github.com/exadel-inc/esl/commit/2a5c3713c51b55efa37d676d89e815708431072c))
+* **deps:** bump puppeteer from 22.12.0 to 22.12.1 ([56ebbfa](https://github.com/exadel-inc/esl/commit/56ebbfa67a90695aa43c867705bcd16fe5fcc5d6))
+* **deps:** bump webpack from 5.92.0 to 5.92.1 ([6909d17](https://github.com/exadel-inc/esl/commit/6909d1709e32b570af9d8cffb7c0ba509d724ae6))
+* **deps:** bump ws from 7.5.9 to 7.5.10 ([330fd97](https://github.com/exadel-inc/esl/commit/330fd97664ba5276e89ef723e4ca388a201424db))
+* **esl-mixin-element:** major fix for nested hierarchy mixin disconnection ([d360da0](https://github.com/exadel-inc/esl/commit/d360da0e61e90c2ef71ba219256505e741429ca3)), closes [#2505](https://github.com/exadel-inc/esl/issues/2505)
+
+
+### Features
+
+* **lint:** deprecation rule for `ESlMediaRuleList.parse` ([#2509](https://github.com/exadel-inc/esl/issues/2509)) ([a1f916a](https://github.com/exadel-inc/esl/commit/a1f916ae4cf9a7d618516646e6629ae3a58f3d68))
+
+
 ## [4.17.1](https://github.com/exadel-inc/esl/compare/v4.17.0...v4.17.1) (2024-06-17)
 
 

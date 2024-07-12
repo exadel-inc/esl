@@ -1,25 +1,23 @@
 import {lt} from 'semver';
-import color from 'kleur';
+import {log} from './log';
 
-const ESL_PACKAGE = '@exadel/esl';
-const PLUGIN_PACKAGE = '@exadel/eslint-plugin-esl';
+export const ESL_PACKAGE = '@exadel/esl';
+export const PLUGIN_PACKAGE = '@exadel/eslint-plugin-esl';
 
-function getInstalledVersion(packageName: string): string | null {
+export function getInstalledVersion(packageName: string): string {
   try {
     // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
     return require(`${packageName}/package.json`).version;
   } catch (error) {
-    return null;
+    return '';
   }
 }
 
-export function checkVersion(): void {
-  const eslintVersion = getInstalledVersion(PLUGIN_PACKAGE);
-  const eslVersion = getInstalledVersion(ESL_PACKAGE);
-  if  (!(eslintVersion && eslVersion && lt(eslintVersion, eslVersion))) return;
+export const ESL_PACKAGE_VERSION = getInstalledVersion(ESL_PACKAGE);
+export const PLUGIN_PACKAGE_VERSION = getInstalledVersion(PLUGIN_PACKAGE);
 
-  console.log(`\n${color.yellow('⚠️ Warning:')}
-  Your installed version of ${color.yellow(PLUGIN_PACKAGE)} (${color.red(eslintVersion)}) \
-is lower than version of main package ${color.yellow(ESL_PACKAGE)} (${color.green(eslVersion)}).
-  Please update ${color.yellow(PLUGIN_PACKAGE)} to the latest version ${color.green(eslVersion)}\n`);
+if (lt(PLUGIN_PACKAGE_VERSION, ESL_PACKAGE_VERSION)) {
+  log(`Your installed version of ${PLUGIN_PACKAGE} (${PLUGIN_PACKAGE_VERSION})\
+is lower than version of main package ${ESL_PACKAGE} (${ESL_PACKAGE_VERSION}).
+Please update ${PLUGIN_PACKAGE} to the latest version ${ESL_PACKAGE_VERSION}`, 'warn');
 }
