@@ -29,6 +29,9 @@ plugins:
           release: patch
         - type: refactor
           release: patch
+        - type: feat
+          scope: lint
+          release: patch
         - type: fix
           message: "*MINOR VERSION*"
           release: minor
