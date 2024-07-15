@@ -6,7 +6,7 @@
   @popupArrowHalf: (@popupArrowSize / 2);
   @popupArrowShift: (
     @popupArrowSize * 0.2071 - @popupBorderWidth
-  ); // 0.2071 = (sqrt(2) - 1) / 2  (Don't ask why, it's an axiom)
+  ); /* 0.2071 = (sqrt(2) - 1) / 2  (Don't ask why, it's an axiom)*/
 
   .@{arrowClassName} {
     position: absolute;
@@ -90,6 +90,6 @@
       display: none;
     }
 
-    .esl-popup-arrow-init(@arrowClassName, @arrowSize, @backgroundColor, @borderColor, @borderWidth);
+    .esl-popup-arrow-init (@arrowClassName, @arrowSize, @backgroundColor, @borderColor, @borderWidth);
   }
 }

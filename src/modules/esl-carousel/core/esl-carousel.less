@@ -8,9 +8,10 @@ esl-carousel {
   margin: calc(var(--esl-carousel-side-space, 0) * -1);
   padding: var(--esl-carousel-side-space, 0);
 
+  /* stylelint-disable */
   overflow: hidden; // Fallback
-  /* stylelint-disable-next-line */
   overflow: clip;
+  /* stylelint-enable */
 
   &.esl-carousel-vertical [esl-carousel-slides] {
     flex-direction: column;

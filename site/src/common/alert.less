@@ -16,10 +16,12 @@
     }
   }
 
-  .alert-color(~'success', @primary-green);
-  .alert-color(~'info', @primary-blue);
-  .alert-color(~'warning', @primary-orange);
-  .alert-color(~'danger', @primary-orange-dark);
+  /* stylelint-disable */
+  .alert-color (~'success', @primary-green);
+  .alert-color (~'info', @primary-blue);
+  .alert-color (~'warning', @primary-orange);
+  .alert-color (~'danger', @primary-orange-dark);
+  /* stylelint-enable */
 }
 
 esl-alert.alert {
