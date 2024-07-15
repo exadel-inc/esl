@@ -32,7 +32,7 @@
     "markdown-it-replace-link": "^1.2.1",
     "out-url": "^1.2.2",
     "ts-loader": "^9.5.1",
-    "webpack": "^5.92.1",
+    "webpack": "^5.93.0",
     "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "^5.1.4"
   }
