@@ -49,7 +49,7 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
   /** @returns rule {@link ESLMediaRuleList} for touch types */
   @memoize()
   public get typeRule(): ESLMediaRuleList<TouchType> {
-    return ESLMediaRuleList.parse(this.type || ESLCarouselTouchMixin.DRAG_TYPE, toTouchType);
+    return ESLMediaRuleList.parseQuery(this.type || ESLCarouselTouchMixin.DRAG_TYPE, toTouchType);
   }
 
   /** @returns whether the swipe mode is active */

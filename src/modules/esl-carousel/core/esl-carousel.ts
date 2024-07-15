@@ -65,22 +65,22 @@ export class ESLCarousel extends ESLBaseElement {
   /** Renderer type {@link ESLMediaRuleList} instance */
   @memoize()
   public get typeRule(): ESLMediaRuleList<string> {
-    return ESLMediaRuleList.parse(this.media, this.type);
+    return ESLMediaRuleList.parseTuple(this.media, this.type);
   }
   /** Loop marker {@link ESLMediaRuleList} instance */
   @memoize()
   public get loopRule(): ESLMediaRuleList<boolean> {
-    return ESLMediaRuleList.parse(this.media, this.loop, parseBoolean);
+    return ESLMediaRuleList.parseTuple(this.media, this.loop, parseBoolean);
   }
   /** Count of visible slides {@link ESLMediaRuleList} instance */
   @memoize()
   public get countRule(): ESLMediaRuleList<number> {
-    return ESLMediaRuleList.parse(this.media, this.count, parseInt);
+    return ESLMediaRuleList.parseTuple(this.media, this.count, parseInt);
   }
   /** Orientation of the carousel {@link ESLMediaRuleList} instance */
   @memoize()
   public get verticalRule(): ESLMediaRuleList<boolean> {
-    return ESLMediaRuleList.parse(this.media, this.vertical, parseBoolean);
+    return ESLMediaRuleList.parseTuple(this.media, this.vertical, parseBoolean);
   }
 
   /** Returns observed media rules */
