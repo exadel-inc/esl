@@ -31,6 +31,11 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
     this.vertical = options.vertical;
   }
 
+  /** @returns marker if the renderer is applied to the carousel */
+  public get bound(): boolean {
+    return this._bound;
+  }
+
   /** @returns renderer type name */
   public get type(): string {
     return (this.constructor as typeof ESLCarouselRenderer).is;
@@ -70,6 +75,8 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
     this.onBind();
   }
   public unbind(): void {
+    if (!this._bound) return;
+
     const type = this.constructor as typeof ESLCarouselRenderer;
     const orientationCls = ['esl-carousel-vertical', 'esl-carousel-horizontal'];
     this.$carousel.classList.remove(...orientationCls, ...type.classes);
