@@ -8,11 +8,12 @@ import type {ESLintReplacementMethodCfg} from '../../core/deprecated-class-metho
 
 const AVAILABLE_SINCE = '5.0.0-beta.24';
 const isActual = lte(ESL_PACKAGE_VERSION, AVAILABLE_SINCE);
+const isTest = process.env.NODE_ENV === 'test';
 
 /**
  * Rule for deprecated 'parse' method of {@link ESLMediaRuleList}
  */
-export default isActual ?
+export default isActual || isTest ?
   buildRule({
     className: 'ESLMediaRuleList',
     deprecatedMethod: 'parse',

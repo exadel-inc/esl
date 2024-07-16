@@ -8,7 +8,7 @@ describe('ESLMediaRuleList', () => {
 
   describe('Integration cases:', () => {
     test('Basic case: "1 | @sm => 2 | @md => 3" parsed correctly', () => {
-      const mrl = ESLMediaRuleList.parseQuery('1 | @sm => 2 | @md => 3');
+      const mrl = ESLMediaRuleList.parse('1 | @sm => 2 | @md => 3');
       expect(mrl.rules.length).toBe(3);
 
       mockSmMatchMedia.matches = false;
@@ -57,7 +57,7 @@ describe('ESLMediaRuleList', () => {
     });
 
     test('Extended media case parsed correctly: "1 | @sm or @md => 2"', () => {
-      const mrl = ESLMediaRuleList.parseQuery('1 | @sm or @md => 2');
+      const mrl = ESLMediaRuleList.parse('1 | @sm or @md => 2');
       const listener = jest.fn();
 
       expect(mrl.rules.length).toBe(2);
@@ -112,7 +112,7 @@ describe('ESLMediaRuleList', () => {
 
   describe('Basic cases:', () => {
     test('Single value parsed to the single "all" rule', () => {
-      const mrl = ESLMediaRuleList.parseQuery('123');
+      const mrl = ESLMediaRuleList.parse('123');
       expect(mrl.rules.length).toBe(1);
       expect(mrl.active.length).toBeGreaterThan(0);
       expect(mrl.value).toBe('123');
@@ -120,12 +120,12 @@ describe('ESLMediaRuleList', () => {
     });
 
     test('Single rule with media query "@sm => 1"', () => {
-      const mrl = ESLMediaRuleList.parseQuery('@sm => 1');
+      const mrl = ESLMediaRuleList.parse('@sm => 1');
       expect(mrl.rules.length).toBe(1);
     });
 
     test('Single rule "@sm => 1" response to the matcher correctly', () => {
-      const mrl = ESLMediaRuleList.parseQuery('@sm => 1');
+      const mrl = ESLMediaRuleList.parse('@sm => 1');
 
       mockSmMatchMedia.matches = false;
       expect(mrl.value).toBe(undefined);
@@ -176,6 +176,36 @@ describe('ESLMediaRuleList', () => {
 
     test('Values cortege longer then mask cortege is not allowed', () => {
       expect(() => ESLMediaRuleList.parseTuple('@xs', '1|2|3')).toThrowError();
+    });
+  });
+
+  describe('Adaptive cases parsing', () => {
+    test('Should throw error if arrow syntax provided instead of tuple\'s mask', () => {
+      try {
+        ESLMediaRuleList.parse('(min-width: 100px) => 123', '3|4');
+      } catch (e) {
+        expect(e.toString()).toBe('Error: Value doesn\'t correspond to mask');
+      }
+    });
+
+    test('Handle tuple with equal mask/value pair as regular', () => {
+      const mask = '@sm|@md|@lg';
+      const values = '1|2|3';
+      const mrl = ESLMediaRuleList.parse(values, mask);
+      expect(mrl.toString()).toBe(ESLMediaRuleList.parseTuple(mask, values).toString());
+      expect(mrl.toString()).toBe(
+        '(min-width: 768px) and (max-width: 991px) => 1|(min-width: 992px) and (max-width: 1199px) => 2|(min-width: 1200px) and (max-width: 1599px) => 3');
+    });
+
+
+    test.each([
+      [['1'], 'all => 1'],
+      [['0 | (min-width: 100px) => 1 |  (min-width: 200px) => 2'], 'all => 0|(min-width: 100px) => 1|(min-width: 200px) => 2'],
+      [['0 | 1', '@+xs | @+sm'], '(min-width: 1px) => 0|(min-width: 768px) => 1'],
+      [['1|2|3', 'all|@sm|@md'], 'all => 1|(min-width: 768px) and (max-width: 991px) => 2|(min-width: 992px) and (max-width: 1199px) => 3'],
+      [['1 | @+sm => 2 | @+md => 3'], 'all => 1|(min-width: 768px) => 2|(min-width: 992px) => 3'],
+    ])('Should correctly parse "%s" with media condition "%s"', (params: any[], canonical: string) => {
+      expect(ESLMediaRuleList.parse.apply(null, params).toString()).toBe(canonical);
     });
   });
 });
