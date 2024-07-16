@@ -56,6 +56,10 @@ export class ESLCarousel extends ESLBaseElement {
 
   /** true if carousel is in process of animating */
   @boolAttr({readonly: true}) public animating: boolean;
+  /** true if carousel is empty */
+  @boolAttr({readonly: true}) public empty: boolean;
+  /** true if carousel is incomplete (total slides count is less or equal to visible slides count) */
+  @boolAttr({readonly: true}) public incomplete: boolean;
 
   /** Marker/mixin attribute to define slide element */
   public get slideAttrName(): string {
@@ -122,7 +126,6 @@ export class ESLCarousel extends ESLBaseElement {
     super.connectedCallback();
     this.update();
     this.updateA11y();
-    Promise.resolve().then(() => this.dispatchEvent(ESLCarouselChangeEvent.createInitial(this)));
   }
 
   protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
@@ -141,7 +144,7 @@ export class ESLCarousel extends ESLBaseElement {
   public update(): void {
     const config = this.configCurrent;
     const oldConfig = this.config;
-    const $oldSlides = this.$slides;
+    const $oldSlides = this.renderer.bound ? this.$slides : [];
 
     memoize.clear(this, '$slides');
     const added = this.$slides.filter((slide) => !$oldSlides.includes(slide));
@@ -149,14 +152,19 @@ export class ESLCarousel extends ESLBaseElement {
 
     if (!added.length && !removed.length && this.renderer.equal(config)) return;
 
+    if (!this.renderer.bound) this.dispatchEvent(ESLCarouselChangeEvent.createInitial(this));
+
     this.renderer.unbind();
     memoize.clear(this, 'renderer');
-    this.renderer && this.renderer.bind();
-    this.updateContainer();
+    this.renderer.bind();
+    this.updateStateMarkers();
     this.dispatchEvent(ESLCarouselChangeEvent.create({added, removed, config, oldConfig}));
   }
 
-  public updateContainer(): void {
+  protected updateStateMarkers(): void {
+    this.$$attr('empty', !this.size);
+    this.$$attr('incomplete', this.size <= this.renderer.count);
+
     if (!this.$container) return;
     this.$container.toggleAttribute('empty', this.size === 0);
     this.$container.toggleAttribute('single', this.size === 1);
@@ -181,10 +189,9 @@ export class ESLCarousel extends ESLBaseElement {
   }
 
   protected updateA11y(): void {
-    const $container = this.$container || this;
-    if (!$container.role) {
-      $container.setAttribute('role', 'region');
-      $container.setAttribute('aria-roledescription', 'Carousel');
+    if (!this.role) {
+      this.setAttribute('role', 'region');
+      this.setAttribute('aria-roledescription', 'Carousel');
     }
     if (!this.id) this.id = sequentialUID('esl-carousel-');
     if (!this.$slidesArea.id) this.$slidesArea.id = `${this.id}-slides`;
@@ -222,7 +229,10 @@ export class ESLCarousel extends ESLBaseElement {
     return els.filter((el) => el.hasAttribute(slideAttrName));
   }
 
-  /** @returns carousel container */
+  /**
+   * @deprecated considered to be removed
+   * @returns carousel container
+   */
   @memoize()
   public get $container(): HTMLElement | null {
     return this.closest(`[${this.tagName}-container]`);
