@@ -85,7 +85,7 @@ export class ESLCarouselNavDots extends ESLBaseElement {
    */
   @memoize()
   public get count(): number {
-    if (!this.$carousel) return 0;
+    if (!this.$carousel?.renderer) return 0;
     const {count, size} = this.$carousel.state;
     const value = Math.ceil(size / count);
     return value > 1 ? value : 0;
@@ -94,7 +94,7 @@ export class ESLCarouselNavDots extends ESLBaseElement {
   /** Active dot index according to carousel config. (Note: memoization used during update stage) */
   @memoize()
   public get activeIndex(): number {
-    if (!this.$carousel) return 0;
+    if (!this.$carousel?.renderer) return 0;
     const {activeIndex, count, size} = this.$carousel.state;
     return indexToGroup(activeIndex, count, size);
   }
@@ -131,11 +131,9 @@ export class ESLCarouselNavDots extends ESLBaseElement {
   }
 
   @ready
-  public override async connectedCallback(): Promise<void> {
-    this.replaceChildren();
-    if (!this.$carousel) return;
-    await customElements.whenDefined(this.$carousel.tagName.toLowerCase());
+  public override connectedCallback(): void {
     super.connectedCallback();
+    this.replaceChildren();
     this.update();
     this.updateA11y();
   }
@@ -149,7 +147,6 @@ export class ESLCarouselNavDots extends ESLBaseElement {
     if (!this.connected) return;
     if (name === 'target') {
       memoize.clear(this, '$carousel');
-      this.$$off(this._onSlideChange);
       this.$$on(this._onSlideChange);
     }
     this.update();
