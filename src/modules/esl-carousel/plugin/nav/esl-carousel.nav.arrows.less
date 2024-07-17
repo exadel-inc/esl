@@ -1,10 +1,6 @@
 /** Arrow navigation styles */
 .esl-carousel-nav-container {
   position: relative;
-  --esl-carousel-control-visibility: visible;
-  &[incomplete] {
-    --esl-carousel-control-visibility: hidden;
-  }
   // variable to make clickable area larger
   --esl-carousel-arrow-padding: 0px;
   --esl-carousel-arrow-size: 40px;
@@ -19,8 +15,6 @@
     top: 50%;
     transform: translateY(-50%);
     padding: var(--esl-carousel-arrow-padding);
-
-    visibility: var(--esl-carousel-control-visibility, visible);
 
     display: grid;
     place-content: center;
@@ -39,6 +33,9 @@
 
     &[disabled] {
       opacity: 0.25;
+    }
+    &[disabled='hidden'] {
+      visibility: hidden;
     }
   }
 

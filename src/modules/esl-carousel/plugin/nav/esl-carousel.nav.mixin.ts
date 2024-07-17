@@ -64,10 +64,9 @@ export class ESLCarouselNavMixin extends ESLMixinElement {
     target: ($nav: ESLCarouselNavMixin) => $nav.$carousel
   })
   protected _onUpdate(): void {
-    const isActive = this.$carousel?.renderer && !this.$carousel.incomplete;
-    const isDisabled = !isActive || !this.$carousel.canNavigate(this.command);
-    this.$$attr('active', isActive);
-    this.$$attr('disabled', isDisabled);
+    const isIncomplete = !this.$carousel?.renderer || this.$carousel.incomplete;
+    const isDisabled = isIncomplete || !this.$carousel.canNavigate(this.command);
+    this.$$attr('disabled', isIncomplete ? 'hidden' : (isDisabled ? 'inactive' : false));
     this.$$attr('aria-controls', this.targetID);
   }
 
