@@ -205,6 +205,7 @@ ESLMediaRuleList.parse('1 | @XS => 2', Number); // first query from the sample a
 ESLMediaRuleList.parse('@XS => {option: 1} | @+SM => {option: 2}', ESLMediaRuleList.OBJECT_PARSER); // second query from the sample above with an object payloads
 ESLMediaRuleList.parse('@XS => {option: 1} | @+SM => {option: 2}', evaluate); // the same as the sample above 
 ESLMediaRuleList.parse('1|2|3|4|5', '@xs|@sm|@md|@lg|@xl') // parses tuple payloads
+ESLMediaRuleList.parse('@mqAlt1 => value1| @mqAlt2 => value2', '@mq1|@mq2'); // parses first argument as an arrow syntax without default tuple consideration.
 
 // Tupple parsing
 ESLMediaRuleList.parseTuple('@xs|@sm|@md|@lg|@xl', '1|2|3|4|5') // String payload example
@@ -217,9 +218,7 @@ ESLMediaRuleList.parseTuple('@xs|@sm|@md|@lg|@xl', '1|2|3|4|5',  Number) // Nume
 
 - `ESLMediaRuleList.parseQuery(ruleset: string)` - parse media ruleset defined with syntax, where query and value are a single argument separated by `=>` for each rule.
 
-- `ESLMediaRuleList.parse(values: string, queries: string)` - parse media ruleset defined with tuple syntax, where query and value are separate arguments.
-
-- `ESLMediaRuleList.parse(ruleset: string)` - parse media ruleset defined with same syntax as `ESLMediaRuleList.parseQuery`.
+- `ESLMediaRuleList.parse(values: string, queries: string)` - parse media ruleset adaptively. Method can support both notations in case if query syntax separated by `=>` is being used as a value for a tuple tuple.
 
 - `ESLMediaRuleList.prototype.rules` - array of rules that defines `ESLMediaRuleList` object
 - `ESLMediaRuleList.prototype.active` - array of active (matched) rules 
