@@ -1,7 +1,7 @@
 import {RuleTester} from 'eslint';
 import {buildRule} from '../src/core/deprecated-class-method';
 
-import deprecatedMediaRuleListParse from '../src/rules/4/deprecated.media-rule-list-parse';
+import type * as ESTree from 'estree';
 
 const VALID_CASES = [
   {
@@ -189,7 +189,18 @@ describe('ESL Migration Rules: Deprecated Static Method: valid', () => {
 });
 
 describe('ESL Migration Rules: Deprecated Static Method: valid', () => {
-  const rule = deprecatedMediaRuleListParse;
+  const rule = buildRule({
+    className: 'ESLMediaRuleList',
+    deprecatedMethod: 'parse',
+    getReplacementMethod: (expression) => {
+      const args = expression.arguments;
+      const isLiteral = (node: ESTree.Expression | ESTree.SpreadElement): boolean => node?.type === 'Literal' || node?.type === 'TemplateLiteral';
+      if (expression.type === 'CallExpression' && args.length === 1) return 'parseQuery';
+      if (expression.type === 'CallExpression' && args.length === 2 && isLiteral(args[1])) return 'parseTuple';
+      if (expression.type === 'CallExpression' && args.length === 3) return 'parseTuple';
+      return {message: 'ESLMediaRuleList.parseQuery or ESLMediaRuleList.parseTuple'};
+    }
+  });
 
   const ruleTester = new RuleTester({
     parser: require.resolve('@typescript-eslint/parser')
