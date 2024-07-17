@@ -218,7 +218,7 @@ ESLMediaRuleList.parseTuple('@xs|@sm|@md|@lg|@xl', '1|2|3|4|5',  Number) // Nume
 
 - `ESLMediaRuleList.parseQuery(ruleset: string)` - parse media ruleset defined with syntax, where query and value are a single argument separated by `=>` for each rule.
 
-- `ESLMediaRuleList.parse(values: string, queries: string)` - parse media ruleset adaptively. Method can support both notations in case if query syntax separated by `=>` is being used as a value for a tuple tuple.
+- `ESLMediaRuleList.parse(values: string, queries: string)` - parse media ruleset adaptively. Method can support both notations with a ruleset from tuple of queries and values, all separated via `|` symbol, and can parse cases where query syntax with rules separated by `=>` is being used as a value for a tuple.
 
 - `ESLMediaRuleList.prototype.rules` - array of rules that defines `ESLMediaRuleList` object
 - `ESLMediaRuleList.prototype.active` - array of active (matched) rules 
