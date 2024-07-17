@@ -16,7 +16,7 @@
     "build": "npm run clean && tsc --project tsconfig.build.json"
   },
   "dependencies": {
-    "semver": "^7.6.2"
+    "semver": "^7.6.3"
   },
   "files": [
     "dist/**/*"
