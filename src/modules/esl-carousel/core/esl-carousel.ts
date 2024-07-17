@@ -144,7 +144,8 @@ export class ESLCarousel extends ESLBaseElement {
   public update(): void {
     const config = this.configCurrent;
     const oldConfig = this.config;
-    const $oldSlides = this.renderer.bound ? this.$slides : [];
+    const initial = !this.renderer.bound;
+    const $oldSlides = initial ? this.$slides : [];
 
     memoize.clear(this, '$slides');
     const added = this.$slides.filter((slide) => !$oldSlides.includes(slide));
@@ -152,13 +153,11 @@ export class ESLCarousel extends ESLBaseElement {
 
     if (!added.length && !removed.length && this.renderer.equal(config)) return;
 
-    if (!this.renderer.bound) this.dispatchEvent(ESLCarouselChangeEvent.createInitial(this));
-
     this.renderer.unbind();
     memoize.clear(this, 'renderer');
     this.renderer.bind();
     this.updateStateMarkers();
-    this.dispatchEvent(ESLCarouselChangeEvent.create({added, removed, config, oldConfig}));
+    this.dispatchEvent(ESLCarouselChangeEvent.create({initial, added, removed, config, oldConfig}));
   }
 
   protected updateStateMarkers(): void {

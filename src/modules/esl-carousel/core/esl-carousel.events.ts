@@ -55,6 +55,8 @@ export class ESLCarouselSlideEvent extends Event implements ESLCarouselSlideEven
 
 /** {@link ESLCarouselChangeEvent} init object */
 interface ESLCarouselChangeEventInit {
+  /** Whether the event is initial (on carousel creation) */
+  initial?: boolean;
   /** Current {@link ESLCarousel} instance config */
   config: ESLCarouselStaticState;
   /** Previous {@link ESLCarousel} instance config */
@@ -69,16 +71,16 @@ interface ESLCarouselChangeEventInit {
 export class ESLCarouselChangeEvent extends Event implements ESLCarouselChangeEventInit {
   /** {@link ESLCarouselSlideEvent} event type dispatched on carousel config changes */
   public static readonly TYPE = 'esl:carousel:change';
-  public static readonly INITIAL = 'esl:carousel:init';
 
   public override readonly target: ESLCarousel;
+  public readonly initial: boolean = false;
   public readonly config: ESLCarouselStaticState;
   public readonly oldConfig?: ESLCarouselStaticState;
   public readonly added: HTMLElement[] = [];
   public readonly removed: HTMLElement[] = [];
 
   protected constructor(
-    type: typeof ESLCarouselChangeEvent.TYPE | typeof ESLCarouselChangeEvent.INITIAL,
+    type: typeof ESLCarouselChangeEvent.TYPE,
     init: ESLCarouselChangeEventInit
   ) {
     super(type, {
@@ -91,12 +93,5 @@ export class ESLCarouselChangeEvent extends Event implements ESLCarouselChangeEv
 
   public static create(init: ESLCarouselChangeEventInit): ESLCarouselChangeEvent {
     return new ESLCarouselChangeEvent(ESLCarouselChangeEvent.TYPE, init);
-  }
-  public static createInitial(carousel: ESLCarousel): ESLCarouselChangeEvent {
-    return new ESLCarouselChangeEvent(ESLCarouselChangeEvent.INITIAL, {
-      added: carousel.$slides,
-      removed: [],
-      config: carousel.config
-    });
   }
 }
