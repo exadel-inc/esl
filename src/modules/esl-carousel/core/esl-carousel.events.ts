@@ -38,14 +38,14 @@ export class ESLCarouselSlideEvent extends Event implements ESLCarouselSlideEven
     Object.assign(this, init);
   }
 
-  /** @returns current slide index */
-  public get current(): number {
-    return this.indexesAfter[0];
+  /** @returns first index of before sate */
+  public get indexBefore(): number {
+    return this.indexesBefore[0];
   }
 
-  /** @returns related slide index */
-  public get related(): number {
-    return this.indexesBefore[0];
+  /** @returns first index of after state */
+  public get indexAfter(): number {
+    return this.indexesAfter[0];
   }
 
   /** @returns list of slides that are active before the change */

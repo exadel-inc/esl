@@ -85,7 +85,9 @@ export class ESLCarouselSlide extends ESLMixinElement {
       this.$$attr('inert', !this.active);
     }
     if (!this.$carousel) return;
-    CSSClassUtils.toggle(this.$carousel.$container || this.$carousel, this.containerClass, this.active, this.$host);
+    if (this.$carousel.$container) {
+      CSSClassUtils.toggle(this.$carousel.$container, this.containerClass, this.active, this.$host);
+    }
     if (!this.active) this.blurIfInactive();
   }
 
