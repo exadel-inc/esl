@@ -1,8 +1,11 @@
 /** Arrow navigation styles */
-[esl-carousel-container] {
+.esl-carousel-nav-container {
+  position: relative;
+  // variable to make clickable area larger
+  --esl-carousel-arrow-padding: 0px;
   --esl-carousel-arrow-size: 40px;
   --esl-carousel-arrow-offset: calc(
-    (var(--esl-carousel-arrow-size) + var(--esl-carousel-side-space)) * -1
+    (var(--esl-carousel-arrow-size) + var(--esl-carousel-arrow-padding) + var(--esl-carousel-side-space)) * -1
   );
   --esl-carousel-arrow-bg: grey;
 
@@ -11,8 +14,7 @@
     z-index: 3;
     top: 50%;
     transform: translateY(-50%);
-
-    visibility: var(--esl-carousel-control-visibility, visible);
+    padding: var(--esl-carousel-arrow-padding);
 
     display: grid;
     place-content: center;
@@ -31,6 +33,9 @@
 
     &[disabled] {
       opacity: 0.25;
+    }
+    &[disabled='hidden'] {
+      visibility: hidden;
     }
   }
 

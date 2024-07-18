@@ -2,7 +2,7 @@ import {memoize} from '../../esl-utils/decorators';
 import {isEqual} from '../../esl-utils/misc/object';
 import {SyntheticEventTarget} from '../../esl-utils/dom';
 import {ESLCarouselSlideEvent} from './esl-carousel.events';
-import {calcDirection, normalize} from './nav/esl-carousel.nav.utils';
+import {calcDirection, normalize, sequence} from './nav/esl-carousel.nav.utils';
 
 import type {ESLCarousel, ESLCarouselActionParams} from './esl-carousel';
 import type {ESLCarouselConfig, ESLCarouselDirection} from './nav/esl-carousel.nav.types';
@@ -29,6 +29,11 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
     this.count = options.count;
     this.loop = options.loop;
     this.vertical = options.vertical;
+  }
+
+  /** @returns marker if the renderer is applied to the carousel */
+  public get bound(): boolean {
+    return this._bound;
   }
 
   /** @returns renderer type name */
@@ -70,6 +75,8 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
     this.onBind();
   }
   public unbind(): void {
+    if (!this._bound) return;
+
     const type = this.constructor as typeof ESLCarouselRenderer;
     const orientationCls = ['esl-carousel-vertical', 'esl-carousel-horizontal'];
     this.$carousel.classList.remove(...orientationCls, ...type.classes);
@@ -92,8 +99,8 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
     if (!this.$carousel.dispatchEvent(ESLCarouselSlideEvent.create('BEFORE', {
       direction,
       activator,
-      current: activeIndex,
-      related: index
+      indexesBefore: activeIndexes,
+      indexesAfter: sequence(index, this.count, this.size)
     }))) return;
 
     this.setPreActive(index);
@@ -124,11 +131,15 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
   /** Sets active slides from passed index **/
   public setActive(current: number, event?: Partial<ESLCarouselSlideEventInit>): void {
     const related = this.$carousel.activeIndex;
+    const indexesBefore = this.$carousel.activeIndexes;
     const count = Math.min(this.count, this.size);
+    const indexesAfter = [];
 
     for (let i = 0; i < this.size; i++) {
       const position = normalize(i + current, this.size);
       const $slide = this.$slides[position];
+      if (i < count) indexesAfter.push(position);
+
       $slide.toggleAttribute('active', i < count);
       $slide.toggleAttribute('pre-active', false);
       $slide.toggleAttribute('next', i === count && (this.loop || position !== 0));
@@ -137,7 +148,7 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
 
     if (event && typeof event === 'object') {
       const direction = event.direction || calcDirection(related, current, this.size);
-      const details = {...event, direction, current, related};
+      const details = {...event, direction, indexesBefore, indexesAfter};
       this.$carousel.dispatchEvent(ESLCarouselSlideEvent.create('AFTER', details));
     }
   }

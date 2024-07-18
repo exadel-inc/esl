@@ -7,18 +7,14 @@ Slide group is a set of slides that are displayed together in the carousel (you 
 
 Example:
 ```html
-    <esl-carousel-slide esl-carousel-container>
-      <esl-carousel count="1">
-        <ul esl-carousel-slides>
-          <li esl-carousel-slide>Slide 1</li>
-          <li esl-carousel-slide>Slide 2</li>
-          <li esl-carousel-slide>Slide 3</li>
-          <li esl-carousel-slide>Slide 4</li>
-        </ul>
-      </esl-carousel>
-
-      <esl-carousel-nav-dots></esl-carousel-nav-dots>
-    </div>
+<esl-carousel count="1">
+    <ul esl-carousel-slides>
+        <li esl-carousel-slide>Slide 1</li>
+        <li esl-carousel-slide>Slide 2</li>
+        <li esl-carousel-slide>Slide 3</li>
+        <li esl-carousel-slide>Slide 4</li>
+    </ul>
+</esl-carousel>
 ```
 
 Please note, the plugin does not render if the carousel not found or expected amount of dots is less than 2.
@@ -40,7 +36,7 @@ For example, you might want to perceive space that dots nav take, so you can use
 ### Attributes
 
 - `target` (`ESLCarouselNavDots.prototype.carousel`) - `ESLTraversingQuery` to specify the carousel instance to control. 
-  Finds the carousel in the closest `esl-carousel-container` by default.  
+  Finds the carousel in the closest `.esl-carousel-nav-container` by default.  
 
 - `dot-label-format` (`ESLCarouselNavDots.prototype.dotLabelFormat`) - format string for dot label. 
   The string can contain `{index}` and `{count}` placeholders. 
