@@ -30,7 +30,7 @@ export class ESLCarouselNavMixin extends ESLMixinElement {
   /** {@link ESLTraversingQuery} string to find {@link ESLCarousel} instance */
   @attr({
     name: ESLCarouselNavMixin.is + '-target',
-    defaultValue: '::parent([esl-carousel-container])::find(esl-carousel)'
+    defaultValue: '::parent(.esl-carousel-nav-container)::find(esl-carousel)'
   })
   public carousel: string;
 

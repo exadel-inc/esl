@@ -57,7 +57,7 @@ export class ESLCarouselNavDots extends ESLBaseElement {
   /** {@link ESLTraversingQuery} string to find {@link ESLCarousel} instance */
   @attr({
     name: 'target',
-    defaultValue: '::parent([esl-carousel-container])::find(esl-carousel)'
+    defaultValue: '::parent(.esl-carousel-nav-container)::find(esl-carousel)'
   })
   public carousel: string;
 
