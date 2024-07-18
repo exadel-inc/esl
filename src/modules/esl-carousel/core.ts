@@ -26,3 +26,4 @@ export * from './plugin/wheel/esl-carousel.wheel.mixin';
 import './renderers/esl-carousel.none.renderer';
 import './renderers/esl-carousel.default.renderer';
 import './renderers/esl-carousel.grid.renderer';
+import './renderers/esl-carousel.centered.renderer';
