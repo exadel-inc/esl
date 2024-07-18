@@ -21,6 +21,8 @@ import type {
   ESLCarouselStaticState,
   ESLCarouselConfig
 } from './nav/esl-carousel.nav.types';
+import {CSSClassUtils} from '../../esl-utils/dom/class';
+import {ESLTraversingQuery} from '../../esl-traversing-query/core/esl-traversing-query';
 
 /** {@link ESLCarousel} action params interface */
 export interface ESLCarouselActionParams {
@@ -41,18 +43,25 @@ export interface ESLCarouselActionParams {
 @ExportNs('Carousel')
 export class ESLCarousel extends ESLBaseElement {
   public static override is = 'esl-carousel';
-  public static observedAttributes = ['media', 'type', 'loop', 'count', 'vertical'];
+  public static observedAttributes = ['media', 'type', 'loop', 'count', 'vertical', 'container'];
 
   /** Media query pattern used for {@link ESLMediaRuleList} of `type`, `loop` and `count` (default: `all`) */
   @attr({defaultValue: 'all'}) public media: string;
   /** Renderer type name (`multi` by default). Supports {@link ESLMediaRuleList} syntax */
   @attr({defaultValue: 'default'}) public type: string;
   /** Marker to enable loop mode for a carousel (`true` by default). Supports {@link ESLMediaRuleList} syntax */
-  @attr({defaultValue: 'false'}) public loop: string;
+  @attr({defaultValue: 'false'}) public loop: string | boolean;
   /** Count of slides to show on the screen (`1` by default). Supports {@link ESLMediaRuleList} syntax */
-  @attr({defaultValue: '1'}) public count: string;
+  @attr({defaultValue: '1'}) public count: string | number;
   /** Orientation of the carousel (`horizontal` by default). Supports {@link ESLMediaRuleList} syntax */
-  @attr({defaultValue: 'false'}) public vertical: string;
+  @attr({defaultValue: 'false'}) public vertical: string | boolean;
+
+  /** Container selector (supports traversing query). Carousel itself by default */
+  @attr({defaultValue: ''}) public container: string;
+  /** CSS class to add on the container when carousel is empty */
+  @attr({defaultValue: ''}) public containerEmptyClass: string;
+  /** CSS class to add on the container when carousel is incomplete */
+  @attr({defaultValue: ''}) public containerIncompleteClass: string;
 
   /** true if carousel is in process of animating */
   @boolAttr({readonly: true}) public animating: boolean;
@@ -74,17 +83,17 @@ export class ESLCarousel extends ESLBaseElement {
   /** Loop marker {@link ESLMediaRuleList} instance */
   @memoize()
   public get loopRule(): ESLMediaRuleList<boolean> {
-    return ESLMediaRuleList.parseTuple(this.media, this.loop, parseBoolean);
+    return ESLMediaRuleList.parseTuple(this.media, this.loop as string, parseBoolean);
   }
   /** Count of visible slides {@link ESLMediaRuleList} instance */
   @memoize()
   public get countRule(): ESLMediaRuleList<number> {
-    return ESLMediaRuleList.parseTuple(this.media, this.count, parseInt);
+    return ESLMediaRuleList.parseTuple(this.media, this.count as string, parseInt);
   }
   /** Orientation of the carousel {@link ESLMediaRuleList} instance */
   @memoize()
   public get verticalRule(): ESLMediaRuleList<boolean> {
-    return ESLMediaRuleList.parseTuple(this.media, this.vertical, parseBoolean);
+    return ESLMediaRuleList.parseTuple(this.media, this.vertical as string, parseBoolean);
   }
 
   /** Returns observed media rules */
@@ -130,6 +139,10 @@ export class ESLCarousel extends ESLBaseElement {
 
   protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected) return;
+    if (attrName === 'container') {
+      memoize.clear(this, '$container');
+      return this.updateStateMarkers();
+    }
     memoize.clear(this, `${attrName}Rule`);
     this.update();
   }
@@ -165,9 +178,8 @@ export class ESLCarousel extends ESLBaseElement {
     this.$$attr('incomplete', this.size <= this.renderer.count);
 
     if (!this.$container) return;
-    this.$container.toggleAttribute('empty', this.size === 0);
-    this.$container.toggleAttribute('single', this.size === 1);
-    this.$container.toggleAttribute('incomplete', this.size <= this.renderer.count);
+    CSSClassUtils.toggle(this.$container, this.containerEmptyClass, this.empty, this);
+    CSSClassUtils.toggle(this.$container, this.containerIncompleteClass, this.incomplete, this);
   }
 
   /** Appends slide instance to the current carousel */
@@ -229,12 +241,11 @@ export class ESLCarousel extends ESLBaseElement {
   }
 
   /**
-   * @deprecated considered to be removed
    * @returns carousel container
    */
   @memoize()
-  public get $container(): HTMLElement | null {
-    return this.closest(`[${this.tagName}-container]`);
+  public get $container(): Element | null {
+    return ESLTraversingQuery.first(this.container, this) as HTMLElement;
   }
 
   /** @returns carousel slides area */
