@@ -180,29 +180,25 @@ describe('ESLMediaRuleList', () => {
   });
 
   describe('Adaptive cases parsing', () => {
-    test('Should ignore second tuple parameter if arrow syntax was detected in a first one', () => {
-      const query = '(min-width: 100px) => 123';
-      const mrl = ESLMediaRuleList.parse(query, '3|4');
-      expect(mrl.toString()).toBe(ESLMediaRuleList.parseQuery(query).toString());
-      expect(mrl.toString()).toBe('(min-width: 100px) => 123');
-    });
-
-    test('Handle tuple with equal mask/value pair as regular, but with arguments that have flipped positions', () => {
-      const mask = '@sm|@md|@lg';
-      const values = '1|2|3';
-      const mrl = ESLMediaRuleList.parse(values, mask);
-      expect(mrl.toString()).toBe(ESLMediaRuleList.parseTuple(mask, values).toString());
-      expect(mrl.toString()).toBe(
-        '(min-width: 768px) and (max-width: 991px) => 1|(min-width: 992px) and (max-width: 1199px) => 2|(min-width: 1200px) and (max-width: 1599px) => 3');
-    });
-
     test.each([
+      // [ [.. Call Args], 'Canonical form']
       [['1'], 'all => 1'],
-      [['0 | (min-width: 100px) => 1 |  (min-width: 200px) => 2'], 'all => 0|(min-width: 100px) => 1|(min-width: 200px) => 2'],
-      [['0 | 1', '@+xs | @+sm'], '(min-width: 1px) => 0|(min-width: 768px) => 1'],
-      [['1|2|3', 'all|@sm|@md'], 'all => 1|(min-width: 768px) and (max-width: 991px) => 2|(min-width: 992px) and (max-width: 1199px) => 3'],
-      [['1 | @+sm => 2', '@sm'], 'all => 1|(min-width: 768px) => 2'],
-      [['1 | @+sm => 2 | @+md => 3'], 'all => 1|(min-width: 768px) => 2|(min-width: 992px) => 3'],
+
+      // Tuples
+      [['1', '@-sm'], '(max-width: 991px) => 1'],
+      [['1', '@+sm'], '(min-width: 768px) => 1'],
+      [['1', '@sm'], '(min-width: 768px) and (max-width: 991px) => 1'],
+      [['0 | 1', '@+xs | @+sm'], '(min-width: 1px) => 0 | (min-width: 768px) => 1'],
+      [['1|2|3', 'all|@sm|@md'], 'all => 1 | (min-width: 768px) and (max-width: 991px) => 2 | (min-width: 992px) and (max-width: 1199px) => 3'],
+      [['f=|s>|t<', 'all | @-xs | @-sm',], 'all => f= | (max-width: 767px) => s> | (max-width: 991px) => t<'],
+
+      // Arrow syntax
+      [['0 | (min-width: 100px) => 1 |  (min-width: 200px) => 2'], 'all => 0 | (min-width: 100px) => 1 | (min-width: 200px) => 2'],
+      [['1 | @+sm => 2 | @+md => 3'], 'all => 1 | (min-width: 768px) => 2 | (min-width: 992px) => 3'],
+      [['1 | @+sm => 2', '@sm'], 'all => 1 | (min-width: 768px) => 2'],
+      [['1 | screen and @sm => 2'], 'all => 1 | screen and (min-width: 768px) and (max-width: 991px) => 2'],
+      [['1 | @-xs or @+md => 2'], 'all => 1 | (max-width: 767px), (min-width: 992px) => 2'],
+      [['@-xs => hello | @+sm => world'], '(max-width: 767px) => hello | (min-width: 768px) => world'],
     ])('Should correctly parse "%s" with media condition "%s"', (params: any[], canonical: string) => {
       expect(ESLMediaRuleList.parse.apply(null, params).toString()).toBe(canonical);
     });

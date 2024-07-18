@@ -77,11 +77,9 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
   public static parse<U>(values: string, mask: string, parser: RulePayloadParser<U>): ESLMediaRuleList<U>;
   public static parse(query: string, ...common: (string | RulePayloadParser<any>)[]): ESLMediaRuleList {
     const parser: RulePayloadParser<any> = typeof common[common.length - 1] === 'function' ? common.pop() as any : String;
-    if (query.includes('=>')) return ESLMediaRuleList.parseQuery(query, parser);
     const mask = common.pop();
-    return typeof mask === 'string' ?
-      ESLMediaRuleList.parseTuple(mask, query, parser) :
-      ESLMediaRuleList.parseQuery(query, parser);
+    if (query.includes('=>') || typeof mask !== 'string') return ESLMediaRuleList.parseQuery(query, parser);
+    return ESLMediaRuleList.parseTuple(mask, query, parser);
   }
 
   /**
@@ -209,7 +207,7 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
 
   /** @returns serialized {@link ESLMediaRuleList} object representation*/
   public override toString(): string {
-    return this.rules.join('|');
+    return this.rules.join(' | ');
   }
 }
 
