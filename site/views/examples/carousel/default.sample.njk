@@ -21,13 +21,13 @@ tags: carousel-sample
         <li esl-carousel-slide {{ 'active' if loop.first }}>
           <div class="card">
             <div class="card-image img-container img-container-16-9">
-              <button type="button" class="close inverse" aria-label="Close" onclick="this.closest('li').remove()">
-                <span aria-hidden="true">×</span>
-              </button>
               <esl-image lazy
                          mode="cover"
                          data-alt="{{ 'Carousel slide ' + loop.index }}"
                          data-src="{{ '/assets/carousel/' + loop.index + '-sm.jpg'  | url }}"></esl-image>
+              <button type="button" class="close close-icon close-remove inverse"
+                      title="Remove" aria-label="Remove"
+                      onclick="this.closest('li').remove()"></button>
             </div>
             <div class="card-content p-3">
               <h5>Item {{ loop.index }}</h5>
