@@ -13,7 +13,7 @@ import type {ESLCarouselSlideTarget} from '../../core/nav/esl-carousel.nav.types
  *
  * Example:
  * ```
- * <div esl-carousel-container>
+ * <div class="esl-carousel-nav-container">
  *  <button esl-carousel-nav="group:prev">Prev</button>
  *  <esl-carousel>...</esl-carousel>
  *  <button esl-carousel-nav="group:next">Next</button>

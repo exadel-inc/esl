@@ -16,6 +16,21 @@
   &:not(:disabled):focus {
     opacity: 0.75;
   }
+
+  &.inverse {
+    color: #fff;
+    text-shadow: 0 1px 0 #000;
+    &:hover {
+      color: #fff;
+    }
+  }
+
+  .img-container & {
+    position: absolute;
+    top: 0.25rem;
+    right: 0.5rem;
+    z-index: 10;
+  }
 }
 
 button.close {
