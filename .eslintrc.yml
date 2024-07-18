@@ -51,3 +51,6 @@ rules:
   'editorconfig/eol-last': warn
   # Require no trailing spaces
   'editorconfig/no-trailing-spaces': warn
+
+  # Exclude migration rules for 5.0.0-beta.24 revision
+  '@exadel/esl/deprecated-4/media-rule-list-parse': off
