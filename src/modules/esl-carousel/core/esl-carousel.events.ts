@@ -3,10 +3,10 @@ import type {ESLCarouselDirection, ESLCarouselStaticState} from './nav/esl-carou
 
 /** {@link ESLCarouselSlideEvent} init object */
 export interface ESLCarouselSlideEventInit {
-  /** Current slide index */
-  current: number;
-  /** Related slide index (target on pre-event, current on post-event) */
-  related: number;
+  /** A list of indexes of slides that were active before the change */
+  indexesBefore: number[];
+  /** A list of indexes of slides that are active after the change */
+  indexesAfter: number[];
   /** Direction of slide animation */
   direction: ESLCarouselDirection;
   /** Auxiliary request attribute that represents object that initiates slide change */
@@ -21,8 +21,8 @@ export class ESLCarouselSlideEvent extends Event implements ESLCarouselSlideEven
   public static readonly AFTER = 'esl:slide-change';
 
   public override readonly target: ESLCarousel;
-  public readonly current: number;
-  public readonly related: number;
+  public readonly indexesBefore: number[];
+  public readonly indexesAfter: number[];
   public readonly direction: ESLCarouselDirection;
   public readonly activator?: any;
 
@@ -38,14 +38,24 @@ export class ESLCarouselSlideEvent extends Event implements ESLCarouselSlideEven
     Object.assign(this, init);
   }
 
-  /** @returns current slide element */
-  public get $currentSlide(): HTMLElement | null {
-    return this.target.slideAt(this.current);
+  /** @returns current slide index */
+  public get current(): number {
+    return this.indexesAfter[0];
   }
 
-  /** @returns related slide element */
-  public get $relatedSlide(): HTMLElement | null {
-    return this.target.slideAt(this.related);
+  /** @returns related slide index */
+  public get related(): number {
+    return this.indexesBefore[0];
+  }
+
+  /** @returns list of slides that are active before the change */
+  public get $slidesBefore(): HTMLElement[] {
+    return this.indexesBefore.map((index) => this.target.slideAt(index));
+  }
+
+  /** @returns list of slides that are active after the change */
+  public get $slidesAfter(): HTMLElement[] {
+    return this.indexesAfter.map((index) => this.target.slideAt(index));
   }
 
   public static create(type: 'BEFORE' | 'AFTER', init: ESLCarouselSlideEventInit): ESLCarouselSlideEvent {

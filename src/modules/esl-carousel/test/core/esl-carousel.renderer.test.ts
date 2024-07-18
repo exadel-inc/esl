@@ -1,28 +1,15 @@
 import {ESLCarousel} from '../../core/esl-carousel';
+import {createDummyCarousel} from '../common/esl-carousel.dummy';
 import {ESLCarouselDummyRenderer} from '../common/esl-carousel.dummy.renderer';
+
 
 jest.mock('../../../esl-utils/dom/ready', () => ({
   onDocumentReady: (cb: any) => cb()
 }));
 
 describe('ESLCarouselRenderer: base class tests', () => {
-  ESLCarousel.register();
-  ESLCarouselDummyRenderer.register();
-
   describe('Slide markers defined correctly (`setActive` method of the base class)', () => {
-    const $carousel = ESLCarousel.create();
-    const $slides = Array.from({length: 5}, () => {
-      const $el = document.createElement('div');
-      $el.setAttribute('esl-carousel-slide', '');
-      return $el;
-    });
-
-    beforeAll(async () => {
-      document.body.appendChild($carousel);
-      await ESLCarousel.registered;
-      $slides.forEach(($slide) => $carousel.addSlide($slide));
-    });
-    afterAll(() => document.body.removeChild($carousel));
+    const {$carousel} = createDummyCarousel(5);
 
     test('Carousel size defined correctly', () => {
       expect($carousel.size).toBe(5);

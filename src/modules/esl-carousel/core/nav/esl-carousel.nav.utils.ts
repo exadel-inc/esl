@@ -11,9 +11,18 @@ export function normalize(index: number, size: number): number {
   return (size + (index % size)) % size;
 }
 
-/** @returns normalize slide index according to the carousel mode */
+/** @returns normalize first slide index according to the carousel mode */
 export function normalizeIndex(index: number, {size, count, loop}: ESLCarouselStaticState): number {
   return loop ? normalize(index, size) : Math.max(0, Math.min(size - count, index));
+}
+
+/** @returns normalized sequence of slides starting from the current index */
+export function sequence(current: number, count: number, size: number): number[] {
+  const result = [];
+  for (let i = 0; i < count; i++) {
+    result.push(normalize(current + i, size));
+  }
+  return result;
 }
 
 /** Gets count of slides between active and passed considering given direction. */
