@@ -18,7 +18,7 @@ export class ESLCenteredCarouselRenderer extends ESLDefaultCarouselRenderer {
     return width;
   }
 
-  /** @returns carousel area size */
+  /** @returns carousel size */
   public get carouselSize(): number {
     return this.vertical ? this.$carousel.clientHeight : this.$carousel.clientWidth;
   }
