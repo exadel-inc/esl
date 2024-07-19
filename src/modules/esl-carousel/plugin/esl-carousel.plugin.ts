@@ -28,10 +28,17 @@ export abstract class ESLCarouselPlugin<Config> extends ESLMixinElement {
     return ESLMediaRuleList.parse(this.configValue, this.$host.media, this.parseConfig);
   }
 
+  /** Active plugin configuration object */
   public get config(): Config {
     return this.configQuery.value || {} as Config;
   }
 
+  /**
+   * Parses plugin media query value term to the config object.
+   * Provides the capability to pass a config a stringified non-strict JSON or as a string (mapped to single option configuration).
+   *
+   * Uses {@link ESLCarouselPlugin.SHORT_OPTION} to map string value to the config object.
+   */
   @bind
   protected parseConfig(value: string): Config | null {
     if (!value) return null;
@@ -61,6 +68,7 @@ export abstract class ESLCarouselPlugin<Config> extends ESLMixinElement {
     }
   }
 
+  /** Callback to be executed on plugin configuration query change (attribute change) */
   protected onConfigChange(): void {}
 
   /** Register mixin-plugin in ESLMixinRegistry */
