@@ -184,10 +184,12 @@ describe('ESLMediaRuleList', () => {
       // [ [.. Call Args], 'Canonical form']
       [['1'], 'all => 1'],
 
+      // Single value always considered as "all" rule
+      [['1', '@-sm'], 'all => 1'],
+      [['1', '@+sm'], 'all => 1'],
+      [['1', '@sm'], 'all => 1'],
+
       // Tuples
-      [['1', '@-sm'], '(max-width: 991px) => 1'],
-      [['1', '@+sm'], '(min-width: 768px) => 1'],
-      [['1', '@sm'], '(min-width: 768px) and (max-width: 991px) => 1'],
       [['0 | 1', '@+xs | @+sm'], '(min-width: 1px) => 0 | (min-width: 768px) => 1'],
       [['1|2|3', 'all|@sm|@md'], 'all => 1 | (min-width: 768px) and (max-width: 991px) => 2 | (min-width: 992px) and (max-width: 1199px) => 3'],
       [['f=|s>|t<', 'all | @-xs | @-sm',], 'all => f= | (max-width: 767px) => s> | (max-width: 991px) => t<'],
