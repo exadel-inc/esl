@@ -12,14 +12,20 @@ export abstract class ESLCarouselPlugin<Config> extends ESLMixinElement {
   /** {@link ESLCarousel} host instance */
   public override $host: ESLCarousel;
 
+  /** Plugin configuration attribute value */
+  public get configValue(): string {
+    const plugin = (this.constructor as typeof ESLCarouselPlugin);
+    return this.$$attr(plugin.is) || '';
+  }
+  public set configValue(value: string) {
+    const plugin = (this.constructor as typeof ESLCarouselPlugin);
+    this.$$attr(plugin.is, value);
+  }
+
   /** Plugin configuration query */
   @memoize()
   public get configQuery(): ESLMediaRuleList<Config | null> {
-    const plugin = (this.constructor as typeof ESLCarouselPlugin);
-    const value = this.$$attr(plugin.is) || '';
-    // TODO: discuss single value case
-    if (!value.includes('|')) return ESLMediaRuleList.parseQuery(value, this.parseConfig);
-    return ESLMediaRuleList.parse(value, this.$host.media, this.parseConfig);
+    return ESLMediaRuleList.parse(this.configValue, this.$host.media, this.parseConfig);
   }
 
   public get config(): Config {
