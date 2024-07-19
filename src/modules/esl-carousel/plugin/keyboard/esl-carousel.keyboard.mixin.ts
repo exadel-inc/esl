@@ -1,8 +1,13 @@
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
 
 import {ESLCarouselPlugin} from '../esl-carousel.plugin';
-import {attr, listen} from '../../../esl-utils/decorators';
+import {listen} from '../../../esl-utils/decorators';
 import {ARROW_DOWN, ARROW_LEFT, ARROW_RIGHT, ARROW_UP} from '../../../esl-utils/dom/keys';
+
+export interface ESLCarouselKeyboardConfig {
+  /** Prefix for command to request next/prev navigation */
+  command: 'slide' | 'group' | 'none';
+}
 
 /**
  * {@link ESLCarousel} Keyboard arrow support
@@ -10,11 +15,9 @@ import {ARROW_DOWN, ARROW_LEFT, ARROW_RIGHT, ARROW_UP} from '../../../esl-utils/
  * @author Alexey Stsefanovich (ala'n)
  */
 @ExportNs('Carousel.Keyboard')
-export class ESLCarouselKeyboardMixin extends ESLCarouselPlugin {
+export class ESLCarouselKeyboardMixin extends ESLCarouselPlugin<ESLCarouselKeyboardConfig> {
   public static override is = 'esl-carousel-keyboard';
-
-  /** Prefix to request next/prev navigation */
-  @attr({name: ESLCarouselKeyboardMixin.is}) public type: 'slide' | 'group';
+  public static override SHORT_OPTION = 'command';
 
   /** @returns key code for next navigation */
   protected get nextKey(): string {
@@ -28,9 +31,9 @@ export class ESLCarouselKeyboardMixin extends ESLCarouselPlugin {
   /** Handles `keydown` event */
   @listen('keydown')
   protected _onKeydown(event: KeyboardEvent): void {
-    if (!this.$host || this.$host.animating) return;
-    if (event.key === this.nextKey) this.$host.goTo(`${this.type || 'slide'}:next`);
-    if (event.key === this.prevKey) this.$host.goTo(`${this.type || 'slide'}:prev`);
+    if (!this.$host || this.$host.animating || this.config.command === 'none') return;
+    if (event.key === this.nextKey) this.$host.goTo(`${this.config.command || 'slide'}:next`);
+    if (event.key === this.prevKey) this.$host.goTo(`${this.config.command || 'slide'}:prev`);
   }
 }
 

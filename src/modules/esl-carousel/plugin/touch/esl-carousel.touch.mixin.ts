@@ -1,15 +1,23 @@
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
-import {attr, prop, listen, memoize} from '../../../esl-utils/decorators';
+import {listen, memoize} from '../../../esl-utils/decorators';
 import {getParentScrollOffsets, isOffsetChanged} from '../../../esl-utils/dom/scroll';
-import {buildEnumParser} from '../../../esl-utils/misc/enum';
-import {ESLMediaRuleList} from '../../../esl-media-query/core';
 
 import {ESLCarouselPlugin} from '../esl-carousel.plugin';
 
 import type {ElementScrollOffset} from '../../../esl-utils/dom/scroll';
 
-export type TouchType = 'drag' | 'swipe' | 'none';
-const toTouchType: (str: string) => TouchType = buildEnumParser('none', 'drag', 'swipe');
+export interface ESLCarouselTouchConfig {
+  /** Condition to have drag and swipe support active. (primary property) */
+  type: 'drag' | 'swipe' | 'none' | '';
+  /** Min distance in pixels to activate dragging mode */
+  tolerance: number;
+  /** Defines type of swipe */
+  swipeType: 'group' | 'slide';
+  /** Defines distance tolerance to swipe */
+  swipeDistance: number;
+  /** Defines timeout tolerance to swipe */
+  swipeTimeout: number;
+}
 
 /**
  * {@link ESLCarousel} Touch handler mixin
@@ -22,43 +30,43 @@ const toTouchType: (str: string) => TouchType = buildEnumParser('none', 'drag', 
  * ```
  */
 @ExportNs('Carousel.Touch')
-export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
-  public static override is = 'esl-carousel-touch';
-
+export class ESLCarouselTouchMixin extends ESLCarouselPlugin<ESLCarouselTouchConfig> {
   public static readonly DRAG_TYPE = 'drag';
   public static readonly SWIPE_TYPE = 'swipe';
 
-  /** Min distance in pixels to activate dragging mode */
-  @prop(10) public tolerance: number;
+  public static override is = 'esl-carousel-touch';
+  public static override SHORT_OPTION = 'type';
 
-  /** Condition to have drag and swipe support active. Supports {@link ESLMediaRuleList} */
-  @attr({name: ESLCarouselTouchMixin.is}) public type: string;
-
-  /** Defines type of swipe */
-  @attr({name: 'esl-carousel-swipe-mode', defaultValue: 'group'}) public swipeType: 'group' | 'slide';
-  /** Defines distance tolerance to swipe */
-  @attr({name: 'esl-carousel-swipe-distance', defaultValue: 20, parser: parseInt}) public swipeDistance: number;
-  /** Defines timeout tolerance to swipe */
-  @attr({name: 'esl-carousel-swipe-timeout', defaultValue: 400, parser: parseInt}) public swipeTimeout: number;
+  public static readonly DEFAULT_CONFIG: ESLCarouselTouchConfig = {
+    tolerance: 10,
+    type: 'drag',
+    swipeType: 'group',
+    swipeDistance: 20,
+    swipeTimeout: 400
+  };
 
   /** Start pointer event to detect action */
   protected startEvent?: PointerEvent;
   /** Initial scroll offsets, filled on touch action start */
   protected startScrollOffsets: ElementScrollOffset[];
 
-  /** @returns rule {@link ESLMediaRuleList} for touch types */
   @memoize()
-  public get typeRule(): ESLMediaRuleList<TouchType> {
-    return ESLMediaRuleList.parseQuery(this.type || ESLCarouselTouchMixin.DRAG_TYPE, toTouchType);
+  public override get config(): ESLCarouselTouchConfig {
+    return Object.assign({}, ESLCarouselTouchMixin.DEFAULT_CONFIG, this.configQuery.value || {});
+  }
+
+  /* Handle dynamic config change */
+  protected override onConfigChange(): void {
+    memoize.clear(this, 'config');
   }
 
   /** @returns whether the swipe mode is active */
   public get isSwipeMode(): boolean {
-    return this.typeRule.value === ESLCarouselTouchMixin.SWIPE_TYPE;
+    return this.config.type === ESLCarouselTouchMixin.SWIPE_TYPE;
   }
   /** @returns whether the drag mode is active */
   public get isDragMode(): boolean {
-    return this.typeRule.value === ESLCarouselTouchMixin.DRAG_TYPE;
+    return this.config.type === ESLCarouselTouchMixin.DRAG_TYPE;
   }
 
   /** @returns whether the plugin is disabled (due to carousel state or plugin config) */
@@ -79,10 +87,6 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
     return document.getSelection()?.isCollapsed === false;
   }
 
-  protected override attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null): void {
-    if (name === ESLCarouselTouchMixin.is) memoize.clear(this, 'typeRule');
-  }
-
   /** @returns offset between start point and passed event point */
   protected getOffset(event: PointerEvent): number {
     if (event.type === 'pointercancel') return 0;
@@ -94,14 +98,15 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
   protected isSwipeAccepted(event: PointerEvent): boolean {
     if (!this.startEvent) return false;
     // Ignore swipe if timeout threshold exceeded
-    if (event.timeStamp - this.startEvent.timeStamp > this.swipeTimeout) return false;
+    if (event.timeStamp - this.startEvent.timeStamp > this.config.swipeTimeout) return false;
     // Ignore swipe if offset is not enough
-    return Math.abs(this.getOffset(event)) > this.swipeDistance;
+    return Math.abs(this.getOffset(event)) > this.config.swipeDistance;
   }
 
   /** Handles `mousedown` / `touchstart` event to manage thumb drag start and scroll clicks */
   @listen('pointerdown')
   protected _onPointerDown(event: PointerEvent): void {
+    memoize.clear(this, 'config');
     if (this.isDisabled) return;
 
     this.startEvent = event;
@@ -119,7 +124,7 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
       // Stop tracking if prevented before dragging started
       if (this.isPrevented) return this._onPointerUp(event);
       // Does not start dragging mode if offset have not reached tolerance
-      if (Math.abs(offset) < this.tolerance) return;
+      if (Math.abs(offset) < this.config.tolerance) return;
       this.$$attr('dragging', true);
     }
 
@@ -145,7 +150,7 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
     if (this.isDragMode) this.$host.renderer.commit(offset);
     // Swipe final check
     if (this.isSwipeMode && offset && !this.isPrevented && this.isSwipeAccepted(event)) {
-      const target = `${this.swipeType}:${offset < 0 ? 'next' : 'prev'}`;
+      const target = `${this.config.swipeType}:${offset < 0 ? 'next' : 'prev'}`;
       if (this.$host.canNavigate(target)) this.$host.goTo(target);
     }
   }

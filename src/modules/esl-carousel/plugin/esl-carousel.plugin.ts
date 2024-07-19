@@ -1,11 +1,38 @@
-import {ESLMixinElement} from '../../esl-mixin-element/ui/esl-mixin-element';
+import {ESLMixinElement} from '../../esl-mixin-element/core';
+import {bind, ready, memoize} from '../../esl-utils/decorators';
+import {evaluate} from '../../esl-utils/misc/format';
+import {ESLMediaRuleList} from '../../esl-media-query/core';
 import {ESLCarousel} from '../core/esl-carousel';
-import {ready} from '../../esl-utils/decorators/ready';
 
 /** Base mixin plugin of {@link ESLCarousel} */
-export abstract class ESLCarouselPlugin extends ESLMixinElement {
+export abstract class ESLCarouselPlugin<Config> extends ESLMixinElement {
+  /** Option to be aped if passed non object config */
+  protected static SHORT_OPTION: string = '';
+
   /** {@link ESLCarousel} host instance */
   public override $host: ESLCarousel;
+
+  /** Plugin configuration query */
+  @memoize()
+  public get configQuery(): ESLMediaRuleList<Config | null> {
+    const plugin = (this.constructor as typeof ESLCarouselPlugin);
+    const value = this.$$attr(plugin.is) || '';
+    // TODO: discuss single value case
+    if (!value.includes('|')) return ESLMediaRuleList.parseQuery(value, this.parseConfig);
+    return ESLMediaRuleList.parse(value, this.$host.media, this.parseConfig);
+  }
+
+  public get config(): Config {
+    return this.configQuery.value || {} as Config;
+  }
+
+  @bind
+  protected parseConfig(value: string): Config | null {
+    if (!value) return null;
+    if (value.trim().startsWith('{')) return evaluate(value, {});
+    const {SHORT_OPTION} = (this.constructor as typeof ESLCarouselPlugin);
+    return {[SHORT_OPTION]: value} as Config;
+  }
 
   @ready
   protected override connectedCallback(): boolean | void {
@@ -20,6 +47,15 @@ export abstract class ESLCarouselPlugin extends ESLMixinElement {
       return false;
     }
   }
+
+  protected override attributeChangedCallback(attrName: string, oldValue: string | null, newValue: string | null): void {
+    if (attrName === (this.constructor as typeof ESLCarouselPlugin).is) {
+      memoize.clear(this, 'configQuery');
+      this.onConfigChange();
+    }
+  }
+
+  protected onConfigChange(): void {}
 
   /** Register mixin-plugin in ESLMixinRegistry */
   public static override register(): void {

@@ -1,10 +1,26 @@
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
 import {throttle} from '../../../esl-utils/async/throttle';
-import {parseBoolean} from '../../../esl-utils/misc/format';
-import {attr, bind, decorate, listen} from '../../../esl-utils/decorators';
+import {bind, decorate, listen} from '../../../esl-utils/decorators';
 import {ESLWheelEvent, ESLWheelTarget} from '../../../esl-event-listener/core';
 
 import {ESLCarouselPlugin} from '../esl-carousel.plugin';
+
+export interface ESLCarouselWheelConfig {
+  /** Prefix to request next/prev navigation */
+  command: 'slide' | 'group';
+  /** CSS selector to ignore wheel event from */
+  ignore: string;
+  /**
+   * Restricts wheel direction.
+   * Values:
+   * - 'auto' - depends on the carousel orientation (default)
+   * - 'x' - horizontal only
+   * - 'y' - vertical only
+   */
+  direction: string;
+  /** Prevent default action for wheel event */
+  preventDefault: boolean;
+}
 
 /**
  * {@link ESLCarousel} wheel control plugin mixin
@@ -13,47 +29,31 @@ import {ESLCarouselPlugin} from '../esl-carousel.plugin';
  * @author Alexey Stsefanovich (ala'n)
  */
 @ExportNs('Carousel.Wheel')
-export class ESLCarouselWheelMixin extends ESLCarouselPlugin {
+export class ESLCarouselWheelMixin extends ESLCarouselPlugin<ESLCarouselWheelConfig> {
   public static override is = 'esl-carousel-wheel';
-
-  /** Prefix to request next/prev navigation */
-  @attr({name: ESLCarouselWheelMixin.is}) public type: 'slide' | 'group';
-
-  /** CSS selector to ignore wheel event from */
-  @attr({
-    name: ESLCarouselWheelMixin.is + '-ignore',
-    defaultValue: '[contenteditable]'
-  })
-  public ignore: string;
-
-  /**
-   * Restricts wheel direction.
-   * Values:
-   * - 'auto' - depends on the carousel orientation (default)
-   * - 'x' - horizontal only
-   * - 'y' - vertical only
-   */
-  @attr({name: ESLCarouselWheelMixin.is + '-direction'}) public direction: string;
-
-  /** Prevent default action for wheel event */
-  @attr({
-    name: ESLCarouselWheelMixin.is + '-prevent-default',
-    defaultValue: true,
-    parser: parseBoolean
-  }) public preventDefault: boolean;
+  public static override SHORT_OPTION = 'command';
+  public static DEFAULT_CONFIG: ESLCarouselWheelConfig = {
+    command: 'slide',
+    ignore: '[contenteditable]',
+    direction: 'auto',
+    preventDefault: true
+  };
 
   /** @returns true if the plugin should track vertical wheel */
   protected get isVertical(): boolean {
-    if (this.direction === 'x') return false;
-    if (this.direction === 'y') return true;
-    return this.$host.state.vertical;
+    switch (this.config.direction) {
+      case 'x': return false;
+      case 'y': return true;
+      default: return this.$host.state.vertical;
+    }
   }
 
   /** @returns true if the plugin should track passed event */
   @bind
   protected isEventIgnored(e: WheelEvent & {target: Element}): boolean {
     if (e.shiftKey === this.isVertical) return true;
-    return !!this.ignore && !!e.target.closest(this.ignore);
+    const {ignore} = this.config;
+    return !!ignore && !!e.target.closest(ignore);
   }
 
   /** Handles auxiliary events to pause/resume timer */
@@ -61,7 +61,7 @@ export class ESLCarouselWheelMixin extends ESLCarouselPlugin {
     event: ESLWheelEvent.TYPE,
     target: (plugin: ESLCarouselWheelMixin) => ESLWheelTarget.for(plugin.$host, {
       distance: 10,
-      preventDefault: plugin.preventDefault,
+      preventDefault: plugin.config.preventDefault,
       ignore: plugin.isEventIgnored
     })
   })
@@ -70,7 +70,7 @@ export class ESLCarouselWheelMixin extends ESLCarouselPlugin {
     if (!this.$host || this.$host.animating) return;
     const delta = this.isVertical ? e.deltaY : e.deltaX;
     const direction = delta > 0 ? 'next' : 'prev';
-    this.$host?.goTo(`${this.type || 'slide'}:${direction}`);
+    this.$host?.goTo(`${this.config.command || 'slide'}:${direction}`);
   }
 }
 
