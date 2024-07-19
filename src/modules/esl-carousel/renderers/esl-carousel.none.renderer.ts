@@ -3,6 +3,10 @@ import {ESLCarouselRenderer} from '../core/esl-carousel.renderer';
 import type {ESLCarousel} from '../core/esl-carousel';
 import type {ESLCarouselConfig, ESLCarouselDirection} from '../core/nav/esl-carousel.nav.types';
 
+/**
+ * None effect carousel renderer. Does not provide any animation, transition. Does not limit slide stage.
+ * All slides considered as active. Count properly is ignored (always equal to the total slide count).
+ */
 @ESLCarouselRenderer.register
 export class ESLNoneCarouselRenderer extends ESLCarouselRenderer {
   public static override is = 'none';

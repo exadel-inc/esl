@@ -4,6 +4,12 @@ import {ESLCarouselRenderer} from '../core/esl-carousel.renderer';
 
 import type {ESLCarouselDirection} from '../core/nav/esl-carousel.nav.types';
 
+/**
+ * Default carousel renderer based on CSS Flexbox stage, order (flex), and stage animated movement via CSS transform.
+ * Supports multiple slides per view, (infinite) loop mode, touch-move, vertical mode, slide siblings rendering.
+ *
+ * Provides default slide width, supports gap between slides. Does not rely on default slide width, potentially can be used with CSS custom slide width.
+ */
 @ESLCarouselRenderer.register
 export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
   public static override is = 'default';
