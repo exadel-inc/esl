@@ -1,3 +1,11 @@
+## [5.0.0-beta.26](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.25...v5.0.0-beta.26) (2024-07-22)
+
+### Bug Fixes
+
+* **esl-carousel:** `esl-carousel-dots` does not re-renders after target re-definition ([6252474](https://github.com/exadel-inc/esl/commit/6252474495c63ceef57aaae65031a7e92e55e7f9))
+* **esl-carousel:** a11ty targets for arrow controls ([8240921](https://github.com/exadel-inc/esl/commit/82409211823673074c6fe44ac5fa0ade6e8ccabe))
+* **esl-carousel:** remove specificity hack for carousel clipping ([0fa0ac7](https://github.com/exadel-inc/esl/commit/0fa0ac7d32a77458b8c90d8b5904c420357f2705))
+
 ## [5.0.0-beta.25](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.24...v5.0.0-beta.25) (2024-07-22)
 
 ### Features
