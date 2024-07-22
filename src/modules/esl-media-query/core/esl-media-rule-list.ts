@@ -61,8 +61,8 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
    *
    * @example
    * ```ts
-   * ESLMediaRuleList.parse('1 | @XS => 2', '1|2|3|4|5') // all => 1 | @xs => 2 (second argument is ignored)
-   * ESLMediaRuleList.parse('@XS|@SM|@MD|@LG|@XL', '1|2|3|4|5') // @xs => 1 | @sm => 2 | @md => 3 | @lg => 4 | @xl => 5
+   * ESLMediaRuleList.parse('1|2|3|4|5', '@XS|@SM|@MD|@LG|@XL') // @xs => '1' | @sm => '2' | @md => '3' | @lg => '4' | @xl => '5'
+   * ESLMediaRuleList.parse('1 | @XS => 2', '@XS|@SM|@MD|@LG|@XL') // all => '1' | @xs => '2' (second argument is ignored)
    * ```
    */
   public static parse(query: string, mask: string): ESLMediaRuleList<string>;
@@ -77,8 +77,8 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
    *
    * @example
    * ```ts
-   * ESLMediaRuleList.parse('1 | @XS => 2', '1|2|3|4|5', Number) // all => 1 | @xs => 2 (second argument is ignored)
-   * ESLMediaRuleList.parse('@XS|@SM|@MD|@LG|@XL', '1|2|3|4|5', Number) // @xs => 1 | @sm => 2 | @md => 3 | @lg => 4 | @xl => 5
+   * ESLMediaRuleList.parse('1|2|3|4|5', '@XS|@SM|@MD|@LG|@XL', parseInt) // @xs => 1 | @sm => 2 | @md => 3 | @lg => 4 | @xl => 5
+   * ESLMediaRuleList.parse('1 | @XS => 2', '@XS|@SM|@MD|@LG|@XL', parseInt) // all => 1 | @xs => 2 (second argument is ignored)
    * ```
    */
   public static parse<U>(query: string, mask: string, parser: RulePayloadParser<U>): ESLMediaRuleList<U>;
