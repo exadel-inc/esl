@@ -42,7 +42,7 @@ export class ESLCarouselNavMixin extends ESLMixinElement {
 
   /** @returns accessible target ID */
   public get targetID(): string {
-    return this.$carousel?.$slidesArea?.id || '';
+    return this.$carousel?.id || '';
   }
 
   @ready

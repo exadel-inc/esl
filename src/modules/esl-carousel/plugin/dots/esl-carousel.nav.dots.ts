@@ -127,7 +127,7 @@ export class ESLCarouselNavDots extends ESLBaseElement {
 
   /** @returns accessible target ID */
   public get targetID(): string {
-    return this.$carousel ? this.$carousel.$slidesArea.id : '';
+    return this.$carousel?.id || '';
   }
 
   @ready
