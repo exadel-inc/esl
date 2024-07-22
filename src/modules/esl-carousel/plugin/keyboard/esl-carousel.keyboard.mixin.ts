@@ -17,7 +17,7 @@ export interface ESLCarouselKeyboardConfig {
 @ExportNs('Carousel.Keyboard')
 export class ESLCarouselKeyboardMixin extends ESLCarouselPlugin<ESLCarouselKeyboardConfig> {
   public static override is = 'esl-carousel-keyboard';
-  public static override SHORT_OPTION = 'command';
+  public static override DEFAULT_CONFIG_KEY = 'command';
 
   /** @returns key code for next navigation */
   protected get nextKey(): string {

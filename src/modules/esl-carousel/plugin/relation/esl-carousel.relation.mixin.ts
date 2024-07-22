@@ -19,7 +19,7 @@ export interface ESLCarouselRelateToConfig {
 @ExportNs('Carousel.RelateTo')
 export class ESLCarouselRelateToMixin extends ESLCarouselPlugin<ESLCarouselRelateToConfig> {
   public static override is = 'esl-carousel-relate-to';
-  public static override SHORT_OPTION = 'target';
+  public static override DEFAULT_CONFIG_KEY = 'target';
 
   protected get event(): string {
     return this.config.proactive ? ESLCarouselSlideEvent.BEFORE : ESLCarouselSlideEvent.AFTER;

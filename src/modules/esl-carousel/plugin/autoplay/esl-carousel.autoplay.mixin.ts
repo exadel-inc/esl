@@ -20,7 +20,7 @@ export interface ESLCarouselAutoplayConfig {
 @ExportNs('Carousel.Autoplay')
 export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutoplayConfig> {
   public static override is = 'esl-carousel-autoplay';
-  public static override SHORT_OPTION = 'timeout';
+  public static override DEFAULT_CONFIG_KEY = 'timeout';
 
   private _timeout: number | null = null;
 

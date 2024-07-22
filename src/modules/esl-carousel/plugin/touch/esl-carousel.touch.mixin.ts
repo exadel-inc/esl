@@ -31,12 +31,12 @@ export interface ESLCarouselTouchConfig {
  */
 @ExportNs('Carousel.Touch')
 export class ESLCarouselTouchMixin extends ESLCarouselPlugin<ESLCarouselTouchConfig> {
+  public static override is = 'esl-carousel-touch';
+
   public static readonly DRAG_TYPE = 'drag';
   public static readonly SWIPE_TYPE = 'swipe';
 
-  public static override is = 'esl-carousel-touch';
-  public static override SHORT_OPTION = 'type';
-
+  public static override DEFAULT_CONFIG_KEY = 'type';
   public static readonly DEFAULT_CONFIG: ESLCarouselTouchConfig = {
     tolerance: 10,
     type: 'drag',

@@ -6,8 +6,8 @@ import {ESLCarousel} from '../core/esl-carousel';
 
 /** Base mixin plugin of {@link ESLCarousel} */
 export abstract class ESLCarouselPlugin<Config> extends ESLMixinElement {
-  /** Option to be aped if passed non object config */
-  protected static SHORT_OPTION: string = '';
+  /** Config key to be used if passed non object value */
+  protected static DEFAULT_CONFIG_KEY: string = '';
 
   /** {@link ESLCarousel} host instance */
   public override $host: ESLCarousel;
@@ -37,14 +37,14 @@ export abstract class ESLCarouselPlugin<Config> extends ESLMixinElement {
    * Parses plugin media query value term to the config object.
    * Provides the capability to pass a config a stringified non-strict JSON or as a string (mapped to single option configuration).
    *
-   * Uses {@link ESLCarouselPlugin.SHORT_OPTION} to map string value to the config object.
+   * Uses {@link ESLCarouselPlugin.DEFAULT_CONFIG_KEY} to map string value to the config object.
    */
   @bind
   protected parseConfig(value: string): Config | null {
     if (!value) return null;
     if (value.trim().startsWith('{')) return evaluate(value, {});
-    const {SHORT_OPTION} = (this.constructor as typeof ESLCarouselPlugin);
-    return {[SHORT_OPTION]: value} as Config;
+    const {DEFAULT_CONFIG_KEY} = (this.constructor as typeof ESLCarouselPlugin);
+    return {[DEFAULT_CONFIG_KEY]: value} as Config;
   }
 
   @ready
