@@ -1,3 +1,20 @@
+## [5.0.0-beta.25](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.24...v5.0.0-beta.25) (2024-07-22)
+
+### Features
+
+* **esl-carousel:** add centered renderer ([dd26e7e](https://github.com/exadel-inc/esl/commit/dd26e7edde7d0a62b4dcae1af50df1681a6c18cc))
+* **esl-carousel:** complete rework ESLCarousel container feature ([ca7d308](https://github.com/exadel-inc/esl/commit/ca7d308b63dd92bdcc335b8b4cc14bf81a639de4))
+* **esl-carousel:** extend ESLCarousel API with new markers, fix carousel change events ([2a41d67](https://github.com/exadel-inc/esl/commit/2a41d675e45294d123e84dbccad03239d8ac75e5))
+* **esl-carousel:** improve ESLCarouselNav mixin API and internal livecycle ([156656a](https://github.com/exadel-inc/esl/commit/156656aecfad6fbe2d1adbc238af55a915791379))
+* **esl-carousel:** rework carousel plugins API to use json attr + smart media query ([0166b8d](https://github.com/exadel-inc/esl/commit/0166b8d22b7fbffb5cd9750276bcff1766ba7a41))
+* **esl-media-query:** ingore tuple values if query syntax passed ([1899484](https://github.com/exadel-inc/esl/commit/1899484ff238d9dc213f3e6b4f1999fb7375d8e8))
+
+### Bug Fixes
+
+* **esl-carousel:** add more specificity to styles to limit scope of the carousel animation ([4d4db05](https://github.com/exadel-inc/esl/commit/4d4db0526f11baf3439c0f142760e75ed6bf1add))
+* **esl-carousel:** fix ESLCarouselNavDots livecycle and carousel observation ([c03c8f9](https://github.com/exadel-inc/esl/commit/c03c8f9322fc69fe7771f71b11031ba1e6e02d94))
+* **esl-carousel:** rework carousel slide change event with complete and more clear information ([0b5983f](https://github.com/exadel-inc/esl/commit/0b5983fe67922246cee2e760af3b1d0535dcf61b))
+
 ## [5.0.0-beta.24](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.23...v5.0.0-beta.24) (2024-07-15)
 
 ### Features
