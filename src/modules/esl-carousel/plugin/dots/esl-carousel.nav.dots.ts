@@ -149,7 +149,7 @@ export class ESLCarouselNavDots extends ESLBaseElement {
       memoize.clear(this, '$carousel');
       this.$$on(this._onSlideChange);
     }
-    this.update();
+    this.update(true);
     this.updateA11y();
   }
 
