@@ -24,6 +24,9 @@ tags: carousel-sample
                          mode="cover"
                          data-alt="{{ 'Carousel slide ' + loop.index }}"
                          data-src="{{ '/assets/carousel/' + loop.index + '-sm.jpg'  | url }}"></esl-image>
+              <button type="button" class="close close-icon close-remove inverse"
+                      title="Remove" aria-label="Remove"
+                      onclick="this.closest('li').remove()"></button>
             </div>
             <div class="card-content p-3">
               <h5>Item {{ loop.index }}</h5>

@@ -5,6 +5,14 @@ import {ESLDefaultCarouselRenderer} from './esl-carousel.default.renderer';
 import type {ESLCarouselDirection} from '../core/nav/esl-carousel.nav.types';
 import type {ESLCarouselActionParams} from '../core/esl-carousel';
 
+/**
+ * {@link ESLDefaultCarouselRenderer} extension to render slides as a multi-row grid.
+ * Only 2 rows layout available for now.
+ * Supports vertical-carousel mode, touch-move, slide siblings rendering.
+ *
+ * Provides and relies on the slide width provided with CSS custom property from renderer itself.
+ * (CSS Grid-based layout does not allow to provide a slide width in CSS relatively based on the container width)
+ */
 @ESLCarouselRenderer.register
 export class ESLGridCarouselRenderer extends ESLDefaultCarouselRenderer {
   public static override is = 'grid';

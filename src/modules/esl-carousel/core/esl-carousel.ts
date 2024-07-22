@@ -5,6 +5,8 @@ import {isMatches} from '../../esl-utils/dom/traversing';
 import {microtask} from '../../esl-utils/async';
 import {parseBoolean, sequentialUID} from '../../esl-utils/misc';
 
+import {CSSClassUtils} from '../../esl-utils/dom/class';
+import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
 import {ESLResizeObserverTarget} from '../../esl-event-listener/core';
 
@@ -21,8 +23,6 @@ import type {
   ESLCarouselStaticState,
   ESLCarouselConfig
 } from './nav/esl-carousel.nav.types';
-import {CSSClassUtils} from '../../esl-utils/dom/class';
-import {ESLTraversingQuery} from '../../esl-traversing-query/core/esl-traversing-query';
 
 /** {@link ESLCarousel} action params interface */
 export interface ESLCarouselActionParams {
@@ -78,22 +78,22 @@ export class ESLCarousel extends ESLBaseElement {
   /** Renderer type {@link ESLMediaRuleList} instance */
   @memoize()
   public get typeRule(): ESLMediaRuleList<string> {
-    return ESLMediaRuleList.parseTuple(this.media, this.type);
+    return ESLMediaRuleList.parse(this.type, this.media);
   }
   /** Loop marker {@link ESLMediaRuleList} instance */
   @memoize()
   public get loopRule(): ESLMediaRuleList<boolean> {
-    return ESLMediaRuleList.parseTuple(this.media, this.loop as string, parseBoolean);
+    return ESLMediaRuleList.parse(this.loop as string, this.media, parseBoolean);
   }
   /** Count of visible slides {@link ESLMediaRuleList} instance */
   @memoize()
   public get countRule(): ESLMediaRuleList<number> {
-    return ESLMediaRuleList.parseTuple(this.media, this.count as string, parseInt);
+    return ESLMediaRuleList.parse(this.count as string, this.media, parseInt);
   }
   /** Orientation of the carousel {@link ESLMediaRuleList} instance */
   @memoize()
   public get verticalRule(): ESLMediaRuleList<boolean> {
-    return ESLMediaRuleList.parseTuple(this.media, this.vertical as string, parseBoolean);
+    return ESLMediaRuleList.parse(this.vertical as string, this.media, parseBoolean);
   }
 
   /** Returns observed media rules */

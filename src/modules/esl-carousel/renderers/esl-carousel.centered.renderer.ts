@@ -1,7 +1,12 @@
+import {normalize} from '../core/nav/esl-carousel.nav.utils';
 import {ESLCarouselRenderer} from '../core/esl-carousel.renderer';
 import {ESLDefaultCarouselRenderer} from './esl-carousel.default.renderer';
-import {normalize} from '../core/nav/esl-carousel.nav.utils';
 
+/**
+ * {@link ESLDefaultCarouselRenderer} extension with positioning logic updated to center active slides inside the carousel area
+ *
+ * @see ESLDefaultCarouselRenderer
+ */
 @ESLCarouselRenderer.register
 export class ESLCenteredCarouselRenderer extends ESLDefaultCarouselRenderer {
   public static override is = 'centered';

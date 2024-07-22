@@ -1,14 +1,16 @@
 .close {
+  --icon-color: #000;
+
   float: right;
   font-size: 1.5rem;
   font-weight: 700;
   line-height: 1;
-  color: #000;
-  text-shadow: 0 1px 0 #fff;
+  color: var(--icon-color);
+  text-shadow: 0 1px 0 invert(var(--icon-color));
   opacity: 0.5;
 
   &:hover {
-    color: #000;
+    color: var(--icon-color);
     text-decoration: none;
   }
 
@@ -18,11 +20,14 @@
   }
 
   &.inverse {
-    color: #fff;
-    text-shadow: 0 1px 0 #000;
-    &:hover {
-      color: #fff;
-    }
+    --icon-color: #fff;
+  }
+  &-remove:hover {
+    --icon-color: #fb2020;
+  }
+
+  &-icon::before {
+    content: '×';
   }
 
   .img-container & {
