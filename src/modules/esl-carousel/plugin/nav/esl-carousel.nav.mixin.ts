@@ -48,7 +48,6 @@ export class ESLCarouselNavMixin extends ESLMixinElement {
   @ready
   public override connectedCallback(): void {
     super.connectedCallback();
-    this.$$attr('disabled', true);
     if (!this.$carousel) return;
     if (this.$carousel.renderer) this._onUpdate();
   }
@@ -56,6 +55,8 @@ export class ESLCarouselNavMixin extends ESLMixinElement {
   public override disconnectedCallback(): void {
     super.disconnectedCallback();
     memoize.clear(this, '$carousel');
+    this.$$attr('active', false);
+    this.$$attr('disabled', false);
   }
 
   /** Handles carousel state changes */
@@ -64,9 +65,10 @@ export class ESLCarouselNavMixin extends ESLMixinElement {
     target: ($nav: ESLCarouselNavMixin) => $nav.$carousel
   })
   protected _onUpdate(): void {
-    const isIncomplete = !this.$carousel?.renderer || this.$carousel.incomplete;
-    const isDisabled = isIncomplete || !this.$carousel.canNavigate(this.command);
-    this.$$attr('disabled', isIncomplete ? 'hidden' : (isDisabled ? 'inactive' : false));
+    const isActive = !!this.$carousel?.renderer && !this.$carousel.incomplete;
+    const isDisabled = isActive && !this.$carousel.canNavigate(this.command);
+    this.$$attr('active', isActive);
+    this.$$attr('disabled', isDisabled);
     this.$$attr('aria-controls', this.targetID);
   }
 
