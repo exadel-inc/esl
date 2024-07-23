@@ -1,3 +1,9 @@
+## [5.0.0-beta.27](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.26...v5.0.0-beta.27) (2024-07-23)
+
+### Features
+
+* **esl-carousel:** `esl-carousel-nav` default classes and attributes reworked ([fd50c71](https://github.com/exadel-inc/esl/commit/fd50c719bf08f184b89bc531a4bf46e443eff6fd))
+
 ## [5.0.0-beta.26](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.25...v5.0.0-beta.26) (2024-07-22)
 
 ### Bug Fixes
