@@ -175,7 +175,7 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
   /**
    * @returns count of slides to be rendered (reserved) before the first slide
    */
-  protected calcReserveCount(back?: boolean): number {
+  protected getReserveCount(back?: boolean): number {
     const {size, count, loop, currentIndex} = this;
     const freeSlides = size - count;
     // no need to reorder if there are no free slides or loop is disabled
@@ -183,7 +183,7 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     // if back option is not set, prefer to reserve slides with respect to semantic order
     if (typeof back !== 'boolean') back = !!currentIndex;
     // otherwise, ensure that there are at least half of free slides reserved (if the back option is set - round up, otherwise - round down)
-    return Math.min(count, back ? Math.ceil(freeSlides / 2) : Math.floor(freeSlides / 2));
+    return back ? Math.ceil(freeSlides / 2) : Math.floor(freeSlides / 2);
   }
 
   /**
@@ -192,7 +192,7 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
    */
   protected reorder(back?: boolean): void {
     const {size, loop, currentIndex, $slides} = this;
-    const reserve = this.calcReserveCount(back);
+    const reserve = this.getReserveCount(back);
 
     const index = loop ? currentIndex : 0;
     for (let i = 0; i < size; ++i) {

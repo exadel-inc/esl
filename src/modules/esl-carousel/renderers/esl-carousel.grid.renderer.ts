@@ -96,8 +96,8 @@ export class ESLGridCarouselRenderer extends ESLDefaultCarouselRenderer {
   /**
    * @returns count of slides to be rendered (reserved) before the first slide does not include fake slides
    */
-  protected override calcReserveCount(back?: boolean): number {
-    const reserve = super.calcReserveCount(back);
+  protected override getReserveCount(back?: boolean): number {
+    const reserve = super.getReserveCount(back);
     return reserve - (reserve % this.ROWS);
   }
 
