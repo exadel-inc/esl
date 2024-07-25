@@ -1,7 +1,8 @@
+import {attr, prop, listen} from '@exadel/esl/modules/esl-utils/decorators';
+import {ESLIntersectionTarget} from '@exadel/esl/modules/esl-event-listener/core';
 import {ESLToggleable} from '@exadel/esl/modules/esl-toggleable/core';
-import {attr, memoize, prop} from '@exadel/esl/modules/esl-utils/decorators';
-
-import type {ESLToggleableActionParams} from '@exadel/esl/modules/esl-toggleable/core/esl-toggleable';
+import type {ESLIntersectionEvent} from '@exadel/esl/modules/esl-event-listener/core';
+import type {ESLToggleableActionParams} from '@exadel/esl/modules/esl-toggleable/core';
 
 export class ESLDemoBanner extends ESLToggleable {
   public static override is = 'esl-d-banner';
@@ -11,46 +12,45 @@ export class ESLDemoBanner extends ESLToggleable {
   @attr({defaultValue: 14, parser: parseInt})
   public cookieTime: number;
 
-  @prop({initiator: 'initial', showDelay: 8000})
-  public override initialParams: ESLToggleableActionParams;
 
   @prop(true) public override closeOnEsc: boolean;
+  @prop('.close-button') public override closeTrigger: string;
 
-  protected _$focusBefore: HTMLElement | null = null;
+  public get $alert(): HTMLElement | null {
+    return this.querySelector('.alert')!;
+  }
 
-  /** Check if the coolie {@link cookieName} is active */
+  /** Check if the coolie is active */
   public get hasCookie(): boolean {
     const {cookieName} = this;
     return !!cookieName && document.cookie.indexOf(`${cookieName}=true`) !== -1;
   }
 
-  @memoize()
-  public get $focusable(): HTMLElement | undefined {
-    return this.querySelector('.banner') as HTMLElement | undefined;
-  }
-
   /** Store cookie {@link cookieName} for {@link cookieTime} period */
   public registerCookie(expireDays: number = this.cookieTime): void {
     const {cookieName} = this;
-    if (cookieName) {
-      const expires = new Date(Date.now() + expireDays * 864e5).toUTCString();
-      document.cookie = `${cookieName}=true; path=/; expires=${expires};`;
-    }
-  }
-
-  protected override setInitialState(): void {
-    this.toggle(!this.hasCookie, this.initialParams);
+    if (!cookieName) return;
+    const expires = new Date(Date.now() + expireDays * 864e5).toUTCString();
+    document.cookie = `${cookieName}=true; path=/; expires=${expires};`;
   }
 
   protected override onShow(params: ESLToggleableActionParams): void {
     super.onShow(params);
-    this._$focusBefore = document.activeElement as HTMLElement;
-    this.$focusable && this.$focusable.focus();
-    if (params.initiator !== 'initial') this.registerCookie(-1);
+    this.$alert?.classList.add('in');
+    this.$$off(this._onIntersect);
   }
-  protected override onHide(params: ESLToggleableActionParams): void {
-    super.onHide(params);
-    this._$focusBefore && this._$focusBefore.focus();
-    if (params.initiator !== 'initial') this.registerCookie();
+
+  protected override onHide(param: ESLToggleableActionParams): void {
+    super.onHide(param);
+    if (param.initiator === 'close') this.registerCookie();
+  }
+
+  @listen({
+    event: 'intersects',
+    target: ($this: ESLDemoBanner) => ESLIntersectionTarget.for($this, {threshold: 0.99}),
+    condition: ($this: ESLDemoBanner) => !$this.hasCookie
+  })
+  protected _onIntersect(e: ESLIntersectionEvent): void {
+    this.toggle(e.isIntersecting, {showDelay: 750});
   }
 }
