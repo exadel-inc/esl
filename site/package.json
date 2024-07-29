@@ -17,7 +17,7 @@
     "watch:ts": "webpack --watch",
     "watch:less": "chokidar --initial \"../node_modules/@exadel/esl/modules/**/*.less\" \"src/**/*.less\" -c \"npm run build:less\"",
     "watch:eleventy": "eleventy --serve --incremental -- --env=development",
-    "minify:css": "cleancss -o \"dist/bundles/all.css\" \"dist/bundles/all.css\"",
+    "minify:css": "cleancss --batch --batch-suffix \"\" \"dist/bundles/*.css\"",
     "run:eleventy": "eleventy --serve -- --env=production",
     "run:eleventy:e2e": "eleventy --serve -- --env=e2e",
     "build": "npm run clean && concurrently \"npm run build:ts\" \"npm run build:less && npm run minify:css\" && npm run build:eleventy",
