@@ -1,0 +1,77 @@
+@import (reference) '../common/variables.less';
+
+.presentation-layout {
+  --_header-height: 60px;
+
+  color: @landing-fg-color;
+  height: 100dvh;
+
+  @media screen {
+    main {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      height: calc(100dvh - var(--_header-height));
+
+      &:not(:has(.esl-carousel)) {
+        overflow: auto;
+      }
+    }
+  }
+
+  @media print {
+    height: fit-content;
+
+    pre {
+      overflow: hidden;
+    }
+
+    .print-hidden,
+    .esl-scrollbar {
+      display: none !important;
+    }
+  }
+
+  background: @landing-bg-color url('/assets/common/stars.webp') repeat;
+  background-size: 1000px 500px;
+  animation: p-slow-move-bg 90s infinite linear;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    opacity: 0.25;
+    background: url('/assets/common/fog.webp') repeat;
+    background-size: 100% 100%;
+
+    @media print {
+      display: none;
+    }
+  }
+
+  @keyframes p-slow-move-bg {
+    0% {
+      background-position: 1000px 500px;
+    }
+    100% {
+      background-position: 0 0;
+    }
+  }
+
+  @media @md-xl {
+    .header {
+      background-color: transparent;
+    }
+  }
+}
+
+@media print {
+  @page {
+    margin: 0;
+    size: A4 landscape;
+  }
+}

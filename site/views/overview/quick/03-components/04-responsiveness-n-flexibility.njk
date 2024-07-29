@@ -1,0 +1,96 @@
+---
+title: Built-In Responsiveness and Flexibility
+hash: responsiveness
+cls: text-center
+tags: overview-quick
+parent: 00-components
+---
+
+<h3>Built-In Responsiveness and Flexibility</h3>
+
+<p class="esl-animate-slide up" esl-animate="{repeat: true, group: true}">
+  ESL components can adapt their behavior based on environment (device type, screen size, etc).
+</p>
+
+<p class="mt-2 esl-animate-slide up" esl-animate="{repeat: true, group: true}">
+  The same ESL components can be used to display both Tab and Accordion design patterns, depending on the screen size.
+</p>
+
+<p class="mt-4 esl-animate-slide up" esl-animate="{repeat: true, group: true}">
+  <esl-trigger class="btn btn-link" target="::parent::next">
+    See Example
+  </esl-trigger>
+</p>
+<esl-panel class="esl-d-accordion-panel">
+  <uip-root style="min-height: 330px">
+    <script type="text/html"
+            label="Tabs/Accordion transformation"
+            uip-snippet
+            uip-snippet-js="js-snippet-tabs-n-accordion"
+            uip-isolated>
+      <div class="esl-d-tabs">
+        <esl-tabs class="esl-d-tab-control">
+          <ul class="esl-d-tab-list esl-tab-container" role="tablist">
+            <li class="esl-d-tab-item">
+              <esl-tab class="h5" target="::parent(.esl-d-tabs)::find(.tab-1)">Tab #1</esl-tab>
+            </li>
+            <li class="esl-d-tab-item">
+              <esl-tab class="h5" target="::parent(.esl-d-tabs)::find(.tab-2)">Tab #2</esl-tab>
+            </li>
+            <li class="esl-d-tab-item">
+              <esl-tab class="h5" target="::parent(.esl-d-tabs)::find(.tab-3)">Tab #3</esl-tab>
+            </li>
+          </ul>
+        </esl-tabs>
+
+        <esl-panel-group class="esl-d-tab-group"
+                         mode="accordion | @+SM => tabs"
+                         min-open-items="0 | @+SM => 1"
+                         max-open-items="all | @+SM => 1"
+                         mode-cls-target="::parent">
+          <esl-trigger class="esl-d-accordion-header esl-d-accordion-header-arrow h5"
+                       target="::next">Toggle Tab #1
+          </esl-trigger>
+          <esl-panel class="esl-d-tab-panel tab-1" tabindex="0">
+            <div class="esl-d-tab-body">
+              <!-- text 130 -->
+            </div>
+          </esl-panel>
+
+          <esl-trigger class="esl-d-accordion-header esl-d-accordion-header-arrow h5"
+                       target="::next">Toggle Tab #2
+          </esl-trigger>
+          <esl-panel open class="esl-d-tab-panel tab-2" tabindex="0">
+            <div class="esl-d-tab-body">
+              <!-- text 100 -->
+            </div>
+          </esl-panel>
+
+          <esl-trigger class="esl-d-accordion-header esl-d-accordion-header-arrow h5"
+                       target="::next">Toggle Tab #3
+          </esl-trigger>
+          <esl-panel class="esl-d-tab-panel tab-3" tabindex="0">
+            <div class="esl-d-tab-body">
+              <!-- text 150 -->
+            </div>
+          </esl-panel>
+        </esl-panel-group>
+      </div>
+
+      <div class="alert alert-info mt-2">Resize demo area</div>
+    </script>
+
+    <script id="js-snippet-tabs-n-accordion" type="text/plain">
+      import { ESLPanelGroup, ESLPanel, ESLTab, ESLTabs, ESLTrigger } from '@exadel/esl';
+      ESLPanelGroup.register();
+      ESLPanel.register();
+      ESLTab.register();
+      ESLTabs.register();
+      ESLTrigger.register();
+    </script>
+
+    <uip-preview align="center" resizable="horizontal"></uip-preview>
+    <uip-editor label="Source code (HTML)" collapsible collapsed copy></uip-editor>
+    <uip-editor source="js" label="Source code (JS)" collapsible collapsed copy></uip-editor>
+  </uip-root>
+</esl-panel>
