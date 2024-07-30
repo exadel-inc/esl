@@ -26,6 +26,11 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
   /** First index of active slides. */
   protected currentIndex: number = 0;
 
+  /** Multiplier for the index move on the slide move */
+  protected get INDEX_MOVE_MULTIPLIER(): number {
+    return 1;
+  }
+
   /** Actual slide size (uses average) */
   protected get slideSize(): number {
     return this.$slides.reduce((size, $slide) => {
@@ -126,17 +131,13 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     this.$carousel.$$attr('animating', false);
   }
 
-  protected indexByOffset(count: number): number {
-    return this.$carousel.activeIndex + count;
-  }
-
   /** Handles the slides transition. */
-  public onMove(offset: number): void {
+  public move(offset: number, from = this.$carousel.activeIndex): void {
     this.$carousel.toggleAttribute('active', true);
 
     const slideSize = this.slideSize + this.gap;
     const count = Math.floor(Math.abs(offset) / slideSize);
-    const index = this.indexByOffset(count * (offset < 0 ? 1 : -1));
+    const index = from + count * this.INDEX_MOVE_MULTIPLIER * (offset < 0 ? 1 : -1);
 
     // check left border of non-loop state
     if (!this.loop && offset > 0 && index <= 0) return;
@@ -148,17 +149,22 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
 
     const stageOffset = this.getOffset(this.currentIndex) - (offset % slideSize);
     this.setTransformOffset(-stageOffset);
+
+    if (this.currentIndex !== this.$carousel.activeIndex) {
+      console.log('Apply active index %d (before %d)', this.currentIndex, this.$carousel.activeIndex);
+      this.setActive(this.currentIndex, {direction: offset < 0 ? 'next' : 'prev'});
+    }
   }
 
   /** Ends current transition and make permanent all changes performed in the transition. */
   // eslint-disable-next-line sonarjs/cognitive-complexity
-  public async commit(offset: number): Promise<void> {
+  public async commit(offset: number, from = this.$carousel.activeIndex): Promise<void> {
     const slideSize = this.slideSize + this.gap;
 
     const amount = Math.abs(offset) / slideSize;
     const tolerance = ESLDefaultCarouselRenderer.NEXT_SLIDE_TOLERANCE;
     const count = (amount - Math.floor(amount)) > tolerance ? Math.ceil(amount) : Math.floor(amount);
-    const index = this.indexByOffset(count * (offset < 0 ? 1 : -1));
+    const index = from + count * this.INDEX_MOVE_MULTIPLIER * (offset < 0 ? 1 : -1);
 
     this.currentIndex = normalizeIndex(index, this);
 
@@ -173,8 +179,11 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
 
     this.reorder();
     this.setTransformOffset(-this.getOffset(this.currentIndex));
-    this.setActive(this.currentIndex, {direction: offset < 0 ? 'next' : 'prev'});
     this.$carousel.$$attr('active', false);
+
+    if (this.currentIndex !== this.$carousel.activeIndex) {
+      this.setActive(this.currentIndex, {direction: offset < 0 ? 'next' : 'prev'});
+    }
   }
 
   /**

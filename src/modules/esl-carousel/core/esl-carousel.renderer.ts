@@ -123,10 +123,18 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
   /** Post-processing animation action. */
   public async onAfterAnimate(index: number, direction: ESLCarouselDirection): Promise<void> {}
 
-  /** Handles the slides transition. */
-  public abstract onMove(offset: number): void;
-  /** Ends current transition and makes permanent all changes performed in the transition. */
-  public abstract commit(offset?: number): void;
+  /**
+   * Move slide by the passed offset in px.
+   * @param offset - offset in px
+   * @param from - start index (default: current active index)
+   */
+  public abstract move(offset: number, from?: number): void;
+  /**
+   * Normalizes move offset to the "nearest stable" slide position.
+   * @param offset - offset in px
+   * @param from - start index (default: current active index)
+   */
+  public abstract commit(offset?: number, from?: number): void;
 
   /** Sets active slides from passed index **/
   public setActive(current: number, event?: Partial<ESLCarouselSlideEventInit>): void {

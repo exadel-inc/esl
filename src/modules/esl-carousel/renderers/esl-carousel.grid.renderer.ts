@@ -22,7 +22,12 @@ export class ESLGridCarouselRenderer extends ESLDefaultCarouselRenderer {
   @prop(2, {readonly: true})
   public readonly ROWS: number;
 
-  /** @returns count of fake slides to fill the last "row" or incomplete carousel state */
+  /** Multiplier for the index move on the slide move */
+  protected override get INDEX_MOVE_MULTIPLIER(): number {
+    return this.ROWS;
+  }
+
+  /** Count of fake slides to fill the last "row" or incomplete carousel state */
   public get fakeSlidesCount(): number {
     if (this.$carousel.$slides.length < this.count) {
       return this.count - this.$carousel.$slides.length;
@@ -41,7 +46,7 @@ export class ESLGridCarouselRenderer extends ESLDefaultCarouselRenderer {
     return Array.from({length}, this.buildFakeSlide.bind(this));
   }
 
-  /** @returns all slides including {@link ESLGridCarouselRenderer.$fakeSlides} slides created in grid mode */
+  /** All slides including {@link ESLGridCarouselRenderer.$fakeSlides} slides created in grid mode */
   public override get $slides(): HTMLElement[] {
     return (this.$carousel.$slides || []).concat(this.$fakeSlides);
   }
@@ -87,10 +92,6 @@ export class ESLGridCarouselRenderer extends ESLDefaultCarouselRenderer {
     if (!$slidesArea) return;
     const step = this.ROWS * (direction === 'next' ? 1 : -1);
     while (this.currentIndex !== nextIndex) await this.onStepAnimate(step);
-  }
-
-  protected override indexByOffset(offset: number): number {
-    return super.indexByOffset(offset * this.ROWS);
   }
 
   /**
