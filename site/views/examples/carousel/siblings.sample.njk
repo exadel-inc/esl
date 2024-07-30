@@ -16,7 +16,7 @@ tags: carousel-sample
     <ul esl-carousel-slides>
       {% for i in range(0, 6) -%}
         <li esl-carousel-slide style="max-width: 50%">
-          <div class="card">
+          <div class="card img-container">
             <esl-image mode="cover" lazy
                        data-alt="Alt Text Test"
                        data-src="{{ '/assets/carousel/' + loop.index + '-sm.jpg' | url }}"></esl-image>
