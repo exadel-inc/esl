@@ -23,10 +23,15 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
 
   /** Slides gap size */
   protected gap: number = 0;
-  /** Slide size cached value */
-  protected slideSize: number = 0;
   /** First index of active slides. */
   protected currentIndex: number = 0;
+
+  /** Actual slide size (uses average) */
+  protected get slideSize(): number {
+    return this.$slides.reduce((size, $slide) => {
+      return size + (this.vertical ? $slide.offsetHeight : $slide.offsetWidth);
+    }, 0) / this.$slides.length;
+  }
 
   /**
    * Processes binding of defined renderer to the carousel {@link ESLCarousel}.
@@ -210,7 +215,7 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
 
     this.gap = parseFloat(this.vertical ? areaStyles.rowGap : areaStyles.columnGap);
     const areaSize = parseFloat(this.vertical ? areaStyles.height : areaStyles.width);
-    this.slideSize = Math.floor((areaSize - this.gap * (this.count - 1)) / this.count);
-    this.$area.style.setProperty(ESLDefaultCarouselRenderer.SIZE_PROP, this.slideSize + 'px');
+    const slideSize = Math.floor((areaSize - this.gap * (this.count - 1)) / this.count);
+    this.$area.style.setProperty(ESLDefaultCarouselRenderer.SIZE_PROP, slideSize + 'px');
   }
 }

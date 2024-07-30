@@ -109,7 +109,7 @@ export class ESLGridCarouselRenderer extends ESLDefaultCarouselRenderer {
     this.gap = parseFloat(this.vertical ? areaStyles.rowGap : areaStyles.columnGap);
     const areaSize = parseFloat(this.vertical ? areaStyles.height : areaStyles.width);
     const count = Math.floor(this.count / this.ROWS);
-    this.slideSize = Math.floor((areaSize - this.gap * (count - 1)) / count);
-    this.$area.style.setProperty(ESLDefaultCarouselRenderer.SIZE_PROP, this.slideSize + 'px');
+    const slideSize = Math.floor((areaSize - this.gap * (count - 1)) / count);
+    this.$area.style.setProperty(ESLDefaultCarouselRenderer.SIZE_PROP, slideSize + 'px');
   }
 }
