@@ -124,7 +124,7 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
   public async onAfterAnimate(index: number, direction: ESLCarouselDirection): Promise<void> {}
 
   /**
-   * Move slide by the passed offset in px.
+   * Moves slide by the passed offset in px.
    * @param offset - offset in px
    * @param from - start index (default: current active index)
    */
