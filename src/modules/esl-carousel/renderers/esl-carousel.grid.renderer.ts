@@ -22,7 +22,12 @@ export class ESLGridCarouselRenderer extends ESLDefaultCarouselRenderer {
   @prop(2, {readonly: true})
   public readonly ROWS: number;
 
-  /** @returns count of fake slides to fill the last "row" or incomplete carousel state */
+  /** Multiplier for the index move on the slide move */
+  protected override get INDEX_MOVE_MULTIPLIER(): number {
+    return this.ROWS;
+  }
+
+  /** Count of fake slides to fill the last "row" or incomplete carousel state */
   public get fakeSlidesCount(): number {
     if (this.$carousel.$slides.length < this.count) {
       return this.count - this.$carousel.$slides.length;
@@ -41,7 +46,7 @@ export class ESLGridCarouselRenderer extends ESLDefaultCarouselRenderer {
     return Array.from({length}, this.buildFakeSlide.bind(this));
   }
 
-  /** @returns all slides including {@link ESLGridCarouselRenderer.$fakeSlides} slides created in grid mode */
+  /** All slides including {@link ESLGridCarouselRenderer.$fakeSlides} slides created in grid mode */
   public override get $slides(): HTMLElement[] {
     return (this.$carousel.$slides || []).concat(this.$fakeSlides);
   }
@@ -89,10 +94,6 @@ export class ESLGridCarouselRenderer extends ESLDefaultCarouselRenderer {
     while (this.currentIndex !== nextIndex) await this.onStepAnimate(step);
   }
 
-  protected override indexByOffset(offset: number): number {
-    return super.indexByOffset(offset * this.ROWS);
-  }
-
   /**
    * @returns count of slides to be rendered (reserved) before the first slide does not include fake slides
    */
@@ -109,7 +110,7 @@ export class ESLGridCarouselRenderer extends ESLDefaultCarouselRenderer {
     this.gap = parseFloat(this.vertical ? areaStyles.rowGap : areaStyles.columnGap);
     const areaSize = parseFloat(this.vertical ? areaStyles.height : areaStyles.width);
     const count = Math.floor(this.count / this.ROWS);
-    this.slideSize = Math.floor((areaSize - this.gap * (count - 1)) / count);
-    this.$area.style.setProperty(ESLDefaultCarouselRenderer.SIZE_PROP, this.slideSize + 'px');
+    const slideSize = Math.floor((areaSize - this.gap * (count - 1)) / count);
+    this.$area.style.setProperty(ESLDefaultCarouselRenderer.SIZE_PROP, slideSize + 'px');
   }
 }
