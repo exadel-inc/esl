@@ -301,9 +301,9 @@ export class ESLCarousel extends ESLBaseElement {
   public goTo(target: HTMLElement | ESLCarouselSlideTarget, params: ESLCarouselActionParams = {}): Promise<void> {
     if (target instanceof HTMLElement) return this.goTo(this.indexOf(target), params);
     if (!this.renderer) return Promise.reject();
-    const {index, dir} = toIndex(target, this.state);
-    const direction = params.direction || dir || 'next';
-    return this.renderer.navigate(index, direction, params);
+    const nav = toIndex(target, this.state);
+    const direction = (this.loop ? params.direction : null) || nav.direction || 'next';
+    return this.renderer.navigate(nav.index, direction, params);
   }
 
   /** @returns slide by index (supports not normalized indexes) */
