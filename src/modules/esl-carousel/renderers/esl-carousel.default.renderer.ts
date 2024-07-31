@@ -1,4 +1,3 @@
-import {promisifyTransition} from '../../esl-utils/async';
 import {normalize, normalizeIndex} from '../core/nav/esl-carousel.nav.utils';
 import {ESLCarouselRenderer} from '../core/esl-carousel.renderer';
 
@@ -72,18 +71,20 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     if (!slide) return 0;
     return this.vertical ? slide.offsetTop : slide.offsetLeft;
   }
+
   /** Sets scene offset */
   protected setTransformOffset(offset: number): void {
     this.$area.style.transform = `translate3d(${this.vertical ? `0px, ${offset}px` : `${offset}px, 0px`}, 0px)`;
   }
 
-  /** @returns current slide area's transform offset */
-  protected getTransformOffset(): number {
-    // computed value is matrix(a, b, c, d, tx, ty)
-    const transform = getComputedStyle(this.$area).transform;
-    if (!transform || transform === 'none') return 0;
-    const position = this.vertical ? 5 : 4; // tx or ty position
-    return parseInt(transform.split(',')[position], 10);
+  /** Animate scene offset */
+  protected async animateTransformOffset(offset: number = -this.getOffset(this.currentIndex)): Promise<void> {
+    // if (Math.abs(this.getTransformOffset() - offset) < 1) return;
+    this.$carousel.$$attr('animating', true);
+    await this.$area.animate({
+      transform: [`translate3d(${this.vertical ? `0px, ${offset}px` : `${offset}px, 0px`}, 0px)`]
+    }, {duration: 250, easing: 'linear'}).finished;
+    this.$carousel.$$attr('animating', false);
   }
 
   /** Pre-processing animation action. */
@@ -118,17 +119,8 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     const offsetFrom = -this.getOffset(this.currentIndex);
     this.setTransformOffset(offsetFrom);
 
-    // here is the final reflow before transition
-    const offsetTo = -this.getOffset(index);
-    // Allow animation and move to the target slide
-    this.$carousel.$$attr('animating', true);
-    this.setTransformOffset(offsetTo);
-    if (offsetTo !== offsetFrom) {
-      await promisifyTransition(this.$area, 'transform');
-    }
-
     this.currentIndex = index;
-    this.$carousel.$$attr('animating', false);
+    await this.animateTransformOffset();
   }
 
   /** Handles the slides transition. */
@@ -151,7 +143,6 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     this.setTransformOffset(-stageOffset);
 
     if (this.currentIndex !== this.$carousel.activeIndex) {
-      console.log('Apply active index %d (before %d)', this.currentIndex, this.$carousel.activeIndex);
       this.setActive(this.currentIndex, {direction: offset < 0 ? 'next' : 'prev'});
     }
   }
@@ -167,15 +158,7 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     const index = from + count * this.INDEX_MOVE_MULTIPLIER * (offset < 0 ? 1 : -1);
 
     this.currentIndex = normalizeIndex(index, this);
-
-    // Hm ... that's what actually happens on slide step
-    this.$carousel.$$attr('animating', true);
-    const stageOffset = -this.getOffset(this.currentIndex);
-    this.setTransformOffset(stageOffset);
-    if (stageOffset !== this.getTransformOffset()) {
-      await promisifyTransition(this.$area, 'transform');
-    }
-    this.$carousel.$$attr('animating', false);
+    await this.animateTransformOffset();
 
     this.reorder();
     this.setTransformOffset(-this.getOffset(this.currentIndex));
