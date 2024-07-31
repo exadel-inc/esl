@@ -44,6 +44,14 @@ esl-carousel {
     user-select: none;
     pointer-events: none;
   }
+
+  &[empty] {
+    --esl-carousel-side-space: 0;
+
+    [esl-carousel-slides] {
+      display: none;
+    }
+  }
 }
 
 /* Default carousel area styles */
