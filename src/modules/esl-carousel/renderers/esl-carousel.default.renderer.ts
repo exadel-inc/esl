@@ -79,7 +79,6 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
 
   /** Animate scene offset */
   protected async animateTransformOffset(offset: number = -this.getOffset(this.currentIndex)): Promise<void> {
-    // if (Math.abs(this.getTransformOffset() - offset) < 1) return;
     this.$carousel.$$attr('animating', true);
     await this.$area.animate({
       transform: [`translate3d(${this.vertical ? `0px, ${offset}px` : `${offset}px, 0px`}, 0px)`]
