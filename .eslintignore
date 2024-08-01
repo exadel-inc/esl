@@ -12,3 +12,6 @@ node_modules
 # Submodule output
 /site/dist
 /eslint/dist
+
+# Site build configuration
+/site/webpack.config.js
