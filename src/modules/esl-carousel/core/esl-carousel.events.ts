@@ -8,7 +8,7 @@ export interface ESLCarouselSlideEventInit {
   /** A list of indexes of slides that are active after the change */
   indexesAfter: number[];
   /** Direction of slide animation */
-  direction: ESLCarouselDirection;
+  direction: ESLCarouselDirection | null;
   /** Auxiliary request attribute that represents object that initiates slide change */
   activator?: any;
 }

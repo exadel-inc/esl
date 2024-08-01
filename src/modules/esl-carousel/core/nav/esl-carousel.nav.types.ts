@@ -21,17 +21,31 @@ export type ESLCarouselSlideTarget = string | ESLCarouselNavIndex | `slide:${ESL
 
 /** Object describing static carousel configuration */
 export type ESLCarouselStaticState = {
+  /** Total slide count */
   size: number;
+  /** Visible slide count per view */
   count: number;
+  /** Cyclic carousel rendering mode */
   loop: boolean;
+  /** Vertical carousel rendering mode */
   vertical: boolean;
 };
 
 export type ESLCarouselConfig = ESLCarouselStaticState & {
+  /** Renderer type name */
   type: string;
 };
 
 /** Object describing carousel current configuration (contains active slide data) */
 export type ESLCarouselState = ESLCarouselStaticState & {
+  /** First active slide index */
   activeIndex: number;
+};
+
+/** Object describing carousel navigation target details */
+export type ESLCarouselNavInfo = {
+  /** Target index */
+  index: number;
+  /** Direction to reach the index */
+  direction: ESLCarouselDirection | null;
 };
