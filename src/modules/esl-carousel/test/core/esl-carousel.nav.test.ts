@@ -1,8 +1,8 @@
 import {
   normalize,
-  calcDirection,
   groupToIndex,
   indexToGroup,
+  indexToDirection,
   toIndex
 } from '../../core/nav/esl-carousel.nav.utils';
 
@@ -27,21 +27,6 @@ describe('ESLCarousel: Nav Utils', () => {
     ])(
       '(index = %d, size = %d) => %d',
       (i: number, size: number, result: number) => expect(normalize(i, size)).toBe(result)
-    );
-  });
-
-  describe('calcDirection', () => {
-    test.each([
-      // [from index, to index, size, result]
-      [0, 1, 5, 'next'],
-      [1, 3, 5, 'next'],
-      [3, 2, 5, 'prev'],
-      [1, 4, 5, 'prev'],
-      [1, 7, 5, 'next'],
-      [7, 1, 5, 'prev']
-    ])(
-      '(from = %d, to = %d, size = %d) => %s',
-      (from: number, to: number, count: number, result: ESLCarouselDirection) => expect(calcDirection(from, to, count)).toBe(result)
     );
   });
 
@@ -155,6 +140,25 @@ describe('ESLCarousel: Nav Utils', () => {
     ])(
       '(index = %d, %o) => %d',
       (index: number, {count, size}: {count: number, size: number}, result: number) => expect(indexToGroup(index, count, size)).toBe(result)
+    );
+  });
+
+  describe('indexToDirection', () => {
+    test.each([
+      // [to, {activeIndex, size, loop}, result]
+      [1, {activeIndex: 0, size: 5, loop: false}, 'next'],
+      [4, {activeIndex: 0, size: 5, loop: false}, 'next'],
+      [4, {activeIndex: 3, size: 5, loop: false}, 'next'],
+      [0, {activeIndex: 1, size: 5, loop: false}, 'prev'],
+      [0, {activeIndex: 4, size: 5, loop: false}, 'prev'],
+
+      [1, {activeIndex: 0, size: 5, loop: true}, 'next'],
+      [3, {activeIndex: 1, size: 5, loop: true}, 'next'],
+      [2, {activeIndex: 3, size: 5, loop: true}, 'prev'],
+      [4, {activeIndex: 1, size: 5, loop: true}, 'prev']
+    ])(
+      '(to = %d, state = %p) => %s',
+      (to: number, state: ESLCarouselState, result: ESLCarouselDirection) => expect(indexToDirection(to, state)).toBe(result)
     );
   });
 
