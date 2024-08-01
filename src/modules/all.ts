@@ -52,3 +52,6 @@ export * from './esl-share/core';
 
 // Carousel
 export * from './esl-carousel/core';
+
+// Lazy Template
+export * from './esl-lazy-template/core';
