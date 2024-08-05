@@ -2,8 +2,6 @@
 
 **UIPTextSetting** - custom setting to input attribute's value. Extends [UIPSetting](src/plugins/settings/README.md)
 
-## Description
-
 This setting represents a *text input* for changing attribute's value.
 
 ## Example
