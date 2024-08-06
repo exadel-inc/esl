@@ -2,7 +2,7 @@
 
 **UIPSnippetsList** - custom element to display a list of available snippets.
 
-**UiPSnippetsList** observes UIPModel snippets changes and updates the list of available snippets.
+**UIPSnippetsList** observes UIPModel snippets changes and updates the list of available snippets.
 Component supports active snippet item marker and snippet selection by click.
 More details can be found in [UIP Snippets](src/plugins/snippets/README.md) section.
 
