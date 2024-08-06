@@ -108,7 +108,7 @@
     "semantic-release": "^24.0.0",
     "stylelint": "^16.8.1",
     "stylelint-prettier": "^5.0.2",
-    "typescript": "5.5.3"
+    "typescript": "5.5.4"
   },
   "browserslist": [
     "last 3 versions",
