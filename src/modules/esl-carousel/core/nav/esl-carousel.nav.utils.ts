@@ -14,7 +14,7 @@ export function normalize(index: number, size: number): number {
 
 /** @returns normalize first slide index according to the carousel mode */
 export function normalizeIndex(index: number, {size, count, loop}: ESLCarouselStaticState): number {
-  return loop ? normalize(index, size) : Math.max(0, Math.min(size - count, index));
+  return loop && count < size ? normalize(index, size) : Math.max(0, Math.min(size - count, index));
 }
 
 /** @returns normalized sequence of slides starting from the current index */
