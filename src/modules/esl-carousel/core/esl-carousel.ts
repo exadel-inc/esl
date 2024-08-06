@@ -18,21 +18,11 @@ import {ESLCarouselChangeEvent} from './esl-carousel.events';
 
 import type {
   ESLCarouselState,
-  ESLCarouselDirection,
   ESLCarouselSlideTarget,
   ESLCarouselStaticState,
-  ESLCarouselConfig
-} from './nav/esl-carousel.nav.types';
-
-/** {@link ESLCarousel} action params interface */
-export interface ESLCarouselActionParams {
-  /** Element requester of the change */
-  activator?: any;
-  /** Direction to move to. */
-  direction?: ESLCarouselDirection;
-  // TODO: implement
-  // noAnimation?: boolean;
-}
+  ESLCarouselConfig,
+  ESLCarouselActionParams
+} from './esl-carousel.types';
 
 /**
  * ESLCarousel component
@@ -301,9 +291,7 @@ export class ESLCarousel extends ESLBaseElement {
   public goTo(target: HTMLElement | ESLCarouselSlideTarget, params: ESLCarouselActionParams = {}): Promise<void> {
     if (target instanceof HTMLElement) return this.goTo(this.indexOf(target), params);
     if (!this.renderer) return Promise.reject();
-    const nav = toIndex(target, this.state);
-    const direction = (this.loop ? params.direction : null) || nav.direction || 'next';
-    return this.renderer.navigate(nav.index, direction, params);
+    return this.renderer.navigate(toIndex(target, this.state), params);
   }
 
   /** @returns slide by index (supports not normalized indexes) */

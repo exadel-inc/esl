@@ -2,10 +2,10 @@ import {memoize} from '../../esl-utils/decorators';
 import {isEqual} from '../../esl-utils/misc/object';
 import {SyntheticEventTarget} from '../../esl-utils/dom';
 import {ESLCarouselSlideEvent} from './esl-carousel.events';
-import {normalize, sequence, indexToDirection} from './nav/esl-carousel.nav.utils';
+import {normalize, sequence, indexToDirection, normalizeIndex} from './nav/esl-carousel.nav.utils';
 
-import type {ESLCarousel, ESLCarouselActionParams} from './esl-carousel';
-import type {ESLCarouselConfig, ESLCarouselDirection} from './nav/esl-carousel.nav.types';
+import type {ESLCarousel} from './esl-carousel';
+import type {ESLCarouselActionParams, ESLCarouselConfig, ESLCarouselDirection, ESLCarouselNavInfo} from './esl-carousel.types';
 import type {ESLCarouselSlideEventInit} from './esl-carousel.events';
 
 export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
@@ -91,16 +91,30 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
   public onUnbind(): void {}
   /** Processes drawing of the carousel {@link ESLCarousel}. */
   public redraw(): void {}
-  /** Processes changing slides */
-  public async navigate(index: number, direction: ESLCarouselDirection, {activator}: ESLCarouselActionParams): Promise<void> {
-    const {activeIndex, activeIndexes} = this.$carousel;
 
-    if (activeIndex === index && activeIndexes.length === this.count) return;
+  /** Normalizes an index before navigation */
+  protected normalizeIndex(index: number, params?: ESLCarouselActionParams): number {
+    return normalizeIndex(index, this);
+  }
+  /** Normalizes a direction before navigation */
+  protected normalizeDirection(direction: ESLCarouselDirection | undefined, params?: ESLCarouselActionParams): ESLCarouselDirection {
+    return (this.loop ? params && params.direction : null) || direction || 'next';
+  }
+
+  /** Processes changing slides */
+  public async navigate(to: ESLCarouselNavInfo, params: ESLCarouselActionParams): Promise<void> {
+    const index = this.normalizeIndex(to.index, params);
+    const direction = this.normalizeDirection(to.direction, params);
+
+    const indexesAfter = sequence(index, this.count, this.size);
+    const indexesBefore = this.$carousel.activeIndexes;
+
+    if (indexesBefore.toString() === indexesAfter.toString()) return;
     if (!this.$carousel.dispatchEvent(ESLCarouselSlideEvent.create('BEFORE', {
+      ...params,
       direction,
-      activator,
-      indexesBefore: activeIndexes,
-      indexesAfter: sequence(index, this.count, this.size)
+      indexesBefore,
+      indexesAfter
     }))) return;
 
     this.setPreActive(index);
@@ -113,7 +127,7 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
       console.error(e);
     }
 
-    this.setActive(index, {direction, activator});
+    this.setActive(index, {direction, ...params});
   }
 
   /** Pre-processing animation action. */

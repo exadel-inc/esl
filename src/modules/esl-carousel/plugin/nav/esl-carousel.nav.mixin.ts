@@ -6,7 +6,7 @@ import {ESLTraversingQuery} from '../../../esl-traversing-query/core';
 import {ESLCarouselChangeEvent, ESLCarouselSlideEvent} from '../../core/esl-carousel.events';
 
 import type {ESLCarousel} from '../../core/esl-carousel';
-import type {ESLCarouselSlideTarget} from '../../core/nav/esl-carousel.nav.types';
+import type {ESLCarouselSlideTarget} from '../../core/esl-carousel.types';
 
 /**
  * ESLCarousel navigation helper to define triggers for carousel navigation.

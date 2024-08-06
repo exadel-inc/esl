@@ -1,7 +1,7 @@
 import {normalize, normalizeIndex} from '../core/nav/esl-carousel.nav.utils';
 import {ESLCarouselRenderer} from '../core/esl-carousel.renderer';
 
-import type {ESLCarouselDirection} from '../core/nav/esl-carousel.nav.types';
+import type {ESLCarouselDirection} from '../core/esl-carousel.types';
 
 /**
  * Default carousel renderer based on CSS Flexbox stage, order (flex), and stage animated movement via CSS transform.
@@ -42,7 +42,7 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
    * Prepare to renderer animation.
    */
   public override onBind(): void {
-    this.currentIndex = this.$carousel.activeIndex >= 0 ? this.$carousel.activeIndex : 0;
+    this.currentIndex = this.normalizeIndex(this.$carousel.activeIndex);
     this.redraw();
   }
 

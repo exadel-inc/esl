@@ -47,5 +47,15 @@ export type ESLCarouselNavInfo = {
   /** Target index */
   index: number;
   /** Direction to reach the index */
-  direction: ESLCarouselDirection | null;
+  direction?: ESLCarouselDirection;
 };
+
+/** {@link ESLCarousel} action params interface */
+export interface ESLCarouselActionParams {
+  /** Element requester of the change */
+  activator?: any;
+  /** Direction to move to. */
+  direction?: ESLCarouselDirection;
+  /** Animation duration in milliseconds. (Pass 0 to disable animation) */
+  duration?: number;
+}

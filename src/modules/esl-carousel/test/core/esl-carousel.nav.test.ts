@@ -10,7 +10,7 @@ import type {
   ESLCarouselDirection,
   ESLCarouselSlideTarget,
   ESLCarouselState
-} from '../../core/nav/esl-carousel.nav.types';
+} from '../../core/esl-carousel.types';
 
 describe('ESLCarousel: Nav Utils', () => {
   describe('normalize', () => {

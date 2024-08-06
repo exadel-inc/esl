@@ -2,8 +2,7 @@ import {prop, memoize} from '../../esl-utils/decorators';
 import {ESLCarouselRenderer} from '../core/esl-carousel.renderer';
 import {ESLDefaultCarouselRenderer} from './esl-carousel.default.renderer';
 
-import type {ESLCarouselDirection} from '../core/nav/esl-carousel.nav.types';
-import type {ESLCarouselActionParams} from '../core/esl-carousel';
+import type {ESLCarouselActionParams, ESLCarouselDirection} from '../core/esl-carousel.types';
 
 /**
  * {@link ESLDefaultCarouselRenderer} extension to render slides as a multi-row grid.
@@ -79,11 +78,10 @@ export class ESLGridCarouselRenderer extends ESLDefaultCarouselRenderer {
   }
 
   /**
-   * Processes changing slides
    * Normalize actual active index to the first slide in the current dimension ('row')
    */
-  public override async navigate(index: number, direction: ESLCarouselDirection, {activator}: ESLCarouselActionParams): Promise<void> {
-    await super.navigate(index - (index % this.ROWS), direction, {activator});
+  protected override normalizeIndex(index: number, params?: ESLCarouselActionParams): number {
+    return super.normalizeIndex(index - (index % this.ROWS), params);
   }
 
   /** Processes animation. */

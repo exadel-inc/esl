@@ -5,7 +5,7 @@ import type {
   ESLCarouselSlideTarget,
   ESLCarouselState,
   ESLCarouselStaticState
-} from './esl-carousel.nav.types';
+} from '../esl-carousel.types';
 
 /** @returns normalized slide index in bounds of [0, count] range */
 export function normalize(index: number, size: number): number {
@@ -66,11 +66,10 @@ export function indexToGroup(index: number, count: number, size: number): number
 }
 
 /** @returns closest direction to move to the passed index */
-export function indexToDirection(index: number, {activeIndex, size, loop}: ESLCarouselState): ESLCarouselDirection | null {
+export function indexToDirection(index: number, {activeIndex, size, loop}: ESLCarouselState): ESLCarouselDirection | undefined {
   if (loop) return calcDirection(activeIndex, index, size);
   if (activeIndex < index) return 'next';
   if (activeIndex > index) return 'prev';
-  return null;
 }
 
 /** Splits target string into type and index parts */
@@ -129,7 +128,7 @@ export function toIndex(target: ESLCarouselSlideTarget, cfg: ESLCarouselState): 
   const {type, index} = splitTarget(target);
   if (type === 'group') return resolveGroupIndex(index, cfg);
   if (type === 'slide') return resolveSlideIndex(index, cfg);
-  return {index: cfg.activeIndex, direction: null};
+  return {index: cfg.activeIndex};
 }
 
 /**

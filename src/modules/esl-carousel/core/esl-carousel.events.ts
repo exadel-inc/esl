@@ -1,5 +1,5 @@
 import type {ESLCarousel} from './esl-carousel';
-import type {ESLCarouselDirection, ESLCarouselStaticState} from './nav/esl-carousel.nav.types';
+import type {ESLCarouselDirection, ESLCarouselStaticState} from './esl-carousel.types';
 
 /** {@link ESLCarouselSlideEvent} init object */
 export interface ESLCarouselSlideEventInit {
@@ -8,7 +8,7 @@ export interface ESLCarouselSlideEventInit {
   /** A list of indexes of slides that are active after the change */
   indexesAfter: number[];
   /** Direction of slide animation */
-  direction: ESLCarouselDirection | null;
+  direction?: ESLCarouselDirection;
   /** Auxiliary request attribute that represents object that initiates slide change */
   activator?: any;
 }

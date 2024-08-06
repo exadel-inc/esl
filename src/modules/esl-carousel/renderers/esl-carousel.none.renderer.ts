@@ -1,7 +1,7 @@
 import {ESLCarouselRenderer} from '../core/esl-carousel.renderer';
 
 import type {ESLCarousel} from '../core/esl-carousel';
-import type {ESLCarouselConfig, ESLCarouselDirection} from '../core/nav/esl-carousel.nav.types';
+import type {ESLCarouselConfig, ESLCarouselDirection} from '../core/esl-carousel.types';
 
 /**
  * None effect carousel renderer. Does not provide any animation, transition. Does not limit slide stage.
