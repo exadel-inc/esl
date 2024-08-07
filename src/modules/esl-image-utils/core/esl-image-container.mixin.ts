@@ -31,7 +31,7 @@ export class ESLImgContainerMixin extends ESLMixinElement {
 
   public override $host!: HTMLImageElement;
 
-  get $target(): Element | null {
+  protected get $target(): Element | null {
     return ESLTraversingQuery.first(this.target || '::parent', this.$host);
   }
 
@@ -39,10 +39,11 @@ export class ESLImgContainerMixin extends ESLMixinElement {
     if (this.$host.tagName !== 'IMG') return;
     super.connectedCallback();
     if (this.$host.complete) {
-      const eventType = this.$host.naturalHeight && this.$host.naturalWidth ? 'load' : 'error';
+      const eventType = this.$host.naturalHeight || this.$host.naturalWidth ? 'load' : 'error';
       this._onReady(new Event(eventType));
+    } else {
+      this.$$on(this._onReady);
     }
-    else this.$$on(this._onReady);
   }
 
   @listen({
