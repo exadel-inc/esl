@@ -1,0 +1,22 @@
+---
+layout: empty
+title: Duplicated disconnected callback causing falsy duplicate connected callback
+name: Disconnected callback
+tags: draft
+---
+
+<section class="row">
+  <div class="col-12">
+      <script>
+        const select = document.createElement('esl-select');
+        select.innerHTML = `<select esl-select-target/>`
+        document.body.appendChild(select);
+      </script>
+  </div>
+
+  <div class="btn-group btn-group-centered" style="width: 100%">
+    <button class="btn btn-sec-blue" onclick="setTimeout(() => document.body.appendChild(document.querySelector('esl-select')), 20)">
+      Click me to cause duplicate reinit!
+    </button>
+  </div>
+</section>

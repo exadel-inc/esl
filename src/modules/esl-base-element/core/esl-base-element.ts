@@ -43,7 +43,10 @@ export abstract class ESLBaseElement extends HTMLElement implements ESLBaseCompo
   protected connectedCallback(): void {
     this._connected = true;
     this.classList.add(this.baseTagName);
-
+    if (!this.isConnected) {
+      console.info('[ESL]: Element is not connected to the DOM', this);
+      return;
+    }
     ESLEventUtils.subscribe(this);
   }
   protected disconnectedCallback(): void {
