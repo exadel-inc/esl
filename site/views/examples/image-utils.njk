@@ -1,0 +1,61 @@
+---
+layout: content
+title: Image Utils
+seoTitle: Example image using ESL Image Container Mixin
+name: Image Utils
+tags: [examples, playground]
+icon: examples/image.svg
+aside:
+  components:
+    - esl-image
+---
+{% import 'lorem.njk' as lorem %}
+
+{% set imageSrcBase = '/assets/' | url %}
+
+<section class="row">
+  <div class="col-12">
+    <uip-root>
+      <script type="text/html"
+              label="Save ratio mode"
+              uip-snippet
+              uip-snippet-js="js-snippet-image-element"
+              uip-isolated>
+          <picture class="img-container img-container-16-9">
+            <img esl-img-container loading="lazy" alt="img" src="{{ '/assets/nature/forest+clouds.jpg' | url }}"/>
+          </picture>
+      </script>
+
+      <script id="js-snippet-image-element" type="text/plain">
+        import { ESLImgContainerMixin } from '@exadel/esl';
+        ESLImgContainerMixin.register();
+      </script>
+
+      <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
+      <uip-preview></uip-preview>
+      <uip-settings label="Settings" resizable vertical="@+sm">
+        <uip-select-setting target=".img-container" label="Image ratio:" attribute="class" mode="append">
+          <option value="img-container-16-9">16 x 9</option>
+          <option value="img-container-4-3">4 x 3</option>
+          <option value="img-container-2-1">2 x 1</option>
+          <option value="img-container-2-3">2 x 3</option>
+          <option value="img-container-1-1">1 x 1</option>
+        </uip-select-setting>
+        <uip-select-setting target=".cover-mode-image" label="Image vertical alignment:" attribute="class" mode="append">
+          <option value="bg-v-top">bg-v-top</option>
+          <option value="bg-v-center">bg-v-center</option>
+          <option value="bg-v-bottom">bg-v-bottom</option>
+        </uip-select-setting>
+        <uip-select-setting target=".cover-mode-image" label="Image horizontal alignment:" attribute="class" mode="append">
+          <option value="bg-h-left">bg-h-left</option>
+          <option value="bg-h-center">bg-h-center</option>
+          <option value="bg-h-right">bg-h-right</option>
+        </uip-select-setting>
+        <uip-bool-setting label="Border" target=".img-container" mode="append" attribute="class" value="border"></uip-bool-setting>
+        <uip-bool-setting label="Inscribe" target=".cover-mode-image" mode="append" attribute="class" value="bg-inscribe"></uip-bool-setting>
+      </uip-settings>
+      <uip-editor label="Source code (HTML)" collapsible copy></uip-editor>
+      <uip-editor source="js" label="Source code (JS)" collapsible collapsed copy></uip-editor>
+    </uip-root>
+  </div>
+</section>
