@@ -7,7 +7,7 @@ tags: [examples, playground]
 icon: examples/image.svg
 aside:
   components:
-    - esl-image
+    - esl-image-utils
 ---
 {% import 'lorem.njk' as lorem %}
 
@@ -22,7 +22,12 @@ aside:
               uip-snippet-js="js-snippet-image-element"
               uip-isolated>
           <picture class="img-container img-container-16-9">
-            <img esl-img-container loading="lazy" alt="img" src="{{ '/assets/nature/forest+clouds.jpg' | url }}"/>
+            <img loading="lazy"
+                 alt="img"
+                 src="{{ '/assets/nature/forest+clouds.jpg' | url }}"
+                 class="img-cover"
+                 style=""
+                 esl-img-container/>
           </picture>
       </script>
 
@@ -37,22 +42,20 @@ aside:
         <uip-select-setting target=".img-container" label="Image ratio:" attribute="class" mode="append">
           <option value="img-container-16-9">16 x 9</option>
           <option value="img-container-4-3">4 x 3</option>
-          <option value="img-container-2-1">2 x 1</option>
-          <option value="img-container-2-3">2 x 3</option>
           <option value="img-container-1-1">1 x 1</option>
         </uip-select-setting>
-        <uip-select-setting target=".cover-mode-image" label="Image vertical alignment:" attribute="class" mode="append">
-          <option value="bg-v-top">bg-v-top</option>
-          <option value="bg-v-center">bg-v-center</option>
-          <option value="bg-v-bottom">bg-v-bottom</option>
+        <uip-select-setting target=".img-container img" label="Image mode:" attribute="class" mode="append">
+          <option value="">Stretch</option>
+          <option value="img-cover">Cover</option>
+          <option value="img-contain">Inscribe (Fit)</option>
         </uip-select-setting>
-        <uip-select-setting target=".cover-mode-image" label="Image horizontal alignment:" attribute="class" mode="append">
-          <option value="bg-h-left">bg-h-left</option>
-          <option value="bg-h-center">bg-h-center</option>
-          <option value="bg-h-right">bg-h-right</option>
+        <uip-select-setting target=".img-container :is(.img-cover, .img-inscribe)" label="Image alignment:" attribute="style" mode="append">
+          <option value="">Center</option>
+          <option value="object-position: left">Left</option>
+          <option value="object-position: right">Right</option>
+          <option value="object-position: top">Top</option>
+          <option value="object-position: bottom">Bottom</option>
         </uip-select-setting>
-        <uip-bool-setting label="Border" target=".img-container" mode="append" attribute="class" value="border"></uip-bool-setting>
-        <uip-bool-setting label="Inscribe" target=".cover-mode-image" mode="append" attribute="class" value="bg-inscribe"></uip-bool-setting>
       </uip-settings>
       <uip-editor label="Source code (HTML)" collapsible copy></uip-editor>
       <uip-editor source="js" label="Source code (JS)" collapsible collapsed copy></uip-editor>
