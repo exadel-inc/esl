@@ -3,22 +3,26 @@
   position: relative;
   overflow: hidden;
 
-  img {
+  > img {
+    width: 100%;
+  }
+
+  > img:is(.img-stretch, .img-cover, .img-contain) {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
     height: 100%;
+  }
 
-    &.img-cover {
-      object-fit: cover;
-    }
-    &.img-contain {
-      object-fit: contain;
-    }
+  > img.img-cover {
+    object-fit: cover;
+  }
+
+  > img.img-contain {
+    object-fit: contain;
   }
 }
 
-picture.img-container  {
+picture.img-container {
   display: block;
 }

@@ -17,39 +17,64 @@ aside:
   <div class="col-12">
     <uip-root>
       <script type="text/html"
-              label="Save ratio mode"
+              label="Picture with image (state on container)"
               uip-snippet
               uip-snippet-js="js-snippet-image-element"
               uip-isolated>
-          <picture class="img-container img-container-16-9">
-            <img loading="lazy"
-                 alt="img"
-                 src="{{ '/assets/nature/forest+clouds.jpg' | url }}"
-                 class="img-cover"
-                 style=""
-                 esl-img-container/>
-          </picture>
+        <picture class="img-container img-container-16-9" esl-img-state-cls>
+          <img loading="lazy"
+               alt="img"
+               src="{{ '/assets/nature/forest+clouds.jpg' | url }}"
+               class="img-fade img-cover"
+               style="" />
+        </picture>
+      </script>
+
+      <script type="text/html"
+              label="Using ESLStateClassMixin on the image or external element"
+              uip-snippet
+              uip-snippet-js="js-snippet-image-element"
+              uip-isolated>
+        <picture class="img-container img-container-16-9">
+          <img loading="lazy"
+               alt="img"
+               src="{{ '/assets/nature/forest+clouds.jpg' | url }}"
+               class="img-fade img-cover"
+               esl-img-state-cls
+               esl-img-state-cls-target="::parent"/>
+        </picture>
+        <p class="p-2 hide text-info"
+           esl-img-state-cls="!hide"
+           esl-img-state-cls-target="::prev(picture)::find(img)">External loaded marker</p>
+        <p class="p-2 hide text-warning"
+           esl-img-state-cls="hide"
+           esl-img-state-cls-error="!hide"
+           esl-img-state-cls-target="::prev(picture)::find(img)">Error !!</p>
       </script>
 
       <script id="js-snippet-image-element" type="text/plain">
-        import { ESLImgContainerMixin } from '@exadel/esl';
-        ESLImgContainerMixin.register();
+        import { ESLImgStateClassMixin } from '@exadel/esl';
+        ESLImgStateClassMixin.register();
       </script>
 
       <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
       <uip-preview></uip-preview>
       <uip-settings label="Settings" resizable vertical="@+sm">
         <uip-select-setting target=".img-container" label="Image ratio:" attribute="class" mode="append">
+          <option value="">Auto</option>
           <option value="img-container-16-9">16 x 9</option>
+          <option value="img-container-26-9">26 x 9</option>
           <option value="img-container-1-1">1 x 1</option>
           <option value="img-container-4-3">4 x 3</option>
-          <option value="img-container-26-9">26 x 9</option>
         </uip-select-setting>
+
         <uip-select-setting target=".img-container img" label="Image mode:" attribute="class" mode="append">
-          <option value="">Stretch</option>
+          <option value="">None</option>
+          <option value="img-stretch">Stretch</option>
           <option value="img-cover">Cover</option>
           <option value="img-contain">Inscribe (Fit)</option>
         </uip-select-setting>
+
         <uip-select-setting target=".img-container :is(.img-cover, .img-contain)" label="Image alignment:" attribute="style" mode="append">
           <option value="">Center</option>
           <option value="object-position: left">Left</option>
