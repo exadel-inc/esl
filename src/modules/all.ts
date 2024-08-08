@@ -52,3 +52,6 @@ export * from './esl-share/core';
 
 // Carousel
 export * from './esl-carousel/core';
+
+// Anchornav
+export * from './esl-anchornav/core';
