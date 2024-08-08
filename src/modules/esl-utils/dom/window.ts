@@ -1,7 +1,7 @@
 import {Rect} from './rect';
 
 /**
- * Get the window object associated with a document of the specified element.
+ * Gets the window object associated with a document of the specified element.
  * @param node - element for which to get window
  * */
 export function getWindow(node: Node | Window): Window {
@@ -12,14 +12,27 @@ export function getWindow(node: Node | Window): Window {
 }
 
 /**
- * Get the size and position of the window.
- * @returns
+ * Gets the size and position of the window (size also accounts for the height of
+ * the horizontal scrollbar and width of the vertical scrollbar, if they are visible).
  */
 export function getWindowRect(wnd: Window = window): Rect {
   return Rect.from({
-    x: wnd.scrollX || wnd.pageXOffset,
-    y: wnd.scrollY || wnd.pageYOffset,
-    width: wnd.innerWidth || wnd.document.documentElement.clientWidth,
-    height: wnd.innerHeight || wnd.document.documentElement.clientHeight
+    x: wnd.scrollX,
+    y: wnd.scrollY,
+    width: wnd.innerWidth,
+    height: wnd.innerHeight
+  });
+}
+
+/**
+ * Gets the size and position of the viewport (like window rect but excluding
+ * the size of rendered scrollbars if any)
+ */
+export function getViewportRect(wnd: Window = window): Rect {
+  return Rect.from({
+    x: wnd.scrollX,
+    y: wnd.scrollY,
+    width: wnd.document.documentElement.clientWidth,
+    height: wnd.document.documentElement.clientHeight
   });
 }

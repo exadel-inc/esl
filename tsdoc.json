@@ -8,6 +8,10 @@
     {
       "tagName": "@implements",
       "syntaxKind": "modifier"
+    },
+    {
+      "tagName": "@alias",
+      "syntaxKind": "modifier"
     }
   ]
 }

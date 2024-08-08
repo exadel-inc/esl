@@ -98,6 +98,12 @@ describe('Rect API', () => {
       expect(rect.shift(2, 3)).toEqual(rect2);
     });
 
+    test('returns Rect resized by passed values', () => {
+      const rect = new Rect(1, 2, 3, 4);
+      const rect2 = new Rect(1, 2, 3 + 3, 4 + 2);
+      expect(rect.resize(3, 2)).toEqual(rect2);
+    });
+
     test.each([
       [{x: 0, y: 0, width: 0, height: 0}, {x: 0, y: 0, width: 0, height: 0}, true],
       [{x: 0, y: 0, width: 0, height: 0}, {left: 0, top: 0, width: 0, height: 0}, true],
