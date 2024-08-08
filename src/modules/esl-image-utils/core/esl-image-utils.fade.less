@@ -1,0 +1,9 @@
+.img-container {
+  img[lodaing='lazy'] {
+    opacity: 0;
+  }
+  &.img-container-loaded img[lodaing='lazy'] {
+    opacity: 1;
+    transition: opacity 0.4s;
+  }
+}

@@ -39,13 +39,6 @@ Set class `img-container-loaded` on closest parent with class `img-container` up
 ```
 Note: it is not necessary to use `::closest` query in current case. `::parent` query with selector `img-container` will work as well.
 
-Set custom class `loaded` on the direct parent of the image element upon image load.
-```html
-<div class="img-container">
-  <img alt src="image.jpg" esl-img-container esl-img-container-cls="loaded"/>
-</div>
-```
-
 Set custom class `loaded` on the direct parent of the image element upon image load and class `error` in case of image loading error.
 ```html
 <div class="img-container">

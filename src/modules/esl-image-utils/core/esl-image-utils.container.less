@@ -10,32 +10,12 @@
     width: 100%;
     height: 100%;
 
-    &[lodaing='lazy'] {
-      opacity: 0;
-      .img-container-loaded & {
-        opacity: 1;
-        transition: opacity 0.4s;
-      }
-    }
-
     &.img-cover {
       object-fit: cover;
     }
     &.img-contain {
       object-fit: contain;
     }
-  }
-
-  &.img-container-1-1 {
-    aspect-ratio: 1;
-  }
-
-  &.img-container-4-3 {
-    aspect-ratio: 4 / 3;
-  }
-
-  &.img-container-16-9 {
-    aspect-ratio: 16 / 9;
   }
 }
 
