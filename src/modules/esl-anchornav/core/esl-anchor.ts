@@ -13,7 +13,7 @@ import {ESLEventUtils} from '../../esl-event-listener/core';
 export class ESLAnchor extends ESLMixinElement {
   static override is = 'esl-anchor';
 
-  @prop('esl:anchornav:request') public ANCHORNAV_REQUEST_EVENT: string;
+  @prop('esl:anchor:change') public CHANGE_EVENT: string;
 
   protected override connectedCallback(): void {
     super.connectedCallback();
@@ -27,7 +27,7 @@ export class ESLAnchor extends ESLMixinElement {
 
   /** Sends a broadcast event to Anchornav components to refresh the list of anchors */
   protected sendRequestEvent(): void {
-    ESLEventUtils.dispatch(document.body, this.ANCHORNAV_REQUEST_EVENT);
+    ESLEventUtils.dispatch(document.body, this.CHANGE_EVENT);
   }
 }
 

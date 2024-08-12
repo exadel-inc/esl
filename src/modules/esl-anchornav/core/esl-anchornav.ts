@@ -4,6 +4,7 @@ import {attr, decorate, listen, memoize, prop, ready} from '../../esl-utils/deco
 import {debounce, microtask} from '../../esl-utils/async';
 import {getViewportForEl} from '../../esl-utils/dom/scroll';
 import {ESLEventUtils, ESLIntersectionTarget} from '../../esl-event-listener/core';
+import {ESLAnchor} from './esl-anchor';
 
 import type {DelegatedEvent, ESLIntersectionEvent} from '../../esl-event-listener/core';
 import type {ESLAnchorData, ESLAnchornavRender} from './esl-anchornav-types';
@@ -19,12 +20,9 @@ export class ESLAnchornav extends ESLBaseElement {
   public static override is = 'esl-anchornav';
   public static _renderers: Map<string, ESLAnchornavRender> = new Map();
 
-  /** Default renderer for anchornav item */
-  public static defaultRenderer: ESLAnchornavRender = (data: ESLAnchorData) => `<a class="esl-anchornav-item" href="#${data.id}">${data.title}</a>`;
-
   /** Gets renderer by name */
-  public static getRenderer(name: string): ESLAnchornavRender {
-    return this._renderers.get(name) || this.defaultRenderer;
+  public static getRenderer(name: string): ESLAnchornavRender | undefined {
+    return this._renderers.get(name);
   }
 
   /** Sets renderer */
@@ -35,16 +33,16 @@ export class ESLAnchornav extends ESLBaseElement {
     if (typeof name === 'string' && renderer) this._renderers.set(name, renderer);
   }
 
-  @prop('esl:anchornav:request') public REQUEST_EVENT: string;
   @prop('esl:anchornav:activechanged') public ACTIVECHANGED_EVENT: string;
-  @prop('esl:anchornav:update') public UPDATE_EVENT: string;
+  @prop('esl:anchornav:updated') public UPDATED_EVENT: string;
   @prop('[esl-anchor]') protected ANCHOR_SELECTOR: string;
 
   /** Item renderer which is used to build inner markup */
-  @attr({defaultValue: 'default'}) public renderer: string;
+  @attr({defaultValue: 'default', name: 'renderer'}) public rendererName: string;
 
   protected _active: ESLAnchorData;
   protected _anchors: ESLAnchorData[] = [];
+  protected _items: Map<string, Element> = new Map();
   protected _offset: number;
 
   /** Active anchor */
@@ -74,18 +72,8 @@ export class ESLAnchornav extends ESLBaseElement {
   }
 
   /** Anchornav item renderer */
-  protected get itemRenderer(): ESLAnchornavRender {
-    return ESLAnchornav.getRenderer(this.renderer);
-  }
-
-  /** Anchornav item selector */
-  protected get itemSelector(): string {
-    return `.${this.baseTagName}-item`;
-  }
-
-  /** Anchornav items */
-  protected get $items(): HTMLAnchorElement[] {
-    return [...this.querySelectorAll<HTMLAnchorElement>(this.itemSelector)];
+  protected get itemRenderer(): ESLAnchornavRender | undefined {
+    return ESLAnchornav.getRenderer(this.rendererName) || ESLAnchornav.getRenderer('default');
   }
 
   /** Anchornav items container */
@@ -101,7 +89,7 @@ export class ESLAnchornav extends ESLBaseElement {
 
   /** Anchornav viewport (root element for IntersectionObservers checking visibility) */
   @memoize()
-  protected get $viewport(): Element | null {
+  protected get $viewport(): Element | undefined {
     return getViewportForEl(this);
   }
 
@@ -132,10 +120,23 @@ export class ESLAnchornav extends ESLBaseElement {
     anchors[0] instanceof Element ? $itemsArea.replaceChildren(...anchors) : $itemsArea.innerHTML = anchors.join('');
   }
 
+  protected _tempEl: HTMLElement;
+  protected htmlToElement(html: string): Element {
+    if (!this._tempEl) this._tempEl = document.createElement('div');
+    this._tempEl.innerHTML = html;
+    return this._tempEl.children[0];
+  }
+
   /** Renders the component anchors list */
-  protected renderAnchors(): (string | Element)[] {
+  protected renderAnchors(): Element[] {
     const {itemRenderer} = this;
-    return this._anchors.map((item) => itemRenderer(item));
+    this._items.clear();
+    return itemRenderer ? this._anchors.map((anchor) => {
+      let item = itemRenderer(anchor);
+      if (typeof item === 'string') item = this.htmlToElement(item);
+      this._items.set(anchor.id, item);
+      return item;
+    }) : [];
   }
 
   /** Gets anchor data from the anchor element */
@@ -163,9 +164,7 @@ export class ESLAnchornav extends ESLBaseElement {
       if (y <= topBoundary) active = item;
     });
     if (active) {
-      this.$items.forEach(($item) => {
-        $item.classList.toggle('active', $item.getAttribute('href') === `#${active.id}`);
-      });
+      this._items.forEach(($item, id) => $item.classList.toggle('active', id === active.id));
       this.active = active;
     }
   }
@@ -180,11 +179,11 @@ export class ESLAnchornav extends ESLBaseElement {
   /** Handles updating the component */
   @decorate(microtask)
   protected _onUpdateEvent(): void {
-    ESLEventUtils.dispatch(this, this.UPDATE_EVENT);
+    ESLEventUtils.dispatch(this, this.UPDATED_EVENT);
   }
 
   @listen({
-    event: (that: ESLAnchornav) => that.REQUEST_EVENT,
+    event: ESLAnchor.prototype.CHANGE_EVENT,
     target: document.body
   })
   protected _onAnchornavRequest(): void {
@@ -206,12 +205,14 @@ export class ESLAnchornav extends ESLBaseElement {
 
   @listen({
     event: 'click',
-    selector: (that: ESLAnchornav) => that.itemSelector
+    selector: 'a'
   })
   protected _onAnchorClick(event: DelegatedEvent<MouseEvent>): void {
     this.updateActiveAnchor();
   }
 }
+
+ESLAnchornav.setRenderer((data: ESLAnchorData) => `<a class="esl-anchornav-item" href="#${data.id}">${data.title}</a>`);
 
 declare global {
   export interface ESLLibrary {
