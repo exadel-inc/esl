@@ -10,7 +10,7 @@ import type {DelegatedEvent, ESLIntersectionEvent} from '../../esl-event-listene
 import type {ESLAnchorData, ESLAnchornavRender} from './esl-anchornav-types';
 
 /**
- * ESLSAnchornav
+ * ESLAnchornav
  * @author Dmytro Shovchko
  *
  * ESLAnchornav is a component that collects content anchors from the page and provides anchor navigation
