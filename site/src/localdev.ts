@@ -10,7 +10,7 @@ import './common/breakpoints';
 
 import {
   ESLVSizeCSSProxy,
-  ESLImage,
+  ESLImageContainerMixin,
   ESLMedia,
   ESLToggleable,
   ESLPopup,
@@ -84,7 +84,7 @@ ESLDemoPopupGame.register();
 ESLRandomText.register('lorem-ipsum');
 
 // Register ESL Components
-ESLImage.register();
+ESLImageContainerMixin.register();
 ESLMedia.register();
 
 ESLToggleableDispatcher.init();
