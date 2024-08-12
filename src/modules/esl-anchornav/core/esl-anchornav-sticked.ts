@@ -15,17 +15,11 @@ import type {ESLIntersectionEvent, ESLElementResizeEvent} from '../../esl-event-
 export class ESLAnchornavSticked extends ESLMixinElement {
   static override is = 'esl-anchornav-sticked';
 
-  protected _height: number = 0;
   protected _sticked: boolean = false;
 
   /** The height of this anchornav container */
   public get anchornavHeight(): number {
-    return this._height;
-  }
-  public set anchornavHeight(value: number) {
-    if (this._height === value) return;
-    this._height = value;
-    if (this.sticked) this._onStickyStateChange();
+    return this.$host.getBoundingClientRect().height;
   }
 
   /** Sticked state */
@@ -36,7 +30,7 @@ export class ESLAnchornavSticked extends ESLMixinElement {
     if (this._sticked === value) return;
     this._sticked = value;
     this.$$attr('sticked', value);
-    this._onStickyStateChange();
+    this._onStateChange();
   }
 
   /** Childs anchornav element */
@@ -44,13 +38,8 @@ export class ESLAnchornavSticked extends ESLMixinElement {
     return this.$host.querySelector<ESLAnchornav>(ESLAnchornav.is);
   }
 
-  protected override connectedCallback(): void {
-    super.connectedCallback();
-    this.anchornavHeight = this.$host.getBoundingClientRect().height;
-  }
-
   /** Handles changing sticky state */
-  protected _onStickyStateChange(): void {
+  protected _onStateChange(): void {
     if (!this.$anchornav) return;
     this.$anchornav.offset = this.sticked ? this.anchornavHeight : 0;
   }
@@ -69,6 +58,6 @@ export class ESLAnchornavSticked extends ESLMixinElement {
 
   @listen({event: 'resize', target: (that: ESLAnchornavSticked) => ESLResizeObserverTarget.for(that.$host)})
   protected _onResize({borderBoxSize}: ESLElementResizeEvent): void {
-    this.anchornavHeight = borderBoxSize[0]?.blockSize;
+    this._onStateChange();
   }
 }
