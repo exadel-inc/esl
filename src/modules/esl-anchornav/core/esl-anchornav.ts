@@ -112,10 +112,8 @@ export class ESLAnchornav extends ESLBaseElement {
 
   // TODO: move to esl-utils helpers
   /** Converts html string to Element */
-  protected _parser: DOMParser;
   protected htmlToElement(html: string): Element {
-    if (!this._parser) this._parser = new DOMParser();
-    return this._parser.parseFromString(html, 'text/html').body.children[0];
+    return (new DOMParser()).parseFromString(html, 'text/html').body.children[0];
   }
 
   /** Renders the component anchors list */
