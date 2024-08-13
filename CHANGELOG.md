@@ -1,3 +1,28 @@
+## [5.0.0-beta.31](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.30...v5.0.0-beta.31) (2024-08-13)
+
+### ⚠ BREAKING CHANGES
+
+* **esl-image-utils:** legacy implementation of `esl-image` no longer distributes aspect-ratio styles
+
+### Features
+
+* **esl-anchornav:** create esl-anchor mixin ([db5fb32](https://github.com/exadel-inc/esl/commit/db5fb3261fa99cff87f5d93e16cdc50f3371ce17))
+* **esl-anchornav:** create esl-anchornav component to provide anchor navigation ([cf79db8](https://github.com/exadel-inc/esl/commit/cf79db850f7cab27b2fa886f4a4469860028e3a0))
+* **esl-anchornav:** create esl-anchornav-sticked mixin to provide sticked behaviour ([d28d430](https://github.com/exadel-inc/esl/commit/d28d4305a8ea0b9728992268b1d5405917a90697))
+* **esl-carousel:** rework default renderer animation approach (now uses js animation) ([04b730d](https://github.com/exadel-inc/esl/commit/04b730d95cfa5907e4d3b2106c0a63a210b0fc1d))
+* **esl-image-utils:** create esl-img-container mixin to provide img container functionality ([5b4761a](https://github.com/exadel-inc/esl/commit/5b4761aefbbc1880b7b2d414d44df571fd80b1ef))
+* **esl-image-utils:** helper container classes for native img / picture containers ([16fc5cb](https://github.com/exadel-inc/esl/commit/16fc5cbcc5bc97c3499cb5d2eb94189e4ff3e283))
+* **esl-utils:** add `parseTime` alternative, less restrictive to passed format ([05e5963](https://github.com/exadel-inc/esl/commit/05e5963d6baf874193dcf4476d821e9109b3e905))
+* **esl-utils:** create utility to get element that is viewport for specified element ([63d869b](https://github.com/exadel-inc/esl/commit/63d869b14074da74b8bdaf342116428098816532))
+
+### Bug Fixes
+
+* **esl-carousel:** direction related issues, cleanup internal nav API ([30cef21](https://github.com/exadel-inc/esl/commit/30cef2170b95c78a44f62377e2e84cab28b13db9))
+
+### Code Refactoring
+
+* **esl-image-utils:** update implementation to use json attr and new compact representation ([602afc7](https://github.com/exadel-inc/esl/commit/602afc7eb4e208c11d89cfe9bce8198d4c0b664e))
+
 ## [5.0.0-beta.30](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.29...v5.0.0-beta.30) (2024-07-31)
 
 ### Bug Fixes
