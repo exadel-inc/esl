@@ -42,7 +42,7 @@ module.exports = [{
 }, {
   ...BASE_CONFIG,
   entry: {
-    'lib': './src/playground/export/lib.ts',
+    'lib': './src/lib.ts',
   },
   experiments: {
     outputModule: true,
