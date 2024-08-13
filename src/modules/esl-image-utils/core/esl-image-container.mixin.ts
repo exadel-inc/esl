@@ -7,9 +7,9 @@ import {findAll} from '../../esl-utils/dom/traversing';
  * ESLImageContainerConfig - interface for ESLImageContainerMixin config
  */
 export interface ESLImageContainerConfig {
-  /** Class to add to the target element when the image is loaded (successfully) */
+  /** Class that is added to the target element when the image is loaded (in both cases: success and error) */
   readyCls: string;
-  /** Class to add to the target element when the image is not loaded (error) */
+  /** Class that is added to the target element when the image fails to load */
   errorCls: string;
   /** Image element selector */
   selector: string;
@@ -51,7 +51,9 @@ export class ESLImageContainerMixin extends ESLMixinElement {
   /** Image element */
   @memoize()
   protected get $images(): HTMLImageElement[] {
-    if (this.$host.tagName === 'IMG') return [this.$host as HTMLImageElement];
+    if (this.$host.tagName === 'IMG') {
+      return this.$host.matches(this.config.selector) ? [this.$host as HTMLImageElement] : [];
+    }
     return findAll(this.$host, this.config.selector) as HTMLImageElement[];
   }
 
