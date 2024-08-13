@@ -23,11 +23,11 @@ icon: examples/carousel.svg
         {% for item in cards | limit(10) %}
           <li esl-carousel-slide {{ 'active' if loop.first }}>
             <div class="card">
-              <div class="card-image img-container img-container-16-9">
-                <esl-image lazy
-                           mode="cover"
-                           data-alt="{{ 'Carousel slide ' + loop.index }}"
-                           data-src="{{ '/assets/carousel/' + loop.index + '-sm.jpg'  | url }}"></esl-image>
+              <div class="card-image img-container img-container-16-9" esl-image-container>
+                <img class="img-fade img-cover"
+                     alt="{{ 'Carousel slide ' + loop.index }}"
+                     src="{{ '/assets/carousel/' + loop.index + '-sm.jpg' | url }}"
+                     loading="lazy" />
               </div>
               <div class="card-content p-3">
                 <h5>{{ item.name }}<esl-note>{{ loop.index }}</esl-note></h5>
@@ -66,11 +66,11 @@ icon: examples/carousel.svg
         {% for item in cards | limit(4) %}
           <li esl-carousel-slide {{ 'active' if loop.first }}>
             <div class="card">
-              <div class="card-image img-container img-container-16-9">
-                <esl-image lazy
-                           mode="cover"
-                           data-alt="{{ 'Carousel slide ' + loop.index }}"
-                           data-src="{{ '/assets/carousel/' + loop.index + '-sm.jpg'  | url }}"></esl-image>
+              <div class="card-image img-container img-container-16-9" esl-image-container>
+                <img class="img-fade img-cover"
+                     alt="{{ 'Carousel slide ' + loop.index }}"
+                     src="{{ '/assets/carousel/' + loop.index + '-sm.jpg' | url }}"
+                     loading="lazy" />
               </div>
               <div class="card-content p-3">
                 <h5>{{ item.name }}</h5>
@@ -106,9 +106,10 @@ icon: examples/carousel.svg
         {% for i in range(0, 6) -%}
           <li esl-carousel-slide style="max-width: 50%">
             <div class="card">
-              <esl-image mode="cover" lazy
-                         data-alt="Alt Text Test"
-                         data-src="{{ '/assets/carousel/' + loop.index + '-sm.jpg' | url }}"></esl-image>
+              <img class="img-cover"
+                   alt="{{ 'Carousel slide ' + loop.index }}"
+                   src="{{ '/assets/carousel/' + loop.index + '-sm.jpg' | url }}"
+                   loading="lazy" />
             </div>
           </li>
         {%- endfor %}
@@ -196,10 +197,11 @@ icon: examples/carousel.svg
           {% for i in range(0, 4) -%}
            <li esl-carousel-slide>
               <div class="card">
-                  <div class="img-container img-container-16-9">
-                      <esl-image mode="cover" lazy
-                                 data-alt="Alt Text Test"
-                                 data-src="{{ '/assets/carousel/' + loop.index + '-sm.jpg' | url }}"></esl-image>
+                  <div class="img-container img-container-16-9" esl-image-container>
+                    <img class="img-fade img-cover"
+                         alt="{{ 'Carousel slide ' + loop.index }}"
+                         src="{{ '/assets/carousel/' + loop.index + '-sm.jpg' | url }}"
+                         loading="lazy" />
                   </div>
               </div>
            </li>

@@ -39,6 +39,7 @@ rules:
       - esl-footnotes
       - esl-forms
       - esl-image
+      - esl-image-utils
       - esl-media
       - esl-media-query
       - esl-mixin-element

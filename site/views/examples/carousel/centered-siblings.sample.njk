@@ -20,10 +20,11 @@ tags: carousel-sample
     <ul esl-carousel-slides>
       {% for i in range(0, 6) -%}
         <li esl-carousel-slide style="max-width: 400px">
-          <div class="card img-container">
-            <esl-image mode="cover" lazy
-                       data-alt="Alt Text Test"
-                       data-src="{{ '/assets/carousel/' + loop.index + '-sm.jpg' | url }}"></esl-image>
+          <div class="card img-container" esl-image-container>
+            <img class="img-fade img-cover"
+                 alt="Alt Text"
+                 src="{{ '/assets/carousel/' + loop.index + '-sm.jpg' | url }}"
+                 loading="lazy" />
             <button type="button" class="close close-icon close-remove inverse"
                     title="Remove" aria-label="Remove"
                     onclick="this.closest('li').remove()"></button>
