@@ -61,10 +61,35 @@ uip-settings {
 
   // Rotate on collapsed state change
   &[collapsed] .uip-plugin-header-icon {
-    animation: rotate 0.5s linear both;
+    &::after {
+      content: '';
+      position: relative;
+      top: 4px;
+      left: 5px;
+      width: 10px;
+      height: 10px;
+      pointer-events: none;
+      border-left: 2px solid currentColor;
+      border-top: 2px solid currentColor;
+      transform: rotate(315deg);
+      transform-origin: center;
+      transition: transform 0.5s ease-in-out, top 0.5s ease-in-out;
+    }
   }
   &:not([collapsed]) .uip-plugin-header-icon {
-    animation: rotate-back 0.5s linear both;
+    &::after {
+      content: '';
+      position: relative;
+      top: 4px;
+      width: 10px;
+      height: 10px;
+      pointer-events: none;
+      border-left: 2px solid currentColor;
+      border-top: 2px solid currentColor;
+      transform: rotate(135deg);
+      transform-origin: center;
+      transition: transform 0.5s ease-in-out, top 0.5s ease-in-out;
+    }
   }
 }
 

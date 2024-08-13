@@ -49,7 +49,7 @@ export abstract class UIPPluginPanel extends UIPPlugin {
     const hasToolbar = this.$toolbar?.children.length;
     return (
       <div className={type.is + '-header uip-plugin-header' + (this.label ? '' : ' no-label') + (hasToolbar ? ' has-toolbar' : '')}>
-        {this.$icon ? <span className='uip-plugin-header-icon' title={this.label}>{this.$icon}</span> : ''}
+        {this.$icon ? <span className='uip-plugin-header-icon' title={this.label}></span> : ''}
         <span class={`uip-plugin-header-title ${type.is}-title`}>{this.label}</span>
         {this.collapsible ? <button type='button' className='uip-plugin-header-trigger' aria-label={a11yLabel} title={a11yLabel}/> : ''}
         {hasToolbar ? this.$toolbar : ''}
