@@ -6,7 +6,7 @@ const demoRenderer: ESLAnchornavRender = (data: ESLAnchorData): Element => {
   const a = document.createElement('a');
   a.href = `#${data.id}`;
   a.className = 'esl-anchornav-item';
-  a.dataset.index = data.index;
+  a.dataset.index = `${data.index + 1}`;
   a.textContent = data.title;
   return a;
 };

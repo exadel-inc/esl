@@ -5,6 +5,6 @@ export type ESLAnchornavRender = (data: ESLAnchorData) => string | Element;
 export interface ESLAnchorData {
   id: string;
   title: string;
-  index: string; // order number in the anchor list
+  index: number; // order number in the anchor list
   $anchor: HTMLElement;
 }

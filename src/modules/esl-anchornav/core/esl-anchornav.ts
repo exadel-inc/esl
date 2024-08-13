@@ -73,7 +73,7 @@ export class ESLAnchornav extends ESLBaseElement {
 
   /** Anchornav item renderer */
   protected get itemRenderer(): ESLAnchornavRender | undefined {
-    return ESLAnchornav.getRenderer(this.rendererName) || ESLAnchornav.getRenderer('default');
+    return ESLAnchornav.getRenderer(this.rendererName);
   }
 
   /** Anchornav items container */
@@ -96,11 +96,6 @@ export class ESLAnchornav extends ESLBaseElement {
   @ready
   protected override connectedCallback(): void {
     super.connectedCallback();
-    this.init();
-  }
-
-  /** Initializes the component */
-  public init(): void {
     this._onAnchornavRequest();
   }
 
@@ -117,14 +112,15 @@ export class ESLAnchornav extends ESLBaseElement {
   protected rerender(): void {
     const {$itemsArea} = this;
     const anchors = this.renderAnchors();
-    anchors[0] instanceof Element ? $itemsArea.replaceChildren(...anchors) : $itemsArea.innerHTML = anchors.join('');
+    $itemsArea.replaceChildren(...anchors);
   }
 
-  protected _tempEl: HTMLElement;
+  // TODO: move to esl-utils helpers
+  /** Converts html string to Element */
+  protected _parser: DOMParser;
   protected htmlToElement(html: string): Element {
-    if (!this._tempEl) this._tempEl = document.createElement('div');
-    this._tempEl.innerHTML = html;
-    return this._tempEl.children[0];
+    if (!this._parser) this._parser = new DOMParser();
+    return this._parser.parseFromString(html, 'text/html').body.children[0];
   }
 
   /** Renders the component anchors list */
@@ -144,7 +140,7 @@ export class ESLAnchornav extends ESLBaseElement {
     return {
       id: $anchor.id,
       title: $anchor.title,
-      index: `${index + 1}`,
+      index,
       $anchor
     };
   }
