@@ -44,3 +44,11 @@ export function isScrollable(element: Element): boolean {
   const {overflow, overflowX, overflowY} = getComputedStyle(element);
   return /auto|scroll|overlay|hidden/.test(overflow + overflowY + overflowX);
 }
+
+/**
+ * Get the element that is the viewport for the specified element.
+ * @param node - element for which to get the viewport
+ */
+export function getViewportForEl(node: Element): Element | undefined {
+  return getListScrollParents(node).find((el) => el.scrollHeight !== el.clientHeight);
+}

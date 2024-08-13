@@ -2,7 +2,7 @@ import {memoize} from '../../esl-utils/decorators';
 import {isEqual} from '../../esl-utils/misc/object';
 import {SyntheticEventTarget} from '../../esl-utils/dom';
 import {ESLCarouselSlideEvent} from './esl-carousel.events';
-import {calcDirection, normalize, sequence} from './nav/esl-carousel.nav.utils';
+import {normalize, sequence, indexToDirection} from './nav/esl-carousel.nav.utils';
 
 import type {ESLCarousel, ESLCarouselActionParams} from './esl-carousel';
 import type {ESLCarouselConfig, ESLCarouselDirection} from './nav/esl-carousel.nav.types';
@@ -123,10 +123,18 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
   /** Post-processing animation action. */
   public async onAfterAnimate(index: number, direction: ESLCarouselDirection): Promise<void> {}
 
-  /** Handles the slides transition. */
-  public abstract onMove(offset: number): void;
-  /** Ends current transition and makes permanent all changes performed in the transition. */
-  public abstract commit(offset?: number): void;
+  /**
+   * Moves slide by the passed offset in px.
+   * @param offset - offset in px
+   * @param from - start index (default: current active index)
+   */
+  public abstract move(offset: number, from?: number): void;
+  /**
+   * Normalizes move offset to the "nearest stable" slide position.
+   * @param offset - offset in px
+   * @param from - start index (default: current active index)
+   */
+  public abstract commit(offset?: number, from?: number): void;
 
   /** Sets active slides from passed index **/
   public setActive(current: number, event?: Partial<ESLCarouselSlideEventInit>): void {
@@ -147,7 +155,7 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
     }
 
     if (event && typeof event === 'object') {
-      const direction = event.direction || calcDirection(related, current, this.size);
+      const direction = event.direction || indexToDirection(related, this.$carousel.state);
       const details = {...event, direction, indexesBefore, indexesAfter};
       this.$carousel.dispatchEvent(ESLCarouselSlideEvent.create('AFTER', details));
     }

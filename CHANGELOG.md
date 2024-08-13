@@ -1,3 +1,27 @@
+## [5.0.0-beta.30](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.29...v5.0.0-beta.30) (2024-07-31)
+
+### Bug Fixes
+
+* **esl-carousel:** fix carousel empty state ([8f88589](https://github.com/exadel-inc/esl/commit/8f885890e317ad28adf4da7810c515d238b2298f))
+* **esl-carousel:** fix incomplete centered carousel rendering ([0d7adce](https://github.com/exadel-inc/esl/commit/0d7adce75833b6fc9794f4230667494d0b59a837))
+
+## [5.0.0-beta.29](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.28...v5.0.0-beta.29) (2024-07-30)
+
+### Features
+
+* **esl-carousel:** change carousel move API ([085f977](https://github.com/exadel-inc/esl/commit/085f97741c96b4e717a8c5218b30f33c91e5711b))
+
+### Bug Fixes
+
+* **esl-carousel:** carousel now uses average of the real slide sizes during move action routines ([2472723](https://github.com/exadel-inc/esl/commit/2472723d3fa11d46c8dc26f22e06496cacc1c7a9))
+* **esl-carousel:** touch behaviour fix - incorrect touch-action target is used ([18b1ba1](https://github.com/exadel-inc/esl/commit/18b1ba1c2a5a8b30753dc5220704cdf78f2aa822))
+
+## [5.0.0-beta.28](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.27...v5.0.0-beta.28) (2024-07-29)
+
+### Bug Fixes
+
+* **esl-carousel:** fix count of slides to be rendered before the first slide ([cd68ea3](https://github.com/exadel-inc/esl/commit/cd68ea3c0b9076b2c6d237f9fa547af73b4fedd0))
+
 ## [5.0.0-beta.27](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.26...v5.0.0-beta.27) (2024-07-23)
 
 ### Features

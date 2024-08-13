@@ -29,20 +29,12 @@ export class ESLNoneCarouselRenderer extends ESLCarouselRenderer {
     this.setActive(0);
   }
 
-  public override onUnbind(): void {
-    // this.$carousel.scrollTop = this.$carousel.scrollLeft = 0;
-  }
+  public override onUnbind(): void {}
 
   /** Processes animation. */
-  public async onAnimate(nextIndex: number, direction: ESLCarouselDirection): Promise<void> {
-  }
+  public async onAnimate(nextIndex: number, direction: ESLCarouselDirection): Promise<void> {}
 
-  /** Handles the slides transition. */
-  public onMove(offset: number): void {
-    // TODO: implement if scroll behaviour requested
-    // const property = this.vertical ? 'scrollTop' : 'scrollLeft';
-    // this.$carousel[property] = -offset;
-  }
-  public commit(offset?: number): void {
-  }
+  /* Handles the slide move actions */
+  public move(offset: number, from?: number): void {}
+  public commit(offset: number, from?: number): void {}
 }

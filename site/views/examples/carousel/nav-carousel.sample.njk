@@ -12,11 +12,11 @@ tags: carousel-sample
     <ul esl-carousel-slides>
       {% for item in range(0, 8) %}
         <li esl-carousel-slide>
-          <div class="img-container img-container-16-9">
-            <esl-image mode="cover"
-                       lazy
-                       data-alt="{{ 'Carousel slide ' + loop.index }}"
-                       data-src="{{ '/assets/carousel/' + loop.index + '-sm.jpg'  | url }}"></esl-image>
+          <div class="img-container img-container-16-9" esl-image-container>
+            <img class="img-fade img-cover"
+                 alt="{{ 'Carousel slide ' + loop.index }}"
+                 src="{{ '/assets/carousel/' + loop.index + '-sm.jpg' | url }}"
+                 loading="lazy" />
           </div>
         </li>
       {% endfor %}
@@ -33,11 +33,13 @@ tags: carousel-sample
       {% for item in range(0, 16) %}
         <li esl-carousel-slide>
           <div class="img-container img-container-4-3"
+               esl-image-container
                esl-carousel-nav="slide:{{ loop.index - 1 }}"
                esl-carousel-nav-target="#main-carousel">
-            <esl-image mode="cover" lazy
-                       data-alt="{{ 'Carousel slide ' + loop.index }}"
-                       data-src="{{ '/assets/carousel/' + loop.index + '-sm.jpg'  | url }}"></esl-image>
+            <img class="img-fade img-cover"
+                 alt="{{ 'Carousel slide ' + loop.index }}"
+                 src="{{ '/assets/carousel/' + loop.index + '-sm.jpg' | url }}"
+                 loading="lazy" />
           </div>
         </li>
       {% endfor %}

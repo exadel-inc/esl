@@ -1,0 +1,109 @@
+---
+layout: content
+title: Image Utils
+seoTitle: Example image using ESL Image Container Mixin
+name: Image Utils
+tags: [examples, playground]
+icon: examples/image.svg
+aside:
+  components:
+    - esl-image-utils
+---
+{% import 'lorem.njk' as lorem %}
+
+{% set imageSrcBase = '/assets/' | url %}
+
+<section class="row">
+  <div class="col-12">
+    <uip-root>
+      <script type="text/html"
+              label="Picture with image (state on container)"
+              uip-snippet
+              uip-snippet-js="js-snippet-image-element"
+              uip-isolated>
+        <picture class="img-container img-container-16-9" esl-image-container>
+          <img loading="lazy"
+               alt="img"
+               src="{{ '/assets/nature/forest+clouds.jpg' | url }}"
+               class="img-fade img-cover"
+               style="" />
+        </picture>
+      </script>
+
+      <script type="text/html"
+              label="Custom classes for image container"
+              uip-snippet
+              uip-snippet-js="js-snippet-image-element"
+              uip-isolated>
+        <div class="img-container img-container-16-9"
+             esl-image-container="{readyCls: 'img-ready', errorCls: 'img-error'}">
+          <img loading="lazy"
+               alt="img"
+               src="{{ '/assets/nature/forest+clouds.jpg' | url }}"
+               class="img-cover"
+               style="" />
+          <style>
+            .img-container { border: .5em solid gray; padding: 0 !important; }
+            .img-ready { border: .5em solid green; }
+            .img-error { border: .5em solid red; }
+          </style>
+        </div>
+      </script>
+
+      <script type="text/html"
+              label="Using ESLImageContainer for multiple images"
+              uip-snippet
+              uip-snippet-js="js-snippet-image-element"
+              uip-isolated>
+        <div class="d-flex" esl-image-container>
+          <div class="col img-container img-container-16-9">
+            <img loading="lazy"
+                 alt="img"
+                 src="{{ '/assets/nature/forest+clouds.jpg' | url }}"
+                 class="col img-cover img-fade"/>
+          </div>
+          <div class="col img-container img-container-16-9">
+            <img loading="lazy"
+                 alt="img"
+                 src="{{ '/assets/nature/volcano.jpg' | url }}"
+                 class="col img-cover img-fade"/>
+          </div>
+        </div>
+      </script>
+
+      <script id="js-snippet-image-element" type="text/plain">
+        import { ESLImageContainerMixin } from '@exadel/esl';
+        ESLImageContainerMixin.register();
+      </script>
+
+      <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
+      <uip-preview></uip-preview>
+      <uip-settings label="Settings" resizable vertical="@+sm">
+        <uip-select-setting target=".img-container" label="Image ratio:" attribute="class" mode="append">
+          <option value="">Auto</option>
+          <option value="img-container-16-9">16 : 9</option>
+          <option value="img-container-26-9">26 : 9</option>
+          <option value="img-container-1-1">1 : 1</option>
+          <option value="img-container-4-3">4 : 3</option>
+        </uip-select-setting>
+
+        <uip-select-setting target=".img-container img" label="Image mode:" attribute="class" mode="append">
+          <option value="">None</option>
+          <option value="img-stretch">Stretch</option>
+          <option value="img-cover">Cover</option>
+          <option value="img-contain">Inscribe (Fit)</option>
+        </uip-select-setting>
+
+        <uip-select-setting target=".img-container :is(.img-cover, .img-contain)" label="Image alignment:" attribute="style" mode="append">
+          <option value="">Center</option>
+          <option value="object-position: left">Left</option>
+          <option value="object-position: right">Right</option>
+          <option value="object-position: top">Top</option>
+          <option value="object-position: bottom">Bottom</option>
+        </uip-select-setting>
+      </uip-settings>
+      <uip-editor label="Source code (HTML)" collapsible copy></uip-editor>
+      <uip-editor source="js" label="Source code (JS)" collapsible collapsed copy></uip-editor>
+    </uip-root>
+  </div>
+</section>

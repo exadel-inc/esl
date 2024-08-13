@@ -1,8 +1,14 @@
-# [ESL](../../../) Image
+# [ESL](../../../) Image (Legacy)
 
 Version: *1.3.0*
 
 Authors: *Alexey Stsefanovich (ala'n)*, *Yuliya Adamskaya*
+
+<a name="deprecation"></a>
+
+_⚠️ This module is considered legacy. 
+If you does not support IE11, consider using native `<img>` element with `loading="lazy"` attribute or `<picture>` element with `loading="lazy"` attribute on sources 
+in combination with lightweight [ESLImageUtils](../esl-image-utils/README.md) module. ⚠️_
 
 <a name="intro"></a>
 
