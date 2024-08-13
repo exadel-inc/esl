@@ -1,0 +1,33 @@
+{% macro menu(list, prefix) %}
+  {% if list and list.length %}
+    <ol class="presentation-sidebar-menu">
+      {% for item in list %}
+        <li class="presentation-sidebar-item">
+          <a href="#slide-{{ item.data.hash }}"
+             class="presentation-sidebar-link"
+             esl-carousel-nav="slide:{{ item.data.index }}"
+             esl-carousel-nav-target="#presentation-carousel">
+            <span class="presentation-sidebar-item-index">{{ prefix ~ loop.index }}.</span>
+            <span class="presentation-sidebar-item-title">{{ item.data.title }}</span>
+          </a>
+          {{ menu(item.children, prefix ~ loop.index ~ '.') }}
+        </li>
+      {% endfor %}
+    </ol>
+  {% endif %}
+{% endmacro %}
+
+<esl-toggleable id="presentation-sidebar"
+                role="complementary"
+                class="presentation-sidebar"
+                close-on=".presentation-sidebar-link, .presentation-sidebar-overlay"
+                close-on-esc
+                close-on-outside-action>
+  <div class="presentation-sidebar-overlay"></div>
+  <div class="presentation-sidebar-container esl-scrollable-content">
+    {% set tree = collections[slides] | sortBy('path', 'order') | tree %}
+    {{ menu(tree, '') }}
+  </div>
+  <esl-scrollbar target="#presentation-sidebar .presentation-sidebar-container"
+                 class="presentation-sidebar-scroll"></esl-scrollbar>
+</esl-toggleable>

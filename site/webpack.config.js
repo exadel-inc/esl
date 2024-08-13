@@ -31,7 +31,7 @@ const BASE_CONFIG = {
 module.exports = [{
   ...BASE_CONFIG,
   entry: {
-    'localdev': './src/localdev.ts',
+    'site': './src/site.ts',
     'polyfill': './src/polyfill.ts'
   },
   output: {
