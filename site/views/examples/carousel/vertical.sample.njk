@@ -18,10 +18,11 @@ tags: carousel-sample
       {% for i in range(0, 4) -%}
         <li esl-carousel-slide>
           <div class="card">
-            <div class="img-container img-container-16-9">
-              <esl-image mode="cover" lazy
-                         data-alt="Alt Text Test"
-                         data-src="{{ '/assets/carousel/' + loop.index + '-sm.jpg' | url }}"></esl-image>
+            <div class="img-container img-container-16-9" esl-image-container>
+              <img class="img-fade img-cover"
+                   alt="{{ 'Carousel slide ' + loop.index }}"
+                   src="{{ '/assets/carousel/' + loop.index + '-sm.jpg' | url }}"
+                   loading="lazy" />
               <div class="h1 text-slide text-white">Slide {{ loop.index }}</div>
             </div>
           </div>
