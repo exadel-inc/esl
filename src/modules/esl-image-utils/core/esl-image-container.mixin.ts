@@ -59,11 +59,11 @@ export class ESLImageContainerMixin extends ESLMixinElement {
 
   /** Check if all images are loaded */
   public get complete(): boolean {
-    return this.$images.every(img => img.complete);
+    return this.$images.every((img) => img.complete);
   }
   /** Check if any image has loading error */
   public get hasError(): boolean {
-    return this.$images.some(img => !img.naturalHeight && !img.naturalWidth);
+    return this.$images.some((img) => !img.naturalHeight && !img.naturalWidth);
   }
 
   protected override connectedCallback(): void {

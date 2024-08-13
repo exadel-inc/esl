@@ -12,7 +12,7 @@ Lightweight helpers for use with native `img` and `picture` elements.
 
 `ESLImageContainerMixin` (`esl-image-container`) is a custom attribute used to set an image container class once the image has loaded.
 
-This mixin is intended to be added to the image container element (e.g., `div`, `picture`, etc.), but it can also be added directly to the image element.
+This mixin is intended to be added to the image container element (e.g., `div`, `picture`, etc.) but can also be added directly to the image element.
 
 The mixin observes all images inside the host element.
 A ready class is applied to the host element when all images have finished loading (either successfully or with an error).
@@ -23,7 +23,7 @@ An error class is applied to the host element if any image fails to load.
 The mixin uses a primary attribute, `esl-image-container`, with optional configuration passed as a JSON attribute value.
 
 Configuration options:
-- `readyCls` (string) - class to apply to the target element when the image loads. Supports CSSClassUtils query.  
+- `readyCls` (string) - class to apply to the target element when the image is loaded. Supports CSSClassUtils query.  
     By default, the class `img-container-loaded` is applied.
 - `errorCls` (string) - class to apply to the target element if there is an image loading error. Supports CSSClassUtils query.  
     By default, no error class is applied.
