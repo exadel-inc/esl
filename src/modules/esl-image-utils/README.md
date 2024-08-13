@@ -6,84 +6,106 @@ Authors: *Anna Barmina*, *Alexey Stsefanovich (ala'n)*
 
 <a name="intro"></a>
 
-Lightweight helpers to use with native img and picture elements.
+Lightweight helpers for use with native `img` and `picture` elements.
 
-## ESL Image Container
+## ESL Image Container Mixin
 
-ESLImageContainerMixin (`esl-img-container`) is a custom attribute to set image container class as soon as image is loaded.
-The custom attribute should be placed on the img tag. 
+`ESLImageContainerMixin` (`esl-image-container`) is a custom attribute used to set an image container class once the image has loaded.
 
-### Attributes
+This mixin is intended to be added to the image container element (e.g., `div`, `picture`, etc.), but it can also be added directly to the image element.
 
-- `esl-img-container` (primary) - mixin attribute, provides ESLTraversingQuery to find the container element. Default `::parent` (direct parent).
-- `esl-img-container-cls` - optional, class to set on the container element. Supports CSSClassUtils query. Default `img-container-loaded`.
-- `esl-img-container-error-cls` - optional, class to set on the container element in case of image loading error. Supports CSSClassUtils query. Default `img-container-error`.
+The mixin observes all images inside the host element.
+A ready class is applied to the host element when all images have finished loading (either successfully or with an error).
+An error class is applied to the host element if any image fails to load.
+
+### Configuration
+
+The mixin uses a primary attribute, `esl-image-container`, with optional configuration passed as a JSON attribute value.
+
+Configuration options:
+- `readyCls` (string) - class to apply to the target element when the image loads. Supports CSSClassUtils query.  
+    By default, the class `img-container-loaded` is applied.
+- `errorCls` (string) - class to apply to the target element if there is an image loading error. Supports CSSClassUtils query.  
+    By default, no error class is applied.
+- `selector` (string) - query selector to find the target image element.  
+    By default, the selector is `img`.
+    Note: If the mixin is applied to the image element, the image itself will be checked against the selector anyway.
 
 ### Usage
 
-Set `img-container-loaded` class on the direct parent of the image element upon image load.
+Apply the default `img-container-loaded` class to the image container once the image has loaded.
+In the most common use case, the host element is the container.
 ```html
-<div class="img-container">
-  <img alt src="image.jpg" esl-img-container/>
+<div class="img-container img-container-16-9" esl-image-container>
+  <img alt src="image.jpg"/>
+</div>
+```
+or
+```html
+<picture class="img-container img-container-16-9" esl-image-container>
+  <source srcset="image.webp" type="image/webp">
+  <img alt src="image.jpg"/>
+</picture>
+```
+
+Apply the custom class `loaded` to the image container element when the image loads, and the class `error` if an image loading error occurs.
+```html
+<div class="img-container" esl-image-container="{readyCls: 'loaded', errorCls: 'error'}">
+  <img alt src="image.jpg"/>
 </div>
 ```
 
-Set class `img-container-loaded` on closest parent with class `img-container` upon image load.
+Apply the custom class `loaded` directly to the image element when it loads.
 ```html
-<div class="img-container">
-  <picture>
-    <source srcset="image.webp" type="image/webp">
-    <img alt src="image.jpg" esl-img-container="::closest(.img-container)"/>
-  </picture>
-</div>
-```
-Note: it is not necessary to use `::closest` query in current case. `::parent` query with selector `img-container` will work as well.
-
-Set custom class `loaded` on the direct parent of the image element upon image load.
-```html
-<div class="img-container">
-  <img alt src="image.jpg" esl-img-container esl-img-container-cls="loaded"/>
-</div>
+<img alt src="image.jpg" esl-image-container="{readyCls: 'loaded'}"/>
 ```
 
-Set custom class `loaded` on the direct parent of the image element upon image load and class `error` in case of image loading error.
+Apply the custom class `loaded` to the direct parent of the image element when the image loads successfully.
+Note: The error class query is executed after the ready class query, so the error class could override the ready class.
 ```html
-<div class="img-container">
-  <img alt src="image.jpg" esl-img-container esl-img-container-cls="loaded" esl-img-container-error-cls="error"/>
+<div class="img-container" esl-image-container="{readyCls: 'loaded', errorCls: '!loaded'}">
+  <img alt src="image.jpg"/>
 </div>
 ```
-
-Set custom class `loaded` on the direct parent of the image element upon image successful load.
-Note: the error class query executed after the plain class query. So error class query could override the plain class query.
+or simply
 ```html
-<div class="img-container">
-  <img alt src="image.jpg" esl-img-container esl-img-container-cls="loaded" esl-img-container-error-cls="!loaded"/>
+<div class="img-container" esl-image-container="{readyCls: '', errorCls: '!loaded'}">
+  <img alt src="image.jpg"/>
 </div>
 ```
 
 ---
 
 ## ESL Image Container (CSS Only)
-A set of common CSS classes to use with native images. Seamless integration with ESLImageContainerMixin defaults. 
 
-### Main container classes
-- `img-container` - mandatory container class. (Can be set on `picture` element as well)
-- `img-container-loaded` (Automatic) - class to set on the container element upon image load. ESLImageContainerMixin maintains this class.
+A set of common CSS classes to use with native images. Seamless integration with `ESLImageContainerMixin` defaults. 
+
+### Main container & image classes
+_Source_: [esl-image-utils.container.less](./core/esl-image-utils.container.less)
+
+- `img-container` - mandatory container class (can also be applied to `picture` elements).
+- `img-container-loaded` (Automatic) - class applied to the container element when the image loads. Maintained by `ESLImageContainerMixin`.
+- `img-stretch` - class to apply to the `img` element to stretch the image to cover the container area.
+- `img-cover` - class to apply to the `img` element to cover the container area while maintaining aspect ratio.
+- `img-contain` - class to apply to the `img` element to fit (inscribe) the container area while maintaining aspect ratio.
 
 ### Aspect Ratio Container Classes
-  - `img-container-16-9` - aspect ratio 16:9 container class.
-  - `img-container-4-3` - aspect ratio 4:3 container class.
-  - `img-container-1-1` - aspect ratio 3:2 container class.
+_Source_: [esl-image-utils.ratios.less](./core/esl-image-utils.ratios.less)
 
-### Image Classes
-By default images inside `img-container` will be stretched to cover the container area.
-  - `img-cover` - class to set on `img` element to cover the container area maintaining aspect ratio.
-  - `img-contain` - class to set on `img` element to fit (inscribe) the container area maintaining aspect ratio.
+  - `img-container-16-9` - aspect ratio 16:9 container class.
+  - `img-container-26-9` - aspect ratio 26:9 container class.
+  - `img-container-4-3` - aspect ratio 4:3 container class.
+  - `img-container-1-1` - aspect ratio 1:1 container class.
+
+### Image Fade-In Animation
+_Source_: [esl-image-utils.fade.less](./core/esl-image-utils.fade.less)
+
+- `img-fade` - class to apply a fade-in animation on image load. Works with the `img-container-loaded` class.
 
 ### Usage
 ```html
-<picture class="img-container img-container-16-9">
+<picture class="img-container img-container-16-9" esl-image-container>
   <source srcset="image.webp" type="image/webp">
-  <img alt src="image.jpg" class="img-cover" esl-img-container/>
+  <img alt src="image.jpg" class="img-fade img-cover" loading="lazy"/>
 </picture>
 ```
