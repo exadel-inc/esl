@@ -1,0 +1,106 @@
+---
+layout: content
+title: Anchornav
+seoTitle: Anchornav component for prompt navigation to different sections of a page
+name: Anchornav
+tags: [examples, beta, playground]
+icon: examples/anchornav.svg
+aside:
+  components:
+    - esl-anchornav
+---
+{% import 'lorem.njk' as lorem %}
+
+{% set imageSrcBase = '/assets/' | url %}
+
+<section class="row">
+  <div class="col-12">
+    <uip-root>
+      <script type="text/html"
+              label="Anchornav fixed"
+              uip-snippet
+              uip-snippet-js="js-snippet-anchornav-element">
+        <div class="d-flex">
+          <div>
+            <!-- paragraph 4 -->
+            <div esl-anchor id="my-anchor-1" title="Anchor one"></div>
+            <p>⚓ № 1</p>
+            <!-- paragraph 5 -->
+            <div esl-anchor id="my-anchor-2" title="Anchor two"></div>
+            <p>⚓ № 2</p>
+            <!-- paragraph 6 -->
+            <div esl-anchor id="my-anchor-3" title="Anchor three"></div>
+            <p>⚓ № 3</p>
+            <!-- paragraph 7 -->
+            <div esl-anchor id="my-anchor-4" title="Anchor four"></div>
+            <p>⚓ № 4</p>
+            <!-- paragraph 6 -->
+            <div esl-anchor id="my-anchor-5" title="Anchor five"></div>
+            <p>⚓ № 5</p>
+            <!-- paragraph 5 -->
+            <div esl-anchor id="my-anchor-6" title="Anchor six"></div>
+            <p>⚓ № 6</p>
+            <!-- paragraph 6 -->
+            <div esl-anchor id="my-anchor-7" title="Anchor seven"></div>
+            <p>⚓ № 7</p>
+            <!-- paragraph 7 -->
+          </div>
+          <div>
+            <div class="esl-anchornav-pseudo-fixed">
+              <esl-anchornav>
+                <div class="h4 text-center">Anchornav</div>
+              </esl-anchornav>
+            </div>
+          </div>
+        </div>
+      </script>
+
+      <script type="text/html"
+              label="Anchornav sticked"
+              uip-snippet
+              uip-snippet-js="js-snippet-anchornav-element">
+        <div>
+            <!-- paragraph 3 -->
+            <div esl-anchornav-sticked><esl-anchornav>Anchors: <nav esl-anchors-items></nav></esl-anchornav></div>
+            <!-- paragraph 4 -->
+            <div esl-anchor id="my-anchor-1" title="Anchor one"></div>
+            <br><p>⚓ № 1</p>
+            <!-- paragraph 8 -->
+            <div esl-anchor id="my-anchor-2" title="Anchor two"></div>
+            <br><p>⚓ № 2</p>
+            <!-- paragraph 9 -->
+            <div esl-anchor id="my-anchor-3" title="Anchor three"></div>
+            <br><p>⚓ № 3</p>
+            <!-- paragraph 10 -->
+            <div esl-anchor id="my-anchor-4" title="Anchor four"></div>
+            <br><p>⚓ № 4</p>
+            <!-- paragraph 9 -->
+            <div esl-anchor id="my-anchor-5" title="Anchor five"></div>
+            <br><p>⚓ № 5</p>
+            <!-- paragraph 8 -->
+            <div esl-anchor id="my-anchor-6" title="Anchor six"></div>
+            <br><p>⚓ № 6</p>
+            <!-- paragraph 9 -->
+            <div esl-anchor id="my-anchor-7" title="Anchor seven"></div>
+            <br><p>⚓ № 7</p>
+            <!-- paragraph 10 -->
+        </div>
+      </script>
+
+      <script id="js-snippet-anchornav-element" type="text/plain">
+        import { ESLAnchornav, ESLAnchorMixin, ESLAnchornavStickedMixin } from '@exadel/esl';
+        ESLAnchornav.register();
+        ESLAnchorMixin.register();
+        ESLAnchornavStickedMixin.register();
+      </script>
+
+      <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
+      <uip-settings label="Settings" resizable vertical="@+sm">
+        <uip-bool-setting label="Highlight anchor" target="[esl-anchor]" mode="append" attribute="class" value="highlighted"></uip-bool-setting>
+      </uip-settings>
+      <uip-preview style="max-height: 500px"></uip-preview>
+      <uip-editor label="Source code (HTML)" collapsible copy></uip-editor>
+      <uip-editor source="js" label="Source code (JS)" collapsible collapsed copy></uip-editor>
+    </uip-root>
+  </div>
+</section>

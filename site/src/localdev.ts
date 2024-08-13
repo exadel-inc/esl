@@ -135,6 +135,9 @@ ESLOpenState.register();
 // Share component loading
 import (/* webpackChunkName: 'common/esl-share' */'./esl-share/esl-share');
 
+// Anchornav component loading
+import (/* webpackChunkName: 'common/esl-anchornav' */'./esl-anchornav/esl-anchornav');
+
 if (document.querySelector('uip-root')) {
   // Init UI Playground
   import (/* webpackChunkName: "common/playground" */'./playground/ui-playground');
