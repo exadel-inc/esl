@@ -71,11 +71,6 @@ export class ESLAnchornav extends ESLBaseElement {
     this.$$on(this._onAnchorIntersection);
   }
 
-  /** Anchornav item renderer */
-  protected get itemRenderer(): ESLAnchornavRender | undefined {
-    return ESLAnchornav.getRenderer(this.rendererName);
-  }
-
   /** Anchornav items container */
   @memoize()
   protected get $itemsArea(): HTMLElement {
@@ -125,7 +120,7 @@ export class ESLAnchornav extends ESLBaseElement {
 
   /** Renders the component anchors list */
   protected renderAnchors(): Element[] {
-    const {itemRenderer} = this;
+    const itemRenderer = ESLAnchornav.getRenderer(this.rendererName);
     this._items.clear();
     return itemRenderer ? this._anchors.map((anchor) => {
       let item = itemRenderer(anchor);
