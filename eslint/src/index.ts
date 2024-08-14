@@ -1,3 +1,5 @@
+import './core/check-version';
+
 import DEPRECATED_4_RULES from './rules/4/all.rules';
 import DEPRECATED_5_RULES from './rules/5/all.rules';
 
@@ -29,6 +31,7 @@ export const configs = {
   },
   'default': {
     rules: {
+      ...buildDefault(DEPRECATED_4_RULES, 'error'),
       ...buildDefault(DEPRECATED_5_RULES, 'warn')
     }
   }

@@ -72,6 +72,9 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** Readonly attribute that indicates whether the panel group has opened panels */
   @boolAttr({readonly: true}) public hasOpened: boolean;
 
+  /** Active while animation in progress */
+  @boolAttr({readonly: true}) public animating: boolean;
+
   /** Height of previous active panel */
   protected _previousHeight: number = 0;
 
@@ -129,25 +132,25 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** @returns ESLMediaRuleList instance of the mode mapping */
   @memoize()
   public get modeRules(): ESLMediaRuleList<string> {
-    return ESLMediaRuleList.parse(this.mode);
+    return ESLMediaRuleList.parseQuery(this.mode);
   }
 
   /** @returns ESLMediaRuleList instance of the min-open-items mapping */
   @memoize()
   public get minValueRules(): ESLMediaRuleList<number> {
-    return ESLMediaRuleList.parse(this.minOpenItems, parseCount);
+    return ESLMediaRuleList.parseQuery(this.minOpenItems, parseCount);
   }
 
   /** @returns ESLMediaRuleList instance of the max-open-items mapping */
   @memoize()
   public get maxValueRules(): ESLMediaRuleList<number> {
-    return ESLMediaRuleList.parse(this.maxOpenItems, parseCount);
+    return ESLMediaRuleList.parseQuery(this.maxOpenItems, parseCount);
   }
 
   /** @returns ESLMediaRuleList instance of the refresh-strategy mapping */
   @memoize()
   public get refreshRules(): ESLMediaRuleList<string> {
-    return ESLMediaRuleList.parse(this.refreshStrategy);
+    return ESLMediaRuleList.parseQuery(this.refreshStrategy);
   }
 
   /** @returns current mode */
@@ -174,7 +177,7 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** @returns panels that are processed by the current panel group */
   public get $panels(): ESLPanel[] {
     const els = Array.from(this.querySelectorAll(this.panelSel));
-    return els.filter((el) => this.includesPanel(el)) as ESLPanel[];
+    return els.filter((el) => this.includesPanel(el));
   }
 
   /** @returns panels that are active */
@@ -268,6 +271,7 @@ export class ESLPanelGroup extends ESLBaseElement {
 
   /** Pre-processing animation action */
   protected beforeAnimate(): void {
+    this.$$attr('animating', true);
     CSSClassUtils.add(this, this.animationClass);
   }
 
@@ -275,6 +279,7 @@ export class ESLPanelGroup extends ESLBaseElement {
   protected afterAnimate(silent?: boolean): void {
     this.style.removeProperty('height');
     CSSClassUtils.remove(this, this.animationClass);
+    this.$$attr('animating', false);
 
     if (silent) return;
     this.$$fire(this.AFTER_ANIMATE_EVENT, {bubbles: false});

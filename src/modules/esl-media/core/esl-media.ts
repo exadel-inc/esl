@@ -45,7 +45,8 @@ export class ESLMedia extends ESLBaseElement {
     'muted',
     'loop',
     'controls',
-    'lazy'
+    'lazy',
+    'start-time'
   ];
 
   /** Event to dispatch on ready state */
@@ -118,6 +119,8 @@ export class ESLMedia extends ESLBaseElement {
   @boolAttr({readonly: true}) public played: boolean;
   /** @readonly Error state marker */
   @boolAttr({readonly: true}) public error: boolean;
+  /** @readonly Width is greater than height state marker */
+  @boolAttr({readonly: true}) public wide: boolean;
 
   private _provider: BaseProvider | null;
 
@@ -157,6 +160,7 @@ export class ESLMedia extends ESLBaseElement {
       case 'media-id':
       case 'media-src':
       case 'media-type':
+      case 'start-time':
         this.deferredReinitialize();
         break;
       case 'lazy':
@@ -301,15 +305,9 @@ export class ESLMedia extends ESLBaseElement {
   })
   protected _onResize(): void {
     if (!this._provider) return;
-    if (this.fillModeEnabled && this.actualAspectRatio > 0) {
-      let stretchVertically = this.offsetWidth / this.offsetHeight < this.actualAspectRatio;
-      if (this.fillMode === 'inscribe') stretchVertically = !stretchVertically; // Inscribe behaves inversely
-      stretchVertically ?
-        this._provider.setSize(this.actualAspectRatio * this.offsetHeight, this.offsetHeight) : // h
-        this._provider.setSize(this.offsetWidth, this.offsetWidth / this.actualAspectRatio);   // w
-    } else {
-      this._provider.setSize('auto', 'auto');
-    }
+    const {actualAspectRatio} = this;
+    this.$$attr('wide', this.offsetWidth / this.offsetHeight > actualAspectRatio);
+    this._provider.setAspectRatio(actualAspectRatio);
   }
 
   @listen({

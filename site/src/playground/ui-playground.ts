@@ -7,7 +7,9 @@ UIPJSRenderingPreprocessors.addRegexReplacer(
   '"/bundles/lib.js"'
 );
 
-// Add template
+// Store default template as empty
+UIPRenderingTemplatesService.add('empty', UIPRenderingTemplatesService.get('default')!);
+// Inject ESL context to default template
 UIPRenderingTemplatesService.add('default', `
   <html>
     <head>

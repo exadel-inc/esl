@@ -35,56 +35,64 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
   public static OBJECT_PARSER = <U = any>(val: string): U | undefined => evaluate(val);
 
   /**
-   * Creates `ESLMediaRuleList` from string query representation
+   * Creates {@link ESLMediaRuleList} from string query representation
    * Expect serialized {@link ESLMediaRule}s separated by '|'
-   * Uses exact strings as rule list values
    *
-   * @param query - query string
+   * @param query - query ("arrow" syntax) string
+   * @alias parseQuery
    */
   public static parse(query: string): ESLMediaRuleList<string>;
   /**
-   * Creates `ESLMediaRuleList` from string query representation.
+   * Creates {@link ESLMediaRuleList} from string query representation.
    * Expect serialized {@link ESLMediaRule}s separated by '|'
    *
    * @param query - query string
    * @param parser - value parser function
+   * @alias parseQuery
    */
   public static parse<U>(query: string, parser: RulePayloadParser<U>): ESLMediaRuleList<U>;
   /**
-   * Creates `ESLMediaRuleList` from two strings with conditions and values sequences
+   * Creates {@link ESLMediaRuleList} from the value string with automatic syntax detection.
+   * Note: single value considered as query string and a single `all => value` rule will be created.
+   * Use explicit tuple syntax {@link parseTuple} to create single rule with media condition.
    *
-   * @param mask - media conditions tuple string (uses '|' as separator)
-   * @param values - values tuple string (uses '|' as separator)
+   * @param query - media rule query ('arrow' syntax) string or tuple string of values (uses '|' as separator)
+   * @param mask - media conditions tuple string (uses '|' as separator), to be used in case of tuple syntax
    *
    * @example
    * ```ts
-   * ESLMediaRuleList.parse('@XS|@SM|@MD|@LG|@XL', '1|2|3|4|5')
+   * ESLMediaRuleList.parse('1|2|3|4|5', '@XS|@SM|@MD|@LG|@XL') // @xs => '1' | @sm => '2' | @md => '3' | @lg => '4' | @xl => '5'
+   * ESLMediaRuleList.parse('1 | @XS => 2', '@XS|@SM|@MD|@LG|@XL') // all => '1' | @xs => '2' (second argument is ignored)
    * ```
    */
-  public static parse(mask: string, values: string): ESLMediaRuleList<string>;
+  public static parse(query: string, mask: string): ESLMediaRuleList<string>;
   /**
-   * Creates `ESLMediaRuleList` from two strings with conditions and values sequences
+   * Creates {@link ESLMediaRuleList} from the value string with automatic syntax detection.
+   * Note: single value considered as query string and a single `all => value` rule will be created.
+   * Use explicit tuple syntax {@link parseTuple} to create single rule with media condition.
    *
-   * @param mask - media conditions tuple string (uses '|' as separator)
-   * @param values - values tuple string (uses '|' as separator)
+   * @param query - media rule query ('arrow' syntax) string or tuple string of values (uses '|' as separator)
+   * @param mask - media conditions tuple string (uses '|' as separator), to be used in case of tuple syntax
    * @param parser - value parser function
    *
    * @example
    * ```ts
-   * ESLMediaRuleList.parseTuple('@XS|@SM|@MD|@LG|@XL', '1|2|3|4|5', Number)
+   * ESLMediaRuleList.parse('1|2|3|4|5', '@XS|@SM|@MD|@LG|@XL', parseInt) // @xs => 1 | @sm => 2 | @md => 3 | @lg => 4 | @xl => 5
+   * ESLMediaRuleList.parse('1 | @XS => 2', '@XS|@SM|@MD|@LG|@XL', parseInt) // all => 1 | @xs => 2 (second argument is ignored)
    * ```
    */
-  public static parse<U>(mask: string, values: string, parser: RulePayloadParser<U>): ESLMediaRuleList<U>;
+  public static parse<U>(query: string, mask: string, parser: RulePayloadParser<U>): ESLMediaRuleList<U>;
   public static parse(query: string, ...common: (string | RulePayloadParser<any>)[]): ESLMediaRuleList {
     const parser: RulePayloadParser<any> = typeof common[common.length - 1] === 'function' ? common.pop() as any : String;
-    const value = common.pop();
-    return typeof value === 'string' ?
-      ESLMediaRuleList.parseTuple(query, value, parser) :
-      ESLMediaRuleList.parseQuery(query, parser);
+    const mask = common.pop();
+    if (typeof mask !== 'string' || query.includes('=>') || !query.includes('|')) {
+      return ESLMediaRuleList.parseQuery(query, parser);
+    }
+    return ESLMediaRuleList.parseTuple(mask, query, parser);
   }
 
   /**
-   * Creates `ESLMediaRuleList` from string query representation
+   * Creates {@link ESLMediaRuleList} from string query representation
    * Uses exact strings as rule list values
    * @param query - query string
    */
@@ -103,7 +111,7 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
   }
 
   /**
-   * Creates `ESLMediaRuleList` from two strings with conditions and values sequences
+   * Creates {@link ESLMediaRuleList} from two strings with conditions and values sequences
    *
    * @param mask - media conditions tuple string (uses '|' as separator)
    * @param values - values tuple string (uses '|' as separator)
@@ -115,7 +123,7 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
    */
   public static parseTuple(mask: string, values: string): ESLMediaRuleList<string>;
   /**
-   * Creates `ESLMediaRuleList` from two strings with conditions and values sequences
+   * Creates {@link ESLMediaRuleList} from two strings with conditions and values sequences
    *
    * @param mask - media conditions tuple string (uses '|' as separator)
    * @param values - values tuple string (uses '|' as separator)
@@ -133,7 +141,7 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
     while (valueList.length < queries.length && valueList.length !== 0) valueList.push(valueList[valueList.length - 1]);
     if (valueList.length !== queries.length) throw Error('Value doesn\'t correspond to mask');
     const rules: (ESLMediaRule | undefined)[] = queries.map((query, i) => ESLMediaRule.create(valueList[i], query, parser));
-    const validRules = rules.filter((rule) => !!rule) as ESLMediaRule[];
+    const validRules = rules.filter((rule) => !!rule);
     return new ESLMediaRuleList(validRules);
   }
 
@@ -208,7 +216,7 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
 
   /** @returns serialized {@link ESLMediaRuleList} object representation*/
   public override toString(): string {
-    return this.rules.join('|');
+    return this.rules.join(' | ');
   }
 }
 

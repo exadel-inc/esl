@@ -1,6 +1,6 @@
 {
   "name": "@exadel/eslint-plugin-esl",
-  "version": "5.0.0-beta.17",
+  "version": "5.0.0-beta.31",
   "keywords": [
     "eslint",
     "eslint-plugin",
@@ -19,7 +19,9 @@
     "clean": "rimraf dist",
     "build": "npm run clean && tsc --project tsconfig.build.json"
   },
-  "dependencies": {},
+  "dependencies": {
+    "semver": "^7.6.3"
+  },
   "peerDependencies": {
     "@exadel/esl": "*",
     "eslint": ">=8.0.0"

@@ -79,12 +79,12 @@ export function initDescriptor<T extends object>(
   desc: ESLListenerDescriptorExt
 ): ESLListenerDescriptorFn {
   const fn = host[key];
-  if (typeof fn !== 'function') throw new TypeError(`[ESL] Init Descriptor: ${key} is not a function`);
+  if (typeof fn !== 'function') throw new TypeError(`[ESL] Descriptor '${key}' is not a function`);
 
   // Inherit event meta information from the prototype key
   if (desc.inherit) {
     const superDesc = Object.getPrototypeOf(host)[key];
-    if (!isEventDescriptor(superDesc)) throw new ReferenceError(`[ESL] Init Descriptor: no parent event descriptor found for ${key}`);
+    if (!isEventDescriptor(superDesc)) throw new ReferenceError(`[ESL] No parent event descriptor found for '${key}'`);
     desc = Object.assign({auto: false}, superDesc, desc);
   } else {
     desc = Object.assign({auto: false}, desc);

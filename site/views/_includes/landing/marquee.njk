@@ -15,7 +15,7 @@
   </div>
 
   <div class="marquee-illustration" role="presentation">
-    <div class="marquee-brand logo-animated">
+    <div class="marquee-brand">
       {% include 'static/assets/' + landing.marquee.logo %}
     </div>
   </div>
@@ -23,4 +23,17 @@
   <esl-animate>
     {% include 'static/assets/common/accent.svg' %}
   </esl-animate>
+
+  {% if env.isDev %}
+  <esl-d-marquee-owl>
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" class="accent accent-owl" viewBox="0 0 1374 232" data-show-level="1">
+      <image class="accent-owl" href="/assets/owl/small.webp" x="550" y="109" width="75" height="105"></image>
+      <g transform="translate(615, 40)" stroke="#fff" fill="#fff">
+        <path d="M27,20 Q13,20 13,30 V60 L0,80 Q13,70 27,70 H147 Q160,70 160,60 V30 Q160,20 147,20 H27 z" fill="none"/>
+        <text data-level="0" x="30" y="40" font-size="15"></text>
+        <text data-level="0" x="30" y="60" font-size="15">?</text>
+      </g>
+    </svg>
+  </esl-d-marquee-owl>
+  {% endif %}
 </esl-d-marquee>

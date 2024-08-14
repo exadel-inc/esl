@@ -204,6 +204,8 @@ ESLMediaRuleList.parse('1 | @XS => 2', String); // the same as sample above
 ESLMediaRuleList.parse('1 | @XS => 2', Number); // first query from the sample above that store numeric values
 ESLMediaRuleList.parse('@XS => {option: 1} | @+SM => {option: 2}', ESLMediaRuleList.OBJECT_PARSER); // second query from the sample above with an object payloads
 ESLMediaRuleList.parse('@XS => {option: 1} | @+SM => {option: 2}', evaluate); // the same as the sample above 
+ESLMediaRuleList.parse('1|2|3|4|5', '@xs|@sm|@md|@lg|@xl') // parses tuple payloads
+ESLMediaRuleList.parse('@mqAlt1 => value1| @mqAlt2 => value2', '@mq1|@mq2'); // parses first argument as an arrow syntax without default tuple consideration.
 
 // Tupple parsing
 ESLMediaRuleList.parseTuple('@xs|@sm|@md|@lg|@xl', '1|2|3|4|5') // String payload example
@@ -212,11 +214,11 @@ ESLMediaRuleList.parseTuple('@xs|@sm|@md|@lg|@xl', '1|2|3|4|5',  Number) // Nume
 
 #### ESLMediaRuleList API
 
-- `ESLMediaRuleList.parse(ruleset: string)` - parse media ruleset defined with classic syntax mentioned in section above.
-Rules separated by `|` symbol, query and value separated by `=>` for each rule, query is optional.
+- `ESLMediaRuleList.parseTuple(queries: string, values: string)` - parse media ruleset from tuple of queries and values, all separated via `|` symbol.
 
-- `ESLMediaRuleList.parseTuple(queries: string, values: string)` - parse media ruleset from tuple of
-queries and values, all separated via `|` symbol
+- `ESLMediaRuleList.parseQuery(ruleset: string)` - parse media ruleset defined with syntax, where query and value are a single argument separated by `=>` for each rule.
+
+- `ESLMediaRuleList.parse(values: string, queries: string)` - parse media ruleset adaptively. Method can support both notations with a ruleset from tuple of queries and values, all separated via `|` symbol, and can parse cases where query syntax with rules separated by `=>` is being used as a value for a tuple.
 
 - `ESLMediaRuleList.prototype.rules` - array of rules that defines `ESLMediaRuleList` object
 - `ESLMediaRuleList.prototype.active` - array of active (matched) rules 

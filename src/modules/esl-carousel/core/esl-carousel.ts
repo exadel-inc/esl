@@ -5,6 +5,8 @@ import {isMatches} from '../../esl-utils/dom/traversing';
 import {microtask} from '../../esl-utils/async';
 import {parseBoolean, sequentialUID} from '../../esl-utils/misc';
 
+import {CSSClassUtils} from '../../esl-utils/dom/class';
+import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
 import {ESLResizeObserverTarget} from '../../esl-event-listener/core';
 
@@ -41,21 +43,32 @@ export interface ESLCarouselActionParams {
 @ExportNs('Carousel')
 export class ESLCarousel extends ESLBaseElement {
   public static override is = 'esl-carousel';
-  public static observedAttributes = ['media', 'type', 'loop', 'count', 'vertical'];
+  public static observedAttributes = ['media', 'type', 'loop', 'count', 'vertical', 'container'];
 
   /** Media query pattern used for {@link ESLMediaRuleList} of `type`, `loop` and `count` (default: `all`) */
   @attr({defaultValue: 'all'}) public media: string;
   /** Renderer type name (`multi` by default). Supports {@link ESLMediaRuleList} syntax */
   @attr({defaultValue: 'default'}) public type: string;
   /** Marker to enable loop mode for a carousel (`true` by default). Supports {@link ESLMediaRuleList} syntax */
-  @attr({defaultValue: 'false'}) public loop: string;
+  @attr({defaultValue: 'false'}) public loop: string | boolean;
   /** Count of slides to show on the screen (`1` by default). Supports {@link ESLMediaRuleList} syntax */
-  @attr({defaultValue: '1'}) public count: string;
+  @attr({defaultValue: '1'}) public count: string | number;
   /** Orientation of the carousel (`horizontal` by default). Supports {@link ESLMediaRuleList} syntax */
-  @attr({defaultValue: 'false'}) public vertical: string;
+  @attr({defaultValue: 'false'}) public vertical: string | boolean;
+
+  /** Container selector (supports traversing query). Carousel itself by default */
+  @attr({defaultValue: ''}) public container: string;
+  /** CSS class to add on the container when carousel is empty */
+  @attr({defaultValue: ''}) public containerEmptyClass: string;
+  /** CSS class to add on the container when carousel is incomplete */
+  @attr({defaultValue: ''}) public containerIncompleteClass: string;
 
   /** true if carousel is in process of animating */
   @boolAttr({readonly: true}) public animating: boolean;
+  /** true if carousel is empty */
+  @boolAttr({readonly: true}) public empty: boolean;
+  /** true if carousel is incomplete (total slides count is less or equal to visible slides count) */
+  @boolAttr({readonly: true}) public incomplete: boolean;
 
   /** Marker/mixin attribute to define slide element */
   public get slideAttrName(): string {
@@ -65,22 +78,22 @@ export class ESLCarousel extends ESLBaseElement {
   /** Renderer type {@link ESLMediaRuleList} instance */
   @memoize()
   public get typeRule(): ESLMediaRuleList<string> {
-    return ESLMediaRuleList.parse(this.media, this.type);
+    return ESLMediaRuleList.parse(this.type, this.media);
   }
   /** Loop marker {@link ESLMediaRuleList} instance */
   @memoize()
   public get loopRule(): ESLMediaRuleList<boolean> {
-    return ESLMediaRuleList.parse(this.media, this.loop, parseBoolean);
+    return ESLMediaRuleList.parse(this.loop as string, this.media, parseBoolean);
   }
   /** Count of visible slides {@link ESLMediaRuleList} instance */
   @memoize()
   public get countRule(): ESLMediaRuleList<number> {
-    return ESLMediaRuleList.parse(this.media, this.count, parseInt);
+    return ESLMediaRuleList.parse(this.count as string, this.media, parseInt);
   }
   /** Orientation of the carousel {@link ESLMediaRuleList} instance */
   @memoize()
   public get verticalRule(): ESLMediaRuleList<boolean> {
-    return ESLMediaRuleList.parse(this.media, this.vertical, parseBoolean);
+    return ESLMediaRuleList.parse(this.vertical as string, this.media, parseBoolean);
   }
 
   /** Returns observed media rules */
@@ -122,11 +135,14 @@ export class ESLCarousel extends ESLBaseElement {
     super.connectedCallback();
     this.update();
     this.updateA11y();
-    Promise.resolve().then(() => this.dispatchEvent(ESLCarouselChangeEvent.createInitial(this)));
   }
 
   protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected) return;
+    if (attrName === 'container') {
+      memoize.clear(this, '$container');
+      return this.updateStateMarkers();
+    }
     memoize.clear(this, `${attrName}Rule`);
     this.update();
   }
@@ -141,7 +157,8 @@ export class ESLCarousel extends ESLBaseElement {
   public update(): void {
     const config = this.configCurrent;
     const oldConfig = this.config;
-    const $oldSlides = this.$slides;
+    const initial = !this.renderer.bound;
+    const $oldSlides = initial ? [] : this.$slides;
 
     memoize.clear(this, '$slides');
     const added = this.$slides.filter((slide) => !$oldSlides.includes(slide));
@@ -151,16 +168,18 @@ export class ESLCarousel extends ESLBaseElement {
 
     this.renderer.unbind();
     memoize.clear(this, 'renderer');
-    this.renderer && this.renderer.bind();
-    this.updateContainer();
-    this.dispatchEvent(ESLCarouselChangeEvent.create({added, removed, config, oldConfig}));
+    this.renderer.bind();
+    this.updateStateMarkers();
+    this.dispatchEvent(ESLCarouselChangeEvent.create({initial, added, removed, config, oldConfig}));
   }
 
-  public updateContainer(): void {
+  protected updateStateMarkers(): void {
+    this.$$attr('empty', !this.size);
+    this.$$attr('incomplete', this.size <= this.renderer.count);
+
     if (!this.$container) return;
-    this.$container.toggleAttribute('empty', this.size === 0);
-    this.$container.toggleAttribute('single', this.size === 1);
-    this.$container.toggleAttribute('incomplete', this.size <= this.renderer.count);
+    CSSClassUtils.toggle(this.$container, this.containerEmptyClass, this.empty, this);
+    CSSClassUtils.toggle(this.$container, this.containerIncompleteClass, this.incomplete, this);
   }
 
   /** Appends slide instance to the current carousel */
@@ -168,6 +187,7 @@ export class ESLCarousel extends ESLBaseElement {
     if (!slide) return;
     slide.setAttribute(this.slideAttrName, '');
     if (slide.parentNode === this.$slidesArea) return this.update();
+    console.debug('[ESL]: ESLCarousel moves slide to correct location', slide);
     if (slide.parentNode) slide.remove();
     Promise.resolve().then(() => this.$slidesArea.appendChild(slide));
   }
@@ -180,10 +200,9 @@ export class ESLCarousel extends ESLBaseElement {
   }
 
   protected updateA11y(): void {
-    const $container = this.$container || this;
-    if (!$container.role) {
-      $container.setAttribute('role', 'region');
-      $container.setAttribute('aria-roledescription', 'Carousel');
+    if (!this.role) {
+      this.setAttribute('role', 'region');
+      this.setAttribute('aria-roledescription', 'Carousel');
     }
     if (!this.id) this.id = sequentialUID('esl-carousel-');
     if (!this.$slidesArea.id) this.$slidesArea.id = `${this.id}-slides`;
@@ -221,10 +240,12 @@ export class ESLCarousel extends ESLBaseElement {
     return els.filter((el) => el.hasAttribute(slideAttrName));
   }
 
-  /** @returns carousel container */
+  /**
+   * @returns carousel container
+   */
   @memoize()
-  public get $container(): HTMLElement | null {
-    return this.closest(`[${this.tagName}-container]`);
+  public get $container(): Element | null {
+    return ESLTraversingQuery.first(this.container, this) as HTMLElement;
   }
 
   /** @returns carousel slides area */
@@ -277,11 +298,12 @@ export class ESLCarousel extends ESLBaseElement {
   }
 
   /** Goes to the target according to passed params */
-  public goTo(target: ESLCarouselSlideTarget, params: ESLCarouselActionParams = {}): Promise<void> {
+  public goTo(target: HTMLElement | ESLCarouselSlideTarget, params: ESLCarouselActionParams = {}): Promise<void> {
+    if (target instanceof HTMLElement) return this.goTo(this.indexOf(target), params);
     if (!this.renderer) return Promise.reject();
-    const {index, dir} = toIndex(target, this.state);
-    const direction = params.direction || dir || 'next';
-    return this.renderer.navigate(index, direction, params);
+    const nav = toIndex(target, this.state);
+    const direction = (this.loop ? params.direction : null) || nav.direction || 'next';
+    return this.renderer.navigate(nav.index, direction, params);
   }
 
   /** @returns slide by index (supports not normalized indexes) */

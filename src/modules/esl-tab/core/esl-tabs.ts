@@ -43,7 +43,7 @@ export class ESLTabs extends ESLBaseElement {
   /** ESLMediaRuleList instance of the scrollable type mapping */
   @memoize()
   public get scrollableTypeRules(): ESLMediaRuleList<string> {
-    return ESLMediaRuleList.parse(this.scrollable);
+    return ESLMediaRuleList.parseQuery(this.scrollable);
   }
 
   /** @returns current scrollable type */

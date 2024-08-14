@@ -1,64 +1,81 @@
-/** Arrow navigation styles */
-[esl-carousel-container] {
+/** Nav control mixin defaults */
+[esl-carousel-nav]:not([active]) {
+  display: none;
+}
+
+[esl-carousel-nav][disabled] {
+  pointer-events: none;
+}
+
+:root {
+  // variable to make clickable area larger
   --esl-carousel-arrow-size: 40px;
-  --esl-carousel-arrow-offset: calc(
-    (var(--esl-carousel-arrow-size) + var(--esl-carousel-side-space)) * -1
-  );
+  --esl-carousel-arrow-padding: 0px;
   --esl-carousel-arrow-bg: grey;
+}
 
-  .esl-carousel-arrow {
-    position: absolute;
-    z-index: 3;
-    top: 50%;
-    transform: translateY(-50%);
+/** Arrow navigation styles */
+.esl-carousel-nav-container {
+  position: relative;
 
-    display: grid;
-    place-content: center;
+  /* stylelint-disable-next-line */
+  --esl-carousel-arrow-offset: calc((var(--esl-carousel-arrow-size) + var(--esl-carousel-arrow-padding) + var(--esl-carousel-side-space)) * -1);
+}
 
-    background: none;
-    border: none;
-    cursor: pointer;
-    appearance: none;
-    filter: drop-shadow(0 0 4px var(--esl-carousel-arrow-bg));
+.esl-carousel-arrow {
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: var(--esl-carousel-arrow-padding);
 
-    opacity: 0.75;
+  display: grid;
+  place-content: center;
 
-    &:hover {
-      opacity: 1;
-    }
+  background: none;
+  border: none;
+  cursor: pointer;
+  appearance: none;
+  filter: drop-shadow(0 0 4px var(--esl-carousel-arrow-bg));
 
-    &[disabled] {
-      opacity: 0.25;
-    }
+  opacity: 0.75;
+
+  &:hover {
+    opacity: 1;
   }
 
-  // Positioning
-  .esl-carousel-arrow.prev {
-    left: var(--esl-carousel-arrow-offset);
-
-    &.inner {
-      left: 0;
-    }
+  &[disabled] {
+    opacity: 0.25;
   }
+}
 
-  .esl-carousel-arrow.next {
-    right: var(--esl-carousel-arrow-offset);
+// Positioning
+.esl-carousel-arrow.prev {
+  left: var(--esl-carousel-arrow-offset);
 
-    &.inner {
-      right: 0;
-    }
+  &.inner {
+    left: 0;
   }
+}
 
-  .esl-carousel-arrow::before {
-    content: '';
-    display: block;
-    width: var(--esl-carousel-arrow-size);
-    height: var(--esl-carousel-arrow-size);
-    background: var(--esl-carousel-arrow-bg);
-    clip-path: polygon(20% 50%, 70% 0%, 80% 5%, 35% 50%, 80% 95%, 70% 100%);
-  }
+.esl-carousel-arrow.next {
+  right: var(--esl-carousel-arrow-offset);
 
-  .esl-carousel-arrow.next::before {
-    transform: scaleX(-1);
+  &.inner {
+    right: 0;
   }
+}
+
+// Arrow icon
+.esl-carousel-arrow::before {
+  content: '';
+  display: block;
+  width: var(--esl-carousel-arrow-size);
+  height: var(--esl-carousel-arrow-size);
+  background: var(--esl-carousel-arrow-bg);
+  clip-path: polygon(20% 50%, 70% 0%, 80% 5%, 35% 50%, 80% 95%, 70% 100%);
+}
+
+.esl-carousel-arrow.next::before {
+  transform: scaleX(-1);
 }

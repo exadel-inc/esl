@@ -51,6 +51,7 @@ export class ESLCarouselSlide extends ESLMixinElement {
 
   @ready
   protected override connectedCallback(): void {
+    if (!this.$carousel) return;
     this.$carousel?.addSlide && this.$carousel.addSlide(this.$host);
     super.connectedCallback();
     this.updateA11y();
@@ -84,7 +85,9 @@ export class ESLCarouselSlide extends ESLMixinElement {
       this.$$attr('inert', !this.active);
     }
     if (!this.$carousel) return;
-    CSSClassUtils.toggle(this.$carousel.$container || this.$carousel, this.containerClass, this.active, this.$host);
+    if (this.$carousel.$container) {
+      CSSClassUtils.toggle(this.$carousel.$container, this.containerClass, this.active, this.$host);
+    }
     if (!this.active) this.blurIfInactive();
   }
 

@@ -52,12 +52,12 @@ describe('ESLCarousel: Touch Plugin', () => {
     });
 
     test('Plugin attaches with multiple actions', async () => {
-      $carousel.setAttribute('esl-carousel-touch', '@XS => swipe | @+SM => drag');
+      $carousel.setAttribute('esl-carousel-touch', 'none | @XS => swipe | @+SM => drag');
       await Promise.resolve();
       const plugin = ESLCarouselTouchMixin.get($carousel);
       expect(plugin?.isDragMode).toBe(false);
       expect(plugin?.isSwipeMode).toBe(false);
-      expect(plugin?.typeRule.rules.length).toBe(2);
+      expect(plugin?.configQuery.rules.length).toBe(3);
     });
 
     test('Plugin touch action observed to handle changes', async () => {

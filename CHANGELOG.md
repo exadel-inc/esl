@@ -1,3 +1,177 @@
+## [5.0.0-beta.31](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.30...v5.0.0-beta.31) (2024-08-13)
+
+### ⚠ BREAKING CHANGES
+
+* **esl-image-utils:** legacy implementation of `esl-image` no longer distributes aspect-ratio styles
+
+### Features
+
+* **esl-anchornav:** create esl-anchor mixin ([db5fb32](https://github.com/exadel-inc/esl/commit/db5fb3261fa99cff87f5d93e16cdc50f3371ce17))
+* **esl-anchornav:** create esl-anchornav component to provide anchor navigation ([cf79db8](https://github.com/exadel-inc/esl/commit/cf79db850f7cab27b2fa886f4a4469860028e3a0))
+* **esl-anchornav:** create esl-anchornav-sticked mixin to provide sticked behaviour ([d28d430](https://github.com/exadel-inc/esl/commit/d28d4305a8ea0b9728992268b1d5405917a90697))
+* **esl-carousel:** rework default renderer animation approach (now uses js animation) ([04b730d](https://github.com/exadel-inc/esl/commit/04b730d95cfa5907e4d3b2106c0a63a210b0fc1d))
+* **esl-image-utils:** create esl-img-container mixin to provide img container functionality ([5b4761a](https://github.com/exadel-inc/esl/commit/5b4761aefbbc1880b7b2d414d44df571fd80b1ef))
+* **esl-image-utils:** helper container classes for native img / picture containers ([16fc5cb](https://github.com/exadel-inc/esl/commit/16fc5cbcc5bc97c3499cb5d2eb94189e4ff3e283))
+* **esl-utils:** add `parseTime` alternative, less restrictive to passed format ([05e5963](https://github.com/exadel-inc/esl/commit/05e5963d6baf874193dcf4476d821e9109b3e905))
+* **esl-utils:** create utility to get element that is viewport for specified element ([63d869b](https://github.com/exadel-inc/esl/commit/63d869b14074da74b8bdaf342116428098816532))
+
+### Bug Fixes
+
+* **esl-carousel:** direction related issues, cleanup internal nav API ([30cef21](https://github.com/exadel-inc/esl/commit/30cef2170b95c78a44f62377e2e84cab28b13db9))
+
+### Code Refactoring
+
+* **esl-image-utils:** update implementation to use json attr and new compact representation ([602afc7](https://github.com/exadel-inc/esl/commit/602afc7eb4e208c11d89cfe9bce8198d4c0b664e))
+
+## [5.0.0-beta.30](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.29...v5.0.0-beta.30) (2024-07-31)
+
+### Bug Fixes
+
+* **esl-carousel:** fix carousel empty state ([8f88589](https://github.com/exadel-inc/esl/commit/8f885890e317ad28adf4da7810c515d238b2298f))
+* **esl-carousel:** fix incomplete centered carousel rendering ([0d7adce](https://github.com/exadel-inc/esl/commit/0d7adce75833b6fc9794f4230667494d0b59a837))
+
+## [5.0.0-beta.29](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.28...v5.0.0-beta.29) (2024-07-30)
+
+### Features
+
+* **esl-carousel:** change carousel move API ([085f977](https://github.com/exadel-inc/esl/commit/085f97741c96b4e717a8c5218b30f33c91e5711b))
+
+### Bug Fixes
+
+* **esl-carousel:** carousel now uses average of the real slide sizes during move action routines ([2472723](https://github.com/exadel-inc/esl/commit/2472723d3fa11d46c8dc26f22e06496cacc1c7a9))
+* **esl-carousel:** touch behaviour fix - incorrect touch-action target is used ([18b1ba1](https://github.com/exadel-inc/esl/commit/18b1ba1c2a5a8b30753dc5220704cdf78f2aa822))
+
+## [5.0.0-beta.28](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.27...v5.0.0-beta.28) (2024-07-29)
+
+### Bug Fixes
+
+* **esl-carousel:** fix count of slides to be rendered before the first slide ([cd68ea3](https://github.com/exadel-inc/esl/commit/cd68ea3c0b9076b2c6d237f9fa547af73b4fedd0))
+
+## [5.0.0-beta.27](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.26...v5.0.0-beta.27) (2024-07-23)
+
+### Features
+
+* **esl-carousel:** `esl-carousel-nav` default classes and attributes reworked ([fd50c71](https://github.com/exadel-inc/esl/commit/fd50c719bf08f184b89bc531a4bf46e443eff6fd))
+
+## [5.0.0-beta.26](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.25...v5.0.0-beta.26) (2024-07-22)
+
+### Bug Fixes
+
+* **esl-carousel:** `esl-carousel-dots` does not re-renders after target re-definition ([6252474](https://github.com/exadel-inc/esl/commit/6252474495c63ceef57aaae65031a7e92e55e7f9))
+* **esl-carousel:** a11ty targets for arrow controls ([8240921](https://github.com/exadel-inc/esl/commit/82409211823673074c6fe44ac5fa0ade6e8ccabe))
+* **esl-carousel:** remove specificity hack for carousel clipping ([0fa0ac7](https://github.com/exadel-inc/esl/commit/0fa0ac7d32a77458b8c90d8b5904c420357f2705))
+
+## [5.0.0-beta.25](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.24...v5.0.0-beta.25) (2024-07-22)
+
+### Features
+
+* **esl-carousel:** add centered renderer ([dd26e7e](https://github.com/exadel-inc/esl/commit/dd26e7edde7d0a62b4dcae1af50df1681a6c18cc))
+* **esl-carousel:** complete rework ESLCarousel container feature ([ca7d308](https://github.com/exadel-inc/esl/commit/ca7d308b63dd92bdcc335b8b4cc14bf81a639de4))
+* **esl-carousel:** extend ESLCarousel API with new markers, fix carousel change events ([2a41d67](https://github.com/exadel-inc/esl/commit/2a41d675e45294d123e84dbccad03239d8ac75e5))
+* **esl-carousel:** improve ESLCarouselNav mixin API and internal livecycle ([156656a](https://github.com/exadel-inc/esl/commit/156656aecfad6fbe2d1adbc238af55a915791379))
+* **esl-carousel:** rework carousel plugins API to use json attr + smart media query ([0166b8d](https://github.com/exadel-inc/esl/commit/0166b8d22b7fbffb5cd9750276bcff1766ba7a41))
+* **esl-media-query:** ingore tuple values if query syntax passed ([1899484](https://github.com/exadel-inc/esl/commit/1899484ff238d9dc213f3e6b4f1999fb7375d8e8))
+
+### Bug Fixes
+
+* **esl-carousel:** add more specificity to styles to limit scope of the carousel animation ([4d4db05](https://github.com/exadel-inc/esl/commit/4d4db0526f11baf3439c0f142760e75ed6bf1add))
+* **esl-carousel:** fix ESLCarouselNavDots livecycle and carousel observation ([c03c8f9](https://github.com/exadel-inc/esl/commit/c03c8f9322fc69fe7771f71b11031ba1e6e02d94))
+* **esl-carousel:** rework carousel slide change event with complete and more clear information ([0b5983f](https://github.com/exadel-inc/esl/commit/0b5983fe67922246cee2e760af3b1d0535dcf61b))
+
+## [5.0.0-beta.24](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.23...v5.0.0-beta.24) (2024-07-15)
+
+### Features
+
+* **lint:** deprecation rule for `ESlMediaRuleList.parse` ([#2509](https://github.com/exadel-inc/esl/issues/2509)) ([a1f916a](https://github.com/exadel-inc/esl/commit/a1f916ae4cf9a7d618516646e6629ae3a58f3d68))
+
+### Bug Fixes
+
+* **esl-carousel:** fix handling of pointercancel event by touch plugin ([fb91710](https://github.com/exadel-inc/esl/commit/fb91710af23d5302e93a16c84cf66eea50784393))
+* **esl-carousel:** make animated carousel area equal to the content without padding ([1c1f6d8](https://github.com/exadel-inc/esl/commit/1c1f6d82c572d6bec038701eaabc6352218ba50b))
+* **esl-event-listener:** fix missing signature for `$$on` method of base component ([7197e30](https://github.com/exadel-inc/esl/commit/7197e30af63b71573237eb3433a69ff91c8a011a))
+* **esl-mixin-element:** major fix for nested hierarchy mixin disconnection ([d360da0](https://github.com/exadel-inc/esl/commit/d360da0e61e90c2ef71ba219256505e741429ca3)), closes [#2505](https://github.com/exadel-inc/esl/issues/2505)
+
+## [5.0.0-beta.23](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.22...v5.0.0-beta.23) (2024-07-01)
+
+### Features
+
+* **esl-carousel:** add ability to pass slide as a `goTo` parametr ([2313c2a](https://github.com/exadel-inc/esl/commit/2313c2aaf0be64fc6b258265c87f3aa73fd65f04))
+* **esl-carousel:** add current and related slide element accessors to carousel change event ([4064b9f](https://github.com/exadel-inc/esl/commit/4064b9f305af0a59418cf734dd6ea3499808f3df))
+* **esl-carousel:** make ESLCarouselWheelMixin respect direction & able to prevent default wheel action ([376f303](https://github.com/exadel-inc/esl/commit/376f30328f79c9533a2f1e4bb4cabee427d1de91))
+* **esl-event-listener:** add ability to ESLWheelTarget to ignore income wheel events by predicate ([af47dbb](https://github.com/exadel-inc/esl/commit/af47dbb3ac9a99ae143c417b04c382dbccf77f85))
+* **esl-event-listener:** add ability to prevent default wheel action trough ESLWheelTarget ([0e1f192](https://github.com/exadel-inc/esl/commit/0e1f192aca5f6113f11cb16e84dbaf45141ae894))
+
+### Bug Fixes
+
+* **deps:** bump puppeteer from 22.12.0 to 22.12.1 ([56ebbfa](https://github.com/exadel-inc/esl/commit/56ebbfa67a90695aa43c867705bcd16fe5fcc5d6))
+* **esl-carousel:** add ability to ignore defined content areas by ESLCarouselWheelMixin ([766dabe](https://github.com/exadel-inc/esl/commit/766dabe92eede50066e0440175f3c4d8cc960050))
+* **esl-carousel:** de-scope `[esl-carousel-slides]` style defaults ([d3ad98a](https://github.com/exadel-inc/esl/commit/d3ad98ae33fcf7d42652eb831d28e3638790436b))
+* **esl-carousel:** fix deprecated type usage inside carousel wheel plugin ([1c9f8c4](https://github.com/exadel-inc/esl/commit/1c9f8c4eba488074a5b236ed6556f29d80d72735))
+* **esl-carousel:** improve log messaging and fix initialization exceptions ([8e45f58](https://github.com/exadel-inc/esl/commit/8e45f588a669900fdd53e54c0d1a6357e9159b09))
+
+## [5.0.0-beta.22](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.21...v5.0.0-beta.22) (2024-06-26)
+
+### Bug Fixes
+
+* **esl-carousel:** fix incorrect alignment of the grid carousel renderer if there are no enough slides ([6956729](https://github.com/exadel-inc/esl/commit/69567295a56d0017e6364f3aa558f10d79efac38))
+
+## [5.0.0-beta.21](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.20...v5.0.0-beta.21) (2024-06-25)
+
+### Features
+
+* **esl-carousel:** add `grid` renderer with capability to render multi row (column) carousel ([a54a1ab](https://github.com/exadel-inc/esl/commit/a54a1abc384aa029954f9168274d8094b3c0431e))
+
+### Bug Fixes
+
+* **deps:** bump puppeteer from 22.11.2 to 22.12.0 ([2a5c371](https://github.com/exadel-inc/esl/commit/2a5c3713c51b55efa37d676d89e815708431072c))
+
+## [5.0.0-beta.20](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.19...v5.0.0-beta.20) (2024-06-20)
+
+### Bug Fixes
+
+* **deps:** bump @11ty/eleventy-dev-server from 2.0.0 to 2.0.1 ([9211eaf](https://github.com/exadel-inc/esl/commit/9211eaff52c013cc13a010234f013e13e162df1b))
+* **deps:** bump puppeteer from 22.10.0 to 22.11.0 ([1f3b833](https://github.com/exadel-inc/esl/commit/1f3b83321778662127f9aa1167de0c387feafdfd))
+* **deps:** bump puppeteer from 22.11.0 to 22.11.1 ([40c7f0a](https://github.com/exadel-inc/esl/commit/40c7f0a06018f756c2ec88cfdd472fc1d22a9332))
+* **deps:** bump puppeteer from 22.11.1 to 22.11.2 ([8a824cf](https://github.com/exadel-inc/esl/commit/8a824cffc9ba70a56bc877fcf6683fb5a80d9b6f))
+* **deps:** bump webpack from 5.91.0 to 5.92.0 ([ab7f579](https://github.com/exadel-inc/esl/commit/ab7f579cc46f602e4575fc9562c9d8d8baa9b7cd))
+* **deps:** bump webpack from 5.92.0 to 5.92.1 ([6909d17](https://github.com/exadel-inc/esl/commit/6909d1709e32b570af9d8cffb7c0ba509d724ae6))
+* **deps:** bump ws from 7.5.9 to 7.5.10 ([330fd97](https://github.com/exadel-inc/esl/commit/330fd97664ba5276e89ef723e4ca388a201424db))
+* **esl-carousel:** add possibility to hide controls according to closest container state ([b941748](https://github.com/exadel-inc/esl/commit/b941748a4ba7d51adf6ea9b8747570e8c774dd16))
+* **lint:** notify about version differences for `eslint-plugin-esl` ([4cc0ddc](https://github.com/exadel-inc/esl/commit/4cc0ddc515f1c2b5ed2f4e2d745001784a98ce2f))
+
+## [5.0.0-beta.19](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.18...v5.0.0-beta.19) (2024-05-31)
+
+
+### Features
+
+* **esl-event-listener:** add support for criteria-based subscriptions ([b571d88](https://github.com/exadel-inc/esl/commit/b571d888afdf4748b110b13f0c642d257e99af36))
+* **esl-popup:** add handler for refresh event ([5864c92](https://github.com/exadel-inc/esl/commit/5864c9293046a43d49b900818573b4fd879b6834))
+* **lint:** add deprecation warning regarding incorrect direct imports for `attr`, `prop`, `jsonAttr`, `boolAttr`, `listen` ([e592048](https://github.com/exadel-inc/esl/commit/e592048d19aa4575f89e056632e7455a50f47eac))
+
+
+### Bug Fixes
+
+* **deps:** bump pug from 3.0.2 to 3.0.3 ([8006a45](https://github.com/exadel-inc/esl/commit/8006a45a96aaf52e9a341bf13768613cc0bf17b4))
+* **esl-utils:** fix event cancellation handling ([8e45a75](https://github.com/exadel-inc/esl/commit/8e45a7560c3260f21dbe22e9beaa64c8afe19ca5))
+* **esl-utils:** fix isRelativeNode signature (can accept undefined as a node) ([4e2c7af](https://github.com/exadel-inc/esl/commit/4e2c7af179d186de521e7a55c0be66d1e3dc68fa))
+
+## [5.0.0-beta.18](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.17...v5.0.0-beta.18) (2024-05-24)
+
+
+### Features
+
+* **esl-carousel:** Default Renderer: the reordering algorithm improved to respect slides semantical order an available limit of slides ([b2efe6f](https://github.com/exadel-inc/esl/commit/b2efe6f2371ec97d96e943f50165f952a39893ac))
+* **esl-media:** `fill-mode` option updated to render through `aspect-ratio` and `wide` marker ([49fd5b6](https://github.com/exadel-inc/esl/commit/49fd5b6ffd29c43da4b23a25d11ec5a2481b47cd))
+
+
+### Bug Fixes
+
+* **deps:** bump puppeteer from 22.9.0 to 22.10.0 ([d82fa11](https://github.com/exadel-inc/esl/commit/d82fa11e6059fe34eaaca7f0990e8d013826fca7))
+* **esl-media:** fix missing reinitialization on start-time attribute changing ([e5922ed](https://github.com/exadel-inc/esl/commit/e5922ed801b08066c96dba10edef6e8abb6655b2))
+* **esl-media:** fix TSX shape for supporting start-time attribute ([1f43a22](https://github.com/exadel-inc/esl/commit/1f43a22094db5f204f0b69df36272d60beffb638))
+* **esl-media:** play-in-viewport tolerance changed to 50% (75% before) ([06d2a13](https://github.com/exadel-inc/esl/commit/06d2a13ca0bbde6c5d4fbd93e6a68f94fe93ef4e))
+* **esl-panel:** fix the falsy state of animation in the default open panel in esl-panel-group ([64925e0](https://github.com/exadel-inc/esl/commit/64925e0b47293124430f988474df821c423cc2bd))
+
 ## [5.0.0-beta.17](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.16...v5.0.0-beta.17) (2024-05-21)
 
 

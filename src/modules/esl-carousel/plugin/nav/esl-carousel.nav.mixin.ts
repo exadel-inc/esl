@@ -13,7 +13,7 @@ import type {ESLCarouselSlideTarget} from '../../core/nav/esl-carousel.nav.types
  *
  * Example:
  * ```
- * <div esl-carousel-container>
+ * <div class="esl-carousel-nav-container">
  *  <button esl-carousel-nav="group:prev">Prev</button>
  *  <esl-carousel>...</esl-carousel>
  *  <button esl-carousel-nav="group:next">Next</button>
@@ -25,12 +25,12 @@ export class ESLCarouselNavMixin extends ESLMixinElement {
   static override is = 'esl-carousel-nav';
 
   /** {@link ESLCarouselSlideTarget} target to navigate in carousel */
-  @attr({name: ESLCarouselNavMixin.is}) public target: ESLCarouselSlideTarget;
+  @attr({name: ESLCarouselNavMixin.is}) public command: ESLCarouselSlideTarget;
 
   /** {@link ESLTraversingQuery} string to find {@link ESLCarousel} instance */
   @attr({
     name: ESLCarouselNavMixin.is + '-target',
-    defaultValue: '::parent([esl-carousel-container])::find(esl-carousel)'
+    defaultValue: '::parent(.esl-carousel-nav-container)::find(esl-carousel)'
   })
   public carousel: string;
 
@@ -42,39 +42,41 @@ export class ESLCarouselNavMixin extends ESLMixinElement {
 
   /** @returns accessible target ID */
   public get targetID(): string {
-    return this.$carousel ? this.$carousel.$slidesArea.id : '';
+    return this.$carousel?.id || '';
   }
 
   @ready
-  public override async connectedCallback(): Promise<void> {
-    this.$$attr('disabled', true);
-    if (!this.$carousel) return;
-    await customElements.whenDefined(this.$carousel.tagName.toLowerCase());
+  public override connectedCallback(): void {
     super.connectedCallback();
-    this._onSlideChange();
-    this.$$attr('aria-controls', this.targetID);
+    if (!this.$carousel) return;
+    if (this.$carousel.renderer) this._onUpdate();
   }
 
   public override disconnectedCallback(): void {
     super.disconnectedCallback();
     memoize.clear(this, '$carousel');
+    this.$$attr('active', false);
+    this.$$attr('disabled', false);
   }
 
   /** Handles carousel state changes */
   @listen({
-    event: `${ESLCarouselSlideEvent.AFTER} ${ESLCarouselChangeEvent.TYPE}`,
+    event: `${ESLCarouselChangeEvent.TYPE} ${ESLCarouselSlideEvent.AFTER}`,
     target: ($nav: ESLCarouselNavMixin) => $nav.$carousel
   })
-  protected _onSlideChange(): void {
-    const canNavigate = this.$carousel && this.$carousel.canNavigate(this.target);
-    this.$$attr('disabled', !canNavigate);
+  protected _onUpdate(): void {
+    const isActive = !!this.$carousel?.renderer && !this.$carousel.incomplete;
+    const isDisabled = isActive && !this.$carousel.canNavigate(this.command);
+    this.$$attr('active', isActive);
+    this.$$attr('disabled', isDisabled);
+    this.$$attr('aria-controls', this.targetID);
   }
 
   /** Handles $host element click */
   @listen('click')
   protected _onClick(e: PointerEvent): void {
     if (!this.$carousel || typeof this.$carousel.goTo !== 'function') return;
-    this.$carousel.goTo(this.target);
+    this.$carousel.goTo(this.command).catch(console.error);
     e.preventDefault();
   }
 }

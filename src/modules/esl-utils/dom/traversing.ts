@@ -8,9 +8,14 @@ export const isMatches = (el: Element, matcher?: string | ((el: Element) => bool
 };
 
 /** Checks that `nodeA` and `nodeB` are from the same tree path */
-export const isRelativeNode = (nodeA: Node | null, nodeB: Node | null): boolean => {
+export function isRelativeNode(nodeA: null | undefined, nodeB: Node | null | undefined): false;
+/** Checks that `nodeA` and `nodeB` are from the same tree path */
+export function isRelativeNode(nodeA: Node | null | undefined, nodeB: null | undefined): false;
+/** Checks that `nodeA` and `nodeB` are from the same tree path */
+export function isRelativeNode(nodeA: Node | null | undefined, nodeB: Node | null | undefined): boolean;
+export function isRelativeNode(nodeA: Node | null | undefined, nodeB: Node | null | undefined): boolean {
   return !!(nodeA && nodeB) && (nodeA.contains(nodeB) || nodeB.contains(nodeA));
-};
+}
 
 type IteratorFn = (el: Element) => Element | null;
 

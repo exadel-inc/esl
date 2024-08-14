@@ -31,7 +31,7 @@ const BASE_CONFIG = {
 module.exports = [{
   ...BASE_CONFIG,
   entry: {
-    'localdev': './src/localdev.ts',
+    'site': './src/site.ts',
     'polyfill': './src/polyfill.ts'
   },
   output: {
@@ -42,7 +42,7 @@ module.exports = [{
 }, {
   ...BASE_CONFIG,
   entry: {
-    'lib': './src/playground/export/lib.ts',
+    'lib': './src/lib.ts',
   },
   experiments: {
     outputModule: true,

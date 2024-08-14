@@ -34,6 +34,7 @@ ESLPanelGroup.register();
 
 - `has-opened` - readonly attribute that indicates whether the panel group has opened panels
 - `current-mode` - readonly attribute that indicates the currently applied rendering mode of the panel group
+- `animating` - a marker of animation process running
 
 ### Events
 

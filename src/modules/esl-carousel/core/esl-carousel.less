@@ -1,3 +1,7 @@
+:root {
+  --esl-carousel-side-space: 5px;
+}
+
 // CORE styles
 esl-carousel {
   position: relative;
@@ -8,26 +12,21 @@ esl-carousel {
   margin: calc(var(--esl-carousel-side-space, 0) * -1);
   padding: var(--esl-carousel-side-space, 0);
 
+  /* stylelint-disable */
   overflow: hidden; // Fallback
-  /* stylelint-disable-next-line */
   overflow: clip;
+  /* stylelint-enable */
 
-  [esl-carousel-slides] {
-    position: relative;
-    width: 100%;
-    margin: 0;
-    display: flex;
-    gap: 20px;
-    z-index: 0;
-    transform: translate3d(0px, 0px, 0px);
-  }
-
-  &.esl-carousel-vertical [esl-carousel-slides] {
-    flex-direction: column;
+  &.esl-carousel-vertical {
+    [esl-carousel-slides] {
+      flex-direction: column;
+    }
     touch-action: pan-x;
   }
-  &.esl-carousel-horizontal [esl-carousel-slides] {
-    flex-direction: row;
+  &.esl-carousel-horizontal {
+    [esl-carousel-slides] {
+      flex-direction: row;
+    }
     touch-action: pan-y;
   }
 
@@ -35,14 +34,38 @@ esl-carousel {
     cursor: grabbing;
   }
 
+  &[animating] {
+    padding-inline: 0;
+    margin-inline: 0;
+  }
+
   &[dragging] [esl-carousel-slides],
   &[animating] [esl-carousel-slides] {
-    touch-action: none;
     user-select: none;
     pointer-events: none;
   }
+
+  &[empty] {
+    --esl-carousel-side-space: 0;
+
+    [esl-carousel-slides] {
+      display: none;
+    }
+  }
 }
 
+/* Default carousel area styles */
+[esl-carousel-slides] {
+  position: relative;
+  width: 100%;
+  margin: 0;
+  display: flex;
+  gap: 20px;
+  z-index: 0;
+  transform: translate3d(0px, 0px, 0px);
+}
+
+/* Default carousel slide styles */
 [esl-carousel-slide] {
   flex: 0 0 auto;
   margin: 0;
@@ -52,7 +75,6 @@ esl-carousel {
   list-style: none;
 }
 
-[esl-carousel-container] {
-  --esl-carousel-side-space: 5px;
-  position: relative;
+.esl-carousel-no-extra-space {
+  --esl-carousel-side-space: 0;
 }
