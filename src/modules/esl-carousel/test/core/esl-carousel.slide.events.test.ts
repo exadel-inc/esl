@@ -26,7 +26,7 @@ describe('ESLCarouselRenderer: Slide change events created correctly', () => {
     });
 
     test('ESLCarouselSlideEvent: Initial slide triggered correct events', async () => {
-      const request = $carousel.renderer.navigate({index: 0, direction: 'next'}, {activator: 'user'});
+      const request = $carousel.renderer.navigate({index: 0, direction: 'next'}, {activator: 'user', stepDuration: 0});
       expect(beforeEventTrap).toHaveBeenCalledTimes(1);
       expect(afterEventTrap).toHaveBeenCalledTimes(0);
       expect(beforeEventTrap).toHaveBeenLastCalledWith(expect.objectContaining({
@@ -47,7 +47,7 @@ describe('ESLCarouselRenderer: Slide change events created correctly', () => {
     });
 
     test('ESLCarouselSlideEvent: correct events triggered in the middle state', async () => {
-      const request = $carousel.renderer.navigate({index: 1, direction: 'next'}, {activator: 'user'});
+      const request = $carousel.renderer.navigate({index: 1, direction: 'next'}, {activator: 'user', stepDuration: 0});
       expect(beforeEventTrap).toHaveBeenCalledTimes(1);
       expect(afterEventTrap).toHaveBeenCalledTimes(0);
       expect(beforeEventTrap).toHaveBeenLastCalledWith(expect.objectContaining({
@@ -70,7 +70,7 @@ describe('ESLCarouselRenderer: Slide change events created correctly', () => {
     });
 
     test('ESLCarouselSlideEvent: Last slide triggered correct events', async () => {
-      const request = $carousel.renderer.navigate({index: 2, direction: 'next'}, {activator: 'user'});
+      const request = $carousel.renderer.navigate({index: 2, direction: 'next'}, {activator: 'user', stepDuration: 0});
       expect(beforeEventTrap).toHaveBeenCalledTimes(1);
       expect(afterEventTrap).toHaveBeenCalledTimes(0);
       expect(beforeEventTrap).toHaveBeenLastCalledWith(expect.objectContaining({

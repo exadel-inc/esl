@@ -2,7 +2,7 @@ import {prop, memoize} from '../../esl-utils/decorators';
 import {ESLCarouselRenderer} from '../core/esl-carousel.renderer';
 import {ESLDefaultCarouselRenderer} from './esl-carousel.default.renderer';
 
-import type {ESLCarouselActionParams, ESLCarouselDirection} from '../core/esl-carousel.types';
+import type {ESLCarouselActionParams} from '../core/esl-carousel.types';
 
 /**
  * {@link ESLDefaultCarouselRenderer} extension to render slides as a multi-row grid.
@@ -82,15 +82,6 @@ export class ESLGridCarouselRenderer extends ESLDefaultCarouselRenderer {
    */
   protected override normalizeIndex(index: number, params?: ESLCarouselActionParams): number {
     return super.normalizeIndex(index - (index % this.ROWS), params);
-  }
-
-  /** Processes animation. */
-  public override async onAnimate(nextIndex: number, direction: ESLCarouselDirection): Promise<void> {
-    const {activeIndex, $slidesArea} =  this.$carousel;
-    this.currentIndex = activeIndex;
-    if (!$slidesArea) return;
-    const step = this.ROWS * (direction === 'next' ? 1 : -1);
-    while (this.currentIndex !== nextIndex) await this.onStepAnimate(step);
   }
 
   /**

@@ -1,7 +1,7 @@
-import {normalize, normalizeIndex} from '../core/nav/esl-carousel.nav.utils';
+import {normalize} from '../core/nav/esl-carousel.nav.utils';
 import {ESLCarouselRenderer} from '../core/esl-carousel.renderer';
 
-import type {ESLCarouselDirection} from '../core/esl-carousel.types';
+import type {ESLCarouselActionParams, ESLCarouselDirection} from '../core/esl-carousel.types';
 
 /**
  * Default carousel renderer based on CSS Flexbox stage, order (flex), and stage animated movement via CSS transform.
@@ -77,31 +77,38 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     this.$area.style.transform = `translate3d(${this.vertical ? `0px, ${offset}px` : `${offset}px, 0px`}, 0px)`;
   }
 
-  /** Animate scene offset */
-  protected async animateTransformOffset(offset: number = -this.getOffset(this.currentIndex)): Promise<void> {
+  /** Animate scene offset to index */
+  protected async animateTo(index: number, duration = 250): Promise<void> {
+    this.currentIndex = this.normalizeIndex(index);
+    const offset = -this.getOffset(this.currentIndex);
     this.$carousel.$$attr('animating', true);
     await this.$area.animate({
       transform: [`translate3d(${this.vertical ? `0px, ${offset}px` : `${offset}px, 0px`}, 0px)`]
-    }, {duration: 250, easing: 'linear'}).finished;
+    }, {duration, easing: 'linear'}).finished;
     this.$carousel.$$attr('animating', false);
   }
 
   /** Pre-processing animation action. */
-  public override async onBeforeAnimate(): Promise<void> {
+  public override async onBeforeAnimate(nextIndex: number, direction: ESLCarouselDirection, params: ESLCarouselActionParams): Promise<void> {
     if (this.$carousel.hasAttribute('animating')) throw new Error('[ESL] Carousel: already animating');
     this.$carousel.$$attr('active', true);
   }
 
   /** Processes animation. */
-  public async onAnimate(nextIndex: number, direction: ESLCarouselDirection): Promise<void> {
+  public async onAnimate(nextIndex: number, direction: ESLCarouselDirection, params: ESLCarouselActionParams): Promise<void> {
     const {activeIndex, $slidesArea} =  this.$carousel;
     this.currentIndex = activeIndex;
     if (!$slidesArea) return;
-    while (this.currentIndex !== nextIndex) await this.onStepAnimate(direction === 'next' ? 1 : -1);
+    const sign = direction === 'next' ? 1 : -1;
+    const distance = normalize((nextIndex - activeIndex) * sign, this.size);
+    const speed = Math.max(1, distance / this.count);
+    while (this.currentIndex !== nextIndex) {
+      await this.onStepAnimate(sign * this.INDEX_MOVE_MULTIPLIER, params.stepDuration * speed);
+    }
   }
 
   /** Post-processing animation action. */
-  public override async onAfterAnimate(): Promise<void> {
+  public override async onAfterAnimate(nextIndex: number, direction: ESLCarouselDirection, params: ESLCarouselActionParams): Promise<void> {
     // Make sure we end up in a defined state on transition end
     this.reorder();
     this.setTransformOffset(-this.getOffset(this.currentIndex));
@@ -109,21 +116,19 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
   }
 
   /** Makes pre-processing the transition animation of one slide. */
-  protected async onStepAnimate(indexOffset: number): Promise<void> {
+  protected async onStepAnimate(indexOffset: number, duration: number): Promise<void> {
     const index = normalize(this.currentIndex + indexOffset, this.size);
 
     // Make sure there is a slide in required direction
     this.reorder(indexOffset < 0);
-
     const offsetFrom = -this.getOffset(this.currentIndex);
     this.setTransformOffset(offsetFrom);
 
-    this.currentIndex = index;
-    await this.animateTransformOffset();
+    await this.animateTo(index, duration);
   }
 
   /** Handles the slides transition. */
-  public move(offset: number, from = this.$carousel.activeIndex): void {
+  public move(offset: number, from: number, params: ESLCarouselActionParams): void {
     this.$carousel.toggleAttribute('active', true);
 
     const slideSize = this.slideSize + this.gap;
@@ -148,7 +153,7 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
 
   /** Ends current transition and make permanent all changes performed in the transition. */
   // eslint-disable-next-line sonarjs/cognitive-complexity
-  public async commit(offset: number, from = this.$carousel.activeIndex): Promise<void> {
+  public async commit(offset: number, from: number, params: ESLCarouselActionParams): Promise<void> {
     const slideSize = this.slideSize + this.gap;
 
     const amount = Math.abs(offset) / slideSize;
@@ -156,8 +161,7 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     const count = (amount - Math.floor(amount)) > tolerance ? Math.ceil(amount) : Math.floor(amount);
     const index = from + count * this.INDEX_MOVE_MULTIPLIER * (offset < 0 ? 1 : -1);
 
-    this.currentIndex = normalizeIndex(index, this);
-    await this.animateTransformOffset();
+    await this.animateTo(index);
 
     this.reorder();
     this.setTransformOffset(-this.getOffset(this.currentIndex));

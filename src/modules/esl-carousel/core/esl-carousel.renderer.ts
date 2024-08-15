@@ -108,21 +108,18 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
 
     const indexesAfter = sequence(index, this.count, this.size);
     const indexesBefore = this.$carousel.activeIndexes;
-
     if (indexesBefore.toString() === indexesAfter.toString()) return;
-    if (!this.$carousel.dispatchEvent(ESLCarouselSlideEvent.create('BEFORE', {
-      ...params,
-      direction,
-      indexesBefore,
-      indexesAfter
-    }))) return;
+
+    const details = {...params, direction, indexesBefore, indexesAfter};
+    if (!this.$carousel.dispatchEvent(ESLCarouselSlideEvent.create('BEFORE', details))) return;
+    // this.$carousel.dispatchEvent(ESLCarouselSlideEvent.create('CHANGE', details));
 
     this.setPreActive(index);
 
     try {
-      await this.onBeforeAnimate(index, direction);
-      await this.onAnimate(index, direction);
-      await this.onAfterAnimate(index, direction);
+      await this.onBeforeAnimate(index, direction, params);
+      await this.onAnimate(index, direction, params);
+      await this.onAfterAnimate(index, direction, params);
     } catch (e: unknown) {
       console.error(e);
     }
@@ -131,24 +128,16 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
   }
 
   /** Pre-processing animation action. */
-  public async onBeforeAnimate(index?: number, direction?: ESLCarouselDirection): Promise<void> {}
+  public async onBeforeAnimate(index: number, direction: ESLCarouselDirection, params: ESLCarouselActionParams): Promise<void> {}
   /** Processes animation. */
-  public abstract onAnimate(index: number, direction: ESLCarouselDirection): Promise<void>;
+  public abstract onAnimate(index: number, direction: ESLCarouselDirection, params: ESLCarouselActionParams): Promise<void>;
   /** Post-processing animation action. */
-  public async onAfterAnimate(index: number, direction: ESLCarouselDirection): Promise<void> {}
+  public async onAfterAnimate(index: number, direction: ESLCarouselDirection, params: ESLCarouselActionParams): Promise<void> {}
 
-  /**
-   * Moves slide by the passed offset in px.
-   * @param offset - offset in px
-   * @param from - start index (default: current active index)
-   */
-  public abstract move(offset: number, from?: number): void;
-  /**
-   * Normalizes move offset to the "nearest stable" slide position.
-   * @param offset - offset in px
-   * @param from - start index (default: current active index)
-   */
-  public abstract commit(offset?: number, from?: number): void;
+  /** Moves slide by the passed offset in px */
+  public abstract move(offset: number, from: number, params: ESLCarouselActionParams): void;
+  /** Normalizes move offset to the "nearest stable" slide position */
+  public abstract commit(offset: number, from: number, params: ESLCarouselActionParams): Promise<void>;
 
   /** Sets active slides from passed index **/
   public setActive(current: number, event?: Partial<ESLCarouselSlideEventInit>): void {

@@ -56,6 +56,6 @@ export interface ESLCarouselActionParams {
   activator?: any;
   /** Direction to move to. */
   direction?: ESLCarouselDirection;
-  /** Animation duration in milliseconds. (Pass 0 to disable animation) */
-  duration?: number;
+  /** Duration of a single slide transition in milliseconds. (Set to 0 to disable animation) */
+  stepDuration: number;
 }

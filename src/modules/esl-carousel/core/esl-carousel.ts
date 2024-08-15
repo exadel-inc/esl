@@ -159,6 +159,7 @@ export class ESLCarousel extends ESLBaseElement {
     this.renderer.unbind();
     memoize.clear(this, 'renderer');
     this.renderer.bind();
+
     this.updateStateMarkers();
     this.dispatchEvent(ESLCarouselChangeEvent.create({initial, added, removed, config, oldConfig}));
   }
@@ -288,10 +289,27 @@ export class ESLCarousel extends ESLBaseElement {
   }
 
   /** Goes to the target according to passed params */
-  public goTo(target: HTMLElement | ESLCarouselSlideTarget, params: ESLCarouselActionParams = {}): Promise<void> {
+  public goTo(target: HTMLElement | ESLCarouselSlideTarget, params: Partial<ESLCarouselActionParams> = {}): Promise<void> {
     if (target instanceof HTMLElement) return this.goTo(this.indexOf(target), params);
     if (!this.renderer) return Promise.reject();
-    return this.renderer.navigate(toIndex(target, this.state), params);
+    return this.renderer.navigate(toIndex(target, this.state), this.mergeParams(params));
+  }
+
+  /** Move slides by the passed offset */
+  public move(offset: number, from: number = this.activeIndex, params: Partial<ESLCarouselActionParams> = {}): void {
+    if (!this.renderer) return;
+    this.renderer.move(offset, from, this.mergeParams(params));
+  }
+
+  /** Commit slides to the nearest stable position */
+  public commit(offset: number, from: number = this.activeIndex, params: Partial<ESLCarouselActionParams> = {}): Promise<void> {
+    if (!this.renderer) return Promise.reject();
+    return this.renderer.commit(offset, from, this.mergeParams(params));
+  }
+
+  /** Merge request params with default params */
+  protected mergeParams(params: Partial<ESLCarouselActionParams>): ESLCarouselActionParams {
+    return {stepDuration: 250, ...params};
   }
 
   /** @returns slide by index (supports not normalized indexes) */
