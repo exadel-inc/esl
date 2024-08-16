@@ -1,3 +1,10 @@
+## [4.18.1](https://github.com/exadel-inc/esl/compare/v4.18.0...v4.18.1) (2024-08-16)
+
+
+### Bug Fixes
+
+* **lint:** fix package missing `kleur` dependency ([b6581b9](https://github.com/exadel-inc/esl/commit/b6581b9094e222ce218e1dd9b3f7295de838d2cf))
+
 # [4.18.0](https://github.com/exadel-inc/esl/compare/v4.17.1...v4.18.0) (2024-07-12)
 
 
