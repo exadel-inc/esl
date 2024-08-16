@@ -4,7 +4,7 @@ import {
   indexToGroup,
   indexToDirection,
   toIndex, canNavigate
-} from '../../core/nav/esl-carousel.nav.utils';
+} from '../../core/esl-carousel.utils';
 import {ESLCarouselDirection} from '../../core/esl-carousel.types';
 
 import type {ESLCarouselSlideTarget, ESLCarouselState} from '../../core/esl-carousel.types';

@@ -3,7 +3,7 @@ import {isEqual} from '../../esl-utils/misc/object';
 import {SyntheticEventTarget} from '../../esl-utils/dom';
 import {ESLCarouselDirection} from './esl-carousel.types';
 import {ESLCarouselSlideEvent} from './esl-carousel.events';
-import {indexToDirection, normalize, normalizeIndex, sequence} from './nav/esl-carousel.nav.utils';
+import {indexToDirection, normalize, normalizeIndex, sequence} from './esl-carousel.utils';
 
 import type {ESLCarousel} from './esl-carousel';
 import type {ESLCarouselSlideEventInit} from './esl-carousel.events';

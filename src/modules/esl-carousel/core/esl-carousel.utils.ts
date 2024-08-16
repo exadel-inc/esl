@@ -1,11 +1,11 @@
-import {ESLCarouselDirection} from '../esl-carousel.types';
+import {ESLCarouselDirection} from './esl-carousel.types';
 import type {
   ESLCarouselNavIndex,
   ESLCarouselNavInfo,
   ESLCarouselSlideTarget,
   ESLCarouselState,
   ESLCarouselStaticState
-} from '../esl-carousel.types';
+} from './esl-carousel.types';
 
 /** @returns sign of the value */
 export const sign = (value: number): -1 | 1 | 0 => value > 0 ? 1 : value < 0 ? -1 : 0;

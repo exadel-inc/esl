@@ -10,7 +10,7 @@ import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
 import {ESLResizeObserverTarget} from '../../esl-event-listener/core';
 
-import {normalize, toIndex, canNavigate} from './nav/esl-carousel.nav.utils';
+import {normalize, toIndex, canNavigate} from './esl-carousel.utils';
 
 import {ESLCarouselSlide} from './esl-carousel.slide';
 import {ESLCarouselRenderer} from './esl-carousel.renderer';

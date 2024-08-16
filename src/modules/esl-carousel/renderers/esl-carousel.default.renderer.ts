@@ -1,4 +1,4 @@
-import {normalize, sign} from '../core/nav/esl-carousel.nav.utils';
+import {normalize, sign} from '../core/esl-carousel.utils';
 import {ESLCarouselRenderer} from '../core/esl-carousel.renderer';
 
 import type {ESLCarouselDirection, ESLCarouselActionParams} from '../core/esl-carousel.types';

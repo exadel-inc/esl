@@ -1,4 +1,4 @@
-import {normalize} from '../core/nav/esl-carousel.nav.utils';
+import {normalize} from '../core/esl-carousel.utils';
 import {ESLCarouselRenderer} from '../core/esl-carousel.renderer';
 import {ESLDefaultCarouselRenderer} from './esl-carousel.default.renderer';
 
