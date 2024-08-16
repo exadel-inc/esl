@@ -160,13 +160,13 @@ describe('misc/format helper tests', () => {
       ['.124s', 124],
       ['.3ms', 0.3],
       // Negative integer
-      ['-456ms', NaN],
+      ['-456ms', -456],
       // Case insensitive
       ['14mS', 14],
       ['14S', 14000],
       // Zero with leading +/-
       ['+0s', 0],
-      ['-0ms', NaN],
+      ['-0ms', -0],
       // Digits without unit should be parsed as milliseconds
       ['0', 0],
       ['100', 100],
@@ -213,13 +213,13 @@ describe('misc/format helper tests', () => {
       ['.124s', 124],
       ['.3ms', 0.3],
       // Negative integer
-      ['-456ms', NaN],
+      ['-456ms', -456],
       // Case insensitive
       ['14mS', 14],
       ['14S', 14000],
       // Zero with leading +/-
       ['+0s', 0],
-      ['-0ms', NaN]
+      ['-0ms', -0]
     ])(
       'valid time = %s parsed as %s',
       (time: string, result: number) => expect(parseCSSTime(time)).toBe(result)
