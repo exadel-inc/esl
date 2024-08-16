@@ -1,12 +1,13 @@
 import {memoize} from '../../esl-utils/decorators';
 import {isEqual} from '../../esl-utils/misc/object';
 import {SyntheticEventTarget} from '../../esl-utils/dom';
+import {ESLCarouselDirection} from './esl-carousel.types';
 import {ESLCarouselSlideEvent} from './esl-carousel.events';
-import {normalize, sequence, indexToDirection, normalizeIndex} from './nav/esl-carousel.nav.utils';
+import {indexToDirection, normalize, normalizeIndex, sequence} from './nav/esl-carousel.nav.utils';
 
 import type {ESLCarousel} from './esl-carousel';
-import type {ESLCarouselActionParams, ESLCarouselConfig, ESLCarouselDirection, ESLCarouselNavInfo} from './esl-carousel.types';
 import type {ESLCarouselSlideEventInit} from './esl-carousel.events';
+import type {ESLCarouselActionParams, ESLCarouselConfig, ESLCarouselNavInfo} from './esl-carousel.types';
 
 export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
   public static is: string;
@@ -98,7 +99,7 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
   }
   /** Normalizes a direction before navigation */
   protected normalizeDirection(direction: ESLCarouselDirection | undefined, params?: ESLCarouselActionParams): ESLCarouselDirection {
-    return (this.loop ? params && params.direction : null) || direction || 'next';
+    return (this.loop ? params && params.direction : null) || direction || ESLCarouselDirection.NEXT;
   }
 
   /** Processes changing slides */

@@ -1,4 +1,9 @@
-export type ESLCarouselDirection = 'next' | 'prev';
+/** Direction enum, can be used in calculation directly */
+export enum ESLCarouselDirection {
+  NEXT = 1,
+  NONE = 0,
+  PREV = -1
+}
 
 export type ESLCarouselNavIndex = number | `${number}` | `+${number}` | `-${number}` | ESLCarouselDirection;
 

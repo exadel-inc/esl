@@ -1,7 +1,7 @@
-import {normalize} from '../core/nav/esl-carousel.nav.utils';
+import {normalize, sign} from '../core/nav/esl-carousel.nav.utils';
 import {ESLCarouselRenderer} from '../core/esl-carousel.renderer';
 
-import type {ESLCarouselActionParams, ESLCarouselDirection} from '../core/esl-carousel.types';
+import type {ESLCarouselDirection, ESLCarouselActionParams} from '../core/esl-carousel.types';
 
 /**
  * Default carousel renderer based on CSS Flexbox stage, order (flex), and stage animated movement via CSS transform.
@@ -99,11 +99,10 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     const {activeIndex, $slidesArea} =  this.$carousel;
     this.currentIndex = activeIndex;
     if (!$slidesArea) return;
-    const sign = direction === 'next' ? 1 : -1;
-    const distance = normalize((nextIndex - activeIndex) * sign, this.size);
+    const distance = normalize((nextIndex - activeIndex) * direction, this.size);
     const speed = Math.max(1, distance / this.count);
     while (this.currentIndex !== nextIndex) {
-      await this.onStepAnimate(sign * this.INDEX_MOVE_MULTIPLIER, params.stepDuration * speed);
+      await this.onStepAnimate(direction * this.INDEX_MOVE_MULTIPLIER, params.stepDuration * speed);
     }
   }
 
@@ -147,7 +146,7 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     this.setTransformOffset(-stageOffset);
 
     if (this.currentIndex !== this.$carousel.activeIndex) {
-      this.setActive(this.currentIndex, {direction: offset < 0 ? 'next' : 'prev'});
+      this.setActive(this.currentIndex, {direction: sign(-offset)});
     }
   }
 
@@ -168,7 +167,7 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     this.$carousel.$$attr('active', false);
 
     if (this.currentIndex !== this.$carousel.activeIndex) {
-      this.setActive(this.currentIndex, {direction: offset < 0 ? 'next' : 'prev'});
+      this.setActive(this.currentIndex, {direction: sign(-offset)});
     }
   }
 

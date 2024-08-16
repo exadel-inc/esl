@@ -3,14 +3,11 @@ import {
   groupToIndex,
   indexToGroup,
   indexToDirection,
-  toIndex
+  toIndex, canNavigate
 } from '../../core/nav/esl-carousel.nav.utils';
+import {ESLCarouselDirection} from '../../core/esl-carousel.types';
 
-import type {
-  ESLCarouselDirection,
-  ESLCarouselSlideTarget,
-  ESLCarouselState
-} from '../../core/esl-carousel.types';
+import type {ESLCarouselSlideTarget, ESLCarouselState} from '../../core/esl-carousel.types';
 
 describe('ESLCarousel: Nav Utils', () => {
   describe('normalize', () => {
@@ -146,16 +143,16 @@ describe('ESLCarousel: Nav Utils', () => {
   describe('indexToDirection', () => {
     test.each([
       // [to, {activeIndex, size, loop}, result]
-      [1, {activeIndex: 0, size: 5, loop: false}, 'next'],
-      [4, {activeIndex: 0, size: 5, loop: false}, 'next'],
-      [4, {activeIndex: 3, size: 5, loop: false}, 'next'],
-      [0, {activeIndex: 1, size: 5, loop: false}, 'prev'],
-      [0, {activeIndex: 4, size: 5, loop: false}, 'prev'],
+      [1, {activeIndex: 0, size: 5, loop: false}, ESLCarouselDirection.NEXT],
+      [4, {activeIndex: 0, size: 5, loop: false}, ESLCarouselDirection.NEXT],
+      [4, {activeIndex: 3, size: 5, loop: false}, ESLCarouselDirection.NEXT],
+      [0, {activeIndex: 1, size: 5, loop: false}, ESLCarouselDirection.PREV],
+      [0, {activeIndex: 4, size: 5, loop: false}, ESLCarouselDirection.PREV],
 
-      [1, {activeIndex: 0, size: 5, loop: true}, 'next'],
-      [3, {activeIndex: 1, size: 5, loop: true}, 'next'],
-      [2, {activeIndex: 3, size: 5, loop: true}, 'prev'],
-      [4, {activeIndex: 1, size: 5, loop: true}, 'prev']
+      [1, {activeIndex: 0, size: 5, loop: true}, ESLCarouselDirection.NEXT],
+      [3, {activeIndex: 1, size: 5, loop: true}, ESLCarouselDirection.NEXT],
+      [2, {activeIndex: 3, size: 5, loop: true}, ESLCarouselDirection.PREV],
+      [4, {activeIndex: 1, size: 5, loop: true}, ESLCarouselDirection.PREV]
     ])(
       '(to = %d, state = %p) => %s',
       (to: number, state: ESLCarouselState, result: ESLCarouselDirection) => expect(indexToDirection(to, state)).toBe(result)
@@ -282,5 +279,45 @@ describe('ESLCarousel: Nav Utils', () => {
         (target: ESLCarouselSlideTarget, cfg: ESLCarouselState, result: number) => expect(toIndex(target, cfg).index).toBe(result)
       );
     });
+  });
+
+  describe('canNavigate',  () => {
+    test.each([
+      // Loop for complete
+      ['next', {activeIndex: 0, size: 5, count: 1, loop: true}],
+      ['prev', {activeIndex: 0, size: 5, count: 1, loop: true}],
+      ['next', {activeIndex: 4, size: 5, count: 1, loop: true}],
+      // Non loop case with free space
+      ['next', {activeIndex: 0, size: 5, count: 1, loop: false}],
+      ['prev', {activeIndex: 4, size: 5, count: 1, loop: false}],
+      ['next', {activeIndex: 2, size: 5, count: 1, loop: false}],
+      ['prev', {activeIndex: 2, size: 5, count: 1, loop: false}]
+    ])(
+      'Target %s is allowed for %p configuration',
+      (target: ESLCarouselSlideTarget, cfg: ESLCarouselState) => expect(canNavigate(target, cfg)).toBe(true)
+    );
+
+    test.each([
+      // Non loop case with no free space
+      ['next', {activeIndex: 4, size: 5, count: 1, loop: false}],
+      ['prev', {activeIndex: 0, size: 5, count: 1, loop: false}],
+      // Incomplete cases
+      ['next', {activeIndex: 0, size: 1, count: 1, loop: false}],
+      ['prev', {activeIndex: 0, size: 1, count: 1, loop: false}],
+      ['next', {activeIndex: 0, size: 1, count: 1, loop: true}],
+      ['prev', {activeIndex: 0, size: 1, count: 1, loop: true}],
+      ['next', {activeIndex: 0, size: 2, count: 2, loop: true}],
+      ['prev', {activeIndex: 0, size: 2, count: 2, loop: true}],
+      ['next', {activeIndex: 0, size: 1, count: 2, loop: true}],
+      ['prev', {activeIndex: 0, size: 1, count: 2, loop: true}],
+      // Same slide
+      ['0', {activeIndex: 0, size: 5, count: 1, loop: false}],
+      ['0', {activeIndex: 0, size: 5, count: 1, loop: true}],
+      ['1', {activeIndex: 1, size: 5, count: 2, loop: false}],
+      ['1', {activeIndex: 1, size: 5, count: 2, loop: true}]
+    ])(
+      'Target %s is not allowed for %p configuration',
+      (target: ESLCarouselSlideTarget, cfg: ESLCarouselState) => expect(canNavigate(target, cfg)).toBe(false)
+    );
   });
 });

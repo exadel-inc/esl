@@ -1,11 +1,14 @@
+import {ESLCarouselDirection} from '../esl-carousel.types';
 import type {
-  ESLCarouselDirection,
   ESLCarouselNavIndex,
   ESLCarouselNavInfo,
   ESLCarouselSlideTarget,
   ESLCarouselState,
   ESLCarouselStaticState
 } from '../esl-carousel.types';
+
+/** @returns sign of the value */
+export const sign = (value: number): -1 | 1 | 0 => value > 0 ? 1 : value < 0 ? -1 : 0;
 
 /** @returns normalized slide index in bounds of [0, count] range */
 export function normalize(index: number, size: number): number {
@@ -28,19 +31,13 @@ export function sequence(current: number, count: number, size: number): number[]
 
 /** Gets count of slides between active and passed considering given direction. */
 export function getDistance(from: number, direction: ESLCarouselDirection, {activeIndex, size}: ESLCarouselState): number {
-  if (direction === 'prev') return normalize(activeIndex - from, size);
-  if (direction === 'next') return normalize(from - activeIndex, size);
-  return 0;
+  return normalize(direction * (from - activeIndex), size);
 }
 
-/** @returns closest direction to move from slide `from` to slide `to` */
+/** @returns closest direction to move from the slide `from` to slide `to` */
 function calcDirection(from: number, to: number, size: number): ESLCarouselDirection {
   const abs = Math.abs(from - to) % size;
-  if (to > from) {
-    return abs > size - abs ? 'prev' : 'next';
-  } else {
-    return abs > size - abs ? 'next' : 'prev';
-  }
+  return sign(to - from) * sign(size / 2 - abs);
 }
 
 /** @returns normalized numeric index from group index */
@@ -67,9 +64,7 @@ export function indexToGroup(index: number, count: number, size: number): number
 
 /** @returns closest direction to move to the passed index */
 export function indexToDirection(index: number, {activeIndex, size, loop}: ESLCarouselState): ESLCarouselDirection | undefined {
-  if (loop) return calcDirection(activeIndex, index, size);
-  if (activeIndex < index) return 'next';
-  if (activeIndex > index) return 'prev';
+  return loop ? calcDirection(activeIndex, index, size) : sign(index - activeIndex);
 }
 
 /** Splits target string into type and index parts */
@@ -86,10 +81,10 @@ function splitTarget(target: string): {index: string, type: string} {
 function parseIndex(index: string | ESLCarouselNavIndex): {value: number, isRelative: boolean, direction?: ESLCarouselDirection} {
   if (typeof index === 'number') return {value: index, isRelative: false};
   index = index.trim();
-  if (index === 'next') return {value: 1, isRelative: true, direction: 'next'};
-  if (index === 'prev') return {value: -1, isRelative: true, direction: 'prev'};
-  if (index[0] === '+') return {value: +index, isRelative: true, direction: 'next'};
-  if (index[0] === '-') return {value: +index, isRelative: true, direction: 'prev'};
+  if (index === 'next') return {value: 1, isRelative: true, direction: ESLCarouselDirection.NEXT};
+  if (index === 'prev') return {value: -1, isRelative: true, direction: ESLCarouselDirection.PREV};
+  if (index[0] === '+') return {value: +index, isRelative: true, direction: ESLCarouselDirection.NEXT};
+  if (index[0] === '-') return {value: +index, isRelative: true, direction: ESLCarouselDirection.PREV};
   return {value: +index, isRelative: false};
 }
 
@@ -110,10 +105,10 @@ function resolveGroupIndex(indexStr: string | ESLCarouselNavIndex, cfg: ESLCarou
   }
   // TODO: extend navigation boundaries
   if (value === -1 && cfg.activeIndex < cfg.count && cfg.activeIndex > 0) {
-    return {index: 0, direction: direction || 'prev'};
+    return {index: 0, direction: direction || ESLCarouselDirection.PREV};
   }
   if (value === 1 && normalize(cfg.activeIndex + cfg.count, cfg.size) > cfg.size - cfg.count) {
-    return {index: cfg.size - cfg.count, direction: direction || 'next'};
+    return {index: cfg.size - cfg.count, direction: direction || ESLCarouselDirection.NEXT};
   }
   const index = normalize(cfg.activeIndex + value * cfg.count, cfg.size);
   return {index, direction: direction || indexToDirection(index, cfg)};
@@ -138,7 +133,6 @@ export function toIndex(target: ESLCarouselSlideTarget, cfg: ESLCarouselState): 
 export function canNavigate(target: ESLCarouselSlideTarget, cfg: ESLCarouselState): boolean {
   if (cfg.size <= cfg.count) return false;
   const {direction, index} = toIndex(target, cfg);
-  if (!cfg.loop && index > cfg.activeIndex && direction === 'prev') return false;
-  if (!cfg.loop && index < cfg.activeIndex && direction === 'next') return false;
+  if (!cfg.loop && direction && index < direction * cfg.activeIndex) return false;
   return !!direction && index !== cfg.activeIndex;
 }
