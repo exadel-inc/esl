@@ -97,7 +97,11 @@ export function format(str: string, source: Record<string, any>, matcher: RegExp
 */
 export function parseTime(timeStr: string): number {
   const str = timeStr.trim().toLowerCase();
-  const parseNoEmpty = (s: string): number => s ? +s : NaN;
+  const parseNoEmpty = (s: string): number => {
+    const num = s ? +s : NaN;
+    if (Object.is(num, -0) || num < 0) return NaN;
+    return num;
+  };
   if (str.endsWith('ms')) return parseNoEmpty(str.slice(0, -2));
   if (str.endsWith('s')) return parseNoEmpty(str.slice(0, -1)) * 1000;
   return +str; // empty string without unit is treated as 0
