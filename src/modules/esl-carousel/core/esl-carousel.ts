@@ -3,7 +3,7 @@ import {ESLBaseElement} from '../../esl-base-element/core';
 import {attr, boolAttr, ready, decorate, listen, memoize} from '../../esl-utils/decorators';
 import {isMatches} from '../../esl-utils/dom/traversing';
 import {microtask} from '../../esl-utils/async';
-import {parseBoolean, sequentialUID} from '../../esl-utils/misc';
+import {parseBoolean, parseTime, sequentialUID} from '../../esl-utils/misc';
 
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core';
@@ -33,7 +33,7 @@ import type {
 @ExportNs('Carousel')
 export class ESLCarousel extends ESLBaseElement {
   public static override is = 'esl-carousel';
-  public static observedAttributes = ['media', 'type', 'loop', 'count', 'vertical', 'container'];
+  public static observedAttributes = ['media', 'type', 'loop', 'count', 'vertical', 'step-duration', 'container'];
 
   /** Media query pattern used for {@link ESLMediaRuleList} of `type`, `loop` and `count` (default: `all`) */
   @attr({defaultValue: 'all'}) public media: string;
@@ -45,6 +45,9 @@ export class ESLCarousel extends ESLBaseElement {
   @attr({defaultValue: '1'}) public count: string | number;
   /** Orientation of the carousel (`horizontal` by default). Supports {@link ESLMediaRuleList} syntax */
   @attr({defaultValue: 'false'}) public vertical: string | boolean;
+
+  /** Duration of the single slide transition */
+  @attr({defaultValue: '250'}) public stepDuration: string;
 
   /** Container selector (supports traversing query). Carousel itself by default */
   @attr({defaultValue: ''}) public container: string;
@@ -84,6 +87,11 @@ export class ESLCarousel extends ESLBaseElement {
   @memoize()
   public get verticalRule(): ESLMediaRuleList<boolean> {
     return ESLMediaRuleList.parse(this.vertical as string, this.media, parseBoolean);
+  }
+  /** Duration of the single slide transition {@link ESLMediaRuleList} instance */
+  @memoize()
+  public get stepDurationRule(): ESLMediaRuleList<number> {
+    return ESLMediaRuleList.parse(this.stepDuration, this.media, parseTime);
   }
 
   /** Returns observed media rules */
@@ -309,7 +317,8 @@ export class ESLCarousel extends ESLBaseElement {
 
   /** Merge request params with default params */
   protected mergeParams(params: Partial<ESLCarouselActionParams>): ESLCarouselActionParams {
-    return {stepDuration: 250, ...params};
+    const stepDuration = this.stepDurationRule.value || 0;
+    return {stepDuration, ...params};
   }
 
   /** @returns slide by index (supports not normalized indexes) */
