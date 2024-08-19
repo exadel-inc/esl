@@ -48,7 +48,7 @@ export class SnapshotMatcher {
     try {
       diffPath = await this.compareImages(prevImg, currImg);
     } catch (error) {
-      return this.getMatcherResult(false, `Error comparing snapshot to image ${prevImgPath}\n${error}`);
+      return this.getMatcherResult(false, `Error comparing snapshot to image ${prevImgPath}`);
     }
 
     if (diffPath) return this.getMatcherResult(false, `Image mismatch found: ${diffPath}`);
