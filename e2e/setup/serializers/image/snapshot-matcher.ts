@@ -43,7 +43,13 @@ export class SnapshotMatcher {
 
     const prevImg = await this.convertToRaw(prevImgPath);
     const currImg = await this.convertToRaw(await this.currentImg.toBuffer());
-    const diffPath = await this.compareImages(prevImg, currImg);
+
+    let diffPath;
+    try {
+      diffPath = await this.compareImages(prevImg, currImg);
+    } catch (error) {
+      return this.getMatcherResult(false, `Error comparing snapshot to image ${prevImgPath}\n${error}`);
+    }
 
     if (diffPath) return this.getMatcherResult(false, `Image mismatch found: ${diffPath}`);
     return this.getMatcherResult(true, `Image is the same as the snapshot: ${prevImgPath}`);
