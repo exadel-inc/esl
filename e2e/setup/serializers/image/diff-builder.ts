@@ -8,7 +8,7 @@ type DiffBuilderConfig = {
   diffBuffer: Buffer;
 };
 
-export class DiffBuilder {
+export class DiffImageComposer {
 
   protected imgInfo: {width: number, height: number};
 
@@ -16,7 +16,7 @@ export class DiffBuilder {
     this.imgInfo = this.config.img1.info;
   }
 
-  public async build(): Promise<void> {
+  public async save(): Promise<void> {
     const {diffPath, img1, img2, diffBuffer} = this.config;
     const {width, height} = this.imgInfo;
     await sharp({

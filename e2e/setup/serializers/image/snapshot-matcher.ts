@@ -3,7 +3,7 @@ import fs from 'fs';
 import sharp from 'sharp';
 import pixelmatch from 'pixelmatch';
 
-import {DiffBuilder} from './diff-builder';
+import {DiffImageComposer} from './diff-builder';
 
 export type SnapshotMatcherOptions = pixelmatch.PixelmatchOptions;
 
@@ -20,6 +20,8 @@ export class SnapshotMatcher {
     includeAA: true,
     threshold: 0.01
   };
+
+  protected readonly MIN_THRESHOLD: number = 0.0001;
 
   protected config: SnapshotMatcherOptions;
   protected testName: string;
@@ -41,18 +43,13 @@ export class SnapshotMatcher {
       return this.getMatcherResult(true, `New snapshot was created: ${prevImgPath}`);
     }
 
-    const prevImg = await this.convertToRaw(prevImgPath);
-    const currImg = await this.convertToRaw(await this.currentImg.toBuffer());
+    const prevImg = await SnapshotMatcher.toRawImage(prevImgPath);
+    const currImg = await SnapshotMatcher.toRawImage(await this.currentImg.toBuffer());
 
-    let diffPath;
-    try {
-      diffPath = await this.compareImages(prevImg, currImg);
-    } catch (error) {
-      return this.getMatcherResult(false, `Error comparing snapshot to image ${prevImgPath}`);
-    }
-
-    if (diffPath) return this.getMatcherResult(false, `Image mismatch found: ${diffPath}`);
-    return this.getMatcherResult(true, `Image is the same as the snapshot: ${prevImgPath}`);
+    const diff = await this.compareImages(prevImg, currImg);
+    if (!diff) return this.getMatcherResult(true, `Image is the same as the snapshot: ${prevImgPath}`);
+    if (diff.reason === 'content') return this.getMatcherResult(false, `Image mismatch found: ${diff.path}`);
+    return this.getMatcherResult(false, `Error comparing snapshot to image ${prevImgPath}`);
   }
 
   protected updateDirectory(dirPath: string): void {
@@ -63,23 +60,25 @@ export class SnapshotMatcher {
     return {pass, message: () => message};
   }
 
-  protected async convertToRaw(input: string | Buffer): Promise<SharpContext> {
+  protected static async toRawImage(input: string | Buffer): Promise<SharpContext> {
     return sharp(input).ensureAlpha().raw().toBuffer({resolveWithObject: true});
   }
 
-  protected async compareImages(prevImg: SharpContext, currImg: SharpContext): Promise<string | undefined> {
-    let diffPath: string | undefined;
+  protected async compareImages(prevImg: SharpContext, currImg: SharpContext): Promise<{reason: 'content' | 'error', path?: string} | undefined> {
     const {width, height} = prevImg.info;
     const diffBuffer = Buffer.alloc(width * height * 4);
-    const numDiffPixel = pixelmatch(prevImg.data, currImg.data, diffBuffer, width, height, this.config);
-    if (numDiffPixel > width * height * 0.0001) diffPath = await this.saveDiff(prevImg, currImg, diffBuffer);
-    return diffPath;
+    try {
+      const numDiffPixel = pixelmatch(prevImg.data, currImg.data, diffBuffer, width, height, this.config);
+      if (numDiffPixel > width * height * 0.0001) return {reason: 'content', path: await this.saveDiff(prevImg, currImg, diffBuffer)};
+    } catch (e) {
+      return {reason: 'error'};
+    }
   }
 
   protected async saveDiff(img1: SharpContext, img2: SharpContext, diffBuffer: Buffer): Promise<string> {
     this.updateDirectory(SnapshotMatcher.DIFF_DIR);
     const diffPath = path.join(SnapshotMatcher.DIFF_DIR, `${this.testName}-diff.webp`);
-    await new DiffBuilder({diffPath, img1, img2, diffBuffer}).build();
+    await new DiffImageComposer({diffPath, img1, img2, diffBuffer}).save();
     return diffPath;
   }
 }
