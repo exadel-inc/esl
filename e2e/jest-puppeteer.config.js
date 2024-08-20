@@ -11,8 +11,11 @@ module.exports = {
     product: 'chrome',
     args: [
       '--no-sandbox',
-      '--disable-gpu',
       '--disable-setuid-sandbox',
+      '--hide-scrollbars',
+      '--force-device-scale-factor=1',
+      '--high-dpi-support=1',
+      '--disable-gpu',
       '--disable-background-timer-throttling',
       '--disable-backgrounding-occluded-windows',
       '--disable-renderer-backgrounding',
