@@ -12,6 +12,7 @@ export type SharpContext = {data: Buffer, info: sharp.OutputInfo};
 export class SnapshotMatcher {
   protected static readonly DIFF_DIR = path.join(process.cwd(), '.diff');
   protected static readonly SNAPSHOT_DIR = path.join(process.cwd(), 'tests', '__image_snapshots__');
+  protected static readonly MIN_DIFF_THRESHOLD: number = 0.0001;
 
   protected static readonly defaultOptions: SnapshotMatcherOptions = {
     diffMask: false,
@@ -20,8 +21,6 @@ export class SnapshotMatcher {
     includeAA: true,
     threshold: 0.01
   };
-
-  protected readonly MIN_THRESHOLD: number = 0.0001;
 
   protected config: SnapshotMatcherOptions;
   protected testName: string;
@@ -36,7 +35,7 @@ export class SnapshotMatcher {
   }
 
   public async match(): Promise<jest.CustomMatcherResult> {
-    this.updateDirectory(SnapshotMatcher.SNAPSHOT_DIR);
+    this.createDiffDir(SnapshotMatcher.SNAPSHOT_DIR);
     const prevImgPath = path.join(SnapshotMatcher.SNAPSHOT_DIR, `${this.testName}.webp`);
     if (!fs.existsSync(prevImgPath) || this.shouldUpdateImg) {
       await this.currentImg.toFile(prevImgPath);
@@ -52,7 +51,7 @@ export class SnapshotMatcher {
     return this.getMatcherResult(false, `Error comparing snapshot to image ${prevImgPath}`);
   }
 
-  protected updateDirectory(dirPath: string): void {
+  protected createDiffDir(dirPath: string): void {
     if (!fs.existsSync(dirPath)) fs.mkdirSync(dirPath, {recursive: true});
   }
 
@@ -69,25 +68,18 @@ export class SnapshotMatcher {
     const diffBuffer = Buffer.alloc(width * height * 4);
     try {
       const numDiffPixel = pixelmatch(prevImg.data, currImg.data, diffBuffer, width, height, this.config);
-      if (numDiffPixel > width * height * 0.0001) return {reason: 'content', path: await this.saveDiff(prevImg, currImg, diffBuffer)};
+      if (numDiffPixel > width * height * SnapshotMatcher.MIN_DIFF_THRESHOLD) {
+        return {reason: 'content', path: await this.saveDiff(prevImg, currImg, diffBuffer)};
+      }
     } catch (e) {
       return {reason: 'error'};
     }
   }
 
   protected async saveDiff(img1: SharpContext, img2: SharpContext, diffBuffer: Buffer): Promise<string> {
-    this.updateDirectory(SnapshotMatcher.DIFF_DIR);
+    this.createDiffDir(SnapshotMatcher.DIFF_DIR);
     const diffPath = path.join(SnapshotMatcher.DIFF_DIR, `${this.testName}-diff.webp`);
     await new DiffImageComposer({diffPath, img1, img2, diffBuffer}).save();
     return diffPath;
-  }
-}
-
-declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace jest {
-    export interface Matchers<R> {
-      toMatchImageSnapshot(options?: SnapshotMatcherOptions): Promise<R>;
-    }
   }
 }
