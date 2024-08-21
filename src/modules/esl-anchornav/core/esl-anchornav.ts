@@ -7,7 +7,16 @@ import {ESLEventUtils, ESLIntersectionTarget} from '../../esl-event-listener/cor
 import {ESLAnchor} from './esl-anchor';
 
 import type {DelegatedEvent, ESLIntersectionEvent} from '../../esl-event-listener/core';
-import type {ESLAnchorData, ESLAnchornavRender} from './esl-anchornav-types';
+
+/** {@link ESLAnchornav} item renderer */
+export type ESLAnchornavRender = (data: ESLAnchorData, index: number, anchrnav: ESLAnchornav) => string | Element;
+
+/** {@link ESLAnchornav} anchor data interface */
+export interface ESLAnchorData {
+  id: string;
+  title: string;
+  $anchor: HTMLElement;
+}
 
 /**
  * ESLAnchornav
@@ -52,7 +61,7 @@ export class ESLAnchornav extends ESLBaseElement {
   public set active(value: ESLAnchorData) {
     if (this._active === value) return;
     this._active = value;
-    this._onActiveChange(value);
+    this._onActiveChange();
   }
 
   /** Anchors list */
@@ -88,6 +97,16 @@ export class ESLAnchornav extends ESLBaseElement {
     return getViewportForEl(this);
   }
 
+  /** Data for prepend anchor */
+  protected get prependData(): ESLAnchorData[] {
+    return [];
+  }
+
+  /** Data for append anchor */
+  protected get appependData(): ESLAnchorData[] {
+    return [];
+  }
+
   @ready
   protected override connectedCallback(): void {
     super.connectedCallback();
@@ -120,8 +139,8 @@ export class ESLAnchornav extends ESLBaseElement {
   protected renderAnchors(): Element[] {
     const itemRenderer = ESLAnchornav.getRenderer(this.rendererName);
     this._items.clear();
-    return itemRenderer ? this._anchors.map((anchor) => {
-      let item = itemRenderer(anchor);
+    return itemRenderer ? this._anchors.map((anchor, index) => {
+      let item = itemRenderer(anchor, index, this);
       if (typeof item === 'string') item = this.htmlToElement(item);
       this._items.set(anchor.id, item);
       return item;
@@ -133,7 +152,6 @@ export class ESLAnchornav extends ESLBaseElement {
     return {
       id: $anchor.id,
       title: $anchor.title,
-      index,
       $anchor
     };
   }
@@ -160,8 +178,8 @@ export class ESLAnchornav extends ESLBaseElement {
 
   /** Handles changing the active anchor */
   @decorate(microtask)
-  protected _onActiveChange(active: ESLAnchorData): void {
-    const detail = {id: active.id};
+  protected _onActiveChange(): void {
+    const detail = {id: this.active.id};
     ESLEventUtils.dispatch(this, this.ACTIVECHANGED_EVENT, {detail});
   }
 
@@ -177,6 +195,8 @@ export class ESLAnchornav extends ESLBaseElement {
   })
   protected _onAnchornavRequest(): void {
     this._anchors = [...document.querySelectorAll<HTMLElement>(this.ANCHOR_SELECTOR)].map(this.getDataFrom);
+    this._anchors.unshift(...this.prependData);
+    this._anchors.push(...this.appependData);
     this.update();
   }
 
