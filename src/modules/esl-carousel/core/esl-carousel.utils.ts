@@ -105,7 +105,7 @@ function resolveGroupIndex(indexStr: string | ESLCarouselNavIndex, cfg: ESLCarou
   if (value === 1 && normalize(cfg.activeIndex + cfg.count, cfg.size) > cfg.size - cfg.count) {
     return {index: cfg.size - cfg.count, direction: direction || ESLCarouselDirection.NEXT};
   }
-  const index = normalize(cfg.activeIndex + value * cfg.count, cfg.size);
+  const index = normalizeIndex(cfg.activeIndex + value * cfg.count, cfg);
   return {index, direction: direction || indexToDirection(index, cfg)};
 }
 

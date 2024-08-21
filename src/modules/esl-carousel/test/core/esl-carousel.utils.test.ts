@@ -251,10 +251,12 @@ describe('ESLCarousel: Nav Utils', () => {
 
     describe('group relative target', () => {
       test.each([
-        ['group: +1', {size: 5, count: 1, activeIndex: 2}, 3],
-        ['group: +1', {size: 5, count: 2, activeIndex: 2}, 3],
-        ['group: -1', {size: 5, count: 1, activeIndex: 2}, 1],
-        ['group: -1', {size: 5, count: 2, activeIndex: 2}, 0]
+        ['group: +1', {size: 5, count: 1, activeIndex: 2, loop: true}, 3],
+        ['group: +1', {size: 5, count: 2, activeIndex: 2, loop: true}, 3],
+        ['group: -1', {size: 5, count: 1, activeIndex: 2, loop: true}, 1],
+        ['group: -1', {size: 5, count: 2, activeIndex: 2, loop: true}, 0],
+        ['group: +1', {size: 5, count: 2, activeIndex: 4, loop: false}, 3],
+        ['group: -1', {size: 5, count: 1, activeIndex: 0, loop: false}, 0],
       ])(
         '(target = %s, cfg = %p) = %d',
         (target: ESLCarouselSlideTarget, cfg: ESLCarouselState, result: number) => expect(toIndex(target, cfg).index).toBe(result)
@@ -263,17 +265,20 @@ describe('ESLCarousel: Nav Utils', () => {
 
     describe('group relative short target', () => {
       test.each([
-        ['group: next', {size: 5, count: 1, activeIndex: 2}, 3],
-        ['group: next', {size: 5, count: 2, activeIndex: 2}, 3],
-        ['group: next', {size: 5, count: 1, activeIndex: 4}, 0],
-        ['group: next', {size: 5, count: 2, activeIndex: 4}, 1],
-        ['group: next', {size: 5, count: 3, activeIndex: 0}, 2],
+        ['group: next', {size: 5, count: 1, activeIndex: 2, loop: true}, 3],
+        ['group: next', {size: 5, count: 2, activeIndex: 2, loop: true}, 3],
+        ['group: next', {size: 5, count: 1, activeIndex: 4, loop: false}, 4],
+        ['group: next', {size: 5, count: 1, activeIndex: 4, loop: true}, 0],
+        ['group: next', {size: 5, count: 2, activeIndex: 4, loop: true}, 1],
+        ['group: next', {size: 5, count: 3, activeIndex: 0, loop: true}, 2],
 
-        ['group: prev', {size: 5, count: 1, activeIndex: 2}, 1],
-        ['group: prev', {size: 5, count: 2, activeIndex: 2}, 0],
-        ['group: prev', {size: 5, count: 1, activeIndex: 0}, 4],
-        ['group: prev', {size: 5, count: 3, activeIndex: 1}, 0],
-        ['group: prev', {size: 5, count: 3, activeIndex: 4}, 1]
+        ['group: prev', {size: 5, count: 1, activeIndex: 2, loop: true}, 1],
+        ['group: prev', {size: 5, count: 2, activeIndex: 2, loop: true}, 0],
+        ['group: prev', {size: 5, count: 1, activeIndex: 0, loop: false}, 0],
+        ['group: prev', {size: 5, count: 1, activeIndex: 0, loop: true}, 4],
+        ['group: prev', {size: 5, count: 3, activeIndex: 1, loop: false}, 0],
+        ['group: prev', {size: 5, count: 3, activeIndex: 1, loop: true}, 0],
+        ['group: prev', {size: 5, count: 3, activeIndex: 4, loop: true}, 1]
       ])(
         '(target = %s, cfg = %p) = %d',
         (target: ESLCarouselSlideTarget, cfg: ESLCarouselState, result: number) => expect(toIndex(target, cfg).index).toBe(result)
@@ -291,7 +296,16 @@ describe('ESLCarousel: Nav Utils', () => {
       ['next', {activeIndex: 0, size: 5, count: 1, loop: false}],
       ['prev', {activeIndex: 4, size: 5, count: 1, loop: false}],
       ['next', {activeIndex: 2, size: 5, count: 1, loop: false}],
-      ['prev', {activeIndex: 2, size: 5, count: 1, loop: false}]
+      ['prev', {activeIndex: 2, size: 5, count: 1, loop: false}],
+      // Group cases
+      ['group: next', {activeIndex: 0, size: 5, count: 2, loop: true}],
+      ['group: prev', {activeIndex: 0, size: 5, count: 2, loop: true}],
+      ['group: next', {activeIndex: 4, size: 5, count: 2, loop: true}],
+      ['group: prev', {activeIndex: 4, size: 5, count: 2, loop: true}],
+      // Non loop case with free space
+      ['group: next', {activeIndex: 0, size: 5, count: 2, loop: false}],
+      ['group: prev', {activeIndex: 2, size: 5, count: 2, loop: false}],
+      ['group: prev', {activeIndex: 4, size: 5, count: 2, loop: false}]
     ])(
       'Target %s is allowed for %p configuration',
       (target: ESLCarouselSlideTarget, cfg: ESLCarouselState) => expect(canNavigate(target, cfg)).toBe(true)
@@ -314,7 +328,10 @@ describe('ESLCarousel: Nav Utils', () => {
       ['0', {activeIndex: 0, size: 5, count: 1, loop: false}],
       ['0', {activeIndex: 0, size: 5, count: 1, loop: true}],
       ['1', {activeIndex: 1, size: 5, count: 2, loop: false}],
-      ['1', {activeIndex: 1, size: 5, count: 2, loop: true}]
+      ['1', {activeIndex: 1, size: 5, count: 2, loop: true}],
+      // Group cases with no loop
+      ['group: next', {activeIndex: 4, size: 5, count: 2, loop: false}],
+      ['group: prev', {activeIndex: 0, size: 5, count: 2, loop: false}]
     ])(
       'Target %s is not allowed for %p configuration',
       (target: ESLCarouselSlideTarget, cfg: ESLCarouselState) => expect(canNavigate(target, cfg)).toBe(false)
