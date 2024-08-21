@@ -61,7 +61,7 @@ export class ESLCarouselSlide extends ESLMixinElement {
 
   protected override disconnectedCallback(): void {
     // A disconnected callback is not directly related to slide removal from the carousel
-    // e.g. carousel itself can be removed from the DOM so child slides behaves accordingly
+    // e.g. carousel itself can be removed from the DOM so child slides behave accordingly
     this.$carousel?.update() && this.$carousel?.update();
     memoize.clear(this, '$carousel');
     super.disconnectedCallback();

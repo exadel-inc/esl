@@ -57,9 +57,9 @@ export type ESLCarouselNavInfo = {
 
 /** {@link ESLCarousel} action params interface */
 export interface ESLCarouselActionParams {
-  /** Element requester of the change */
+  /** Element that requests changes */
   activator?: any;
-  /** Direction to move to. */
+  /** Direction to move to */
   direction?: ESLCarouselDirection;
   /** Duration of a single slide transition in milliseconds. (Set to 0 to disable animation) */
   stepDuration: number;

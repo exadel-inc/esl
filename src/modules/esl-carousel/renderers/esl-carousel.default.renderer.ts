@@ -77,7 +77,7 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     this.$area.style.transform = `translate3d(${this.vertical ? `0px, ${offset}px` : `${offset}px, 0px`}, 0px)`;
   }
 
-  /** Animate scene offset to index */
+  /** Animates scene offset to index */
   protected async animateTo(index: number, duration = 250): Promise<void> {
     this.currentIndex = this.normalizeIndex(index);
     const offset = -this.getOffset(this.currentIndex);

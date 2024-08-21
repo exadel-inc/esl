@@ -300,19 +300,19 @@ export class ESLCarousel extends ESLBaseElement {
     return this.renderer.navigate(toIndex(target, this.state), this.mergeParams(params));
   }
 
-  /** Move slides by the passed offset */
+  /** Moves slides by the passed offset */
   public move(offset: number, from: number = this.activeIndex, params: Partial<ESLCarouselActionParams> = {}): void {
     if (!this.renderer) return;
     this.renderer.move(offset, from, this.mergeParams(params));
   }
 
-  /** Commit slides to the nearest stable position */
+  /** Commits slides to the nearest stable position */
   public commit(offset: number, from: number = this.activeIndex, params: Partial<ESLCarouselActionParams> = {}): Promise<void> {
     if (!this.renderer) return Promise.reject();
     return this.renderer.commit(offset, from, this.mergeParams(params));
   }
 
-  /** Merge request params with default params */
+  /** Merges request params with default params */
   protected mergeParams(params: Partial<ESLCarouselActionParams>): ESLCarouselActionParams {
     const stepDuration = this.stepDurationRule.value || 0;
     return {stepDuration, ...params};
