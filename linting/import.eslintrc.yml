@@ -1,6 +1,6 @@
 rules:
   # Enforce a convention in module import order
-  'import/order':
+  'importPlugin/order':
     - warn
     - groups:
       - builtin
@@ -12,20 +12,20 @@ rules:
       - type
 
   # Reports funny business with exports, like repeated exports of names or defaults.
-  'import/export': warn
+  'importPlugin/export': warn
 
   # Warn about duplicate imports
   'no-duplicate-imports': off
-  'import/no-duplicates': warn
+  'importPlugin/no-duplicates': warn
 
   # Verifies that all named imports are part of the set of named exports in the referenced module.
-  'import/named': error
+  'importPlugin/named': error
 
   # Prohibit default exports
-  'import/no-default-export': warn
+  'importPlugin/no-default-export': warn
 
   # Forbid a module from importing itself
-  'import/no-self-import': error
+  'importPlugin/no-self-import': error
 
   # Deprecate cyclic dependencies
-  'import/no-cycle': error
+  'importPlugin/no-cycle': error

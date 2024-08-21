@@ -10,23 +10,6 @@ rules:
 
   # ==== Spacing | Code style ====
 
-  # Warn about multiple empty lines
-  'no-multiple-empty-lines':
-    - warn
-    - max: 2
-      maxEOF: 1
-      maxBOF: 1
-
-  # Warn about spaces inside of parentheses
-  'space-in-parens':
-    - warn
-    - never
-
-  # Warn about missing space before blocks
-  'space-before-blocks':
-    - warn
-    - always
-
   # Limit Cyclomatic Complexity
   'complexity': warn
 
@@ -35,31 +18,13 @@ rules:
     - warn
     - multi-line
 
-  'arrow-parens':
-    - warn
-    - always
-
   # Max 3 classes per file (ideally 1 per file)
   'max-classes-per-file':
     - warn
     - 3
 
-  # Warn about a maximum line length to be 160
-  'max-len':
-    - warn
-    - code: 160
-
-  # Require parentheses when invoking a constructor with no arguments
-  'new-parens': error
-
   # Warn about empty block statements
   'no-empty': warn
-
-  # Disallow mixed spaces and tabs for indentation
-  'no-mixed-spaces-and-tabs': error
-
-  # Warn about trailing whitespace at the end of lines
-  'no-trailing-spaces': warn
 
   # Underscores allowed due to 'private-member' notation
   'no-underscore-dangle': off
@@ -81,98 +46,29 @@ rules:
   # Prefer const declaration operator
   'prefer-const': error
 
-  # Enforce location of semicolons
-  'semi-style':
-    - error
-    - last
-
-  # Requires a whitespace at the beginning of a comment
-  'spaced-comment': warn
-
   # Limit max lines count per file to 400
   'max-lines':
     - warn
     # TODO: make smaller
     - 450
 
-  # Prefer consistent brace style for blocks
-  'brace-style': off
-  '@typescript-eslint/brace-style': warn
-
-  # Prefer consistent spacing before and after commas
-  'comma-dangle': off
-  '@typescript-eslint/comma-spacing': warn
-
-  # Allows trailing comma
-  'comma-spacing': off
-  '@typescript-eslint/comma-dangle': off
-
   # Do not enforce dot notation whenever possible
   'dot-notation': off
   '@typescript-eslint/dot-notation': off
 
-  # Require consistent spacing around type annotations
-  '@typescript-eslint/type-annotation-spacing': warn
-
   # Prefers consistent usage of type assertions
   '@typescript-eslint/consistent-type-assertions': warn
 
-  # Require a semicolon member delimiter style for interfaces and type literals
-  '@typescript-eslint/member-delimiter-style':
-    - warn
-    - multiline:
-        delimiter: 'semi'
-        requireLast: true
-      singleline:
-        delimiter: 'comma'
-        requireLast: false
-
   # Require the use of the namespace keyword instead of the module keyword to declare custom TypeScript modules
   '@typescript-eslint/prefer-namespace-keyword': warn
-
-  # Require spacing between function identifiers and their invocations
-  'func-call-spacing': off
-  '@typescript-eslint/func-call-spacing':
-    - warn
-    - never
-
-  # Warn for consistent indentations
-  'indent': off
-  '@typescript-eslint/indent':
-    - warn
-    - 2
-    - ignoredNodes: [FunctionExpression, FunctionDeclaration]
-      SwitchCase: 1
-      ObjectExpression: 1
-      ImportDeclaration: 1
-      flatTernaryExpressions: false
 
   # Allows initialization in variable declarations
   'init-declarations': off
   '@typescript-eslint/init-declarations': off
 
-  # Require consistent spacing before and after keywords
-  'keyword-spacing': off
-  '@typescript-eslint/keyword-spacing':
-    - warn
-    - after: true
-      before: true
-
-  # Allows an empty line between class members
-  'lines-between-class-members': off
-  '@typescript-eslint/lines-between-class-members': off
-
   # Warn about duplicate class members
   'no-dupe-class-members': off
   '@typescript-eslint/no-dupe-class-members': warn
-
-  # Allow unnecessary parentheses
-  'no-extra-parens': off
-  '@typescript-eslint/no-extra-parens': off
-
-  # Warn about unnecessary semicolons
-  'no-extra-semi': off
-  '@typescript-eslint/no-extra-semi': warn
 
   # The use of eval()-like methods is not recommended
   'no-eval': off
@@ -200,8 +96,8 @@ rules:
   '@typescript-eslint/no-shadow': warn
 
   # Warn about throwing literals as exceptions
-  'no-throw-literal': off
-  '@typescript-eslint/no-throw-literal': warn
+  'only-throw-error': off
+  '@typescript-eslint/only-throw-error': warn
 
   # Allows unused expressions
   'no-unused-expressions': off
@@ -218,12 +114,6 @@ rules:
   'no-useless-constructor': off
   '@typescript-eslint/no-useless-constructor': warn
 
-  # Enforce the consistent use of single quotes
-  'quotes': off
-  '@typescript-eslint/quotes':
-    - error
-    - single
-
   # Do not warn if an async function has no await expression
   'require-await': off
   '@typescript-eslint/require-await': off
@@ -231,28 +121,6 @@ rules:
   # Prefers consistent returning of awaited values
   'return-await': off
   '@typescript-eslint/return-await': warn
-
-  # Require semicolons instead of ASI
-  'semi': off
-  '@typescript-eslint/semi': error
-
-  # Prefer consistent spacing before function parenthesis
-  'space-before-function-paren': off
-  '@typescript-eslint/space-before-function-paren':
-    - warn
-    - anonymous: always
-      named: never
-      asyncArrow: always
-
-  # This rule is aimed at ensuring there are spaces around infix operators.
-  'space-infix-ops': off
-  '@typescript-eslint/space-infix-ops': warn
-
-  # Prefer consistent spacing inside braces
-  'object-curly-spacing': off
-  '@typescript-eslint/object-curly-spacing':
-    - warn
-    - never
 
   # no spread preferences in bounds of the library
   'prefer-spread': off

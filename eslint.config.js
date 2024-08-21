@@ -1,3 +1,5 @@
+const {LINT_RULES} = require('./eslint.rules');
+
 const tseslint = require('typescript-eslint');
 const stylistic = require('@stylistic/eslint-plugin');
 
@@ -28,6 +30,7 @@ module.exports = [
       parser: tseslint.parser,
       parserOptions: {
         projectService: true,
+        tsconfigRootDir: __dirname,
       }
     },
     linterOptions: {
@@ -42,6 +45,7 @@ module.exports = [
       importPlugin
     },
     rules: {
+      ...LINT_RULES,
     // Enable TS Doc syntax check
       'tsdoc/syntax': "warn",
     // Enforce charset check

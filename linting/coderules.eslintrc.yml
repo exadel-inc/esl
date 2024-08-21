@@ -102,7 +102,7 @@ rules:
   '@typescript-eslint/ban-ts-comment': warn
 
   # Bans specific types from being used
-  '@typescript-eslint/ban-types': warn
+  #'@typescript-eslint/ban-types': warn
 
   # Warn about invalid definition of new and constructor
   '@typescript-eslint/no-misused-new': warn
