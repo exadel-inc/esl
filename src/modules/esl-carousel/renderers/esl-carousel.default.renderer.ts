@@ -42,7 +42,7 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
    * Prepare to renderer animation.
    */
   public override onBind(): void {
-    this.currentIndex = this.normalizeIndex(this.$carousel.activeIndex);
+    this.currentIndex = this.normalizeIndex(Math.max(0, this.$carousel.activeIndex));
     this.redraw();
   }
 
@@ -100,7 +100,7 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     this.currentIndex = activeIndex;
     if (!$slidesArea) return;
     const distance = normalize((nextIndex - activeIndex) * direction, this.size);
-    const speed = Math.max(1, distance / this.count);
+    const speed = Math.min(1, this.count / distance);
     while (this.currentIndex !== nextIndex) {
       await this.onStepAnimate(direction * this.INDEX_MOVE_MULTIPLIER, params.stepDuration * speed);
     }
