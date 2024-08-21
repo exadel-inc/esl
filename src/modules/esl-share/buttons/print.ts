@@ -1,4 +1,4 @@
-/*  TODO change after migration eslint-disable max-len */
+/* eslint-disable @stylistic/max-len */
 import '../actions/print-action';
 import {ESLShareConfig} from '../core/esl-share-config';
 
