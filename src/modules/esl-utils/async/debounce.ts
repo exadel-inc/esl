@@ -22,7 +22,7 @@ export interface Debounced<F extends AnyToAnyFnSignature> {
  * @param wait - time to debounce
  * @param thisArg - optional context to call original function, use debounced method call context if not defined
  */
-// eslint-disable-next-line @typescript-eslint/ban-types
+// TODO change after migration  eslint-disable-next-line @typescript-eslint/ban-types
 export function debounce<F extends AnyToAnyFnSignature>(fn: F, wait = 10, thisArg?: object): Debounced<F> {
   let timeout: number | null = null;
   let deferred: Deferred<ReturnType<F>> | null = null;

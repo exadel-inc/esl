@@ -25,7 +25,7 @@ describe('ESLImageElement', () => {
     const SVG = '<svg><circle cx="5" cy="5" r="5"></circle></svg>';
     const DANGER_ATTRS = '<svg onload="alert(document.cookie)"><circle cx="5" cy="5" r="5"></circle></svg>';
     const DANGER_CONTENT_SCRIPT = '<svg><circle cx="5" cy="5" r="5"></circle><script>alert(\'xss\')</script></svg>';
-    // eslint-disable-next-line max-len
+    // TODO change after migration  eslint-disable-next-line max-len
     const DANGER_CONTENT_DATA_URI = '<svg><a xlink:href="data:text/html;base64,PHNjcmlwdD5hbGVydCgnWFNTJyk8L3NjcmlwdD4K"><circle cx="5" cy="5" r="5"></circle></a></svg>';
     const DANGER_CONTENT_LINK_HREF = '<svg><a href="javascript:alert(document.cookie)"><circle cx="5" cy="5" r="5"></circle></a></svg>';
 

@@ -7,7 +7,7 @@ try {
   new window.KeyboardEvent('event', {bubbles: true, cancelable: true});
 } catch (error) {
   const KeyboardEventOriginal = window.KeyboardEvent || window.Event;
-  // eslint-disable-next-line sonarjs/cognitive-complexity
+  // TODO change after migration  eslint-disable-next-line sonarjs/cognitive-complexity
   const KeyboardEvent = function (eventName: string, params: KeyboardEventInit): KeyboardEvent {
     params = params || {};
     const event: any = document.createEvent('KeyboardEvent');

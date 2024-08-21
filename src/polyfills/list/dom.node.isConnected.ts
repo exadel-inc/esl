@@ -7,7 +7,7 @@ if (!('isConnected' in Node.prototype)) {
   Object.defineProperty(Node.prototype, 'isConnected', {
     get() {
       return !this.ownerDocument ||
-        // eslint-disable-next-line no-bitwise
+        // TODO change after migration eslint-disable-next-line no-bitwise
         !(this.ownerDocument.compareDocumentPosition(this) & this.DOCUMENT_POSITION_DISCONNECTED);
     }
   });

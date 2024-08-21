@@ -40,7 +40,7 @@ export function compileFootnotesGroupedList(notes: ESLNote[]): FootnotesItem[] {
 export function sortFootnotes(notes: ESLNote[]): ESLNote[] {
   return notes.sort((note1: ESLNote, note2: ESLNote): number => {
     if (note1 === note2) return 0;
-    // eslint-disable-next-line no-bitwise
+    // TODO change after migration  eslint-disable-next-line no-bitwise
     if (note1.compareDocumentPosition(note2) & Node.DOCUMENT_POSITION_PRECEDING) {
       // note2 comes before note1
       return 1;

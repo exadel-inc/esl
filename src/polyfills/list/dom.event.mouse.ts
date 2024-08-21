@@ -7,7 +7,7 @@ try {
   new window.MouseEvent('event', {bubbles: true, cancelable: true});
 } catch (error) {
   const MouseEventOriginal = window.MouseEvent || window.Event;
-  // eslint-disable-next-line sonarjs/cognitive-complexity
+  // TODO change after migration  eslint-disable-next-line sonarjs/cognitive-complexity
   const MouseEvent = function (eventName: string, params: MouseEventInit): MouseEvent {
     params = params || {};
     const event: any = document.createEvent('MouseEvent');

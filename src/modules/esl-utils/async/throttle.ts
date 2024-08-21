@@ -18,7 +18,7 @@ export interface Throttled<F extends AnyToAnyFnSignature> {
  * @param threshold - indicates how often function could be called
  * @param thisArg - optional context to call original function, use debounced method call context if not defined
  */
-// eslint-disable-next-line @typescript-eslint/ban-types
+// TODO change after migration  eslint-disable-next-line @typescript-eslint/ban-types
 export function throttle<F extends AnyToAnyFnSignature>(fn: F, threshold = 250, thisArg?: object): Throttled<F> {
   let last: number;
   let timeout: number | null = null;
