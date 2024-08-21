@@ -183,17 +183,14 @@ export class ESLCarousel extends ESLBaseElement {
 
   /** Appends slide instance to the current carousel */
   public addSlide(slide: HTMLElement): void {
-    if (!slide) return;
     slide.setAttribute(this.slideAttrName, '');
     if (slide.parentNode === this.$slidesArea) return this.update();
     console.debug('[ESL]: ESLCarousel moves slide to correct location', slide);
-    if (slide.parentNode) slide.remove();
-    Promise.resolve().then(() => this.$slidesArea.appendChild(slide));
+    this.$slidesArea.appendChild(slide);
   }
 
   /** Remove slide instance from the current carousel */
   public removeSlide(slide: HTMLElement): void {
-    if (!slide) return;
     if (slide.parentNode === this.$slidesArea) this.$slidesArea.removeChild(slide);
     if (this.$slides.includes(slide)) this.update();
   }

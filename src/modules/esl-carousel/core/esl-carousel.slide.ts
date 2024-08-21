@@ -49,7 +49,6 @@ export class ESLCarouselSlide extends ESLMixinElement {
     return this.$host.closest(carouselTag) as ESLCarousel | undefined;
   }
 
-  @ready
   protected override connectedCallback(): void {
     if (!this.$carousel) return;
     this.$carousel?.addSlide && this.$carousel.addSlide(this.$host);
@@ -59,7 +58,9 @@ export class ESLCarouselSlide extends ESLMixinElement {
   }
 
   protected override disconnectedCallback(): void {
-    this.$carousel?.removeSlide && this.$carousel.removeSlide(this.$host);
+    // A disconnected callback is not directly related to slide removal from the carousel
+    // e.g. carousel itself can be removed from the DOM so child slides behaves accordingly
+    this.$carousel?.update() && this.$carousel?.update();
     memoize.clear(this, '$carousel');
     super.disconnectedCallback();
   }
