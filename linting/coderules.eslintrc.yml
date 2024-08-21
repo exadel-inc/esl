@@ -254,18 +254,3 @@ rules:
   # Allows the use of variables before they are defined
   'no-use-before-define': off
   '@typescript-eslint/no-use-before-define': off
-
-# Specific lint overrides
-overrides:
-  # Allow the use of custom TypeScript modules and namespaces for JSX shapes
-  - files:
-    - '*.shape.ts'
-    rules:
-      '@typescript-eslint/no-namespace': off
-      # Temporary of as false positive
-      '@typescript-eslint/no-unnecessary-type-arguments': off
-
-  - files:
-    - '**/polyfills/**/*.ts'
-    rules:
-      'no-new-wrappers': off
