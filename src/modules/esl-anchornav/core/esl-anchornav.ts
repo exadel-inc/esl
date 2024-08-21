@@ -48,6 +48,8 @@ export class ESLAnchornav extends ESLBaseElement {
 
   /** Item renderer which is used to build inner markup */
   @attr({defaultValue: 'default', name: 'renderer'}) public rendererName: string;
+  /** CSS classes to set on active item */
+  @attr({defaultValue: 'active'}) public activeClass: string;
 
   protected _active: ESLAnchorData;
   protected _anchors: ESLAnchorData[] = [];
@@ -171,7 +173,7 @@ export class ESLAnchornav extends ESLBaseElement {
       if (y <= topBoundary) active = item;
     });
     if (active) {
-      this._items.forEach(($item, id) => $item.classList.toggle('active', id === active.id));
+      this._items.forEach(($item, id) => $item.classList.toggle(this.activeClass, id === active.id));
       this.active = active;
     }
   }
