@@ -15,10 +15,12 @@ export interface ESLCarouselSlideEventInit {
 
 /** {@link ESLCarousel} event that represents slide change event */
 export class ESLCarouselSlideEvent extends Event implements ESLCarouselSlideEventInit {
-  /** {@link ESLCarouselSlideEvent} event type dispatched before slide change (pre-event) */
+  /** {@link ESLCarouselSlideEvent} cancelable event type dispatched before slide change (pre-event) */
   public static readonly BEFORE = 'esl:before:slide-change';
+  /** {@link ESLCarouselSlideEvent} event type dispatched before carousel is going to change active slide (post-event) */
+  public static readonly CHANGE = 'esl:slide-change';
   /** {@link ESLCarouselSlideEvent} event type dispatched after slide change (post-event) */
-  public static readonly AFTER = 'esl:slide-change';
+  public static readonly AFTER = 'esl:after:slide-change';
 
   public override readonly target: ESLCarousel;
   public readonly indexesBefore: number[];
@@ -58,7 +60,7 @@ export class ESLCarouselSlideEvent extends Event implements ESLCarouselSlideEven
     return this.indexesAfter.map((index) => this.target.slideAt(index));
   }
 
-  public static create(type: 'BEFORE' | 'AFTER', init: ESLCarouselSlideEventInit): ESLCarouselSlideEvent {
+  public static create(type: 'BEFORE' | 'CHANGE' | 'AFTER', init: ESLCarouselSlideEventInit): ESLCarouselSlideEvent {
     return new ESLCarouselSlideEvent(ESLCarouselSlideEvent[type], init);
   }
 }

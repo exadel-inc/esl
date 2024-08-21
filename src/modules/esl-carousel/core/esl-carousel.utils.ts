@@ -29,11 +29,6 @@ export function sequence(current: number, count: number, size: number): number[]
   return result;
 }
 
-/** Gets count of slides between active and passed considering given direction. */
-export function getDistance(from: number, direction: ESLCarouselDirection, {activeIndex, size}: ESLCarouselState): number {
-  return normalize(direction * (from - activeIndex), size);
-}
-
 /** @returns closest direction to move from the slide `from` to slide `to` */
 function calcDirection(from: number, to: number, size: number): ESLCarouselDirection {
   const abs = Math.abs(from - to) % size;

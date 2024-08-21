@@ -113,8 +113,8 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
 
     const details = {...params, direction, indexesBefore, indexesAfter};
     if (!this.$carousel.dispatchEvent(ESLCarouselSlideEvent.create('BEFORE', details))) return;
-    // this.$carousel.dispatchEvent(ESLCarouselSlideEvent.create('CHANGE', details));
 
+    this.$carousel.dispatchEvent(ESLCarouselSlideEvent.create('CHANGE', details));
     this.setPreActive(index);
 
     try {
