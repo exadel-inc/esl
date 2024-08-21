@@ -1,4 +1,5 @@
 const tseslint = require('typescript-eslint');
+const stylistic = require('@stylistic/eslint-plugin');
 
 const tsdoc = require('eslint-plugin-tsdoc');
 const sonarjs = require('eslint-plugin-sonarjs');
@@ -34,6 +35,7 @@ module.exports = [
     },
     plugins: {
       '@typescript-eslint': tseslint.plugin,
+      '@stylistic': stylistic,
       tsdoc,
       sonarjs,
       editorconfig,
@@ -77,7 +79,7 @@ module.exports = [
       // no class count limit for tests
       'max-classes-per-file': "off",
       // it's ok to write braces single line in tests
-      'brace-style': "off",
+      '@stylistic/brace-style': "off",
       // ts-ignore is off to test clean es cases
       '@typescript-eslint/ban-ts-comment': "off",
       // there is no need to evaluate tests strictly
