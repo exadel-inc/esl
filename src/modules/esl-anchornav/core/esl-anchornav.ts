@@ -9,7 +9,7 @@ import {ESLAnchor} from './esl-anchor';
 import type {DelegatedEvent, ESLIntersectionEvent} from '../../esl-event-listener/core';
 
 /** {@link ESLAnchornav} item renderer */
-export type ESLAnchornavRender = (data: ESLAnchorData, index: number, anchrnav: ESLAnchornav) => string | Element;
+export type ESLAnchornavRender = (data: ESLAnchorData, index: number, anchornav: ESLAnchornav) => string | Element;
 
 /** {@link ESLAnchornav} anchor data interface */
 export interface ESLAnchorData {
@@ -105,7 +105,7 @@ export class ESLAnchornav extends ESLBaseElement {
   }
 
   /** Data for append anchor */
-  protected get appependData(): ESLAnchorData[] {
+  protected get appendData(): ESLAnchorData[] {
     return [];
   }
 
@@ -198,7 +198,7 @@ export class ESLAnchornav extends ESLBaseElement {
   protected _onAnchornavRequest(): void {
     this._anchors = [...document.querySelectorAll<HTMLElement>(this.ANCHOR_SELECTOR)].map(this.getDataFrom);
     this._anchors.unshift(...this.prependData);
-    this._anchors.push(...this.appependData);
+    this._anchors.push(...this.appendData);
     this.update();
   }
 
