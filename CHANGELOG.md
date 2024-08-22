@@ -1,3 +1,9 @@
+## [5.0.0-beta.33](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.32...v5.0.0-beta.33) (2024-08-22)
+
+### Bug Fixes
+
+* **esl-carousel:** fix slide mixin initialization order ([ad92042](https://github.com/exadel-inc/esl/commit/ad92042f1c11f6f798b490a4e270ce42ba58e3fc))
+
 ## [5.0.0-beta.32](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.31...v5.0.0-beta.32) (2024-08-22)
 
 ### Features
