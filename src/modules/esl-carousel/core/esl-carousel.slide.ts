@@ -1,7 +1,8 @@
 import {ESLMixinElement} from '../../esl-mixin-element/core';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {microtask} from '../../esl-utils/async/microtask';
-import {attr, decorate, memoize, ready} from '../../esl-utils/decorators';
+import {ExportNs} from '../../esl-utils/environment/export-ns';
+import {attr, decorate, memoize} from '../../esl-utils/decorators';
 
 import type {ESLCarousel} from './esl-carousel';
 
@@ -11,6 +12,7 @@ import type {ESLCarousel} from './esl-carousel';
  *
  * ESLCarouselSlide - a component that provides content for ESLCarousel {@link ESLCarousel}
  */
+@ExportNs('Carousel.Slide')
 export class ESLCarouselSlide extends ESLMixinElement {
   public static override is = 'esl-carousel-slide';
   public static override observedAttributes = ['active'];
@@ -49,7 +51,6 @@ export class ESLCarouselSlide extends ESLMixinElement {
     return this.$host.closest(carouselTag) as ESLCarousel | undefined;
   }
 
-  @ready
   protected override connectedCallback(): void {
     if (!this.$carousel) return;
     this.$carousel?.addSlide && this.$carousel.addSlide(this.$host);
@@ -59,7 +60,9 @@ export class ESLCarouselSlide extends ESLMixinElement {
   }
 
   protected override disconnectedCallback(): void {
-    this.$carousel?.removeSlide && this.$carousel.removeSlide(this.$host);
+    // A disconnected callback is not directly related to slide removal from the carousel
+    // e.g. carousel itself can be removed from the DOM so child slides behave accordingly
+    this.$carousel?.update() && this.$carousel?.update();
     memoize.clear(this, '$carousel');
     super.disconnectedCallback();
   }

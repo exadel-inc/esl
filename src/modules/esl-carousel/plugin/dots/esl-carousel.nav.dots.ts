@@ -5,7 +5,7 @@ import {attr, listen, memoize, prop, ready} from '../../../esl-utils/decorators'
 import {ESLBaseElement} from '../../../esl-base-element/core';
 import {ESLTraversingQuery} from '../../../esl-traversing-query/core';
 
-import {indexToGroup} from '../../core/nav/esl-carousel.nav.utils';
+import {indexToGroup} from '../../core/esl-carousel.utils';
 import {ESLCarouselChangeEvent, ESLCarouselSlideEvent} from '../../core/esl-carousel.events';
 
 import type {ESLCarousel} from '../../core/esl-carousel';

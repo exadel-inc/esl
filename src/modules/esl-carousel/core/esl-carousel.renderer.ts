@@ -1,12 +1,13 @@
 import {memoize} from '../../esl-utils/decorators';
 import {isEqual} from '../../esl-utils/misc/object';
 import {SyntheticEventTarget} from '../../esl-utils/dom';
+import {ESLCarouselDirection} from './esl-carousel.types';
 import {ESLCarouselSlideEvent} from './esl-carousel.events';
-import {normalize, sequence, indexToDirection} from './nav/esl-carousel.nav.utils';
+import {indexToDirection, normalize, normalizeIndex, sequence} from './esl-carousel.utils';
 
-import type {ESLCarousel, ESLCarouselActionParams} from './esl-carousel';
-import type {ESLCarouselConfig, ESLCarouselDirection} from './nav/esl-carousel.nav.types';
+import type {ESLCarousel} from './esl-carousel';
 import type {ESLCarouselSlideEventInit} from './esl-carousel.events';
+import type {ESLCarouselActionParams, ESLCarouselConfig, ESLCarouselNavInfo} from './esl-carousel.types';
 
 export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
   public static is: string;
@@ -91,50 +92,53 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
   public onUnbind(): void {}
   /** Processes drawing of the carousel {@link ESLCarousel}. */
   public redraw(): void {}
+
+  /** Normalizes an index before navigation */
+  protected normalizeIndex(index: number, params?: ESLCarouselActionParams): number {
+    return normalizeIndex(index, this);
+  }
+  /** Normalizes a direction before navigation */
+  protected normalizeDirection(direction: ESLCarouselDirection | undefined, params?: ESLCarouselActionParams): ESLCarouselDirection {
+    return (this.loop ? params && params.direction : null) || direction || ESLCarouselDirection.NEXT;
+  }
+
   /** Processes changing slides */
-  public async navigate(index: number, direction: ESLCarouselDirection, {activator}: ESLCarouselActionParams): Promise<void> {
-    const {activeIndex, activeIndexes} = this.$carousel;
+  public async navigate(to: ESLCarouselNavInfo, params: ESLCarouselActionParams): Promise<void> {
+    const index = this.normalizeIndex(to.index, params);
+    const direction = this.normalizeDirection(to.direction, params);
 
-    if (activeIndex === index && activeIndexes.length === this.count) return;
-    if (!this.$carousel.dispatchEvent(ESLCarouselSlideEvent.create('BEFORE', {
-      direction,
-      activator,
-      indexesBefore: activeIndexes,
-      indexesAfter: sequence(index, this.count, this.size)
-    }))) return;
+    const indexesAfter = sequence(index, this.count, this.size);
+    const indexesBefore = this.$carousel.activeIndexes;
+    if (indexesBefore.toString() === indexesAfter.toString()) return;
 
+    const details = {...params, direction, indexesBefore, indexesAfter};
+    if (!this.$carousel.dispatchEvent(ESLCarouselSlideEvent.create('BEFORE', details))) return;
+
+    this.$carousel.dispatchEvent(ESLCarouselSlideEvent.create('CHANGE', details));
     this.setPreActive(index);
 
     try {
-      await this.onBeforeAnimate(index, direction);
-      await this.onAnimate(index, direction);
-      await this.onAfterAnimate(index, direction);
+      await this.onBeforeAnimate(index, direction, params);
+      await this.onAnimate(index, direction, params);
+      await this.onAfterAnimate(index, direction, params);
     } catch (e: unknown) {
       console.error(e);
     }
 
-    this.setActive(index, {direction, activator});
+    this.setActive(index, {direction, ...params});
   }
 
   /** Pre-processing animation action. */
-  public async onBeforeAnimate(index?: number, direction?: ESLCarouselDirection): Promise<void> {}
+  public async onBeforeAnimate(index: number, direction: ESLCarouselDirection, params: ESLCarouselActionParams): Promise<void> {}
   /** Processes animation. */
-  public abstract onAnimate(index: number, direction: ESLCarouselDirection): Promise<void>;
+  public abstract onAnimate(index: number, direction: ESLCarouselDirection, params: ESLCarouselActionParams): Promise<void>;
   /** Post-processing animation action. */
-  public async onAfterAnimate(index: number, direction: ESLCarouselDirection): Promise<void> {}
+  public async onAfterAnimate(index: number, direction: ESLCarouselDirection, params: ESLCarouselActionParams): Promise<void> {}
 
-  /**
-   * Moves slide by the passed offset in px.
-   * @param offset - offset in px
-   * @param from - start index (default: current active index)
-   */
-  public abstract move(offset: number, from?: number): void;
-  /**
-   * Normalizes move offset to the "nearest stable" slide position.
-   * @param offset - offset in px
-   * @param from - start index (default: current active index)
-   */
-  public abstract commit(offset?: number, from?: number): void;
+  /** Moves slide by the passed offset in px */
+  public abstract move(offset: number, from: number, params: ESLCarouselActionParams): void;
+  /** Normalizes move offset to the "nearest stable" slide position */
+  public abstract commit(offset: number, from: number, params: ESLCarouselActionParams): Promise<void>;
 
   /** Sets active slides from passed index **/
   public setActive(current: number, event?: Partial<ESLCarouselSlideEventInit>): void {

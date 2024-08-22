@@ -1,7 +1,7 @@
 import {ESLCarouselRenderer} from '../core/esl-carousel.renderer';
 
 import type {ESLCarousel} from '../core/esl-carousel';
-import type {ESLCarouselConfig, ESLCarouselDirection} from '../core/nav/esl-carousel.nav.types';
+import type {ESLCarouselActionParams, ESLCarouselConfig, ESLCarouselDirection} from '../core/esl-carousel.types';
 
 /**
  * None effect carousel renderer. Does not provide any animation, transition. Does not limit slide stage.
@@ -35,6 +35,6 @@ export class ESLNoneCarouselRenderer extends ESLCarouselRenderer {
   public async onAnimate(nextIndex: number, direction: ESLCarouselDirection): Promise<void> {}
 
   /* Handles the slide move actions */
-  public move(offset: number, from?: number): void {}
-  public commit(offset: number, from?: number): void {}
+  public move(offset: number, from: number, params: ESLCarouselActionParams): void {}
+  public async commit(offset: number, from: number, params: ESLCarouselActionParams): Promise<void> {}
 }

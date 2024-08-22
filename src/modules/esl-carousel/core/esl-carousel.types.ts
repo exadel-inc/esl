@@ -1,4 +1,9 @@
-export type ESLCarouselDirection = 'next' | 'prev';
+/** Direction enum, can be used in calculation directly */
+export enum ESLCarouselDirection {
+  NEXT = 1,
+  NONE = 0,
+  PREV = -1
+}
 
 export type ESLCarouselNavIndex = number | `${number}` | `+${number}` | `-${number}` | ESLCarouselDirection;
 
@@ -47,5 +52,15 @@ export type ESLCarouselNavInfo = {
   /** Target index */
   index: number;
   /** Direction to reach the index */
-  direction: ESLCarouselDirection | null;
+  direction?: ESLCarouselDirection;
 };
+
+/** {@link ESLCarousel} action params interface */
+export interface ESLCarouselActionParams {
+  /** Element that requests changes */
+  activator?: any;
+  /** Direction to move to */
+  direction?: ESLCarouselDirection;
+  /** Duration of a single slide transition in milliseconds. (Set to 0 to disable animation) */
+  stepDuration: number;
+}
