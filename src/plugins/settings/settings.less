@@ -59,31 +59,12 @@ uip-settings {
     height: 1.25rem;
   }
 
-  .uip-plugin-header-icon {
-    &::after {
-      content: '';
-      position: relative;
-      top: 4px;
-      width: 10px;
-      height: 10px;
-      pointer-events: none;
-      border-left: 2px solid currentColor;
-      border-top: 2px solid currentColor;
-      transition: transform 0.5s ease-in-out, top 0.5s ease-in-out;
-    }
-  }
-
   // Rotate on collapsed state change
   &[collapsed] .uip-plugin-header-icon {
-    &::after {
-      transform: rotate(315deg);
-      left: 5px;
-    }
+    animation: rotate 0.5s linear both;
   }
   &:not([collapsed]) .uip-plugin-header-icon {
-    &::after {
-      transform: rotate(135deg);
-    }
+    animation: rotate-back 0.5s linear both;
   }
 }
 

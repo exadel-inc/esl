@@ -8,7 +8,7 @@ import {UIPPluginPanel} from '../../core/panel/plugin-panel';
 import {ThemeToggleIcon} from '../theme/theme-toggle.icon';
 
 import {UIPSetting} from './base-setting/base-setting';
-import {SettingsIcon} from './settings.icon';
+import {ArrowIcon} from './arrow.icon';
 
 /**
  * Settings {@link UIPPlugin} custom element definition
@@ -28,7 +28,7 @@ export class UIPSettings extends UIPPluginPanel {
   @boolAttr({readonly: true}) public inactive: boolean;
 
   protected override get $icon(): JSX.Element {
-    return <SettingsIcon/>;
+    return <ArrowIcon/>;
   }
 
   @memoize()
