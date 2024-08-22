@@ -22,23 +22,28 @@ export class ESLCarouselSlide extends ESLMixinElement {
 
   /** @returns slide index. */
   public get index(): number {
-    return this.$carousel!.indexOf(this.$host);
+    if (typeof this.$carousel?.indexOf !== 'function') return -1;
+    return this.$carousel.indexOf(this.$host);
   }
   /** @returns whether the slide is active */
   public get active(): boolean {
-    return this.$carousel!.isActive(this.$host);
+    if (typeof this.$carousel?.isActive !== 'function') return false;
+    return this.$carousel.isActive(this.$host);
   }
   /** @returns whether the slide is in pre-active state */
   public get preActive(): boolean {
-    return this.$carousel!.isPreActive(this.$host);
+    if (typeof this.$carousel?.isPreActive !== 'function') return false;
+    return this.$carousel.isPreActive(this.$host);
   }
   /** @returns whether the slide is next in navigation */
   public get next(): boolean {
-    return this.$carousel!.isNext(this.$host);
+    if (typeof this.$carousel?.isNext !== 'function') return false;
+    return this.$carousel.isNext(this.$host);
   }
   /** @returns whether the slide is previous in navigation*/
   public get prev(): boolean {
-    return this.$carousel!.isPrev(this.$host);
+    if (typeof this.$carousel?.isPrev !== 'function') return false;
+    return this.$carousel.isPrev(this.$host);
   }
 
   /** Class(-es) to add on carousel container when slide is active. Supports {@link CSSClassUtils} syntax */

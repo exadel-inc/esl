@@ -359,9 +359,9 @@ export class ESLCarousel extends ESLBaseElement {
    * @param tagName - custom tag name to register custom element
    */
   public static override register(tagName?: string): void {
+    super.register(tagName);
     ESLCarouselSlide.is = this.is + '-slide';
     ESLCarouselSlide.register();
-    super.register(tagName);
   }
 }
 
