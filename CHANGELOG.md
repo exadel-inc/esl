@@ -1,3 +1,22 @@
+## [5.0.0-beta.32](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.31...v5.0.0-beta.32) (2024-08-22)
+
+### Features
+
+* **esl-anchornav:** add active-class to set on active item ([e452e71](https://github.com/exadel-inc/esl/commit/e452e71c516ead3df82c6c533c88148660b643b5))
+* **esl-carousel:** add step animation duration customization ([4bc8c90](https://github.com/exadel-inc/esl/commit/4bc8c908dc85a7bdaf520178cd713b7833ec84b1))
+
+### Bug Fixes
+
+* **esl-anchornav:** fix ESLAnchornavRender signature ([3d43ba1](https://github.com/exadel-inc/esl/commit/3d43ba1ceece1b56903d26672ac82f7e95a5feaf))
+* **esl-carousel:** fix esl-carousel DOM manipulation and slides livecycle ([9ab2b6b](https://github.com/exadel-inc/esl/commit/9ab2b6b52a027c709f9c24c95581cdc52f7d534f))
+* **esl-carousel:** fix initial index normalization and long animation speed ([45c7560](https://github.com/exadel-inc/esl/commit/45c7560b031c1256fa113fe9f1d5477f1e6279e0))
+* **esl-carousel:** fix navigation group indexes restriction for non-loop carousels ([d5a84bf](https://github.com/exadel-inc/esl/commit/d5a84bf6ace398b59c278c2f3027080fba0b7ca2))
+* **esl-carousel:** incomplete carousel should be normalized with non loop constraints ([2157e6a](https://github.com/exadel-inc/esl/commit/2157e6abfcfe0714fe522932985def1e7d202fe4))
+* **esl-image-utils:** de-scope (img-cover, img-contain) classes ([028b94f](https://github.com/exadel-inc/esl/commit/028b94fbf48da85f42751f481217e10bb620bb16))
+* **esl-image-utils:** remove extra overflow style ([b1c5238](https://github.com/exadel-inc/esl/commit/b1c5238e218698f383a15fc3cb29f4c1bec5b83d))
+* **lint:** fix package missing `kleur` dependency ([b6581b9](https://github.com/exadel-inc/esl/commit/b6581b9094e222ce218e1dd9b3f7295de838d2cf))
+* **site:** share preview cards ([58194ca](https://github.com/exadel-inc/esl/commit/58194ca867d035b07980d9f3faddd23a2d03ee17))
+
 ## [5.0.0-beta.31](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.30...v5.0.0-beta.31) (2024-08-13)
 
 ### ⚠ BREAKING CHANGES
