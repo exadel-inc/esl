@@ -15,10 +15,9 @@
   {% block meta %}{% endblock meta %}
   {# Site icon #}
   
-  {% set socialPath = '/assets/social-card.png' | url %}
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:image" content="{{ socialPath }}">
-  <meta property="og:image" content="{{ socialPath }}">
+  <meta name="twitter:image" content="{{ site.socialImagePath | url }}">
+  <meta property="og:image" content="{{ site.socialImagePath | url }}">
   <link rel="icon" href="{{ '/favicon.ico' | url }}" sizes="any" />
   <link rel="icon" href="{{ '/assets/favicon/icon.svg' | url }}" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="{{ '/assets/favicon/apple-touch-icon.png' | url }}" />

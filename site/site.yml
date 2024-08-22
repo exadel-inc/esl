@@ -3,6 +3,8 @@ description: ESL — A Web Components Library
 
 url: "https://esl-ui.com"
 
+socialImagePath: "/assets/social-card.png"
+
 github:
   url: "https://github.com/exadel-inc/esl"
   srcUrl: "https://github.com/exadel-inc/esl/tree/main/"
