@@ -2,11 +2,11 @@ import {ESLAnchor, ESLAnchornav, ESLAnchornavSticked} from '@exadel/esl/modules/
 
 import type {ESLAnchornavRender, ESLAnchorData} from '@exadel/esl/modules/esl-anchornav/core';
 
-const demoRenderer: ESLAnchornavRender = (data: ESLAnchorData): Element => {
+const demoRenderer: ESLAnchornavRender = (data: ESLAnchorData, index: number): Element => {
   const a = document.createElement('a');
   a.href = `#${data.id}`;
   a.className = 'esl-anchornav-item';
-  a.dataset.index = `${data.index + 1}`;
+  a.dataset.index = `${index + 1}`;
   a.textContent = data.title;
   return a;
 };
