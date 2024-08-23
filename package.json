@@ -109,7 +109,7 @@
     "eslint": "^8.57.0",
     "eslint-plugin-editorconfig": "^4.0.3",
     "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-sonarjs": "^1.0.4",
+    "eslint-plugin-sonarjs": "^2.0.0",
     "eslint-plugin-tsdoc": "^0.3.0",
     "foreach-cli": "^1.8.1",
     "husky": "^9.1.5",
