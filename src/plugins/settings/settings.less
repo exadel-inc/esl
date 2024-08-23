@@ -59,12 +59,27 @@ uip-settings {
     height: 1.25rem;
   }
 
+  .uip-plugin-header-icon {
+    &::after {
+      content: '';
+      position: relative;
+      top: 4px;
+      width: 15px;
+      height: 15px;
+      background: currentColor;
+      clip-path: polygon(20% 50%, 70% 0%, 80% 5%, 35% 50%, 80% 95%, 70% 100%);
+      @media mobile {
+       display: none;
+      }
+    }
+  }
+
   // Rotate on collapsed state change
   &[collapsed] .uip-plugin-header-icon {
-    animation: rotate 0.5s linear both;
+    animation: rotate-back 0.5s linear both;
   }
   &:not([collapsed]) .uip-plugin-header-icon {
-    animation: rotate-back 0.5s linear both;
+    animation: rotate 0.5s linear both;
   }
 }
 
