@@ -182,6 +182,7 @@ describe('ESL Migration Rules: Deprecated Static Method: valid', () => {
   });
 
   const ruleTester = new RuleTester({
+    // @ts-ignore
     parser: require.resolve('@typescript-eslint/parser')
   });
 
@@ -192,6 +193,7 @@ describe('ESL Migration Rules: Deprecated Static Method: valid', () => {
   const rule = deprecatedMediaRuleListParse;
 
   const ruleTester = new RuleTester({
+    // @ts-ignore
     parser: require.resolve('@typescript-eslint/parser')
   });
 
