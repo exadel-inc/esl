@@ -1,5 +1,6 @@
 const {LINT_RULES} = require('./eslint.rules');
 
+const eslint = require('@eslint/js');
 const tseslint = require('typescript-eslint');
 const stylistic = require('@stylistic/eslint-plugin');
 
@@ -9,6 +10,8 @@ const editorconfig = require('eslint-plugin-editorconfig');
 const importPlugin = require('eslint-plugin-import');
 
 module.exports = [
+  eslint.configs.recommended,
+  ...tseslint.configs.recommended,
   {
     files: ["**/*.ts", "**/*.tsx"],
     ignores: [
@@ -57,7 +60,7 @@ module.exports = [
     }
   },
   {
-    files: ["*.shape.ts"],
+    files: ["**/*.shape.ts"],
     rules: {
       '@typescript-eslint/no-namespace': "off",
       // Temporary of as false positive
