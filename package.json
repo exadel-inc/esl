@@ -95,7 +95,7 @@
     "eslint-plugin-sonarjs": "^1.0.4",
     "eslint-plugin-tsdoc": "^0.3.0",
     "foreach-cli": "^1.8.1",
-    "husky": "^9.1.4",
+    "husky": "^9.1.5",
     "kleur": "^4.1.5",
     "less": "^4.2.0",
     "less-plugin-npm-import": "^2.1.0",
