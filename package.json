@@ -126,7 +126,7 @@
     "smoothscroll-polyfill": "^0.4.4",
     "stylelint": "^16.8.2",
     "stylelint-prettier": "^5.0.2",
-    "ts-jest": "^29.2.4",
+    "ts-jest": "^29.2.5",
     "typescript": "5.5.4"
   },
   "browserslist": [
