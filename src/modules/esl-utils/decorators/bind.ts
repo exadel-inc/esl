@@ -1,7 +1,7 @@
 import {getPropertyDescriptor} from '../misc/object/utils';
 
 /** Decorator "bind" allows to bind prototype method context to class instance */
-// TODO change after migration  eslint-disable-next-line @typescript-eslint/ban-types
+// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
 export function bind<Fn extends Function>(target: object,
                                           propertyKey: string,
                                           descriptor: TypedPropertyDescriptor<Fn>): TypedPropertyDescriptor<Fn> {

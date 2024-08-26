@@ -101,8 +101,13 @@ rules:
   # Bans @ts-<directive> comments from being used or requires descriptions after directive
   '@typescript-eslint/ban-ts-comment': warn
 
-  # Bans specific types from being used
-  #'@typescript-eslint/ban-types': warn
+  # Bans Function types from being used
+  '@typescript-eslint/no-unsafe-function-type': warn
+
+  # Bans usage of the {} type
+  '@typescript-eslint/no-empty-object-type':
+    - warn
+    - allowInterfaces: always
 
   # Warn about invalid definition of new and constructor
   '@typescript-eslint/no-misused-new': warn
