@@ -10,7 +10,7 @@ if (typeof Array.prototype.findIndex !== 'function') {
     if (typeof predicate !== 'function') throw new TypeError('predicate must be a function');
 
     const list = Object(array);
-    // TODO change after migration  eslint-disable-next-line no-bitwise
+    // eslint-disable-next-line no-bitwise
     const length = list.length >>> 0;
 
     for (let i = 0; i < length; i++) {

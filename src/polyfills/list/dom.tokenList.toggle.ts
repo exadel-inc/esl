@@ -8,7 +8,7 @@
   const testTokenList = window.document.createElement('div').classList;
 
   if (!DOMTokenListProto.toggle) return;
-  // TODO change after migration  eslint-disable-next-line
+  // eslint-disable-next-line
   if (testTokenList.toggle('a', false) === false) return;
 
   DOMTokenListProto.toggle = function toggle(val: string, force?: boolean): boolean {

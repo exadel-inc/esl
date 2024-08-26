@@ -38,7 +38,7 @@ export function mockXMLHttpRequest(): mockXMLHttpRequestController  {
   // clean up mocked implementation
   function cleanUp(): void {
     if (window.XMLHttpRequest) {
-      // TODO change after migration  eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       delete window.XMLHttpRequest;
     }
@@ -57,7 +57,7 @@ export function mockXMLHttpRequest(): mockXMLHttpRequestController  {
   }
 
   // override/define XMLHttpRequest
-  // TODO change after migration  eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   window.XMLHttpRequest = mockConstructor;
 

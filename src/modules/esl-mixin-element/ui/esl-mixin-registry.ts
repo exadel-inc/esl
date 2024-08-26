@@ -19,7 +19,7 @@ export class ESLMixinRegistry {
 
   public constructor() {
     if (global) return global;
-    // TODO change after migration  eslint-disable-next-line @typescript-eslint/no-this-alias
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     global = this;
   }
 

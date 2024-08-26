@@ -6,7 +6,7 @@
 (function (e: ElementEx): void {
   e.matches = e.matches || e.msMatchesSelector || e.mozMatchesSelector || e.webkitMatchesSelector;
   e.closest = e.closest || function (css: string): Element | null {
-    // TODO change after migration  eslint-disable-next-line @typescript-eslint/no-this-alias
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     let node = this;
     while (node) {
       if (node.matches(css)) return node;

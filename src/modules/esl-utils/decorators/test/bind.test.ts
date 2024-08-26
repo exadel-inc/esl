@@ -161,7 +161,7 @@ describe('Common @bind decorator test', () => {
 
   test('Decoration of illegal cass member throws error', () => {
     expect(() => {
-      // TODO change after migration  eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class Test {
         // @ts-ignore
         @bind public a = 1;
