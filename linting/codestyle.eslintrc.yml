@@ -108,6 +108,7 @@ rules:
   '@typescript-eslint/no-unused-vars':
     - warn
     - vars: all
+      caughtErrors: none
       args: none
 
   # Warn about unnecessary constructors
