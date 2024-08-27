@@ -12,30 +12,10 @@ const importPlugin = require('eslint-plugin-import-x');
 module.exports = [
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
+  ...require('./linting/eslint.config.ignore'),
+  ...require('./linting/eslint.config.language'),
   {
     files: ["**/*.ts", "**/*.tsx"],
-    ignores: [
-      //Common configuration
-      "jest.config.js",
-      //Common directories
-      "build/**",
-      "node_modules/**",
-      //Generated sources
-      "/modules/**",
-      "/polyfills/**",
-      //Submodule output
-      "/site/dist/**",
-      "/eslint/dist/**"
-    ],
-    languageOptions: {
-      ecmaVersion: 2017,
-      sourceType: "module",
-      parser: tseslint.parser,
-      parserOptions: {
-        projectService: true,
-        tsconfigRootDir: __dirname,
-      }
-    },
     linterOptions: {
       reportUnusedDisableDirectives: "warn"
     },
