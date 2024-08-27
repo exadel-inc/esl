@@ -7,7 +7,7 @@ const stylistic = require('@stylistic/eslint-plugin');
 const tsdoc = require('eslint-plugin-tsdoc');
 const sonarjs = require('eslint-plugin-sonarjs');
 const editorconfig = require('eslint-plugin-editorconfig');
-const importPlugin = require('eslint-plugin-import');
+const importPlugin = require('eslint-plugin-import-x');
 
 module.exports = [
   eslint.configs.recommended,
