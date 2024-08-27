@@ -7,7 +7,6 @@ const stylistic = require('@stylistic/eslint-plugin');
 const tsdoc = require('eslint-plugin-tsdoc');
 const sonarjs = require('eslint-plugin-sonarjs');
 const editorconfig = require('eslint-plugin-editorconfig');
-const importPlugin = require('eslint-plugin-import-x');
 
 module.exports = [
   eslint.configs.recommended,
@@ -25,7 +24,6 @@ module.exports = [
       tsdoc,
       sonarjs,
       editorconfig,
-      importPlugin
     },
     rules: {
       ...LINT_RULES,
@@ -53,12 +51,7 @@ module.exports = [
       'no-new-wrappers': "off"
     }
   },
-  {
-    files: ["eslint/src/**/*.ts"],
-    rules: {
-      'importPlugin/no-default-export': "off"
-    }
-  },
+  ...require('./linting/eslint.config.import'),
   {
     // Allow the use of custom TypeScript modules and namespaces for JSX shapes
     files: ["**/*.test.ts", "**/*.spec.ts"],
