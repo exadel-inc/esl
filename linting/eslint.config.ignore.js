@@ -3,6 +3,8 @@ module.exports = [
     ignores: [
       //Common configuration
       "jest.config.js",
+      "eslint.config.js",
+      "linting/eslint.config.*.js",
       //Common directories
       "build/**",
       "node_modules/**",
