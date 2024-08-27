@@ -1,11 +1,8 @@
-const {LINT_RULES} = require('./eslint.rules');
-
 const eslint = require('@eslint/js');
 const tseslint = require('typescript-eslint');
 const stylistic = require('@stylistic/eslint-plugin');
 
 const tsdoc = require('eslint-plugin-tsdoc');
-const sonarjs = require('eslint-plugin-sonarjs');
 const editorconfig = require('eslint-plugin-editorconfig');
 
 module.exports = [
@@ -22,11 +19,9 @@ module.exports = [
       '@typescript-eslint': tseslint.plugin,
       '@stylistic': stylistic,
       tsdoc,
-      sonarjs,
       editorconfig,
     },
     rules: {
-      ...LINT_RULES,
     // Enable TS Doc syntax check
       'tsdoc/syntax': "warn",
     // Enforce charset check
@@ -37,6 +32,10 @@ module.exports = [
       'editorconfig/no-trailing-spaces': "warn"
     }
   },
+  ...require('./linting/eslint.config.coderules'),
+  ...require('./linting/eslint.config.codestyle'),
+  ...require('./linting/eslint.config.sonarjs'),
+  ...require('./linting/eslint.config.deprecated'),
   {
     files: ["**/*.shape.ts"],
     rules: {
