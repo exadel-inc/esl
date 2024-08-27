@@ -1,11 +1,8 @@
-const fs = require('fs');
-const path = require('path');
-
-const codeRules = fs.readFileSync(path.resolve(__dirname, `./coderules.eslintrc.yml`), 'utf8');
+const {readYAML} = require('./eslint.config.utils');
 
 module.exports = [
   {
-    rules: require('js-yaml').load(codeRules, {}).rules
+    rules: readYAML('eslint.config.coderules.rules').rules
   },
   {
     files: ["**/*.shape.ts"],

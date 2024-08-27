@@ -1,6 +1,5 @@
 rules:
   # === Compulsory practices ===
-
   # Verify calls of super() in constructors
   'constructor-super': warn
 

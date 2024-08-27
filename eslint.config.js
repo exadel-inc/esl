@@ -10,6 +10,8 @@ module.exports = [
   ...require('./linting/eslint.config.codestyle'),
   ...require('./linting/eslint.config.coderules'),
   ...require('./linting/eslint.config.sonarjs'),
-  ...require('./linting/eslint.config.deprecated'),
-  ...require('./linting/eslint.config.import')
+  ...require('./linting/eslint.config.stylistic'),
+  ...require('./linting/eslint.config.editorconfig'),
+  ...require('./linting/eslint.config.import'),
+  ...require('./linting/eslint.config.tsdoc')
 ];

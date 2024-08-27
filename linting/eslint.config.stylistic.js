@@ -1,15 +1,12 @@
+const {readYAML} = require('./eslint.config.utils');
 const stylistic = require('@stylistic/eslint-plugin');
-const fs = require('fs');
-const path = require('path');
-
-const deprecatedRules = fs.readFileSync(path.resolve(__dirname, `./deprecated.eslintrc.yml`), 'utf8');
 
 module.exports = [
   {
     plugins: {
       '@stylistic': stylistic
     },
-    rules: require('js-yaml').load(deprecatedRules, {}).rules
+    rules: readYAML('eslint.config.stylistic.rules').rules
   },
   {
     files: ["**/*.test.ts", "**/*.spec.ts"],
