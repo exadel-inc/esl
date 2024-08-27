@@ -1,6 +1,6 @@
 {
   "name": "@exadel/eslint-plugin-esl",
-  "version": "4.18.0",
+  "version": "4.18.1",
   "keywords": [
     "eslint",
     "eslint-plugin",
@@ -16,6 +16,7 @@
     "build": "npm run clean && tsc --project tsconfig.build.json"
   },
   "dependencies": {
+    "kleur": "^4.1.5",
     "semver": "^7.6.3"
   },
   "files": [
