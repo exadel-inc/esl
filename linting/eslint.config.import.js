@@ -10,7 +10,7 @@ module.exports = [
     rules: readYAML('eslint.config.import.rules')
   },
   {
-    files: ["./site/**/*.ts"],
+    files: ["site/**/*.ts"],
     rules: {
       'no-restricted-imports': ["error", {
         "patterns": [{
