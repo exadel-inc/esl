@@ -4,6 +4,7 @@ module.exports = [
       //Common configuration
       "jest.config.js",
       "eslint.config.js",
+      // Lint configuration
       "linting/eslint.config.*.js",
       //Common directories
       "build/**",
