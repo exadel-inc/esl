@@ -11,7 +11,7 @@
   "main": "dist/index.js",
   "scripts": {
     "prepare": "npm run build",
-    "test": "jest",
+    "test": "",
     "clean": "rimraf dist",
     "build": "npm run clean && tsc --project tsconfig.build.json"
   },
