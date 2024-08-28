@@ -1,31 +1,30 @@
-rules:
-  # Enforce a convention in module import order
-  'importPlugin/order':
-    - warn
-    - groups:
-      - builtin
-      - external
-      - parent
-      - sibling
-      - index
-      - object
-      - type
+# Enforce a convention in module import order
+'importPlugin/order':
+  - warn
+  - groups:
+    - builtin
+    - external
+    - parent
+    - sibling
+    - index
+    - object
+    - type
 
-  # Reports funny business with exports, like repeated exports of names or defaults.
-  'importPlugin/export': warn
+# Reports funny business with exports, like repeated exports of names or defaults.
+'importPlugin/export': warn
 
-  # Warn about duplicate imports
-  'no-duplicate-imports': off
-  'importPlugin/no-duplicates': warn
+# Warn about duplicate imports
+'no-duplicate-imports': off
+'importPlugin/no-duplicates': warn
 
-  # Verifies that all named imports are part of the set of named exports in the referenced module.
-  'importPlugin/named': error
+# Verifies that all named imports are part of the set of named exports in the referenced module.
+'importPlugin/named': error
 
-  # Prohibit default exports
-  'importPlugin/no-default-export': warn
+# Prohibit default exports
+'importPlugin/no-default-export': warn
 
-  # Forbid a module from importing itself
-  'importPlugin/no-self-import': error
+# Forbid a module from importing itself
+'importPlugin/no-self-import': error
 
-  # Deprecate cyclic dependencies
-  'importPlugin/no-cycle': error
+# Deprecate cyclic dependencies
+'importPlugin/no-cycle': error

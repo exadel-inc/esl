@@ -2,7 +2,7 @@ const {readYAML} = require('./eslint.config.utils');
 
 module.exports = [
   {
-    rules: readYAML('eslint.config.coderules.rules').rules
+    rules: readYAML('eslint.config.coderules.rules')
   },
   {
     files: ["**/*.shape.ts"],

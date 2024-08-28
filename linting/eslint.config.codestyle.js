@@ -10,7 +10,7 @@ module.exports = [
       eslint,
       '@typescript-eslint': tseslint.plugin,
     },
-    rules: readYAML('eslint.config.codestyle.rules').rules
+    rules: readYAML('eslint.config.codestyle.rules')
   },
   {
     files: ["**/*.test.ts", "**/*.spec.ts"],

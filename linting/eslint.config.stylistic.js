@@ -6,7 +6,7 @@ module.exports = [
     plugins: {
       '@stylistic': stylistic
     },
-    rules: readYAML('eslint.config.stylistic.rules').rules
+    rules: readYAML('eslint.config.stylistic.rules')
   },
   {
     files: ["**/*.test.ts", "**/*.spec.ts"],

@@ -7,7 +7,7 @@ module.exports = [
       importPlugin
     },
     files: ["eslint/src/**/*.ts"],
-    ...readYAML('eslint.config.import.rules')
+    rules: readYAML('eslint.config.import.rules')
   },
   {
     files: ["./site/**/*.ts"],
