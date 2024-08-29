@@ -10,7 +10,7 @@ import {UIPPlugin} from '../base/plugin';
 export abstract class UIPPluginPanel extends UIPPlugin {
   public static readonly observedAttributes: string[] = ['vertical', 'collapsible', ...UIPPlugin.observedAttributes];
 
-  /** Marker to collapse editor area */
+  /** Marker to collapse panel area */
   @boolAttr() public collapsed: boolean;
 
   /** Marker to make enable toggle collapse action for section header */

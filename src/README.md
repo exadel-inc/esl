@@ -9,23 +9,29 @@ Install UIPlayground [npm dependency](https://www.npmjs.com/package/@exadel/ui-p
 
 UIP components are organized in the following way:
 
-[Core Elements](src/core/README.md#uip-root)
+Core Elements
+  - [UIP Root](src/core/README.md#uip-root)
+  - [UIP Preview](src/core/README.md)
 
-Plugins:
-  - [UIPEditor](src/plugins/editor/README.md)
-  - [UIPSettings](src/plugins/settings/README.md)
-      - [UIPBoolSetting](src/settings/bool-setting/README.md)
-      - [UIPSelectSetting](src/settings/select-setting/README.md)
-      - [UIPTextSetting](src/settings/text-setting/README.md)
-      - [UIPSliderSetting](src/settings/slider-setting/README.md)
-  - [UIPHeader](src/plugins/snippets/README.md)
-      - [UIPOptions](src/header/options/README.md)
-      - [UIPSnippets](src/header/snippets/README.md)
+Plugins
+  - [UIP Editor](src/plugins/editor/README.md)
+  - [UIP Settings and Setting](src/plugins/settings/README.md)
+    - [UIP Text Setting](src/plugins/settings/text-setting/README.md)
+    - [UIP Bool Setting](src/plugins/settings/bool-setting/README.md)
+    - [UIP Select Setting](src/plugins/settings/select-setting/README.md)
+  - [UIP Snippets](src/plugins/snippets/README.md)
+    - [UIP Snippets Title](src/plugins/snippets-title/README.md)
+    - [UIP Snippets List](src/plugins/snippets-list/README.md)
+  - [UIP Theme Toggle](src/plugins/theme/README.md)
+  - [UIP Note](src/plugins/note/README.md)
+  - [UIP Copy](src/plugins/copy/README.md)
+  - [UIP Text Direction Toggle](src/plugins/direction/README.md)
+---
 
-Any playground must have at least **Сore** components. **Plugins** are
+UIPlayground must have at least **Сore** components. **Plugins** are
 optional, you can add them on your own free will.
 
-To implement custom UIPPlayground components, see [UIPPlugin](src/core/README.md#uip-plugin).
+To implement custom UIPlayground components, see [UIPPlugin](src/core/README.md#uip-plugin).
 
 # Modules/components imports
 To register all components, you can use the next callback:

@@ -6,6 +6,7 @@ import type {UIPPreview} from '../../core/preview/preview';
 
 import './dir-toggle.shape';
 
+/** Text direction switcher button-plugin for UI Playground widget */
 export class UIPDirSwitcher extends UIPPluginButton {
   public static override is = 'uip-dir-toggle';
   public static override defaultTitle = 'Switch direction';
