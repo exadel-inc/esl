@@ -3,25 +3,23 @@
 **UIPSettings** - custom element which stores settings (**UIPSetting**).
 Extends [UIPPlugin](src/core/README.md#uip-plugin).
 
-## Description
-
-We use **UIPSettings** as a container for **UIPSetting** elements. It serves as a link between
+**UIPSettings** is used as a container for **UIPSetting** elements. It serves as a link between
 our standard UIP flow for change detection and settings updates.
+**UIPSettings** provides active internal settings items and updates them when the state changes.
+
+**UIPSettings** has also its own toolbar where the theme or text direction for UIPlayground can be specified using the *theme-toggle* and *dir-toggle* attributes.
 
 # UIP Setting
 
-**UIPSetting** - custom element to manipulate elements' attributes. Custom settings should extend
-*UIPSetting* class if you want them to be connected with *UIPSettings* properly.
+**UIPSetting** - custom element for manipulating element attributes. Custom settings should extend
+*UIPSetting* class.
 
-## Description
+**UIPSetting** processes markup to update own value via *updateFrom()* and updates it with *applyTo()*.
+**UIPSetting** dispatches *uip:change* event to let **UIPSettings** know about setting changes.
 
-- Processes markup to update own value via *updateFrom()* (uses [UIPStateModel](src/core/README.md#uip-state-model) by default).
-- Updates markup with *applyTo()* (uses [UIPStateModel](src/core/README.md#uip-state-model) by default).
-- Dispatches *uip:change* event to let *UIPSettings* know about setting changes.
-
-These things have default implementation. Also, there are *isValid()* and *setInconsistency()* methods to deal with
-incorrect setting states. *isValid()* can be used to add custom validation and *setInconsistency()* is used to somehow
-let user know about inconsistent state (when there are multiple setting values, no target, etc.).
+These things have default implementation. 
+There are also *isValid()* and *setInconsistency()* methods to handle incorrect setting states. 
+*isValid()* can be used to add custom validation and *setInconsistency()* is used to let user know about inconsistent state (when there are multiple setting values, no target, etc.).
 
 Methods needed to be implemented:
 - **getDisplayedValue()** to get value from custom setting.
@@ -30,10 +28,8 @@ Methods needed to be implemented:
 The following attributes used:
 - **label** - setting's displayed name.
 - **target** - sets target to which the setting is attached. If you want to set the same target for all settings, use *target* attribute on *UIPSettings*. 
-- **attribute** - attribute of the *target* which is changed by the setting.
-- **hideable** - hides settings tab when no active settings inside
 
-You can see the examples of custom settings here (these are distributed together with other *UIP* elements):
+Examples of existing custom settings:
 - [UIPTextSetting](src/plugins/text-setting/README.md)
 - [UIPBoolSetting](src/plugins/bool-setting/README.md)
 - [UIPSelectSetting](src/plugins/select-setting/README.md)
@@ -42,11 +38,13 @@ You can see the examples of custom settings here (these are distributed together
 ## Example
 
 ```html
-<uip-settings hideable target=".esl-media">
+<uip-settings resizable collapsible theme-toggle dir-toggle target=".esl-media">
   <!--Bool Setting-->
   <uip-bool-setting label="Controls" attribute="controls"></uip-bool-setting>
   <!--Text Setting-->
   <uip-text-setting label="Media id" attribute="media-id"></uip-text-setting>
+  <!--Slider Setting-->
+  <uip-slider-setting label="Width:" attribute="width" min="50" max="150"></uip-slider-setting>
   <!--Select Setting-->
   <uip-select-setting label="Fill mode" attribute="fill-mode">
     <option value="auto">Auto mode</option>

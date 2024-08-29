@@ -3,6 +3,10 @@ import React from 'jsx-dom';
 import {listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 import {UIPPlugin} from '../../core/base/plugin';
 
+/**
+ * Note {@link UIPPlugin} custom element definition
+ * Container that is associated with a snippet item {@link UIPSnippetsTitle}
+ */
 export class UIPNote extends UIPPlugin {
   public static override is = 'uip-note';
   public static title = 'Note: ';

@@ -41,7 +41,7 @@ export type ChangeAttrConfig = {
 
 
 /**
- * State holder class to store current UIP markup state
+ * State holder class to store current UIP state
  * Provides methods to modify the state
  */
 export class UIPStateModel extends SyntheticEventTarget {
@@ -74,6 +74,7 @@ export class UIPStateModel extends SyntheticEventTarget {
   /**
    * Sets current note state to the passed one
    * @param text - new state
+   * @param modifier - plugin, that initiates the change
    */
   public setNote(text: string, modifier: UIPPlugin | UIPRoot): void {
     const note = UIPNoteNormalizationPreprocessors.preprocess(text);
