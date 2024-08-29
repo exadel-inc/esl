@@ -1,14 +1,14 @@
 import React from 'jsx-dom';
 
-import {isElement} from '@exadel/esl/modules/esl-utils/dom/api';
 import {debounce} from '@exadel/esl/modules/esl-utils/async/debounce';
 import {attr, boolAttr, decorate, listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 
 import {UIPPluginPanel} from '../../core/panel/plugin-panel';
 import {ThemeToggleIcon} from '../theme/theme-toggle.icon';
 
-import {UIPSetting} from './base-setting/base-setting';
 import {SettingsIcon} from './settings.icon';
+
+import type {UIPSetting} from './base-setting/base-setting';
 
 /**
  * Settings {@link UIPPlugin} custom element definition
@@ -57,10 +57,8 @@ export class UIPSettings extends UIPPluginPanel {
 
   @memoize()
   /** @returns HTMLElement[] - all internal items marked as settings item */
-  protected get $items(): HTMLElement[] {
-    return [...this.childNodes].filter(
-      ($el: ChildNode): $el is HTMLElement => isElement($el) && $el.hasAttribute('uip-settings-content')
-    );
+  protected get $items(): UIPSetting[] {
+    return [...this.querySelectorAll('[uip-settings-content]')] as UIPSetting[];
   }
 
   /** @returns Element[] - active internal settings items */
@@ -95,8 +93,10 @@ export class UIPSettings extends UIPPluginPanel {
 
   @decorate(debounce, 100)
   protected invalidate(): void {
+    memoize.clear(this, '$items');
     const outside = this.$items.filter((el) => el.parentElement !== this.$container);
     outside.forEach((el) => this.$container.appendChild(el));
+    this.onSettingsStateChange();
   }
 
   @listen('uip:settings:invalidate')
@@ -106,7 +106,6 @@ export class UIPSettings extends UIPPluginPanel {
 
   /** Handles internal settings items state change */
   @listen('uip:settings:state:change')
-  @decorate(debounce, 100)
   protected onSettingsStateChange(): void {
     this.$$attr('inactive', !this.$activeItems.length);
   }

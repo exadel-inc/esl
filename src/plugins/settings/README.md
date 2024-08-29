@@ -31,6 +31,7 @@ The following attributes used:
 - **label** - setting's displayed name.
 - **target** - sets target to which the setting is attached. If you want to set the same target for all settings, use *target* attribute on *UIPSettings*. 
 - **attribute** - attribute of the *target* which is changed by the setting.
+- **hideable** - hides settings tab when no active settings inside
 
 You can see the examples of custom settings here (these are distributed together with other *UIP* elements):
 - [UIPTextSetting](src/plugins/text-setting/README.md)
@@ -41,7 +42,7 @@ You can see the examples of custom settings here (these are distributed together
 ## Example
 
 ```html
-<uip-settings target=".esl-media">
+<uip-settings hideable target=".esl-media">
   <!--Bool Setting-->
   <uip-bool-setting label="Controls" attribute="controls"></uip-bool-setting>
   <!--Text Setting-->
