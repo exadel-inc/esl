@@ -46,7 +46,6 @@ import {
 } from '@exadel/esl/modules/all';
 
 import {ESLRandomText} from '@exadel/esl/modules/esl-random-text/core';
-import {getViewportForEl} from '@exadel/esl/modules/esl-utils/dom/scroll';
 
 import '@exadel/esl/modules/esl-media/providers/iframe-provider';
 import '@exadel/esl/modules/esl-media/providers/html5/audio-provider';
@@ -81,7 +80,6 @@ ESLDemoBanner.register();
 ESLDemoSwipeArea.register();
 ESLDemoWheelArea.register();
 ESLDemoPopupGame.register();
-ESLDemoDistanceToViewportAlert.viewportProvider = getViewportForEl;
 ESLDemoDistanceToViewportAlert.register();
 
 // Test Content
@@ -135,7 +133,6 @@ ESLAnimateMixin.register();
 // Register ESL Mixins
 ESLRelatedTarget.register();
 ESLOpenState.register();
-ESLLazyTemplate.viewportProvider = getViewportForEl;
 ESLLazyTemplate.register();
 
 // Share component loading

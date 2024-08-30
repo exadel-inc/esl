@@ -2,21 +2,25 @@ import {ESLMixinElement} from '../../esl-mixin-element/core';
 import {attr, listen, prop, memoize} from '../../esl-utils/decorators';
 import {ESLIntersectionTarget, ESLIntersectionEvent} from '../../esl-event-listener/core/targets/intersection.target';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
+import {getViewportForEl} from '../../esl-utils/dom/scroll';
 
 @ExportNs('LazyTemplate')
 export class ESLLazyTemplate extends ESLMixinElement {
   public static override is = 'esl-lazy-template';
-  public static viewportProvider: (node: Element) => Element | null = () => null;
 
   @prop(750) baseMargin: number;
+  @prop([0, 0.01]) protected INTERSECTION_THRESHOLD: number[];
 
+  /** URL to load content from */
   @attr({name: ESLLazyTemplate.is})
   public url?: string;
 
+  /** IntersectionObserver rootMargin value */
   protected get rootMargin(): string {
     return `${this.baseMargin * this.connectionRatio}px`;
   }
 
+  /** Connection speed ratio */
   protected get connectionRatio(): number {
     switch (navigator.connection?.effectiveType) {
       case 'slow-2g':
@@ -27,18 +31,12 @@ export class ESLLazyTemplate extends ESLMixinElement {
     }
   }
 
+  /** Host element is a template */
   protected get isHostTemplate(): boolean {
     return this.$host instanceof HTMLTemplateElement;
   }
 
-  protected get intersectionOptions(): IntersectionObserverInit {
-    return {
-      root: ESLLazyTemplate.viewportProvider(this.$host),
-      rootMargin: this.rootMargin,
-      threshold: [0.01]
-    };
-  }
-
+  /** LazyTemplate placeholder */
   @memoize()
   public get $placeholder(): HTMLElement {
     const placeholder = document.createElement('div');
@@ -47,12 +45,19 @@ export class ESLLazyTemplate extends ESLMixinElement {
     return placeholder;
   }
 
+  /** LazyTemplate viewport (root element for IntersectionObservers checking visibility) */
+  @memoize()
+  protected get $viewport(): Element | undefined {
+    return getViewportForEl(this.$host);
+  }
+
   protected override disconnectedCallback(): void {
     super.disconnectedCallback();
     this.$placeholder.remove();
     memoize.clear(this, '$placeholder');
   }
 
+  /** Loads content from the URL */
   @memoize()
   protected async loadContent(url: string): Promise<Node | string> {
     try {
@@ -66,12 +71,14 @@ export class ESLLazyTemplate extends ESLMixinElement {
     }
   }
 
+  /** Gets content from the URL or host template element */
   protected async getContent(): Promise<string | Node> {
     if (this.url) return this.loadContent(this.url);
     if (this.isHostTemplate) return (this.$host as HTMLTemplateElement).content.cloneNode(true);
     return '';
   }
 
+  /** Replaces host element with content */
   protected async replaceWithContent(): Promise<void> {
     const content = await this.getContent();
     this.$host.replaceWith(content);
@@ -79,7 +86,11 @@ export class ESLLazyTemplate extends ESLMixinElement {
 
   @listen({
     event: ESLIntersectionEvent.IN,
-    target: (that: ESLLazyTemplate) => ESLIntersectionTarget.for(that.$placeholder, that.intersectionOptions)
+    target: (that: ESLLazyTemplate) => ESLIntersectionTarget.for(that.$placeholder, {
+      root: that.$viewport,
+      rootMargin: that.rootMargin,
+      threshold: that.INTERSECTION_THRESHOLD
+    })
   })
   protected _onIntersect(e: ESLIntersectionEvent): void {
     this.replaceWithContent();

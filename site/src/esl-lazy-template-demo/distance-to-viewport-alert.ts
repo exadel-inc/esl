@@ -3,10 +3,10 @@ import {ready} from '@exadel/esl/modules/esl-utils/decorators';
 import {ESLEventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
 import {Rect} from '@exadel/esl/modules/esl-utils/dom/rect';
 import {getWindowRect} from '@exadel/esl/modules/esl-utils/dom/window';
+import {getViewportForEl} from '@exadel/esl/modules/esl-utils/dom/scroll';
 
 export class ESLDemoDistanceToViewportAlert extends ESLMixinElement {
   public static override is = 'distance-to-viewport-alert';
-  public static viewportProvider: (node: Element) => Element | null = () => null;
 
   @ready
   protected override connectedCallback(): void {
@@ -18,7 +18,7 @@ export class ESLDemoDistanceToViewportAlert extends ESLMixinElement {
     let topDistance;
     let bottomDistance;
     const elementRect = Rect.from(this.$host.getBoundingClientRect());
-    const $root = ESLDemoDistanceToViewportAlert.viewportProvider(this.$host) as HTMLElement;
+    const $root = getViewportForEl(this.$host) as HTMLElement;
     if (!$root) { // window
       const windowRect = getWindowRect();
       topDistance = elementRect.top - windowRect.height;
