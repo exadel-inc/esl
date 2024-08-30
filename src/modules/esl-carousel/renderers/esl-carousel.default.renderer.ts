@@ -151,7 +151,6 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
   }
 
   /** Ends current transition and make permanent all changes performed in the transition. */
-  // eslint-disable-next-line sonarjs/cognitive-complexity
   public async commit(offset: number, from: number, params: ESLCarouselActionParams): Promise<void> {
     const slideSize = this.slideSize + this.gap;
 

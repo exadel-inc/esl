@@ -5,6 +5,7 @@ module.exports = [
       '**/jest.config.js',
       '**/jest*.config.js',
       'eslint.config.js',
+      'site/webpack.config.js',
       // Lint configuration
       'linting/eslint.config.*.js',
       // Common directories
