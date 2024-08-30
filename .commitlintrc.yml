@@ -31,6 +31,7 @@ rules:
     -
       - esl-a11y-group
       - esl-alert
+      - esl-anchornav
       - esl-animate
       - esl-base-element
       - esl-carousel
@@ -38,6 +39,7 @@ rules:
       - esl-footnotes
       - esl-forms
       - esl-image
+      - esl-image-utils
       - esl-media
       - esl-media-query
       - esl-mixin-element

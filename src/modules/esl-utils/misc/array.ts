@@ -10,9 +10,11 @@ export const tuple = <T>(arr: T[]): Tuple<T>[] => arr.reduce((acc: Tuple<T>[], e
   return acc;
 }, []);
 
-/** Flat array - unwraps one level of nested arrays */
-export const flat = <T>(arr: (null | T | T[])[]): T[] =>
-  arr.reduce((acc: T[], el) => el ? acc.concat(el) : acc, []) as T[];
+/**
+ * Flat array - unwraps one level of nested arrays
+ * @deprecated use `Array.prototype.flat` instead
+ */
+export const flat = <T>(arr: (null | T | T[])[]): T[] => arr.flat(1) as T[];
 
 /** Wraps passed object or primitive to array */
 export const wrap = <T>(arr: undefined | null | T | T[]): T[] => {
@@ -36,14 +38,8 @@ export function unwrap(value: any): any {
 }
 
 /** Makes array values unique */
-export const uniq = <T> (arr: T[]): T[] => {
-  if (arr.length < 2) return arr.slice(0);
-  const result: T[] = [];
-  const set = new Set<T>();
-  arr.forEach((item) => set.add(item));
-  set.forEach((item) => result.push(item));
-  return result;
-};
+export const uniq = <T> (arr: T[]): T[] =>
+  arr.length > 1 ? [...new Set<T>(arr)] : arr.slice(0);
 
 /** Create an array filled with the range [0,..,N-1] */
 export function range(n: number): number[];

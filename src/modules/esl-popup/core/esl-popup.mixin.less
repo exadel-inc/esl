@@ -1,0 +1,95 @@
+.esl-popup-arrow-init(@arrowClassName: esl-popup-arrow,
+                      @popupArrowSize: 20px,
+                      @popupBackgroundColor: #FFF,
+                      @popupBorderColor: #DBDBDB,
+                      @popupBorderWidth: 1px) {
+  @popupArrowHalf: (@popupArrowSize / 2);
+  @popupArrowShift: (
+    @popupArrowSize * 0.2071 - @popupBorderWidth
+  ); /* 0.2071 = (sqrt(2) - 1) / 2  (Don't ask why, it's an axiom)*/
+
+  .@{arrowClassName} {
+    position: absolute;
+    top: (-@popupArrowHalf - @popupBorderWidth);
+    bottom: 100%;
+    z-index: -1;
+    transform: rotate(45deg);
+    width: @popupArrowSize;
+    height: @popupArrowSize;
+    margin-left: @popupArrowShift;
+    border-left: @popupBorderWidth solid @popupBorderColor;
+    border-top: @popupBorderWidth solid @popupBorderColor;
+    background: @popupBackgroundColor;
+  }
+
+  &[placed-at='top'] {
+    .@{arrowClassName} {
+      top: auto;
+      bottom: (-@popupArrowHalf - @popupBorderWidth);
+      transform: rotate(225deg);
+    }
+  }
+
+  &[placed-at='left'] {
+    .@{arrowClassName} {
+      right: (-@popupArrowHalf - @popupBorderWidth);
+      left: auto;
+      transform: rotate(135deg);
+      margin-top: @popupArrowShift;
+    }
+  }
+
+  &[placed-at='right'] {
+    .@{arrowClassName} {
+      left: (-@popupArrowHalf - @popupBorderWidth - @popupArrowShift);
+      right: auto;
+      transform: rotate(315deg);
+      margin-top: @popupArrowShift;
+    }
+  }
+
+  &.disable-arrow {
+    .@{arrowClassName} {
+      display: none;
+    }
+  }
+}
+
+.esl-popup-init(@className: esl-popup,
+                @arrowClassName: esl-popup-arrow,
+                @arrowSize: 20px,
+                @backgroundColor: #FFF,
+                @borderColor: #DBDBDB,
+                @borderWidth: 1px,
+                @zIndex: 999) {
+  .@{className} {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: block;
+    opacity: 0;
+    visibility: hidden;
+    transition: visibility 0.5s 0.2s;
+    box-sizing: border-box;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+    border: @borderWidth solid @borderColor;
+    background: @backgroundColor;
+    cursor: default;
+    will-change: auto;
+
+    &[open] {
+      z-index: @zIndex;
+      opacity: 1;
+      visibility: visible;
+      transition:
+        opacity 0.15s,
+        transform 0.2s;
+    }
+
+    &:not([open]) {
+      display: none;
+    }
+
+    .esl-popup-arrow-init(@arrowClassName, @arrowSize, @backgroundColor, @borderColor, @borderWidth);
+  }
+}

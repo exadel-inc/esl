@@ -1,0 +1,16 @@
+.esl-carousel-default-renderer {
+  [esl-carousel-slides] {
+    display: flex;
+    flex-wrap: nowrap;
+    transition: none;
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  &.esl-carousel-horizontal [esl-carousel-slide] {
+    width: var(--esl-slide-size);
+  }
+  &.esl-carousel-vertical [esl-carousel-slide] {
+    height: var(--esl-slide-size);
+  }
+}

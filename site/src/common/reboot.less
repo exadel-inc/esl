@@ -14,10 +14,6 @@
 * {
   margin: 0;
   padding: 0;
-
-  &:focus-visible {
-    outline: 2px dashed @focus-color;
-  }
 }
 
 body {
@@ -145,5 +141,14 @@ fieldset {
 audio {
   &::-webkit-media-controls-enclosure {
     border: 1px solid rgba(0, 0, 0, 0.6);
+  }
+}
+
+// Focus state
+*,
+a,
+button {
+  &:focus-visible {
+    outline: 2px dashed @focus-color;
   }
 }

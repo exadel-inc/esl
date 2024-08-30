@@ -65,6 +65,10 @@ export class ESLTestTemplate {
     if (!this.$fragment) return [];
     return [...this.$fragment.querySelectorAll(selector)] as ElementType<Sel>[];
   }
+  /** Check if element exists */
+  public has(selector: string): boolean {
+    return !!this.get(selector);
+  }
 
   /** Bind template injection to Jest lifecycle */
   public bind(type: 'beforeall' | 'beforeeach'): this {
@@ -77,5 +81,15 @@ export class ESLTestTemplate {
       afterEach(() => this.clear());
     }
     return this;
+  }
+
+  // Utilities methods
+  /** Dispatch 'load' or 'error' event on image element */
+  public dispatchImageLoadEvent(selector: string, type: 'load' | 'error' = 'load'): void {
+    for (const $img of this.getAll(selector)) {
+      if (!($img instanceof HTMLImageElement)) continue;
+      jest.spyOn($img, 'complete', 'get').mockReturnValue(true);
+      $img.dispatchEvent(new Event(type));
+    }
   }
 }

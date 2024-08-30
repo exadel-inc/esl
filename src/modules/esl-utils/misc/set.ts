@@ -8,11 +8,9 @@ export function intersection<T>(a: T[], b: T[], ...rest: T[][]): T[] {
 
 /** Create an array with unique values from each of the passed arrays */
 export function union<T>(...rest: T[][]): T[]  {
-  const set = new Set();
+  const set = new Set<T>();
   rest.forEach((item) => item.forEach((i) => set.add(i)));
-  const result: any[] = [];
-  set.forEach((value) => result.push(value));
-  return result;
+  return [...set];
 }
 
 /** Creates an array of unique values from the first array that are not present in the other arrays */
