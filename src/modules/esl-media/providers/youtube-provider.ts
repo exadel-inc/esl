@@ -38,7 +38,7 @@ export class YouTubeProvider extends BaseProvider {
         window.onYouTubeIframeAPIReady = (): void => {
           try {
             (typeof cbOrigin === 'function') && cbOrigin.apply(window);
-          } catch (err) { // TODO change after migration  eslint-disable-line
+          } catch (err) {
             // Do Nothing
           }
           return resolve(window.YT);
@@ -54,7 +54,7 @@ export class YouTubeProvider extends BaseProvider {
       origin: location.origin,
       rel: 0,
       showinfo: 0,
-      iv_load_policy: 3, // TODO change after migration  eslint-disable-line
+      iv_load_policy: 3,
       autoplay: Number(cfg.autoplay),
       controls: Number(cfg.controls),
       playsinline: Number(cfg.playsinline),
