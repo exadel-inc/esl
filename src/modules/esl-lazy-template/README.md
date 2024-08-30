@@ -1,6 +1,6 @@
 # [ESL](../../../) Lazy Template Mixin
 
-Version: *1.0.0*
+Version: *1.0.0-beta*.
 
 Authors: *Dmytro Shovchko*.
 
@@ -14,16 +14,6 @@ To use **ESLLazyTemplate** you need to include the following code:
 ```js
   ESLLazyTemplate.register();
 ```
-
-You may also need to make additional settings to specify the viewport. The mixin uses Intersection Observer API to determine when the template position becomes visible and content should be added to the DOM. By default, it uses a browser viewport. However, you can change the viewport by specifying a special provider function that returns the element that is used as the viewport to check visibility.
-
-We provide such functionality. You can use `getViewportForEl()` from `esl-utils/dom/scroll` and set up **ESLLazyTemplate** with it.
-```js
-  import { getViewportForEl } from '@exadel/esl/modules/esl-utils/dom/scroll';
-  ESLLazyTemplate.viewportProvider = getViewportForEl;
-  ESLLazyTemplate.register();
-```
-
 
 ### Lazy Template Mixin Example
 
