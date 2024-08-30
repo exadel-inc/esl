@@ -7,7 +7,6 @@ export class ESLCarouselDummyRenderer extends ESLCarouselRenderer {
   public override onBeforeAnimate = jest.fn();
   public override onAfterAnimate = jest.fn();
 
-  public override onMove = jest.fn();
-
+  public override move = jest.fn();
   public override commit = jest.fn();
 }

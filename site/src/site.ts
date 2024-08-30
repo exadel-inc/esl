@@ -10,7 +10,7 @@ import './common/breakpoints';
 
 import {
   ESLVSizeCSSProxy,
-  ESLImage,
+  ESLImageContainerMixin,
   ESLMedia,
   ESLToggleable,
   ESLPopup,
@@ -88,7 +88,7 @@ ESLDemoDistanceToViewportAlert.register();
 ESLRandomText.register('lorem-ipsum');
 
 // Register ESL Components
-ESLImage.register();
+ESLImageContainerMixin.register();
 ESLMedia.register();
 
 ESLToggleableDispatcher.init();
@@ -140,6 +140,9 @@ ESLLazyTemplate.register();
 
 // Share component loading
 import (/* webpackChunkName: 'common/esl-share' */'./esl-share/esl-share');
+
+// Anchornav component loading
+import (/* webpackChunkName: 'common/esl-anchornav' */'./esl-anchornav/esl-anchornav');
 
 if (document.querySelector('uip-root')) {
   // Init UI Playground

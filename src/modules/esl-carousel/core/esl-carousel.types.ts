@@ -1,4 +1,9 @@
-export type ESLCarouselDirection = 'next' | 'prev';
+/** Direction enum, can be used in calculation directly */
+export enum ESLCarouselDirection {
+  NEXT = 1,
+  NONE = 0,
+  PREV = -1
+}
 
 export type ESLCarouselNavIndex = number | `${number}` | `+${number}` | `-${number}` | ESLCarouselDirection;
 
@@ -21,17 +26,41 @@ export type ESLCarouselSlideTarget = string | ESLCarouselNavIndex | `slide:${ESL
 
 /** Object describing static carousel configuration */
 export type ESLCarouselStaticState = {
+  /** Total slide count */
   size: number;
+  /** Visible slide count per view */
   count: number;
+  /** Cyclic carousel rendering mode */
   loop: boolean;
+  /** Vertical carousel rendering mode */
   vertical: boolean;
 };
 
 export type ESLCarouselConfig = ESLCarouselStaticState & {
+  /** Renderer type name */
   type: string;
 };
 
 /** Object describing carousel current configuration (contains active slide data) */
 export type ESLCarouselState = ESLCarouselStaticState & {
+  /** First active slide index */
   activeIndex: number;
 };
+
+/** Object describing carousel navigation target details */
+export type ESLCarouselNavInfo = {
+  /** Target index */
+  index: number;
+  /** Direction to reach the index */
+  direction?: ESLCarouselDirection;
+};
+
+/** {@link ESLCarousel} action params interface */
+export interface ESLCarouselActionParams {
+  /** Element that requests changes */
+  activator?: any;
+  /** Direction to move to */
+  direction?: ESLCarouselDirection;
+  /** Duration of a single slide transition in milliseconds. (Set to 0 to disable animation) */
+  stepDuration: number;
+}

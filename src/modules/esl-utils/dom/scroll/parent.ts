@@ -49,6 +49,6 @@ export function isScrollable(element: Element): boolean {
  * Get the element that is the viewport for the specified element.
  * @param node - element for which to get the viewport
  */
-export function getViewportForEl(node: Element): Element | null {
-  return getListScrollParents(node).filter((el) => el.scrollHeight !== el.clientHeight).shift()!;
+export function getViewportForEl(node: Element): Element | undefined {
+  return getListScrollParents(node).find((el) => el.scrollHeight !== el.clientHeight);
 }

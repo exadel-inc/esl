@@ -11,6 +11,7 @@ export * from './esl-a11y-group/core';
 
 // Image
 export * from './esl-image/core';
+export * from './esl-image-utils/core';
 
 // Media
 export * from './esl-media/core';
@@ -52,6 +53,9 @@ export * from './esl-share/core';
 
 // Carousel
 export * from './esl-carousel/core';
+
+// Anchornav
+export * from './esl-anchornav/core';
 
 // Lazy Template
 export * from './esl-lazy-template/core';

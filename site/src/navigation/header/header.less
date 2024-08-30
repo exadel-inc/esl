@@ -1,6 +1,7 @@
 @import (reference) '../../common/variables.less';
 
 .header {
+  position: relative;
   z-index: 10;
 
   // force to move to the separate layer
@@ -9,10 +10,9 @@
   color: @landing-fg-color;
   background-color: @landing-bg-color;
 
-  height: @header-height-mobile;
-
+  height: var(--_header-height, @header-height-mobile);
   @media @md-xl {
-    height: @header-height-desktop;
+    height: var(--_header-height, @header-height-desktop);
   }
 
   &-container {
@@ -94,18 +94,16 @@
   }
 
   &-utility {
+    flex: 1 0 0;
+    margin: 0 0 0 auto;
+    justify-self: flex-end;
+
     display: flex;
     align-items: center;
     justify-content: flex-end;
-
-    flex: 1 0 auto;
-    margin-left: auto;
-    justify-self: flex-end;
   }
 
   &-logo {
-    flex: 1 0 auto;
-
     display: flex;
     align-items: center;
     white-space: nowrap;
@@ -120,8 +118,21 @@
       margin: -5px;
       width: 48px;
       height: 48px;
+    }
+  }
 
-      @media @md-xl {
+  &-left {
+    flex: 1 0 0;
+  }
+
+  &-central {
+    flex: 0 0 auto;
+    margin-inline: auto;
+  }
+
+  @media @md-xl {
+    &-logo-large {
+      svg {
         width: 66px;
         height: 66px;
       }
@@ -138,9 +149,6 @@
 
   &-hamburger {
     display: block;
-    @media @md-xl {
-      display: none;
-    }
 
     position: relative;
     width: 30px;
@@ -201,6 +209,6 @@
   &-long-name {
     font-size: 1.125rem;
     font-weight: 500;
-    margin-left: 11px;
+    margin-left: 1rem;
   }
 }

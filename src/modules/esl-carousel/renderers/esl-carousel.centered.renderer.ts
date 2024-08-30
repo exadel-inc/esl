@@ -1,4 +1,4 @@
-import {normalize} from '../core/nav/esl-carousel.nav.utils';
+import {normalize} from '../core/esl-carousel.utils';
 import {ESLCarouselRenderer} from '../core/esl-carousel.renderer';
 import {ESLDefaultCarouselRenderer} from './esl-carousel.default.renderer';
 
@@ -12,10 +12,11 @@ export class ESLCenteredCarouselRenderer extends ESLDefaultCarouselRenderer {
   public static override is = 'centered';
   public static override classes: string[] = ['esl-carousel-centered-renderer', 'esl-carousel-default-renderer'];
 
-  /** @returns size of all active slides */
+  /** Size of all active slides */
   public get activeSlidesSize(): number {
-    let width = (this.count - 1) * this.gap;
-    for (let i = 0; i < this.count; i++) {
+    const count = Math.min(this.count, this.size);
+    let width = (count - 1) * this.gap;
+    for (let i = 0; i < count; i++) {
       const position = normalize(i + this.currentIndex, this.size);
       const $slide = this.$slides[position];
       width += this.vertical ? $slide.offsetHeight : $slide.offsetWidth;
@@ -23,12 +24,12 @@ export class ESLCenteredCarouselRenderer extends ESLDefaultCarouselRenderer {
     return width;
   }
 
-  /** @returns carousel size */
+  /** Carousel size */
   public get carouselSize(): number {
     return this.vertical ? this.$carousel.clientHeight : this.$carousel.clientWidth;
   }
 
-  /** @returns carousel padding value */
+  /** Carousel padding value */
   public get carouselPadding(): number {
     const carouselStyles = getComputedStyle(this.$carousel);
     return parseFloat(carouselStyles[this.vertical ? 'paddingTop' : 'paddingLeft']);

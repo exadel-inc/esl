@@ -21,11 +21,11 @@ tags: carousel-sample
       {% for item in range(0, 16) %}
         <li esl-carousel-slide {{ 'active' if loop.first }}>
           <div class="card">
-            <div class="card-image img-container img-container-16-9">
-              <esl-image lazy
-                         mode="cover"
-                         data-alt="{{ 'Carousel slide ' + loop.index }}"
-                         data-src="{{ '/assets/carousel/' + loop.index + '-sm.jpg'  | url }}"></esl-image>
+            <div class="card-image img-container img-container-16-9" esl-image-container>
+              <img class="img-fade img-cover"
+                   alt="{{ 'Carousel slide ' + loop.index }}"
+                   src="{{ '/assets/carousel/' + loop.index + '-sm.jpg' | url }}"
+                   loading="lazy" />
               <button type="button" class="close close-icon close-remove inverse"
                       title="Remove" aria-label="Remove"
                       onclick="this.closest('li').remove()"></button>

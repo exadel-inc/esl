@@ -45,6 +45,8 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin<ESLCarouselTouchCon
     swipeTimeout: 400
   };
 
+  /** Start index of the drag action */
+  protected startIndex: number;
   /** Start pointer event to detect action */
   protected startEvent?: PointerEvent;
   /** Initial scroll offsets, filled on touch action start */
@@ -110,6 +112,7 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin<ESLCarouselTouchCon
     if (this.isDisabled) return;
 
     this.startEvent = event;
+    this.startIndex = this.$host.activeIndex;
     this.startScrollOffsets = getParentScrollOffsets(event.target as Element, this.$host);
 
     this.$$on({group: 'pointer'});
@@ -130,7 +133,7 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin<ESLCarouselTouchCon
 
     this.$host.setPointerCapture(event.pointerId);
 
-    if (this.isDragMode) this.$host.renderer.onMove(offset);
+    if (this.isDragMode) this.$host.move(offset, this.startIndex, {activator: this});
   }
 
   /** Processes `mouseup` and `touchend` events. */
@@ -147,11 +150,11 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin<ESLCarouselTouchCon
 
     const offset = this.getOffset(event);
     // Commit drag offset (should be commited to 0 if the event is canceled)
-    if (this.isDragMode) this.$host.renderer.commit(offset);
+    if (this.isDragMode) this.$host.commit(offset, this.startIndex, {activator: this});
     // Swipe final check
     if (this.isSwipeMode && offset && !this.isPrevented && this.isSwipeAccepted(event)) {
       const target = `${this.config.swipeType}:${offset < 0 ? 'next' : 'prev'}`;
-      if (this.$host.canNavigate(target)) this.$host.goTo(target);
+      if (this.$host.canNavigate(target)) this.$host.goTo(target, {activator: this});
     }
   }
 }

@@ -12,6 +12,9 @@ module.exports = (config) => {
   /** Order metadata comparer */
   const orderComparer = (a, b) => (a.data.order ?? 0) - (b.data.order ?? 0);
 
+  /** Page path comparer */
+  const pathComparer = (a, b) => (a.inputPath || '').localeCompare(b.inputPath || '');
+
   /** Abstract string comparer */
   const stringComparer = (field) => (a, b) => {
     const aField = a.data[field] || '';
@@ -28,6 +31,8 @@ module.exports = (config) => {
         return metaDateComparer;
       case 'order':
         return orderComparer;
+      case 'path':
+        return pathComparer;
       default:
         return stringComparer(field);
     }

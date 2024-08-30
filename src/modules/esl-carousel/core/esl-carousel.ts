@@ -3,14 +3,14 @@ import {ESLBaseElement} from '../../esl-base-element/core';
 import {attr, boolAttr, ready, decorate, listen, memoize} from '../../esl-utils/decorators';
 import {isMatches} from '../../esl-utils/dom/traversing';
 import {microtask} from '../../esl-utils/async';
-import {parseBoolean, sequentialUID} from '../../esl-utils/misc';
+import {parseBoolean, parseTime, sequentialUID} from '../../esl-utils/misc';
 
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
 import {ESLResizeObserverTarget} from '../../esl-event-listener/core';
 
-import {normalize, toIndex, canNavigate} from './nav/esl-carousel.nav.utils';
+import {normalize, toIndex, canNavigate} from './esl-carousel.utils';
 
 import {ESLCarouselSlide} from './esl-carousel.slide';
 import {ESLCarouselRenderer} from './esl-carousel.renderer';
@@ -18,21 +18,11 @@ import {ESLCarouselChangeEvent} from './esl-carousel.events';
 
 import type {
   ESLCarouselState,
-  ESLCarouselDirection,
   ESLCarouselSlideTarget,
   ESLCarouselStaticState,
-  ESLCarouselConfig
-} from './nav/esl-carousel.nav.types';
-
-/** {@link ESLCarousel} action params interface */
-export interface ESLCarouselActionParams {
-  /** Element requester of the change */
-  activator?: any;
-  /** Direction to move to. */
-  direction?: ESLCarouselDirection;
-  // TODO: implement
-  // noAnimation?: boolean;
-}
+  ESLCarouselConfig,
+  ESLCarouselActionParams
+} from './esl-carousel.types';
 
 /**
  * ESLCarousel component
@@ -43,7 +33,7 @@ export interface ESLCarouselActionParams {
 @ExportNs('Carousel')
 export class ESLCarousel extends ESLBaseElement {
   public static override is = 'esl-carousel';
-  public static observedAttributes = ['media', 'type', 'loop', 'count', 'vertical', 'container'];
+  public static observedAttributes = ['media', 'type', 'loop', 'count', 'vertical', 'step-duration', 'container'];
 
   /** Media query pattern used for {@link ESLMediaRuleList} of `type`, `loop` and `count` (default: `all`) */
   @attr({defaultValue: 'all'}) public media: string;
@@ -55,6 +45,9 @@ export class ESLCarousel extends ESLBaseElement {
   @attr({defaultValue: '1'}) public count: string | number;
   /** Orientation of the carousel (`horizontal` by default). Supports {@link ESLMediaRuleList} syntax */
   @attr({defaultValue: 'false'}) public vertical: string | boolean;
+
+  /** Duration of the single slide transition */
+  @attr({defaultValue: '250'}) public stepDuration: string;
 
   /** Container selector (supports traversing query). Carousel itself by default */
   @attr({defaultValue: ''}) public container: string;
@@ -94,6 +87,11 @@ export class ESLCarousel extends ESLBaseElement {
   @memoize()
   public get verticalRule(): ESLMediaRuleList<boolean> {
     return ESLMediaRuleList.parse(this.vertical as string, this.media, parseBoolean);
+  }
+  /** Duration of the single slide transition {@link ESLMediaRuleList} instance */
+  @memoize()
+  public get stepDurationRule(): ESLMediaRuleList<number> {
+    return ESLMediaRuleList.parse(this.stepDuration, this.media, parseTime);
   }
 
   /** Returns observed media rules */
@@ -169,6 +167,7 @@ export class ESLCarousel extends ESLBaseElement {
     this.renderer.unbind();
     memoize.clear(this, 'renderer');
     this.renderer.bind();
+
     this.updateStateMarkers();
     this.dispatchEvent(ESLCarouselChangeEvent.create({initial, added, removed, config, oldConfig}));
   }
@@ -184,17 +183,14 @@ export class ESLCarousel extends ESLBaseElement {
 
   /** Appends slide instance to the current carousel */
   public addSlide(slide: HTMLElement): void {
-    if (!slide) return;
     slide.setAttribute(this.slideAttrName, '');
     if (slide.parentNode === this.$slidesArea) return this.update();
     console.debug('[ESL]: ESLCarousel moves slide to correct location', slide);
-    if (slide.parentNode) slide.remove();
-    Promise.resolve().then(() => this.$slidesArea.appendChild(slide));
+    this.$slidesArea.appendChild(slide);
   }
 
   /** Remove slide instance from the current carousel */
   public removeSlide(slide: HTMLElement): void {
-    if (!slide) return;
     if (slide.parentNode === this.$slidesArea) this.$slidesArea.removeChild(slide);
     if (this.$slides.includes(slide)) this.update();
   }
@@ -298,12 +294,28 @@ export class ESLCarousel extends ESLBaseElement {
   }
 
   /** Goes to the target according to passed params */
-  public goTo(target: HTMLElement | ESLCarouselSlideTarget, params: ESLCarouselActionParams = {}): Promise<void> {
+  public goTo(target: HTMLElement | ESLCarouselSlideTarget, params: Partial<ESLCarouselActionParams> = {}): Promise<void> {
     if (target instanceof HTMLElement) return this.goTo(this.indexOf(target), params);
     if (!this.renderer) return Promise.reject();
-    const {index, dir} = toIndex(target, this.state);
-    const direction = params.direction || dir || 'next';
-    return this.renderer.navigate(index, direction, params);
+    return this.renderer.navigate(toIndex(target, this.state), this.mergeParams(params));
+  }
+
+  /** Moves slides by the passed offset */
+  public move(offset: number, from: number = this.activeIndex, params: Partial<ESLCarouselActionParams> = {}): void {
+    if (!this.renderer) return;
+    this.renderer.move(offset, from, this.mergeParams(params));
+  }
+
+  /** Commits slides to the nearest stable position */
+  public commit(offset: number, from: number = this.activeIndex, params: Partial<ESLCarouselActionParams> = {}): Promise<void> {
+    if (!this.renderer) return Promise.reject();
+    return this.renderer.commit(offset, from, this.mergeParams(params));
+  }
+
+  /** Merges request params with default params */
+  protected mergeParams(params: Partial<ESLCarouselActionParams>): ESLCarouselActionParams {
+    const stepDuration = this.stepDurationRule.value || 0;
+    return {stepDuration, ...params};
   }
 
   /** @returns slide by index (supports not normalized indexes) */
@@ -347,9 +359,9 @@ export class ESLCarousel extends ESLBaseElement {
    * @param tagName - custom tag name to register custom element
    */
   public static override register(tagName?: string): void {
+    super.register(tagName);
     ESLCarouselSlide.is = this.is + '-slide';
     ESLCarouselSlide.register();
-    super.register(tagName);
   }
 }
 

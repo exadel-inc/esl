@@ -17,12 +17,16 @@ esl-carousel {
   overflow: clip;
   /* stylelint-enable */
 
-  &.esl-carousel-vertical [esl-carousel-slides] {
-    flex-direction: column;
+  &.esl-carousel-vertical {
+    [esl-carousel-slides] {
+      flex-direction: column;
+    }
     touch-action: pan-x;
   }
-  &.esl-carousel-horizontal [esl-carousel-slides] {
-    flex-direction: row;
+  &.esl-carousel-horizontal {
+    [esl-carousel-slides] {
+      flex-direction: row;
+    }
     touch-action: pan-y;
   }
 
@@ -37,9 +41,16 @@ esl-carousel {
 
   &[dragging] [esl-carousel-slides],
   &[animating] [esl-carousel-slides] {
-    touch-action: none;
     user-select: none;
     pointer-events: none;
+  }
+
+  &[empty] {
+    --esl-carousel-side-space: 0;
+
+    [esl-carousel-slides] {
+      display: none;
+    }
   }
 }
 
