@@ -41,7 +41,6 @@ You can define your own renderer. You can define several renderers with differen
 
 #### Attributes | Properties:
 
-- `position` - popup position relative to the trigger (currently supported: 'top', 'bottom', 'left', 'right' ) ('top' by default)
 - `renderer` - item renderer which is used to build inner markup
 - `active-class` - CSS classes to set on active item (and remove when item inactive)
 
