@@ -45,6 +45,7 @@ export class ESLAnchornav extends ESLBaseElement {
   @prop('esl:anchornav:activechanged') public ACTIVECHANGED_EVENT: string;
   @prop('esl:anchornav:updated') public UPDATED_EVENT: string;
   @prop('[esl-anchor]') protected ANCHOR_SELECTOR: string;
+  @prop([0, 0.01, 0.99, 1]) protected INTERSECTION_THRESHOLD: number[];
 
   /** Item renderer which is used to build inner markup */
   @attr({defaultValue: 'default', name: 'renderer'}) public rendererName: string;
@@ -99,13 +100,13 @@ export class ESLAnchornav extends ESLBaseElement {
     return getViewportForEl(this);
   }
 
-  /** Data for prepend anchor */
-  protected get prependData(): ESLAnchorData[] {
+  /** Permanent anchors to prepend to the list */
+  protected get anchorsToPrepend(): ESLAnchorData[] {
     return [];
   }
 
-  /** Data for append anchor */
-  protected get appendData(): ESLAnchorData[] {
+  /** Permanent anchors to append to the list */
+  protected get anchorsToAppend(): ESLAnchorData[] {
     return [];
   }
 
@@ -197,8 +198,8 @@ export class ESLAnchornav extends ESLBaseElement {
   })
   protected _onAnchornavRequest(): void {
     this._anchors = [...document.querySelectorAll<HTMLElement>(this.ANCHOR_SELECTOR)].map(this.getDataFrom);
-    this._anchors.unshift(...this.prependData);
-    this._anchors.push(...this.appendData);
+    this._anchors.unshift(...this.anchorsToPrepend);
+    this._anchors.push(...this.anchorsToAppend);
     this.update();
   }
 
@@ -206,7 +207,7 @@ export class ESLAnchornav extends ESLBaseElement {
     event: 'intersects',
     target: (that: ESLAnchornav) => ESLIntersectionTarget.for(that.$anchors, {
       root: that.$viewport,
-      threshold: [0, 0.01, 0.99, 1],
+      threshold: that.INTERSECTION_THRESHOLD,
       rootMargin: `-${that.offset + 1}px 0px 0px 0px`
     })
   })
