@@ -9,7 +9,6 @@ module.exports = [
       /** Cognitive Complexity is a measure of how hard the control flow of a function is to understand.
        *  Functions with high Cognitive Complexity will be difficult to maintain.
        */
-
       'sonarjs/cognitive-complexity': 'error',
 
       // Limits maximum of switch cases before suggest a map
