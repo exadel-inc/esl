@@ -1,5 +1,7 @@
 import sharp from 'sharp';
-import type {SharpContext} from './snapshot-matcher';
+import {SharpService} from './sharp';
+
+import type {SharpContext} from './sharp';
 
 type DiffBuilderConfig = {
   diffPath: string;
@@ -19,6 +21,8 @@ export class DiffImageComposer {
   public async save(): Promise<void> {
     const {diffPath, img1, img2, diffBuffer} = this.config;
     const {width, height} = this.imgInfo;
+
+    const rawOptions = {raw: {width, height, channels: 4}};
     await sharp({
       create: {
         width: width * 3,
@@ -28,16 +32,11 @@ export class DiffImageComposer {
       }
     })
       .composite([
-        {input: await this.toWebp(img1.data), left: 0, top: 0},
-        {input: await this.toWebp(diffBuffer), left: width, top: 0},
-        {input: await this.toWebp(img2.data), left: width * 2, top: 0}
+        {input: await SharpService.toJPEGBufferd(img1.data, rawOptions), left: 0, top: 0},
+        {input: await SharpService.toJPEGBufferd(diffBuffer, rawOptions), left: width, top: 0},
+        {input: await SharpService.toJPEGBufferd(img2.data, rawOptions), left: width * 2, top: 0}
       ])
-      .webp()
+      .jpeg()
       .toFile(diffPath);
-  }
-
-  protected toWebp(buffer: Buffer): Promise<Buffer> {
-    const {height, width} = this.imgInfo;
-    return sharp(buffer, {raw: {width, height, channels: 4}}).webp().toBuffer();
   }
 }

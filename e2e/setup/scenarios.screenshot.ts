@@ -27,11 +27,11 @@ cucumber.defineRule('take a screenshot of the element', async ({elements, screen
 cucumber.defineRule('check if the screenshot is exactly equal to the snapshotted version', async ({screenshots}: TestEnv) => {
   if (!screenshots.length) throw new Error('E2E: there is no any screenshot, make sure you have "Take a screenshot" before');
   const image = screenshots.pop();
-  expect(image).toMatchImageSnapshot();
+  await expect(image).toMatchImageSnapshot();
 });
 
 cucumber.defineRule('check if the screenshot is equal to the snapshotted version', async ({screenshots}: TestEnv) => {
   if (!screenshots.length) throw new Error('E2E: there is no any screenshot, make sure you have "Take a screenshot" before');
   const image = screenshots.pop();
-  expect(image).toMatchImageSnapshot({threshold: 0.1});
+  await expect(image).toMatchImageSnapshot({threshold: 0.1});
 });

@@ -48,14 +48,12 @@ class SnapshotAwareReporter {
     const filename = path.basename(testPath);
     const name = ancestorTitles.join(' > ');
     const statBase = {name, filename, status, title, time: duration};
-
     if (status === 'passed') return statBase;
 
-    const snapshotParts = [filename, ...ancestorTitles, title, '1-snap', 'diff'];
-    const snapshotName = snapshotParts.map(sanitize).join('-') + '.png';
+    const snapshotParts = [filename, ...ancestorTitles, title, 'diff'];
+    const snapshotName = snapshotParts.map(sanitize).join('-') + '.jpg';
     const snapshotPath = path.join(this._options.diffDir, snapshotName);
     const snapshotExists = fs.existsSync(snapshotPath);
-
     return Object.assign(statBase, {
       message: test.failureMessages[0],
       messages: test.failureMessages,
