@@ -4,7 +4,7 @@ import fs from 'fs';
 import {mkDir} from './utils/directory';
 import {SharpService} from './sharp';
 import {DiffImageComposer} from './diff-builder';
-import {toKebabCase} from './utils/string';
+import {buildSnapshotName} from './utils/name';
 
 import type {SharpContext} from './sharp';
 import type sharp from 'sharp';
@@ -30,7 +30,7 @@ export class SnapshotDataProcessor {
   public static async process(context: jest.MatcherContext, received: Buffer): Promise<SnapshotData> {
     const {testPath, currentTestName} = context;
     mkDir(SnapshotDataProcessor.SNAPSHOT_DIR);
-    const testName = toKebabCase(`${testPath!.split('/').pop()} ${currentTestName}`);
+    const testName = buildSnapshotName(testPath!.split('/').pop()!, currentTestName!);
     const prevImgPath = path.join(SnapshotDataProcessor.SNAPSHOT_DIR, `${testName}.jpg`);
     const shouldUpdate = !fs.existsSync(prevImgPath) || context.snapshotState._updateSnapshot === 'all';
 
@@ -53,7 +53,7 @@ export class SnapshotDataProcessor {
   public static async saveDiff(list: SnapshotData, diffBuffer: Buffer): Promise<string | undefined> {
     const {current, previous} = list;
     mkDir(SnapshotDataProcessor.DIFF_DIR);
-    const diffPath = path.join(SnapshotDataProcessor.DIFF_DIR, `${list.testName}-diff.jpg`);
+    const diffPath = path.join(SnapshotDataProcessor.DIFF_DIR, `${buildSnapshotName(list.testName, 'diff')}.jpg`);
     await new DiffImageComposer({diffPath, img1: previous.buffer!, img2: current.buffer, diffBuffer}).save();
     return diffPath;
   }
