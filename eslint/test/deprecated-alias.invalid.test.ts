@@ -184,6 +184,7 @@ describe('ESL Migration Rules: Deprecated Alias: invalid', () => {
   });
 
   const ruleTester = new RuleTester({
+    // @ts-ignore
     parser: require.resolve('@typescript-eslint/parser')
   });
 

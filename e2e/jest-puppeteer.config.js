@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 if (!process.argv.includes('--no-autorun') && !process.env.PORT) {
   process.env.PORT = '3007';
 }

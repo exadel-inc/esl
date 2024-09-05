@@ -11,7 +11,7 @@
     "run:update:only": "jest -u --no-autorun",
     "run:tests:only": "jest --no-autorun",
     "run:server": "cd .. && cross-env-shell PORT=3007 npm run start:test --workspace=site",
-    "test": "eslint"
+    "test": "eslint \"**/*.ts\""
   },
   "dependencies": {
     "@types/jest-environment-puppeteer": "^5.0.6",
