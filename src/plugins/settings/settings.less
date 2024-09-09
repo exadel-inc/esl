@@ -61,7 +61,7 @@ uip-settings {
     height: 1.25rem;
   }
 
-  .uip-plugin-header-icon {
+  &.vertical .uip-plugin-header-icon {
     &::after {
       content: '';
       position: relative;
@@ -70,10 +70,10 @@ uip-settings {
       height: 15px;
       background: currentColor;
       clip-path: polygon(20% 50%, 70% 0%, 80% 5%, 35% 50%, 80% 95%, 70% 100%);
-      @media @mobile {
-       display: none;
-      }
     }
+     #settings-icon {
+       display: none;
+     }
   }
 
   // Rotate on collapsed state change
