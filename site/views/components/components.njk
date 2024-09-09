@@ -16,9 +16,11 @@ title: Components
   {%- endfor %}
   <h2 class="title">Plugins</h2>
   {% for plugin in collections.plugins %}
-    <li class="item">
-      <a href="{{ plugin.url | url }}">{{ plugin.data.title }}</a>
-    </li>
+    {% if plugin.data.listItem %}
+      <li class="item">
+        <a href="{{ plugin.url | url }}">{{ plugin.data.title }}</a>
+      </li>
+    {%- endif %}
     {% if plugin.data.isSettingList %}
       <ul class="collection-sublist">
         {% for setting in collections.setting %}
@@ -27,6 +29,15 @@ title: Components
           </li>
         {%- endfor %}
       </ul>
+    {%- endif %}
+    {% if plugin.data.isSnippetItems %}
+    <ul class="collection-sublist">
+      {% for snippetItem in collections.snippets %}
+      <li class="item">
+        <a href="{{ snippetItem.url | url }}">{{ snippetItem.data.title }}</a>
+      </li>
+      {%- endfor %}
+    </ul>
     {%- endif %}
   {%- endfor %}
 </ul>

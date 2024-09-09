@@ -2,12 +2,11 @@
 
 **UIPSnippets** - the primary plugin to display snippets of the UI Playground.
 
-UIPSnippets uses UIPSnippetsList to render the list of snippets and UIPSnippetsTitle to render the title of the list.
-UIPSnippets can be rendered in two modes: *list* and *dropdown*.
+**UIPSnippets** uses [UIPSnippetList](src/plugins/snippets-list/README.md) to render the list of snippets and [UIPSnippetsTitle](src/plugins/snippets-title/README.md) to render the title of the list.
+**UIPSnippets** can be rendered in two modes: *tabs* and *dropdown*.
 
-# Usage
+The following sample will render snippets as a tab list in the header:
 
-The following sample will render snippets as a tab list in the header of the UI Playground:
 ```html
 <uip-root>
     <uip-snippets class="uip-toolbar"></uip-snippets>
@@ -15,7 +14,8 @@ The following sample will render snippets as a tab list in the header of the UI 
 </uip-root>
 ```
 
-To render snippets as a dropdown list, use the following snippet:
+To render snippets as a dropdown list, set the `dropdown-view` attribute to `all`:
+
 ```html
 <uip-root>
     <uip-snippets class="uip-toolbar" dropdown-view="all"></uip-snippets>
@@ -24,6 +24,7 @@ To render snippets as a dropdown list, use the following snippet:
 ```
 
 The `dropdown-view` attribute can be any ESLMediaQuery value, so you can switch mode depending on the screen size.
+
 ```html
 <uip-root>
     <uip-snippets class="uip-toolbar" dropdown-view="(max-width: 768px)"></uip-snippets>
@@ -31,9 +32,10 @@ The `dropdown-view` attribute can be any ESLMediaQuery value, so you can switch 
 </uip-root>
 ```
 
-The class `uip-toolbar` is used to style the section as a toolbar-header for the UI Playground.
+The class `uip-toolbar` is used to style the section as a toolbar-header for the UIPlayground.
 The combinations of `uip-snippets` and buttons (e.g. `uip-copy`, `uip-theme-toggle` or `uip-direction-toggle`) 
 are also allowed with additional div wrapper:
+
  ```html
  <uip-header>
     <div class="uip-toolbar">

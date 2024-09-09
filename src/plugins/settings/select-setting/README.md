@@ -2,9 +2,7 @@
 
 **UIPSelectSetting** - custom setting to select attribute's value. Extends [UIPSetting](src/plugins/settings/README.md).
 
-## Description
-
-We render **UIPSelectSetting** as [ESLSelect](https://github.com/exadel-inc/esl/tree/main/src/modules/esl-forms/esl-select) element.
+**UIPSelectSetting** is rendered as [ESLSelect](https://github.com/exadel-inc/esl/tree/main/src/modules/esl-forms/esl-select) element.
 
 Select setting has two modes: **replace** and **append**. The first one (is used by default) replaces the attribute
 value with selected, and the second one appends selected value to the attribute.
