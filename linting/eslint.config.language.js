@@ -6,8 +6,7 @@ module.exports = [
       sourceType: "module",
       parser: tseslint.parser,
       parserOptions: {
-        projectService: true,
-        tsconfigRootDir: __dirname,
+        projectService: true
       }
     }
   }
