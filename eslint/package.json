@@ -24,7 +24,7 @@
     "semver": "^7.6.3"
   },
   "devDependencies": {
-    "@types/eslint": "^8.0.0"
+    "@types/eslint": "^9.6.1"
   },
   "peerDependencies": {
     "@exadel/esl": "*",
