@@ -15,7 +15,7 @@ module.exports = {
   roots: ['./tests/'],
   testRegex: ['(.+)\\.(spec|test)\\.ts$', '(.+).feature'],
   moduleFileExtensions: ['ts', 'js', 'feature'],
-  setupFilesAfterEnv: ['./setup/serializers/image.ts', './setup/scenarios.ts'],
+  setupFilesAfterEnv: ['./setup/serializers/image-snapshot.ts', './setup/scenarios.ts'],
   reporters: [
     ['./reporters/reporter.js', {
       diffDir: './.diff',

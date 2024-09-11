@@ -2,14 +2,12 @@ const fs = require('fs');
 const path = require('path');
 
 const {print} = require('./printers');
-
-const sanitize = (str) => (str || '').replace(/\W+/g, '-').toLowerCase();
+const {buildSnapshotName, getDiffDir, getDirName} = require('../utils/image-snapshot.name');
+const {mkDir} = require('../utils/directory');
 
 const writeFileSafe = (filename, data) => {
   const dirname = path.dirname(filename);
-  if (!fs.existsSync(dirname)) {
-    fs.mkdirSync(dirname, {recursive: true});
-  }
+  mkDir(dirname)
   fs.writeFileSync(filename, data);
 };
 
@@ -44,20 +42,17 @@ class SnapshotAwareReporter {
   }
 
   buildTestStat(test, testPath) {
-    const {ancestorTitles, status, title, duration} = test;
+    const {status, title, duration, fullName} = test;
     const filename = path.basename(testPath);
-    const name = ancestorTitles.join(' > ');
-    const statBase = {name, filename, status, title, time: duration};
+    const statBase = {status, filename, title, time: duration};
     if (status === 'passed') return statBase;
-
-    const snapshotParts = [filename, ...ancestorTitles, title, 'diff'];
-    const snapshotName = snapshotParts.map(sanitize).join('-') + '.jpg';
-    const snapshotPath = path.join(this._options.diffDir, snapshotName);
-    const snapshotExists = fs.existsSync(snapshotPath);
+    const snapshotName = buildSnapshotName(fullName, 'diff');
+    const snapshotExists = fs.existsSync(path.join(getDiffDir(testPath), snapshotName));
     return Object.assign(statBase, {
       message: test.failureMessages[0],
       messages: test.failureMessages,
       hasSnapshot: snapshotExists,
+      dirPath: getDirName(testPath),
       snapshot: snapshotExists ? snapshotName : null
     });
   }
@@ -67,7 +62,7 @@ class SnapshotAwareReporter {
     const basePath = path.resolve(this._globalConfig.rootDir);
     for (const result of results.testResults) {
       const filepath = path.relative(basePath, result.testFilePath);
-      const tests = result.testResults.map(test => this.buildTestStat(test, filepath));
+      const tests = result.testResults.map(test => this.buildTestStat(test, result.testFilePath));
       testResults.push({filepath, tests});
     }
     return testResults;

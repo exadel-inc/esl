@@ -1,6 +1,6 @@
-import {SnapshotDataProcessor} from './image/image-processor';
-import {SnapshotMatcher} from './image/snapshot-matcher';
-import type {SnapshotMatcherOptions} from './image/snapshot-matcher';
+import {SnapshotDataProcessor} from './image-snapshot.pocessor';
+import {SnapshotMatcher} from './image-snapshot.matcher';
+import type {SnapshotMatcherOptions} from './image-snapshot.matcher';
 
 expect.extend({async toMatchImageSnapshot(received: Buffer, options: SnapshotMatcherOptions = {}) {
   const imageList = await SnapshotDataProcessor.process(this, received);

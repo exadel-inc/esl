@@ -1,7 +1,7 @@
 import pixelmatch from 'pixelmatch';
-import {SnapshotDataProcessor} from './image-processor';
+import {SnapshotDataProcessor} from './image-snapshot.pocessor';
 
-import type {SnapshotData} from './image-processor';
+import type {SnapshotData} from './image-snapshot.pocessor';
 
 export type SnapshotMatcherOptions = pixelmatch.PixelmatchOptions;
 
@@ -49,7 +49,7 @@ export class SnapshotMatcher {
     try {
       const numDiffPixel = pixelmatch(prevImg.data, currImg.data, diffBuffer, width, height, this.config);
       if (numDiffPixel > width * height * SnapshotMatcher.MIN_DIFF_THRESHOLD) {
-        return {reason: 'content', path: await SnapshotDataProcessor.saveDiff(this.received, diffBuffer)};
+        return {reason: 'content', path: await SnapshotDataProcessor.saveDiffImage(this.received, diffBuffer)};
       }
     } catch (e) {
       return {reason: 'error'};
