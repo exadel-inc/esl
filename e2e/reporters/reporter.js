@@ -42,9 +42,10 @@ class SnapshotAwareReporter {
   }
 
   buildTestStat(test, testPath) {
-    const {status, title, duration, fullName} = test;
+    const {ancestorTitles, status, title, duration, fullName} = test;
     const filename = path.basename(testPath);
-    const statBase = {status, filename, title, time: duration};
+    const name = ancestorTitles.join(' > ');
+    const statBase = {name, status, filename, title, time: duration};
     if (status === 'passed') return statBase;
     const snapshotName = buildSnapshotName(fullName, 'diff');
     const snapshotExists = fs.existsSync(path.join(getDiffDir(testPath), snapshotName));
