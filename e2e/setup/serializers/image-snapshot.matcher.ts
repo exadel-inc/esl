@@ -1,5 +1,7 @@
+import path from 'path';
 import pixelmatch from 'pixelmatch';
-import {SnapshotDataProcessor} from './image-snapshot.pocessor';
+import {mkDir} from '../../utils/directory';
+import {DiffImageComposer} from './image-snapshot.composer';
 
 import type {SnapshotData} from './image-snapshot.pocessor';
 
@@ -25,6 +27,7 @@ export class SnapshotMatcher {
   public async match(): Promise<jest.CustomMatcherResult> {
     const {current, previous, snapshotPath} = this.received;
     if (!previous.buffer) {
+      mkDir(path.dirname(snapshotPath));
       current.img.toFile(snapshotPath);
       return this.getMatcherResult(true, `New snapshot was created: ${snapshotPath}`);
     }
@@ -40,7 +43,7 @@ export class SnapshotMatcher {
   }
 
   protected async compareImages(): Promise<{reason: 'content' | 'error', path?: string} | undefined> {
-    const {current, previous} = this.received;
+    const {current, previous, diffPath} = this.received;
     const prevImg = previous.buffer!;
     const currImg = current.buffer;
 
@@ -49,7 +52,10 @@ export class SnapshotMatcher {
     try {
       const numDiffPixel = pixelmatch(prevImg.data, currImg.data, diffBuffer, width, height, this.config);
       if (numDiffPixel > width * height * SnapshotMatcher.MIN_DIFF_THRESHOLD) {
-        return {reason: 'content', path: await SnapshotDataProcessor.saveDiffImage(this.received, diffBuffer)};
+        const diffConfig = Object.assign({}, this.received, {diffBuffer});
+        mkDir(path.dirname(diffPath));
+        await (await DiffImageComposer.compose(diffConfig)).toFile(diffPath);
+        return {reason: 'content', path: diffPath};
       }
     } catch (e) {
       return {reason: 'error'};
