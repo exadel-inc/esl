@@ -1,8 +1,6 @@
 import {RuleTester} from 'eslint';
 import {buildRule} from '../src/core/deprecated-class-method';
 
-import deprecatedMediaRuleListParse from '../src/rules/4/deprecated.media-rule-list-parse';
-
 const VALID_CASES = [
   {
     code: `
@@ -182,18 +180,9 @@ describe('ESL Migration Rules: Deprecated Static Method: valid', () => {
   });
 
   const ruleTester = new RuleTester({
+    // @ts-ignore
     parser: require.resolve('@typescript-eslint/parser')
   });
 
   ruleTester.run('deprecated-static-method', rule, {valid: VALID_CASES, invalid: INVALID_CASES_TEST_CLASS});
-});
-
-describe('ESL Migration Rules: Deprecated Static Method: valid', () => {
-  const rule = deprecatedMediaRuleListParse;
-
-  const ruleTester = new RuleTester({
-    parser: require.resolve('@typescript-eslint/parser')
-  });
-
-  ruleTester.run('deprecated-static-method', rule, {valid: VALID_CASES, invalid: INVALID_CASES_RULE_LIST});
 });

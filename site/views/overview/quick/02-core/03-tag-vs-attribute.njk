@@ -1,0 +1,64 @@
+---
+title: ESLBaseElement vs ESLMixinElement
+hash: tag-vs-attribute
+tags: -overview-quick
+parent: 00-core
+---
+
+<div class="esl-animate-slide up" esl-animate="{repeat: true}">
+  <h3 class="text-center mb-4">Tag vs Attribute declaration</h3>
+  <div class="row">
+    <div class="col-6">
+      <h4>ESLBaseElement</h4>
+      {% code 'ts', 'code-block' %}
+        import {ESLBaseElement} from '@exadel/esl';
+
+        class MyCustomTag extends ESLBaseElement {
+          static is = 'my-custom-tag';
+
+          static observedAttributes = ['attr'];
+
+          override connectedCallback() {
+            super.connectedCallback();
+            const attr = this.$$attr('attr');
+            this.innerHTML = `Hello, ${attr}`;
+          }
+          override disconnectedCallback() {
+            super.disconnectedCallback();
+            this.innerHTML = '';
+          }
+          override attributeChangedCallback(name, oldValue, newValue) {
+            this.innerHTML = `Hello, ${newValue}`;
+          }
+        }
+        MyCustomTag.register();
+      {% endcode %}
+    </div>
+    <div class="col-6">
+      <h4>ESLMixinElement</h4>
+      {% code 'ts', 'code-block' %}
+        import {ESLMixinElement} from '@exadel/esl';
+
+        class MyCustomAttr extends ESLMixinElement {
+          static is = 'my-custom-attr';
+          // Note: mixin base attribute observed out of the box
+          // static observedAttributes = ['additional-attr'];
+
+          override connectedCallback() {
+            super.connectedCallback();
+            const attr = this.$$attr('my-custom-attr');
+            this.$host.innerHTML = `Hello, ${attr}`;
+          }
+          override disconnectedCallback() {
+            super.disconnectedCallback();
+            this.$host.innerHTML = '';
+          }
+          override attributeChangedCallback(name, oldValue, newValue) {
+            this.$host.innerHTML = `Hello, ${newValue}`;
+          }
+        }
+        MyCustomAttr.register();
+      {% endcode %}
+    </div>
+  </div>
+</div>

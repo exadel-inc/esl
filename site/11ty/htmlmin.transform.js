@@ -12,7 +12,7 @@ const MINIFICATION_CFG = {
   ignoreCustomFragments: [
     /<%[\s\S]*?%>/,
     /<\?[\s\S]*?\?>/,
-    /<script\stype="text\/html"\s*[\s\S]*?<\/script>/i
+    /<script\s+[^>]*type="text\/(?:html|plain)"[^>]*>[\s\S]*?<\/script>/i
   ]
 };
 

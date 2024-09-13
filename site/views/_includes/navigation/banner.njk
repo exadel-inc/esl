@@ -1,15 +1,12 @@
 {% if banner.title and not banner.disabled %}
-<esl-d-banner close-on=".close-button"
-              cookie-name="{{banner.cookie or ''}}"
-              role="note"
-              aria-live="polite">
-  <div class="banner" tabindex="-1">
-    <h5 class="banner-title h4">{{ banner.title }}</h5>
-    <div class="markdown-container">{% markdown %} {{ banner.content }} {% endmarkdown %}</div>
+  <esl-d-banner class="footer-banner container" cookie-name="{{banner.cookie or ''}}">
+    <div class="alert alert-info esl-animate-slide up">
+      <button type="button" class="close close-button" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
 
-    <button type="button" class="close close-button" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-</esl-d-banner>
+      <h5>{{ banner.title }}</h5>
+      <div class="markdown-container no-margin small">{% markdown %} {{ banner.content }} {% endmarkdown %}</div>
+    </div>
+  </esl-d-banner>
 {% endif %}

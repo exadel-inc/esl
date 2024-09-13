@@ -14,8 +14,8 @@ const extractAttrs = (token) => {
 const renderImage = (attrs) => {
   const {src, alt, width, height} = attrs;
   const style = width * height ? `aspect-ratio: ${width} / ${height};` : '';
-  return `<div class="img-container" style="${style}">
-    <esl-image lazy container-class mode="fit" alt="${alt}" data-src="${src}"></esl-image>
+  return `<div class="img-container img-container-no-ratio" style="${style}" esl-image-container>
+    <img loading="lazy" class="img-fade ${style ? 'img-contain' : ''}" alt="${alt}" src="${src}"/>
   </div>`;
 };
 

@@ -9,6 +9,7 @@ import {ESLEventListener} from '../listener';
 import {ESLWheelEvent} from './wheel.target.event';
 
 import type {ESLWheelEventInfo} from './wheel.target.event';
+import type {Predicate} from '../../../esl-utils/misc/functions';
 import type {ESLDomElementTarget} from '../../../esl-utils/abstract/dom-target';
 import type {ElementScrollOffset} from '../../../esl-utils/dom/scroll';
 
@@ -24,6 +25,10 @@ export interface ESLWheelTargetSetting {
   distance?: number;
   /** The maximum duration of the wheel events to consider it inertial */
   timeout?: number;
+  /** Predicate to ignore wheel events */
+  ignore?: Predicate<WheelEvent>;
+  /** Prevent default action for wheel event */
+  preventDefault?: boolean;
 }
 
 /**
@@ -33,7 +38,9 @@ export class ESLWheelTarget extends SyntheticEventTarget {
   protected static defaultConfig: Required<ESLWheelTargetSetting> = {
     skipOnScroll: true,
     distance: 400,
-    timeout: 100
+    timeout: 100,
+    preventDefault: false,
+    ignore: () => false
   };
 
   protected readonly config: Required<ESLWheelTargetSetting>;
@@ -70,10 +77,12 @@ export class ESLWheelTarget extends SyntheticEventTarget {
   /** Handles wheel events */
   @bind
   protected _onWheel(event: WheelEvent): void {
+    if (this.config.ignore(event)) return;
     if (this.config.skipOnScroll) {
       const offsets = getParentScrollOffsets(event.target as Element, this.target);
       this.scrollData = this.scrollData.concat(offsets);
     }
+    if (this.config.preventDefault) event.preventDefault();
     this.aggregateWheel(event);
   }
 
@@ -143,7 +152,11 @@ export class ESLWheelTarget extends SyntheticEventTarget {
     super.addEventListener(event, callback);
 
     if (this.getEventListeners().length > 1) return;
-    ESLEventListener.subscribe(this, this._onWheel, {event: 'wheel', capture: false, target: this.target});
+    ESLEventListener.subscribe(this, this._onWheel, {
+      event: 'wheel',
+      passive: !this.config.preventDefault,
+      target: this.target
+    });
   }
 
   /** Unsubscribes from the observed target {@link Element} wheel events */

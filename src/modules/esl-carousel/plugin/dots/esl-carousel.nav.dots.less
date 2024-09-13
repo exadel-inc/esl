@@ -1,0 +1,39 @@
+/* ESLCarouselNavDots default styles */
+.esl-carousel-dots {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  gap: 0.5rem;
+  margin: 1rem auto;
+
+  &:empty {
+    display: none;
+  }
+}
+
+.esl-carousel-dot {
+  margin: 0;
+  padding: 0;
+  flex: 0 0 auto;
+  min-width: 9px;
+  box-sizing: content-box;
+  aspect-ratio: 1;
+  border-radius: 100%;
+
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  appearance: none;
+
+  &:is(*, :focus, :active, :hover) {
+    border: var(--esl-carousel-dot-border, 1px solid transparent);
+    background: var(--esl-carousel-dot-color, rgba(118, 118, 118, 0.5));
+    background-clip: content-box;
+  }
+
+  &[active] {
+    border: var(--esl-carousel-dot-active-border, 1px solid #bababa);
+    background: var(--esl-carousel-dot-active-color, rgba(255, 255, 255, 0.5));
+    background-clip: content-box;
+  }
+}

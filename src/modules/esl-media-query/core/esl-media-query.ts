@@ -105,11 +105,6 @@ export abstract class ESLMediaQuery implements IMediaQueryCondition {
   public abstract addEventListener(type: 'change', callback: EventListener): void;
   public abstract removeEventListener(callback: EventListener): void;
   public abstract removeEventListener(type: 'change', callback: EventListener): void;
-
-  /** @deprecated alias for `addEventListener` */
-  public abstract addListener(cb: EventListener): void;
-  /** @deprecated alias for `removeEventListener` */
-  public abstract removeListener(cb: EventListener): void;
 }
 
 // Register otb preprocessors
