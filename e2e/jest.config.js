@@ -1,6 +1,11 @@
 // Test env in dev mode produces a big amount of stdin/out listeners, so limit increased
 require('events').EventEmitter.defaultMaxListeners  = 50;
 
+// Cleanup diff output directory
+const rimraf = require('rimraf');
+rimraf.sync('./.diff');
+
+// Actual Jest configuration
 module.exports = {
   preset: 'jest-puppeteer',
   transform: {
@@ -10,7 +15,7 @@ module.exports = {
   roots: ['./tests/'],
   testRegex: ['(.+)\\.(spec|test)\\.ts$', '(.+).feature'],
   moduleFileExtensions: ['ts', 'js', 'feature'],
-  setupFilesAfterEnv: ['./setup/image.ts', './setup/scenarios.ts'],
+  setupFilesAfterEnv: ['./setup/serializers/image-snapshot.ts', './setup/scenarios.ts'],
   reporters: [
     ['./reporters/reporter.js', {
       diffDir: './.diff',

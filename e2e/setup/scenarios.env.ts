@@ -2,7 +2,7 @@ import {cucumber} from '../transformer/gherkin';
 import type {ElementHandle} from 'puppeteer';
 
 export interface TestEnv {
-  screenshots: (string | Buffer)[];
+  screenshots: (string | Uint8Array)[];
   elements: ElementHandle[];
 }
 
