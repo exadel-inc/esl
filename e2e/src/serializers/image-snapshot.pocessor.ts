@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 
-import {getDiffDir, getSnapshotDir, buildSnapshotName} from '../../utils/image-snapshot.name';
+import {getDiffDir, getSnapshotDir, buildSnapshotName} from '../utils/image-snapshot.name';
 import {SharpService} from './image-snapshot.sharp';
 
 import type sharp from 'sharp';
