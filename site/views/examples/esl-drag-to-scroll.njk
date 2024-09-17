@@ -1,0 +1,74 @@
+---
+layout: content
+title: ESL Drag to Scroll
+seoTitle: Handle drag-to-scroll functionality for any scrollable content using ESL Mixin
+name: Drag to Scroll
+tags: [examples, playground]
+icon: examples/scrollbar.svg
+aside:
+  components:
+    - esl-drag-to-scroll
+---
+<section class="row">
+  <div class="col-12">
+    <uip-root>
+      <script type="text/html"
+              label="Both (Default)"
+              uip-snippet
+              uip-snippet-js="js-snippet-scrollbar">
+        <section style="resize: both; overflow: hidden; max-width: 100%; height: 500px; max-height: 70vh;" class="border bg-white relative-block">
+          <div style="max-width: 100%; max-height: 100%;" class="p-4 esl-scrollable-content" esl-drag-to-scroll>
+            <div style="min-width: 50vw">
+              <h2>Horizontal scroll appears only if content is too long for the area (resize the section by dragging the lower right corner)</h2>
+              <!-- paragraph x10 -->
+            </div>
+          </div>
+          <esl-scrollbar class="scrollbar-blue" target="::prev(.esl-scrollable-content)"></esl-scrollbar>
+          <esl-scrollbar class="scrollbar-blue scrollbar-second" target="::prev(.esl-scrollable-content)" horizontal></esl-scrollbar>
+        </section>
+      </script>
+
+      <script type="text/html"
+              label="Vertical"
+              uip-snippet
+              uip-snippet-js="js-snippet-scrollbar">
+        <section class="border bg-white relative-block">
+          <div class="p-4 esl-scrollable-content" esl-drag-to-scroll="{axis: 'y'}">
+            <div style="height: 500px">
+              <h2>Simple vertical drag to scroll example</h2>
+              <!-- paragraph x25 -->
+            </div>
+          </div>
+          <esl-scrollbar class="scrollbar-blue" target="::prev"></esl-scrollbar>
+        </section>
+      </script>
+
+      <script type="text/html"
+              label="Horizontal"
+              uip-snippet
+              uip-snippet-js="js-snippet-scrollbar">
+        <section class="border bg-white relative-block">
+          <div class="p-4 esl-scrollable-content" esl-drag-to-scroll="{axis: 'x'}">
+            <div style="width: 3200px;">
+              <h2>Simple horizontal drag to scroll example</h2>
+              <!-- paragraph x4 -->
+            </div>
+          </div>
+          <esl-scrollbar class="scrollbar-blue" target="::prev" horizontal></esl-scrollbar>
+        </section>
+      </script>
+
+      <script id="js-snippet-scrollbar" type="text/plain">
+        import { ESLScrollbar, ESLDragToScrollMixin } from '@exadel/esl';
+
+        ESLScrollbar.register();
+        ESLDragToScrollMixin.register();
+      </script>
+
+      <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
+      <uip-preview></uip-preview>
+      <uip-editor label="Source code (HTML)" collapsible copy></uip-editor>
+      <uip-editor source="js" label="Source code (JS)" collapsible collapsed copy></uip-editor>
+    </uip-root>
+  </div>
+</section>
