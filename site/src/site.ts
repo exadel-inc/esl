@@ -22,6 +22,7 @@ import {
   ESLTabs,
   ESLTab,
   ESLScrollbar,
+  ESLDragToScrollMixin,
   ESLAlert,
   ESLToggleableDispatcher,
   ESLSelect,
@@ -102,6 +103,7 @@ ESLA11yGroup.register();
 ESLTabs.register();
 
 ESLScrollbar.register();
+ESLDragToScrollMixin.register();
 
 ESLAlert.register();
 ESLAlert.init({

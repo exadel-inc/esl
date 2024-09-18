@@ -31,6 +31,7 @@ export * from './esl-open-state/core';
 
 // Scrollbar
 export * from './esl-scrollbar/core';
+export * from './esl-drag-to-scroll/core';
 
 // Alert
 export * from './esl-alert/core';
