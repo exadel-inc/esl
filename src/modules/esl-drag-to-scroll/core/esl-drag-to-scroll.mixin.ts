@@ -81,19 +81,19 @@ export class ESLDragToScrollMixin extends ESLMixinElement {
   /** @returns the offset of the pointer event relative to the start event */
   public getEventOffset(event: PointerEvent): Point {
     if (!this.startEvent || event.type === 'pointercancel') return {x: 0, y: 0};
-    const x = event.clientX - this.startEvent.clientX;
-    const y = event.clientY - this.startEvent.clientY;
+    const x = this.startEvent.clientX - event.clientX;
+    const y = this.startEvent.clientY - event.clientY;
     return {x, y};
   }
 
   /** Scrolls the host element by the specified offset */
   public scrollBy(offset: Point): void {
     if (this.config.axis === 'x' || this.config.axis === 'both') {
-      this.$host.scrollLeft = this.startScrollLeft - offset.x;
+      this.$host.scrollLeft = this.startScrollLeft + offset.x;
     }
 
     if (this.config.axis === 'y' || this.config.axis === 'both') {
-      this.$host.scrollTop = this.startScrollTop - offset.y;
+      this.$host.scrollTop = this.startScrollTop + offset.y;
     }
   }
 
@@ -127,15 +127,11 @@ export class ESLDragToScrollMixin extends ESLMixinElement {
   /** Handles the pointerup and pointercancel events to stop dragging */
   @listen({auto: false, event: 'pointerup pointercancel', group: 'pointer'})
   private onPointerUp(event: PointerEvent): void {
-    if (!this.isDragging) return;
-
-    this.isDragging = false;
     this.$$off({group: 'pointer'});
-
     if (this.$host.hasPointerCapture(event.pointerId)) {
       this.$host.releasePointerCapture(event.pointerId);
     }
-
     this.scrollBy(this.getEventOffset(event));
+    this.isDragging = false;
   }
 }
