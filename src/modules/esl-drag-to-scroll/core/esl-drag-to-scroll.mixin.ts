@@ -1,5 +1,5 @@
 import {ESLMixinElement} from '../../esl-mixin-element/core';
-import {jsonAttr, listen, memoize} from '../../esl-utils/decorators';
+import {listen, memoize} from '../../esl-utils/decorators';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 
 import type {Point} from '../../esl-utils/dom/point';
