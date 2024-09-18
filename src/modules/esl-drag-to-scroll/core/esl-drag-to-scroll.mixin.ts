@@ -1,7 +1,9 @@
 import {ESLMixinElement} from '../../esl-mixin-element/core';
 import {jsonAttr, listen, memoize} from '../../esl-utils/decorators';
+import {ExportNs} from '../../esl-utils/environment/export-ns';
 
 import type {Point} from '../../esl-utils/dom/point';
+import {evaluate} from '../../esl-utils/misc/format';
 
 /**
  * ESLDragToScrollConfig - configuration options for the ESLDragToScrollMixin
@@ -28,6 +30,7 @@ export interface ESLDragToScrollConfig {
  * </div>
  * ```
  */
+@ExportNs('DragToScrollMixin')
 export class ESLDragToScrollMixin extends ESLMixinElement {
   public static override is = 'esl-drag-to-scroll';
 
@@ -39,9 +42,6 @@ export class ESLDragToScrollMixin extends ESLMixinElement {
     selection: true
   };
 
-  /** Raw configuration object, provided via the `esl-drag-to-scroll` attribute */
-  @jsonAttr({name: ESLDragToScrollMixin.is}) public rawConfig: Partial<ESLDragToScrollConfig>;
-
   /** Initial pointer event when dragging starts */
   private startEvent: PointerEvent;
 
@@ -50,20 +50,27 @@ export class ESLDragToScrollMixin extends ESLMixinElement {
 
   private _isDragging: boolean = false;
 
+  /** Flag indicating whether dragging is in progress */
+  public get isDragging(): boolean {
+    return this._isDragging;
+  }
   private set isDragging(value: boolean) {
     this._isDragging = value;
     this.$$cls(this.config.cls, value);
   }
 
-  /** Flag indicating whether dragging is in progress */
-  public get isDragging(): boolean {
-    return this._isDragging;
-  }
-
-  /** Merged configuration object combining default and raw configuration */
+  /**
+   * Mixin configuration (merged with default)
+   * @see ESLDragToScrollConfig
+   */
   @memoize()
   public get config(): ESLDragToScrollConfig {
-    return {...ESLDragToScrollMixin.DEFAULT_CONFIG, ...this.rawConfig};
+    const config = evaluate(this.$$attr(ESLDragToScrollMixin.is)!, {});
+    return {...ESLDragToScrollMixin.DEFAULT_CONFIG, ...config};
+  }
+  public set config(value: ESLDragToScrollConfig | string) {
+    const serialized = typeof value === 'string' ? value : JSON.stringify(value);
+    this.$$attr(ESLDragToScrollMixin.is, serialized);
   }
 
   /** Flag indicating whether text is selected */
