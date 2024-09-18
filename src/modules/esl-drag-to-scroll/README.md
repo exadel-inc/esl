@@ -8,23 +8,22 @@ Authors: *Anna Barmina*, *Alexey Stsefanovich (ala'n)*
 
 ## ESL Drag To Scroll Mixin
 
-`ESLDragToScrollMixin` (`esl-drag-to-scroll`) is a custom element that enables drag-to-scroll functionality for any scrollable container element.
+`ESLDragToScrollMixin` (`esl-drag-to-scroll`) is a custom attribute that enables drag-to-scroll functionality for any scrollable container element.
 This mixin enhances user experience by allowing intuitive drag-based scrolling, making it easier to navigate through content.
 
 ### Configuration
 The mixin uses a primary attribute, `esl-drag-to-scroll`, with optional configuration passed as a JSON attribute value.
 
 **Configuration options:**
-- `axis` (string) - determines the scrolling axis. Options include:
+- `axis` (string) - determines the scrolling axis to control. Possible values:
   - `'both'` - both horizontal and vertical scrolling (by default);
   - `'x'` - horizontal scrolling only;
   - `'y'` - vertical scrolling only.
 - `cls` (string) - class to apply to the element during dragging to indicate the drag state.
   By default, the class `dragging` is applied.
-- `tolerance` (number) - number of pixels the cursor should move before the drag starts.
+- `tolerance` (number) - a minimum distance to move before the drag action starts.
   By default, the value is 10.
-- `selection` (boolean) - determines whether text can be selected.
-  Default is true.
+- `selection` (boolean) - Determines whether the text should prevent the drag-scroll action. The default value is true.
 
 **Default Configuration"**
 The default configuration for the mixin is as follows:
