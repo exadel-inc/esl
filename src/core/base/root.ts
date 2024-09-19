@@ -9,7 +9,8 @@ import {
 import {UIPStateModel} from './model';
 
 import type {UIPSnippetTemplate} from './snippet';
-import {UIPChangeEvent, UIPChangeInfo} from './model.change';
+import {UIPChangeEvent} from './model.change';
+import type {UIPChangeInfo} from './model.change';
 
 /**
  * UI Playground root custom element definition
