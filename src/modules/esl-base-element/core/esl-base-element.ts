@@ -59,7 +59,7 @@ export abstract class ESLBaseElement extends HTMLElement implements ESLBaseCompo
    */
   protected attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null): void {}
 
-  /** Check that the element's `connectedCallback` has been executed */
+  /** Checks that the element's `connectedCallback` has been executed */
   public get connected(): boolean {
     return this._connected;
   }
