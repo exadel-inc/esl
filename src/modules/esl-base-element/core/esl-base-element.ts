@@ -44,7 +44,8 @@ export abstract class ESLBaseElement extends HTMLElement implements ESLBaseCompo
     this._connected = true;
     this.classList.add(this.baseTagName);
 
-    ESLEventUtils.subscribe(this);
+    // Automatic subscription happens only if the element is currently in the DOM
+    if (this.isConnected) ESLEventUtils.subscribe(this);
   }
   protected disconnectedCallback(): void {
     this._connected = false;
@@ -58,7 +59,7 @@ export abstract class ESLBaseElement extends HTMLElement implements ESLBaseCompo
    */
   protected attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null): void {}
 
-  /** Check that the element is connected and `connectedCallback` has been executed */
+  /** Checks that the element's `connectedCallback` has been executed */
   public get connected(): boolean {
     return this._connected;
   }
