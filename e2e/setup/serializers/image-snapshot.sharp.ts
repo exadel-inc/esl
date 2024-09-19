@@ -38,6 +38,8 @@ export class SharpService {
       height: number,
       metadata: sharp.Metadata
     ): Promise<Buffer> => {
+      if (metadata.width === width && metadata.height === height) return image.toBuffer();
+
       const padX = Math.max(0, (width - metadata.width!) / 2);
       const padY = Math.max(0, (height - metadata.height!) / 2);
 
