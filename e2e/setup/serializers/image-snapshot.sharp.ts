@@ -21,4 +21,38 @@ export class SharpService {
   public static toJPEGBufferd(input: string | Buffer, options: any = {}): Promise<Buffer> {
     return SharpService.toJPEG(input, options).toBuffer();
   }
+
+  public static async normalizeImages(img1: Buffer | string, img2: Buffer | string): Promise<[Buffer, Buffer]> {
+    const imgCtx1 = sharp(img1);
+    const imgCtx2 = sharp(img2);
+
+    const metadata1 = await imgCtx1.metadata();
+    const metadata2 = await imgCtx2.metadata();
+
+    const targetWidth = Math.max(metadata1.width!, metadata2.width!);
+    const targetHeight = Math.max(metadata1.height!, metadata2.height!);
+
+    const padImage = async (
+      image: sharp.Sharp,
+      width: number,
+      height: number,
+      metadata: sharp.Metadata
+    ): Promise<Buffer> => {
+      const padX = Math.max(0, (width - metadata.width!) / 2);
+      const padY = Math.max(0, (height - metadata.height!) / 2);
+
+      return image.extend({
+        top: Math.floor(padY),
+        bottom: Math.ceil(padY),
+        left: Math.floor(padX),
+        right: Math.ceil(padX),
+        background: {r: 255, g: 255, b: 255, alpha: 1}
+      })
+        .toBuffer();
+    };
+
+    const normalizedBuffer1 = await padImage(imgCtx1, targetWidth, targetHeight, metadata1);
+    const normalizedBuffer2 = await padImage(imgCtx2, targetWidth, targetHeight, metadata2);
+    return [normalizedBuffer1, normalizedBuffer2];
+  }
 }
