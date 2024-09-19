@@ -1,3 +1,13 @@
+## [5.0.0-beta.34](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.33...v5.0.0-beta.34) (2024-09-19)
+
+### Features
+
+* **esl-drag-to-scroll:** create mixin to enable drag-to-scroll functionality ([1ff5242](https://github.com/exadel-inc/esl/commit/1ff5242bb942d304278d7c8469b084ba2ad5470b))
+
+### Bug Fixes
+
+* **esl-base-element:** fix subscription for component that currently out of DOM ([a2526c9](https://github.com/exadel-inc/esl/commit/a2526c9083dddeceed3a123a40060be4f932b001))
+
 ## [5.0.0-beta.33](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.32...v5.0.0-beta.33) (2024-08-22)
 
 ### Bug Fixes
