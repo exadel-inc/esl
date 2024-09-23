@@ -23,7 +23,7 @@
     "test": "echo \"Warn: no test declared for module\" && exit 0"
   },
   "dependencies": {
-    "@exadel/esl": "^5.0.0-beta.33",
+    "@exadel/esl": "^5.0.0-beta.34",
     "@exadel/ui-playground": "../",
     "@11ty/eleventy": "^2.0.1",
     "@11ty/eleventy-dev-server": "^2.0.4",
