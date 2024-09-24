@@ -96,7 +96,7 @@
   "devDependencies": {
     "@commitlint/cli": "^19.5.0",
     "@commitlint/config-conventional": "^19.5.0",
-    "@eslint/js": "^9.9.1",
+    "@eslint/js": "^9.11.1",
     "@exadel/eslint-plugin-esl": "file:eslint",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/commit-analyzer": "^13.0.0",
