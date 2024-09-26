@@ -15,7 +15,7 @@
   ],
   "scripts": {
     "prepare": "npm run build",
-    "test": "",
+    "test": "jest",
     "clean": "rimraf dist",
     "build": "npm run clean && tsc --project tsconfig.build.json"
   },

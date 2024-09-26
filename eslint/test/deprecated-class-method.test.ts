@@ -60,10 +60,7 @@ const INVALID_CASES_TEST_CLASS = [
     `,
     errors: [
       '[ESL Lint]: Deprecated static method TestClass.oldMethod, use newMethodNoArgs instead'
-    ],
-    output: `
-      TestClass.oldMethod();
-    `
+    ]
   }, {
     code: `
       TestClass.oldMethod(1, () => {});
@@ -97,70 +94,6 @@ const INVALID_CASES_TEST_CLASS = [
   }
 ];
 
-const INVALID_CASES_RULE_LIST = [
-  {
-    code: `
-      const t = ESLMediaRuleList.parse;
-    `,
-    errors: [
-      '[ESL Lint]: Deprecated static method ESLMediaRuleList.parse, use ESLMediaRuleList.parseQuery or ESLMediaRuleList.parseTuple instead'
-    ],
-    output: `
-      const t = ESLMediaRuleList.parse;
-    `
-  }, {
-    code: `
-      ESLMediaRuleList.parse;
-    `,
-    errors: [
-      '[ESL Lint]: Deprecated static method ESLMediaRuleList.parse, use ESLMediaRuleList.parseQuery or ESLMediaRuleList.parseTuple instead'
-    ],
-    output: `
-      ESLMediaRuleList.parse;
-    `
-  }, {
-    code: `
-      ESLMediaRuleList.parse('1 | 2');
-    `,
-    errors: [
-      '[ESL Lint]: Deprecated static method ESLMediaRuleList.parse, use ESLMediaRuleList.parseQuery instead'
-    ],
-    output: `
-      ESLMediaRuleList.parseQuery('1 | 2');
-    `
-  }, {
-    code: `
-      ESLMediaRuleList.parse('1 | 2', '3|4');
-    `,
-    errors: [
-      '[ESL Lint]: Deprecated static method ESLMediaRuleList.parse, use ESLMediaRuleList.parseTuple instead'
-    ],
-    output: `
-      ESLMediaRuleList.parseTuple('1 | 2', '3|4');
-    `
-  }, {
-    code: `
-      ESLMediaRuleList.parse('1 | 2', \`3|4\`);
-    `,
-    errors: [
-      '[ESL Lint]: Deprecated static method ESLMediaRuleList.parse, use ESLMediaRuleList.parseTuple instead'
-    ],
-    output: `
-      ESLMediaRuleList.parseTuple('1 | 2', \`3|4\`);
-    `
-  }, {
-    code: `
-      ESLMediaRuleList.parse('1 | 2', '3|4', String);
-    `,
-    errors: [
-      '[ESL Lint]: Deprecated static method ESLMediaRuleList.parse, use ESLMediaRuleList.parseTuple instead'
-    ],
-    output: `
-      ESLMediaRuleList.parseTuple('1 | 2', '3|4', String);
-    `
-  }
-];
-
 describe('ESL Migration Rules: Deprecated Static Method: valid', () => {
   const rule = buildRule({
     className: 'TestClass',
@@ -179,10 +112,7 @@ describe('ESL Migration Rules: Deprecated Static Method: valid', () => {
     }
   });
 
-  const ruleTester = new RuleTester({
-    // @ts-ignore
-    parser: require.resolve('@typescript-eslint/parser')
-  });
+  const ruleTester = new RuleTester();
 
   ruleTester.run('deprecated-static-method', rule, {valid: VALID_CASES, invalid: INVALID_CASES_TEST_CLASS});
 });
