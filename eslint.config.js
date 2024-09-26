@@ -13,5 +13,8 @@ module.exports = [
   ...require('./linting/eslint.config.stylistic'),
   ...require('./linting/eslint.config.editorconfig'),
   ...require('./linting/eslint.config.import'),
-  ...require('./linting/eslint.config.tsdoc')
+  ...require('./linting/eslint.config.tsdoc'),
+
+  // ESL ESLint Plugin
+  ...require('@exadel/eslint-plugin-esl').configs.recommended
 ];

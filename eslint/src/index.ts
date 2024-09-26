@@ -7,11 +7,10 @@ import type {Rule} from 'eslint';
 
 export type logLevel = 'warn' | 'error';
 
-const buildDefault = (definition: Record<string, Rule.RuleModule>, level: logLevel): Record<string, logLevel> => {
+const buildDefault = (definition: Record<string, Rule.RuleModule>, level: logLevel, prefix = '@exadel/esl'): Record<string, logLevel> => {
   const config: Record<string, logLevel> = {};
   for (const name of Object.keys(definition)) {
-    const rule = `@exadel/esl/${name}`;
-    config[rule] = level;
+    config[`${prefix}/${name}`] = level;
   }
   return config;
 };
@@ -36,3 +35,23 @@ export const configs = {
     }
   }
 };
+
+const plugin = {
+  rules,
+  configs
+};
+
+// ESLint 9 compatibility
+Object.assign(plugin.configs, {
+  'recommended': [{
+    plugins: {
+      '@exadel/esl': plugin
+    },
+    rules: {
+      ...buildDefault(DEPRECATED_4_RULES, 'error'),
+      ...buildDefault(DEPRECATED_5_RULES, 'warn')
+    }
+  }]
+});
+
+export default plugin;
