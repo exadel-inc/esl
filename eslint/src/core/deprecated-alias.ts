@@ -27,7 +27,7 @@ export function buildRule({deprecation, alias}: ESLintDeprecationCfg): Rule.Rule
   const create = (context: Rule.RuleContext): Rule.RuleListener => ({
     ImportSpecifier(node: ImportNode): null {
       const importedValue = node.imported;
-      if (importedValue.name === deprecation) {
+      if (importedValue.type === 'Identifier' && importedValue.name === deprecation) {
         context.report({
           node,
           message: `[ESL Lint]: Deprecated alias ${deprecation} for ${alias}`,
@@ -61,6 +61,8 @@ function buildFixer(node: ImportNode, context: Rule.RuleContext, alias: string):
 // eslint-disable-next-line sonarjs/cognitive-complexity
 function getIdentifierRanges(importNode: ImportNode, context: Rule.RuleContext): (AST.Range | undefined)[] {
   const root = findRoot(importNode);
+  if (importNode.imported.type !== 'Identifier' || !root) return [];
+
   const {name} = importNode.imported;
   const identifiers = findAllBy(context, root, {type: 'Identifier', name});
 
