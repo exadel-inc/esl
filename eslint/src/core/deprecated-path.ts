@@ -26,6 +26,8 @@ export function buildRule(configs: ESLintDeprecationImportCfg | ESLintDeprecatio
   const create = (context: Rule.RuleContext): Rule.RuleListener => ({
     ImportSpecifier(node: ImportNode): null {
       const importedValue = node.imported;
+      if (importedValue.type !== 'Identifier') return null;
+
       const importedSource = (node.parent as ESTree.ImportDeclaration).source.value;
 
       for (const cfg of configs) {

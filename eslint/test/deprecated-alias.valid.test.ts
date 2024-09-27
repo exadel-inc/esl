@@ -69,10 +69,6 @@ describe('ESL Migration Rules: Deprecated Alias: valid', () => {
     deprecation: 'DeprecatedClassName',
   });
 
-  const ruleTester = new RuleTester({
-    // @ts-ignore
-    parser: require.resolve('@typescript-eslint/parser')
-  });
-
-  ruleTester.run('../base-rules/deprecated-alias', rule, {valid: VALID_CASES, invalid: []});
+  const ruleTester = new RuleTester();
+  ruleTester.run('deprecated-alias', rule, {valid: VALID_CASES, invalid: []});
 });
