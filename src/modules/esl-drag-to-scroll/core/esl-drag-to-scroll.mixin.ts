@@ -1,9 +1,9 @@
 import {ESLMixinElement} from '../../esl-mixin-element/core';
 import {listen, memoize} from '../../esl-utils/decorators';
+import {evaluate} from '../../esl-utils/misc/format';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 
 import type {Point} from '../../esl-utils/dom/point';
-import {evaluate} from '../../esl-utils/misc/format';
 
 /**
  * ESLDragToScrollConfig - configuration options for the ESLDragToScrollMixin
