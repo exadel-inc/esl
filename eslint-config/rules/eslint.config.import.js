@@ -1,9 +1,7 @@
-const importPlugin = require('eslint-plugin-import-x');
-
 module.exports = [
   {
     plugins: {
-      'import': importPlugin
+      'import': require('eslint-plugin-import-x')
     },
     rules: {
       // Enforce a convention in module import order

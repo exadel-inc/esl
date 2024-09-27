@@ -41,9 +41,9 @@ const plugin = {
   configs
 };
 
-// ESLint 9 compatibility
-Object.assign(plugin.configs, {
-  'recommended': [{
+/** Recommended configuration for Flat ESLint Config*/
+export const recommended = [
+  {
     plugins: {
       '@exadel/esl': plugin
     },
@@ -51,7 +51,10 @@ Object.assign(plugin.configs, {
       ...buildDefault(DEPRECATED_4_RULES, 'error'),
       ...buildDefault(DEPRECATED_5_RULES, 'warn')
     }
-  }]
-});
+  }
+];
+
+// ESLint 9 compatibility
+Object.assign(plugin.configs, {recommended});
 
 export default plugin;

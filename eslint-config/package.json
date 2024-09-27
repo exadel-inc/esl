@@ -10,7 +10,10 @@
   "license": "MIT",
   "description": "Shared ESLint config used by ESL (@exadel/esl) team. Internal projects usage.",
   "main": "index.js",
-  "files": [],
+  "files": [
+    "index.js",
+    "rules/*.js"
+  ],
   "scripts": {
     "test": ""
   },

@@ -1,10 +1,9 @@
-const tseslint = require('typescript-eslint');
 module.exports = [
   {
     languageOptions: {
       ecmaVersion: 2017,
       sourceType: "module",
-      parser: tseslint.parser,
+      parser: require('typescript-eslint').parser,
       parserOptions: {
         projectService: true
       }

@@ -1,9 +1,7 @@
-const tsdoc = require('eslint-plugin-tsdoc');
-
 module.exports = [
   {
     plugins: {
-      tsdoc
+      tsdoc: require('eslint-plugin-tsdoc')
     },
     rules: {
       // Enable TS Doc syntax check

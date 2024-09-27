@@ -7,10 +7,12 @@ module.exports = [
   },
   ...require('./eslint.config.ignore'),
 
-  ...require('@exadel/eslint-config-esl').eslrules,
+  // Using shared ESL ESLint Config
+  ...require('@exadel/eslint-config-esl').typescript,
+  ...require('@exadel/eslint-config-esl').recommended,
 
   // ESL ESLint Plugin
-  ...require('@exadel/eslint-plugin-esl').configs.recommended,
+  ...require('@exadel/eslint-plugin-esl').recommended,
 
   // Overrides
   {
