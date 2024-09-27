@@ -17,8 +17,9 @@ To use custom ESLint plugin, you need to install it as npm package:
 npm install --save-dev @exadel/eslint-plugin-esl
 ```
 
-Once installed, the plugin needs to be added in eslint configuration file:
+Once installed, the plugin needs to be added in eslint configuration file.
 
+For ESLint 8.0.0 with legacy config:
 ```json
 {
   // ...
@@ -33,6 +34,16 @@ Or in YAML:
 ```js
   plugins: 
     - "@exadel/esl"
+```
+
+For ESLint +8.0.0 with Flat config:
+```js
+module.exports = [
+    // ESLint configuration
+
+    // Apply Recomended ESL ESLint Plugin checks
+    ...require('@exadel/eslint-plugin-esl').recommended,
+];
 ```
 
 <a name="configuration"></a>
@@ -54,24 +65,24 @@ However, you still have the option to manually manage the rules if needed.
 
 The ESLint plugin provides a separate rule for each deprecated utility within the ESL project, that's considered to be deprecated. Below is the list of them:
 
-- `@exadel/esl/deprecated-4/alert-action-params` - Rule for deprecated `AlertActionParams` alias for `ESLAlertActionParams`.
-- `@exadel/esl/deprecated-4/generate-uid` - Rule for deprecated `generateUId` alias for `randUID`.
-- `@exadel/esl/deprecated-4/deep-compare` - Rule for deprecated `deepCompare` alias for `isEqual`.
-- `@exadel/esl/deprecated-4/event-utils` - Rule for deprecated `EventUtils` alias for `ESLEventUtils`.
-- `@exadel/esl/deprecated-4/panel-action-params` - Rule for deprecated `PanelActionParams` alias for `ESLPanelActionParams`.
-- `@exadel/esl/deprecated-4/popup-action-params` - Rule for deprecated `PopupActionParams` alias for `ESLPopupActionParams`.
-- `@exadel/esl/deprecated-4/traversing-query` - Rule for deprecated `TraversingQuery` alias for `ESLTraversingQuery`.
-- `@exadel/esl/deprecated-4/toggleable-action-params` - Rule for deprecated `ToggleableActionParams` alias for `ESLToggleableActionParams`.
-- `@exadel/esl/deprecated-4/tooltip-action-params` - Rule for deprecated `TooltipActionParams` alias for `ESLTooltipActionParams`.
+- `@exadel/esl/deprecated-4-alert-action-params` - Rule for deprecated `AlertActionParams` alias for `ESLAlertActionParams`.
+- `@exadel/esl/deprecated-4-generate-uid` - Rule for deprecated `generateUId` alias for `randUID`.
+- `@exadel/esl/deprecated-4-deep-compare` - Rule for deprecated `deepCompare` alias for `isEqual`.
+- `@exadel/esl/deprecated-4-event-utils` - Rule for deprecated `EventUtils` alias for `ESLEventUtils`.
+- `@exadel/esl/deprecated-4-panel-action-params` - Rule for deprecated `PanelActionParams` alias for `ESLPanelActionParams`.
+- `@exadel/esl/deprecated-4-popup-action-params` - Rule for deprecated `PopupActionParams` alias for `ESLPopupActionParams`.
+- `@exadel/esl/deprecated-4-traversing-query` - Rule for deprecated `TraversingQuery` alias for `ESLTraversingQuery`.
+- `@exadel/esl/deprecated-4-toggleable-action-params` - Rule for deprecated `ToggleableActionParams` alias for `ESLToggleableActionParams`.
+- `@exadel/esl/deprecated-4-tooltip-action-params` - Rule for deprecated `TooltipActionParams` alias for `ESLTooltipActionParams`.
 
-- `@exadel/esl/deprecated-4/media-rule-list-parse` - Rule for deprecated `ESLMediaRuleList.parse` alias for `ESLMediaRuleList.parseQuery` or `ESLMediaRuleList.parseTuple`.
+- `@exadel/esl/deprecated-4-media-rule-list-parse` - Rule for deprecated `ESLMediaRuleList.parse` alias for `ESLMediaRuleList.parseQuery` or `ESLMediaRuleList.parseTuple`.
 
-- `@exadel/esl/deprecated-4/base-decorators-path` - Rule for deprecated `@attr`, `@prop`, `@boolAttr`, `@jsonAttr`, `@listen` import paths.
+- `@exadel/esl/deprecated-4-base-decorators-path` - Rule for deprecated `@attr`, `@prop`, `@boolAttr`, `@jsonAttr`, `@listen` import paths.
 
-- `@exadel/esl/deprecated-5/alert-action-params` - Rule for deprecated `AlertActionParams` alias for `ESLAlertActionParams`.
-- `@exadel/esl/deprecated-5/panel-action-params` - Rule for deprecated `PanelActionParams` alias for `ESLPanelActionParams`.
-- `@exadel/esl/deprecated-5/popup-action-params` - Rule for deprecated `PopupActionParams` alias for `ESLPopupActionParams`.
-- `@exadel/esl/deprecated-5/tooltip-action-params` - Rule for deprecated `TooltipActionParams` alias for `ESLTooltipActionParams`.
+- `@exadel/esl/deprecated-5-alert-action-params` - Rule for deprecated `AlertActionParams` alias for `ESLAlertActionParams`.
+- `@exadel/esl/deprecated-5-panel-action-params` - Rule for deprecated `PanelActionParams` alias for `ESLPanelActionParams`.
+- `@exadel/esl/deprecated-5-popup-action-params` - Rule for deprecated `PopupActionParams` alias for `ESLPopupActionParams`.
+- `@exadel/esl/deprecated-5-tooltip-action-params` - Rule for deprecated `TooltipActionParams` alias for `ESLTooltipActionParams`.
 
 These rules can be configured manually inside the `rules` section of your ESLint configuration file.
 

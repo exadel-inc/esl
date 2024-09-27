@@ -86,8 +86,8 @@
     "prepare": "husky && npm run build",
     "preversion": "npm test",
     "version": "cross-env-shell \"npm version $npm_package_version --no-git-tag-version --ws\" && git add **/package*.json",
-    "postpack": "npm pack --workspace eslint-plugin",
-    "postpublish": "npm publish --workspace eslint-plugin",
+    "postpack": "npm pack --workspace eslint-plugin --workspace eslint-config",
+    "postpublish": "npm publish --workspace eslint-plugin --workspace eslint-config",
     "fix:less": "stylelint --fix \"**/*.less\""
   },
   "dependencies": {
