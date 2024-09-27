@@ -5,7 +5,6 @@ module.exports = [
     plugins: {
       'import': importPlugin
     },
-    files: ["eslint-plugin/src/**/*.ts"],
     rules: {
       // Enforce a convention in module import order
       'import/order': [
@@ -32,17 +31,6 @@ module.exports = [
 
       // Deprecate cyclic dependencies
       'import/no-cycle': 'error'
-    }
-  },
-  {
-    files: ["site/**/*.ts"],
-    rules: {
-      'no-restricted-imports': ["error", {
-        "patterns": [{
-          "group": ["../../**/modules/**", "../../**/polyfills/**"],
-          'message': "Do not import from src/modules directly. Use the `@exadel/esl` package resolved by NPM workspaces instead."
-        }]
-      }]
     }
   }
 ]

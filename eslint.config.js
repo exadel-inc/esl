@@ -5,16 +5,29 @@ module.exports = [
       reportUnusedDisableDirectives: "warn"
     }
   },
-  ...require('./linting/eslint.config.ignore'),
-  ...require('./linting/eslint.config.language'),
-  ...require('./linting/eslint.config.codestyle'),
-  ...require('./linting/eslint.config.coderules'),
-  ...require('./linting/eslint.config.sonarjs'),
-  ...require('./linting/eslint.config.stylistic'),
-  ...require('./linting/eslint.config.editorconfig'),
-  ...require('./linting/eslint.config.import'),
-  ...require('./linting/eslint.config.tsdoc'),
+  ...require('./eslint.config.ignore'),
+
+  ...require('@exadel/eslint-config-esl').eslrules,
 
   // ESL ESLint Plugin
-  ...require('@exadel/eslint-plugin-esl').configs.recommended
+  ...require('@exadel/eslint-plugin-esl').configs.recommended,
+
+  // Overrides
+  {
+    files: ["**/polyfills/**/*.ts"],
+    rules: {
+      'no-new-wrappers': "off"
+    }
+  },
+  {
+    files: ["site/**/*.ts"],
+    rules: {
+      'no-restricted-imports': ["error", {
+        "patterns": [{
+          "group": ["../../**/modules/**", "../../**/polyfills/**"],
+          'message': "Do not import from src/modules directly. Use the `@exadel/esl` package resolved by NPM workspaces instead."
+        }]
+      }]
+    }
+  }
 ];
