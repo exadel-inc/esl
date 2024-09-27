@@ -68,7 +68,7 @@ plugins:
         - package.json
         - package-lock.json
         - site/package.json
-        - eslint/package.json
+        - eslint-plugin/package.json
       message: "chore(release): ${nextRelease.version} \n\n${nextRelease.notes}"
 
   - - "@semantic-release/github"

@@ -112,9 +112,9 @@ ESL project consists of the following directories:
   - [🔧 webpack.config.js](../site/webpack.config.js) - webpack build file for demo pages
 
 
-- [📁 eslint](../eslint) - sub-package root for ESL ESLint plugin 
-  - [📁 src](../eslint/src) - ESLint plugin sources
-  - [📁 test](../eslint/test) - ESLint plugin tests
+- [📁 eslint-plugin](../eslint-plugin) - sub-package root for ESL ESLint plugin 
+  - [📁 src](../eslint-plugin/src) - ESLint plugin sources
+  - [📁 test](../eslint-plugin/test) - ESLint plugin tests
 
 
 - [📁 build](../build) - library common build scripts

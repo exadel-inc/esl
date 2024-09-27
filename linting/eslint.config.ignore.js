@@ -16,7 +16,7 @@ module.exports = [
       '/polyfills/**',
       // Submodule output
       '/site/dist/**',
-      '/eslint/dist/**',
+      '/eslint-plugin/dist/**',
       // E2E tests commons
       'e2e/reporters/**',
       'e2e/transformer/**',

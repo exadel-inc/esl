@@ -5,7 +5,7 @@ module.exports = [
     plugins: {
       'import': importPlugin
     },
-    files: ["eslint/src/**/*.ts"],
+    files: ["eslint-plugin/src/**/*.ts"],
     rules: {
       // Enforce a convention in module import order
       'import/order': [
