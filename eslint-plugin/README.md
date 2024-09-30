@@ -17,7 +17,7 @@ To use custom ESLint plugin, you need to install it as npm package:
 npm install --save-dev @exadel/eslint-plugin-esl
 ```
 
-Once installed, the plugin needs to be added in eslint configuration file.
+Once installed, the plugin needs to be added to eslint configuration file.
 
 For ESLint 8.0.0 with legacy config:
 ```json

@@ -7,7 +7,7 @@ Authors: *Anastasiya Lesun, Alexey Stsefanovich (ala'n)*.
 Packages maintained by ESL Team often use ESLint to ensure code quality and consistency. 
 To simplify the process of configuring ESLint for these packages, we have developed a shared ESLint configuration. 
 This configuration is designed to be used as a base for ESLint configuration in projects that use ESL package, 
-or desided to follow ESL source code style.
+or decide to follow ESL source code style.
 
 <a name="installation"></a>
 
@@ -19,7 +19,7 @@ To use ESL shared ESLint configuration, you need to install it as npm package:
 npm install --save-dev @exadel/eslint-config-esl
 ```
 
-Ensure that you have the ESLint package of version 9.0.0 or higher, shared configuration distributed only as Flat ESLint config.
+Ensure that you have the ESLint package of version 9.0.0 or higher, shared configuration is distributed only as flat ESLint config.
 
 Once installed, the configuration needs to be added in eslint configuration file:
 
@@ -38,15 +38,15 @@ module.exports = [
 ### Configuration
 
 There are no additional configuration options for ESL Shared ESLint Configuration at that moment. 
-Please be aware that we asre in progress of standardizing rule list and currently considering of suporrting EcmaScript in addition to TypeScript.
+Please be aware that we are in the process of standardizing rule list and are currently considering supporting EcmaScript in addition to TypeScript.
 
-Still yor are able to override any rule from the configuration in your project's ESLint configuration file 
+Still you are able to override any rule from the configuration in your project's ESLint configuration file 
 by declaring it in the `rules` section of the configuration file after applying the shared configuration.
 
 ### Inner Plugins
 
 ESL Shared ESLint Configuration includes several inner plugins that are used to provide additional rules and configurations for ESLint.
-Here is the list of included plugins and thair ESLint aliases:
+Here is the list of included plugins and their ESLint aliases:
 
 - `@stylistic` - code style rules from [@stylistic](https://eslint.style/) project.
 - `typescript-eslint` - TypeScript specific rules from [TypeScript ESLint](https://typescript-eslint.io/) project.
