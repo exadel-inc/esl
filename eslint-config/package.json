@@ -1,11 +1,16 @@
 {
   "name": "@exadel/eslint-config-esl",
+  "private": false,
   "version": "5.0.0-beta.35",
   "keywords": [
     "eslint",
     "eslint-config",
     "esl"
   ],
+  "publishConfig": {
+    "access": "public",
+    "scope": "@exadel"
+  },
   "license": "MIT",
   "description": "Shared ESLint config used by ESL (@exadel/esl) team. Internal projects usage.",
   "main": "index.js",
@@ -27,5 +32,27 @@
   },
   "peerDependencies": {
     "eslint": ">=9.0.0"
-  }
+  },
+  "maintainers": [
+    {
+      "name": "ala-n",
+      "email": "astsefanovich@exadel.com"
+    },
+    {
+      "name": "yadamska",
+      "email": "yadamska@exadel.com"
+    },
+    {
+      "name": "dshovchko",
+      "email": "dshovchko@exadel.com"
+    },
+    {
+      "name": "abarmina",
+      "email": "abarmina@exadel.com"
+    },
+    {
+      "name": "alesun",
+      "email": "alesun@exadel.com"
+    }
+  ]
 }

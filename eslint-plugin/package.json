@@ -1,11 +1,16 @@
 {
   "name": "@exadel/eslint-plugin-esl",
+  "private": false,
   "version": "5.0.0-beta.35",
   "keywords": [
     "eslint",
     "eslint-plugin",
     "esl"
   ],
+  "publishConfig": {
+    "access": "public",
+    "scope": "@exadel"
+  },
   "license": "MIT",
   "description": "Helper ESLint rules to find and migrate ESL (@exadel/esl) library deprecations",
   "main": "dist/index.js",
@@ -29,5 +34,27 @@
   "peerDependencies": {
     "@exadel/esl": "^5.0.0 || ^5.0.0-beta.0",
     "eslint": ">=8.0.0 || >=9.0.0"
-  }
+  },
+  "maintainers": [
+    {
+      "name": "ala-n",
+      "email": "astsefanovich@exadel.com"
+    },
+    {
+      "name": "yadamska",
+      "email": "yadamska@exadel.com"
+    },
+    {
+      "name": "dshovchko",
+      "email": "dshovchko@exadel.com"
+    },
+    {
+      "name": "abarmina",
+      "email": "abarmina@exadel.com"
+    },
+    {
+      "name": "alesun",
+      "email": "alesun@exadel.com"
+    }
+  ]
 }

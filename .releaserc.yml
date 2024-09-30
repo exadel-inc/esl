@@ -77,8 +77,8 @@ plugins:
         - path: ./exadel-esl-*.tgz
           label: Released Core NPM Tarball
         - path: ./exadel-eslint-plugin-esl-*.tgz
-          label: Released ESLint Config NPM Tarball
-        - path: ./exadel-eslint-config-esl-*.tgz
           label: Released ESLint Plugin NPM Tarball
+        - path: ./exadel-eslint-config-esl-*.tgz
+          label: Released ESLint Config NPM Tarball
         - path: CHANGELOG.md
           label: Changelog
