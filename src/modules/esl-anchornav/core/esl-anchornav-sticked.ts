@@ -29,7 +29,7 @@ export class ESLAnchornavSticked extends ESLMixinElement {
   public set sticked(value: boolean) {
     if (this._sticked === value) return;
     this._sticked = value;
-    this.$$attr('sticked', value);
+    this.$$cls(`${ESLAnchornavSticked.is}-active`, value);
     this._onStateChange();
   }
 
@@ -57,7 +57,7 @@ export class ESLAnchornavSticked extends ESLMixinElement {
   }
 
   @listen({event: 'resize', target: (that: ESLAnchornavSticked) => ESLResizeObserverTarget.for(that.$host)})
-  protected _onResize({borderBoxSize}: ESLElementResizeEvent): void {
+  protected _onResize(e: ESLElementResizeEvent): void {
     this._onStateChange();
   }
 }
