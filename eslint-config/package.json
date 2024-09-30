@@ -1,0 +1,31 @@
+{
+  "name": "@exadel/eslint-config-esl",
+  "version": "5.0.0-beta.34",
+  "keywords": [
+    "eslint",
+    "eslint-config",
+    "esl"
+  ],
+  "license": "MIT",
+  "description": "Shared ESLint config used by ESL (@exadel/esl) team. Internal projects usage.",
+  "main": "index.js",
+  "files": [
+    "index.js",
+    "rules/*.js"
+  ],
+  "scripts": {
+    "test": ""
+  },
+  "dependencies": {
+    "@eslint/js": "^9.11.1",
+    "@stylistic/eslint-plugin": "^2.8.0",
+    "eslint-plugin-editorconfig": "^4.0.3",
+    "eslint-plugin-import-x": "^4.3.1",
+    "eslint-plugin-sonarjs": "^1.0.4",
+    "eslint-plugin-tsdoc": "^0.3.0",
+    "typescript-eslint": "^8.7.0"
+  },
+  "peerDependencies": {
+    "eslint": ">=9.0.0"
+  }
+}

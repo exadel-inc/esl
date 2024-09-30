@@ -276,12 +276,6 @@ module.exports = [
     }
   },
   {
-    files: ["**/polyfills/**/*.ts"],
-    rules: {
-      'no-new-wrappers': "off"
-    }
-  },
-  {
     files: ["**/*.test.ts", "**/*.spec.ts"],
     rules: {
       // ts-ignore is off to test clean es cases

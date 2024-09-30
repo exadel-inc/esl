@@ -1,9 +1,7 @@
-const editorconfig = require('eslint-plugin-editorconfig');
-
 module.exports = [
   {
     plugins: {
-      editorconfig
+      editorconfig: require('eslint-plugin-editorconfig')
     },
     rules: {
       // Enforce charset check

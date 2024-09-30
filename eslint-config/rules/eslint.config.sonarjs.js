@@ -1,9 +1,7 @@
-const sonarjs = require('eslint-plugin-sonarjs');
-
 module.exports = [
   {
     plugins: {
-      sonarjs
+      sonarjs: require('eslint-plugin-sonarjs')
     },
     rules: {
       /** Cognitive Complexity is a measure of how hard the control flow of a function is to understand.

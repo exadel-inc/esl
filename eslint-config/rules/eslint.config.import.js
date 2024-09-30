@@ -1,11 +1,8 @@
-const importPlugin = require('eslint-plugin-import-x');
-
 module.exports = [
   {
     plugins: {
-      'import': importPlugin
+      'import': require('eslint-plugin-import-x')
     },
-    files: ["eslint/src/**/*.ts"],
     rules: {
       // Enforce a convention in module import order
       'import/order': [
@@ -32,17 +29,6 @@ module.exports = [
 
       // Deprecate cyclic dependencies
       'import/no-cycle': 'error'
-    }
-  },
-  {
-    files: ["site/**/*.ts"],
-    rules: {
-      'no-restricted-imports': ["error", {
-        "patterns": [{
-          "group": ["../../**/modules/**", "../../**/polyfills/**"],
-          'message': "Do not import from src/modules directly. Use the `@exadel/esl` package resolved by NPM workspaces instead."
-        }]
-      }]
     }
   }
 ]
