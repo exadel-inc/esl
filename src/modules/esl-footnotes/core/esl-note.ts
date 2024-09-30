@@ -56,7 +56,7 @@ export class ESLNote extends ESLBaseTrigger {
   protected _index: number;
 
   /** Target observable Toggleable */
-  public get $target(): ESLToggleable {
+  public override get $target(): ESLToggleable {
     return ESLTooltip.sharedInstance;
   }
 
