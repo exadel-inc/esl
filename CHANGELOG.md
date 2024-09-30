@@ -1,3 +1,15 @@
+## [5.0.0-beta.36](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.35...v5.0.0-beta.36) (2024-09-30)
+
+### Features
+
+* **esl-carousel:** add attribute to carousel if it has only one slide ([25dc3bb](https://github.com/exadel-inc/esl/commit/25dc3bba2c614362c5d8abee99e78cc0f83c5f86))
+* **eslint-config:** introducing shared eslint-config for esl projects (internal use only for now) ([ca5f454](https://github.com/exadel-inc/esl/commit/ca5f4549645683a3cf191943ab7df098cb206915))
+* **lint:** adapt eslint plugin to be used with ESLint 9 ([93c90d2](https://github.com/exadel-inc/esl/commit/93c90d2678d463c2e5c4c1d3c141db68eb1982fb))
+
+### Bug Fixes
+
+* **lint:** fix Literal import processing & update eslint 9.11.1 ([3345564](https://github.com/exadel-inc/esl/commit/334556429dc2f976c669d0662654056ab0876e90))
+
 ## [5.0.0-beta.34](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.33...v5.0.0-beta.34) (2024-09-19)
 
 ### Features
