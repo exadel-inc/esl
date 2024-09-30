@@ -28,11 +28,12 @@ export class ESLGridCarouselRenderer extends ESLDefaultCarouselRenderer {
 
   /** Count of fake slides to fill the last "row" or incomplete carousel state */
   public get fakeSlidesCount(): number {
-    if (this.$carousel.$slides.length === 0) return 0;
-    if (this.$carousel.$slides.length < this.count) {
-      return this.count - this.$carousel.$slides.length;
+    const slidesLength = this.$carousel.$slides.length;
+    if (slidesLength === 0) return 0;
+    if (slidesLength < this.count) {
+      return this.count - slidesLength;
     }
-    return this.$carousel.$slides.length % this.ROWS;
+    return slidesLength % this.ROWS;
   }
 
   /**
