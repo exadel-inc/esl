@@ -5,12 +5,8 @@ module.exports = [
       reportUnusedDisableDirectives: "warn"
     }
   },
-  ...require('./linting/eslint.config.ignore'),
-  ...require('./linting/eslint.config.language'),
-   ...require('./linting/eslint.config.codestyle'),
-   ...require('./linting/eslint.config.coderules'),
-   ...require('./linting/eslint.config.sonarjs'),
-   ...require('./linting/eslint.config.stylistic'),
-   ...require('./linting/eslint.config.editorconfig'),
-   ...require('./linting/eslint.config.tsdoc')
+
+  ...require('./eslint.config.ignore'),
+  ...require('@exadel/eslint-config-esl').typescript,
+  ...require('@exadel/eslint-config-esl').recommended
 ];
