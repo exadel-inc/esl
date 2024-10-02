@@ -23,20 +23,24 @@ export interface ESLintDeprecationCfg {
 type ImportNode = ESTree.ImportSpecifier & Rule.NodeParentExtension;
 
 /** Builds deprecation rule from {@link ESLintDeprecationCfg} object */
-export function buildRule({deprecation, alias}: ESLintDeprecationCfg): Rule.RuleModule {
+export function buildRule(configs: ESLintDeprecationCfg | ESLintDeprecationCfg[]): Rule.RuleModule {
+  configs = Array.isArray(configs) ? configs : [configs];
   const create = (context: Rule.RuleContext): Rule.RuleListener => ({
     ImportSpecifier(node: ImportNode): null {
       const importedValue = node.imported;
-      if (importedValue.type === 'Identifier' && importedValue.name === deprecation) {
-        context.report({
-          node,
-          message: `[ESL Lint]: Deprecated alias ${deprecation} for ${alias}`,
-          fix: buildFixer(node, context, alias)
-        });
-      }
+      configs.forEach((config) => {
+        if (importedValue.type === 'Identifier' && importedValue.name === config.deprecation) {
+          context.report({
+            node,
+            message: `[ESL Lint]: Deprecated alias ${config.deprecation} for ${config.alias}`,
+            fix: buildFixer(node, context, config.alias)
+          });
+        }
+      });
       return null;
     }
   });
+
   return {meta, create};
 }
 
