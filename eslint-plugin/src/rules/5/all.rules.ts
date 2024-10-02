@@ -1,5 +1,5 @@
 import deprecatedAliases from './deprecated.aliases';
 
 export default {
-  'deprecated-5/aliases': deprecatedAliases,
+  'deprecated-5-aliases': deprecatedAliases,
 };

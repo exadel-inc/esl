@@ -30,7 +30,7 @@ type StaticMethodNode = ESTree.MemberExpression & Rule.NodeParentExtension;
 
 /** Builds deprecation rule from {@link ESLintDeprecationStaticMethodCfg} object */
 export function buildRule(configs: ESLintDeprecationStaticMethodCfg | ESLintDeprecationStaticMethodCfg[]): Rule.RuleModule {
-  configs = Array.isArray(configs) ? configs : [configs];
+  configs = (Array.isArray(configs) ? configs : [configs]).filter((config) => !(config.skipOn && config.skipOn()));
   const create = (context: Rule.RuleContext): Rule.RuleListener => {
     return {
       MemberExpression(node: StaticMethodNode): null {
@@ -51,7 +51,6 @@ function isDeprecatedMethod(node: StaticMethodNode, config: ESLintDeprecationSta
 }
 
 function handleCallExpression(node: StaticMethodNode, context: Rule.RuleContext, config: ESLintDeprecationStaticMethodCfg): void {
-  if (config.skipOn && config.skipOn()) return;
   const replCfg = config.getReplacementMethod(node.parent as ESTree.CallExpression);
   const message = typeof replCfg === 'string' ? `${config.className}.${replCfg}` : replCfg.message;
   const replacement = typeof replCfg === 'string' ? replCfg : replCfg.replacement;
