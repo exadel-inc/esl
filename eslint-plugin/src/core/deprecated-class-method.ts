@@ -37,7 +37,6 @@ export function buildRule(configs: ESLintDeprecationStaticMethodCfg | ESLintDepr
     buildLoggingRule(skipOn.message);
   });
 
-
   const create = (context: Rule.RuleContext): Rule.RuleListener => {
     return {
       MemberExpression(node: StaticMethodNode): null {
