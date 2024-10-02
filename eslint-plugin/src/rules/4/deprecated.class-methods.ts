@@ -1,6 +1,5 @@
 import {lte} from 'semver';
 import {ESL_PACKAGE_VERSION} from '../../core/check-version';
-import {buildLoggingRule} from '../../core/log';
 import {buildRule} from '../../core/deprecated-class-method';
 
 import type * as ESTree from 'estree';
@@ -23,8 +22,8 @@ export default buildRule({
     if (expression.type === 'CallExpression' && args.length === 3) return 'parseTuple';
     return {message: 'ESLMediaRuleList.parseQuery or ESLMediaRuleList.parseTuple'};
   },
-  skipOn: () => {
-    !isActual && buildLoggingRule(`'ESLMediaRuleList.parse' was updated in v${AVAILABLE_SINCE}. Rule 'deprecated-4/media-rule-list-parse' is skipped.`);
-    return !isActual;
+  skipOn: {
+    actual: isActual,
+    message: `'ESLMediaRuleList.parse' was updated in v${AVAILABLE_SINCE}. Rule 'deprecated-4/media-rule-list-parse' is skipped.`
   }
 });

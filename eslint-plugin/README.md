@@ -65,13 +65,13 @@ However, you still have the option to manually manage the rules if needed.
 
 The ESLint plugin provides a separate rule for each deprecated utility within the ESL project, that's considered to be deprecated. Below is the list of them:
 
-- `@exadel/esl/deprecated-4/aliases` - Rule for deprecated aliases
+- `@exadel/esl/deprecated-4-aliases` - Rule for deprecated aliases
 
-- `@exadel/esl/deprecated-4/methods` - Rule for deprecated methods.
+- `@exadel/esl/deprecated-4-methods` - Rule for deprecated methods.
 
-- `@exadel/esl/deprecated-4/base-decorators-path` - Rule for deprecated import paths.
+- `@exadel/esl/deprecated-4-import` - Rule for deprecated import paths.
 
-- `@exadel/esl/deprecated-5/aliases` - Rule for deprecated aliases
+- `@exadel/esl/deprecated-5-aliases` - Rule for deprecated aliases
 
 These rules can be configured manually inside the `rules` section of your ESLint configuration file.
 

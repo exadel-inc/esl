@@ -28,8 +28,10 @@ export function buildRule(configs: ESLintDeprecationCfg | ESLintDeprecationCfg[]
   const create = (context: Rule.RuleContext): Rule.RuleListener => ({
     ImportSpecifier(node: ImportNode): null {
       const importedValue = node.imported;
+      if (importedValue.type !== 'Identifier') return null;
+
       configs.forEach((config) => {
-        if (importedValue.type === 'Identifier' && importedValue.name === config.deprecation) {
+        if (importedValue.name === config.deprecation) {
           context.report({
             node,
             message: `[ESL Lint]: Deprecated alias ${config.deprecation} for ${config.alias}`,
