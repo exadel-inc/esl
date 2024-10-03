@@ -1,4 +1,4 @@
-{% macro navitem(title, collection, icon, opt = {}) %}
+{% macro navItem(title, collection, icon, opt = {}) %}
   {% set isDraftCollection = collection == 'draft' %}
   {% set isPrimaryActive = functions.isActivePath(page.url, collection) %}
 
@@ -6,7 +6,7 @@
 
     {% set items = collections[collection] | filter('url', page.url) %}
   {% else %}
-    {% set items = collections[collection] | released %}
+    {% set items = collections[collection] | released | tree %}
   {% endif %}
 
   {% if items.length %}
@@ -35,40 +35,86 @@
              {% if isPrimaryActive %}data-open{% endif %}
              group="esl-nav"
              fallback-duration="400">
-    <ul class="sidebar-nav-secondary-list">
-      <esl-a11y-group targets="::child(li)::find(.sidebar-nav-secondary-link)"></esl-a11y-group>
-      {% for item in items | sortBy('order', 'name') %}
-        {% set isActive = page.url === item.url %}
-        {% set isDraft = [].concat(item.data.tags).includes('draft') %}
-        {% set isNew = [].concat(item.data.tags).includes('new') %}
-        {% set isBeta = [].concat(item.data.tags).includes('beta') %}
-        {% set isDeprecated = [].concat(item.data.tags).includes('deprecated') %}
-        {% set isPlayground = [].concat(item.data.tags).includes('playground') %}
-        <li class="sidebar-nav-secondary-item {{ 'active' if isActive }} {{ 'draft' if isDraft }}"
-            {% if isActive %}aria-selected="true"{% endif %}>
-          <a class="sidebar-nav-secondary-link"
-             {% if isActive %}aria-current="page"{% endif %} {% if isDraft %}rel="nofollow"{% endif %}
-             href="{{ item.url | url }}">
-            {% if isNew %}
-              <sup class="badge badge-sup badge-success badge-sidebar">new</sup>
-            {% endif %}
-            {% if isBeta %}
-              <sup class="badge badge-sup badge-warning badge-sidebar">beta</sup>
-            {% endif %}
-            {% if isDraft %}
-              <sup class="badge badge-sup badge-danger badge-sidebar" {% if isDraftCollection %}hidden{% endif %}>draft</sup>
-            {% endif %}
-            {% if isDeprecated %}
-              <span class="badge badge-img badge-deprecated badge-sidebar" aria-label="Deprecated component" title="Deprecated component"></span>
-            {% endif %}
-            {% if isPlayground %}
-              <span class="badge badge-img badge-playground badge-sidebar" aria-label="Live code" title="Page with a live code example"></span>
-            {% endif %}
-            {{ item.data.name }}
-          </a>
-        </li>
-      {% endfor %}
-    </ul>
+    {{ linkList(items, isDraftCollection) }}
   </esl-panel>
   {% endif %}
+{% endmacro %}
+
+{% macro linkList(items, isDraftCollection, prepend = []) %}
+  <ul class="sidebar-nav-secondary-list">
+    <esl-a11y-group targets="::child(li)::find(.sidebar-nav-secondary-link)"></esl-a11y-group>
+    {% for item in prepend %}
+      {{ link(item, isDraftCollection) }}
+    {% endfor %}
+    {% for item in items | sortBy('order', 'name') %}
+      {% if item.children.length %}
+        {{ subnavItem(item, isDraftCollection) }}
+      {% else %}
+        {{ link(item, isDraftCollection) }}
+      {% endif %}
+    {% endfor %}
+  </ul>
+{% endmacro %}
+
+{% macro subnavItem(item, isDraftCollection) %}
+  {% set isActive = functions.isActivePath(page.url, item.url) %}
+  {% set isDraft = [].concat(item.data.tags).includes('draft') %}
+  {% set isNew = [].concat(item.data.tags).includes('new') %}
+  {% set isBeta = [].concat(item.data.tags).includes('beta') %}
+
+  <li class="sidebar-nav-secondary-item sidebar-nav-item-container {{ 'draft' if isDraft }}"
+      {% if isActive %}aria-selected="true"{% endif %}>
+    <esl-trigger class="sidebar-nav-item-container-trigger sidebar-nav-item-arrow"
+                 target="::next"
+                 a11y-label-active="Collapse {{ item.data.name }} section"
+                 a11y-label-inactive="Expand {{ item.data.name }} section"
+                 {% if isActive %}active{% endif %}>
+      {{ item.data.navTitle or item.data.title }}
+      {% if isBeta %}
+        <sup class="badge badge-sup badge-warning">beta</sup>
+      {% endif %}
+      {% if isNew %}
+        <sup class="badge badge-sup badge-success">new</sup>
+      {% endif %}
+    </esl-trigger>
+
+    <esl-panel class="sidebar-nav-secondary {{ 'open' if isActive }}"
+               {% if isActive %}data-open{% endif %}
+               fallback-duration="400">
+      {{ linkList(item.children, isDraftCollection, [item]) }}
+    </esl-panel>
+  </li>
+{% endmacro %}
+
+{% macro link(item, isDraftCollection) %}
+  {% set isActive = page.url === item.url %}
+  {% set isDraft = [].concat(item.data.tags).includes('draft') %}
+  {% set isNew = [].concat(item.data.tags).includes('new') %}
+  {% set isBeta = [].concat(item.data.tags).includes('beta') %}
+  {% set isDeprecated = [].concat(item.data.tags).includes('deprecated') %}
+  {% set isPlayground = [].concat(item.data.tags).includes('playground') %}
+
+  <li class="sidebar-nav-secondary-item {{ 'active' if isActive }} {{ 'draft' if isDraft }}"
+      {% if isActive %}aria-selected="true"{% endif %}>
+    <a class="sidebar-nav-secondary-link"
+       {% if isActive %}aria-current="page"{% endif %} {% if isDraft %}rel="nofollow"{% endif %}
+       href="{{ item.url | url }}">
+      {% if isNew %}
+        <sup class="badge badge-sup badge-success badge-sidebar">new</sup>
+      {% endif %}
+      {% if isBeta %}
+        <sup class="badge badge-sup badge-warning badge-sidebar">beta</sup>
+      {% endif %}
+      {% if isDraft %}
+        <sup class="badge badge-sup badge-danger badge-sidebar" {% if isDraftCollection %}hidden{% endif %}>draft</sup>
+      {% endif %}
+      {% if isDeprecated %}
+        <span class="badge badge-img badge-deprecated badge-sidebar" aria-label="Deprecated component" title="Deprecated component"></span>
+      {% endif %}
+      {% if isPlayground %}
+        <span class="badge badge-img badge-playground badge-sidebar" aria-label="Live code" title="Page with a live code example"></span>
+      {% endif %}
+      {{ item.data.name }}
+    </a>
+  </li>
 {% endmacro %}
