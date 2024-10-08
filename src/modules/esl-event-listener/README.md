@@ -18,6 +18,7 @@ And most importantly, you do not need the original callback handler to do this.
 
 ---
 
+<a name="basic-concepts"></a>
 ## Basic concepts
 
 The ESL event listener module is based on the following major terms and classes:
@@ -223,6 +224,7 @@ See examples in the [ESLEventUtils.initDescriptor](#-esleventutilsinitdescriptor
 
 ---
 
+<a name="public-api"></a>
 ## Public API (`ESLEventUtils`)
 
 The units mentioned earlier are mostly implementation details of the module.
@@ -492,6 +494,7 @@ ESLEventUtils.initDescriptor(TestCases.prototype, 'onEventManualDesc', {event: '
 
 ---
 
+<a name="extended-event-targets"></a>
 ## <a name="extended-event-targets">Extended `EventTarget`s and standard optimizations</a> <i class="badge badge-sup badge-warning">beta</i>
 
 <a name="-esleventutilsdecorate"></a>
@@ -725,6 +728,7 @@ Throws `ESLIntersectionEvent` that implements `IntersectionObserverEntry` origin
 
 ---
 
+<a name="extended-behavior"></a>
 ## <a name="embedded-behavior-of-eslbaseelement-eslmixinelement">Embedded behavior of `ESLBaseElement` / `ESLMixinElement`</a>
 
 ### Shortcuts

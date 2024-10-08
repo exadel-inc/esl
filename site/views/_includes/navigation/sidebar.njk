@@ -1,4 +1,4 @@
-{% from 'navigation/sidebar-item.njk' import navitem with context %}
+{% from 'navigation/sidebar-item.njk' import navItem with context %}
 
 <esl-d-sidebar id="sidebar" class="open" aria-label="Site Navigation">
   <nav class="sidebar-nav">
@@ -24,26 +24,26 @@
           </div>
         </li>
         <li class="sidebar-nav-item">
-          {{ navitem ('Introduction', 'introduction', 'static/assets/sidebar/intro.svg') }}
+          {{ navItem ('Introduction', 'introduction', 'static/assets/sidebar/intro.svg') }}
         </li>
         <li class="sidebar-nav-item">
-          {{ navitem ('Core', 'core', 'static/assets/sidebar/utils.svg') }}
+          {{ navItem ('Core', 'core', 'static/assets/sidebar/utils.svg') }}
         </li>
         <li class="sidebar-nav-item">
-          {{ navitem ('Components', 'components', 'static/assets/sidebar/components.svg') }}
+          {{ navItem ('Components', 'components', 'static/assets/sidebar/components.svg') }}
         </li>
         <li class="sidebar-nav-item">
-          {{ navitem ('Examples', 'examples', 'static/assets/sidebar/examples.svg') }}
+          {{ navItem ('Examples', 'examples', 'static/assets/sidebar/examples.svg') }}
         </li>
         {% set releasedBlogs = collections.blogs | released %}
         {% if releasedBlogs.length %}
         <li class="sidebar-nav-item">
-          {{ navitem ('Blogs', 'blogs', 'static/assets/sidebar/blogs.svg') }}
+          {{ navItem ('Blogs', 'blogs', 'static/assets/sidebar/blogs.svg') }}
         </li>
         {% endif %}
         {% if env.isDev or functions.isActivePath(page.url, 'draft') %}
           <li class="sidebar-nav-item">
-            {{ navitem ('Drafts', 'draft', 'static/assets/common/flask.svg') }}
+            {{ navItem ('Drafts', 'draft', 'static/assets/common/flask.svg') }}
           </li>
         {% endif %}
 
