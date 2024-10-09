@@ -32,10 +32,10 @@ function printFiles(fileStat, basePath) {
       const statusTest = test.status === 'passed' ? ':white_check_mark:' : ':x:';
       const timeStr = test.time < 1000 ? `${test.time}ms` : `${test.time / 1000}s`;
 
-      text += `<tr><td>${test.name}:${test.title}</td><td>${statusTest}</td><td>${timeStr}</td></tr>\n`;
+      text += `<tr><td>${test.name}: ${test.title}</td><td>${statusTest}</td><td>${timeStr}</td></tr>\n`;
 
       if (test.status !== 'passed' && test.hasSnapshot) {
-        text += `<tr><td colspan="3"><img src="${resolveURL(basePath, test.snapshot)}" alt="Test Diff ${test.snapshot}"/></td></tr>`;
+        text += `<tr><td colspan="3"><img src="${resolveURL(basePath, `${test.dirPath}/${test.snapshot}`)}" alt="Test Diff ${test.snapshot}"/></td></tr>`;
       }
       if (test.status !== 'passed' && !test.hasSnapshot) {
         text += `<tr><td colspan="3">\n`;

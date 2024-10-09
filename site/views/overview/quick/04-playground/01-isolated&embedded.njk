@@ -1,0 +1,51 @@
+---
+title: UIP Isolated & Embedded content
+hash: uip-content
+tags: overview-quick
+parent: 00-playground
+---
+
+<h3>UIP Isolated & Embedded content</h3>
+
+<p class="esl-animate-slide up" esl-animate="{repeat: true}">
+  The main feature of UIP is the ability to render demo content in one of two modes: isolated or embedded.
+</p>
+
+<uip-root>
+  <script type="text/html"
+          label="Embedded content is in page context"
+          uip-snippet>
+    <button class="btn" onclick="alert('hey!')">Click me!</button>
+  </script>
+  <script type="text/html"
+          label="Isolated content renders in iframe"
+          uip-snippet
+          uip-isolated
+          isolated-template="empty">
+    <p> This content is rendered in an isolated iframe. </p>
+    <button class="btn btn-sec-blue" onclick="alert('hey!')">Click me!</button>
+    <style>[uip-content-root] {min-height: 70px;}</style>
+  </script>
+
+  <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
+  <uip-preview></uip-preview>
+</uip-root>
+
+{% code 'html', 'code-block' %}
+  <uip-root>
+    <script type="text/html"
+            label="Embedded content"
+            uip-snippet>
+      ...
+    </script>
+    <script type="text/html"
+            label="Content isolated"
+            uip-snippet
+            uip-isolated>
+     ...
+    </script>
+
+    <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
+    <uip-preview></uip-preview>
+  </uip-root>
+{% endcode %}

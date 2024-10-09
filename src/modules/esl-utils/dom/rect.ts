@@ -7,13 +7,13 @@ import type {Point} from './point';
  */
 export class Rect implements Point {
   /** The X coordinate of the Rect's origin (top-left corner of the rectangle). */
-  public x;
+  public readonly x;
   /** The Y coordinate of the Rect's origin (top-left corner of the rectangle). */
-  public y;
+  public readonly y;
   /** The width of the Rect. */
-  public width;
+  public readonly width;
   /** The height of the Rect. */
-  public height;
+  public readonly height;
 
   /**
    * The static method creates a new Rect instance from a DOMRect object of BoundingClientRect.
@@ -134,6 +134,11 @@ export class Rect implements Point {
   /** @returns new {@link Rect} that is shifted by x and y axis */
   public shift(x: number = 0, y: number = 0): Rect {
     return new Rect(this.x + x, this.y + y, this.width, this.height);
+  }
+
+  /** @returns new {@link Rect} that is resized by x and y axis */
+  public resize(xDelta: number = 0, yDelta: number = 0): Rect {
+    return new Rect(this.x, this.y, this.width + xDelta, this.height + yDelta);
   }
 
   /** @returns new {@link Rect} an intersection of current and passed Rectangle */

@@ -1,6 +1,7 @@
 // Core
-export {ESLBaseElement, ESLBaseElementShape} from './esl-base-element/core';
-export {ESLMixinElement} from './esl-mixin-element/core';
+export * from './esl-base-element/core';
+export * from './esl-mixin-element/core';
+
 export * from './esl-utils/all';
 export * from './esl-media-query/core';
 export * from './esl-traversing-query/core';
@@ -10,6 +11,7 @@ export * from './esl-a11y-group/core';
 
 // Image
 export * from './esl-image/core';
+export * from './esl-image-utils/core';
 
 // Media
 export * from './esl-media/core';
@@ -29,6 +31,7 @@ export * from './esl-open-state/core';
 
 // Scrollbar
 export * from './esl-scrollbar/core';
+export * from './esl-drag-to-scroll/core';
 
 // Alert
 export * from './esl-alert/core';
@@ -48,3 +51,9 @@ export * from './esl-related-target/core';
 
 // Share
 export * from './esl-share/core';
+
+// Carousel
+export * from './esl-carousel/core';
+
+// Anchornav
+export * from './esl-anchornav/core';

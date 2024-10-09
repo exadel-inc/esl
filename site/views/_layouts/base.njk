@@ -31,7 +31,7 @@
     {% include 'polyfill.njk' %}
   {% endblock %}
   {% block headlib %}
-    <link rel="stylesheet" type="text/css" href="{{ '/bundles/localdev.css' | url }}" />
+    <link rel="stylesheet" type="text/css" href="{{ '/bundles/site.css' | url }}" />
   {% endblock %}
   {% if env.isE2E %}
     <link rel="stylesheet" type="text/css" href="{{ '/bundles/e2e.css' | url }}" />
@@ -50,7 +50,7 @@
 {% endif %}
 
 {% block bodylib %}
-  <script src="{{ '/bundles/localdev.js' | url }}"></script>
+  <script src="{{ '/bundles/site.js' | url }}"></script>
 {% endblock %}
 </body>
 </html>

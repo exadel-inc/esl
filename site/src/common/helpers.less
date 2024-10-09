@@ -22,6 +22,16 @@
       display: none !important;
     }
   }
+  @media @xs-sm {
+    &-mobile {
+      display: none !important;
+    }
+  }
+  @media @md-xl {
+    &-desktop {
+      display: none !important;
+    }
+  }
 }
 .show {
   @media @sm-xl {
@@ -100,6 +110,10 @@
     margin-left: 2rem !important;
     margin-right: 2rem !important;
   }
+  &-6 {
+    margin-left: 2.5rem !important;
+    margin-right: 2.5rem !important;
+  }
   &-auto {
     margin-right: auto !important;
     margin-left: auto !important;
@@ -140,8 +154,16 @@
 }
 
 // Text
-.text-center {
-  text-align: center !important;
+.text {
+  &-left {
+    text-align: left !important;
+  }
+  &-center {
+    text-align: center !important;
+  }
+  &-right {
+    text-align: right !important;
+  }
 }
 
 // A11ty helpers
@@ -155,4 +177,22 @@
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+.list-spaced {
+  > li {
+    margin-block-end: 0.5rem;
+  }
+}
+
+.icon-inline {
+  display: inline-flex;
+
+  min-width: 1em;
+  height: 1em;
+
+  &.large {
+    min-width: 2em;
+    height: 2em;
+  }
 }
