@@ -1,0 +1,115 @@
+---
+layout: content
+title: Lazy Template
+seoTitle: Lazy-loaded templates examples based on ESL web components
+name: Lazy Template
+tags: [examples, playground, beta]
+icon: examples/lazy-template.svg
+aside:
+  components:
+    - esl-lazy-template
+---
+{% import 'lorem.njk' as lorem %}
+
+{% set imageSrcBase = '/assets/' | url %}
+
+<section class="row">
+  <div class="col-12">
+    <uip-root>
+      <script type="text/html"
+              label="Markup from content of TEMPLATE element"
+              uip-snippet
+              uip-snippet-js="js-snippet-lazy-template">
+        <div class="d-flex">
+          <div class="col-sm-6">
+            <!-- paragraph 13 -->
+            <template esl-lazy-template>
+              <div id="i-am-from-markup-1"
+                  class="text-center"
+                  distance-to-viewport-alert
+                  style="background: lightyellow; border: 3px dashed darkorange;">
+                <p>...</p>
+                <p>I am content No.1 which was added to DOM by the lazy template from its own content</p>
+                <p>I am inside DIV with id="i-am-from-markup-1".</p>
+                <p>...</p>
+              </div>
+            </template>
+            <!-- paragraph 12 -->
+            <template id="q2" esl-lazy-template>
+              <div id="i-am-from-markup-2"
+                  class="text-center"
+                  distance-to-viewport-alert
+                  style="background: lightyellow; border: 3px dashed darkorange;">
+                <p>...</p>
+                <p>I am content No.2 which was added to DOM by the lazy template from its own content</p>
+                <p>I am inside DIV with id="i-am-from-markup-2".</p>
+                <p>...</p>
+              </div>
+            </template>
+            <!-- paragraph 11 -->
+          </div>
+          <div class="col-sm-6">
+            <h3>Lazy markup from content of TEMPLATE element</h3>
+            <p>The ESLLazyTemplate has to add its content to the DOM (replace itself with content). The content is not replaced immediately, but only when the location of the element with the deferred template is close to the viewport. In general, it is also possible that it will not be replaced at all if the user does not scroll the page.</p>
+            <p>If there is no content in the template, replacing it with nothing will actually turn it into a deletion.</p>
+          </div>
+        </div>
+      </script>
+
+      <script type="text/html"
+              label="Markup from URL on TEMPLATE tag"
+              uip-snippet
+              uip-snippet-js="js-snippet-lazy-template">
+        <div class="d-flex">
+          <div class="col-sm-6">
+            <!-- paragraph 14 -->
+            <template esl-lazy-template="/assets/lazy-templates/template1.html"></template>
+            <!-- paragraph 12 -->
+            <template esl-lazy-template="/assets/lazy-templates/template2.html"></template>
+            <!-- paragraph 11 -->
+            <template esl-lazy-template="/assets/lazy-templates/template3.html"></template>
+          </div>
+          <div class="col-sm-6">
+            <h3>Lazy markup from URL on TEMPLATE tag</h3>
+            <p>The ESLLazyTemplate should add the content to the DOM that is located at the specified URL. The content request is not made immediately, but only when the location of the element with the lazy template approaches the viewport. In general, it is also possible that it will not be loaded at all if the user does not scroll the page.</p>
+            <p>When it's time to load, ESLLazyTemplate attempts to fetch the content and, if the request is successful, replaces itself with this content. If it fails to load the content, it is simply deleted.</p>
+          </div>
+        </div>
+      </script>
+
+      <script type="text/html"
+              label="Markup from URL on DIV tag"
+              uip-snippet
+              uip-snippet-js="js-snippet-lazy-template">
+        <div class="d-flex">
+          <div class="col-sm-6">
+            <!-- paragraph 15 -->
+            <div esl-lazy-template="/assets/lazy-templates/template1.html">... I should be replaced by a loaded template ...</div>
+            <!-- paragraph 14 -->
+            <div esl-lazy-template="/assets/lazy-templates/template2.html">... I should be replaced by a loaded template ...</div>
+            <!-- paragraph 12 -->
+            <div esl-lazy-template="/assets/lazy-templates/template3.html">... I should be replaced by a loaded template ...</div>
+          </div>
+          <div class="col-sm-6">
+            <h3>Lazy markup from URL on DIV tag</h3>
+            <p>The ESLLazyTemplate should add the content to the DOM that is located at the specified URL. The content request is not made immediately, but only when the location of the element with the lazy template approaches the viewport. In general, it is also possible that it will not be loaded at all if the user does not scroll the page.</p>
+            <p>When it's time to load, ESLLazyTemplate attempts to fetch the content and, if the request is successful, replaces itself with this content. If it fails to load the content, it is simply deleted.</p>
+            <p>The DIV can have some custom content, but it will exist only before the template is loaded and the DIV is replaced with the content of the loaded template.</p>
+            <p></p>
+          </div>
+        </div>
+      </script>
+
+      <script id="js-snippet-lazy-template" type="text/plain">
+        import { ESLImage, getViewportForEl } from '@exadel/esl';
+        ESLLazyTemplate.viewportProvider = getViewportForEl;
+        ESLLazyTemplate.register();
+      </script>
+
+      <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
+      <uip-preview style="max-height: 500px"></uip-preview>
+      <uip-editor label="Source code (HTML)" collapsible copy></uip-editor>
+      <uip-editor source="js" label="Source code (JS)" collapsible collapsed copy></uip-editor>
+    </uip-root>
+  </div>
+</section>
