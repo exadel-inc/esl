@@ -1,0 +1,13 @@
+---
+title: Wide list of Components
+hash: components-list
+tags: overview-quick
+cls: full-width
+parent: 00-components
+---
+
+<p class="text-center"> Here is a list of all component modules available in ESL: </p>
+
+{% from 'navigation/collection-grid.njk' import grid with context %}
+
+{{ grid('components', {isList: true, noBadge: true, classes: 'collection-grid-compact'}) }}

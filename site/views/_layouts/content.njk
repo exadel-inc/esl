@@ -21,6 +21,17 @@
       {% endif %}
       {% if aside %}
         <aside class="aside">
+          {% if 'deprecated' in [].concat(tags) and aside.deprecationSpec %}
+            <div class="alert alert-warning">
+              {% mdRender aside.deprecationSpec, 'deprecation', 'intro' %}
+            </div>
+          {% endif %}
+          {% if 'deprecated' in [].concat(tags) and aside.deprecationText %}
+            <div class="alert alert-warning">
+              {{ aside.deprecationText | safe }}
+            </div>
+          {% endif %}
+
           {% from 'navigation/related-links.njk' import related with context %}
           {% from 'navigation/source-link.njk' import ghLink with context %}
           {{ related(aside.components, 'components', 'Related Components') }}

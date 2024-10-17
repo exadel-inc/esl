@@ -9,6 +9,7 @@ import {
   parseNumber,
   parseBoolean,
   parseString,
+  parseTime,
   parseCSSTime,
   parseCSSTimeSet
 } from '../format';
@@ -146,7 +147,7 @@ describe('misc/format helper tests', () => {
     );
   });
 
-  describe('parseCSSTime', () => {
+  describe('parseTime', () => {
     test.each([
       // Positive integer
       ['12s', 12000],
@@ -154,6 +155,59 @@ describe('misc/format helper tests', () => {
       [' 12s ', 12000],
       [' 350ms ', 350],
       ['1024ms', 1024],
+      // Non-integer
+      ['.3s', 300],
+      ['.124s', 124],
+      ['.3ms', 0.3],
+      // Negative integer
+      ['-456ms', -456],
+      // Case insensitive
+      ['14mS', 14],
+      ['14S', 14000],
+      // Zero with leading +/-
+      ['+0s', 0],
+      ['-0ms', -0],
+      // Digits without unit should be parsed as milliseconds
+      ['0', 0],
+      ['100', 100],
+      // Leading zeros
+      ['012s', 12000],
+      ['0350ms', 350],
+      // Empty string
+      ['', 0],
+      // Extra dot
+      ['350.s', 350000]
+    ])(
+      'valid time = %s parsed as %s',
+      (time: string, result: number) => expect(parseTime(time)).toBe(result)
+    );
+    test.each([
+      // Invalid text
+      'five seconds',
+      's',
+      'ms',
+      ' s ',
+      ' ms ',
+      '350.n',
+      'abc',
+      '-',
+      'a',
+      // CSS time supports only seconds and milliseconds
+      '4min'
+    ])(
+      'invalid time = %p parsed as NaN',
+      (time: string) => expect(parseTime(time)).toBe(NaN)
+    );
+  });
+
+  describe('parseCSSTime', () => {
+    test.each([
+      // Positive integer
+      ['12s', 12000],
+      ['350ms', 350],
+      ['1024ms', 1024],
+      [' 12s ', 12000],
+      [' 350ms   ', 350],
       // Non-integer
       ['.3s', 300],
       ['.124s', 124],

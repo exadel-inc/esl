@@ -3,11 +3,13 @@ layout: content
 title: Image
 seoTitle: Lazy-loaded configurable images examples based on ESL web components
 name: Image
-tags: [examples, playground]
+tags: [examples, deprecated]
 icon: examples/image.svg
 aside:
   components:
     - esl-image
+    - esl-image-utils
+  deprecationSpec: src/modules/esl-image/README.md
 ---
 {% import 'lorem.njk' as lorem %}
 
@@ -19,6 +21,7 @@ aside:
       <script type="text/html"
               label="Save ratio mode"
               uip-snippet
+              uip-isolated
               uip-snippet-js="js-snippet-image-element">
         <div class="d-flex">
           <div class="col-sm-6">
@@ -38,6 +41,7 @@ aside:
       <script type="text/html"
               label="Fit mode"
               uip-snippet
+              uip-isolated
               uip-snippet-js="js-snippet-image-element">
         <div class="d-flex">
           <div class="col-sm-6">
@@ -70,6 +74,7 @@ aside:
       <script type="text/html"
               label="Origin mode"
               uip-snippet
+              uip-isolated
               uip-snippet-js="js-snippet-image-element">
         <div class="d-flex">
           <div class="d-flex col-sm-6">
@@ -90,6 +95,7 @@ aside:
       <script type="text/html"
               label="Cover mode"
               uip-snippet
+              uip-isolated
               uip-snippet-js="js-snippet-image-element">
         <div class="d-flex">
           <div class="col-sm-6">
@@ -123,6 +129,7 @@ aside:
       <script type="text/html"
               label="SVG Inline loading"
               uip-snippet
+              uip-isolated
               uip-snippet-js="js-snippet-image-element">
         <div class="d-flex">
           <div class="col-sm-6">
@@ -155,6 +162,7 @@ aside:
       <script type="text/html"
               label="ESL Query Rules"
               uip-snippet
+              uip-isolated
               uip-snippet-js="js-snippet-image-element">
         <div class="d-flex">
           <div class="col-sm-6">

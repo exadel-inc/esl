@@ -1,95 +1,84 @@
-.esl-popup-arrow-init(@arrowClassName: esl-popup-arrow,
-                      @popupArrowSize: 20px,
-                      @popupBackgroundColor: #FFF,
-                      @popupBorderColor: #DBDBDB,
-                      @popupBorderWidth: 1px) {
-  @popupArrowHalf: (@popupArrowSize / 2);
-  @popupArrowShift: (
-    @popupArrowSize * 0.2071 - @popupBorderWidth
-  ); // 0.2071 = (sqrt(2) - 1) / 2  (Don't ask why, it's an axiom)
+esl-popup:not(.esl-popup) {
+  display: none;
+}
 
-  .@{arrowClassName} {
+.esl-popup {
+  --_border-width: var(--esl-popup-border-width, 1px);
+  --_border: var(--_border-width) solid var(--esl-popup-border-color, #dbdbdb);
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: block;
+  opacity: 0;
+  visibility: hidden;
+  transition: visibility 0.5s 0.2s;
+  box-sizing: border-box;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+  border: var(--_border);
+  background: var(--esl-popup-background-color, #fff);
+  cursor: default;
+  will-change: auto;
+
+  &[open] {
+    z-index: var(--esl-popup-z-index, 999);
+    opacity: 1;
+    visibility: visible;
+    transition:
+      opacity 0.15s,
+      transform 0.2s;
+  }
+
+  &:not([open]) {
+    display: none;
+  }
+
+  .esl-popup-arrow {
+    --_size: var(--esl-popup-arrow-size, 20px);
+    --_half: calc(var(--_size) / 2);
+    --_shift: calc(0.2071 * var(--_size) - var(--_border-width));
+    // 0.2071 = (sqrt(2) - 1) / 2
     position: absolute;
-    top: (-@popupArrowHalf - @popupBorderWidth);
+    top: calc(-1 * var(--_half) - var(--_border-width));
     bottom: 100%;
     z-index: -1;
     transform: rotate(45deg);
-    width: @popupArrowSize;
-    height: @popupArrowSize;
-    margin-left: @popupArrowShift;
-    border-left: @popupBorderWidth solid @popupBorderColor;
-    border-top: @popupBorderWidth solid @popupBorderColor;
-    background: @popupBackgroundColor;
+    width: var(--_size);
+    height: var(--_size);
+    margin-left: var(--_shift);
+    border-left: var(--_border);
+    border-top: var(--_border);
+    background: inherit;
   }
 
   &[placed-at='top'] {
-    .@{arrowClassName} {
+    .esl-popup-arrow {
       top: auto;
-      bottom: (-@popupArrowHalf - @popupBorderWidth);
+      bottom: calc(-1 * var(--_half) - var(--_border-width));
       transform: rotate(225deg);
     }
   }
 
   &[placed-at='left'] {
-    .@{arrowClassName} {
-      right: (-@popupArrowHalf - @popupBorderWidth);
+    .esl-popup-arrow {
+      right: calc(-1 * var(--_half) - var(--_border-width));
       left: auto;
       transform: rotate(135deg);
-      margin-top: @popupArrowShift;
+      margin-top: var(--_shift);
     }
   }
 
   &[placed-at='right'] {
-    .@{arrowClassName} {
-      left: (-@popupArrowHalf - @popupBorderWidth - @popupArrowShift);
+    .esl-popup-arrow {
+      left: calc(-1 * var(--_half) - var(--_border-width) - var(--_shift));
       right: auto;
       transform: rotate(315deg);
-      margin-top: @popupArrowShift;
+      margin-top: var(--_shift);
     }
   }
 
   &.disable-arrow {
-    .@{arrowClassName} {
+    .esl-popup-arrow {
       display: none;
     }
-  }
-}
-
-.esl-popup-init(@className: esl-popup,
-                @arrowClassName: esl-popup-arrow,
-                @arrowSize: 20px,
-                @backgroundColor: #FFF,
-                @borderColor: #DBDBDB,
-                @borderWidth: 1px,
-                @zIndex: 999) {
-  .@{className} {
-    position: absolute;
-    left: 0;
-    top: 0;
-    display: block;
-    opacity: 0;
-    visibility: hidden;
-    transition: visibility 0.5s 0.2s;
-    box-sizing: border-box;
-    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
-    border: @borderWidth solid @borderColor;
-    background: @backgroundColor;
-    cursor: default;
-    will-change: auto;
-
-    &[open] {
-      z-index: @zIndex;
-      opacity: 1;
-      visibility: visible;
-      transition:
-        opacity 0.15s,
-        transform 0.2s;
-    }
-
-    &:not([open]) {
-      display: none;
-    }
-
-    .esl-popup-arrow-init(@arrowClassName, @arrowSize, @backgroundColor, @borderColor, @borderWidth);
   }
 }

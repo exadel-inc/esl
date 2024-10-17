@@ -46,6 +46,11 @@ export class ESLSwipeGestureEvent extends UIEvent implements ESLSwipeGestureEven
   public readonly startEvent: PointerEvent;
   public readonly duration: number;
 
+  /** @returns whether swipe direction is vertical or not */
+  public get isVertical(): boolean {
+    return this.direction === 'up' || this.direction === 'down';
+  }
+
   protected constructor(target: Element, swipeInfo: ESLSwipeGestureEventInfo) {
     super(ESLSwipeGestureEvent.TYPE, {bubbles: false, cancelable: true});
     overrideEvent(this, 'target', target);
