@@ -50,5 +50,17 @@
         min-height: 1px;
       }
     }
+
+    &:not([wide])[fill-mode='cover'] .esl-media-inner,
+    &[wide][fill-mode='inscribe'] .esl-media-inner {
+      width: auto;
+      height: 100%;
+    }
+
+    &:not([wide])[fill-mode='inscribe'] .esl-media-inner,
+    &[wide][fill-mode='cover'] .esl-media-inner {
+      width: 100%;
+      height: auto;
+    }
   }
 }

@@ -1,0 +1,38 @@
+.presentation-slide {
+  display: flex;
+  position: relative;
+  max-height: 100%;
+
+  @media print {
+    // TODO: A4 landscape height to enlarge short slides
+    page-break-after: always;
+  }
+
+  .presentation-content {
+    padding-block: 2rem;
+    max-width: calc(1400px + 4rem);
+    max-height: 100%;
+    touch-action: pan-y;
+  }
+
+  .presentation-scrollbar {
+    opacity: 0.6;
+  }
+
+  &.light {
+    background-image: linear-gradient(
+      to bottom,
+      rgb(255 255 255 / 0%),
+      rgb(255 255 255) 2.5%,
+      rgb(255 255 255) 97.5%,
+      rgb(255 255 255 / 0%) 100%
+    );
+    background-size: 100% 100%;
+    color: #000;
+  }
+
+  &.full-width .presentation-content {
+    width: 100%;
+    max-width: 1600px;
+  }
+}

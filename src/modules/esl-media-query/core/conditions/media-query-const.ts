@@ -14,10 +14,8 @@ class MediaQueryConstCondition implements IMediaQueryCondition {
     return this._matches;
   }
 
-  public addListener(): void {}
   public addEventListener(): void {}
 
-  public removeListener(): void {}
   public removeEventListener(): void {}
 
   public dispatchEvent(): boolean {

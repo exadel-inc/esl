@@ -21,9 +21,7 @@ export class ESLMediaProviderRegistry extends SyntheticEventTarget {
 
   /** List of registered providers */
   public get providers(): ProviderType[] {
-    const list: ProviderType[] = [];
-    this.providersMap.forEach((provider) => list.push(provider));
-    return list;
+    return Array.from(this.providersMap.values());
   }
 
   /** Register provider */

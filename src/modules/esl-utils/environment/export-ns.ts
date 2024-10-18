@@ -35,7 +35,7 @@ export const exportNs = (name: string, module: any): void => {
  * ```
  * NOTE: in case declaration contains components-packages, their origins will be mixed with declaration in a Runtime
  */
-// eslint-disable-next-line @typescript-eslint/ban-types
+// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
 export function ExportNs<T extends Function>(name?: string) {
   return (module: T): void => exportNs(name || module.name, module);
 }

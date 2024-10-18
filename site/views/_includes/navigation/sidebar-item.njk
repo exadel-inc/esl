@@ -37,11 +37,12 @@
              fallback-duration="400">
     <ul class="sidebar-nav-secondary-list">
       <esl-a11y-group targets="::child(li)::find(.sidebar-nav-secondary-link)"></esl-a11y-group>
-      {% for item in items | sortByNameAndOrder %}
+      {% for item in items | sortBy('order', 'name') %}
         {% set isActive = page.url === item.url %}
         {% set isDraft = [].concat(item.data.tags).includes('draft') %}
         {% set isNew = [].concat(item.data.tags).includes('new') %}
         {% set isBeta = [].concat(item.data.tags).includes('beta') %}
+        {% set isDeprecated = [].concat(item.data.tags).includes('deprecated') %}
         {% set isPlayground = [].concat(item.data.tags).includes('playground') %}
         <li class="sidebar-nav-secondary-item {{ 'active' if isActive }} {{ 'draft' if isDraft }}"
             {% if isActive %}aria-selected="true"{% endif %}>
@@ -56,6 +57,9 @@
             {% endif %}
             {% if isDraft %}
               <sup class="badge badge-sup badge-danger badge-sidebar" {% if isDraftCollection %}hidden{% endif %}>draft</sup>
+            {% endif %}
+            {% if isDeprecated %}
+              <span class="badge badge-img badge-deprecated badge-sidebar" aria-label="Deprecated component" title="Deprecated component"></span>
             {% endif %}
             {% if isPlayground %}
               <span class="badge badge-img badge-playground badge-sidebar" aria-label="Live code" title="Page with a live code example"></span>

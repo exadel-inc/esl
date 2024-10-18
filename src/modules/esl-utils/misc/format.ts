@@ -90,16 +90,24 @@ export function format(str: string, source: Record<string, any>, matcher: RegExp
 }
 /**
  * Parses time string ([CSS style](https://developer.mozilla.org/en-US/docs/Web/CSS/time))
+ * Less strict than CSS spec, allows empty string, numbers without units, ending dot.
  * @example
  * `.3s`, `4.5s`, `1000ms`
  * @returns number - time in milliseconds
 */
-export function parseCSSTime(timeStr: string): number {
+export function parseTime(timeStr: string): number {
   const str = timeStr.trim().toLowerCase();
-  if (!/\dm?s$/.test(str)) return NaN;
-  if (str.endsWith('ms')) return +str.slice(0, -2);
-  return +str.slice(0, -1) * 1000;
+  const parseNoEmpty = (s: string): number => s ? +s : NaN;
+  if (str.endsWith('ms')) return parseNoEmpty(str.slice(0, -2));
+  if (str.endsWith('s')) return parseNoEmpty(str.slice(0, -1)) * 1000;
+  return +str; // empty string without unit is treated as 0
 }
+
+/**
+ * Restrictive time parser according to [CSS style](https://developer.mozilla.org/en-US/docs/Web/CSS/time) spec.
+ * @see {@link parseTime}
+ */
+export const parseCSSTime = (timeStr: string): number => /(\d*\.?\d+)(ms|s)/i.test(timeStr) ? parseTime(timeStr) : NaN;
 
 /**
  * Parses string of times ([CSS style](https://developer.mozilla.org/en-US/docs/Web/CSS/time))

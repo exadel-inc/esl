@@ -1,6 +1,7 @@
 import '../../../polyfills/es5-target-shim';
 
-import {ESLBaseElement, listen} from '../core';
+import {ESLBaseElement} from '../core';
+import {listen} from '../../esl-utils/decorators/listen';
 import {randUID} from '../../esl-utils/misc/uid';
 import {ESLEventUtils} from '../../esl-utils/dom/events';
 
