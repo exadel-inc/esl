@@ -32,18 +32,24 @@ export class SnapshotDataProcessor {
     const diffPath = path.join(diffDir, buildSnapshotName(currentTestName!, 'diff'));
 
     const shouldUpdate = !fs.existsSync(snapshotPath) || context.snapshotState._updateSnapshot === 'all';
-    const recievedJPG = SharpService.toJPEG(received);
+    const [currentBuffer, previousBuffer] = shouldUpdate
+      ? [received, undefined]
+      : await SharpService.normalizeImages(received, snapshotPath);
+
+    const currentJPG = SharpService.toJPEG(currentBuffer);
+    const currentRAWBuffer = await SharpService.toRawBuffered(await currentJPG.toBuffer());
+
     return {
       diffPath,
       snapshotPath,
 
       current: {
-        img: recievedJPG,
-        buffer: await (SharpService.toRawBuffered(await recievedJPG.toBuffer()))
+        img: currentJPG,
+        buffer: currentRAWBuffer
       },
 
       previous: {
-        buffer: shouldUpdate ? undefined : await (SharpService.toRawBuffered(snapshotPath))
+        buffer: previousBuffer ? await (SharpService.toRawBuffered(previousBuffer)) : undefined
       }
     };
   }
