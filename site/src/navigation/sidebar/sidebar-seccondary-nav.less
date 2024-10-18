@@ -46,6 +46,19 @@ esl-d-sidebar {
       .sidebar-nav-secondary-link {
         display: inline-block;
       }
+
+      .sidebar-nav-item-trigger {
+        display: inline-block;
+        position: relative;
+        margin: 0;
+
+        // Extra click area
+        &::before {
+          content: '';
+          position: absolute;
+          inset: -5px;
+        }
+      }
     }
 
     .sidebar-nav-secondary-item {
