@@ -1,3 +1,6 @@
+// TSX support
+export type {ESLCarouselShape} from './core/esl-carousel.shape';
+
 // Core
 export * from './core/esl-carousel.events';
 export {ESLCarousel} from './core/esl-carousel';
@@ -5,6 +8,9 @@ export {ESLCarouselSlide} from './core/esl-carousel.slide';
 
 // Navigation
 export * from './plugin/nav/esl-carousel.nav.mixin';
+
+// Navigation Dots
+export type {ESLCarouselNavDotsShape} from './plugin/dots/esl-carousel.nav.dots.shape';
 export * from './plugin/dots/esl-carousel.nav.dots';
 
 // Touch support
