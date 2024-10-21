@@ -139,6 +139,12 @@ export class ESLDragToScrollMixin extends ESLMixinElement {
       this.$host.releasePointerCapture(event.pointerId);
     }
     this.scrollBy(this.getEventOffset(event));
-    this.isDragging = false;
+    // Delay be able to prevent side events (click, etc.)
+    setTimeout(() => this.isDragging = false);
+  }
+
+  @listen('click')
+  private onClick(event: MouseEvent): void {
+    if (this.isDragging) event.preventDefault();
   }
 }
