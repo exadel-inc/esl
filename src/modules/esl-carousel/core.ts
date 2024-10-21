@@ -1,3 +1,6 @@
+// TSX support
+export type {ESLCarouselShape} from './core/esl-carousel.shape';
+
 // Core
 export * from './core/esl-carousel.events';
 export {ESLCarousel} from './core/esl-carousel';
