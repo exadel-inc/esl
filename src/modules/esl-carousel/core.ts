@@ -8,6 +8,9 @@ export {ESLCarouselSlide} from './core/esl-carousel.slide';
 
 // Navigation
 export * from './plugin/nav/esl-carousel.nav.mixin';
+
+// Navigation Dots
+export type {ESLCarouselNavDotsShape} from './plugin/dots/esl-carousel.nav.dots.shape';
 export * from './plugin/dots/esl-carousel.nav.dots';
 
 // Touch support
