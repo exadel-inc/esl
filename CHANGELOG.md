@@ -1,3 +1,12 @@
+## [5.0.0-beta.37](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.36...v5.0.0-beta.37) (2024-10-21)
+
+### Bug Fixes
+
+* **esl-carousel:** add missing TSX declaration for `esl-carousel-dots` ([7f30c71](https://github.com/exadel-inc/esl/commit/7f30c718f92da43b378022b1d9d29e0f504204ff))
+* **esl-carousel:** esl-carousel tag is not declared to be used in TSX ([70b1607](https://github.com/exadel-inc/esl/commit/70b160754f5c9a7c8e399f3eff1446e40824d0d5)), closes [#2330](https://github.com/exadel-inc/esl/issues/2330)
+* **esl-drag-to-scroll:** fix issue with un-prevented click action after drag ([c98cfa4](https://github.com/exadel-inc/esl/commit/c98cfa49a1629790a01dab4a6704d5fcea6e19d7))
+* **esl-drag-to-scroll:** fix propagation of the click if drag detected ([0b4aee6](https://github.com/exadel-inc/esl/commit/0b4aee6611d0c69f4df8445b41aade9754bcd9ca))
+
 ## [5.0.0-beta.36](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.35...v5.0.0-beta.36) (2024-09-30)
 
 ### Features
