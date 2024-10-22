@@ -381,7 +381,7 @@ export class ESLMedia extends ESLBaseElement {
   })
   protected _onTargetShow(): void {
     if (this.playInViewport && !this.inViewport) return;
-    this.play();
+    if (this.autoplay) this.play();
   }
 
   @listen({
