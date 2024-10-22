@@ -1,6 +1,6 @@
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {isElement} from '../../esl-utils/dom/api';
+import {isSafeContains} from '../../esl-utils/dom/traversing';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {SPACE, PAUSE} from '../../esl-utils/dom/keys';
 import {prop, attr, boolAttr, listen} from '../../esl-utils/decorators';
@@ -43,6 +43,7 @@ export class ESLMedia extends ESLBaseElement {
     'fill-mode',
     'aspect-ratio',
     'play-in-viewport',
+    'in-viewport',
     'muted',
     'loop',
     'controls',
@@ -99,6 +100,8 @@ export class ESLMedia extends ESLBaseElement {
   @boolAttr() public playsinline: boolean;
   /** Allows play resource only in viewport area */
   @boolAttr() public playInViewport: boolean;
+  /** Viewport intersection marker */
+  @boolAttr({readonly: true}) public inViewport: boolean;
   /** Allows to start viewing a resource from a specific time offset. */
   @attr({parser: parseInt}) public startTime: number;
 
@@ -176,6 +179,7 @@ export class ESLMedia extends ESLBaseElement {
 
   protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected || oldVal === newVal) return;
+    // eslint-disable-next-line sonarjs/max-switch-cases
     switch (attrName) {
       case 'disabled':
       case 'media-id':
@@ -205,12 +209,23 @@ export class ESLMedia extends ESLBaseElement {
         this.$$on(this._onConditionChange);
         this.deferredReinitialize();
         break;
+      case 'in-viewport':
+        this.inViewport ? this.play() : this.pause();
+        break;
     }
   }
 
   public canActivate(): boolean {
     if (this.lazy !== 'none' || this.disabled) return false;
     return this.conditionQuery.matches;
+  }
+
+  protected canPlay(): boolean {
+    return !this.playInViewport || (!this.active && this.autoplay && this.inViewport);
+  }
+
+  protected canPause(): boolean {
+    return this.active;
   }
 
   private reinitInstance(): void {
@@ -259,12 +274,13 @@ export class ESLMedia extends ESLBaseElement {
       this.deferredReinitialize.cancel();
       this.reinitInstance();
     }
-    if (!this.canActivate()) return null;
+    if (!this.canActivate() || !this.canPlay()) return null;
     return this._provider && this._provider.safePlay();
   }
 
   /** Pause playing media */
   public pause(): Promise<void> | null {
+    if (!this.canPause()) return null;
     return this._provider && this._provider.safePause();
   }
 
@@ -352,7 +368,7 @@ export class ESLMedia extends ESLBaseElement {
   })
   protected _onRefresh(e: Event): void {
     const {target} = e;
-    if (isElement(target) && target.contains(this)) this._onResize();
+    if (isSafeContains(target as Node, this)) this._onResize();
   }
 
   @listen({
@@ -369,6 +385,26 @@ export class ESLMedia extends ESLBaseElement {
   })
   protected _onConditionChange(): void {
     this.deferredReinitialize();
+  }
+
+  @listen({
+    event: 'esl:show',
+    target: window
+  })
+  protected _onContainerShow(e: Event): void {
+    const {target} = e;
+    if (!isSafeContains(target as Node, this)) return;
+    this.play();
+  }
+
+  @listen({
+    event: 'esl:hide',
+    target: window
+  })
+  protected _onContainerHide(e: Event): void {
+    const {target} = e;
+    if (!isSafeContains(target as Node, this)) return;
+    this.pause();
   }
 
   @listen('keydown')
