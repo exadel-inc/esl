@@ -35,7 +35,7 @@ export class SnapshotMatcher {
     const {current, previous, snapshotPath, diffPath} = this.received;
     if (!previous.buffer) {
       mkDir(path.dirname(snapshotPath));
-      current.img.toFile(snapshotPath);
+      await current.img.toFile(snapshotPath);
       return this.getMatcherResult(true, `New snapshot was created: ${snapshotPath}`);
     }
 

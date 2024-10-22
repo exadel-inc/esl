@@ -22,39 +22,19 @@ export class SharpService {
     return SharpService.toJPEG(input, options).toBuffer();
   }
 
-  public static async normalizeImages(img1: Buffer | string, img2: Buffer | string): Promise<[Buffer, Buffer]> {
-    const imgCtx1 = sharp(img1);
-    const imgCtx2 = sharp(img2);
+  public static async normalize(...img: (string | Buffer)[]): Promise<Buffer[]> {
+    const images = img.map((image) => sharp(image));
+    const metadata = await Promise.all(images.map((image) => image.metadata()));
 
-    const metadata1 = await imgCtx1.metadata();
-    const metadata2 = await imgCtx2.metadata();
+    const tWidth = Math.max(...metadata.map((m) => m.width!));
+    const tHeight = Math.max(...metadata.map((m) => m.height!));
 
-    const targetWidth = Math.max(metadata1.width!, metadata2.width!);
-    const targetHeight = Math.max(metadata1.height!, metadata2.height!);
-
-    const padImage = async (
-      image: sharp.Sharp,
-      width: number,
-      height: number,
-      metadata: sharp.Metadata
-    ): Promise<Buffer> => {
-      if (metadata.width === width && metadata.height === height) return image.toBuffer();
-
-      const padX = Math.max(0, (width - metadata.width!) / 2);
-      const padY = Math.max(0, (height - metadata.height!) / 2);
-
-      return image.extend({
-        top: Math.floor(padY),
-        bottom: Math.ceil(padY),
-        left: Math.floor(padX),
-        right: Math.ceil(padX),
-        background: {r: 255, g: 255, b: 255, alpha: 1}
-      })
-        .toBuffer();
-    };
-
-    const normalizedBuffer1 = await padImage(imgCtx1, targetWidth, targetHeight, metadata1);
-    const normalizedBuffer2 = await padImage(imgCtx2, targetWidth, targetHeight, metadata2);
-    return [normalizedBuffer1, normalizedBuffer2];
+    return Promise.all(images.map((image, index) => image.extend({
+      left: 0,
+      right: Math.max(0, Math.ceil(tWidth - metadata[index].width!)),
+      top: 0,
+      bottom: Math.max(0, Math.ceil(tHeight - metadata[index].height!)),
+      background: {r: 255, g: 255, b: 255, alpha: 1}
+    }).toBuffer()));
   }
 }
