@@ -99,6 +99,8 @@ export class ESLMedia extends ESLBaseElement {
   @boolAttr() public playsinline: boolean;
   /** Allows play resource only in viewport area */
   @boolAttr() public playInViewport: boolean;
+  /** In viewport intersection marker */
+  @boolAttr() public inViewport: boolean;
   /** Allows to start viewing a resource from a specific time offset. */
   @attr({parser: parseInt}) public startTime: number;
 
@@ -132,6 +134,8 @@ export class ESLMedia extends ESLBaseElement {
   @attr() public loadConditionClass: string;
   /** Target element {@link ESLTraversingQuery} select to toggle {@link loadConditionClass} classes */
   @attr({defaultValue: '::parent'}) public loadConditionClassTarget: string;
+  /** Target container element {@link ESLToggleable} to toggle container state */
+  @attr({defaultValue: '::parent'}) public toggleableTarget: string;
 
   /** @readonly Ready state marker */
   @boolAttr({readonly: true}) public ready: boolean;
@@ -369,6 +373,23 @@ export class ESLMedia extends ESLBaseElement {
   })
   protected _onConditionChange(): void {
     this.deferredReinitialize();
+  }
+
+  @listen({
+    event: 'esl:show',
+    target: ($this: ESLMedia) => $this.toggleableTarget
+  })
+  protected _onTargetShow(): void {
+    if (this.playInViewport && !this.inViewport) return;
+    this.play();
+  }
+
+  @listen({
+    event: 'esl:hide',
+    target: ($this: ESLMedia) => $this.toggleableTarget
+  })
+  protected _onTargetHide(): void {
+    this.pause();
   }
 
   @listen('keydown')
