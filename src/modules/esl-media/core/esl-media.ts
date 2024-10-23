@@ -1,6 +1,6 @@
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {isContains} from '../../esl-utils/dom/traversing';
+import {isSafeContains} from '../../esl-utils/dom/traversing';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {SPACE, PAUSE} from '../../esl-utils/dom/keys';
 import {prop, attr, boolAttr, listen} from '../../esl-utils/decorators';
@@ -368,7 +368,7 @@ export class ESLMedia extends ESLBaseElement {
   })
   protected _onRefresh(e: Event): void {
     const {target} = e;
-    if (isContains(target as Node, this)) this._onResize();
+    if (isSafeContains(target as Node, this)) this._onResize();
   }
 
   @listen({
@@ -393,7 +393,7 @@ export class ESLMedia extends ESLBaseElement {
   })
   protected _onContainerShow(e: Event): void {
     const {target} = e;
-    if (!isContains(target as Node, this) || !this.inViewport) return;
+    if (!isSafeContains(target as Node, this) || !this.inViewport) return;
     if (this.autoplay) this.play();
   }
 
@@ -403,7 +403,7 @@ export class ESLMedia extends ESLBaseElement {
   })
   protected _onContainerHide(e: Event): void {
     const {target} = e;
-    if (!isContains(target as Node, this)) return;
+    if (!isSafeContains(target as Node, this)) return;
     this.pause();
   }
 

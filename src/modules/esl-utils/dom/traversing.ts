@@ -8,7 +8,7 @@ export const isMatches = (el: Element, matcher?: string | ((el: Element) => bool
   return typeof matcher === 'undefined';
 };
 
-export const isContains = (container: Node | null | undefined, element: Node | null | undefined): boolean => {
+export const isSafeContains = (container: Node | null | undefined, element: Node | null | undefined): boolean => {
   return isElement(element) && isElement(container) && container.contains(element);
 };
 
@@ -19,7 +19,7 @@ export function isRelativeNode(nodeA: Node | null | undefined, nodeB: null | und
 /** Checks that `nodeA` and `nodeB` are from the same tree path */
 export function isRelativeNode(nodeA: Node | null | undefined, nodeB: Node | null | undefined): boolean;
 export function isRelativeNode(nodeA: Node | null | undefined, nodeB: Node | null | undefined): boolean {
-  return isContains(nodeA, nodeB) || isContains(nodeB, nodeA);
+  return isSafeContains(nodeA, nodeB) || isSafeContains(nodeB, nodeA);
 }
 
 type IteratorFn = (el: Element) => Element | null;
