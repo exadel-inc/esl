@@ -210,7 +210,7 @@ export class ESLMedia extends ESLBaseElement {
         this.deferredReinitialize();
         break;
       case 'in-viewport':
-        this.hasAttribute('in-viewport') ? this.play() : this.pause();
+        this.inViewport ? this.play() : this.pause();
         break;
     }
   }
@@ -221,7 +221,7 @@ export class ESLMedia extends ESLBaseElement {
   }
 
   protected canPlay(): boolean {
-    return !this.inViewport || (!this.active && this.autoplay);
+    return !this.playInViewport || (!this.active && this.autoplay && this.inViewport);
   }
 
   protected canPause(): boolean {
