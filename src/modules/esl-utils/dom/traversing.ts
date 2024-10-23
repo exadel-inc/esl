@@ -8,6 +8,7 @@ export const isMatches = (el: Element, matcher?: string | ((el: Element) => bool
   return typeof matcher === 'undefined';
 };
 
+/** Safely checks if the target element is within the container element */
 export const isSafeContains = (container: Node | null | undefined, element: Node | null | undefined): boolean => {
   return isElement(element) && isElement(container) && container.contains(element);
 };
