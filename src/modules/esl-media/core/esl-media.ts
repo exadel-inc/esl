@@ -220,11 +220,11 @@ export class ESLMedia extends ESLBaseElement {
     return this.conditionQuery.matches;
   }
 
-  public canPlay(): boolean {
-    return !this.active && this.autoplay;
+  protected canPlay(): boolean {
+    return !this.inViewport || (!this.active && this.autoplay);
   }
 
-  public canPause(): boolean {
+  protected canPause(): boolean {
     return this.active;
   }
 
@@ -280,12 +280,12 @@ export class ESLMedia extends ESLBaseElement {
 
   /** Pause playing media */
   public pause(): Promise<void> | null {
+    if (!this.canPause()) return null;
     return this._provider && this._provider.safePause();
   }
 
   /** Stop playing media */
   public stop(): Promise<void> | null {
-    if (!this.canPause()) return null;
     return this._provider && this._provider.safeStop();
   }
 
@@ -393,8 +393,8 @@ export class ESLMedia extends ESLBaseElement {
   })
   protected _onContainerShow(e: Event): void {
     const {target} = e;
-    if (!isSafeContains(target as Node, this) || !this.inViewport) return;
-    if (this.autoplay) this.play();
+    if (!isSafeContains(target as Node, this)) return;
+    this.play();
   }
 
   @listen({
