@@ -380,7 +380,7 @@ export class ESLMedia extends ESLBaseElement {
   })
   protected _onContainerShow(e: Event): void {
     const {target} = e;
-    if (!this.isAcceptableTarget(target) || (this.playInViewport && !this.inViewport)) return;
+    if (!this.isAcceptableTarget(target) || !this.inViewport) return;
     if (this.autoplay) this.play();
   }
 
