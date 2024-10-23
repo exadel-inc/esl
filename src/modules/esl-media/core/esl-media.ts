@@ -10,6 +10,7 @@ import {parseAspectRatio} from '../../esl-utils/misc/format';
 import {ESLMediaQuery} from '../../esl-media-query/core';
 import {ESLResizeObserverTarget} from '../../esl-event-listener/core';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core';
+import {ESLToggleable} from '../../esl-toggleable/core/esl-toggleable';
 
 import {getIObserver} from './esl-media-iobserver';
 import {PlayerStates} from './esl-media-provider';
@@ -99,7 +100,7 @@ export class ESLMedia extends ESLBaseElement {
   @boolAttr() public playsinline: boolean;
   /** Allows play resource only in viewport area */
   @boolAttr() public playInViewport: boolean;
-  /** In viewport intersection marker */
+  /** Viewport intersection marker */
   @boolAttr() public inViewport: boolean;
   /** Allows to start viewing a resource from a specific time offset. */
   @attr({parser: parseInt}) public startTime: number;
@@ -134,8 +135,6 @@ export class ESLMedia extends ESLBaseElement {
   @attr() public loadConditionClass: string;
   /** Target element {@link ESLTraversingQuery} select to toggle {@link loadConditionClass} classes */
   @attr({defaultValue: '::parent'}) public loadConditionClassTarget: string;
-  /** Target container element {@link ESLToggleable} to toggle container state */
-  @attr({defaultValue: '::parent'}) public toggleableTarget: string;
 
   /** @readonly Ready state marker */
   @boolAttr({readonly: true}) public ready: boolean;
@@ -356,7 +355,7 @@ export class ESLMedia extends ESLBaseElement {
   })
   protected _onRefresh(e: Event): void {
     const {target} = e;
-    if (isElement(target) && target.contains(this)) this._onResize();
+    if (this.isAcceptableTarget(target)) this._onResize();
   }
 
   @listen({
@@ -376,19 +375,22 @@ export class ESLMedia extends ESLBaseElement {
   }
 
   @listen({
-    event: 'esl:show',
-    target: ($this: ESLMedia) => $this.toggleableTarget
+    event: ESLToggleable.prototype.SHOW_EVENT,
+    target: window
   })
-  protected _onTargetShow(): void {
-    if (this.playInViewport && !this.inViewport) return;
+  protected _onContainerShow(e: Event): void {
+    const {target} = e;
+    if (!this.isAcceptableTarget(target) || (this.playInViewport && !this.inViewport)) return;
     if (this.autoplay) this.play();
   }
 
   @listen({
-    event: 'esl:hide',
-    target: ($this: ESLMedia) => $this.toggleableTarget
+    event: ESLToggleable.prototype.HIDE_EVENT,
+    target: window
   })
-  protected _onTargetHide(): void {
+  protected _onContainerHide(e: Event): void {
+    const {target} = e;
+    if (!this.isAcceptableTarget(target)) return;
     this.pause();
   }
 
@@ -400,6 +402,10 @@ export class ESLMedia extends ESLBaseElement {
       e.stopPropagation();
       this.toggle();
     }
+  }
+
+  protected isAcceptableTarget(target: EventTarget | null): boolean {
+    return isElement(target) && target.contains(this);
   }
 
   /** Update ready class state */
