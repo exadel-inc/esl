@@ -1,3 +1,4 @@
+import {isElement} from './api';
 import type {Predicate} from '../misc/functions';
 
 /** Checks if element matches passed selector or exact predicate function */
@@ -7,6 +8,10 @@ export const isMatches = (el: Element, matcher?: string | ((el: Element) => bool
   return typeof matcher === 'undefined';
 };
 
+export const isContains = (container: Node | null | undefined, element: Node | null | undefined): boolean => {
+  return isElement(element) && isElement(container) && container.contains(element);
+};
+
 /** Checks that `nodeA` and `nodeB` are from the same tree path */
 export function isRelativeNode(nodeA: null | undefined, nodeB: Node | null | undefined): false;
 /** Checks that `nodeA` and `nodeB` are from the same tree path */
@@ -14,7 +19,7 @@ export function isRelativeNode(nodeA: Node | null | undefined, nodeB: null | und
 /** Checks that `nodeA` and `nodeB` are from the same tree path */
 export function isRelativeNode(nodeA: Node | null | undefined, nodeB: Node | null | undefined): boolean;
 export function isRelativeNode(nodeA: Node | null | undefined, nodeB: Node | null | undefined): boolean {
-  return !!(nodeA && nodeB) && (nodeA.contains(nodeB) || nodeB.contains(nodeA));
+  return isContains(nodeA, nodeB) || isContains(nodeB, nodeA);
 }
 
 type IteratorFn = (el: Element) => Element | null;

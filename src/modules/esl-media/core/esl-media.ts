@@ -1,6 +1,6 @@
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {isElement} from '../../esl-utils/dom/api';
+import {isContains} from '../../esl-utils/dom/traversing';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {SPACE, PAUSE} from '../../esl-utils/dom/keys';
 import {prop, attr, boolAttr, listen} from '../../esl-utils/decorators';
@@ -10,7 +10,6 @@ import {parseAspectRatio} from '../../esl-utils/misc/format';
 import {ESLMediaQuery} from '../../esl-media-query/core';
 import {ESLResizeObserverTarget} from '../../esl-event-listener/core';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core';
-import {ESLToggleable} from '../../esl-toggleable/core/esl-toggleable';
 
 import {getIObserver} from './esl-media-iobserver';
 import {PlayerStates} from './esl-media-provider';
@@ -44,6 +43,7 @@ export class ESLMedia extends ESLBaseElement {
     'fill-mode',
     'aspect-ratio',
     'play-in-viewport',
+    'in-viewport',
     'muted',
     'loop',
     'controls',
@@ -101,7 +101,7 @@ export class ESLMedia extends ESLBaseElement {
   /** Allows play resource only in viewport area */
   @boolAttr() public playInViewport: boolean;
   /** Viewport intersection marker */
-  @boolAttr() public inViewport: boolean;
+  @boolAttr({readonly: true}) public inViewport: boolean;
   /** Allows to start viewing a resource from a specific time offset. */
   @attr({parser: parseInt}) public startTime: number;
 
@@ -179,6 +179,7 @@ export class ESLMedia extends ESLBaseElement {
 
   protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected || oldVal === newVal) return;
+    // eslint-disable-next-line sonarjs/max-switch-cases
     switch (attrName) {
       case 'disabled':
       case 'media-id':
@@ -208,12 +209,23 @@ export class ESLMedia extends ESLBaseElement {
         this.$$on(this._onConditionChange);
         this.deferredReinitialize();
         break;
+      case 'in-viewport':
+        this.hasAttribute('in-viewport') ? this.play() : this.pause();
+        break;
     }
   }
 
   public canActivate(): boolean {
     if (this.lazy !== 'none' || this.disabled) return false;
     return this.conditionQuery.matches;
+  }
+
+  public canPlay(): boolean {
+    return !this.active && this.autoplay;
+  }
+
+  public canPause(): boolean {
+    return this.active;
   }
 
   private reinitInstance(): void {
@@ -262,7 +274,7 @@ export class ESLMedia extends ESLBaseElement {
       this.deferredReinitialize.cancel();
       this.reinitInstance();
     }
-    if (!this.canActivate()) return null;
+    if (!this.canActivate() || !this.canPlay()) return null;
     return this._provider && this._provider.safePlay();
   }
 
@@ -273,6 +285,7 @@ export class ESLMedia extends ESLBaseElement {
 
   /** Stop playing media */
   public stop(): Promise<void> | null {
+    if (!this.canPause()) return null;
     return this._provider && this._provider.safeStop();
   }
 
@@ -355,7 +368,7 @@ export class ESLMedia extends ESLBaseElement {
   })
   protected _onRefresh(e: Event): void {
     const {target} = e;
-    if (this.isAcceptableTarget(target)) this._onResize();
+    if (isContains(target as Node, this)) this._onResize();
   }
 
   @listen({
@@ -375,22 +388,22 @@ export class ESLMedia extends ESLBaseElement {
   }
 
   @listen({
-    event: ESLToggleable.prototype.SHOW_EVENT,
+    event: 'esl:show',
     target: window
   })
   protected _onContainerShow(e: Event): void {
     const {target} = e;
-    if (!this.isAcceptableTarget(target) || !this.inViewport) return;
+    if (!isContains(target as Node, this) || !this.inViewport) return;
     if (this.autoplay) this.play();
   }
 
   @listen({
-    event: ESLToggleable.prototype.HIDE_EVENT,
+    event: 'esl:hide',
     target: window
   })
   protected _onContainerHide(e: Event): void {
     const {target} = e;
-    if (!this.isAcceptableTarget(target)) return;
+    if (!isContains(target as Node, this)) return;
     this.pause();
   }
 
@@ -402,10 +415,6 @@ export class ESLMedia extends ESLBaseElement {
       e.stopPropagation();
       this.toggle();
     }
-  }
-
-  protected isAcceptableTarget(target: EventTarget | null): boolean {
-    return isElement(target) && target.contains(this);
   }
 
   /** Update ready class state */
