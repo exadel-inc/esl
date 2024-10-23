@@ -32,8 +32,8 @@ function handleViewport(entry: IntersectionObserverEntry): void {
     video.$$attr('in-viewport', false);
   }
   // Play should start only for inactive and background(muted) videos that are visible more than on RATIO_TO_PLAY
-  if (video.autoplay && entry.intersectionRatio >= RATIO_TO_PLAY) {
-    if (!video.active) video.play();
+  if (entry.intersectionRatio >= RATIO_TO_PLAY) {
+    if (!video.active && video.autoplay) video.play();
     video.$$attr('in-viewport', true);
   }
 }
