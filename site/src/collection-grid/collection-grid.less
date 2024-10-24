@@ -18,6 +18,7 @@
       color 0.25s ease-in-out,
       border-color 0.25s ease-in-out;
 
+    color: inherit;
     &:hover {
       text-decoration: none;
     }
@@ -38,9 +39,12 @@
     min-height: 60px;
     font-size: 1.2rem;
     font-weight: 600;
-    color: black;
+    color: inherit;
     padding: 5px 15px;
     transition: color 0.25s ease-in-out;
+  }
+  &-compact &-title {
+    min-height: 50px;
   }
 
   &-item.draft &-box {
@@ -70,6 +74,12 @@
       max-height: 160px;
     }
   }
+  &-compact &-svg {
+    min-height: 180px;
+    svg {
+      max-height: 140px;
+    }
+  }
 
   &-alt {
     text-align: center;
@@ -91,11 +101,16 @@
   }
 
   &-column {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media @md-xl {
+    &-column&-compact {
+      grid-template-columns: repeat(4, 1fr);
+    }
   }
 
   &-column &-item {
-    background-color: white;
+    background-color: transparent;
     border-radius: 0.75rem;
     border: 1px solid #c8d6f0;
     max-width: 100%;
@@ -141,5 +156,10 @@
   }
   .arrows-icon.right {
     transform: rotate(-45deg);
+  }
+
+  &-bg-white &-item {
+    color: black;
+    background-color: white;
   }
 }

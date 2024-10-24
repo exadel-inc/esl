@@ -15,7 +15,7 @@ jest.mock('../scroll', () => ({
 }));
 
 jest.mock('../window', () => ({
-  getWindowRect: () => Rect.from({x: 0, y: 0, width: 2000, height: 2000})
+  getViewportRect: () => Rect.from({x: 0, y: 0, width: 2000, height: 2000})
 }));
 
 const mockClientRects = (el: HTMLElement) => jest.spyOn(el, 'getClientRects').mockReturnValue([{}] as any);
