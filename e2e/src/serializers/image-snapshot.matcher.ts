@@ -1,6 +1,6 @@
 import path from 'path';
 import pixelmatch from 'pixelmatch';
-import {mkDir} from '../../utils/directory';
+import {mkDir} from '../utils/directory';
 import {DiffImageComposer} from './image-snapshot.composer';
 
 import type {SnapshotData} from './image-snapshot.pocessor';
@@ -35,7 +35,7 @@ export class SnapshotMatcher {
     const {current, previous, snapshotPath, diffPath} = this.received;
     if (!previous.buffer) {
       mkDir(path.dirname(snapshotPath));
-      current.img.toFile(snapshotPath);
+      await current.img.toFile(snapshotPath);
       return this.getMatcherResult(true, `New snapshot was created: ${snapshotPath}`);
     }
 

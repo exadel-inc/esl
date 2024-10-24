@@ -1,4 +1,4 @@
-import {goTo} from '../setup/scenarios.page';
+import {goTo} from '../src/scenarios/scenarios.page';
 
 describe('Homepage footer manual validation', () => {
   beforeAll(() => goTo('/'));

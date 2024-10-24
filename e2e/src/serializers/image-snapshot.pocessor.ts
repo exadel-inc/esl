@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 
-import {getDiffDir, getSnapshotDir, buildSnapshotName} from '../../utils/image-snapshot.name';
+import {getDiffDir, getSnapshotDir, buildSnapshotName} from '../utils/image-snapshot.name';
 import {SharpService} from './image-snapshot.sharp';
 
 import type sharp from 'sharp';
@@ -34,7 +34,7 @@ export class SnapshotDataProcessor {
     const shouldUpdate = !fs.existsSync(snapshotPath) || context.snapshotState._updateSnapshot === 'all';
     const [currentBuffer, previousBuffer] = shouldUpdate
       ? [received, undefined]
-      : await SharpService.normalizeImages(received, snapshotPath);
+      : await SharpService.normalize(received, snapshotPath);
 
     const currentJPG = SharpService.toJPEG(currentBuffer);
     const currentRAWBuffer = await SharpService.toRawBuffered(await currentJPG.toBuffer());
