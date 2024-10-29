@@ -1,3 +1,24 @@
+## [5.0.0-beta.37](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.36...v5.0.0-beta.37) (2024-10-21)
+
+### Bug Fixes
+
+* **esl-carousel:** add missing TSX declaration for `esl-carousel-dots` ([7f30c71](https://github.com/exadel-inc/esl/commit/7f30c718f92da43b378022b1d9d29e0f504204ff))
+* **esl-carousel:** esl-carousel tag is not declared to be used in TSX ([70b1607](https://github.com/exadel-inc/esl/commit/70b160754f5c9a7c8e399f3eff1446e40824d0d5)), closes [#2330](https://github.com/exadel-inc/esl/issues/2330)
+* **esl-drag-to-scroll:** fix issue with un-prevented click action after drag ([c98cfa4](https://github.com/exadel-inc/esl/commit/c98cfa49a1629790a01dab4a6704d5fcea6e19d7))
+* **esl-drag-to-scroll:** fix propagation of the click if drag detected ([0b4aee6](https://github.com/exadel-inc/esl/commit/0b4aee6611d0c69f4df8445b41aade9754bcd9ca))
+
+## [5.0.0-beta.36](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.35...v5.0.0-beta.36) (2024-09-30)
+
+### Features
+
+* **esl-carousel:** add attribute to carousel if it has only one slide ([25dc3bb](https://github.com/exadel-inc/esl/commit/25dc3bba2c614362c5d8abee99e78cc0f83c5f86))
+* **eslint-config:** introducing shared eslint-config for esl projects (internal use only for now) ([ca5f454](https://github.com/exadel-inc/esl/commit/ca5f4549645683a3cf191943ab7df098cb206915))
+* **lint:** adapt eslint plugin to be used with ESLint 9 ([93c90d2](https://github.com/exadel-inc/esl/commit/93c90d2678d463c2e5c4c1d3c141db68eb1982fb))
+
+### Bug Fixes
+
+* **lint:** fix Literal import processing & update eslint 9.11.1 ([3345564](https://github.com/exadel-inc/esl/commit/334556429dc2f976c669d0662654056ab0876e90))
+
 ## [5.0.0-beta.34](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.33...v5.0.0-beta.34) (2024-09-19)
 
 ### Features

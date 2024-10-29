@@ -10,14 +10,14 @@ module.exports = {
   preset: 'jest-puppeteer',
   transform: {
     '^.+\\.tsx?$': 'ts-jest',
-    '^.+\\.feature$': './transformer/gherkin.js'
+    '^.+\\.feature$': './src/transformer/gherkin.js'
   },
   roots: ['./tests/'],
   testRegex: ['(.+)\\.(spec|test)\\.ts$', '(.+).feature'],
   moduleFileExtensions: ['ts', 'js', 'feature'],
-  setupFilesAfterEnv: ['./setup/serializers/image-snapshot.ts', './setup/scenarios.ts'],
+  setupFilesAfterEnv: ['./src/serializers/image-snapshot.ts', './src/scenarios.ts'],
   reporters: [
-    ['./reporters/reporter.js', {
+    ['./src/reporters/reporter.js', {
       diffDir: './.diff',
       outputPath: './.diff/README.md',
       outputPublishPath: './.diff/index.md'
