@@ -1,12 +1,12 @@
+import {promisifyTimeout} from '@exadel/esl/modules/esl-utils/async';
 import {goTo} from '../../../setup/scenarios.page';
-import {delay} from './utils/wait';
 import {createMediaElement} from './utils/utils';
 
 import type {ESLMedia} from '@exadel/esl/modules/esl-media/core/esl-media';
 
 const createVideoMedia = async (props: Partial<ESLMedia> = {}) => {
   await createMediaElement(Object.assign({mediaType: 'video', mediaSrc: '/assets/media/video_1.mp4'}, props));
-  await delay(1000);
+  await promisifyTimeout(1000);
 
   const $media = await page.$('esl-media');
   return {
@@ -53,7 +53,7 @@ describe('esl-media: HTML video', () => {
 
     test('Media autoplay parameter', async () => {
       const {$media} = await createVideoMedia({autoplay: true});
-      await delay(1000);
+      await promisifyTimeout(1000);
 
       expect(await page.evaluate(($el) => $el.currentTime, $media)).toBeGreaterThan(0);
     });
@@ -64,7 +64,7 @@ describe('esl-media: HTML video', () => {
       expect(await page.evaluate(($el) => $el.currentTime, $media)).toBe(0);
 
       await page.evaluate(($el) => $el.play(), $media);
-      await delay(1000);
+      await promisifyTimeout(1000);
 
       expect(await page.evaluate(($el) => $el.currentTime, $media)).toBeGreaterThan(0);
     });
@@ -73,13 +73,13 @@ describe('esl-media: HTML video', () => {
       const {$media} = await createVideoMedia();
 
       await page.evaluate(($el) => $el.play(), $media);
-      await delay(1000);
+      await promisifyTimeout(1000);
 
       const playtime = await page.evaluate(($el) => {
         $el.pause();
         return $el.currentTime;
       }, $media);
-      await delay(1000);
+      await promisifyTimeout(1000);
 
       const pausedTime = await page.evaluate(($el) => $el.currentTime, $media);
 
@@ -89,10 +89,10 @@ describe('esl-media: HTML video', () => {
     test('Media stop', async () => {
       const {$media} = await createVideoMedia();
       await page.evaluate(($el) => $el.play(), $media);
-      await delay(1000);
+      await promisifyTimeout(1000);
 
       await page.evaluate(($el) => $el.stop(), $media);
-      await delay(1000);
+      await promisifyTimeout(1000);
 
       expect(await page.evaluate(($el) => $el.currentTime, $media)).toBe(0);
     });
