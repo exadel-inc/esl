@@ -1,6 +1,6 @@
 ## Basic concepts
 
-The ESL event listener module is based on the following major terms and classes:
+The `esl-event-listener` module is based on the following major terms and classes:
 
 ### <a name="the-host">The `host`</a>
 
@@ -82,7 +82,7 @@ Here is the list of supported keys of `ESLEventDesriptor`:
   ⚠ Any `EventTarget` or even ESL `SynteticEventTarget` (including [`ESLMediaQuery`](../esl-media-query/README.md))
   can be a target for listener API.
 
-  ⚠ See [OOTB Extended Event Targets](#extended-event-targets) of ESL to know how to optimize handling of frequent events.
+  ⚠ See [OOTB Extended Event Targets](./3-extended-targets.md) of ESL to know how to optimize handling of frequent events.
 
   The `target` property can be declared via `PropertyProvider` as well.
 

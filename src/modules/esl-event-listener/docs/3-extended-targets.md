@@ -1,4 +1,4 @@
-## <a name="extended-event-targets">Extended `EventTarget`s and standard optimizations</a> <i class="badge badge-sup badge-warning">beta</i>
+## Extended `EventTarget`s and standard optimizations
 
 <a name="-esleventutilsdecorate"></a>
 

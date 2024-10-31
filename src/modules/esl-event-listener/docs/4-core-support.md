@@ -1,4 +1,4 @@
-## <a name="embedded-behavior-of-eslbaseelement-eslmixinelement">Embedded behavior of `ESLBaseElement` / `ESLMixinElement`</a>
+## Embedded behavior of `ESLBaseElement` / `ESLMixinElement`
 
 ### Shortcuts
 
