@@ -98,7 +98,7 @@
 {% endmacro %}
 
 {% macro badgeByTags(tags, isDraftCollection) %}
-  {# Tags chaecks ordered by priority, due to displaying single badge #}
+  {# Tags checks ordered by priority, due to displaying single badge #}
   {% if tags.includes('deprecated') %}
     <span class="badge badge-sidebar badge-img badge-deprecated" title="Deprecated component" aria-label="Deprecated component"></span>
   {% elif tags.includes('draft') and not isDraftCollection %}
