@@ -29,6 +29,7 @@ export class ESLMediaChangeEvent extends Event {
 
   /** Returns serialized value of the current {@link ESLMediaQuery} */
   public get media(): string {
+    // eslint-disable-next-line @typescript-eslint/no-base-to-string
     return String(this.target);
   }
 }
