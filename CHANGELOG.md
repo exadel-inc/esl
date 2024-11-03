@@ -22,6 +22,13 @@
 
 * **lint:** deprecation rule for `ESlMediaRuleList.parse` ([#2509](https://github.com/exadel-inc/esl/issues/2509)) ([a1f916a](https://github.com/exadel-inc/esl/commit/a1f916ae4cf9a7d618516646e6629ae3a58f3d68))
 
+## [4.18.2](https://github.com/exadel-inc/esl/compare/v4.18.1...v4.18.2) (2024-11-03)
+
+
+### Bug Fixes
+
+* **site:** share preview cards ([58194ca](https://github.com/exadel-inc/esl/commit/58194ca867d035b07980d9f3faddd23a2d03ee17))
+
 ## [4.17.1](https://github.com/exadel-inc/esl/compare/v4.17.0...v4.17.1) (2024-06-17)
 
 
