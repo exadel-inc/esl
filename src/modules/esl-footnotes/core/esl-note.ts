@@ -25,14 +25,7 @@ export class ESLNote extends ESLBaseTrigger {
   /** Event to acknowledge {@link ESLFootnotes} instance about footnote */
   @prop('esl:footnotes:response') public FOOTNOTE_RESPONSE_EVENT: string;
 
-  /** Linked state marker */
-  @boolAttr() public linked: boolean;
-  /** Standalone state marker */
-  @boolAttr() public standalone: boolean;
-  /** Tooltip state marker */
-  @boolAttr() public tooltipShown: boolean;
-
-  /** Media query to specify that footnotes must ignore this note. Default: `not all` */
+  /** {@link ESLMediaQuery} to specify that footnotes must ignore this note. Default: `not all` */
   @attr({defaultValue: 'not all'}) public ignore: string;
 
   /** Tooltip content */
@@ -50,7 +43,12 @@ export class ESLNote extends ESLBaseTrigger {
   @attr() public container: string;
 
   /** margin around the element that is used as the viewport for checking the visibility of the note tooltip */
-  @attr({defaultValue: '0px'})  public intersectionMargin: string;
+  @attr({defaultValue: '0px'}) public intersectionMargin: string;
+
+  /** Linked state marker */
+  @boolAttr({readonly: true}) public linked: boolean;
+  /** Standalone state marker */
+  @boolAttr({readonly: true}) public standalone: boolean;
 
   protected _$footnotes: ESLFootnotes | null;
   protected _index: number;
@@ -107,7 +105,7 @@ export class ESLNote extends ESLBaseTrigger {
 
   /** Checks that the target is in active state */
   public override get isTargetActive(): boolean {
-    return !!this.$target.open && this.$target.activator === this;
+    return this.$target.open && this.$target.activator === this;
   }
 
   @ready
@@ -164,7 +162,7 @@ export class ESLNote extends ESLBaseTrigger {
 
   /** Links note with footnotes */
   public link(footnotes: ESLFootnotes, index: number): void {
-    this.linked = true;
+    this.$$attr('linked', true);
     this._$footnotes = footnotes;
     this.index = index;
     this.tabIndex = 0;
@@ -180,23 +178,21 @@ export class ESLNote extends ESLBaseTrigger {
 
   /** Updates note state */
   public update(): void {
-    this.standalone = !(this.linked && this.allowFootnotes);
+    this.$$attr('standalone', !(this.linked && this.allowFootnotes));
   }
 
   /** Initial initialization of the element during the connection to DOM */
   protected init(): void {
-    if (!this.html) {
-      this.html = this.innerHTML;
-    }
+    this.html = this.html || this.innerHTML;
     memoize.clear(this, 'queryToIgnore');
     this.index = 0;
-    this.linked = false;
+    this.$$attr('linked', false);
     this.update();
   }
 
   /** Restores original note content after unlinking */
   protected restore(): void {
-    this.linked = false;
+    this.$$attr('linked', false);
     this._$footnotes = null;
     this.index = 0;
     this.tabIndex = -1;
