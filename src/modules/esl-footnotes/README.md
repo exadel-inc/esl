@@ -44,7 +44,7 @@ ESLNote is a badge with a number or symbol. When it's hovered or clicked (user-d
   
 - `track-hover` - [MediaQuery](../esl-media-query/README.md) to define allowed to track hover event media. (`all` by default)
 
-### ESLNote Readnly Attributes | Properties:
+### ESLNote Readonly Attributes | Properties:
 
 - `linked` - read-only marker that appears on the note linked with the footnotes
 
