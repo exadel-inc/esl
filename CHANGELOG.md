@@ -1,3 +1,14 @@
+## [5.0.0-beta.38](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.37...v5.0.0-beta.38) (2024-11-04)
+
+### ⚠ BREAKING CHANGES
+
+* **esl-footnotes:** `tooltip-shown` readonly attribute(prop) replaced with `active` (from `ESLBaseTrigger`)
+
+### Features
+
+* **esl-footnotes:** claenup readonly API of `esl-note` ([cb43086](https://github.com/exadel-inc/esl/commit/cb430865e265b808d0312e96c0f76b755aaff4bc))
+* **esl-footnotes:** migrate esl-note to esl-base-trigger ([d2e0dbb](https://github.com/exadel-inc/esl/commit/d2e0dbb4a37e4a85da39a59e5a02289c5f848bc4))
+
 ## [5.0.0-beta.37](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.36...v5.0.0-beta.37) (2024-10-21)
 
 ### Bug Fixes
