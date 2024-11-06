@@ -89,7 +89,7 @@ You can also add additional classes and styles when activating and displaying th
 
 - `position` - popup position relative to the trigger (currently supported: 'top', 'bottom', 'left', 'right' ) ('top' by default)
   
-- `position-origin` <i class="badge badge-sup badge-warning">beta</i> - This attribute specifies from which side of the trigger grows popup to achieve the desired position ('outer' by default). Available options:
+- `position-origin` <i class="badge badge-sup badge-warning">beta</i> - this attribute specifies from which side of the trigger grows popup to achieve the desired position ('outer' by default). Available options:
   - `outer` - popup grows from the outside of the trigger relative to the positioning direction and cannot overlap the trigger
   - `inner` - popup grows from the inside of the trigger relative to the positioning direction and will overlap the trigger
   
