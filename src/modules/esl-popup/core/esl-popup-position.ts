@@ -3,6 +3,7 @@ import {Rect} from '../../esl-utils/dom/rect';
 import type {Point} from '../../esl-utils/dom/point';
 
 export type PositionType = 'top' | 'bottom' | 'left' | 'right';
+export type PositionOriginType = 'inner' | 'outer';
 
 export interface PopupPositionValue {
   placedAt: PositionType;
@@ -19,6 +20,7 @@ export interface IntersectionRatioRect {
 
 export interface PopupPositionConfig {
   position: PositionType;
+  hasInnerOrigin: boolean;
   behavior: string;
   marginArrow: number;
   offsetArrowRatio: number;
@@ -71,21 +73,21 @@ function calcPopupPositionByMinorAxis(cfg: PopupPositionConfig, centerPosition: 
  * @param cfg - popup position config
  * */
 function calcPopupBasicRect(cfg: PopupPositionConfig): Rect {
-  const {position, inner, element} = cfg;
+  const {position, inner, element, hasInnerOrigin} = cfg;
   let x = isOnHorizontalAxis(position) ? 0 : calcPopupPositionByMinorAxis(cfg, inner.cx, 'width');
   let y = isOnHorizontalAxis(position) ? calcPopupPositionByMinorAxis(cfg, inner.cy, 'height') : 0;
-  switch (cfg.position) {
+  switch (position) {
     case 'left':
-      x = inner.x - element.width;
+      x = (hasInnerOrigin ? inner.right : inner.x) - element.width;
       break;
     case 'right':
-      x = inner.right;
+      x = hasInnerOrigin ? inner.x : inner.right;
       break;
     case 'bottom':
-      y = inner.bottom;
+      y = hasInnerOrigin ? inner.y : inner.bottom;
       break;
     default:
-      y = inner.y - element.height;
+      y = (hasInnerOrigin ? inner.bottom : inner.y) - element.height;
       break;
   }
   return new Rect(x, y, element.width, element.height);
@@ -141,19 +143,51 @@ function fitOnMajorAxis(cfg: PopupPositionConfig, value: PopupPositionValue): Po
  * @returns updated popup position value
  * */
 function adjustAlongMajorAxis(cfg: PopupPositionConfig, value: PopupPositionValue): PopupPositionValue {
-  let {popup, placedAt} = value;
-  let {x, y} = popup;
-  if (isStartingSide(cfg.position)) {
-    x = cfg.position === 'left' ? cfg.inner.right : x;
-    y = cfg.position === 'top' ? cfg.inner.bottom : y;
-  } else {
-    x = cfg.position === 'right' ? cfg.inner.x - popup.width : x;
-    y = cfg.position === 'bottom' ? cfg.inner.y - popup.height : y;
-  }
-  popup = new Rect(x, y, popup.width, popup.height);
-  placedAt = getOppositePosition(cfg.position);
-
+  const popup = isStartingSide(cfg.position)
+    ? adjustForStartingSide(cfg, value.popup)
+    : adjustForEndingSide(cfg, value.popup);
+  const placedAt = getOppositePosition(cfg.position);
   return {...value, popup, placedAt};
+}
+
+/**
+ * Updates popup rect to fit on major axis in case positioning on the starting side.
+ * @param cfg - popup position config
+ * @param popup - popup rect
+ * @returns updated popup rect
+ * */
+function adjustForStartingSide(cfg: PopupPositionConfig, popup: Rect): Rect {
+  const {position, inner, hasInnerOrigin} = cfg;
+  let {x, y} = popup;
+  switch (position) {
+    case 'left':
+      x = hasInnerOrigin ? inner.x : inner.right;
+      break;
+    case 'top':
+      y = hasInnerOrigin ? inner.y : inner.bottom;
+      break;
+  }
+  return new Rect(x, y, popup.width, popup.height);
+}
+
+/**
+ * Updates popup rect to fit on major axis in case positioning on the ending side.
+ * @param cfg - popup position config
+ * @param popup - popup rect
+ * @returns updated popup rect
+ * */
+function adjustForEndingSide(cfg: PopupPositionConfig, popup: Rect): Rect {
+  const {position, inner, hasInnerOrigin} = cfg;
+  let {x, y} = popup;
+  switch (position) {
+    case 'right':
+      x = (hasInnerOrigin ? inner.right : inner.x) - popup.width;
+      break;
+    case 'bottom':
+      y = (hasInnerOrigin ? inner.bottom : inner.y) - popup.height;
+      break;
+  }
+  return new Rect(x, y, popup.width, popup.height);
 }
 
 /**
