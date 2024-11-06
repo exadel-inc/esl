@@ -89,13 +89,17 @@ You can also add additional classes and styles when activating and displaying th
 
 - `position` - popup position relative to the trigger (currently supported: 'top', 'bottom', 'left', 'right' ) ('top' by default)
   
+- `position-origin` <i class="badge badge-sup badge-warning">beta</i> - This attribute specifies from which side of the trigger grows popup to achieve the desired position ('outer' by default). Available options:
+  - `outer` - popup grows from the outside of the trigger relative to the positioning direction and cannot overlap the trigger
+  - `inner` - popup grows from the inside of the trigger relative to the positioning direction and will overlap the trigger
+  
 - `behavior` - popup behavior if it does not fit in the window ('fit' by default). Available options:
   - `fit` - default, the popup will always be positioned in the right place. Position dynamically updates so it will
     always be visible
   - `fit-major` - same as fit, but position dynamically updates only on major axes. Looks like a flip in relation to the trigger
   - `fit-minor` - same as fit, but position dynamically updates only on minor axes. Looks like alignment to the arrow
   - `none`, empty or unsupported value - will not be prevented from overflowing clipping boundaries, such as the viewport
-  
+
 - `container` - defines container element ([ESLTraversingQuery](../esl-traversing-query/README.md) selector) to determine bounds of popup visibility (window by default)
   
 - `disable-activator-observation` (boolean) - disable hiding the popup depending on the visibility of the activator
