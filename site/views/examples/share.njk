@@ -3,7 +3,7 @@ layout: content
 title: Share
 name: Share
 seoTitle: ESL Share - custom element to trigger various share actions for page or url with metadata based on ESL web components
-tags: [examples, beta]
+tags: [examples]
 icon: examples/share.svg
 aside:
   components:
@@ -20,59 +20,91 @@ aside:
   }
 </style>
 
-<section>
-  <h2>Share example</h2>
+<section class="row">
+  <div class="col-12">
+    <uip-root>
+      <script type="text/html"
+              label="Default share button"
+              uip-snippet
+              uip-snippet-js="js-snippet-share">
+        <h4>Share button with default icon rendering</h4>
+        <esl-share-button name="linkedin" default-icon></esl-share-button>
+      </script>
 
-  <h3>Share button examples</h3>
-  <p>Example of share button with default icon rendering.</p>
-  <esl-share-button name="linkedin" default-icon></esl-share-button>
-  <hr>
+      <script type="text/html"
+              label="Share button with custom config"
+              uip-snippet
+              uip-snippet-js="js-snippet-share">
+        <h4>Share button with defining config via markup</h4>
+        <p>The button's configuration uses attributes to specify the URL and title of the page to be shared.</p>
+        <esl-share-button action="media" link="//www.linkedin.com/sharing/share-offsite/?url={u}" name="linkedin"
+                          share-url="https://esl-ui.com/" share-title="Exadel Smart Library" tabindex="0" role="button"
+                          title="LinkedIn">
+          <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="esl-share-icon" fill="#fff"
+               focusable="false" role="presentation" style="background-color:#0b77b3;" viewBox="0 0 27.99 27.99">
+            <path d="M6.37 11.33h3.25v10.45H6.37zM8 6.13A1.88 1.88 0 116.12 8 1.88 1.88 0 018 6.13M11.65 11.33h3.12v1.43h.05a3.4 3.4 0 013.07-1.69c3.29 0 3.9 2.17 3.9 5v5.73h-3.25v-5.11c0-1.21 0-2.77-1.69-2.77s-1.94 1.32-1.94 2.69v5.17h-3.25V11.33z"></path>
+          </svg>
+        </esl-share-button>
+        <hr>
 
-  <p>Another example of share button.</p>
-  <esl-share-button name="linkedin">
-    Share me through Linkedin
-  </esl-share-button>
-  <hr>
+        <p>The same button is defined via config and the name attribute.</p>
+        <esl-share-button name="linkedin" share-url="https://esl-ui.com/" share-title="Exadel Smart Library"
+                          title="Linkedin">
+          <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="esl-share-icon" fill="#fff"
+               focusable="false" role="presentation" style="background-color:#0b77b3;" viewBox="0 0 27.99 27.99">
+            <path d="M6.37 11.33h3.25v10.45H6.37zM8 6.13A1.88 1.88 0 116.12 8 1.88 1.88 0 018 6.13M11.65 11.33h3.12v1.43h.05a3.4 3.4 0 013.07-1.69c3.29 0 3.9 2.17 3.9 5v5.73h-3.25v-5.11c0-1.21 0-2.77-1.69-2.77s-1.94 1.32-1.94 2.69v5.17h-3.25V11.33z"></path>
+          </svg>
+        </esl-share-button>
+      </script>
 
-  <p>Example of share button with defining config via markup. The button's configuration uses attributes to specify the URL and title of the page to be shared.</p>
-  <esl-share-button action="media" link="//www.linkedin.com/sharing/share-offsite/?url={u}" name="linkedin" share-url="https://esl-ui.com/" share-title="Exadel Smart Library" tabindex="0" role="button" title="LinkedIn">
-    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="esl-share-icon" fill="#fff" focusable="false" role="presentation" style="background-color:#0b77b3;" viewBox="0 0 27.99 27.99"><path d="M6.37 11.33h3.25v10.45H6.37zM8 6.13A1.88 1.88 0 116.12 8 1.88 1.88 0 018 6.13M11.65 11.33h3.12v1.43h.05a3.4 3.4 0 013.07-1.69c3.29 0 3.9 2.17 3.9 5v5.73h-3.25v-5.11c0-1.21 0-2.77-1.69-2.77s-1.94 1.32-1.94 2.69v5.17h-3.25V11.33z"></path></svg>
-  </esl-share-button>
-  <hr>
+      <script type="text/html"
+              label="Share list"
+              uip-snippet
+              uip-snippet-js="js-snippet-share">
+        <h4>Share buttons from a specified group</h4>
+        <esl-share-list list="group:demo"></esl-share-list>
+        <hr>
 
-  <p>The same button is defined via config and the name attribute.</p>
-  <esl-share-button name="linkedin" share-url="https://esl-ui.com/" share-title="Exadel Smart Library" title="Linkedin">
-    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="esl-share-icon" fill="#fff" focusable="false" role="presentation" style="background-color:#0b77b3;" viewBox="0 0 27.99 27.99"><path d="M6.37 11.33h3.25v10.45H6.37zM8 6.13A1.88 1.88 0 116.12 8 1.88 1.88 0 018 6.13M11.65 11.33h3.12v1.43h.05a3.4 3.4 0 013.07-1.69c3.29 0 3.9 2.17 3.9 5v5.73h-3.25v-5.11c0-1.21 0-2.77-1.69-2.77s-1.94 1.32-1.94 2.69v5.17h-3.25V11.33z"></path></svg>
-  </esl-share-button>
-  <hr>
+        <h4>List of share buttons of group 'alternative'</h4>
+        <p>Shows buttons from a specified group.</p>
+        <esl-share-list list=" group:alternative"></esl-share-list>
+        <hr>
 
-  <h3>Share list examples</h3>
-  <p>Shows buttons from a specified group.</p>
-  <esl-share-list list="group:demo"></esl-share-list>
-  <hr>
+        <h4>List of share buttons of the mix of Facebook, the group 'alternative', and Twitter button</h4>
+        <p>Shows a Facebook button, buttons from a specified group, and a Twitter button.</p>
+        <esl-share-list list="facebook group:alternative twitter"></esl-share-list>
+        <hr>
 
-  <h4>Displays list of share buttons of group 'alternative'</h4>
-  <p>Shows buttons from a specified group.</p>
-  <esl-share-list list=" group:alternative  "></esl-share-list>
-  <hr>
+        <h4>List of share buttons which presents buttons with all action types</h4>
+        <p>This example shows a button with the native share mechanism on the device which will be inactive on the
+          desktop browser.</p>
+        <esl-share-list list="copy linkedin mail native-share print"></esl-share-list>
+        <hr>
 
-  <h4>Displays list of share buttons of the mix of Facebook, the group 'alternative', and Twitter button</h4>
-  <p>Shows a Facebook button, buttons from a specified group, and a Twitter button.</p>
-  <esl-share-list list="facebook group:alternative twitter"></esl-share-list>
-  <hr>
+        <h4>List of share buttons (without group or list)</h4>
+        <p>Shows all available buttons from config. The component's configuration uses attributes to specify the URL and
+          title of the page to be shared.</p>
+        <esl-share-list share-url="https://esl-ui.com/" share-title="Exadel Smart Library"></esl-share-list>
+      </script>
 
-  <h4>List of share buttons which presents buttons with all action types</h4>
-  <p>This example shows a button with the native share mechanism on the device which will be inactive on the desktop browser.</p>
-  <esl-share-list list="copy linkedin mail native-share print"></esl-share-list>
-  <hr>
+      <script type="text/html"
+              label="Share popup trigger"
+              uip-snippet
+              uip-snippet-js="js-snippet-share">
+        <h4>Trigger icon</h4>
+        <p>Hovering or clicking on the icon shows a popup with the list of share icons. The component's configuration uses attributes to specify the URL and title of the page to be shared.</p>
+        <esl-share list="group:demo" share-url="https://esl-ui.com/" share-title="Exadel Smart Library">{% include 'static/assets/examples/share-trigger-icon.svg' %}</esl-share>
+      </script>
 
-  <h4>Displays list of share buttons (without group or list)</h4>
-  <p>Shows all available buttons from config. The component's configuration uses attributes to specify the URL and title of the page to be shared.</p>
-  <esl-share-list share-url="https://esl-ui.com/" share-title="Exadel Smart Library"></esl-share-list>
-  <hr>
+      <script id="js-snippet-share" type="text/plain">
+        import { ESLShare } from '@exadel/esl';
+        ESLShare.register();
+      </script>
 
-  <h3>Share popup trigger example</h3>
-  <p>Displays trigger icon. Hovering or clicking on the icon shows a popup with the list of share icons. The component's configuration uses attributes to specify the URL and title of the page to be shared.</p>
-  <esl-share list="group:demo" share-url="https://esl-ui.com/" share-title="Exadel Smart Library">{% include 'static/assets/examples/share-trigger-icon.svg' %}</esl-share>
-
+      <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
+      <uip-preview></uip-preview>
+      <uip-editor label="Source code (HTML)" collapsible copy></uip-editor>
+      <uip-editor source="js" label="Source code (JS)" collapsible collapsed copy></uip-editor>
+    </uip-root>
+  </div>
 </section>
