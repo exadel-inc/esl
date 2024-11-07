@@ -20,7 +20,8 @@ export function isRelativeNode(nodeA: Node | null | undefined, nodeB: null | und
 /** Checks that `nodeA` and `nodeB` are from the same tree path */
 export function isRelativeNode(nodeA: Node | null | undefined, nodeB: Node | null | undefined): boolean;
 export function isRelativeNode(nodeA: Node | null | undefined, nodeB: Node | null | undefined): boolean {
-  return isSafeContains(nodeA, nodeB) || isSafeContains(nodeB, nodeA);
+  if (!isElement(nodeA) || !isElement(nodeB)) return false;
+  return nodeA.contains(nodeB) || nodeB.contains(nodeA);
 }
 
 type IteratorFn = (el: Element) => Element | null;
