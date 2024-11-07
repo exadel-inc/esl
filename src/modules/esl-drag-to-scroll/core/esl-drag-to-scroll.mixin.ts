@@ -43,10 +43,10 @@ export class ESLDragToScrollMixin extends ESLMixinElement {
   };
 
   /** Initial pointer event when dragging starts */
-  private startEvent: PointerEvent;
+  protected startEvent: PointerEvent;
 
-  private startScrollLeft: number = 0;
-  private startScrollTop: number = 0;
+  protected startScrollLeft: number = 0;
+  protected startScrollTop: number = 0;
 
   private _isDragging: boolean = false;
 
@@ -54,7 +54,7 @@ export class ESLDragToScrollMixin extends ESLMixinElement {
   public get isDragging(): boolean {
     return this._isDragging;
   }
-  private set isDragging(value: boolean) {
+  protected set isDragging(value: boolean) {
     this._isDragging = value;
     this.$$cls(this.config.cls, value);
   }
@@ -106,7 +106,7 @@ export class ESLDragToScrollMixin extends ESLMixinElement {
 
   /** Handles the pointerdown event to start dragging */
   @listen('pointerdown')
-  private onPointerDown(event: PointerEvent): void {
+  protected onPointerDown(event: PointerEvent): void {
     this.startEvent = event;
     this.startScrollLeft = this.$host.scrollLeft;
     this.startScrollTop = this.$host.scrollTop;
@@ -116,7 +116,7 @@ export class ESLDragToScrollMixin extends ESLMixinElement {
 
   /** Handles the pointermove event to perform scrolling while dragging */
   @listen({auto: false, event: 'pointermove', group: 'pointer'})
-  private onPointerMove(event: PointerEvent): void {
+  protected onPointerMove(event: PointerEvent): void {
     const offset = this.getEventOffset(event);
 
     if (!this.isDragging) {
@@ -133,12 +133,20 @@ export class ESLDragToScrollMixin extends ESLMixinElement {
 
   /** Handles the pointerup and pointercancel events to stop dragging */
   @listen({auto: false, event: 'pointerup pointercancel', group: 'pointer'})
-  private onPointerUp(event: PointerEvent): void {
+  protected onPointerUp(event: PointerEvent): void {
     this.$$off({group: 'pointer'});
     if (this.$host.hasPointerCapture(event.pointerId)) {
       this.$host.releasePointerCapture(event.pointerId);
     }
     this.scrollBy(this.getEventOffset(event));
-    this.isDragging = false;
+    // Delay be able to prevent side events (click, etc.)
+    setTimeout(() => this.isDragging = false);
+  }
+
+  @listen({event: 'click', capture: true})
+  protected onClick(event: MouseEvent): void {
+    if (!this.isDragging) return;
+    event.preventDefault();
+    event.stopPropagation();
   }
 }

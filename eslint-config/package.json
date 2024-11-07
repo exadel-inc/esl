@@ -1,7 +1,7 @@
 {
   "name": "@exadel/eslint-config-esl",
   "private": false,
-  "version": "5.0.0-beta.36",
+  "version": "5.0.0-beta.38",
   "keywords": [
     "eslint",
     "eslint-config",
@@ -22,13 +22,13 @@
     "test": ""
   },
   "dependencies": {
-    "@eslint/js": "^9.11.1",
-    "@stylistic/eslint-plugin": "^2.9.0",
+    "@eslint/js": "^9.14.0",
+    "@stylistic/eslint-plugin": "^2.10.1",
     "eslint-plugin-editorconfig": "^4.0.3",
-    "eslint-plugin-import-x": "^4.3.1",
+    "eslint-plugin-import-x": "^4.4.0",
     "eslint-plugin-sonarjs": "^1.0.4",
     "eslint-plugin-tsdoc": "^0.3.0",
-    "typescript-eslint": "^8.9.0"
+    "typescript-eslint": "^8.12.2"
   },
   "peerDependencies": {
     "eslint": ">=9.0.0"
