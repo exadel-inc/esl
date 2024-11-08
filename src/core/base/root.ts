@@ -7,9 +7,10 @@ import {
 } from '@exadel/esl/modules/esl-utils/decorators';
 
 import {UIPStateModel} from './model';
+import {UIPChangeEvent} from './model.change';
 
 import type {UIPSnippetTemplate} from './snippet';
-import {UIPChangeEvent, UIPChangeInfo} from './model.change';
+import type {UIPChangeInfo} from './model.change';
 
 /**
  * UI Playground root custom element definition

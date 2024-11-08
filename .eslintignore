@@ -1,6 +1,0 @@
-# Common directories
-node_modules
-
-# Output
-bundles
-esm
