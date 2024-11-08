@@ -4,7 +4,7 @@ import {attr, bind, boolAttr, listen, memoize} from '../../esl-utils/decorators'
 import {ESLShareButton} from './esl-share-button';
 import {ESLShareConfig} from './esl-share-config';
 
-import type {ESLTooltipActionParams} from '../../esl-tooltip/core/esl-tooltip';
+import type {ESLPopupActionParams} from '../../esl-popup/core/esl-popup';
 import type {ESLShareButtonConfig} from './esl-share-config';
 import type {FocusFlowType} from '../../esl-utils/dom/focus';
 import type {PositionType} from '../../esl-popup/core/esl-popup-position';
@@ -15,7 +15,7 @@ function stringifyButtonsList(btns: ESLShareButtonConfig[]): string {
   return btns.map((btn) => btn.name).join(',');
 }
 
-export interface ESLSharePopupActionParams extends ESLTooltipActionParams {
+export interface ESLSharePopupActionParams extends ESLPopupActionParams {
   /** list of social networks or groups of them to display */
   list?: string;
 }
@@ -89,7 +89,7 @@ export class ESLSharePopup extends ESLPopup {
   /** Sets initial state of the Tooltip */
   protected override setInitialState(): void {}
 
-  public override onShow(params: ESLTooltipActionParams): void {
+  public override onShow(params: ESLSharePopupActionParams): void {
     if (params.disableArrow) {
       this.disableArrow = params.disableArrow;
     }
@@ -105,7 +105,7 @@ export class ESLSharePopup extends ESLPopup {
   }
 
   /** Actions to execute on Tooltip hiding. */
-  public override onHide(params: ESLTooltipActionParams): void {
+  public override onHide(params: ESLSharePopupActionParams): void {
     super.onHide(params);
     this.parentNode === document.body && document.body.removeChild(this);
   }
