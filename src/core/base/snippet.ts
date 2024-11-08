@@ -76,15 +76,15 @@ export class UIPSnippetItem {
     return this.$element.hasAttribute('active');
   }
 
-  /** @returns if the snippet is readonly */
-  public get isJsReadonly(): boolean {
-    return this.$element.hasAttribute('uip-js-readonly') || (!this.isolated);
-  }
-
   /** Sets the snippet active state */
   public set active(active: boolean) {
     this.$element.toggleAttribute('active', active);
     this.$elementJS?.toggleAttribute('active', active);
     this.$elementNote?.toggleAttribute('active', active);
+  }
+
+  /** @returns if the snippet is readonly */
+  public get isJsReadonly(): boolean {
+    return this.$element.hasAttribute('uip-js-readonly') || (!this.isolated);
   }
 }

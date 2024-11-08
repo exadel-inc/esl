@@ -3,8 +3,6 @@
 **UIPSliderSetting** - custom setting to change attribute within a range of values.
 Extends [UIPSetting](src/plugins/settings/README.md).
 
-## Description
-
 Setting behaves like a range input with a value displayed below. It has the following attributes:
 
 - **min** - minimum range value (default: 0).

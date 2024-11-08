@@ -43,7 +43,7 @@ export type ChangeAttrConfig = {
 
 
 /**
- * State holder class to store current UIP markup state
+ * State holder class to store current UIP state
  * Provides methods to modify the state
  */
 export class UIPStateModel extends SyntheticEventTarget {
@@ -80,6 +80,7 @@ export class UIPStateModel extends SyntheticEventTarget {
   /**
    * Sets current note state to the passed one
    * @param text - new state
+   * @param modifier - plugin, that initiates the change
    */
   public setNote(text: string, modifier: UIPPlugin | UIPRoot): void {
     const note = UIPNoteNormalizationPreprocessors.preprocess(text);
@@ -97,8 +98,16 @@ export class UIPStateModel extends SyntheticEventTarget {
    */
   public setHtml(markup: string, modifier: UIPPlugin | UIPRoot, force: boolean = false): void {
     const html = UIPHTMLNormalizationPreprocessors.preprocess(markup);
-    const root = new DOMParser().parseFromString(html, 'text/html').body;
-    if (!root || root.innerHTML.trim() !== this.html.trim()) {
+    const {head, body: root} = new DOMParser().parseFromString(html, 'text/html');
+
+    Array.from(head.children).reverse().forEach((el) => {
+      if (el.tagName === 'STYLE') {
+        root.innerHTML = '\n' + root.innerHTML;
+        root.insertBefore(el, root.firstChild);
+      }
+    });
+
+    if (root.innerHTML.trim() !== this.html.trim()) {
       this._html = root;
       this._changes.push({modifier, type: 'html', force});
       this.dispatchChange();

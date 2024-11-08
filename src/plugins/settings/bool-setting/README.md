@@ -3,8 +3,6 @@
 **UIPBoolSetting** - custom setting to add/remove attributes or append values to an attribute.
 Extends [UIPSetting](src/plugins/settings/README.md).
 
-## Description
-
 **UIPBoolSetting** represents a checkbox. It has a *value* attribute to add/remove this *value*
 from attributes.
 
