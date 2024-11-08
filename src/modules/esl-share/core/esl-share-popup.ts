@@ -1,11 +1,13 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {ESLTooltip} from '../../esl-tooltip/core/esl-tooltip';
-import {bind, listen, memoize, prop} from '../../esl-utils/decorators';
+import {ESLPopup} from '../../esl-popup/core/esl-popup';
+import {attr, bind, boolAttr, listen, memoize} from '../../esl-utils/decorators';
 import {ESLShareButton} from './esl-share-button';
 import {ESLShareConfig} from './esl-share-config';
 
 import type {ESLTooltipActionParams} from '../../esl-tooltip/core/esl-tooltip';
 import type {ESLShareButtonConfig} from './esl-share-config';
+import type {FocusFlowType} from '../../esl-utils/dom/focus';
+import type {PositionType} from '../../esl-popup/core/esl-popup-position';
 
 export type {ESLSharePopupTagShape} from './esl-share-popup.shape';
 
@@ -28,12 +30,13 @@ export interface ESLSharePopupActionParams extends ESLTooltipActionParams {
  * - forwards the sharing attributes from the host share {@link ESLShare} component
  */
 @ExportNs('SharePopup')
-export class ESLSharePopup extends ESLTooltip {
+export class ESLSharePopup extends ESLPopup {
   static override is = 'esl-share-popup';
 
   /** Default params to pass into the share popup */
   static override DEFAULT_PARAMS: ESLSharePopupActionParams = {
-    ...ESLTooltip.DEFAULT_PARAMS,
+    ...ESLPopup.DEFAULT_PARAMS,
+    autofocus: true,
     position: 'top',
     hideDelay: 300
   };
@@ -49,20 +52,62 @@ export class ESLSharePopup extends ESLTooltip {
 
   /** Shared instance of ESLSharePopup */
   @memoize()
-  public static override get sharedInstance(): ESLSharePopup {
+  public static get sharedInstance(): ESLSharePopup {
     return ESLSharePopup.create();
   }
+
+  /**
+   * Focus behaviour. Awailable values:
+   * - 'none' - no focus management
+   * - 'chain' (default) - focus on the first focusable element first and return focus to the activator after the last focusable element
+   * - 'loop' - focus on the first focusable element and loop through the focusable elements
+   */
+  @attr({defaultValue: 'chain'}) public override focusBehaviour: FocusFlowType;
+
+  /**
+   * Popup position relative to the trigger.
+   * Currently supported: 'top', 'bottom', 'left', 'right' position types ('top' by default)
+   */
+  @attr({defaultValue: 'top'}) public override position: PositionType;
+
+  /** Popup behavior if it does not fit in the window ('fit' by default) */
+  @attr({defaultValue: 'fit'}) public override behavior: string;
+
+  /** Disable arrow at Tooltip */
+  @boolAttr() public disableArrow: boolean;
 
   /** Hashstring with a list of buttons already rendered in the popup */
   protected _list: string = '';
 
+  public override connectedCallback(): void {
+    super.connectedCallback();
+    this.classList.add(ESLPopup.is);
+    this.classList.toggle('disable-arrow', this.disableArrow);
+    this.tabIndex = 0;
+  }
+
+  /** Sets initial state of the Tooltip */
+  protected override setInitialState(): void {}
+
   public override onShow(params: ESLTooltipActionParams): void {
+    if (params.disableArrow) {
+      this.disableArrow = params.disableArrow;
+    }
     if (params.list) {
       const buttonsList = ESLShareConfig.instance.get(params.list);
       this.appendButtonsFromList(buttonsList);
     }
     this.forwardAttributes();
+    this.dir = params.dir || '';
+    this.lang = params.lang || '';
+    this.parentNode !== document.body && document.body.appendChild(this);
     super.onShow(params);
+  }
+
+  /** Actions to execute on Tooltip hiding. */
+  public override onHide(params: ESLTooltipActionParams): void {
+    super.onHide(params);
+    this.parentNode === document.body && document.body.removeChild(this);
   }
 
   /** Checks that the button list from the config was already rendered in the popup. */
