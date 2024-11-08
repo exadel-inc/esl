@@ -1,11 +1,10 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLPopup} from '../../esl-popup/core';
-import {memoize, attr, boolAttr, listen, prop} from '../../esl-utils/decorators';
-import {TAB} from '../../esl-utils/dom/keys';
-import {getKeyboardFocusableElements, handleFocusChain} from '../../esl-utils/dom/focus';
+import {memoize, attr, boolAttr} from '../../esl-utils/decorators';
 
 import type {ESLPopupActionParams} from '../../esl-popup/core';
 import type {PositionType} from '../../esl-popup/core/esl-popup-position';
+import type {FocusFlowType} from '../../esl-utils/dom/focus';
 
 export interface ESLTooltipActionParams extends ESLPopupActionParams {
   /** text to be shown */
@@ -33,7 +32,13 @@ export class ESLTooltip extends ESLPopup {
     autofocus: true
   };
 
-  @prop(false) public hasFocusLoop: boolean;
+  /**
+   * Focus behaviour. Awailable values:
+   * - 'none' - no focus management
+   * - 'chain' (default) - focus on the first focusable element first and return focus to the activator after the last focusable element
+   * - 'loop' - focus on the first focusable element and loop through the focusable elements
+   */
+  @attr({defaultValue: 'chain'}) public override focusBehaviour: FocusFlowType;
 
   /**
    * Tooltip position relative to the trigger.
@@ -51,19 +56,6 @@ export class ESLTooltip extends ESLPopup {
   @memoize()
   public static get sharedInstance(): ESLTooltip {
     return document.createElement('esl-tooltip');
-  }
-
-  /** List of all focusable elements inside instance */
-  public get $focusables(): HTMLElement[] {
-    return getKeyboardFocusableElements(this) as HTMLElement[];
-  }
-
-  /** First and last focusable elements inside instance */
-  public get $boundaryFocusable(): {$first: HTMLElement | undefined, $last: HTMLElement | undefined} {
-    const {$focusables} = this;
-    const $first = $focusables[0];
-    const $last = $focusables.pop();
-    return {$first, $last};
   }
 
   /** Active state marker */
@@ -112,23 +104,6 @@ export class ESLTooltip extends ESLPopup {
   public override onHide(params: ESLTooltipActionParams): void {
     super.onHide(params);
     this.parentNode === document.body && document.body.removeChild(this);
-  }
-
-  @listen({inherit: true})
-  protected override _onKeyboardEvent(e: KeyboardEvent): void {
-    super._onKeyboardEvent(e);
-    if (e.key === TAB) this._onTabKey(e);
-  }
-
-  /** Actions on TAB keypressed */
-  protected _onTabKey(e: KeyboardEvent): void {
-    if (!this.activator) return;
-    const {$first, $last} = this.$boundaryFocusable;
-    if (this.hasFocusLoop) return handleFocusChain(e, $first, $last) as void;
-    if (!$last || e.target === (e.shiftKey ? $first : $last)) {
-      this.activator.focus();
-      e.preventDefault();
-    }
   }
 }
 

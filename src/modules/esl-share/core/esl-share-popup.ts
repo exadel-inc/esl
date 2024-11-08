@@ -53,8 +53,6 @@ export class ESLSharePopup extends ESLTooltip {
     return ESLSharePopup.create();
   }
 
-  @prop(true) public override hasFocusLoop: boolean;
-
   /** Hashstring with a list of buttons already rendered in the popup */
   protected _list: string = '';
 
