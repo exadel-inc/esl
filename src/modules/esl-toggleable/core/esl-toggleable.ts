@@ -1,5 +1,5 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {ESC, SYSTEM_KEYS} from '../../esl-utils/dom/keys';
+import {SYSTEM_KEYS, ESC, TAB} from '../../esl-utils/dom/keys';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {prop, attr, jsonAttr, listen} from '../../esl-utils/decorators';
 import {defined, copyDefinedKeys} from '../../esl-utils/misc/object';
@@ -9,7 +9,9 @@ import {hasHover} from '../../esl-utils/environment/device-detector';
 import {DelayedTask} from '../../esl-utils/async/delayed-task';
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {findParent, isMatches} from '../../esl-utils/dom/traversing';
+import {getKeyboardFocusableElements, handleFocusFlow} from '../../esl-utils/dom/focus';
 
+import type {FocusFlowType} from '../../esl-utils/dom/focus';
 import type {DelegatedEvent} from '../../esl-event-listener/core/types';
 
 /** Default Toggleable action params type definition */
@@ -100,6 +102,14 @@ export class ESLToggleable extends ESLBaseElement {
    * (default: `*` direct parent)
    */
   @attr({defaultValue: '*'}) public containerActiveClassTarget: string;
+
+  /**
+   * Focus behaviour. Awailable values:
+   * - 'none' - no focus management
+   * - 'chain' - focus on the first focusable element first and return focus to the activator after the last focusable element
+   * - 'loop' - focus on the first focusable element and loop through the focusable elements
+   */
+  @attr({defaultValue: 'none'}) public focusBehaviour: FocusFlowType;
 
   /** Toggleable group meta information to organize groups */
   @attr({name: 'group'}) public groupName: string;
@@ -302,6 +312,11 @@ export class ESLToggleable extends ESLBaseElement {
     el ? activators.set(this, el) : activators.delete(this);
   }
 
+  /** List of all focusable elements inside instance */
+  public get $focusables(): HTMLElement[] {
+    return getKeyboardFocusableElements(this) as HTMLElement[];
+  }
+
   /** Returns the element to apply a11y attributes */
   protected get $a11yTarget(): HTMLElement | null {
     const target = this.getAttribute('a11y-target');
@@ -352,6 +367,9 @@ export class ESLToggleable extends ESLBaseElement {
   protected _onKeyboardEvent(e: KeyboardEvent): void {
     if (this.closeOnEsc && e.key === ESC) {
       this.hide({initiator: 'keyboard', event: e});
+    }
+    if (this.focusBehaviour !== 'none' && e.key === TAB) {
+      handleFocusFlow(e, this.$focusables, this.activator || this, this.focusBehaviour);
     }
   }
 

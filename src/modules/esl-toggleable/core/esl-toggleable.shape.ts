@@ -19,6 +19,14 @@ export interface ESLToggleableTagShape<T extends ESLToggleable = ESLToggleable> 
   /** Open toggleable marker. Can be used to define initial state */
   'open'?: boolean;
 
+  /**
+   * Define focus behaviour
+   *  - 'none' - no focus management
+   *  - 'chain' - focus on the first focusable element first and return focus to the activator after the last focusable element
+   *  - 'loop' - focus on the first focusable element and loop through the focusable elements
+   */
+  'focus-behaviour'?: 'none' | 'chain' | 'loop';
+
   /** Define Toggleable group meta information to organize groups */
   'group'?: string;
 
