@@ -71,13 +71,13 @@
     "prismjs": "^1.29.0"
   },
   "peerDependencies": {
-    "@exadel/esl": "^4.13.0 || ^5.0.0 || ^5.0.0-beta.36"
+    "@exadel/esl": "^4.13.0 || ^5.0.0 || ^5.0.0-beta.38"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.5.0",
     "@commitlint/config-conventional": "^19.5.0",
-    "@exadel/eslint-config-esl": "^5.0.0-beta.36",
-    "@exadel/eslint-plugin-esl": "^5.0.0-beta.37",
+    "@exadel/eslint-config-esl": "^5.0.0-beta.38",
+    "@exadel/eslint-plugin-esl": "^5.0.0-beta.38",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/commit-analyzer": "^13.0.0",
     "@semantic-release/git": "^10.0.1",
