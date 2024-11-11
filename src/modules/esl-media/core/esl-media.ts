@@ -43,7 +43,6 @@ export class ESLMedia extends ESLBaseElement {
     'fill-mode',
     'aspect-ratio',
     'play-in-viewport',
-    'in-viewport',
     'muted',
     'loop',
     'controls',
@@ -162,7 +161,6 @@ export class ESLMedia extends ESLBaseElement {
 
   protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected || oldVal === newVal) return;
-    // eslint-disable-next-line sonarjs/max-switch-cases
     switch (attrName) {
       case 'media-id':
       case 'media-src':
