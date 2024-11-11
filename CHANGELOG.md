@@ -1,3 +1,10 @@
+## [5.0.0-beta.39](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.38...v5.0.0-beta.39) (2024-11-11)
+
+### Features
+
+* **esl-popup:** add position-origin attribute ([6be5133](https://github.com/exadel-inc/esl/commit/6be51338181d403c43291cb87713496f3bb2a308))
+* **esl-utils:** `safeContains` traverse utility ([7ca4f8b](https://github.com/exadel-inc/esl/commit/7ca4f8bcdaac756650fd60f5256128f2949e0ded))
+
 ## [5.0.0-beta.38](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.37...v5.0.0-beta.38) (2024-11-04)
 
 ### ⚠ BREAKING CHANGES
