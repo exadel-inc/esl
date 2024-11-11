@@ -1,0 +1,44 @@
+<header class="header">
+  <nav class="header-container container-fluid">
+    <div class="header-left">
+      <esl-trigger class="header-hamburger print-hidden"
+                   target="#presentation-sidebar"
+                   a11y-label-active="Close navigation menu"
+                   a11y-label-inactive="Open navigation menu"></esl-trigger>
+    </div>
+    <a class="header-central header-link header-logo fill-light logo-animated animation-delay" href="{{ '/' | url }}"
+       aria-label="Go to Exadel Smart Library landing page">
+      {% include 'static/assets/logo.svg' %}
+      <span class="header-short-name">esl</span>
+      <span class="header-long-name">{{ site.brand }}</span>
+    </a>
+    <ul class="header-utility">
+      <li class="header-nav-item print-hidden">
+        <esl-share-button class="header-link icon-link" name="print">
+          {% include 'static/assets/common/print.svg' %}
+        </esl-share-button>
+      </li>
+      <li class="header-nav-item">
+        <a class="header-link icon-link" href="{{ site.github.url }}" target="_blank" aria-label="Open on GitHub">
+          {% include 'static/assets/common/github.svg' %}
+        </a>
+      </li>
+      <li class="header-nav-item print-hidden">
+        <esl-trigger class="header-link icon-link"
+                     aria-label="Share page"
+                     target="::next" mode="toggle" track-click track-hover>
+          {% include 'static/assets/common/header-share.svg' %}
+        </esl-trigger>
+        <esl-popup id="site-share-popup"
+                   class="header-share-popup"
+                   position="bottom"
+                   default-params="{hideDelay: 500}"
+                   close-on-esc
+                   close-on-outside-action>
+          <esl-share-list list="group:site"></esl-share-list>
+          <span class="esl-popup-arrow"></span>
+        </esl-popup>
+      </li>
+    </ul>
+  </nav>
+</header>

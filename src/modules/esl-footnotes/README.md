@@ -1,6 +1,6 @@
 # [ESL](../../../) Footnotes
 
-Version: *1.0.0-beta*.
+Version: *1.0.0*.
 
 Authors: *Dmytro Shovchko*.
 
@@ -32,12 +32,6 @@ ESLNote is a badge with a number or symbol. When it's hovered or clicked (user-d
 
 ### ESLNote Attributes | Properties:
 
-- `linked` - read-only marker that appears on the note linked with the footnotes
-
-- `standalone` - read-only marker which indicates that the note remains independent of the notes even if it is linked with them (ignore mode, for example) and doesn't receive its ordinal index from the footnotes (the default * or a user-defined value is displayed)
-
-- `tooltip-shown` - read-only marker which appears when note's tooltip is shown
-
 - `container` - defines container element ([ESLTraversingQuery](../esl-traversing-query/README.md) selector) to determinate bounds of tooltip visibility (window by default)
 
 - `ignore` - [MediaQuery](../esl-media-query/README.md) to specify device media conditions when footnotes must ignore current note (`not all` by default)
@@ -49,6 +43,14 @@ ESLNote is a badge with a number or symbol. When it's hovered or clicked (user-d
 - `track-click` - [MediaQuery](../esl-media-query/README.md) to define allowed to track click event media. (`all` by default)
   
 - `track-hover` - [MediaQuery](../esl-media-query/README.md) to define allowed to track hover event media. (`all` by default)
+
+### ESLNote Readonly Attributes | Properties:
+
+- `linked` - read-only marker that appears on the note linked with the footnotes
+
+- `standalone` - read-only marker which indicates that the note remains independent of the notes even if it is linked with them (ignore mode, for example) and doesn't receive its ordinal index from the footnotes (the default * or a user-defined value is displayed)
+
+- `active` - read-only marker which appears when note's tooltip is shown
 
 #### Ignoring the group of notes
 

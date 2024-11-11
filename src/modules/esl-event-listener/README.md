@@ -313,17 +313,12 @@ ESLEventUtils.isEventDescriptor(obj: any): obj is ESLListenerDescriptorFn;
 
 ### ⚡ `ESLEventUtils.descriptors`
 
-Gathers auto-subscribable (collectable) descriptors from the passed object.
-
-Note: the method is going to be updated in the next release to support the `criteria` parameter. 
-It's strongly recommended to pass criteria `{auto: true}` already to have no issues with the future update.
+Gathers descriptors from the passed object.
+Accepts criteria to filter the descriptors list.
 
 ```typescript
-// Note: deprecated in current version due to the future update
-ESLEventUtils.descriptors(host?: any): ESLListenerDescriptorFn[]
-
-// Recommended usage
-ESLEventUtils.descriptors(host?: any, criteria: {auto: true}): ESLListenerDescriptorFn[]
+  ESLEventUtils.descriptors(host?: any): ESLListenerDescriptorFn[];
+  ESLEventUtils.descriptors(host?: any, ...criteria: ESLListenerDescriptorCriteria[]): ESLListenerDescriptorFn[];
 ```
 
 **Parameters**:
@@ -333,7 +328,7 @@ ESLEventUtils.descriptors(host?: any, criteria: {auto: true}): ESLListenerDescri
 
 <a name="-esleventutilsgetautodescriptors"></a>
 
-### ⚡ `ESLEventUtils.getAutoDescriptors`
+### ⚡ <strike>`ESLEventUtils.getAutoDescriptors`</strike>
 
 Gathers auto-subscribable (collectable) descriptors from the passed object.
 

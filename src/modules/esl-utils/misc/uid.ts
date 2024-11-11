@@ -22,9 +22,3 @@ export const randUID = (prefix: string = ''): string => {
   const rand = Math.round(Math.random() * 1024 * 1024).toString(32);
   return prefix + time + '-' + rand;
 };
-
-/**
- * Generate unique id
- * @deprecated Alias for {@link randUID}
- */
-export const generateUId = randUID;

@@ -15,8 +15,8 @@ describe('Decorator: @listen', () => {
     customElements.define('test-listen-1', Test);
 
     const test = new Test();
-    expect(ESLEventUtils.getAutoDescriptors(test).length).toBe(1);
-    expect(ESLEventUtils.getAutoDescriptors(test)[0].event).toBe('click');
+    expect(ESLEventUtils.descriptors(test).length).toBe(1);
+    expect(ESLEventUtils.descriptors(test)[0].event).toBe('click');
   });
 
   test('Decorator listen should accept one argument call with an event type provider', () => {
@@ -27,8 +27,8 @@ describe('Decorator: @listen', () => {
     customElements.define('test-listen-1-provider', Test);
 
     const test = new Test();
-    expect(ESLEventUtils.getAutoDescriptors(test).length).toBe(1);
-    expect(typeof ESLEventUtils.getAutoDescriptors(test)[0].event).toBe('function');
+    expect(ESLEventUtils.descriptors(test).length).toBe(1);
+    expect(typeof ESLEventUtils.descriptors(test)[0].event).toBe('function');
   });
 
   test('Multiple @listen declarations should be auto-subscribed correctly with a full event definition', () => {
@@ -41,7 +41,7 @@ describe('Decorator: @listen', () => {
     customElements.define('test-listen-2', Test);
 
     const test = new Test();
-    expect(ESLEventUtils.getAutoDescriptors(test).length).toBe(2);
+    expect(ESLEventUtils.descriptors(test).length).toBe(2);
   });
 
   test('Event listener definitions from the superclass should be handled correctly', () => {
@@ -56,7 +56,7 @@ describe('Decorator: @listen', () => {
     customElements.define('test-listen-3', TestInh);
 
     const test = new TestInh();
-    expect(ESLEventUtils.getAutoDescriptors(test).length).toBe(2);
+    expect(ESLEventUtils.descriptors(test).length).toBe(2);
   });
 
   test('Override event listener definition without decorator should exclude subscription', () => {
@@ -70,7 +70,7 @@ describe('Decorator: @listen', () => {
     customElements.define('test-listen-4', TestInh);
 
     const test = new TestInh();
-    expect(ESLEventUtils.getAutoDescriptors(test).length).toBe(0);
+    expect(ESLEventUtils.descriptors(test).length).toBe(0);
   });
 
   test('Override event listener definition with a @listen({inherit: true}) inherits event description meta information', () => {
@@ -85,7 +85,7 @@ describe('Decorator: @listen', () => {
     customElements.define('test-listen-5', TestInh);
 
     const test = new TestInh();
-    expect(ESLEventUtils.getAutoDescriptors(test).length).toBe(1);
+    expect(ESLEventUtils.descriptors(test).length).toBe(1);
     expect((test.onEvent as any as ESLListenerDescriptorFn).event).toBe('event1');
   });
 
@@ -101,7 +101,7 @@ describe('Decorator: @listen', () => {
     customElements.define('test-listen-6', TestInh);
 
     const test = new TestInh();
-    expect(ESLEventUtils.getAutoDescriptors(test).length).toBe(1);
+    expect(ESLEventUtils.descriptors(test).length).toBe(1);
     expect((test.onEvent as any as ESLListenerDescriptorFn).event).toBe('event2');
     expect((test.onEvent as any as ESLListenerDescriptorFn).selector).toBe('e');
   });
@@ -118,7 +118,7 @@ describe('Decorator: @listen', () => {
     customElements.define('test-listen-7', TestInh);
 
     const test = new TestInh();
-    expect(ESLEventUtils.getAutoDescriptors(test).length).toBe(1);
+    expect(ESLEventUtils.descriptors(test).length).toBe(1);
     expect((test.onEvent as any as ESLListenerDescriptorFn).event).toBe('event2');
     expect((test.onEvent as any as ESLListenerDescriptorFn).selector).toBe(undefined);
   });
@@ -152,19 +152,19 @@ describe('Decorator: @listen', () => {
 
     test('@listen creates auto-subscribable(collectable) descriptor by default', () => {
       const test = new Test();
-      expect(ESLEventUtils.getAutoDescriptors(test)).toContain(Test.prototype.onEventAuto);
+      expect(ESLEventUtils.descriptors(test, {auto: true})).toContain(Test.prototype.onEventAuto);
     });
     test('@listen does not creates auto-subscribable(collectable) descriptor if auto passed as false', () => {
       const test = new Test();
-      expect(ESLEventUtils.getAutoDescriptors(test)).not.toContain(Test.prototype.onEventManual);
+      expect(ESLEventUtils.descriptors(test, {auto: true})).not.toContain(Test.prototype.onEventManual);
     });
     test('@listen inherits positive subscribe-ability', () => {
       const test = new TestChild();
-      expect(ESLEventUtils.getAutoDescriptors(test)).toContain(TestChild.prototype.onEventAuto);
+      expect(ESLEventUtils.descriptors(test, {auto: true})).toContain(TestChild.prototype.onEventAuto);
     });
     test('@listen inherits negative subscribe-ability', () => {
       const test = new TestChild();
-      expect(ESLEventUtils.getAutoDescriptors(test)).not.toContain(TestChild.prototype.onEventManual);
+      expect(ESLEventUtils.descriptors(test, {auto: true})).not.toContain(TestChild.prototype.onEventManual);
     });
   });
 

@@ -39,9 +39,6 @@ export interface ESLPanelGroupTagShape extends ESLBaseElementShape<ESLPanelGroup
 
   /** Allowed children */
   children?: any;
-
-  /** @deprecated fallback time no longer required */
-  'fallback-duration'?: string | number;
 }
 
 declare global {
