@@ -5,6 +5,7 @@ import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {SPACE, PAUSE} from '../../esl-utils/dom/keys';
 import {prop, attr, boolAttr, listen} from '../../esl-utils/decorators';
 import {debounce} from '../../esl-utils/async';
+import {isVisible} from '../../esl-utils/dom/visible';
 import {parseAspectRatio} from '../../esl-utils/misc/format';
 
 import {ESLMediaQuery} from '../../esl-media-query/core';
@@ -82,6 +83,8 @@ export class ESLMedia extends ESLBaseElement {
   @attr({parser: parseLazyAttr, defaultValue: 'none'}) public lazy: ESLMediaLazyMode;
   /** Autoplay resource marker */
   @boolAttr() public autoplay: boolean;
+  /** Will prevent autoplay if media was paused manually */
+  @boolAttr() public noAutoplayOnInterrupt: boolean;
   /** Autofocus on play marker */
   @boolAttr() public override autofocus: boolean;
   /** Mute resource marker */
@@ -94,8 +97,6 @@ export class ESLMedia extends ESLBaseElement {
   @boolAttr() public playsinline: boolean;
   /** Allows play resource only in viewport area */
   @boolAttr() public playInViewport: boolean;
-  /** Viewport intersection marker */
-  @boolAttr({readonly: true}) public inViewport: boolean;
   /** Allows to start viewing a resource from a specific time offset. */
   @attr({parser: parseInt}) public startTime: number;
 
@@ -124,6 +125,8 @@ export class ESLMedia extends ESLBaseElement {
   @boolAttr({readonly: true}) public error: boolean;
   /** @readonly Width is greater than height state marker */
   @boolAttr({readonly: true}) public wide: boolean;
+  /** @readonly Resource was automatically paused marker */
+  @boolAttr({readonly: true}) public autopaused: boolean;
 
   private _provider: BaseProvider | null;
 
@@ -188,9 +191,6 @@ export class ESLMedia extends ESLBaseElement {
         this.$$on(this._onConditionChange);
         this.deferredReinitialize();
         break;
-      case 'in-viewport':
-        this.inViewport ? this.play() : this.pause();
-        break;
     }
   }
 
@@ -198,12 +198,9 @@ export class ESLMedia extends ESLBaseElement {
     return this.lazy === 'none' && this.conditionQuery.matches;
   }
 
-  protected canPlay(): boolean {
-    return !this.playInViewport || (!this.active && this.autoplay && this.inViewport);
-  }
-
-  protected canPause(): boolean {
-    return this.active;
+  public canAutoplay(): boolean {
+    if (!this.autoplay) return false;
+    return !(this.noAutoplayOnInterrupt && !this.autopaused);
   }
 
   private reinitInstance(): void {
@@ -244,13 +241,12 @@ export class ESLMedia extends ESLBaseElement {
       this.deferredReinitialize.cancel();
       this.reinitInstance();
     }
-    if (!this.canActivate() || !this.canPlay()) return null;
+    if (!this.canActivate()) return null;
     return this._provider && this._provider.safePlay();
   }
 
   /** Pause playing media */
   public pause(): Promise<void> | null {
-    if (!this.canPause()) return null;
     return this._provider && this._provider.safePause();
   }
 
@@ -295,6 +291,7 @@ export class ESLMedia extends ESLBaseElement {
 
   public _onPlay(): void {
     if (this.autofocus) this.focus();
+    this.$$attr('autopaused', false);
     this.toggleAttribute('active', true);
     this.toggleAttribute('played', true);
     this.$$fire(this.PLAY_EVENT);
@@ -358,7 +355,8 @@ export class ESLMedia extends ESLBaseElement {
   protected _onContainerShow(e: Event): void {
     const {target} = e;
     if (!isSafeContains(target as Node, this)) return;
-    this.play();
+    if (this.playInViewport && isVisible(this)) return;
+    if (this.canAutoplay()) this.play();
   }
 
   @listen({
@@ -367,7 +365,8 @@ export class ESLMedia extends ESLBaseElement {
   })
   protected _onContainerHide(e: Event): void {
     const {target} = e;
-    if (!isSafeContains(target as Node, this)) return;
+    if (!isSafeContains(target as Node, this) || !this.active) return;
+    this.$$attr('autopaused', true);
     this.pause();
   }
 
