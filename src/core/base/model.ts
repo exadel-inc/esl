@@ -12,8 +12,8 @@ import {
 import {UIPStateStorage} from './model.storage';
 import {UIPSnippetItem} from './snippet';
 
-import type {UIPRoot} from './root';
-import type {UIPPlugin} from './plugin';
+import {UIPRoot} from './root';
+import {UIPPlugin} from './plugin';
 import type {UIPSnippetTemplate} from './snippet';
 import type {UIPChangeInfo} from './model.change';
 
@@ -50,8 +50,6 @@ export class UIPStateModel extends SyntheticEventTarget {
   /** Snippets {@link UIPSnippetItem} value objects */
   private _snippets: UIPSnippetItem[];
 
-  public readonly id = sequentialUID('uip-model-id-');
-
   /** Current js state */
   private _js: string = '';
   /** Current note state */
@@ -59,10 +57,10 @@ export class UIPStateModel extends SyntheticEventTarget {
   /** Current markup state */
   private _html = new DOMParser().parseFromString('', 'text/html').body;
 
+  public storage: UIPStateStorage | undefined;
+
   /** Last changes history (used to dispatch changes) */
   private _changes: UIPChangeInfo[] = [];
-
-  protected storage = new UIPStateStorage(this);
 
   /**
    * Sets current js state to the passed one
@@ -153,6 +151,10 @@ export class UIPStateModel extends SyntheticEventTarget {
     return this._snippets.find((snippet) => snippet.anchor === anchor);
   }
 
+  protected getStorageKey(modifier: UIPPlugin | UIPRoot): string {
+    return modifier instanceof UIPRoot ? modifier.storeKey : modifier.$root?.storeKey || '';
+  }
+
   /** Changes current active snippet */
   public applySnippet(
     snippet: UIPSnippetItem,
@@ -160,7 +162,11 @@ export class UIPStateModel extends SyntheticEventTarget {
   ): void {
     if (!snippet) return;
     this._snippets.forEach((s) => (s.active = s === snippet));
-    const {js, html, note} = this.storage.loadState() || snippet;
+
+    const storeKey = this.getStorageKey(modifier);
+    if (storeKey) this.storage = UIPStateStorage.for(storeKey, this);
+
+    const {js, html, note} = this.storage?.loadState() || snippet;
     this.setHtml(html, modifier, true);
     this.setJS(js, modifier);
     this.setNote(note, modifier);
@@ -206,7 +212,7 @@ export class UIPStateModel extends SyntheticEventTarget {
     if (!this._changes.length) return;
     const detail = this._changes;
     this._changes = [];
-    this.storage.saveState();
+    this.storage?.saveState();
     this.dispatchEvent(
       new CustomEvent('uip:model:change', {detail})
     );

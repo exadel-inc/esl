@@ -12,7 +12,7 @@ import {attr, boolAttr, decorate, listen, memoize} from '@exadel/esl/modules/esl
 
 import {UIPPluginPanel} from '../../core/panel/plugin-panel';
 import {CopyIcon} from '../copy/copy-button.icon';
-
+import {ResetIcon} from '../reset/reset-button.icon';
 import {EditorIcon} from './editor.icon';
 
 import type {UIPSnippetsList} from '../snippets-list/snippets-list';
@@ -45,6 +45,7 @@ export class UIPEditor extends UIPPluginPanel {
     return (
       <div className={type.is + '-toolbar uip-plugin-header-toolbar'}>
         {this.showCopy ? <uip-copy class={type.is + '-header-copy'} source={this.source}><CopyIcon/></uip-copy> : ''}
+        {this.$root?.storeKey ? <uip-reset class={type.is + '-header-reset'}><ResetIcon/></uip-reset> : ''}
       </div>
     ) as HTMLElement;
   }

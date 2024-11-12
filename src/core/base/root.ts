@@ -3,7 +3,8 @@ import {
   memoize,
   boolAttr,
   listen,
-  prop
+  prop,
+  attr
 } from '@exadel/esl/modules/esl-utils/decorators';
 
 import {UIPStateModel} from './model';
@@ -36,6 +37,8 @@ export class UIPRoot extends ESLBaseElement {
 
   /** Indicates that the UIP components' theme is dark */
   @boolAttr() public darkTheme: boolean;
+  /** Key to store UIP state in the local storage */
+  @attr({defaultValue: ''}) public storeKey: string;
 
   /** Indicates ready state of the uip-root */
   @boolAttr({readonly: true}) public ready: boolean;

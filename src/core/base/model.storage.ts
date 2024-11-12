@@ -14,12 +14,24 @@ interface UIPStateModelSnippets {
 export class UIPStateStorage {
   public static readonly STORAGE_KEY = 'uip-editor-storage';
 
-  public constructor(protected model: UIPStateModel) {}
+  protected static readonly EXPIRATION_TIME = 3600000 * 12; // 12 hours
+
+  private static instances = new Map<string, UIPStateStorage>();
+
+  protected constructor(protected storeKey: string, protected model: UIPStateModel) {}
+
+  public static for(storeKey: string, model: UIPStateModel): UIPStateStorage {
+    const instance = this.instances.get(storeKey);
+    if (instance) return instance;
+
+    const newInstance = new UIPStateStorage(storeKey, model);
+    this.instances.set(storeKey, newInstance);
+    return newInstance;
+  }
 
   protected static loadEntry(key: string): string | null {
     const entry = (this.lsGet()[key] || {}) as UIPStateStorageEntry;
-    const expirationTime = 3600000 * 12;
-    if (parseInt(entry?.ts, 10) + expirationTime > Date.now()) return entry.snippets || null;
+    if (parseInt(entry?.ts, 10) + this.EXPIRATION_TIME > Date.now()) return entry.snippets || null;
     this.removeEntry(key);
     return null;
   }
@@ -43,20 +55,25 @@ export class UIPStateStorage {
   }
 
   protected getStateKey(): string | null {
-    if (!this.model?.activeSnippet) return null;
-    const {id, activeSnippet} = this.model;
-    return JSON.stringify({id, path: location.pathname, snippet: activeSnippet.html});
+    const {activeSnippet} = this.model;
+    if (!activeSnippet) return null;
+    return JSON.stringify({key: this.storeKey, snippet: activeSnippet.html});
   }
 
   public loadState(): UIPStateModelSnippets | undefined {
-    const key = this.getStateKey();
-    const state = key && UIPStateStorage.loadEntry(key);
+    const stateKey = this.getStateKey();
+    const state = stateKey && UIPStateStorage.loadEntry(stateKey);
     if (state) return JSON.parse(state);
   }
 
   public saveState(): void {
     const {js, html, note} = this.model;
-    const key = this.getStateKey();
-    key && UIPStateStorage.saveEntry(key, JSON.stringify({js, html, note}));
+    const stateKey = this.getStateKey();
+    stateKey && UIPStateStorage.saveEntry(stateKey, JSON.stringify({js, html, note}));
+  }
+
+  public resetState(): void {
+    const stateKey = this.getStateKey();
+    stateKey && UIPStateStorage.removeEntry(stateKey);
   }
 }
