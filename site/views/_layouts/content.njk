@@ -8,6 +8,16 @@
   <main class="esl-scrollable-content">
     <div class="content {{ containerCls or 'container' }} {{ 'container-aside' if aside }}">
       {% if title %}
+        <div class="page-breadcrumbs">
+         {% set breadcrumbs = collections[tags[0]] | treepath %}
+          {% for breadcrumb in breadcrumbs %}
+            {% if  breadcrumb.title === title %}
+              {% for parent in breadcrumb['parents'] %}
+                <span class="page-breadcrumb"><a href="{{ parent['url'] }}">{{ parent['title'] }}</a></span>
+              {% endfor %}
+            {% endif %}
+          {% endfor %}
+        </div>
         <h1 class="page-title">
           {% if collectionIcon %}{% include "static/assets/" + collectionIcon %}{% endif %}
           {{ title | safe }}

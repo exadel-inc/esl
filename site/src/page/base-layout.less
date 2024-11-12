@@ -36,6 +36,17 @@ main {
   flex: 1 1 auto;
 }
 
+.page-breadcrumbs {
+  margin-top: 15px;
+  color: @primary-blue;
+
+  .page-breadcrumb:not(:last-of-type)::after {
+    content: '/';
+    color: #000;
+    margin-inline: 10px;
+  }
+}
+
 .page-title {
   padding: 1rem 0;
 
