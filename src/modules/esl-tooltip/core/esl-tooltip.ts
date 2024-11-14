@@ -1,6 +1,6 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLPopup} from '../../esl-popup/core';
-import {memoize, attr, boolAttr, listen, prop} from '../../esl-utils/decorators';
+import {memoize, attr, listen, prop} from '../../esl-utils/decorators';
 import {TAB} from '../../esl-utils/dom/keys';
 import {getKeyboardFocusableElements, handleFocusChain} from '../../esl-utils/dom/focus';
 
@@ -44,9 +44,6 @@ export class ESLTooltip extends ESLPopup {
   /** Tooltip behavior if it does not fit in the window ('fit' by default) */
   @attr({defaultValue: 'fit'}) public override behavior: string;
 
-  /** Disable arrow at Tooltip */
-  @boolAttr() public disableArrow: boolean;
-
   /** Shared instanse of Tooltip */
   @memoize()
   public static get sharedInstance(): ESLTooltip {
@@ -84,7 +81,6 @@ export class ESLTooltip extends ESLPopup {
   public override connectedCallback(): void {
     super.connectedCallback();
     this.classList.add(ESLPopup.is);
-    this.classList.toggle('disable-arrow', this.disableArrow);
     this.tabIndex = 0;
   }
 
@@ -93,12 +89,12 @@ export class ESLTooltip extends ESLPopup {
 
   /** Actions to execute on show Tooltip. */
   public override onShow(params: ESLTooltipActionParams): void {
-    if (params.disableArrow) this.disableArrow = params.disableArrow;
     if (params.text) this.innerText = params.text;
     if (params.html) this.innerHTML = params.html;
     if (params.text || params.html) memoize.clear(this, '$arrow');
     this.dir = params.dir || '';
     this.lang = params.lang || '';
+    this.$$cls('disable-arrow', params.disableArrow);
     this.parentNode !== document.body && document.body.appendChild(this);
     super.onShow(params);
   }
