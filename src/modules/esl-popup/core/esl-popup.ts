@@ -4,13 +4,14 @@ import {bind, memoize, ready, attr, boolAttr, jsonAttr, listen, decorate} from '
 import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {afterNextRender, rafDecorator} from '../../esl-utils/async/raf';
 import {ESLToggleable} from '../../esl-toggleable/core';
-import {isElement, isRelativeNode, isRTL, Rect, getListScrollParents, getViewportRect, type FocusFlowType} from '../../esl-utils/dom';
+import {isElement, isRelativeNode, isRTL, Rect, getListScrollParents, getViewportRect} from '../../esl-utils/dom';
 import {parseBoolean, parseNumber, toBooleanAttribute} from '../../esl-utils/misc/format';
 import {copyDefinedKeys} from '../../esl-utils/misc/object';
 import {ESLIntersectionTarget, ESLIntersectionEvent} from '../../esl-event-listener/core/targets/intersection.target';
 import {calcPopupPosition, isOnHorizontalAxis} from './esl-popup-position';
 import {ESLPopupPlaceholder} from './esl-popup-placeholder';
 
+import type {FocusFlowType} from '../../esl-utils/dom';
 import type {ESLToggleableActionParams} from '../../esl-toggleable/core';
 import type {PositionType, PositionOriginType, IntersectionRatioRect} from './esl-popup-position';
 
