@@ -111,13 +111,13 @@ export class ESLPopup extends ESLToggleable {
   public override closeOnOutsideAction: boolean;
 
   /**
-   * Focus behaviour. Awailable values:
+   * Focus behavior. Available values:
    * - 'none' - no focus management
    * - 'chain' (default) - focus on the first focusable element first and return focus to the activator after the last focusable element
    * - 'loop' - focus on the first focusable element and loop through the focusable elements
    */
   @attr({defaultValue: 'none'})
-  public override focusBehaviour: FocusFlowType;
+  public override focusBehavior: FocusFlowType;
 
   public $placeholder: ESLPopupPlaceholder | null;
 

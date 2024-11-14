@@ -20,7 +20,7 @@ export interface ESLToggleableTagShape<T extends ESLToggleable = ESLToggleable> 
   'open'?: boolean;
 
   /**
-   * Define focus behaviour
+   * Define focus behavior
    *  - 'none' - no focus management
    *  - 'chain' - focus on the first focusable element first and return focus to the activator after the last focusable element
    *  - 'loop' - focus on the first focusable element and loop through the focusable elements
