@@ -4,7 +4,7 @@ import {bind, memoize, ready, attr, boolAttr, jsonAttr, listen, decorate} from '
 import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {afterNextRender, rafDecorator} from '../../esl-utils/async/raf';
 import {ESLToggleable} from '../../esl-toggleable/core';
-import {isElement, isRelativeNode, isRTL, Rect, getListScrollParents, getViewportRect} from '../../esl-utils/dom';
+import {isElement, isRelativeNode, isRTL, Rect, getListScrollParents, getViewportRect, type FocusFlowType} from '../../esl-utils/dom';
 import {parseBoolean, parseNumber, toBooleanAttribute} from '../../esl-utils/misc/format';
 import {copyDefinedKeys} from '../../esl-utils/misc/object';
 import {ESLIntersectionTarget, ESLIntersectionEvent} from '../../esl-event-listener/core/targets/intersection.target';
@@ -44,8 +44,6 @@ export interface ESLPopupActionParams extends ESLToggleableActionParams {
   container?: string;
   /** Container element that defines bounds of popups visibility (is not taken into account if the container attr is set on popup) */
   containerEl?: HTMLElement;
-  /** Autofocus on popup/activator */
-  autofocus?: boolean;
 
   /** Extra class to add to popup on activation */
   extraClass?: string;
@@ -110,6 +108,15 @@ export class ESLPopup extends ESLToggleable {
   public override closeOnEsc: boolean;
   @attr({parser: parseBoolean, serializer: toBooleanAttribute, defaultValue: true})
   public override closeOnOutsideAction: boolean;
+
+  /**
+   * Focus behaviour. Awailable values:
+   * - 'none' - no focus management
+   * - 'chain' (default) - focus on the first focusable element first and return focus to the activator after the last focusable element
+   * - 'loop' - focus on the first focusable element and loop through the focusable elements
+   */
+  @attr({defaultValue: 'none'})
+  public override focusBehaviour: FocusFlowType;
 
   public $placeholder: ESLPopupPlaceholder | null;
 
@@ -227,9 +234,6 @@ export class ESLPopup extends ESLToggleable {
     // running as a separate task solves the problem with incorrect positioning on the first showing
     if (wasOpened) this.afterOnShow(params);
     else afterNextRender(() => this.afterOnShow(params));
-
-    // Autofocus logic
-    afterNextRender(() => params.autofocus && this.focus({preventScroll: true}));
   }
 
   /**
@@ -241,7 +245,6 @@ export class ESLPopup extends ESLToggleable {
     this.beforeOnHide(params);
     super.onHide(params);
     this.afterOnHide(params);
-    params.autofocus && this.activator?.focus({preventScroll: true});
   }
 
   /**
