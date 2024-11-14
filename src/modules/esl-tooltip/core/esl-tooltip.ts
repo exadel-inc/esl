@@ -75,6 +75,7 @@ export class ESLTooltip extends ESLPopup {
     this.dir = params.dir || '';
     this.lang = params.lang || '';
     this.parentNode !== document.body && document.body.appendChild(this);
+
     super.onShow(params);
   }
 

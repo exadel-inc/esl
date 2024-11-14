@@ -119,6 +119,7 @@ export class ESLToggleable extends ESLBaseElement {
   /**
    * Focus behavior. Available values:
    * - 'none' - no focus management
+   * - 'grab' - focus on the first focusable element
    * - 'chain' - focus on the first focusable element first and return focus to the activator after the last focusable element
    * - 'loop' - focus on the first focusable element and loop through the focusable elements
    */
@@ -284,7 +285,7 @@ export class ESLToggleable extends ESLBaseElement {
   /**
    * Actions to execute on show toggleable.
    * Inner state and 'open' attribute are not affected and updated before `onShow` execution.
-   * Adds CSS classes, update a11y and fire {@link ESLToggleable.REFRESH_EVENT} event by default.
+   * Adds CSS classes, update a11y and fire {@link ESLBaseElement.REFRESH_EVENT} event by default.
    */
   protected onShow(params: ESLToggleableActionParams): void {
     this.open = true;
@@ -417,15 +418,15 @@ export class ESLToggleable extends ESLBaseElement {
   @listen('focusout')
   protected _onFocusOut(e: FocusEvent): void {
     if (!this.open) return;
-    if (this.focusBehavior === 'chain') {
-      afterNextRender(() => {
-        if (this.hasFocus) return;
+    afterNextRender(() => {
+      if (this.hasFocus) return;
+      if (this.focusBehavior === 'chain') {
         this.hide({initiator: 'focusout', event: e});
-      });
-    }
-    if (this.focusBehavior === 'loop') {
-      this.focus({preventScroll: true});
-    }
+      }
+      if (this.focusBehavior === 'loop') {
+        this.focus({preventScroll: true});
+      }
+    });
   }
 
   @listen({auto: false, event: 'mouseenter'})

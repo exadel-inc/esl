@@ -22,10 +22,11 @@ export interface ESLToggleableTagShape<T extends ESLToggleable = ESLToggleable> 
   /**
    * Define focus behavior
    *  - 'none' - no focus management
+   *  - 'grab' - focus on the first focusable element
    *  - 'chain' - focus on the first focusable element first and return focus to the activator after the last focusable element
    *  - 'loop' - focus on the first focusable element and loop through the focusable elements
    */
-  'focus-behaviour'?: 'none' | 'chain' | 'loop';
+  'focus-behavior'?: 'none' | 'chain' | 'loop';
 
   /** Define Toggleable group meta information to organize groups */
   'group'?: string;

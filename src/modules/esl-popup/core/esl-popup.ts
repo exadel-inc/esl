@@ -113,10 +113,11 @@ export class ESLPopup extends ESLToggleable {
   /**
    * Focus behavior. Available values:
    * - 'none' - no focus management
+   * - 'grab' - focus on the first focusable element
    * - 'chain' (default) - focus on the first focusable element first and return focus to the activator after the last focusable element
    * - 'loop' - focus on the first focusable element and loop through the focusable elements
    */
-  @attr({defaultValue: 'none'})
+  @attr({defaultValue: 'chain'})
   public override focusBehavior: FocusFlowType;
 
   public $placeholder: ESLPopupPlaceholder | null;

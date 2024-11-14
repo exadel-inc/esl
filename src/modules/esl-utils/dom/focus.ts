@@ -34,8 +34,8 @@ export const handleFocusFlow = (
 
   if (type === 'loop') return handleFocusChain(e, $first, $last);
 
-  if (type === 'chain' && $last && $fallback) {
-    if (e.target !== (e.shiftKey ? $first : $last)) return;
+  if (type === 'chain' && $fallback) {
+    if ($last && e.target !== (e.shiftKey ? $first : $last)) return;
     $fallback.focus();
     e.preventDefault();
   }
