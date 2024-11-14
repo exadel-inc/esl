@@ -1,13 +1,11 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLPopup} from '../../esl-popup/core/esl-popup';
-import {attr, bind, boolAttr, listen, memoize} from '../../esl-utils/decorators';
+import {bind, boolAttr, listen, memoize} from '../../esl-utils/decorators';
 import {ESLShareButton} from './esl-share-button';
 import {ESLShareConfig} from './esl-share-config';
 
 import type {ESLPopupActionParams} from '../../esl-popup/core/esl-popup';
 import type {ESLShareButtonConfig} from './esl-share-config';
-import type {FocusFlowType} from '../../esl-utils/dom/focus';
-import type {PositionType} from '../../esl-popup/core/esl-popup-position';
 
 export type {ESLSharePopupTagShape} from './esl-share-popup.shape';
 
@@ -36,7 +34,6 @@ export class ESLSharePopup extends ESLPopup {
   /** Default params to pass into the share popup */
   static override DEFAULT_PARAMS: ESLSharePopupActionParams = {
     ...ESLPopup.DEFAULT_PARAMS,
-    autofocus: true,
     position: 'top',
     hideDelay: 300
   };
@@ -55,23 +52,6 @@ export class ESLSharePopup extends ESLPopup {
   public static get sharedInstance(): ESLSharePopup {
     return ESLSharePopup.create();
   }
-
-  /**
-   * Focus behaviour. Awailable values:
-   * - 'none' - no focus management
-   * - 'chain' (default) - focus on the first focusable element first and return focus to the activator after the last focusable element
-   * - 'loop' - focus on the first focusable element and loop through the focusable elements
-   */
-  @attr({defaultValue: 'chain'}) public override focusBehaviour: FocusFlowType;
-
-  /**
-   * Popup position relative to the trigger.
-   * Currently supported: 'top', 'bottom', 'left', 'right' position types ('top' by default)
-   */
-  @attr({defaultValue: 'top'}) public override position: PositionType;
-
-  /** Popup behavior if it does not fit in the window ('fit' by default) */
-  @attr({defaultValue: 'fit'}) public override behavior: string;
 
   /** Disable arrow at Tooltip */
   @boolAttr() public disableArrow: boolean;

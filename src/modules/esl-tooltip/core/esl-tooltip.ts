@@ -1,10 +1,8 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLPopup} from '../../esl-popup/core';
-import {memoize, attr, boolAttr} from '../../esl-utils/decorators';
+import {memoize, boolAttr} from '../../esl-utils/decorators';
 
 import type {ESLPopupActionParams} from '../../esl-popup/core';
-import type {PositionType} from '../../esl-popup/core/esl-popup-position';
-import type {FocusFlowType} from '../../esl-utils/dom/focus';
 
 export interface ESLTooltipActionParams extends ESLPopupActionParams {
   /** text to be shown */
@@ -29,25 +27,9 @@ export class ESLTooltip extends ESLPopup {
   /** Default params to pass into the tooltip on show/hide actions */
   public static override DEFAULT_PARAMS: ESLTooltipActionParams = {
     ...ESLPopup.DEFAULT_PARAMS,
-    autofocus: true
+    position: 'top',
+    hideDelay: 300
   };
-
-  /**
-   * Focus behaviour. Awailable values:
-   * - 'none' - no focus management
-   * - 'chain' (default) - focus on the first focusable element first and return focus to the activator after the last focusable element
-   * - 'loop' - focus on the first focusable element and loop through the focusable elements
-   */
-  @attr({defaultValue: 'chain'}) public override focusBehaviour: FocusFlowType;
-
-  /**
-   * Tooltip position relative to the trigger.
-   * Currently supported: 'top', 'bottom', 'left', 'right' position types ('top' by default)
-   */
-  @attr({defaultValue: 'top'}) public override position: PositionType;
-
-  /** Tooltip behavior if it does not fit in the window ('fit' by default) */
-  @attr({defaultValue: 'fit'}) public override behavior: string;
 
   /** Disable arrow at Tooltip */
   @boolAttr() public disableArrow: boolean;
@@ -94,6 +76,7 @@ export class ESLTooltip extends ESLPopup {
     if (params.html) {
       this.innerHTML = params.html;
     }
+
     this.dir = params.dir || '';
     this.lang = params.lang || '';
     this.parentNode !== document.body && document.body.appendChild(this);
