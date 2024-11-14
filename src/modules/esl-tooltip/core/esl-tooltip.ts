@@ -67,15 +67,10 @@ export class ESLTooltip extends ESLPopup {
 
   /** Actions to execute on show Tooltip. */
   public override onShow(params: ESLTooltipActionParams): void {
-    if (params.disableArrow) {
-      this.disableArrow = params.disableArrow;
-    }
-    if (params.text) {
-      this.innerText = params.text;
-    }
-    if (params.html) {
-      this.innerHTML = params.html;
-    }
+    if (params.disableArrow) this.disableArrow = params.disableArrow;
+    if (params.text) this.innerText = params.text;
+    if (params.html) this.innerHTML = params.html;
+    if (params.text || params.html) memoize.clear(this, '$arrow');
 
     this.dir = params.dir || '';
     this.lang = params.lang || '';
