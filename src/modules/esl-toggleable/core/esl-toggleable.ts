@@ -200,7 +200,7 @@ export class ESLToggleable extends ESLBaseElement {
     track ? this.$$on(this._onMouseLeave) : this.$$off(this._onMouseLeave);
   }
 
-  /** Focus the first focusable element or the element itself if it's focusable */
+  /** Focuses on the first focusable element or the element itself if it's focusable */
   public override focus(options?: FocusOptions): void {
     if (this.hasAttribute('tabindex')) {
       super.focus(options);
@@ -211,7 +211,7 @@ export class ESLToggleable extends ESLBaseElement {
   }
 
   /**
-   * Delegate focus to the last activator (or move it out if there is no activator)
+   * Delegates focus to the last activator (or moves it out if there is no activator)
    * if the focused element is inside the Toggleable.
    * @param deep - if true, the inner focused element will be handled as well
    */
