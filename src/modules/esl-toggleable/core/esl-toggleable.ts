@@ -7,6 +7,7 @@ import {parseBoolean, toBooleanAttribute} from '../../esl-utils/misc/format';
 import {sequentialUID} from '../../esl-utils/misc/uid';
 import {hasHover} from '../../esl-utils/environment/device-detector';
 import {DelayedTask} from '../../esl-utils/async/delayed-task';
+import {afterNextRender} from '../../esl-utils/async/raf';
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {findParent, isMatches} from '../../esl-utils/dom/traversing';
 import {getKeyboardFocusableElements, handleFocusFlow} from '../../esl-utils/dom/focus';
@@ -103,14 +104,6 @@ export class ESLToggleable extends ESLBaseElement {
    */
   @attr({defaultValue: '*'}) public containerActiveClassTarget: string;
 
-  /**
-   * Focus behaviour. Awailable values:
-   * - 'none' - no focus management
-   * - 'chain' - focus on the first focusable element first and return focus to the activator after the last focusable element
-   * - 'loop' - focus on the first focusable element and loop through the focusable elements
-   */
-  @attr({defaultValue: 'none'}) public focusBehaviour: FocusFlowType;
-
   /** Toggleable group meta information to organize groups */
   @attr({name: 'group'}) public groupName: string;
   /** Selector to mark inner close triggers */
@@ -122,6 +115,14 @@ export class ESLToggleable extends ESLBaseElement {
   @attr({parser: parseBoolean, serializer: toBooleanAttribute}) public closeOnEsc: boolean;
   /** Close the Toggleable on a click/tap outside */
   @attr({parser: parseBoolean, serializer: toBooleanAttribute}) public closeOnOutsideAction: boolean;
+
+  /**
+   * Focus behaviour. Awailable values:
+   * - 'none' - no focus management
+   * - 'chain' - focus on the first focusable element first and return focus to the activator after the last focusable element
+   * - 'loop' - focus on the first focusable element and loop through the focusable elements
+   */
+  @attr({defaultValue: 'none'}) public focusBehaviour: FocusFlowType;
 
   /** Initial params to pass to show/hide action on the start */
   @jsonAttr<ESLToggleableActionParams>({defaultValue: {force: true, initiator: 'init'}})
@@ -199,6 +200,32 @@ export class ESLToggleable extends ESLBaseElement {
     track ? this.$$on(this._onMouseLeave) : this.$$off(this._onMouseLeave);
   }
 
+  /** Focus the first focusable element or the element itself if it's focusable */
+  public override focus(options?: FocusOptions): void {
+    if (this.hasAttribute('tabindex')) {
+      super.focus(options);
+    } else {
+      const focusable = this.$focusables[0];
+      focusable && focusable.focus(options);
+    }
+  }
+
+  /**
+   * Delegate focus to the last activator (or move it out if there is no activator)
+   * if the focused element is inside the Toggleable.
+   * @param deep - if true, the inner focused element will be handled as well
+   */
+  public override blur(deep = false): void {
+    if (!this.hasFocus) return;
+    if (this.activator) {
+      this.activator.focus();
+    } else if (deep) {
+      (document.activeElement! as HTMLElement).blur();
+    } else {
+      super.blur();
+    }
+  }
+
   /** Function to merge the result action params */
   protected mergeDefaultParams(params?: ESLToggleableActionParams): ESLToggleableActionParams {
     const type = this.constructor as typeof ESLToggleable;
@@ -259,7 +286,7 @@ export class ESLToggleable extends ESLBaseElement {
    * Inner state and 'open' attribute are not affected and updated before `onShow` execution.
    * Adds CSS classes, update a11y and fire {@link ESLToggleable.REFRESH_EVENT} event by default.
    */
-  protected onShow(params: ESLToggleableActionParams): void {
+  protected onShow(params: ESLToggleableActionParams): void | Promise<void> {
     this.open = true;
     CSSClassUtils.add(this, this.activeClass);
     CSSClassUtils.add(document.body, this.bodyClass, this);
@@ -270,6 +297,11 @@ export class ESLToggleable extends ESLBaseElement {
 
     this.updateA11y();
     this.$$fire(this.REFRESH_EVENT); // To notify other components about content change
+
+    // Focus on the first focusable element
+    if (this.focusBehaviour !== 'none') {
+      queueMicrotask(() => afterNextRender(() => this.focus({preventScroll: true})));
+    }
   }
 
   /**
@@ -285,7 +317,7 @@ export class ESLToggleable extends ESLBaseElement {
    * Inner state and 'open' attribute are not affected and updated before `onShow` execution.
    * Removes CSS classes and update a11y by default.
    */
-  protected onHide(params: ESLToggleableActionParams): void {
+  protected onHide(params: ESLToggleableActionParams): void | Promise<void> {
     this.open = false;
     CSSClassUtils.remove(this, this.activeClass);
     CSSClassUtils.remove(document.body, this.bodyClass, this);
@@ -294,6 +326,9 @@ export class ESLToggleable extends ESLBaseElement {
       $container && CSSClassUtils.remove($container, this.containerActiveClass, this);
     }
     this.updateA11y();
+
+    // Blur if the toggleable has focus
+    queueMicrotask(() => afterNextRender(() => this.blur(true)));
   }
 
   /** Active state marker */
@@ -310,6 +345,11 @@ export class ESLToggleable extends ESLBaseElement {
   }
   public set activator(el: HTMLElement | null | undefined) {
     el ? activators.set(this, el) : activators.delete(this);
+  }
+
+  /** If the togleable or its content has focus */
+  public get hasFocus(): boolean {
+    return this === document.activeElement || this.contains(document.activeElement);
   }
 
   /** List of all focusable elements inside instance */
@@ -367,9 +407,24 @@ export class ESLToggleable extends ESLBaseElement {
   protected _onKeyboardEvent(e: KeyboardEvent): void {
     if (this.closeOnEsc && e.key === ESC) {
       this.hide({initiator: 'keyboard', event: e});
+      e.stopPropagation();
     }
     if (this.focusBehaviour !== 'none' && e.key === TAB) {
       handleFocusFlow(e, this.$focusables, this.activator || this, this.focusBehaviour);
+    }
+  }
+
+  @listen('focusout')
+  protected _onFocusOut(e: FocusEvent): void {
+    if (!this.open) return;
+    if (this.focusBehaviour === 'chain') {
+      afterNextRender(() => {
+        if (this.hasFocus) return;
+        this.hide({initiator: 'focusout', event: e});
+      });
+    }
+    if (this.focusBehaviour === 'loop') {
+      this.focus({preventScroll: true});
     }
   }
 
