@@ -1,4 +1,5 @@
 import {TAB} from './keys';
+import {isVisible} from './visible';
 
 /**
  * Chain focus order between passed elements.
@@ -18,12 +19,15 @@ export const handleFocusChain = (e: KeyboardEvent, first: HTMLElement | undefine
   }
 };
 
+const FOCUSABLE_SELECTOR = 'a[href], button, input, textarea, select, details, summary, output, [tabindex]:not([tabindex="-1"])';
+
 /**
- * TODO: add visibility check
  * Gets keyboard-focusable elements within a specified root element
  * @param root - root element
+ * @param ignoreVisibility - ignore visibility check
  */
-export const getKeyboardFocusableElements = (root: HTMLElement | Document = document): Element[] => {
-  return Array.from(root.querySelectorAll('a[href], button, input, textarea, select, details, [tabindex]:not([tabindex="-1"])'))
-    .filter((el) => !el.hasAttribute('disabled') && !el.getAttribute('aria-hidden'));
+export const getKeyboardFocusableElements = (root: HTMLElement | Document = document, ignoreVisibility = false): Element[] => {
+  return Array.from(root.querySelectorAll(FOCUSABLE_SELECTOR)).filter(
+    (el) => !el.hasAttribute('disabled') && !el.closest('[inert]') && (ignoreVisibility || isVisible(el))
+  );
 };
