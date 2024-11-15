@@ -410,7 +410,7 @@ export class ESLToggleable extends ESLBaseElement {
       this.hide({initiator: 'keyboard', event: e});
       e.stopPropagation();
     }
-    if (this.focusBehavior !== 'none' && e.key === TAB) {
+    if (this.focusBehavior !== 'none' && e.key === TAB && this.open) {
       handleFocusFlow(e, this.$focusables, this.activator || this, this.focusBehavior);
     }
   }
