@@ -118,8 +118,8 @@ export class ESLToggleable extends ESLBaseElement {
 
   /**
    * Focus behavior. Available values:
-   * - 'none' - no focus management
-   * - 'grab' - focus on the first focusable element
+   * - 'none' (default) - no focus management
+   * - 'grab' - focus on the first focusable element, does not affect focus flow or behavior after the last focusable element
    * - 'chain' - focus on the first focusable element first and return focus to the activator after the last focusable element
    * - 'loop' - focus on the first focusable element and loop through the focusable elements
    */

@@ -29,9 +29,17 @@ Use `ESLToggleableDispatcher.init()` to initialize (and bind) `ESLToggleableDisp
 
  - `group` (`groupName`) - Toggleable group meta information to organize groups
  - `no-auto-id` - Disallow automatic id creation when it's empty
+
  - `close-on` (`closeTrigger`) - Selector to mark inner close triggers
  - `close-on-esc` - Close the Toggleable on ESC keyboard event
  - `close-on-outside-action` - Close the Toggleable on a click/tap outside
+
+ - `focus-behavior` - Focus flow behavior. <i class="badge badge-sup badge-success">new</i>  
+    Available values:
+    - `none` (default) - does not affect focus management
+    - `grab` - focus on the first focusable element, does not affect focus flow or behavior after the last focusable element
+    - `chain` - focus on the first focusable element first and return focus to the activator after the last focusable element
+    - `loop` - focus on the first focusable element and loop through the focusable elements
 
  - `initial-params` - Initial params to pass to show/hide action on start
  - `default-params` - Default params to merge into passed action params
