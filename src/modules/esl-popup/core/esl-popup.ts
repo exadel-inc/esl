@@ -11,6 +11,7 @@ import {ESLIntersectionTarget, ESLIntersectionEvent} from '../../esl-event-liste
 import {calcPopupPosition, isOnHorizontalAxis} from './esl-popup-position';
 import {ESLPopupPlaceholder} from './esl-popup-placeholder';
 
+import type {FocusFlowType} from '../../esl-utils/dom';
 import type {ESLToggleableActionParams} from '../../esl-toggleable/core';
 import type {PositionType, PositionOriginType, IntersectionRatioRect} from './esl-popup-position';
 
@@ -44,8 +45,6 @@ export interface ESLPopupActionParams extends ESLToggleableActionParams {
   container?: string;
   /** Container element that defines bounds of popups visibility (is not taken into account if the container attr is set on popup) */
   containerEl?: HTMLElement;
-  /** Autofocus on popup/activator */
-  autofocus?: boolean;
 
   /** Extra class to add to popup on activation */
   extraClass?: string;
@@ -110,6 +109,16 @@ export class ESLPopup extends ESLToggleable {
   public override closeOnEsc: boolean;
   @attr({parser: parseBoolean, serializer: toBooleanAttribute, defaultValue: true})
   public override closeOnOutsideAction: boolean;
+
+  /**
+   * Focus behavior. Available values:
+   * - 'none' - no focus management
+   * - 'grab' - focus on the first focusable element, does not affect focus flow or behavior after the last focusable element
+   * - 'chain' (default) - focus on the first focusable element first and return focus to the activator after the last focusable element
+   * - 'loop' - focus on the first focusable element and loop through the focusable elements
+   */
+  @attr({defaultValue: 'chain'})
+  public override focusBehavior: FocusFlowType;
 
   public $placeholder: ESLPopupPlaceholder | null;
 
@@ -227,9 +236,6 @@ export class ESLPopup extends ESLToggleable {
     // running as a separate task solves the problem with incorrect positioning on the first showing
     if (wasOpened) this.afterOnShow(params);
     else afterNextRender(() => this.afterOnShow(params));
-
-    // Autofocus logic
-    afterNextRender(() => params.autofocus && this.focus({preventScroll: true}));
   }
 
   /**
@@ -241,7 +247,6 @@ export class ESLPopup extends ESLToggleable {
     this.beforeOnHide(params);
     super.onHide(params);
     this.afterOnHide(params);
-    params.autofocus && this.activator?.focus({preventScroll: true});
   }
 
   /**

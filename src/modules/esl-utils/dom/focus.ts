@@ -19,6 +19,28 @@ export const handleFocusChain = (e: KeyboardEvent, first: HTMLElement | undefine
   }
 };
 
+export type FocusFlowType = 'none' | 'loop' | 'chain';
+
+export const handleFocusFlow = (
+  e: KeyboardEvent,
+  $focusables: HTMLElement[],
+  $fallback: HTMLElement,
+  type: FocusFlowType = 'loop'
+): boolean | undefined => {
+  if (!type || type === 'none') return;
+
+  const $first = $focusables[0];
+  const $last = $focusables[$focusables.length - 1];
+
+  if (type === 'loop') return handleFocusChain(e, $first, $last);
+
+  if (type === 'chain' && $fallback) {
+    if ($last && e.target !== (e.shiftKey ? $first : $last)) return;
+    $fallback.focus();
+    e.preventDefault();
+  }
+};
+
 const FOCUSABLE_SELECTOR = 'a[href], button, input, textarea, select, details, summary, output, [tabindex]:not([tabindex="-1"])';
 
 /**

@@ -34,7 +34,7 @@ Was originally developed as an alternative to `<picture>` element, but with more
  - Attributes observing.
  - A11y.
 
-### Accessibility behaviour
+### Accessibility behavior
 ESL Image uses 'img' role if the role is not explicitly provided.
 If the role is 'img' then `alt` attribute is used as the `aria-label` for the image.
 In case `alt` is not provided then an empty value is used as a fallback.

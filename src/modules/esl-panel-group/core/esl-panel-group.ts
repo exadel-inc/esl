@@ -58,7 +58,7 @@ export class ESLPanelGroup extends ESLBaseElement {
   @attr({defaultValue: '1'}) public maxOpenItems: string;
 
   /**
-   * Define active panel(s) behaviour in case of configuration change (mode, min-open-items, max-open-items)
+   * Define active panel(s) behavior in case of configuration change (mode, min-open-items, max-open-items)
    * `last` (default) - try to preserve currently active panel(s)
    * `initial` - activates initially opened panel(s)
    * `open` - open max of available panels
