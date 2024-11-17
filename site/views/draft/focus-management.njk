@@ -1,0 +1,62 @@
+---
+layout: content
+title: Focus Management (Regression)
+name: Focus (Regression)
+tags: [draft]
+aside:
+  components:
+    - esl-toggleable
+    - esl-trigger
+    - esl-popup
+    - esl-tooltip
+---
+
+{% import 'lorem.njk' as lorem %}
+
+<section>
+  <h2>Nested Focusable Elements</h2>
+
+  <esl-trigger class="btn btn-sec-blue mb-2" target="::next">Open</esl-trigger>
+
+  <esl-toggleable class="alert alert-info p-3" focus-behavior="loop">
+    Focus Trapped Zone
+
+    <esl-trigger class="btn btn-link" target="#popup">Open Popup</esl-trigger>
+    <esl-popup id="popup" position="top" position-origin="outer">
+      <div class="popup-content p-2" style="max-width: 400px">
+        <p>{{ lorem.paragraph(1) }}</p>
+        <a href="#">Test</a>
+
+        <esl-trigger class="btn btn-link" target="#popup4" track-hover>Nested Popup</esl-trigger>
+        <esl-popup id="popup4" position="top" position-origin="outer">
+          <div class="popup-content p-2">
+            <button class="btn btn-sec-blue">Button 1</button>
+            <button class="btn btn-sec-orange">Button 2</button>
+          </div>
+        </esl-popup>
+      </div>
+    </esl-popup>
+
+    And some other popup content
+    <esl-trigger class="btn btn-link" target="#popup2" track-hover>Hover Popup</esl-trigger>
+    <esl-popup id="popup2" position="top" position-origin="outer">
+      <div class="popup-content p-2" style="max-width: 400px">
+        <p>{{ lorem.paragraph(1) }}</p>
+        <a href="#">Test</a>
+        <button class="btn btn-link">Focusable Button</button>
+      </div>
+    </esl-popup>
+
+    And some other focusable content
+
+    <button class="btn btn-link">Focusable Button</button>
+
+    <esl-trigger class="btn btn-link" target="#popup3">Simple Popup</esl-trigger>
+    <esl-popup id="popup3" position="top" position-origin="outer">
+      <div class="popup-content p-2" style="max-width: 400px">
+        <p>{{ lorem.paragraph(1) }}</p>
+      </div>
+    </esl-popup>
+
+  </esl-toggleable>
+</section>
