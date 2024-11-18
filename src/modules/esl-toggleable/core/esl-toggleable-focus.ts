@@ -44,7 +44,7 @@ export class ESLToggleableFocusManager {
 
   /** Removes the specified element from the known focus scopes. */
   public detach(element: ESLToggleable, fallback?: HTMLElement | null): void {
-    if (document.activeElement === element || element.contains(document.activeElement)) {
+    if (element === this.current || document.activeElement === element || element.contains(document.activeElement)) {
       fallback && queueMicrotask(() => afterNextRender(() => fallback.focus({preventScroll: true})));
     }
     if (!this.has(element)) return;
