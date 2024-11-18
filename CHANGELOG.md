@@ -1,3 +1,11 @@
+## [5.0.0-beta.41](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.40...v5.0.0-beta.41) (2024-11-18)
+
+### Bug Fixes
+
+* **esl-toggleable:** fix focus should return to activator ([3033b33](https://github.com/exadel-inc/esl/commit/3033b3372fec61c879d90409e43763c599887d21))
+* **esl-toggleable:** focus management reworked to use scopes. Introduced `ESLToggleableFocusManager` ([fbac20e](https://github.com/exadel-inc/esl/commit/fbac20eae422a4d3a822c3df4572b5ac7275a4f9))
+* **eslint-config:** update file lines limit to `500` LOC ([f0825ff](https://github.com/exadel-inc/esl/commit/f0825fffa694be811350926305f94d5f5a23232b))
+
 ## [5.0.0-beta.40](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.39...v5.0.0-beta.40) (2024-11-15)
 
 ### ⚠ BREAKING CHANGES
