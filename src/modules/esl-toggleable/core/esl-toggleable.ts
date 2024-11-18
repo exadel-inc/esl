@@ -211,22 +211,6 @@ export class ESLToggleable extends ESLBaseElement {
     }
   }
 
-  /**
-   * Delegates focus to the last activator (or moves it out if there is no activator)
-   * if the focused element is inside the Toggleable.
-   * @param deep - if true, the inner focused element will be handled as well
-   */
-  public override blur(deep = false): void {
-    if (!this.hasFocus) return;
-    if (this.activator) {
-      this.activator.focus();
-    } else if (deep) {
-      (document.activeElement! as HTMLElement).blur();
-    } else {
-      super.blur();
-    }
-  }
-
   /** Function to merge the result action params */
   protected mergeDefaultParams(params?: ESLToggleableActionParams): ESLToggleableActionParams {
     const type = this.constructor as typeof ESLToggleable;
@@ -324,7 +308,7 @@ export class ESLToggleable extends ESLBaseElement {
       $container && CSSClassUtils.remove($container, this.containerActiveClass, this);
     }
     this.updateA11y();
-    this.focusManager.detach(this);
+    this.focusManager.detach(this, this.activator);
   }
 
   /** Active state marker */

@@ -43,14 +43,12 @@ export class ESLToggleableFocusManager {
   }
 
   /** Removes the specified element from the known focus scopes. */
-  public detach(element: ESLToggleable): void {
-    if (!this.has(element)) return;
-    const {current} = this;
-    this.stack = this.stack.filter((el) => el !== element);
-    if (current === element) {
-      // Blur if the toggleable has focus
-      queueMicrotask(() => afterNextRender(() => element.blur(true)));
+  public detach(element: ESLToggleable, fallback?: HTMLElement | null): void {
+    if (document.activeElement === element || element.contains(document.activeElement)) {
+      fallback && queueMicrotask(() => afterNextRender(() => fallback.focus({preventScroll: true})));
     }
+    if (!this.has(element)) return;
+    this.stack = this.stack.filter((el) => el !== element);
   }
 
   /** Keyboard event handler for the focus management */
