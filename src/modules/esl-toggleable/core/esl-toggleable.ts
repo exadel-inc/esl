@@ -1,5 +1,5 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {SYSTEM_KEYS, ESC, TAB} from '../../esl-utils/dom/keys';
+import {SYSTEM_KEYS, ESC} from '../../esl-utils/dom/keys';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {prop, attr, jsonAttr, listen} from '../../esl-utils/decorators';
 import {defined, copyDefinedKeys} from '../../esl-utils/misc/object';
@@ -7,12 +7,12 @@ import {parseBoolean, toBooleanAttribute} from '../../esl-utils/misc/format';
 import {sequentialUID} from '../../esl-utils/misc/uid';
 import {hasHover} from '../../esl-utils/environment/device-detector';
 import {DelayedTask} from '../../esl-utils/async/delayed-task';
-import {afterNextRender} from '../../esl-utils/async/raf';
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {findParent, isMatches} from '../../esl-utils/dom/traversing';
-import {getKeyboardFocusableElements, handleFocusFlow} from '../../esl-utils/dom/focus';
+import {getKeyboardFocusableElements} from '../../esl-utils/dom/focus';
+import {ESLToggleableFocusManager} from './esl-toggleable-focus';
 
-import type {FocusFlowType} from '../../esl-utils/dom/focus';
+import type {ESLFocusFlowType} from './esl-toggleable-focus';
 import type {DelegatedEvent} from '../../esl-event-listener/core/types';
 
 /** Default Toggleable action params type definition */
@@ -123,7 +123,7 @@ export class ESLToggleable extends ESLBaseElement {
    * - 'chain' - focus on the first focusable element first and return focus to the activator after the last focusable element
    * - 'loop' - focus on the first focusable element and loop through the focusable elements
    */
-  @attr({defaultValue: 'none'}) public focusBehavior: FocusFlowType;
+  @attr({defaultValue: 'none'}) public focusBehavior: ESLFocusFlowType;
 
   /** Initial params to pass to show/hide action on the start */
   @jsonAttr<ESLToggleableActionParams>({defaultValue: {force: true, initiator: 'init'}})
@@ -297,12 +297,9 @@ export class ESLToggleable extends ESLBaseElement {
     }
 
     this.updateA11y();
-    this.$$fire(this.REFRESH_EVENT); // To notify other components about content change
+    this.focusManager.attach(this);
 
-    // Focus on the first focusable element
-    if (this.focusBehavior !== 'none') {
-      queueMicrotask(() => afterNextRender(() => this.focus({preventScroll: true})));
-    }
+    this.$$fire(this.REFRESH_EVENT); // To notify other components about content change
   }
 
   /**
@@ -327,9 +324,7 @@ export class ESLToggleable extends ESLBaseElement {
       $container && CSSClassUtils.remove($container, this.containerActiveClass, this);
     }
     this.updateA11y();
-
-    // Blur if the toggleable has focus
-    queueMicrotask(() => afterNextRender(() => this.blur(true)));
+    this.focusManager.detach(this);
   }
 
   /** Active state marker */
@@ -338,6 +333,11 @@ export class ESLToggleable extends ESLBaseElement {
   }
   public set open(value: boolean) {
     this.toggleAttribute('open', this._open = value);
+  }
+
+  /** Focus manager instance */
+  public get focusManager(): ESLToggleableFocusManager {
+    return new ESLToggleableFocusManager();
   }
 
   /** Last component that has activated the element. Uses {@link ESLToggleableActionParams.activator}*/
@@ -410,23 +410,6 @@ export class ESLToggleable extends ESLBaseElement {
       this.hide({initiator: 'keyboard', event: e});
       e.stopPropagation();
     }
-    if (this.focusBehavior !== 'none' && e.key === TAB && this.open) {
-      handleFocusFlow(e, this.$focusables, this.activator || this, this.focusBehavior);
-    }
-  }
-
-  @listen('focusout')
-  protected _onFocusOut(e: FocusEvent): void {
-    if (!this.open) return;
-    afterNextRender(() => {
-      if (this.hasFocus) return;
-      if (this.focusBehavior === 'chain') {
-        this.hide({initiator: 'focusout', event: e});
-      }
-      if (this.focusBehavior === 'loop') {
-        this.focus({preventScroll: true});
-      }
-    });
   }
 
   @listen({auto: false, event: 'mouseenter'})
