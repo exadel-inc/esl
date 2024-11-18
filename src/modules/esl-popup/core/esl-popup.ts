@@ -11,8 +11,7 @@ import {ESLIntersectionTarget, ESLIntersectionEvent} from '../../esl-event-liste
 import {calcPopupPosition, isOnHorizontalAxis} from './esl-popup-position';
 import {ESLPopupPlaceholder} from './esl-popup-placeholder';
 
-import type {FocusFlowType} from '../../esl-utils/dom';
-import type {ESLToggleableActionParams} from '../../esl-toggleable/core';
+import type {ESLToggleableActionParams, ESLFocusFlowType} from '../../esl-toggleable/core';
 import type {PositionType, PositionOriginType, IntersectionRatioRect} from './esl-popup-position';
 
 const INTERSECTION_LIMIT_FOR_ADJACENT_AXIS = 0.7;
@@ -118,7 +117,7 @@ export class ESLPopup extends ESLToggleable {
    * - 'loop' - focus on the first focusable element and loop through the focusable elements
    */
   @attr({defaultValue: 'chain'})
-  public override focusBehavior: FocusFlowType;
+  public override focusBehavior: ESLFocusFlowType;
 
   public $placeholder: ESLPopupPlaceholder | null;
 

@@ -19,29 +19,11 @@ export const handleFocusChain = (e: KeyboardEvent, first: HTMLElement | undefine
   }
 };
 
-export type FocusFlowType = 'none' | 'loop' | 'chain';
-
-export const handleFocusFlow = (
-  e: KeyboardEvent,
-  $focusables: HTMLElement[],
-  $fallback: HTMLElement,
-  type: FocusFlowType = 'loop'
-): boolean | undefined => {
-  if (!type || type === 'none') return;
-
-  const $first = $focusables[0];
-  const $last = $focusables[$focusables.length - 1];
-
-  if (type === 'loop') return handleFocusChain(e, $first, $last);
-
-  if (type === 'chain' && $fallback) {
-    if ($last && e.target !== (e.shiftKey ? $first : $last)) return;
-    $fallback.focus();
-    e.preventDefault();
-  }
-};
-
 const FOCUSABLE_SELECTOR = 'a[href], button, input, textarea, select, details, summary, output, [tabindex]:not([tabindex="-1"])';
+const isFocusableAllowed = (el: HTMLElement): boolean => !el.hasAttribute('disabled') && !el.closest('[inert]');
+
+/** @returns if the element is focusable */
+export const isFocusable = (el: HTMLElement): boolean => el && el.matches(FOCUSABLE_SELECTOR) && isFocusableAllowed(el);
 
 /**
  * Gets keyboard-focusable elements within a specified root element
@@ -50,6 +32,6 @@ const FOCUSABLE_SELECTOR = 'a[href], button, input, textarea, select, details, s
  */
 export const getKeyboardFocusableElements = (root: HTMLElement | Document = document, ignoreVisibility = false): Element[] => {
   return Array.from(root.querySelectorAll(FOCUSABLE_SELECTOR)).filter(
-    (el) => !el.hasAttribute('disabled') && !el.closest('[inert]') && (ignoreVisibility || isVisible(el))
+    (el: HTMLElement) => isFocusableAllowed(el) && (ignoreVisibility || isVisible(el))
   );
 };
