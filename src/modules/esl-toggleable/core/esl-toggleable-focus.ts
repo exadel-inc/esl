@@ -28,12 +28,12 @@ export class ESLToggleableFocusManager {
     return this.stack[this.stack.length - 1];
   }
 
-  /** Check if the element is in the known focus scopes */
+  /** Checks if the element is in the known focus scopes */
   public has(element: ESLToggleable): boolean {
     return this.stack.includes(element);
   }
 
-  /** Change focus scope to the specified element. Previous scope saved in the stack. */
+  /** Changes focus scope to the specified element. Previous scope saved in the stack. */
   public attach(element: ESLToggleable): void {
     if (element.focusBehavior === 'none' && element !== this.current) return;
     // Remove the element from the stack and add it on top
@@ -42,7 +42,7 @@ export class ESLToggleableFocusManager {
     queueMicrotask(() => afterNextRender(() => element.focus({preventScroll: true})));
   }
 
-  /** Remove the specified element from the known focus scopes. */
+  /** Removes the specified element from the known focus scopes. */
   public detach(element: ESLToggleable): void {
     if (!this.has(element)) return;
     const {current} = this;
