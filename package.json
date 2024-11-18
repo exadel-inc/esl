@@ -96,7 +96,7 @@
     "less": "^4.2.0",
     "less-plugin-npm-import": "^2.1.0",
     "lint-staged": "^15.2.10",
-    "postcss": "^8.4.48",
+    "postcss": "^8.4.49",
     "postcss-less": "^6.0.0",
     "postcss-preset-env": "^10.0.9",
     "prettier": "^3.3.3",
