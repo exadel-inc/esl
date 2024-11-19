@@ -2,6 +2,7 @@ import type {ESLBaseElementShape} from '@exadel/esl/modules/esl-base-element/cor
 import type {UIPReset} from './reset-button';
 
 export interface UIPResetShape extends ESLBaseElementShape<UIPReset> {
+  source?: 'javascript' | 'js' | 'html';
   children?: any;
 }
 

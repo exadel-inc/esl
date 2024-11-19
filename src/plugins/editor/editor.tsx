@@ -45,7 +45,7 @@ export class UIPEditor extends UIPPluginPanel {
     return (
       <div className={type.is + '-toolbar uip-plugin-header-toolbar'}>
         {this.showCopy ? <uip-copy class={type.is + '-header-copy'} source={this.source}><CopyIcon/></uip-copy> : ''}
-        {this.$root?.storeKey ? <uip-reset class={type.is + '-header-reset'}><ResetIcon/></uip-reset> : ''}
+        {this.$root?.storeKey ? <uip-reset class={type.is + '-header-reset'} source={this.source}><ResetIcon/></uip-reset> : ''}
       </div>
     ) as HTMLElement;
   }
