@@ -95,8 +95,8 @@
     "@types/youtube": "0.1.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.5.0",
-    "@commitlint/config-conventional": "^19.5.0",
+    "@commitlint/cli": "^19.6.0",
+    "@commitlint/config-conventional": "^19.6.0",
     "@exadel/eslint-plugin-esl": "file:eslint-plugin",
     "@exadel/eslint-config-esl": "file:eslint-config",
     "@semantic-release/changelog": "^6.0.3",
