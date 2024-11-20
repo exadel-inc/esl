@@ -5,6 +5,7 @@ module.exports = {
   preset: 'jest-puppeteer',
   transform: {
     '^.+\\.tsx?$': 'ts-jest',
+    '^.+\\.jsx?$': 'babel-jest',
     '^.+\\.feature$': './transformer/gherkin.js'
   },
   roots: ['./tests/'],
