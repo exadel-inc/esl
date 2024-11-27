@@ -1,62 +1,63 @@
 {% macro navItem(title, collection, icon, opt = {}) %}
-  {% set isDraftCollection = collection == 'draft' %}
+  {% set isDevCollection = collection == 'dev' %}
   {% set isPrimaryActive = functions.isActivePath(page.url, collection) %}
 
-  {% if isDraftCollection and not env.isDev %}
-
+  {% if isDevCollection and not env.isDev %}
     {% set items = collections[collection] | filter('url', page.url) %}
   {% else %}
     {% set items = collections[collection] | released | tree %}
   {% endif %}
 
   {% if items.length %}
-  <div class="sidebar-nav-item-heading {{ 'active' if isPrimaryActive }}">
-    <a class="sidebar-nav-item-link icon-link" href="{{ ('/' + collection) | url }}"
-       aria-label="{{ title }} home page">
-      {% include icon %}
-    </a>
-    <esl-trigger class="sidebar-nav-item-trigger sidebar-nav-item-arrow"
-                 target="::parent::next"
-                 a11y-label-active="Collapse {{ title }} section"
-                 a11y-label-inactive="Expand {{ title }} section"
-                 {% if isPrimaryActive %}active{% endif %}>
-      {{ title }}
-      {% if opt.beta %}
-        <sup class="badge badge-sup badge-warning">beta</sup>
-      {% endif %}
-      {% if opt.new %}
-        <sup class="badge badge-sup badge-success">new</sup>
-      {% endif %}
-    </esl-trigger>
-  </div>
+  <li class="sidebar-nav-item">
+    <div class="sidebar-nav-item-heading {{ 'active' if isPrimaryActive }}">
+      <a class="sidebar-nav-item-link icon-link" href="{{ ('/' + collection) | url }}"
+         aria-label="{{ title }} home page">
+        {% include icon %}
+      </a>
+      <esl-trigger class="sidebar-nav-item-trigger sidebar-nav-item-arrow"
+                   target="::parent::next"
+                   a11y-label-active="Collapse {{ title }} section"
+                   a11y-label-inactive="Expand {{ title }} section"
+                   {% if isPrimaryActive %}active{% endif %}>
+        {{ title }}
+        {% if opt.beta %}
+          <sup class="badge badge-sup badge-warning">beta</sup>
+        {% endif %}
+        {% if opt.new %}
+          <sup class="badge badge-sup badge-success">new</sup>
+        {% endif %}
+      </esl-trigger>
+    </div>
 
-  <esl-panel id="sidebar-{{ collection }}-menu"
-             class="sidebar-nav-secondary {{ 'open' if isPrimaryActive }}"
-             {% if isPrimaryActive %}data-open{% endif %}
-             group="esl-nav"
-             fallback-duration="400">
-    {{ linkList(items, isDraftCollection) }}
-  </esl-panel>
+    <esl-panel id="sidebar-{{ collection }}-menu"
+               class="sidebar-nav-secondary {{ 'open' if isPrimaryActive }}"
+               {% if isPrimaryActive %}data-open{% endif %}
+               group="esl-nav"
+               fallback-duration="400">
+      {{ linkList(items, isDevCollection) }}
+    </esl-panel>
+  </li>
   {% endif %}
 {% endmacro %}
 
-{% macro linkList(items, isDraftCollection, prepend = []) %}
+{% macro linkList(items, isDevCollection, prepend = []) %}
   <ul class="sidebar-nav-secondary-list">
     <esl-a11y-group targets="::child(li)::find(.sidebar-nav-secondary-link)"></esl-a11y-group>
     {% for item in prepend %}
-      {{ link(item, isDraftCollection) }}
+      {{ link(item, isDevCollection) }}
     {% endfor %}
     {% for item in items | sortBy('order', 'name') %}
       {% if item.children.length %}
-        {{ subnavItem(item, isDraftCollection) }}
+        {{ subnavItem(item, isDevCollection) }}
       {% else %}
-        {{ link(item, isDraftCollection) }}
+        {{ link(item, isDevCollection) }}
       {% endif %}
     {% endfor %}
   </ul>
 {% endmacro %}
 
-{% macro subnavItem(item, isDraftCollection) %}
+{% macro subnavItem(item, isDevCollection) %}
   {% set isActive = page.url === item.url %}
   {% set hasActive = functions.isActivePath(page.url, item.url) %}
   {% set isDraft = [].concat(item.data.tags).includes('draft') %}
@@ -64,11 +65,11 @@
   {% set isBeta = [].concat(item.data.tags).includes('beta') %}
   {% set isDeprecated = [].concat(item.data.tags).includes('deprecated') %}
 
-  <li class="sidebar-nav-secondary-item sidebar-nav-item-container {{ 'draft' if isDraft }}"
+  <li class="sidebar-nav-secondary-item sidebar-nav-item-container"
       {% if hasActive %}aria-selected="true"{% endif %}>
     <div class="sidebar-nav-item-heading sidebar-nav-item-heading-secondary {{ 'active' if hasActive }}">
       <a class="sidebar-nav-secondary-link"
-         {% if isActive %}aria-current="page"{% endif %} {% if isDraft %}rel="nofollow"{% endif %}
+         {% if isActive %}aria-current="page"{% endif %} {% if isDraft or isDevCollection %}rel="nofollow"{% endif %}
          href="{{ item.url | url }}">
         {% if isNew %}
           <sup class="badge badge-sup badge-success badge-sidebar">new</sup>
@@ -77,7 +78,7 @@
           <sup class="badge badge-sup badge-warning badge-sidebar">beta</sup>
         {% endif %}
         {% if isDraft %}
-          <sup class="badge badge-sup badge-danger badge-sidebar" {% if isDraftCollection %}hidden{% endif %}>draft</sup>
+          <sup class="badge badge-sup badge-danger badge-sidebar">draft</sup>
         {% endif %}
         {% if isDeprecated %}
           <span class="badge badge-img badge-deprecated badge-sidebar" aria-label="Deprecated component" title="Deprecated component"></span>
@@ -95,22 +96,22 @@
     <esl-panel class="sidebar-nav-secondary {{ 'open' if hasActive }}"
                {% if hasActive %}data-open{% endif %}
                fallback-duration="400">
-      {{ linkList(item.children, isDraftCollection) }}
+      {{ linkList(item.children, isDevCollection) }}
     </esl-panel>
   </li>
 {% endmacro %}
 
-{% macro link(item, isDraftCollection) %}
+{% macro link(item, isDevCollection) %}
   {% set isActive = page.url === item.url %}
   {% set isDraft = [].concat(item.data.tags).includes('draft') %}
   {% set isNew = [].concat(item.data.tags).includes('new') %}
   {% set isBeta = [].concat(item.data.tags).includes('beta') %}
   {% set isDeprecated = [].concat(item.data.tags).includes('deprecated') %}
 
-  <li class="sidebar-nav-secondary-item {{ 'active' if isActive }} {{ 'draft' if isDraft }}"
+  <li class="sidebar-nav-secondary-item {{ 'active' if isActive }}"
       {% if isActive %}aria-selected="true"{% endif %}>
     <a class="sidebar-nav-secondary-link"
-       {% if isActive %}aria-current="page"{% endif %} {% if isDraft %}rel="nofollow"{% endif %}
+       {% if isActive %}aria-current="page"{% endif %} {% if isDraft or isDevCollection %}rel="nofollow"{% endif %}
        href="{{ item.url | url }}">
       {% if isNew %}
         <sup class="badge badge-sup badge-success badge-sidebar">new</sup>
@@ -119,7 +120,7 @@
         <sup class="badge badge-sup badge-warning badge-sidebar">beta</sup>
       {% endif %}
       {% if isDraft %}
-        <sup class="badge badge-sup badge-danger badge-sidebar" {% if isDraftCollection %}hidden{% endif %}>draft</sup>
+        <sup class="badge badge-sup badge-danger badge-sidebar">draft</sup>
       {% endif %}
       {% if isDeprecated %}
         <span class="badge badge-img badge-deprecated badge-sidebar" aria-label="Deprecated component" title="Deprecated component"></span>
