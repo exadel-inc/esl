@@ -56,24 +56,16 @@
     justify-self: flex-end;
     position: relative;
     margin: 5px 10px;
-    top: -2px;
-    width: 7px;
-    height: 7px;
+    width: 15px;
+    height: 15px;
     z-index: 1;
-    pointer-events: none;
-
-    border-left: 2px solid currentColor;
-    border-top: 2px solid currentColor;
-
-    transform: rotate(225deg);
-    transform-origin: center;
-    transition:
-      transform 0.5s ease-in-out,
-      top 0.5s ease-in-out;
+    background: currentColor;
+    clip-path: polygon(50% 80%, 0% 30%, 5% 20%, 50% 65%, 95% 20%, 100% 30%);
+    animation: rotate 0.5s linear both;
   }
 
   &[collapsible][collapsed] .uip-plugin-header::after {
     top: 2px;
-    transform: rotate(45deg);
+    animation: rotate-back 0.5s linear both;
   }
 }
