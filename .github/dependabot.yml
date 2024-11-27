@@ -20,6 +20,11 @@ updates:
     assignees:
       - "yadamska"
     groups:
+      esl:
+        patterns:
+          - "@exadel/esl"
+          - "@exadel/eslint-plugin-esl"
+          - "@exadel/eslint-config-esl"
       typescript-eslint:
         patterns:
           - "@typescript-eslint/*"
