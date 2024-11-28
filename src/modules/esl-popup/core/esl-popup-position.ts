@@ -2,11 +2,13 @@ import {Rect} from '../../esl-utils/dom/rect';
 
 import type {Point} from '../../esl-utils/dom/point';
 
+export type DimensionNameType = 'width' | 'height';
 export type PositionType = 'top' | 'bottom' | 'left' | 'right';
 export type PositionOriginType = 'inner' | 'outer';
+export type PlacedAtType = 'top' | 'bottom' | 'left' | 'right' | 'top-inner' | 'bottom-inner' | 'left-inner' | 'right-inner';
 
 export interface PopupPositionValue {
-  placedAt: PositionType;
+  placedAt: PlacedAtType;
   popup: Rect;
   arrow: Point;
 }
@@ -59,13 +61,47 @@ function isStartingSide(position: PositionType): boolean {
 }
 
 /**
+ * Gets the name of the dimension along the axis of the specified position
+ * @param position - name of position
+ * @param alter - should it be the opposite dimension?
+ */
+function getDimensionName(position: PositionType, alter: boolean = false): DimensionNameType {
+  const isHorizontal = isOnHorizontalAxis(position);
+  return (alter ? !isHorizontal : isHorizontal) ? 'width' : 'height';
+}
+
+/**
+ * Gets the name of the position where the arrow should be placed
+ * @param cfg - popup position config
+ * @param isOpposite - should it be the opposite position?
+ */
+function getPlacedAt(cfg: PopupPositionConfig, isOpposite: boolean = false): PlacedAtType {
+  const position = isOpposite ? getOppositePosition(cfg.position) : cfg.position;
+  return `${position}${cfg.hasInnerOrigin ? '-inner' : ''}`;
+}
+
+/**
+ * Calculates the position of the popup on the major axis
+ * @param cfg - popup position config
+ */
+function calcPopupPositionByMajorAxis(cfg: PopupPositionConfig): number {
+  const {position, inner, element, hasInnerOrigin} = cfg;
+  const coord = inner[position];
+  const size = element[getDimensionName(position)];
+  return isStartingSide(position)
+    ? (hasInnerOrigin ? coord : coord - size)
+    : (hasInnerOrigin ? coord - size : coord);
+}
+
+/**
  * Calculates the position of the popup on the minor axis
  * @param cfg - popup position config
- * @param centerPosition - position of the center of the trigger on the minor axis
- * @param dimensionName - the name of dimension (height or width)
  */
-function calcPopupPositionByMinorAxis(cfg: PopupPositionConfig, centerPosition: number, dimensionName: 'height' | 'width'): number {
-  return centerPosition - cfg.arrow[dimensionName] / 2 - cfg.marginArrow - calcUsableSizeForArrow(cfg, dimensionName) * cfg.offsetArrowRatio;
+function calcPopupPositionByMinorAxis(cfg: PopupPositionConfig): number {
+  const {position, inner, arrow, marginArrow, offsetArrowRatio} = cfg;
+  const centerPosition = inner[isOnHorizontalAxis(position) ? 'cy' : 'cx'];
+  const dimensionName = getDimensionName(position, true);
+  return centerPosition - arrow[dimensionName] / 2 - marginArrow - calcUsableSizeForArrow(cfg, dimensionName) * offsetArrowRatio;
 }
 
 /**
@@ -73,24 +109,12 @@ function calcPopupPositionByMinorAxis(cfg: PopupPositionConfig, centerPosition: 
  * @param cfg - popup position config
  * */
 function calcPopupBasicRect(cfg: PopupPositionConfig): Rect {
-  const {position, inner, element, hasInnerOrigin} = cfg;
-  let x = isOnHorizontalAxis(position) ? 0 : calcPopupPositionByMinorAxis(cfg, inner.cx, 'width');
-  let y = isOnHorizontalAxis(position) ? calcPopupPositionByMinorAxis(cfg, inner.cy, 'height') : 0;
-  switch (position) {
-    case 'left':
-      x = (hasInnerOrigin ? inner.right : inner.x) - element.width;
-      break;
-    case 'right':
-      x = hasInnerOrigin ? inner.x : inner.right;
-      break;
-    case 'bottom':
-      y = hasInnerOrigin ? inner.y : inner.bottom;
-      break;
-    default:
-      y = (hasInnerOrigin ? inner.bottom : inner.y) - element.height;
-      break;
-  }
-  return new Rect(x, y, element.width, element.height);
+  const {width, height} = cfg.element;
+  const coordForMajor = calcPopupPositionByMajorAxis(cfg);
+  const coordForMinor = calcPopupPositionByMinorAxis(cfg);
+  return isOnHorizontalAxis(cfg.position)
+    ? new Rect(coordForMajor, coordForMinor, width, height)
+    : new Rect(coordForMinor, coordForMajor, width, height);
 }
 
 /**
@@ -103,7 +127,7 @@ function calcBasicPosition(cfg: PopupPositionConfig): PopupPositionValue {
     x: calcArrowPosition(cfg, 'width'),
     y: calcArrowPosition(cfg, 'height'),
   };
-  return {arrow, popup, placedAt: cfg.position};
+  return {arrow, popup, placedAt: getPlacedAt(cfg)};
 }
 
 /**
@@ -128,10 +152,15 @@ function getOppositePosition(position: PositionType): PositionType {
 function fitOnMajorAxis(cfg: PopupPositionConfig, value: PopupPositionValue): PopupPositionValue {
   if (!['fit', 'fit-major'].includes(cfg.behavior)) return value;
 
-  const intersectionRatio = cfg.intersectionRatio[cfg.position] || 0;
-  const leftComparand = isStartingSide(cfg.position) ? value.popup[cfg.position] : cfg.outer[cfg.position];
-  const rightComparand = isStartingSide(cfg.position) ? cfg.outer[cfg.position] : value.popup[cfg.position];
-  const isRequireAdjusting = intersectionRatio > 0 || leftComparand < rightComparand;
+  const {position, hasInnerOrigin, outer} = cfg;
+  const intersectionRatio = cfg.intersectionRatio[hasInnerOrigin ? getOppositePosition(position) : position] || 0;
+  const valueToCheck = hasInnerOrigin ? cfg.inner : value.popup;
+  const isComingOut = isStartingSide(position)
+    ? valueToCheck[position] < outer[position]
+    : outer[position] < valueToCheck[position];
+  const isRequireAdjusting = hasInnerOrigin
+    ? intersectionRatio === 0 && isComingOut
+    : intersectionRatio > 0 || isComingOut;
 
   return isRequireAdjusting ? adjustAlongMajorAxis(cfg, value) : value;
 }
@@ -143,51 +172,13 @@ function fitOnMajorAxis(cfg: PopupPositionConfig, value: PopupPositionValue): Po
  * @returns updated popup position value
  * */
 function adjustAlongMajorAxis(cfg: PopupPositionConfig, value: PopupPositionValue): PopupPositionValue {
-  const popup = isStartingSide(cfg.position)
-    ? adjustForStartingSide(cfg, value.popup)
-    : adjustForEndingSide(cfg, value.popup);
-  const placedAt = getOppositePosition(cfg.position);
-  return {...value, popup, placedAt};
-}
-
-/**
- * Updates popup rect to fit on major axis in case positioning on the starting side.
- * @param cfg - popup position config
- * @param popup - popup rect
- * @returns updated popup rect
- * */
-function adjustForStartingSide(cfg: PopupPositionConfig, popup: Rect): Rect {
-  const {position, inner, hasInnerOrigin} = cfg;
-  let {x, y} = popup;
-  switch (position) {
-    case 'left':
-      x = hasInnerOrigin ? inner.x : inner.right;
-      break;
-    case 'top':
-      y = hasInnerOrigin ? inner.y : inner.bottom;
-      break;
-  }
-  return new Rect(x, y, popup.width, popup.height);
-}
-
-/**
- * Updates popup rect to fit on major axis in case positioning on the ending side.
- * @param cfg - popup position config
- * @param popup - popup rect
- * @returns updated popup rect
- * */
-function adjustForEndingSide(cfg: PopupPositionConfig, popup: Rect): Rect {
-  const {position, inner, hasInnerOrigin} = cfg;
-  let {x, y} = popup;
-  switch (position) {
-    case 'right':
-      x = (hasInnerOrigin ? inner.right : inner.x) - popup.width;
-      break;
-    case 'bottom':
-      y = (hasInnerOrigin ? inner.bottom : inner.y) - popup.height;
-      break;
-  }
-  return new Rect(x, y, popup.width, popup.height);
+  const oppositeConfig = {...cfg, position: getOppositePosition(cfg.position)};
+  const {x, y, width, height} = value.popup;
+  const adjustedCoord = calcPopupPositionByMajorAxis(oppositeConfig);
+  const popup = isOnHorizontalAxis(cfg.position)
+    ? new Rect(adjustedCoord, y, width, height)
+    : new Rect(x, adjustedCoord, width, height);
+  return {...value, popup, placedAt: getPlacedAt(cfg, true)};
 }
 
 /**
@@ -204,7 +195,7 @@ function adjustAlignmentBySide(cfg: PopupPositionConfig, diffCoord: number, arro
   if (isStart ? diffCoord < 0 : diffCoord > 0) {
     arrowAdjust = diffCoord;
     const newCoord = arrowCoord + arrowAdjust;
-    const dimension = isOnHorizontalAxis(cfg.position) ? 'height' : 'width';
+    const dimension = getDimensionName(cfg.position, true);
     const arrowLimit = cfg.marginArrow + (isStart ? 0 : calcUsableSizeForArrow(cfg, dimension));
     if (isStart ? newCoord < arrowLimit : newCoord > arrowLimit) {
       arrowAdjust -= newCoord - arrowLimit;
@@ -224,7 +215,7 @@ function setupAlignmentBySide(cfg: PopupPositionConfig, popup: Rect): PopupAlign
   const isHorizontal = isOnHorizontalAxis(cfg.position);
   const start = isHorizontal ? 'y' : 'x';
   const end = isHorizontal ? 'bottom' : 'right';
-  const dimension = isHorizontal ? 'height' : 'width';
+  const dimension = getDimensionName(cfg.position, true);
   const isOutAtStart = popup[start] < cfg.outer[start];
   const isOutAtEnd = popup[end] > cfg.outer[end];
   const isWider = cfg.outer[dimension] < cfg.element[dimension];
@@ -269,7 +260,7 @@ function fitOnMinorAxis(cfg: PopupPositionConfig, value: PopupPositionValue): Po
  * @param cfg - popup position config
  * @param dimensionName - the name of dimension (height or width)
  */
-function calcUsableSizeForArrow(cfg: PopupPositionConfig, dimensionName: 'height' | 'width'): number {
+function calcUsableSizeForArrow(cfg: PopupPositionConfig, dimensionName: DimensionNameType): number {
   return cfg.element[dimensionName] - cfg.arrow[dimensionName] - 2 * cfg.marginArrow;
 }
 
@@ -278,7 +269,7 @@ function calcUsableSizeForArrow(cfg: PopupPositionConfig, dimensionName: 'height
  * @param cfg - popup position config
  * @param dimensionName - the name of dimension (height or width)
  */
-function calcArrowPosition(cfg: PopupPositionConfig, dimensionName: 'height' | 'width'): number {
+function calcArrowPosition(cfg: PopupPositionConfig, dimensionName: DimensionNameType): number {
   return cfg.marginArrow + calcUsableSizeForArrow(cfg, dimensionName) * cfg.offsetArrowRatio;
 }
 
