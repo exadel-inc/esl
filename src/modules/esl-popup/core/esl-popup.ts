@@ -11,8 +11,8 @@ import {ESLIntersectionTarget, ESLIntersectionEvent} from '../../esl-event-liste
 import {calcPopupPosition, isOnHorizontalAxis} from './esl-popup-position';
 import {ESLPopupPlaceholder} from './esl-popup-placeholder';
 
-import type {ESLToggleableActionParams} from '../../esl-toggleable/core';
-import type {PositionType, IntersectionRatioRect} from './esl-popup-position';
+import type {ESLToggleableActionParams, ESLFocusFlowType} from '../../esl-toggleable/core';
+import type {PositionType, PositionOriginType, IntersectionRatioRect} from './esl-popup-position';
 
 const INTERSECTION_LIMIT_FOR_ADJACENT_AXIS = 0.7;
 const DEFAULT_OFFSET_ARROW = 50;
@@ -20,6 +20,8 @@ const DEFAULT_OFFSET_ARROW = 50;
 export interface ESLPopupActionParams extends ESLToggleableActionParams {
   /** popup position relative to trigger */
   position?: PositionType;
+  /** clarification of the popup position, whether it should start on the outside of trigger or the inside of trigger */
+  positionOrigin?: PositionOriginType;
   /** popup behavior if it does not fit in the window */
   behavior?: string;
   /** Disable hiding the popup depending on the visibility of the activator */
@@ -42,8 +44,6 @@ export interface ESLPopupActionParams extends ESLToggleableActionParams {
   container?: string;
   /** Container element that defines bounds of popups visibility (is not taken into account if the container attr is set on popup) */
   containerEl?: HTMLElement;
-  /** Autofocus on popup/activator */
-  autofocus?: boolean;
 
   /** Extra class to add to popup on activation */
   extraClass?: string;
@@ -73,6 +73,9 @@ export class ESLPopup extends ESLToggleable {
    * Currently supported: 'top', 'bottom', 'left', 'right' position types ('top' by default)
    */
   @attr({defaultValue: 'top'}) public position: PositionType;
+
+  /** From which side of the trigger starts the positioning of the popup: 'inner', 'outer' ('outer' by default) */
+  @attr({defaultValue: 'outer'}) public positionOrigin: PositionOriginType;
 
   /** Popup behavior if it does not fit in the window ('fit' by default) */
   @attr({defaultValue: 'fit'}) public behavior: string;
@@ -105,6 +108,16 @@ export class ESLPopup extends ESLToggleable {
   public override closeOnEsc: boolean;
   @attr({parser: parseBoolean, serializer: toBooleanAttribute, defaultValue: true})
   public override closeOnOutsideAction: boolean;
+
+  /**
+   * Focus behavior. Available values:
+   * - 'none' - no focus management
+   * - 'grab' - focus on the first focusable element, does not affect focus flow or behavior after the last focusable element
+   * - 'chain' (default) - focus on the first focusable element first and return focus to the activator after the last focusable element
+   * - 'loop' - focus on the first focusable element and loop through the focusable elements
+   */
+  @attr({defaultValue: 'chain'})
+  public override focusBehavior: ESLFocusFlowType;
 
   public $placeholder: ESLPopupPlaceholder | null;
 
@@ -202,6 +215,7 @@ export class ESLPopup extends ESLToggleable {
     // TODO: change flow to use merged params unless attribute state is used in CSS
     Object.assign(this, copyDefinedKeys({
       position: params.position,
+      positionOrigin: params.positionOrigin,
       behavior: params.behavior,
       container: params.container,
       marginArrow: params.marginArrow,
@@ -221,9 +235,6 @@ export class ESLPopup extends ESLToggleable {
     // running as a separate task solves the problem with incorrect positioning on the first showing
     if (wasOpened) this.afterOnShow(params);
     else afterNextRender(() => this.afterOnShow(params));
-
-    // Autofocus logic
-    afterNextRender(() => params.autofocus && this.focus({preventScroll: true}));
   }
 
   /**
@@ -235,7 +246,6 @@ export class ESLPopup extends ESLToggleable {
     this.beforeOnHide(params);
     super.onHide(params);
     this.afterOnHide(params);
-    params.autofocus && this.activator?.focus({preventScroll: true});
   }
 
   /**
@@ -401,10 +411,11 @@ export class ESLPopup extends ESLToggleable {
     const triggerRect = Rect.from(this.activator).shift(window.scrollX, window.scrollY);
     const {containerRect} = this;
 
-    const innerMargin = this._offsetTrigger + arrowRect.width / 2;
+    const innerMargin = this._offsetTrigger + (this.positionOrigin === 'inner' ? 0 : arrowRect.width / 2);
 
     const config = {
       position: this.position,
+      hasInnerOrigin: this.positionOrigin === 'inner',
       behavior: this.behavior,
       marginArrow: this.marginArrow,
       offsetArrowRatio: this.offsetArrowRatio,
