@@ -137,7 +137,10 @@ aside:
           </div>
         </div>
       </script>
-      <script type="text/html" uip-snippet label="Tabs" uip-snippet-js="js-snippet-footnotes-toggleable" uip-isolated>
+
+      <script type="text/html" uip-snippet
+              label="Toggleable support (tabs)"
+              uip-snippet-js="js-snippet-footnotes-toggleable" uip-isolated>
         <div class="esl-d-tabs mb-4">
           <esl-tabs class="esl-d-tab-control">
             <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
@@ -163,7 +166,6 @@ aside:
               </li>
             </ul>
           </esl-tabs>
-
           <esl-panel-group class="esl-d-tab-group"
                            mode="tabs"
                            mode-cls-target="::parent">
@@ -210,7 +212,10 @@ aside:
         </div>
         <esl-footnotes></esl-footnotes>
       </script >
-      <script type="text/html" uip-snippet label="Multilingual text" uip-snippet-js="js-snippet-simple-footnotes" uip-isolated>
+
+      <script type="text/html" uip-snippet
+              label="Multilanguage support"
+              uip-snippet-js="js-snippet-simple-footnotes" uip-isolated>
         <div style="text-align: start">
           <p lang="bg">
             Противно на всеобщото вярване, Lorem Ipsum не е просто случаен текст. Неговите корени са в класическата Латинска литература от 45г.пр.Хр.,
@@ -255,7 +260,10 @@ aside:
           <esl-footnotes></esl-footnotes>
         </div>
       </script>
-      <script type="text/html" uip-snippet label="Notes are ignored on specified breakpoints" uip-snippet-js="js-snippet-simple-footnotes" uip-isolated>
+
+      <script type="text/html" uip-snippet
+              label="Notes are ignored on specified breakpoints"
+              uip-snippet-js="js-snippet-simple-footnotes" uip-isolated>
         <div>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore <esl-note ignore="all">I am always ignored</esl-note> aliqua.
@@ -295,15 +303,15 @@ aside:
         ESLTooltip.register();
       </script>
       <script type="text/plain" id="js-snippet-footnotes-toggleable">
-        import { ESLFootnotes, ESLNote, ESLPanelGroup, ESLPanel, ESLTab, ESLTabs, ESLTooltip } from '@exadel/esl';
+        import { ESLFootnotes, ESLNote, ESLTooltip, ESLPanelGroup, ESLPanel, ESLTab, ESLTabs } from '@exadel/esl';
         ESLFootnotes.register();
         ESLNote.register();
+        ESLTooltip.register();
+
         ESLPanelGroup.register();
         ESLPanel.register();
         ESLTab.register();
         ESLTabs.register();
-        ESLTooltip.register();
-        ESLTrigger.register();
       </script>
       <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
       <uip-preview></uip-preview>
