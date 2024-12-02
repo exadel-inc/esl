@@ -18,7 +18,7 @@ export interface MediaProviderConfig {
   loop: boolean;
   muted: boolean;
   controls: boolean;
-  autoplay: boolean;
+  autoplay: boolean | 'always';
   title: string;
   preload?: 'none' | 'metadata' | 'auto' | '';
   playsinline?: boolean;

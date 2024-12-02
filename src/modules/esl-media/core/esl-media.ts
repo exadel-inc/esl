@@ -6,7 +6,7 @@ import {SPACE, PAUSE} from '../../esl-utils/dom/keys';
 import {prop, attr, boolAttr, listen} from '../../esl-utils/decorators';
 import {debounce} from '../../esl-utils/async';
 import {isVisible} from '../../esl-utils/dom/visible';
-import {parseAspectRatio} from '../../esl-utils/misc/format';
+import {parseAspectRatio, parseBoolean, parseString} from '../../esl-utils/misc/format';
 
 import {ESLMediaQuery} from '../../esl-media-query/core';
 import {ESLResizeObserverTarget} from '../../esl-event-listener/core';
@@ -81,9 +81,10 @@ export class ESLMedia extends ESLBaseElement {
   /** Allows lazy load resource */
   @attr({parser: parseLazyAttr, defaultValue: 'none'}) public lazy: ESLMediaLazyMode;
   /** Autoplay resource marker */
-  @boolAttr() public autoplay: boolean;
-  /** Will prevent autoplay if media was paused manually */
-  @boolAttr() public noAutoplayOnInterrupt: boolean;
+  @attr({
+    defaultValue: false,
+    parser: (value: string) => value === 'always' ? parseString(value) :  parseBoolean(value)
+  }) public autoplay: 'always' | boolean;
   /** Autofocus on play marker */
   @boolAttr() public override autofocus: boolean;
   /** Mute resource marker */
@@ -197,8 +198,7 @@ export class ESLMedia extends ESLBaseElement {
   }
 
   public canAutoplay(): boolean {
-    if (!this.autoplay) return false;
-    return !(this.noAutoplayOnInterrupt && !this.autopaused);
+    return !!this.autoplay && (this.autoplay === 'always' || this.autopaused);
   }
 
   private reinitInstance(): void {
@@ -353,7 +353,7 @@ export class ESLMedia extends ESLBaseElement {
   protected _onContainerShow(e: Event): void {
     const {target} = e;
     if (!isSafeContains(target as Node, this)) return;
-    if (this.playInViewport && isVisible(this)) return;
+    if (this.playInViewport && !isVisible(this)) return;
     if (this.canAutoplay()) this.play();
   }
 
