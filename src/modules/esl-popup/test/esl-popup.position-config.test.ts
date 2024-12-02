@@ -2,7 +2,7 @@ import {ESLPopup, type ESLPopupActionParams} from '../core/esl-popup';
 import {Rect} from '../../esl-utils/dom/rect';
 import {createPopupMock, createDimensional} from './popup.mock';
 
-describe('ESLPopup', () => {
+describe('ESLPopup: position config merging logic', () => {
   let $popup: ESLPopup;
 
   ESLPopup.register();
