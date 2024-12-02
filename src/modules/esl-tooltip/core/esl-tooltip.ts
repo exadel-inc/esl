@@ -1,6 +1,6 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLPopup} from '../../esl-popup/core';
-import {memoize, boolAttr} from '../../esl-utils/decorators';
+import {memoize} from '../../esl-utils/decorators';
 
 import type {ESLPopupActionParams} from '../../esl-popup/core';
 
@@ -31,9 +31,6 @@ export class ESLTooltip extends ESLPopup {
     hideDelay: 300
   };
 
-  /** Disable arrow at Tooltip */
-  @boolAttr() public disableArrow: boolean;
-
   /** Shared instanse of Tooltip */
   @memoize()
   public static get sharedInstance(): ESLTooltip {
@@ -58,7 +55,6 @@ export class ESLTooltip extends ESLPopup {
   public override connectedCallback(): void {
     super.connectedCallback();
     this.classList.add(ESLPopup.is);
-    this.classList.toggle('disable-arrow', this.disableArrow);
     this.tabIndex = 0;
   }
 
@@ -67,7 +63,6 @@ export class ESLTooltip extends ESLPopup {
 
   /** Actions to execute on show Tooltip. */
   public override onShow(params: ESLTooltipActionParams): void {
-    if (params.disableArrow) this.disableArrow = params.disableArrow;
     if (params.text) this.innerText = params.text;
     if (params.html) this.innerHTML = params.html;
     if (params.text || params.html) memoize.clear(this, '$arrow');
@@ -75,6 +70,7 @@ export class ESLTooltip extends ESLPopup {
     this.dir = params.dir || '';
     this.lang = params.lang || '';
     this.parentNode !== document.body && document.body.appendChild(this);
+    this.$$cls('disable-arrow', params.disableArrow);
 
     super.onShow(params);
   }
