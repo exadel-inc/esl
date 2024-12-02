@@ -1,6 +1,6 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLPopup} from '../../esl-popup/core/esl-popup';
-import {bind, boolAttr, listen, memoize} from '../../esl-utils/decorators';
+import {bind, listen, memoize} from '../../esl-utils/decorators';
 import {ESLShareButton} from './esl-share-button';
 import {ESLShareConfig} from './esl-share-config';
 
@@ -53,16 +53,12 @@ export class ESLSharePopup extends ESLPopup {
     return ESLSharePopup.create();
   }
 
-  /** Disable arrow at Tooltip */
-  @boolAttr() public disableArrow: boolean;
-
   /** Hashstring with a list of buttons already rendered in the popup */
   protected _list: string = '';
 
   public override connectedCallback(): void {
     super.connectedCallback();
     this.classList.add(ESLPopup.is);
-    this.classList.toggle('disable-arrow', this.disableArrow);
     this.tabIndex = 0;
   }
 
@@ -70,9 +66,6 @@ export class ESLSharePopup extends ESLPopup {
   protected override setInitialState(): void {}
 
   public override onShow(params: ESLSharePopupActionParams): void {
-    if (params.disableArrow) {
-      this.disableArrow = params.disableArrow;
-    }
     if (params.list) {
       const buttonsList = ESLShareConfig.instance.get(params.list);
       this.appendButtonsFromList(buttonsList);
@@ -81,6 +74,7 @@ export class ESLSharePopup extends ESLPopup {
     this.dir = params.dir || '';
     this.lang = params.lang || '';
     this.parentNode !== document.body && document.body.appendChild(this);
+    this.$$cls('disable-arrow', !!params.disableArrow);
     super.onShow(params);
   }
 
