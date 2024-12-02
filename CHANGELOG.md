@@ -1,3 +1,45 @@
+## [5.0.0-beta.41](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.40...v5.0.0-beta.41) (2024-11-18)
+
+### Bug Fixes
+
+* **esl-toggleable:** fix focus should return to activator ([3033b33](https://github.com/exadel-inc/esl/commit/3033b3372fec61c879d90409e43763c599887d21))
+* **esl-toggleable:** focus management reworked to use scopes. Introduced `ESLToggleableFocusManager` ([fbac20e](https://github.com/exadel-inc/esl/commit/fbac20eae422a4d3a822c3df4572b5ac7275a4f9))
+* **eslint-config:** update file lines limit to `500` LOC ([f0825ff](https://github.com/exadel-inc/esl/commit/f0825fffa694be811350926305f94d5f5a23232b))
+
+## [5.0.0-beta.40](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.39...v5.0.0-beta.40) (2024-11-15)
+
+### ⚠ BREAKING CHANGES
+
+* **esl-popup:** 'autofocus' no longer available for popup, use 'focus-behaviour' instead
+* **esl-share:** `ESLSharePopup` no longer inherits `ESLTooltip`, `ESLPopup` now direct base for `ESLSharePopup`
+* **esl-tooltip:** `hasFocusLoop` no longer available use `focusBehaviour` instead
+
+### Features
+
+* **esl-drag-to-scroll:** update draggable state based on content size ([63d83a9](https://github.com/exadel-inc/esl/commit/63d83a9dfec9f5101f28b7f2b5aea2fdc9fa3071))
+* **esl-popup:** get rid from all focus management code ([11b10ea](https://github.com/exadel-inc/esl/commit/11b10eaf8514b5c27f257d470464ce720e2c0765))
+* **esl-share:** separate `ESLSharePopup` implementation from `ESLTooltip` ([b5260b9](https://github.com/exadel-inc/esl/commit/b5260b937840fbd5a6023d7d0ed1557f86c00e8a))
+* **esl-toggleable:** add out of the box `ESLToggleable` focus manager ([c954d72](https://github.com/exadel-inc/esl/commit/c954d72dad67ec726b6d42012b03796bc8143896))
+* **esl-toggleable:** update focusBehaviour option to smoothly support boundary focus actions across different options ([2b8a0c7](https://github.com/exadel-inc/esl/commit/2b8a0c7affa2b5af5b6baa8efd64932e735ca5d9))
+* **esl-tooltip:** get rid from inner `hasFocusLoop` and custom focus manager, now utilizes ESLToggleable features ([6ef1f2e](https://github.com/exadel-inc/esl/commit/6ef1f2e23b821fcccefb219330bcead8f7c57a4b))
+* **esl-utils:** add extended `handleFocusFlow` keyboard based focus manager ([376f388](https://github.com/exadel-inc/esl/commit/376f38836cce6f17dbdff7f2e45ac8d94516428c))
+
+### Bug Fixes
+
+* **esl-footnotes:** fix improper note highlighting ([c7c3d1c](https://github.com/exadel-inc/esl/commit/c7c3d1c88e08096b3c1ed4748fc7dd9d9be4eead))
+* **esl-share:** fix inner ESLToggleableActionParams instances type ([ea8dd94](https://github.com/exadel-inc/esl/commit/ea8dd9407cbecf20cf18c8df7bfb11253fe34e61))
+* **esl-share:** simplify code and remove overrides (according to esl-popup base state) ([04d6a63](https://github.com/exadel-inc/esl/commit/04d6a63819049242230841365d21a1f2eb4510e7))
+* **esl-tooltip:** fix tooltip arrow disappearing ([780b295](https://github.com/exadel-inc/esl/commit/780b295c68d3ca7353cfba29588314a2a9c73fbe))
+* **esl-tooltip:** simplify code and remove overrides (according to esl-popup base state) ([699ac7f](https://github.com/exadel-inc/esl/commit/699ac7ff8ad5ff7d32cdbdd5fdec29632da1cf40))
+* **esl-utils:** fix visibility and a11y checks for getKeyboardFocusableElements ([e078c78](https://github.com/exadel-inc/esl/commit/e078c78b2ac607bff82b6a25832e95e513e3a7bf))
+
+## [5.0.0-beta.39](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.38...v5.0.0-beta.39) (2024-11-11)
+
+### Features
+
+* **esl-popup:** add position-origin attribute ([6be5133](https://github.com/exadel-inc/esl/commit/6be51338181d403c43291cb87713496f3bb2a308))
+* **esl-utils:** `safeContains` traverse utility ([7ca4f8b](https://github.com/exadel-inc/esl/commit/7ca4f8bcdaac756650fd60f5256128f2949e0ded))
+
 ## [5.0.0-beta.38](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.37...v5.0.0-beta.38) (2024-11-04)
 
 ### ⚠ BREAKING CHANGES

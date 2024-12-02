@@ -50,8 +50,8 @@ module.exports = [
       // Prefer const declaration operator
       'prefer-const': 'error',
 
-      // Limit max lines count per file to 400
-      'max-lines': ['warn', 450],
+      // Limit max lines count per file to 500
+      'max-lines': ['warn', 500],
 
       // Do not enforce dot notation whenever possible
       'dot-notation': 'off',

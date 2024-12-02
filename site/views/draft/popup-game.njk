@@ -25,7 +25,7 @@ aside:
         <esl-d-popup-game trigger="::find(.game-popup-trigger)">
           <esl-trigger
             target="#game-popup"
-            track-click="not" 
+            track-click="not"
             track-hover
             hover-hide-delay="250"
             class="game-popup-trigger">
@@ -36,20 +36,21 @@ aside:
           id="game-popup"
           class="popup-game popup-h"
           position="top"
+          position-origin="outer"
           container=".uip-preview-inner"
           dir="ltr"
           margin-arrow="35">
           <div class="popup-content">
             <div>
               <p>Space exploration has always captured the imagination of humanity.</p>
-              
+
               <details>
                   <summary>Early History</summary>
                   <p>Since the dawn of time, humans have looked up at the stars with wonder. Early civilizations like the Babylonians, Greeks, and Chinese made significant contributions to our understanding of the cosmos.
                   <p>The 20th century marked the beginning of modern space exploration with the launch of Sputnik 1 by the Soviet Union in 1957, followed by Yuri Gagarin's historic flight in 1961, making him the first human in space.
                   <p>NASA's Apollo program achieved a monumental milestone in 1969 when Neil Armstrong and Buzz Aldrin walked on the moon, a feat watched by millions around the globe.</p>
               </details>
-              
+
               <details>
                   <summary>Modern Missions</summary>
                   <p>In recent decades, space exploration has seen significant advancements with the development of the International Space Station (ISS), a collaborative effort involving multiple countries. The ISS serves as a hub for scientific research and international cooperation.
@@ -99,6 +100,14 @@ aside:
           <option value="bottom">Bottom</option>
           <option value="left">Left</option>
           <option value="right">Right</option>
+        </uip-select-setting>
+        <uip-select-setting label="Position origin" target="esl-popup" attribute="position-origin">
+          <option value="outer">Outer</option>
+          <option value="inner">Inner</option>
+        </uip-select-setting>
+        <uip-select-setting label="Arrow" target="esl-popup" attribute="class" mode="append">
+          <option value="">Enable</option>
+          <option value="disable-arrow">Disable</option>
         </uip-select-setting>
         <uip-select-setting label="Orientation" target="esl-popup" attribute="class" mode="append">
           <option value="popup-v">Vertical</option>

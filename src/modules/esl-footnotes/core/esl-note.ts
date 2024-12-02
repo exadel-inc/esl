@@ -250,6 +250,15 @@ export class ESLNote extends ESLBaseTrigger {
     if (!this.isTargetActive) this._$footnotes?.turnOffHighlight(this);
   }
 
+  /** Handles ESLNote state change */
+  @listen({
+    event: 'esl:before:show',
+    target: (that: ESLNote) => that.$target
+  })
+  protected _onBeforeTargetShow(): void {
+    if (this.isTargetActive) this._$footnotes?.turnOffHighlight(this);
+  }
+
   /** Sends the response to footnotes */
   protected _sendResponseToFootnote(): void {
     this.$$fire(this.FOOTNOTE_RESPONSE_EVENT);
