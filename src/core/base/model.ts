@@ -68,11 +68,15 @@ export class UIPStateModel extends SyntheticEventTarget {
    * @param modifier - plugin, that initiates the change
    */
   public setJS(js: string, modifier: UIPPlugin | UIPRoot): void {
-    const script = UIPJSNormalizationPreprocessors.preprocess(js);
+    const script = this.normalizeJS(js);
     if (this._js === script) return;
     this._js = script;
     this._changes.push({modifier, type: 'js', force: true});
     this.dispatchChange();
+  }
+
+  protected normalizeJS(snippet: string): string {
+    return UIPJSNormalizationPreprocessors.preprocess(snippet);
   }
 
   /**
@@ -95,21 +99,34 @@ export class UIPStateModel extends SyntheticEventTarget {
    * @param force - marker, that indicates if html changes require iframe rerender
    */
   public setHtml(markup: string, modifier: UIPPlugin | UIPRoot, force: boolean = false): void {
-    const html = UIPHTMLNormalizationPreprocessors.preprocess(markup);
+    const root = this.normalizeHTML(markup);
+    if (root.innerHTML.trim() === this.html.trim()) return;
+    this._html = root;
+    this._changes.push({modifier, type: 'html', force});
+    this.dispatchChange();
+  }
+
+  protected normalizeHTML(snippet: string): HTMLElement {
+    const html = UIPHTMLNormalizationPreprocessors.preprocess(snippet);
     const {head, body: root} = new DOMParser().parseFromString(html, 'text/html');
 
     Array.from(head.children).reverse().forEach((el) => {
-      if (el.tagName === 'STYLE') {
-        root.innerHTML = '\n' + root.innerHTML;
-        root.insertBefore(el, root.firstChild);
-      }
+      if (el.tagName !== 'STYLE') return;
+      root.innerHTML = '\n' + root.innerHTML;
+      root.insertBefore(el, root.firstChild);
     });
 
-    if (root.innerHTML.trim() !== this.html.trim()) {
-      this._html = root;
-      this._changes.push({modifier, type: 'html', force});
-      this.dispatchChange();
-    }
+    return root;
+  }
+
+  public isHTMLChanged(): boolean {
+    if (!this.activeSnippet) return false;
+    return this.normalizeHTML(this.activeSnippet.html).innerHTML.trim() !== this.html.trim();
+  }
+
+  public isJSChanged(): boolean {
+    if (!this.activeSnippet) return false;
+    return this.normalizeJS(this.activeSnippet.js) !== this.js;
   }
 
   /** Current js state getter */
