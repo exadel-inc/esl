@@ -3,6 +3,8 @@ const findParent = (list, parent) => {
   return list.find((item) => item.fileSlug === parent || item.data.id === parent || item.data.title === parent);
 };
 
+const findCurrentCollection = (collections, tags) => tags.find((tag) => collections.includes(tag));
+
 /** Group items into a tree structure using given property */
 function treeBuilder(items) {
   const root = [];
@@ -21,15 +23,16 @@ function treeBuilder(items) {
   return root;
 }
 
-function treePath(items) {
-  const possibleTags = ['introduction', 'core', 'components', 'examples', 'blogs', 'dev'];
-  const result = [];
+function treePath(items, sidebarItems) {
   if (!Array.isArray(items)) return;
+
+  const result = [];
+  const collections = sidebarItems.map(item => item.collection);
   items.forEach((item) => {
-    const {tags} = item.data;
-    if (!possibleTags.includes(tags[0])) return;
+    const tag = item.data.tags && findCurrentCollection(collections, item.data.tags);
+    if (!tag) return;
     const {title, parent} = item.data;
-    const parents = [{'title': tags[0].replace(/\b\w/g, c => c.toUpperCase()), 'url': `/${tags[0]}/`}];
+    const parents = [{'title': sidebarItems.find(item => item.collection === tag).title, 'url': `/${tag}/`}];
     if (parent) {
       const nextParent = findParent(items, parent);
       parents.push({'title': parent, 'url': nextParent.data.page.url});
