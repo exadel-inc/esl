@@ -28,17 +28,17 @@ export interface ESLPopupActionParams extends ESLToggleableActionParams {
   disableActivatorObservation?: boolean;
   /** Margins on the edges of the arrow. */
   marginArrow?: number;
-  /** offset of the arrow as a percentage of the popup edge (0% - at the left edge, 100% - at the right edge, for RTL it is vice versa) */
+  /** Offset of the arrow as a percentage of the popup edge (0% - at the left edge, 100% - at the right edge, for RTL it is vice versa) */
   offsetArrow?: string;
-  /** offset in pixels from trigger element */
+  /** Offset in pixels from the trigger element */
   offsetTrigger?: number;
   /**
-   * offset in pixels from the edges of the container (or window if the container is not defined)
+   * Offset in pixels from the edges of the container (or window if the container is not defined)
    *  value as a number for equals x and y offsets
    *  value as an array for different x and y offsets
    */
   offsetContainer?: number | [number, number];
-  /** margin around the element that is used as the viewport for checking the visibility of the popup activator */
+  /** Margin around the element that is used as the viewport for checking the visibility of the popup activator */
   intersectionMargin?: string;
   /** Target to container element to define bounds of popups visibility */
   container?: string;
@@ -60,7 +60,6 @@ export class ESLPopup extends ESLToggleable {
 
   /** Default params to pass into the popup on show/hide actions */
   public static override DEFAULT_PARAMS: ESLPopupActionParams = {
-    offsetTrigger: 3,
     offsetContainer: 15,
     intersectionMargin: '0px'
   };
@@ -97,6 +96,9 @@ export class ESLPopup extends ESLToggleable {
    *  for RTL it is vice versa) */
   @attr({defaultValue: `${DEFAULT_OFFSET_ARROW}`}) public offsetArrow: string;
 
+  /** offset in pixels from the trigger element */
+  @attr({defaultValue: 3, parser: parseInt}) public offsetTrigger: number;
+
   /** Target to container element {@link ESLTraversingQuery} to define bounds of popups visibility (window by default) */
   @attr() public container: string;
 
@@ -125,7 +127,6 @@ export class ESLPopup extends ESLToggleable {
   protected _extraStyle?: string;
 
   protected _containerEl?: HTMLElement;
-  protected _offsetTrigger: number;
   protected _offsetContainer: number | [number, number];
   protected _intersectionMargin: string;
   protected _intersectionRatio: IntersectionRatioRect = {};
@@ -220,13 +221,13 @@ export class ESLPopup extends ESLToggleable {
       container: params.container,
       marginArrow: params.marginArrow,
       offsetArrow: params.offsetArrow,
+      offsetTrigger: params.offsetTrigger,
       disableActivatorObservation: params.disableActivatorObservation
     }));
 
     this._extraClass = params.extraClass;
     this._extraStyle = params.extraStyle;
     this._containerEl = params.containerEl;
-    this._offsetTrigger = params.offsetTrigger || 0;
     this._offsetContainer = params.offsetContainer || 0;
     this._intersectionMargin = params.intersectionMargin || '0px';
 
@@ -408,7 +409,7 @@ export class ESLPopup extends ESLToggleable {
     const triggerRect = this.activator ? Rect.from(this.activator).shift(window.scrollX, window.scrollY) : new Rect();
     const {containerRect} = this;
 
-    const innerMargin = this._offsetTrigger + arrowRect.width / 2;
+    const innerMargin = this.offsetTrigger + arrowRect.width / 2;
 
     return {
       position: this.position,
