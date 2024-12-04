@@ -10,9 +10,9 @@ import {DelayedTask} from '../../esl-utils/async/delayed-task';
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {findParent, isMatches} from '../../esl-utils/dom/traversing';
 import {getKeyboardFocusableElements} from '../../esl-utils/dom/focus';
-import {ESLToggleableFocusManager} from './esl-toggleable-focus';
+import {ESLToggleableA11yManager} from './esl-toggleable-manager';
 
-import type {ESLFocusFlowType} from './esl-toggleable-focus';
+import type {ESLA11yType} from './esl-toggleable-manager';
 import type {DelegatedEvent} from '../../esl-event-listener/core/types';
 
 /** Default Toggleable action params type definition */
@@ -117,13 +117,14 @@ export class ESLToggleable extends ESLBaseElement {
   @attr({parser: parseBoolean, serializer: toBooleanAttribute}) public closeOnOutsideAction: boolean;
 
   /**
-   * Focus behavior. Available values:
+   * Acessability behavior. Available values:
    * - 'none' (default) - no focus management
-   * - 'grab' - focus on the first focusable element, does not affect focus flow or behavior after the last focusable element
-   * - 'chain' - focus on the first focusable element first and return focus to the activator after the last focusable element
-   * - 'loop' - focus on the first focusable element and loop through the focusable elements
+   * - 'autofocus' - focus on the first focusable element
+   * - 'popup' - focus on the first focusable element and return focus to the activator after the last focusable element
+   * - 'dialog' - focus on the first focusable element and trap focus inside the Toggleable (don't close active popups)
+   * - 'modal' - focus on the first focusable element and trap focus inside the Toggleable (close active popups)
    */
-  @attr({defaultValue: 'none'}) public focusBehavior: ESLFocusFlowType;
+  @attr({defaultValue: 'none'}) public a11y: ESLA11yType;
 
   /** Initial params to pass to show/hide action on the start */
   @jsonAttr<ESLToggleableActionParams>({defaultValue: {force: true, initiator: 'init'}})
@@ -201,16 +202,6 @@ export class ESLToggleable extends ESLBaseElement {
     track ? this.$$on(this._onMouseLeave) : this.$$off(this._onMouseLeave);
   }
 
-  /** Focuses on the first focusable element or the element itself if it's focusable */
-  public override focus(options?: FocusOptions): void {
-    if (this.hasAttribute('tabindex')) {
-      super.focus(options);
-    } else {
-      const focusable = this.$focusables[0];
-      focusable && focusable.focus(options);
-    }
-  }
-
   /** Function to merge the result action params */
   protected mergeDefaultParams(params?: ESLToggleableActionParams): ESLToggleableActionParams {
     const type = this.constructor as typeof ESLToggleable;
@@ -281,7 +272,7 @@ export class ESLToggleable extends ESLBaseElement {
     }
 
     this.updateA11y();
-    this.focusManager.attach(this);
+    this.manager.attach(this);
 
     this.$$fire(this.REFRESH_EVENT); // To notify other components about content change
   }
@@ -308,7 +299,7 @@ export class ESLToggleable extends ESLBaseElement {
       $container && CSSClassUtils.remove($container, this.containerActiveClass, this);
     }
     this.updateA11y();
-    this.focusManager.detach(this, this.activator);
+    this.manager.detach(this, this.activator);
   }
 
   /** Active state marker */
@@ -320,8 +311,8 @@ export class ESLToggleable extends ESLBaseElement {
   }
 
   /** Focus manager instance */
-  public get focusManager(): ESLToggleableFocusManager {
-    return new ESLToggleableFocusManager();
+  public get manager(): ESLToggleableA11yManager {
+    return new ESLToggleableA11yManager();
   }
 
   /** Last component that has activated the element. Uses {@link ESLToggleableActionParams.activator}*/
@@ -385,7 +376,7 @@ export class ESLToggleable extends ESLBaseElement {
   protected _onOutsideAction(e: Event): void {
     if (!this.isOutsideAction(e)) return;
     // Used 0 delay to decrease priority of the request
-    this.hide({initiator: 'outsideaction', hideDelay: 0, event: e});
+    this.hide({initiator: 'outsideaction', hideDelay: 10, event: e});
   }
 
   @listen('keydown')

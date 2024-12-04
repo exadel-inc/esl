@@ -11,7 +11,7 @@ import {ESLIntersectionTarget, ESLIntersectionEvent} from '../../esl-event-liste
 import {calcPopupPosition, isOnHorizontalAxis} from './esl-popup-position';
 import {ESLPopupPlaceholder} from './esl-popup-placeholder';
 
-import type {ESLToggleableActionParams, ESLFocusFlowType} from '../../esl-toggleable/core';
+import type {ESLToggleableActionParams, ESLA11yType} from '../../esl-toggleable/core';
 import type {PopupPositionConfig, PositionType, PositionOriginType, IntersectionRatioRect} from './esl-popup-position';
 
 const INTERSECTION_LIMIT_FOR_ADJACENT_AXIS = 0.7;
@@ -111,15 +111,8 @@ export class ESLPopup extends ESLToggleable {
   @attr({parser: parseBoolean, serializer: toBooleanAttribute, defaultValue: true})
   public override closeOnOutsideAction: boolean;
 
-  /**
-   * Focus behavior. Available values:
-   * - 'none' - no focus management
-   * - 'grab' - focus on the first focusable element, does not affect focus flow or behavior after the last focusable element
-   * - 'chain' (default) - focus on the first focusable element first and return focus to the activator after the last focusable element
-   * - 'loop' - focus on the first focusable element and loop through the focusable elements
-   */
-  @attr({defaultValue: 'chain'})
-  public override focusBehavior: ESLFocusFlowType;
+  @attr({defaultValue: 'popup'})
+  public override a11y: ESLA11yType;
 
   public $placeholder: ESLPopupPlaceholder | null;
 

@@ -8,11 +8,11 @@ import {handleFocusChain} from '../../esl-utils/dom/focus';
 import type {ESLToggleable} from './esl-toggleable';
 
 /** Focus flow behaviors */
-export type ESLFocusFlowType = 'none' | 'grab' | 'loop' | 'chain';
+export type ESLA11yType = 'none' | 'autofocus' | 'popup' | 'dialog' | 'modal';
 
-let instance: ESLToggleableFocusManager;
+let instance: ESLToggleableA11yManager;
 /** Focus manager for toggleable instances. Singleton. */
-export class ESLToggleableFocusManager {
+export class ESLToggleableA11yManager {
   /** Focus scopes stack. Manger observes only top level scope. */
   protected stack: ESLToggleable[] = [];
 
@@ -33,20 +33,36 @@ export class ESLToggleableFocusManager {
     return this.stack.includes(element);
   }
 
+  /** Checks if the element or its child has focus */
+  public hasFocus(element: ESLToggleable): boolean {
+    return element === document.activeElement || element.contains(document.activeElement);
+  }
+
+  protected queryFocusTask(element?: HTMLElement | null): void {
+    if (!element) return;
+    queueMicrotask(() => afterNextRender(() => element.focus({preventScroll: true})));
+  }
+
   /** Changes focus scope to the specified element. Previous scope saved in the stack. */
   public attach(element: ESLToggleable): void {
-    if (element.focusBehavior === 'none' && element !== this.current) return;
+    if (element.a11y === 'none' && element !== this.current) return;
+    // Make sure popup at least can be focused itself
+    if (!element.hasAttribute('tabindex')) element.setAttribute('tabindex', '-1');
+    // Focus on the first focusable element
+    this.queryFocusTask(element.$focusables[0] || element);
+    // Drop all popups on modal focus
+    if (element.a11y === 'modal') {
+      this.stack
+        .filter((el) => el.a11y === 'popup')
+        .forEach((el) => el.hide({initiator: 'focus'}));
+    }
     // Remove the element from the stack and add it on top
     this.stack = this.stack.filter((el) => el !== element).concat(element);
-    // Focus on the first focusable element
-    queueMicrotask(() => afterNextRender(() => element.focus({preventScroll: true})));
   }
 
   /** Removes the specified element from the known focus scopes. */
   public detach(element: ESLToggleable, fallback?: HTMLElement | null): void {
-    if (element === this.current || document.activeElement === element || element.contains(document.activeElement)) {
-      fallback && queueMicrotask(() => afterNextRender(() => fallback.focus({preventScroll: true})));
-    }
+    if (element === this.current || this.hasFocus(element)) this.queryFocusTask(fallback);
     if (!this.has(element)) return;
     this.stack = this.stack.filter((el) => el !== element);
   }
@@ -56,17 +72,20 @@ export class ESLToggleableFocusManager {
   protected _onKeyDown(e: KeyboardEvent): void | boolean {
     if (!this.current || e.key !== TAB) return;
 
-    const {focusBehavior, $focusables} = this.current;
+    if (this.current.a11y === 'none' || this.current.a11y === 'autofocus') return;
 
+    const {$focusables} = this.current;
     const $first = $focusables[0];
     const $last = $focusables[$focusables.length - 1];
     const $fallback = this.current.activator || this.current;
 
-    if (focusBehavior === 'loop') return handleFocusChain(e, $first, $last);
-    if (focusBehavior === 'chain') {
+    if (this.current.a11y === 'popup') {
       if ($last && e.target !== (e.shiftKey ? $first : $last)) return;
       $fallback.focus();
       e.preventDefault();
+    }
+    if (this.current.a11y === 'modal' || this.current.a11y === 'dialog') {
+      handleFocusChain(e, $first, $last);
     }
   }
 
@@ -77,12 +96,13 @@ export class ESLToggleableFocusManager {
     if (!current || !current.contains(e.target as HTMLElement)) return;
     afterNextRender(() => {
       // Check if the focus is still inside the element
-      if (current === document.activeElement || current.contains(document.activeElement)) return;
-      if (current.focusBehavior === 'chain') {
+      if (this.hasFocus(current)) return;
+      if (current.a11y === 'popup') {
         current.hide({initiator: 'focusout', event: e});
       }
-      if (current.focusBehavior === 'loop') {
-        current.focus({preventScroll: true});
+      if (current.a11y === 'modal') {
+        const $focusable = current.$focusables[0] || current;
+        $focusable.focus({preventScroll: true});
       }
     });
   }
