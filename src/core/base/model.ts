@@ -1,7 +1,6 @@
 import {SyntheticEventTarget} from '@exadel/esl/modules/esl-utils/dom';
 import {decorate} from '@exadel/esl/modules/esl-utils/decorators';
 import {microtask} from '@exadel/esl/modules/esl-utils/async';
-import {sequentialUID} from '@exadel/esl/modules/esl-utils/misc';
 
 import {
   UIPJSNormalizationPreprocessors,
@@ -128,6 +127,23 @@ export class UIPStateModel extends SyntheticEventTarget {
     if (!this.activeSnippet) return false;
     return this.normalizeJS(this.activeSnippet.js) !== this.js;
   }
+
+  public resetSnippet(source: 'js' | 'javascript' | 'html', modifier: UIPPlugin | UIPRoot): void {
+    source === 'html' ? this.resetHTML(modifier) : this.resetJS(modifier);
+  }
+
+  protected resetJS(modifier: UIPPlugin | UIPRoot): void {
+    if (!this.activeSnippet) return;
+    this.setJS(this.activeSnippet.js, modifier);
+    this.storage?.resetState();
+  }
+
+  protected resetHTML(modifier: UIPPlugin | UIPRoot): void {
+    if (!this.activeSnippet) return;
+    this.setHtml(this.activeSnippet.html, modifier);
+    this.storage?.resetState();
+  }
+
 
   /** Current js state getter */
   public get js(): string {

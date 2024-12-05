@@ -10,21 +10,14 @@ export class UIPReset extends UIPPluginButton {
   public static override is = 'uip-reset';
 
   /** Source type to copy (html | js) */
-  @attr({defaultValue: 'html'}) public source: string;
+  @attr({defaultValue: 'html'}) public source: 'js' | 'javascript' | 'html';
 
   protected override connectedCallback(): void {
     super.connectedCallback();
   }
 
   public override onAction(): void {
-    const {model} = this;
-    if (!model || !model.activeSnippet || !this.$root) return;
-    if (this.source === 'js' || this.source === 'javascript') 
-      model.setJS(model.activeSnippet.js, this.$root);
-    else if (this.source === 'html')
-      model.setHtml(model.activeSnippet.html, this.$root);
-    
-    model.storage?.resetState();
+    if (this.$root) this.model?.resetSnippet(this.source, this.$root);
   }
 
   @listen({event: 'uip:model:change', target: ($this: UIPRoot) => $this.model})
