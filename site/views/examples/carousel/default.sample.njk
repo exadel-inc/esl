@@ -1,0 +1,48 @@
+---
+title: Carousel (Multi-slide)
+order: 1
+tags: carousel-sample
+---
+<div class="mx-6 esl-carousel-nav-container">
+  <button type="button"
+          class="esl-carousel-arrow prev hide-xs"
+          esl-carousel-nav="group:prev"><span class="sr-only">Previous Slide</span></button>
+
+  <esl-carousel demo-options-target
+                esl-carousel-touch
+                esl-carousel-keyboard
+                tabindex="0"
+                media="@XS|@SM|@MD|@LG|@XL"
+                count="1|2|3|4|5"
+                loop="true"
+                container="::parent(div)"
+                container-incomplete-class="!carousel-filled">
+    <ul esl-carousel-slides>
+      {% for item in range(0, 16) %}
+        <li esl-carousel-slide {{ 'active' if loop.first }}>
+          <div class="card">
+            <div class="card-image img-container img-container-16-9" esl-image-container>
+              <img class="img-fade img-cover"
+                   alt="{{ 'Carousel slide ' + loop.index }}"
+                   src="{{ '/assets/carousel/' + loop.index + '-sm.jpg' | url }}"
+                   loading="lazy" />
+              <button type="button" class="close close-icon close-remove inverse"
+                      title="Remove" aria-label="Remove"
+                      onclick="this.closest('li').remove()"></button>
+            </div>
+            <div class="card-content p-3">
+              <h5>Item {{ loop.index }}</h5>
+              <p><!-- text 20 --></p>
+              <button type="button" class="btn" onclick="alert('Hi')">Card CTA</button>
+            </div>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  </esl-carousel>
+
+  <button type="button"
+          class="esl-carousel-arrow next hide-xs"
+          esl-carousel-nav="group:next"><span class="sr-only">Next Slide</span></button>
+</div>
+<esl-carousel-dots class="carousel-dots-wrapper" target="::prev::child(esl-carousel)" tabindex="0"></esl-carousel-dots>

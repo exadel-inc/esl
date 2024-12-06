@@ -5,10 +5,7 @@ import type {ESLTooltip} from './esl-tooltip';
  * Tag declaration interface of {@link ESLTooltip} element
  * Used for TSX declaration
  */
-export interface ESLTooltipTagShape<T extends ESLTooltip = ESLTooltip> extends ESLPopupTagShape<T> {
-  /** Disable arrow at Tooltip */
-  'disable-arrow'?: boolean;
-}
+export interface ESLTooltipTagShape<T extends ESLTooltip = ESLTooltip> extends ESLPopupTagShape<T> {}
 
 declare global {
   namespace JSX {

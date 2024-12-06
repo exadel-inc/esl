@@ -53,6 +53,8 @@ export class ESLMixinElement implements ESLBaseComponent, ESLDomElementRelated {
    */
   protected attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null): void {}
 
+  /** Subscribes (or resubscribes) all known descriptors that matches criteria */
+  public $$on(criteria: ESLListenerCriteria): ESLEventListener[];
   /** Subscribes `handler` method marked with `@listen` decorator */
   public $$on(handler: ESLListenerHandler): ESLEventListener[];
   /** Subscribes `handler` function by the passed DOM event descriptor {@link ESLListenerDescriptor} or event name */

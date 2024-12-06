@@ -1,0 +1,20 @@
+---
+title: Custom Tags
+hash: custom-tags
+tags: overview-quick
+parent: 00-core
+---
+
+<h3 class="text-center">{{ title }}</h3>
+<div class="esl-animate-slide up" esl-animate="{repeat: true}" style="max-width: 1200px">
+  <p>The primary technology of ESL is web components. ESLBaseElement is a base class for custom tag components.</p>
+  <p>ESLBaseElement extends HTMLElement and provides a set of useful features:</p>
+  <ul>
+    <li>simplified classes/attributes management</li>
+    <li>out of the box event listeners management life-cycle</li>
+    <li>static API for component registration</li>
+  </ul>
+  {% code 'html', 'code-block' %}
+    <my-custom-tag attr="world"></my-custom-tag>
+  {% endcode %}
+</div>

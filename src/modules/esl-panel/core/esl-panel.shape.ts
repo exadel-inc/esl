@@ -15,9 +15,6 @@ export interface ESLPanelTagShape extends ESLToggleableTagShape<ESLPanel> {
 
   /** Define CSS selector of the parent group (default: 'esl-panel-group')*/
   'panel-group-sel'?: string;
-
-  /** @deprecated fallback time is no longer required */
-  'fallback-duration'?: string | number;
 }
 
 declare global {

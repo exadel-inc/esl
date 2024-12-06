@@ -25,9 +25,6 @@ updates:
       prefix: "chore"
       include: "scope"
     groups:
-      typescript-eslint:
-        patterns:
-          - "@typescript-eslint/*"
       commit-lint:
         patterns:
           - "@commitlint/*"

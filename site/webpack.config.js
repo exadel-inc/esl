@@ -31,10 +31,8 @@ const BASE_CONFIG = {
 module.exports = [{
   ...BASE_CONFIG,
   entry: {
-    'localdev': './src/localdev.ts',
-    'polyfill-full': './src/polyfill-full.ts',
-    'polyfill-medium': './src/polyfill-medium.ts',
-    'polyfill-light': './src/polyfill-light.ts'
+    'site': './src/site.ts',
+    'polyfill': './src/polyfill.ts'
   },
   output: {
     path: path.resolve(__dirname, 'dist/bundles'),
@@ -44,7 +42,7 @@ module.exports = [{
 }, {
   ...BASE_CONFIG,
   entry: {
-    'lib': './src/playground/export/lib.ts',
+    'lib': './src/lib.ts',
   },
   experiments: {
     outputModule: true,

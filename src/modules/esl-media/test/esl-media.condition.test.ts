@@ -44,67 +44,6 @@ describe('esl-media: lazy loading unit tests', () => {
     expect($media.querySelectorAll('*')).not.toEqual(expect.objectContaining({length: 0}));
   });
 
-  describe('ESLMedia legacy load condition classes', () => {
-    test('ESLMedia declining condition leads to "declined" class on the target', async () => {
-      const $media = createMedia({
-        loadCondition: 'not all',
-        loadClsTarget: 'body',
-        loadClsAccepted: 'accepted',
-        loadClsDeclined: 'declined'
-      });
-      document.body.appendChild($media);
-
-      await promisifyTimeout(100);
-      expect(document.body.classList.contains('accepted')).toBe(false);
-      expect(document.body.classList.contains('declined')).toBe(true);
-    });
-
-    test('ESLMedia accepting condition leads to "accepted" class on the target', async () => {
-      const $media = createMedia({
-        loadCondition: 'all',
-        loadClsTarget: 'body',
-        loadClsAccepted: 'accepted',
-        loadClsDeclined: 'declined'
-      });
-      document.body.appendChild($media);
-
-      await promisifyTimeout(100);
-      expect(document.body.classList.contains('accepted')).toBe(true);
-      expect(document.body.classList.contains('declined')).toBe(false);
-    });
-
-    test('ESLMedia load condition does not clock "declined" class on the target', async () => {
-      const $media = createMedia({
-        lazy: 'manual',
-        loadCondition: 'not all',
-        loadClsTarget: 'body',
-        loadClsAccepted: 'accepted',
-        loadClsDeclined: 'declined'
-      });
-      document.body.appendChild($media);
-
-      await promisifyTimeout(100);
-      expect(document.body.classList.contains('accepted')).toBe(false);
-      expect(document.body.classList.contains('declined')).toBe(true);
-    });
-
-    test('ESLMedia load condition does not clock "accepted" class on the target', async () => {
-      const $media = createMedia({
-        lazy: 'manual',
-        loadCondition: 'all',
-        loadClsTarget: 'body',
-        loadClsAccepted: 'accepted',
-        loadClsDeclined: 'declined'
-      });
-      document.body.appendChild($media);
-
-      await promisifyTimeout(100);
-      expect(document.body.classList.contains('accepted')).toBe(true);
-      expect(document.body.classList.contains('declined')).toBe(false);
-    });
-  });
-
-
   describe('ESLMedia load condition classes', () => {
     test('ESLMedia declining condition leads to "declined" class on the target', async () => {
       const $media = createMedia({

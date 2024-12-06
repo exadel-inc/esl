@@ -18,7 +18,7 @@ export interface ESLImageTagShape extends ESLBaseElementShape<ESLImage> {
   lazy?: boolean | 'none' | 'manual' | 'auto';
   /** Define load-allowed marker for lazy images */
   'lazy-triggered'?: boolean;
-  /** Define query change behaviour */
+  /** Define query change behavior */
   'refresh-on-update'?: boolean;
   /** Define CSS class for inner image */
   'inner-image-class'?: string;

@@ -2,15 +2,11 @@ export interface IMediaQueryCondition extends EventTarget {
   /** @returns true if current environment satisfies query */
   matches: boolean;
 
-  /** @deprecated alias for `addEventListener` */
-  addListener(cb: EventListener): void;
   /** Subscribes to media query state change. Shortcut for `addEventListener('change', callback)` */
   addEventListener(callback: EventListener): void;
   /** Subscribes to media query state change. Implements {@link EventTarget} interface */
   addEventListener(type: 'change', callback: EventListener): void;
 
-  /** @deprecated alias for `removeEventListener` */
-  removeListener(cb: EventListener): void;
   /** Unsubscribes from media query state change event. Shortcut for `removeEventListener('change', callback)` */
   removeEventListener(callback: EventListener): void;
   /** Unsubscribes from media query state change event. Implements {@link EventTarget} interface */
@@ -33,6 +29,7 @@ export class ESLMediaChangeEvent extends Event {
 
   /** Returns serialized value of the current {@link ESLMediaQuery} */
   public get media(): string {
+    // eslint-disable-next-line @typescript-eslint/no-base-to-string
     return String(this.target);
   }
 }
