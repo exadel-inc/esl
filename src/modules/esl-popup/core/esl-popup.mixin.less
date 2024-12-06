@@ -22,7 +22,7 @@
     background: @popupBackgroundColor;
   }
 
-  &[placed-at='top'] {
+  &:is([placed-at='top'], [placed-at='bottom-inner']) {
     .@{arrowClassName} {
       top: auto;
       bottom: (-@popupArrowHalf - @popupBorderWidth);
@@ -30,7 +30,7 @@
     }
   }
 
-  &[placed-at='left'] {
+  &:is([placed-at='left'], [placed-at='right-inner']) {
     .@{arrowClassName} {
       right: (-@popupArrowHalf - @popupBorderWidth);
       left: auto;
@@ -39,7 +39,7 @@
     }
   }
 
-  &[placed-at='right'] {
+  &:is([placed-at='right'], [placed-at='left-inner']) {
     .@{arrowClassName} {
       left: (-@popupArrowHalf - @popupBorderWidth - @popupArrowShift);
       right: auto;

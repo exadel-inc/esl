@@ -50,7 +50,7 @@ esl-popup:not(.esl-popup) {
     background: inherit;
   }
 
-  &[placed-at='top'] {
+  &:is([placed-at='top'], [placed-at='bottom-inner']) {
     .esl-popup-arrow {
       top: auto;
       bottom: calc(-1 * var(--_half) - var(--_border-width));
@@ -58,7 +58,7 @@ esl-popup:not(.esl-popup) {
     }
   }
 
-  &[placed-at='left'] {
+  &:is([placed-at='left'], [placed-at='right-inner']) {
     .esl-popup-arrow {
       right: calc(-1 * var(--_half) - var(--_border-width));
       left: auto;
@@ -67,7 +67,7 @@ esl-popup:not(.esl-popup) {
     }
   }
 
-  &[placed-at='right'] {
+  &:is([placed-at='right'], [placed-at='left-inner']) {
     .esl-popup-arrow {
       left: calc(-1 * var(--_half) - var(--_border-width) - var(--_shift));
       right: auto;

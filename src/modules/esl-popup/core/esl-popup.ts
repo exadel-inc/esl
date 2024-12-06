@@ -12,7 +12,7 @@ import {calcPopupPosition, isOnHorizontalAxis} from './esl-popup-position';
 import {ESLPopupPlaceholder} from './esl-popup-placeholder';
 
 import type {ESLToggleableActionParams, ESLFocusFlowType} from '../../esl-toggleable/core';
-import type {PositionType, PositionOriginType, IntersectionRatioRect} from './esl-popup-position';
+import type {PopupPositionConfig, PositionType, PositionOriginType, IntersectionRatioRect} from './esl-popup-position';
 
 const INTERSECTION_LIMIT_FOR_ADJACENT_AXIS = 0.7;
 const DEFAULT_OFFSET_ARROW = 50;
@@ -402,18 +402,15 @@ export class ESLPopup extends ESLToggleable {
     this._updateLoopID = 0;
   }
 
-  /** Updates position of popup and its arrow */
-  protected _updatePosition(): void {
-    if (!this.activator) return;
-
+  protected get positionConfig(): PopupPositionConfig {
     const popupRect = Rect.from(this);
     const arrowRect = this.$arrow ? Rect.from(this.$arrow) : new Rect();
-    const triggerRect = Rect.from(this.activator).shift(window.scrollX, window.scrollY);
+    const triggerRect = this.activator ? Rect.from(this.activator).shift(window.scrollX, window.scrollY) : new Rect();
     const {containerRect} = this;
 
-    const innerMargin = this._offsetTrigger + (this.positionOrigin === 'inner' ? 0 : arrowRect.width / 2);
+    const innerMargin = this._offsetTrigger + arrowRect.width / 2;
 
-    const config = {
+    return {
       position: this.position,
       hasInnerOrigin: this.positionOrigin === 'inner',
       behavior: this.behavior,
@@ -423,14 +420,19 @@ export class ESLPopup extends ESLToggleable {
       arrow: arrowRect,
       element: popupRect,
       trigger: triggerRect,
-      inner: triggerRect.grow(innerMargin),
+      inner: this.positionOrigin === 'inner' ? triggerRect.shrink(innerMargin) : triggerRect.grow(innerMargin),
       outer: (typeof this._offsetContainer === 'number') ?
         containerRect.shrink(this._offsetContainer) :
         containerRect.shrink(...this._offsetContainer),
       isRTL: isRTL(this)
     };
+  }
 
-    const {placedAt, popup, arrow} = calcPopupPosition(config);
+  /** Updates position of popup and its arrow */
+  protected _updatePosition(): void {
+    if (!this.activator) return;
+
+    const {placedAt, popup, arrow} = calcPopupPosition(this.positionConfig);
 
     this.setAttribute('placed-at', placedAt);
     // set popup position
