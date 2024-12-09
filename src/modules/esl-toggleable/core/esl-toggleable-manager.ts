@@ -10,9 +10,11 @@ import type {ESLToggleable} from './esl-toggleable';
 /** Focus flow behaviors */
 export type ESLA11yType = 'none' | 'autofocus' | 'popup' | 'dialog' | 'modal';
 
-let instance: ESLToggleableA11yManager;
+let instance: ESLToggleableManager;
 /** Focus manager for toggleable instances. Singleton. */
-export class ESLToggleableA11yManager {
+export class ESLToggleableManager {
+  /** Active toggleable */
+  protected active = new Set<ESLToggleable>();
   /** Focus scopes stack. Manger observes only top level scope. */
   protected stack: ESLToggleable[] = [];
 
@@ -45,6 +47,7 @@ export class ESLToggleableA11yManager {
 
   /** Changes focus scope to the specified element. Previous scope saved in the stack. */
   public attach(element: ESLToggleable): void {
+    this.active.add(element);
     if (element.a11y === 'none' && element !== this.current) return;
     // Make sure popup at least can be focused itself
     if (!element.hasAttribute('tabindex')) element.setAttribute('tabindex', '-1');
@@ -62,6 +65,7 @@ export class ESLToggleableA11yManager {
 
   /** Removes the specified element from the known focus scopes. */
   public detach(element: ESLToggleable, fallback?: HTMLElement | null): void {
+    this.active.delete(element);
     if (element === this.current || this.hasFocus(element)) this.queryFocusTask(fallback);
     if (!this.has(element)) return;
     this.stack = this.stack.filter((el) => el !== element);
@@ -97,7 +101,7 @@ export class ESLToggleableA11yManager {
     afterNextRender(() => {
       // Check if the focus is still inside the element
       if (this.hasFocus(current)) return;
-      if (current.a11y === 'popup') {
+      if (current.a11y === 'popup' && current.closeOnOutsideAction) {
         current.hide({initiator: 'focusout', event: e});
       }
       if (current.a11y === 'modal') {
@@ -105,5 +109,14 @@ export class ESLToggleableA11yManager {
         $focusable.focus({preventScroll: true});
       }
     });
+  }
+
+  @listen({event: 'mouseup touchend keydown', target: document, capture: true})
+  protected _onOutsideInteraction(e: Event): void {
+    for (const el of this.active) {
+      if (!el.closeOnOutsideAction || !el.isOutsideAction(e)) continue;
+      // Used 0 delay to decrease priority of the request
+      el.hide({initiator: 'outsideaction', hideDelay: 10, event: e});
+    }
   }
 }

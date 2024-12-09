@@ -10,7 +10,7 @@ import {DelayedTask} from '../../esl-utils/async/delayed-task';
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {findParent, isMatches} from '../../esl-utils/dom/traversing';
 import {getKeyboardFocusableElements} from '../../esl-utils/dom/focus';
-import {ESLToggleableA11yManager} from './esl-toggleable-manager';
+import {ESLToggleableManager} from './esl-toggleable-manager';
 
 import type {ESLA11yType} from './esl-toggleable-manager';
 import type {DelegatedEvent} from '../../esl-event-listener/core/types';
@@ -187,10 +187,6 @@ export class ESLToggleable extends ESLBaseElement {
     }
   }
 
-  /** Bind outside action event listeners */
-  protected bindOutsideEventTracking(track: boolean): void {
-    track ? this.$$on(this._onOutsideAction) : this.$$off(this._onOutsideAction);
-  }
   /** Bind hover events listeners for the Toggleable itself */
   protected bindHoverStateTracking(track: boolean, hideDelay?: number | string): void {
     if (!hasHover) return;
@@ -217,7 +213,6 @@ export class ESLToggleable extends ESLBaseElement {
   public show(params?: ESLToggleableActionParams): ESLToggleable {
     params = this.mergeDefaultParams(params);
     this._task.put(this.showTask.bind(this, params), defined(params.showDelay, params.delay));
-    this.bindOutsideEventTracking(this.closeOnOutsideAction);
     this.bindHoverStateTracking(!!params.trackHover, defined(params.hideDelay, params.delay));
     return this;
   }
@@ -225,7 +220,6 @@ export class ESLToggleable extends ESLBaseElement {
   public hide(params?: ESLToggleableActionParams): ESLToggleable {
     params = this.mergeDefaultParams(params);
     this._task.put(this.hideTask.bind(this, params), defined(params.hideDelay, params.delay));
-    this.bindOutsideEventTracking(false);
     this.bindHoverStateTracking(!!params.trackHover, defined(params.hideDelay, params.delay));
     return this;
   }
@@ -245,7 +239,6 @@ export class ESLToggleable extends ESLBaseElement {
     if (!this.shouldHide(params)) return;
     if (!params.silent && !this.$$fire(this.BEFORE_HIDE_EVENT, {detail: {params}})) return;
     this.onHide(params);
-    this.bindOutsideEventTracking(false);
     if (!params.silent) this.$$fire(this.HIDE_EVENT, {detail: {params}, cancelable: false});
   }
 
@@ -311,8 +304,8 @@ export class ESLToggleable extends ESLBaseElement {
   }
 
   /** Focus manager instance */
-  public get manager(): ESLToggleableA11yManager {
-    return new ESLToggleableA11yManager();
+  public get manager(): ESLToggleableManager {
+    return new ESLToggleableManager();
   }
 
   /** Last component that has activated the element. Uses {@link ESLToggleableActionParams.activator}*/
@@ -365,18 +358,6 @@ export class ESLToggleable extends ESLBaseElement {
       activator: e.$delegate as HTMLElement,
       event: e
     });
-  }
-
-  @listen({
-    auto: false,
-    event: 'keydown mouseup touchend',
-    target: document,
-    capture: true
-  })
-  protected _onOutsideAction(e: Event): void {
-    if (!this.isOutsideAction(e)) return;
-    // Used 0 delay to decrease priority of the request
-    this.hide({initiator: 'outsideaction', hideDelay: 10, event: e});
   }
 
   @listen('keydown')

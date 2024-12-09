@@ -27,7 +27,11 @@ aside:
     </div>
   </esl-popup>
 
-  <esl-toggleable id="zone1" class="alert alert-info p-3" a11y="modal" close-on-esc>
+  <esl-toggleable id="zone1"
+                  class="alert alert-info p-3"
+                  a11y="modal"
+                  close-on-esc
+                  close-on-outside-action>
     Focus Trapped Zone
 
     <esl-trigger class="btn btn-link" target="#popup">Open Popup</esl-trigger>
@@ -74,7 +78,8 @@ aside:
                   class="alert alert-alert p-3"
                   a11y="modal"
                   close-on=".close-button"
-                  close-on-esc>
+                  close-on-esc
+                  close-on-outside-action>
     <button type="button" class="close close-button" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
