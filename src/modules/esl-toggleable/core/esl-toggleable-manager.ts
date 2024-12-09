@@ -35,9 +35,26 @@ export class ESLToggleableManager {
     return this.stack.includes(element);
   }
 
-  /** Checks if the element or its child has focus */
-  public hasFocus(element: ESLToggleable): boolean {
-    return element === document.activeElement || element.contains(document.activeElement);
+  /** Finds the related toggleable element for the specified element */
+  public findRelated(element: HTMLElement | null | undefined): ESLToggleable | undefined {
+    if (!element) return undefined;
+    return this.stack.find((el) => el.contains(element));
+  }
+
+  /** Returns the stack of the toggleable elements for the specified element */
+  public getChainFor(element: ESLToggleable | undefined): ESLToggleable[] {
+    const stack = [];
+    while (element) {
+      stack.push(element);
+      element = this.findRelated(element.activator);
+    }
+    return stack;
+  }
+
+  /** Checks if the element is related to the specified toggleable open chain */
+  public isRelates(element: HTMLElement, related: ESLToggleable): boolean {
+    const scope = this.findRelated(element);
+    return this.getChainFor(scope).includes(related);
   }
 
   protected queryFocusTask(element?: HTMLElement | null): void {
@@ -66,7 +83,7 @@ export class ESLToggleableManager {
   /** Removes the specified element from the known focus scopes. */
   public detach(element: ESLToggleable, fallback?: HTMLElement | null): void {
     this.active.delete(element);
-    if (element === this.current || this.hasFocus(element)) this.queryFocusTask(fallback);
+    if (element === this.current || element.contains(document.activeElement)) this.queryFocusTask(fallback);
     if (!this.has(element)) return;
     this.stack = this.stack.filter((el) => el !== element);
   }
@@ -100,9 +117,9 @@ export class ESLToggleableManager {
     if (!current || !current.contains(e.target as HTMLElement)) return;
     afterNextRender(() => {
       // Check if the focus is still inside the element
-      if (this.hasFocus(current)) return;
+      if (current.contains(document.activeElement)) return;
       if (current.a11y === 'popup' && current.closeOnOutsideAction) {
-        current.hide({initiator: 'focusout', event: e});
+        current.hide({initiator: 'focusout', hideDelay: 10, event: e});
       }
       if (current.a11y === 'modal') {
         const $focusable = current.$focusables[0] || current;

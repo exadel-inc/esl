@@ -345,8 +345,10 @@ export class ESLToggleable extends ESLBaseElement {
     const target = e.target as HTMLElement;
     // target is inside current toggleable
     if (this.contains(target)) return false;
-    // target is inside last activator
-    if (this.activator && this.activator.contains(target)) return false;
+
+    // target is inside chain of togleables
+    if (this.manager && this.manager.isRelates(target, this)) return false;
+
     // Event is not a system command key
     return !(e instanceof KeyboardEvent && SYSTEM_KEYS.includes(e.key));
   }
