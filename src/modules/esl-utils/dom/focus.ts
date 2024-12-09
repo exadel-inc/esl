@@ -1,6 +1,8 @@
 import {TAB} from './keys';
 import {isVisible} from './visible';
 
+import type {VisibilityOptions} from './visible';
+
 /**
  * Chain focus order between passed elements.
  * Passive (should be called inside keyboard event handler)
@@ -28,10 +30,13 @@ export const isFocusable = (el: HTMLElement): boolean => el && el.matches(FOCUSA
 /**
  * Gets keyboard-focusable elements within a specified root element
  * @param root - root element
- * @param ignoreVisibility - ignore visibility check
+ * @param visibilityOpt - visibility check options or false to skip visibility check
  */
-export const getKeyboardFocusableElements = (root: HTMLElement | Document = document, ignoreVisibility = false): Element[] => {
+export const getKeyboardFocusableElements = (
+  root: HTMLElement | Document = document,
+  visibilityOpt: VisibilityOptions | false = {visibility: true}
+): Element[] => {
   return Array.from(root.querySelectorAll(FOCUSABLE_SELECTOR)).filter(
-    (el: HTMLElement) => isFocusableAllowed(el) && (ignoreVisibility || isVisible(el))
+    (el: HTMLElement) => isFocusableAllowed(el) && (!visibilityOpt || isVisible(el, visibilityOpt))
   );
 };

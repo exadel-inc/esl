@@ -42,7 +42,7 @@ describe('Focus Utils', () => {
     ])('For %s content found %d focusable elements.', (content, count) => {
       const $container = document.createElement('div');
       $container.innerHTML = content;
-      const $elements = getKeyboardFocusableElements($container, true);
+      const $elements = getKeyboardFocusableElements($container, false);
       expect($elements.length).toBe(count);
     });
   });
@@ -57,7 +57,7 @@ describe('Focus Utils', () => {
       $container.innerHTML = content;
       document.body.appendChild($container);
 
-      getKeyboardFocusableElements($container, true).forEach(($el) => {
+      getKeyboardFocusableElements($container, false).forEach(($el) => {
         jest.spyOn($el, 'getClientRects').mockReturnValueOnce(hasBounds ? [{}] as any : []);
       });
       const $elements = getKeyboardFocusableElements($container);
