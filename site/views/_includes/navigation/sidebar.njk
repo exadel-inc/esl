@@ -25,12 +25,10 @@
         </li>
 
         {% for item in sidebar.items%}
-          {% set isDevCollection = item.collection == 'dev' %}
-          {% set isBlogCollection = item.collection == 'blogs' %}
-          {% set isBlogReleased = isBlogCollection and collections.blogs | released | length %}
-          {% set isDevShown = env.isDev or functions.isActivePath(page.url, 'dev') %}
+          {% set isNoEmpty = collections[item.collection] | released | length %}
+          {% set isActive = env.isDev or functions.isActivePath(page.url, item.collection) %}
 
-          {% if isBlogReleased or (not isDevCollection and not isBlogCollection) or (isDevCollection and isDevShown) %}
+          {% if isNoEmpty or (isNoEmpty and isActive) %}
             {{ navItem (item.title, item.collection, item.icon) }}
           {% endif %}
         {% endfor %}
