@@ -1,6 +1,6 @@
 import {listen} from '../../esl-utils/decorators/listen';
-import {afterNextRender} from '../../esl-utils/async/raf';
 import {ESLEventUtils} from '../../esl-event-listener/core/api';
+import {DelayedTask} from '../../esl-utils/async/delayed-task';
 
 import {TAB} from '../../esl-utils/dom/keys';
 import {handleFocusChain} from '../../esl-utils/dom/focus';
@@ -17,6 +17,9 @@ export class ESLToggleableManager {
   protected active = new Set<ESLToggleable>();
   /** Focus scopes stack. Manger observes only top level scope. */
   protected stack: ESLToggleable[] = [];
+
+  /** A delayed task for the focus management */
+  private _focusTaskMng = new DelayedTask();
 
   public constructor() {
     if (instance) return instance;
@@ -57,19 +60,12 @@ export class ESLToggleableManager {
     return this.getChainFor(scope).includes(related);
   }
 
-  protected queryFocusTask(element?: HTMLElement | null): void {
-    if (!element) return;
-    queueMicrotask(() => afterNextRender(() => element.focus({preventScroll: true})));
-  }
-
   /** Changes focus scope to the specified element. Previous scope saved in the stack. */
   public attach(element: ESLToggleable): void {
     this.active.add(element);
     if (element.a11y === 'none' && element !== this.current) return;
     // Make sure popup at least can be focused itself
     if (!element.hasAttribute('tabindex')) element.setAttribute('tabindex', '-1');
-    // Focus on the first focusable element
-    this.queryFocusTask(element.$focusables[0] || element);
     // Drop all popups on modal focus
     if (element.a11y === 'modal') {
       this.stack
@@ -78,12 +74,17 @@ export class ESLToggleableManager {
     }
     // Remove the element from the stack and add it on top
     this.stack = this.stack.filter((el) => el !== element).concat(element);
+    // Focus on the first focusable element
+    this.queue(() => (element.$focusables[0] || element).focus({preventScroll: true}));
   }
 
   /** Removes the specified element from the known focus scopes. */
   public detach(element: ESLToggleable, fallback?: HTMLElement | null): void {
     this.active.delete(element);
-    if (element === this.current || element.contains(document.activeElement)) this.queryFocusTask(fallback);
+    if (fallback && (element === this.current || element.contains(document.activeElement))) {
+      // Return focus to the fallback element
+      this.queue(() => fallback.focus({preventScroll: true}));
+    }
     if (!this.has(element)) return;
     this.stack = this.stack.filter((el) => el !== element);
   }
@@ -110,30 +111,45 @@ export class ESLToggleableManager {
     }
   }
 
-  /** Focusout event handler */
-  @listen({event: 'focusout', target: document})
+  /** Focus event handler for the focus management */
+  @listen({event: 'focusin', target: document})
   protected _onFocusOut(e: FocusEvent): void {
     const {current} = this;
-    if (!current || !current.contains(e.target as HTMLElement)) return;
-    afterNextRender(() => {
-      // Check if the focus is still inside the element
-      if (current.contains(document.activeElement)) return;
-      if (current.a11y === 'popup' && current.closeOnOutsideAction) {
-        current.hide({initiator: 'focusout', hideDelay: 10, event: e});
-      }
-      if (current.a11y === 'modal') {
-        const $focusable = current.$focusables[0] || current;
-        $focusable.focus({preventScroll: true});
-      }
-    });
+    if (!current || current.a11y === 'autofocus') return;
+    // Check if the focus is still inside the element
+    if (current.contains(document.activeElement)) return;
+
+    // Hide popup on focusout
+    if (current.a11y === 'popup') this.onOutsideInteraction(e, current);
+    // Trap focus inside the element
+    if (current.a11y === 'modal') {
+      this._focusTaskMng.cancel();
+      const $focusable = current.$focusables[0] || current;
+      $focusable.focus({preventScroll: true});
+    }
   }
 
+  /** Catch all user interactions to initiate outside interaction handling */
   @listen({event: 'mouseup touchend keydown', target: document, capture: true})
   protected _onOutsideInteraction(e: Event): void {
     for (const el of this.active) {
-      if (!el.closeOnOutsideAction || !el.isOutsideAction(e)) continue;
-      // Used 0 delay to decrease priority of the request
-      el.hide({initiator: 'outsideaction', hideDelay: 10, event: e});
+      this.onOutsideInteraction(e, el);
     }
+  }
+
+  /**
+   * Hides a toggleable element on outside interaction in case
+   * it is an outside interaction and it is allowed
+   */
+  protected onOutsideInteraction(e: Event, el: ESLToggleable): void {
+    if (!el.closeOnOutsideAction || !el.isOutsideAction(e)) return;
+    // Used 10ms delay to decrease priority of the request but positive due to iOS issue
+    el.hide({initiator: 'outsideaction', hideDelay: 10, event: e});
+  }
+
+  /** Queues delayed task of the focus management */
+  private queue(cb: () => void): void {
+    // 34ms = macrotask + at least 1 frame
+    this._focusTaskMng.put(cb, 34);
   }
 }
