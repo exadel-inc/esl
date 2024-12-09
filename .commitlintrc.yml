@@ -31,13 +31,16 @@ rules:
     -
       - esl-a11y-group
       - esl-alert
+      - esl-anchornav
       - esl-animate
       - esl-base-element
       - esl-carousel
+      - esl-drag-to-scroll
       - esl-event-listener
       - esl-footnotes
       - esl-forms
       - esl-image
+      - esl-image-utils
       - esl-media
       - esl-media-query
       - esl-mixin-element
@@ -59,6 +62,9 @@ rules:
       - patch
       - deps
       - deps-dev
-      - lint
+      - eslint-plugin
+      - eslint-config
       - e2e
       - ci
+      # Deprecated scopes:
+      - lint

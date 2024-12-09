@@ -59,6 +59,32 @@ describe('ESLWheelTarget', () => {
     });
   });
 
+  describe('ESLWheelTarget instance ignore predicate support', () => {
+    const $el = document.createElement('div');
+    const target = ESLWheelTarget.for($el, {
+      distance: 50,
+      timeout: 10,
+      ignore: (e) => e.deltaX === 0
+    });
+    const listener = jest.fn();
+
+    beforeAll(() => target.addEventListener('longwheel', listener));
+    afterAll(() => target.removeEventListener('longwheel', listener));
+    beforeEach(() => listener.mockReset());
+
+    test('ESLWheelTarget ignores vertical scroll when predicate filter deltaX amount', () => {
+      $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 0, deltaY: 100}));
+      jest.advanceTimersByTime(100);
+      expect(listener).not.toHaveBeenCalled();
+    });
+
+    test('ESLWheelTarget doesn\'t ignore horizontal scroll when predicate filter deltaX amount', () => {
+      $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 100, deltaY: 0}));
+      jest.advanceTimersByTime(100);
+      expect(listener).toHaveBeenCalled();
+    });
+  });
+
   describe('ESLWheelTarget ignores "short" scroll events', () => {
     const $el = document.createElement('div');
     const target = ESLWheelTarget.for($el, {timeout: 50, distance: 101});

@@ -1,5 +1,5 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {ESC, SYSTEM_KEYS} from '../../esl-utils/dom/keys';
+import {SYSTEM_KEYS, ESC} from '../../esl-utils/dom/keys';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {prop, attr, jsonAttr, listen} from '../../esl-utils/decorators';
 import {defined, copyDefinedKeys} from '../../esl-utils/misc/object';
@@ -9,7 +9,10 @@ import {hasHover} from '../../esl-utils/environment/device-detector';
 import {DelayedTask} from '../../esl-utils/async/delayed-task';
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {findParent, isMatches} from '../../esl-utils/dom/traversing';
+import {getKeyboardFocusableElements} from '../../esl-utils/dom/focus';
+import {ESLToggleableFocusManager} from './esl-toggleable-focus';
 
+import type {ESLFocusFlowType} from './esl-toggleable-focus';
 import type {DelegatedEvent} from '../../esl-event-listener/core/types';
 
 /** Default Toggleable action params type definition */
@@ -43,9 +46,6 @@ export interface ESLToggleableRequestDetails extends ESLToggleableActionParams {
   // Selector to match or exact predicate to check if the target should process request
   match?: string | ((target: Element) => boolean);
 }
-
-/** @deprecated alias for ESLToggleableActionParams, will be removed in 5.0.0*/
-export type ToggleableActionParams = ESLToggleableActionParams;
 
 const activators: WeakMap<ESLToggleable, HTMLElement | undefined> = new WeakMap();
 
@@ -116,6 +116,15 @@ export class ESLToggleable extends ESLBaseElement {
   /** Close the Toggleable on a click/tap outside */
   @attr({parser: parseBoolean, serializer: toBooleanAttribute}) public closeOnOutsideAction: boolean;
 
+  /**
+   * Focus behavior. Available values:
+   * - 'none' (default) - no focus management
+   * - 'grab' - focus on the first focusable element, does not affect focus flow or behavior after the last focusable element
+   * - 'chain' - focus on the first focusable element first and return focus to the activator after the last focusable element
+   * - 'loop' - focus on the first focusable element and loop through the focusable elements
+   */
+  @attr({defaultValue: 'none'}) public focusBehavior: ESLFocusFlowType;
+
   /** Initial params to pass to show/hide action on the start */
   @jsonAttr<ESLToggleableActionParams>({defaultValue: {force: true, initiator: 'init'}})
   public initialParams: ESLToggleableActionParams;
@@ -131,13 +140,6 @@ export class ESLToggleable extends ESLBaseElement {
 
   /** Inner state */
   private _open: boolean = false;
-
-  /**
-   * Marker of last opened state.
-   * @deprecated and will be removed in 5.0.0 (`this.open` mutation will be moved inside `onShow` and `onHide` methods,
-   * so it became possible to track the initial state of the toggleable inside of action hooks)
-   */
-  protected wasOpened: boolean = false;
 
   /** Inner show/hide task manager instance */
   protected _task: DelayedTask = new DelayedTask();
@@ -199,6 +201,16 @@ export class ESLToggleable extends ESLBaseElement {
     track ? this.$$on(this._onMouseLeave) : this.$$off(this._onMouseLeave);
   }
 
+  /** Focuses on the first focusable element or the element itself if it's focusable */
+  public override focus(options?: FocusOptions): void {
+    if (this.hasAttribute('tabindex')) {
+      super.focus(options);
+    } else {
+      const focusable = this.$focusables[0];
+      focusable && focusable.focus(options);
+    }
+  }
+
   /** Function to merge the result action params */
   protected mergeDefaultParams(params?: ESLToggleableActionParams): ESLToggleableActionParams {
     const type = this.constructor as typeof ESLToggleable;
@@ -233,8 +245,6 @@ export class ESLToggleable extends ESLBaseElement {
     if (!this.shouldShow(params)) return;
     if (!params.silent && !this.$$fire(this.BEFORE_SHOW_EVENT, {detail: {params}})) return;
     this.activator = params.activator;
-    this.wasOpened = this.open;
-    this.open = true;
     this.onShow(params);
     if (!params.silent) this.$$fire(this.SHOW_EVENT, {detail: {params}, cancelable: false});
   }
@@ -243,8 +253,6 @@ export class ESLToggleable extends ESLBaseElement {
     Object.defineProperty(params, 'action', {value: 'hide', writable: false});
     if (!this.shouldHide(params)) return;
     if (!params.silent && !this.$$fire(this.BEFORE_HIDE_EVENT, {detail: {params}})) return;
-    this.wasOpened = this.open;
-    this.open = false;
     this.onHide(params);
     this.bindOutsideEventTracking(false);
     if (!params.silent) this.$$fire(this.HIDE_EVENT, {detail: {params}, cancelable: false});
@@ -255,22 +263,16 @@ export class ESLToggleable extends ESLBaseElement {
    * Returns false if the show action should not be executed.
    */
   protected shouldShow(params: ESLToggleableActionParams): boolean {
-    if (typeof this.onBeforeShow === 'function') return this.onBeforeShow(params) === false;
     return params.force || !this.open;
   }
 
   /**
-   * Called before show action to check if the action should be executed.
-   * @deprecated use {@link shouldShow} and immutable aproach instead
-   */
-  protected onBeforeShow?: (params: ESLToggleableActionParams) => boolean | void;
-
-  /**
    * Actions to execute on show toggleable.
    * Inner state and 'open' attribute are not affected and updated before `onShow` execution.
-   * Adds CSS classes, update a11y and fire {@link ESLToggleable.REFRESH_EVENT} event by default.
+   * Adds CSS classes, update a11y and fire {@link ESLBaseElement.REFRESH_EVENT} event by default.
    */
   protected onShow(params: ESLToggleableActionParams): void {
+    this.open = true;
     CSSClassUtils.add(this, this.activeClass);
     CSSClassUtils.add(document.body, this.bodyClass, this);
     if (this.containerActiveClass) {
@@ -279,6 +281,8 @@ export class ESLToggleable extends ESLBaseElement {
     }
 
     this.updateA11y();
+    this.focusManager.attach(this);
+
     this.$$fire(this.REFRESH_EVENT); // To notify other components about content change
   }
 
@@ -287,15 +291,8 @@ export class ESLToggleable extends ESLBaseElement {
    * Returns false if the hide action should not be executed.
    */
   protected shouldHide(params: ESLToggleableActionParams): boolean {
-    if (typeof this.onBeforeHide === 'function') return this.onBeforeHide(params) === false;
     return params.force || this.open;
   }
-
-  /**
-   * Called before hide action to check if the action should be executed.
-   * @deprecated use {@link shouldHide} and immutable aproach instead
-   */
-  protected onBeforeHide?: (params: ESLToggleableActionParams) => boolean | void;
 
   /**
    * Actions to execute on hide toggleable.
@@ -303,6 +300,7 @@ export class ESLToggleable extends ESLBaseElement {
    * Removes CSS classes and update a11y by default.
    */
   protected onHide(params: ESLToggleableActionParams): void {
+    this.open = false;
     CSSClassUtils.remove(this, this.activeClass);
     CSSClassUtils.remove(document.body, this.bodyClass, this);
     if (this.containerActiveClass) {
@@ -310,6 +308,7 @@ export class ESLToggleable extends ESLBaseElement {
       $container && CSSClassUtils.remove($container, this.containerActiveClass, this);
     }
     this.updateA11y();
+    this.focusManager.detach(this, this.activator);
   }
 
   /** Active state marker */
@@ -320,12 +319,27 @@ export class ESLToggleable extends ESLBaseElement {
     this.toggleAttribute('open', this._open = value);
   }
 
+  /** Focus manager instance */
+  public get focusManager(): ESLToggleableFocusManager {
+    return new ESLToggleableFocusManager();
+  }
+
   /** Last component that has activated the element. Uses {@link ESLToggleableActionParams.activator}*/
   public get activator(): HTMLElement | null | undefined {
     return activators.get(this);
   }
   public set activator(el: HTMLElement | null | undefined) {
     el ? activators.set(this, el) : activators.delete(this);
+  }
+
+  /** If the togleable or its content has focus */
+  public get hasFocus(): boolean {
+    return this === document.activeElement || this.contains(document.activeElement);
+  }
+
+  /** List of all focusable elements inside instance */
+  public get $focusables(): HTMLElement[] {
+    return getKeyboardFocusableElements(this) as HTMLElement[];
   }
 
   /** Returns the element to apply a11y attributes */
@@ -378,6 +392,7 @@ export class ESLToggleable extends ESLBaseElement {
   protected _onKeyboardEvent(e: KeyboardEvent): void {
     if (this.closeOnEsc && e.key === ESC) {
       this.hide({initiator: 'keyboard', event: e});
+      e.stopPropagation();
     }
   }
 

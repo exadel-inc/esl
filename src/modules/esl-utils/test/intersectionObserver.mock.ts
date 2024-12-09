@@ -73,7 +73,7 @@ export class IntersectionObserverMock implements IntersectionObserver {
 
   public static trigger(
     $el: Element,
-    detail: Partial<IntersectionObserverEntryInit> | Partial<IntersectionObserverEntryInit>[]
+    detail: Partial<IntersectionObserverEntry> | Partial<IntersectionObserverEntry>[]
   ): void {
     ESLEventUtils.dispatch($el, 'intersection', {detail});
   }

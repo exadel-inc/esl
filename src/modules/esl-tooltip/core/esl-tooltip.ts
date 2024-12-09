@@ -1,11 +1,8 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLPopup} from '../../esl-popup/core';
-import {memoize, attr, boolAttr, listen, prop} from '../../esl-utils/decorators';
-import {TAB} from '../../esl-utils/dom/keys';
-import {getKeyboardFocusableElements, handleFocusChain} from '../../esl-utils/dom/focus';
+import {memoize} from '../../esl-utils/decorators';
 
 import type {ESLPopupActionParams} from '../../esl-popup/core';
-import type {PositionType} from '../../esl-popup/core/esl-popup-position';
 
 export interface ESLTooltipActionParams extends ESLPopupActionParams {
   /** text to be shown */
@@ -30,40 +27,14 @@ export class ESLTooltip extends ESLPopup {
   /** Default params to pass into the tooltip on show/hide actions */
   public static override DEFAULT_PARAMS: ESLTooltipActionParams = {
     ...ESLPopup.DEFAULT_PARAMS,
-    autofocus: true
+    position: 'top',
+    hideDelay: 300
   };
-
-  @prop(false) public hasFocusLoop: boolean;
-
-  /**
-   * Tooltip position relative to the trigger.
-   * Currently supported: 'top', 'bottom', 'left', 'right' position types ('top' by default)
-   */
-  @attr({defaultValue: 'top'}) public override position: PositionType;
-
-  /** Tooltip behavior if it does not fit in the window ('fit' by default) */
-  @attr({defaultValue: 'fit'}) public override behavior: string;
-
-  /** Disable arrow at Tooltip */
-  @boolAttr() public disableArrow: boolean;
 
   /** Shared instanse of Tooltip */
   @memoize()
   public static get sharedInstance(): ESLTooltip {
     return document.createElement('esl-tooltip');
-  }
-
-  /** List of all focusable elements inside instance */
-  public get $focusables(): HTMLElement[] {
-    return getKeyboardFocusableElements(this) as HTMLElement[];
-  }
-
-  /** First and last focusable elements inside instance */
-  public get $boundaryFocusable(): {$first: HTMLElement | undefined, $last: HTMLElement | undefined} {
-    const {$focusables} = this;
-    const $first = $focusables[0];
-    const $last = $focusables.pop();
-    return {$first, $last};
   }
 
   /** Active state marker */
@@ -84,7 +55,6 @@ export class ESLTooltip extends ESLPopup {
   public override connectedCallback(): void {
     super.connectedCallback();
     this.classList.add(ESLPopup.is);
-    this.classList.toggle('disable-arrow', this.disableArrow);
     this.tabIndex = 0;
   }
 
@@ -93,18 +63,15 @@ export class ESLTooltip extends ESLPopup {
 
   /** Actions to execute on show Tooltip. */
   public override onShow(params: ESLTooltipActionParams): void {
-    if (params.disableArrow) {
-      this.disableArrow = params.disableArrow;
-    }
-    if (params.text) {
-      this.innerText = params.text;
-    }
-    if (params.html) {
-      this.innerHTML = params.html;
-    }
+    if (params.text) this.innerText = params.text;
+    if (params.html) this.innerHTML = params.html;
+    if (params.text || params.html) memoize.clear(this, '$arrow');
+
     this.dir = params.dir || '';
     this.lang = params.lang || '';
     this.parentNode !== document.body && document.body.appendChild(this);
+    this.$$cls('disable-arrow', params.disableArrow);
+
     super.onShow(params);
   }
 
@@ -112,23 +79,6 @@ export class ESLTooltip extends ESLPopup {
   public override onHide(params: ESLTooltipActionParams): void {
     super.onHide(params);
     this.parentNode === document.body && document.body.removeChild(this);
-  }
-
-  @listen({inherit: true})
-  protected override _onKeyboardEvent(e: KeyboardEvent): void {
-    super._onKeyboardEvent(e);
-    if (e.key === TAB) this._onTabKey(e);
-  }
-
-  /** Actions on TAB keypressed */
-  protected _onTabKey(e: KeyboardEvent): void {
-    if (!this.activator) return;
-    const {$first, $last} = this.$boundaryFocusable;
-    if (this.hasFocusLoop) return handleFocusChain(e, $first, $last) as void;
-    if (!$last || e.target === (e.shiftKey ? $first : $last)) {
-      this.activator.focus();
-      e.preventDefault();
-    }
   }
 }
 

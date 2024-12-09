@@ -1,5 +1,5 @@
 // TODO: Revisit using https://caniuse.com/mdn-api_element_scrollleft in 5.0.0
-/** RTL scroll browser behaviours */
+/** RTL scroll browser behaviors */
 export type ScrollType = 'default' | 'negative' | 'reverse';
 
 /** Checks if the element in a RTL direction context */
@@ -54,17 +54,3 @@ export const normalizeScrollLeft = (el: HTMLElement, value: number | null = null
       return value;
   }
 };
-
-/** @deprecated use separate functions from the module */
-export abstract class RTLUtils {
-  /** @deprecated use {@link isRTL} instead */
-  static readonly isRtl = isRTL;
-
-  /** @deprecated use {@link normalizeScrollLeft} instead */
-  static readonly normalizeScrollLeft = normalizeScrollLeft;
-
-  /** @deprecated use {@link RTLScroll}.type instead */
-  static get scrollType(): ScrollType {
-    return RTLScroll.type;
-  }
-}

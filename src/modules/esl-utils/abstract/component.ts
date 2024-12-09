@@ -6,6 +6,8 @@ import type {
 } from '../../esl-event-listener/core';
 
 export interface ESLBaseComponent {
+  /** Subscribes (or resubscribes) all known descriptors that matches criteria */
+  $$on(criteria: ESLListenerCriteria): ESLEventListener[];
   /** Subscribes `handler` method marked with `@listen` decorator */
   $$on(handler: ESLListenerHandler): ESLEventListener[];
   /** Subscribes `handler` function by the passed DOM event descriptor {@link ESLListenerDescriptor} or event name */
