@@ -41,9 +41,12 @@
 
       .esl-media-inner {
         position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        top: var(--esl-media-y-offset, 50%);
+        left: var(--esl-media-x-offset, 50%);
+        transform: translate(
+          calc(var(--esl-media-x-offset, 50%) * -1),
+          calc(var(--esl-media-y-offset, 50%) * -1)
+        );
 
         // Safari & FF are not recognize video size otherwise
         min-width: 1px;
@@ -61,6 +64,20 @@
     &[wide][fill-mode='cover'] .esl-media-inner {
       width: 100%;
       height: auto;
+    }
+
+    // Alignments
+    &.esl-media-top {
+      --esl-media-y-offset: 0%;
+    }
+    &.esl-media-bottom {
+      --esl-media-y-offset: 100%;
+    }
+    &.esl-media-left {
+      --esl-media-x-offset: 0%;
+    }
+    &.esl-media-right {
+      --esl-media-x-offset: 100%;
     }
   }
 }
