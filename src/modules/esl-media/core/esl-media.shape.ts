@@ -23,11 +23,6 @@ export type ESLMediaTagShape = ({
   /** Define preferable aspect ratio */
   'aspect-ratio'?: string;
 
-  /**
-   * Define prevent loading marker
-   * @deprecated Use {@link lazy} instead
-   */
-  disabled?: boolean;
   /** Define lazy loading mode */
   lazy?: ESLMediaLazyMode;
   /** Define autoplay marker */
@@ -59,12 +54,10 @@ export type ESLMediaTagShape = ({
 
   /** Define condition {@link ESLMediaQuery} to allow load of media resource */
   'load-condition'?: string;
-  /** Define ESL Traversing Query to find target for load-cls-accepted / load-cls-declined */
-  'load-cls-target'?: string;
-  /** Define class to mark player accepted state */
-  'load-cls-accepted'?: string;
-  /** Define class to mark player declined state */
-  'load-cls-declined'?: string;
+  /** Define class / classes to add when load media is accepted. Supports multiple and inverted classes */
+  'load-condition-class'?: string;
+  /** Defines target element {@link ESLTraversingQuery} selector to toggle `load-condition-class` classes */
+  'load-condition-class-target'?: string;
 
   /** Children are not allowed for ESLMedia */
   children?: never[];

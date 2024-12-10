@@ -81,9 +81,8 @@ export class ESLDemoSidebar extends ESLToggleable {
     this.toggle(isDesktop && isStoredOpen, {force: true, initiator: 'bpchange', immediate: !isDesktop});
   }
 
-  @listen({inherit: true})
-  protected override _onOutsideAction(e: Event): void {
-    if (ESLMediaQuery.for('@+MD').matches) return;
-    super._onOutsideAction(e);
+  public override isOutsideAction(e: Event): boolean {
+    if (ESLMediaQuery.for('@+MD').matches) return false;
+    return super.isOutsideAction(e);
   }
 }

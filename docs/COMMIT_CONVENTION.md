@@ -84,7 +84,7 @@ You can increase the importance of the patch changes to the minor using the `MIN
 feat!: Hey I'm breaking something that already exist
 ```
 
-**Identify everything that break or change existing API or behaviour with the `BREACKING CHAGES:` list
+**Identify everything that break or change existing API or behavior with the `BREACKING CHAGES:` list
 ```text
 feat!: Hey I'm breaking something that already exist
 
