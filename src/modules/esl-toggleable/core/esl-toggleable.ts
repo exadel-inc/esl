@@ -346,7 +346,7 @@ export class ESLToggleable extends ESLBaseElement {
     // target is inside current toggleable
     if (this.contains(target)) return false;
 
-    // target is inside chain of togleables
+    // target is inside chain of toggleables
     if (this.manager && this.manager.isRelates(target, this)) return false;
 
     // Event is not a system command key

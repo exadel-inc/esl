@@ -15,7 +15,7 @@ let instance: ESLToggleableManager;
 export class ESLToggleableManager {
   /** Active toggleable */
   protected active = new Set<ESLToggleable>();
-  /** Focus scopes stack. Manger observes only top level scope. */
+  /** Focus scopes stack. Manager observes only top level scope. */
   protected stack: ESLToggleable[] = [];
 
   /** A delayed task for the focus management */
