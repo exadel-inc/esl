@@ -18,10 +18,6 @@ export class UIPReset extends UIPPluginButton {
     return this.source === 'javascript' ? 'js' : this.source;
   }
 
-  protected override connectedCallback(): void {
-    super.connectedCallback();
-  }
-
   public override onAction(): void {
     this.$root?.resetSnippet(this.actualSrc);
   }
