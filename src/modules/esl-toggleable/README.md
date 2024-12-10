@@ -34,12 +34,13 @@ Use `ESLToggleableDispatcher.init()` to initialize (and bind) `ESLToggleableDisp
  - `close-on-esc` - Close the Toggleable on ESC keyboard event
  - `close-on-outside-action` - Close the Toggleable on a click/tap outside
 
- - `focus-behavior` - Focus flow behavior. <i class="badge badge-sup badge-success">new</i>  
+ - `a11y` - Accesibility behavior pattern. <i class="badge badge-sup badge-success">new</i>  
     Available values:
-    - `none` (default) - does not affect focus management
-    - `grab` - focus on the first focusable element, does not affect focus flow or behavior after the last focusable element
-    - `chain` - focus on the first focusable element first and return focus to the activator after the last focusable element
-    - `loop` - focus on the first focusable element and loop through the focusable elements
+    - `none` (default) - does not affect focus management or behavior
+    - `autofocus` - focus on the first focusable element on show
+    - `popup` - focus on the first focusable element and return focus to the activator after the last focusable element. Closees on focus lost when `close-on-outside-action` is set.
+    - `modal` - focus on the first focusable element and trap focus inside the Toggleable. Does not allow focus lost outside. Closes active Toggleables in 'ppopup' mode.
+    - `dialog` - focus on the first focusable element and trap focus inside the Toggleable. Does not allow focus lost outside. Does not close active Toggleables in 'ppopup' mode. <i class="badge badge-sup badge-warning">beta</i>
 
  - `initial-params` - Initial params to pass to show/hide action on start
  - `default-params` - Default params to merge into passed action params

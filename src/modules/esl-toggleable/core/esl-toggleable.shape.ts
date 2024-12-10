@@ -25,8 +25,8 @@ export interface ESLToggleableTagShape<T extends ESLToggleable = ESLToggleable> 
    * - 'none' (default) - no focus management
    * - 'autofocus' - focus on the first focusable element
    * - 'popup' - focus on the first focusable element and return focus to the activator after the last focusable element
-   * - 'dialog' - focus on the first focusable element and trap focus inside the Toggleable (don't close active popups)
    * - 'modal' - focus on the first focusable element and trap focus inside the Toggleable (close active popups)
+   * - 'dialog' - focus on the first focusable element and trap focus inside the Toggleable (don't close active popups)
    */
   'a11y'?: ESLA11yType;
 
