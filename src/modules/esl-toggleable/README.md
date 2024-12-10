@@ -34,7 +34,7 @@ Use `ESLToggleableDispatcher.init()` to initialize (and bind) `ESLToggleableDisp
  - `close-on-esc` - Close the Toggleable on ESC keyboard event
  - `close-on-outside-action` - Close the Toggleable on a click/tap outside
 
- - `a11y` - Accesibility behavior pattern. <i class="badge badge-sup badge-success">new</i>  
+ - `a11y` - Accessibility behavior pattern. <i class="badge badge-sup badge-success">new</i>  
     Available values:
     - `none` (default) - does not affect focus management or behavior
     - `autofocus` - focus on the first focusable element on show

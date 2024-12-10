@@ -117,7 +117,7 @@ export class ESLToggleable extends ESLBaseElement {
   @attr({parser: parseBoolean, serializer: toBooleanAttribute}) public closeOnOutsideAction: boolean;
 
   /**
-   * Accessability behavior. Available values:
+   * Accessibility behavior. Available values:
    * - 'none' (default) - no focus management
    * - 'autofocus' - focus on the first focusable element
    * - 'popup' - focus on the first focusable element and return focus to the activator after the last focusable element
