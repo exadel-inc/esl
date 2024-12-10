@@ -67,7 +67,7 @@ using a single tag as well as work with external providers using simple native-l
  
  - `autofocus` (boolean) - set focus to the player when the media starts playing
  
- - `autoplay` (boolean) - start to play automatically on initialization 
+ - `autoplay` (boolean | 'always') - start to play automatically on initialization. When set to 'always', the video will auto play even if previously stopped by the user, otherwise, it will not.
  *(note: initialization doesn't happen until `disabled` attribute is removed from the element)*
  
  - `controls` (boolean) - show media player controls
