@@ -1,6 +1,6 @@
 import './reset-button.shape';
 
-import {listen, attr} from '@exadel/esl/modules/esl-utils/decorators';
+import {listen, attr, boolAttr} from '@exadel/esl/modules/esl-utils/decorators';
 
 import {UIPPluginButton} from '../../core/button/plugin-button';
 import {UIPRoot} from '../../core/base/root';
@@ -9,27 +9,27 @@ import {UIPRoot} from '../../core/base/root';
 export class UIPReset extends UIPPluginButton {
   public static override is = 'uip-reset';
 
+  @boolAttr() public disabled: boolean;
+
   /** Source type to copy (html | js) */
   @attr({defaultValue: 'html'}) public source: 'js' | 'javascript' | 'html';
+
+  protected get actualSrc(): 'js' | 'html' {
+    return this.source === 'javascript' ? 'js' : this.source;
+  }
 
   protected override connectedCallback(): void {
     super.connectedCallback();
   }
 
   public override onAction(): void {
-    if (this.$root) this.model?.resetSnippet(this.source, this.$root);
+    this.$root?.resetSnippet(this.actualSrc);
   }
 
   @listen({event: 'uip:model:change', target: ($this: UIPRoot) => $this.model})
   protected onModelChange(): void {
     if (!this.model || !this.model.activeSnippet) return;
-    if (this.source === 'js' || this.source === 'javascript') 
-      this.toggleButton(!this.model.isJSChanged());
-    else if (this.source === 'html')
-      this.toggleButton(!this.model.isHTMLChanged());
-  }
-
-  protected toggleButton(state?: boolean): void {
-    this.$$cls('uip-reset-hidden', state);
+    if (this.actualSrc === 'js')  this.disabled = !this.model.isJSChanged();
+    if (this.actualSrc === 'html') this.disabled = !this.model.isHTMLChanged();
   }
 }

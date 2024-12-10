@@ -1,4 +1,6 @@
 import type {UIPStateModel} from './model';
+import type {UIPPlugin} from './plugin';
+import type {UIPRoot} from './root';
 
 interface UIPStateStorageEntry {
   ts: string;
@@ -16,18 +18,7 @@ export class UIPStateStorage {
 
   protected static readonly EXPIRATION_TIME = 3600000 * 12; // 12 hours
 
-  private static instances = new Map<string, UIPStateStorage>();
-
-  protected constructor(protected storeKey: string, protected model: UIPStateModel) {}
-
-  public static for(storeKey: string, model: UIPStateModel): UIPStateStorage {
-    const instance = this.instances.get(storeKey);
-    if (instance) return instance;
-
-    const newInstance = new UIPStateStorage(storeKey, model);
-    this.instances.set(storeKey, newInstance);
-    return newInstance;
-  }
+  public constructor(protected storeKey: string, protected model: UIPStateModel) {}
 
   protected loadEntry(key: string): string | null {
     const entry = (this.lsGet()[key] || {}) as UIPStateStorageEntry;
@@ -56,24 +47,31 @@ export class UIPStateStorage {
 
   protected getStateKey(): string | null {
     const {activeSnippet} = this.model;
-    if (!activeSnippet) return null;
+    if (!activeSnippet || !this.storeKey) return null;
     return JSON.stringify({key: this.storeKey, snippet: activeSnippet.html});
   }
 
-  public loadState(): UIPStateModelSnippets | undefined {
+  public loadState(initiator: UIPPlugin | UIPRoot): void {
     const stateKey = this.getStateKey();
     const state = stateKey && this.loadEntry(stateKey);
-    if (state) return JSON.parse(state);
+    if (!state) return; 
+    
+    const stateobj = JSON.parse(state);
+    this.model.setHtml(stateobj.html, initiator, true);
+    this.model.setJS(stateobj.js, initiator);
+    this.model.setNote(stateobj.note, initiator);
   }
 
   public saveState(): void {
-    const {js, html, note} = this.model;
     const stateKey = this.getStateKey();
+    const {js, html, note} = this.model;
     stateKey && this.saveEntry(stateKey, JSON.stringify({js, html, note}));
   }
 
-  public resetState(): void {
+  public resetState(source: 'js' | 'html', modifier: UIPPlugin | UIPRoot): void {
     const stateKey = this.getStateKey();
     stateKey && this.removeEntry(stateKey);
+
+    this.model.resetSnippet(source, modifier);
   }
 }

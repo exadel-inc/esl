@@ -8,11 +8,10 @@ import {
   UIPNoteNormalizationPreprocessors
 } from '../processors/normalization';
 
-import {UIPStateStorage} from './model.storage';
 import {UIPSnippetItem} from './snippet';
 
-import {UIPRoot} from './root';
-import {UIPPlugin} from './plugin';
+import type {UIPRoot} from './root';
+import type {UIPPlugin} from './plugin';
 import type {UIPSnippetTemplate} from './snippet';
 import type {UIPChangeInfo} from './model.change';
 
@@ -55,8 +54,6 @@ export class UIPStateModel extends SyntheticEventTarget {
   private _note: string = '';
   /** Current markup state */
   private _html = new DOMParser().parseFromString('', 'text/html').body;
-
-  public storage: UIPStateStorage | undefined;
 
   /** Last changes history (used to dispatch changes) */
   private _changes: UIPChangeInfo[] = [];
@@ -128,20 +125,17 @@ export class UIPStateModel extends SyntheticEventTarget {
     return this.normalizeJS(this.activeSnippet.js) !== this.js;
   }
 
-  public resetSnippet(source: 'js' | 'javascript' | 'html', modifier: UIPPlugin | UIPRoot): void {
-    source === 'html' ? this.resetHTML(modifier) : this.resetJS(modifier);
+  public resetSnippet(source: 'js' | 'html', modifier: UIPPlugin | UIPRoot): void {
+    if (source === 'html') this.resetHTML(modifier);
+    if (source === 'js') this.resetJS(modifier);
   }
 
   protected resetJS(modifier: UIPPlugin | UIPRoot): void {
-    if (!this.activeSnippet) return;
-    this.setJS(this.activeSnippet.js, modifier);
-    this.storage?.resetState();
+    if (this.activeSnippet) this.setJS(this.activeSnippet.js, modifier);
   }
 
   protected resetHTML(modifier: UIPPlugin | UIPRoot): void {
-    if (!this.activeSnippet) return;
-    this.setHtml(this.activeSnippet.html, modifier);
-    this.storage?.resetState();
+    if (this.activeSnippet) this.setHtml(this.activeSnippet.html, modifier);
   }
 
 
@@ -184,10 +178,6 @@ export class UIPStateModel extends SyntheticEventTarget {
     return this._snippets.find((snippet) => snippet.anchor === anchor);
   }
 
-  protected getStorageKey(modifier: UIPPlugin | UIPRoot): string {
-    return modifier instanceof UIPRoot ? modifier.storeKey : modifier.$root?.storeKey || '';
-  }
-
   /** Changes current active snippet */
   public applySnippet(
     snippet: UIPSnippetItem,
@@ -195,14 +185,9 @@ export class UIPStateModel extends SyntheticEventTarget {
   ): void {
     if (!snippet) return;
     this._snippets.forEach((s) => (s.active = s === snippet));
-
-    const storeKey = this.getStorageKey(modifier);
-    if (storeKey) this.storage = UIPStateStorage.for(storeKey, this);
-
-    const {js, html, note} = this.storage?.loadState() || snippet;
-    this.setHtml(html, modifier, true);
-    this.setJS(js, modifier);
-    this.setNote(note, modifier);
+    this.setHtml(snippet.html, modifier, true);
+    this.setJS(snippet.js, modifier);
+    this.setNote(snippet.note, modifier);
     this.dispatchEvent(
       new CustomEvent('uip:model:snippet:change', {detail: this})
     );
@@ -245,7 +230,6 @@ export class UIPStateModel extends SyntheticEventTarget {
     if (!this._changes.length) return;
     const detail = this._changes;
     this._changes = [];
-    this.storage?.saveState();
     this.dispatchEvent(
       new CustomEvent('uip:model:change', {detail})
     );
