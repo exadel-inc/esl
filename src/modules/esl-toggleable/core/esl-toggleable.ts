@@ -10,9 +10,9 @@ import {DelayedTask} from '../../esl-utils/async/delayed-task';
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {findParent, isMatches} from '../../esl-utils/dom/traversing';
 import {getKeyboardFocusableElements} from '../../esl-utils/dom/focus';
-import {ESLToggleableFocusManager} from './esl-toggleable-focus';
+import {ESLToggleableManager} from './esl-toggleable-manager';
 
-import type {ESLFocusFlowType} from './esl-toggleable-focus';
+import type {ESLA11yType} from './esl-toggleable-manager';
 import type {DelegatedEvent} from '../../esl-event-listener/core/types';
 
 /** Default Toggleable action params type definition */
@@ -117,13 +117,14 @@ export class ESLToggleable extends ESLBaseElement {
   @attr({parser: parseBoolean, serializer: toBooleanAttribute}) public closeOnOutsideAction: boolean;
 
   /**
-   * Focus behavior. Available values:
+   * Accessibility behavior. Available values:
    * - 'none' (default) - no focus management
-   * - 'grab' - focus on the first focusable element, does not affect focus flow or behavior after the last focusable element
-   * - 'chain' - focus on the first focusable element first and return focus to the activator after the last focusable element
-   * - 'loop' - focus on the first focusable element and loop through the focusable elements
+   * - 'autofocus' - focus on the first focusable element
+   * - 'popup' - focus on the first focusable element and return focus to the activator after the last focusable element
+   * - 'modal' - focus on the first focusable element and trap focus inside the Toggleable (close active popups)
+   * - 'dialog' - focus on the first focusable element and trap focus inside the Toggleable (don't close active popups)
    */
-  @attr({defaultValue: 'none'}) public focusBehavior: ESLFocusFlowType;
+  @attr({defaultValue: 'none'}) public a11y: ESLA11yType;
 
   /** Initial params to pass to show/hide action on the start */
   @jsonAttr<ESLToggleableActionParams>({defaultValue: {force: true, initiator: 'init'}})
@@ -186,10 +187,6 @@ export class ESLToggleable extends ESLBaseElement {
     }
   }
 
-  /** Bind outside action event listeners */
-  protected bindOutsideEventTracking(track: boolean): void {
-    track ? this.$$on(this._onOutsideAction) : this.$$off(this._onOutsideAction);
-  }
   /** Bind hover events listeners for the Toggleable itself */
   protected bindHoverStateTracking(track: boolean, hideDelay?: number | string): void {
     if (!hasHover) return;
@@ -199,16 +196,6 @@ export class ESLToggleable extends ESLBaseElement {
 
     track ? this.$$on(this._onMouseEnter) : this.$$off(this._onMouseEnter);
     track ? this.$$on(this._onMouseLeave) : this.$$off(this._onMouseLeave);
-  }
-
-  /** Focuses on the first focusable element or the element itself if it's focusable */
-  public override focus(options?: FocusOptions): void {
-    if (this.hasAttribute('tabindex')) {
-      super.focus(options);
-    } else {
-      const focusable = this.$focusables[0];
-      focusable && focusable.focus(options);
-    }
   }
 
   /** Function to merge the result action params */
@@ -226,7 +213,6 @@ export class ESLToggleable extends ESLBaseElement {
   public show(params?: ESLToggleableActionParams): ESLToggleable {
     params = this.mergeDefaultParams(params);
     this._task.put(this.showTask.bind(this, params), defined(params.showDelay, params.delay));
-    this.bindOutsideEventTracking(this.closeOnOutsideAction);
     this.bindHoverStateTracking(!!params.trackHover, defined(params.hideDelay, params.delay));
     return this;
   }
@@ -234,7 +220,6 @@ export class ESLToggleable extends ESLBaseElement {
   public hide(params?: ESLToggleableActionParams): ESLToggleable {
     params = this.mergeDefaultParams(params);
     this._task.put(this.hideTask.bind(this, params), defined(params.hideDelay, params.delay));
-    this.bindOutsideEventTracking(false);
     this.bindHoverStateTracking(!!params.trackHover, defined(params.hideDelay, params.delay));
     return this;
   }
@@ -254,7 +239,6 @@ export class ESLToggleable extends ESLBaseElement {
     if (!this.shouldHide(params)) return;
     if (!params.silent && !this.$$fire(this.BEFORE_HIDE_EVENT, {detail: {params}})) return;
     this.onHide(params);
-    this.bindOutsideEventTracking(false);
     if (!params.silent) this.$$fire(this.HIDE_EVENT, {detail: {params}, cancelable: false});
   }
 
@@ -281,7 +265,7 @@ export class ESLToggleable extends ESLBaseElement {
     }
 
     this.updateA11y();
-    this.focusManager.attach(this);
+    this.manager.attach(this);
 
     this.$$fire(this.REFRESH_EVENT); // To notify other components about content change
   }
@@ -308,7 +292,7 @@ export class ESLToggleable extends ESLBaseElement {
       $container && CSSClassUtils.remove($container, this.containerActiveClass, this);
     }
     this.updateA11y();
-    this.focusManager.detach(this, this.activator);
+    this.manager.detach(this, this.activator);
   }
 
   /** Active state marker */
@@ -320,8 +304,8 @@ export class ESLToggleable extends ESLBaseElement {
   }
 
   /** Focus manager instance */
-  public get focusManager(): ESLToggleableFocusManager {
-    return new ESLToggleableFocusManager();
+  public get manager(): ESLToggleableManager {
+    return new ESLToggleableManager();
   }
 
   /** Last component that has activated the element. Uses {@link ESLToggleableActionParams.activator}*/
@@ -361,8 +345,10 @@ export class ESLToggleable extends ESLBaseElement {
     const target = e.target as HTMLElement;
     // target is inside current toggleable
     if (this.contains(target)) return false;
-    // target is inside last activator
-    if (this.activator && this.activator.contains(target)) return false;
+
+    // target is inside chain of toggleables
+    if (this.manager && this.manager.isRelates(target, this)) return false;
+
     // Event is not a system command key
     return !(e instanceof KeyboardEvent && SYSTEM_KEYS.includes(e.key));
   }
@@ -374,18 +360,6 @@ export class ESLToggleable extends ESLBaseElement {
       activator: e.$delegate as HTMLElement,
       event: e
     });
-  }
-
-  @listen({
-    auto: false,
-    event: 'keydown mouseup touchend',
-    target: document,
-    capture: true
-  })
-  protected _onOutsideAction(e: Event): void {
-    if (!this.isOutsideAction(e)) return;
-    // Used 0 delay to decrease priority of the request
-    this.hide({initiator: 'outsideaction', hideDelay: 0, event: e});
   }
 
   @listen('keydown')

@@ -16,9 +16,22 @@ aside:
 <section>
   <h2>Nested Focusable Elements</h2>
 
-  <esl-trigger class="btn btn-sec-blue mb-2" target="::next">Open</esl-trigger>
+  <esl-trigger class="btn btn-sec-blue mb-2" target="#zone1">Open</esl-trigger>
+  <esl-trigger class="btn btn-sec-orange mb-2" target="#zone2">Zone 2</esl-trigger>
+  <esl-trigger class="btn btn-sec-orange mb-2" target="#popupForZone2">Popup for Zone 2</esl-trigger>
 
-  <esl-toggleable class="alert alert-info p-3" focus-behavior="loop" close-on-esc>
+
+  <esl-popup id="popupForZone2" position="bottom" position-origin="outer">
+    <div class="popup-content p-4">
+      <esl-trigger class="btn btn-sec-orange mb-2" target="#zone2">Open zone</esl-trigger>
+    </div>
+  </esl-popup>
+
+  <esl-toggleable id="zone1"
+                  class="alert alert-info p-3"
+                  a11y="modal"
+                  close-on-esc
+                  close-on-outside-action>
     Focus Trapped Zone
 
     <esl-trigger class="btn btn-link" target="#popup">Open Popup</esl-trigger>
@@ -27,7 +40,7 @@ aside:
         <p>{{ lorem.paragraph(1) }}</p>
         <a href="#">Test</a>
 
-        <esl-trigger class="btn btn-link" target="#popup4" track-hover>Nested Popup</esl-trigger>
+        <esl-trigger class="btn btn-link" target="#popup4" track-hover hover-hide-delay="250">Nested Popup</esl-trigger>
         <esl-popup id="popup4" position="top" position-origin="outer">
           <div class="popup-content p-2">
             <button class="btn btn-sec-blue">Button 1</button>
@@ -38,7 +51,7 @@ aside:
     </esl-popup>
 
     And some other popup content
-    <esl-trigger class="btn btn-link" target="#popup2" track-hover>Hover Popup</esl-trigger>
+    <esl-trigger class="btn btn-link" target="#popup2" track-hover hover-hide-delay="250">Hover Popup</esl-trigger>
     <esl-popup id="popup2" position="top" position-origin="outer">
       <div class="popup-content p-2" style="max-width: 400px">
         <p>{{ lorem.paragraph(1) }}</p>
@@ -58,5 +71,28 @@ aside:
       </div>
     </esl-popup>
 
+    <esl-trigger class="btn btn-sec-orange" target="#zone2">Zone 2</esl-trigger>
+  </esl-toggleable>
+
+  <esl-toggleable id="zone2"
+                  class="alert alert-alert p-3"
+                  a11y="modal"
+                  close-on=".close-button"
+                  close-on-esc
+                  close-on-outside-action>
+    <button type="button" class="close close-button" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+
+    <h2>Focus Trapped Zone 2</h2>
+    <p>{{ lorem.paragraph(1) }}</p>
+    <button class="btn btn-link">Focusable Button</button>
+
+    <esl-trigger class="btn btn-sec-blue" target="#popup5">Simple Popup</esl-trigger>
+    <esl-popup id="popup5" position="top" position-origin="outer">
+      <div class="popup-content p-2" style="max-width: 400px">
+        <p>{{ lorem.paragraph(1) }}</p>
+      </div>
+    </esl-popup>
   </esl-toggleable>
 </section>
