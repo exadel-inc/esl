@@ -1,3 +1,23 @@
+## [5.0.0-beta.42](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.41...v5.0.0-beta.42) (2024-12-10)
+
+### ⚠ BREAKING CHANGES
+
+* **esl-tooltip:** `disable-arrow` attribute removed from ESLTooltip component
+
+### Features
+
+* **esl-popup:** add offset-trigger attribute ([d4161f1](https://github.com/exadel-inc/esl/commit/d4161f10f9e15cfa24b1d01cbde731aeaf0f2dc8))
+* **esl-toggleable:** `_onOutsideAction` no longer part of ESLToggleable instance, now it's ESLToggleableManager responsibility ([573eece](https://github.com/exadel-inc/esl/commit/573eececb60fb5269b5b6e1c4cce37f7ebd4985e))
+* **esl-toggleable:** reimplementation of `focus-behaviour` to a11y mode ([d1d1500](https://github.com/exadel-inc/esl/commit/d1d15007fb94e756938121675f5ce2baacda7f44))
+* **esl-toggleable:** rework ESLToggleableManger to produce `FocusIn` outside event actions trough main flow + fix initial focus task ([23ed309](https://github.com/exadel-inc/esl/commit/23ed309dbd347718caf092f7850b8ba4f447ede1))
+* **esl-toggleable:** true related opening chain check support for toggleables ([72b849e](https://github.com/exadel-inc/esl/commit/72b849e625f04f834e32f805948dadff1bcbbd59))
+* **esl-tooltip:** remove disable-arrow attribute ([adbeb5d](https://github.com/exadel-inc/esl/commit/adbeb5d344180138a6860c094413339688aa624b))
+* **esl-utils:** extend params for the `getKeyboardFocusableElements` with full `VisibilityOptions` ([16b04ff](https://github.com/exadel-inc/esl/commit/16b04ff6643935941b62400e92a34bc893834963))
+
+### Bug Fixes
+
+* **esl-media:** fix conflict of alignment classes, move definition to the main mixin ([55589f2](https://github.com/exadel-inc/esl/commit/55589f26828e4279f2e59d28d70c61ad48648963))
+
 ## [5.0.0-beta.41](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.40...v5.0.0-beta.41) (2024-11-18)
 
 ### Bug Fixes
