@@ -11,8 +11,8 @@ import {UIPStateModel} from './model';
 import {UIPChangeEvent} from './model.change';
 import {UIPStateStorage} from './state.storage';
 
-import type {UIPChangeInfo} from './model.change';
 import type {UIPSnippetTemplate} from './snippet';
+import type {UIPChangeInfo} from './model.change';
 
 /**
  * UI Playground root custom element definition
