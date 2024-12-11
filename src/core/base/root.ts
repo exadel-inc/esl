@@ -9,7 +9,7 @@ import {
 
 import {UIPStateModel} from './model';
 import {UIPChangeEvent} from './model.change';
-import {UIPStateStorage} from './model.storage';
+import {UIPStateStorage} from './state.storage';
 
 import type {UIPChangeInfo} from './model.change';
 import type {UIPSnippetTemplate} from './snippet';
@@ -41,7 +41,7 @@ export class UIPRoot extends ESLBaseElement {
   /** Key to store UIP state in the local storage */
   @attr({defaultValue: ''}) public storeKey: string;
   /** State storage based on `storeKey` */
-  protected storage: UIPStateStorage;
+  public storage: UIPStateStorage | undefined;
 
   /** Indicates ready state of the uip-root */
   @boolAttr({readonly: true}) public ready: boolean;
@@ -65,7 +65,7 @@ export class UIPRoot extends ESLBaseElement {
 
   protected override connectedCallback(): void {
     super.connectedCallback();
-    this.storage = new UIPStateStorage(this.storeKey, this.model);
+    if (this.storeKey) this.storage = new UIPStateStorage(this.storeKey, this);
 
     this.model.snippets = this.$snippets;
     this.model.applyCurrentSnippet(this);
@@ -96,21 +96,8 @@ export class UIPRoot extends ESLBaseElement {
     }
   }
 
-  public resetSnippet(source: 'js' | 'html'): void {
-    this.storage.resetState(source, this);
-  }
-
-  public applySnippet(): void {
-    this.storage.loadState(this);
-  }
-
-  public saveSnippet(): void {
-    this.storage.saveState();
-  }
-
   @listen({event: 'uip:model:change', target: ($this: UIPRoot) => $this.model})
   protected onModelChange({detail}: CustomEvent<UIPChangeInfo[]>): void {
-    this.saveSnippet();
     this.dispatchEvent(new UIPChangeEvent(this.CHANGE_EVENT, this, detail));
   }
 
@@ -119,7 +106,6 @@ export class UIPRoot extends ESLBaseElement {
     target: ($this: UIPRoot) => $this.model
   })
   protected onSnippetChange({detail}: CustomEvent): void {
-    this.applySnippet();
     this.$$fire(this.SNIPPET_CHANGE_EVENT, {detail, bubbles: false});
   }
 }

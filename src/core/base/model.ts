@@ -14,6 +14,7 @@ import type {UIPRoot} from './root';
 import type {UIPPlugin} from './plugin';
 import type {UIPSnippetTemplate} from './snippet';
 import type {UIPChangeInfo} from './model.change';
+import type {UIPEditableSource} from './source';
 
 /** Type for function to change attribute's current value */
 export type TransformSignature = (
@@ -125,7 +126,7 @@ export class UIPStateModel extends SyntheticEventTarget {
     return this.normalizeJS(this.activeSnippet.js) !== this.js;
   }
 
-  public resetSnippet(source: 'js' | 'html', modifier: UIPPlugin | UIPRoot): void {
+  public reset(source: UIPEditableSource, modifier: UIPPlugin | UIPRoot): void {
     if (source === 'html') this.resetHTML(modifier);
     if (source === 'js') this.resetJS(modifier);
   }

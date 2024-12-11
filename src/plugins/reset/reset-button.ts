@@ -5,6 +5,8 @@ import {listen, attr, boolAttr} from '@exadel/esl/modules/esl-utils/decorators';
 import {UIPPluginButton} from '../../core/button/plugin-button';
 import {UIPRoot} from '../../core/base/root';
 
+import type {UIPEditableSource} from '../../core/base/source';
+
 /** Button-plugin to reset snippet to default settings */
 export class UIPReset extends UIPPluginButton {
   public static override is = 'uip-reset';
@@ -12,20 +14,16 @@ export class UIPReset extends UIPPluginButton {
   @boolAttr() public disabled: boolean;
 
   /** Source type to copy (html | js) */
-  @attr({defaultValue: 'html'}) public source: 'js' | 'javascript' | 'html';
-
-  protected get actualSrc(): 'js' | 'html' {
-    return this.source === 'javascript' ? 'js' : this.source;
-  }
+  @attr({defaultValue: 'html'}) public source: UIPEditableSource;
 
   public override onAction(): void {
-    this.$root?.resetSnippet(this.actualSrc);
+    this.$root?.storage!.resetState(this.source);
   }
 
   @listen({event: 'uip:model:change', target: ($this: UIPRoot) => $this.model})
   protected onModelChange(): void {
     if (!this.model || !this.model.activeSnippet) return;
-    if (this.actualSrc === 'js')  this.disabled = !this.model.isJSChanged();
-    if (this.actualSrc === 'html') this.disabled = !this.model.isHTMLChanged();
+    if (this.source === 'js')  this.disabled = !this.model.isJSChanged();
+    if (this.source === 'html') this.disabled = !this.model.isHTMLChanged();
   }
 }

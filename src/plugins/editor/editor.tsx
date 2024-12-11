@@ -17,6 +17,7 @@ import {EditorIcon} from './editor.icon';
 
 import type {UIPSnippetsList} from '../snippets-list/snippets-list';
 import type {UIPChangeEvent} from '../../core/base/model.change';
+import type {UIPEditableSource} from '../../core/base/source';
 
 /**
  * Editor {@link UIPPlugin} custom element definition
@@ -30,7 +31,7 @@ export class UIPEditor extends UIPPluginPanel {
   public static highlight = (editor: HTMLElement): void => Prism.highlightElement(editor, false);
 
   /** Source for Editor plugin (default: 'html') */
-  @attr({defaultValue: 'html'}) public source: 'js' | 'javascript' | 'html';
+  @attr({defaultValue: 'html'}) public source: UIPEditableSource;
 
   /** Marker to display copy widget */
   @boolAttr({name: 'copy'}) public showCopy: boolean;
@@ -143,30 +144,19 @@ export class UIPEditor extends UIPPluginPanel {
   @decorate(debounce, 2000)
   protected _onChange(): void {
     if (!this.editable) return;
-    switch (this.source) {
-      case 'js':
-      case 'javascript':
-        this.model!.setJS(this.value, this);
-        break;
-      case 'html':
-        this.model!.setHtml(this.value, this);
-    }
+    if (this.source === 'js') this.model!.setJS(this.value, this);
+    if (this.source === 'html') this.model!.setHtml(this.value, this);
   }
 
   /** Change editor's markup from markup state changes */
   @listen({event: 'uip:change', target: ($this: UIPEditor) => $this.$root})
   protected _onRootStateChange(e?: UIPChangeEvent): void {
     if (e && e.isOnlyModifier(this)) return;
-    switch (this.source) {
-      case 'js':
-      case 'javascript':
-        if (e && !e.jsChanges.length) return;
-        this.value = this.model!.js;
-        break;
-      case 'html':
-        if (e && !e.htmlChanges.length) return;
-        this.value = this.model!.html;
-    }
+
+    if (
+      (this.source === 'js' && (!e || e.jsChanges.length)) ||
+      (this.source === 'html' && (!e || e.htmlChanges.length))
+    ) this.value = this.model![this.source];
   }
 
   /** Handles snippet change to set readonly value */

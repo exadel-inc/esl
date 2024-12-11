@@ -3,10 +3,11 @@ import {overrideEvent} from '@exadel/esl/modules/esl-utils/dom';
 import type {UIPPlugin} from './plugin';
 import type {UIPRoot} from './root';
 import type {UIPStateModel} from './model';
+import type {UIPSource} from './source';
 
 export type UIPChangeInfo = {
   modifier: UIPPlugin | UIPRoot;
-  type: 'html' | 'js' | 'note';
+  type: UIPSource;
   force?: boolean;
 };
 

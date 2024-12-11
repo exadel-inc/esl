@@ -1,8 +1,9 @@
 import type {ESLBaseElementShape} from '@exadel/esl/modules/esl-base-element/core';
 import type {UIPReset} from './reset-button';
+import type {UIPEditableSource} from '../../core/base/source';
 
 export interface UIPResetShape extends ESLBaseElementShape<UIPReset> {
-  source?: 'javascript' | 'js' | 'html';
+  source?: UIPEditableSource;
   children?: any;
 }
 

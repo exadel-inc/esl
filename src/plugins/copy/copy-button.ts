@@ -4,6 +4,7 @@ import {attr} from '@exadel/esl/modules/esl-utils/decorators';
 import {UIPPluginButton} from '../../core/button/plugin-button';
 
 import type {ESLAlertActionParams} from '@exadel/esl/modules/esl-alert/core';
+import type {UIPEditableSource} from '../../core/base/source';
 
 /** Button-plugin to copy snippet to clipboard */
 export class UIPCopy extends UIPPluginButton {
@@ -11,7 +12,7 @@ export class UIPCopy extends UIPPluginButton {
   public static override defaultTitle = 'Copy to clipboard';
 
   /** Source type to copy (html | js) */
-  @attr({defaultValue: 'html'}) public source: string;
+  @attr({defaultValue: 'html'}) public source: UIPEditableSource;
 
   public static msgConfig: ESLAlertActionParams = {
     text: 'Playground content copied to clipboard',
@@ -20,14 +21,7 @@ export class UIPCopy extends UIPPluginButton {
 
   /** Content to copy */
   protected get content(): string | undefined {
-    switch (this.source) {
-      case 'js':
-      case 'javascript':
-        return this.model?.js;
-      case 'html':
-      default:
-        return this.model?.html;
-    }
+    if (this.source === 'js' || this.source === 'html') return this.model?.[this.source];
   }
 
   protected override connectedCallback(): void {
