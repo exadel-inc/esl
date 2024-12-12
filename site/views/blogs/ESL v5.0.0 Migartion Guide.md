@@ -57,8 +57,8 @@ The points not marked with `🔧` in the breaking changes section are covered by
       Note that `activator` property change now is the part of main toggleable flow.
     - `this.open` of Toggleables doesn't update until super.onShow/super.onHide is called. 
       Make sure you update `this.open` synchronously or manually notify consumers in case the super call of `onShow/onHide` should be postponed.
-  - #### A11y improvments and focus management (affects ESlPopup)
-    - `a11y` option introduced and now used to controll the focus management and a11y for `esl-popup`, `esl-tooltip` (footnotes), `esl-share`, `esl-select` (dropdown).
+  - #### A11y improvements and focus management (affects ESlPopup)
+    - `a11y` option introduced and now used to control the focus management and a11y for `esl-popup`, `esl-tooltip` (footnotes), `esl-share`, `esl-select` (dropdown).
       Option available on `ESLToggleable` level and controls focus flow and close on outside action feature.
   - #### ESL Triggers API Changes
     - `ESLTrigger` does not have target defined to `::next` by default. You should always define the target explicitly.
