@@ -1,5 +1,6 @@
 import type {ESLBaseElementShape} from '../../esl-base-element/core/esl-base-element.shape';
 import type {ESLToggleable} from './esl-toggleable';
+import type {ESLA11yType} from './esl-toggleable-manager';
 
 /**
  * Tag declaration interface of {@link ESLToggleable} element
@@ -20,13 +21,14 @@ export interface ESLToggleableTagShape<T extends ESLToggleable = ESLToggleable> 
   'open'?: boolean;
 
   /**
-   * Define focus behavior
-   *  - 'none' - no focus management
-   *  - 'grab' - focus on the first focusable element, does not affect focus flow or behavior after the last focusable element
-   *  - 'chain' - focus on the first focusable element first and return focus to the activator after the last focusable element
-   *  - 'loop' - focus on the first focusable element and loop through the focusable elements
+   * Define accessibility prototype. Available values:
+   * - 'none' (default) - no focus management
+   * - 'autofocus' - focus on the first focusable element
+   * - 'popup' - focus on the first focusable element and return focus to the activator after the last focusable element
+   * - 'modal' - focus on the first focusable element and trap focus inside the Toggleable (close active popups)
+   * - 'dialog' - focus on the first focusable element and trap focus inside the Toggleable (don't close active popups)
    */
-  'focus-behavior'?: 'none' | 'chain' | 'loop' | 'grab';
+  'a11y'?: ESLA11yType;
 
   /** Define Toggleable group meta information to organize groups */
   'group'?: string;
