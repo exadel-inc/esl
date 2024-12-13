@@ -1,10 +1,10 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {ESLPopup} from '../../esl-popup/core/esl-popup';
-import {bind, listen, memoize} from '../../esl-utils/decorators';
+import {ESLPopup, KEYSOF_POPUP_ACTION_PARAMS} from '../../esl-popup/core';
+import {bind, listen, memoize, prop} from '../../esl-utils/decorators';
 import {ESLShareButton} from './esl-share-button';
 import {ESLShareConfig} from './esl-share-config';
 
-import type {ESLPopupActionParams} from '../../esl-popup/core/esl-popup';
+import type {ESLPopupActionParams} from '../../esl-popup/core';
 import type {ESLShareButtonConfig} from './esl-share-config';
 
 export type {ESLSharePopupTagShape} from './esl-share-popup.shape';
@@ -16,7 +16,21 @@ function stringifyButtonsList(btns: ESLShareButtonConfig[]): string {
 export interface ESLSharePopupActionParams extends ESLPopupActionParams {
   /** list of social networks or groups of them to display */
   list?: string;
+  /** text directionality of tooltips content */
+  dir?: string;
+  /** language of tooltips text content */
+  lang?: string;
+  /** tooltip without arrow */
+  disableArrow?: boolean;
 }
+/** List of ESLSharePopupActionParams keys */
+export const KEYSOF_SHAREPOPUP_ACTION_PARAMS: string[] = [
+  ...KEYSOF_POPUP_ACTION_PARAMS,
+  'list',
+  'dir',
+  'lang',
+  'disableArrow'
+] as const;
 
 /**
  * ESLSharePopup component
@@ -52,6 +66,9 @@ export class ESLSharePopup extends ESLPopup {
   public static get sharedInstance(): ESLSharePopup {
     return ESLSharePopup.create();
   }
+
+  /** List of share popup params keys  */
+  @prop(KEYSOF_SHAREPOPUP_ACTION_PARAMS) public override PARAM_KEYS: string[];
 
   /** Hashstring with a list of buttons already rendered in the popup */
   protected _list: string = '';

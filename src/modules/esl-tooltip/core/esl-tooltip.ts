@@ -1,6 +1,6 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {ESLPopup} from '../../esl-popup/core';
-import {memoize} from '../../esl-utils/decorators';
+import {ESLPopup, KEYSOF_POPUP_ACTION_PARAMS} from '../../esl-popup/core';
+import {memoize, prop} from '../../esl-utils/decorators';
 
 import type {ESLPopupActionParams} from '../../esl-popup/core';
 
@@ -16,6 +16,14 @@ export interface ESLTooltipActionParams extends ESLPopupActionParams {
   /** tooltip without arrow */
   disableArrow?: boolean;
 }
+/** List of ESLTooltipActionParams keys */
+export const KEYSOF_TOOLTIP_ACTION_PARAMS: string[] = [
+  ...KEYSOF_POPUP_ACTION_PARAMS,
+  'text',
+  'html',
+  'dir',
+  'lang',
+  'disableArrow'] as const;
 
 /** @deprecated alias, use {@link ESLTooltipActionParams} instead. Will be removed in v5.0.0. */
 export type TooltipActionParams = ESLTooltipActionParams;
@@ -51,6 +59,9 @@ export class ESLTooltip extends ESLPopup {
   public static hide(params: ESLTooltipActionParams = {}): void {
     this.sharedInstance.hide(params);
   }
+
+  /** List of tooltip params keys  */
+  @prop(KEYSOF_TOOLTIP_ACTION_PARAMS) public override PARAM_KEYS: string[];
 
   public override connectedCallback(): void {
     super.connectedCallback();
