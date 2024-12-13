@@ -1,4 +1,6 @@
-import { ESLEventUtils, listen } from '@exadel/esl';
+import {ESLEventUtils} from '@exadel/esl/modules/esl-utils/dom';
+import {listen} from '@exadel/esl/modules/esl-utils/decorators';
+
 import type {UIPStateModel} from './model';
 import type {UIPRoot} from './root';
 import type {UIPEditableSource} from './source';
@@ -24,16 +26,6 @@ export class UIPStateStorage {
   public constructor(protected storeKey: string, protected root: UIPRoot) {
     this.model = root.model;
     ESLEventUtils.subscribe(this);
-  }
-
-  @listen({event: 'uip:model:change', target: ($this: UIPStateStorage) => $this.model})
-  protected _onModelChange(): void {
-    this.saveState()
-  }
-
-  @listen({event: 'uip:model:snippet:change', target: ($this: UIPStateStorage) => $this.model})
-  protected _onSnippetChange(): void {
-    this.loadState()
   }
 
   protected loadEntry(key: string): string | null {
@@ -89,5 +81,15 @@ export class UIPStateStorage {
     stateKey && this.removeEntry(stateKey);
 
     this.model.reset(source, this.root);
+  }
+
+  @listen({event: 'uip:model:change', target: ($this: UIPStateStorage) => $this.model})
+  protected _onModelChange(): void {
+    this.saveState()
+  }
+
+  @listen({event: 'uip:model:snippet:change', target: ($this: UIPStateStorage) => $this.model})
+  protected _onSnippetChange(): void {
+    this.loadState()
   }
 }
