@@ -1,5 +1,5 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {ESLPopup, KEYSOF_POPUP_ACTION_PARAMS} from '../../esl-popup/core';
+import {ESLPopup} from '../../esl-popup/core';
 import {memoize} from '../../esl-utils/decorators';
 
 import type {ESLPopupActionParams} from '../../esl-popup/core';
@@ -18,7 +18,7 @@ export interface ESLTooltipActionParams extends ESLPopupActionParams {
 }
 /** List of ESLTooltipActionParams keys */
 export const KEYSOF_TOOLTIP_ACTION_PARAMS: (keyof ESLTooltipActionParams)[] = [
-  ...KEYSOF_POPUP_ACTION_PARAMS,
+  ...ESLPopup.PARAM_KEYS,
   'text',
   'html',
   'dir',
@@ -36,6 +36,7 @@ export class ESLTooltip extends ESLPopup {
     hideDelay: 300
   };
 
+  /** List of action params keys */
   public static override PARAM_KEYS: string[] = KEYSOF_TOOLTIP_ACTION_PARAMS as string[];
 
   /** Shared instanse of Tooltip */

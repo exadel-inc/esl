@@ -1,5 +1,5 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {ESLPopup, KEYSOF_POPUP_ACTION_PARAMS} from '../../esl-popup/core';
+import {ESLPopup} from '../../esl-popup/core';
 import {bind, listen, memoize} from '../../esl-utils/decorators';
 import {ESLShareButton} from './esl-share-button';
 import {ESLShareConfig} from './esl-share-config';
@@ -25,7 +25,7 @@ export interface ESLSharePopupActionParams extends ESLPopupActionParams {
 }
 /** List of ESLSharePopupActionParams keys */
 export const KEYSOF_SHAREPOPUP_ACTION_PARAMS: (keyof ESLSharePopupActionParams)[] = [
-  ...KEYSOF_POPUP_ACTION_PARAMS,
+  ...ESLPopup.PARAM_KEYS,
   'list',
   'dir',
   'lang',
@@ -52,6 +52,7 @@ export class ESLSharePopup extends ESLPopup {
     hideDelay: 300
   };
 
+  /** List of action params keys */
   public static override PARAM_KEYS: string[] = KEYSOF_SHAREPOPUP_ACTION_PARAMS as string[];
 
   /** List of attributes to forward from the activator to the {@link ESLSharePopup} */

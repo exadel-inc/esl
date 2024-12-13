@@ -28,6 +28,7 @@ export class ESLPopup extends ESLToggleable {
     intersectionMargin: '0px'
   };
 
+  /** List of action params keys */
   public static PARAM_KEYS: string[] = KEYSOF_POPUP_ACTION_PARAMS as string[];
 
   /** Classname of popups arrow element */
