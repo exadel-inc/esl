@@ -21,7 +21,7 @@ export class UIPReset extends UIPPluginButton {
   }
 
   @listen({event: 'uip:model:change', target: ($this: UIPRoot) => $this.model})
-  protected onModelChange(): void {
+  protected _onModelChange(): void {
     if (!this.model || !this.model.activeSnippet) return;
     if (this.source === 'js')  this.disabled = !this.model.isJSChanged();
     if (this.source === 'html') this.disabled = !this.model.isHTMLChanged();

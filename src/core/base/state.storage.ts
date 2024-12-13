@@ -1,3 +1,4 @@
+import { ESLEventUtils, listen } from '@exadel/esl';
 import type {UIPStateModel} from './model';
 import type {UIPRoot} from './root';
 import type {UIPEditableSource} from './source';
@@ -22,36 +23,41 @@ export class UIPStateStorage {
 
   public constructor(protected storeKey: string, protected root: UIPRoot) {
     this.model = root.model;
-    this.addEventListeners();
+    ESLEventUtils.subscribe(this);
   }
 
-  protected addEventListeners(): void {
-    this.model.addEventListener('uip:model:change', () => this.saveState());
-    this.model.addEventListener('uip:model:snippet:change', () => this.loadState());
+  @listen({event: 'uip:model:change', target: ($this: UIPStateStorage) => $this.model})
+  protected _onModelChange(): void {
+    this.saveState()
+  }
+
+  @listen({event: 'uip:model:snippet:change', target: ($this: UIPStateStorage) => $this.model})
+  protected _onSnippetChange(): void {
+    this.loadState()
   }
 
   protected loadEntry(key: string): string | null {
-    const entry = (this.lsState[key] || {}) as UIPStateStorageEntry;
+    const entry = (this._lsState[key] || {}) as UIPStateStorageEntry;
     if (parseInt(entry?.ts, 10) + UIPStateStorage.EXPIRATION_TIME > Date.now()) return entry.snippets || null;
     this.removeEntry(key);
     return null;
   }
 
   protected saveEntry(key: string, value: string): void {
-    this.lsState = Object.assign(this.lsState, {[key]: {ts: Date.now(), snippets: value}});
+    this._lsState = Object.assign(this._lsState, {[key]: {ts: Date.now(), snippets: value}});
   }
 
   protected removeEntry(key: string): void {
-    const data = this.lsState;
-    delete this.lsState[key];
-    this.lsState = data;
+    const data = this._lsState;
+    delete this._lsState[key];
+    this._lsState = data;
   }
 
-  protected get lsState(): Record<string, any> {
+  protected get _lsState(): Record<string, any> {
     return JSON.parse(localStorage.getItem(UIPStateStorage.STORAGE_KEY) || '{}');
   }
   
-  protected set lsState(value: Record<string, any>) {
+  protected set _lsState(value: Record<string, any>) {
     localStorage.setItem(UIPStateStorage.STORAGE_KEY, JSON.stringify(value));
   }
 
