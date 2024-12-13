@@ -1,6 +1,6 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLPopup, KEYSOF_POPUP_ACTION_PARAMS} from '../../esl-popup/core';
-import {bind, listen, memoize, prop} from '../../esl-utils/decorators';
+import {bind, listen, memoize} from '../../esl-utils/decorators';
 import {ESLShareButton} from './esl-share-button';
 import {ESLShareConfig} from './esl-share-config';
 
@@ -24,7 +24,7 @@ export interface ESLSharePopupActionParams extends ESLPopupActionParams {
   disableArrow?: boolean;
 }
 /** List of ESLSharePopupActionParams keys */
-export const KEYSOF_SHAREPOPUP_ACTION_PARAMS: string[] = [
+export const KEYSOF_SHAREPOPUP_ACTION_PARAMS: (keyof ESLSharePopupActionParams)[] = [
   ...KEYSOF_POPUP_ACTION_PARAMS,
   'list',
   'dir',
@@ -52,6 +52,8 @@ export class ESLSharePopup extends ESLPopup {
     hideDelay: 300
   };
 
+  public static override PARAM_KEYS: string[] = KEYSOF_SHAREPOPUP_ACTION_PARAMS as string[];
+
   /** List of attributes to forward from the activator to the {@link ESLSharePopup} */
   public static forwardedAttrs = ['share-title', 'share-url'];
 
@@ -66,9 +68,6 @@ export class ESLSharePopup extends ESLPopup {
   public static get sharedInstance(): ESLSharePopup {
     return ESLSharePopup.create();
   }
-
-  /** List of share popup params keys  */
-  @prop(KEYSOF_SHAREPOPUP_ACTION_PARAMS) public override PARAM_KEYS: string[];
 
   /** Hashstring with a list of buttons already rendered in the popup */
   protected _list: string = '';

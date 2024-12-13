@@ -38,7 +38,7 @@ export interface ESLPopupActionParams extends ESLToggleableActionParams {
 export type ProxiedParams = Required<ESLPopupActionParams>;
 
 /** List of ESLPopupActionParams keys */
-export const KEYSOF_POPUP_ACTION_PARAMS: string[] = [
+export const KEYSOF_POPUP_ACTION_PARAMS: (keyof ESLPopupActionParams)[] = [
   'position',
   'positionOrigin',
   'behavior',

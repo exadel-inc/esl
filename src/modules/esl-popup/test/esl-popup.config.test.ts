@@ -17,7 +17,11 @@ describe('ESLPopup: proxy logic of config', () => {
   }
   TestPopup2.register();
 
-  const defaultAttributes: ESLPopupActionParams = {
+  const defaultAction: ESLPopupActionParams = {
+    action: 'show'
+  };
+
+  const defaultAttrs: ESLPopupActionParams = {
     position: 'top',
     positionOrigin: 'outer',
     behavior: 'fit',
@@ -43,12 +47,12 @@ describe('ESLPopup: proxy logic of config', () => {
   test('should return default attributes if the showing parameters and default parameters are missing', () => {
     $popup = new TestPopup1();
     $popup.show({});
-    expect({...$popup.config}).toEqual(defaultAttributes);
+    expect({...$popup.config}).toEqual({...defaultAttrs, ...defaultAction});
   });
 
   test('should return merging default parameters and default attributes if the showing parameters are missing', () => {
     $popup.show({});
-    expect({...$popup.config}).toEqual({...defaultAttributes, ...defaultParams});
+    expect({...$popup.config}).toEqual({...defaultAttrs, ...defaultParams, ...defaultAction});
   });
 
   test('should return merging showing parameters, default parameters, and default attributes', () => {
@@ -56,7 +60,7 @@ describe('ESLPopup: proxy logic of config', () => {
       extraClass: 'test-class'
     };
     $popup.show(params);
-    expect({...$popup.config}).toEqual({...defaultAttributes, ...defaultParams, ...params});
+    expect({...$popup.config}).toEqual({...defaultAttrs, ...defaultParams, ...params, ...defaultAction});
   });
 
   test('should have value from default params in the case also prop defined via attributes', () => {
@@ -90,7 +94,7 @@ describe('ESLPopup: proxy logic of config', () => {
     const entries = Object.entries($popup.config);
     expect(entries).toEqual(expect.arrayContaining([
       ...Object.entries(defaultParams),
-      ...Object.entries(defaultAttributes)
+      ...Object.entries(defaultAttrs)
     ]));
   });
 
@@ -102,9 +106,19 @@ describe('ESLPopup: proxy logic of config', () => {
       extraStyle: 'color: red'
     };
     $popup.show(params1);
-    expect({...$popup.config}).toEqual({...defaultAttributes, ...defaultParams, ...params1});
+    expect({...$popup.config}).toEqual({...defaultAttrs, ...defaultParams, ...params1, ...defaultAction});
     $popup.hide();
     $popup.show(params2);
-    expect({...$popup.config}).toEqual({...defaultAttributes, ...defaultParams, ...params2});
+    expect({...$popup.config}).toEqual({...defaultAttrs, ...defaultParams, ...params2, ...defaultAction});
+  });
+
+  test('should be updated after attribure changing', () => {
+    const params: ESLPopupActionParams = {
+      extraClass: 'test-class'
+    };
+    $popup.show(params);
+    expect({...$popup.config}).toEqual({...defaultAttrs, ...defaultParams, ...params, ...defaultAction});
+    $popup.container = '::prev';
+    expect({...$popup.config}).toEqual({...defaultAttrs, container: '::prev', ...defaultParams, ...params, ...defaultAction});
   });
 });

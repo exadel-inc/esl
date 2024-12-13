@@ -1,12 +1,11 @@
 import {range} from '../../esl-utils/misc/array';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {bind, memoize, ready, attr, boolAttr, jsonAttr, listen, decorate, prop} from '../../esl-utils/decorators';
+import {bind, memoize, ready, attr, boolAttr, jsonAttr, listen, decorate} from '../../esl-utils/decorators';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {afterNextRender, rafDecorator} from '../../esl-utils/async/raf';
 import {ESLToggleable} from '../../esl-toggleable/core';
 import {isElement, isRelativeNode, isRTL, Rect, getListScrollParents, getViewportRect} from '../../esl-utils/dom';
 import {parseBoolean, parseNumber, toBooleanAttribute} from '../../esl-utils/misc/format';
-import {copyDefinedKeys} from '../../esl-utils/misc/object';
 import {ESLIntersectionTarget, ESLIntersectionEvent} from '../../esl-event-listener/core/targets/intersection.target';
 import {calcPopupPosition, isOnHorizontalAxis} from './esl-popup-position';
 import {ESLPopupPlaceholder} from './esl-popup-placeholder';
@@ -19,26 +18,6 @@ import type {ESLPopupActionParams, ProxiedParams} from './esl-popup-types';
 const INTERSECTION_LIMIT_FOR_ADJACENT_AXIS = 0.7;
 const DEFAULT_OFFSET_ARROW = 50;
 
-function buildConfig(params: ESLPopupActionParams, popup: ESLPopup): ProxiedParams {
-  return new Proxy<ProxiedParams>(params as ProxiedParams, {
-    get<T extends keyof ESLPopupActionParams>(target: ESLPopupActionParams, p: T | symbol): ESLPopupActionParams[T] {
-      return Reflect.get(target, p) ?? Reflect.get(popup, p);
-    },
-    set: (): boolean => false,
-    deleteProperty: (): boolean => false,
-    has<T extends keyof ESLPopupActionParams>(target: ESLPopupActionParams, p: T | symbol): boolean {
-      return Reflect.has(target, p) || Reflect.has(popup, p);
-    },
-    ownKeys(target: ESLPopupActionParams): (string | symbol)[] {
-      const paramKeys = Reflect.ownKeys(target);
-      const popupKeys = popup.PARAM_KEYS
-        .filter((key: string) => !paramKeys.includes(key) && Reflect.has(popup, key as keyof ESLPopup));
-      return [...paramKeys, ...popupKeys];
-    },
-    getOwnPropertyDescriptor: (): PropertyDescriptor | undefined => ({enumerable: true, configurable: true})
-  });
-}
-
 @ExportNs('Popup')
 export class ESLPopup extends ESLToggleable {
   public static override is = 'esl-popup';
@@ -49,8 +28,7 @@ export class ESLPopup extends ESLToggleable {
     intersectionMargin: '0px'
   };
 
-  /** List of popup params keys  */
-  @prop(KEYSOF_POPUP_ACTION_PARAMS) public PARAM_KEYS: string[];
+  public static PARAM_KEYS: string[] = KEYSOF_POPUP_ACTION_PARAMS as string[];
 
   /** Classname of popups arrow element */
   @attr({defaultValue: 'esl-popup-arrow'}) public arrowClass: string;
@@ -103,14 +81,31 @@ export class ESLPopup extends ESLToggleable {
   public override a11y: ESLA11yType;
 
   public $placeholder: ESLPopupPlaceholder | null;
-  public config: ProxiedParams;
 
-  /** Store params and create proxied config */
-  protected set params(value: ESLPopupActionParams) {
-    this._params = copyDefinedKeys(value);
-    this.config = buildConfig(this._params, this);
+  @memoize()
+  public get config(): ProxiedParams {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    const $popup = this;
+    return new Proxy<ProxiedParams>({} as ProxiedParams, {
+      get<T extends keyof ESLPopupActionParams>(target: ESLPopupActionParams, p: T | symbol): ESLPopupActionParams[T] {
+        return Reflect.get($popup._params, p) ?? Reflect.get($popup, p);
+      },
+      set: (): boolean => false,
+      deleteProperty: (): boolean => false,
+      has<T extends keyof ESLPopupActionParams>(target: ESLPopupActionParams, p: T | symbol): boolean {
+        return Reflect.has($popup._params, p) || Reflect.has($popup, p);
+      },
+      ownKeys(target: ESLPopupActionParams): (string | symbol)[] {
+        const paramKeys = Reflect.ownKeys($popup._params);
+        const popupKeys = ($popup.constructor as typeof ESLPopup).PARAM_KEYS
+          .filter((key: string) => !paramKeys.includes(key) && Reflect.has($popup, key as keyof ESLPopup));
+        return [...paramKeys, ...popupKeys];
+      },
+      getOwnPropertyDescriptor: (): PropertyDescriptor | undefined => ({enumerable: true, configurable: true})
+    });
   }
-  protected _params: ESLPopupActionParams;
+
+  protected _params: ESLPopupActionParams = {};
   protected _intersectionRatio: IntersectionRatioRect = {};
   protected _updateLoopID: number;
 
@@ -131,11 +126,6 @@ export class ESLPopup extends ESLToggleable {
   protected get containerRect(): Rect {
     if (!this.$container) return getViewportRect();
     return Rect.from(this.$container).shift(window.scrollX, window.scrollY);
-  }
-
-  public constructor() {
-    super();
-    this.params = {};
   }
 
   @ready
@@ -200,7 +190,7 @@ export class ESLPopup extends ESLToggleable {
     }
 
     super.onShow(params);
-    this.params = params;
+    this._params = params;
 
     this.style.visibility = 'hidden'; // eliminates the blinking of the popup at the previous position
 
