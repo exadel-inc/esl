@@ -25,9 +25,6 @@ export const KEYSOF_TOOLTIP_ACTION_PARAMS: string[] = [
   'lang',
   'disableArrow'] as const;
 
-/** @deprecated alias, use {@link ESLTooltipActionParams} instead. Will be removed in v5.0.0. */
-export type TooltipActionParams = ESLTooltipActionParams;
-
 @ExportNs('Tooltip')
 export class ESLTooltip extends ESLPopup {
   static override is = 'esl-tooltip';

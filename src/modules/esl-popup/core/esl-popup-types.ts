@@ -35,9 +35,6 @@ export interface ESLPopupActionParams extends ESLToggleableActionParams {
   extraStyle?: string;
 }
 
-/** @deprecated alias, use {@link ESLPopupActionParams} instead, will be removed in v5.0.0 */
-export type PopupActionParams = ESLPopupActionParams;
-
 export type ProxiedParams = Required<ESLPopupActionParams>;
 
 /** List of ESLPopupActionParams keys */
