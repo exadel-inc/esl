@@ -101,6 +101,8 @@ export class ESLMedia extends ESLBaseElement {
   @boolAttr() public playInViewport: boolean;
   /** Allows to start viewing a resource from a specific time offset. */
   @attr({parser: parseInt}) public startTime: number;
+  /** role="presentation" makes element unfocusable */
+  @attr({defaultValue: 'application'}) public override role: 'application' | 'presentation';
 
   /** Preload resource */
   @attr({defaultValue: 'auto'}) public preload: 'none' | 'metadata' | 'auto' | '';

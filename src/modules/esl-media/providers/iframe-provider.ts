@@ -32,7 +32,7 @@ export class IframeBasicProvider extends BaseProvider {
     el.title = this.config.title;
     el.setAttribute('aria-label', this.config.title);
     el.setAttribute('frameborder', '0');
-    el.setAttribute('tabindex', '0');
+    el.setAttribute('tabindex', this.config.isFocusable ? '0' : '-1');
     el.setAttribute('scrolling', 'no');
     el.setAttribute('allowfullscreen', 'yes');
     el.toggleAttribute('playsinline', this.config.playsinline);
