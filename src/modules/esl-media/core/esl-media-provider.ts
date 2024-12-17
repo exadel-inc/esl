@@ -23,7 +23,7 @@ export interface MediaProviderConfig {
   preload?: 'none' | 'metadata' | 'auto' | '';
   playsinline?: boolean;
   startTime?: number;
-  isFocusable?: boolean;
+  focusable?: boolean;
 }
 
 export type ProviderType = (new(component: ESLMedia, config: MediaProviderConfig) => BaseProvider) & typeof BaseProvider;
@@ -41,8 +41,8 @@ export abstract class BaseProvider {
     return null;
   }
   static parseConfig(component: ESLMedia): MediaProviderConfig {
-    const {loop, muted, controls, autoplay, title, preload, playsinline, mediaId, mediaSrc, startTime, isFocusable} = component;
-    const config = {loop, muted, controls, autoplay, title, preload, playsinline, startTime, isFocusable};
+    const {loop, muted, controls, autoplay, title, preload, playsinline, mediaId, mediaSrc, startTime, focusable} = component;
+    const config = {loop, muted, controls, autoplay, title, preload, playsinline, startTime, focusable};
     if (mediaId) Object.assign(config, {mediaId});
     if (mediaSrc) Object.assign(config, {mediaSrc});
     return config;

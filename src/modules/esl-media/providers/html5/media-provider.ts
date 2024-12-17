@@ -25,7 +25,7 @@ export abstract class HTMLMediaProvider extends BaseProvider {
     el.loop = cfg.loop;
     el.muted = cfg.muted;
     el.controls = cfg.controls;
-    el.tabIndex = cfg.isFocusable ? 0 : -1;
+    el.tabIndex = cfg.focusable ? 0 : -1;
     el.toggleAttribute('playsinline', cfg.playsinline);
     return el;
   }

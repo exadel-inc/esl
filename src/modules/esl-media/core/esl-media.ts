@@ -5,7 +5,7 @@ import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {SPACE, PAUSE} from '../../esl-utils/dom/keys';
 import {prop, attr, boolAttr, listen} from '../../esl-utils/decorators';
 import {debounce} from '../../esl-utils/async';
-import {parseAspectRatio} from '../../esl-utils/misc/format';
+import {parseAspectRatio, parseBoolean} from '../../esl-utils/misc/format';
 
 import {ESLMediaQuery} from '../../esl-media-query/core';
 import {ESLResizeObserverTarget} from '../../esl-event-listener/core';
@@ -101,6 +101,9 @@ export class ESLMedia extends ESLBaseElement {
   @boolAttr() public playInViewport: boolean;
   /** Allows to start viewing a resource from a specific time offset. */
   @attr({parser: parseInt}) public startTime: number;
+  /** Allows player to accept focus */
+  @attr({parser: parseBoolean, defaultValue: ($this: ESLMedia) => $this.controls}) public focusable: boolean;
+
 
   /** Preload resource */
   @attr({defaultValue: 'auto'}) public preload: 'none' | 'metadata' | 'auto' | '';
@@ -152,10 +155,6 @@ export class ESLMedia extends ESLBaseElement {
    */
   static get PLAYER_STATES(): typeof PlayerStates {
     return PlayerStates;
-  }
-
-  public get isFocusable(): boolean {
-    return this.getAttribute('role') !== 'presentation';
   }
 
   static supports(name: string): boolean {
