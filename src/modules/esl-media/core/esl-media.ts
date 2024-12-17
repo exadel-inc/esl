@@ -101,8 +101,6 @@ export class ESLMedia extends ESLBaseElement {
   @boolAttr() public playInViewport: boolean;
   /** Allows to start viewing a resource from a specific time offset. */
   @attr({parser: parseInt}) public startTime: number;
-  /** role="presentation" makes element unfocusable */
-  @attr({defaultValue: 'application'}) public override role: 'application' | 'presentation';
 
   /** Preload resource */
   @attr({defaultValue: 'auto'}) public preload: 'none' | 'metadata' | 'auto' | '';
@@ -154,6 +152,10 @@ export class ESLMedia extends ESLBaseElement {
    */
   static get PLAYER_STATES(): typeof PlayerStates {
     return PlayerStates;
+  }
+
+  public get isFocusable(): boolean {
+    return this.getAttribute('role') !== 'presentation';
   }
 
   static supports(name: string): boolean {
