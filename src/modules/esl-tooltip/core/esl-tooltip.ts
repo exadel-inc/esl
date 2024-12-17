@@ -16,9 +16,9 @@ export interface ESLTooltipActionParams extends ESLPopupActionParams {
   /** tooltip without arrow */
   disableArrow?: boolean;
 }
-/** List of ESLTooltipActionParams keys */
-export const KEYSOF_TOOLTIP_ACTION_PARAMS: (keyof ESLTooltipActionParams)[] = [
-  ...ESLPopup.PARAM_KEYS,
+/** List of ESLTooltip config keys */
+export const ESL_TOOLTIP_CONFIG_KEYS: (keyof ESLTooltipActionParams)[] = [
+  ...ESLPopup.CONFIG_KEYS,
   'text',
   'html',
   'dir',
@@ -36,8 +36,8 @@ export class ESLTooltip extends ESLPopup {
     hideDelay: 300
   };
 
-  /** List of action params keys */
-  public static override PARAM_KEYS: string[] = KEYSOF_TOOLTIP_ACTION_PARAMS as string[];
+  /** List of config keys */
+  public static override CONFIG_KEYS: string[] = ESL_TOOLTIP_CONFIG_KEYS as string[];
 
   /** Shared instanse of Tooltip */
   @memoize()

@@ -23,9 +23,9 @@ export interface ESLSharePopupActionParams extends ESLPopupActionParams {
   /** tooltip without arrow */
   disableArrow?: boolean;
 }
-/** List of ESLSharePopupActionParams keys */
-export const KEYSOF_SHAREPOPUP_ACTION_PARAMS: (keyof ESLSharePopupActionParams)[] = [
-  ...ESLPopup.PARAM_KEYS,
+/** List of ESLSharePopup config keys */
+export const ESL_SHARE_POPUP_CONFIG_KEYS: (keyof ESLSharePopupActionParams)[] = [
+  ...ESLPopup.CONFIG_KEYS,
   'list',
   'dir',
   'lang',
@@ -52,8 +52,8 @@ export class ESLSharePopup extends ESLPopup {
     hideDelay: 300
   };
 
-  /** List of action params keys */
-  public static override PARAM_KEYS: string[] = KEYSOF_SHAREPOPUP_ACTION_PARAMS as string[];
+  /** List of config keys */
+  public static override CONFIG_KEYS: string[] = ESL_SHARE_POPUP_CONFIG_KEYS as string[];
 
   /** List of attributes to forward from the activator to the {@link ESLSharePopup} */
   public static forwardedAttrs = ['share-title', 'share-url'];

@@ -9,7 +9,7 @@ import {parseBoolean, parseNumber, toBooleanAttribute} from '../../esl-utils/mis
 import {ESLIntersectionTarget, ESLIntersectionEvent} from '../../esl-event-listener/core/targets/intersection.target';
 import {calcPopupPosition, isOnHorizontalAxis} from './esl-popup-position';
 import {ESLPopupPlaceholder} from './esl-popup-placeholder';
-import {KEYSOF_POPUP_ACTION_PARAMS} from './esl-popup-types';
+import {ESL_POPUP_CONFIG_KEYS} from './esl-popup-types';
 
 import type {ESLToggleableActionParams, ESLA11yType} from '../../esl-toggleable/core';
 import type {PopupPositionConfig, PositionType, PositionOriginType, IntersectionRatioRect} from './esl-popup-position';
@@ -28,8 +28,8 @@ export class ESLPopup extends ESLToggleable {
     intersectionMargin: '0px'
   };
 
-  /** List of action params keys */
-  public static PARAM_KEYS: string[] = KEYSOF_POPUP_ACTION_PARAMS as string[];
+  /** List of config keys */
+  public static CONFIG_KEYS: string[] = ESL_POPUP_CONFIG_KEYS as string[];
 
   /** Classname of popups arrow element */
   @attr({defaultValue: 'esl-popup-arrow'}) public arrowClass: string;
@@ -98,7 +98,7 @@ export class ESLPopup extends ESLToggleable {
       },
       ownKeys(target: ESLPopupActionParams): (string | symbol)[] {
         const paramKeys = Reflect.ownKeys($popup._params);
-        const popupKeys = ($popup.constructor as typeof ESLPopup).PARAM_KEYS
+        const popupKeys = ($popup.constructor as typeof ESLPopup).CONFIG_KEYS
           .filter((key: string) => !paramKeys.includes(key) && Reflect.has($popup, key as keyof ESLPopup));
         return [...paramKeys, ...popupKeys];
       },
