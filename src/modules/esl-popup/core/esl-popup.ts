@@ -6,6 +6,7 @@ import {afterNextRender, rafDecorator} from '../../esl-utils/async/raf';
 import {ESLToggleable} from '../../esl-toggleable/core';
 import {isElement, isRelativeNode, isRTL, Rect, getListScrollParents, getViewportRect} from '../../esl-utils/dom';
 import {parseBoolean, parseNumber, toBooleanAttribute} from '../../esl-utils/misc/format';
+import {copy} from '../../esl-utils/misc/object/copy';
 import {ESLIntersectionTarget, ESLIntersectionEvent} from '../../esl-event-listener/core/targets/intersection.target';
 import {calcPopupPosition, isOnHorizontalAxis} from './esl-popup-position';
 import {ESLPopupPlaceholder} from './esl-popup-placeholder';
@@ -191,7 +192,7 @@ export class ESLPopup extends ESLToggleable {
     }
 
     super.onShow(params);
-    this._params = params;
+    this._params = copy(params, (key: string) => (this.constructor as typeof ESLPopup).CONFIG_KEYS.includes(key));
 
     this.style.visibility = 'hidden'; // eliminates the blinking of the popup at the previous position
 
@@ -209,6 +210,7 @@ export class ESLPopup extends ESLToggleable {
     this.beforeOnHide(params);
     super.onHide(params);
     this.afterOnHide(params);
+    this._params = {};
   }
 
   /**
