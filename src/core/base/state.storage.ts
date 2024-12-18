@@ -61,9 +61,9 @@ export class UIPStateStorage {
     if (!state) return; 
     
     const stateobj = JSON.parse(state) as UIPStateModelSnippets;
-    this.model.setHtml(stateobj.html, this as any, true);
-    this.model.setJS(stateobj.js, this as any);
-    this.model.setNote(stateobj.note, this as any);
+    this.model.setHtml(stateobj.html, this, true);
+    this.model.setJS(stateobj.js, this);
+    this.model.setNote(stateobj.note, this);
   }
 
   public saveState(): void {
@@ -76,7 +76,7 @@ export class UIPStateStorage {
     const stateKey = this.getStateKey();
     stateKey && this.removeEntry(stateKey);
 
-    this.model.reset(source, this as any);
+    this.model.reset(source, this);
   }
 
   @listen({event: 'uip:model:change', target: ($this: UIPStateStorage) => $this.model})

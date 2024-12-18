@@ -5,8 +5,10 @@ import type {UIPRoot} from './root';
 import type {UIPStateModel} from './model';
 import type {UIPSource} from './source';
 
+export type UIPModifier = UIPPlugin | UIPRoot | object;
+
 export type UIPChangeInfo = {
-  modifier: UIPPlugin | UIPRoot;
+  modifier: UIPModifier;
   type: UIPSource;
   force?: boolean;
 };
@@ -39,7 +41,7 @@ export class UIPChangeEvent extends Event {
     return this.changes.filter((change) => change.type === 'html');
   }
 
-  public isOnlyModifier(modifier: UIPPlugin | UIPRoot): boolean {
+  public isOnlyModifier(modifier: UIPModifier): boolean {
     return this.changes.every((change) => change.modifier === modifier);
   }
 }
