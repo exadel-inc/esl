@@ -20,7 +20,7 @@ export abstract class HTMLMediaProvider extends BaseProvider {
 
   protected static applyElementSettings(el: HTMLMediaElement, cfg: MediaProviderConfig): HTMLMediaElement {
     el.classList.add('esl-media-inner');
-    el.autoplay = cfg.autoplay;
+    el.autoplay = !!cfg.autoplay;
     el.preload = cfg.preload || 'auto' ;
     el.loop = cfg.loop;
     el.muted = cfg.muted;
