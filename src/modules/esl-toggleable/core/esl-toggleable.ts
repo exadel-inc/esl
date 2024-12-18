@@ -349,6 +349,9 @@ export class ESLToggleable extends ESLBaseElement {
     // target is inside chain of toggleables
     if (this.manager && this.manager.isRelates(target, this)) return false;
 
+    // ignore event on the activator
+    if (this.activator && !(e instanceof FocusEvent) && this.activator.contains(target)) return false;
+
     // Event is not a system command key
     return !(e instanceof KeyboardEvent && SYSTEM_KEYS.includes(e.key));
   }
