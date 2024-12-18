@@ -1,6 +1,12 @@
 import {isObject} from '../../esl-utils/misc/object/types';
+import {isSimilar} from '../../esl-utils/misc/object/compare';
 
-import type {ESLListenerDescriptorExt, ESLListenerDescriptorFn} from './types';
+import type {
+  ESLListenerDescriptorCriteria,
+  ESLListenerDescriptor,
+  ESLListenerDescriptorExt,
+  ESLListenerDescriptorFn
+} from './types';
 
 /** Key to store listeners on the host */
 const DESCRIPTORS = (window.Symbol || String)('__esl_descriptors');
@@ -39,12 +45,25 @@ export function isEventDescriptor(obj: any): obj is ESLListenerDescriptorFn {
   return typeof obj.event === 'string' || typeof obj.event === 'function';
 }
 
-/** Gets {@link ESLListenerDescriptorFn}s of the passed object */
-export function getAutoDescriptors(host: object): ESLListenerDescriptorFn[] {
+/** Checks if the descriptor (passed as a context) matches the criteria */
+function isMatchesDescriptor(
+  this: ESLListenerDescriptor,
+  criteria: ESLListenerDescriptorCriteria
+): boolean {
+  if (typeof criteria === 'string') return this.event === criteria;
+  if (typeof criteria === 'object') return isSimilar(this, criteria, false);
+  return false;
+}
+
+/** Gets {@link ESLListenerDescriptorFn}s of the passed object that matches passed criterias */
+export function getDescriptors(
+  host: object,
+  ...criteria: ESLListenerDescriptorCriteria[]
+): ESLListenerDescriptorFn[] {
   if (!isObject(host)) return [];
   const keys = getDescriptorsKeysFor(host);
-  const values = keys.map((key) => host[key]);
-  return values.filter((desc: ESLListenerDescriptorFn) => isEventDescriptor(desc) && desc.auto === true);
+  const values = keys.map((key) => host[key]).filter(isEventDescriptor);
+  return values.filter((desc) => criteria.every(isMatchesDescriptor, Object.assign({}, desc)));
 }
 
 /**
@@ -60,17 +79,17 @@ export function initDescriptor<T extends object>(
   desc: ESLListenerDescriptorExt
 ): ESLListenerDescriptorFn {
   const fn = host[key];
-  if (typeof fn !== 'function') throw new TypeError(`[ESL] Init Descriptor: ${key} is not a function`);
+  if (typeof fn !== 'function') throw new TypeError(`[ESL] Descriptor '${key}' is not a function`);
 
   // Inherit event meta information from the prototype key
   if (desc.inherit) {
     const superDesc = Object.getPrototypeOf(host)[key];
-    if (!isEventDescriptor(superDesc)) throw new ReferenceError(`[ESL] Init Descriptor: no parent event descriptor found for ${key}`);
+    if (!isEventDescriptor(superDesc)) throw new ReferenceError(`[ESL] No parent event descriptor found for '${key}'`);
     desc = Object.assign({auto: false}, superDesc, desc);
   } else {
     desc = Object.assign({auto: false}, desc);
   }
 
-  if (desc.auto) addDescriptorKey(host, key);
+  addDescriptorKey(host, key);
   return Object.assign(fn, desc) as ESLListenerDescriptorFn;
 }

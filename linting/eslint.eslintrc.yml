@@ -1,6 +1,0 @@
-# Specific lint overrides
-overrides:
-  - files:
-      - 'eslint/src/**/*.ts'
-    rules:
-      'import/no-default-export': off

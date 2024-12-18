@@ -19,11 +19,15 @@ export interface ESLPopupTagShape<T extends ESLPopup = ESLPopup> extends ESLTogg
   'margin-arrow'?: string;
   /** Offset of the arrow as a percentage of the popup edge (0% - at the left edge, 100% - at the right edge, for RTL it is vice versa) */
   'offset-arrow'?: string;
+  /** Offset from the trigger element */
+  'offset-trigger'?: string;
   /**
    * Popup position relative to the trigger.
    * Currently supported: 'top', 'bottom', 'left', 'right' position types ('top' by default)
    */
   position?: PositionType;
+  /** clarification of the popup position, whether it should start on the outside of trigger or the inside of trigger ('outer' by default) */
+  'position-origin'?: 'inner' | 'outer';
 
   /** Default params to merge into passed action params */
   'default-params'?: string;

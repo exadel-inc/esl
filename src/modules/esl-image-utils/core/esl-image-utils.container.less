@@ -1,0 +1,27 @@
+// Image Container Defaults
+.img-container {
+  position: relative;
+
+  > img {
+    width: 100%;
+  }
+
+  > img:is(.img-stretch, .img-cover, .img-contain) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+  }
+}
+
+img.img-cover {
+  object-fit: cover;
+}
+
+img.img-contain {
+  object-fit: contain;
+}
+
+picture.img-container {
+  display: block;
+}

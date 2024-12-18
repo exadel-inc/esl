@@ -38,7 +38,7 @@ export class YouTubeProvider extends BaseProvider {
         window.onYouTubeIframeAPIReady = (): void => {
           try {
             (typeof cbOrigin === 'function') && cbOrigin.apply(window);
-          } catch (err) { // eslint-disable-line
+          } catch (err) {
             // Do Nothing
           }
           return resolve(window.YT);
@@ -54,7 +54,7 @@ export class YouTubeProvider extends BaseProvider {
       origin: location.origin,
       rel: 0,
       showinfo: 0,
-      iv_load_policy: 3, // eslint-disable-line
+      iv_load_policy: 3,
       autoplay: Number(cfg.autoplay),
       controls: Number(cfg.controls),
       playsinline: Number(cfg.playsinline),
@@ -71,7 +71,7 @@ export class YouTubeProvider extends BaseProvider {
     el.title = sm.title;
     el.setAttribute('aria-label', el.title);
     el.setAttribute('frameborder', '0');
-    el.setAttribute('tabindex', '0');
+    el.setAttribute('tabindex', sm.focusable ? '0' : '-1');
     el.setAttribute('allowfullscreen', 'yes');
     return el;
   }
