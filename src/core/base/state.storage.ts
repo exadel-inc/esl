@@ -2,7 +2,6 @@ import {ESLEventUtils} from '@exadel/esl/modules/esl-utils/dom';
 import {listen} from '@exadel/esl/modules/esl-utils/decorators';
 
 import type {UIPStateModel} from './model';
-import type {UIPRoot} from './root';
 import type {UIPEditableSource} from './source';
 
 interface UIPStateStorageEntry {
@@ -21,10 +20,7 @@ export class UIPStateStorage {
 
   protected static readonly EXPIRATION_TIME = 3600000 * 12; // 12 hours
 
-  protected model: UIPStateModel;
-
-  public constructor(protected storeKey: string, protected root: UIPRoot) {
-    this.model = root.model;
+  public constructor(protected storeKey: string, protected model: UIPStateModel) {
     ESLEventUtils.subscribe(this);
   }
 
@@ -65,9 +61,9 @@ export class UIPStateStorage {
     if (!state) return; 
     
     const stateobj = JSON.parse(state) as UIPStateModelSnippets;
-    this.model.setHtml(stateobj.html, this.root, true);
-    this.model.setJS(stateobj.js, this.root);
-    this.model.setNote(stateobj.note, this.root);
+    this.model.setHtml(stateobj.html, this as any, true);
+    this.model.setJS(stateobj.js, this as any);
+    this.model.setNote(stateobj.note, this as any);
   }
 
   public saveState(): void {
@@ -80,7 +76,7 @@ export class UIPStateStorage {
     const stateKey = this.getStateKey();
     stateKey && this.removeEntry(stateKey);
 
-    this.model.reset(source, this.root);
+    this.model.reset(source, this as any);
   }
 
   @listen({event: 'uip:model:change', target: ($this: UIPStateStorage) => $this.model})

@@ -65,7 +65,7 @@ export class UIPRoot extends ESLBaseElement {
 
   protected override connectedCallback(): void {
     super.connectedCallback();
-    if (this.storeKey) this.storage = new UIPStateStorage(this.storeKey, this);
+    if (this.storeKey) this.storage = new UIPStateStorage(this.storeKey, this.model);
 
     this.model.snippets = this.$snippets;
     this.model.applyCurrentSnippet(this);
