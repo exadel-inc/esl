@@ -1,4 +1,4 @@
-import {ESLPopup, type ESLPopupActionParams} from '../core/esl-popup';
+import {ESLPopup, type ESLPopupActionParams} from '../core';
 import {Rect} from '../../esl-utils/dom/rect';
 import {createPopupMock, createDimensional} from './popup.mock';
 

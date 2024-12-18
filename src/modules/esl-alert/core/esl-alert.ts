@@ -18,9 +18,6 @@ export interface ESLAlertActionParams extends ESLToggleableRequestDetails {
   hideTime?: number;
 }
 
-/** @deprecated alias, use {@link ESLAlertActionParams} instead. Will be removed in v5.0.0. */
-export type AlertActionParams = ESLAlertActionParams;
-
 /**
  * ESLAlert component
  * @author Julia Murashko, Alexey Stsefanovich (ala'n)
