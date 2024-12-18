@@ -9,7 +9,7 @@ it might be helpful to limit its processing. In purpose to do that ESL allows th
 The decorated target will process the original target events dispatching with the passed async call decoration function
 (such as debounce or throttle).
 
-The `ESLDecoratedEventTarget.for` creates an instance that decorates passed original `EventTarget` event emitting.
+The `ESLDecoratedEventTarget.for` creates an instance that decorates the passed original `EventTarget` event emitting.
 The instances of `ESLDecoratedEventTarget` are lazy and do not subscribe to the original event
 until they have their own subscriptions of the same event type.
 
@@ -73,9 +73,9 @@ ESLEventUtils.subscribe(host, {
 }, onResizeDebounced);
 ```
 
-The sample above allows you to reuse debounced by 250 milliseconds version of the window,
+The sample above allows you to reuse the debounced by 250 milliseconds version of the window,
 to receive fewer `resize` events
-(same as any other event types observed on debounced window version)
+(same as any other event types observed on the debounced window version)
 
 #### Optimize `window.scroll` handling with throttling
 
@@ -90,13 +90,13 @@ ESLEventUtils.subscribe(host, {
 
 The sample above allows you to reuse throttled by 250 milliseconds version of the window,
 to receive no more than one event per 250 milliseconds `scroll` events
-(same as any other event types observed on debounced window version)
+(same as any other event types observed on the debounced window version)
 
 <a name="-esleventutilsresize"></a>
 
 ### ⚡ `ESLResizeObserverTarget.for`
 
-When you deal with responsive interfaces, you might need to observe an element resizes instead of
+When you deal with responsive interfaces, you might need to observe an element resize instead of
 responding to the whole window change. There is a tool for this in the native DOM API - `ResizeObserver'.
 The only problem is that it does not use events, while in practice, we work with it in the same way.
 
@@ -139,7 +139,7 @@ ESLEventUtils.subscribe(host, {
 
 `ESLSwipeGestureTarget.for` creates a synthetic target that produces `swipe` events. It detects `pointerdown` and
 `pointerup` events and based on the distance (`threshold`) between start and end points and time (`timeout`) between
-`pointerdown` and `pointerup` events, triggers `swipe` event on the target element.
+`pointerdown` and `pointerup` events, trigger `swipe` event on the target element.
 
 ```typescript
 ESLSwipeGestureTarget.for(el: Element, settings?: ESLSwipeGestureSetting): ESLSwipeGestureTarget;
@@ -171,7 +171,7 @@ ESLEventUtils.subscribe(host, {
 
 ### ⚡ `ESLWheelTarget.for` <i class="badge badge-sup badge-success">new</i>
 
-`ESLWheelTarget.for` is a simple way to listen for 'inert' (long wheel) scrolls events on any element.
+`ESLWheelTarget.for` is a simple way to listen for 'inert' (long wheel) scroll events on any element.
 This utility detects `wheel` events, and based on the total amount (distance) of `wheel` events and time (`timeout`) between the first and the last events, it triggers `longwheel` event on the target element.
 
 ```typescript

@@ -6,13 +6,13 @@ tags: [news, blogs, draft]
 date: 2024-10-31
 ---
 
-The ESL version 5.0.0 has just been released and it comes with a lot of new features and improvements. 
+The ESL version 5.0.0 has just been released and comes with a lot of new features and improvements. 
 This guide will help you to migrate your existing ESL v4.\*.* project to ESL v5.0.0.
 
 ---
 
 ## Preparation
-We recommend you to consider using ESL ESLint plugin to check your codebase for ESL v5.0.0 compatibility.
+We recommend that you consider using the ESL ESLint plugin to check your codebase for compatibility with ESL v5.0.0.
 It will help you to find and fix most of the issues before you start the migration process.
 The points not marked with `🔧` in the breaking changes section are covered by the ESLint plugin checks and could be fixed automatically.
 
