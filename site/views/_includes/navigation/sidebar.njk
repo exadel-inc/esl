@@ -24,12 +24,12 @@
           </div>
         </li>
 
-        {% for item in sidebar.items%}
-          {% set isNoEmpty = collections[item.collection] | released | length %}
-          {% set isActive = env.isDev or functions.isActivePath(page.url, item.collection) %}
+        {% for item in collections.nav | sortBy('order') %}
+          {% set isNoEmpty = collections[item.data.collection] | released | length %}
+          {% set isActive = env.isDev or functions.isActivePath(page.url, item.data.collection) %}
 
           {% if isNoEmpty or (isNoEmpty and isActive) %}
-            {{ navItem (item.title, item.collection, item.icon) }}
+            {{ navItem (item.data.title, item.data.collection, item.data.icon) }}
           {% endif %}
         {% endfor %}
 

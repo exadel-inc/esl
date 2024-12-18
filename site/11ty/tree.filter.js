@@ -1,9 +1,27 @@
+const findPage = (items, page) => items.find((item) => item.data.page.url === page.url);
+
 const findParent = (list, parent) => {
-  if (!parent) return null;
-  return list.find((item) => item.fileSlug === parent || item.data.id === parent || item.data.title === parent);
+  const alias = parent?.data?.parent;
+  if (!alias) return null;
+  const candidates = list.filter((item) => item.fileSlug === alias || item.data.id === alias || item.data.title === alias);
+  const parentPath = parent.data.page.url.split('/');
+  const similarity = (item) => {
+    const itemPath = item.data.page.url.split('/');
+    let i = 0;
+    while (itemPath[i] === parentPath[i]) i++;
+    return i;
+  };
+  // Sort by file system tree position to ensure the last item is the one we want
+  candidates.sort((a, b) => similarity(a) - similarity(b));
+  return candidates.pop();
 };
 
-const findCurrentCollection = (collections, tags) => tags.find((tag) => collections.includes(tag));
+function * findParents(items, page) {
+  while (page) {
+    page = findParent(items, page);
+    if (page) yield page;
+  }
+}
 
 /** Group items into a tree structure using given property */
 function treeBuilder(items) {
@@ -13,7 +31,7 @@ function treeBuilder(items) {
     item.data.index = index;
   });
   items.forEach((item) => {
-    const parent = findParent(items, item.data.parent);
+    const parent = findParent(items, item);
     if (parent) {
       parent.children.push(item);
     } else {
@@ -23,26 +41,14 @@ function treeBuilder(items) {
   return root;
 }
 
-function treePath(items, sidebarItems) {
+function breadcrumbs(items) {
   if (!Array.isArray(items)) return;
-
-  const result = [];
-  const collections = sidebarItems.map(item => item.collection);
-  items.forEach((item) => {
-    const tag = item.data.tags && findCurrentCollection(collections, item.data.tags);
-    if (!tag) return;
-    const {title, parent} = item.data;
-    const parents = [{'title': sidebarItems.find(item => item.collection === tag).title, 'url': `/${tag}/`}];
-    if (parent) {
-      const nextParent = findParent(items, parent);
-      parents.push({'title': parent, 'url': nextParent.data.page.url});
-    }
-    result.push({title, 'parents': parents});
-  })
-  return result;
+  const currentPage = findPage(items, this.page);
+  const parents = [...findParents(items, currentPage)];
+  return parents.map((item) => ({title: item.data.title, url: item.data.page.url})).reverse();
 }
 
 module.exports = (config) => {
   config.addFilter('tree', treeBuilder);
-  config.addFilter('treepath', treePath);
+  config.addFilter('breadcrumbs', breadcrumbs);
 };

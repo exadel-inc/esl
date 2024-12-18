@@ -9,19 +9,22 @@
     <div class="content {{ containerCls or 'container' }} {{ 'container-aside' if aside }}">
       {% if title %}
         <div class="page-breadcrumbs">
-        {% for tag in tags %}
-        {% set breadcrumbs = collections[tag] | treepath(sidebar.items) %}
-          {% for breadcrumb in breadcrumbs %}
-            {% if  breadcrumb.title === title %}
-              {% for parent in breadcrumb['parents'] %}
-                <span class="page-breadcrumb"><a href="{{ parent['url'] }}">{{ parent['title'] }}</a></span>
+          {% set breadcrumbs = collections.all | breadcrumbs %}
+
+          {% for tag in tags %}
+            {% for item in collections.nav %}
+                {% if item.data.collection === tag %}
+                  <span class="page-breadcrumb"><a href="{{ item.url }}">{{ item.data.title }}</a></span>
+                {% endif %}
               {% endfor %}
-            {% endif %}
           {% endfor %}
-        {% endfor %}
+
+          {% for breadcrumb in breadcrumbs %}
+            <span class="page-breadcrumb"><a href="{{ breadcrumb['url'] }}">{{ breadcrumb['title'] }}</a></span>
+          {% endfor %}
         </div>
         <h1 class="page-title">
-          {% if collectionIcon %}{% include "static/assets/" + collectionIcon %}{% endif %}
+          {% if icon %}{% include "static/assets/" + icon %}{% endif %}
           {{ title | safe }}
           {% if 'beta' in [].concat(tags) %}<span class="badge badge-sup badge-warning">Beta</span>{% endif %}
           {% if 'draft' in [].concat(tags) %}<span class="badge badge-sup badge-danger">Draft</span>{% endif %}

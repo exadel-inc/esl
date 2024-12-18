@@ -13,7 +13,7 @@
     <div class="sidebar-nav-item-heading {{ 'active' if isPrimaryActive }}">
       <a class="sidebar-nav-item-link icon-link" href="{{ ('/' + collection) | url }}"
          aria-label="{{ title }} home page">
-        {% include icon %}
+        {% include "static/assets/" + icon %}
       </a>
       <esl-trigger class="sidebar-nav-item-trigger sidebar-nav-item-arrow"
                    target="::parent::next"
