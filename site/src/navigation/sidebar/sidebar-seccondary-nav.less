@@ -4,19 +4,24 @@ esl-d-sidebar {
   .sidebar-nav-secondary {
     width: 100%;
   }
+
   .sidebar-nav-secondary-list {
     padding: 2px 0;
   }
+
   .sidebar-nav-secondary-item {
     display: block;
     position: relative;
-    padding: 10px 35px 10px 70px;
+    padding-block: 10px;
+    padding-inline-end: 35px;
+    padding-inline-start: var(--padding-inline-start);
+    --padding-inline-start: 70px;
 
     @media @sm {
-      padding-left: 81px;
+      --padding-inline-start: 81px;
     }
     @media @md-xl {
-      padding-left: 66px;
+      --padding-inline-start: 66px;
     }
 
     &.active {
@@ -27,7 +32,40 @@ esl-d-sidebar {
         fade(@nav-dark-selected, 0%)
       );
     }
+
+    &.sidebar-nav-item-container {
+      padding: 0;
+    }
+
+    .sidebar-nav-item-heading {
+      display: block;
+      padding-block: 10px;
+      padding-inline-end: 35px;
+      padding-inline-start: var(--padding-inline-start);
+
+      .sidebar-nav-secondary-link {
+        display: inline-block;
+      }
+
+      .sidebar-nav-item-trigger {
+        display: inline-block;
+        position: relative;
+        margin: 0;
+
+        // Extra click area
+        &::before {
+          content: '';
+          position: absolute;
+          inset: -5px;
+        }
+      }
+    }
+
+    .sidebar-nav-secondary-item {
+      padding-inline-start: calc(var(--padding-inline-start) + 30px);
+    }
   }
+
   .sidebar-nav-secondary-link {
     display: block;
     font-size: 1rem;

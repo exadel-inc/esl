@@ -21,10 +21,17 @@ rewriteRules:
   "CONTRIBUTING.md": "/introduction/contributing"
   "docs/INSTALLATION_GUIDE.md": "/introduction"
   "docs/BROWSER_SUPPORT.md": "/introduction/browser-support"
+
   "src/modules/esl-base-element/README.md": "/core/esl-base-element"
   "src/modules/esl-mixin-element/README.md": "/core/esl-mixin-element"
   "src/modules/esl-media-query/README.md": "/core/esl-media-query"
   "src/modules/esl-traversing-query/README.md": "/core/esl-traversing-query"
+  "src/modules/esl-event-listener/README.md": "/core/esl-event-listener"
+  "src/modules/esl-event-listener/docs/1-overview.md": "/core/esl-event-listener/overview"
+  "src/modules/esl-event-listener/docs/2-public-api.md": "/core/esl-event-listener/public-api"
+  "src/modules/esl-event-listener/docs/3-extended-targets.md": "/core/esl-event-listener/extended-targets"
+  "src/modules/esl-event-listener/docs/4-core-support.md": "/core/esl-event-listener/core-support"
+
   "src/modules/esl-trigger/README.md": "/components/esl-trigger"
   "src/modules/esl-toggleable/README.md": "/components/esl-toggleable"
   "src/modules/esl-tab/README.md": "/components/esl-tab"

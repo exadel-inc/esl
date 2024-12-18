@@ -15,7 +15,7 @@ export class ESLDemoSidebar extends ESLToggleable {
   @prop() public override closeOnEsc = true;
   @prop() public override closeOnOutsideAction = true;
 
-  @prop() public submenus: string = '.sidebar-nav-secondary';
+  @prop() public submenus: string = 'esl-panel';
   @prop() public activeMenuAttr: string = 'data-open';
 
   @boolAttr({name: 'animation'}) protected _animation: boolean;
@@ -44,9 +44,13 @@ export class ESLDemoSidebar extends ESLToggleable {
   }
 
   public expandActive(noAnimate: boolean = false): void {
-    this.$submenus
-      .filter((menu) => menu.hasAttribute('data-open'))
-      .forEach((menu) => menu.show({noAnimate, activator: this}));
+    const $open = this.$submenus.filter((menu) => menu.hasAttribute('data-open'));
+    const $children = $open.filter((menu) => !!menu.parentElement?.closest(this.submenus));
+    const $roots = $open.filter((menu) => !$children.includes(menu));
+
+    // TODO: fix order on ESLPanel level
+    $children.forEach(($menu) => $menu.show({noAnimate: true, activator: this}));
+    $roots.forEach(($menu) => $menu.show({noAnimate, activator: this}));
   }
 
   protected override updateA11y(): void {
