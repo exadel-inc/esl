@@ -1,3 +1,10 @@
+## [5.0.0-beta.43](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.42...v5.0.0-beta.43) (2024-12-18)
+
+### Bug Fixes
+
+* **esl-media:** make esl-media unfocusable according to `focusable` attribute, provide default based on `controls` option ([#2829](https://github.com/exadel-inc/esl/issues/2829)) ([44be58d](https://github.com/exadel-inc/esl/commit/44be58d58bc2ee01f2efc1b12eef2359fa73eb44))
+* **esl-toggleable:** ESLToggleable should ignore activator direct events ([9a8d545](https://github.com/exadel-inc/esl/commit/9a8d545f0992e4c8c75109accc966c9e6ba198c4))
+
 ## [5.0.0-beta.42](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.41...v5.0.0-beta.42) (2024-12-10)
 
 ### ⚠ BREAKING CHANGES
