@@ -6,7 +6,8 @@
   {% include 'navigation/sidebar.njk' %}
 
   <main class="esl-scrollable-content">
-    <div class="content {{ containerCls or 'container' }} {{ 'container-aside' if aside }}">
+    {% set isMarkdownSource = page.templateSyntax.includes('md') %}
+    <div class="content {{ containerCls or 'container' }} {{ 'container-aside' if aside }} {{ 'markdown-container' if isMarkdownSource }}">
       {% if title %}
         <div class="page-breadcrumbs">
           {% set breadcrumbs = collections.all | breadcrumbs %}

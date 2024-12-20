@@ -52,9 +52,6 @@ module.exports = [
       // Disallows empty catch statements
       'sonarjs/no-useless-catch': 'error',
 
-      // Return of boolean literal statements wrapped into if-then-else ones should be simplified.
-      'sonarjs/prefer-single-boolean-return': 'error',
-
       /** When only the condition expression is defined in a for loop, and the initialization and
        * increment expressions are missing, a while loop should be used instead to increase readability.
        */

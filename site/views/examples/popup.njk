@@ -12,6 +12,18 @@ aside:
     - esl-trigger
 ---
 
+<style>
+  .trigger-for-inner-popup-v {
+    height: 200px;
+    width: 350px;
+    padding: 80px;
+  }
+  .trigger-for-inner-popup-h {
+    height: 350px;
+    width: 200px;
+  }
+</style>
+
 <section id="popup-controls">
   <div>
     <label for="marginArrow">Arrow margin:</label>
@@ -83,6 +95,68 @@ aside:
   <esl-trigger target="#popup-b" mode="toggle" class="btn btn-sec-blue">Bottom</esl-trigger>
   <esl-trigger target="#popup-b" mode="toggle" class="btn btn-sec-blue">Bottom</esl-trigger>
   <esl-trigger target="#popup-b" mode="toggle" class="btn btn-sec-blue">Bottom</esl-trigger>
+</section>
+
+<hr/>
+
+<h2>Inner popups with an arrow</h2>
+
+<section class="row justify-content-between">
+  <div>
+    <esl-trigger target="::next" mode="toggle" class="btn btn-sec-blue trigger-for-inner-popup-v">Top Inner Popup</esl-trigger>
+    <esl-popup class="demo-top-popup" position="top" position-origin="inner">
+      <div style="height: 50px; width:250px;"></div>
+    </esl-popup>
+  </div>
+  <div>
+    <esl-trigger target="::next" mode="toggle" class="btn btn-sec-blue trigger-for-inner-popup-h">Left Inner Popup</esl-trigger>
+    <esl-popup class="demo-left-popup" position="left" position-origin="inner">
+      <div style="height: 250px; width:50px;"></div>
+    </esl-popup>
+  </div>
+  <div>
+    <esl-trigger target="::next" mode="toggle" class="btn btn-sec-blue trigger-for-inner-popup-h">Right Inner Popup</esl-trigger>
+    <esl-popup class="demo-right-popup" position="right" position-origin="inner">
+      <div style="height: 250px; width:50px;"></div>
+    </esl-popup>
+  </div>
+  <div>
+    <esl-trigger target="::next" mode="toggle" class="btn btn-sec-blue trigger-for-inner-popup-v">Bottom Inner Popup</esl-trigger>
+    <esl-popup class="demo-bottom-popup" position="bottom" position-origin="inner">
+      <div style="height: 50px; width:250px;"></div>
+    </esl-popup>
+  </div>
+</section>
+
+<hr/>
+
+<h2>Inner popups without an arrow</h2>
+
+<section class="row justify-content-between">
+  <div>
+    <esl-trigger target="::next" mode="toggle" class="btn btn-sec-blue trigger-for-inner-popup-v">Top Inner Popup</esl-trigger>
+    <esl-popup class="demo-top-popup disable-arrow" position="top" position-origin="inner">
+      <div style="height: 50px; width:250px;"></div>
+    </esl-popup>
+  </div>
+  <div>
+    <esl-trigger target="::next" mode="toggle" class="btn btn-sec-blue trigger-for-inner-popup-h">Left Inner Popup</esl-trigger>
+    <esl-popup class="demo-left-popup disable-arrow" position="left" position-origin="inner">
+      <div style="height: 250px; width:50px;"></div>
+    </esl-popup>
+  </div>
+  <div>
+    <esl-trigger target="::next" mode="toggle" class="btn btn-sec-blue trigger-for-inner-popup-h">Right Inner Popup</esl-trigger>
+    <esl-popup class="demo-right-popup disable-arrow" position="right" position-origin="inner">
+      <div style="height: 250px; width:50px;"></div>
+    </esl-popup>
+  </div>
+  <div>
+    <esl-trigger target="::next" mode="toggle" class="btn btn-sec-blue trigger-for-inner-popup-v">Bottom Inner Popup</esl-trigger>
+    <esl-popup class="demo-bottom-popup disable-arrow" position="bottom" position-origin="inner">
+      <div style="height: 50px; width:250px;"></div>
+    </esl-popup>
+  </div>
 </section>
 
 <hr/>

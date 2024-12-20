@@ -17,7 +17,7 @@ export class ESLNoneCarouselRenderer extends ESLCarouselRenderer {
 
   constructor($carousel: ESLCarousel, options: ESLCarouselConfig) {
     super($carousel, options);
-    // Note blocks touch plugin from activating (consider rework if scroll behaviour is requested)
+    // Note blocks touch plugin from activating (consider rework if scroll behavior is requested)
     Object.defineProperty(this, 'count', {get: () => this.size});
   }
 

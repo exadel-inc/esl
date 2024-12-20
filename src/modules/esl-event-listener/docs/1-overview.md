@@ -53,7 +53,7 @@ contains static methods to create and manage subscriptions.
 The event listener _Descriptor_ is an object to describe future subscriptions.
 The ESL event listeners module has a few special details regarding such objects.
 
-A simple descriptor is an object that is passed to ESL event listener API to create a subscription.
+A simple descriptor is an object that is passed to ESLEventListener API to create a subscription.
 It contains almost the same set of keys as the `ESLEventListener` instance.
 
 In addition to that, ESL allows you to combine the `ESLEventDesriptor` data with the handler function.
@@ -108,7 +108,7 @@ Here is the list of supported keys of `ESLEventDesriptor`:
 
 - #### `condition` key
 
-  <u>Type:</u> `bollean | PropertyProvider<boolean>`
+  <u>Type:</u> `boolean | PropertyProvider<boolean>`
   <u>Default Value:</u> `true`  
   <u>Description:</u> the function predicate or boolean flag to check if the subscription should be created. Resolves right before the subscription.
 
@@ -134,7 +134,7 @@ Here is the list of supported keys of `ESLEventDesriptor`:
 
   <u>Type:</u> `boolean`  
   <u>Default Value:</u> `false`  
-  <u>Description:</u> marker to use capturing phase of the DOM event to handle.
+  <u>Description:</u> marker to use the capturing phase of the DOM event to handle.
 
 - #### `passive` key
 
@@ -184,7 +184,7 @@ To make an `ESLEventDesriptorFn` auto-collectable, the consumer should declare i
 
 ⚠ `ESLEventUtils.initDescriptor` (or `@listen`) stores the auto-collectable descriptors in the internal collection on the `host`.
 
-The `ESLBaseElment` and the `ESLMixinElement` subscribes all auto-collectable descriptors in the `connectedCallback`.
+The `ESLBaseElment` and the `ESLMixinElement` subscribe all auto-collectable descriptors in the `connectedCallback`.
 See the usage of [`ESLEventUtils.subscibe`](#-esleventutilssubscribe) for more details.
 
 ### `PropertyProvider` for `event`, `selector`, or `target`

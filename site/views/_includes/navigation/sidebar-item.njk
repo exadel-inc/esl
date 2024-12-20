@@ -3,7 +3,7 @@
   {% set isPrimaryActive = functions.isActivePath(page.url, collection) %}
 
   {% if isDevCollection and not env.isDev %}
-    {% set items = collections[collection] | filter('url', page.url) %}
+    {% set items = collections[collection] | filter('url', page.url) | tree %}
   {% else %}
     {% set items = collections[collection] | released | tree %}
   {% endif %}
@@ -41,12 +41,9 @@
   {% endif %}
 {% endmacro %}
 
-{% macro linkList(items, isDevCollection, prepend = []) %}
+{% macro linkList(items, isDevCollection) %}
   <ul class="sidebar-nav-secondary-list">
     <esl-a11y-group targets="::child(li)::find(.sidebar-nav-secondary-link)"></esl-a11y-group>
-    {% for item in prepend %}
-      {{ link(item, isDevCollection) }}
-    {% endfor %}
     {% for item in items | sortBy('order', 'name') %}
       {% if item.children.length %}
         {{ subnavItem(item, isDevCollection) }}
@@ -61,9 +58,6 @@
   {% set isActive = page.url === item.url %}
   {% set hasActive = functions.isActivePath(page.url, item.url) %}
   {% set isDraft = [].concat(item.data.tags).includes('draft') %}
-  {% set isNew = [].concat(item.data.tags).includes('new') %}
-  {% set isBeta = [].concat(item.data.tags).includes('beta') %}
-  {% set isDeprecated = [].concat(item.data.tags).includes('deprecated') %}
 
   <li class="sidebar-nav-secondary-item sidebar-nav-item-container"
       {% if hasActive %}aria-selected="true"{% endif %}>
@@ -71,18 +65,7 @@
       <a class="sidebar-nav-secondary-link"
          {% if isActive %}aria-current="page"{% endif %} {% if isDraft or isDevCollection %}rel="nofollow"{% endif %}
          href="{{ item.url | url }}">
-        {% if isNew %}
-          <sup class="badge badge-sup badge-success badge-sidebar">new</sup>
-        {% endif %}
-        {% if isBeta %}
-          <sup class="badge badge-sup badge-warning badge-sidebar">beta</sup>
-        {% endif %}
-        {% if isDraft %}
-          <sup class="badge badge-sup badge-danger badge-sidebar">draft</sup>
-        {% endif %}
-        {% if isDeprecated %}
-          <span class="badge badge-img badge-deprecated badge-sidebar" aria-label="Deprecated component" title="Deprecated component"></span>
-        {% endif %}
+        {{ badgeByTags(item.data.tags, isDevCollection) }}
         {{ item.data.name }}
       </a>
       <esl-trigger class="sidebar-nav-item-trigger sidebar-nav-item-arrow"
@@ -104,28 +87,29 @@
 {% macro link(item, isDevCollection) %}
   {% set isActive = page.url === item.url %}
   {% set isDraft = [].concat(item.data.tags).includes('draft') %}
-  {% set isNew = [].concat(item.data.tags).includes('new') %}
-  {% set isBeta = [].concat(item.data.tags).includes('beta') %}
-  {% set isDeprecated = [].concat(item.data.tags).includes('deprecated') %}
 
   <li class="sidebar-nav-secondary-item {{ 'active' if isActive }}"
       {% if isActive %}aria-selected="true"{% endif %}>
     <a class="sidebar-nav-secondary-link"
        {% if isActive %}aria-current="page"{% endif %} {% if isDraft or isDevCollection %}rel="nofollow"{% endif %}
        href="{{ item.url | url }}">
-      {% if isNew %}
-        <sup class="badge badge-sup badge-success badge-sidebar">new</sup>
-      {% endif %}
-      {% if isBeta %}
-        <sup class="badge badge-sup badge-warning badge-sidebar">beta</sup>
-      {% endif %}
-      {% if isDraft %}
-        <sup class="badge badge-sup badge-danger badge-sidebar">draft</sup>
-      {% endif %}
-      {% if isDeprecated %}
-        <span class="badge badge-img badge-deprecated badge-sidebar" aria-label="Deprecated component" title="Deprecated component"></span>
-      {% endif %}
+      {{ badgeByTags(item.data.tags, isDraftCollection) }}
       {{ item.data.name }}
     </a>
   </li>
+{% endmacro %}
+
+{% macro badgeByTags(tags, isDevCollection) %}
+  {# Tags checks ordered by priority, due to displaying single badge #}
+  {% if tags.includes('deprecated') %}
+    <span class="badge badge-sidebar badge-img badge-deprecated" title="Deprecated component" aria-label="Deprecated component"></span>
+  {% elif tags.includes('draft') and not isDevCollection %}
+    <sup class="badge badge-sidebar badge-sup badge-danger" title="Just a draft version of the page">draft</sup>
+  {% elif tags.includes('beta') %}
+    <sup class="badge badge-sidebar badge-sup badge-warning" title="Beta version (could change in a minor update)">beta</sup>
+  {% elif tags.includes('updated') %}
+    <sup class="badge badge-sidebar badge-sup badge-success" title="Updated" aria-label="Updated">upd*</sup>
+  {% elif tags.includes('new') %}
+    <sup class="badge badge-sidebar badge-sup badge-success" title="New article and functionality">new</sup>
+  {% endif %}
 {% endmacro %}

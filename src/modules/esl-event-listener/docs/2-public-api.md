@@ -157,7 +157,7 @@ The `@listen` decorator (available under `esl-utils/decorators`) is syntax sugar
 It allows you to declare class methods as an `ESLEventDescriptorFn` using TS `experimentalDecorators` feature.
 
 Listeners described by `@listen` are auto-subscribable if they are not inherited and not declared as manual explicitly.
-In case of inheritance the `auto` marker will be inherited from the parent descriptor.
+In case of inheritance, the `auto` marker will be inherited from the parent descriptor.
 
 Example:
 
@@ -177,10 +177,10 @@ class MyEl extends ESLBaseElement {
   // Property Providers example
   @listen({
     event: (that: MyEl) => that.event,
-    seletor: (that: MyEl) => that.selector
+    selector: (that: MyEl) => that.selector
   })
   onEventProvidedExt(e) {}
-  // Will not subscribe authomatically
+  // Will not subscribe automatically
   @listen({event: 'click', auto: false})
   onClickManual(e) {}
 }
@@ -236,10 +236,10 @@ class TestCases {
     // Subscribes onEventManualFn on window resize
     ESLEventUtils.subscribe(this, {event: 'resize', target: window}, this.onEventManualFn);
 
-    // Subscribes onEventManualDesc using embeded information
+    // Subscribes onEventManualDesc using embedded information
     ESLEventUtils.subscribe(this, this.onEventManualDesc);
 
-    // Subscribes onEventManualDesc using merged embeded and passed information
+    // Subscribes onEventManualDesc using merged embedded and passed information
     ESLEventUtils.subscribe(this, {target: window}, this.onEventManualDesc);
   }
 

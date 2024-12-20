@@ -1,0 +1,135 @@
+---
+layout: content
+title: Footnotes (Regression)
+name: Footnotes (Regression)
+tags: [dev]
+icon: examples/footnotes.svg
+aside:
+components:
+- esl-footnotes
+---
+
+<section class="row demo-visibility">
+  <div class="col-12" esl-note-container=".demo-visibility">
+    <h2>Text with notes inside the container</h2>
+    <div style="height:350px; overflow: scroll;">
+      <div class="row">
+        <div class="col-md-4" esl-note-ignore="@-SM">
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore <esl-note>et dolore magna</esl-note> aliqua. Donec massa sapien faucibus et molestie ac. Mi sit amet mauris commodo quis imperdiet massa. Viverra nibh cras pulvinar mattis nunc sed blandit. In nisl nisi scelerisque eu. Vel turpis nunc eget lorem dolor sed. Nisl pretium fusce id velit. Quam id leo in vitae turpis massa sed. Mauris sit amet <esl-note>massa vitae <a href="https://github.com">eiusmod</a> tortor</esl-note>. Ut aliquam purus sit amet luctus venenatis lectus magna.</p>
+          <p esl-note-ignore="@XS">Tincidunt arcu non sodales neque. Lectus quam id leo in vitae turpis massa sed. Iaculis at erat pellentesque adipiscing. Cras pulvinar mattis nunc sed blandit. Vel orci porta non pulvinar neque laoreet suspendisse. A arcu cursus vitae congue mauris rhoncus aenean <esl-note>Mattis cursus mattis molestie</esl-note> vel. Integer vitae justo eget magna fermentum iaculis. Et leo duis ut diam quam nulla porttitor. Blandit volutpat maecenas volutpat blandit aliquam etiam erat velit scelerisque. Nibh nisl condimentum id venenatis a condimentum vitae sapien pellentesque. Pellentesque habitant morbi tristique senectus et netus. Nisl vel pretium lectus quam id leo in vitae. Ac odio tempor orci dapibus ultrices in iaculis nunc sed. Laoreet id donec ultrices tincidunt arcu non sodales neque. Fames ac turpis egestas sed tempus urna et. Nisi scelerisque eu ultrices vitae.</p>
+        </div>
+        <div class="col-md-4">
+          <p>Dolor magna eget est lorem ipsum dolor sit amet. Vel orci porta non pulvinar neque laoreet suspendisse interdum consectetur. In vitae turpis massa sed elementum tempus egestas sed. Dui accumsan sit amet nulla facilisi morbi tempus. Diam quam nulla porttitor massa. Aliquet enim tortor at auctor urna nunc id cursus metus. Volutpat maecenas volutpat blandit aliquam etiam erat. Est pellentesque elit <esl-note>ullamcorper dignissim cras</esl-note> tincidunt lobortis feugiat. Sagittis purus sit amet volutpat consequat. Sit amet porttitor eget dolor morbi. Et netus et malesuada fames ac turpis. Egestas egestas fringilla phasellus faucibus scelerisque eleifend donec pretium vulputate. Pulvinar pellentesque habitant morbi tristique senectus et netus et malesuada. Sit amet cursus sit amet dictum. Potenti nullam ac tortor vitae purus faucibus ornare. In nulla posuere sollicitudin aliquam ultrices sagittis orci. Blandit volutpat maecenas volutpat blandit aliquam etiam erat. Aliquam ultrices sagittis orci a<esl-note>et dolore magna</esl-note>. Sit amet consectetur adipiscing elit pellentesque habitant.</p>
+        </div>
+        <div class="col-md-4">
+          <p>Mattis molestie a iaculis at erat pellentesque adipiscing commodo. Massa tincidunt nunc pulvinar sapien et ligula. Lectus urna duis convallis convallis tellus id interdum. Elit sed vulputate mi sit. Adipiscing commodo elit at imperdiet dui accumsan sit amet nulla. Lacus viverra vitae congue eu consequat ac felis donec et. Eget mauris pharetra et ultrices neque ornare <esl-note>aenean euismod elementum</esl-note>. Mattis aliquam faucibus purus in massa tempor nec feugiat nisl. Est ante in nibh <esl-note>mauris cursus mattis molestie</esl-note>. Velit dignissim sodales ut eu. Quam lacus suspendisse faucibus interdum posuere. Pellentesque habitant morbi tristique senectus et netus. Nisl vel pretium lectus quam id leo in vitae. Magna fringilla urna porttitor rhoncus dolor purus non enim praesent. Vulputate enim nulla aliquet porttitor. Facilisi etiam dignissim diam quis enim lobortis scelerisque fermentum dui. Arcu non sodales neque sodales ut etiam. Adipiscing enim eu turpis egestas pretium aenean pharetra magna ac. A scelerisque purus semper eget duis at tellus at <esl-note>Adipiscing elit pellentesque habitant</esl-note> urna. Feugiat nibh sed pulvinar proin gravida hendrerit lectus. Arcu bibendum at varius <esl-note>Tellus urna cursus mattis molestie</esl-note> vel pharetra vel turpis.</p>
+        </div>
+      </div>
+
+      <esl-footnotes scope-target="::parent(.demo-visibility)"></esl-footnotes>
+    </div>
+  </div>
+</section>
+
+<section class="row">
+  <div class="col-12">
+    <h2>Components with footnotes inside</h2>
+
+    <h3>Simple Menu:</h3>
+    <ul class="esl-example-menu mb-4">
+      <li class="menu-item">
+        <esl-trigger target="::next" class="menu-item-btn menu-item-arrow">Menu 1</esl-trigger>
+        <esl-panel class="menu-container"
+                   group="test-nav-group"
+                   fallback-duration="400"
+                   close-on-esc close-on-outside-action>
+          <ul class="esl-example-sub-menu">
+            <li>1 <esl-note>I am note 1 from menu</esl-note></li>
+            <li>2</li>
+            <li>3</li>
+          </ul>
+        </esl-panel>
+      </li>
+      <li class="menu-item">
+        <esl-trigger target="::next" class="menu-item-btn menu-item-arrow">Menu 2</esl-trigger>
+        <esl-panel class="menu-container"
+                   group="test-nav-group"
+                   fallback-duration="400"
+                   close-on-esc close-on-outside-action>
+          <div class="esl-example-menu-400">Feugiat vivamus at augue eget arcu dictum varius duis at. Ullamcorper sit amet <esl-note>I am note 2 from menu</esl-note> risus nullam eget felis eget nunc lobortis. Ut morbi tincidunt augue interdum velit euismod in pellentesque massa.</div>
+        </esl-panel>
+      </li>
+      <li class="menu-item">
+        <esl-trigger target="::next" class="menu-item-btn menu-item-arrow">Menu 3</esl-trigger>
+        <esl-panel class="menu-container"
+                   group="test-nav-group"
+                   fallback-duration="400"
+                   close-on-esc close-on-outside-action>
+          <ul class="esl-example-sub-menu">
+            <li>1</li>
+            <li>2</li>
+            <li>3 <esl-note>I am note 3 from menu</esl-note></li>
+          </ul>
+        </esl-panel>
+      </li>
+    </ul>
+
+    <h3>Accordion with notes</h3>
+    <esl-panel-group class="accordion-group mb-4">
+      <div class="esl-d-accordion">
+        <esl-trigger target="::next" class="esl-d-accordion-header h4 esl-d-accordion-header-arrow">
+          Toggle Accordion #1
+        </esl-trigger>
+        <esl-panel open class="esl-d-accordion-panel">
+          <div class="esl-d-accordion-body">
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore <esl-note>I am note 1 from accordion</esl-note> aliqua.
+              Donec massa sapien faucibus <esl-note>I am note 2 from accordion</esl-note> et molestie ac. Mi sit amet mauris commodo quis imperdiet massa.
+              Viverra nibh cras pulvinar mattis nunc sed blandit. In nisl nisi scelerisque eu. Vel turpis nunc eget lorem dolor sed.
+            </p>
+          </div>
+        </esl-panel>
+      </div>
+      <div class="esl-d-accordion">
+        <esl-trigger target="::next" class="esl-d-accordion-header h4 esl-d-accordion-header-arrow">
+          Toggle Accordion #2
+        </esl-trigger>
+        <esl-panel class="esl-d-accordion-panel">
+          <div class="esl-d-accordion-body">
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore <esl-note intersection-margin="-90px 0px -90px 0px">I am note 3 from accordion</esl-note> aliqua.
+              Donec massa sapien faucibus et molestie ac. Mi sit amet mauris commodo <esl-note intersection-margin="-10%">I am note 4 from accordion</esl-note> quis imperdiet massa.
+              Viverra nibh cras pulvinar mattis nunc sed blandit. In nisl nisi scelerisque eu. Vel turpis nunc eget lorem dolor sed. Nisl pretium fusce id velit.
+              Quam id leo in vitae turpis massa sed. Mauris sit amet. Ut aliquam purus sit amet luctus venenatis lectus magna.
+            </p>
+          </div>
+        </esl-panel>
+      </div>
+      <div class="esl-d-accordion">
+        <esl-trigger target="::next" class="esl-d-accordion-header h4 esl-d-accordion-header-arrow">
+          Toggle Accordion #3
+        </esl-trigger>
+        <esl-panel class="esl-d-accordion-panel">
+          <div class="esl-d-accordion-body">
+            <p>
+              Nam libero justo laoreet sit amet cursus. Nibh ipsum consequat nisl vel pretium. Elit sed vulputate mi sit amet.
+              Urna condimentum mattis pellentesque id. Non nisi est sit amet facilisis magna etiam tempor. Arcu risus quis varius quam quisque.
+              At auctor urna nunc id cursus metus aliquam eleifend. Dignissim suspendisse in est ante in nibh mauris cursus mattis.
+              Phasellus vestibulum lorem sed risus ultricies tristique nulla. Cursus risus at ultrices mi tempus imperdiet nulla malesuada.
+              Ultrices dui sapien eget mi proin sed libero. Quis risus sed vulputate odio ut enim. Morbi tristique senectus et netus.
+              Tellus mauris a diam maecenas sed enim ut. Id leo in vitae turpis massa sed.
+            </p>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore <esl-note>I am note 5 from accordion</esl-note> aliqua.
+              Donec massa sapien faucibus et molestie ac. Mi sit amet mauris commodo quis imperdiet massa. Viverra nibh <esl-note>I am note 6 from accordion</esl-note> cras pulvinar mattis nunc sed blandit.
+              In nisl nisi scelerisque eu. Vel turpis nunc eget lorem dolor sed. Nisl pretium fusce id velit. Quam id leo in vitae turpis massa sed. Mauris sit amet.
+              Ut aliquam purus sit amet luctus venenatis lectus magna.
+            </p>
+          </div>
+        </esl-panel>
+      </div>
+    </esl-panel-group>
+
+    <esl-footnotes></esl-footnotes>
+  </div>
+</section>

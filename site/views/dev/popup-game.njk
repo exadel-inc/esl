@@ -36,6 +36,7 @@ aside:
           id="game-popup"
           class="popup-game popup-h"
           position="top"
+          position-origin="outer"
           container=".uip-preview-inner"
           dir="ltr"
           margin-arrow="35">
@@ -99,6 +100,14 @@ aside:
           <option value="bottom">Bottom</option>
           <option value="left">Left</option>
           <option value="right">Right</option>
+        </uip-select-setting>
+        <uip-select-setting label="Position origin" target="esl-popup" attribute="position-origin">
+          <option value="outer">Outer</option>
+          <option value="inner">Inner</option>
+        </uip-select-setting>
+        <uip-select-setting label="Arrow" target="esl-popup" attribute="class" mode="append">
+          <option value="">Enable</option>
+          <option value="disable-arrow">Disable</option>
         </uip-select-setting>
         <uip-select-setting label="Orientation" target="esl-popup" attribute="class" mode="append">
           <option value="popup-v">Vertical</option>

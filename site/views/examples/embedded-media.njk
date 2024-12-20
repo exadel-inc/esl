@@ -281,6 +281,18 @@ aside:
 
     <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
     <uip-preview></uip-preview>
+    <uip-settings target="esl-media" label="Settings" resizable vertical="@+sm">
+      <uip-select-setting label="Alignment Vertical:" attribute="class" mode="append">
+        <option value="esl-media-top">Top</option>
+        <option value="" selected>Center</option>
+        <option value="esl-media-bottom">Bottom</option>
+      </uip-select-setting>
+      <uip-select-setting label="Alignment Horizontal:" attribute="class" mode="append">
+        <option value="esl-media-left">Left</option>
+        <option value="" selected>Center</option>
+        <option value="esl-media-right">Right</option>
+      </uip-select-setting>
+    </uip-settings>
     <uip-editor label="Source code (HTML)" collapsible copy></uip-editor>
     <uip-editor source="js" label="Source code (JS)" collapsible collapsed copy></uip-editor>
   </uip-root>
