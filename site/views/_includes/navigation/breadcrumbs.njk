@@ -1,0 +1,9 @@
+<div class="page-breadcrumbs">
+  {% for item in collections.nav | filter('data.collection', tags) %}
+    <span class="page-breadcrumb"><a href="{{ item.url }}">{{ item.data.title }}</a></span>
+  {% endfor %}
+
+  {% for item in collections.all | breadcrumbs %}
+    <span class="page-breadcrumb"><a href="{{ item.url }}">{{ breadcrumb.title }}</a></span>
+  {% endfor %}
+</div>
