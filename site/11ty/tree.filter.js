@@ -41,14 +41,13 @@ function treeBuilder(items) {
   return root;
 }
 
-function breadcrumbs(items) {
+function parents(items) {
   if (!Array.isArray(items)) return;
   const currentPage = findPage(items, this.page);
-  const parents = [...findParents(items, currentPage)];
-  return parents.map((item) => ({title: item.data.title, url: item.data.page.url})).reverse();
+  return  [...findParents(items, currentPage)].reverse();
 }
 
 module.exports = (config) => {
   config.addFilter('tree', treeBuilder);
-  config.addFilter('breadcrumbs', breadcrumbs);
+  config.addFilter('parents', parents);
 };
