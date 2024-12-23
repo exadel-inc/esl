@@ -1,5 +1,7 @@
 # ESLCarouselNavDots
 
+<a name="intro"></a>
+
 `ESLCarouselNavDots` is an auxiliary custom tag for ESLCarousel that provides dot navigation control for the carousel. 
 
 `ESLCarouselNavDots` relays on slide groups, so one dot is created for each slide group.
@@ -15,6 +17,7 @@ Example:
         <li esl-carousel-slide>Slide 4</li>
     </ul>
 </esl-carousel>
+<esl-carousel-dots target="::prev"></esl-carousel-dots>
 ```
 
 Please note, the plugin does not render if the carousel not found or expected amount of dots is less than 2.

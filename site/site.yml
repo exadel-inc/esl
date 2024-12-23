@@ -26,6 +26,7 @@ rewriteRules:
   "src/modules/esl-mixin-element/README.md": "/core/esl-mixin-element"
   "src/modules/esl-media-query/README.md": "/core/esl-media-query"
   "src/modules/esl-traversing-query/README.md": "/core/esl-traversing-query"
+
   "src/modules/esl-event-listener/README.md": "/core/esl-event-listener"
   "src/modules/esl-event-listener/docs/1-overview.md": "/core/esl-event-listener/overview"
   "src/modules/esl-event-listener/docs/2-public-api.md": "/core/esl-event-listener/public-api"
@@ -39,5 +40,7 @@ rewriteRules:
   "src/modules/esl-panel-group/README.md": "/components/esl-panel-group"
   "src/modules/esl-image/README.md": "/components/esl-image"
   "src/modules/esl-image-utils/README.md": "/components/esl-image-utils"
-  "src/modules/esl-carousel/README.md": "/components/esl-carousel"
   "src/modules/esl-drag-to-scroll/README.md": "/components/esl-drag-to-scroll"
+
+  "src/modules/esl-carousel/README.md": "/components/esl-carousel"
+  "src/modules/esl-carousel/plugin/dots/README.md": "/components/esl-carousel/esl-carousel-dots"
