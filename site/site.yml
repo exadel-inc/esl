@@ -43,5 +43,10 @@ rewriteRules:
   "src/modules/esl-drag-to-scroll/README.md": "/components/esl-drag-to-scroll"
 
   "src/modules/esl-carousel/README.md": "/components/esl-carousel"
-  "src/modules/esl-carousel/plugin/dots/README.md": "/components/esl-carousel/esl-carousel-dots"
-  "src/modules/esl-carousel/plugin/nav/README.md": "/components/esl-carousel/esl-carousel-nav"
+  "src/modules/esl-carousel/plugin/dots/README.md": "/components/esl-carousel/dots"
+  "src/modules/esl-carousel/plugin/nav/README.md": "/components/esl-carousel/nav"
+  "src/modules/esl-carousel/plugin/autoplay/README.md": "/components/esl-carousel/autoplay"
+  "src/modules/esl-carousel/plugin/touch/README.md": "/components/esl-carousel/touch"
+  "src/modules/esl-carousel/plugin/keyboard/README.md": "/components/esl-carousel/keyboard"
+  "src/modules/esl-carousel/plugin/relation/README.md": "/components/esl-carousel/relation"
+  "src/modules/esl-carousel/plugin/wheel/README.md": "/components/esl-carousel/wheel"
