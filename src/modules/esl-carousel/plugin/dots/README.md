@@ -7,19 +7,6 @@
 `ESLCarouselNavDots` relays on slide groups, so one dot is created for each slide group.
 Slide group is a set of slides that are displayed together in the carousel (you can control it by `count` attribute of carousel).
 
-Example:
-```html
-<esl-carousel count="1">
-    <ul esl-carousel-slides>
-        <li esl-carousel-slide>Slide 1</li>
-        <li esl-carousel-slide>Slide 2</li>
-        <li esl-carousel-slide>Slide 3</li>
-        <li esl-carousel-slide>Slide 4</li>
-    </ul>
-</esl-carousel>
-<esl-carousel-dots target="::prev"></esl-carousel-dots>
-```
-
 Please note, the plugin does not render if the carousel not found or expected amount of dots is less than 2.
 
 The `esl-carousel-dots` element does not allow any children except `esl-carousel-dot` elements, 
@@ -32,6 +19,27 @@ For example, you might want to perceive space that dots nav take, so you can use
       visibility: hidden; /* Hide empty dots nav */
       height: 1em; /* Set height to keep space */
     }
+```
+
+## Usage
+
+In order to use the `ESLCarouselNavDots` plugin, you need to register it first:
+
+```javascript
+  ESLCarouselNavDots.register();
+```
+
+Then you can use the `esl-carousel-dots` element in your markup:
+```html
+<esl-carousel count="1">
+    <ul esl-carousel-slides>
+        <li esl-carousel-slide>Slide 1</li>
+        <li esl-carousel-slide>Slide 2</li>
+        <li esl-carousel-slide>Slide 3</li>
+        <li esl-carousel-slide>Slide 4</li>
+    </ul>
+</esl-carousel>
+<esl-carousel-dots target="::prev"></esl-carousel-dots>
 ```
 
 ## Dots Plugin API

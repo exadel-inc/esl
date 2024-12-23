@@ -44,3 +44,4 @@ rewriteRules:
 
   "src/modules/esl-carousel/README.md": "/components/esl-carousel"
   "src/modules/esl-carousel/plugin/dots/README.md": "/components/esl-carousel/esl-carousel-dots"
+  "src/modules/esl-carousel/plugin/nav/README.md": "/components/esl-carousel/esl-carousel-nav"
