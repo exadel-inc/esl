@@ -1,46 +1,170 @@
 # [ESL](https://exadel-inc.github.io/esl/) Carousel
 
-Version: *1.0.0-beta*.
+Version: *2.0.0-beta*.
 
-Authors: *Julia Murashko*, *Alexey Stsefanovich (ala'n)*.
-
-***Important Notice: the component is under beta version, it is tested and ready to use but be aware of its potential critical API changes.***
+Authors: *Alexey Stsefanovich (ala'n)*, *Julia Murashko*, *Anna Barmina*, *Anastasia Lesun*.
 
 <a name="intro"></a>
 
-ESLCarousel - a slideshow component for cycling through slides.
+ESLCarousel - a slideshow component for cycling through slides. 
+It supports various types of renderers to choose technical implementation of the carousel. 
+The main part of ESLCarousel is a custom element ESLCarousel (`esl-carousel`) and custom attribute ESLCarouselSlide (`esl-carousel-slide`).
+As well as various renderers, ESLCarousel supports set of mixins-plugins to extend carousel functionality.
+Almost every carousel parameter is customizable and can be configured using ESLMediaRuleList syntax.
 
-ESLCarouselSlide - a component that provides content for ESLCarousel.
+### ESLCarousel Structure
+As was mentioned above, ESLCarousel consists of `esl-carousel` custom element and `esl-carousel-slide` custom attribute.
+The `esl-carousel` element does not support any extra content inside (at least the one that is in CSS flow), as it most likely break the carousel layout.
+The only child of esl-carousel should be `esl-carousel-slides` container. 
+You can define it manually or skip it, so the `esl-carousel` will create it during rendering automatically.
 
-The elements are interrelated and don't make sense on their own. This is because once the elements are added to the DOM, they establish the link between ESLCarousel and each ESLCarouselSlide.
+The slide elements should be marked with `esl-carousel-slide` custom attribute (mixin). 
+All slides will maintain their position inside the `esl-carousel-slides` container.
+The ESLCarousel does not allow `esl-carousel-slide` to be placed outside of `esl-carousel-slides` container.
 
-### ESLCarousel Attributes | Properties:
-
-- `config` (ESLCarouselConfig) - [MediaQuery](../esl-media-query/README.md) to define behavior of ESLCarousel.
-
-### ESLCarouselConfig (Configuration API)
-
-- `type` (string) - a carousel rendering renderer
-  - `slide` - default, one slide is active
-  - `multi` - more than one slide can be active
-- `count` (number) - a total number of slides
-- `loop` (boolean) - defines whether the carousel is in a loop (false by default)
-- `cls` (string) - a CSS class or classes to mark the carousel element (empty by default)
-  (supports ESL extended class definition syntax, [CSSClassUtil](../esl-utils/dom/class.ts))
-
-### ESLCarouselSlide Attributes | Properties:
-
-- `active` (boolean) - an active state marker
-
-### ESLCarouselTouchMixin 
-**ESLCarouselTouchMixin** is an ESL mixin attribute `esl-carousel-touch` that provide for `ESLCarousel` user support of `drag` and `swipe` events handling.
-By default, `drag` event is specified, but there is possibility to declare other configuration.
-
-#### `ESLCarouselTouchMixin` Attributes | Properties:
-- `esl-carousel-touch` - attribute defined by [ESLMediaRuleList](../esl-media-query/core/esl-media-rule-list.ts) to describe how touch events will be applied. 
-- `esl-carousel-swipe-mode` (`group` by default) - attribute to precise supportable type in case swipe event is allowed  (`group` or `slide`).
-
-#### Use cases
+The folowing example shows the basic structure of ESLCarousel:
 ```html
-<esl-carousel esl-carousel-touch="swipe | @+SM => drag | @+LG => none" esl-carousel-swipe-mode="slide" />
+<esl-carousel>
+  <ul esl-carousel-slides>
+    <li esl-carousel-slide>Slide 1</div>
+    <li esl-carousel-slide>Slide 2</div>
+    <li esl-carousel-slide>Slide 3</div>
+  </ul>
+</esl-carousel>
 ```
+As was already mentioned, `esl-carousel` is restrictive to the structure but the tag names can be customized chosen by the user.
+Note tht `esl-carousel` uses divs by default and provides accessibility trough ARIA attributes.
+
+So default ESLCarousel structure will look like this:
+```html
+<esl-carousel>
+  <div esl-carousel-slides>
+    <div esl-carousel-slide>Slide 1</div>
+    <div esl-carousel-slide>Slide 2</div>
+    <div esl-carousel-slide>Slide 3</div>
+  </div>
+</esl-carousel>
+```
+
+Note ⚠️: we recomend to define `esl-carousel-slides` tag explicitly in case your contend is not dynamic it will help to avoid Cummutative Layout Shift (CLS) issues and 
+allows content to be properly displayed before ESLCarousel (JS) initialization.
+
+### ESLCarousel Root Element API
+
+Carousel configuration usually goes through the ESLCarousel root element attributes/properties.
+Note that almast all of the basic ESLCarousel attributes/properties are available with ESLMediaRuleList syntax (where it makes sence).
+Both of the `ESLMediaRuleList` syntaxes are supported:
+- value can be defined trough query (arrow syntax) string. e.g. `@xs => 1 | @md => 3`
+- or trough the tuple syntax, then the `media` attribute should be declared to define the media conditions list e.g. `@xs|@sm|@md`
+  For example, the following syntax will define diferent visible count of slides for different media breakpoints:
+  ```html
+  <esl-carousel media="@SM|@MD|@LG" count="1|2|3">...</esl-carousel>
+  ```
+  
+Note: a single value attributes will be considered as all-rule so they spreads across all media conditions.
+
+#### Attributes/Properties
+ 
+ - `media` - defines the media conditions for parmetrs declared with a tuple syntax.
+ - `count` - defines the number of slides to show at once (supports `ESLMediaRuleList`). Default: `1`.
+ - `loop` - defines if the carousel should loop through the slides (supports `ESLMediaRuleList`). Default: `false`.
+ - `type` - defines the type of the carousel renderer (supports `ESLMediaRuleList`). Default: `default`.
+ - `vertical` - defines if the carousel should be vertical (supports `ESLMediaRuleList`). Default: `false`.
+ - `step-duration` - defines the duration of the slide transition in milliseconds (supports `ESLMediaRuleList`). Default: `300`.
+
+ - `container` - defines the container element for the carousel. Default: '' (self). Used to declare state classes of the carousel.
+ - `container-empty-class` - defines the class to be added to the container when the carousel is empty. Default is empty.
+ - `container-incomplete-class` - defines the class to be added to the container when the carousel is incomplete (the count of actual slides is less then count of displayed slides according to config). Default is empty.
+
+ - `no-inert` - 'fine-tunning' attribute to disable inert attribute on invisible slides. Default: `false`.
+
+#### State Attributes (read-only)
+ 
+ - `empty` - defines if the carousel is empty.
+ - `incomplete` - defines if the carousel is incomplete.
+ - `single-slide` - defines if the carousel has only one slide.
+ - `animating` - defines if the carousel is in the process of slide transition.
+
+### ESL Carousel Slide API
+
+As was mentioned previously the ESLCarousel slides should be marked with `esl-carousel-slide` custom attribute.
+The mixin behind the `esl-carousel-slide` attribute also provides some markers to define the slide state.
+
+#### Attributes (read-only)
+ 
+ - `active` - defines if the slide(s) is active (visible according to carousel).
+ - `pre-active` - defines if the slide(s) will be visible when the current transition is finished. Present only during the transition. 
+ - `next` - defines if the slide(s) is the next one to be shown.
+ - `prev` - defines if the slide(s) is the previous one to be shown.
+
+#### Accessibility behavior
+
+The `esl-carousel-slide` mixin provides the accessibility behavior.
+The accessibility behavior is based on the following attributes:
+
+- `inert` - will be set to `true` for all slides that are not active. Carousel uses `inert` attribute to disable the focusable elements inside the slides.
+To disable this behavior you can use `no-inert` attribute on the ESLCarousel element.
+
+- `aria-hidden` - will be set to `true` for all slides that are not active.
+- `aria-label` - will be set to the slide index description (e.g. "Slide #") if the slide does not have a label.
+- `role` - will be set to `listitem` for all slides.
+- `aria-roledescription` - will be set to 'slide' for all slides.
+
+### ESLCarousel Renderers
+You can choose the renderer for the ESLCarousel component trough the `type` attribute.
+Diferent type of renderers can be associated with different media condition (see `ESLMediaRuleList` syntax support).
+The following renderers are available out of the box:
+
+- #### Default (type: `default`) Renderer
+The default renderer for ESL Carousel. Uses the flexbox layout to display slides. 
+Moves the slides with CSS transitions of the scene `transform` property.
+If the `loop` attribute is set to `true`, the renderer will reorder the slides with a flexbox order property to create the loop effect.
+Does not do any DOM manipulations with the slides.
+Supports the posibility to show multiple slides at once as well as siblings visibility effect (the next and previous slides are partially visible).
+Supoorst all ESLCarousel attributes and properties including `vertical` and `step-duration`.
+
+To fine tune the layout you can use the following CSS recepies:
+  1. Slide size:
+    The carousel renderer defines the `--esl-slide-size` (readonly) CSS variable with the size of the slide according to the carousel calculations.
+    However, we do not recomend to rely on it to render first slide. It is recommended to define `width` or `height` for the slide elements explicitly.
+    You can define `width` or `height` in px (absolute value), any media related unit or relativly in %. 
+    Default layout makes it possible to use % based sizes for the slides, based on the carousel size (but not the scene size).
+    For examole `width: 100%` will make the slide to fill the carousel width.
+  2. Slide spacing:
+    To define the space between the slides you can just use native flexbox `gap` property.
+    The renderer is aware of the gap and will adjust the slide size and calculations accordingly.
+  3. Transitions:
+    The renderer utilizes JS Animation API to animate the slides. The only way to customize the transition timing is to use the `step-duration` attribute on the `esl-carousel` element.
+  4. Siblings visibility and overflow:
+    The CSS overflow property is set to `clip`(or `hidden` for legacy browsers) on the `esl-carousel` element to hide out of view slides.
+    However, the start position and calculations are based on `esl-carousel-slides` container element.
+    You can utilize this to create siblings visibility effect by setting margin to the `esl-carousel-slides` container.
+    Note that out of the box ESL Carousel already utilizes that trick to set visibility tolerance, you can adjust the out of the box behavior with `--esl-carousel-side-space` CSS variable as well.
+
+- #### Grid (type: `grid`) Renderer <i class="badge badge-sup badge-warning">beta</i>
+The grid renderer for ESL Carousel is based on the Default renderer but uses the CSS Grid layout to display slides.
+Unlike the Default renderer, the Grid renderer displays multiple rows (horizontal case) or columns (vertical case) of slides.
+
+Note that the Grid renderer is more restrictive in terms of the slide size definition. Unlike the Default renderer, the Grid renderer does not support relative sizes for the slides (grid layout liitations).
+
+- #### None (type: `none`) Renderer
+The none renderer for ESL Carousel is a dummy renderer that does not change the slides layout and assumes that all the slides are visible at once.
+It is useful when you want to 'mute' the carousel behavior for some media conditions. 
+For example, you need the carousel on mobile but want to show all the slides at once on desktop.
+
+### ESLCarousel Plugins
+The ESLCarousel supports a set of plugins to extend the carousel functionality.
+The most of plugins are mixins that can be applied to the ESLCarousel element (except navigation related plugins).
+
+Here is a list of available plugins:
+
+- #### Navigation Controls
+  - 🔗[`esl-carousel-nav`](./plugin/nav/README.md) - custom attribute mixin to add to navigation elements of the carousel
+  - 🔗[`esl-carousel-dots`](./plugin/dots/README.md) - custom element to add dots navigation to the carousel
+- #### Navigation Plugins
+  - 🔗[`esl-carousel-touch`](./plugin/touch/README.md) - custom attribute-plugin to add touch/swipe navigation support to the carousel
+  - 🔗[`esl-carousel-keyboard`](./plugin/keyboard/README.md) - custom attribute-plugin to add keyboard navigation support to the carousel
+  - 🔗[`esl-carousel-wheel`](./plugin/wheel/README.md) - custom attribute-plugin to add mouse wheel navigation support to the carousel
+- #### Misc Plugin
+  - 🔗[`esl-carousel-autoplay`](./plugin/autoplay/README.md) - custom attribute-plugin to add autoplay functionality to the carousel
+  - 🔗[`esl-carousel-relate-to`](./plugin/relation/README.md) - custom attribute-plugin to relate the carousel to another carousel
