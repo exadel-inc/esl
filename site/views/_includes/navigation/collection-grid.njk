@@ -25,8 +25,8 @@
           </div>
           <hr class="collection-grid-divider" />
           <div class="collection-grid-box collection-grid-svg">
-            {% if item.data.icon %}
-              {% include "static/assets/" + item.data.icon %}
+            {% if item.data.collectionIcon or item.data.icon %}
+              {% include "static/assets/" + (item.data.collectionIcon or item.data.icon) %}
             {% elseif options.isList %}
               <span class="arrows-icon right"></span>
             {% elseif item.data.iconAlt %}

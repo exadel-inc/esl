@@ -13,7 +13,7 @@ landing:
       create modern-looking, effective, and user-friendly interfaces faster.
     ctas:
       - text: Get started
-        url: /introduction
+        url: /introduction/installation-guide/
         style: sec-blue
       - text: See the library in action
         url: /examples

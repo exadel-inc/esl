@@ -23,29 +23,15 @@
             </a>
           </div>
         </li>
-        <li class="sidebar-nav-item">
-          {{ navItem ('Introduction', 'introduction', 'static/assets/sidebar/intro.svg') }}
-        </li>
-        <li class="sidebar-nav-item">
-          {{ navItem ('Core', 'core', 'static/assets/sidebar/utils.svg') }}
-        </li>
-        <li class="sidebar-nav-item">
-          {{ navItem ('Components', 'components', 'static/assets/sidebar/components.svg') }}
-        </li>
-        <li class="sidebar-nav-item">
-          {{ navItem ('Examples', 'examples', 'static/assets/sidebar/examples.svg') }}
-        </li>
-        {% set releasedBlogs = collections.blogs | released %}
-        {% if releasedBlogs.length %}
-        <li class="sidebar-nav-item">
-          {{ navItem ('Blogs', 'blogs', 'static/assets/sidebar/blogs.svg') }}
-        </li>
-        {% endif %}
-        {% if env.isDev or functions.isActivePath(page.url, 'draft') %}
-          <li class="sidebar-nav-item">
-            {{ navItem ('Drafts', 'draft', 'static/assets/common/flask.svg') }}
-          </li>
-        {% endif %}
+
+        {% for item in collections.nav | sortBy('order') %}
+          {% set isNoEmpty = collections[item.data.collection] | released | exclude('data.collection') | length %}
+          {% set isActive = env.isDev or functions.isActivePath(page.url, item.data.collection) %}
+
+          {% if isNoEmpty or (isNoEmpty and isActive) %}
+            {{ navItem (item.data.title, item.data.collection, item.data.icon) }}
+          {% endif %}
+        {% endfor %}
 
         <hr class="sidebar-nav-item-divider show-xs"/>
 
