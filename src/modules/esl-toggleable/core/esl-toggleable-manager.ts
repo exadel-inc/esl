@@ -46,8 +46,9 @@ export class ESLToggleableManager {
 
   /** Returns the stack of the toggleable elements for the specified element */
   public getChainFor(element: ESLToggleable | undefined): ESLToggleable[] {
-    const stack = [];
+    const stack: ESLToggleable[] = [];
     while (element) {
+      if (stack.includes(element)) break;
       stack.push(element);
       element = this.findRelated(element.activator);
     }
@@ -113,7 +114,7 @@ export class ESLToggleableManager {
 
   /** Focus event handler for the focus management */
   @listen({event: 'focusin', target: document})
-  protected _onFocusOut(e: FocusEvent): void {
+  protected _onFocusIn(e: FocusEvent): void {
     const {current} = this;
     if (!current || current.a11y === 'autofocus') return;
     // Check if the focus is still inside the element
