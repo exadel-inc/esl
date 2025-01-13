@@ -89,7 +89,7 @@
     "concurrently": "^9.1.0",
     "copyfiles": "^2.4.1",
     "cross-env": "^7.0.3",
-    "eslint": "^9.17.0",
+    "eslint": "^9.18.0",
     "foreach-cli": "^1.8.1",
     "husky": "^9.1.7",
     "kleur": "^4.1.5",
