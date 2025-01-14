@@ -127,7 +127,7 @@
     "stylelint": "^16.13.0",
     "stylelint-prettier": "^5.0.2",
     "ts-jest": "^29.2.5",
-    "typescript": "5.7.2"
+    "typescript": "5.7.3"
   },
   "overrides": {
     "conventional-changelog-conventionalcommits": ">= 8.0.0"
