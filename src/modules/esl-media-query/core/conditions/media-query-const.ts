@@ -31,7 +31,6 @@ class MediaQueryConstCondition implements IMediaQueryCondition {
 
   /** Compares const media condition with the passed query instance or string */
   public eq(val: IMediaQueryCondition | string): boolean {
-    // eslint-disable-next-line @typescript-eslint/no-base-to-string
     return String(val).trim() === this.toString();
   }
 }

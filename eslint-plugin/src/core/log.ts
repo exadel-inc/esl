@@ -17,13 +17,19 @@ export function log(msg: string, severity: 'error' | 'warn' | 'off' = 'off'): vo
 }
 
 export function buildLoggingRule(msg: string, severity: 'error' | 'warn' | 'off' = 'off'): Rule.RuleModule {
-  log(msg, severity);
+  let notified = false;
   return {
     meta: {
       docs: {
         description: msg,
       }
     },
-    create: (): Rule.RuleListener => ({})
+    create: (): Rule.RuleListener => {
+      if (!notified) {
+        log(msg, severity);
+        notified = true;
+      }
+      return {};
+    }
   };
 }

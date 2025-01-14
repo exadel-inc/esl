@@ -1,4 +1,3 @@
-import {buildLoggingRule} from './log';
 import type * as ESTree from 'estree';
 import type {Rule} from 'eslint';
 
@@ -23,19 +22,13 @@ export interface ESLintDeprecationStaticMethodCfg {
   deprecatedMethod: string;
   /** Function that returns recommended method */
   getReplacementMethod: (expression: ESTree.CallExpression) => ESLintReplacementMethodCfg | string;
-  /** Data that indicates whether the rule should be skipped */
-  skipOn?: {actual: boolean, message: string};
 }
 
 type StaticMethodNode = ESTree.MemberExpression & Rule.NodeParentExtension;
 
 /** Builds deprecation rule from {@link ESLintDeprecationStaticMethodCfg} object */
 export function buildRule(configs: ESLintDeprecationStaticMethodCfg | ESLintDeprecationStaticMethodCfg[]): Rule.RuleModule {
-  configs = (Array.isArray(configs) ? configs : [configs]).filter((config) => {
-    const {skipOn} = config;
-    if (!skipOn || skipOn.actual) return true;
-    buildLoggingRule(skipOn.message);
-  });
+  configs = (Array.isArray(configs) ? configs : [configs]);
 
   const create = (context: Rule.RuleContext): Rule.RuleListener => {
     return {
