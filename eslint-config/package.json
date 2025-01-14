@@ -28,7 +28,7 @@
     "eslint-plugin-import-x": "^4.6.1",
     "eslint-plugin-sonarjs": "^1.0.4",
     "eslint-plugin-tsdoc": "^0.4.0",
-    "typescript-eslint": "^8.18.1"
+    "typescript-eslint": "^8.19.1"
   },
   "peerDependencies": {
     "eslint": ">=9.0.0"
