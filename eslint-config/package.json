@@ -22,7 +22,7 @@
     "test": ""
   },
   "dependencies": {
-    "@eslint/js": "^9.17.0",
+    "@eslint/js": "^9.18.0",
     "@stylistic/eslint-plugin": "^2.13.0",
     "eslint-plugin-editorconfig": "^4.0.3",
     "eslint-plugin-import-x": "^4.6.1",
