@@ -70,7 +70,9 @@ export class ESLMixinRegistry {
     if (!root) return;
     name ? this.invalidate(root, name) : this.invalidateAll(root);
     if (!root.children?.length) return;
-    Array.prototype.forEach.call(root.children, (child: Element) => this.invalidateRecursive(child as HTMLElement, name));
+    for (const child of root.children) {
+      this.invalidateRecursive(child as HTMLElement, name);
+    }
   }
 
   /**
