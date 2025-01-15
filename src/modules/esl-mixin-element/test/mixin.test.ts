@@ -172,4 +172,42 @@ describe('ESLMixinElement', () => {
       expect(TestMixin2.instanceCounter).toBe(0);
     });
   });
+
+  describe('ESLMixinRegistry handles all mixins although they change the DOM structure', () => {
+    const log: string[] = [];
+    class TestMixin3 extends ESLMixinElement {
+      static override is = 'test-mixin-3';
+
+      protected override connectedCallback(): void {
+        super.connectedCallback();
+        this.$host.before(document.createElement('span'), document.createElement('span'));
+        this.$host.after(document.createElement('span'), document.createElement('span'));
+        log.push(this.$host.id);
+      }
+    }
+
+    beforeAll(async () => {
+      TestMixin3.register();
+    });
+
+    test('should register mixins in order although they create siblings before and after the host element', async () => {
+      const buildEl = (id: string) => {
+        const $a = document.createElement('a');
+        $a.id = `a-${id}`;
+        $a.toggleAttribute(TestMixin3.is, true);
+        return $a;
+      };
+      const $p = document.createElement('p');
+      $p.append(buildEl('1'), buildEl('2'), buildEl('3'));
+      document.body.appendChild($p);
+
+      await Promise.resolve();
+
+      expect(log).toEqual(['a-1', 'a-2', 'a-3']);
+    });
+
+    afterEach(() => {
+      document.body.replaceChildren();
+    });
+  });
 });
