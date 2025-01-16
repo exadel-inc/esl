@@ -1,0 +1,15 @@
+.page-breadcrumbs {
+  margin-top: 20px;
+  color: @primary-blue;
+
+  .page-breadcrumb {
+    display: inline-block;
+    list-style: none;
+  }
+
+  .page-breadcrumb::after {
+    content: '/';
+    color: #000;
+    margin-inline: 10px;
+  }
+}

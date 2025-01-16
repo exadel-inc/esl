@@ -1,0 +1,237 @@
+---
+layout: content
+title: Tabs Scrollable
+seoTitle: Tabs UI examples based on ESL web components
+name: Tabs Scrollable
+tags: [dev]
+---
+{% import 'lorem.njk' as lorem %}
+
+<section>
+    <h2>Tabs (scrollable)</h2>
+    <p>Scrollable tabs component example</p>
+    {% code 'html', 'code-block' %}
+        <esl-tabs scrollable/>
+        <esl-panel-group mode="tabs"
+                         mode-cls-target="::parent"/>
+    {% endcode %}
+
+    <div class="esl-d-tabs">
+        <esl-tabs class="esl-d-tab-control" scrollable>
+            <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
+
+            <div class="arrow-prev" data-tab-direction="left">
+                <span class="icon-arrow-prev"></span>
+            </div>
+
+            <ul class="esl-d-tab-list esl-tab-container esl-scrollable-content" role="tablist">
+                <li class="esl-d-tab-item">
+                    <esl-tab class="h5"
+                             target="::parent(.esl-d-tabs)::find(.tab-1)">
+                        Tab #1 Lorem ipsum
+                    </esl-tab>
+                </li>
+                <li class="esl-d-tab-item">
+                    <esl-tab class="h5"
+                             target="::parent(.esl-d-tabs)::find(.tab-2)">
+                        Tab #2 Lorem ipsum
+                    </esl-tab>
+                </li>
+                <li class="esl-d-tab-item">
+                    <esl-tab class="h5"
+                             target="::parent(.esl-d-tabs)::find(.tab-3)">
+                        Tab #3 Lorem ipsum
+                    </esl-tab>
+                </li>
+                <li class="esl-d-tab-item">
+                    <esl-tab class="h5"
+                             target="::parent(.esl-d-tabs)::find(.tab-4)">
+                        Tab #4 Lorem ipsum
+                    </esl-tab>
+                </li>
+            </ul>
+
+            <div class="arrow-next" data-tab-direction="right">
+                <span class="icon-arrow-next"></span>
+            </div>
+        </esl-tabs>
+
+        <esl-panel-group class="esl-d-tab-group"
+                         mode="tabs"
+                         mode-cls-target="::parent">
+            <esl-panel class="esl-d-tab-panel tab-1" tabindex="0">
+                <div class="esl-d-tab-body">
+                    {{ lorem.paragraphs(2) }}
+                </div>
+            </esl-panel>
+            <esl-panel open class="esl-d-tab-panel tab-2" tabindex="0">
+                <div class="esl-d-tab-body">
+                    {{ lorem.paragraphs(1) }}
+                </div>
+            </esl-panel>
+            <esl-panel class="esl-d-tab-panel tab-3" tabindex="0">
+                <div class="esl-d-tab-body">
+                    {{ lorem.paragraphs(3) }}
+                </div>
+            </esl-panel>
+            <esl-panel class="esl-d-tab-panel tab-4" tabindex="0">
+                <div class="esl-d-tab-body">
+                    {{ lorem.paragraphs(1) }}
+                </div>
+            </esl-panel>
+        </esl-panel-group>
+    </div>
+</section>
+
+
+<section>
+    <h2>Tabs (scrollable, scroll to center)</h2>
+    <p>Scrollable tabs (scroll to center) component example</p>
+    {% code 'html', 'code-block' %}
+        <esl-tabs scrollable="center"/>
+        <esl-panel-group mode="tabs"
+                         mode-cls-target="::parent"/>
+    {% endcode %}
+
+    <div class="esl-d-tabs">
+        <esl-tabs class="esl-d-tab-control" scrollable="center">
+            <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
+
+            <div class="arrow-prev" data-tab-direction="left">
+                <span class="icon-arrow-prev"></span>
+            </div>
+
+            <ul class="esl-d-tab-list esl-tab-container esl-scrollable-content" role="tablist">
+                <li class="esl-d-tab-item">
+                    <esl-tab class="h5"
+                             target="::parent(.esl-d-tabs)::find(.tab-1)">
+                        Tab #1 Lorem ipsum
+                    </esl-tab>
+                </li>
+                <li class="esl-d-tab-item">
+                    <esl-tab class="h5"
+                             target="::parent(.esl-d-tabs)::find(.tab-2)">
+                        Tab #2 Lorem ipsum
+                    </esl-tab>
+                </li>
+                <li class="esl-d-tab-item">
+                    <esl-tab class="h5"
+                             target="::parent(.esl-d-tabs)::find(.tab-3)">
+                        Tab #3 Lorem ipsum
+                    </esl-tab>
+                </li>
+                <li class="esl-d-tab-item">
+                    <esl-tab class="h5"
+                             target="::parent(.esl-d-tabs)::find(.tab-4)">
+                        Tab #4 Lorem ipsum
+                    </esl-tab>
+                </li>
+            </ul>
+
+            <div class="arrow-next" data-tab-direction="right">
+                <span class="icon-arrow-next"></span>
+            </div>
+        </esl-tabs>
+
+        <esl-panel-group class="esl-d-tab-group"
+                         mode="tabs"
+                         mode-cls-target="::parent">
+            <esl-panel class="esl-d-tab-panel tab-1" tabindex="0">
+                <div class="esl-d-tab-body">
+                    {{ lorem.paragraphs(2) }}
+                </div>
+            </esl-panel>
+            <esl-panel open class="esl-d-tab-panel tab-2" tabindex="0">
+                <div class="esl-d-tab-body">
+                    {{ lorem.paragraphs(1) }}
+                </div>
+            </esl-panel>
+            <esl-panel class="esl-d-tab-panel tab-3" tabindex="0">
+                <div class="esl-d-tab-body">
+                    {{ lorem.paragraphs(3) }}
+                </div>
+            </esl-panel>
+            <esl-panel class="esl-d-tab-panel tab-4" tabindex="0">
+                <div class="esl-d-tab-body">
+                    {{ lorem.paragraphs(1) }}
+                </div>
+            </esl-panel>
+        </esl-panel-group>
+    </div>
+</section>
+
+<section>
+    <h2>Tabs (scrollable, center alignment, scroll to center)</h2>
+    <p>Scrollable tabs (scroll to center) component example</p>
+    {% code 'html', 'code-block' %}
+        <esl-tabs class="center-alignment" scrollable="center"/>
+        <esl-panel-group mode="tabs"
+                         mode-cls-target="::parent"/>
+    {% endcode %}
+
+    <div class="esl-d-tabs">
+        <esl-tabs class="esl-d-tab-control center-alignment" scrollable="center">
+            <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
+
+            <div class="arrow-prev" data-tab-direction="left">
+                <span class="icon-arrow-prev"></span>
+            </div>
+
+            <ul class="esl-d-tab-list esl-tab-container esl-scrollable-content" role="tablist">
+                <li class="esl-d-tab-item">
+                    <esl-tab class="h5"
+                             target="::parent(.esl-d-tabs)::find(.tab-1)">
+                        Tab #1 Lorem ipsum
+                    </esl-tab>
+                </li>
+                <li class="esl-d-tab-item">
+                    <esl-tab class="h5"
+                             target="::parent(.esl-d-tabs)::find(.tab-2)">
+                        Tab #2 Lorem ipsum
+                    </esl-tab>
+                </li>
+                <li class="esl-d-tab-item">
+                    <esl-tab class="h5"
+                             target="::parent(.esl-d-tabs)::find(.tab-3)">
+                        Tab #3 Lorem ipsum
+                    </esl-tab>
+                </li>
+                <li class="esl-d-tab-item">
+                    <esl-tab class="h5"
+                             target="::parent(.esl-d-tabs)::find(.tab-4)">
+                        Tab #4 Lorem ipsum
+                    </esl-tab>
+                </li>
+            </ul>
+
+            <div class="arrow-next" data-tab-direction="right">
+                <span class="icon-arrow-next"></span>
+            </div>
+        </esl-tabs>
+
+        <esl-panel-group class="esl-d-tab-group"
+                         mode="tabs"
+                         mode-cls-target="::parent">
+            <esl-panel class="esl-d-tab-panel tab-1" tabindex="0">
+                <div class="esl-d-tab-body">
+                    {{ lorem.paragraphs(2) }}
+                </div>
+            </esl-panel>
+            <esl-panel open class="esl-d-tab-panel tab-2" tabindex="0">
+                <div class="esl-d-tab-body">
+                    {{ lorem.paragraphs(1) }}
+                </div>
+            </esl-panel>
+            <esl-panel class="esl-d-tab-panel tab-3" tabindex="0">
+                <div class="esl-d-tab-body">
+                    {{ lorem.paragraphs(3) }}
+                </div>
+            </esl-panel>
+            <esl-panel class="esl-d-tab-panel tab-4" tabindex="0">
+                <div class="esl-d-tab-body">
+                    {{ lorem.paragraphs(1) }}
+                </div>
+            </esl-panel>
+        </esl-panel-group>
+    </div>
+</section>

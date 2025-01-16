@@ -7,16 +7,25 @@ UIPJSRenderingPreprocessors.addRegexReplacer(
   '"/bundles/lib.js"'
 );
 
-// Add template
+// Store default template as empty
+UIPRenderingTemplatesService.add('empty', UIPRenderingTemplatesService.get('default')!);
+// Inject ESL context to default template
 UIPRenderingTemplatesService.add('default', `
   <html>
     <head>
       <title>{title}</title>
       <base href="${location.origin}"/>
+      <style>
+        html, body {
+          overflow: clip;
+          height: 100%;
+          max-height: 100%;
+        }
+      </style>
       <link rel="stylesheet" href="/bundles/lib.css">
       <script type="module">{script}</script>
     </head>
-    <body style="overflow: hidden;">
+    <body>
       <div uip-content-root>{content}</div>
     </body>
   </html>

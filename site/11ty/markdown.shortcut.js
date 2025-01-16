@@ -16,15 +16,23 @@ class MDRenderer {
       // Exclude part before start anchor
       if (startAnchor) {
         const startAnchorElement = MDRenderer.findAnchor(window.document, startAnchor);
-        while (startAnchorElement.previousSibling) startAnchorElement.previousSibling.remove();
-        startAnchorElement.remove();
+        if (startAnchorElement) {
+          while (startAnchorElement.previousSibling) startAnchorElement.previousSibling.remove();
+          startAnchorElement.remove();
+        } else {
+          console.error('MDRenderer.render: start anchor "%s" not found for %s', startAnchor, filePath);
+        }
       }
 
       // Exclude part after end anchor
       if (endAnchor) {
         const endAnchorElement = MDRenderer.findAnchor(window.document, endAnchor);
-        while (endAnchorElement.nextSibling) endAnchorElement.nextSibling.remove();
-        endAnchorElement.remove();
+        if (endAnchorElement) {
+          while (endAnchorElement.nextSibling) endAnchorElement.nextSibling.remove();
+          endAnchorElement.remove();
+        } else {
+          console.error('MDRenderer.render: end anchor "%s" not found for %s', endAnchor, filePath);
+        }
       }
 
       // Resolve content links
@@ -33,7 +41,8 @@ class MDRenderer {
       // Render result content
       return MDRenderer.renderContent(window.document.body);
     } catch (e) {
-      return `Rendering error: ${e}`;
+      console.error('MDRenderer.render: error during rendering...\n%s', e);
+      return `Critical rendering error: ${e}`;
     }
   }
 

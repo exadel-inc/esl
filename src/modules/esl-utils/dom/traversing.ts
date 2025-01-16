@@ -1,3 +1,4 @@
+import {isElement} from './api';
 import type {Predicate} from '../misc/functions';
 
 /** Checks if element matches passed selector or exact predicate function */
@@ -7,6 +8,11 @@ export const isMatches = (el: Element, matcher?: string | ((el: Element) => bool
   return typeof matcher === 'undefined';
 };
 
+/** Safely checks if the target element is within the container element */
+export const isSafeContains = (container: Node | null | undefined, element: Node | null | undefined): boolean => {
+  return isElement(element) && isElement(container) && container.contains(element);
+};
+
 /** Checks that `nodeA` and `nodeB` are from the same tree path */
 export function isRelativeNode(nodeA: null | undefined, nodeB: Node | null | undefined): false;
 /** Checks that `nodeA` and `nodeB` are from the same tree path */
@@ -14,7 +20,8 @@ export function isRelativeNode(nodeA: Node | null | undefined, nodeB: null | und
 /** Checks that `nodeA` and `nodeB` are from the same tree path */
 export function isRelativeNode(nodeA: Node | null | undefined, nodeB: Node | null | undefined): boolean;
 export function isRelativeNode(nodeA: Node | null | undefined, nodeB: Node | null | undefined): boolean {
-  return !!(nodeA && nodeB) && (nodeA.contains(nodeB) || nodeB.contains(nodeA));
+  if (!isElement(nodeA) || !isElement(nodeB)) return false;
+  return nodeA.contains(nodeB) || nodeB.contains(nodeA);
 }
 
 type IteratorFn = (el: Element) => Element | null;
@@ -77,18 +84,3 @@ export const findNextLooped =
  */
 export const findPrevLooped =
   createSequenceFinder((el) => el.previousElementSibling || (el.parentElement && el.parentElement.lastElementChild));
-
-/** @deprecated Cumulative traversing utility set */
-export abstract class TraversingUtils {
-  static isRelative = isRelativeNode;
-  static closestBy = findClosestBy;
-  static createSequenceFinder = createSequenceFinder;
-
-  static findNext = findNext;
-  static findPrev = findPrev;
-  static findParent = findParent;
-  static findClosest = findClosest;
-
-  static findAll = findAll;
-  static findChildren = findChildren;
-}

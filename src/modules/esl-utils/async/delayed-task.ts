@@ -3,7 +3,7 @@ import type {AnyToVoidFnSignature} from '../misc/functions';
 /**
  * Task placeholder with a single place for executing deferred task.
  * Only one task can be planed per DelayedTask instance.
- * @see put DelayedTask.put behaviour description.
+ * @see put DelayedTask.put behavior description.
  */
 export class DelayedTask {
   protected _fn: AnyToVoidFnSignature | null = null;

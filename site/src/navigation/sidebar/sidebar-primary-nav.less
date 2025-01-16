@@ -112,9 +112,7 @@ esl-d-sidebar {
     transform-origin: center;
     transition: transform 0.5s ease-in-out;
   }
-  .sidebar-nav-item-trigger[active] {
-    &.sidebar-nav-item-arrow::after {
-      transform: rotate(180deg);
-    }
+  .sidebar-nav-item-arrow[active]::after {
+    transform: rotate(180deg);
   }
 }

@@ -2,15 +2,11 @@ export interface IMediaQueryCondition extends EventTarget {
   /** @returns true if current environment satisfies query */
   matches: boolean;
 
-  /** @deprecated alias for `addEventListener` */
-  addListener(cb: EventListener): void;
   /** Subscribes to media query state change. Shortcut for `addEventListener('change', callback)` */
   addEventListener(callback: EventListener): void;
   /** Subscribes to media query state change. Implements {@link EventTarget} interface */
   addEventListener(type: 'change', callback: EventListener): void;
 
-  /** @deprecated alias for `removeEventListener` */
-  removeListener(cb: EventListener): void;
   /** Unsubscribes from media query state change event. Shortcut for `removeEventListener('change', callback)` */
   removeEventListener(callback: EventListener): void;
   /** Unsubscribes from media query state change event. Implements {@link EventTarget} interface */
@@ -18,9 +14,12 @@ export interface IMediaQueryCondition extends EventTarget {
 
   /** Optimize condition with nested hierarchy */
   optimize(): IMediaQueryCondition;
+
+  /** Returns serialized value of the condition (any IMediaQueryCondition instance should be able to be serializable) */
+  toString(): string;
 }
 
-/** Custom event dispatched by {@link ESLMediaQuery} instances */
+/** A custom event dispatched by {@link ESLMediaQuery} instances */
 export class ESLMediaChangeEvent extends Event {
   /** `true` if the query is matched device conditions when event was dispatched */
   public readonly matches: boolean;

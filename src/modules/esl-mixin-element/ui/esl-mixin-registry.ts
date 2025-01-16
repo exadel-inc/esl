@@ -70,7 +70,9 @@ export class ESLMixinRegistry {
     if (!root) return;
     name ? this.invalidate(root, name) : this.invalidateAll(root);
     if (!root.children?.length) return;
-    Array.prototype.forEach.call(root.children, (child: Element) => this.invalidateRecursive(child as HTMLElement, name));
+    for (const child of root.children) {
+      this.invalidateRecursive(child as HTMLElement, name);
+    }
   }
 
   /**
@@ -136,7 +138,7 @@ export class ESLMixinRegistry {
   /** @returns all mixins initialized on passed host element */
   public static getAll(el: HTMLElement): ESLMixinElement[] {
     const store = (el as any)[STORE] as Record<string, ESLMixinElement> | undefined;
-    return store ? Object.keys(store).map((key: string) => store[key]) : [];
+    return store ? Object.values(store) : [];
   }
 
   /** @returns if the passed mixin exists on the element */

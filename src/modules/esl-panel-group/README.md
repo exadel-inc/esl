@@ -21,7 +21,7 @@ ESLPanelGroup.register();
 - `mode-cls-target` - Element [ESLTraversingQuery](../esl-traversing-query/README.md)  selector to add class that identifies mode (ESLPanelGroup itself by default)
 - `animation-class` - class(es) to be added during animation ('animate' by default)
 - `no-animate` - list of breakpoints to skip collapse/expand animation (for both Group and Panel animations)
-- `refresh-strategy` - defines behaviour of active panel(s) in case of configuration change:
+- `refresh-strategy` - defines behavior of active panel(s) in case of configuration change:
   * `initial` - activates initially opened panel(s)
   * `last` - maintains a currently active panel(s) open
   * `open` - open max of available panels

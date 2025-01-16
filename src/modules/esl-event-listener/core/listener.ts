@@ -162,7 +162,6 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
   }
   /** Adds a listener to the listener store of the host object */
   protected static add(host: object, instance: ESLEventListener): void {
-    if (!isObjectLike(host)) return;
     if (!Object.hasOwnProperty.call(host, LISTENERS)) (host as any)[LISTENERS] = [];
     (host as any)[LISTENERS].push(instance);
   }

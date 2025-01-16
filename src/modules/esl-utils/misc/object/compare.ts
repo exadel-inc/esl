@@ -13,9 +13,6 @@ export function isEqual(obj1: any, obj2: any): boolean {
   return false;
 }
 
-/** @deprecated alias for `isEqual` method */
-export const deepCompare = isEqual;
-
 /** Check if arr and arr mask has intersection */
 function isIntersect(arrObj: any[], arrMask: any[], comparer: (a: any, b: any) => boolean): boolean {
   return arrMask.every((key) => arrObj.some((itm) => comparer(itm, key)));

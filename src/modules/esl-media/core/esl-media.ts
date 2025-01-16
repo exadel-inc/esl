@@ -5,7 +5,7 @@ import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {SPACE, PAUSE} from '../../esl-utils/dom/keys';
 import {prop, attr, boolAttr, listen} from '../../esl-utils/decorators';
 import {debounce} from '../../esl-utils/async';
-import {parseAspectRatio} from '../../esl-utils/misc/format';
+import {parseAspectRatio, parseBoolean} from '../../esl-utils/misc/format';
 
 import {ESLMediaQuery} from '../../esl-media-query/core';
 import {ESLResizeObserverTarget} from '../../esl-event-listener/core';
@@ -35,7 +35,6 @@ const parseLazyAttr = (v: string): ESLMediaLazyMode => isLazyAttr(v) ? v : 'auto
 export class ESLMedia extends ESLBaseElement {
   public static override is = 'esl-media';
   public static observedAttributes = [
-    'disabled',
     'load-condition',
     'media-type',
     'media-id',
@@ -78,11 +77,6 @@ export class ESLMedia extends ESLBaseElement {
   @attr() public fillMode: ESLMediaFillMode;
   /** Strict aspect ratio definition */
   @attr() public aspectRatio: string;
-  /**
-   * Disabled marker to prevent rendering
-   * @deprecated replaced with {@link lazy} = "manual" functionality
-   */
-  @boolAttr() public disabled: boolean;
   /** Allows lazy load resource */
   @attr({parser: parseLazyAttr, defaultValue: 'none'}) public lazy: ESLMediaLazyMode;
   /** Autoplay resource marker */
@@ -101,6 +95,9 @@ export class ESLMedia extends ESLBaseElement {
   @boolAttr() public playInViewport: boolean;
   /** Allows to start viewing a resource from a specific time offset. */
   @attr({parser: parseInt}) public startTime: number;
+  /** Allows player to accept focus */
+  @attr({parser: parseBoolean, defaultValue: ($this: ESLMedia) => $this.controls}) public focusable: boolean;
+
 
   /** Preload resource */
   @attr({defaultValue: 'auto'}) public preload: 'none' | 'metadata' | 'auto' | '';
@@ -110,25 +107,9 @@ export class ESLMedia extends ESLBaseElement {
   /** Ready state class/classes target */
   @attr() public readyClassTarget: string;
 
-  /**
-   * Class / classes to add when media is accepted
-   * @deprecated use {@link loadConditionClass} instead (e.g. `load-condition-class="is-accepted"`)
-   */
-  @attr() public loadClsAccepted: string;
-  /**
-   * Class / classes to add when media is declined
-   * @deprecated use {@link loadConditionClass} with negative class param instead (e.g. `load-condition-class="!is-declined"`)
-   */
-  @attr() public loadClsDeclined: string;
-  /**
-   * Target element {@link ESLTraversingQuery} select to add accepted/declined classes
-   * @deprecated used with legacy load condition attributes, consider migration to {@link loadConditionClass}
-   */
-  @attr({defaultValue: '::parent'}) public loadClsTarget: string;
-
   /** Condition {@link ESLMediaQuery} to allow load of media resource. Default: `all` */
   @attr({defaultValue: 'all'}) public loadCondition: string;
-  /** Class / classes to add when load media is accepted */
+  /** Class / classes to add when load media is accepted. Supports multiple and inverted classes */
   @attr() public loadConditionClass: string;
   /** Target element {@link ESLTraversingQuery} select to toggle {@link loadConditionClass} classes */
   @attr({defaultValue: '::parent'}) public loadConditionClassTarget: string;
@@ -141,6 +122,8 @@ export class ESLMedia extends ESLBaseElement {
   @boolAttr({readonly: true}) public played: boolean;
   /** @readonly Error state marker */
   @boolAttr({readonly: true}) public error: boolean;
+  /** @readonly Width is greater than height state marker */
+  @boolAttr({readonly: true}) public wide: boolean;
 
   private _provider: BaseProvider | null;
 
@@ -177,7 +160,6 @@ export class ESLMedia extends ESLBaseElement {
   protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected || oldVal === newVal) return;
     switch (attrName) {
-      case 'disabled':
       case 'media-id':
       case 'media-src':
       case 'media-type':
@@ -209,8 +191,7 @@ export class ESLMedia extends ESLBaseElement {
   }
 
   public canActivate(): boolean {
-    if (this.lazy !== 'none' || this.disabled) return false;
-    return this.conditionQuery.matches;
+    return this.lazy === 'none' && this.conditionQuery.matches;
   }
 
   private reinitInstance(): void {
@@ -232,15 +213,8 @@ export class ESLMedia extends ESLBaseElement {
   }
 
   public updateContainerMarkers(): void {
-    const active = this.conditionQuery.matches;
-
     const $target = ESLTraversingQuery.first(this.loadConditionClassTarget, this) as HTMLElement;
-    $target && CSSClassUtils.toggle($target, this.loadConditionClass, active);
-
-    // Legacy attributes support
-    const targetEl = ESLTraversingQuery.first(this.loadClsTarget, this) as HTMLElement;
-    targetEl && CSSClassUtils.toggle(targetEl, this.loadClsAccepted, active);
-    targetEl && CSSClassUtils.toggle(targetEl, this.loadClsDeclined, !active);
+    $target && CSSClassUtils.toggle($target, this.loadConditionClass, this.conditionQuery.matches);
   }
 
   /** Seek to given position of media */
@@ -250,12 +224,11 @@ export class ESLMedia extends ESLBaseElement {
 
   /**
    * Start playing media
-   * @param allowActivate - allows to remove manual lazy or disabled marker
+   * @param allowActivate - allows to remove manual lazy loading restrictions
    */
   public play(allowActivate: boolean = false): Promise<void> | null {
     if (!this.ready && allowActivate) {
       this.lazy = 'none';
-      this.disabled = false;
       this.deferredReinitialize.cancel();
       this.reinitInstance();
     }
@@ -335,15 +308,9 @@ export class ESLMedia extends ESLBaseElement {
   })
   protected _onResize(): void {
     if (!this._provider) return;
-    if (this.fillModeEnabled && this.actualAspectRatio > 0) {
-      let stretchVertically = this.offsetWidth / this.offsetHeight < this.actualAspectRatio;
-      if (this.fillMode === 'inscribe') stretchVertically = !stretchVertically; // Inscribe behaves inversely
-      stretchVertically ?
-        this._provider.setSize(this.actualAspectRatio * this.offsetHeight, this.offsetHeight) : // h
-        this._provider.setSize(this.offsetWidth, this.offsetWidth / this.actualAspectRatio);   // w
-    } else {
-      this._provider.setSize('auto', 'auto');
-    }
+    const {actualAspectRatio} = this;
+    this.$$attr('wide', this.offsetWidth / this.offsetHeight > actualAspectRatio);
+    this._provider.setAspectRatio(actualAspectRatio);
   }
 
   @listen({

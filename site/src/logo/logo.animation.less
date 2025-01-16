@@ -1,0 +1,66 @@
+.logo-animated {
+  @logo-animation: 5s ease-in-out;
+
+  .shield {
+    animation: logo-enlarge-shield @logo-animation infinite;
+    transform-origin: center;
+  }
+  .wrenches {
+    animation: logo-rotate-180 @logo-animation infinite;
+    transform-origin: center;
+    .w-l {
+      animation: logo-move-wrench-l @logo-animation infinite;
+    }
+    .w-r {
+      animation: logo-move-wrench-r @logo-animation infinite;
+    }
+  }
+  &.animation-delay {
+    .shield,
+    .wrenches,
+    .wrenches .w-l,
+    .wrenches .w-r {
+      animation-delay: 5s;
+    }
+  }
+}
+
+@keyframes logo-enlarge-shield {
+  23%,
+  27% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.15);
+  }
+}
+@keyframes logo-rotate-180 {
+  0%,
+  10%,
+  20.00005% {
+    transform: rotate(0deg);
+  }
+  20% {
+    transform: rotate(180deg);
+  }
+}
+@keyframes logo-move-wrench-l {
+  10%,
+  30% {
+    transform: translate(0px, 0px);
+  }
+  10%,
+  20% {
+    transform: translate(15px, -2px);
+  }
+}
+@keyframes logo-move-wrench-r {
+  0%,
+  30% {
+    transform: translate(0px, 0px);
+  }
+  10%,
+  20% {
+    transform: translate(-15px, 2px);
+  }
+}

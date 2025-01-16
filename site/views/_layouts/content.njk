@@ -6,10 +6,12 @@
   {% include 'navigation/sidebar.njk' %}
 
   <main class="esl-scrollable-content">
-    <div class="content {{ containerCls or 'container' }} {{ 'container-aside' if aside }}">
+    {% set isMarkdownSource = page.templateSyntax.includes('md') %}
+    <div class="content {{ containerCls or 'container' }} {{ 'container-aside' if aside }} {{ 'markdown-container' if isMarkdownSource }}">
       {% if title %}
+        {% include 'navigation/breadcrumbs.njk' %}
         <h1 class="page-title">
-          {% if collectionIcon %}{% include "static/assets/" + collectionIcon %}{% endif %}
+          {% if icon %}{% include "static/assets/" + icon %}{% endif %}
           {{ title | safe }}
           {% if 'beta' in [].concat(tags) %}<span class="badge badge-sup badge-warning">Beta</span>{% endif %}
           {% if 'draft' in [].concat(tags) %}<span class="badge badge-sup badge-danger">Draft</span>{% endif %}
@@ -21,6 +23,17 @@
       {% endif %}
       {% if aside %}
         <aside class="aside">
+          {% if 'deprecated' in [].concat(tags) and aside.deprecationSpec %}
+            <div class="alert alert-warning">
+              {% mdRender aside.deprecationSpec, 'deprecation', 'intro' %}
+            </div>
+          {% endif %}
+          {% if 'deprecated' in [].concat(tags) and aside.deprecationText %}
+            <div class="alert alert-warning">
+              {{ aside.deprecationText | safe }}
+            </div>
+          {% endif %}
+
           {% from 'navigation/related-links.njk' import related with context %}
           {% from 'navigation/source-link.njk' import ghLink with context %}
           {{ related(aside.components, 'components', 'Related Components') }}
