@@ -9,8 +9,8 @@ You can add it to any element that you want to use as a navigation control insid
 
 There is only two attributes to configure the navigation mixin behaviour:
 
-- `esl-carousel-nav` (`command`) - the priary atribute. Declares the command to pass to the carousel `goTo` method.
-  See awailable commands in documentation section below.
+- `esl-carousel-nav` (`command`) - the priary atribute. Declares the nav command to pass to the carousel `goTo` method.
+  See awailable commands in the ESLCarousel's ESLCarouselSlideTarget section.
 - `esl-carousel-nav-target` (`target`) - the secondary optional attribute. Specifies the target carousel instance to control.
   By default, the mixin will try to find the carousel in the closest `.esl-carousel-nav-container` element. 
   Uses `ESLTraversingQuery` to find the carousel.
@@ -37,19 +37,3 @@ or
 <esl-carousel>...</esl-carousel>    
 <button esl-carousel-nav="next" esl-carousel-nav-target="::prev">Next</button>
 ```
-
-## Commands
-
-Available comands declated with a `ESLCarouselSlideTarget` type:
-
-- `prev` or `slide: prev` - go to the previous slide.
-- `next` or `slide: next` - go to the next slide.
-- `group: prev` - go to the previous slide group.
-- `group: next` - go to the next slide group.
-- `1`, `2`, `3`, ... - go to the slide by direct index.
-- `slide: 1`, `slide: 2`, `slide: 3`, ... - go to the slide by direct index.
-- `group: 1`, `group: 2`, `group: 3`, ... - go to the slide group by direct index.
-- `+1`, `slide: +1`, `slide: +2`, ... - increment the current slide index.
-- `-1`, `slide: -1`, `slide: -2`, ... - decrement the current slide index.
-- `group: +1`, `group: +2`, ... - increment the current slide group index.
-- `group: -1`, `group: -2`, ... - decrement the current slide group index.

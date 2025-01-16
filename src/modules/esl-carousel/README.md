@@ -85,6 +85,55 @@ Note: a single value attributes will be considered as all-rule so they spreads a
  - `single-slide` - defines if the carousel has only one slide.
  - `animating` - defines if the carousel is in the process of slide transition.
 
+#### State Properties (read-only)
+
+ - `state` - the state object of the carousel (contains all the state props like activeIndex, count of active slides, all of the config props).
+ - `config` -  the current configuration of the carousel (contains all the config props like count, loop, type, etc).
+
+ - `size` - the number of slides in the carousel.
+ - `activeIndex` - the index of the first active slide.
+ - `activeIndexes` - the array of indexes of the active slides.
+
+ - `$slides` - the array of all slide elements.
+ - `$activeSlide` - the first active slide element.
+ - `$activeSlides` - the array of active slide elements.
+
+ - `$slidesArea` - the stage element that contains the slides.
+ - `$container` - the container element of the carousel.
+
+#### Methods
+
+ - `goTo(target: HTMLElement | ESLCarouselSlideTarget, params?: Partial<ESLCarouselActionParams>)` - navigate to the target slide.
+   As a target you can use the slide element or a special navigation string (See ESLCarouselSlideTarget).
+ - `move(offset: number, from?: number, params?: Partial<ESLCarouselActionParams>)` - shifts stage with the passed offset.
+ - `public commit(offset: number, from?: number, params?: Partial<ESLCarouselActionParams>)` - reset the carousel to the stable (unshifted) state.
+
+ - `slideAt(index: number)` - returns the slide element at the given index.
+ - `indexOf(slide: HTMLElement)` - returns the index of the given slide element.
+
+ - `isActive(slide: HTMLElement)` - returns if the slide is active.
+ - `isPreActive(slide: HTMLElement)` - returns if the slide is pre-active (available during animation).
+ - `isNext(slide: HTMLElement)` - returns if the slide is next.
+ - `isPrev(slide: HTMLElement)` - returns if the slide is prev.
+ - `canNavigate(target: ESLCarouselSlideTarget)` - returns if the carousel can navigate to the target nav string.
+
+#### `ESLCarouselSlideTarget` type
+The ESLCarouselSlideTarget is a string that defines the target slide for the carousel navigation.
+
+The following nav strings (commands) are available:
+- `prev` or `slide: prev` - go to the previous slide.
+- `next` or `slide: next` - go to the next slide.
+- `group: prev` - go to the previous slide group.
+- `group: next` - go to the next slide group.
+- `1`, `2`, `3`, ... - go to the slide by direct index.
+- `slide: 1`, `slide: 2`, `slide: 3`, ... - go to the slide by direct index.
+- `group: 1`, `group: 2`, `group: 3`, ... - go to the slide group by direct index.
+- `+1`, `slide: +1`, `slide: +2`, ... - increment the current slide index.
+- `-1`, `slide: -1`, `slide: -2`, ... - decrement the current slide index.
+- `group: +1`, `group: +2`, ... - increment the current slide group index.
+- `group: -1`, `group: -2`, ... - decrement the current slide group index.
+
+
 ### ESL Carousel Slide API
 
 As was mentioned previously the ESLCarousel slides should be marked with `esl-carousel-slide` custom attribute.
