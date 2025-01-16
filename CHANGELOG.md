@@ -1,3 +1,9 @@
+## [5.0.0-beta.45](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.44...v5.0.0-beta.45) (2025-01-16)
+
+### Bug Fixes
+
+* overall dependencies invalidation ([35e3042](https://github.com/exadel-inc/esl/commit/35e30421b012dac82509b54dcc4a3e54dc4e9449))
+
 ## [5.0.0-beta.44](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.43...v5.0.0-beta.44) (2025-01-16)
 
 ### Bug Fixes
