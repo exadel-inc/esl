@@ -82,3 +82,4 @@ plugins:
           label: Released ESLint Config NPM Tarball
         - path: CHANGELOG.md
           label: Changelog
+      successComment: false
