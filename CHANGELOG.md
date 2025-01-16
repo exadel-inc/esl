@@ -1,3 +1,11 @@
+## [5.0.0-beta.44](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.43...v5.0.0-beta.44) (2025-01-16)
+
+### Bug Fixes
+
+* **esl-mixin-element:** fix ESLMixin broken order when mixins modify DOM when connected ([36352d9](https://github.com/exadel-inc/esl/commit/36352d96e1512d70ff70742747632acb9968601d))
+* **esl-toggleable:** inner activator leads to infinite loop while getting toggleables chain ([b8c40dc](https://github.com/exadel-inc/esl/commit/b8c40dc539d2bb1650237b3672a01a2a8924c937))
+* **eslint-plugin:** remove 4 version checks due to stable 5.0.0 release; fix unexpected version note message ([2312443](https://github.com/exadel-inc/esl/commit/231244375b83b8a061bfff3fa4dc74a0738a7db5))
+
 ## [5.0.0-beta.43](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.42...v5.0.0-beta.43) (2024-12-18)
 
 ### Bug Fixes
