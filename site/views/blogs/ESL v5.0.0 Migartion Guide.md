@@ -1,9 +1,9 @@
 ---
 layout: content
 name: ESL v5.0.0 Migration Guide
-title: Migrating from ESL v4.*.* to ESL v5.0.0
-tags: [news, blogs, draft]
-date: 2024-10-31
+title: ⚡ESL v5.0.0 is out!⚡ (Migration Guide for ESL v4.*.*)
+tags: [news, blogs]
+date: 2025-01-17
 ---
 
 The ESL version 5.0.0 has just been released and comes with a lot of new features and improvements. 
