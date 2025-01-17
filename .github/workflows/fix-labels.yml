@@ -42,7 +42,7 @@ jobs:
         uses: actions/github-script@v5
         with:
           script: |
-            const { data: issues } = await github.issues.listForRepo({
+            const { data: issues } = await github.rest.issues.listForRepo({
               owner: context.repo.owner,
               repo: context.repo.repo,
               labels: 'released on @beta',
@@ -60,7 +60,7 @@ jobs:
             const issues = JSON.parse(core.getInput('issuesWithoutReleasedLabel'));
             for (const issue of issues) {
               console.log(`Adding 'released' label to issue #${issue}`);
-              await github.issues.addLabels({
+              await github.rest.issues.addLabels({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: issue,
