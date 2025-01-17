@@ -1,0 +1,69 @@
+name: Fix Release Labels (Maintainers Only)
+
+on:
+  # Runs manually by maintainer
+  workflow_dispatch:
+    inputs:
+      update:
+        description: 'Do you want to update the release labels?'
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+    contents: write
+    issues: write
+    pull-requests: write
+    statuses: write
+
+jobs:
+  find-n-fix-release-label:
+    name: Find and Fix Release Labels
+    runs-on: ubuntu-latest
+
+    steps:
+      # Check permissions
+      - uses: tspascoal/get-user-teams-membership@v3
+        id: permissions
+        with:
+          username: ${{ github.actor }}
+          team: 'ESL Core Maintainers'
+          GITHUB_TOKEN: ${{ secrets.PERMISSION_CHECK_TOKEN }}
+
+      - if: ${{ steps.permissions.outputs.isTeamMember == 'true' }}
+        name: Access Check Passed
+        run: echo ${{ github.actor }} is in 'ESL Core Maintainers' group
+      - if: ${{ steps.permissions.outputs.isTeamMember == 'false' }}
+        name: Access Denied
+        run: exit 1
+
+      - name: Find 'released on @beta' issues without 'released' label
+        id: find-issues
+        uses: actions/github-script@v5
+        with:
+          script: |
+            const { data: issues } = await github.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: 'released on @beta',
+              state: 'all'
+            });
+            const issuesWithoutReleasedLabel = issues.filter(issue => !issue.labels.some(label => label.name === 'released'));
+            console.log('Issues without "released" label: ', issuesWithoutReleasedLabel.map(issue => '#' + issue.number).join(', '));
+            core.setOutput('issuesWithoutReleasedLabel', JSON.stringify(issuesWithoutReleasedLabel.map(issue => issue.number)));
+
+      - name: Add 'released' label to issues
+        if: steps.find-issues.outputs.issuesWithoutReleasedLabel && inputs.update
+        uses: actions/github-script@v5
+        with:
+          script: |
+            const issues = JSON.parse(core.getInput('issuesWithoutReleasedLabel'));
+            for (const issue of issues) {
+              console.log(`Adding 'released' label to issue #${issue}`);
+              await github.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue,
+                labels: ['released']
+              });
+            }
