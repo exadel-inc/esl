@@ -1,16 +1,21 @@
 ## [5.0.0](https://github.com/exadel-inc/esl/compare/v4.18.1...v5.0.0) (2025-01-17)
 
-### ⚠ BREAKING CHANGES
+Note: 5.0.0 stable release is equal to 5.0.0-beta.45
 
+### ⚠ BREAKING CHANGES
+* Drop IE11 support ([6d376ee](https://github.com/exadel-inc/esl/commit/6d376ee2a6a77ddff4827cda454b61b60a690d8a))
+* Drop Edge old versions (<14) support ([b577fd1](https://github.com/exadel-inc/esl/commit/b577fd1cc085a6a2c5fbdcfa97a5401e0ad7b259))
+* Exclude duplicated exports of `esl-utils/decorators` from outer moules ([f6c84af](https://github.com/exadel-inc/esl/commit/f6c84afe00558346994d4220db69ac102ccba817))
+* **esl-utils:** `TOUCH_EVENTS` from `device-detector` module retired, DeviceDetector is deprecated ([e9ed603](https://github.com/exadel-inc/esl/commit/e9ed603164f3cd913f6fe80027000f560aae454d))
 * **esl-tooltip:** `disable-arrow` attribute removed from ESLTooltip component
-* **esl-popup:** 'autofocus' no longer available for popup, use 'focus-behaviour' instead
-* **esl-share:** `ESLSharePopup` no longer inherits `ESLTooltip`, `ESLPopup` now direct base for `ESLSharePopup`
-* **esl-tooltip:** `hasFocusLoop` no longer available use `focusBehaviour` instead
+* **esl-popup:** 'autofocus' no longer available for popup, use 'a11y' modes instead
+* **esl-share:** `ESLSharePopup` no longer inherits `ESLTooltip`, `ESLPopup`
+* **esl-tooltip:** `hasFocusLoop` no longer available use `a11y` instead
 * **esl-footnotes:** `tooltip-shown` readonly attribute(prop) replaced with `active` (from `ESLBaseTrigger`)
-* **esl-image-utils:** legacy implementation of `esl-image` no longer distributes aspect-ratio styles
+* **esl-image:** legacy implementation of `esl-image` no longer distributes aspect-ratio styles
 * **esl-utils:** `Rect` utility object now immutable from TS perspective
 * **esl-utils:** both `DeviceDetector.TOUCH_EVENTS` and `TOUCH_EVENTS` are retired from `device-detector` module.
-Please also note that the DeviceDetector class is also deprecated.
+  Please also note that the DeviceDetector class is also deprecated.
 * **esl-media:** `load-cls-target`, `load-cls-accepted` and `load-cls-declined` use `load-condition-class` and `load-condition-class-target` instead
 * **esl-media:** `disabled` no longer supported use `lazy="manual"` instead
 * `prop`, `attr`, `boolAttr`, `jsonAttr`, `listen` no longer available in `esl-base-element` and `esl-mixin-element` exports
@@ -28,46 +33,25 @@ Please also note that the DeviceDetector class is also deprecated.
 * `TraversingUtils` retired use separate methods instead
 * `deepCompare` alias of `isEqual` is no longer supported
 * `generateUId` alias of `randUID` no longer supported
+
 * ESL UI site renderer and ESL polyfills no longer support Edge old versions and ES6 polyfils.
 * ESL UI site renderer and ESL polyfills no longer support IE11 and ES5 target.
 
 ### Features
 
 * **attr:** add provider to default value in attr ([e482aaf](https://github.com/exadel-inc/esl/commit/e482aaf5fe6c33b482eecaadf65f00246dc14b8c))
-* drop deprecated aliases ([#1505](https://github.com/exadel-inc/esl/issues/1505)) ([df7f5e5](https://github.com/exadel-inc/esl/commit/df7f5e5c6a3fa62ad559bd93f4c56095def64a0c))
-* **esl-anchornav:** add active-class to set on active item ([e452e71](https://github.com/exadel-inc/esl/commit/e452e71c516ead3df82c6c533c88148660b643b5))
-* **esl-anchornav:** create esl-anchor mixin ([db5fb32](https://github.com/exadel-inc/esl/commit/db5fb3261fa99cff87f5d93e16cdc50f3371ce17))
 * **esl-anchornav:** create esl-anchornav component to provide anchor navigation ([cf79db8](https://github.com/exadel-inc/esl/commit/cf79db850f7cab27b2fa886f4a4469860028e3a0))
 * **esl-anchornav:** create esl-anchornav-sticked mixin to provide sticked behaviour ([d28d430](https://github.com/exadel-inc/esl/commit/d28d4305a8ea0b9728992268b1d5405917a90697))
-* **esl-carousel:** `container-class` slide implementation ([e042e4b](https://github.com/exadel-inc/esl/commit/e042e4bba2ea4a1552c7c227c3f0bf66040e7677))
-* **esl-carousel:** `esl-carousel-nav` default classes and attributes reworked ([fd50c71](https://github.com/exadel-inc/esl/commit/fd50c719bf08f184b89bc531a4bf46e443eff6fd))
+* **esl-carousel:** new `esl-carousel` component introduced according to spec [#1282](https://github.com/exadel-inc/esl/issues/1282) ([5b6fc64](https://github.com/exadel-inc/esl/commit/5b6fc646ed86e1985e6f3b4ebb5e227846566702))
 * **esl-carousel:** `ESLCarouselTouchMixin` plugin is ready for usage with both: drag and touch support ([480bac1](https://github.com/exadel-inc/esl/commit/480bac1f7a7f74d85b03c31aa15bb16a16912c49))
 * **esl-carousel:** add `esl-carousel` mouse wheel control support mixin ([748390c](https://github.com/exadel-inc/esl/commit/748390c1e8a61c394d506ab182935141500826d4))
 * **esl-carousel:** add `grid` renderer with capability to render multi row (column) carousel ([a54a1ab](https://github.com/exadel-inc/esl/commit/a54a1abc384aa029954f9168274d8094b3c0431e))
-* **esl-carousel:** add ability to pass slide as a `goTo` parametr ([2313c2a](https://github.com/exadel-inc/esl/commit/2313c2aaf0be64fc6b258265c87f3aa73fd65f04))
-* **esl-carousel:** add attribute to carousel if it has only one slide ([25dc3bb](https://github.com/exadel-inc/esl/commit/25dc3bba2c614362c5d8abee99e78cc0f83c5f86))
 * **esl-carousel:** add centered renderer ([dd26e7e](https://github.com/exadel-inc/esl/commit/dd26e7edde7d0a62b4dcae1af50df1681a6c18cc))
-* **esl-carousel:** add current and related slide element accessors to carousel change event ([4064b9f](https://github.com/exadel-inc/esl/commit/4064b9f305af0a59418cf734dd6ea3499808f3df))
-* **esl-carousel:** add handler for `esl-show-request` ([1b24ee0](https://github.com/exadel-inc/esl/commit/1b24ee0e32683a32ebd4b8cbf373d018c0eb91e0))
-* **esl-carousel:** add step animation duration customization ([4bc8c90](https://github.com/exadel-inc/esl/commit/4bc8c908dc85a7bdaf520178cd713b7833ec84b1))
-* **esl-carousel:** change carousel move API ([085f977](https://github.com/exadel-inc/esl/commit/085f97741c96b4e717a8c5218b30f33c91e5711b))
-* **esl-carousel:** complete rework ESLCarousel container feature ([ca7d308](https://github.com/exadel-inc/esl/commit/ca7d308b63dd92bdcc335b8b4cc14bf81a639de4))
-* **esl-carousel:** complete support of the drag (touch) for ESLCarousel ([94bc18f](https://github.com/exadel-inc/esl/commit/94bc18f7f16d2cbff8aa8132ee6ed87dd6cce556))
 * **esl-carousel:** complete support of the navigation plugins for ESLCarousel ([19bd241](https://github.com/exadel-inc/esl/commit/19bd241ef58dd96c3787324ac0157ab138fe3f0e))
 * **esl-carousel:** Default Renderer: the reordering algorithm improved to respect slides semantical order an available limit of slides ([b2efe6f](https://github.com/exadel-inc/esl/commit/b2efe6f2371ec97d96e943f50165f952a39893ac))
-* **esl-carousel:** extend ESLCarousel API with new markers, fix carousel change events ([2a41d67](https://github.com/exadel-inc/esl/commit/2a41d675e45294d123e84dbccad03239d8ac75e5))
-* **esl-carousel:** improve ESLCarouselNav mixin API and internal livecycle ([156656a](https://github.com/exadel-inc/esl/commit/156656aecfad6fbe2d1adbc238af55a915791379))
-* **esl-carousel:** make ESLCarouselWheelMixin respect direction & able to prevent default wheel action ([376f303](https://github.com/exadel-inc/esl/commit/376f30328f79c9533a2f1e4bb4cabee427d1de91))
-* **esl-carousel:** migrate `esl-carousel-slide` from custom tag to Mixin ([74fb670](https://github.com/exadel-inc/esl/commit/74fb670704df5546d955683f0ee47d976c625d42))
-* **esl-carousel:** new `esl-carousel` component introduced according to spec [#1282](https://github.com/exadel-inc/esl/issues/1282) ([5b6fc64](https://github.com/exadel-inc/esl/commit/5b6fc646ed86e1985e6f3b4ebb5e227846566702))
-* **esl-carousel:** rework `ESLCarouselNavDots` plugin, improve a11ty ([ab40f94](https://github.com/exadel-inc/esl/commit/ab40f94324d617fb313f8aee4471d82dd82cdf6d))
-* **esl-carousel:** rework carousel plugins API to use json attr + smart media query ([0166b8d](https://github.com/exadel-inc/esl/commit/0166b8d22b7fbffb5cd9750276bcff1766ba7a41))
-* **esl-carousel:** rework default renderer animation approach (now uses js animation) ([04b730d](https://github.com/exadel-inc/esl/commit/04b730d95cfa5907e4d3b2106c0a63a210b0fc1d))
 * **esl-carousel:** support for autoplay mixin plugin for ESLCarousel component ([1deea71](https://github.com/exadel-inc/esl/commit/1deea718bc89264f992ac7a05b5b4b85f796bfb2))
 * **esl-carousel:** support for relation mixin plugin for ESLCarousel component ([77cbbd9](https://github.com/exadel-inc/esl/commit/77cbbd9a93de0b149ec484d7dae35409a7897926))
-* **esl-carousel:** updated a11ty auto markers, default ids, initial event ([d3ad7cf](https://github.com/exadel-inc/esl/commit/d3ad7cff63b0985b5c6df54240bb60b0645500b2))
 * **esl-drag-to-scroll:** create mixin to enable drag-to-scroll functionality ([1ff5242](https://github.com/exadel-inc/esl/commit/1ff5242bb942d304278d7c8469b084ba2ad5470b))
-* **esl-drag-to-scroll:** update draggable state based on content size ([63d83a9](https://github.com/exadel-inc/esl/commit/63d83a9dfec9f5101f28b7f2b5aea2fdc9fa3071))
 * **esl-event-listener:** add `isVertical` property to `ESLSwipeGestureEvent` ([019715c](https://github.com/exadel-inc/esl/commit/019715c7b3e520f8e7abf7025835cfdddf50f6db))
 * **esl-event-listener:** add ability to ESLWheelTarget to ignore income wheel events by predicate ([af47dbb](https://github.com/exadel-inc/esl/commit/af47dbb3ac9a99ae143c417b04c382dbccf77f85))
 * **esl-event-listener:** add ability to prevent default wheel action trough ESLWheelTarget ([0e1f192](https://github.com/exadel-inc/esl/commit/0e1f192aca5f6113f11cb16e84dbaf45141ae894))
@@ -86,11 +70,9 @@ Please also note that the DeviceDetector class is also deprecated.
 * **esl-popup:** rework esl-popup styles to use CSS variables ([cd781b9](https://github.com/exadel-inc/esl/commit/cd781b9195b876a24debb574410423e853ea3e1a))
 * **esl-share:** separate `ESLSharePopup` implementation from `ESLTooltip` ([b5260b9](https://github.com/exadel-inc/esl/commit/b5260b937840fbd5a6023d7d0ed1557f86c00e8a))
 * **esl-toggleable:** `_onOutsideAction` no longer part of ESLToggleable instance, now it's ESLToggleableManager responsibility ([573eece](https://github.com/exadel-inc/esl/commit/573eececb60fb5269b5b6e1c4cce37f7ebd4985e))
-* **esl-toggleable:** add out of the box `ESLToggleable` focus manager ([c954d72](https://github.com/exadel-inc/esl/commit/c954d72dad67ec726b6d42012b03796bc8143896))
-* **esl-toggleable:** reimplementation of `focus-behaviour` to a11y mode ([d1d1500](https://github.com/exadel-inc/esl/commit/d1d15007fb94e756938121675f5ce2baacda7f44))
+* **esl-toggleable:** add out of the box `ESLToggleable` focus manager, see `a11y`([c954d72](https://github.com/exadel-inc/esl/commit/c954d72dad67ec726b6d42012b03796bc8143896))
 * **esl-toggleable:** rework ESLToggleableManger to produce `FocusIn` outside event actions trough main flow + fix initial focus task ([23ed309](https://github.com/exadel-inc/esl/commit/23ed309dbd347718caf092f7850b8ba4f447ede1))
 * **esl-toggleable:** true related opening chain check support for toggleables ([72b849e](https://github.com/exadel-inc/esl/commit/72b849e625f04f834e32f805948dadff1bcbbd59))
-* **esl-toggleable:** update focusBehaviour option to smoothly support boundary focus actions across different options ([2b8a0c7](https://github.com/exadel-inc/esl/commit/2b8a0c7affa2b5af5b6baa8efd64932e735ca5d9))
 * **esl-tooltip:** get rid from inner `hasFocusLoop` and custom focus manager, now utilizes ESLToggleable features ([6ef1f2e](https://github.com/exadel-inc/esl/commit/6ef1f2e23b821fcccefb219330bcead8f7c57a4b))
 * **esl-tooltip:** remove disable-arrow attribute ([adbeb5d](https://github.com/exadel-inc/esl/commit/adbeb5d344180138a6860c094413339688aa624b))
 * **esl-utils:** `isReducedMotion` detection result constant created ([2f3dd13](https://github.com/exadel-inc/esl/commit/2f3dd134ecbbb25c7239f87690448a8f4941110d))
@@ -109,46 +91,12 @@ Please also note that the DeviceDetector class is also deprecated.
 
 ### Bug Fixes
 
-* **esl-anchornav:** fix ESLAnchornavRender signature ([3d43ba1](https://github.com/exadel-inc/esl/commit/3d43ba1ceece1b56903d26672ac82f7e95a5feaf))
 * **esl-base-element:** fix subscription for component that currently out of DOM ([a2526c9](https://github.com/exadel-inc/esl/commit/a2526c9083dddeceed3a123a40060be4f932b001))
-* **esl-carousel:** `dotBuilder`/`dotUpdater` does not inherit static default ([8fd173e](https://github.com/exadel-inc/esl/commit/8fd173e9bc4d0895c437a921cbbde7a0257ec031))
-* **esl-carousel:** `esl-carousel-dots` does not re-renders after target re-definition ([6252474](https://github.com/exadel-inc/esl/commit/6252474495c63ceef57aaae65031a7e92e55e7f9))
-* **esl-carousel:** a11ty targets for arrow controls ([8240921](https://github.com/exadel-inc/esl/commit/82409211823673074c6fe44ac5fa0ade6e8ccabe))
-* **esl-carousel:** add ability to ignore defined content areas by ESLCarouselWheelMixin ([766dabe](https://github.com/exadel-inc/esl/commit/766dabe92eede50066e0440175f3c4d8cc960050))
-* **esl-carousel:** add missing TSX declaration for `esl-carousel-dots` ([7f30c71](https://github.com/exadel-inc/esl/commit/7f30c718f92da43b378022b1d9d29e0f504204ff))
-* **esl-carousel:** add more specificity to styles to limit scope of the carousel animation ([4d4db05](https://github.com/exadel-inc/esl/commit/4d4db0526f11baf3439c0f142760e75ed6bf1add))
-* **esl-carousel:** add possibility to hide controls according to closest container state ([b941748](https://github.com/exadel-inc/esl/commit/b941748a4ba7d51adf6ea9b8747570e8c774dd16))
-* **esl-carousel:** carousel now uses average of the real slide sizes during move action routines ([2472723](https://github.com/exadel-inc/esl/commit/2472723d3fa11d46c8dc26f22e06496cacc1c7a9))
-* **esl-carousel:** de-scope `[esl-carousel-slides]` style defaults ([d3ad98a](https://github.com/exadel-inc/esl/commit/d3ad98ae33fcf7d42652eb831d28e3638790436b))
-* **esl-carousel:** direction related issues, cleanup internal nav API ([30cef21](https://github.com/exadel-inc/esl/commit/30cef2170b95c78a44f62377e2e84cab28b13db9))
-* **esl-carousel:** esl-carousel tag is not declared to be used in TSX ([70b1607](https://github.com/exadel-inc/esl/commit/70b160754f5c9a7c8e399f3eff1446e40824d0d5)), closes [#2330](https://github.com/exadel-inc/esl/issues/2330)
-* **esl-carousel:** fix carousel empty state ([8f88589](https://github.com/exadel-inc/esl/commit/8f885890e317ad28adf4da7810c515d238b2298f))
-* **esl-carousel:** fix count of slides to be rendered before the first slide ([cd68ea3](https://github.com/exadel-inc/esl/commit/cd68ea3c0b9076b2c6d237f9fa547af73b4fedd0))
-* **esl-carousel:** fix deprecated type usage inside carousel wheel plugin ([1c9f8c4](https://github.com/exadel-inc/esl/commit/1c9f8c4eba488074a5b236ed6556f29d80d72735))
-* **esl-carousel:** fix esl-carousel DOM manipulation and slides livecycle ([9ab2b6b](https://github.com/exadel-inc/esl/commit/9ab2b6b52a027c709f9c24c95581cdc52f7d534f))
-* **esl-carousel:** fix ESLCarouselNavDots livecycle and carousel observation ([c03c8f9](https://github.com/exadel-inc/esl/commit/c03c8f9322fc69fe7771f71b11031ba1e6e02d94))
-* **esl-carousel:** fix handling of pointercancel event by touch plugin ([fb91710](https://github.com/exadel-inc/esl/commit/fb91710af23d5302e93a16c84cf66eea50784393))
-* **esl-carousel:** fix incomplete centered carousel rendering ([0d7adce](https://github.com/exadel-inc/esl/commit/0d7adce75833b6fc9794f4230667494d0b59a837))
-* **esl-carousel:** fix incorrect alignment of the grid carousel renderer if there are no enough slides ([6956729](https://github.com/exadel-inc/esl/commit/69567295a56d0017e6364f3aa558f10d79efac38))
-* **esl-carousel:** fix initial index normalization and long animation speed ([45c7560](https://github.com/exadel-inc/esl/commit/45c7560b031c1256fa113fe9f1d5477f1e6279e0))
-* **esl-carousel:** fix navigation group indexes restriction for non-loop carousels ([d5a84bf](https://github.com/exadel-inc/esl/commit/d5a84bf6ace398b59c278c2f3027080fba0b7ca2))
-* **esl-carousel:** fix slide mixin initialization order ([ad92042](https://github.com/exadel-inc/esl/commit/ad92042f1c11f6f798b490a4e270ce42ba58e3fc))
-* **esl-carousel:** improve log messaging and fix initialization exceptions ([8e45f58](https://github.com/exadel-inc/esl/commit/8e45f588a669900fdd53e54c0d1a6357e9159b09))
-* **esl-carousel:** incomplete carousel should be normalized with non loop constraints ([2157e6a](https://github.com/exadel-inc/esl/commit/2157e6abfcfe0714fe522932985def1e7d202fe4))
-* **esl-carousel:** it is impossible to use cascading of css variable properly to define dots styles on the carousel level ([d361295](https://github.com/exadel-inc/esl/commit/d361295d6bce56f57986f7c69092273cd187eb74))
-* **esl-carousel:** make animated carousel area equal to the content without padding ([1c1f6d8](https://github.com/exadel-inc/esl/commit/1c1f6d82c572d6bec038701eaabc6352218ba50b))
-* **esl-carousel:** remove specificity hack for carousel clipping ([0fa0ac7](https://github.com/exadel-inc/esl/commit/0fa0ac7d32a77458b8c90d8b5904c420357f2705))
-* **esl-carousel:** rework carousel slide change event with complete and more clear information ([0b5983f](https://github.com/exadel-inc/esl/commit/0b5983fe67922246cee2e760af3b1d0535dcf61b))
-* **esl-carousel:** touch behaviour fix - incorrect touch-action target is used ([18b1ba1](https://github.com/exadel-inc/esl/commit/18b1ba1c2a5a8b30753dc5220704cdf78f2aa822))
-* **esl-drag-to-scroll:** fix issue with un-prevented click action after drag ([c98cfa4](https://github.com/exadel-inc/esl/commit/c98cfa49a1629790a01dab4a6704d5fcea6e19d7))
-* **esl-drag-to-scroll:** fix propagation of the click if drag detected ([0b4aee6](https://github.com/exadel-inc/esl/commit/0b4aee6611d0c69f4df8445b41aade9754bcd9ca))
 * **esl-event-listener:** fix missing signature for `$$on` method of base component ([7197e30](https://github.com/exadel-inc/esl/commit/7197e30af63b71573237eb3433a69ff91c8a011a))
 * **esl-event-listener:** fix support for any object-like host ([9ca6aa4](https://github.com/exadel-inc/esl/commit/9ca6aa4e5a12971285c4af7d10a2ecf277c83197))
 * **esl-footnotes:** drop extra margins for `esl-carousel-slides` container ([be4e9b0](https://github.com/exadel-inc/esl/commit/be4e9b0cfb75781e0eea06704c2eecd0cfe8c66b))
 * **esl-footnotes:** fix default display block for `esl-footnote` tag ([beba690](https://github.com/exadel-inc/esl/commit/beba690ee6f1846df071970b3456fec4603db6bb))
 * **esl-footnotes:** fix improper note highlighting ([c7c3d1c](https://github.com/exadel-inc/esl/commit/c7c3d1c88e08096b3c1ed4748fc7dd9d9be4eead))
-* **esl-image-utils:** de-scope (img-cover, img-contain) classes ([028b94f](https://github.com/exadel-inc/esl/commit/028b94fbf48da85f42751f481217e10bb620bb16))
-* **esl-image-utils:** remove extra overflow style ([b1c5238](https://github.com/exadel-inc/esl/commit/b1c5238e218698f383a15fc3cb29f4c1bec5b83d))
 * **esl-media:** fix conflict of alignment classes, move definition to the main mixin ([55589f2](https://github.com/exadel-inc/esl/commit/55589f26828e4279f2e59d28d70c61ad48648963))
 * **esl-media:** make esl-media unfocusable according to `focusable` attribute, provide default based on `controls` option ([#2829](https://github.com/exadel-inc/esl/issues/2829)) ([44be58d](https://github.com/exadel-inc/esl/commit/44be58d58bc2ee01f2efc1b12eef2359fa73eb44))
 * **esl-mixin-element:** fix ESLMixin broken order when mixins modify DOM when connected ([36352d9](https://github.com/exadel-inc/esl/commit/36352d96e1512d70ff70742747632acb9968601d))
@@ -177,25 +125,7 @@ Please also note that the DeviceDetector class is also deprecated.
 * **eslint-plugin:** remove 4 version checks due to stable 5.0.0 release; fix unexpected version note message ([2312443](https://github.com/exadel-inc/esl/commit/231244375b83b8a061bfff3fa4dc74a0738a7db5))
 * **eslint:** fix peerDependency constraint ([20b5d9d](https://github.com/exadel-inc/esl/commit/20b5d9d2c8a1b1e51288524024dfe6c17b665671))
 * **lint:** fix Literal import processing & update eslint 9.11.1 ([3345564](https://github.com/exadel-inc/esl/commit/334556429dc2f976c669d0662654056ab0876e90))
-* **microtask:** fix argument list on next fn call ([f421e88](https://github.com/exadel-inc/esl/commit/f421e882e4fb01ad691bf94209aab486c22cd50b))
-* overall dependencies invalidation ([35e3042](https://github.com/exadel-inc/esl/commit/35e30421b012dac82509b54dcc4a3e54dc4e9449))
-* **site:** share preview cards ([58194ca](https://github.com/exadel-inc/esl/commit/58194ca867d035b07980d9f3faddd23a2d03ee17))
-* **swipe:** fix swipe tests ([e1aefb8](https://github.com/exadel-inc/esl/commit/e1aefb8f3ac08b19e40cb138c413dd659ac3500d))
 
-### Reverts
-
-* Revert "revert: fix(esl-toggleable): rework actions pre-checks to fix flow on reopening toggleable" ([0030f4b](https://github.com/exadel-inc/esl/commit/0030f4b0759b29a31805e083bef8a290d548b23e))
-* Revert "revert: fix(esl-trigger): default target for `esl-trigger` is not logically correct and obvious" ([f1c3557](https://github.com/exadel-inc/esl/commit/f1c3557846a84d78c355264f96349afeb4002306))
-* Revert "revert: refactor(esl-toggleable): move `open` state updating to `onShow`/`onHide` callbacks" ([9d249bb](https://github.com/exadel-inc/esl/commit/9d249bb656bd2c2c92a174de25704b3b3d15419c))
-
-### Code Refactoring
-
-* Drop Edge old versions (<14) support ([b577fd1](https://github.com/exadel-inc/esl/commit/b577fd1cc085a6a2c5fbdcfa97a5401e0ad7b259))
-* Drop IE11 support ([6d376ee](https://github.com/exadel-inc/esl/commit/6d376ee2a6a77ddff4827cda454b61b60a690d8a))
-* **esl-image-utils:** update implementation to use json attr and new compact representation ([602afc7](https://github.com/exadel-inc/esl/commit/602afc7eb4e208c11d89cfe9bce8198d4c0b664e))
-* **esl-media:** remove legacy features of `esl-media` ([c19561d](https://github.com/exadel-inc/esl/commit/c19561d8b04e95ab9525d7ca2dee2ced261b94a8))
-* **esl-utils:** `TOUCH_EVENTS` from `device-detector` module retired, DeviceDetector is deprecated ([e9ed603](https://github.com/exadel-inc/esl/commit/e9ed603164f3cd913f6fe80027000f560aae454d))
-* exclude duplicated exports of `esl-utils/decorators` ([f6c84af](https://github.com/exadel-inc/esl/commit/f6c84afe00558346994d4220db69ac102ccba817))
 
 ## [5.0.0-beta.45](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.44...v5.0.0-beta.45) (2025-01-16)
 
