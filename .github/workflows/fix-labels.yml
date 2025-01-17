@@ -3,12 +3,6 @@ name: Fix Release Labels (Maintainers Only)
 on:
   # Runs manually by maintainer
   workflow_dispatch:
-    inputs:
-      update:
-        description: 'Do you want to update the release labels?'
-        required: false
-        default: false
-        type: boolean
 
 permissions:
     contents: write
@@ -37,7 +31,7 @@ jobs:
         name: Access Denied
         run: exit 1
 
-      - name: Find 'released on @beta' issues without 'released' label
+      - name: Find and fix 'released on @beta' issues without 'released' label
         id: find-issues
         uses: actions/github-script@v5
         with:
@@ -50,28 +44,20 @@ jobs:
             });
             const issuesWithoutReleasedLabel = issues.filter(issue => !issue.labels.some(label => label.name === 'released'));
             console.log('Found %d issues without "released" label', issuesWithoutReleasedLabel.length);
-            console.log('Issues without "released" label: ', issuesWithoutReleasedLabel.map(issue => '#' + issue.number).join(', '));
-            core.setOutput('issuesWithoutReleasedLabel', JSON.stringify(issuesWithoutReleasedLabel.map(issue => issue.number)));
 
-      - name: Add 'released' label to issues
-        if: steps.find-issues.outputs.issuesWithoutReleasedLabel && inputs.update
-        uses: actions/github-script@v5
-        with:
-          script: |
-            const issues = JSON.parse(core.getInput('issuesWithoutReleasedLabel'));
-            for (const issue of issues) {
+            for (const issue of issuesWithoutReleasedLabel) {
               console.log(`Adding 'released' label to issue #${issue}`);
               await github.rest.issues.addLabels({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                issue_number: issue,
+                issue_number: issue.number,
                 labels: ['released']
               });
               console.log(`Removing 'released on @beta' label from issue #${issue}`);
               await github.rest.issues.removeLabel({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                issue_number: issue,
+                issue_number: issue.number,
                 name: 'released on @beta'
               });
             }
