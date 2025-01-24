@@ -1,7 +1,8 @@
 import {ESLMixinElement} from '../../esl-mixin-element/core';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core/esl-traversing-query';
-import {jsonAttr, listen, memoize} from '../../esl-utils/decorators';
+import {attr, bind, listen, memoize} from '../../esl-utils/decorators';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
+import {evaluate} from '../../esl-utils/misc/format';
 
 import type {ESLMedia} from '../core/esl-media';
 
@@ -15,23 +16,26 @@ export interface ESLMediaControlConfig {
 export class ESLMediaControlMixin extends ESLMixinElement {
   public static override is = 'esl-media-contol';
 
-  protected readonly actionMap: Record<string, () => Promise<void> | null | undefined> = {
-    play: () => this.$target?.play(),
-    pause: () => this.$target?.pause(),
-    toggle: () => this.$target?.toggle(),
-    stop: () => this.$target?.stop(),
-  };
+  public static readonly DEFAULT_CONFIG_KEY: string = 'target';
 
-  public static defaultConfig: ESLMediaControlConfig = {
+  public static readonly DEFAULT_CONFIG: ESLMediaControlConfig = {
     action: 'toggle',
   };
 
-  @jsonAttr({name: ESLMediaControlMixin.is})
-  public userConfig?: ESLMediaControlConfig;
+  @attr({name: ESLMediaControlMixin.is})
+  public userConfig: string;
+
+  @bind
+  protected parseConfig(value: string): ESLMediaControlConfig | null {
+    if (!value) return null;
+    if (value.trim().startsWith('{')) return evaluate(value, {});
+    const {DEFAULT_CONFIG_KEY} = (this.constructor as typeof ESLMediaControlMixin);
+    return {[DEFAULT_CONFIG_KEY]: value} as ESLMediaControlConfig;
+  }
 
   @memoize()
   protected get config(): ESLMediaControlConfig {
-    return Object.assign({}, ESLMediaControlMixin.defaultConfig, this.userConfig);
+    return Object.assign({}, ESLMediaControlMixin.DEFAULT_CONFIG, this.parseConfig(this.userConfig) || {});
   }
 
   @memoize()
@@ -42,19 +46,18 @@ export class ESLMediaControlMixin extends ESLMixinElement {
 
   @listen('click')
   protected onClick(): void {
-    const {$target, config, actionMap} = this;
+    const {$target, config} = this;
     if (!$target || !config.action) return;
-
-    const action = actionMap[config.action];
-    if (action) action();
+    if (config.action in $target && typeof $target[config.action] === 'function') $target[config.action]();
   }
 
   @listen({
     event: 'esl:media:play esl:media:paused esl:media:ended',
-    target: (control: ESLMediaControlMixin) => control.$target
+    target: (control: ESLMediaControlMixin) => control.$target,
+    condition: (control: ESLMediaControlMixin) => !!control.config.activeCls
   })
-  protected onPlay(e: Event): void {
-    if (this.config.activeCls) this.$$cls(this.config.activeCls, e.type === 'esl:media:play');
+  protected onStateChange(e: CustomEvent): void {
+    this.$$cls(this.config.activeCls!, e.type === 'esl:media:play');
   }
 }
 
