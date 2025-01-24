@@ -8,9 +8,9 @@
   }
 
   &.esl-carousel-horizontal [esl-carousel-slide] {
-    width: var(--esl-slide-size);
+    width: var(--esl-slide-size, --esl-slide-initial-size, 100%);
   }
   &.esl-carousel-vertical [esl-carousel-slide] {
-    height: var(--esl-slide-size);
+    height: var(--esl-slide-size, --esl-slide-initial-size, 100%);
   }
 }
