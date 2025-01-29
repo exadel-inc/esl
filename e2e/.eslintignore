@@ -1,6 +1,0 @@
-# Common configuration
-jest.config.js
-
-# Common directories
-transformer
-reporters

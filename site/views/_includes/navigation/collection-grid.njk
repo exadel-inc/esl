@@ -2,7 +2,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap" rel="stylesheet">
 
   <ul class="collection-grid unstyled-list {{ 'collection-grid-column' if options.isList }} {{ options.classes or ''}}">
-    {% for item in collections[collection] | released | exclude('data.hidden') | sortBy('order', 'name') %}
+    {% for item in collections[collection] | released | exclude('data.hidden') | exclude('data.parent') | sortBy('order', 'name') %}
       {% set badgeAllowed = not options.noBadge %}
       {% set isDraft = badgeAllowed and [].concat(item.data.tags).includes('draft') %}
       {% set isBeta = badgeAllowed and [].concat(item.data.tags).includes('beta') %}
@@ -25,8 +25,8 @@
           </div>
           <hr class="collection-grid-divider" />
           <div class="collection-grid-box collection-grid-svg">
-            {% if item.data.icon %}
-              {% include "static/assets/" + item.data.icon %}
+            {% if item.data.collectionIcon or item.data.icon %}
+              {% include "static/assets/" + (item.data.collectionIcon or item.data.icon) %}
             {% elseif options.isList %}
               <span class="arrows-icon right"></span>
             {% elseif item.data.iconAlt %}

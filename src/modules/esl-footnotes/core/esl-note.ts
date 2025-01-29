@@ -1,21 +1,19 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {ESLBaseElement} from '../../esl-base-element/core';
+import {ESLBaseTrigger} from '../../esl-trigger/core/esl-base-trigger';
 import {ready, attr, prop, boolAttr, memoize, listen} from '../../esl-utils/decorators';
 import {ESLTooltip} from '../../esl-tooltip/core';
 import {promisifyTimeout, repeatSequence} from '../../esl-utils/async';
-import {ESLEventUtils} from '../../esl-utils/dom/events';
-import {ENTER, SPACE} from '../../esl-utils/dom/keys';
 import {scrollIntoView} from '../../esl-utils/dom/scroll';
-import {hasHover} from '../../esl-utils/environment/device-detector';
 import {ESLMediaQuery} from '../../esl-media-query/core';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 
+import type {ESLToggleable, ESLToggleableActionParams} from '../../esl-toggleable/core/esl-toggleable';
 import type {ESLFootnotes} from './esl-footnotes';
 import type {ESLTooltipActionParams} from '../../esl-tooltip/core/esl-tooltip';
 import type {IMediaQueryCondition} from '../../esl-media-query/core/conditions/media-query-base';
 
 @ExportNs('Note')
-export class ESLNote extends ESLBaseElement {
+export class ESLNote extends ESLBaseTrigger {
   public static override is = 'esl-note';
   public static observedAttributes = ['ignore'];
 
@@ -27,14 +25,7 @@ export class ESLNote extends ESLBaseElement {
   /** Event to acknowledge {@link ESLFootnotes} instance about footnote */
   @prop('esl:footnotes:response') public FOOTNOTE_RESPONSE_EVENT: string;
 
-  /** Linked state marker */
-  @boolAttr() public linked: boolean;
-  /** Standalone state marker */
-  @boolAttr() public standalone: boolean;
-  /** Tooltip state marker */
-  @boolAttr() public tooltipShown: boolean;
-
-  /** Media query to specify that footnotes must ignore this note. Default: `not all` */
+  /** {@link ESLMediaQuery} to specify that footnotes must ignore this note. Default: `not all` */
   @attr({defaultValue: 'not all'}) public ignore: string;
 
   /** Tooltip content */
@@ -45,27 +36,26 @@ export class ESLNote extends ESLBaseElement {
    */
   @attr({defaultValue: '*'}) public standaloneLabel: string;
 
-  /** Click event tracking media query. Default: `all` */
-  @attr({defaultValue: 'all'}) public trackClick: string;
   /** Hover event tracking media query. Default: `all` */
-  @attr({defaultValue: 'all'}) public trackHover: string;
+  @attr({defaultValue: 'all'}) public override trackHover: string;
 
   /** Target to container element {@link ESLTraversingQuery} to define bounds of tooltip visibility (window by default) */
   @attr() public container: string;
 
   /** margin around the element that is used as the viewport for checking the visibility of the note tooltip */
-  @attr({defaultValue: '0px'})  public intersectionMargin: string;
+  @attr({defaultValue: '0px'}) public intersectionMargin: string;
+
+  /** Linked state marker */
+  @boolAttr({readonly: true}) public linked: boolean;
+  /** Standalone state marker */
+  @boolAttr({readonly: true}) public standalone: boolean;
 
   protected _$footnotes: ESLFootnotes | null;
   protected _index: number;
 
-  /** Marker to allow track hover */
-  public get allowHover(): boolean {
-    return hasHover && ESLMediaQuery.for(this.trackHover).matches;
-  }
-  /** Marker to allow track clicks */
-  public get allowClick(): boolean {
-    return ESLMediaQuery.for(this.trackClick).matches;
+  /** Target observable Toggleable */
+  public override get $target(): ESLToggleable {
+    return ESLTooltip.sharedInstance;
   }
 
   /** Marker to allow footnotes to pick up this note */
@@ -110,13 +100,12 @@ export class ESLNote extends ESLBaseElement {
   /** The base language of the element */
   protected get currentLang(): string {
     const el = this.closest('[lang]');
-    return (el) ? (el as HTMLElement).lang : '';
+    return el ? (el as HTMLElement).lang : '';
   }
 
-  /** @returns true if tooltip is active and activated with the current note */
-  public get isTargetActive(): boolean {
-    const $target = ESLTooltip.sharedInstance;
-    return $target && $target.open && $target.activator === this;
+  /** Checks that the target is in active state */
+  public override get isTargetActive(): boolean {
+    return this.$target.open && this.$target.activator === this;
   }
 
   @ready
@@ -156,15 +145,13 @@ export class ESLNote extends ESLBaseElement {
 
   /** Activates note */
   public activate(): void {
-    if (ESLTooltip.open) {
-      this.hideTooltip();
-    }
-    ESLEventUtils.dispatch(this, 'esl:show:request');
+    this.hideTarget();
+    this.$$fire('esl:show:request');
     // TODO: replace timeout with a more reliable mechanism to have time to show content with this note
-    repeatSequence(() => {
-      return promisifyTimeout((this.constructor as typeof ESLNote).activateTimeout)
-        .then(() => scrollIntoView(this, {behavior: 'smooth', block: 'center'}))
-        .then(() => ESLTooltip.open || this.showTooltip());
+    repeatSequence(async () => {
+      await promisifyTimeout((this.constructor as typeof ESLNote).activateTimeout);
+      await scrollIntoView(this, {behavior: 'smooth', block: 'center'});
+      return this.$target.open || this.showTarget();
     }, 3);
   }
 
@@ -175,7 +162,7 @@ export class ESLNote extends ESLBaseElement {
 
   /** Links note with footnotes */
   public link(footnotes: ESLFootnotes, index: number): void {
-    this.linked = true;
+    this.$$attr('linked', true);
     this._$footnotes = footnotes;
     this.index = index;
     this.tabIndex = 0;
@@ -191,33 +178,31 @@ export class ESLNote extends ESLBaseElement {
 
   /** Updates note state */
   public update(): void {
-    this.standalone = !(this.linked && this.allowFootnotes);
+    this.$$attr('standalone', !(this.linked && this.allowFootnotes));
   }
 
   /** Initial initialization of the element during the connection to DOM */
   protected init(): void {
-    if (!this.html) {
-      this.html = this.innerHTML;
-    }
+    this.html = this.html || this.innerHTML;
     memoize.clear(this, 'queryToIgnore');
     this.index = 0;
-    this.linked = false;
+    this.$$attr('linked', false);
     this.update();
   }
 
   /** Restores original note content after unlinking */
   protected restore(): void {
-    this.linked = false;
+    this.$$attr('linked', false);
     this._$footnotes = null;
     this.index = 0;
     this.tabIndex = -1;
   }
 
   /** Merge params to pass to the toggleable */
-  protected mergeToggleableParams(this: ESLNote, ...params: ESLTooltipActionParams[]): ESLTooltipActionParams {
+  protected override mergeToggleableParams(this: ESLNote, ...params: ESLTooltipActionParams[]): ESLTooltipActionParams {
     const container = this.getClosestRelatedAttr('container') || this.container;
     const containerEl = container ? ESLTraversingQuery.first(container, this) as HTMLElement : undefined;
-    return Object.assign({
+    return super.mergeToggleableParams({
       initiator: 'note',
       activator: this,
       containerEl,
@@ -228,59 +213,10 @@ export class ESLNote extends ESLBaseElement {
     }, ...params);
   }
 
-  /** Shows tooltip with passed params */
-  public showTooltip(params: ESLTooltipActionParams = {}): void {
-    const actionParams = this.mergeToggleableParams({
-    }, params);
-    if (ESLTooltip.open) {
-      this.hideTooltip();
-    }
-    ESLTooltip.show(actionParams);
+  /** Show target toggleable with passed params */
+  public override showTarget(params: ESLToggleableActionParams = {}): void {
+    super.showTarget(params);
     this.highlight();
-  }
-  /** Hides tooltip with passed params */
-  public hideTooltip(params: ESLTooltipActionParams = {}): void {
-    const actionParams = this.mergeToggleableParams({
-    }, params);
-    ESLTooltip.hide(actionParams);
-  }
-  /** Toggles tooltip with passed params */
-  public toggleTooltip(params: ESLTooltipActionParams = {}, state: boolean = !this.tooltipShown): void {
-    state ? this.showTooltip(params) : this.hideTooltip(params);
-  }
-
-  /** Handles `click` event */
-  @listen('click')
-  protected _onClick(event: MouseEvent): void {
-    if (!this.allowClick) return;
-    event.preventDefault();
-    event.stopPropagation();
-    return this.toggleTooltip({event});
-  }
-
-  /** Handles `keydown` event */
-  @listen('keydown')
-  protected _onKeydown(event: KeyboardEvent): void {
-    if (![ENTER, SPACE].includes(event.key)) return;
-    event.preventDefault();
-    event.stopPropagation();
-    return this.toggleTooltip({event});
-  }
-
-  /** Handles hover `mouseenter` event */
-  @listen('mouseenter')
-  protected _onMouseEnter(event: MouseEvent): void {
-    if (!this.allowHover) return;
-    this.showTooltip({event});
-    event.preventDefault();
-  }
-
-  /** Handles hover `mouseleave` event */
-  @listen('mouseleave')
-  protected _onMouseLeave(event: MouseEvent): void {
-    if (!this.allowHover) return;
-    this.hideTooltip({event, trackHover: true});
-    event.preventDefault();
   }
 
   /** Actions on breakpoint changing */
@@ -289,9 +225,7 @@ export class ESLNote extends ESLBaseElement {
     target: (el: ESLNote) => el.queryToIgnore
   })
   protected _onIgnoreConditionChange(): void {
-    if (ESLTooltip.open) {
-      this.hideTooltip();
-    }
+    this.hideTarget();
     this.innerHTML = this.renderedHTML;
     this.update();
     this._$footnotes?.update();
@@ -307,19 +241,27 @@ export class ESLNote extends ESLBaseElement {
     this._sendResponseToFootnote();
   }
 
-  /** Handles ESLToggleable state change */
+  /** Handles ESLNote state change */
   @listen({
-    event: 'esl:show esl:hide',
-    target: () => ESLTooltip.sharedInstance
+    event: 'esl:hide',
+    target: (that: ESLNote) => that.$target
   })
-  protected _onTargetStateChange(event?: Event): void {
-    this.tooltipShown = ESLTooltip.open && this.isTargetActive;
-    if (!this.tooltipShown) this._$footnotes?.turnOffHighlight(this);
+  protected _onTargetHide(): void {
+    if (!this.isTargetActive) this._$footnotes?.turnOffHighlight(this);
+  }
+
+  /** Handles ESLNote state change */
+  @listen({
+    event: 'esl:before:show',
+    target: (that: ESLNote) => that.$target
+  })
+  protected _onBeforeTargetShow(): void {
+    if (this.isTargetActive) this._$footnotes?.turnOffHighlight(this);
   }
 
   /** Sends the response to footnotes */
   protected _sendResponseToFootnote(): void {
-    ESLEventUtils.dispatch(this, this.FOOTNOTE_RESPONSE_EVENT);
+    this.$$fire(this.FOOTNOTE_RESPONSE_EVENT);
   }
 }
 

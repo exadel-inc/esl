@@ -68,7 +68,8 @@ plugins:
         - package.json
         - package-lock.json
         - site/package.json
-        - eslint/package.json
+        - eslint-config/package.json
+        - eslint-plugin/package.json
       message: "chore(release): ${nextRelease.version} \n\n${nextRelease.notes}"
 
   - - "@semantic-release/github"
@@ -76,6 +77,9 @@ plugins:
         - path: ./exadel-esl-*.tgz
           label: Released Core NPM Tarball
         - path: ./exadel-eslint-plugin-esl-*.tgz
-          label: Released ESLint NPM Tarball
+          label: Released ESLint Plugin NPM Tarball
+        - path: ./exadel-eslint-config-esl-*.tgz
+          label: Released ESLint Config NPM Tarball
         - path: CHANGELOG.md
           label: Changelog
+      successComment: false

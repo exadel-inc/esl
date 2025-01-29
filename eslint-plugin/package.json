@@ -1,0 +1,59 @@
+{
+  "name": "@exadel/eslint-plugin-esl",
+  "private": false,
+  "version": "5.0.1-beta.2",
+  "keywords": [
+    "eslint",
+    "eslint-plugin",
+    "esl"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "scope": "@exadel"
+  },
+  "license": "MIT",
+  "description": "Helper ESLint rules to find and migrate ESL (@exadel/esl) library deprecations",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*.{js,ts,md}"
+  ],
+  "scripts": {
+    "prepare": "npm run build",
+    "test": "jest",
+    "clean": "rimraf dist",
+    "build": "npm run clean && tsc --project tsconfig.build.json"
+  },
+  "dependencies": {
+    "kleur": "^4.1.5",
+    "semver": "^7.6.3"
+  },
+  "devDependencies": {
+    "@types/eslint": "^9.6.1"
+  },
+  "peerDependencies": {
+    "eslint": ">=8.0.0 || >=9.0.0"
+  },
+  "maintainers": [
+    {
+      "name": "ala-n",
+      "email": "astsefanovich@exadel.com"
+    },
+    {
+      "name": "yadamska",
+      "email": "yadamska@exadel.com"
+    },
+    {
+      "name": "dshovchko",
+      "email": "dshovchko@exadel.com"
+    },
+    {
+      "name": "abarmina",
+      "email": "abarmina@exadel.com"
+    },
+    {
+      "name": "alesun",
+      "email": "alesun@exadel.com"
+    }
+  ]
+}

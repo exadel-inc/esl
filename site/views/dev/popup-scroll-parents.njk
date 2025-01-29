@@ -1,0 +1,92 @@
+---
+layout: content
+title: Popup scroll parents example
+seoTitle: Popup UI examples based on ESL web components
+name: Popup scroll parents
+tags: [dev]
+aside:
+  components:
+    - esl-popup
+    - esl-toggleable
+    - esl-trigger
+---
+
+<h2>An example of how popups behave when they are inside containers whose contents can be scrolled.</h2>
+<p>&nbsp;</p><p>Please</p><p>scroll</p><p>me</p><p>down</p><p>even</p><p>further</p><p>&nbsp;</p>
+
+<section class="row">
+  <div id="popup-scroll-parents-a" style="margin: 500px 0; height: 800px; overflow-y: auto; width: 100%; background-color: azure; padding:15px;">
+    <p>&nbsp;</p><p>Please</p><p>scroll</p><p>me</p><p>down</p><p>even</p><p>further</p><p>&nbsp;</p>
+    <section class="d-flex">
+      <esl-trigger target="#popup-t-a" mode="toggle" class="btn btn-sec-blue">Trigger BT</esl-trigger>
+      <esl-trigger target="#popup-b-a" mode="toggle" class="btn btn-sec-blue">Trigger BB</esl-trigger>
+      <esl-trigger target="#popup-l-a" mode="toggle" class="btn btn-sec-blue">Trigger BL</esl-trigger>
+      <esl-trigger target="#popup-r-a" mode="toggle" class="btn btn-sec-blue">Trigger BR</esl-trigger>
+    </section>
+
+    <section class="d-flex justify-content-between">
+      <esl-trigger target="#popup-container-top" mode="toggle" class="btn btn-sec-blue">Top</esl-trigger>
+      <esl-trigger target="#popup-container-top" mode="toggle" class="btn btn-sec-blue">Top</esl-trigger>
+      <esl-trigger target="#popup-container-top" mode="toggle" class="btn btn-sec-blue">Top</esl-trigger>
+    </section>
+
+    <section class="d-flex justify-content-between">
+      <esl-trigger target="#popup-container-top" mode="toggle" class="btn btn-sec-blue">T</esl-trigger>
+      <esl-trigger target="#popup-container-top" mode="toggle" class="btn btn-sec-blue">T</esl-trigger>
+    </section>
+
+    <section class="d-flex justify-content-between">
+      <esl-trigger target="#popup-container-left" mode="toggle" class="btn btn-sec-blue">Left</esl-trigger>
+      <esl-trigger target="#popup-container-right" mode="toggle" class="btn btn-sec-blue">Right</esl-trigger>
+    </section>
+
+    <section class="d-flex justify-content-between">
+      <esl-trigger target="#popup-container-bottom" mode="toggle" class="btn btn-sec-blue">B</esl-trigger>
+      <esl-trigger target="#popup-container-bottom" mode="toggle" class="btn btn-sec-blue">B</esl-trigger>
+    </section>
+
+    <section class="d-flex justify-content-between">
+      <esl-trigger target="#popup-container-bottom" mode="toggle" class="btn-sec-blue">:</esl-trigger>
+      <esl-trigger target="#popup-container-bottom" mode="toggle" class="btn-sec-blue">:</esl-trigger>
+    </section>
+
+    <section class="d-flex justify-content-between">
+      <esl-trigger target="#popup-container-bottom" mode="toggle" class="btn btn-sec-blue">Bottom</esl-trigger>
+      <esl-trigger target="#popup-container-bottom" mode="toggle" class="btn btn-sec-blue">Bottom</esl-trigger>
+      <esl-trigger target="#popup-container-bottom" mode="toggle" class="btn btn-sec-blue">Bottom</esl-trigger>
+    </section>
+
+    <div id="popup-scroll-parents-b" style="margin: 599px 0; height: 650px; overflow-y: auto; width: 100%; background-color: beige;">
+      <p>&nbsp;</p><p>Please</p><p>scroll</p><p>me</p><p>down</p><p>even</p><p>further</p><p>&nbsp;</p>
+      <esl-trigger target="#popup-t-a" mode="toggle" class="btn btn-sec-blue">Trigger B</esl-trigger>
+      <div id="popup-scroll-parents-c" style="margin: 599px 0; height: 500px; overflow-y: auto; width: 100%; background-color: bisque;">
+        <p>&nbsp;</p><p>Please</p><p>scroll</p><p>me</p><p>down</p><p>even</p><p>further</p><p>&nbsp;</p>
+        <esl-trigger target="#popup-t-a" mode="toggle" class="btn btn-sec-blue">Trigger C</esl-trigger>
+        <div id="popup-scroll-parents-d" style="margin: 599px 0; height: 350px; overflow-y: auto; width: 100%; background-color: tan;">
+          <p>Please</p><p>scroll</p><p>me</p><p>down</p><p>even</p><p>further</p><p>&nbsp;</p>
+          <esl-trigger target="#popup-t-a" mode="toggle" class="btn btn-sec-blue">Trigger D (top)</esl-trigger>
+          <esl-trigger target="#popup-b-a" mode="toggle" class="btn btn-sec-blue">Trigger D (bottom)</esl-trigger>
+          <esl-trigger target="#popup-l-a" mode="toggle" class="btn btn-sec-blue">Trigger D (left)</esl-trigger>
+          <esl-trigger target="#popup-r-a" mode="toggle" class="btn btn-sec-blue">Trigger D (right)</esl-trigger>
+          <esl-trigger target="#popup5" mode="toggle" class="btn btn-sec-blue">Trigger V</esl-trigger>
+          <esl-popup id="popup9" position="top">Exadel Smart Library Popup content<span class="esl-popup-arrow"></span></esl-popup>
+        </div>
+      </div>
+    </div>
+
+    <esl-popup id="popup-container-top" position="top" container="#popup-scroll-parents-a">
+      <div style="height: 70px; width:250px;"></div>
+    </esl-popup>
+    <esl-popup id="popup-container-bottom" position="bottom" container="#popup-scroll-parents-a" offset-arrow="50">
+      <div style="height: 70px; width:250px;"></div>
+    </esl-popup>
+    <esl-popup id="popup-container-left" position="left" container="#popup-scroll-parents-a">
+      <div style="height: 250px; width:70px;"></div>
+    </esl-popup>
+    <esl-popup id="popup-container-right" position="right" container="#popup-scroll-parents-a">
+      <div style="height: 250px; width:70px;"></div>
+    </esl-popup>
+  </div>
+</section>
+
+{% include '../examples/popup.njk' %}

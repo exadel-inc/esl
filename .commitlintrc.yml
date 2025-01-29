@@ -35,6 +35,7 @@ rules:
       - esl-animate
       - esl-base-element
       - esl-carousel
+      - esl-drag-to-scroll
       - esl-event-listener
       - esl-footnotes
       - esl-forms
@@ -62,6 +63,9 @@ rules:
       - patch
       - deps
       - deps-dev
-      - lint
+      - eslint-plugin
+      - eslint-config
       - e2e
       - ci
+      # Deprecated scopes:
+      - lint

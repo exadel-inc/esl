@@ -14,9 +14,12 @@ export interface IMediaQueryCondition extends EventTarget {
 
   /** Optimize condition with nested hierarchy */
   optimize(): IMediaQueryCondition;
+
+  /** Returns serialized value of the condition (any IMediaQueryCondition instance should be able to be serializable) */
+  toString(): string;
 }
 
-/** Custom event dispatched by {@link ESLMediaQuery} instances */
+/** A custom event dispatched by {@link ESLMediaQuery} instances */
 export class ESLMediaChangeEvent extends Event {
   /** `true` if the query is matched device conditions when event was dispatched */
   public readonly matches: boolean;

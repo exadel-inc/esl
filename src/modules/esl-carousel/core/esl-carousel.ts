@@ -60,6 +60,8 @@ export class ESLCarousel extends ESLBaseElement {
   @boolAttr({readonly: true}) public animating: boolean;
   /** true if carousel is empty */
   @boolAttr({readonly: true}) public empty: boolean;
+  /** true if carousel has only one item */
+  @boolAttr({readonly: true}) public singleSlide: boolean;
   /** true if carousel is incomplete (total slides count is less or equal to visible slides count) */
   @boolAttr({readonly: true}) public incomplete: boolean;
 
@@ -174,6 +176,7 @@ export class ESLCarousel extends ESLBaseElement {
 
   protected updateStateMarkers(): void {
     this.$$attr('empty', !this.size);
+    this.$$attr('single-slide', this.size === 1);
     this.$$attr('incomplete', this.size <= this.renderer.count);
 
     if (!this.$container) return;

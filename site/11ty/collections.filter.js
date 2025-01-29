@@ -7,6 +7,7 @@ const get = (item, path) => path.split('.').reduce((acc, key) => acc && acc[key]
  * - if values are passed, include items that have a value that matches one of the passed values
  */
 function filter(collection, prop, ...values) {
+  values = values.flat(1);
   const matcher = values.length > 0 ?
     (item) => values.includes(get(item, prop)) :
     (item) => !!get(item, prop);
@@ -19,6 +20,7 @@ function filter(collection, prop, ...values) {
  * - if values are passed, exclude items that have a value that matches one of the passed values
  */
 function exclude(collection, prop, ...values) {
+  values = values.flat(1);
   const matcher = values.length > 0 ?
     (item) => !values.includes(get(item, prop)) :
     (item) => !get(item, prop);

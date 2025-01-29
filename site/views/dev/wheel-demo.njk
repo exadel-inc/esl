@@ -1,0 +1,31 @@
+---
+layout: content
+title: Long Wheel Event Target (Regression)
+name: Long Wheel Event Target (Regression)
+tags: [dev]
+---
+
+<section class="row">
+  <div class="col-12">
+    <p>
+      <code>ESLWheelTarget</code> usage example
+    </p>
+    {% code 'ts', 'code-block' %}
+      @listen({
+        event: 'longwheel',
+        target: ESLWheelTarget.for
+      })
+      onWheel(e: ESLWheelEvent): void {
+        const $logItem = document.createElement('div');
+        $logItem.className = 'log-item';
+        $logItem.textContent = JSON.stringify(e);
+        this.appendChild($logItem);
+      }
+    {% endcode %}
+
+    <div class="d-flex">
+      <esl-d-wheel-area class="m-auto esl-d-log-area" placeholder="Make scrolls in the area"></esl-d-wheel-area>
+    </div>
+
+  </div>
+</section>

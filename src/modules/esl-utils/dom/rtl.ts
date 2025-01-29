@@ -1,5 +1,5 @@
 // TODO: Revisit using https://caniuse.com/mdn-api_element_scrollleft in 5.0.0
-/** RTL scroll browser behaviours */
+/** RTL scroll browser behaviors */
 export type ScrollType = 'default' | 'negative' | 'reverse';
 
 /** Checks if the element in a RTL direction context */

@@ -1,0 +1,175 @@
+---
+layout: content
+title: Popup transition example
+seoTitle: Popup UI examples based on ESL web components
+name: Popup transition
+tags: [dev]
+aside:
+  components:
+    - esl-popup
+    - esl-toggleable
+    - esl-trigger
+---
+
+<style>
+  .tiles-container {
+    display: flex;
+  }
+  .tiles-container-h {
+    flex-direction: column;
+  }
+  .tile {
+    display: flex;
+    width: 150px;
+    height: 150px;
+    border: 1px solid gray;
+  }
+  .tiles-container-h .tile, .tiles-container-v .tile {
+    align-items: center;
+    justify-content: center;
+  }
+  .tiles-container-s .tile {
+    align-items: flex-start;
+  }
+  .tiles-container-fast .tile {
+    transition: transform 0.5s ease-out;
+  }
+  .tiles-container-slow .tile {
+    transition: transform 5s ease-in;
+  }
+  .tiles-container-fast .esl-trigger {
+    transition: padding 0.2s ease-out;
+  }
+  .tiles-container-slow .esl-trigger {
+    transition: padding 2s ease-in;
+  }
+  .tiles-container-h .tile:hover {
+    transform: translateX(70px);
+  }
+  .tiles-container-v .tile:hover {
+    transform: translateY(-70px);
+  }
+  .tiles-container-s .tile:hover .esl-trigger {
+    padding: 25%;
+  }
+</style>
+
+<h2>Fast horizontal shifting</h2>
+<section class="row">
+  <div class="tiles-container tiles-container-h tiles-container-fast">
+    <div class="tile tile-top">
+      <esl-trigger target="#popup-t-a" mode="toggle" class="btn btn-sec-blue">Top</esl-trigger>
+    </div>
+    <div class="tile tile-bottom">
+      <esl-trigger target="#popup-b-a" mode="toggle" class="btn btn-sec-blue">Bottom</esl-trigger>
+    </div>
+    <div class="tile">
+      <esl-trigger target="#popup-l-a" mode="toggle" class="btn btn-sec-blue">Left</esl-trigger>
+    </div>
+    <div class="tile">
+      <esl-trigger target="#popup-r-a" mode="toggle" class="btn btn-sec-blue">Right</esl-trigger>
+    </div>
+  </div>
+</section>
+
+<hr/>
+
+<h2>Fast vertical shifting</h2>
+<section class="row">
+  <div class="tiles-container tiles-container-v tiles-container-fast">
+    <div class="tile">
+      <esl-trigger target="#popup-t-a" mode="toggle" class="btn btn-sec-blue">Top</esl-trigger>
+    </div>
+    <div class="tile">
+      <esl-trigger target="#popup-b-a" mode="toggle" class="btn btn-sec-blue">Bottom</esl-trigger>
+    </div>
+    <div class="tile">
+      <esl-trigger target="#popup-l-a" mode="toggle" class="btn btn-sec-blue">Left</esl-trigger>
+    </div>
+    <div class="tile">
+      <esl-trigger target="#popup-r-a" mode="toggle" class="btn btn-sec-blue">Right</esl-trigger>
+    </div>
+  </div>
+</section>
+
+<hr/>
+
+<h2>Fast resizing</h2>
+<section class="row">
+  <div class="tiles-container tiles-container-s tiles-container-fast">
+    <div class="tile">
+      <esl-trigger target="#popup-t-a" mode="toggle" class="btn btn-sec-blue">Top</esl-trigger>
+    </div>
+    <div class="tile">
+      <esl-trigger target="#popup-b-a" mode="toggle" class="btn btn-sec-blue">Bottom</esl-trigger>
+    </div>
+    <div class="tile">
+      <esl-trigger target="#popup-l-a" mode="toggle" class="btn btn-sec-blue">Left</esl-trigger>
+    </div>
+    <div class="tile">
+      <esl-trigger target="#popup-r-a" mode="toggle" class="btn btn-sec-blue">Right</esl-trigger>
+    </div>
+  </div>
+</section>
+
+<hr/>
+
+<h2>Slow horizontal shifting</h2>
+<section class="row">
+  <div class="tiles-container tiles-container-h tiles-container-slow">
+    <div class="tile tile-top">
+      <esl-trigger target="#popup-t-a" mode="toggle" class="btn btn-sec-blue">Top</esl-trigger>
+    </div>
+    <div class="tile tile-bottom">
+      <esl-trigger target="#popup-b-a" mode="toggle" class="btn btn-sec-blue">Bottom</esl-trigger>
+    </div>
+    <div class="tile">
+      <esl-trigger target="#popup-l-a" mode="toggle" class="btn btn-sec-blue">Left</esl-trigger>
+    </div>
+    <div class="tile">
+      <esl-trigger target="#popup-r-a" mode="toggle" class="btn btn-sec-blue">Right</esl-trigger>
+    </div>
+  </div>
+</section>
+
+<hr/>
+
+<h2>Slow vertical shifting</h2>
+<section class="row">
+  <div class="tiles-container tiles-container-v tiles-container-slow">
+    <div class="tile">
+      <esl-trigger target="#popup-t-a" mode="toggle" class="btn btn-sec-blue">Top</esl-trigger>
+    </div>
+    <div class="tile">
+      <esl-trigger target="#popup-b-a" mode="toggle" class="btn btn-sec-blue">Bottom</esl-trigger>
+    </div>
+    <div class="tile">
+      <esl-trigger target="#popup-l-a" mode="toggle" class="btn btn-sec-blue">Left</esl-trigger>
+    </div>
+    <div class="tile">
+      <esl-trigger target="#popup-r-a" mode="toggle" class="btn btn-sec-blue">Right</esl-trigger>
+    </div>
+  </div>
+</section>
+
+<hr/>
+
+<h2>Slow resizing</h2>
+<section class="row">
+  <div class="tiles-container tiles-container-s tiles-container-slow">
+    <div class="tile">
+      <esl-trigger target="#popup-t-a" mode="toggle" class="btn btn-sec-blue">Top</esl-trigger>
+    </div>
+    <div class="tile">
+      <esl-trigger target="#popup-b-a" mode="toggle" class="btn btn-sec-blue">Bottom</esl-trigger>
+    </div>
+    <div class="tile">
+      <esl-trigger target="#popup-l-a" mode="toggle" class="btn btn-sec-blue">Left</esl-trigger>
+    </div>
+    <div class="tile">
+      <esl-trigger target="#popup-r-a" mode="toggle" class="btn btn-sec-blue">Right</esl-trigger>
+    </div>
+  </div>
+</section>
+
+{% include '../examples/popup.njk' %}
