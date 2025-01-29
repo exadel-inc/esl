@@ -1,6 +1,6 @@
 import {ESLMixinElement} from '../../esl-mixin-element/core';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core/esl-traversing-query';
-import {attr, bind, listen, memoize} from '../../esl-utils/decorators';
+import {listen, memoize} from '../../esl-utils/decorators';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {evaluate} from '../../esl-utils/misc/format';
 
@@ -16,26 +16,21 @@ export interface ESLMediaControlConfig {
 export class ESLMediaControlMixin extends ESLMixinElement {
   public static override is = 'esl-media-contol';
 
-  public static readonly DEFAULT_CONFIG_KEY: string = 'target';
-
   public static readonly DEFAULT_CONFIG: ESLMediaControlConfig = {
-    action: 'toggle',
+    action: 'toggle'
   };
 
-  @attr({name: ESLMediaControlMixin.is})
-  public userConfig: string;
-
-  @bind
-  protected parseConfig(value: string): ESLMediaControlConfig | null {
-    if (!value) return null;
-    if (value.trim().startsWith('{')) return evaluate(value, {});
-    const {DEFAULT_CONFIG_KEY} = (this.constructor as typeof ESLMediaControlMixin);
-    return {[DEFAULT_CONFIG_KEY]: value} as ESLMediaControlConfig;
+  @memoize()
+  public get config(): ESLMediaControlConfig {
+    const attrVal = this.$$attr(ESLMediaControlMixin.is) || '{}';
+    const userConfig = attrVal.trim().startsWith('{') ? evaluate(attrVal, {}) : {target: attrVal};
+    return {...ESLMediaControlMixin.DEFAULT_CONFIG, ...userConfig};
   }
 
-  @memoize()
-  protected get config(): ESLMediaControlConfig {
-    return Object.assign({}, ESLMediaControlMixin.DEFAULT_CONFIG, this.parseConfig(this.userConfig) || {});
+  public set config(value: string | ESLMediaControlConfig) {
+    const serialized = typeof value === 'string' ? value : JSON.stringify(value);
+    this.$$attr(ESLMediaControlMixin.is, serialized);
+    memoize.clear(this, 'config');
   }
 
   @memoize()
@@ -63,6 +58,6 @@ export class ESLMediaControlMixin extends ESLMixinElement {
 
 declare global {
   export interface ESLLibrary {
-    MediaCOntrol: typeof ESLMediaControlMixin;
+    MediaControlMixin: typeof ESLMediaControlMixin;
   }
 }
