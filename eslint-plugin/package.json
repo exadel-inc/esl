@@ -1,7 +1,7 @@
 {
   "name": "@exadel/eslint-plugin-esl",
   "private": false,
-  "version": "5.0.0-beta.39",
+  "version": "5.0.1-beta.2",
   "keywords": [
     "eslint",
     "eslint-plugin",
@@ -32,7 +32,6 @@
     "@types/eslint": "^9.6.1"
   },
   "peerDependencies": {
-    "@exadel/esl": "^5.0.0 || ^5.0.0-beta.0",
     "eslint": ">=8.0.0 || >=9.0.0"
   },
   "maintainers": [

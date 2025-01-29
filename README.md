@@ -67,6 +67,7 @@ with excellent performance.
 - ##### [ESL A11yGroup](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-a11y-group/README.md) (beta)
 - ##### [ESL Alert](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-alert/README.md)
 - ##### [ESL Animate](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-animate/README.md)
+- ##### [ESL Carousel](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-carousel/README.md) (beta)
 - ##### [ESL Footnotes](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-footnotes/README.md) (beta)
 - ##### [ESL Image Utils](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-image-utils/README.md)
 - ##### [ESL Image (Legacy)](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-image/README.md)
@@ -74,7 +75,7 @@ with excellent performance.
 - ##### [ESL Panel](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-panel/README.md)
 - ##### [ESL Panel Group](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-panel-group/README.md)
 - ##### [ESL Popup](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-popup/README.md) (beta)
-- ##### [ESL Related Target](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-related-target/README.md) (beta)
+- ##### [ESL Related Target](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-related-target/README.md)
 - ##### [ESL Scrollbar](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-scrollbar/README.md)
 - ##### [ESL Select](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-forms/esl-select/README.md) (beta)
 - ##### [ESL Select List](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-forms/esl-select-list/README.md) (beta)
@@ -146,26 +147,35 @@ you can find useful information about the project processes and agreements here:
 
 **ESL Core Team**
 
-People who architect, maintain, and keep the idea of the ESL
+People who actively architect, maintain, and keep the idea of the ESL
 
 <table><tbody><tr>
 <td align="center" valign="top" width="16.6%">
     <a href="https://github.com/ala-n">
         <img src="https://github.com/ala-n.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
         Alexey Stsefanovich
-    </a>
+    </a><br/>
+    Architect
 </td>
 <td align="center" valign="top" width="16.6%">
-    <a href="https://github.com/julia-murashko">
-        <img src="https://github.com/julia-murashko.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
-        Julia Murashko
-    </a>
+    <a href="https://github.com/abarmina">
+        <img src="https://github.com/abarmina.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
+        Anna Barmina
+    </a><br/>
+    Maintainer
+</td>
+<td align="center" valign="top" width="16.6%">
+    <a href="https://github.com/NastaLeo">
+        <img src="https://github.com/NastaLeo.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
+        Anastasiya Lesun
+    </a><br/>
+    Maintainer
 </td>
 <td align="center" valign="top" width="16.6%">
     <a href="https://github.com/yadamskaya">
         <img src="https://github.com/yadamskaya.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
         Yuliya Adamskaya
-    </a>
+    </a><br/>
 </td>
 <td align="center" valign="top" width="16.6%">
     <a href="https://github.com/dshovchko">
@@ -174,42 +184,61 @@ People who architect, maintain, and keep the idea of the ESL
     </a>
 </td>
 <td align="center" valign="top" width="16.6%">
-    <a href="https://github.com/abarmina">
-        <img src="https://github.com/abarmina.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
-        Anna Barmina
-    </a>
-</td>
-<td align="center" valign="top" width="16.6%">
-    <a href="https://github.com/NastaLeo">
-        <img src="https://github.com/NastaLeo.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
-        Anastasiya Lesun
+    <a href="https://github.com/fshovchko">
+        <img src="https://github.com/fshovchko.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
+        Feoktyst Shovchko
     </a>
 </td>
 </tr></tbody></table>
 
 **ESL Contributors**: 
 
-People who are actively contributing to the ESL
+People who contributed to the ESL project
 
 <table><tbody><tr>
 <td align="center" valign="top" width="20%">
-    <a href="https://github.com/Anna-MariiaPetryk">
-        <img src="https://github.com/Anna-MariiaPetryk.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
-        Anna-Mariia Petryk
+    <a href="https://github.com/julia-murashko">
+        <img src="https://github.com/julia-murashko.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
+        Julia Murashko
     </a><br/>
-    Developer
+    Initial Core Team Member
 </td>
 <td align="center" valign="top" width="20%">
-    <a href="https://github.com/fshovchko">
-        <img src="https://github.com/fshovchko.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
-        Feoktyst Shovchko
-    </a><br/>
-    Developer
+    <a href="https://github.com/Natalie-Smirnova">
+        <img src="https://github.com/Natalie-Smirnova.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
+        Natalie Smirnova
+    </a>
 </td>
+<td align="center" valign="top" width="20%">
+    <a href="https://github.com/grechihinrhp">
+        <img src="https://github.com/grechihinrhp.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
+        Ruslan Grechihin
+    </a>
+</td>
+<td align="center" valign="top" width="20%">
+    <a href="https://github.com/HenadzV">
+        <img src="https://github.com/HenadzV.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
+        Henadz Varany
+    </a>
+</td>
+<td align="center" valign="top" width="20%">
+    <a href="https://github.com/AlexanderBazukevich">
+        <img src="https://github.com/AlexanderBazukevich.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
+        Alexander Bazukevich
+    </a>
+</td>
+</tr><tr>
 <td align="center" valign="top" width="20%">
     <a href="https://github.com/nattallius">
         <img src="https://github.com/nattallius.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
         Natallia Harshunova
+    </a><br/>
+    Developer
+</td>
+<td align="center" valign="top" width="20%">
+    <a href="https://github.com/Anna-MariiaPetryk">
+        <img src="https://github.com/Anna-MariiaPetryk.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
+        Anna-Mariia Petryk
     </a><br/>
     Developer
 </td>
@@ -219,21 +248,6 @@ People who are actively contributing to the ESL
         Yana Bernatskaya
     </a><br/>
     Developer
-</td>
-<td align="center" valign="top" width="20%">
-    <a href="https://github.com/Natalie-Smirnova">
-        <img src="https://github.com/Natalie-Smirnova.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
-        Natalie Smirnova
-    </a><br/>
-    Developer
-</td>
-</tr><tr>
-<td align="center" valign="top" width="20%">
-    <a href="https://www.linkedin.com/in/iryna-pavlenko-270930107">
-        <img src="https://static-exp1.licdn.com/sc/h/244xhbkr7g40x6bsu4gi6q4ry?s=75" width="75" height="75" style="min-width: 75px"><br/>
-         Iryna Pavlenko
-    </a><br/>
-    Designer
 </td>
 <td align="center" valign="top" width="20%">
     <a href="https://github.com/alexanderavseev">
@@ -249,6 +263,8 @@ People who are actively contributing to the ESL
     </a><br/>
     Consultant
 </td>
+</tr><tr>
+<td align="center" valign="top" width="20%"></td>
 <td align="center" valign="top" width="20%">
     <a href="https://github.com/dmantsevich">
         <img src="https://github.com/dmantsevich.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
@@ -263,6 +279,14 @@ People who are actively contributing to the ESL
     </a><br/>
     Consultant
 </td>
+<td align="center" valign="top" width="20%">
+    <a href="https://www.linkedin.com/in/iryna-pavlenko-270930107">
+        <img src="https://static-exp1.licdn.com/sc/h/244xhbkr7g40x6bsu4gi6q4ry?s=75" width="75" height="75" style="min-width: 75px"><br/>
+         Iryna Pavlenko
+    </a><br/>
+    Designer
+</td>
+<td align="center" valign="top" width="20%"></td>
 </tr></tbody></table>
 
 **Exadel, Inc.**

@@ -18,11 +18,11 @@
 
   /* stylelint-disable-next-line */
   &.esl-carousel-horizontal :is([esl-carousel-slide], [esl-carousel-fake-slide]) {
-    width: var(--esl-slide-size);
+    width: var(--esl-slide-size, --esl-slide-initial-size, 100%);
   }
 
   /* stylelint-disable-next-line */
   &.esl-carousel-vertical :is([esl-carousel-slide], [esl-carousel-fake-slide]) {
-    height: var(--esl-slide-size);
+    height: var(--esl-slide-size, --esl-slide-initial-size, 100%);
   }
 }

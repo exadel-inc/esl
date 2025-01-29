@@ -1,6 +1,7 @@
 import {ESLMixinElement} from '../../esl-mixin-element/core';
 import {listen, memoize} from '../../esl-utils/decorators';
 import {evaluate} from '../../esl-utils/misc/format';
+import {ESLResizeObserverTarget} from '../../esl-event-listener/core/targets/resize.target';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 
 import type {Point} from '../../esl-utils/dom/point';
@@ -13,6 +14,8 @@ export interface ESLDragToScrollConfig {
   axis: 'x' | 'y' | 'both';
   /** Class name to apply during dragging. Defaults to 'dragging' */
   cls: string;
+  /** Class name to apply when the element is draggable. Defaults to 'is-draggable' */
+  draggableCls: string;
   /** Min distance in pixels to activate dragging mode. Defaults to 10 */
   tolerance: number;
   /** Prevent dragging if text is selected or not. Defaults to true */
@@ -38,6 +41,7 @@ export class ESLDragToScrollMixin extends ESLMixinElement {
   public static DEFAULT_CONFIG: ESLDragToScrollConfig = {
     axis: 'both',
     cls: 'dragging',
+    draggableCls: 'is-draggable',
     tolerance: 10,
     selection: true
   };
@@ -73,12 +77,24 @@ export class ESLDragToScrollMixin extends ESLMixinElement {
     this.$$attr(ESLDragToScrollMixin.is, serialized);
   }
 
+  public get isDraggable(): boolean {
+    const {clientHeight, clientWidth, scrollHeight, scrollWidth} = this.$host;
+    if (this.config.axis !== 'y' && clientWidth < scrollWidth) return true;
+    if (this.config.axis !== 'x' && clientHeight < scrollHeight) return true;
+    return false;
+  }
+
   /** Flag indicating whether text is selected */
   public get hasSelection(): boolean {
     const selection = document.getSelection();
     if (!selection || !this.config.selection) return false;
     // Prevents draggable state if the text is selected
     return !selection.isCollapsed && this.$host.contains(selection.anchorNode);
+  }
+
+  protected override connectedCallback(): void {
+    super.connectedCallback();
+    this.onResize();
   }
 
   protected override attributeChangedCallback(name: string, oldValue: string, newValue: string): void {
@@ -95,18 +111,26 @@ export class ESLDragToScrollMixin extends ESLMixinElement {
 
   /** Scrolls the host element by the specified offset */
   public scrollBy(offset: Point): void {
-    if (this.config.axis === 'x' || this.config.axis === 'both') {
+    if (this.config.axis !== 'y') {
       this.$host.scrollLeft = this.startScrollLeft + offset.x;
     }
 
-    if (this.config.axis === 'y' || this.config.axis === 'both') {
+    if (this.config.axis !== 'x') {
       this.$host.scrollTop = this.startScrollTop + offset.y;
     }
+  }
+
+  /** Dynamically update draggable state based on content size */
+  @listen({event: 'resize', target: ESLResizeObserverTarget.for})
+  protected onResize(): void {
+    this.$$cls(this.config.draggableCls, this.isDraggable);
   }
 
   /** Handles the pointerdown event to start dragging */
   @listen('pointerdown')
   protected onPointerDown(event: PointerEvent): void {
+    if (!this.isDraggable) return;
+
     this.startEvent = event;
     this.startScrollLeft = this.$host.scrollLeft;
     this.startScrollTop = this.$host.scrollTop;
@@ -122,7 +146,7 @@ export class ESLDragToScrollMixin extends ESLMixinElement {
     if (!this.isDragging) {
       // Stop tracking if there was a selection before dragging started
       if (this.hasSelection) return this.onPointerUp(event);
-      // Does not start dragging mode if offset have not reached tolerance
+      // Does not start dragging mode if offset has not reached tolerance
       if (Math.abs(Math.max(Math.abs(offset.x), Math.abs(offset.y))) < this.config.tolerance) return;
       this.isDragging = true;
     }

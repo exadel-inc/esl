@@ -1,0 +1,89 @@
+---
+layout: empty
+title: Carousel + Video BG (CLS)
+name: Carousel + Video BG (CLS)
+tags: [dev]
+scrollbar: true
+aside:
+  components:
+  - esl-media
+  - esl-carousel
+---
+
+{% import 'lorem.njk' as lorem %}
+
+<section>
+  <h2>Marquee Carousel</h2>
+
+  <div id="demo" class="esl-carousel-nav-container">
+    <button class="esl-carousel-arrow prev hide-xs"
+            esl-carousel-nav="group:prev"><span class="sr-only">Previous Slide</span></button>
+
+    <esl-carousel class="demo-carousel"
+                  esl-carousel-touch
+                  esl-carousel-keyboard
+                  tabindex="0"
+                  media="all"
+                  count="1"
+                  loop="true">
+      <ul esl-carousel-slides>
+        <li class="demo-slide" esl-carousel-slide active>
+          <div class="demo-marquee dark" style="height: 400px">
+            <esl-media class="bg-content esl-media-bg esl-animate-fade"
+                       ready-class="in"
+                       media-type="video"
+                       media-src="{{ '/assets/media/video.mp4' | url }}"
+                       fill-mode="cover"
+                       play-in-viewport
+                       lazy
+                       autoplay muted loop playsinline>
+            </esl-media>
+            <div class="demo-content">
+              <p class="h3">Slide 1</p>
+              {{ lorem.paragraphs(1) }}
+            </div>
+          </div>
+        </li>
+        <li class="demo-slide" esl-carousel-slide>
+          <div class="demo-marquee dark" style="height: 400px">
+            <esl-media class="bg-content esl-media-bg esl-animate-fade"
+                       ready-class="in"
+                       media-type="video"
+                       media-src="{{ '/assets/media/video.mp4' | url }}"
+                       fill-mode="cover"
+                       play-in-viewport
+                       lazy
+                       autoplay muted loop playsinline>
+            </esl-media>
+            <div class="demo-content">
+              <p class="h3">Slide 2</p>
+              {{ lorem.paragraphs(1) }}
+            </div>
+          </div>
+        </li>
+        <li class="demo-slide" esl-carousel-slide>
+          <div class="demo-marquee dark" style="height: 400px">
+            <esl-media class="bg-content esl-media-bg esl-animate-fade"
+                       ready-class="in"
+                       media-type="video"
+                       media-src="{{ '/assets/media/video.mp4' | url }}"
+                       fill-mode="cover"
+                       play-in-viewport
+                       lazy
+                       autoplay muted loop playsinline>
+            </esl-media>
+            <div class="demo-content">
+              <p class="h3">Slide 3</p>
+              {{ lorem.paragraphs(1) }}
+            </div>
+          </div>
+        </li>
+      </ul>
+    </esl-carousel>
+
+    <button class="esl-carousel-arrow next hide-xs"
+            esl-carousel-nav="group:next"><span class="sr-only">Next Slide</span></button>
+
+    <esl-carousel-dots class="carousel-dots-wrapper" tabindex="0"></esl-carousel-dots>
+  </div>
+</section>

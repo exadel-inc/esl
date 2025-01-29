@@ -79,7 +79,8 @@ export class ESLImageContainerMixin extends ESLMixinElement {
 
   @listen({
     event: 'load error',
-    target: (that: ESLImageContainerMixin) => that.$images
+    target: (that: ESLImageContainerMixin) => that.$images,
+    condition: (that: ESLImageContainerMixin) => !!that.$images.length
   })
   protected _onReady(): void {
     if (!this.complete) return;

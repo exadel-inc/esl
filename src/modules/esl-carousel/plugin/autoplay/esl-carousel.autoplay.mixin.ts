@@ -47,6 +47,7 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
   /** Activates the timer to send commands */
   public start(): void {
     this.stop();
+    if (this.config.timeout <= 0 || isNaN(+this.config.timeout)) return;
     this._timeout = window.setTimeout(this._onInterval, this.config.timeout);
   }
 
