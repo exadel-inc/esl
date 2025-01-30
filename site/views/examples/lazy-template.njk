@@ -67,7 +67,10 @@ aside:
             <!-- paragraph 12 -->
             <template esl-lazy-template="/assets/lazy-templates/template2.html"></template>
             <!-- paragraph 11 -->
+            <!-- broken begin -->
             <template esl-lazy-template="/assets/lazy-templates/template3.html"></template>
+            <!-- broken end -->
+            <p>Paragraph after not loaded template</p>
           </div>
           <div class="col-sm-6">
             <h3>Lazy markup from URL on TEMPLATE tag</h3>
@@ -96,6 +99,35 @@ aside:
             <p>When it's time to load, ESLLazyTemplate attempts to fetch the content and, if the request is successful, replaces itself with this content. If it fails to load the content, it is simply deleted.</p>
             <p>The DIV can have some custom content, but it will exist only before the template is loaded and the DIV is replaced with the content of the loaded template.</p>
             <p></p>
+          </div>
+        </div>
+      </script>
+
+      <script type="text/html"
+              label="Markup with lazy inline SVG images"
+              uip-snippet
+              uip-snippet-js="js-snippet-lazy-template">
+        <div class="d-flex esl-lazy-template-svg-test">
+          <div class="col-sm-6">
+            <p>Whether you’re at the beginning of your SVG animation journey or you’re a seasoned professional looking for some inspiring SVG animation examples, you’ve come to the right place.</p>
+            <p>These simple SVG CSS animation examples show that subtle movements and basic animators do a great job of adding a competitive edge to your design.</p>
+            <p>If we’re talking about simple animations, CSS is the easiest way to get something moving on the screen. It is a good choice because it is perfect for simple, "one-shot" UI elements like a navigation bar, a loader, or a toggle button. Have a look at these SVG CSS animation examples to get an idea of what you can create when you want to choose this way.</p>
+            <!-- paragraph 7 -->
+            <template esl-lazy-template="/assets/lazy-templates/esl-animated-stroke.svg"></template>
+            <!-- paragraph 5 -->
+            <template esl-lazy-template="/assets/lazy-templates/wind-blowing-in-may-svg-animation.svg"></template>
+            <!-- paragraph 8 -->
+            <template esl-lazy-template="/assets/lazy-templates/esl-noise-distort.svg"></template>
+            <p>We hope you found these SVG animation examples interesting and inspiring. We strongly encourage the extensive use of SVG animations on websites and in apps, due to their many advantages and benefits.</p>
+            <p>Take a look at these SVG animation examples that will convince you that this way is definitely worth trying.</p>
+            <!-- paragraph 9 -->
+            <template esl-lazy-template="/assets/lazy-templates/animated-geometric-shapes-background.svg"></template>
+            <template esl-lazy-template="/assets/lazy-templates/esl-text-squiggly.svg"></template>
+          </div>
+          <div class="col-sm-6">
+            <h3>Lazy markup of SVG from URL on TEMPLATE tag</h3>
+            <p>The ESLLazyTemplate should add the content of SVG images to the DOM that is located at the specified URL. The content request is not made immediately, but only when the location of the element with the lazy SVG approaches the viewport. In general, it is also possible that it will not be loaded at all if the user does not scroll the page.</p>
+            <p>When it's time to load, ESLLazyTemplate attempts to fetch the content and, if the request is successful, replaces itself with this content. If it fails to load the content, it is simply deleted.</p>
           </div>
         </div>
       </script>
