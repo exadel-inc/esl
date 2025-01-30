@@ -1,11 +1,12 @@
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {isElement} from '../../esl-utils/dom/api';
+import {isSafeContains} from '../../esl-utils/dom/traversing';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {SPACE, PAUSE} from '../../esl-utils/dom/keys';
 import {prop, attr, boolAttr, listen} from '../../esl-utils/decorators';
 import {debounce} from '../../esl-utils/async';
-import {parseAspectRatio, parseBoolean} from '../../esl-utils/misc/format';
+import {isVisible} from '../../esl-utils/dom/visible';
+import {parseAspectRatio, parseBoolean, parseString} from '../../esl-utils/misc/format';
 
 import {ESLMediaQuery} from '../../esl-media-query/core';
 import {ESLResizeObserverTarget} from '../../esl-event-listener/core';
@@ -80,7 +81,10 @@ export class ESLMedia extends ESLBaseElement {
   /** Allows lazy load resource */
   @attr({parser: parseLazyAttr, defaultValue: 'none'}) public lazy: ESLMediaLazyMode;
   /** Autoplay resource marker */
-  @boolAttr() public autoplay: boolean;
+  @attr({
+    defaultValue: false,
+    parser: (value: string) => value === 'always' ? parseString(value) :  parseBoolean(value)
+  }) public autoplay: 'always' | boolean;
   /** Autofocus on play marker */
   @boolAttr() public override autofocus: boolean;
   /** Mute resource marker */
@@ -124,6 +128,8 @@ export class ESLMedia extends ESLBaseElement {
   @boolAttr({readonly: true}) public error: boolean;
   /** @readonly Width is greater than height state marker */
   @boolAttr({readonly: true}) public wide: boolean;
+  /** @readonly Resource was automatically paused marker */
+  @boolAttr({readonly: true}) public autopaused: boolean;
 
   private _provider: BaseProvider | null;
 
@@ -192,6 +198,10 @@ export class ESLMedia extends ESLBaseElement {
 
   public canActivate(): boolean {
     return this.lazy === 'none' && this.conditionQuery.matches;
+  }
+
+  public canAutoplay(): boolean {
+    return !!this.autoplay && (this.autoplay === 'always' || this.autopaused);
   }
 
   private reinitInstance(): void {
@@ -282,6 +292,7 @@ export class ESLMedia extends ESLBaseElement {
 
   public _onPlay(): void {
     if (this.autofocus) this.focus();
+    this.$$attr('autopaused', false);
     this.toggleAttribute('active', true);
     this.toggleAttribute('played', true);
     this.$$fire(this.PLAY_EVENT);
@@ -319,7 +330,7 @@ export class ESLMedia extends ESLBaseElement {
   })
   protected _onRefresh(e: Event): void {
     const {target} = e;
-    if (isElement(target) && target.contains(this)) this._onResize();
+    if (isSafeContains(target as Node, this)) this._onResize();
   }
 
   @listen({
@@ -336,6 +347,28 @@ export class ESLMedia extends ESLBaseElement {
   })
   protected _onConditionChange(): void {
     this.deferredReinitialize();
+  }
+
+  @listen({
+    event: 'esl:show',
+    target: window
+  })
+  protected _onContainerShow(e: Event): void {
+    const {target} = e;
+    if (!isSafeContains(target as Node, this)) return;
+    if (this.playInViewport && !isVisible(this)) return;
+    if (this.canAutoplay()) this.play();
+  }
+
+  @listen({
+    event: 'esl:hide',
+    target: window
+  })
+  protected _onContainerHide(e: Event): void {
+    const {target} = e;
+    if (!isSafeContains(target as Node, this) || !this.active) return;
+    this.$$attr('autopaused', true);
+    this.pause();
   }
 
   @listen('keydown')
