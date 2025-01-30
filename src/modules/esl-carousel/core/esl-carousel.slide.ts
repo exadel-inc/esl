@@ -83,7 +83,7 @@ export class ESLCarouselSlide extends ESLMixinElement {
       this.$$attr('aria-roledescription', 'slide');
     }
     if (!this.$host.hasAttribute('aria-label')) {
-      this.$$attr('aria-label', `carousel item ${this.index + 1}`);
+      this.$$attr('aria-label', `Slide ${this.index + 1}`);
     }
   }
   /** Updates A11y attributes related to active state */

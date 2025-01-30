@@ -71,7 +71,7 @@ export class YouTubeProvider extends BaseProvider {
     el.title = sm.title;
     el.setAttribute('aria-label', el.title);
     el.setAttribute('frameborder', '0');
-    el.setAttribute('tabindex', '0');
+    el.setAttribute('tabindex', sm.focusable ? '0' : '-1');
     el.setAttribute('allowfullscreen', 'yes');
     return el;
   }

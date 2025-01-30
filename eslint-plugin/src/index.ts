@@ -25,12 +25,12 @@ export const configs = {
   },
   'default-5': {
     rules: {
+      ...buildDefault(DEPRECATED_4_RULES, 'error'),
       ...buildDefault(DEPRECATED_5_RULES, 'warn')
     }
   },
   'default': {
     rules: {
-      ...buildDefault(DEPRECATED_4_RULES, 'error'),
       ...buildDefault(DEPRECATED_5_RULES, 'warn')
     }
   }
@@ -48,7 +48,6 @@ export const recommended = [
       '@exadel/esl': plugin
     },
     rules: {
-      ...buildDefault(DEPRECATED_4_RULES, 'error'),
       ...buildDefault(DEPRECATED_5_RULES, 'warn')
     }
   }

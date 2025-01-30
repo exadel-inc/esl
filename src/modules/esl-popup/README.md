@@ -91,7 +91,7 @@ You can also add additional classes and styles when activating and displaying th
   
 - `position-origin` <i class="badge badge-sup badge-warning">beta</i> - this attribute specifies from which side of the trigger grows popup to achieve the desired position ('outer' by default). Available options:
   - `outer` - popup grows from the outside of the trigger relative to the positioning direction and cannot overlap the trigger
-  - `inner` - popup grows from the inside of the trigger relative to the positioning direction and will overlap the trigger
+  - `inner` - popup grows to the inside of the trigger and can overlap the trigger if it is bigger than the trigger element
   
 - `behavior` - popup behavior if it does not fit in the window ('fit' by default). Available options:
   - `fit` - default, the popup will always be positioned in the right place. Position dynamically updates so it will
@@ -109,6 +109,8 @@ You can also add additional classes and styles when activating and displaying th
 - `margin-arrow` - margins on the edges of the arrow. This is the value in pixels that will be between the edge of the popup and the arrow at extreme positions of the arrow when offsetArrow is set to 0 or 100 (5 by default)
   
 - `offset-arrow` - offset of the arrow as a percentage of the popup edge. 0% - at the left edge, 100% - at the right edge, for RTL it is vice versa (50 by default)
+
+- `offset-trigger` - offset of the popup with an arrow from the trigger element. This is the value in pixels and also can be negative (3 by default)
 
 ESLPopup extends [ESLToggleable](../esl-toggleable/README.md) you can find other supported options in its documentation.
 

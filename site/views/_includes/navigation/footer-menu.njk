@@ -8,7 +8,7 @@
              close-on-esc>
     <ul class="footer-list">
       {% if collections[collection] %}
-        {% for item in collections[collection] | exclude('data.hidden') | releasedStrict | sortBy('order', 'name') %}
+        {% for item in collections[collection] | exclude('data.hidden') | exclude('data.parent') | releasedStrict | sortBy('order', 'name') %}
           <li class="footer-item">
             <a class="footer-link" href="{{ item.url | url }}">{{ item.data.name }}</a>
           </li>

@@ -9,7 +9,7 @@ updates:
   # Maintain core dependencies for npm
   - package-ecosystem: "npm"
     # Temporarily before the release of the main branch
-    target-branch: "main-beta"
+    target-branch: "main"
     directory: "/"
     versioning-strategy: increase
     open-pull-requests-limit: 10
