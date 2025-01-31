@@ -11,6 +11,10 @@
     {
       "type": "linked-versions",
       "components": ["eslint-config", "eslint-plugin"]
+    },
+    {
+      "type": "linked-versions",
+      "components": [".", "site", "e2e"]
     }
   ],
   "prerelease": false,
@@ -29,6 +33,14 @@
     },
     "eslint-plugin": {
       "component": "eslint-plugin",
+      "update-type": "node"
+    },
+    "e2e": {
+      "component": "e2e",
+      "update-type": "node"
+    },
+    "site": {
+      "component": "site",
       "update-type": "node"
     }
   }
