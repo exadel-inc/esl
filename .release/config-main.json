@@ -1,5 +1,7 @@
 {
   "$schema": "https://github.com/googleapis/release-please/blob/main/schemas/config.json",
   "bootstrap-sha": "5015e1a3fd8040bc25d8332ab0aeb6659459b3dd",
-  "always-update": true
+  "last-release-sha": "5015e1a3fd8040bc25d8332ab0aeb6659459b3dd",
+  "always-update": true,
+  "plugins": ["node-workspace"]
 }
