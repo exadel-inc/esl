@@ -5,22 +5,16 @@
   "plugins": [
     {
       "type": "node-workspace"
-    },
-    {
-      "type": "linked-versions",
-      "components": ["eslint-config", "eslint-plugin"],
-      "merge": true
     }
   ],
   "prerelease": false,
   "include-v-in-tag": true,
   "packages": {
     ".": {
-      "component": "esl",
       "update-type": "node",
       "changelog-path": "CHANGELOG.md",
       "updateAllPackages": true,
-      "additionalFiles": [
+      "extra-files": [
         "site/package.json",
         "e2e/package.json"
       ]
