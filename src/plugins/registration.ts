@@ -17,6 +17,9 @@ export {UIPSetting, UIPSettings, UIPTextSetting, UIPBoolSetting, UIPSelectSettin
 import {UIPCopy} from './copy/copy-button';
 export {UIPCopy};
 
+import {UIPReset} from './reset/reset-button';
+export {UIPReset};
+
 import {UIPNote} from './note/note';
 export {UIPNote};
 
@@ -34,6 +37,7 @@ export const registerSettings = (): void => {
 
 export const registerPlugins = (): void => {
   UIPCopy.register();
+  UIPReset.register();
   UIPDirSwitcher.register();
   UIPThemeSwitcher.register();
 

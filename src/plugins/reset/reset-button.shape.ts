@@ -1,8 +1,8 @@
 import type {ESLBaseElementShape} from '@exadel/esl/modules/esl-base-element/core';
-import type {UIPCopy} from './copy-button';
+import type {UIPReset} from './reset-button';
 import type {UIPEditableSource} from '../../core/base/source';
 
-export interface UIPCopyShape extends ESLBaseElementShape<UIPCopy> {
+export interface UIPResetShape extends ESLBaseElementShape<UIPReset> {
   source?: UIPEditableSource;
   children?: any;
 }
@@ -10,7 +10,7 @@ export interface UIPCopyShape extends ESLBaseElementShape<UIPCopy> {
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      'uip-copy': UIPCopyShape;
+      'uip-reset': UIPResetShape;
     }
   }
 }
