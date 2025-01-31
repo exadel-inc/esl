@@ -1,3 +1,16 @@
+# [2.1.0-beta.8](https://github.com/exadel-inc/ui-playground/compare/v2.1.0-beta.7...v2.1.0-beta.8) (2025-01-31)
+
+
+### Bug Fixes
+
+* style tag omitted on the root level of html snippet ([34f317e](https://github.com/exadel-inc/ui-playground/commit/34f317e299d1bc73aac57c08dfdba710ec23fe04))
+
+
+### Features
+
+* **uip-editor:** store editor state ([7c8dc7e](https://github.com/exadel-inc/ui-playground/commit/7c8dc7e3756c6e4b371f74cf996d82acd603ebb3))
+* **uip-snippets:** align titles ([948a9b1](https://github.com/exadel-inc/ui-playground/commit/948a9b1e9e0e7633fafbcdbdd0825bd5bb132c44))
+
 # [2.1.0-beta.7](https://github.com/exadel-inc/ui-playground/compare/v2.1.0-beta.6...v2.1.0-beta.7) (2024-06-17)
 
 
