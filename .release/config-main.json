@@ -4,20 +4,24 @@
   "always-update": true,
   "plugins": [
     {
-      "type": "node-workspace"
+      "type": "node-workspace",
+      "components": ["site", "e2e", "eslint-config", "eslint-plugin"],
+      "updateAllPackages": true
+    },
+    {
+      "type": "linked-versions",
+      "components": ["eslint-config", "eslint-plugin"]
     }
   ],
   "prerelease": false,
   "include-v-in-tag": true,
+  "pull-request-header": "chore: release ${version}",
+  "group-pull-request-title-pattern": "chore: release ${version}",
   "packages": {
     ".": {
       "update-type": "node",
       "changelog-path": "CHANGELOG.md",
-      "updateAllPackages": true,
-      "extra-files": [
-        "site/package.json",
-        "e2e/package.json"
-      ]
+      "updateAllPackages": true
     },
     "eslint-config": {
       "component": "eslint-config",
