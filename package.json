@@ -1,6 +1,6 @@
 {
   "name": "@exadel/esl",
-  "version": "5.0.1-beta.2",
+  "version": "5.0.2-beta.2",
   "private": false,
   "description": "Exadel Smart Library (ESL) is the lightweight custom elements library that provide a set of super-flexible components",
   "license": "MIT",
