@@ -1,7 +1,33 @@
 {
-  "$schema": "https://github.com/googleapis/release-please/blob/main/schemas/config.json",
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
   "bootstrap-sha": "5015e1a3fd8040bc25d8332ab0aeb6659459b3dd",
-  "last-release-sha": "5015e1a3fd8040bc25d8332ab0aeb6659459b3dd",
   "always-update": true,
-  "plugins": ["node-workspace"]
+  "plugins": [
+    {
+      "type": "node-workspace"
+    },
+    {
+      "type": "linked-versions",
+      "components": ["eslint-config", "eslint-plugin"],
+      "merge": true
+    }
+  ],
+  "prerelease": false,
+  "include-v-in-tag": true,
+  "packages": {
+    ".": {
+      "component": "esl",
+      "update-type": "node",
+      "changelog-path": "CHANGELOG.md",
+      "updateAllPackages": true
+    },
+    "eslint-config": {
+      "component": "eslint-config",
+      "update-type": "node"
+    },
+    "eslint-plugin": {
+      "component": "eslint-plugin",
+      "update-type": "node"
+    }
+  }
 }

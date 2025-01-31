@@ -22,7 +22,6 @@ jobs:
         uses: google-github-actions/release-please-action@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          release-type: node
           target-branch: main
           skip-github-release: true
           manifest-file: .release/manifest.json
