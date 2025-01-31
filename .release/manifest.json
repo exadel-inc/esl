@@ -1,5 +1,4 @@
 {
-  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/manifest.json",
   "@exadel/esl": "5.0.0",
   "@exadel/eslint-config-esl": "5.0.0",
   "@exadel/eslint-plugin-esl": "5.0.0"
