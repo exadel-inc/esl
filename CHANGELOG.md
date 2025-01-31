@@ -4,6 +4,23 @@
 
 * **eslint-plugin:** remove peer dependency for esl (handled via warnings) ([c06fbde](https://github.com/exadel-inc/esl/commit/c06fbdee050ff5608eda8d3e8bb8c4fba000b981))
 
+## [5.0.1](https://github.com/exadel-inc/esl/compare/esl-v5.0.0...esl-v5.0.1) (2025-01-31)
+
+
+### Bug Fixes
+
+* **esl-carousel:** ability to provide slide size fallback trough `--esl-slide-fallback-size` variable ([78ae62f](https://github.com/exadel-inc/esl/commit/78ae62f01ce651a24aa165115382ff13d96a0b84)), closes [#2879](https://github.com/exadel-inc/esl/issues/2879)
+* **esl-carousel:** fix initial rendering layout shift to eliminate CLS degradation ([7d65335](https://github.com/exadel-inc/esl/commit/7d6533548545744502191b761773e6be9c5081eb)), closes [#2879](https://github.com/exadel-inc/esl/issues/2879)
+* **esl-image-utils:** omit console warnings in case of missing inner image ([ca13a8a](https://github.com/exadel-inc/esl/commit/ca13a8a467b769240c7b5e9fd740c01bff75ef4e))
+* **eslint-plugin:** remove peer dependency for esl (handled via warnings) ([c06fbde](https://github.com/exadel-inc/esl/commit/c06fbdee050ff5608eda8d3e8bb8c4fba000b981))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @exadel/eslint-plugin-esl bumped from file:eslint-plugin to 5.0.1
+
 ## [5.0.1-beta.1](https://github.com/exadel-inc/esl/compare/v5.0.0...v5.0.1-beta.1) (2025-01-24)
 
 ### Bug Fixes
