@@ -19,7 +19,11 @@
       "component": "esl",
       "update-type": "node",
       "changelog-path": "CHANGELOG.md",
-      "updateAllPackages": true
+      "updateAllPackages": true,
+      "additionalFiles": [
+        "site/package.json",
+        "e2e/package.json"
+      ]
     },
     "eslint-config": {
       "component": "eslint-config",
