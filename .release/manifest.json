@@ -1,5 +1,7 @@
 {
   "packages": {
-    "@exadel/esl": "5.0.0"
+    "@exadel/esl": "5.0.0",
+    "@exadel/eslint-config-esl": "5.0.0",
+    "@exadel/eslint-plugin-esl": "5.0.0"
   }
 }
