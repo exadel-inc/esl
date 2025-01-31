@@ -10,10 +10,9 @@ import {
 
 import {UIPSnippetItem} from './snippet';
 
-import type {UIPRoot} from './root';
-import type {UIPPlugin} from './plugin';
 import type {UIPSnippetTemplate} from './snippet';
 import type {UIPChangeInfo} from './model.change';
+import type {UIPEditableSource} from './source';
 
 /** Type for function to change attribute's current value */
 export type TransformSignature = (
@@ -27,7 +26,7 @@ export type ChangeAttrConfig = {
   /** Attribute to change */
   attribute: string;
   /** Changes initiator */
-  modifier: UIPPlugin | UIPRoot;
+  modifier: object;
 } & ({
   /** New {@link attribute} value */
   value: string | boolean;
@@ -41,7 +40,7 @@ export type ChangeAttrConfig = {
 
 
 /**
- * State holder class to store current UIP markup state
+ * State holder class to store current UIP state
  * Provides methods to modify the state
  */
 export class UIPStateModel extends SyntheticEventTarget {
@@ -63,19 +62,24 @@ export class UIPStateModel extends SyntheticEventTarget {
    * @param js - new state
    * @param modifier - plugin, that initiates the change
    */
-  public setJS(js: string, modifier: UIPPlugin | UIPRoot): void {
-    const script = UIPJSNormalizationPreprocessors.preprocess(js);
+  public setJS(js: string, modifier: object): void {
+    const script = this.normalizeJS(js);
     if (this._js === script) return;
     this._js = script;
     this._changes.push({modifier, type: 'js', force: true});
     this.dispatchChange();
   }
 
+  protected normalizeJS(snippet: string): string {
+    return UIPJSNormalizationPreprocessors.preprocess(snippet);
+  }
+
   /**
    * Sets current note state to the passed one
    * @param text - new state
+   * @param modifier - plugin, that initiates the change
    */
-  public setNote(text: string, modifier: UIPPlugin | UIPRoot): void {
+  public setNote(text: string, modifier: object): void {
     const note = UIPNoteNormalizationPreprocessors.preprocess(text);
     if (this._note === note) return;
     this._note = note;
@@ -89,15 +93,50 @@ export class UIPStateModel extends SyntheticEventTarget {
    * @param modifier - plugin, that initiates the change
    * @param force - marker, that indicates if html changes require iframe rerender
    */
-  public setHtml(markup: string, modifier: UIPPlugin | UIPRoot, force: boolean = false): void {
-    const html = UIPHTMLNormalizationPreprocessors.preprocess(markup);
-    const root = new DOMParser().parseFromString(html, 'text/html').body;
-    if (!root || root.innerHTML.trim() !== this.html.trim()) {
-      this._html = root;
-      this._changes.push({modifier, type: 'html', force});
-      this.dispatchChange();
-    }
+  public setHtml(markup: string, modifier: object, force: boolean = false): void {
+    const root = this.normalizeHTML(markup);
+    if (root.innerHTML.trim() === this.html.trim()) return;
+    this._html = root;
+    this._changes.push({modifier, type: 'html', force});
+    this.dispatchChange();
   }
+
+  protected normalizeHTML(snippet: string): HTMLElement {
+    const html = UIPHTMLNormalizationPreprocessors.preprocess(snippet);
+    const {head, body: root} = new DOMParser().parseFromString(html, 'text/html');
+
+    Array.from(head.children).reverse().forEach((el) => {
+      if (el.tagName !== 'STYLE') return;
+      root.innerHTML = '\n' + root.innerHTML;
+      root.insertBefore(el, root.firstChild);
+    });
+
+    return root;
+  }
+
+  public isHTMLChanged(): boolean {
+    if (!this.activeSnippet) return false;
+    return this.normalizeHTML(this.activeSnippet.html).innerHTML.trim() !== this.html.trim();
+  }
+
+  public isJSChanged(): boolean {
+    if (!this.activeSnippet) return false;
+    return this.normalizeJS(this.activeSnippet.js) !== this.js;
+  }
+
+  public reset(source: UIPEditableSource, modifier: object): void {
+    if (source === 'html') this.resetHTML(modifier);
+    if (source === 'js') this.resetJS(modifier);
+  }
+
+  protected resetJS(modifier: object): void {
+    if (this.activeSnippet) this.setJS(this.activeSnippet.js, modifier);
+  }
+
+  protected resetHTML(modifier: object): void {
+    if (this.activeSnippet) this.setHtml(this.activeSnippet.html, modifier);
+  }
+
 
   /** Current js state getter */
   public get js(): string {
@@ -141,7 +180,7 @@ export class UIPStateModel extends SyntheticEventTarget {
   /** Changes current active snippet */
   public applySnippet(
     snippet: UIPSnippetItem,
-    modifier: UIPPlugin | UIPRoot
+    modifier: object
   ): void {
     if (!snippet) return;
     this._snippets.forEach((s) => (s.active = s === snippet));
@@ -153,7 +192,7 @@ export class UIPStateModel extends SyntheticEventTarget {
     );
   }
   /** Applies an active snippet from DOM */
-  public applyCurrentSnippet(modifier: UIPPlugin | UIPRoot): void {
+  public applyCurrentSnippet(modifier: object): void {
     const activeSnippet = this.anchorSnippet || this.activeSnippet || this.snippets[0];
     this.applySnippet(activeSnippet, modifier);
   }

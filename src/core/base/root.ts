@@ -3,13 +3,16 @@ import {
   memoize,
   boolAttr,
   listen,
-  prop
+  prop,
+  attr
 } from '@exadel/esl/modules/esl-utils/decorators';
 
 import {UIPStateModel} from './model';
+import {UIPChangeEvent} from './model.change';
+import {UIPStateStorage} from './state.storage';
 
 import type {UIPSnippetTemplate} from './snippet';
-import {UIPChangeEvent, UIPChangeInfo} from './model.change';
+import type {UIPChangeInfo} from './model.change';
 
 /**
  * UI Playground root custom element definition
@@ -35,6 +38,10 @@ export class UIPRoot extends ESLBaseElement {
 
   /** Indicates that the UIP components' theme is dark */
   @boolAttr() public darkTheme: boolean;
+  /** Key to store UIP state in the local storage */
+  @attr({defaultValue: ''}) public storeKey: string;
+  /** State storage based on `storeKey` */
+  public storage: UIPStateStorage | undefined;
 
   /** Indicates ready state of the uip-root */
   @boolAttr({readonly: true}) public ready: boolean;
@@ -50,7 +57,7 @@ export class UIPRoot extends ESLBaseElement {
     return Array.from(this.querySelectorAll(UIPRoot.SNIPPET_SEL));
   }
 
-  protected delyedScrollIntoView(): void {
+  protected delayedScrollIntoView(): void {
     setTimeout(() => {
       this.scrollIntoView({behavior: 'smooth', block: 'start'});
     }, 100);
@@ -58,13 +65,15 @@ export class UIPRoot extends ESLBaseElement {
 
   protected override connectedCallback(): void {
     super.connectedCallback();
+    if (this.storeKey) this.storage = new UIPStateStorage(this.storeKey, this.model);
+
     this.model.snippets = this.$snippets;
     this.model.applyCurrentSnippet(this);
     this.$$attr('ready', true);
     this.$$fire(this.READY_EVENT, {bubbles: false});
 
     if (this.model.anchorSnippet) {
-      this.delyedScrollIntoView();
+      this.delayedScrollIntoView();
     }
   }
 

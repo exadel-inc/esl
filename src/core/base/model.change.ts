@@ -1,12 +1,12 @@
 import {overrideEvent} from '@exadel/esl/modules/esl-utils/dom';
 
-import type {UIPPlugin} from './plugin';
 import type {UIPRoot} from './root';
 import type {UIPStateModel} from './model';
+import type {UIPSource} from './source';
 
 export type UIPChangeInfo = {
-  modifier: UIPPlugin | UIPRoot;
-  type: 'html' | 'js' | 'note';
+  modifier: object;
+  type: UIPSource;
   force?: boolean;
 };
 
@@ -38,7 +38,7 @@ export class UIPChangeEvent extends Event {
     return this.changes.filter((change) => change.type === 'html');
   }
 
-  public isOnlyModifier(modifier: UIPPlugin | UIPRoot): boolean {
+  public isOnlyModifier(modifier: object): boolean {
     return this.changes.every((change) => change.modifier === modifier);
   }
 }
