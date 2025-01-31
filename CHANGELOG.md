@@ -4,6 +4,13 @@
 
 * **eslint-plugin:** remove peer dependency for esl (handled via warnings) ([c06fbde](https://github.com/exadel-inc/esl/commit/c06fbdee050ff5608eda8d3e8bb8c4fba000b981))
 
+## [5.0.2-beta.2](https://github.com/exadel-inc/esl/compare/v5.0.1-beta.2...v5.0.2-beta.2) (2025-01-31)
+
+
+### Bug Fixes
+
+* **esl-image-utils:** omit console warnings in case of missing inner image ([ca13a8a](https://github.com/exadel-inc/esl/commit/ca13a8a467b769240c7b5e9fd740c01bff75ef4e))
+
 ## [5.0.1-beta.1](https://github.com/exadel-inc/esl/compare/v5.0.0...v5.0.1-beta.1) (2025-01-24)
 
 ### Bug Fixes
