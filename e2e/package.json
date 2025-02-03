@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@exadel/esl-snapshot-tests",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "description": "Integration snapshot tests for ESL",
   "homepage": "https://esl-ui.com/",
   "license": "MIT",
@@ -25,6 +25,6 @@
     "stucumber": "^0.19.0"
   },
   "peerDependencies": {
-    "@exadel/esl-website": "../site"
+    "@exadel/esl-website": "5.0.1"
   }
 }
