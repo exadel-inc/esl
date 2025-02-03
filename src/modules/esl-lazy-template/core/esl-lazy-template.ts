@@ -8,7 +8,7 @@ import {getViewportForEl} from '../../esl-utils/dom/scroll';
 export class ESLLazyTemplate extends ESLMixinElement {
   public static override is = 'esl-lazy-template';
 
-  @prop(750) baseMargin: number;
+  @prop(750) protected baseMargin: number;
   @prop([0, 0.01]) protected INTERSECTION_THRESHOLD: number[];
 
   /** URL to load content from */
