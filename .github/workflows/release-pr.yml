@@ -27,6 +27,30 @@ jobs:
           manifest-file: .release/manifest.json
           config-file: .release/config-main.json
 
+      # Fix version update process by running original node version process
+      - name: Extract SHA of the release PR
+        if: ${{ steps.ReleasePR.outputs.prs_created }}
+        id: ReleasePRSha
+        run: echo "::set-output name=sha::$(echo '${{ steps.ReleasePR.outputs.pr }}' | jq -r '.sha')"
+      - if: ${{ steps.ReleasePR.outputs.prs_created }}
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.ReleasePRSha.outputs.sha }}
+          persist-credentials: false
+      - if: ${{ steps.ReleasePR.outputs.prs_created }}
+        name: Use Node v${{ env.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          cache: 'npm'
+          node-version: ${{ env.node-version }}
+      - if: ${{ steps.ReleasePR.outputs.prs_created }}
+        name: Install NPM Dependencies
+        run: npm ci
+      - if: ${{ steps.ReleasePR.outputs.prs_created }}
+        name: Update NPM Version
+        run: 'npm version ${{ steps.ReleasePR.outputs.major}}.${{ steps.ReleasePR.outputs.minor}}.${{ steps.ReleasePR.outputs.patch}} --no-git-tag-version'
+
+
       # The logic below handles the npm publication:
 #      - if: ${{ steps.ReleasePR.outputs.release_created }}
 #        uses: actions/checkout@v4
