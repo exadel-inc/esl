@@ -246,9 +246,13 @@ export class ESLMedia extends ESLBaseElement {
     return this._provider && this._provider.safeStop();
   }
 
-  /** Toggle play/pause state of the media */
+  /**
+   * Executes toggle action:
+   * If the player is PAUSED then it starts playing otherwise it pause playing
+   */
   public toggle(): Promise<void> | null {
-    return this._provider && this._provider.safeToggle();
+    const allowActive = [PlayerStates.PAUSED, PlayerStates.UNSTARTED, PlayerStates.VIDEO_CUED].includes(this.state);
+    return allowActive ? this.play(allowActive) : this.pause();
   }
 
   /** Focus inner player **/
