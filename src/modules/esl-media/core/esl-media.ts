@@ -250,9 +250,9 @@ export class ESLMedia extends ESLBaseElement {
    * Executes toggle action:
    * If the player is PAUSED then it starts playing otherwise it pause playing
    */
-  public toggle(): Promise<void> | null {
-    const allowActive = [PlayerStates.PAUSED, PlayerStates.UNSTARTED, PlayerStates.VIDEO_CUED].includes(this.state);
-    return allowActive ? this.play(allowActive) : this.pause();
+  public toggle(allowActivate: boolean = false): Promise<void> | null {
+    const shouldActivate = [PlayerStates.PAUSED, PlayerStates.UNSTARTED, PlayerStates.VIDEO_CUED].includes(this.state);
+    return shouldActivate ? this.play(allowActivate) : this.pause();
   }
 
   /** Focus inner player **/
