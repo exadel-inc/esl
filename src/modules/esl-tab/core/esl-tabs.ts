@@ -103,7 +103,7 @@ export class ESLTabs extends ESLBaseElement {
 
     const {offsetWidth, scrollWidth, scrollLeft} = $scrollableTarget;
     const max = scrollWidth - offsetWidth;
-    const invert = direction === 'left' || (isRTL(this) && RTLScroll.type !== 'reverse');
+    const invert = direction === 'left' || isRTL(this);
     const offset = invert ? -offsetWidth : offsetWidth;
 
     const left = Math.max(0, Math.min(max, scrollLeft + offset));
@@ -130,19 +130,16 @@ export class ESLTabs extends ESLBaseElement {
 
   /** Get scroll offset position from the selected item rectangle */
   protected calcScrollOffset(itemRect: DOMRect, areaRect: DOMRect): number | undefined {
-    const isReversedRTL = isRTL(this) && RTLScroll.type === 'reverse';
-
     if (this.currentScrollableType === 'center') {
-      const shift = itemRect.left + itemRect.width / 2 - (areaRect.left + areaRect.width / 2);
-      return isReversedRTL ? -shift : shift;
+      return itemRect.left + itemRect.width / 2 - (areaRect.left + areaRect.width / 2);
     }
 
     // item is out of area from the right side
     // else item out is of area from the left side
     if (itemRect.right > areaRect.right) {
-      return isReversedRTL ? Math.floor(areaRect.right - itemRect.right) : Math.ceil(itemRect.right - areaRect.right);
+      return Math.ceil(itemRect.right - areaRect.right);
     } else if (itemRect.left < areaRect.left) {
-      return isReversedRTL ? Math.ceil(areaRect.left - itemRect.left) : Math.floor(itemRect.left - areaRect.left);
+      return Math.floor(itemRect.left - areaRect.left);
     }
   }
 
@@ -150,15 +147,14 @@ export class ESLTabs extends ESLBaseElement {
     const $scrollableTarget = this.$scrollableTarget;
     if (!$scrollableTarget) return;
 
-    const swapSides = isRTL(this) && RTLScroll.type === 'default';
     const scrollStart = Math.abs($scrollableTarget.scrollLeft) > 1;
     const scrollEnd = Math.abs($scrollableTarget.scrollLeft) + $scrollableTarget.clientWidth + 1 < $scrollableTarget.scrollWidth;
 
     const $rightArrow = this.querySelector('[data-tab-direction="right"]');
     const $leftArrow = this.querySelector('[data-tab-direction="left"]');
 
-    $leftArrow && $leftArrow.toggleAttribute('disabled', !(swapSides ? scrollEnd : scrollStart));
-    $rightArrow && $rightArrow.toggleAttribute('disabled', !(swapSides ? scrollStart : scrollEnd));
+    $leftArrow && $leftArrow.toggleAttribute('disabled', !scrollStart);
+    $rightArrow && $rightArrow.toggleAttribute('disabled', !scrollEnd);
   }
 
   protected updateMarkers(): void {

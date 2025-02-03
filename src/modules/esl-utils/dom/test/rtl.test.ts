@@ -37,11 +37,6 @@ describe('RTLUtils', () => {
       expect(normalizeScrollLeft(el, null, false)).toBe(200);
       expect(normalizeScrollLeft(el, 50, true)).toBe(950);
       expect(normalizeScrollLeft(el, null, true)).toBe(1100);
-
-      jest.spyOn(RTLScroll, 'type', 'get').mockImplementation(() => 'reverse');
-
-      expect(normalizeScrollLeft(el, 50, true)).toBe(850);
-      expect(normalizeScrollLeft(el, null, true)).toBe(700);
     });
   });
 });
