@@ -1,4 +1,4 @@
-import {RTLScroll, isRTL, normalizeScrollLeft} from '../rtl';
+import {isRTL, normalizeScrollLeft} from '../rtl';
 
 describe('RTLUtils', () => {
   describe('isRtl', () => {
@@ -29,7 +29,6 @@ describe('RTLUtils', () => {
       jest.spyOn(el, 'scrollWidth', 'get').mockImplementation(() => 1000);
       jest.spyOn(el, 'clientWidth', 'get').mockImplementation(() => 100);
       jest.spyOn(el, 'scrollLeft', 'get').mockImplementation(() => 200);
-      jest.spyOn(RTLScroll, 'type', 'get').mockImplementation(() => 'negative');
 
       expect(normalizeScrollLeft(el)).toBe(200);
       expect(normalizeScrollLeft(el, 50)).toBe(50);
