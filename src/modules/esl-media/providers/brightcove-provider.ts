@@ -97,7 +97,6 @@ export class BrightcoveProvider extends BaseProvider {
     this._api.on('play', () => this.component._onPlay());
     this._api.on('pause', () => this.component._onPaused());
     this._api.on('ended', () => this.component._onEnded());
-    this.component._onReady();
 
     // Can handle query only when loadedmetadata have happened
     return this.$$fromEvent('loadedmetadata');
@@ -112,7 +111,7 @@ export class BrightcoveProvider extends BaseProvider {
     this._ready = Provider.loadAPI(this._account)
       .then(() => this.onAPILoaded())
       .then(() => this.onAPIReady())
-      .catch((e) => this.component._onError(e));
+      .then(() => this.component._onReady(), (e) => this.component._onError(e));
   }
 
   public override unbind(): void {

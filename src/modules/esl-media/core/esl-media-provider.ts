@@ -126,18 +126,6 @@ export abstract class BaseProvider {
     this._el?.style.setProperty('aspect-ratio', aspectRatio > 0 ? `${aspectRatio}` : null);
   }
 
-  /**
-   * Executes toggle action:
-   * If the player is PAUSED then it starts playing otherwise it pause playing
-   */
-  protected toggle(): void | Promise<any> {
-    if ([PlayerStates.PAUSED, PlayerStates.UNSTARTED, PlayerStates.VIDEO_CUED].includes(this.state)) {
-      return this.play();
-    } else {
-      return this.pause();
-    }
-  }
-
   /** Executes onConfigChange action when api is ready */
   public onSafeConfigChange(param: ProviderObservedParams, value: boolean): void {
     this.ready.then(() => this.onConfigChange(param, value));
@@ -164,14 +152,6 @@ export abstract class BaseProvider {
    */
   public safeStop(): Promise<void> {
     return this.ready.then(() => this.stop());
-  }
-
-  /**
-   * Executes toggle when api is ready
-   * @returns Promise
-   */
-  public safeToggle(): Promise<void> {
-    return this.ready.then(() => this.toggle());
   }
 
   /**
