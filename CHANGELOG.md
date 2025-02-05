@@ -1,3 +1,14 @@
+## [5.0.1](https://github.com/exadel-inc/esl/compare/v5.0.0...v5.0.1) (2025-02-05)
+
+### Bug Fixes
+
+* **esl-carousel:** ability to provide slide size fallback trough `--esl-slide-fallback-size` variable ([78ae62f](https://github.com/exadel-inc/esl/commit/78ae62f01ce651a24aa165115382ff13d96a0b84)), closes [#2879](https://github.com/exadel-inc/esl/issues/2879)
+* **esl-carousel:** fix initial rendering layout shift to eliminate CLS degradation ([7d65335](https://github.com/exadel-inc/esl/commit/7d6533548545744502191b761773e6be9c5081eb)), closes [#2879](https://github.com/exadel-inc/esl/issues/2879)
+* **esl-image-utils:** omit console warnings in case of missing inner image ([ca13a8a](https://github.com/exadel-inc/esl/commit/ca13a8a467b769240c7b5e9fd740c01bff75ef4e))
+* **esl-media:** fix play preconditions for toggle method ([#2906](https://github.com/exadel-inc/esl/issues/2906)) ([1f7b8dc](https://github.com/exadel-inc/esl/commit/1f7b8dc82a4dfc156fb810a8c289afe0d1001f69))
+* **esl-media:** postpone BrightcoveProvider ready state notification until metadata is available ([e3d4159](https://github.com/exadel-inc/esl/commit/e3d41590a93169168fe699e60fab1e7df6e56d1b))
+* **eslint-plugin:** remove peer dependency for esl (handled via warnings) ([c06fbde](https://github.com/exadel-inc/esl/commit/c06fbdee050ff5608eda8d3e8bb8c4fba000b981))
+
 ## [5.0.1-beta.2](https://github.com/exadel-inc/esl/compare/v5.0.1-beta.1...v5.0.1-beta.2) (2025-01-24)
 
 ### Bug Fixes
