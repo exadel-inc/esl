@@ -16,8 +16,6 @@ export interface ESLMediaControlConfig {
 export class ESLMediaControlMixin extends ESLMixinElement {
   public static override is = 'esl-media-contol';
 
-  public static override observedAttributes = [ESLMediaControlMixin.is];
-
   public static readonly DEFAULT_CONFIG: ESLMediaControlConfig = {
     action: 'toggle'
   };
@@ -29,7 +27,11 @@ export class ESLMediaControlMixin extends ESLMixinElement {
     return {...ESLMediaControlMixin.DEFAULT_CONFIG, ...userConfig};
   }
 
-  @memoize()
+  public set config(value: string | ESLMediaControlConfig) {
+    const serialized = typeof value === 'string' ? value : JSON.stringify(value);
+    this.$$attr(ESLMediaControlMixin.is, serialized);
+  }
+
   public get $target(): ESLMedia | null {
     if (!this.config.target) return null;
     return ESLTraversingQuery.first(this.config.target, this.$host) as ESLMedia | null;
@@ -37,7 +39,6 @@ export class ESLMediaControlMixin extends ESLMixinElement {
 
   protected override attributeChangedCallback(): void {
     memoize.clear(this, 'config');
-    memoize.clear(this, '$target');
     this.$$on(this.onStateChange);
   }
 
