@@ -24,7 +24,8 @@ jobs:
       - id: ReleaseNotes
         uses: TriPSs/conventional-changelog-action@v5
         with:
-          git-branch: release/main
+          git-branch: 'release/main'
+          github-token: '${{ secrets.GITHUB_TOKEN }}'
           skip-tag: true
 
       # Open a PR from release/main to main
