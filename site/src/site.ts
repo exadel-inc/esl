@@ -12,6 +12,7 @@ import {
   ESLVSizeCSSProxy,
   ESLImageContainerMixin,
   ESLMedia,
+  ESLMediaControlMixin,
   ESLToggleable,
   ESLPopup,
   ESLPopupPlaceholder,
@@ -87,6 +88,8 @@ ESLRandomText.register('lorem-ipsum');
 // Register ESL Components
 ESLImageContainerMixin.register();
 ESLMedia.register();
+
+ESLMediaControlMixin.register();
 
 ESLToggleableDispatcher.init();
 ESLToggleable.register();
