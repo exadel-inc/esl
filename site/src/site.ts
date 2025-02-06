@@ -12,6 +12,7 @@ import {
   ESLVSizeCSSProxy,
   ESLImageContainerMixin,
   ESLMedia,
+  ESLMediaRestrictionManager,
   ESLToggleable,
   ESLPopup,
   ESLPopupPlaceholder,

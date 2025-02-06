@@ -15,7 +15,7 @@ import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {getIObserver} from './esl-media-iobserver';
 import {PlayerStates} from './esl-media-provider';
 import {ESLMediaProviderRegistry} from './esl-media-registry';
-import {MediaGroupRestrictionManager} from './esl-media-manager';
+import {ESLMediaRestrictionManager} from './esl-media-manager';
 
 import type {BaseProvider} from './esl-media-provider';
 import type {ESLMediaRegistryEvent} from './esl-media-registry.event';
@@ -300,20 +300,20 @@ export class ESLMedia extends ESLBaseElement {
     this.toggleAttribute('active', true);
     this.toggleAttribute('played', true);
     this.$$fire(this.PLAY_EVENT);
-    MediaGroupRestrictionManager.registerPlay(this);
+    ESLMediaRestrictionManager._onPlay(this);
     this._onResize();
   }
 
   public _onPaused(): void {
     this.removeAttribute('active');
     this.$$fire(this.PAUSED_EVENT);
-    MediaGroupRestrictionManager.unregister(this);
+    ESLMediaRestrictionManager._onPause(this);
   }
 
   public _onEnded(): void {
     this.removeAttribute('active');
     this.$$fire(this.ENDED_EVENT);
-    MediaGroupRestrictionManager.unregister(this);
+    ESLMediaRestrictionManager._onPause(this);
   }
 
   @listen({
