@@ -1,34 +1,26 @@
 import type {ESLMedia} from './esl-media';
 
-const managerMap = new Map<string, ESLMedia>();
-
 /**
- * Group restriction manager for {@link ESLMedia}
- * Only one media in group can be played
- * Empty group is ignored
+ * Restriction manager for {@link ESLMedia}
+ * Defines media that can play from active list
+ * Only one media from group can be played
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */
-export class MediaGroupRestrictionManager {
-  /** @internal */
-  static get managerMap(): Map<string, ESLMedia> {
-    return managerMap;
+export class ESLMediaRestrictionManager {
+  public static active: Set<ESLMedia> = new Set();
+
+  /** Add player to list */
+  public static _onPlay(instance: ESLMedia): void {
+    this.active.add(instance);
+    this.active.forEach((player: ESLMedia) => {
+      if (!player.active || player === instance) return;
+      if (player.group !== instance.group) return;
+      if (player.$$fire(player.MANAGED_PAUSE_EVENT)) player.pause();
+    });
   }
 
-  /** Register instance play state in group */
-  public static registerPlay(instance: ESLMedia): void {
-    if (instance.group) {
-      const current = managerMap.get(instance.group);
-      managerMap.set(instance.group, instance);
-      if (!current || current === instance || !current.active) return;
-      if (current.$$fire(current.MANAGED_PAUSE_EVENT)) current.pause();
-    }
-  }
-
-  /** Unregister instance */
-  public static unregister(instance: ESLMedia): void {
-    if (instance.group) {
-      const reg = managerMap.get(instance.group);
-      if (reg === instance) managerMap.delete(instance.group);
-    }
+  /** Remove player from list */
+  public static _onPause(instance: ESLMedia): void {
+    this.active.delete(instance);
   }
 }
