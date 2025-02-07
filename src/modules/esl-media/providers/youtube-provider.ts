@@ -20,7 +20,7 @@ export class YouTubeProvider extends BaseProvider {
   protected override _el: HTMLDivElement | HTMLIFrameElement;
   protected _api: YT.Player;
 
-  protected lastPlayerState: null | number;
+  protected _lastPlayerState: PlayerStates = PlayerStates.UNINITIALIZED;
 
   static override parseUrl(url: string): Partial<MediaProviderConfig> | null {
     if (this.providerRegexp.test(url)) {
@@ -135,11 +135,11 @@ export class YouTubeProvider extends BaseProvider {
         }
         break;
       case PlayerStates.UNSTARTED:
-        if (this.lastPlayerState === PlayerStates.PLAYING || this.lastPlayerState === PlayerStates.PAUSED) this.component._onEnded();
+        if (this._lastPlayerState === PlayerStates.PLAYING || this._lastPlayerState === PlayerStates.PAUSED) this.component._onEnded();
         break;
     }
 
-    this.lastPlayerState = newState;
+    this._lastPlayerState = newState;
   }
 
   protected override onConfigChange(param: ProviderObservedParams, value: boolean): void {
