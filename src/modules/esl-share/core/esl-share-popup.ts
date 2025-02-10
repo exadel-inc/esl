@@ -16,11 +16,11 @@ function stringifyButtonsList(btns: ESLShareButtonConfig[]): string {
 export interface ESLSharePopupActionParams extends ESLPopupActionParams {
   /** list of social networks or groups of them to display */
   list?: string;
-  /** text directionality of tooltips content */
+  /** text directionality of popups content */
   dir?: string;
-  /** language of tooltips text content */
+  /** language of popups text content */
   lang?: string;
-  /** tooltip without arrow */
+  /** popup without arrow */
   disableArrow?: boolean;
 }
 /** List of ESLSharePopup config keys */
@@ -79,7 +79,7 @@ export class ESLSharePopup extends ESLPopup {
     this.tabIndex = 0;
   }
 
-  /** Sets initial state of the Tooltip */
+  /** Sets initial state of the popup */
   protected override setInitialState(): void {}
 
   public override onShow(params: ESLSharePopupActionParams): void {
@@ -95,7 +95,7 @@ export class ESLSharePopup extends ESLPopup {
     super.onShow(params);
   }
 
-  /** Actions to execute on Tooltip hiding. */
+  /** Actions to execute on popup hiding. */
   public override onHide(params: ESLSharePopupActionParams): void {
     super.onHide(params);
     this.parentNode === document.body && document.body.removeChild(this);
