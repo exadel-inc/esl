@@ -9,6 +9,14 @@
 * **esl-media:** postpone BrightcoveProvider ready state notification until metadata is available ([e3d4159](https://github.com/exadel-inc/esl/commit/e3d41590a93169168fe699e60fab1e7df6e56d1b))
 * **eslint-plugin:** remove peer dependency for esl (handled via warnings) ([c06fbde](https://github.com/exadel-inc/esl/commit/c06fbdee050ff5608eda8d3e8bb8c4fba000b981))
 
+## [5.1.0](https://github.com/exadel-inc/esl/compare/v5.0.1...v5.1.0) (2025-02-10)
+
+
+### Features
+
+* **esl-media:** `esl-media-control` mixin created to control and observe `esl-media` state ([60695cc](https://github.com/exadel-inc/esl/commit/60695ccdf9dddc08e947c99783fdb21d6b349d90)), closes [#2876](https://github.com/exadel-inc/esl/issues/2876)
+* **esl-utils:** RTL type detection removed as it is out of current browser support list ([#2913](https://github.com/exadel-inc/esl/issues/2913)) ([3974302](https://github.com/exadel-inc/esl/commit/397430299885f46f0bac4d15fc349050989afd86))
+
 ## [5.0.1-beta.2](https://github.com/exadel-inc/esl/compare/v5.0.1-beta.1...v5.0.1-beta.2) (2025-01-24)
 
 ### Bug Fixes
