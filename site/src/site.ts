@@ -36,7 +36,6 @@ import {
   ESLAnimateMixin,
   ESLRelatedTarget,
   ESLOpenState,
-
   ESLCarousel,
   ESLCarouselNavDots,
   ESLCarouselNavMixin,
@@ -44,7 +43,8 @@ import {
   ESLCarouselWheelMixin,
   ESLCarouselKeyboardMixin,
   ESLCarouselRelateToMixin,
-  ESLCarouselAutoplayMixin
+  ESLCarouselAutoplayMixin,
+  ESLLazyTemplate
 } from '@exadel/esl/modules/all';
 
 import {ESLRandomText} from '@exadel/esl/modules/esl-random-text/core';
@@ -65,6 +65,7 @@ import {ESLDemoAnchorLink} from './anchor/anchor-link';
 import {ESLDemoBanner} from './banner/banner';
 import {ESLDemoSwipeArea, ESLDemoWheelArea} from './esl-events-demo/esl-events-demo';
 import {ESLDemoPopupGame} from './esl-popup/esl-d-popup-game';
+import {ESLDemoDistanceToViewportAlert} from './esl-lazy-template-demo/distance-to-viewport-alert';
 
 if (!CSS.supports('(height: 100dvh) or (width: 100dvw)')) ESLVSizeCSSProxy.observe();
 
@@ -81,6 +82,7 @@ ESLDemoBanner.register();
 ESLDemoSwipeArea.register();
 ESLDemoWheelArea.register();
 ESLDemoPopupGame.register();
+ESLDemoDistanceToViewportAlert.register();
 
 // Test Content
 ESLRandomText.register('lorem-ipsum');
@@ -136,6 +138,7 @@ ESLAnimateMixin.register();
 // Register ESL Mixins
 ESLRelatedTarget.register();
 ESLOpenState.register();
+ESLLazyTemplate.register();
 
 // Share component loading
 import(/* webpackChunkName: 'common/esl-share' */'./esl-share/esl-share');
