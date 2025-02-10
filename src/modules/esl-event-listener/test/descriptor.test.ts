@@ -1,4 +1,5 @@
 import {ESLEventUtils} from '../core';
+import {listen} from '../../esl-utils/decorators/listen';
 
 describe('dom/events: ESLEventUtils: ESLListenerDescriptor Utils', () => {
   describe('ESLEventUtils.isEventDescriptor', () => {
@@ -182,6 +183,20 @@ describe('dom/events: ESLEventUtils: ESLListenerDescriptor Utils', () => {
       const obj = {onEvent: () => void 0};
       ESLEventUtils.initDescriptor(obj, 'onEvent', {event: 'event'});
       expect(ESLEventUtils.descriptors(obj)).toEqual([obj.onEvent]);
+    });
+
+    test('ESLEventListener.descriptors: are collected and subscribed in case of any object-like host', () => {
+      class HostClass {
+        @listen({event: 'event-one'})
+        onEventOne() {}
+        @listen({event: 'event-two'})
+        onEventTwo() {}
+      }
+      const $host = new HostClass();
+      ESLEventUtils.subscribe($host);
+      expect(ESLEventUtils.descriptors($host)).toContain(HostClass.prototype.onEventOne);
+      expect(ESLEventUtils.descriptors($host)).toContain(HostClass.prototype.onEventTwo);
+      ESLEventUtils.unsubscribe($host);
     });
 
     describe('ESLEventUtils.descriptors: filters by criteria', () => {
