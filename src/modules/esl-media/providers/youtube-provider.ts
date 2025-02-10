@@ -20,6 +20,8 @@ export class YouTubeProvider extends BaseProvider {
   protected override _el: HTMLDivElement | HTMLIFrameElement;
   protected _api: YT.Player;
 
+  protected _lastPlayerState: PlayerStates = PlayerStates.UNINITIALIZED;
+
   static override parseUrl(url: string): Partial<MediaProviderConfig> | null {
     if (this.providerRegexp.test(url)) {
       const [, id] = url.match(this.idRegexp) || [];
@@ -117,7 +119,8 @@ export class YouTubeProvider extends BaseProvider {
   }
 
   private _onStateChange(event: YT.OnStateChangeEvent): void {
-    switch (+event.data) {
+    const newState = +event.data;
+    switch (newState) {
       case PlayerStates.PLAYING:
         this.component._onPlay();
         break;
@@ -131,7 +134,12 @@ export class YouTubeProvider extends BaseProvider {
           this.component._onEnded();
         }
         break;
+      case PlayerStates.UNSTARTED:
+        if (this._lastPlayerState === PlayerStates.PLAYING || this._lastPlayerState === PlayerStates.PAUSED) this.component._onEnded();
+        break;
     }
+
+    this._lastPlayerState = newState;
   }
 
   protected override onConfigChange(param: ProviderObservedParams, value: boolean): void {
