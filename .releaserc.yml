@@ -67,3 +67,4 @@ plugins:
           label: Released NPM Tarball
         - path: CHANGELOG.md
           label: Changelog
+      successComment: false
