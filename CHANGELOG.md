@@ -1,3 +1,10 @@
+# [2.1.0-beta.9](https://github.com/exadel-inc/ui-playground/compare/v2.1.0-beta.8...v2.1.0-beta.9) (2025-02-11)
+
+
+### Bug Fixes
+
+* remove comment on the issues during release ([f9f8c96](https://github.com/exadel-inc/ui-playground/commit/f9f8c96274ba6e55b068fff2e4d827084510f37d))
+
 # [2.1.0-beta.8](https://github.com/exadel-inc/ui-playground/compare/v2.1.0-beta.7...v2.1.0-beta.8) (2025-01-31)
 
 
