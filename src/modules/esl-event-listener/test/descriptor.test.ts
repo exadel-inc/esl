@@ -188,13 +188,12 @@ describe('dom/events: ESLEventUtils: ESLListenerDescriptor Utils', () => {
     test('ESLEventListener.descriptors: are collected and subscribed in case of any object-like host', () => {
       class HostClass {
         @listen({event: 'event-one'})
-        onEventOne() {}
+        static onEventOne() {}
         @listen({event: 'event-two'})
-        onEventTwo() {}
+        static onEventTwo() {}
       }
-      const $host = new HostClass();
-      expect(ESLEventUtils.descriptors($host)).toContain(HostClass.prototype.onEventOne);
-      expect(ESLEventUtils.descriptors($host)).toContain(HostClass.prototype.onEventTwo);
+      expect(ESLEventUtils.descriptors(HostClass)).toContain(HostClass.onEventOne);
+      expect(ESLEventUtils.descriptors(HostClass)).toContain(HostClass.onEventTwo);
     });
 
     describe('ESLEventUtils.descriptors: filters by criteria', () => {
