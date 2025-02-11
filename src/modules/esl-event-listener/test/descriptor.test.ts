@@ -193,10 +193,8 @@ describe('dom/events: ESLEventUtils: ESLListenerDescriptor Utils', () => {
         onEventTwo() {}
       }
       const $host = new HostClass();
-      ESLEventUtils.subscribe($host);
       expect(ESLEventUtils.descriptors($host)).toContain(HostClass.prototype.onEventOne);
       expect(ESLEventUtils.descriptors($host)).toContain(HostClass.prototype.onEventTwo);
-      ESLEventUtils.unsubscribe($host);
     });
 
     describe('ESLEventUtils.descriptors: filters by criteria', () => {
