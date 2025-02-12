@@ -22,7 +22,7 @@ const wrapNode = (
 ): TraverseNode => Object.assign({}, location, {node});
 
 export function* traverseNodes(context: Rule.RuleContext, root: BaseNode | null | undefined): Generator<TraverseNode> {
-  const allVisitorKeys: SourceCode.VisitorKeys = context.getSourceCode().visitorKeys;
+  const allVisitorKeys: SourceCode.VisitorKeys = context.sourceCode.visitorKeys || {};
   const queue: TraverseNode[] = [];
 
   root && queue.push(wrapNode(root));

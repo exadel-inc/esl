@@ -1,0 +1,59 @@
+<svg viewBox="0 0 640 480" class="esl-animated-stroke">
+  <style><![CDATA[
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@900');
+  svg.esl-animated-stroke {
+    background: #333;
+    background-size: 0.2em 100%;
+    font: 7em/1 Orbitron;
+    text-transform: uppercase;
+    margin: 0;
+  }
+  .esl-animated-stroke .text {
+    fill: none;
+    stroke-width: 3;
+    stroke-linejoin: round;
+    stroke-dasharray: 70 330;
+    stroke-dashoffset: 0;
+    animation: esl-animated-stroke 6s infinite linear;
+  }
+  .esl-animated-stroke .text:nth-child(5n+1) {
+    stroke: #F2385A;
+    animation-delay: -1.2s;
+  }
+  .esl-animated-stroke .text:nth-child(5n+2) {
+    stroke: #F5A503;
+    animation-delay: -2.4s;
+  }
+  .esl-animated-stroke .text:nth-child(5n+3) {
+    stroke: #E9F1DF;
+    animation-delay: -3.6s;
+  }
+  .esl-animated-stroke .text:nth-child(5n+4) {
+    stroke: #56D9CD;
+    animation-delay: -4.8s;
+  }
+  .esl-animated-stroke .text:nth-child(5n+5) {
+    stroke: #3AA1BF;
+    animation-delay: -6s;
+  }
+  @keyframes esl-animated-stroke {
+    100% {
+      stroke-dashoffset: -400;
+    }
+  }
+]]></style>
+  <!-- Symbol-->
+  <symbol id="esl-animated-stroke-text">
+    <text text-anchor="middle">
+      <tspan x="50%" y="50%" dx=".15em" dy="-.85em">Exadel</tspan>
+      <tspan x="50%" y="50%" dx=".15em" dy=".35em">Smart</tspan>
+      <tspan x="50%" y="50%" dy="1.7em">Library</tspan>
+    </text>
+  </symbol>
+  <!-- Duplicate symbols-->
+  <use class="text" href="#esl-animated-stroke-text"></use>
+  <use class="text" href="#esl-animated-stroke-text"></use>
+  <use class="text" href="#esl-animated-stroke-text"></use>
+  <use class="text" href="#esl-animated-stroke-text"></use>
+  <use class="text" href="#esl-animated-stroke-text"></use>
+</svg>

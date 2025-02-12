@@ -1,4 +1,4 @@
-import {isObject} from '../../esl-utils/misc/object/types';
+import {isObjectLike} from '../../esl-utils/misc/object/types';
 import {isSimilar} from '../../esl-utils/misc/object/compare';
 
 import type {
@@ -55,12 +55,12 @@ function isMatchesDescriptor(
   return false;
 }
 
-/** Gets {@link ESLListenerDescriptorFn}s of the passed object that matches passed criterias */
+/** Gets {@link ESLListenerDescriptorFn}s of the passed any object-like host that matches passed criterias */
 export function getDescriptors(
   host: object,
   ...criteria: ESLListenerDescriptorCriteria[]
 ): ESLListenerDescriptorFn[] {
-  if (!isObject(host)) return [];
+  if (!isObjectLike(host)) return [];
   const keys = getDescriptorsKeysFor(host);
   const values = keys.map((key) => host[key]).filter(isEventDescriptor);
   return values.filter((desc) => criteria.every(isMatchesDescriptor, Object.assign({}, desc)));
