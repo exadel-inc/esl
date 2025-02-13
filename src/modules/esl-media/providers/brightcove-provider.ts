@@ -91,7 +91,7 @@ export class BrightcoveProvider extends BaseProvider {
    */
   protected onAPIReady(): Promise<void> | void {
     // Set autoplay though js because BC is unresponsive while processing it natively
-    this._api.autoplay(this._autoplay || !!this.config.autoplay);
+    this._api.autoplay(this._autoplay || this.config.autoplay);
 
     // Listeners to control player state
     this._api.on('play', () => this.component._onPlay());
