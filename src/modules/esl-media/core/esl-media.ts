@@ -149,7 +149,7 @@ export class ESLMedia extends ESLBaseElement {
   protected override connectedCallback(): void {
     super.connectedCallback();
     ESLMediaRestrictionManager.instance.init();
-    this.toggleAttribute('autopaused', true);
+    this.$$attr('autopaused', true);
     if (!this.hasAttribute('role')) {
       this.setAttribute('role', 'application');
     }
@@ -294,7 +294,7 @@ export class ESLMedia extends ESLBaseElement {
 
   public _onPlay(): void {
     if (this.autofocus) this.focus();
-    this.toggleAttribute('autopaused', false);
+    this.$$attr('autopaused', false);
     this.toggleAttribute('active', true);
     this.toggleAttribute('played', true);
     this.$$fire(this.PLAY_EVENT);

@@ -79,7 +79,7 @@ export class ESLMediaRestrictionManager {
 
     this.active.forEach((player: ESLMedia) => {
       if (!innerMedia.includes(player) || !isSafeContains(target as Node, player) || !player.active) return;
-      player.toggleAttribute('autopaused', true);
+      player.$$attr('autopaused', true);
       player.pause();
     });
   }
