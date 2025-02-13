@@ -1,3 +1,5 @@
+import {ESLMediaRestrictionManager} from './esl-media-manager';
+
 import type {ESLMedia} from './esl-media';
 
 const RATIO_TO_PLAY = 0.5; // TODO: customizable, at least global
@@ -28,11 +30,11 @@ function handleViewport(entry: IntersectionObserverEntry): void {
 
   // Videos that playing and out of min ratio RATIO_TO_STOP should be stopped
   if (video.active && entry.intersectionRatio <= RATIO_TO_STOP) {
-    video.$$attr('autopaused', true);
+    video.toggleAttribute('autopaused', true);
     video.pause();
   }
   // Play should start only for inactive and background(muted) videos that are visible more than on RATIO_TO_PLAY
-  if (!video.active && video.canAutoplay() && entry.intersectionRatio >= RATIO_TO_PLAY) {
+  if (!video.active && ESLMediaRestrictionManager.instance.canAutoplay(video) && entry.intersectionRatio >= RATIO_TO_PLAY) {
     video.play();
   }
 }

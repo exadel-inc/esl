@@ -5,8 +5,7 @@ import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {SPACE, PAUSE} from '../../esl-utils/dom/keys';
 import {prop, attr, boolAttr, listen} from '../../esl-utils/decorators';
 import {debounce} from '../../esl-utils/async';
-import {isVisible} from '../../esl-utils/dom/visible';
-import {parseAspectRatio, parseBoolean, parseString} from '../../esl-utils/misc/format';
+import {parseAspectRatio, parseBoolean} from '../../esl-utils/misc/format';
 
 import {ESLMediaQuery} from '../../esl-media-query/core';
 import {ESLResizeObserverTarget} from '../../esl-event-listener/core';
@@ -81,10 +80,8 @@ export class ESLMedia extends ESLBaseElement {
   /** Allows lazy load resource */
   @attr({parser: parseLazyAttr, defaultValue: 'none'}) public lazy: ESLMediaLazyMode;
   /** Autoplay resource marker */
-  @attr({
-    defaultValue: false,
-    parser: (value: string) => value === 'always' ? parseString(value) :  parseBoolean(value)
-  }) public autoplay: 'always' | boolean;
+  @boolAttr() public autoplay: boolean;
+
   /** Autofocus on play marker */
   @boolAttr() public override autofocus: boolean;
   /** Mute resource marker */
@@ -128,8 +125,6 @@ export class ESLMedia extends ESLBaseElement {
   @boolAttr({readonly: true}) public error: boolean;
   /** @readonly Width is greater than height state marker */
   @boolAttr({readonly: true}) public wide: boolean;
-  /** @readonly Resource was automatically paused marker */
-  @boolAttr({readonly: true}) public autopaused: boolean;
 
   private _provider: BaseProvider | null;
 
@@ -147,8 +142,14 @@ export class ESLMedia extends ESLBaseElement {
     return ESLMediaProviderRegistry.instance.has(name);
   }
 
+  public get autopaused(): boolean {
+    return this.hasAttribute('autopaused');
+  }
+
   protected override connectedCallback(): void {
     super.connectedCallback();
+    ESLMediaRestrictionManager.instance.init();
+    this.toggleAttribute('autopaused', true);
     if (!this.hasAttribute('role')) {
       this.setAttribute('role', 'application');
     }
@@ -200,10 +201,6 @@ export class ESLMedia extends ESLBaseElement {
     return this.lazy === 'none' && this.conditionQuery.matches;
   }
 
-  public canAutoplay(): boolean {
-    return !!this.autoplay && (this.autoplay === 'always' || this.autopaused);
-  }
-
   private reinitInstance(): void {
     console.debug('[ESL] Media reinitialize ', this);
     this._provider && this._provider.unbind();
@@ -243,6 +240,7 @@ export class ESLMedia extends ESLBaseElement {
       this.reinitInstance();
     }
     if (!this.canActivate()) return null;
+    if (!ESLMediaRestrictionManager.instance.canAutoplay(this)) return null;
     return this._provider && this._provider.safePlay();
   }
 
@@ -296,24 +294,24 @@ export class ESLMedia extends ESLBaseElement {
 
   public _onPlay(): void {
     if (this.autofocus) this.focus();
-    this.$$attr('autopaused', false);
+    this.toggleAttribute('autopaused', false);
     this.toggleAttribute('active', true);
     this.toggleAttribute('played', true);
     this.$$fire(this.PLAY_EVENT);
-    ESLMediaRestrictionManager._onPlay(this);
+    ESLMediaRestrictionManager.instance._onAddActiveMedia(this);
     this._onResize();
   }
 
   public _onPaused(): void {
     this.removeAttribute('active');
     this.$$fire(this.PAUSED_EVENT);
-    ESLMediaRestrictionManager._onPause(this);
+    ESLMediaRestrictionManager.instance._onDeleteInactiveMedia(this);
   }
 
   public _onEnded(): void {
     this.removeAttribute('active');
     this.$$fire(this.ENDED_EVENT);
-    ESLMediaRestrictionManager._onPause(this);
+    ESLMediaRestrictionManager.instance._onDeleteInactiveMedia(this);
   }
 
   @listen({
@@ -351,28 +349,6 @@ export class ESLMedia extends ESLBaseElement {
   })
   protected _onConditionChange(): void {
     this.deferredReinitialize();
-  }
-
-  @listen({
-    event: 'esl:show',
-    target: window
-  })
-  protected _onContainerShow(e: Event): void {
-    const {target} = e;
-    if (!isSafeContains(target as Node, this)) return;
-    if (this.playInViewport && !isVisible(this)) return;
-    if (this.canAutoplay()) this.play();
-  }
-
-  @listen({
-    event: 'esl:hide',
-    target: window
-  })
-  protected _onContainerHide(e: Event): void {
-    const {target} = e;
-    if (!isSafeContains(target as Node, this) || !this.active) return;
-    this.$$attr('autopaused', true);
-    this.pause();
   }
 
   @listen('keydown')
