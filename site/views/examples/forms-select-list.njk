@@ -3,8 +3,8 @@ layout: content
 title: Forms - Select List
 seoTitle: Custom select list examples based on ESL web components
 name: Select List
-tags: [examples, beta]
-collectionIcon: examples/select-list.svg
+tags: [examples]
+icon: examples/select-list.svg
 aside:
   components:
     - esl-select-list
@@ -18,319 +18,65 @@ aside:
         width: 100%;
       }
     </style>
-      <form class="form bg-white border p-4" action="javascript: void 0;">
-        <div class="">
-          <div class="form-group p-1">
-            <label for="country_field" class="form-label">Please select your country:</label>
-            <esl-select-list class="border p-1" select-all-label="Select All Countries">
+    <uip-root>
+      <script type="text/html"
+              label="Custom"
+              uip-snippet
+              uip-snippet-js="js-snippet-select-list-registration">
+        <form esl-d-form-info class="form bg-white border p-4"  style="min-height: 150px">
+          <div class="form-group">
+            <label for="color_field" class="form-label">Choose your favorite colors:</label>
+            <esl-select-list class="border"  style="display: block">
               <select esl-select-target
-                      id="country_field"
-                      name="country_field"
+                      id="color_field"
+                      name="color_field"
                       class="form-control">
-                <option>Afghanistan</option>
-                <option>Albania</option>
-                <option>Algeria</option>
-                <option>Andorra</option>
-                <option>Angola</option>
-                <option>Antigua and Barbuda</option>
-                <option>Argentina</option>
-                <option>Armenia</option>
-                <option>Australia</option>
-                <option>Austria</option>
-                <option>Azerbaijan</option>
-                <option>Bahamas</option>
-                <option>Bahrain</option>
-                <option>Bangladesh</option>
-                <option>Barbados</option>
-                <option>Belarus</option>
-                <option>Belgium</option>
-                <option>Belize</option>
-                <option>Benin</option>
-                <option>Bhutan</option>
-                <option>Bolivia</option>
-                <option>Bosnia and Herzegovina</option>
-                <option>Botswana</option>
-                <option>Brazil</option>
-                <option>Brunei</option>
-                <option>Bulgaria</option>
-                <option>Burkina Faso</option>
-                <option>Burundi</option>
-                <option>Côte d'Ivoire</option>
-                <option>Cabo Verde</option>
-                <option>Cambodia</option>
-                <option>Cameroon</option>
-                <option>Canada</option>
-                <option>Central African Republic</option>
-                <option>Chad</option>
-                <option>Chile</option>
-                <option>China</option>
-                <option>Colombia</option>
-                <option>Comoros</option>
-                <option>Congo (Congo-Brazzaville)</option>
-                <option>Costa Rica</option>
-                <option>Croatia</option>
-                <option>Cuba</option>
-                <option>Cyprus</option>
-                <option>Czechia (Czech Republic)</option>
-                <option>Democratic Republic of the Congo</option>
-                <option>Denmark</option>
-                <option>Djibouti</option>
-                <option>Dominica</option>
-                <option>Dominican Republic</option>
-                <option>Ecuador</option>
-                <option>Egypt</option>
-                <option>El Salvador</option>
-                <option>Equatorial Guinea</option>
-                <option>Eritrea</option>
-                <option>Estonia</option>
-                <option>Eswatini (fmr. "Swaziland")</option>
-                <option>Ethiopia</option>
-                <option>Fiji</option>
-                <option>Finland</option>
-                <option>France</option>
-                <option>Gabon</option>
-                <option>Gambia</option>
-                <option>Georgia</option>
-                <option>Germany</option>
-                <option>Ghana</option>
-                <option>Greece</option>
-                <option>Grenada</option>
-                <option>Guatemala</option>
-                <option>Guinea</option>
-                <option>Guinea-Bissau</option>
-                <option>Guyana</option>
-                <option>Haiti</option>
-                <option>Holy See</option>
-                <option>Honduras</option>
-                <option>Hungary</option>
-                <option>Iceland</option>
-                <option>India</option>
-                <option>Indonesia</option>
-                <option>Iran</option>
-                <option>Iraq</option>
-                <option>Ireland</option>
-                <option>Israel</option>
-                <option>Italy</option>
-                <option>Jamaica</option>
-                <option>Japan</option>
-                <option>Jordan</option>
-                <option>Kazakhstan</option>
-                <option>Kenya</option>
-                <option>Kiribati</option>
-                <option>Kuwait</option>
-                <option>Kyrgyzstan</option>
-                <option>Laos</option>
-                <option>Latvia</option>
-                <option>Lebanon</option>
-                <option>Lesotho</option>
-                <option>Liberia</option>
-                <option>Libya</option>
-                <option>Liechtenstein</option>
-                <option>Lithuania</option>
-                <option>Luxembourg</option>
-                <option>Madagascar</option>
-                <option>Malawi</option>
-                <option>Malaysia</option>
-                <option>Maldives</option>
-                <option>Mali</option>
-                <option>Malta</option>
-                <option>Marshall Islands</option>
-                <option>Mauritania</option>
-                <option>Mauritius</option>
-                <option>Mexico</option>
-                <option>Micronesia</option>
-                <option>Moldova</option>
-                <option>Monaco</option>
-                <option>Mongolia</option>
-                <option>Montenegro</option>
-                <option>Morocco</option>
-                <option>Mozambique</option>
-                <option>Myanmar (formerly Burma)</option>
-                <option>Namibia</option>
-                <option>Nauru</option>
-                <option>Nepal</option>
-                <option>Netherlands</option>
-                <option>New Zealand</option>
-                <option>Nicaragua</option>
-                <option>Niger</option>
-                <option>Nigeria</option>
-                <option>North Korea</option>
-                <option>North Macedonia</option>
-                <option>Norway</option>
-                <option>Oman</option>
-                <option>Pakistan</option>
-                <option>Palau</option>
-                <option>Palestine State</option>
-                <option>Panama</option>
-                <option>Papua New Guinea</option>
-                <option>Paraguay</option>
-                <option>Peru</option>
-                <option>Philippines</option>
-                <option selected>Poland</option>
-                <option>Portugal</option>
-                <option>Qatar</option>
-                <option>Romania</option>
-                <option>Russia</option>
-                <option>Rwanda</option>
-                <option>Saint Kitts and Nevis</option>
-                <option>Saint Lucia</option>
-                <option>Saint Vincent and the Grenadines</option>
-                <option>Samoa</option>
-                <option>San Marino</option>
-                <option>Sao Tome and Principe</option>
-                <option>Saudi Arabia</option>
-                <option>Senegal</option>
-                <option>Serbia</option>
-                <option>Seychelles</option>
-                <option>Sierra Leone</option>
-                <option>Singapore</option>
-                <option>Slovakia</option>
-                <option>Slovenia</option>
-                <option>Solomon Islands</option>
-                <option>Somalia</option>
-                <option>South Africa</option>
-                <option>South Korea</option>
-                <option>South Sudan</option>
-                <option>Spain</option>
-                <option>Sri Lanka</option>
-                <option>Sudan</option>
-                <option>Suriname</option>
-                <option>Sweden</option>
-                <option>Switzerland</option>
-                <option>Syria</option>
-                <option>Tajikistan</option>
-                <option>Tanzania</option>
-                <option>Thailand</option>
-                <option>Timor-Leste</option>
-                <option>Togo</option>
-                <option>Tonga</option>
-                <option>Trinidad and Tobago</option>
-                <option>Tunisia</option>
-                <option>Turkey</option>
-                <option>Turkmenistan</option>
-                <option>Tuvalu</option>
-                <option>Uganda</option>
-                <option>Ukraine</option>
-                <option>United Arab Emirates</option>
-                <option>United Kingdom</option>
-                <option>United States of America</option>
-                <option>Uruguay</option>
-                <option>Uzbekistan</option>
-                <option>Vanuatu</option>
-                <option>Venezuela</option>
-                <option>Vietnam</option>
-                <option>Yemen</option>
-                <option>Zambia</option>
-                <option>Zimbabwe</option>
+                <option class="disabled" value="#FF0000">Red</option>
+                <option value="#00FF00">Green</option>
+                <option value="#0000FF">Blue</option>
+                <option value="#FFFF00">Yellow</option>
+                <option value="#FFA500">Orange</option>
+                <option value="#800080">Purple</option>
+                <option value="#000000">Black</option>
+                <option value="#FFFFFF">White</option>
+                <option value="#00FFFF">Cyan</option>
+                <option value="#FF00FF">Magenta</option>
+                <option value="#808080">Gray</option>
+                <option value="#A52A2A">Brown</option>
+                <option value="#8B4513">SaddleBrown</option>
+                <option value="#BDB76B">DarkKhaki</option>
+                <option value="#DC143C">Crimson</option>
+                <option value="#00CED1">DarkTurquoise</option>
+                <option value="#4682B4">SteelBlue</option>
+                <option value="#32CD32">LimeGreen</option>
+                <option value="#FFD700">Gold</option>
+                <option value="#ADFF2F">GreenYellow</option>
+                <option value="#FF4500">OrangeRed</option>
               </select>
             </esl-select-list>
           </div>
 
-          <div class="form-group p-1">
-            <label for="color_field_3" class="form-label">Color List</label>
-            <esl-select-list class="border" select-all-label="Select All Colors">
-              <select esl-select-target
-                      multiple
-                      id="color_field_3"
-                      name="color_field_3"
-                      class="form-control">
-                <option value="" disabled>Disabled</option>
-                <option value="#0048BA">Absolute Zero</option>
-                <option value="#B0BF1A">Acid green</option>
-                <option value="#7CB9E8">Aero</option>
-                <option value="#C0E8D5">Aero blue</option>
-                <option value="#B284BE">African violet</option>
-                <option value="#72A0C1">Air superiority blue</option>
-                <option value="#EDEAE0">Alabaster</option>
-                <option value="#EFDECD">Almond</option>
-                <option value="#E52B50">Amaranth</option>
-                <option value="#3B7A57">Amazon</option>
-                <option value="#FFBF00">Amber</option>
-                <option value="#FF7E00">Amber (SAE/ECE)</option>
-                <option value="#9966CC">Amethyst</option>
-                <option value="#A4C639">Android green</option>
-                <option value="#CD9575">Antique brass</option>
-                <option value="#665D1E">Antique bronze</option>
-                <option value="#915C83">Antique fuchsia</option>
-                <option value="#841B2D">Antique ruby</option>
-                <option value="#BF4F51">Bittersweet shimmer</option>
-                <option value="#000000" selected>Black</option>
-                <option value="#1B1811">Black chocolate</option>
-                <option value="#3B2F2F">Black coffee</option>
-                <option value="#54626F">Black coral</option>
-                <option value="#3B3C36">Black olive</option>
-                <option value="#BFAFB2">Black Shadows</option>
-                <option value="#FFEBCD">Blanched almond</option>
-                <option value="#A57164">Blast-off bronze</option>
-                <option value="#DE5D83">Blush</option>
-                <option value="#79443B">Bole</option>
-                <option value="#E3DAC9">Bone</option>
-                <option value="#006A4E">Bottle green</option>
-                <option value="#87413F">Brandy</option>
-                <option value="#CB4154">Brick red</option>
-                <option value="#66FF00">Bright green</option>
-                <option value="#D891EF">Bright lilac</option>
-                <option value="#C32148">Bright maroon</option>
-                <option value="#1974D2">Bright navy blue</option>
-                <option value="#FFAA1D">Bright yellow (Crayola)</option>
-                <option value="#FF55A3">Brilliant rose</option>
-                <option value="#FB607F">Brink pink</option>
-                <option value="#004225">British racing green</option>
-                <option value="#CD7F32">Bronze</option>
-                <option value="#88540B">Brown</option>
-                <option value="#AF6E4D">Brown sugar</option>
-                <option value="#7BB661">Bud green</option>
-                <option value="#FFC680">Buff</option>
-                <option value="#800020">Burgundy</option>
-                <option value="#DEB887">Burlywood</option>
-                <option value="#A17A74">Burnished brown</option>
-                <option value="#CC5500">Burnt orange</option>
-                <option value="#E97451">Burnt sienna</option>
-                <option value="#8A3324">Burnt umber</option>
-                <option value="#BD33A4">Byzantine</option>
-                <option value="#702963">Byzantium</option>
-                <option value="#536872">Cadet</option>
-                <option value="#5F9EA0">Cadet blue</option>
-                <option value="#A9B2C3">Cadet blue (Crayola)</option>
-                <option value="#91A3B0">Cadet grey</option>
-                <option value="#006B3C">Cadmium green</option>
-                <option value="#ED872D">Cadmium orange</option>
-                <option value="#E30022">Cadmium red</option>
-              </select>
-            </esl-select-list>
+          <div class="form-group">
+            <button class="btn btn-sec-blue" onclick="">Submit</button>
+            <button type="reset" class="btn btn-sec-orange">Reset</button>
           </div>
-        </div>
-        <div class="form-group">
-          <button class="btn btn-sec-blue">Submit</button>
-          <button type="reset" class="btn btn-sec-orange">Reset</button>
-        </div>
-      </form>
+          <div class="demo-info panel panel-info">
+          </div>
+        </form>
+      </script>
+      <script id="js-snippet-select-list-registration" type="text/plain">
+  import {ESLSelectList} from '@exadel/esl';
+  ESLSelectList.register();
+      </script>
 
-    <div class="demo-info panel panel-info">
-    </div>
-    <script>
-      (function () {
-        var form = document.querySelector('form');
-        var info = document.querySelector('.demo-info');
-        if (!info) return;
-
-        function upd() {
-          var data = {};
-          var formData = new FormData(form);
-          formData.forEach(function (value, key) {
-            if (key in data) {
-              data[key] = [].concat(data[key]).concat(value);
-            } else {
-              data[key] = value;
-            }
-          });
-
-          info.textContent = JSON.stringify(data, null, 2);
-          info.removeAttribute('hidden');
-        }
-
-        form.addEventListener('submit', upd);
-      })();
-    </script>
+      <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
+      <uip-preview></uip-preview>
+      <uip-settings target="esl-select-list" label="Settings" resizable vertical="@+sm">
+        <uip-bool-setting label="Multiple" attribute="multiple" target="select"></uip-bool-setting>
+        <uip-bool-setting label="Disabled" attribute="disabled" target=".disabled"></uip-bool-setting>
+      </uip-settings>
+      <uip-editor label="Source code (HTML)" collapsible copy></uip-editor>
+      <uip-editor source="js" label="Source code (JS)" collapsible collapsed copy></uip-editor>
+    </uip-root>
   </div>
 </section>
