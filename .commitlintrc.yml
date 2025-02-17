@@ -41,6 +41,7 @@ rules:
       - esl-forms
       - esl-image
       - esl-image-utils
+      - esl-lazy-template
       - esl-media
       - esl-media-query
       - esl-mixin-element

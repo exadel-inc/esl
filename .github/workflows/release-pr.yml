@@ -18,74 +18,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - id: ReleasePR
-        uses: google-github-actions/release-please-action@v4
+      - name: Checkout
+        uses: actions/checkout@v3
+      # Updates a Release Branch
+      - id: ReleaseNotes
+        uses: TriPSs/conventional-changelog-action@v5
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          target-branch: main
-          skip-github-release: true
-          manifest-file: .release/manifest.json
-          config-file: .release/config-main.json
+          git-branch: 'release/main'
+          github-token: '${{ secrets.GITHUB_TOKEN }}'
+          skip-tag: true
 
-      # Fix version update process by running original node version process
-      - name: Extract SHA of the release PR
-        if: ${{ steps.ReleasePR.outputs.prs_created }}
-        run: echo "release_sha=$(echo '${{ steps.ReleasePR.outputs.pr }}' | jq -r '.sha')" >> $GITHUB_ENV
-      - if: ${{ steps.ReleasePR.outputs.prs_created }}
-        uses: actions/checkout@v4
+      # Open a PR from release/main to main
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
         with:
-          ref: ${{ env.release_sha }}
-          persist-credentials: false
-      - if: ${{ steps.ReleasePR.outputs.prs_created }}
-        name: Use Node v${{ env.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          cache: 'npm'
-          node-version: ${{ env.node-version }}
-      - if: ${{ steps.ReleasePR.outputs.prs_created }}
-        name: Install NPM Dependencies
-        run: npm ci
-
-      #      - if: ${{ steps.ReleasePR.outputs.prs_created }}
-#        name: Update NPM Version
-#        run: 'npm version ${{ steps.ReleasePR.outputs.major}}.${{ steps.ReleasePR.outputs.minor}}.${{ steps.ReleasePR.outputs.patch}} --no-git-tag-version'
-
-
-      # The logic below handles the npm publication:
-#      - if: ${{ steps.ReleasePR.outputs.release_created }}
-#        uses: actions/checkout@v4
-#        with:
-#          persist-credentials: false
-#
-#      - if: ${{ steps.ReleasePR.outputs.release_created }}
-#        name: Use Node v${{ env.node-version }}
-#        uses: actions/setup-node@v4
-#        with:
-#          cache: 'npm'
-#          node-version: ${{ env.node-version }}
-#
-#      - if: ${{ steps.ReleasePR.outputs.release_created }}
-#        name: Install NPM Dependencies
-#        run: npm ci
-#
-#      - if: ${{ steps.ReleasePR.outputs.release_created }}
-#        run: npm pack
-#
-#      - if: ${{ steps.ReleasePR.outputs.release_created }}
-#        name: Upload Release Artifact
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#        run:
-#          gh release upload ${{ steps.ReleasePR.outputs.tag_name }} ./exadel-esl-${{steps.ReleasePR.outputs.major}}.${{steps.ReleasePR.outputs.minor}}.${{steps.ReleasePR.outputs.patch}}.tgz
-
-#      - if: ${{ steps.ReleasePR.outputs.release_created }}
-#        name: Provide NPM Token
-#        run: npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
-#        env:
-#          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-#
-#      - if: ${{ steps.ReleasePR.outputs.release_created }}
-#        run: npm publish
-#        env:
-#        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}AAl@n
-
+          base: main
+          branch: release/main
+          title: "Auto PR: release/main → main"
+          body: "This is an automated Release PR"
+          labels: "automated-pr"
+          assignees: "ala-n"
