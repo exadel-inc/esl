@@ -1,5 +1,5 @@
-import {ESLMediaProviderRegistry} from './esl-media-registry';
 import {DelayedTask} from '../../esl-utils/async/delayed-task';
+import {ESLMediaProviderRegistry} from './esl-media-registry';
 
 import type {ESLMedia} from './esl-media';
 
@@ -58,6 +58,10 @@ export abstract class BaseProvider {
   public constructor(component: ESLMedia, config: MediaProviderConfig) {
     this.config = config;
     this.component = component;
+    if (this.config.autoplay) {
+      this.config.autoplay = this.component._onBeforePlay('initial');
+    }
+    this.bind();
   }
 
   /** Wraps _ready promise */
@@ -141,7 +145,7 @@ export abstract class BaseProvider {
   /** Executes play when api is ready */
   public async safePlay(): Promise<void> {
     await this.ready;
-    this._cmdMng.put(() => this.component._onBeforePlay() && this.play(), 0);
+    this._cmdMng.put(() => this.component._onBeforePlay('play') && this.play(), 0);
   }
 
   /** Executes pause when api is ready */

@@ -5,6 +5,7 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {listen, memoize} from '../../esl-utils/decorators';
 
 import type {ESLMedia} from './esl-media';
+import {PlayerStates} from './esl-media-provider';
 
 /**
  * Manager for {@link ESLMedia}
@@ -34,13 +35,8 @@ export class ESLMediaManager {
     instance = this;
   }
 
-  /** Checks whether media can automatically play */
-  public canAutoplay(media: ESLMedia): boolean {
-    return media.autoplay && media.autopaused;
-  }
-
   public _onAddMedia(media: ESLMedia): void {
-    this.instances.add(media);
+    if (media.autoplay) this.instances.add(media);
   }
 
   public _onDeleteMedia(media: ESLMedia): void {
@@ -71,7 +67,7 @@ export class ESLMediaManager {
     this.instances.forEach(($media: ESLMedia) => {
       if (!isSafeContains(e.target as Node, $media)) return;
       if (!isVisible($media, {visibility: true, viewport: $media.playInViewport})) return;
-      if (this.canAutoplay($media)) $media.play();
+      if ($media.state === PlayerStates.UNINITIALIZED || $media.autopaused) $media.play();
     });
   }
 

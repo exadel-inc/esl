@@ -149,8 +149,7 @@ export class ESLMedia extends ESLBaseElement {
 
   protected override connectedCallback(): void {
     super.connectedCallback();
-    this.$$attr('autopaused', true);
-    if (ESLMediaManager.instance.canAutoplay(this)) ESLMediaManager.instance._onAddMedia(this);
+    ESLMediaManager.instance._onAddMedia(this);
     if (!this.hasAttribute('role')) {
       this.setAttribute('role', 'application');
     }
@@ -211,7 +210,6 @@ export class ESLMedia extends ESLBaseElement {
     if (this.canActivate()) {
       this._provider = ESLMediaProviderRegistry.instance.createFor(this);
       if (this._provider) {
-        this._provider.bind();
         console.debug('[ESL] Media provider bound', this._provider);
       } else {
         this._onError();
@@ -241,8 +239,6 @@ export class ESLMedia extends ESLBaseElement {
       this.deferredReinitialize.cancel();
       this.reinitInstance();
     }
-    if (!this.canActivate()) return null;
-    if (!ESLMediaManager.instance.canAutoplay(this)) return null;
     return this._provider && this._provider.safePlay();
   }
 
@@ -294,8 +290,9 @@ export class ESLMedia extends ESLBaseElement {
     this.$$fire(this.DETACHED_EVENT);
   }
 
-  public _onBeforePlay(): boolean {
-    return this.$$fire(this.BEFORE_PLAY_EVENT);
+  public _onBeforePlay(initiator: string): boolean {
+    const detail = {initiator};
+    return this.$$fire(this.BEFORE_PLAY_EVENT, {detail});
   }
 
   public _onPlay(): void {

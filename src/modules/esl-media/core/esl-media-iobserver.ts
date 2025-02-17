@@ -1,5 +1,3 @@
-import {ESLMediaManager} from './esl-media-manager';
-
 import type {ESLMedia} from './esl-media';
 
 const RATIO_TO_PLAY = 0.5; // TODO: customizable, at least global
@@ -34,7 +32,7 @@ function handleViewport(entry: IntersectionObserverEntry): void {
     video.pause();
   }
   // Play should start only for inactive and background(muted) videos that are visible more than on RATIO_TO_PLAY
-  if (!video.active && ESLMediaManager.instance.canAutoplay(video) && entry.intersectionRatio >= RATIO_TO_PLAY) {
+  if (!video.active && video.autopaused && entry.intersectionRatio >= RATIO_TO_PLAY) {
     video.play();
   }
 }
