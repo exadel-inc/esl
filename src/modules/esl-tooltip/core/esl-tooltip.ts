@@ -16,9 +16,14 @@ export interface ESLTooltipActionParams extends ESLPopupActionParams {
   /** tooltip without arrow */
   disableArrow?: boolean;
 }
-
-/** @deprecated alias, use {@link ESLTooltipActionParams} instead. Will be removed in v5.0.0. */
-export type TooltipActionParams = ESLTooltipActionParams;
+/** List of ESLTooltip config keys */
+export const ESL_TOOLTIP_CONFIG_KEYS: (keyof ESLTooltipActionParams)[] = [
+  ...ESLPopup.CONFIG_KEYS,
+  'text',
+  'html',
+  'dir',
+  'lang',
+  'disableArrow'] as const;
 
 @ExportNs('Tooltip')
 export class ESLTooltip extends ESLPopup {
@@ -30,6 +35,9 @@ export class ESLTooltip extends ESLPopup {
     position: 'top',
     hideDelay: 300
   };
+
+  /** List of config keys */
+  public static override CONFIG_KEYS: string[] = ESL_TOOLTIP_CONFIG_KEYS as string[];
 
   /** Shared instanse of Tooltip */
   @memoize()

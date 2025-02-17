@@ -15,9 +15,6 @@ export interface ESLPanelActionParams extends ESLToggleableActionParams {
   noAnimate?: boolean;
 }
 
-/** @deprecated alias, use {@link ESLPanelActionParams} instead. Will be removed in v5.0.0. */
-export type PanelActionParams = ESLPanelActionParams;
-
 /**
  * ESLPanel component
  * @author Julia Murashko
