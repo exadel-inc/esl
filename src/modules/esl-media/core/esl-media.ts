@@ -53,6 +53,8 @@ export class ESLMedia extends ESLBaseElement {
   @prop('esl:media:ready') public READY_EVENT: string;
   /** Event to dispatch on error state */
   @prop('esl:media:error') public ERROR_EVENT: string;
+  /** Event to dispatch before player provider requested to play (cancelable) */
+  @prop('esl:media:before:play') public BEFORE_PLAY_EVENT: string;
   /** Event to dispatch when player plays */
   @prop('esl:media:play') public PLAY_EVENT: string;
   /** Event to dispatch when player paused */
@@ -61,7 +63,7 @@ export class ESLMedia extends ESLBaseElement {
   @prop('esl:media:ended') public ENDED_EVENT: string;
   /** Event to dispatch when player detached */
   @prop('esl:media:detached') public DETACHED_EVENT: string;
-  /** Event to dispatch when player paused by another instance in group */
+  /** Event to dispatch when player paused by another instance in group (cancelable) */
   @prop('esl:media:managedpause') public MANAGED_PAUSE_EVENT: string;
 
   /** Media resource identifier */
@@ -290,6 +292,10 @@ export class ESLMedia extends ESLBaseElement {
     this.removeAttribute('played');
     this.updateReadyClass();
     this.$$fire(this.DETACHED_EVENT);
+  }
+
+  public _onBeforePlay(): boolean {
+    return this.$$fire(this.BEFORE_PLAY_EVENT);
   }
 
   public _onPlay(): void {
