@@ -1,4 +1,4 @@
-import {ESLMediaRestrictionManager} from './esl-media-manager';
+import {ESLMediaManager} from './esl-media-manager';
 
 import type {ESLMedia} from './esl-media';
 
@@ -34,7 +34,7 @@ function handleViewport(entry: IntersectionObserverEntry): void {
     video.pause();
   }
   // Play should start only for inactive and background(muted) videos that are visible more than on RATIO_TO_PLAY
-  if (!video.active && ESLMediaRestrictionManager.instance.canAutoplay(video) && entry.intersectionRatio >= RATIO_TO_PLAY) {
+  if (!video.active && ESLMediaManager.instance.canAutoplay(video) && entry.intersectionRatio >= RATIO_TO_PLAY) {
     video.play();
   }
 }

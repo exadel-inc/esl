@@ -14,7 +14,7 @@ import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {getIObserver} from './esl-media-iobserver';
 import {PlayerStates} from './esl-media-provider';
 import {ESLMediaProviderRegistry} from './esl-media-registry';
-import {ESLMediaRestrictionManager} from './esl-media-manager';
+import {ESLMediaManager} from './esl-media-manager';
 
 import type {BaseProvider} from './esl-media-provider';
 import type {ESLMediaRegistryEvent} from './esl-media-registry.event';
@@ -127,7 +127,6 @@ export class ESLMedia extends ESLBaseElement {
   @boolAttr({readonly: true}) public wide: boolean;
 
   private _provider: BaseProvider | null;
-
   private deferredReinitialize = debounce(() => this.reinitInstance());
 
   /**
@@ -148,8 +147,8 @@ export class ESLMedia extends ESLBaseElement {
 
   protected override connectedCallback(): void {
     super.connectedCallback();
-    ESLMediaRestrictionManager.instance.init();
     this.$$attr('autopaused', true);
+    if (ESLMediaManager.instance.canAutoplay(this)) ESLMediaManager.instance._onAddMedia(this);
     if (!this.hasAttribute('role')) {
       this.setAttribute('role', 'application');
     }
@@ -159,6 +158,7 @@ export class ESLMedia extends ESLBaseElement {
   }
 
   protected override disconnectedCallback(): void {
+    ESLMediaManager.instance._onDeleteMedia(this);
     super.disconnectedCallback();
     this.detachViewportConstraint();
     this._provider && this._provider.unbind();
@@ -240,7 +240,7 @@ export class ESLMedia extends ESLBaseElement {
       this.reinitInstance();
     }
     if (!this.canActivate()) return null;
-    if (!ESLMediaRestrictionManager.instance.canAutoplay(this)) return null;
+    if (!ESLMediaManager.instance.canAutoplay(this)) return null;
     return this._provider && this._provider.safePlay();
   }
 
@@ -298,20 +298,20 @@ export class ESLMedia extends ESLBaseElement {
     this.toggleAttribute('active', true);
     this.toggleAttribute('played', true);
     this.$$fire(this.PLAY_EVENT);
-    ESLMediaRestrictionManager.instance._onAddActiveMedia(this);
+    ESLMediaManager.instance._onAddActive(this);
     this._onResize();
   }
 
   public _onPaused(): void {
     this.removeAttribute('active');
     this.$$fire(this.PAUSED_EVENT);
-    ESLMediaRestrictionManager.instance._onDeleteInactiveMedia(this);
+    ESLMediaManager.instance._onDeleteActive(this);
   }
 
   public _onEnded(): void {
     this.removeAttribute('active');
     this.$$fire(this.ENDED_EVENT);
-    ESLMediaRestrictionManager.instance._onDeleteInactiveMedia(this);
+    ESLMediaManager.instance._onDeleteActive(this);
   }
 
   @listen({

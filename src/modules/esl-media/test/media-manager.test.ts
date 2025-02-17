@@ -1,6 +1,6 @@
 import '../../../polyfills/es5-target-shim';
 import {ESLMedia} from '../core/esl-media';
-import {ESLMediaRestrictionManager} from '../core/esl-media-manager';
+import {ESLMediaManager} from '../core/esl-media-manager';
 
 describe('ESLMedia: MediaGroupRestrictionManager tests', () => {
   ESLMedia.register();
@@ -8,10 +8,10 @@ describe('ESLMedia: MediaGroupRestrictionManager tests', () => {
   test('_onPlay / _onPause', () => {
     const instance = new ESLMedia();
     instance.group = 'test';
-    ESLMediaRestrictionManager.instance._onAddActiveMedia(instance);
-    expect(ESLMediaRestrictionManager.instance.active.size).toBeGreaterThan(0);
-    ESLMediaRestrictionManager.instance._onDeleteInactiveMedia(instance);
-    expect(ESLMediaRestrictionManager.instance.active.size).toBe(0);
+    ESLMediaManager.instance._onAddActive(instance);
+    expect(ESLMediaManager.instance.active.size).toBeGreaterThan(0);
+    ESLMediaManager.instance._onDeleteActive(instance);
+    expect(ESLMediaManager.instance.active.size).toBe(0);
   });
 
   test('_onPlay manged pause: same group', () => {
@@ -20,10 +20,10 @@ describe('ESLMedia: MediaGroupRestrictionManager tests', () => {
     instance1.group = instance2.group = 'test';
     Object.defineProperty(instance1, 'active', {value: true});
     const pauseSpy = jest.spyOn(instance1, 'pause');
-    ESLMediaRestrictionManager.instance._onAddActiveMedia(instance1);
-    ESLMediaRestrictionManager.instance._onAddActiveMedia(instance1);
+    ESLMediaManager.instance._onAddActive(instance1);
+    ESLMediaManager.instance._onAddActive(instance1);
     expect(pauseSpy).not.toBeCalled();
-    ESLMediaRestrictionManager.instance._onAddActiveMedia(instance2);
+    ESLMediaManager.instance._onAddActive(instance2);
     expect(pauseSpy).toBeCalled();
   });
 
@@ -33,10 +33,10 @@ describe('ESLMedia: MediaGroupRestrictionManager tests', () => {
     instance1.group = 'test1';
     instance2.group = 'test2';
     const pauseSpy = jest.spyOn(instance1, 'pause');
-    ESLMediaRestrictionManager.instance._onAddActiveMedia(instance1);
-    ESLMediaRestrictionManager.instance._onAddActiveMedia(instance1);
+    ESLMediaManager.instance._onAddActive(instance1);
+    ESLMediaManager.instance._onAddActive(instance1);
     expect(pauseSpy).not.toBeCalled();
-    ESLMediaRestrictionManager.instance._onAddActiveMedia(instance2);
+    ESLMediaManager.instance._onAddActive(instance2);
     expect(pauseSpy).not.toBeCalled();
   });
 });

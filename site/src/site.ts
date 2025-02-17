@@ -13,7 +13,6 @@ import {
   ESLImageContainerMixin,
   ESLMedia,
   ESLMediaControlMixin,
-  ESLMediaRestrictionManager,
   ESLToggleable,
   ESLPopup,
   ESLPopupPlaceholder,

@@ -67,14 +67,14 @@ using a single tag as well as work with external providers using simple native-l
  
  - `autofocus` (boolean) - set focus to the player when the media starts playing
  
- - `autoplay` (boolean | 'always') - start to play automatically on initialization. When set to 'always', the video will auto play even if previously stopped by the user, otherwise, it will not.
+ - `autoplay` (boolean) - start to play automatically on initialization and after opening `ESLToggleable` container with media. Won't be automatically play inside `ESLToggleable` instance and was previously stopped by the user.
  *(note: initialization doesn't happen until `disabled` attribute is removed from the element)*
  
  - `controls` (boolean) - show media player controls
  
  - `loop` (boolean) - play media in loop
  
- - `mute` (boolean) - mute media
+ - `muted` (boolean) - mute media
  
  - `playsinline` (boolean) - allow playing media inline (media player will not request special control over device)
 
@@ -117,7 +117,7 @@ using a single tag as well as work with external providers using simple native-l
     media-type="youtube"
     media-id="##MEDIAID##"
     title="Video Title"     
-    [ disabled ]    
-    [ group="mediaGroup" ]
+    disabled 
+    group="mediaGroup"
 ></esl-media>
 ```
