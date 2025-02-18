@@ -127,6 +127,8 @@ export class ESLMedia extends ESLBaseElement {
   @boolAttr({readonly: true}) public error: boolean;
   /** @readonly Width is greater than height state marker */
   @boolAttr({readonly: true}) public wide: boolean;
+  /** @readonly Autopaused state marker (video has been stopped by system) */
+  @boolAttr({readonly: true}) public autopaused: boolean;
 
   private _provider: BaseProvider | null;
   private deferredReinitialize = debounce(() => this.reinitInstance());
@@ -143,13 +145,9 @@ export class ESLMedia extends ESLBaseElement {
     return ESLMediaProviderRegistry.instance.has(name);
   }
 
-  public get autopaused(): boolean {
-    return this.hasAttribute('autopaused');
-  }
-
   protected override connectedCallback(): void {
     super.connectedCallback();
-    ESLMediaManager.instance._onAddMedia(this);
+    ESLMediaManager.instance._onInit(this);
     if (!this.hasAttribute('role')) {
       this.setAttribute('role', 'application');
     }
@@ -159,7 +157,7 @@ export class ESLMedia extends ESLBaseElement {
   }
 
   protected override disconnectedCallback(): void {
-    ESLMediaManager.instance._onDeleteMedia(this);
+    ESLMediaManager.instance._onDestroy(this);
     super.disconnectedCallback();
     this.detachViewportConstraint();
     this._provider && this._provider.unbind();
@@ -229,17 +227,18 @@ export class ESLMedia extends ESLBaseElement {
    * Start playing media
    * @param allowActivate - allows to remove manual lazy loading restrictions
    */
-  public play(allowActivate: boolean = false): Promise<void> | null {
+  public play(allowActivate: boolean = false, system = false): Promise<void> | null {
     if (!this.ready && allowActivate) {
       this.lazy = 'none';
       this.deferredReinitialize.cancel();
       this.reinitInstance();
     }
-    return this._provider && this._provider.safePlay();
+    return this._provider && this._provider.safePlay(system);
   }
 
   /** Pause playing media */
-  public pause(): Promise<void> | null {
+  public pause(system = false): Promise<void> | null {
+    if (system) this.$$attr('autopaused', true);
     return this._provider && this._provider.safePause();
   }
 
@@ -264,24 +263,24 @@ export class ESLMedia extends ESLBaseElement {
 
   // media live-cycle handlers
   public _onReady(): void {
-    this.toggleAttribute('ready', true);
-    this.toggleAttribute('error', false);
+    this.$$attr('ready', true);
+    this.$$attr('error', false);
     this.updateReadyClass();
     this.$$fire(this.READY_EVENT);
     this._onResize();
   }
 
   public _onError(detail?: any, setReadyState = true): void {
-    this.toggleAttribute('ready', true);
-    this.toggleAttribute('error', true);
+    this.$$attr('ready', true);
+    this.$$attr('error', true);
     this.$$fire(this.ERROR_EVENT, {detail});
     setReadyState && this.$$fire(this.READY_EVENT);
   }
 
   public _onDetach(): void {
-    this.removeAttribute('active');
-    this.removeAttribute('ready');
-    this.removeAttribute('played');
+    this.$$attr('active', false);
+    this.$$attr('ready', false);
+    this.$$attr('played', false);
     this.updateReadyClass();
     this.$$fire(this.DETACHED_EVENT);
   }
@@ -294,23 +293,23 @@ export class ESLMedia extends ESLBaseElement {
   public _onPlay(): void {
     if (this.autofocus) this.focus();
     this.$$attr('autopaused', false);
-    this.toggleAttribute('active', true);
-    this.toggleAttribute('played', true);
+    this.$$attr('active', true);
+    this.$$attr('played', true);
     this.$$fire(this.PLAY_EVENT);
-    ESLMediaManager.instance._onAddActive(this);
+    ESLMediaManager.instance._onAfterPlay(this);
     this._onResize();
   }
 
   public _onPaused(): void {
     this.removeAttribute('active');
     this.$$fire(this.PAUSED_EVENT);
-    ESLMediaManager.instance._onDeleteActive(this);
+    ESLMediaManager.instance._onAfterPause(this);
   }
 
   public _onEnded(): void {
     this.removeAttribute('active');
     this.$$fire(this.ENDED_EVENT);
-    ESLMediaManager.instance._onDeleteActive(this);
+    ESLMediaManager.instance._onAfterPause(this);
   }
 
   @listen({

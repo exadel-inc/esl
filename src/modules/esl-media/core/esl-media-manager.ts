@@ -8,17 +8,20 @@ import type {ESLMedia} from './esl-media';
 
 /**
  * Manager for {@link ESLMedia}
- * Checks whether media should play inside ESLToggleable container, stores all active instances and instances marked with `autoplay` attribute
- * Only one media from group can be played
- * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
+ * Checks whether media should play inside ESLToggleable container,
+ * stores all active instances and instances marked with `autoplay` attribute
+ * Restrict that only one media from the group can be played
+ *
+ * @author Anastasia Lesun
  */
 @ExportNs('MediaManager')
 export class ESLMediaManager {
   /** Media marked as autoplay */
-  public instances: Set<ESLMedia> = new Set();
+  public autoplayable: Set<ESLMedia> = new Set();
   /** Active media */
   public active: Set<ESLMedia> = new Set();
 
+  /** Singleton instance of {@link ESLMediaManager} */
   @memoize()
   public static get instance(): ESLMediaManager {
     return new ESLMediaManager();
@@ -28,16 +31,18 @@ export class ESLMediaManager {
     ESLEventUtils.subscribe(this);
   }
 
-  public _onAddMedia(media: ESLMedia): void {
-    if (media.autoplay) this.instances.add(media);
+  /** Hook for {@link ESLMedia} initialization */
+  public _onInit(media: ESLMedia): void {
+    if (media.autoplay) this.autoplayable.add(media);
   }
 
-  public _onDeleteMedia(media: ESLMedia): void {
-    this.instances.delete(media);
+  /** Hook for {@link ESLMedia} destroy */
+  public _onDestroy(media: ESLMedia): void {
+    this.autoplayable.delete(media);
   }
 
-  /** Add player to list */
-  public _onAddActive(media: ESLMedia): void {
+  /** Hook for {@link ESLMedia} which is started to play */
+  public _onAfterPlay(media: ESLMedia): void {
     this.active.add(media);
     this.active.forEach((player: ESLMedia) => {
       if (!media.group || !player.active || player === media) return;
@@ -46,34 +51,49 @@ export class ESLMediaManager {
     });
   }
 
-  /** Remove player from list */
-  public _onDeleteActive(media: ESLMedia): void {
+  /** Hook for {@link ESLMedia} which has been paused */
+  public _onAfterPause(media: ESLMedia): void {
     this.active.delete(media);
   }
 
-  /** Processes {@link ESLToggleable} show event and defines media than can automatically play */
+  /**
+   * Processes {@link ESLToggleable} show event and resumes all media inside.
+   * @see {@link ESLMediaManager#releaseAll}
+   */
   @listen({
     event: 'esl:show',
     target: window
   })
-  public onContainerShow(e: Event): void {
-    this.instances.forEach(($media: ESLMedia) => {
-      if (!isSafeContains(e.target as Node, $media)) return;
-      if (!isVisible($media, {visibility: true, viewport: $media.playInViewport})) return;
-      if (!$media.played || $media.autopaused) $media.play();
-    });
+  public _onContainerShow(e: Event): void {
+    this.releaseAll(e.target as Element);
   }
 
-  /** Processes {@link ESLToggleable} hide event and defines media that should be marked with `autopaused` marker before it pause */
+  /**
+   * Processes {@link ESLToggleable} hide event and systemly suspend all media inside.
+   * @see {@link ESLMediaManager#suspendAll}
+   */
   @listen({
     event: 'esl:hide',
     target: window
   })
-  protected onContainerHide(e: Event): void {
+  protected _onContainerHide(e: Event): void {
+    this.suspendAll(e.target as Element);
+  }
+
+  /** Play all systemly-stopped media with autoplay marker*/
+  public releaseAll(scope: Element = document.body): void {
+    this.autoplayable.forEach(($media: ESLMedia) => {
+      if (!isSafeContains(scope, $media)) return;
+      if (!isVisible($media, {visibility: true, viewport: $media.playInViewport})) return;
+      if (!$media.played || $media.autopaused) $media.play(false, true);
+    });
+  }
+
+  /** Pause all active media (using system flow, which means they could be restarted) */
+  public suspendAll(scope: Element = document.body): void {
     this.active.forEach((player: ESLMedia) => {
-      if (!isSafeContains(e.target as Node, player) || !player.active) return;
-      player.$$attr('autopaused', true);
-      player.pause();
+      if (!isSafeContains(scope, player) || !player.active) return;
+      player.pause(true);
     });
   }
 }

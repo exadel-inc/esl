@@ -8,9 +8,9 @@ describe('ESLMedia: MediaGroupRestrictionManager tests', () => {
   test('_onPlay / _onPause', () => {
     const instance = new ESLMedia();
     instance.group = 'test';
-    ESLMediaManager.instance._onAddActive(instance);
+    ESLMediaManager.instance._onAfterPlay(instance);
     expect(ESLMediaManager.instance.active.size).toBeGreaterThan(0);
-    ESLMediaManager.instance._onDeleteActive(instance);
+    ESLMediaManager.instance._onAfterPause(instance);
     expect(ESLMediaManager.instance.active.size).toBe(0);
   });
 
@@ -20,10 +20,10 @@ describe('ESLMedia: MediaGroupRestrictionManager tests', () => {
     instance1.group = instance2.group = 'test';
     Object.defineProperty(instance1, 'active', {value: true});
     const pauseSpy = jest.spyOn(instance1, 'pause');
-    ESLMediaManager.instance._onAddActive(instance1);
-    ESLMediaManager.instance._onAddActive(instance1);
+    ESLMediaManager.instance._onAfterPlay(instance1);
+    ESLMediaManager.instance._onAfterPlay(instance1);
     expect(pauseSpy).not.toBeCalled();
-    ESLMediaManager.instance._onAddActive(instance2);
+    ESLMediaManager.instance._onAfterPlay(instance2);
     expect(pauseSpy).toBeCalled();
   });
 
@@ -33,10 +33,10 @@ describe('ESLMedia: MediaGroupRestrictionManager tests', () => {
     instance1.group = 'test1';
     instance2.group = 'test2';
     const pauseSpy = jest.spyOn(instance1, 'pause');
-    ESLMediaManager.instance._onAddActive(instance1);
-    ESLMediaManager.instance._onAddActive(instance1);
+    ESLMediaManager.instance._onAfterPlay(instance1);
+    ESLMediaManager.instance._onAfterPlay(instance1);
     expect(pauseSpy).not.toBeCalled();
-    ESLMediaManager.instance._onAddActive(instance2);
+    ESLMediaManager.instance._onAfterPlay(instance2);
     expect(pauseSpy).not.toBeCalled();
   });
 });

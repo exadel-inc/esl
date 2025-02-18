@@ -1,8 +1,8 @@
 # [ESL](../../../) Media
 
-Version: *1.4.0*
+Version: *2.0.0*
 
-Authors: *Alexey Stsefanovich (ala'n)*, *Yuliya Adamskaya*, *Julia Murashko*, *Natallia Harshunova*
+Authors: *Alexey Stsefanovich (ala'n)*, *Yuliya Adamskaya*, *Julia Murashko*, *Natallia Harshunova*, *Anastasia Lesun*, *Feoktist Shovchko*
 
 <a name="intro"></a>
 

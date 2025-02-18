@@ -142,9 +142,9 @@ export abstract class BaseProvider {
   }
 
   /** Executes play when api is ready */
-  public async safePlay(): Promise<void> {
+  public async safePlay(system = false): Promise<void> {
     await this.ready;
-    this._cmdMng.put(() => this.component._onBeforePlay('play') && this.play(), 0);
+    this._cmdMng.put(() => this.component._onBeforePlay(system ? 'system' : 'user') && this.play(), 0);
   }
 
   /** Executes pause when api is ready */
