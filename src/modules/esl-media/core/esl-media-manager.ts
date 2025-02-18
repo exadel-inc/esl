@@ -3,13 +3,13 @@ import {isSafeContains} from '../../esl-utils/dom/traversing';
 import {isVisible} from '../../esl-utils/dom/visible';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {listen, memoize} from '../../esl-utils/decorators';
+import {PlayerStates} from './esl-media-provider';
 
 import type {ESLMedia} from './esl-media';
-import {PlayerStates} from './esl-media-provider';
 
 /**
  * Manager for {@link ESLMedia}
- * Checks whether media can autoplay, stores all active instances and instances marked with `autoplay` attribute
+ * Checks whether media should play inside ESLToggleable container, stores all active instances and instances marked with `autoplay` attribute
  * Only one media from group can be played
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */

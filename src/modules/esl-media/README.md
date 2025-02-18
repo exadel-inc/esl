@@ -105,11 +105,12 @@ using a single tag as well as work with external providers using simple native-l
 ### Events: 
  - `esl:media:error` - (bubbles) fires when API is initialized with error
  - `esl:media:ready` - (bubbles) fires when API is ready
+ - `esl:media:before:play` - (bubbles, cancelable) fires before player provider requested to play
  - `esl:media:play` - (bubbles) fires when esl-media starts playing
  - `esl:media:paused` - (bubbles) fires when esl-media is paused
  - `esl:media:ended` - (bubbles) fires when esl-media is ended
  - `esl:media:detach` - (bubbles) fires after esl-media provider is detached (reinitialized / disconnected from the DOM)
- - `esl:media:managedpause` - (bubbles) fires when media was paused by esl-media group restriction manager
+ - `esl:media:managedpause` - (bubbles, cancelable) fires when media was paused by esl-media group restriction manager
  
 ### Examples:
 ```html
