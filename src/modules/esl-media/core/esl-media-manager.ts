@@ -67,7 +67,7 @@ export class ESLMediaManager {
     this.instances.forEach(($media: ESLMedia) => {
       if (!isSafeContains(e.target as Node, $media)) return;
       if (!isVisible($media, {visibility: true, viewport: $media.playInViewport})) return;
-      if ($media.state === PlayerStates.UNINITIALIZED || $media.autopaused) $media.play();
+      if ($media.state === PlayerStates.UNINITIALIZED || $media.state === PlayerStates.UNSTARTED || $media.autopaused) $media.play();
     });
   }
 
