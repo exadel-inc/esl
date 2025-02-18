@@ -12,9 +12,6 @@ import type {ESLMedia} from './esl-media';
  * Only one media from group can be played
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */
-
-let instance: ESLMediaManager;
-
 @ExportNs('MediaManager')
 export class ESLMediaManager {
   /** Media marked as autoplay */
@@ -27,11 +24,8 @@ export class ESLMediaManager {
     return new ESLMediaManager();
   }
 
-  public constructor() {
-    if (instance) return instance;
+  private constructor() {
     ESLEventUtils.subscribe(this);
-    // eslint-disable-next-line @typescript-eslint/no-this-alias
-    instance = this;
   }
 
   public _onAddMedia(media: ESLMedia): void {
