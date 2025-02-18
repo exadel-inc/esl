@@ -3,7 +3,6 @@ import {isSafeContains} from '../../esl-utils/dom/traversing';
 import {isVisible} from '../../esl-utils/dom/visible';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {listen, memoize} from '../../esl-utils/decorators';
-import {PlayerStates} from './esl-media-provider';
 
 import type {ESLMedia} from './esl-media';
 
@@ -67,7 +66,7 @@ export class ESLMediaManager {
     this.instances.forEach(($media: ESLMedia) => {
       if (!isSafeContains(e.target as Node, $media)) return;
       if (!isVisible($media, {visibility: true, viewport: $media.playInViewport})) return;
-      if ($media.state === PlayerStates.UNINITIALIZED || $media.state === PlayerStates.UNSTARTED || $media.autopaused) $media.play();
+      if (!$media.played || $media.autopaused) $media.play();
     });
   }
 

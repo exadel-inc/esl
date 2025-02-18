@@ -209,11 +209,7 @@ export class ESLMedia extends ESLBaseElement {
 
     if (this.canActivate()) {
       this._provider = ESLMediaProviderRegistry.instance.createFor(this);
-      if (this._provider) {
-        console.debug('[ESL] Media provider bound', this._provider);
-      } else {
-        this._onError();
-      }
+      if (!this._provider) this._onError();
     }
 
     this.updateContainerMarkers();

@@ -61,7 +61,6 @@ export abstract class BaseProvider {
     if (this.config.autoplay) {
       this.config.autoplay = this.component._onBeforePlay('initial');
     }
-    this.bind();
   }
 
   /** Wraps _ready promise */
