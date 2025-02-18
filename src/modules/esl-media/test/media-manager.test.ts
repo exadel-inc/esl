@@ -14,7 +14,7 @@ describe('ESLMedia: MediaGroupRestrictionManager tests', () => {
     expect(ESLMediaManager.instance.active.size).toBe(0);
   });
 
-  test('_onPlay manged pause: same group', () => {
+  test('_onPlay managed pause: same group', () => {
     const instance1 = new ESLMedia();
     const instance2 = new ESLMedia();
     instance1.group = instance2.group = 'test';
@@ -27,7 +27,7 @@ describe('ESLMedia: MediaGroupRestrictionManager tests', () => {
     expect(pauseSpy).toBeCalled();
   });
 
-  test('_onPlay manged pause: different groups', () => {
+  test('_onPlay managed pause: different groups', () => {
     const instance1 = new ESLMedia();
     const instance2 = new ESLMedia();
     instance1.group = 'test1';

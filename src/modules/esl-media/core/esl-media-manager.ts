@@ -60,27 +60,21 @@ export class ESLMediaManager {
    * Processes {@link ESLToggleable} show event and resumes all media inside.
    * @see {@link ESLMediaManager#releaseAll}
    */
-  @listen({
-    event: 'esl:show',
-    target: window
-  })
+  @listen({event: 'esl:show', target: window})
   public _onContainerShow(e: Event): void {
     this.releaseAll(e.target as Element);
   }
 
   /**
-   * Processes {@link ESLToggleable} hide event and systemly suspend all media inside.
+   * Processes {@link ESLToggleable} hide event and systemically suspend all media instances inside.
    * @see {@link ESLMediaManager#suspendAll}
    */
-  @listen({
-    event: 'esl:hide',
-    target: window
-  })
+  @listen({event: 'esl:hide', target: window})
   protected _onContainerHide(e: Event): void {
     this.suspendAll(e.target as Element);
   }
 
-  /** Play all systemly-stopped media with autoplay marker*/
+  /** Plays all system-stopped media with autoplay marker */
   public releaseAll(scope: Element = document.body): void {
     this.autoplayable.forEach(($media: ESLMedia) => {
       if (!isSafeContains(scope, $media)) return;
@@ -89,7 +83,7 @@ export class ESLMediaManager {
     });
   }
 
-  /** Pause all active media (using system flow, which means they could be restarted) */
+  /** Pauses all active media (using system flow, which means they could be restarted) */
   public suspendAll(scope: Element = document.body): void {
     this.active.forEach((player: ESLMedia) => {
       if (!isSafeContains(scope, player) || !player.active) return;
