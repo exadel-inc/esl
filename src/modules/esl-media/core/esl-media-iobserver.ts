@@ -25,14 +25,12 @@ function handleViewport(entry: IntersectionObserverEntry): void {
   if (entry.isIntersecting && entry.intersectionRatio >= RATIO_TO_ACTIVATE && video.lazy === 'auto') {
     video.$$attr('lazy', false);
   }
-
   // Videos that playing and out of min ratio RATIO_TO_STOP should be stopped
   if (video.active && entry.intersectionRatio <= RATIO_TO_STOP) {
-    video.$$attr('autopaused', true);
-    video.pause();
+    video.pause(true);
   }
   // Play should start only for inactive and background(muted) videos that are visible more than on RATIO_TO_PLAY
-  if (!video.active && video.canAutoplay() && entry.intersectionRatio >= RATIO_TO_PLAY) {
-    video.play();
+  if (!video.active && video.autopaused && entry.intersectionRatio >= RATIO_TO_PLAY) {
+    video.play(false, true);
   }
 }

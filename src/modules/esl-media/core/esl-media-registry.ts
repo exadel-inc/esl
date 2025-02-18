@@ -65,6 +65,11 @@ export class ESLMediaProviderRegistry extends SyntheticEventTarget {
   /** Create provider instance for passed configuration */
   private static _create(provider: ProviderType, media: ESLMedia, cfg = provider.parseUrl(media.mediaSrc)): BaseProvider {
     const config = Object.assign({}, cfg || {}, provider.parseConfig(media));
-    return new provider(media, config);
+    const instance = new provider(media, config);
+    if (instance) {
+      instance.bind();
+      console.debug('[ESL] Media provider created', instance);
+    }
+    return instance;
   }
 }

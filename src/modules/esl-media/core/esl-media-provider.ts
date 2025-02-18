@@ -1,3 +1,4 @@
+import {DelayedTask} from '../../esl-utils/async/delayed-task';
 import {ESLMediaProviderRegistry} from './esl-media-registry';
 
 import type {ESLMedia} from './esl-media';
@@ -18,7 +19,7 @@ export interface MediaProviderConfig {
   loop: boolean;
   muted: boolean;
   controls: boolean;
-  autoplay: boolean | 'always';
+  autoplay: boolean;
   title: string;
   preload?: 'none' | 'metadata' | 'auto' | '';
   playsinline?: boolean;
@@ -52,10 +53,14 @@ export abstract class BaseProvider {
   protected component: ESLMedia;
   protected _el: HTMLElement;
   protected _ready: Promise<any>;
+  protected _cmdMng: DelayedTask = new DelayedTask();
 
   public constructor(component: ESLMedia, config: MediaProviderConfig) {
     this.config = config;
     this.component = component;
+    if (this.config.autoplay) {
+      this.config.autoplay = this.component._onBeforePlay('initial');
+    }
   }
 
   /** Wraps _ready promise */
@@ -137,21 +142,24 @@ export abstract class BaseProvider {
   }
 
   /** Executes play when api is ready */
-  public safePlay(): Promise<void> {
-    return this.ready.then(() => this.play());
+  public async safePlay(system = false): Promise<void> {
+    await this.ready;
+    this._cmdMng.put(() => this.component._onBeforePlay(system ? 'system' : 'user') && this.play(), 0);
   }
 
   /** Executes pause when api is ready */
-  public safePause(): Promise<void> {
-    return this.ready.then(() => this.pause());
+  public async safePause(): Promise<void> {
+    await this.ready;
+    this._cmdMng.put(() => this.pause(), 0);
   }
 
   /**
    * Executes stop when api is ready
    * @returns Promise
    */
-  public safeStop(): Promise<void> {
-    return this.ready.then(() => this.stop());
+  public async safeStop(): Promise<void> {
+    await this.ready;
+    this._cmdMng.put(() => this.stop(), 0);
   }
 
   /**

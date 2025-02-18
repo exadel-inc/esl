@@ -4,3 +4,4 @@ export * from './core/esl-media';
 export * from './core/esl-media-provider';
 export * from './core/esl-media-registry';
 export * from './control/esl-media-control-mixin';
+export * from './core/esl-media-manager';

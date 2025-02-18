@@ -1,8 +1,8 @@
 # [ESL](../../../) Media
 
-Version: *1.4.0*
+Version: *2.0.0*
 
-Authors: *Alexey Stsefanovich (ala'n)*, *Yuliya Adamskaya*, *Julia Murashko*, *Natallia Harshunova*
+Authors: *Alexey Stsefanovich (ala'n)*, *Yuliya Adamskaya*, *Julia Murashko*, *Natallia Harshunova*, *Anastasia Lesun*, *Feoktist Shovchko*
 
 <a name="intro"></a>
 
@@ -67,14 +67,14 @@ using a single tag as well as work with external providers using simple native-l
  
  - `autofocus` (boolean) - set focus to the player when the media starts playing
  
- - `autoplay` (boolean | 'always') - start to play automatically on initialization. When set to 'always', the video will auto play even if previously stopped by the user, otherwise, it will not.
+ - `autoplay` (boolean) - start to play automatically on initialization and after opening `ESLToggleable` container with media. Won't be automatically play inside `ESLToggleable` instance and was previously stopped by the user.
  *(note: initialization doesn't happen until `disabled` attribute is removed from the element)*
  
  - `controls` (boolean) - show media player controls
  
  - `loop` (boolean) - play media in loop
  
- - `mute` (boolean) - mute media
+ - `muted` (boolean) - mute media
  
  - `playsinline` (boolean) - allow playing media inline (media player will not request special control over device)
 
@@ -105,11 +105,12 @@ using a single tag as well as work with external providers using simple native-l
 ### Events: 
  - `esl:media:error` - (bubbles) fires when API is initialized with error
  - `esl:media:ready` - (bubbles) fires when API is ready
+ - `esl:media:before:play` - (bubbles, cancelable) fires before player provider requested to play
  - `esl:media:play` - (bubbles) fires when esl-media starts playing
  - `esl:media:paused` - (bubbles) fires when esl-media is paused
  - `esl:media:ended` - (bubbles) fires when esl-media is ended
  - `esl:media:detach` - (bubbles) fires after esl-media provider is detached (reinitialized / disconnected from the DOM)
- - `esl:media:managedpause` - (bubbles) fires when media was paused by esl-media group restriction manager
+ - `esl:media:managedpause` - (bubbles, cancelable) fires when media was paused by esl-media group restriction manager
  
 ### Examples:
 ```html
@@ -117,7 +118,7 @@ using a single tag as well as work with external providers using simple native-l
     media-type="youtube"
     media-id="##MEDIAID##"
     title="Video Title"     
-    [ disabled ]    
-    [ group="mediaGroup" ]
+    disabled 
+    group="mediaGroup"
 ></esl-media>
 ```
