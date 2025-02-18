@@ -120,7 +120,7 @@
     "lint-staged": "^15.4.3",
     "postcss": "^8.5.2",
     "postcss-less": "^6.0.0",
-    "prettier": "^3.5.0",
+    "prettier": "^3.5.1",
     "rimraf": "^6.0.1",
     "semantic-release": "^24.2.3",
     "smoothscroll-polyfill": "^0.4.4",
