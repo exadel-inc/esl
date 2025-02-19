@@ -1,11 +1,12 @@
-const MarkdownIt = require('markdown-it');
-const {highlight} = require('./prismjs.lib');
+import MarkdownIt from 'markdown-it';
+import imglib from './markdown.img.lib.js';
 
-const markdown = MarkdownIt({html: true, highlight});
-markdown.use(require('./markdown.img.lib').plugin);
+import {highlight} from './prismjs.lib.js';
 
-module.exports = (config) => {
+export const markdown = MarkdownIt({html: true, highlight});
+markdown.use(imglib.plugin);
+
+export default (config) => {
   config.setLibrary('md', markdown);
   config.addPairedShortcode('markdown', (content) => markdown.render(content));
 };
-module.exports.markdown = markdown;

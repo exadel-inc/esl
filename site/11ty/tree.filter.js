@@ -47,7 +47,7 @@ function parents(items) {
   return  [...findParents(items, currentPage)].reverse();
 }
 
-module.exports = (config) => {
+export default (config) => {
   config.addFilter('tree', treeBuilder);
   config.addFilter('parents', parents);
 };

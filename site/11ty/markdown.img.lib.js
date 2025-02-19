@@ -1,5 +1,5 @@
-const path = require('path');
-const sizeOf = require('image-size');
+import path from 'path';
+import sizeOf from 'image-size';
 
 const extractAttrs = (token) => {
   const attrs = token.attrs.reduce((acc, current) => {
@@ -40,5 +40,7 @@ const plugin = (md) => {
   };
 };
 
-module.exports = () => void 0;
-module.exports.plugin = plugin;
+const noop = () => void 0;
+noop.plugin = plugin;
+
+export default noop;
