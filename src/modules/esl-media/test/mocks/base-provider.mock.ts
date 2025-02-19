@@ -8,10 +8,12 @@ export class BaseProviderMock extends BaseProvider {
   public bind(): void {
     this._state = PlayerStates.UNSTARTED;
     this._ready = Promise.resolve();
+    this._ready.then(() => this.component._onReady());
   }
 
   public override unbind(): void {
     this._state = PlayerStates.UNINITIALIZED;
+    this.component._onDetach();
     this._ready = null as any;
   }
 
@@ -29,14 +31,17 @@ export class BaseProviderMock extends BaseProvider {
 
   protected pause(): void | Promise<any> {
     this._state = PlayerStates.PAUSED;
+    this.component._onPaused();
   }
 
   protected play(): void | Promise<any> {
     this._state = PlayerStates.PLAYING;
+    this.component._onPlay();
   }
 
   protected stop(): void | Promise<any> {
     this._state = PlayerStates.ENDED;
+    this.component._onEnded();
   }
 
   protected seekTo(pos?: number): void | Promise<any> {}

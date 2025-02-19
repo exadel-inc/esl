@@ -1,9 +1,10 @@
-import {BaseProviderMock} from './mocks/base-provider.mock';
 import {ESLMedia} from '../core/esl-media';
 import {promisifyTimeout} from '../../esl-utils/async/promise';
-import spyOn = jest.spyOn;
+import {BaseProviderMock} from './mocks/base-provider.mock';
 
 describe('ESLMedia: BaseProvider livecycle', () => {
+  jest.spyOn(console, 'debug').mockImplementation(() => {});
+
   ESLMedia.register();
   BaseProviderMock.register();
 
@@ -12,8 +13,6 @@ describe('ESLMedia: BaseProvider livecycle', () => {
     instance = new ESLMedia();
     instance.mediaSrc = 'mock';
     instance.mediaType = 'mock';
-
-    spyOn(console, 'debug').mockImplementation(() => {});
   });
 
   test('Initial state is UNINITIALIZED', () => {
@@ -55,7 +54,7 @@ describe('ESLMedia: BaseProvider livecycle', () => {
     });
 
     test('Banch of play/pause/stop commands stacked to the last one' , async () => {
-      const playSpy = spyOn(BaseProviderMock.prototype as any, 'play');
+      const playSpy = jest.spyOn(BaseProviderMock.prototype as any, 'play');
       instance.play();
       instance.pause();
       instance.stop();
