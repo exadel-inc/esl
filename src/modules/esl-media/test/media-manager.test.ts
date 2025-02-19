@@ -29,45 +29,42 @@ describe('[ESLMedia]: ESLMediaManager tests', () => {
       instances.forEach((i) => i.remove());
     });
 
+    async function runPlayTestSequence(expectMatrix: boolean[][]): Promise<void> {
+      expect(instances.length).toBe(expectMatrix.length); // Ensure test data is correct
+      for (let i = 0; i < instances.length; i++) {
+        await instances[i].play();
+        await promisifyTimeout(50);
+        expect(instances.map(isActive)).toEqual(expectMatrix[i]);
+      }
+    }
+
     test('ESLMediaManger: only one active instance allowed in the group', async () => {
       instances.forEach((i) => i.group = 'test');
-      await instances[0].play();
-      await promisifyTimeout(50);
-      expect(instances.map(isActive)).toEqual([true, false, false]);
-      await instances[1].play();
-      await promisifyTimeout(50);
-      expect(instances.map(isActive)).toEqual([false, true, false]);
-      await instances[2].play();
-      await promisifyTimeout(50);
-      expect(instances.map(isActive)).toEqual([false, false, true]);
+      await runPlayTestSequence([
+        [true, false, false],
+        [false, true, false],
+        [false, false, true]
+      ]);
     });
 
     test('ESLMediaManger: instances of different groups can be active simultaneously', async () => {
       instances.forEach((i, idx) => i.group = `group${idx}`);
-      await instances[0].play();
-      await promisifyTimeout(50);
-      expect(instances.map(isActive)).toEqual([true, false, false]);
-      await instances[1].play();
-      await promisifyTimeout(50);
-      expect(instances.map(isActive)).toEqual([true, true, false]);
-      await instances[2].play();
-      await promisifyTimeout(50);
-      expect(instances.map(isActive)).toEqual([true, true, true]);
+      await runPlayTestSequence([
+        [true, false, false],
+        [true, true, false],
+        [true, true, true]
+      ]);
     });
 
     test('ESLMediaManager: instnces without group does not affect any other instance', async () => {
       instances[0].group = 'test';
       instances[1].group = '';
       instances[2].group = 'test';
-      await instances[0].play();
-      await promisifyTimeout(50);
-      expect(instances.map(isActive)).toEqual([true, false, false]);
-      await instances[1].play();
-      await promisifyTimeout(50);
-      expect(instances.map(isActive)).toEqual([true, true, false]);
-      await instances[2].play();
-      await promisifyTimeout(50);
-      expect(instances.map(isActive)).toEqual([false, true, true]);
+      await runPlayTestSequence([
+        [true, false, false],
+        [true, true, false],
+        [false, true, true]
+      ]);
     });
   });
 });
