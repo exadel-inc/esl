@@ -1,6 +1,6 @@
 import {BaseProvider} from '../core/esl-media-provider';
 import {ESLMediaProviderRegistry} from '../core/esl-media-registry';
-import {BaseProviderMock} from './base-provider.mock';
+import {BaseProviderMock} from './mocks/base-provider.mock';
 
 import type {ProviderType} from '../core/esl-media-provider';
 
@@ -16,7 +16,10 @@ describe('ESLMedia: BaseProvider tests', () => {
   });
 
   test('Provider should have correct name', () => {
-    expect(() => BaseProviderMock.register()).toThrowError();
+    class EmptyProvider extends BaseProviderMock {
+      static override readonly providerName = '';
+    }
+    expect(() => EmptyProvider.register()).toThrowError();
   });
 
   test('Test provider registered', () => {
