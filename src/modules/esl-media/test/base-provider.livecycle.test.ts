@@ -2,7 +2,7 @@ import {ESLMedia} from '../core/esl-media';
 import {promisifyTimeout} from '../../esl-utils/async/promise';
 import {BaseProviderMock} from './mocks/base-provider.mock';
 
-describe('ESLMedia: BaseProvider livecycle', () => {
+describe('ESLMedia: BaseProvider lifecycle', () => {
   jest.spyOn(console, 'debug').mockImplementation(() => {});
 
   ESLMedia.register();

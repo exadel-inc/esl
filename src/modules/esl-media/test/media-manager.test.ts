@@ -56,7 +56,7 @@ describe('[ESLMedia]: ESLMediaManager tests', () => {
       ]);
     });
 
-    test('ESLMediaManager: instnces without group does not affect any other instance', async () => {
+    test('ESLMediaManager: instances without group does not affect any other instance', async () => {
       instances[0].group = 'test';
       instances[1].group = '';
       instances[2].group = 'test';
