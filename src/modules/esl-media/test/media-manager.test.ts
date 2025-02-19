@@ -1,5 +1,4 @@
 import {ESLMedia} from '../core/esl-media';
-import {ESLMediaManager} from '../core/esl-media-manager';
 import {promisifyTimeout} from '../../esl-utils/async/promise';
 import {BaseProviderMock} from './mocks/base-provider.mock';
 

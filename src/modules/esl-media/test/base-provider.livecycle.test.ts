@@ -53,7 +53,7 @@ describe('ESLMedia: BaseProvider livecycle', () => {
       expect(instance.state).toBe(ESLMedia.PLAYER_STATES.ENDED);
     });
 
-    test('Banch of play/pause/stop commands stacked to the last one' , async () => {
+    test('Banch of play/pause/stop commands stacked to the last one', async () => {
       const playSpy = jest.spyOn(BaseProviderMock.prototype as any, 'play');
       instance.play();
       instance.pause();
