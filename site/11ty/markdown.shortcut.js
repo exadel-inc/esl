@@ -1,11 +1,13 @@
-const path = require('path');
-const fsAsync = require('fs').promises;
+import path, {dirname} from 'path';
+import kleur from 'kleur';
 
-const color = require('kleur');
-const {JSDOM} = require('jsdom');
-const {markdown} = require('./markdown.lib');
+import {promises as fsAsync} from 'fs';
+import {fileURLToPath} from 'url';
+import {JSDOM} from 'jsdom';
+import {markdown} from './markdown.lib.js';
+import {siteConfig} from './site.config.js';
 
-const {github, rewriteRules} = require('./site.config');
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 class MDRenderer {
   static async render(filePath, startAnchor, endAnchor) {
@@ -69,7 +71,7 @@ class MDRenderer {
       if (link.href.startsWith('.')) {
         const absolutePath = path.join(path.dirname(basePath), link.href).replace(/\\/g, '/');
         const resultPath = MDRenderer.processRewriteRules(absolutePath);
-        console.log(color.yellow(`Rewrite link "${link.href}" to "${resultPath}"`));
+        console.log(kleur.yellow(`Rewrite link "${link.href}" to "${resultPath}"`));
         link.href = resultPath;
       }
       if (['https:', 'http:'].includes(link.protocol)) {
@@ -79,16 +81,15 @@ class MDRenderer {
     });
   }
   static processRewriteRules(linkPath) {
-    for (const [key, value] of Object.entries(rewriteRules)) {
+    for (const [key, value] of Object.entries(siteConfig.rewriteRules)) {
       if (!linkPath.endsWith(key)) continue;
       if (value.startsWith('/')) return value;
       return value;
     }
-    return github.srcUrl + linkPath;
+    return siteConfig.github.srcUrl + linkPath;
   }
 }
 
-module.exports = (config) => {
+export default (config) => {
   config.addNunjucksAsyncShortcode('mdRender', MDRenderer.render);
 };
-module.exports.MDRenderer = MDRenderer;

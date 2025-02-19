@@ -1,4 +1,4 @@
-const {JSDOM} = require('jsdom');
+import {JSDOM} from 'jsdom';
 
 /** filter to extract text content from HTML */
 const extractTextContent = (content) => {
@@ -6,6 +6,6 @@ const extractTextContent = (content) => {
   return window.document.body.textContent;
 };
 
-module.exports = (config) => {
+export default (config) => {
   config.addFilter('text', extractTextContent);
 };
