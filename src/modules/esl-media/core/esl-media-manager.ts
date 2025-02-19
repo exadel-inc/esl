@@ -38,6 +38,7 @@ export class ESLMediaManager {
 
   /** Hook for {@link ESLMedia} destroy */
   public _onDestroy(media: ESLMedia): void {
+    this.active.delete(media);
     this.autoplayable.delete(media);
   }
 
