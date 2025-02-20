@@ -2,7 +2,7 @@ import {ESLEventUtils} from '../../esl-event-listener/core/api';
 import {isSafeContains} from '../../esl-utils/dom/traversing';
 import {isVisible} from '../../esl-utils/dom/visible';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {listen, memoize} from '../../esl-utils/decorators';
+import {listen} from '../../esl-utils/decorators';
 
 import type {ESLMedia} from './esl-media';
 
@@ -21,13 +21,7 @@ export class ESLMediaManager {
   /** Active media */
   public active: Set<ESLMedia> = new Set();
 
-  /** Singleton instance of {@link ESLMediaManager} */
-  @memoize()
-  public static get instance(): ESLMediaManager {
-    return new ESLMediaManager();
-  }
-
-  private constructor() {
+  public constructor() {
     ESLEventUtils.subscribe(this);
   }
 
@@ -75,7 +69,7 @@ export class ESLMediaManager {
   }
 
   /** Plays all system-stopped media with autoplay marker */
-  public releaseAll(scope: Element = document.body): void {
+  protected releaseAll(scope: Element = document.body): void {
     this.autoplayable.forEach(($media: ESLMedia) => {
       if (!isSafeContains(scope, $media)) return;
       if (!isVisible($media, {visibility: true, viewport: $media.playInViewport})) return;
@@ -84,11 +78,24 @@ export class ESLMediaManager {
   }
 
   /** Pauses all active media (using system flow, which means they could be restarted) */
-  public suspendAll(scope: Element = document.body): void {
+  protected suspendAll(scope: Element = document.body): void {
     this.active.forEach((player: ESLMedia) => {
       if (!isSafeContains(scope, player) || !player.active) return;
       player.pause(true);
     });
+  }
+
+  /** Processes request to play/pause media */
+  @listen({event: 'esl:media:managedaction', target: window})
+  protected _onRequest(e: CustomEvent): void {
+    switch (e.detail.action) {
+      case 'release':
+        this.releaseAll(e.detail.scope);
+        break;
+      case 'suspend':
+        this.suspendAll(e.detail.scope);
+        break;
+    }
   }
 }
 

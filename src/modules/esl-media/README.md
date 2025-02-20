@@ -111,6 +111,7 @@ using a single tag as well as work with external providers using simple native-l
  - `esl:media:ended` - (bubbles) fires when esl-media is ended
  - `esl:media:detach` - (bubbles) fires after esl-media provider is detached (reinitialized / disconnected from the DOM)
  - `esl:media:managedpause` - (bubbles, cancelable) fires when media was paused by esl-media group restriction manager
+ - `esl:media:managedaction` - used to manage media actions such as releasing or suspending media instances within a specified scope
  
 ### Examples:
 ```html
