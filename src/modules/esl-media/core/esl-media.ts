@@ -1,9 +1,9 @@
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {isElement} from '../../esl-utils/dom/api';
+import {isSafeContains} from '../../esl-utils/dom/traversing';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {SPACE, PAUSE} from '../../esl-utils/dom/keys';
-import {prop, attr, boolAttr, listen} from '../../esl-utils/decorators';
+import {prop, attr, boolAttr, listen, memoize} from '../../esl-utils/decorators';
 import {debounce} from '../../esl-utils/async';
 import {parseAspectRatio, parseBoolean} from '../../esl-utils/misc/format';
 
@@ -14,7 +14,7 @@ import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {getIObserver} from './esl-media-iobserver';
 import {PlayerStates} from './esl-media-provider';
 import {ESLMediaProviderRegistry} from './esl-media-registry';
-import {MediaGroupRestrictionManager} from './esl-media-manager';
+import {ESLMediaManager} from './esl-media-manager';
 
 import type {BaseProvider} from './esl-media-provider';
 import type {ESLMediaRegistryEvent} from './esl-media-registry.event';
@@ -49,10 +49,18 @@ export class ESLMedia extends ESLBaseElement {
     'start-time'
   ];
 
+  /** Singleton instance of {@link ESLMediaManager} */
+  @memoize()
+  public static get manager(): ESLMediaManager {
+    return new ESLMediaManager();
+  }
+
   /** Event to dispatch on ready state */
   @prop('esl:media:ready') public READY_EVENT: string;
   /** Event to dispatch on error state */
   @prop('esl:media:error') public ERROR_EVENT: string;
+  /** Event to dispatch before player provider requested to play (cancelable) */
+  @prop('esl:media:before:play') public BEFORE_PLAY_EVENT: string;
   /** Event to dispatch when player plays */
   @prop('esl:media:play') public PLAY_EVENT: string;
   /** Event to dispatch when player paused */
@@ -61,8 +69,10 @@ export class ESLMedia extends ESLBaseElement {
   @prop('esl:media:ended') public ENDED_EVENT: string;
   /** Event to dispatch when player detached */
   @prop('esl:media:detached') public DETACHED_EVENT: string;
-  /** Event to dispatch when player paused by another instance in group */
+  /** Event to dispatch when player paused by another instance in group (cancelable) */
   @prop('esl:media:managedpause') public MANAGED_PAUSE_EVENT: string;
+  /** Event to dispatch when user decides to play/pause all media */
+  @prop('esl:media:managedaction') public MANAGED_ACTION_EVENT: string;
 
   /** Media resource identifier */
   @attr() public mediaId: string;
@@ -81,6 +91,7 @@ export class ESLMedia extends ESLBaseElement {
   @attr({parser: parseLazyAttr, defaultValue: 'none'}) public lazy: ESLMediaLazyMode;
   /** Autoplay resource marker */
   @boolAttr() public autoplay: boolean;
+
   /** Autofocus on play marker */
   @boolAttr() public override autofocus: boolean;
   /** Mute resource marker */
@@ -124,9 +135,10 @@ export class ESLMedia extends ESLBaseElement {
   @boolAttr({readonly: true}) public error: boolean;
   /** @readonly Width is greater than height state marker */
   @boolAttr({readonly: true}) public wide: boolean;
+  /** @readonly Autopaused state marker (video has been stopped by system) */
+  @boolAttr({readonly: true}) public autopaused: boolean;
 
   private _provider: BaseProvider | null;
-
   private deferredReinitialize = debounce(() => this.reinitInstance());
 
   /**
@@ -141,8 +153,13 @@ export class ESLMedia extends ESLBaseElement {
     return ESLMediaProviderRegistry.instance.has(name);
   }
 
+  protected get manager(): ESLMediaManager {
+    return (this.constructor as typeof ESLMedia).manager;
+  }
+
   protected override connectedCallback(): void {
     super.connectedCallback();
+    this.manager._onInit(this);
     if (!this.hasAttribute('role')) {
       this.setAttribute('role', 'application');
     }
@@ -152,6 +169,7 @@ export class ESLMedia extends ESLBaseElement {
   }
 
   protected override disconnectedCallback(): void {
+    this.manager._onDestroy(this);
     super.disconnectedCallback();
     this.detachViewportConstraint();
     this._provider && this._provider.unbind();
@@ -201,12 +219,7 @@ export class ESLMedia extends ESLBaseElement {
 
     if (this.canActivate()) {
       this._provider = ESLMediaProviderRegistry.instance.createFor(this);
-      if (this._provider) {
-        this._provider.bind();
-        console.debug('[ESL] Media provider bound', this._provider);
-      } else {
-        this._onError();
-      }
+      if (!this._provider) this._onError();
     }
 
     this.updateContainerMarkers();
@@ -226,18 +239,18 @@ export class ESLMedia extends ESLBaseElement {
    * Start playing media
    * @param allowActivate - allows to remove manual lazy loading restrictions
    */
-  public play(allowActivate: boolean = false): Promise<void> | null {
+  public play(allowActivate: boolean = false, system = false): Promise<void> | null {
     if (!this.ready && allowActivate) {
       this.lazy = 'none';
       this.deferredReinitialize.cancel();
       this.reinitInstance();
     }
-    if (!this.canActivate()) return null;
-    return this._provider && this._provider.safePlay();
+    return this._provider && this._provider.safePlay(system);
   }
 
   /** Pause playing media */
-  public pause(): Promise<void> | null {
+  public pause(system = false): Promise<void> | null {
+    if (system) this.$$attr('autopaused', true);
     return this._provider && this._provider.safePause();
   }
 
@@ -262,47 +275,53 @@ export class ESLMedia extends ESLBaseElement {
 
   // media live-cycle handlers
   public _onReady(): void {
-    this.toggleAttribute('ready', true);
-    this.toggleAttribute('error', false);
+    this.$$attr('ready', true);
+    this.$$attr('error', false);
     this.updateReadyClass();
     this.$$fire(this.READY_EVENT);
     this._onResize();
   }
 
   public _onError(detail?: any, setReadyState = true): void {
-    this.toggleAttribute('ready', true);
-    this.toggleAttribute('error', true);
+    this.$$attr('ready', true);
+    this.$$attr('error', true);
     this.$$fire(this.ERROR_EVENT, {detail});
     setReadyState && this.$$fire(this.READY_EVENT);
   }
 
   public _onDetach(): void {
-    this.removeAttribute('active');
-    this.removeAttribute('ready');
-    this.removeAttribute('played');
+    this.$$attr('active', false);
+    this.$$attr('ready', false);
+    this.$$attr('played', false);
     this.updateReadyClass();
     this.$$fire(this.DETACHED_EVENT);
   }
 
+  public _onBeforePlay(initiator: string): boolean {
+    const detail = {initiator};
+    return this.$$fire(this.BEFORE_PLAY_EVENT, {detail});
+  }
+
   public _onPlay(): void {
     if (this.autofocus) this.focus();
-    this.toggleAttribute('active', true);
-    this.toggleAttribute('played', true);
+    this.$$attr('autopaused', false);
+    this.$$attr('active', true);
+    this.$$attr('played', true);
     this.$$fire(this.PLAY_EVENT);
-    MediaGroupRestrictionManager.registerPlay(this);
+    this.manager._onAfterPlay(this);
     this._onResize();
   }
 
   public _onPaused(): void {
     this.removeAttribute('active');
     this.$$fire(this.PAUSED_EVENT);
-    MediaGroupRestrictionManager.unregister(this);
+    this.manager._onAfterPause(this);
   }
 
   public _onEnded(): void {
     this.removeAttribute('active');
     this.$$fire(this.ENDED_EVENT);
-    MediaGroupRestrictionManager.unregister(this);
+    this.manager._onAfterPause(this);
   }
 
   @listen({
@@ -323,7 +342,7 @@ export class ESLMedia extends ESLBaseElement {
   })
   protected _onRefresh(e: Event): void {
     const {target} = e;
-    if (isElement(target) && target.contains(this)) this._onResize();
+    if (isSafeContains(target as Node, this)) this._onResize();
   }
 
   @listen({

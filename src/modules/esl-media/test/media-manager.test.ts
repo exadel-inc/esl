@@ -1,42 +1,70 @@
-import '../../../polyfills/es5-target-shim';
 import {ESLMedia} from '../core/esl-media';
-import {MediaGroupRestrictionManager} from '../core/esl-media-manager';
+import {promisifyTimeout} from '../../esl-utils/async/promise';
+import {BaseProviderMock} from './mocks/base-provider.mock';
 
-describe('ESLMedia: MediaGroupRestrictionManager tests', () => {
+describe('[ESLMedia]: ESLMediaManager tests', () => {
+  jest.spyOn(console, 'debug').mockImplementation(() => {});
+
   ESLMedia.register();
+  BaseProviderMock.register();
 
-  test('registerPlay / unregister', () => {
-    const instance = new ESLMedia();
-    instance.group = 'test';
-    MediaGroupRestrictionManager.registerPlay(instance);
-    expect(MediaGroupRestrictionManager.managerMap.size).toBeGreaterThan(0);
-    MediaGroupRestrictionManager.unregister(instance);
-    expect(MediaGroupRestrictionManager.managerMap.size).toBe(0);
-  });
+  describe('ESLMediaManager: group behaviour', () => {
+    const isActive = (i: ESLMedia) => i.active;
+    const instances: ESLMedia[] = [];
 
-  test('registerPlay manged pause: same group', () => {
-    const instance1 = new ESLMedia();
-    const instance2 = new ESLMedia();
-    instance1.group = instance2.group = 'test';
-    Object.defineProperty(instance1, 'active', {value: true});
-    const pauseSpy = jest.spyOn(instance1, 'pause');
-    MediaGroupRestrictionManager.registerPlay(instance1);
-    MediaGroupRestrictionManager.registerPlay(instance1);
-    expect(pauseSpy).not.toBeCalled();
-    MediaGroupRestrictionManager.registerPlay(instance2);
-    expect(pauseSpy).toBeCalled();
-  });
+    beforeAll(async () => {
+      for (let i = 0; i < 3; i++) {
+        const instance = new ESLMedia();
+        instance.mediaSrc = 'mock';
+        instance.mediaType = 'mock';
+        instances.push(instance);
+      }
+      await ESLMedia.registered;
+    });
+    beforeEach(async () => {
+      document.body.append(...instances);
+      await promisifyTimeout(10);
+    });
+    afterEach(() => {
+      instances.forEach((i) => i.remove());
+    });
 
-  test('registerPlay manged pause: different groups', () => {
-    const instance1 = new ESLMedia();
-    const instance2 = new ESLMedia();
-    instance1.group = 'test1';
-    instance2.group = 'test2';
-    const pauseSpy = jest.spyOn(instance1, 'pause');
-    MediaGroupRestrictionManager.registerPlay(instance1);
-    MediaGroupRestrictionManager.registerPlay(instance1);
-    expect(pauseSpy).not.toBeCalled();
-    MediaGroupRestrictionManager.registerPlay(instance2);
-    expect(pauseSpy).not.toBeCalled();
+    async function runPlayTestSequence(expectMatrix: boolean[][]): Promise<void> {
+      expect(instances.length).toBe(expectMatrix.length); // Ensure test data is correct
+      for (let i = 0; i < instances.length; i++) {
+        await instances[i].play();
+        await promisifyTimeout(50);
+        expect(instances.map(isActive)).toEqual(expectMatrix[i]);
+      }
+    }
+
+    test('ESLMediaManger: only one active instance allowed in the group', async () => {
+      instances.forEach((i) => i.group = 'test');
+      await runPlayTestSequence([
+        [true, false, false],
+        [false, true, false],
+        [false, false, true]
+      ]);
+    });
+
+    test('ESLMediaManger: instances of different groups can be active simultaneously', async () => {
+      instances.forEach((i, idx) => i.group = `group${idx}`);
+      await runPlayTestSequence([
+        [true, false, false],
+        [true, true, false],
+        [true, true, true]
+      ]);
+    });
+
+    test('ESLMediaManager: instances without group does not affect any other instance', async () => {
+      instances[0].group = 'test';
+      instances[1].group = '';
+      instances[2].group = 'test';
+      await runPlayTestSequence([
+        [true, false, false],
+        [true, true, false],
+        [false, true, true]
+      ]);
+    });
   });
 });
