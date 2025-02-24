@@ -105,7 +105,10 @@ using a single tag as well as work with external providers using simple native-l
 ### Events: 
  - `esl:media:error` - (bubbles) fires when API is initialized with error
  - `esl:media:ready` - (bubbles) fires when API is ready
- - `esl:media:before:play` - (bubbles, cancelable) fires before player provider requested to play
+ - `esl:media:before:play` - (bubbles, cancelable) fires before player provider requested to play  
+    Note: This event may be omitted if the provider starts the video automatically outside the ESLMedia cycle.  
+    For example, Chrome may stop videos that are out of the viewport automatically and attempt to restart them when they return to view.
+    To ensure consistent event triggering, use the esl-media play-in-viewport feature.
  - `esl:media:play` - (bubbles) fires when esl-media starts playing
  - `esl:media:paused` - (bubbles) fires when esl-media is paused
  - `esl:media:ended` - (bubbles) fires when esl-media is ended
