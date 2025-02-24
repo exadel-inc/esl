@@ -250,7 +250,7 @@ export class ESLMedia extends ESLBaseElement {
 
   /** Pause playing media */
   public pause(system = false): Promise<void> | null {
-    if (system) this.$$attr('autopaused', true);
+    if (system && this.active) this.$$attr('autopaused', true);
     return this._provider && this._provider.safePause();
   }
 
