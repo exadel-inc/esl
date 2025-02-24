@@ -16,10 +16,18 @@ import type {ESLMedia} from './esl-media';
  */
 @ExportNs('MediaManager')
 export class ESLMediaManager {
-  /** Media marked as autoplay */
-  public autoplayable: Set<ESLMedia> = new Set();
-  /** Active media */
-  public active: Set<ESLMedia> = new Set();
+  /** All managed instances */
+  public instances: Set<ESLMedia> = new Set();
+
+  /** Active instances */
+  public get active(): ESLMedia[] {
+    return Array.from(this.instances).filter((player: ESLMedia) => player.active);
+  }
+
+  /** Instances with autoplay marker */
+  public get autoplayable(): ESLMedia[] {
+    return Array.from(this.instances).filter((player: ESLMedia) => player.autoplay);
+  }
 
   public constructor() {
     ESLEventUtils.subscribe(this);
@@ -27,28 +35,21 @@ export class ESLMediaManager {
 
   /** Hook for {@link ESLMedia} initialization */
   public _onInit(media: ESLMedia): void {
-    if (media.autoplay) this.autoplayable.add(media);
+    this.instances.add(media);
   }
 
   /** Hook for {@link ESLMedia} destroy */
   public _onDestroy(media: ESLMedia): void {
-    this.active.delete(media);
-    this.autoplayable.delete(media);
+    this.instances.delete(media);
   }
 
   /** Hook for {@link ESLMedia} which is started to play */
   public _onAfterPlay(media: ESLMedia): void {
-    this.active.add(media);
     this.active.forEach((player: ESLMedia) => {
-      if (!media.group || !player.active || player === media) return;
-      if (player.group !== media.group) return;
+      if (player === media) return;
+      if (!media.group || player.group !== media.group) return;
       if (player.$$fire(player.MANAGED_PAUSE_EVENT)) player.pause();
     });
-  }
-
-  /** Hook for {@link ESLMedia} which has been paused */
-  public _onAfterPause(media: ESLMedia): void {
-    this.active.delete(media);
   }
 
   /**
@@ -72,16 +73,19 @@ export class ESLMediaManager {
   /** Plays all system-stopped media with autoplay marker */
   protected releaseAll(scope: Element = document.body): void {
     this.autoplayable.forEach(($media: ESLMedia) => {
+      if ($media.played && !$media.autopaused) return;
       if (!isSafeContains(scope, $media)) return;
       if (!isVisible($media, {visibility: true, viewport: $media.playInViewport})) return;
-      if (!$media.played || $media.autopaused) $media.play(false, true);
+      $media.play(false, true);
     });
   }
 
   /** Pauses all active media (using system flow, which means they could be restarted) */
   protected suspendAll(scope: Element = document.body): void {
-    this.active.forEach((player: ESLMedia) => {
-      if (!isSafeContains(scope, player) || !player.active) return;
+    // Pause all instances (to notify an inner player about the pause)
+    // Note: Chrome may try to play automatically paused video even if it in paused state
+    this.instances.forEach((player: ESLMedia) => {
+      if (!isSafeContains(scope, player)) return;
       player.pause(true);
     });
   }

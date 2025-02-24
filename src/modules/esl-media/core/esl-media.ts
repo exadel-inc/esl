@@ -315,13 +315,11 @@ export class ESLMedia extends ESLBaseElement {
   public _onPaused(): void {
     this.removeAttribute('active');
     this.$$fire(this.PAUSED_EVENT);
-    this.manager._onAfterPause(this);
   }
 
   public _onEnded(): void {
     this.removeAttribute('active');
     this.$$fire(this.ENDED_EVENT);
-    this.manager._onAfterPause(this);
   }
 
   @listen({
