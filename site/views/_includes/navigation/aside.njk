@@ -1,0 +1,46 @@
+{% macro related(pages, collection, title) %}
+  {% if pages %}
+    <div class="related-card">
+      <span class="related-card-heading">{{ title }}</span>
+      <ul class="related-card-content related-card-list">
+        {% set links = functions.findItemsByName(pages, collections[collection]) %}
+        {% for page in links | released %}
+          <li class="related-card-item">
+            <a class="badge badge-link badge-md" href="{{ page.url | url }}">{{ page.data.name }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+{% endmacro %}
+
+{% macro version(value, title) %}
+  {% if value %}
+    <div class="related-card">
+      <span class="related-card-heading">{{ title }}</span>
+      <a class="related-card-content badge badge-link badge-md"
+         href="https://github.com/exadel-inc/esl/releases/tag/v{{ value }}">
+        <span class="text-lowercase">v</span>{{ value }}
+      </a>
+    </div>
+  {% endif %}
+{% endmacro %}
+
+{% macro ghsource(url, title) %}
+  {% if url %}
+    <div class="related-card">
+      <span class="related-card-heading">{{ title }}</span>
+      <a class="related-card-content badge badge-link badge-md"
+         href="{{site.github.srcUrl + url}}">
+        {% include 'static/assets/common/github.svg' %} GITHUB
+      </a>
+    </div>
+  {% endif %}
+{% endmacro %}
+
+{% macro metaAll(meta) %}
+  {{ version(meta['min-version'], 'Introduced in:') }}
+  {{ related(meta.components, 'components', 'Related Components:') }}
+  {{ related(meta.examples, 'examples', 'Related Examples:') }}
+  {{ ghsource(meta.source, 'Source:') }}
+{% endmacro %}

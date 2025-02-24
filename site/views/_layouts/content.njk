@@ -13,9 +13,16 @@
         <h1 class="page-title">
           {% if icon %}{% include "static/assets/" + icon %}{% endif %}
           {{ title | safe }}
-          {% if 'beta' in [].concat(tags) %}<span class="badge badge-sup badge-warning">Beta</span>{% endif %}
-          {% if 'draft' in [].concat(tags) %}<span class="badge badge-sup badge-danger">Draft</span>{% endif %}
-          {% if 'new' in [].concat(tags) %}<span class="badge badge-sup badge-success">New</span>{% endif %}
+          {% if 'draft' in [].concat(tags) %}
+            <span class="badge badge-small badge-sup badge-danger"
+                  title="Component is under development">Dev</span>{% endif %}
+          {% if 'draft' in [].concat(tags) %}
+            <span class="badge badge-small badge-sup badge-danger"
+                  title="Page is in draft state and will be excluded from public build">Draft</span>{% endif %}
+          {% if 'new' in [].concat(tags) %}
+            <span class="badge badge-small badge-sup badge-success"
+                  title="Functionality on this page appeared in the latest releases">New</span>
+          {% endif %}
         </h1>
       {% endif %}
       {% if showBackLink %}
@@ -23,6 +30,11 @@
       {% endif %}
       {% if aside %}
         <aside class="aside">
+          {% if 'beta' in [].concat(tags) %}
+            <p class="alert alert-warning">
+              <b>Beta</b>: components on this page are ready for use but is still under development and may have breaking changes in the next major release.
+            </p>
+          {% endif %}
           {% if 'deprecated' in [].concat(tags) and aside.deprecationSpec %}
             <div class="alert alert-warning">
               {% mdRender aside.deprecationSpec, 'deprecation', 'intro' %}
@@ -34,11 +46,8 @@
             </div>
           {% endif %}
 
-          {% from 'navigation/related-links.njk' import related with context %}
-          {% from 'navigation/source-link.njk' import ghLink with context %}
-          {{ related(aside.components, 'components', 'Related Components') }}
-          {{ related(aside.examples, 'examples', 'Related Examples') }}
-          {{ ghLink(aside.source, 'Source') }}
+          {% from 'navigation/aside.njk' import metaAll with context %}
+          {{ metaAll(aside) }}
         </aside>
       {% endif %}
 
