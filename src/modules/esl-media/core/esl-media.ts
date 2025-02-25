@@ -188,8 +188,6 @@ export class ESLMedia extends ESLBaseElement {
       case 'media-src':
       case 'media-type':
       case 'start-time':
-        this.deferredReinitialize();
-        break;
       case 'lazy':
         this.reattachViewportConstraint();
         this.deferredReinitialize();
@@ -220,8 +218,7 @@ export class ESLMedia extends ESLBaseElement {
   }
 
   private reinitInstance(): void {
-    console.debug('[ESL] Media reinitialize ', this);
-    this._provider && this._provider.unbind();
+    this._provider?.unbind();
     this._provider = null;
     this._isManualAction = false;
 
@@ -240,7 +237,7 @@ export class ESLMedia extends ESLBaseElement {
 
   /** Seek to given position of media */
   public seekTo(pos: number): Promise<void> | null {
-    return this._provider && this._provider.safeSeekTo(pos);
+    return this._provider?.safeSeekTo(pos) || null;
   }
 
   /**
@@ -255,19 +252,19 @@ export class ESLMedia extends ESLBaseElement {
       this.reinitInstance();
     }
     this._isManualAction = !system;
-    return this._provider && this._provider.safePlay(system);
+    return this._provider?.safePlay(system) || null;
   }
 
   /** Pause playing media */
   public pause(system = false): Promise<void> | null {
     this._isManualAction = !system;
-    return this._provider && this._provider.safePause();
+    return this._provider?.safePause() || null;
   }
 
   /** Stop playing media */
   public stop(system = false): Promise<void> | null {
     this._isManualAction = !system;
-    return this._provider && this._provider.safeStop();
+    return this._provider?.safeStop() || null;
   }
 
   /**
@@ -281,7 +278,7 @@ export class ESLMedia extends ESLBaseElement {
 
   /** Focus inner player **/
   public focusPlayer(): void {
-    this._provider && this._provider.focus();
+    this._provider?.focus();
   }
 
   // media live-cycle handlers
@@ -323,12 +320,12 @@ export class ESLMedia extends ESLBaseElement {
   }
 
   public _onPaused(): void {
-    this.removeAttribute('active');
+    this.$$attr('active', false);
     this.$$fire(this.PAUSED_EVENT);
   }
 
   public _onEnded(): void {
-    this.removeAttribute('active');
+    this.$$attr('active', false);
     this.$$fire(this.ENDED_EVENT);
   }
 
@@ -349,8 +346,8 @@ export class ESLMedia extends ESLBaseElement {
     target: window
   })
   protected _onRefresh(e: Event): void {
-    const {target} = e;
-    if (isSafeContains(target as Node, this)) this._onResize();
+    if (!isSafeContains(e.target as Node, this)) return;
+    this._onResize();
   }
 
   @listen({
@@ -395,7 +392,7 @@ export class ESLMedia extends ESLBaseElement {
 
   /** Applied provider */
   public get providerType(): string {
-    return this._provider ? this._provider.name : '';
+    return this._provider?.name || '';
   }
 
   /**
@@ -413,17 +410,17 @@ export class ESLMedia extends ESLBaseElement {
 
   /** Duration of the media resource */
   public get duration(): number {
-    return this._provider ? this._provider.duration : 0;
+    return this._provider?.duration || 0;
   }
 
   /** Current time of media resource */
   public get currentTime(): number {
-    return this._provider ? this._provider.currentTime : 0;
+    return this._provider?.currentTime || 0;
   }
 
   /** Set current time of media resource */
   public set currentTime(time: number) {
-    (this._provider) && this._provider.safeSeekTo(time);
+    this._provider?.safeSeekTo(time);
   }
 
   /** ESLMediaQuery to limit ESLMedia loading */
@@ -439,7 +436,7 @@ export class ESLMedia extends ESLBaseElement {
   /** Used resource aspect ratio forced by attribute or returned by provider */
   public get actualAspectRatio(): number {
     if (this.aspectRatio && this.aspectRatio !== 'auto') return parseAspectRatio(this.aspectRatio);
-    return this._provider ? this._provider.defaultAspectRatio : 0;
+    return this._provider?.defaultAspectRatio || 0;
   }
 
   protected reattachViewportConstraint(): void {
@@ -448,8 +445,7 @@ export class ESLMedia extends ESLBaseElement {
     getIObserver().observe(this);
   }
   protected detachViewportConstraint(): void {
-    const observer = getIObserver(true);
-    observer && observer.unobserve(this);
+    getIObserver(true)?.unobserve(this);
   }
 }
 
