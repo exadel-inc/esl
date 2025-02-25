@@ -138,6 +138,7 @@ export class ESLMedia extends ESLBaseElement {
   /** @readonly Autopaused state marker (video has been stopped by system) */
   @boolAttr({readonly: true}) public autopaused: boolean;
 
+  private _systemAction: string;
   private _provider: BaseProvider | null;
   private deferredReinitialize = debounce(() => this.reinitInstance());
 
@@ -214,6 +215,7 @@ export class ESLMedia extends ESLBaseElement {
 
   private reinitInstance(): void {
     console.debug('[ESL] Media reinitialize ', this);
+    this._systemAction = 'initial';
     this._provider && this._provider.unbind();
     this._provider = null;
 
@@ -238,6 +240,7 @@ export class ESLMedia extends ESLBaseElement {
   /**
    * Start playing media
    * @param allowActivate - allows to remove manual lazy loading restrictions
+   * @param system - marks that the action was initiated by the system
    */
   public play(allowActivate: boolean = false, system = false): Promise<void> | null {
     if (!this.ready && allowActivate) {
@@ -245,17 +248,19 @@ export class ESLMedia extends ESLBaseElement {
       this.deferredReinitialize.cancel();
       this.reinitInstance();
     }
+    this._systemAction = system ? 'play' : 'user';
     return this._provider && this._provider.safePlay(system);
   }
 
   /** Pause playing media */
   public pause(system = false): Promise<void> | null {
-    if (system && this.active) this.$$attr('autopaused', true);
+    this._systemAction = system ? 'pause' : 'user';
     return this._provider && this._provider.safePause();
   }
 
   /** Stop playing media */
-  public stop(): Promise<void> | null {
+  public stop(system = false): Promise<void> | null {
+    this._systemAction = system ? 'stop' : 'user';
     return this._provider && this._provider.safeStop();
   }
 
@@ -266,6 +271,11 @@ export class ESLMedia extends ESLBaseElement {
   public toggle(allowActivate: boolean = false): Promise<void> | null {
     const shouldActivate = [PlayerStates.PAUSED, PlayerStates.UNSTARTED, PlayerStates.VIDEO_CUED, PlayerStates.UNINITIALIZED].includes(this.state);
     return shouldActivate ? this.play(allowActivate) : this.pause();
+  }
+
+  /** Clear user interaction state */
+  public clearUserInteraction(): void {
+    this._systemAction = 'initial';
   }
 
   /** Focus inner player **/
@@ -303,8 +313,10 @@ export class ESLMedia extends ESLBaseElement {
   }
 
   public _onPlay(): void {
+    if (this._systemAction !== 'play' && this._systemAction !== 'initial') {
+      this._systemAction = 'user';
+    }
     if (this.autofocus) this.focus();
-    this.$$attr('autopaused', false);
     this.$$attr('active', true);
     this.$$attr('played', true);
     this.$$fire(this.PLAY_EVENT);
@@ -313,11 +325,17 @@ export class ESLMedia extends ESLBaseElement {
   }
 
   public _onPaused(): void {
+    if (this._systemAction !== 'pause' && this._systemAction !== 'initial') {
+      this._systemAction = 'user';
+    }
     this.removeAttribute('active');
     this.$$fire(this.PAUSED_EVENT);
   }
 
   public _onEnded(): void {
+    if (this._systemAction !== 'stop' && this._systemAction !== 'initial') {
+      this._systemAction = 'user';
+    }
     this.removeAttribute('active');
     this.$$fire(this.ENDED_EVENT);
   }
@@ -378,6 +396,10 @@ export class ESLMedia extends ESLBaseElement {
   /** Applied provider */
   public get providerType(): string {
     return this._provider ? this._provider.name : '';
+  }
+
+  public get isUserAction(): boolean {
+    return this._systemAction === 'user';
   }
 
   /** Current player state, see {@link ESLMedia.PLAYER_STATES} values */

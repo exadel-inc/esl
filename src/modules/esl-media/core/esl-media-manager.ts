@@ -48,7 +48,7 @@ export class ESLMediaManager {
     this.active.forEach((player: ESLMedia) => {
       if (player === media) return;
       if (!media.group || player.group !== media.group) return;
-      if (player.$$fire(player.MANAGED_PAUSE_EVENT)) player.pause();
+      if (player.$$fire(player.MANAGED_PAUSE_EVENT)) player.pause(true);
     });
   }
 
@@ -73,7 +73,7 @@ export class ESLMediaManager {
   /** Plays all system-stopped media with autoplay marker */
   protected releaseAll(scope: Element = document.body): void {
     this.autoplayable.forEach(($media: ESLMedia) => {
-      if ($media.played && !$media.autopaused) return;
+      if ($media.isUserAction && $media.autoplay) return;
       if (!isSafeContains(scope, $media)) return;
       if (!isVisible($media, {visibility: true, viewport: $media.playInViewport})) return;
       $media.play(false, true);
@@ -84,9 +84,10 @@ export class ESLMediaManager {
   protected suspendAll(scope: Element = document.body): void {
     // Pause all instances (to notify an inner player about the pause)
     // Note: Chrome may try to play automatically paused video even if it in paused state
-    this.instances.forEach((player: ESLMedia) => {
-      if (!isSafeContains(scope, player)) return;
-      player.pause(true);
+    this.instances.forEach(($media: ESLMedia) => {
+      if ($media.isUserAction) return;
+      if (!isSafeContains(scope, $media)) return;
+      $media.pause(true);
     });
   }
 
