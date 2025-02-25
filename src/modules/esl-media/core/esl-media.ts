@@ -138,9 +138,12 @@ export class ESLMedia extends ESLBaseElement {
   /** @readonly Autopaused state marker (video has been stopped by system) */
   @boolAttr({readonly: true}) public autopaused: boolean;
 
-  private _systemAction: string;
-  private _provider: BaseProvider | null;
-  private deferredReinitialize = debounce(() => this.reinitInstance());
+  /** Marker if the last action (play/pause/stop) was initiated by the user */
+  protected _isManualAction: boolean;
+  /** Applied provider instance */
+  protected _provider: BaseProvider | null;
+  /** Deferred reinitialize handler, to prevent multiple reinitialization calls in bound of the macro-task */
+  protected deferredReinitialize = debounce(() => this.reinitInstance());
 
   /**
    * Map object with possible Player States, values:
@@ -150,10 +153,12 @@ export class ESLMedia extends ESLBaseElement {
     return PlayerStates;
   }
 
+  /** Returns true if the provider with given name is supported */
   static supports(name: string): boolean {
     return ESLMediaProviderRegistry.instance.has(name);
   }
 
+  /** @readonly {@link ESLMediaManager} used for current instance */
   protected get manager(): ESLMediaManager {
     return (this.constructor as typeof ESLMedia).manager;
   }
@@ -192,6 +197,7 @@ export class ESLMedia extends ESLBaseElement {
       case 'loop':
       case 'muted':
       case 'controls':
+        this.$$on(this._onClick);
         this._provider && this._provider.onSafeConfigChange(attrName, newVal !== null);
         break;
       case 'fill-mode':
@@ -215,9 +221,9 @@ export class ESLMedia extends ESLBaseElement {
 
   private reinitInstance(): void {
     console.debug('[ESL] Media reinitialize ', this);
-    this._systemAction = 'initial';
     this._provider && this._provider.unbind();
     this._provider = null;
+    this._isManualAction = false;
 
     if (this.canActivate()) {
       this._provider = ESLMediaProviderRegistry.instance.createFor(this);
@@ -248,19 +254,19 @@ export class ESLMedia extends ESLBaseElement {
       this.deferredReinitialize.cancel();
       this.reinitInstance();
     }
-    this._systemAction = system ? 'play' : 'user';
+    this._isManualAction = !system;
     return this._provider && this._provider.safePlay(system);
   }
 
   /** Pause playing media */
   public pause(system = false): Promise<void> | null {
-    this._systemAction = system ? 'pause' : 'user';
+    this._isManualAction = !system;
     return this._provider && this._provider.safePause();
   }
 
   /** Stop playing media */
   public stop(system = false): Promise<void> | null {
-    this._systemAction = system ? 'stop' : 'user';
+    this._isManualAction = !system;
     return this._provider && this._provider.safeStop();
   }
 
@@ -271,11 +277,6 @@ export class ESLMedia extends ESLBaseElement {
   public toggle(allowActivate: boolean = false): Promise<void> | null {
     const shouldActivate = [PlayerStates.PAUSED, PlayerStates.UNSTARTED, PlayerStates.VIDEO_CUED, PlayerStates.UNINITIALIZED].includes(this.state);
     return shouldActivate ? this.play(allowActivate) : this.pause();
-  }
-
-  /** Clear user interaction state */
-  public clearUserInteraction(): void {
-    this._systemAction = 'initial';
   }
 
   /** Focus inner player **/
@@ -313,9 +314,6 @@ export class ESLMedia extends ESLBaseElement {
   }
 
   public _onPlay(): void {
-    if (this._systemAction !== 'play' && this._systemAction !== 'initial') {
-      this._systemAction = 'user';
-    }
     if (this.autofocus) this.focus();
     this.$$attr('active', true);
     this.$$attr('played', true);
@@ -325,17 +323,11 @@ export class ESLMedia extends ESLBaseElement {
   }
 
   public _onPaused(): void {
-    if (this._systemAction !== 'pause' && this._systemAction !== 'initial') {
-      this._systemAction = 'user';
-    }
     this.removeAttribute('active');
     this.$$fire(this.PAUSED_EVENT);
   }
 
   public _onEnded(): void {
-    if (this._systemAction !== 'stop' && this._systemAction !== 'initial') {
-      this._systemAction = 'user';
-    }
     this.removeAttribute('active');
     this.$$fire(this.ENDED_EVENT);
   }
@@ -377,14 +369,22 @@ export class ESLMedia extends ESLBaseElement {
     this.deferredReinitialize();
   }
 
+  @listen({
+    event: 'click',
+    condition: ($this: ESLMedia) => $this.controls
+  })
+  protected _onClick(e: PointerEvent): void {
+    if (!e.isTrusted || e.defaultPrevented) return;
+    this._isManualAction = true;
+  }
+
   @listen('keydown')
   protected _onKeydown(e: KeyboardEvent): void {
     if (e.target !== this) return;
-    if ([SPACE, PAUSE].includes(e.key)) {
-      e.preventDefault();
-      e.stopPropagation();
-      this.toggle();
-    }
+    if (![SPACE, PAUSE].includes(e.key)) return;
+    e.preventDefault();
+    e.stopPropagation();
+    this.toggle();
   }
 
   /** Update ready class state */
@@ -398,8 +398,12 @@ export class ESLMedia extends ESLBaseElement {
     return this._provider ? this._provider.name : '';
   }
 
-  public get isUserAction(): boolean {
-    return this._systemAction === 'user';
+  /**
+   * Marker if the last action (play/pause/stop) was initiated by the user
+   * (direct method call or by embed player controls)
+   */
+  public get isUserInitiated(): boolean {
+    return this._isManualAction;
   }
 
   /** Current player state, see {@link ESLMedia.PLAYER_STATES} values */

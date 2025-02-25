@@ -64,7 +64,7 @@ export abstract class BaseProvider {
   }
 
   /** Wraps _ready promise */
-  get ready(): Promise<any> {
+  public get ready(): Promise<any> {
     if (!this._ready) {
       const res = Promise.reject('Not Initialized');
       res.catch((e) => console.log('Rejected Media Operation: ', e));

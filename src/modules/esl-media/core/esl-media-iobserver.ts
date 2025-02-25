@@ -29,8 +29,8 @@ function handleViewport(entry: IntersectionObserverEntry): void {
   if (video.active && entry.intersectionRatio <= RATIO_TO_STOP) {
     video.pause(true);
   }
-  // Play should start only for inactive and background(muted) videos that are visible more than on RATIO_TO_PLAY
-  if (!video.isUserAction && video.autoplay && entry.intersectionRatio >= RATIO_TO_PLAY) {
+  // Play should start only for autoplay-able videos that are visible enough and was not manually stopped
+  if (!video.isUserInitiated && video.autoplay && entry.intersectionRatio >= RATIO_TO_PLAY) {
     video.play(false, true);
   }
 }

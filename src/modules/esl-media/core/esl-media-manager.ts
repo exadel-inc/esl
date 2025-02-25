@@ -70,22 +70,31 @@ export class ESLMediaManager {
     this.suspendAll(e.target as Element);
   }
 
-  /** Plays all system-stopped media with autoplay marker */
-  protected releaseAll(scope: Element = document.body): void {
+  /**
+   * Start all system-stopped media with autoplay marker
+   * @param scope - the scope to search for media
+   * @param system - whether to start only system-stopped media
+   */
+  protected releaseAll(scope: Element = document.body, system = true): void {
     this.autoplayable.forEach(($media: ESLMedia) => {
-      if ($media.isUserAction && $media.autoplay) return;
+      if (system && $media.isUserInitiated) return;
+      if (!$media.autoplay) return;
       if (!isSafeContains(scope, $media)) return;
       if (!isVisible($media, {visibility: true, viewport: $media.playInViewport})) return;
       $media.play(false, true);
     });
   }
 
-  /** Pauses all active media (using system flow, which means they could be restarted) */
-  protected suspendAll(scope: Element = document.body): void {
+  /**
+   * Pauses all active media that was not started manually
+   * @param scope - the scope to search for media
+   * @param system - whether to pause only system-active media
+   */
+  protected suspendAll(scope: Element = document.body, system = true): void {
     // Pause all instances (to notify an inner player about the pause)
     // Note: Chrome may try to play automatically paused video even if it in paused state
     this.instances.forEach(($media: ESLMedia) => {
-      if ($media.isUserAction) return;
+      if (system && $media.isUserInitiated) return;
       if (!isSafeContains(scope, $media)) return;
       $media.pause(true);
     });
@@ -96,10 +105,10 @@ export class ESLMediaManager {
   protected _onRequest(e: CustomEvent): void {
     switch (e.detail.action) {
       case 'release':
-        this.releaseAll(e.detail.scope);
+        this.releaseAll(e.detail.scope, !e.detail.force);
         break;
       case 'suspend':
-        this.suspendAll(e.detail.scope);
+        this.suspendAll(e.detail.scope, !e.detail.force);
         break;
     }
   }
