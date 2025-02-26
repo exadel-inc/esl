@@ -2,7 +2,6 @@ import {DelayedTask} from '../../esl-utils/async/delayed-task';
 import {ESLMediaProviderRegistry} from './esl-media-registry';
 
 import type {ESLMedia} from './esl-media';
-import {isInViewport, isVisible} from '../../esl-utils/dom/visible';
 
 export enum PlayerStates {
   BUFFERING = 3,
