@@ -35,7 +35,7 @@ Also note that a custom provider should call following hooks manually
  - `this.component._onReady()` - to notify ESLMedia that provider is ready
  - `this.component._onError()` - to notify ESLMedia that provider is failed to load
  - `this.component._onPlay()` - to notify ESLMedia that provider is started to play
- - `this.component._onPause()` - to notify ESLMedia that provider is paused
+ - `this.component._onPaused()` - to notify ESLMedia that provider is paused
  - `this.component._onEnded()` - to notify ESLMedia that provider is ended
  - `this.component._onDetach()` - to notify ESLMedia that provider is detached (in case of custom `unbind` implementation)
 During provider binding `this._ready` mixin property should be initialized with Promise.

@@ -143,8 +143,6 @@ export class ESLMedia extends ESLBaseElement {
   @boolAttr({readonly: true}) public error: boolean;
   /** @readonly Width is greater than height state marker */
   @boolAttr({readonly: true}) public wide: boolean;
-  /** @readonly Autopaused state marker (video has been stopped by system) */
-  @boolAttr({readonly: true}) public autopaused: boolean;
 
   /** Marker if the last action (play/pause/stop) was initiated by the user */
   protected _isManualAction: boolean;
