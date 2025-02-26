@@ -18,6 +18,7 @@ import {ESLMediaManager} from './esl-media-manager';
 
 import type {BaseProvider} from './esl-media-provider';
 import type {ESLMediaRegistryEvent} from './esl-media-registry.event';
+import {ESLMediaHookEvent} from './esl-media.events';
 
 export type ESLMediaFillMode = 'cover' | 'inscribe' | '';
 
@@ -310,9 +311,9 @@ export class ESLMedia extends ESLBaseElement {
     this.$$fire(this.DETACHED_EVENT);
   }
 
-  public _onBeforePlay(initiator: string): boolean {
-    const detail = {initiator};
-    return this.$$fire(this.BEFORE_PLAY_EVENT, {detail});
+  public _onBeforePlay(initiator: 'initial' | 'user' | 'system'): boolean {
+    const event = new ESLMediaHookEvent(this.BEFORE_PLAY_EVENT, {initiator});
+    return this.dispatchEvent(event);
   }
 
   public _onPlay(): void {

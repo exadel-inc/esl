@@ -2,6 +2,7 @@ import {ESLEventUtils} from '../../esl-event-listener/core/api';
 import {isSafeContains} from '../../esl-utils/dom/traversing';
 import {isVisible} from '../../esl-utils/dom/visible';
 import {listen} from '../../esl-utils/decorators';
+import {ESLMediaHookEvent} from './esl-media.events';
 
 import type {ESLMedia} from './esl-media';
 
@@ -46,7 +47,11 @@ export class ESLMediaManager {
     this.active.forEach((player: ESLMedia) => {
       if (player === media) return;
       if (!media.group || player.group !== media.group) return;
-      if (player.$$fire(player.MANAGED_PAUSE_EVENT)) player.pause(true);
+      const event = new ESLMediaHookEvent(player.MANAGED_PAUSE_EVENT, {
+        initiator: 'system',
+        relatedMedia: media
+      });
+      if (player.dispatchEvent(event)) player.pause(true);
     });
   }
 
