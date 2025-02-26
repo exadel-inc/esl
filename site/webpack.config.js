@@ -1,4 +1,7 @@
-const path = require('path');
+import path, {dirname} from 'path';
+import {fileURLToPath} from 'url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const BASE_CONFIG = {
   mode: 'development',
@@ -28,7 +31,7 @@ const BASE_CONFIG = {
   },
 };
 
-module.exports = [{
+export default [{
   ...BASE_CONFIG,
   entry: {
     'site': './src/site.ts',

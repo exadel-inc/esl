@@ -28,7 +28,7 @@ function exclude(collection, prop, ...values) {
   return (collection || []).filter(matcher);
 }
 
-module.exports = (config) => {
+export default (config) => {
   config.addFilter('filter', filter);
   config.addFilter('exclude', exclude);
 };

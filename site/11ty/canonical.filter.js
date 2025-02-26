@@ -1,8 +1,8 @@
-const {url: siteUrl} = require('./site.config');
+import {siteConfig} from './site.config.js';
 
-module.exports = (config) => {
+export default (config) => {
   config.addFilter('canonical', (path) => {
-    if (path.startsWith('http(s)?://')) return path;
-    return (siteUrl + path).replace(/\/$/, '');
+    if (/^https?:\/\//.test(path)) return path;
+    return (siteConfig.url + path).replace(/\/$/, '');
   });
 };

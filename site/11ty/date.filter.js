@@ -7,7 +7,7 @@ const isFresh = (timestamp, days = 30) => {
   return Date.now() - timestamp < timeout;
 };
 
-module.exports = (config) => {
+export default (config) => {
   config.addFilter('date', date);
   config.addFilter('fresh', isFresh);
 };

@@ -1,14 +1,15 @@
-const fs = require('fs');
-const color = require('kleur');
+import fs from 'fs';
+import color from 'kleur';
 
-module.exports = (config) => {
+export default async (config) => {
   // Init all 11ty config modules
   const cfgFiles = fs.readdirSync('./11ty');
   for (const file of cfgFiles) {
     if (file.startsWith('_')) continue;
     try {
       console.info(color.blue(`Initializing module: ${file}`));
-      require('./11ty/' + file)(config);
+      const module = await import(`./11ty/${file}`);
+      module.default(config);
       console.info(color.green(`Module ${file} initialized.`));
     } catch (e) {
       console.error(color.red(`Module ${file} initialization failed`));
