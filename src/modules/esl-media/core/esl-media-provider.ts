@@ -2,6 +2,7 @@ import {DelayedTask} from '../../esl-utils/async/delayed-task';
 import {ESLMediaProviderRegistry} from './esl-media-registry';
 
 import type {ESLMedia} from './esl-media';
+import {isInViewport, isVisible} from '../../esl-utils/dom/visible';
 
 export enum PlayerStates {
   BUFFERING = 3,
@@ -55,6 +56,9 @@ export abstract class BaseProvider {
   protected _ready: Promise<any>;
   protected _cmdMng: DelayedTask = new DelayedTask();
 
+  protected _lastCmdType: string;
+  protected _lastCmdTimestamp: number;
+
   public constructor(component: ESLMedia, config: MediaProviderConfig) {
     this.config = config;
     this.component = component;
@@ -64,6 +68,8 @@ export abstract class BaseProvider {
     if (this.config.autoplay) {
       this.config.autoplay = this.component._onBeforePlay('initial');
     }
+    this._lastCmdType = this.config.autoplay ? 'play' : 'pause';
+    this._lastCmdTimestamp = Date.now();
   }
 
   /** Wraps _ready promise */
@@ -147,13 +153,20 @@ export abstract class BaseProvider {
   /** Executes play when api is ready */
   public async safePlay(system = false): Promise<void> {
     await this.ready;
-    this._cmdMng.put(() => this.component._onBeforePlay(system ? 'system' : 'user') && this.play(), 0);
+    this._cmdMng.put(() => {
+      if (!this.component._onBeforePlay(system ? 'system' : 'user')) return;
+      this.lastCommand = 'play';
+      this.play();
+    }, 0);
   }
 
   /** Executes pause when api is ready */
   public async safePause(): Promise<void> {
     await this.ready;
-    this._cmdMng.put(() => this.pause(), 0);
+    this._cmdMng.put(() => {
+      this.lastCommand = 'pause';
+      this.pause();
+    }, 0);
   }
 
   /**
@@ -162,7 +175,20 @@ export abstract class BaseProvider {
    */
   public async safeStop(): Promise<void> {
     await this.ready;
-    this._cmdMng.put(() => this.stop(), 0);
+    this._cmdMng.put(() => {
+      this.lastCommand = 'pause';
+      this.stop();
+    }, 0);
+  }
+
+  /** @returns last requested command type */
+  public get lastCommand(): string {
+    if (Date.now() - (this._lastCmdTimestamp || 0) > 250) return '';
+    return this._lastCmdType;
+  }
+  protected set lastCommand(value: string) {
+    this._lastCmdTimestamp = Date.now();
+    this._lastCmdType = value;
   }
 
   /**

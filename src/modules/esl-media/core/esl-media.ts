@@ -3,6 +3,7 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {isSafeContains} from '../../esl-utils/dom/traversing';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {SPACE, PAUSE} from '../../esl-utils/dom/keys';
+import {isInViewport} from '../../esl-utils/dom/visible';
 import {prop, attr, boolAttr, listen, memoize} from '../../esl-utils/decorators';
 import {debounce} from '../../esl-utils/async';
 import {parseAspectRatio, parseBoolean} from '../../esl-utils/misc/format';
@@ -15,14 +16,15 @@ import {getIObserver} from './esl-media-iobserver';
 import {PlayerStates} from './esl-media-provider';
 import {ESLMediaProviderRegistry} from './esl-media-registry';
 import {ESLMediaManager} from './esl-media-manager';
+import {ESLMediaHookEvent} from './esl-media.events';
 
 import type {BaseProvider} from './esl-media-provider';
 import type {ESLMediaRegistryEvent} from './esl-media-registry.event';
-import {ESLMediaHookEvent} from './esl-media.events';
 
 export type ESLMediaFillMode = 'cover' | 'inscribe' | '';
 
 export type ESLMediaLazyMode = 'auto' | 'manual' | 'none';
+
 const isLazyAttr = (v: string): v is ESLMediaLazyMode => ['auto', 'manual', 'none'].includes(v);
 const parseLazyAttr = (v: string): ESLMediaLazyMode => isLazyAttr(v) ? v : 'auto';
 
@@ -201,7 +203,6 @@ export class ESLMedia extends ESLBaseElement {
       case 'loop':
       case 'muted':
       case 'controls':
-        this.$$on(this._onClick);
         this._provider && this._provider.onSafeConfigChange(attrName, newVal !== null);
         break;
       case 'fill-mode':
@@ -287,6 +288,18 @@ export class ESLMedia extends ESLBaseElement {
     this._provider?.focus();
   }
 
+  /** Detect if the user manipulate trough native controls */
+  protected detectUserInteraction(cmd: string): void {
+    if (!this.controls || this._isManualAction) return;
+    const lastCommand = this._provider?.lastCommand;
+    if (lastCommand === cmd) return;
+    // User cannot manipulate the player outside the viewport
+    const tolerance = this.RATIO_TO_ACTIVATE * this.clientWidth * this.clientHeight;
+    if (!isInViewport(this, tolerance)) return;
+    console.debug('[ESL]: User %s interaction detected', cmd);
+    this._isManualAction = true;
+  }
+
   // media live-cycle handlers
   public _onReady(): void {
     this.$$attr('ready', true);
@@ -317,6 +330,7 @@ export class ESLMedia extends ESLBaseElement {
   }
 
   public _onPlay(): void {
+    this.detectUserInteraction('play');
     if (this.autofocus) this.focus();
     this.$$attr('active', true);
     this.$$attr('played', true);
@@ -326,6 +340,7 @@ export class ESLMedia extends ESLBaseElement {
   }
 
   public _onPaused(): void {
+    this.detectUserInteraction('pause');
     this.$$attr('active', false);
     this.$$fire(this.PAUSED_EVENT);
   }
@@ -370,15 +385,6 @@ export class ESLMedia extends ESLBaseElement {
   })
   protected _onConditionChange(): void {
     this.deferredReinitialize();
-  }
-
-  @listen({
-    event: 'click',
-    condition: ($this: ESLMedia) => $this.controls
-  })
-  protected _onClick(e: PointerEvent): void {
-    if (!e.isTrusted || e.defaultPrevented) return;
-    this._isManualAction = true;
   }
 
   @listen('keydown')
