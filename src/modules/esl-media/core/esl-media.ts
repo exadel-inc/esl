@@ -26,7 +26,6 @@ export type ESLMediaFillMode = 'cover' | 'inscribe' | '';
 export type ESLMediaLazyMode = 'auto' | 'manual' | 'none';
 
 const isLazyAttr = (v: string): v is ESLMediaLazyMode => ['auto', 'manual', 'none'].includes(v);
-const parseLazyAttr = (v: string): ESLMediaLazyMode => isLazyAttr(v) ? v : 'auto';
 
 /**
  * ESLMedia - custom element, that provides an ability to add and configure media (video / audio)
@@ -96,7 +95,10 @@ export class ESLMedia extends ESLBaseElement {
   /** Strict aspect ratio definition */
   @attr() public aspectRatio: string;
   /** Allows lazy load resource */
-  @attr({parser: parseLazyAttr, defaultValue: 'none'}) public lazy: ESLMediaLazyMode;
+  @attr({
+    parser: (value: string) => isLazyAttr(value) ? value : 'auto',
+    defaultValue: 'none'
+  }) public lazy: ESLMediaLazyMode;
   /** Autoplay resource marker */
   @boolAttr() public autoplay: boolean;
 
@@ -115,7 +117,10 @@ export class ESLMedia extends ESLBaseElement {
   /** Allows to start viewing a resource from a specific time offset. */
   @attr({parser: parseInt}) public startTime: number;
   /** Allows player to accept focus */
-  @attr({parser: parseBoolean, defaultValue: ($this: ESLMedia) => $this.controls}) public focusable: boolean;
+  @attr({
+    parser: parseBoolean,
+    defaultValue: ($this: ESLMedia) => $this.controls
+  }) public focusable: boolean;
 
 
   /** Preload resource */
@@ -289,8 +294,7 @@ export class ESLMedia extends ESLBaseElement {
   /** Detects if the user manipulate trough native controls */
   protected detectUserInteraction(cmd: string): void {
     if (!this.controls || this._isManualAction) return;
-    const lastCommand = this._provider?.lastCommand;
-    if (lastCommand === cmd) return;
+    if (this._provider?.lastCommand === cmd) return;
     // User cannot manipulate the player outside the viewport
     const tolerance = this.RATIO_TO_ACTIVATE * this.clientWidth * this.clientHeight;
     if (!isInViewport(this, tolerance)) return;
@@ -344,6 +348,7 @@ export class ESLMedia extends ESLBaseElement {
   }
 
   public _onEnded(): void {
+    this.detectUserInteraction('pause');
     this.$$attr('active', false);
     this.$$fire(this.ENDED_EVENT);
   }

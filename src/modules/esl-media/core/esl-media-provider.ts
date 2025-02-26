@@ -54,9 +54,7 @@ export abstract class BaseProvider {
   protected _el: HTMLElement;
   protected _ready: Promise<any>;
   protected _cmdMng: DelayedTask = new DelayedTask();
-
   protected _lastCmdType: string;
-  protected _lastCmdTimestamp: number;
 
   public constructor(component: ESLMedia, config: MediaProviderConfig) {
     this.config = config;
@@ -68,7 +66,6 @@ export abstract class BaseProvider {
       this.config.autoplay = this.component._onBeforePlay('initial');
     }
     this._lastCmdType = this.config.autoplay ? 'play' : 'pause';
-    this._lastCmdTimestamp = Date.now();
   }
 
   /** Wraps _ready promise */
@@ -154,7 +151,7 @@ export abstract class BaseProvider {
     await this.ready;
     this._cmdMng.put(() => {
       if (!this.component._onBeforePlay(system ? 'system' : 'user')) return;
-      this.lastCommand = 'play';
+      this._lastCmdType = 'play';
       this.play();
     }, 0);
   }
@@ -163,7 +160,7 @@ export abstract class BaseProvider {
   public async safePause(): Promise<void> {
     await this.ready;
     this._cmdMng.put(() => {
-      this.lastCommand = 'pause';
+      this._lastCmdType = 'pause';
       this.pause();
     }, 0);
   }
@@ -175,19 +172,14 @@ export abstract class BaseProvider {
   public async safeStop(): Promise<void> {
     await this.ready;
     this._cmdMng.put(() => {
-      this.lastCommand = 'pause';
+      this._lastCmdType = 'pause';
       this.stop();
     }, 0);
   }
 
   /** @returns last requested command type */
   public get lastCommand(): string {
-    if (Date.now() - (this._lastCmdTimestamp || 0) > 250) return '';
     return this._lastCmdType;
-  }
-  protected set lastCommand(value: string) {
-    this._lastCmdTimestamp = Date.now();
-    this._lastCmdType = value;
   }
 
   /**
