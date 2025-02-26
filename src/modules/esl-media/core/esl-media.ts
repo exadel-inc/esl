@@ -78,8 +78,6 @@ export class ESLMedia extends ESLBaseElement {
   @prop('esl:media:detached') public DETACHED_EVENT: string;
   /** Event to dispatch when player paused by another instance in group (cancelable) */
   @prop('esl:media:managedpause') public MANAGED_PAUSE_EVENT: string;
-  /** Event to dispatch when user decides to play/pause all media */
-  @prop('esl:media:managedaction') public MANAGED_ACTION_EVENT: string;
 
   /** Media resource identifier */
   @attr() public mediaId: string;

@@ -169,9 +169,8 @@ aside:
                  media-type="video"
                  media-src="{{ '/assets/media/video_1.mp4' | url }}"
                  load-condition="(min-width: 600px)"
-                 load-cls-target="::parent(.img-container)"
-                 load-cls-accepted="show-video"
-                 load-cls-declined="hide-video"
+                 load-condition-class="show-video !hide-video"
+                 load-condition-class-target="::parent(.img-container)"
                  controls
                  tabindex="0">
       </esl-media>
