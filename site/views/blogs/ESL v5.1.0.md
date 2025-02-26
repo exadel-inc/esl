@@ -16,4 +16,4 @@ ESL version 5.1.0 is now available on NPM. Explore the enhancements in the lates
     - autostop/autoplay inside esl-togglable instances
     - updated paly-in-viewport functionality (more reliable and customizable)
 - `ESLEventListener` fix a bunch subscription on static targets
-- RTL utils simplified and optimized according to the actual browser support
+- RTL utils were simplified and optimized according to the actual browser support
