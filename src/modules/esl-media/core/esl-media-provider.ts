@@ -58,6 +58,9 @@ export abstract class BaseProvider {
   public constructor(component: ESLMedia, config: MediaProviderConfig) {
     this.config = config;
     this.component = component;
+    // Other-vice browser will handle play-in-viewport it differently
+    if (this.component.playInViewport) this.config.autoplay = false;
+    // If autoplay is enabled - dispatch before play event to ensure it is allowed
     if (this.config.autoplay) {
       this.config.autoplay = this.component._onBeforePlay('initial');
     }

@@ -55,6 +55,13 @@ export class ESLMedia extends ESLBaseElement {
     return new ESLMediaManager();
   }
 
+  /** A minimum ratio to init media (in case of lazy=auto) */
+  @prop(0.05) public RATIO_TO_ACTIVATE: number;
+  /** A minimum ratio to stop media (in case of play in viewport option) */
+  @prop(0.2) public RATIO_TO_STOP: number;
+  /** A minimum ratio to play media (in case of play in viewport option) */
+  @prop(0.33) public RATIO_TO_PLAY: number;
+
   /** Event to dispatch on ready state */
   @prop('esl:media:ready') public READY_EVENT: string;
   /** Event to dispatch on error state */

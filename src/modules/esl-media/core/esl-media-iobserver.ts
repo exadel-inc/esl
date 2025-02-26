@@ -1,10 +1,5 @@
 import type {ESLMedia} from './esl-media';
 
-const RATIO_TO_PLAY = 0.5; // TODO: customizable, at least global
-const RATIO_TO_STOP = 0.20; // TODO: customizable, at least global
-
-const RATIO_TO_ACTIVATE = 0.05;
-
 let iObserver: IntersectionObserver;
 
 /** ESL Media Play-In-Viewport IntersectionObserver instance */
@@ -13,7 +8,7 @@ export function getIObserver(lazy: boolean = false): IntersectionObserver {
     iObserver = new IntersectionObserver(function (entries) {
       entries.forEach(handleViewport);
     }, {
-      threshold: [RATIO_TO_STOP, RATIO_TO_PLAY]
+      threshold: [0.05, 0.1, 0.25, 0.33, 0.5, 0.66, 0.75, 0.9, 1]
     });
   }
   return iObserver;
@@ -21,16 +16,32 @@ export function getIObserver(lazy: boolean = false): IntersectionObserver {
 
 function handleViewport(entry: IntersectionObserverEntry): void {
   const video = entry.target as ESLMedia;
+  const root = entry.rootBounds || {
+    width: Number.POSITIVE_INFINITY,
+    height: Number.POSITIVE_INFINITY
+  };
+  const rect = entry.intersectionRect;
+  const ratio = Math.max(
+    (rect.width * rect.height) / (root.width * root.height),
+    entry.intersectionRatio
+  );
+
   // Removes `lazy` attribute when media is in the viewport with min ratio RATIO_TO_ACTIVATE
-  if (entry.isIntersecting && entry.intersectionRatio >= RATIO_TO_ACTIVATE && video.lazy === 'auto') {
+  if (entry.isIntersecting && ratio >= video.RATIO_TO_ACTIVATE && video.lazy === 'auto') {
     video.$$attr('lazy', false);
   }
-  // Videos that playing and out of min ratio RATIO_TO_STOP should be stopped
-  if (video.active && entry.intersectionRatio <= RATIO_TO_STOP) {
+
+  // Skip if video state management if feature is disabled
+  if (!video.playInViewport) return;
+
+  // Videos that playing and out of min ratio should be stopped
+  if (video.active && ratio <= video.RATIO_TO_STOP) {
     video.pause(true);
   }
-  // Play should start only for autoplay-able videos that are visible enough and was not manually stopped
-  if (!video.isUserInitiated && video.autoplay && entry.intersectionRatio >= RATIO_TO_PLAY) {
+  // Videos that not playing and in min ratio to start should be started
+  if (!video.active && ratio >= video.RATIO_TO_PLAY) {
+    // Disallow for non autoplay-able videos or videos that was controlled by user
+    if (!video.autoplay || video.isUserInitiated) return;
     video.play(false, true);
   }
 }

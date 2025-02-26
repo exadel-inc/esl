@@ -1,7 +1,6 @@
 import {ESLEventUtils} from '../../esl-event-listener/core/api';
 import {isSafeContains} from '../../esl-utils/dom/traversing';
 import {isVisible} from '../../esl-utils/dom/visible';
-import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {listen} from '../../esl-utils/decorators';
 
 import type {ESLMedia} from './esl-media';
@@ -14,7 +13,6 @@ import type {ESLMedia} from './esl-media';
  *
  * @author Anastasia Lesun
  */
-@ExportNs('MediaManager')
 export class ESLMediaManager {
   /** All managed instances */
   public instances: Set<ESLMedia> = new Set();
