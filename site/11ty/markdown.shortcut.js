@@ -1,9 +1,9 @@
 import path, {dirname} from 'path';
-import kleur from 'kleur';
+import color from 'kleur';
 
-import {promises as fsAsync} from 'fs';
 import {fileURLToPath} from 'url';
 import {JSDOM} from 'jsdom';
+import {readFile} from 'fs/promises';
 import {markdown} from './markdown.lib.js';
 import {siteConfig} from './site.config.js';
 
@@ -51,7 +51,7 @@ class MDRenderer {
   /** Read file and render markdown */
   static async parseFile(filePath) {
     const absolutePath = path.resolve(__dirname, '../../', filePath);
-    const data = await fsAsync.readFile(absolutePath);
+    const data = await readFile(absolutePath);
     const content = data.toString();
     return markdown.render(content);
   }
@@ -71,7 +71,7 @@ class MDRenderer {
       if (link.href.startsWith('.')) {
         const absolutePath = path.join(path.dirname(basePath), link.href).replace(/\\/g, '/');
         const resultPath = MDRenderer.processRewriteRules(absolutePath);
-        console.log(kleur.yellow(`Rewrite link "${link.href}" to "${resultPath}"`));
+        console.log(color.yellow(`Rewrite link "${link.href}" to "${resultPath}"`));
         link.href = resultPath;
       }
       if (['https:', 'http:'].includes(link.protocol)) {

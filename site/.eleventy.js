@@ -1,5 +1,5 @@
 import fs from 'fs';
-import kleur from 'kleur';
+import color from 'kleur';
 
 export default async (config) => {
   // Init all 11ty config modules
@@ -7,12 +7,12 @@ export default async (config) => {
   for (const file of cfgFiles) {
     if (file.startsWith('_')) continue;
     try {
-      console.info(kleur.blue(`Initializing module: ${file}`));
+      console.info(color.blue(`Initializing module: ${file}`));
       const module = await import(`./11ty/${file}`);
       module.default(config);
-      console.info(kleur.green(`Module ${file} initialized.`));
+      console.info(color.green(`Module ${file} initialized.`));
     } catch (e) {
-      console.error(kleur.red(`Module ${file} initialization failed`));
+      console.error(color.red(`Module ${file} initialization failed`));
       throw e;
     }
   }
