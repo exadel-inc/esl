@@ -288,7 +288,7 @@ export class ESLMedia extends ESLBaseElement {
     this._provider?.focus();
   }
 
-  /** Detect if the user manipulate trough native controls */
+  /** Detects if the user manipulate trough native controls */
   protected detectUserInteraction(cmd: string): void {
     if (!this.controls || this._isManualAction) return;
     const lastCommand = this._provider?.lastCommand;

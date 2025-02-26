@@ -74,7 +74,7 @@ export class ESLMediaManager {
   }
 
   /**
-   * Start all system-stopped media with autoplay marker
+   * Starts all system-stopped media with autoplay marker
    * @param scope - the scope to search for media
    * @param system - whether to start only system-stopped media
    */

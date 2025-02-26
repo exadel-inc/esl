@@ -25,8 +25,7 @@ ESLMedia module provides out-of-the-box support for the following media provider
     - `youtube` type - provided by YoutubeProvider which renders Youtube video player
     - `brightcove` type - provided by BrightcoveProvider which renders videojs video player (with Brightcove plugin applied)
 
-    - `iframe` type - abstract fallback provider (IframeProvider) which renders native HTMLIFrameElement
-      Does not support control comands on in pause state excludes iframe from the DOM.
+    - `iframe` type - abstract fallback provider (IframeProvider) which renders native HTMLIFrameElement. Does not support control commands and in pause state excludes iframe from the DOM.
  
 #### Custom providers
 ESLMedia module provides an ability to add custom media providers.
@@ -44,7 +43,7 @@ During provider binding `this._ready` mixin property should be initialized with 
 ### ESLMedia supports wide range of initialization and state management features
 
 #### Lazy & Manual loading
-ESLMedia supports lazy attribute that provides two modes of custo media loading:
+ESLMedia supports lazy attribute that provides two modes of custom media loading:
 - `auto` - initializes media when it becomes visible in the browser viewport or is in close proximity to it.
 - `manual` - blocks media initialization until the attribute is removed manually from the consumer's code.
 
@@ -62,7 +61,7 @@ ESLMedia supports `group` attribute that restricts the number of active media pl
 #### Container control
 ESLMedia supports `ESLToggleable` container state observation.
 When the container is opened, the media player with autoplay attribute allowed to be started.
-When the container is closed, the media player inside it will be authomatically paused.
+When the container is closed, the media player inside it will be automatically paused.
 
 #### Initialization hook and instance manager
 ESLMedia dispatches `esl:media:before:play` cancelable event in the following cases:
@@ -74,10 +73,10 @@ In addition ESLMedia.property.manager holds `ESLMediaManager` instance (singleto
 controls all media instances that are referencing the same manager instance.
 The `esl:media:managedaction` event could be dispatched on the window to call manager `resume`/`suspend` methods indirectly.
 
-#### Comands initiator contol
-ESLMedia comands defided to user-related and system-related.
-User-related comands have higher priority and override system-related comands.
-All automatic features like `play-in-viewport` and `autoplay` utilize system-related comands, so manual user interaction will have higher priority.
+#### Commands initiator control
+ESLMedia commands divided to user-related and system-related.
+User-related commands have higher priority and override system-related commands.
+All automatic features like `play-in-viewport` and `autoplay` utilize system-related commands, so manual user interaction will have higher priority.
 
 #### State attributes, classes and events
 ESLMedia dispatches a set of events to notify about media state changes.
