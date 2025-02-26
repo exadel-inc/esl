@@ -105,8 +105,6 @@
     <span class="badge badge-sidebar badge-img badge-deprecated" title="Deprecated component" aria-label="Deprecated component"></span>
   {% elif tags.includes('draft') and not isDevCollection %}
     <sup class="badge badge-sidebar badge-sup badge-danger" title="Just a draft version of the page">draft</sup>
-  {% elif tags.includes('beta') %}
-    <sup class="badge badge-sidebar badge-sup badge-warning" title="Beta version (could change in a minor update)">beta</sup>
   {% elif tags.includes('updated') %}
     <sup class="badge badge-sidebar badge-sup badge-success" title="Updated" aria-label="Updated">upd*</sup>
   {% elif tags.includes('new') %}
