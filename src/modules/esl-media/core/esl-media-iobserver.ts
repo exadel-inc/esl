@@ -42,6 +42,6 @@ function handleViewport(entry: IntersectionObserverEntry): void {
   if (!video.active && ratio >= video.RATIO_TO_PLAY) {
     // Disallow for non autoplay-able videos or videos that was controlled by user
     if (!video.autoplay || video.isUserInitiated) return;
-    video.play(false, true);
+    video.play(video.canActivate(), true);
   }
 }
