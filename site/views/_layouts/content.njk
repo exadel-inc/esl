@@ -13,7 +13,7 @@
         <h1 class="page-title">
           {% if icon %}{% include "static/assets/" + icon %}{% endif %}
           {{ title | safe }}
-          {% if 'draft' in [].concat(tags) %}
+          {% if 'dev' in [].concat(tags) %}
             <span class="badge badge-small badge-sup badge-danger"
                   title="Component is under development">Dev</span>{% endif %}
           {% if 'draft' in [].concat(tags) %}
