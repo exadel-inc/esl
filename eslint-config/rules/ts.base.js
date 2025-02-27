@@ -1,57 +1,11 @@
-module.exports = [
+import { plugin } from 'typescript-eslint';
+
+export default [
   {
+    plugins: {
+      '@typescript-eslint': plugin
+    },
     rules: {
-      // Verify calls of super() in constructors
-      'constructor-super': 'warn',
-
-      // Requires === and !== usage
-      'eqeqeq': 'warn',
-
-      // Require Guarding for-in to exclude prototype keys
-      'guard-for-in': 'warn',
-
-      // There is no blacklisted identifiers
-      'id-blacklist': 'off',
-
-      // Bitwise operators are not recommended
-      'no-bitwise': 'warn',
-
-      // Disallow use of caller/callee
-      'no-caller': 'error',
-
-      // Warn about assignment operators in conditional statements
-      'no-cond-assign': 'warn',
-
-      // Console API is formally allowed
-      'no-console': 'off',
-
-      // Debugger operator is not allowed
-      'no-debugger': 'error',
-
-      // Allows case statement to fallthrough
-      'no-fallthrough': 'off',
-
-      // Warn about using redundant primitive wrapper instances usage
-      'no-new-wrappers': 'warn',
-
-      // Warn about redundant initializing to undefined
-      'no-undef-init': 'warn',
-
-      // Disallow control flow statements in finally blocks
-      'no-unsafe-finally': 'error',
-
-      // Labels are not allowed
-      'no-labels': 'error',
-
-      // Require implicit radix parameter for parseInt
-        'radix': 'error',
-
-      // Require calls to isNaN() when checking for NaN
-        'use-isnan': 'error',
-
-      // Enforce comparing typeof expressions against valid strings
-      'valid-typeof': 'error',
-
       // Enforces consistent usage of type imports
       '@typescript-eslint/consistent-type-imports': [
         'error', {
@@ -62,39 +16,20 @@ module.exports = [
       // Disallow the use of custom TypeScript modules and namespaces
       '@typescript-eslint/no-namespace': 'error',
 
-      // Disallows using a non-null assertion after an optional chain expression
-      '@typescript-eslint/no-non-null-asserted-optional-chain': 'error',
-
-      // Disallows invocation of require()
-      '@typescript-eslint/no-require-imports': 'error',
-
-      // Disallow aliasing this
-      '@typescript-eslint/no-this-alias': 'error',
-
       // Flags unnecessary equality comparisons against boolean literals
       '@typescript-eslint/no-unnecessary-boolean-literal-compare': 'error',
 
       // Disallows the use of require statements except in import statements
       '@typescript-eslint/no-var-requires': 'error',
 
-      // Prefer usage of as const over literal type
-      '@typescript-eslint/prefer-as-const': 'error',
-
-      // Disallow iterating over an array with a for-in loop
-        '@typescript-eslint/no-for-in-array': 'error',
-
-      // Disallow extra non-null assertion
-      '@typescript-eslint/no-extra-non-null-assertion': 'error',
-
       // Enforce default parameters to be last
-      'default-param-last': 'off',
       '@typescript-eslint/default-param-last': 'error',
 
       // Prefers member overloads to be consecutive
       '@typescript-eslint/adjacent-overload-signatures': 'warn',
 
       // Prefers using either T[] or Array<T> for arrays
-        '@typescript-eslint/array-type': 'warn',
+      '@typescript-eslint/array-type': 'warn',
 
       // Warn about awaiting of a value that is not a Thenable
       '@typescript-eslint/await-thenable': 'warn',
@@ -120,9 +55,6 @@ module.exports = [
 
       // Prefers function types instead of interfaces with call signatures
       '@typescript-eslint/prefer-function-type': 'warn',
-
-      // Sets preference level for triple slash directives versus ES6-style import declarations
-      '@typescript-eslint/triple-slash-reference': 'warn',
 
       // Warns if a type assertion does not change the type of an expression
       '@typescript-eslint/no-unnecessary-type-assertion': 'warn',
@@ -160,7 +92,6 @@ module.exports = [
       '@typescript-eslint/no-empty-interface': 'off',
 
       // Allows empty functions
-      'no-empty-function': 'off',
       '@typescript-eslint/no-empty-function': 'off',
 
       // Allows usage of the any type
@@ -182,16 +113,12 @@ module.exports = [
       '@typescript-eslint/explicit-member-accessibility': 'off',
 
       /** Do not require a consistent member declaration order
-      * TODO: discuss for the future
+       * TODO: discuss for the future
        */
-      'member-ordering': 'off',
       '@typescript-eslint/member-ordering': 'off',
 
       // There is no preferences of a particular method signature syntax
       '@typescript-eslint/method-signature-style': 'off',
-
-      // Ensure .toString() is only called on objects which provide useful information when stringified
-      '@typescript-eslint/no-base-to-string': 'warn',
 
       // Warn about non-null assertion in locations that may be confusing
       '@typescript-eslint/no-confusing-non-null-assertion': 'warn',
@@ -203,7 +130,7 @@ module.exports = [
       '@typescript-eslint/no-extraneous-class': 'off',
 
       /** Do not require Promise-like values to be handled appropriately
-      * TODO: enable
+       * TODO: enable
        */
       '@typescript-eslint/no-floating-promises': 'off',
 
@@ -259,16 +186,73 @@ module.exports = [
       '@typescript-eslint/no-unnecessary-condition': 'off',
 
       // Allows generic Array constructors
-      'no-array-constructor': 'off',
       '@typescript-eslint/no-array-constructor': 'off',
 
       // Allows the use of variables before they are defined
-      'no-use-before-define': 'off',
-      '@typescript-eslint/no-use-before-define': 'off'
+      '@typescript-eslint/no-use-before-define': 'off',
+
+      // Do not enforce dot notation whenever possible
+      '@typescript-eslint/dot-notation': 'off',
+
+      // Prefers consistent usage of type assertions
+      '@typescript-eslint/consistent-type-assertions': 'warn',
+
+      // Require the use of the namespace keyword instead of the module keyword to declare custom TypeScript modules
+      '@typescript-eslint/prefer-namespace-keyword': 'warn',
+
+      // Allows initialization in variable declarations
+      '@typescript-eslint/init-declarations': 'off',
+
+      // Warn about duplicate class members
+      '@typescript-eslint/no-dupe-class-members': 'warn',
+
+      // The use of eval()-like methods is not recommended
+      '@typescript-eslint/no-implied-eval': 'warn',
+
+      // Allows this keywords outside of classes or class-like objects
+      '@typescript-eslint/no-invalid-this': 'off',
+
+      // Warn about function declarations that contain unsafe references inside loop statements
+      '@typescript-eslint/no-loop-func': 'warn',
+
+      // Warn about literal numbers that lose precision
+      '@typescript-eslint/no-loss-of-precision': 'warn',
+
+      // Disallow variable redeclaration
+      '@typescript-eslint/no-redeclare': 'error',
+
+      // Warn about variable declarations that are shadowing variables declared in the outer scope
+      '@typescript-eslint/no-shadow': 'warn',
+
+      // Warn about throwing literals as exceptions
+      '@typescript-eslint/only-throw-error': 'warn',
+
+      // Allows unused expressions
+      '@typescript-eslint/no-unused-expressions': 'off',
+
+      // Warn about unused variables
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        {
+          vars: 'all', caughtErrors: 'none', args: 'none'
+        }
+      ],
+
+      // Warn about unnecessary constructors
+      '@typescript-eslint/no-useless-constructor': 'warn',
+
+      // Do not warn if an async function has no await expression
+      '@typescript-eslint/require-await': 'off',
+
+      // Prefers consistent returning of awaited values
+      '@typescript-eslint/return-await': 'warn'
     }
   },
   {
     files: ["**/*.shape.ts"],
+    plugins: {
+      '@typescript-eslint': plugin
+    },
     rules: {
       '@typescript-eslint/no-namespace': "off",
       // Temporary of as false positive
@@ -277,6 +261,9 @@ module.exports = [
   },
   {
     files: ["**/*.test.ts", "**/*.spec.ts"],
+    plugins: {
+      '@typescript-eslint': plugin
+    },
     rules: {
       // ts-ignore is off to test clean es cases
       '@typescript-eslint/ban-ts-comment': "off",
@@ -286,4 +273,4 @@ module.exports = [
       '@typescript-eslint/explicit-function-return-type': "off"
     }
   }
-]
+];

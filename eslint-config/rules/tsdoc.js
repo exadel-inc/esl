@@ -1,8 +1,7 @@
-module.exports = [
+import tsdoc from 'eslint-plugin-tsdoc';
+export default [
   {
-    plugins: {
-      tsdoc: require('eslint-plugin-tsdoc')
-    },
+    plugins: { tsdoc },
     rules: {
       // Enable TS Doc syntax check
       'tsdoc/syntax': "warn"

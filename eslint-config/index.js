@@ -1,37 +1,26 @@
-/** Default TS Configuration */
-module.exports.typescript = require('./rules/eslint.config.language');
+import eslintjs from '@eslint/js';
+import {configs as typescriptConfigs } from 'typescript-eslint';
 
-/** Shared plugins */
-module.exports.plugins = {
-  get '@stylistic' () {
-    return require('@stylistic/eslint-plugin')
-  },
-  get 'editorconfig'() {
-    return require('eslint-plugin-editorconfig');
-  },
-  get 'import'() {
-    return require('eslint-plugin-import-x');
-  },
-  get 'tsdoc'() {
-    return require('eslint-plugin-tsdoc');
-  },
-  get 'sonarjs'() {
-    return require('eslint-plugin-sonarjs');
-  },
-  get 'typescript-eslint' () {
-    return require('typescript-eslint')
-  }
-};
+import esbase from './rules/es.base.js';
+import tsbase from './rules/ts.base.js';
+import stylistic from './rules/stylistic.js';
 
-/** Default ESLint Configuration */
-module.exports.recommended = [
-  ...require('./rules/eslint.config.codestyle'),
-  ...require('./rules/eslint.config.coderules'),
-  ...require('./rules/eslint.config.sonarjs'),
-  ...require('./rules/eslint.config.stylistic'),
-  ...require('./rules/eslint.config.editorconfig'),
-  ...require('./rules/eslint.config.import'),
-  ...require('./rules/eslint.config.tsdoc')
+import tsdoc from './rules/tsdoc.js';
+import sonarjs from './rules/sonarjs.js';
+import editorconfig from './rules/editorconfig.js';
+import importconfig from './rules/import.js';
+
+import lang from './rules/lang.ts.js';
+export { lang };
+
+export const strict = [
+  eslintjs.configs.recommended,
+  ...typescriptConfigs.recommended,
+  ...esbase,
+  ...tsbase,
+  ...stylistic,
+  ...sonarjs,
+  ...editorconfig,
+  ...importconfig,
+  ...tsdoc
 ];
-
-// TODO: Separate ES / TS builder

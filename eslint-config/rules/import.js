@@ -1,7 +1,9 @@
-module.exports = [
+import importPlugin from 'eslint-plugin-import-x';
+
+export default [
   {
     plugins: {
-      'import': require('eslint-plugin-import-x')
+      'import': importPlugin
     },
     rules: {
       // Enforce a convention in module import order

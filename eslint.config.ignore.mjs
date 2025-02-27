@@ -1,4 +1,4 @@
-module.exports = [
+export default [
   {
     ignores: [
       // Common configuration
@@ -24,4 +24,4 @@ module.exports = [
       'e2e/transformer/**',
     ]
   }
-]
+];

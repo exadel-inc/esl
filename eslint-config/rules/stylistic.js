@@ -1,7 +1,9 @@
-module.exports = [
+import stylistic from '@stylistic/eslint-plugin';
+
+export default [
   {
     plugins: {
-      '@stylistic': require('@stylistic/eslint-plugin')
+      '@stylistic': stylistic
     },
     rules: {
       '@stylistic/arrow-parens': ['warn', 'always'],
