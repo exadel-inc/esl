@@ -1,0 +1,166 @@
+---
+layout: content
+title: ESL Media (Regression)
+name: ESL Media (Regression)
+tags: [dev]
+---
+
+{% import 'lorem.njk' as lorem %}
+
+<section>
+  <h2>Simple instances</h2>
+
+  <div class="row">
+    <div class="col-12 col-md-6" log-scope>
+      <h3>Simple instance (video, loop, muted, controls, no autoplay):</h3>
+      <div class="img-container img-container-16-9">
+        <esl-media controls loop muted media-src="/assets/media/video_1.mp4"></esl-media>
+      </div>
+    </div>
+    <div class="col-12 col-md-6" log-scope>
+      <h3>Simple instance (video, loop, muted, with autoplay):</h3>
+      <div class="img-container img-container-16-9">
+        <esl-media loop muted autoplay media-src="/assets/media/video_1.mp4"></esl-media>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-md-6" log-scope>
+      <h3>Simple instance (youtube, no autoplay):</h3>
+      <div class="img-container img-container-16-9">
+        <esl-media media-src="https://www.youtube.com/watch?v=KkOsTHMTsfI"></esl-media>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-md-6" log-scope>
+      <h3>Simple instance (iframe, no autoplay):</h3>
+      <div class="img-container img-container-16-9">
+        <esl-media media-src="https://player.vimeo.com/video/1084537"></esl-media>
+      </div>
+    </div>
+    <div class="col-12 col-md-6" log-scope>
+      <h3>Simple instance (iframe, with autoplay):</h3>
+      <div class="img-container img-container-16-9">
+        <esl-media autoplay media-src="https://player.vimeo.com/video/1084537"></esl-media>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-md-6" log-scope>
+      <h3>Lazy instance (video, loop, muted, no autoplay):</h3>
+      <div class="img-container img-container-16-9">
+        <esl-media lazy loop muted media-src="/assets/media/video_1.mp4"></esl-media>
+      </div>
+    </div>
+    <div class="col-12 col-md-6" log-scope>
+      <h3>Lazy instance (video, loop, muted, with autoplay):</h3>
+      <div class="img-container img-container-16-9">
+        <esl-media lazy loop muted autoplay media-src="/assets/media/video_1.mp4"></esl-media>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-md-6" log-scope>
+      <h3>Play in viewport (video, loop, muted, no autoplay):</h3>
+      <div class="img-container img-container-16-9">
+        <esl-media play-in-viewport loop muted media-src="/assets/media/video_1.mp4"></esl-media>
+      </div>
+    </div>
+    <div class="col-12 col-md-6" log-scope>
+      <h3>Lazy instance play in viewport (video, loop, muted, with autoplay):</h3>
+      <div class="img-container img-container-16-9">
+        <esl-media lazy play-in-viewport loop muted autoplay media-src="/assets/media/video_1.mp4"></esl-media>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-md-6" log-scope>
+      <h3>Lazy youtube (loop, muted, no autoplay):</h3>
+      <div class="img-container img-container-16-9">
+        <esl-media lazy loop muted media-src="https://www.youtube.com/watch?v=KkOsTHMTsfI"></esl-media>
+      </div>
+    </div>
+    <div class="col-12 col-md-6" log-scope>
+      <h3>Lazy iframe (loop, muted, with autoplay):</h3>
+      <div class="img-container img-container-16-9">
+        <esl-media lazy loop muted autoplay media-src="https://player.vimeo.com/video/1084537"></esl-media>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Inside Toggleable</h2>
+
+  <esl-trigger target="#toggleable1" mode="toggle" a11y-label-active a11y-label-inactive="expand" class="btn btn-sec-blue">Toggle</esl-trigger>
+  <esl-panel id="toggleable1">
+    <div class="row">
+      <div class="col-12 col-md-6" log-scope>
+        <h3>Lazy instance (video, loop, muted, no autoplay):</h3>
+        <div class="img-container img-container-16-9">
+          <esl-media lazy loop muted media-src="/assets/media/video_1.mp4"></esl-media>
+        </div>
+      </div>
+      <div class="col-12 col-md-6" log-scope>
+        <h3>Simple instance (video, loop, muted, with autoplay):</h3>
+        <div class="img-container img-container-16-9">
+          <esl-media loop muted autoplay media-src="/assets/media/video_1.mp4"></esl-media>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 col-md-6" log-scope>
+        <h3>Simple instance (youtube, no autoplay):</h3>
+        <div class="img-container img-container-16-9">
+          <esl-media media-src="https://www.youtube.com/watch?v=KkOsTHMTsfI"></esl-media>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 col-md-6" log-scope>
+        <h3>Lazy instance (youtube, no autoplay):</h3>
+        <div class="img-container img-container-16-9">
+          <esl-media media-src="https://www.youtube.com/watch?v=KkOsTHMTsfI"></esl-media>
+        </div>
+      </div>
+      <div class="col-12 col-md-6" log-scope>
+        <h3>Simple instance (iframe, with autoplay):</h3>
+        <div class="img-container img-container-16-9">
+          <esl-media autoplay media-src="https://player.vimeo.com/video/1084537"></esl-media>
+        </div>
+      </div>
+    </div>
+  </esl-panel>
+</section>
+
+<script>
+  function logEvent(e) {
+    const scope = e.target.closest('[log-scope]');
+    if (!scope) return;
+    let log = scope.querySelector('ul.log');
+    if (!log) {
+      log = document.createElement('ul');
+      log.classList.add('log', 'alert', 'alert-info');
+      scope.append(log);
+    }
+    const item = document.createElement('li');
+    item.textContent = `[${new Date().toISOString()}] Event: ${e.type} - Detail: ${JSON.stringify(e.detail)}`;
+    log.append(item);
+  }
+  document.addEventListener('esl:media:ready', logEvent);
+  document.addEventListener('esl:media:play', logEvent);
+  document.addEventListener('esl:media:before:play', logEvent);
+  document.addEventListener('esl:media:paused', logEvent);
+  document.addEventListener('esl:media:managedpause', logEvent);
+</script>
+<style>
+  ul.log {
+    max-height: 200px;
+    overflow-y: auto;
+    & > li {
+      margin-inline-start: 15px;
+    }
+  }
+</style>

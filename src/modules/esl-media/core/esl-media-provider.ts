@@ -1,3 +1,4 @@
+import {DelayedTask} from '../../esl-utils/async/delayed-task';
 import {ESLMediaProviderRegistry} from './esl-media-registry';
 
 import type {ESLMedia} from './esl-media';
@@ -52,14 +53,23 @@ export abstract class BaseProvider {
   protected component: ESLMedia;
   protected _el: HTMLElement;
   protected _ready: Promise<any>;
+  protected _cmdMng: DelayedTask = new DelayedTask();
+  protected _lastCmdType: string;
 
   public constructor(component: ESLMedia, config: MediaProviderConfig) {
     this.config = config;
     this.component = component;
+    // Other-vice browser will handle play-in-viewport it differently
+    if (this.component.playInViewport) this.config.autoplay = false;
+    // If autoplay is enabled - dispatch before play event to ensure it is allowed
+    if (this.config.autoplay) {
+      this.config.autoplay = this.component._onBeforePlay('initial');
+    }
+    this._lastCmdType = this.config.autoplay ? 'play' : 'pause';
   }
 
   /** Wraps _ready promise */
-  get ready(): Promise<any> {
+  public get ready(): Promise<any> {
     if (!this._ready) {
       const res = Promise.reject('Not Initialized');
       res.catch((e) => console.log('Rejected Media Operation: ', e));
@@ -137,21 +147,39 @@ export abstract class BaseProvider {
   }
 
   /** Executes play when api is ready */
-  public safePlay(): Promise<void> {
-    return this.ready.then(() => this.play());
+  public async safePlay(system = false): Promise<void> {
+    await this.ready;
+    this._cmdMng.put(() => {
+      if (!this.component._onBeforePlay(system ? 'system' : 'user')) return;
+      this._lastCmdType = 'play';
+      this.play();
+    }, 0);
   }
 
   /** Executes pause when api is ready */
-  public safePause(): Promise<void> {
-    return this.ready.then(() => this.pause());
+  public async safePause(): Promise<void> {
+    await this.ready;
+    this._cmdMng.put(() => {
+      this._lastCmdType = 'pause';
+      this.pause();
+    }, 0);
   }
 
   /**
    * Executes stop when api is ready
    * @returns Promise
    */
-  public safeStop(): Promise<void> {
-    return this.ready.then(() => this.stop());
+  public async safeStop(): Promise<void> {
+    await this.ready;
+    this._cmdMng.put(() => {
+      this._lastCmdType = 'pause';
+      this.stop();
+    }, 0);
+  }
+
+  /** @returns last requested command type */
+  public get lastCommand(): string {
+    return this._lastCmdType;
   }
 
   /**

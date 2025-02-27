@@ -22,11 +22,11 @@ aside:
     </div>
 
     <div class="btn-group btn-group-centered">
-      <button class="btn btn-sec-blue" esl-media-contol="{target: '::closest(uip-root)::find(.esl-media)', action: 'play'}">Play
+      <button class="btn btn-sec-blue" esl-media-control="{target: '::closest(uip-root)::find(.esl-media)', action: 'play'}">Play
       </button>
-      <button class="btn btn-sec-blue" esl-media-contol="{target: '::closest(uip-root)::find(.esl-media)', action: 'pause'}">Pause
+      <button class="btn btn-sec-blue" esl-media-control="{target: '::closest(uip-root)::find(.esl-media)', action: 'pause'}">Pause
       </button>
-      <button class="btn btn-sec-blue" esl-media-contol="{target: '::closest(uip-root)::find(.esl-media)', action: 'stop'}">Stop
+      <button class="btn btn-sec-blue" esl-media-control="{target: '::closest(uip-root)::find(.esl-media)', action: 'stop'}">Stop
       </button>
     </div>
   </script>
@@ -45,11 +45,11 @@ aside:
     </esl-media>
 
     <div class="btn-group btn-group-centered">
-      <button class="btn btn-sec-blue" esl-media-contol="{target: '::closest(uip-root)::find(.esl-media)', action: 'play'}">Play
+      <button class="btn btn-sec-blue" esl-media-control="{target: '::closest(uip-root)::find(.esl-media)', action: 'play'}">Play
       </button>
-      <button class="btn btn-sec-blue" esl-media-contol="{target: '::closest(uip-root)::find(.esl-media)', action: 'pause'}">Pause
+      <button class="btn btn-sec-blue" esl-media-control="{target: '::closest(uip-root)::find(.esl-media)', action: 'pause'}">Pause
       </button>
-      <button class="btn btn-sec-blue" esl-media-contol="{target: '::closest(uip-root)::find(.esl-media)', action: 'stop'}">Stop
+      <button class="btn btn-sec-blue" esl-media-control="{target: '::closest(uip-root)::find(.esl-media)', action: 'stop'}">Stop
       </button>
     </div>
   </script>
@@ -72,11 +72,11 @@ aside:
     </div>
 
     <div class="btn-group btn-group-centered">
-      <button class="btn btn-sec-blue" esl-media-contol="{target: '::closest(uip-root)::find(.esl-media)', action: 'play'}">Play
+      <button class="btn btn-sec-blue" esl-media-control="{target: '::closest(uip-root)::find(.esl-media)', action: 'play'}">Play
       </button>
-      <button class="btn btn-sec-blue" esl-media-contol="{target: '::closest(uip-root)::find(.esl-media)', action: 'pause'}">Pause
+      <button class="btn btn-sec-blue" esl-media-control="{target: '::closest(uip-root)::find(.esl-media)', action: 'pause'}">Pause
       </button>
-      <button class="btn btn-sec-blue" esl-media-contol="{target: '::closest(uip-root)::find(.esl-media)', action: 'stop'}">Stop
+      <button class="btn btn-sec-blue" esl-media-control="{target: '::closest(uip-root)::find(.esl-media)', action: 'stop'}">Stop
       </button>
     </div>
   </script>
@@ -102,11 +102,11 @@ aside:
     </div>
 
     <div class="btn-group btn-group-centered">
-      <button class="btn btn-sec-blue" esl-media-contol="{target: '::closest(uip-root)::find(.esl-media)', action: 'play'}">Play
+      <button class="btn btn-sec-blue" esl-media-control="{target: '::closest(uip-root)::find(.esl-media)', action: 'play'}">Play
       </button>
-      <button class="btn btn-sec-blue" esl-media-contol="{target: '::closest(uip-root)::find(.esl-media)', action: 'pause'}">Pause
+      <button class="btn btn-sec-blue" esl-media-control="{target: '::closest(uip-root)::find(.esl-media)', action: 'pause'}">Pause
       </button>
-      <button class="btn btn-sec-blue" esl-media-contol="{target: '::closest(uip-root)::find(.esl-media)', action: 'stop'}">Stop
+      <button class="btn btn-sec-blue" esl-media-control="{target: '::closest(uip-root)::find(.esl-media)', action: 'stop'}">Stop
       </button>
     </div>
 
@@ -140,9 +140,9 @@ aside:
     </div>
 
     <div class="btn-group btn-group-centered">
-      <button class="btn btn-sec-blue" esl-media-contol="{target: '::closest(uip-root)::find(.esl-media)', action: 'play'}">Play
+      <button class="btn btn-sec-blue" esl-media-control="{target: '::closest(uip-root)::find(.esl-media)', action: 'play'}">Play
       </button>
-      <button class="btn btn-sec-blue" esl-media-contol="{target: '::closest(uip-root)::find(.esl-media)', action: 'stop'}">Stop
+      <button class="btn btn-sec-blue" esl-media-control="{target: '::closest(uip-root)::find(.esl-media)', action: 'stop'}">Stop
       </button>
     </div>
   </script>
@@ -169,9 +169,8 @@ aside:
                  media-type="video"
                  media-src="{{ '/assets/media/video_1.mp4' | url }}"
                  load-condition="(min-width: 600px)"
-                 load-cls-target="::parent(.img-container)"
-                 load-cls-accepted="show-video"
-                 load-cls-declined="hide-video"
+                 load-condition-class="show-video !hide-video"
+                 load-condition-class-target="::parent(.img-container)"
                  controls
                  tabindex="0">
       </esl-media>
@@ -213,6 +212,7 @@ aside:
     <uip-text-setting label="Start time:" attribute="start-time"></uip-text-setting>
     <uip-bool-setting label="Muted" attribute="muted"></uip-bool-setting>
     <uip-bool-setting label="Autoplay" attribute="autoplay"></uip-bool-setting>
+    <uip-bool-setting label="Play in viewport" attribute="play-in-viewport"></uip-bool-setting>
   </uip-settings>
   <uip-editor label="Source code (HTML)" collapsible copy></uip-editor>
   <uip-editor source="js" label="Source code (JS)" collapsible collapsed copy></uip-editor>

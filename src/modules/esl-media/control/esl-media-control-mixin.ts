@@ -14,7 +14,7 @@ export interface ESLMediaControlConfig {
 
 @ExportNs('MediaControlMixin')
 export class ESLMediaControlMixin extends ESLMixinElement {
-  public static override is = 'esl-media-contol';
+  public static override is = 'esl-media-control';
 
   public static readonly DEFAULT_CONFIG: ESLMediaControlConfig = {
     action: 'toggle'

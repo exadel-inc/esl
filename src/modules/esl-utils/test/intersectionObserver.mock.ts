@@ -57,12 +57,13 @@ export class IntersectionObserverMock implements IntersectionObserver {
     target: Element,
     init: Partial<IntersectionObserverEntry>
   ): IntersectionObserverEntry {
+    const intersectionRatio = init.intersectionRatio || 0;
     return {
       // Defaults
       target,
-      intersectionRect: new RectMock(),
-      rootBounds: new RectMock(),
-      boundingClientRect: new RectMock(),
+      intersectionRect: new RectMock(0, 0, 2000, 2000 * intersectionRatio),
+      rootBounds: new RectMock(0, 0, 2000, 2000),
+      boundingClientRect: new RectMock(0, 0, 2000, 2000),
       isIntersecting: false,
       intersectionRatio: 0,
       time: Date.now(),
