@@ -41,7 +41,7 @@ jobs:
       - name: Install NPM Dependencies
         run: npm ci
       - name: Ensure Platform-specific Dependencies Installed
-        run: npm install --os=linux --cpu=x64 sharp
+        run: npm install --no-save --os=linux --cpu=x64 sharp
 
       - name: Run Tests
         run: npm run test:e2e
@@ -91,7 +91,7 @@ jobs:
       - name: Install NPM Dependencies
         run: npm ci
       - name: Ensure Platform-specific Dependencies Installed
-        run: npm install --os=linux --cpu=x64 sharp
+        run: npm install --no-save --os=linux --cpu=x64 sharp
 
       - name: Update Test Snapshots
         run: npm run test:e2e:update
