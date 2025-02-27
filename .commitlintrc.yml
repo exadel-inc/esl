@@ -65,6 +65,7 @@ rules:
       - deps-dev
       - eslint-plugin
       - eslint-config
+      - stylelint-config
       - e2e
       - ci
       # Deprecated scopes:

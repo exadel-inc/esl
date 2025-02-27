@@ -1,16 +1,13 @@
 plugins:
-  - stylelint-prettier
   # Custom plugin to disallow absolute import paths
   - ./build/import.stylelint.js
 # Use LESS preprocessor
 customSyntax: postcss-less
 
-rules:
-  # Prettier integration
-  prettier/prettier:
-    - true
-    - severity: warning
+extends:
+  - '@exadel/stylelint-config-esl'
 
+rules:
   # Disallow unknown at-rules
   at-rule-no-unknown: true
   # Warn about empty selectors
@@ -73,7 +70,7 @@ rules:
 
 overrides:
   # Demo site pages sources
-  - files: site/**/*.{css,less}
+  - files: ['site/**/*.{css,less}']
     rules:
       # Warn about duplicate properties within declaration blocks
       declaration-block-no-duplicate-properties:

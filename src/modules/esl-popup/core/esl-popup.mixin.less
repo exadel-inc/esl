@@ -1,8 +1,10 @@
-.esl-popup-arrow-init(@arrowClassName: esl-popup-arrow,
-                      @popupArrowSize: 20px,
-                      @popupBackgroundColor: #FFF,
-                      @popupBorderColor: #DBDBDB,
-                      @popupBorderWidth: 1px) {
+.esl-popup-arrow-init(
+  @arrowClassName: esl-popup-arrow,
+  @popupArrowSize: 20px,
+  @popupBackgroundColor: #FFF,
+  @popupBorderColor: #DBDBDB,
+  @popupBorderWidth: 1px
+) {
   @popupArrowHalf: (@popupArrowSize / 2);
   @popupArrowShift: (
     @popupArrowSize * 0.2071 - @popupBorderWidth
@@ -55,13 +57,15 @@
   }
 }
 
-.esl-popup-init(@className: esl-popup,
-                @arrowClassName: esl-popup-arrow,
-                @arrowSize: 20px,
-                @backgroundColor: #FFF,
-                @borderColor: #DBDBDB,
-                @borderWidth: 1px,
-                @zIndex: 999) {
+.esl-popup-init(
+  @className: esl-popup,
+  @arrowClassName: esl-popup-arrow,
+  @arrowSize: 20px,
+  @backgroundColor: #FFF,
+  @borderColor: #DBDBDB,
+  @borderWidth: 1px,
+  @zIndex: 999
+) {
   .@{className} {
     position: absolute;
     left: 0;
