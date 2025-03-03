@@ -1,7 +1,7 @@
 /** @type {import('stylelint').Config} */
 export default {
-  plugins: [`@stylistic/stylelint-plugin`],
-  extends: [`@stylistic/stylelint-config`],
+  plugins: ['@stylistic/stylelint-plugin'],
+  extends: ['@stylistic/stylelint-config'],
   rules: {
     '@stylistic/string-quotes': 'single',
     '@stylistic/declaration-colon-newline-after': null,
