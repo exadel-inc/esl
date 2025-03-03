@@ -1,7 +1,8 @@
-import { plugin } from 'typescript-eslint';
+import {plugin} from 'typescript-eslint';
 
 export default [
   {
+    files: ['**/*.ts'],
     plugins: {
       '@typescript-eslint': plugin
     },
@@ -249,28 +250,28 @@ export default [
     }
   },
   {
-    files: ["**/*.shape.ts"],
+    files: ['**/*.shape.ts'],
     plugins: {
       '@typescript-eslint': plugin
     },
     rules: {
-      '@typescript-eslint/no-namespace': "off",
+      '@typescript-eslint/no-namespace': 'off',
       // Temporary of as false positive
-      '@typescript-eslint/no-unnecessary-type-arguments': "off"
+      '@typescript-eslint/no-unnecessary-type-arguments': 'off'
     }
   },
   {
-    files: ["**/*.test.ts", "**/*.spec.ts"],
+    files: ['**/*.test.ts', '**/*.spec.ts'],
     plugins: {
       '@typescript-eslint': plugin
     },
     rules: {
       // ts-ignore is off to test clean es cases
-      '@typescript-eslint/ban-ts-comment': "off",
+      '@typescript-eslint/ban-ts-comment': 'off',
       // there is no need to evaluate tests strictly
-      '@typescript-eslint/non-nullable-type-assertion-style': "off",
+      '@typescript-eslint/non-nullable-type-assertion-style': 'off',
       // return type on functions or class methods is not required in tests
-      '@typescript-eslint/explicit-function-return-type': "off"
+      '@typescript-eslint/explicit-function-return-type': 'off'
     }
   }
 ];

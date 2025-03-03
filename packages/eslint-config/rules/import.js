@@ -23,9 +23,6 @@ export default [
       // Verifies that all named imports are part of the set of named exports in the referenced module.
       'import/named': 'error',
 
-      // Prohibit default exports
-      'import/no-default-export': 'warn',
-
       // Forbid a module from importing itself
       'import/no-self-import': 'error',
 
@@ -33,4 +30,4 @@ export default [
       'import/no-cycle': 'error'
     }
   }
-]
+];

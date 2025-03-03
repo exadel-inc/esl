@@ -54,10 +54,10 @@ export default [
     }
   },
   {
-    files: ["**/*.test.ts", "**/*.spec.ts"],
+    files: ['**/*.test.ts', '**/*.spec.ts'],
     rules: {
       // no class count limit for tests
-      'max-classes-per-file': "off"
+      'max-classes-per-file': 'off'
     }
   }
 ];

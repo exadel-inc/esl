@@ -1,4 +1,4 @@
-# [ESL](../../../) migration support
+# [ESL](../../) migration support
 
 Authors: *Natalia Smirnova, Alexey Stsefanovich (ala'n)*.
 
@@ -37,12 +37,13 @@ Or in YAML:
 ```
 
 For ESLint +8.0.0 with Flat config:
+
 ```js
 module.exports = [
-    // ESLint configuration
+  // ESLint configuration
 
-    // Apply Recomended ESL ESLint Plugin checks
-    ...require('@exadel/eslint-plugin-esl').recommended,
+  // Apply Recomended ESL ESLint Plugin checks
+  ...require('@exadel/eslint-plugin-esl').recommended,
 ];
 ```
 

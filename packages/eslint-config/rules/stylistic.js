@@ -126,10 +126,10 @@ export default [
     }
   },
   {
-    files: ["**/*.test.ts", "**/*.spec.ts"],
+    files: ['**/*.test.ts', '**/*.spec.ts'],
     rules: {
       // It's ok to write braces single line in tests
-      '@stylistic/brace-style': "off",
+      '@stylistic/brace-style': 'off',
     }
   },
-]
+];

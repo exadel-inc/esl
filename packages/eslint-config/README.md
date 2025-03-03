@@ -1,4 +1,4 @@
-# [ESL](../../../) Shared ESLint Configuration
+# [ESL](../../) Shared ESLint Configuration
 
 Authors: *Anastasiya Lesun, Alexey Stsefanovich (ala'n)*.
 
@@ -25,11 +25,11 @@ Once installed, the configuration needs to be added in eslint configuration file
 
 ```js
 module.exports = [
-    // ESLint configuration ...
+  // ESLint configuration ...
 
-    // Apply ESL Shared ESLint Configuration
-    ...require('@exadel/eslint-config-esl').typescript,
-    ...require('@exadel/eslint-config-esl').recommended,
+  // Apply ESL Shared ESLint Configuration
+  ...require('packages/eslint-config/index').typescript,
+  ...require('packages/eslint-config/index').recommended,
 ];
 ```
 

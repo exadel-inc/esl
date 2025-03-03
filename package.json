@@ -57,11 +57,9 @@
     "src/polyfills/**/*.ts"
   ],
   "workspaces": [
+    "packages/*",
     "e2e",
-    "site",
-    "eslint-config",
-    "eslint-plugin",
-    "stylelint-config"
+    "site"
   ],
   "scripts": {
     "start": "cd site && npm run start",
@@ -87,8 +85,8 @@
     "prepare": "husky && npm run build",
     "preversion": "npm test",
     "version": "cross-env-shell \"npm version $npm_package_version --no-git-tag-version --ws\" && git add **/package*.json",
-    "postpack": "npm pack --workspace eslint-plugin --workspace eslint-config",
-    "postpublish": "npm publish --workspace eslint-plugin --workspace eslint-config",
+    "postpack": "npm pack --workspace packages/eslint-plugin --workspace packages/eslint-config --workspace packages/stylelint-config",
+    "postpublish": "npm publish --workspace packages/eslint-plugin --workspace packages/eslint-config --workspace packages/stylelint-config",
     "fix:less": "stylelint --fix \"**/*.less\""
   },
   "dependencies": {
