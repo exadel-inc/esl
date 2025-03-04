@@ -57,3 +57,6 @@ export * from './esl-carousel/core';
 
 // Anchornav
 export * from './esl-anchornav/core';
+
+// Lazy Template
+export * from './esl-lazy-template/core';

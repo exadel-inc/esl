@@ -1,6 +1,7 @@
 {
   "name": "@exadel/esl-website",
-  "version": "5.0.1-beta.2",
+  "version": "5.0.1",
+  "type": "module",
   "private": true,
   "description": "ESL Website source",
   "homepage": "https://esl-ui.com/",
@@ -27,7 +28,7 @@
     "build:analyzer": "webpack --mode=production --profile --json ../.report/stats.json && webpack-bundle-analyzer ../.report/stats.json dist/bundles -s gzip -m static -r ../.report/stats.html"
   },
   "dependencies": {
-    "@11ty/eleventy": "^2.0.1",
+    "@11ty/eleventy": "^3.0.0",
     "@11ty/eleventy-dev-server": "^2.0.6",
     "@exadel/esl": "../",
     "@exadel/ui-playground": "2.1.0-beta.7",
@@ -36,13 +37,13 @@
     "@types/smoothscroll-polyfill": "^0.3.4",
     "clean-css-cli": "^5.6.3",
     "html-minifier-terser": "^7.2.0",
-    "image-size": "^1.2.0",
+    "image-size": "^2.0.0",
     "js-yaml": "^4.1.0",
     "out-url": "^1.2.2",
     "prismjs": "^1.29.0",
     "smoothscroll-polyfill": "^0.4.4",
     "ts-loader": "^9.5.2",
-    "webpack": "^5.97.1",
+    "webpack": "^5.98.0",
     "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "^6.0.1"
   },

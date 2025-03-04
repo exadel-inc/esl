@@ -25,17 +25,13 @@ checks:
   return-statements:
     config:
       threshold: 6
-#  similar-code:
-#    config:
-#      threshold: 45
-#  identical-code:
-#    config:
-#      threshold: 45
+  similar-code:
+    config:
+      threshold: 60
 
 exclude_patterns:
   - "config/"
   - "dist/"
-  - "features/"
   - "**/node_modules/"
   - "**/spec/"
   - "**/test/"
@@ -43,4 +39,8 @@ exclude_patterns:
   - "**/vendor/"
   - "**/*.d.ts"
   - "**/*.test.ts"
-  - "e2e/setup/**/*.ts"
+  - "e2e/**/*.ts"
+
+  - "packages/eslint-config"
+  - "packages/eslint-plugin"
+  - "packages/stylelint-config"

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+  <style><![CDATA[
+    .esl-lazy-template-svg-test :is(p,h1,h2,h3,h4) {
+      animation: esl-text-squiggly-animation 0.34s linear infinite;
+    }
+    @keyframes esl-text-squiggly-animation {
+      0% {filter: url('#esl-text-squiggly-0');}
+      25% {filter: url('#esl-text-squiggly-1');}
+      50% {filter: url('#esl-text-squiggly-2');}
+      75% {filter: url('#esl-text-squiggly-3');}
+      100% {filter: url('#esl-text-squiggly-4');}
+    }
+  ]]></style>
+  <defs>
+    <filter id="esl-text-squiggly-0">
+      <feTurbulence id="esl-text-squiggly-turbulence-0" baseFrequency="0.02" numOctaves="3" result="noise" seed="0"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="6" />
+    </filter>
+    <filter id="esl-text-squiggly-1">
+      <feTurbulence id="esl-text-squiggly-turbulence-1" baseFrequency="0.02" numOctaves="3" result="noise" seed="1"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="8" />
+    </filter>
+    <filter id="esl-text-squiggly-2">
+      <feTurbulence id="esl-text-squiggly-turbulence-2" baseFrequency="0.02" numOctaves="3" result="noise" seed="2"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="6" />
+    </filter>
+    <filter id="esl-text-squiggly-3">
+      <feTurbulence id="esl-text-squiggly-turbulence-3" baseFrequency="0.02" numOctaves="3" result="noise" seed="3"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="8" />
+    </filter>
+    <filter id="esl-text-squiggly-4">
+      <feTurbulence id="esl-text-squiggly-turbulence-4" baseFrequency="0.02" numOctaves="3" result="noise" seed="4"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="6" />
+    </filter>
+  </defs>
+</svg>

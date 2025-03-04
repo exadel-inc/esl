@@ -5,16 +5,12 @@
     {% for item in collections[collection] | released | exclude('data.hidden') | exclude('data.parent') | sortBy('order', 'name') %}
       {% set badgeAllowed = not options.noBadge %}
       {% set isDraft = badgeAllowed and [].concat(item.data.tags).includes('draft') %}
-      {% set isBeta = badgeAllowed and [].concat(item.data.tags).includes('beta') %}
       {% set isNew = badgeAllowed and [].concat(item.data.tags).includes('new') %}
       <li>
         <a class="collection-grid-item {{ 'draft' if isDraft }}"
            href="{{ item.url | url }}">
           <div class="collection-grid-title collection-grid-box">
           <span>{{ item.data.name }}
-            {% if isBeta %}
-              <sup class="badge badge-sup badge-warning">beta</sup>
-            {% endif %}
             {% if isDraft %}
               <sup class="badge badge-sup badge-danger">draft</sup>
             {% endif %}

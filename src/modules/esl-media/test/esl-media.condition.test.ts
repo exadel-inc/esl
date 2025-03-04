@@ -6,6 +6,8 @@ import {IntersectionObserverMock} from '../../esl-utils/test/intersectionObserve
 import {getMatchMediaMock} from '../../esl-utils/test/matchMedia.mock';
 
 describe('esl-media: lazy loading unit tests', () => {
+  jest.spyOn(console, 'debug').mockImplementation(() => {});
+
   beforeAll(() => {
     IntersectionObserverMock.mock();
     ESLMedia.register();

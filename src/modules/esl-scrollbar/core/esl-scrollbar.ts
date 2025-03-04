@@ -2,7 +2,7 @@ import {ESLBaseElement} from '../../esl-base-element/core';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {isElement} from '../../esl-utils/dom/api';
 import {isRelativeNode} from '../../esl-utils/dom/traversing';
-import {isRTL, RTLScroll, normalizeScrollLeft} from '../../esl-utils/dom/rtl';
+import {isRTL, normalizeScrollLeft} from '../../esl-utils/dom/rtl';
 import {getTouchPoint, getOffsetPoint} from '../../esl-utils/dom/events';
 import {bind, ready, attr, boolAttr, listen} from '../../esl-utils/decorators';
 import {rafDecorator} from '../../esl-utils/async/raf';
@@ -184,7 +184,7 @@ export class ESLScrollbar extends ESLBaseElement {
   protected normalizePosition(position: number): number {
     const relativePosition = Math.min(1, Math.max(0, position));
     if (!isRTL(this.$target) || !this.horizontal) return relativePosition;
-    return RTLScroll.type === 'negative' ? (relativePosition - 1) : (1 - relativePosition);
+    return relativePosition - 1;
   }
 
   /** Scrolls target element to passed position */

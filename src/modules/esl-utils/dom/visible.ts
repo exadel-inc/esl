@@ -34,11 +34,12 @@ export function isVisible(el: Element, options: VisibilityOptions = {visibility:
 /**
  * Checks if the specified element is inside the viewport
  * @param el - element to be checked
+ * @param tolerance - the minimum area of intersection to consider the element visible
  */
-export function isInViewport(el: Element): boolean {
+export function isInViewport(el: Element, tolerance = 0): boolean {
   const wndIntersection = Rect.from(el).intersect(getViewportRect());
-  if (wndIntersection.area === 0) return false;
+  if (wndIntersection.area <= tolerance) return false;
   return !getListScrollParents(el).some(
-    (parent: Element) => Rect.from(parent).intersect(wndIntersection).area === 0
+    (parent: Element) => Rect.from(parent).intersect(wndIntersection).area <= tolerance
   );
 }

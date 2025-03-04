@@ -1,0 +1,40 @@
+.related-card {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  padding: 10px 0 15px;
+
+  & + & {
+    padding-top: 0;
+  }
+
+  &-heading {
+    flex: 0 0 auto;
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
+
+  &-list {
+    margin: 0;
+
+    display: inline-flex;
+    flex-direction: row;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  &-content {
+    flex: 0 0 auto;
+    list-style: none;
+    display: inline-flex;
+    align-items: center;
+
+    svg {
+      width: 15px;
+      height: 15px;
+      fill: black;
+      margin-inline-end: 0.4em;
+    }
+  }
+}

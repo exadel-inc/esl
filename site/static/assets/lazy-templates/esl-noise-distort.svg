@@ -1,0 +1,29 @@
+<svg viewBox="0 0 640 160" class="esl-noise-distort">
+  <style><![CDATA[
+  @import url('https://fonts.googleapis.com/css2?family=Yanone+Kaffeesatz:wght@700');
+  svg.esl-noise-distort {
+    background: #2E8B57;
+    background-size: 0.2em 100%;
+    font: 7em/1 "Yanone Kaffeesatz", serif;
+    margin: 0;
+  }
+  .esl-noise-distort .text {
+    fill: #FF6347;
+  }
+]]></style>
+  <defs>
+    <!-- Filter-->
+    <filter id="esl-noise-distort-filter">
+      <feTurbulence baseFrequency="0.01 0.01" numOctaves="1" result="noise">
+        <animate attributeName="baseFrequency" values="0.01,0.01;0,0;0.01,0.01" keyTimes="0;.5;1" dur="10s" repeatCount="indefinite"></animate>
+      </feTurbulence>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="10" xChannelSelector="R" yChannelSelector="R" />
+    </filter>
+    <!-- Symbol-->
+    <symbol id="esl-noise-distort-text">
+      <text text-anchor="middle" x="50%" y="50%" dy=".3em" filter="url(#esl-noise-distort-filter)">ESL is amazing</text>
+    </symbol>
+  </defs>
+  <!-- Text + filter-->
+  <use class="text" href="#esl-noise-distort-text"></use>
+</svg>

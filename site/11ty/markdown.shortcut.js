@@ -1,11 +1,13 @@
-const path = require('path');
-const fsAsync = require('fs').promises;
+import path, {dirname} from 'path';
+import color from 'kleur';
 
-const color = require('kleur');
-const {JSDOM} = require('jsdom');
-const {markdown} = require('./markdown.lib');
+import {fileURLToPath} from 'url';
+import {JSDOM} from 'jsdom';
+import {readFile} from 'fs/promises';
+import {markdown} from './markdown.lib.js';
+import {siteConfig} from './site.config.js';
 
-const {github, rewriteRules} = require('./site.config');
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 class MDRenderer {
   static async render(filePath, startAnchor, endAnchor) {
@@ -49,7 +51,7 @@ class MDRenderer {
   /** Read file and render markdown */
   static async parseFile(filePath) {
     const absolutePath = path.resolve(__dirname, '../../', filePath);
-    const data = await fsAsync.readFile(absolutePath);
+    const data = await readFile(absolutePath);
     const content = data.toString();
     return markdown.render(content);
   }
@@ -79,16 +81,15 @@ class MDRenderer {
     });
   }
   static processRewriteRules(linkPath) {
-    for (const [key, value] of Object.entries(rewriteRules)) {
+    for (const [key, value] of Object.entries(siteConfig.rewriteRules)) {
       if (!linkPath.endsWith(key)) continue;
       if (value.startsWith('/')) return value;
       return value;
     }
-    return github.srcUrl + linkPath;
+    return siteConfig.github.srcUrl + linkPath;
   }
 }
 
-module.exports = (config) => {
+export default (config) => {
   config.addNunjucksAsyncShortcode('mdRender', MDRenderer.render);
 };
-module.exports.MDRenderer = MDRenderer;

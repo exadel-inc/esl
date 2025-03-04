@@ -41,6 +41,7 @@ rules:
       - esl-forms
       - esl-image
       - esl-image-utils
+      - esl-lazy-template
       - esl-media
       - esl-media-query
       - esl-mixin-element
@@ -64,6 +65,7 @@ rules:
       - deps-dev
       - eslint-plugin
       - eslint-config
+      - stylelint-config
       - e2e
       - ci
       # Deprecated scopes:

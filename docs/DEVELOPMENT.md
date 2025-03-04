@@ -61,7 +61,7 @@ ESL codebase is written using TypeScript and LESS CSS-preprocessor.
 
 ESL uses the following tools to keep codebase quality
 - ESLint to lint scripts
-- Own ESLint shared configuration (see [eslint-config](../eslint-config) sub-package)
+- Own ESLint shared configuration (see [eslint-config](../packages/eslint-config) sub-package)
 - StyleLint to lint styles
 - Jest to run unit tests
 - CommitLint to check commit message format
@@ -112,15 +112,15 @@ ESL project consists of the following directories:
   - [🔧 tsconfig.json](../site/tsconfig.json) - TS config for demo pages scripts
   - [🔧 webpack.config.js](../site/webpack.config.js) - webpack build file for demo pages
 
-
-- [📁 eslint-plugin](../eslint-plugin) - sub-package root for ESL ESLint plugin 
-  - [📁 src](../eslint-plugin/src) - ESLint plugin sources
-  - [📁 test](../eslint-plugin/test) - ESLint plugin tests
-
-- [📁 eslint-config](../eslint-config) - sub-package root for ESL ESLint shared configuration
-  - [📁 rules](../eslint-config/rules) - ESLint shared configuration rule sets
-  - [📄 index.js](../eslint-config/index.js) - ESLint shared configuration main file
-
+- [📁 packages](../packages) - ESL monorepo sub-packages
+  - [📁 eslint-plugin](../packages/eslint-plugin) - sub-package root for ESL ESLint plugin 
+    - [📁 src](../packages/eslint-plugin/src) - ESLint plugin sources
+    - [📁 test](../packages/eslint-plugin/test) - ESLint plugin tests
+  - [📁 eslint-config](../packages/eslint-config) - sub-package root for ESL ESLint shared configuration
+    - [📁 rules](../packages/eslint-config/rules) - ESLint shared configuration rule sets
+    - [📄 index.js](../packages/eslint-config/index.js) - ESLint shared configuration main file
+  - [📁 stylelint-config](../packages/stylelint-config) - sub-package root for ESL StyleLint shared configuration
+    - [📄 index.js](../packages/stylelint-config/index.js) - StyleLint shared configuration main file
 
 - [📁 build](../build) - library common build scripts
 - [📁 linting](../linting) - ES Lint rule-sets

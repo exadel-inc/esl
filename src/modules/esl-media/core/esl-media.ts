@@ -1,9 +1,10 @@
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {isElement} from '../../esl-utils/dom/api';
+import {isSafeContains} from '../../esl-utils/dom/traversing';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {SPACE, PAUSE} from '../../esl-utils/dom/keys';
-import {prop, attr, boolAttr, listen} from '../../esl-utils/decorators';
+import {isInViewport} from '../../esl-utils/dom/visible';
+import {prop, attr, boolAttr, listen, memoize} from '../../esl-utils/decorators';
 import {debounce} from '../../esl-utils/async';
 import {parseAspectRatio, parseBoolean} from '../../esl-utils/misc/format';
 
@@ -14,7 +15,8 @@ import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {getIObserver} from './esl-media-iobserver';
 import {PlayerStates} from './esl-media-provider';
 import {ESLMediaProviderRegistry} from './esl-media-registry';
-import {MediaGroupRestrictionManager} from './esl-media-manager';
+import {ESLMediaManager} from './esl-media-manager';
+import {ESLMediaHookEvent} from './esl-media.events';
 
 import type {BaseProvider} from './esl-media-provider';
 import type {ESLMediaRegistryEvent} from './esl-media-registry.event';
@@ -22,8 +24,8 @@ import type {ESLMediaRegistryEvent} from './esl-media-registry.event';
 export type ESLMediaFillMode = 'cover' | 'inscribe' | '';
 
 export type ESLMediaLazyMode = 'auto' | 'manual' | 'none';
+
 const isLazyAttr = (v: string): v is ESLMediaLazyMode => ['auto', 'manual', 'none'].includes(v);
-const parseLazyAttr = (v: string): ESLMediaLazyMode => isLazyAttr(v) ? v : 'auto';
 
 /**
  * ESLMedia - custom element, that provides an ability to add and configure media (video / audio)
@@ -49,10 +51,25 @@ export class ESLMedia extends ESLBaseElement {
     'start-time'
   ];
 
+  /** Singleton instance of {@link ESLMediaManager} */
+  @memoize()
+  public static get manager(): ESLMediaManager {
+    return new ESLMediaManager();
+  }
+
+  /** A minimum ratio to init media (in case of lazy=auto) */
+  @prop(0.05) public RATIO_TO_ACTIVATE: number;
+  /** A minimum ratio to stop media (in case of play in viewport option) */
+  @prop(0.2) public RATIO_TO_STOP: number;
+  /** A minimum ratio to play media (in case of play in viewport option) */
+  @prop(0.33) public RATIO_TO_PLAY: number;
+
   /** Event to dispatch on ready state */
   @prop('esl:media:ready') public READY_EVENT: string;
   /** Event to dispatch on error state */
   @prop('esl:media:error') public ERROR_EVENT: string;
+  /** Event to dispatch before player provider requested to play (cancelable) */
+  @prop('esl:media:before:play') public BEFORE_PLAY_EVENT: string;
   /** Event to dispatch when player plays */
   @prop('esl:media:play') public PLAY_EVENT: string;
   /** Event to dispatch when player paused */
@@ -61,7 +78,7 @@ export class ESLMedia extends ESLBaseElement {
   @prop('esl:media:ended') public ENDED_EVENT: string;
   /** Event to dispatch when player detached */
   @prop('esl:media:detached') public DETACHED_EVENT: string;
-  /** Event to dispatch when player paused by another instance in group */
+  /** Event to dispatch when player paused by another instance in group (cancelable) */
   @prop('esl:media:managedpause') public MANAGED_PAUSE_EVENT: string;
 
   /** Media resource identifier */
@@ -78,9 +95,13 @@ export class ESLMedia extends ESLBaseElement {
   /** Strict aspect ratio definition */
   @attr() public aspectRatio: string;
   /** Allows lazy load resource */
-  @attr({parser: parseLazyAttr, defaultValue: 'none'}) public lazy: ESLMediaLazyMode;
+  @attr({
+    parser: (value: string) => isLazyAttr(value) ? value : 'auto',
+    defaultValue: 'none'
+  }) public lazy: ESLMediaLazyMode;
   /** Autoplay resource marker */
   @boolAttr() public autoplay: boolean;
+
   /** Autofocus on play marker */
   @boolAttr() public override autofocus: boolean;
   /** Mute resource marker */
@@ -96,7 +117,10 @@ export class ESLMedia extends ESLBaseElement {
   /** Allows to start viewing a resource from a specific time offset. */
   @attr({parser: parseInt}) public startTime: number;
   /** Allows player to accept focus */
-  @attr({parser: parseBoolean, defaultValue: ($this: ESLMedia) => $this.controls}) public focusable: boolean;
+  @attr({
+    parser: parseBoolean,
+    defaultValue: ($this: ESLMedia) => $this.controls
+  }) public focusable: boolean;
 
 
   /** Preload resource */
@@ -125,9 +149,12 @@ export class ESLMedia extends ESLBaseElement {
   /** @readonly Width is greater than height state marker */
   @boolAttr({readonly: true}) public wide: boolean;
 
-  private _provider: BaseProvider | null;
-
-  private deferredReinitialize = debounce(() => this.reinitInstance());
+  /** Marker if the last action (play/pause/stop) was initiated by the user */
+  protected _isManualAction: boolean;
+  /** Applied provider instance */
+  protected _provider: BaseProvider | null;
+  /** Deferred reinitialize handler, to prevent multiple reinitialization calls in bound of the macro-task */
+  protected deferredReinitialize = debounce(() => this.reinitInstance());
 
   /**
    * Map object with possible Player States, values:
@@ -137,12 +164,19 @@ export class ESLMedia extends ESLBaseElement {
     return PlayerStates;
   }
 
+  /** Returns true if the provider with given name is supported */
   static supports(name: string): boolean {
     return ESLMediaProviderRegistry.instance.has(name);
   }
 
+  /** @readonly {@link ESLMediaManager} used for current instance */
+  protected get manager(): ESLMediaManager {
+    return (this.constructor as typeof ESLMedia).manager;
+  }
+
   protected override connectedCallback(): void {
     super.connectedCallback();
+    this.manager._onInit(this);
     if (!this.hasAttribute('role')) {
       this.setAttribute('role', 'application');
     }
@@ -152,6 +186,7 @@ export class ESLMedia extends ESLBaseElement {
   }
 
   protected override disconnectedCallback(): void {
+    this.manager._onDestroy(this);
     super.disconnectedCallback();
     this.detachViewportConstraint();
     this._provider && this._provider.unbind();
@@ -164,8 +199,6 @@ export class ESLMedia extends ESLBaseElement {
       case 'media-src':
       case 'media-type':
       case 'start-time':
-        this.deferredReinitialize();
-        break;
       case 'lazy':
         this.reattachViewportConstraint();
         this.deferredReinitialize();
@@ -195,18 +228,13 @@ export class ESLMedia extends ESLBaseElement {
   }
 
   private reinitInstance(): void {
-    console.debug('[ESL] Media reinitialize ', this);
-    this._provider && this._provider.unbind();
+    this._provider?.unbind();
     this._provider = null;
+    this._isManualAction = false;
 
     if (this.canActivate()) {
       this._provider = ESLMediaProviderRegistry.instance.createFor(this);
-      if (this._provider) {
-        this._provider.bind();
-        console.debug('[ESL] Media provider bound', this._provider);
-      } else {
-        this._onError();
-      }
+      if (!this._provider) this._onError();
     }
 
     this.updateContainerMarkers();
@@ -219,86 +247,110 @@ export class ESLMedia extends ESLBaseElement {
 
   /** Seek to given position of media */
   public seekTo(pos: number): Promise<void> | null {
-    return this._provider && this._provider.safeSeekTo(pos);
+    return this._provider?.safeSeekTo(pos) || null;
   }
 
   /**
    * Start playing media
    * @param allowActivate - allows to remove manual lazy loading restrictions
+   * @param system - marks that the action was initiated by the system
    */
-  public play(allowActivate: boolean = false): Promise<void> | null {
+  public play(allowActivate: boolean = false, system = false): Promise<void> | null {
     if (!this.ready && allowActivate) {
       this.lazy = 'none';
       this.deferredReinitialize.cancel();
       this.reinitInstance();
     }
-    if (!this.canActivate()) return null;
-    return this._provider && this._provider.safePlay();
+    this._isManualAction = !system;
+    return this._provider?.safePlay(system) || null;
   }
 
   /** Pause playing media */
-  public pause(): Promise<void> | null {
-    return this._provider && this._provider.safePause();
+  public pause(system = false): Promise<void> | null {
+    this._isManualAction = !system;
+    return this._provider?.safePause() || null;
   }
 
   /** Stop playing media */
-  public stop(): Promise<void> | null {
-    return this._provider && this._provider.safeStop();
+  public stop(system = false): Promise<void> | null {
+    this._isManualAction = !system;
+    return this._provider?.safeStop() || null;
   }
 
-  /** Toggle play/pause state of the media */
-  public toggle(): Promise<void> | null {
-    return this._provider && this._provider.safeToggle();
+  /**
+   * Executes toggle action:
+   * If the player is PAUSED then it starts playing otherwise it pause playing
+   */
+  public toggle(allowActivate: boolean = false): Promise<void> | null {
+    const shouldActivate = [PlayerStates.PAUSED, PlayerStates.UNSTARTED, PlayerStates.VIDEO_CUED, PlayerStates.UNINITIALIZED].includes(this.state);
+    return shouldActivate ? this.play(allowActivate) : this.pause();
   }
 
   /** Focus inner player **/
   public focusPlayer(): void {
-    this._provider && this._provider.focus();
+    this._provider?.focus();
+  }
+
+  /** Detects if the user manipulate trough native controls */
+  protected detectUserInteraction(cmd: string): void {
+    if (!this.controls || this._isManualAction) return;
+    if (this._provider?.lastCommand === cmd) return;
+    // User cannot manipulate the player outside the viewport
+    const tolerance = this.RATIO_TO_ACTIVATE * this.clientWidth * this.clientHeight;
+    if (!isInViewport(this, tolerance)) return;
+    console.debug('[ESL]: User %s interaction detected', cmd);
+    this._isManualAction = true;
   }
 
   // media live-cycle handlers
   public _onReady(): void {
-    this.toggleAttribute('ready', true);
-    this.toggleAttribute('error', false);
+    this.$$attr('ready', true);
+    this.$$attr('error', false);
     this.updateReadyClass();
     this.$$fire(this.READY_EVENT);
     this._onResize();
   }
 
   public _onError(detail?: any, setReadyState = true): void {
-    this.toggleAttribute('ready', true);
-    this.toggleAttribute('error', true);
+    this.$$attr('ready', true);
+    this.$$attr('error', true);
     this.$$fire(this.ERROR_EVENT, {detail});
     setReadyState && this.$$fire(this.READY_EVENT);
   }
 
   public _onDetach(): void {
-    this.removeAttribute('active');
-    this.removeAttribute('ready');
-    this.removeAttribute('played');
+    this.$$attr('active', false);
+    this.$$attr('ready', false);
+    this.$$attr('played', false);
     this.updateReadyClass();
     this.$$fire(this.DETACHED_EVENT);
   }
 
+  public _onBeforePlay(initiator: 'initial' | 'user' | 'system'): boolean {
+    const event = new ESLMediaHookEvent(this.BEFORE_PLAY_EVENT, {initiator});
+    return this.dispatchEvent(event);
+  }
+
   public _onPlay(): void {
+    this.detectUserInteraction('play');
     if (this.autofocus) this.focus();
-    this.toggleAttribute('active', true);
-    this.toggleAttribute('played', true);
+    this.$$attr('active', true);
+    this.$$attr('played', true);
     this.$$fire(this.PLAY_EVENT);
-    MediaGroupRestrictionManager.registerPlay(this);
+    this.manager._onAfterPlay(this);
     this._onResize();
   }
 
   public _onPaused(): void {
-    this.removeAttribute('active');
+    this.detectUserInteraction('pause');
+    this.$$attr('active', false);
     this.$$fire(this.PAUSED_EVENT);
-    MediaGroupRestrictionManager.unregister(this);
   }
 
   public _onEnded(): void {
-    this.removeAttribute('active');
+    this.detectUserInteraction('pause');
+    this.$$attr('active', false);
     this.$$fire(this.ENDED_EVENT);
-    MediaGroupRestrictionManager.unregister(this);
   }
 
   @listen({
@@ -318,8 +370,8 @@ export class ESLMedia extends ESLBaseElement {
     target: window
   })
   protected _onRefresh(e: Event): void {
-    const {target} = e;
-    if (isElement(target) && target.contains(this)) this._onResize();
+    if (!isSafeContains(e.target as Node, this)) return;
+    this._onResize();
   }
 
   @listen({
@@ -341,11 +393,10 @@ export class ESLMedia extends ESLBaseElement {
   @listen('keydown')
   protected _onKeydown(e: KeyboardEvent): void {
     if (e.target !== this) return;
-    if ([SPACE, PAUSE].includes(e.key)) {
-      e.preventDefault();
-      e.stopPropagation();
-      this.toggle();
-    }
+    if (![SPACE, PAUSE].includes(e.key)) return;
+    e.preventDefault();
+    e.stopPropagation();
+    this.toggle();
   }
 
   /** Update ready class state */
@@ -356,7 +407,15 @@ export class ESLMedia extends ESLBaseElement {
 
   /** Applied provider */
   public get providerType(): string {
-    return this._provider ? this._provider.name : '';
+    return this._provider?.name || '';
+  }
+
+  /**
+   * Marker if the last action (play/pause/stop) was initiated by the user
+   * (direct method call or by embed player controls)
+   */
+  public get isUserInitiated(): boolean {
+    return this._isManualAction;
   }
 
   /** Current player state, see {@link ESLMedia.PLAYER_STATES} values */
@@ -366,17 +425,17 @@ export class ESLMedia extends ESLBaseElement {
 
   /** Duration of the media resource */
   public get duration(): number {
-    return this._provider ? this._provider.duration : 0;
+    return this._provider?.duration || 0;
   }
 
   /** Current time of media resource */
   public get currentTime(): number {
-    return this._provider ? this._provider.currentTime : 0;
+    return this._provider?.currentTime || 0;
   }
 
   /** Set current time of media resource */
   public set currentTime(time: number) {
-    (this._provider) && this._provider.safeSeekTo(time);
+    this._provider?.safeSeekTo(time);
   }
 
   /** ESLMediaQuery to limit ESLMedia loading */
@@ -392,7 +451,7 @@ export class ESLMedia extends ESLBaseElement {
   /** Used resource aspect ratio forced by attribute or returned by provider */
   public get actualAspectRatio(): number {
     if (this.aspectRatio && this.aspectRatio !== 'auto') return parseAspectRatio(this.aspectRatio);
-    return this._provider ? this._provider.defaultAspectRatio : 0;
+    return this._provider?.defaultAspectRatio || 0;
   }
 
   protected reattachViewportConstraint(): void {
@@ -401,8 +460,7 @@ export class ESLMedia extends ESLBaseElement {
     getIObserver().observe(this);
   }
   protected detachViewportConstraint(): void {
-    const observer = getIObserver(true);
-    observer && observer.unobserve(this);
+    getIObserver(true)?.unobserve(this);
   }
 }
 

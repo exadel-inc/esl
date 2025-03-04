@@ -1,4 +1,4 @@
-module.exports = (config) => {
+export default (config) => {
   /** Resolve date from item */
   const resolveDate = (item) => new Date(item.date).getTime();
   /** Resolve date from item without fileUpdateDate fallback */
