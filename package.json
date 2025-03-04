@@ -66,12 +66,10 @@
     "site"
   ],
   "dependencies": {
+    "@exadel/esl": "^5.0.0",
     "codejar": "^4.2.0",
     "jsx-dom": "6.4.23",
     "prismjs": "^1.29.0"
-  },
-  "peerDependencies": {
-    "@exadel/esl": "^4.13.0 || ^5.0.0 || ^5.0.0-beta.38 || ^5.0.1-beta.2"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.6.1",
