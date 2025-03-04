@@ -1,8 +1,8 @@
-module.exports = [
+import sonarjs from 'eslint-plugin-sonarjs';
+
+export default [
   {
-    plugins: {
-      sonarjs: require('eslint-plugin-sonarjs')
-    },
+    plugins: {sonarjs},
     rules: {
       /** Cognitive Complexity is a measure of how hard the control flow of a function is to understand.
        *  Functions with high Cognitive Complexity will be difficult to maintain.
@@ -64,4 +64,4 @@ module.exports = [
       'sonarjs/prefer-immediate-return': 'warn'
     }
   }
-]
+];

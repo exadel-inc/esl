@@ -1,7 +1,9 @@
-module.exports = [
+import stylistic from '@stylistic/eslint-plugin';
+
+export default [
   {
     plugins: {
-      '@stylistic': require('@stylistic/eslint-plugin')
+      '@stylistic': stylistic
     },
     rules: {
       '@stylistic/arrow-parens': ['warn', 'always'],
@@ -124,10 +126,10 @@ module.exports = [
     }
   },
   {
-    files: ["**/*.test.ts", "**/*.spec.ts"],
+    files: ['**/*.test.ts', '**/*.spec.ts'],
     rules: {
       // It's ok to write braces single line in tests
-      '@stylistic/brace-style': "off",
+      '@stylistic/brace-style': 'off',
     }
   },
-]
+];

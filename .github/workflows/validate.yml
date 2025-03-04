@@ -67,4 +67,4 @@ jobs:
       - name: Install NPM Dependencies
         run: npm ci
       - name: Run ESLint Plugin Tests
-        run: npm run test -w eslint-plugin
+        run: npm run test -w packages/eslint-plugin

@@ -1,7 +1,9 @@
-module.exports = [
+import importPlugin from 'eslint-plugin-import-x';
+
+export default [
   {
     plugins: {
-      'import': require('eslint-plugin-import-x')
+      'import': importPlugin
     },
     rules: {
       // Enforce a convention in module import order
@@ -21,9 +23,6 @@ module.exports = [
       // Verifies that all named imports are part of the set of named exports in the referenced module.
       'import/named': 'error',
 
-      // Prohibit default exports
-      'import/no-default-export': 'warn',
-
       // Forbid a module from importing itself
       'import/no-self-import': 'error',
 
@@ -31,4 +30,4 @@ module.exports = [
       'import/no-cycle': 'error'
     }
   }
-]
+];

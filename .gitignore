@@ -11,9 +11,9 @@ node_modules
 # Build output
 *.tgz
 target
-site/dist
 
-eslint-plugin/dist
+site/dist
+e2e/.diff
 
 # Generated surces
 /modules
@@ -29,4 +29,3 @@ npm-debug.log
 # Jest & Sonar
 /.report
 /.scannerwork
-/e2e/.diff

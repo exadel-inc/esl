@@ -57,10 +57,9 @@
     "src/polyfills/**/*.ts"
   ],
   "workspaces": [
+    "packages/*",
     "e2e",
-    "site",
-    "eslint-config",
-    "eslint-plugin"
+    "site"
   ],
   "scripts": {
     "start": "cd site && npm run start",
@@ -86,8 +85,8 @@
     "prepare": "husky && npm run build",
     "preversion": "npm test",
     "version": "cross-env-shell \"npm version $npm_package_version --no-git-tag-version --ws\" && git add **/package*.json",
-    "postpack": "npm pack --workspace eslint-plugin --workspace eslint-config",
-    "postpublish": "npm publish --workspace eslint-plugin --workspace eslint-config",
+    "postpack": "npm pack --workspace packages/eslint-plugin --workspace packages/eslint-config --workspace packages/stylelint-config",
+    "postpublish": "npm publish --workspace packages/eslint-plugin --workspace packages/eslint-config --workspace packages/stylelint-config",
     "fix:less": "stylelint --fix \"**/*.less\""
   },
   "dependencies": {
@@ -99,6 +98,7 @@
     "@commitlint/config-conventional": "^19.7.1",
     "@exadel/eslint-config-esl": "file:eslint-config",
     "@exadel/eslint-plugin-esl": "file:eslint-plugin",
+    "@exadel/stylelint-config-esl": "file:stylelint-config",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/commit-analyzer": "^13.0.1",
     "@semantic-release/git": "^10.0.1",
@@ -118,14 +118,12 @@
     "kleur": "^4.1.5",
     "less": "^4.2.2",
     "lint-staged": "^15.4.3",
-    "postcss": "^8.5.2",
+    "postcss": "^8.5.3",
     "postcss-less": "^6.0.0",
-    "prettier": "^3.5.0",
     "rimraf": "^6.0.1",
     "semantic-release": "^24.2.3",
     "smoothscroll-polyfill": "^0.4.4",
-    "stylelint": "^16.14.1",
-    "stylelint-prettier": "^5.0.3",
+    "stylelint": "^16.15.0",
     "ts-jest": "^29.2.6",
     "typescript": "5.7.3"
   },

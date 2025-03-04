@@ -1,4 +1,4 @@
-module.exports = [
+export default [
   {
     ignores: [
       // Common configuration
@@ -15,13 +15,13 @@ module.exports = [
       '/polyfills/**',
       // Site output
       '/site/dist/**',
-      // ESL ESLint Plugin output
-      '/eslint-plugin/dist/**',
+      // ESL ESLint Plugin files
+      '/packages/eslint-plugin/**',
       // ESL ESLint Config files
-      '/eslint-config/**',
+      '/packages/eslint-config/**',
       // E2E tests commons
       'e2e/reporters/**',
       'e2e/transformer/**',
     ]
   }
-]
+];

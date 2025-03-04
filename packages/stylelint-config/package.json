@@ -1,0 +1,50 @@
+{
+  "name": "@exadel/stylelint-config-esl",
+  "type": "module",
+  "private": false,
+  "version": "5.0.1",
+  "keywords": [
+    "stylelint",
+    "stylelint-config",
+    "esl"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "scope": "@exadel"
+  },
+  "license": "MIT",
+  "description": "Shared Stylelint config used by ESL (@exadel/esl) team. Internal projects usage.",
+  "main": "index.js",
+  "scripts": {
+    "test": ""
+  },
+  "dependencies": {
+    "@stylistic/stylelint-config": "^2.0.0",
+    "@stylistic/stylelint-plugin": "^3.1.2"
+  },
+  "peerDependencies": {
+    "stylelint": ">=15.0.0"
+  },
+  "maintainers": [
+    {
+      "name": "ala-n",
+      "email": "astsefanovich@exadel.com"
+    },
+    {
+      "name": "yadamska",
+      "email": "yadamska@exadel.com"
+    },
+    {
+      "name": "dshovchko",
+      "email": "dshovchko@exadel.com"
+    },
+    {
+      "name": "abarmina",
+      "email": "abarmina@exadel.com"
+    },
+    {
+      "name": "alesun",
+      "email": "alesun@exadel.com"
+    }
+  ]
+}
