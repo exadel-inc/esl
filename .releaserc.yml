@@ -79,6 +79,8 @@ plugins:
           label: Released ESLint Plugin NPM Tarball
         - path: ./exadel-eslint-config-esl-*.tgz
           label: Released ESLint Config NPM Tarball
+        - path: ./exadel-stylelint-config-esl-*.tgz
+          label: Released StyleLint Config NPM Tarball
         - path: CHANGELOG.md
           label: Changelog
       successComment: false
