@@ -1,3 +1,10 @@
+# [2.1.0-beta.10](https://github.com/exadel-inc/ui-playground/compare/v2.1.0-beta.9...v2.1.0-beta.10) (2025-03-04)
+
+
+### Bug Fixes
+
+* remove ESL peerDependencies, add to dependencies ([1b3dad4](https://github.com/exadel-inc/ui-playground/commit/1b3dad4e98ef5f556759f2a6380f231f0348e9f0))
+
 # [2.1.0-beta.9](https://github.com/exadel-inc/ui-playground/compare/v2.1.0-beta.8...v2.1.0-beta.9) (2025-02-11)
 
 
