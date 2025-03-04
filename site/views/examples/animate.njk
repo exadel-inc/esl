@@ -63,7 +63,7 @@ aside:
 
       <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
       <uip-preview></uip-preview>
-      <uip-settings target=".simple-grid-cell" label="Settings" resizable vertical="@+sm">
+      <uip-settings target=".simple-grid-cell" label="Settings" resizable collapsible vertical="@+sm">
         <uip-select-setting label="Animation type:" attribute="class" mode="append">
           <option value="esl-animate-fade">Fade</option>
           <option value="esl-animate-slide up">Slide Up</option>
@@ -71,7 +71,7 @@ aside:
           <option value="esl-animate-slide down">Slide Down</option>
           <option value="esl-animate-slide right">Slide Right</option>
         </uip-select-setting>
-        <uip-bool-setting label="Repeat" attribute="repeat"></uip-bool-setting>
+        <uip-bool-setting label="Repeat" target="esl-animate" attribute="repeat"></uip-bool-setting>
         <uip-bool-setting label="Group" target="esl-animate" attribute="group"></uip-bool-setting>
         <uip-slider-setting label="Animation delay:" target="esl-animate" attribute="group-delay" min="100" max="1000"></uip-slider-setting>
       </uip-settings>
