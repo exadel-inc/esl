@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v3
       # Updates a Release Branch
       - id: ReleaseNotes
-        uses: TriPSs/conventional-changelog-action@v5
+        uses: TriPSs/conventional-changelog-action@v6
         with:
           git-branch: 'release/main'
           github-token: '${{ secrets.GITHUB_TOKEN }}'
