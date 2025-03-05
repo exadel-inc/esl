@@ -37,6 +37,7 @@ describe('ESLBaseElement', () => {
     expect(() => TestElement2.register('test-test')).not.toThrowError();
     expect(() => TestElement2.register('test-test-2')).toThrowError();
     try {
+      // eslint-disable-next-line require-atomic-updates
       TestElement2.is = 'test-test-2';
     } catch { /* empty */
     }

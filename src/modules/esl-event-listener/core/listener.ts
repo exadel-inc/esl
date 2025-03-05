@@ -103,6 +103,7 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
   public get handleEvent(): EventListener {
     const handlerBound = this.handler.bind(this.host);
     const handlerFull = this.once
+      // eslint-disable-next-line no-sequences
       ? (e: Event): void => (handlerBound(e), this.unsubscribe())
       : handlerBound;
     return this.selector

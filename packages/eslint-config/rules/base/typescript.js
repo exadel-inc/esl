@@ -2,29 +2,38 @@ import {plugin} from 'typescript-eslint';
 
 export default [
   {
+    plugins: {
+      '@typescript-eslint': plugin
+    },
+    rules: {
+      // Enforce default parameters to be last
+      '@typescript-eslint/default-param-last': 'error',
+
+      // Warn about invalid definition of new and constructor
+      '@typescript-eslint/no-misused-new': 'warn',
+
+      // Allows unused expressions
+      '@typescript-eslint/no-unused-expressions': 'off',
+
+      // Warn about unused variables
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        {
+          args: 'none',
+          caughtErrors: 'none',
+          vars: 'all'
+        }
+      ]
+    }
+  },
+  {
     files: ['**/*.ts', '**/*.tsx'],
     plugins: {
       '@typescript-eslint': plugin
     },
     rules: {
-      // Enforces consistent usage of type imports
-      '@typescript-eslint/consistent-type-imports': [
-        'error', {
-          prefer: 'type-imports'
-        }
-      ],
-
-      // Disallow the use of custom TypeScript modules and namespaces
-      '@typescript-eslint/no-namespace': 'error',
-
-      // Flags unnecessary equality comparisons against boolean literals
-      '@typescript-eslint/no-unnecessary-boolean-literal-compare': 'error',
-
-      // Disallows the use of require statements except in import statements
-      '@typescript-eslint/no-var-requires': 'error',
-
-      // Enforce default parameters to be last
-      '@typescript-eslint/default-param-last': 'error',
+      // Warn about awaiting of a value that is not a Thenable
+      '@typescript-eslint/await-thenable': 'warn',
 
       // Prefers member overloads to be consecutive
       '@typescript-eslint/adjacent-overload-signatures': 'warn',
@@ -32,11 +41,8 @@ export default [
       // Prefers using either T[] or Array<T> for arrays
       '@typescript-eslint/array-type': 'warn',
 
-      // Warn about awaiting of a value that is not a Thenable
-      '@typescript-eslint/await-thenable': 'warn',
-
-      // Bans @ts-<directive> comments from being used or requires descriptions after directive
-      '@typescript-eslint/ban-ts-comment': 'warn',
+      // Does not ban @ts-<directive> comments in base ESLint configuration
+      '@typescript-eslint/ban-ts-comment': 'off',
 
       // Bans Function types from being used
       '@typescript-eslint/no-unsafe-function-type': 'warn',
@@ -48,8 +54,8 @@ export default [
         }
       ],
 
-      // Warn about invalid definition of new and constructor
-      '@typescript-eslint/no-misused-new': 'warn',
+      // Allow the use of custom TypeScript modules and namespaces (in base configuration)
+      '@typescript-eslint/no-namespace': 'off',
 
       // Warns when a namespace qualifier is unnecessary
       '@typescript-eslint/no-unnecessary-qualifier': 'warn',
@@ -57,31 +63,16 @@ export default [
       // Prefers function types instead of interfaces with call signatures
       '@typescript-eslint/prefer-function-type': 'warn',
 
-      // Warns if a type assertion does not change the type of an expression
-      '@typescript-eslint/no-unnecessary-type-assertion': 'warn',
-
-      // It's recommended to pass a compareFn to the Array.sort method
-      '@typescript-eslint/require-array-sort-compare': 'warn',
-
-      // Warns if missed return type on functions or class methods
-      '@typescript-eslint/explicit-function-return-type': 'warn',
-
       /** Ignores if two overloads could be unified into one by using a union or an optional/rest parameter
        * Because of the possibility to separate TSDocs between different function/method overloads
        */
       '@typescript-eslint/unified-signatures': 'off',
-
-      // Allows the delete operator with computed key expressions
-      '@typescript-eslint/no-dynamic-delete': 'off',
 
       // Allows the use of parameter properties in class constructors
       '@typescript-eslint/no-parameter-properties': 'off',
 
       // Allows the use of type aliases
       '@typescript-eslint/no-type-alias': 'off',
-
-      // There is no prefer of ‘for-of’ loop over a standard ‘for’ loop if the index is only used to access the array being iterated
-      '@typescript-eslint/prefer-for-of': 'off',
 
       // There is no restriction when adding two variables, operands must both be of type number or of type string
       '@typescript-eslint/restrict-plus-operands': 'off',
@@ -121,6 +112,9 @@ export default [
       // There is no preferences of a particular method signature syntax
       '@typescript-eslint/method-signature-style': 'off',
 
+      // It's recommended to pass a compareFn to the Array.sort method
+      '@typescript-eslint/require-array-sort-compare': 'warn',
+
       // Warn about non-null assertion in locations that may be confusing
       '@typescript-eslint/no-confusing-non-null-assertion': 'warn',
 
@@ -146,9 +140,6 @@ export default [
 
       // There is no requirement of using promises in places not designed to handle them
       '@typescript-eslint/no-misused-promises': 'off',
-
-      // Check that type arguments will not be used if not required
-      '@typescript-eslint/no-unnecessary-type-arguments': 'warn',
 
       // Warn about unnecessary constraints on generic types
       '@typescript-eslint/no-unnecessary-type-constraint': 'warn',
@@ -228,17 +219,6 @@ export default [
       // Warn about throwing literals as exceptions
       '@typescript-eslint/only-throw-error': 'warn',
 
-      // Allows unused expressions
-      '@typescript-eslint/no-unused-expressions': 'off',
-
-      // Warn about unused variables
-      '@typescript-eslint/no-unused-vars': [
-        'warn',
-        {
-          vars: 'all', caughtErrors: 'none', args: 'none'
-        }
-      ],
-
       // Warn about unnecessary constructors
       '@typescript-eslint/no-useless-constructor': 'warn',
 
@@ -247,17 +227,6 @@ export default [
 
       // Prefers consistent returning of awaited values
       '@typescript-eslint/return-await': 'warn'
-    }
-  },
-  {
-    files: ['**/*.shape.ts'],
-    plugins: {
-      '@typescript-eslint': plugin
-    },
-    rules: {
-      '@typescript-eslint/no-namespace': 'off',
-      // Temporary of as false positive
-      '@typescript-eslint/no-unnecessary-type-arguments': 'off'
     }
   },
   {

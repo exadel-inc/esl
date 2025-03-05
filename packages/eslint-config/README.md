@@ -24,36 +24,90 @@ Ensure that you have the ESLint package of version 9.0.0 or higher, shared confi
 Once installed, the configuration needs to be added in eslint configuration file:
 
 ```js
-module.exports = [
-  // ESLint configuration ...
+// Import only configs you need
+import {lang, base, codestyle, medium, strict} from '@exadel/eslint-config-esl';
 
-  // Apply ESL Shared ESLint Configuration
-  ...require('packages/eslint-config/index').typescript,
-  ...require('packages/eslint-config/index').recommended,
+export default [
+    // Default lang (parsers) configs, if required
+    //...lang.js,
+    //...lang.ts,
+        
+    // ESL ESLint configuration of your choice
+    ...strict // or medium, or base, or codestyle   
+    // Note: recommended sets of eslint / typscript-esint are included in base, medium and strict config.     
+        
+    // ESLint user configuration ...
 ];
 ```
+
+Please note '@exadel/eslint-config-esl' is an ESM-only package.
+You either need to use ESM in your project or run eslint independently with `.mjs` configuration file.
 
 <a name="configuration"></a>
 
 ### Configuration
 
-There are no additional configuration options for ESL Shared ESLint Configuration at that moment. 
-Please be aware that we are in the process of standardizing rule list and are currently considering supporting EcmaScript in addition to TypeScript.
+ESL Shared ESLint Configuration is split into several configurations/bunches:
+- `base` - basic light linting configuration, uses `@eslint/js/` recommended and `typescript-eslint` recommended ruleset as a base. 
+- `codestyle` - code style configuration, additionally uses `@stylistic` and `import` plugins. Does not include `base` rules.
+- `medium` - medium configuration, combination `base` and `codestyle` rules.
+- `strict` - strict configuration, includes `base` and `codestyle`, extended with `sonarjs` and `tsdoc` plugins and the most restrictive settings.
 
-Still you are able to override any rule from the configuration in your project's ESLint configuration file 
-by declaring it in the `rules` section of the configuration file after applying the shared configuration.
+The `base` ruleset recommended for consumers to have basic code checks similar to ESL source code.
+The `codestyle` ruleset is recommended for projects that want to follow ESL code style.
+The `medium` ruleset is a shortcut for projects that want to have both basic and code style checks.
+The `strict` ruleset is recommended for projects that completely follow ESL code style and want to have the most restrictive checks.
+
+### Default lang (parsers) configs
+
+ESL Shared ESLint Configuration includes default lang (parsers) configs for JavaScript and TypeScript.
+
+Feel free to extend or default them manually.
+
+Default JavaScript parser config:
+```js
+const js = {  // lang.js
+    files: ['**/*.js', '**/*.mjs'],
+    languageOptions: {
+        ecmaVersion: 2017,
+        sourceType: 'module',
+        globals: {
+            ...globals.browser,
+            ...globals.node
+        }
+    }
+};
+```
+
+Default TypeScript parser config:
+```js
+const ts = { // lang.ts
+    files: ['**/*.ts', '**/*.tsx'],
+    languageOptions: {
+        parser: tsParser, // @typescript-eslint/parser
+        ecmaVersion: 2017,
+        sourceType: 'module',
+        parserOptions: {
+            projectService: true
+        },
+        globals: {
+            ...globals.browser
+        }
+    }
+};
+```
 
 ### Inner Plugins
 
 ESL Shared ESLint Configuration includes several inner plugins that are used to provide additional rules and configurations for ESLint.
 Here is the list of included plugins and their ESLint aliases:
 
-- `@stylistic` - code style rules from [@stylistic](https://eslint.style/) project.
+- `@eslint/js` - basic ESLint rules from [eslint](https://eslint.org/) project.
 - `typescript-eslint` - TypeScript specific rules from [TypeScript ESLint](https://typescript-eslint.io/) project.
+- `@stylistic` - code style rules from [@stylistic](https://eslint.style/) project.
 - `import` - rules for imports from [eslint-plugin-import-x](https://www.npmjs.com/package/eslint-plugin-import-x);
 - `tsdoc` - rules for TSDoc comments from [eslint-plugin-tsdoc](https://www.npmjs.com/package/eslint-plugin-tsdoc);
-- `sonarjs` - rules for code quality from [eslint-plugin-sonarjs](https://www.npmjs.com/package/eslint-plugin-sonarjs); 
-  Note: uses 1.*.* version of the plugin due to incompatibility with flat config.
+- `sonarjs` - rules for code quality from [eslint-plugin-sonarjs](https://www.npmjs.com/package/eslint-plugin-sonarjs);
 - `editorconfig` - rules for EditorConfig from [eslint-plugin-editorconfig](https://www.npmjs.com/package/eslint-plugin-editorconfig);
 
-All mentioned plugins could be used from shared configuration without additional installation.
+All mentioned plugins are direct dependencies of `@exadel/eslint-config-esl` package, you don't need to install them separately.

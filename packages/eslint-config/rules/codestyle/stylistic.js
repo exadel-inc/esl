@@ -1,4 +1,5 @@
 import stylistic from '@stylistic/eslint-plugin';
+import stylisticJsx from '@stylistic/eslint-plugin-jsx';
 
 export default [
   {
@@ -63,6 +64,9 @@ export default [
           }
         }
       ],
+
+      // Enforce a maximum number of statements allowed per line
+      '@stylistic/max-statements-per-line': ['error', {max: 2}],
 
       // Require parentheses when invoking a constructor with no arguments
       '@stylistic/new-parens': 'error',
@@ -132,4 +136,14 @@ export default [
       '@stylistic/brace-style': 'off',
     }
   },
+  {
+    files: ['**/*.tsx', '**/*.jsx'],
+    plugins: {
+      '@stylistic/jsx': stylisticJsx
+    },
+    rules: {
+      '@stylistic/indent': 'off',
+      '@stylistic/jsx/jsx-indent-props': ['warn', 'first']
+    }
+  }
 ];
