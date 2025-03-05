@@ -23,22 +23,22 @@ describe('ESLResizeObserverTarget EventTarget adapter', () => {
 
     test('ESLResizeObserverTarget.for(undefined) returns null without error', () => {
       expect(ESLResizeObserverTarget.for(undefined as any)).toBeNull();
-      expect(consoleSpy).toBeCalled();
+      expect(consoleSpy).toHaveBeenCalled();
     });
 
     test('ESLResizeObserverTarget.for(null) returns null without error', () => {
       expect(ESLResizeObserverTarget.for(null as any)).toBeNull();
-      expect(consoleSpy).toBeCalled();
+      expect(consoleSpy).toHaveBeenCalled();
     });
 
     test('ESLResizeObserverTarget.for(123) returns null without error', () => {
       expect(ESLResizeObserverTarget.for(123 as any)).toBeNull();
-      expect(consoleSpy).toBeCalled();
+      expect(consoleSpy).toHaveBeenCalled();
     });
 
     test('ESLResizeObserverTarget.for({}) returns null without error', () => {
       expect(ESLResizeObserverTarget.for({} as any)).toBeNull();
-      expect(consoleSpy).toBeCalled();
+      expect(consoleSpy).toHaveBeenCalled();
     });
   });
 
@@ -59,22 +59,22 @@ describe('ESLResizeObserverTarget EventTarget adapter', () => {
       test('Subscription produces ResizeObserver interaction', () => {
         target.addEventListener(cb1);
         expect(mock.observe).lastCalledWith(el);
-        expect(mock.unobserve).not.toBeCalled();
+        expect(mock.unobserve).not.toHaveBeenCalled();
       });
       test('Second subscription does not produces ResizeObserver interaction', () => {
         target.addEventListener(cb2);
-        expect(mock.observe).not.toBeCalled();
-        expect(mock.unobserve).not.toBeCalled();
+        expect(mock.observe).not.toHaveBeenCalled();
+        expect(mock.unobserve).not.toHaveBeenCalled();
       });
       test('Single unsubscription does not produces internal unsubscription', () => {
         target.removeEventListener(cb2);
-        expect(mock.observe).not.toBeCalled();
-        expect(mock.unobserve).not.toBeCalled();
+        expect(mock.observe).not.toHaveBeenCalled();
+        expect(mock.unobserve).not.toHaveBeenCalled();
       });
       test('Removal of all of subscriptions produces internal unsubscription', () => {
         target.removeEventListener(cb1);
-        expect(mock.observe).not.toBeCalled();
-        expect(mock.unobserve).toBeCalled();
+        expect(mock.observe).not.toHaveBeenCalled();
+        expect(mock.unobserve).toHaveBeenCalled();
       });
     });
 
@@ -99,22 +99,22 @@ describe('ESLResizeObserverTarget EventTarget adapter', () => {
       test('ESLDomElementRelated subscription produces ResizeObserver interaction', () => {
         targetMixin.addEventListener(cb1);
         expect(mock.observe).lastCalledWith(el);
-        expect(mock.unobserve).not.toBeCalled();
+        expect(mock.unobserve).not.toHaveBeenCalled();
       });
       test('Repeated subscription of ESLDomElementRelated host does not produces ResizeObserver interaction', () => {
         target.addEventListener(cb2);
-        expect(mock.observe).not.toBeCalled();
-        expect(mock.unobserve).not.toBeCalled();
+        expect(mock.observe).not.toHaveBeenCalled();
+        expect(mock.unobserve).not.toHaveBeenCalled();
       });
       test('Single unsubscription does not produces internal unsubscription', () => {
         targetMixin.removeEventListener(cb1);
-        expect(mock.observe).not.toBeCalled();
-        expect(mock.unobserve).not.toBeCalled();
+        expect(mock.observe).not.toHaveBeenCalled();
+        expect(mock.unobserve).not.toHaveBeenCalled();
       });
       test('Removal of all of subscriptions produces internal unsubscription', () => {
         target.removeEventListener(cb2);
-        expect(mock.observe).not.toBeCalled();
-        expect(mock.unobserve).toBeCalled();
+        expect(mock.observe).not.toHaveBeenCalled();
+        expect(mock.unobserve).toHaveBeenCalled();
       });
     });
   });
@@ -129,20 +129,20 @@ describe('ESLResizeObserverTarget EventTarget adapter', () => {
       $host: el3
     };
 
-    const cb1_1 = jest.fn();
-    ESLResizeObserverTarget.for(el1).addEventListener(cb1_1);
-    expect(cb1_1).not.toBeCalled();
+    const cb11 = jest.fn();
+    ESLResizeObserverTarget.for(el1).addEventListener(cb11);
+    expect(cb11).not.toHaveBeenCalled();
 
-    const cb1_2 = jest.fn();
-    ESLResizeObserverTarget.for(el1).addEventListener(cb1_2);
-    expect(cb1_2).not.toBeCalled();
+    const cb12 = jest.fn();
+    ESLResizeObserverTarget.for(el1).addEventListener(cb12);
+    expect(cb12).not.toHaveBeenCalled();
 
-    const cb2_1 = jest.fn();
-    ESLResizeObserverTarget.for(el2).addEventListener(cb2_1);
-    expect(cb2_1).not.toBeCalled();
+    const cb21 = jest.fn();
+    ESLResizeObserverTarget.for(el2).addEventListener(cb21);
+    expect(cb21).not.toHaveBeenCalled();
 
-    const cb3_1 = jest.fn();
-    ESLResizeObserverTarget.for(mixin).addEventListener(cb3_1);
+    const cb31 = jest.fn();
+    ESLResizeObserverTarget.for(mixin).addEventListener(cb31);
 
     const fakeEntry = (el: Element) => ({
       target: el,
@@ -153,38 +153,38 @@ describe('ESLResizeObserverTarget EventTarget adapter', () => {
     });
 
     beforeEach(() => {
-      cb1_1.mockReset();
-      cb1_2.mockReset();
-      cb2_1.mockReset();
-      cb3_1.mockReset();
+      cb11.mockReset();
+      cb12.mockReset();
+      cb21.mockReset();
+      cb31.mockReset();
     });
 
     test('Dispatched change received by all subscribers', () => {
       const entry: ResizeObserverEntry = fakeEntry(el1);
 
       mock.callback.call(mock, [entry]);
-      expect(cb1_1).toBeCalled();
-      expect(cb1_2).toBeCalled();
-      expect(cb2_1).not.toBeCalled();
-      expect(cb3_1).not.toBeCalled();
+      expect(cb11).toHaveBeenCalled();
+      expect(cb12).toHaveBeenCalled();
+      expect(cb21).not.toHaveBeenCalled();
+      expect(cb31).not.toHaveBeenCalled();
     });
 
     test('Dispatched change received by correct target', () => {
       const entry: ResizeObserverEntry = fakeEntry(el2);
 
       mock.callback.call(mock, [entry]);
-      expect(cb2_1).toBeCalled();
-      expect(cb1_1).not.toBeCalled();
-      expect(cb1_2).not.toBeCalled();
-      expect(cb3_1).not.toBeCalled();
+      expect(cb21).toHaveBeenCalled();
+      expect(cb11).not.toHaveBeenCalled();
+      expect(cb12).not.toHaveBeenCalled();
+      expect(cb31).not.toHaveBeenCalled();
     });
 
     test('Dispatched change produces an Event instance', () => {
       const entry: ResizeObserverEntry = fakeEntry(el1);
 
       mock.callback.call(mock, [entry]);
-      expect(cb1_1).lastCalledWith(expect.any(Event));
-      expect(cb1_1).lastCalledWith(expect.objectContaining({type: 'resize'}));
+      expect(cb11).toHaveBeenLastCalledWith(expect.any(Event));
+      expect(cb11).toHaveBeenLastCalledWith(expect.objectContaining({type: 'resize'}));
     });
 
     test.each([
@@ -195,21 +195,21 @@ describe('ESLResizeObserverTarget EventTarget adapter', () => {
     ])('Dispatched change contains correct %s', (name: keyof ResizeObserverEntry) => {
       const entry: ResizeObserverEntry = fakeEntry(el1);
       mock.callback.call(mock, [entry]);
-      expect(cb1_1).lastCalledWith(expect.objectContaining({[name]: entry[name]}));
+      expect(cb11).toHaveBeenLastCalledWith(expect.objectContaining({[name]: entry[name]}));
     });
 
     test('Dispatched change produces correct event target', () => {
       const entry: ResizeObserverEntry = fakeEntry(el2);
 
       mock.callback.call(mock, [entry]);
-      expect(cb2_1).lastCalledWith(expect.objectContaining({target: el2}));
+      expect(cb21).toHaveBeenLastCalledWith(expect.objectContaining({target: el2}));
     });
 
     test('Dispatched change produces correct event target for ESLDomElementRelated', () => {
       const entry: ResizeObserverEntry = fakeEntry(el3);
 
       mock.callback.call(mock, [entry]);
-      expect(cb3_1).lastCalledWith(expect.objectContaining({target: el3}));
+      expect(cb31).toHaveBeenLastCalledWith(expect.objectContaining({target: el3}));
     });
   });
 });

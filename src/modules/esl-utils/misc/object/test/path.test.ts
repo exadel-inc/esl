@@ -6,7 +6,10 @@ describe('misc/object: path', () => {
   const y = Symbol();
 
   describe('parseKeys', () => {
-    const normalize = (keys: PathKeyDef[]) => keys.map((key) => { key.isIndex = !!key.isIndex; return key;});
+    const normalize = (keys: PathKeyDef[]) => keys.map((key) => {
+      key.isIndex = !!key.isIndex;
+      return key;
+    });
 
     describe('simple', () => {
       test.each([

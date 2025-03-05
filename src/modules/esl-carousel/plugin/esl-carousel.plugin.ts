@@ -53,12 +53,11 @@ export abstract class ESLCarouselPlugin<Config> extends ESLMixinElement {
     if (($host as unknown) instanceof ESLCarousel) {
       super.connectedCallback();
       return true;
-    } else {
-      const {is} = this.constructor as typeof ESLCarouselPlugin;
-      console.warn('[ESL]: ESLCarousel %s plugin rejected for non correct target %o', is, $host);
-      this.$host.removeAttribute(is);
-      return false;
     }
+    const {is} = this.constructor as typeof ESLCarouselPlugin;
+    console.warn('[ESL]: ESLCarousel %s plugin rejected for non correct target %o', is, $host);
+    this.$host.removeAttribute(is);
+    return false;
   }
 
   protected override attributeChangedCallback(attrName: string, oldValue: string | null, newValue: string | null): void {

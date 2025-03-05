@@ -65,6 +65,9 @@ export default [
         }
       ],
 
+      // Enforce a maximum number of statements allowed per line
+      '@stylistic/max-statements-per-line': ['error', {max: 2}],
+
       // Require parentheses when invoking a constructor with no arguments
       '@stylistic/new-parens': 'error',
 
