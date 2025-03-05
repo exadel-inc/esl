@@ -34,29 +34,29 @@ export default [
         
     // ESL ESLint configuration of your choice
     ...strict // or medium, or base, or codestyle   
-    // Note: recomended sets of eslint / typscript-esint are included in base, medium and strict config.     
+    // Note: recommended sets of eslint / typscript-esint are included in base, medium and strict config.     
         
     // ESLint user configuration ...
 ];
 ```
 
-Peaase note '@exadel/eslint-config-esl' is ESM only package.
+Please note '@exadel/eslint-config-esl' is an ESM-only package.
 You either need to use ESM in your project or run eslint independently with `.mjs` configuration file.
 
 <a name="configuration"></a>
 
 ### Configuration
 
-ESL Sared ESLint config splitted into several configurations/bunches:
+ESL Shared ESLint config splitted into several configurations/bunches:
 - `base` - basic light linting configuration, uses `@eslint/js/` recommended and `typescript-eslint` recommended ruleset as a base. 
-- `codestyle` - code style configuration, additionally uses `@stylistic` and `import` plugins. Does not includes `base` rules.
+- `codestyle` - code style configuration, additionally uses `@stylistic` and `import` plugins. Does not include `base` rules.
 - `medium` - medium configuration, combination `base` and `codestyle` rules.
 - `strict` - strict configuration, includes `base` and `codestyle`, extended with `sonarjs` and `tsdoc` plugins and the most restrictive settings.
 
-The `base` ruleset recomended for consumers to have basic code checks similar to ESL source code.
+The `base` ruleset recommended for consumers to have basic code checks similar to ESL source code.
 The `codestyle` ruleset is recommended for projects that want to follow ESL code style.
 The `medium` ruleset is a shortcut for projects that want to have both basic and code style checks.
-The `strict` ruleset is recommended for projects that commpletely follow ESL code style and want to have the most restrictive checks.
+The `strict` ruleset is recommended for projects that completely follow ESL code style and want to have the most restrictive checks.
 
 ### Default lang (parsers) configs
 
@@ -110,4 +110,4 @@ Here is the list of included plugins and their ESLint aliases:
 - `sonarjs` - rules for code quality from [eslint-plugin-sonarjs](https://www.npmjs.com/package/eslint-plugin-sonarjs);
 - `editorconfig` - rules for EditorConfig from [eslint-plugin-editorconfig](https://www.npmjs.com/package/eslint-plugin-editorconfig);
 
-All mentioned plugins are direct dependencies of `@exadel/eslint-config-esl` package you don't need to install them separately.
+All mentioned plugins are direct dependencies of `@exadel/eslint-config-esl` package, you don't need to install them separately.
