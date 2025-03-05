@@ -1,27 +1,17 @@
-import eslintjs from '@eslint/js';
-import {configs as typescriptConfigs} from 'typescript-eslint';
+import lang from './rules/lang/index.js';
+import base from './rules/base/index.js';
+import extended from './rules/strict/index.js';
+import codestyle from './rules/codestyle/index.js';
 
-import esbase from './rules/es.base.js';
-import tsbase from './rules/ts.base.js';
-import stylistic from './rules/stylistic.js';
+export {lang, base, codestyle};
 
-import tsdoc from './rules/tsdoc.js';
-import sonarjs from './rules/sonarjs.js';
-import editorconfig from './rules/editorconfig.js';
-import importconfig from './rules/import.js';
-
-import lang from './rules/lang.ts.js';
-
-export {lang};
+export const medium = [
+  ...base,
+  ...codestyle
+];
 
 export const strict = [
-  eslintjs.configs.recommended,
-  ...typescriptConfigs.recommended,
-  ...esbase,
-  ...tsbase,
-  ...stylistic,
-  ...sonarjs,
-  ...editorconfig,
-  ...importconfig,
-  ...tsdoc
+  ...base,
+  ...extended,
+  ...codestyle
 ];

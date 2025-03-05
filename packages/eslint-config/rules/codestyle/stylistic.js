@@ -1,4 +1,5 @@
 import stylistic from '@stylistic/eslint-plugin';
+import stylisticJsx from '@stylistic/eslint-plugin-jsx';
 
 export default [
   {
@@ -132,4 +133,14 @@ export default [
       '@stylistic/brace-style': 'off',
     }
   },
+  {
+    files: ['**/*.tsx', '**/*.jsx'],
+    plugins: {
+      '@stylistic/jsx': stylisticJsx
+    },
+    rules: {
+      '@stylistic/indent': 'off',
+      '@stylistic/jsx/jsx-indent-props': ['warn', 'first']
+    }
+  }
 ];

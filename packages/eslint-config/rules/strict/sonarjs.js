@@ -26,19 +26,11 @@ export default [
       // Disallows identical functions
       'sonarjs/no-identical-functions': 'warn',
 
-      /** It is needlessly complex to invert the result of a boolean comparison.
-       *  The opposite comparison should be made instead.
-       */
-      'sonarjs/no-inverted-boolean-check': 'warn',
-
       // Disallows nested switch structures as they are difficult to understand
       'sonarjs/no-nested-switch': 'error',
 
       // Redundant Boolean literals should be removed from expressions to improve readability.
       'sonarjs/no-redundant-boolean': 'error',
-
-      // Disallows redundant jump statements, such as return, break and continue
-      'sonarjs/no-redundant-jump': 'error',
 
       // Code is clearest when each statement has its own line.
       'sonarjs/no-same-line-conditional': 'error',
@@ -49,10 +41,8 @@ export default [
       // This rule raises an issue when no methods are called on a collection other than those that add or remove values.
       'sonarjs/no-unused-collection': 'error',
 
-      // Disallows empty catch statements
-      'sonarjs/no-useless-catch': 'error',
-
-      /** When only the condition expression is defined in a for loop, and the initialization and
+      /**
+       * When only the condition expression is defined in a for loop, and the initialization and
        * increment expressions are missing, a while loop should be used instead to increase readability.
        */
       'sonarjs/prefer-while': 'error',

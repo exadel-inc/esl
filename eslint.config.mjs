@@ -12,7 +12,8 @@ export default [
   ...eslintConfigIgnore,
 
   // Using shared ESL ESLint Config
-  ...lang,
+  ...lang.js,
+  ...lang.ts,
   ...strict,
 
   // ESL ESLint Plugin

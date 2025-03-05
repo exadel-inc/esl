@@ -15,12 +15,14 @@
   "license": "MIT",
   "description": "Shared ESLint config used by ESL (@exadel/esl) team. Internal projects usage.",
   "main": "index.js",
+  "sideEffects": false,
   "scripts": {
     "test": ""
   },
   "dependencies": {
     "@eslint/js": "^9.21.0",
     "@stylistic/eslint-plugin": "^4.2.0",
+    "@stylistic/eslint-plugin-jsx": "^4.2.0",
     "globals": "^16.0.0",
     "eslint-plugin-editorconfig": "^4.0.3",
     "eslint-plugin-import-x": "^4.6.1",
