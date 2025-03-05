@@ -35,6 +35,9 @@ export default [
       // Enforce a maximum depth that callbacks can be nested
       'max-nested-callbacks': ['error', {'max': 3}],
 
+      // Warn about native alert usage
+      'no-alert': 'warn',
+
       // Bitwise operators are not recommended
       'no-bitwise': 'warn',
 
