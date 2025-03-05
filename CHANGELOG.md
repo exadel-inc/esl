@@ -1,3 +1,21 @@
+## [5.1.0](https://github.com/exadel-inc/esl/compare/v5.0.1...v5.1.0) (2025-03-05)
+
+### Features
+
+* **esl-lazy-template:** introducing `esl-lazy-template` mixin to load HTML parts lazy and asynchronous ([#2535](https://github.com/exadel-inc/esl/issues/2535)) ([344eb8c](https://github.com/exadel-inc/esl/commit/344eb8c133ce738c5ef28ab73b2e92e976aaf521))
+* **esl-media:** `esl-media-control` mixin created to control and observe `esl-media` state ([60695cc](https://github.com/exadel-inc/esl/commit/60695ccdf9dddc08e947c99783fdb21d6b349d90)), closes [#2876](https://github.com/exadel-inc/esl/issues/2876)
+* **esl-media:** `play-in-viewport` feature reworked to be more customizable ([3971eda](https://github.com/exadel-inc/esl/commit/3971eda571adcc711a44094e500541679858b18a))
+* **esl-media:** add cancelable `esl:media:before:play` event-hook to control low-level play call, prevent unnecessary player command execution ([#2939](https://github.com/exadel-inc/esl/issues/2939)) ([39eb59e](https://github.com/exadel-inc/esl/commit/39eb59e208aa856a2463218c3495805f19c7b9d1))
+* **esl-media:** observation for togglebale container state ([e66c384](https://github.com/exadel-inc/esl/commit/e66c3848e7b2c7ad68c6e0a1e11b667215a9ddde))
+* **esl-utils:** RTL type detection removed as it is out of current browser support list ([#2913](https://github.com/exadel-inc/esl/issues/2913)) ([3974302](https://github.com/exadel-inc/esl/commit/397430299885f46f0bac4d15fc349050989afd86))
+* **stylelint-config:** introducing `@exadel/stylelint-config-esl` instead of prettier ([db466d9](https://github.com/exadel-inc/esl/commit/db466d904f8b8f6f07eecf1b683ed5f04b87fa72))
+
+### Bug Fixes
+
+* **esl-event-listener:** fix `ESLEventUtils.subscribe(this)` does not subscribe descriptors if the host is function/class ([#2927](https://github.com/exadel-inc/esl/issues/2927)) ([010d3aa](https://github.com/exadel-inc/esl/commit/010d3aa18f9ca8ebd34594d60453dc102c40b9d2))
+* **esl-media:** auto-init call for non-lazy players with play-in-viewport feature enabled ([d4a30ab](https://github.com/exadel-inc/esl/commit/d4a30ab3c54e5ad5284918790700c83d1b274c1b))
+* **esl-media:** detect youtube provider stopped state ([#2918](https://github.com/exadel-inc/esl/issues/2918)) ([85da24f](https://github.com/exadel-inc/esl/commit/85da24ff3bb41e05a2e8582a1186c8706426972e))
+
 ## [5.0.1](https://github.com/exadel-inc/esl/compare/v5.0.0...v5.0.1) (2025-02-05)
 
 ### Bug Fixes
