@@ -128,7 +128,7 @@ export default [
     rules: {
       // Max parameters limit is not applied to tests
       'max-params': 'off',
-      // no class count limit for tests
+      // No class count limit for tests
       'max-classes-per-file': 'off',
       // Self compare might be singleton test case
       'no-self-compare': 'off',

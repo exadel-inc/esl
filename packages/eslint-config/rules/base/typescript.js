@@ -41,7 +41,7 @@ export default [
       // Prefers using either T[] or Array<T> for arrays
       '@typescript-eslint/array-type': 'warn',
 
-      // Does not bans @ts-<directive> comments in base ESLint configuration
+      // Does not ban @ts-<directive> comments in base ESLint configuration
       '@typescript-eslint/ban-ts-comment': 'off',
 
       // Bans Function types from being used

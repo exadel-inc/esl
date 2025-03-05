@@ -47,7 +47,7 @@ You either need to use ESM in your project or run eslint independently with `.mj
 
 ### Configuration
 
-ESL Shared ESLint config splitted into several configurations/bunches:
+ESL Shared ESLint Configuration is split into several configurations/bunches:
 - `base` - basic light linting configuration, uses `@eslint/js/` recommended and `typescript-eslint` recommended ruleset as a base. 
 - `codestyle` - code style configuration, additionally uses `@stylistic` and `import` plugins. Does not include `base` rules.
 - `medium` - medium configuration, combination `base` and `codestyle` rules.
