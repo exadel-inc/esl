@@ -24,7 +24,7 @@ export class YouTubeProvider extends BaseProvider {
 
   static override parseUrl(url: string): Partial<MediaProviderConfig> | null {
     if (this.providerRegexp.test(url)) {
-      const [, id] = url.match(this.idRegexp) || [];
+      const [, id] = this.idRegexp.exec(url) || [];
       return id ? {mediaId: id} : null;
     }
     return null;
