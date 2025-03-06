@@ -1,17 +1,15 @@
-import editorConfigPlugin from 'eslint-plugin-editorconfig';
+import stylistic from '@stylistic/eslint-plugin';
 
+// Use ESLint rules according to EditorConfig settings
 export default [
   {
     plugins: {
-      editorconfig: editorConfigPlugin
+      '@stylistic': stylistic
     },
     rules: {
-      // Enforce charset check
-      'editorconfig/charset': 'warn',
-      // Enforce EOL for all files
-      'editorconfig/eol-last': 'warn',
-      // Require no trailing spaces
-      'editorconfig/no-trailing-spaces': 'warn'
+      'unicode-bom': ['warn', 'never'],
+      '@stylistic/eol-last': 'warn',
+      '@stylistic/no-trailing-spaces': 'warn'
     }
   }
 ];
