@@ -48,10 +48,10 @@ You either need to use ESM in your project or run eslint independently with `.mj
 ### Configuration
 
 ESL Shared ESLint Configuration is split into several configurations/bunches:
-- `base` - basic light linting configuration, uses `@eslint/js/` recommended and `typescript-eslint` recommended ruleset as a base. 
-- `codestyle` - code style configuration, additionally uses `@stylistic` and `import` plugins. Does not include `base` rules.
+- `base` - basic light linting configuration, uses `@eslint/js/` recommended and `typescript-eslint` recommended ruleset as a base.
+- `codestyle` - code style configuration, uses `@stylistic` and `import` plugins. Does not include `base` rules.
 - `medium` - medium configuration, combination `base` and `codestyle` rules.
-- `strict` - strict configuration, includes `base` and `codestyle`, extended with `sonarjs` and `tsdoc` plugins and the most restrictive settings.
+- `strict` - strict configuration, includes `base` and `codestyle`, extended with the most restrictive settings.
 
 The `base` ruleset recommended for consumers to have basic code checks similar to ESL source code.
 The `codestyle` ruleset is recommended for projects that want to follow ESL code style.

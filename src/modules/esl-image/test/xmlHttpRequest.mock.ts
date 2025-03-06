@@ -1,4 +1,4 @@
-interface mockXMLHttpRequestController {
+interface MockedXMLHttpRequestController {
   open: jest.Mock;
   onreadystatechange: jest.Mock;
   cleanUp: () => void;
@@ -6,7 +6,7 @@ interface mockXMLHttpRequestController {
   send: jest.Mock;
 }
 
-interface mockedXMLHttpRequest {
+interface MockedXMLHttpRequest {
   open: jest.Mock;
   onreadystatechange: jest.Mock;
   send: jest.Mock;
@@ -15,7 +15,7 @@ interface mockedXMLHttpRequest {
   responseText: string;
 }
 
-export function mockXMLHttpRequest(): mockXMLHttpRequestController  {
+export function mockXMLHttpRequest(): MockedXMLHttpRequestController  {
   // mocked properties
   let readyState = 4;
   let status = 200;
@@ -45,7 +45,7 @@ export function mockXMLHttpRequest(): mockXMLHttpRequestController  {
   }
 
   // mock constructor that will replace window XMLHttpRequest
-  function mockConstructor(): mockedXMLHttpRequest {
+  function mockConstructor(): MockedXMLHttpRequest {
     return {
       readyState,
       status,
