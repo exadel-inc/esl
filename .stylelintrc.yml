@@ -15,7 +15,7 @@ rules:
 
 overrides:
   # Demo site pages sources
-  - files: ['site/**/*.{css,less}']
+  - files: ['packages/esl-website/**/*.{css,less}']
     rules:
       # No import restrictions
       esl-less/import-root: off

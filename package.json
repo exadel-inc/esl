@@ -58,11 +58,10 @@
   ],
   "workspaces": [
     "packages/*",
-    "e2e",
-    "site"
+    "e2e"
   ],
   "scripts": {
-    "start": "cd site && npm run start",
+    "start": "cd packages/esl-website && npm run start",
     "clean": "rimraf modules polyfills",
     "build": "npm run clean && concurrently \"npm run build:less\" \"npm run build:ts\" \"npm run build:docs\"",
     "build:ts": "tsc --project tsconfig.build.json",
@@ -80,8 +79,8 @@
     "test:unit": "jest --silent --noStackTrace",
     "test:report": "jest --coverage",
     "lint": "concurrently npm:lint:* && node build/catlog.js \"Linting passed\"",
-    "lint:js": "eslint \"src/**/*.ts\" \"site/src/**/*.ts\" --max-warnings 3",
-    "lint:css": "stylelint \"src/**/*.less\" \"site/src/**/*.less\"",
+    "lint:js": "eslint \"src/**/*.ts\" \"packages/**/*.ts\" --max-warnings 3",
+    "lint:css": "stylelint \"src/**/*.less\" \"packages/**/*.less\"",
     "prepare": "husky && npm run build",
     "preversion": "npm test",
     "version": "cross-env-shell \"npm version $npm_package_version --no-git-tag-version --ws\" && git add **/package*.json",
