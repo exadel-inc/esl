@@ -6,7 +6,7 @@ export const PLUGIN_PACKAGE = '@exadel/eslint-plugin-esl';
 
 export function getInstalledVersion(packageName: string): string {
   try {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     return require(`${packageName}/package.json`).version;
   } catch (error) {
     return '';

@@ -14,9 +14,9 @@
     "start:test": "npm run clean && npm run build:ts && npm run build:less && npm run run:eleventy:e2e",
     "test": "",
     "clean": "rimraf \"dist\"",
-    "watch:lib": "cd .. && npm run watch",
+    "watch:lib": "cd ../.. && npm run watch",
     "watch:ts": "webpack --watch",
-    "watch:less": "chokidar --initial \"../node_modules/@exadel/esl/modules/**/*.less\" \"src/**/*.less\" -c \"npm run build:less\"",
+    "watch:less": "chokidar --initial \"../../node_modules/@exadel/esl/modules/**/*.less\" \"src/**/*.less\" -c \"npm run build:less\"",
     "watch:eleventy": "eleventy --serve --incremental -- --env=development",
     "minify:css": "cleancss --batch --batch-suffix \"\" \"dist/bundles/*.css\" --source-map",
     "run:eleventy": "eleventy --serve -- --env=production",
@@ -25,12 +25,12 @@
     "build:ts": "webpack --mode=production",
     "build:less": "foreach -x \"lessc #{path} dist/bundles/#{name}.css --source-map=dist/bundles/#{name}.css.map\" -g \"src/*.less\"",
     "build:eleventy": "eleventy -- --env=production",
-    "build:analyzer": "webpack --mode=production --profile --json ../.report/stats.json && webpack-bundle-analyzer ../.report/stats.json dist/bundles -s gzip -m static -r ../.report/stats.html"
+    "build:analyzer": "webpack --mode=production --profile --json dist/stats.json && webpack-bundle-analyzer dist/stats.json dist/bundles -s gzip -m static -r dist/stats.html"
   },
   "dependencies": {
     "@11ty/eleventy": "^3.0.0",
     "@11ty/eleventy-dev-server": "^2.0.6",
-    "@exadel/esl": "../",
+    "@exadel/esl": "../../",
     "@exadel/ui-playground": "2.1.0-beta.7",
     "@juggle/resize-observer": "^3.4.0",
     "@types/prismjs": "^1.26.5",
@@ -48,8 +48,8 @@
     "webpack-cli": "^6.0.1"
   },
   "browserslist": [
-    "last 3 versions",
-    "> 1%",
+    "last 3 major version",
+    ">0.3%",
     "not dead"
   ]
 }

@@ -92,27 +92,27 @@ ESL project consists of the following directories:
   - [📁 polyfills](../src/polyfills) - small polyfills and shims distributed with the library
 
 
-- [📁 site](../site) - demo site root directory
-  - [📁 11ty](../site/11ty) - demo site 11ty configuration files
-    - 📄 *.js - will be applied to 11ty config automatically
-    - 📄 _*.js - will not be applied to 11ty configuration
-  - [🔨📁 dist](../site/dist) - demo site build output directory
-  - [📁 src](../site/src) - demo site common styles and scripts sources
-  - [📁 static](../site/static) - demo site common static assets sources
-    - [📁 assets](../site/static/assets) - demo site static assets (images, fonts, icons)
-    - [📁 tools](../site/static/tools) - common files to configure GH Pages
-  - [📁 views](../site/views) - demo pages templates and 11ty common templates
-    - [📁 _data](../site/views/_data) - 11ty [global data](https://www.11ty.dev/docs/data-global/) files
-    - [📁 _includes](../site/views/_includes) - 11ty templates common parts
-    - [📁 _layouts](../site/views/_layouts) - 11ty pages layouts definitions
-    - [📁 components](../site/views/components) - ESL components articles
-    - [📁 examples](../site/views/examples) - examples articles
-    - [📁 core](../site/views/core) - ESL core articles
-  - [🔧 .eleventy.js](../site/.eleventy.js) - main 11ty configuration file
-  - [🔧 tsconfig.json](../site/tsconfig.json) - TS config for demo pages scripts
-  - [🔧 webpack.config.js](../site/webpack.config.js) - webpack build file for demo pages
-
 - [📁 packages](../packages) - ESL monorepo sub-packages
+  - [📁 site](../packages/esl-website) - demo site root directory
+    - [📁 11ty](../packages/esl-website/11ty) - demo site 11ty configuration files
+      - 📄 *.js - will be applied to 11ty config automatically
+      - 📄 _*.js - will not be applied to 11ty configuration
+    - [🔨📁 dist](../packages/esl-website/dist) - demo site build output directory
+    - [📁 src](../packages/esl-website/src) - demo site common styles and scripts sources
+    - [📁 static](../packages/esl-website/static) - demo site common static assets sources
+      - [📁 assets](../packages/esl-website/static/assets) - demo site static assets (images, fonts, icons)
+      - [📁 tools](../packages/esl-website/static/tools) - common files to configure GH Pages
+    - [📁 views](../packages/esl-website/views) - demo pages templates and 11ty common templates
+      - [📁 _data](../packages/esl-website/views/_data) - 11ty [global data](https://www.11ty.dev/docs/data-global/) files
+      - [📁 _includes](../packages/esl-website/views/_includes) - 11ty templates common parts
+      - [📁 _layouts](../packages/esl-website/views/_layouts) - 11ty pages layouts definitions
+      - [📁 components](../packages/esl-website/views/components) - ESL components articles
+      - [📁 examples](../packages/esl-website/views/examples) - examples articles
+      - [📁 core](../packages/esl-website/views/core) - ESL core articles
+    - [🔧 .eleventy.js](../packages/esl-website/.eleventy.js) - main 11ty configuration file
+    - [🔧 tsconfig.json](../packages/esl-website/tsconfig.json) - TS config for demo pages scripts
+    - [🔧 webpack.config.js](../packages/esl-website/webpack.config.js) - webpack build file for demo pages
+
   - [📁 eslint-plugin](../packages/eslint-plugin) - sub-package root for ESL ESLint plugin 
     - [📁 src](../packages/eslint-plugin/src) - ESLint plugin sources
     - [📁 test](../packages/eslint-plugin/test) - ESLint plugin tests
@@ -123,7 +123,6 @@ ESL project consists of the following directories:
     - [📄 index.js](../packages/stylelint-config/index.js) - StyleLint shared configuration main file
 
 - [📁 build](../build) - library common build scripts
-- [📁 linting](../linting) - ES Lint rule-sets
 - [📁 .github](../.github) - library repository configuration and documentation
 - [📁 .husky](../.husky) - git hooks configuration
 

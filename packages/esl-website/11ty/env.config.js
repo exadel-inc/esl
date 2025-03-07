@@ -1,6 +1,6 @@
 import config from '@exadel/esl/package.json' with {type: 'json'};
 
-const env = process.argv.find(arg => arg.startsWith('--env='))?.split('=')[1];
+const env = process.argv.find((arg) => arg.startsWith('--env='))?.split('=')[1];
 const isE2E = env === 'e2e';
 const isDev = env === 'development' || isE2E;
 const date = new Date();
