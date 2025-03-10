@@ -1,7 +1,7 @@
 import path, {dirname} from 'path';
 import {fileURLToPath} from 'url';
 
-const FILE_ROOT = dirname(fileURLToPath(import.meta.url));
+const PWD = dirname(fileURLToPath(import.meta.url));
 
 const BASE_CONFIG = {
   mode: 'development',
@@ -38,7 +38,7 @@ export default [{
     'polyfill': './src/polyfill.ts'
   },
   output: {
-    path: path.resolve(FILE_ROOT, 'dist/bundles'),
+    path: path.resolve(PWD, 'dist/bundles'),
     filename: '[name].js',
     chunkFilename: '[name].js'
   }
@@ -51,7 +51,7 @@ export default [{
     outputModule: true,
   },
   output: {
-    path: path.resolve(FILE_ROOT, 'dist/bundles'),
+    path: path.resolve(PWD, 'dist/bundles'),
     filename: '[name].js',
     library: {
       type: 'module'

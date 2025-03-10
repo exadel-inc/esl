@@ -3,9 +3,9 @@ import {fileURLToPath} from 'url';
 import path, {dirname} from 'path';
 import yaml from 'js-yaml';
 
-const FILE_ROOT = dirname(fileURLToPath(import.meta.url));
+const PWD = dirname(fileURLToPath(import.meta.url));
 
-const content = fs.readFileSync(path.resolve(FILE_ROOT, '../site.yml'), 'utf8');
+const content = fs.readFileSync(path.resolve(PWD, '../site.yml'), 'utf8');
 const siteConfig = yaml.load(content, {});
 
 // Override the base URL if it's set in the environment
