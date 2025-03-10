@@ -1,13 +1,13 @@
 import path, {dirname} from 'path';
-import color from 'kleur';
-
 import {fileURLToPath} from 'url';
-import {JSDOM} from 'jsdom';
 import {readFile} from 'fs/promises';
+
+import color from 'kleur';
+import {JSDOM} from 'jsdom';
 import {markdown} from './markdown.lib.js';
 import {siteConfig} from './site.config.js';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
+const FILE_ROOT = dirname(fileURLToPath(import.meta.url));
 
 class MDRenderer {
   static async render(filePath, startAnchor, endAnchor) {
@@ -50,7 +50,7 @@ class MDRenderer {
 
   /** Read file and render markdown */
   static async parseFile(filePath) {
-    const absolutePath = path.resolve(__dirname, '../../', filePath);
+    const absolutePath = path.resolve(FILE_ROOT, '../../../', filePath);
     const data = await readFile(absolutePath);
     const content = data.toString();
     return markdown.render(content);

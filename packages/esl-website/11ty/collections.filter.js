@@ -1,4 +1,4 @@
-/** get value from object by path */
+/** get value from an object by path */
 const get = (item, path) => path.split('.').reduce((acc, key) => acc && acc[key], item);
 
 /**
