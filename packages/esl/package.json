@@ -1,12 +1,25 @@
 {
-  "name": "@exadel/esl-root",
-  "private": true,
+  "name": "@exadel/esl",
   "version": "5.1.0",
+  "private": false,
   "description": "Exadel Smart Library (ESL) is the lightweight custom elements library that provide a set of super-flexible components",
   "license": "MIT",
   "homepage": "https://esl-ui.com/",
   "keywords": [
-    "esl"
+    "esl",
+    "lightweight",
+    "typescript",
+    "flexible",
+    "web components",
+    "web components utils",
+    "custom elements",
+    "custom elements ts",
+    "component library",
+    "animate",
+    "accordion",
+    "tabs",
+    "embedded-video",
+    "scrollbar"
   ],
   "bugs": {
     "url": "https://github.com/exadel-inc/esl/issues"
@@ -15,36 +28,57 @@
     "type": "git",
     "url": "git+https://github.com/exadel-inc/esl.git"
   },
-  "workspaces": [
-    "packages/*"
+  "publishConfig": {
+    "access": "public",
+    "scope": "@exadel"
+  },
+  "files": [
+    "modules/**/*.{js,ts,less,css,md}",
+    "polyfills/**/*.{js,ts,less,css,md}",
+    "tsconfig.json",
+    "CLA.md"
+  ],
+  "module": "modules/all.js",
+  "types": "modules/all.d.ts",
+  "sideEffects": [
+    "modules/lib.js",
+    "modules/esl-media/providers/**/*.js",
+    "modules/esl-share/actions/**/*.js",
+    "modules/esl-share/buttons/**/*.js",
+    "modules/esl-carousel/core.js",
+    "modules/esl-carousel/renderers/**/*.js",
+    "src/modules/lib.ts",
+    "src/modules/esl-media/providers/**/*.ts",
+    "src/modules/esl-share/actions/**/*.ts",
+    "src/modules/esl-share/buttons/**/*.ts",
+    "src/modules/esl-carousel/core.ts",
+    "src/modules/esl-carousel/renderers/**/*.ts",
+    "polyfills/**/*.js"
   ],
   "scripts": {
-    "start": "cd packages/esl-website && npm run start",
-    "clean": "rimraf modules polyfills",
+    "clean": "rimraf modules",
     "build": "npm run clean && concurrently \"npm run build:less\" \"npm run build:ts\" \"npm run build:docs\"",
     "build:ts": "tsc --project tsconfig.build.json",
     "build:less": "npm run build:less:cpy && npm run build:less:css",
-    "build:less:cpy": "copyfiles \"src/**/*.less\" \".\" --up 1 --all",
+    "build:less:cpy": "copyfiles \"src/**/*.less\" \"modules\" --up 1 --all",
     "build:less:css": "foreach -x \"lessc #{path} #{dir}/#{name}.css\" -i \"**/*.mixin.less\" -g \"modules/{*,*/*,{esl-utils,esl-forms}/*/*}.less\"",
-    "build:docs": "copyfiles \"src/**/*.md\" \".\" --up 1 --all",
+    "build:docs": "copyfiles \"src/**/*.md\" \"modules\" --up 1 --all",
     "watch": "concurrently npm:watch:*",
     "watch:ts": "tsc --project tsconfig.build.json --watch",
     "watch:less": "chokidar --initial \"src/**/*.less\" -c \"npm run build:less\"",
     "test": "concurrently \"npm run lint\" \"npm run test:unit\"",
     "test:ci": "jest --coverage --silent --noStackTrace",
-    "test:e2e": "npm run run --workspace packages/snapshot-tests",
-    "test:e2e:update": "npm run run:update --workspace packages/snapshot-tests",
     "test:unit": "jest --silent --noStackTrace",
     "test:report": "jest --coverage",
     "lint": "concurrently npm:lint:* && node build/catlog.js \"Linting passed\"",
-    "lint:js": "eslint \"src/**/*.ts\" \"packages/**/*.ts\" --max-warnings 3",
-    "lint:css": "stylelint \"src/**/*.less\" \"packages/**/*.less\"",
+    "lint:js": "eslint \"src/**/*.ts\" --max-warnings 3",
+    "lint:css": "stylelint \"src/**/*.less\"",
     "prepare": "husky && npm run build",
-    "preversion": "npm test",
-    "version": "cross-env-shell \"npm version $npm_package_version --no-git-tag-version --ws\" && git add **/package*.json",
-    "postpack": "npm pack --workspace packages/eslint-plugin --workspace packages/eslint-config --workspace packages/stylelint-config",
-    "postpublish": "npm publish --workspace packages/eslint-plugin --workspace packages/eslint-config --workspace packages/stylelint-config",
-    "fix:less": "stylelint --fix \"**/*.less\""
+    "preversion": "npm test"
+  },
+  "dependencies": {
+    "@types/video.js": "7.3.58",
+    "@types/youtube": "0.1.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.0",

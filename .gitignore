@@ -12,10 +12,6 @@ node_modules
 *.tgz
 target
 
-# Generated surces
-/modules
-/polyfills
-
 # NPM
 .npmrc
 
