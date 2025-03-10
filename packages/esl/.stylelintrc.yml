@@ -1,6 +1,6 @@
 plugins:
   # Custom plugin to disallow absolute import paths
-  - ./build/import.stylelint.js
+  - ../../build/import.stylelint.js
 # Use LESS preprocessor
 customSyntax: postcss-less
 
@@ -12,14 +12,3 @@ rules:
   esl-less/import-root: never
   # Disallow duplicate properties within declaration blocks
   declaration-block-no-duplicate-properties: true
-
-overrides:
-  # Demo site pages sources
-  - files: ['packages/esl-website/**/*.{css,less}']
-    rules:
-      # No import restrictions
-      esl-less/import-root: off
-      # Warn about duplicate properties within declaration blocks
-      declaration-block-no-duplicate-properties:
-        - true
-        - severity: warning

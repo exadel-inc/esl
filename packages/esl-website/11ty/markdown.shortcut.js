@@ -50,7 +50,8 @@ class MDRenderer {
 
   /** Read file and render markdown */
   static async parseFile(filePath) {
-    const absolutePath = path.resolve(PWD, '../../../', filePath);
+    const routedPath = filePath.replace(/^@/, 'node_modules/@');
+    const absolutePath = path.resolve(PWD, '../../../', routedPath);
     const data = await readFile(absolutePath);
     const content = data.toString();
     return markdown.render(content);

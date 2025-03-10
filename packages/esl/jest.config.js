@@ -3,24 +3,24 @@ module.exports = {
     '^.+\\.tsx?$': 'ts-jest'
   },
   testEnvironment: 'jsdom',
-  roots: ['src/modules', 'src/polyfills'],
+  roots: ['src'],
   testRegex: '/test/(.+)\\.test\\.ts$',
   moduleFileExtensions: ['ts', 'js', 'json', 'html'],
   coverageDirectory: '.report',
   coverageReporters: ['lcov', 'html'],
   setupFiles: [
-    './src/modules/esl-utils/test/deviceDetector.mock.ts',
-    './src/modules/esl-utils/test/matchMedia.mock.ts',
-    './src/modules/esl-utils/test/resizeObserver.mock.ts'
+    './src/esl-utils/test/deviceDetector.mock.ts',
+    './src/esl-utils/test/matchMedia.mock.ts',
+    './src/esl-utils/test/resizeObserver.mock.ts'
   ],
   collectCoverageFrom: [
-    'src/modules/**/*.ts',
+    'src/**/*.ts',
     // test dir
     '!src/**/test/*.ts',
     // cumulative exclude
-    '!src/modules/*.ts',
-    '!src/modules/*/*.ts',
+    '!src/*.ts',
+    '!src/*/*.ts',
     // libs exclude
-    '!**/node_modules/**',
+    '!**/node_modules/**'
   ]
 };

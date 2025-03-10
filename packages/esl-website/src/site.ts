@@ -1,8 +1,3 @@
-// Support for ES5 bundle target
-import '@exadel/esl/polyfills/es5-target-shim';
-// Validate environment
-import '@exadel/esl/polyfills/polyfills.validate';
-
 // With Namespace
 import '@exadel/esl/modules/lib';
 // Config
