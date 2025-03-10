@@ -10,7 +10,7 @@
     "run:update": "jest -u",
     "run:update:only": "jest -u --no-autorun",
     "run:tests:only": "jest --no-autorun",
-    "run:server": "cd .. && cross-env-shell PORT=3007 npm run start:test --workspace=packages/esl-website",
+    "run:server": "cd ../.. && cross-env-shell PORT=3007 npm run start:test --workspace=packages/esl-website",
     "test": "eslint \"**/*.ts\""
   },
   "dependencies": {

@@ -12,8 +12,6 @@ node_modules
 *.tgz
 target
 
-e2e/.diff
-
 # Generated surces
 /modules
 /polyfills
