@@ -39,7 +39,6 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
    * Expect serialized {@link ESLMediaRule}s separated by '|'
    *
    * @param query - query ("arrow" syntax) string
-   * @alias parseQuery
    */
   public static parse(query: string): ESLMediaRuleList<string>;
   /**
@@ -48,7 +47,6 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
    *
    * @param query - query string
    * @param parser - value parser function
-   * @alias parseQuery
    */
   public static parse<U>(query: string, parser: RulePayloadParser<U>): ESLMediaRuleList<U>;
   /**
