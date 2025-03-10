@@ -18,7 +18,3 @@ target
 # Logs & Tmp
 npm-debug.log
 .gitconfig
-
-# Jest & Sonar
-/.report
-/.scannerwork

@@ -21,7 +21,7 @@
   "scripts": {
     "start": "cd packages/esl-website && npm run start",
     "test": "npm run test -ws",
-    "test:ci": "npm run test:ci --workspace packages/esl",
+    "test:ci": "npm run test --ws -- --coverage",
     "test:e2e": "npm run run --workspace packages/snapshot-tests",
     "test:e2e:update": "npm run run:update --workspace packages/snapshot-tests",
     "test:unit": "jest --silent --noStackTrace",

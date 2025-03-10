@@ -41,7 +41,7 @@ jobs:
       - name: Install NPM Dependencies
         run: npm ci
       - name: Build ESL
-        run: npm run build
+        run: npm run build -w packages/esl
       - name: Build Site
         run: npm run build -w packages/esl-website
         env:

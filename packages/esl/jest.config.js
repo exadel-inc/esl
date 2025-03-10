@@ -6,7 +6,6 @@ module.exports = {
   roots: ['src'],
   testRegex: '/test/(.+)\\.test\\.ts$',
   moduleFileExtensions: ['ts', 'js', 'json', 'html'],
-  coverageDirectory: '.report',
   coverageReporters: ['lcov', 'html'],
   setupFiles: [
     './src/esl-utils/test/deviceDetector.mock.ts',
