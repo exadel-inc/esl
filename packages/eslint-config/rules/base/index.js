@@ -4,6 +4,7 @@ import {configs as typescriptConfigs} from 'typescript-eslint';
 import esbase from './ecmascript.js';
 import tsbase from './typescript.js';
 import imports from './imports.js';
+import sonarjs from './sonarjs.js';
 
 export {esbase, tsbase, imports};
 
@@ -12,5 +13,6 @@ export default [
   ...typescriptConfigs.recommended,
   ...esbase,
   ...tsbase,
-  ...imports
+  ...imports,
+  ...sonarjs
 ];
