@@ -50,19 +50,19 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: automation-diff-report
-          path: e2e/.diff
+          path: packages/snapshot-tests/.diff
       - name: Deploy Latest Issued Report To Branch
         if: failure()
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: e2e/.diff
+          publish_dir: packages/snapshot-tests/.diff
           publish_branch: ${{ env.DIFF_REPORT_BRANCH }}
       - name: Render Report
         if: always()
         shell: bash
         run: |
-          cat e2e/.diff/index.md >> $GITHUB_STEP_SUMMARY
+          cat packages/snapshot-tests/.diff/index.md >> $GITHUB_STEP_SUMMARY
 
   e2e-tests-update-snapshots:
     name: Update Automation Testing Snapshots
