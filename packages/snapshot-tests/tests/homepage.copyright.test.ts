@@ -4,7 +4,7 @@ describe('Homepage footer manual validation', () => {
   beforeAll(() => goTo('/'));
 
   test('Check if the footer copyright contains correct version', async () => {
-    const root = await import('../../package.json');
+    const root = await import('../../../package.json');
     const version = root.version;
     const $copyright = await page.$('footer .footer-copyright');
 
