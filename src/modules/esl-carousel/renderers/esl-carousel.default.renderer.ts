@@ -48,14 +48,9 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
 
   public override redraw(initial = false): void {
     this.resize();
-    // Calculate initial offset based on current rendered state (available only on an initial render)
-    const fallbackOffset = initial ? this.getOffset(this.getReserveCount()) : 0;
-
     this.reorder();
     this.setActive(this.currentIndex);
 
-    // Set initial offset based on pre-calculation
-    initial && this.setTransformOffset(-fallbackOffset);
     // Update offset according to main algorithm (fix edge cases if the fallback offset is not correct)
     this.setTransformOffset(-this.getOffset(this.currentIndex));
   }
