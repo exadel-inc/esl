@@ -17,7 +17,8 @@
   "main": "index.js",
   "scripts": {
     "test": "",
-    "lint": ""
+    "lint": "",
+    "pack:tar": "npm pack --pack-destination ../../"
   },
   "dependencies": {
     "@stylistic/stylelint-config": "^2.0.0",

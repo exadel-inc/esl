@@ -65,13 +65,12 @@
     "watch": "concurrently npm:watch:*",
     "watch:ts": "tsc --project tsconfig.build.json --watch",
     "watch:less": "chokidar --initial \"src/**/*.less\" -c \"npm run build:less\"",
-    "test": "jest --silent --noStackTrace",
-    "test:report": "jest --coverage",
+    "test": "nx jest:test --silent --noStackTrace",
+    "test:report": "nx jest:test --coverage",
     "lint": "concurrently npm:lint:*",
     "lint:js": "eslint \"src/**/*.ts\"",
     "lint:css": "stylelint \"src/**/*.less\"",
-    "prepare": "husky && npm run build",
-    "preversion": "concurrently \"npm run lint\" \"npm run test:unit\""
+    "pack:tar": "npm pack --pack-destination ../../"
   },
   "dependencies": {
     "@types/video.js": "7.3.58",

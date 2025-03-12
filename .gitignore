@@ -18,3 +18,6 @@ target
 # Logs & Tmp
 npm-debug.log
 .gitconfig
+
+.nx/cache
+.nx/workspace-data
