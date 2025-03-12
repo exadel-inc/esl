@@ -1,24 +1,16 @@
 @import (reference) '../common/variables.less';
 @import './base-layout.less';
 
-.landing-layout {
-  display: flex;
-  flex-direction: column;
-
-  color: @landing-fg-color;
-
-  @media screen {
-    main {
-      height: 100%;
-    }
-  }
-
-  background: @landing-bg-color url('/assets/common/stars.webp') repeat;
+.star-background {
+  background: @landing-bg-color url('/assets/common/stars.webp') repeat fixed;
   background-size: 50vw auto;
+}
 
+.fog-background {
   &::before {
     content: '';
-    position: absolute;
+    pointer-events: none;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -32,6 +24,18 @@
       display: none;
     }
   }
+
+  @media @md-xl {
+    &::before {
+      z-index: 11;
+    }
+  }
+}
+
+.landing-layout {
+  .star-background;
+  .fog-background;
+  color: @landing-fg-color;
 
   @keyframes slow-move-right {
     0% {
@@ -48,10 +52,6 @@
   }
 
   .main-scroll {
-    position: absolute;
-    z-index: 5;
-    bottom: 0;
-    top: @header-height-mobile;
     @media @md-xl {
       top: @header-height-desktop;
     }
@@ -66,7 +66,7 @@
 
   @media @md-xl {
     .header {
-      background-color: transparent;
+      .star-background;
     }
   }
 }
