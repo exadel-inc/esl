@@ -18,14 +18,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Deep Checkout
         uses: actions/checkout@v4
-      - name: Create release branch
-        run: |
-          git checkout -b release/main
+        with:
+          fetch-depth: 0
 
       - name: Install NPM Dependencies
         run: npm ci
+
+#      - name: Store current version
+#        id: current_version
+#        run: echo "version=$(jq -r '.version' lerna.json)" >> $GITHUB_ENV
+
       - name: Version Bump (Lerna)
         run: npx lerna version --conventional-commits --yes
 
@@ -33,11 +37,20 @@ jobs:
         id: info
         run: echo "version=$(jq -r '.version' lerna.json)" >> $GITHUB_ENV
 
-      - name: Commit & Push changes
+      - name: Set Git user globally to github-actions
+        uses: gotmax23/set-bot-git-user-action@main
+        with:
+          global: true
+          bot: github-actions
+          name: "Github Actions: Release PR Bot"
+
+
+      - name: Push staged changes to release/main branch
         run: |
-          git add .
-          git commit -m "chore: release v${{ steps.info.outputs.version }}"
-          git push origin release/main --force
+            git checkout -b release/main
+            git add .
+            git commit -m "Release v${{ steps.info.outputs.version }}"
+            git push origin release/main --force
 
       # Open a PR from release/main to main
       - name: Create Pull Request
