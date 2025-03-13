@@ -19,11 +19,12 @@
     "dist/**/*.{js,ts,md}"
   ],
   "scripts": {
-    "test": "nx jest:test",
+    "test": "jest",
     "lint": "",
     "clean": "rimraf dist",
     "build": "npm run clean && tsc --project tsconfig.build.json",
-    "pack:tar": "npm pack --pack-destination ../../"
+    "pack": "npm pack --pack-destination ../../",
+    "prepare": "npm run build"
   },
   "dependencies": {
     "kleur": "^4.1.5",

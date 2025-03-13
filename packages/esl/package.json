@@ -65,16 +65,21 @@
     "watch": "concurrently npm:watch:*",
     "watch:ts": "tsc --project tsconfig.build.json --watch",
     "watch:less": "chokidar --initial \"src/**/*.less\" -c \"npm run build:less\"",
-    "test": "nx jest:test --silent --noStackTrace",
-    "test:report": "nx jest:test --coverage",
+    "test": "jest --silent --noStackTrace",
     "lint": "concurrently npm:lint:*",
     "lint:js": "eslint \"src/**/*.ts\"",
     "lint:css": "stylelint \"src/**/*.less\"",
-    "pack:tar": "npm pack --pack-destination ../../"
+    "pack": "npm pack --pack-destination ../../",
+    "prepare": "npm run build"
   },
   "dependencies": {
     "@types/video.js": "7.3.58",
     "@types/youtube": "0.1.0"
+  },
+  "devDependencies": {
+    "@exadel/eslint-config-esl": "../eslint-config",
+    "@exadel/eslint-plugin-esl": "../eslint-plugin",
+    "@exadel/stylelint-config-esl": "../stylelint-config"
   },
   "contributors": [
     {

@@ -6,16 +6,16 @@
   "homepage": "https://esl-ui.com/",
   "license": "MIT",
   "scripts": {
-    "run": "nx jest:test",
-    "run:update": "nx jest:test -u",
-    "run:update:only": "nx jest:test -u --no-autorun",
-    "run:tests:only": "nx jest:test --no-autorun",
+    "run": "jest",
+    "run:update": "jest -u",
+    "run:update:only": "jest -u --no-autorun",
+    "run:tests:only": "jest --no-autorun",
     "run:server": "cd ../.. && cross-env-shell PORT=3007 npm run start:test --workspace=packages/esl-website",
     "test": "",
     "lint": "eslint \"**/*.ts\""
   },
   "dependencies": {
-    "@exadel/esl-website": "*",
+    "@exadel/esl-website": "../esl-website",
     "@types/jest-environment-puppeteer": "^5.0.6",
     "@types/pixelmatch": "^5.2.6",
     "@types/puppeteer": "^7.0.4",

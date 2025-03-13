@@ -33,7 +33,7 @@
   "dependencies": {
     "@11ty/eleventy": "^3.0.0",
     "@11ty/eleventy-dev-server": "^2.0.6",
-    "@exadel/esl": "*",
+    "@exadel/esl": "../esl",
     "@exadel/ui-playground": "2.1.0-beta.7",
     "@juggle/resize-observer": "^3.4.0",
     "@types/prismjs": "^1.26.5",
@@ -43,7 +43,7 @@
     "image-size": "^2.0.0",
     "js-yaml": "^4.1.0",
     "out-url": "^1.2.2",
-    "prismjs": "^1.29.0",
+    "prismjs": "^1.30.0",
     "smoothscroll-polyfill": "^0.4.4",
     "ts-loader": "^9.5.2",
     "webpack": "^5.98.0",

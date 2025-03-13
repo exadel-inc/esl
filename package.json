@@ -20,23 +20,15 @@
   ],
   "scripts": {
     "start": "cd packages/esl-website && npm run start",
-    "test": "lerna run test",
-    "test:ci": "lerna run test -- --coverage",
+    "test": "lerna run test --parallel",
+    "test:ci": "lerna run test --parallel -- --coverage",
     "test:e2e": "npm run run --workspace packages/snapshot-tests",
     "test:e2e:update": "npm run run:update --workspace packages/snapshot-tests",
-    "test:unit": "jest --silent --noStackTrace",
-    "test:report": "jest --coverage",
-    "lint": "lerna run lint",
+    "lint": "lerna run lint --parallel",
+    "build": "lerna run build",
+    "pack": "lerna run pack",
     "prepare": "husky",
-    "preversion": "npm test",
-    "pack": "lerna run pack:tar",
-    "_publish": "npm publish --workspace packages/esl --workspace packages/eslint-plugin --workspace packages/eslint-config --workspace packages/stylelint-config"
-  },
-  "dependencies": {
-    "@exadel/esl": "file:packages/esl",
-    "@exadel/eslint-config-esl": "file:packages/eslint-config",
-    "@exadel/eslint-plugin-esl": "file:packages/eslint-plugin",
-    "@exadel/stylelint-config-esl": "file:packages/stylelint-config"
+    "preversion": "npm test"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.0",
@@ -61,6 +53,7 @@
     "lerna": "^8.2.1",
     "less": "^4.2.2",
     "lint-staged": "^15.4.3",
+    "nx": "20.5.0",
     "postcss": "^8.5.3",
     "postcss-less": "^6.0.0",
     "rimraf": "^6.0.1",
@@ -68,9 +61,7 @@
     "smoothscroll-polyfill": "^0.4.4",
     "stylelint": "^16.15.0",
     "ts-jest": "^29.2.6",
-    "typescript": "5.8.2",
-    "nx": "20.5.0",
-    "@nx/jest": "20.5.0"
+    "typescript": "5.8.2"
   },
   "overrides": {
     "conventional-changelog-conventionalcommits": ">= 8.0.0"
