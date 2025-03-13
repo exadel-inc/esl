@@ -26,12 +26,12 @@ jobs:
       - name: Install NPM Dependencies
         run: npm ci
 
-      - name: Set Git user globally to github-actions
-        uses: gotmax23/set-bot-git-user-action@main
-        with:
-          global: true
-          bot: github-actions
-          name: "Github Actions: Release PR Bot"
+#      - name: Set Git user globally to github-actions
+#        uses: gotmax23/set-bot-git-user-action@main
+#        with:
+#          global: true
+#          bot: github-actions
+#          name: "Github Actions: Release PR Bot"
 
       - name: Version Bump (Lerna)
         run: npx lerna version --conventional-commits --yes
@@ -45,22 +45,15 @@ jobs:
             console.log('Current version:', version);
             core.setOutput('version', version);
 
-      - if: steps.info.outputs.version
-        name: Push staged changes to release/main branch
-        run: |
-          git checkout -b release/main
-          git add .
-          git commit -m "chore: release v${{ steps.info.outputs.version }}" --no-verify
-          git push origin release/main --force --no-verify
-
       # Open a PR from release/main to main
       - if: steps.info.outputs.version
         name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
         with:
-          base: ${{ github.ref }}
           branch: release/main
           title: "Auto PR: release/main → main (v${{ steps.info.outputs.version }})"
-          body: "This is an automated Release PR"
+          commit-message: 'chore: release v${{ steps.info.outputs.version }}'
+          body: "This is an automated Release PR for version v${{ steps.info.outputs.version }}."
+          draft: true
           labels: "automated-pr"
           assignees: "ala-n"
