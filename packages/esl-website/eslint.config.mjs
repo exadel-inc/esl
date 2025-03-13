@@ -1,15 +1,22 @@
 import {lang, strict} from '@exadel/eslint-config-esl';
 import {recommended as eslRecommended} from '@exadel/eslint-plugin-esl';
-import eslintConfigIgnore from './eslint.config.ignore.mjs';
 
 export default [
+  {
+    ignores: [
+      // Common configuration
+      'eslint.config.js',
+      // Common directories
+      'node_modules/**',
+      'dist/**',
+    ]
+  },
   {
     files: ['**/*.ts', '**/*.tsx'],
     linterOptions: {
       reportUnusedDisableDirectives: 'warn'
     }
   },
-  ...eslintConfigIgnore,
 
   // Using shared ESL ESLint Config
   ...lang.js,
@@ -19,15 +26,8 @@ export default [
   // ESL ESLint Plugin
   ...eslRecommended,
 
-  // Overrides
+  // Custom ESLint rules
   {
-    files: ['**/polyfills/**/*.ts'],
-    rules: {
-      'no-new-wrappers': 'off'
-    }
-  },
-  {
-    files: ['site/**/*.ts'],
     rules: {
       'no-restricted-imports': ['error', {
         'patterns': [{

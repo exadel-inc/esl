@@ -72,27 +72,26 @@ The semantic-release project and GitHub actions are used to automate the release
 
 ## Project Structure
 
-ESL project consists of the following directories:
+ESL project is a monorepo that consists of several packages and directories.
+ESL use Lerna to manage monorepo packages, their dependencies, versioning, publishing, and running scripts.
+ESL top-level directory structure is as follows:
 
-- [📁 src](../src) - library source code
-  - [📁 modules](../src/modules) - library core modules and components
-    - [📁 draft](../src/modules/draft) - library core modules and components drafts (not ready for production, out of semiver and restrictions)
-    - [📁 esl-component](../src/modules) - library component directory
-        - 📁 test - component/module tests sources
-            - 📄 *.test.ts - test sources should have `.test` postfix 
-        - 📁 core - component/module core source files
-        - 📄 core.ts - component/module main file (import core parts)
-        - 📄 core.less - component/module main styles
-        - 📄 core.mixin.less - component/module main styles mixin and references only
-    - [📁 esl-utils](../src/modules/esl-utils) - library common utilities module
-        - 📁 category - utilities organized in groups
-    - 📄 all.ts - bundled esm source
-    - 📄 lib.ts - global object type definition and activator
-    - 📄 all.less - bundled source style 
-  - [📁 polyfills](../src/polyfills) - small polyfills and shims distributed with the library
-
-
-- [📁 packages](../packages) - ESL monorepo sub-packages
+- [📁 packages](../packages) - ESL monorepo root
+  - [📁 esl](../packages/esl) - ESL library source code
+    - [📁 src](../packages/esl/src) - library core modules and components
+      - [📁 esl-component](../packages/esl/src/esl-base-element) - library component directory
+          - 📁 test - component/module tests sources
+              - 📄 *.test.ts - test sources should have `.test` postfix 
+          - 📁 core - component/module core source files
+          - 📄 core.ts - component/module main file (import core parts)
+          - 📄 core.less - component/module main styles
+          - 📄 core.mixin.less - component/module main styles mixin and references only
+      - [📁 esl-utils](../packages/esl/src/esl-utils) - library common utilities module
+          - 📁 category - utilities organized in groups
+      - 📄 all.ts - bundled esm source
+      - 📄 lib.ts - global object type definition and activator
+      - 📄 all.less - bundled source style 
+    - [📁 polyfills](../packages/esl/src/polyfills) - (Legacy) small polyfills and shims distributed with the library
   - [📁 site](../packages/esl-website) - demo site root directory
     - [📁 11ty](../packages/esl-website/11ty) - demo site 11ty configuration files
       - 📄 *.js - will be applied to 11ty config automatically
@@ -120,35 +119,22 @@ ESL project consists of the following directories:
     - [📁 rules](../packages/eslint-config/rules) - ESLint shared configuration rule sets
     - [📄 index.js](../packages/eslint-config/index.js) - ESLint shared configuration main file
   - [📁 stylelint-config](../packages/stylelint-config) - sub-package root for ESL StyleLint shared configuration
+    - [📁 custom](../packages/eslint-config/custom) - custom StyleLint plugins/rules directory
     - [📄 index.js](../packages/stylelint-config/index.js) - StyleLint shared configuration main file
 
-- [📁 build](../build) - library common build scripts
+- [📁 scripts](../scripts) - library common build scripts
 - [📁 .github](../.github) - library repository configuration and documentation
 - [📁 .husky](../.husky) - git hooks configuration
-
-
-- [🔨📁 modules](../modules) - library core esm build output
-- [🔨📁 polyfills](../polyfills) - library polyfills esm build output
-
-
-- [🔨📁 .report](../.report) - linters / test / build-tools reports
 
 ## Project Scripts
 
 - `npm start` or `npm run start` - start demo server locally.
   Runs local build, watch and BrowserSync.
   Uses `:3005` port by default.
-
-
 - `npm run clean` - clear output folders
-- `npm run build` - build project to ESM output
-- `npm run build-pages` - build project auto-generated GitHub Pages
-
-
+- `npm run build` - build project
 - `npm test` or `npm run test` - run linters and tests (silent task, used in CI/CD)
 - `npm run lint` - run linting
-- `npm run test:unit` - run all tests
-- `npm run test:report` - run tests and create coverage report
 
 ## Project Conventions
 

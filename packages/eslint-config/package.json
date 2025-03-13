@@ -17,7 +17,9 @@
   "main": "index.js",
   "sideEffects": false,
   "scripts": {
-    "test": ""
+    "test": "",
+    "lint": "",
+    "pack": "npm pack --pack-destination ../../"
   },
   "dependencies": {
     "@eslint/js": "^9.22.0",

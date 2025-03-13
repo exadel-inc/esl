@@ -12,10 +12,6 @@ node_modules
 *.tgz
 target
 
-# Generated surces
-/modules
-/polyfills
-
 # NPM
 .npmrc
 
@@ -23,6 +19,5 @@ target
 npm-debug.log
 .gitconfig
 
-# Jest & Sonar
-/.report
-/.scannerwork
+.nx/cache
+.nx/workspace-data
