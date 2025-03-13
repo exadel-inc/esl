@@ -1,8 +1,8 @@
 name: Release PR
 
 on:
-  push:
-    branches: [ main ]
+#  push:
+#    branches: [ main ]
   workflow_dispatch:
 
 permissions:
@@ -43,7 +43,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
         with:
-          base: main
+          base: ${{ github.event.inputs.base || 'main' }}
           branch: release/main
           title: "Auto PR: release/main → main (v${{ steps.info.outputs.version }})"
           body: "This is an automated Release PR"
