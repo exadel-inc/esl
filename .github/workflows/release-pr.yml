@@ -1,8 +1,8 @@
 name: Release PR
 
 on:
-#  push:
-#    branches: [ main ]
+  #  push:
+  #    branches: [ main ]
   workflow_dispatch:
 
 permissions:
@@ -26,17 +26,6 @@ jobs:
       - name: Install NPM Dependencies
         run: npm ci
 
-#      - name: Store current version
-#        id: current_version
-#        run: echo "version=$(jq -r '.version' lerna.json)" >> $GITHUB_ENV
-
-      - name: Version Bump (Lerna)
-        run: npx lerna version --conventional-commits --yes
-
-      - name: Store the new version
-        id: info
-        run: echo "version=$(jq -r '.version' lerna.json)" >> $GITHUB_ENV
-
       - name: Set Git user globally to github-actions
         uses: gotmax23/set-bot-git-user-action@main
         with:
@@ -44,19 +33,32 @@ jobs:
           bot: github-actions
           name: "Github Actions: Release PR Bot"
 
+      - name: Version Bump (Lerna)
+        run: npx lerna version --conventional-commits --yes
 
-      - name: Push staged changes to release/main branch
+      - name: Store the new version
+        id: info
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const version = require('./lerna.json').version;
+            console.log('Current version:', version);
+            core.setOutput('version', version);
+
+      - if: steps.info.outputs.version
+        name: Push staged changes to release/main branch
         run: |
-            git checkout -b release/main
-            git add .
-            git commit -m "Release v${{ steps.info.outputs.version }}"
-            git push origin release/main --force
+          git checkout -b release/main
+          git add .
+          git commit -m "chore: release v${{ steps.info.outputs.version }}" --no-verify
+          git push origin release/main --force --no-verify
 
       # Open a PR from release/main to main
-      - name: Create Pull Request
+      - if: steps.info.outputs.version
+        name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
         with:
-          base: ${{ github.event.inputs.base || 'main' }}
+          base: ${{ github.ref }}
           branch: release/main
           title: "Auto PR: release/main → main (v${{ steps.info.outputs.version }})"
           body: "This is an automated Release PR"

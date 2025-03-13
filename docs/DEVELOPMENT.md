@@ -122,7 +122,7 @@ ESL project consists of the following directories:
   - [📁 stylelint-config](../packages/stylelint-config) - sub-package root for ESL StyleLint shared configuration
     - [📄 index.js](../packages/stylelint-config/index.js) - StyleLint shared configuration main file
 
-- [📁 build](../build) - library common build scripts
+- [📁 scripts](../scripts) - library common build scripts
 - [📁 .github](../.github) - library repository configuration and documentation
 - [📁 .husky](../.husky) - git hooks configuration
 
