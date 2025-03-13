@@ -40,10 +40,8 @@ jobs:
           node-version: ${{ env.node-version }}
       - name: Install NPM Dependencies
         run: npm ci
-      - name: Build ESL
-        run: npm run build -w packages/esl
-      - name: Build Site
-        run: npm run build -w packages/esl-website
+      - name: Build ESL & Site
+        run: npm run build
         env:
           SITE_BASE_URL: ${{ steps.pages.outputs.base_url }}
           BUILD_VERSION: ${{ github.run_number }}
