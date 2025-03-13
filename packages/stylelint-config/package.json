@@ -15,6 +15,10 @@
   "license": "MIT",
   "description": "Shared Stylelint config used by ESL (@exadel/esl) team. Internal projects usage.",
   "main": "index.js",
+  "files": [
+    "custom/*.js",
+    "index.js"
+  ],
   "scripts": {
     "test": "",
     "lint": "",
