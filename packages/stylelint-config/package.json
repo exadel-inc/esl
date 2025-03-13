@@ -15,6 +15,10 @@
   "license": "MIT",
   "description": "Shared Stylelint config used by ESL (@exadel/esl) team. Internal projects usage.",
   "main": "index.js",
+  "files": [
+    "custom/*.js",
+    "index.js"
+  ],
   "scripts": {
     "test": ""
   },
@@ -23,7 +27,7 @@
     "@stylistic/stylelint-plugin": "^3.1.2"
   },
   "peerDependencies": {
-    "stylelint": ">=15.0.0"
+    "stylelint": ">=16.0.0"
   },
   "maintainers": [
     {
