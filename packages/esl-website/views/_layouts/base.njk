@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ lang or 'en' }}" {% if scrollbar %} class="esl-scrollable-content" {% endif %}>
+<html lang="{{ lang or 'en' }}" class="esl-scrollable-content">
 <head>
   <title>{{ seoTitle or title or site.description }}</title>
   <link rel="canonical" href="{{ canonicalURL or page.url | canonical | url }}"/>
@@ -14,7 +14,7 @@
   {# Additional site meta information #}
   {% block meta %}{% endblock meta %}
   {# Site icon #}
-  
+
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:image" content="{{ site.socialImagePath | url }}">
   <meta property="og:image" content="{{ site.socialImagePath | url }}">
@@ -37,20 +37,13 @@
     <link rel="stylesheet" type="text/css" href="{{ '/bundles/e2e.css' | url }}" />
   {% endif %}
 </head>
-<body>
 
-<div class="page {{ baseClass }}">
+<body class="base-layout {{ baseClass }}">
+  <esl-scrollbar target="html" class="main-scroll"></esl-scrollbar>
   {% block content %}{% endblock %}
-</div>
-
-{% block body %}{% endblock %}
-
-{% if scrollbar %}
-  <esl-scrollbar class="page-scrollbar" target="html"></esl-scrollbar>
-{% endif %}
-
-{% block bodylib %}
-  <script src="{{ '/bundles/site.js' | url }}"></script>
-{% endblock %}
+  {% block body %}{% endblock %}
+  {% block bodylib %}
+    <script src="{{ '/bundles/site.js' | url }}"></script>
+  {% endblock %}
 </body>
 </html>
