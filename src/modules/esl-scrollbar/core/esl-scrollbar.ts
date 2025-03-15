@@ -240,7 +240,7 @@ export class ESLScrollbar extends ESLBaseElement {
   protected _onPointerDown(event: PointerEvent): void {
     this._initialPosition = this.position;
     this._pointerPosition = this.toPosition(event);
-    this._initialMousePosition = this.horizontal ? event.pageX : event.pageY;
+    this._initialMousePosition = this.horizontal ? event.pageX - window.scrollX : event.pageY - window.scrollY;
 
     if (event.target === this.$scrollbarThumb) {
       this._onThumbPointerDown(event); // Drag start handler
@@ -277,7 +277,7 @@ export class ESLScrollbar extends ESLBaseElement {
   /** Sets position on drag */
   protected _onPointerDrag(event: PointerEvent): void {
     const point = getTouchPoint(event);
-    const mousePosition = this.horizontal ? point.x : point.y;
+    const mousePosition = this.horizontal ? point.x - window.scrollX : point.y - window.scrollY;
     const positionChange = mousePosition - this._initialMousePosition;
     const scrollableAreaHeight = this.trackOffset - this.thumbOffset;
     const absChange = scrollableAreaHeight ? (positionChange / scrollableAreaHeight) : 0;
