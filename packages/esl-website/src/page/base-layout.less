@@ -14,16 +14,14 @@
   grid-template-columns: auto 1fr;
   grid-template-rows: auto 1fr auto;
 
+  min-height: 100vh;
+
   footer {
     grid-area: footer;
   }
 
   main {
     grid-area: main;
-
-    @media @xs-sm {
-      grid-column: sidebar / main;
-    }
   }
 
   .page-title {

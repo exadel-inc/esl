@@ -6,9 +6,7 @@
   {% include 'navigation/sidebar.njk' %}
 
   <main>
-    <div class="content">
-      {{ content | safe or 'No content.' }}
-    </div>
+    {{ content | safe or 'No content.' }}
   </main>
 
   <footer class="footer">
