@@ -169,12 +169,12 @@ The default renderer for ESL Carousel. Uses the flexbox layout to display slides
 Moves the slides with CSS transitions of the scene `transform` property.
 If the `loop` attribute is set to `true`, the renderer will reorder the slides with a flexbox order property to create the loop effect.
 By default try to move half of remaining slides to the opposite side of the carousel if loop is enabled.
-However, you can forbid this behavior by setting `lazy-reorder` attribute (supprts `ESLMediaQuery` syntax), so the renderer will move slide only during the animation.
+However, you can forbid this behavior by setting `lazy-reorder` attribute (which supports `ESLMediaQuery` syntax), so the renderer will move slide only during the animation.
 Does not do any DOM manipulations with the slides.
 Supports the posibility to show multiple slides at once as well as siblings visibility effect (the next and previous slides are partially visible).
 Supoorst all ESLCarousel attributes and properties including `vertical` and `step-duration`.
 
-To fine tune the layout you can use the following recepies:
+To fine-tune the layout you can use the following recipes:
   1. Slide size:
     The carousel renderer defines the `--esl-slide-size` (readonly) CSS variable with the size of the slide according to the carousel calculations.
     However, we do not recomend to rely on it to render first slide. It is recommended to define `width` or `height` for the slide elements explicitly.
@@ -194,7 +194,7 @@ To fine tune the layout you can use the following recepies:
   5. Limit reordering in loop mode (Could be useful to limit CLS issues, when content of the slide is heavy):
     By default, the renderer will reorder/move a half of the remaining slides to the opposite side of the carousel if loop is enabled.
     You can forbid this behavior by setting `lazy-reorder` attribute. It is an `ESLMediaQuery`, so you can define it for specific media conditions.
-    Note that if you usin siblings visibility effect, you will not see the last slide before the first one in the loop mode unless backword animation is playing.
+    Note that if you use siblings visibility effect, you will not see the last slide before the first one in the loop mode unless backward animation is playing.
     However, this option could be useful to limit CLS issues, when content of the slide is heavy (e.g. `esl-media` with the fill option).
 
 - #### Grid (type: `grid`) Renderer <i class="badge badge-sup badge-warning">beta</i>
