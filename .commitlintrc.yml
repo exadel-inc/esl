@@ -67,6 +67,7 @@ rules:
       - eslint-config
       - stylelint-config
       - e2e
+      - snapshot-tests
       - ci
       # Deprecated scopes:
       - lint
