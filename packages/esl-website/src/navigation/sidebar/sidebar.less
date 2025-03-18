@@ -16,7 +16,7 @@ esl-d-sidebar {
   background: @nav-dark-bg;
 
   grid-area: sidebar;
-  position: sticky;
+  position: fixed;
   top: @header-height-mobile;
   z-index: 10;
   height: calc(~'100dvh - @{header-height-mobile}');
@@ -44,7 +44,6 @@ esl-d-sidebar {
   }
 
   @media @xs-sm {
-    position: fixed;
     &:not(.esl-d-sidebar) {
       display: none;
     }
