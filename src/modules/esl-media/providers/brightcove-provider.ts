@@ -61,6 +61,7 @@ export class BrightcoveProvider extends BaseProvider {
     el.setAttribute('data-embed', 'default');
     el.setAttribute('data-video-id', this.config.mediaId || '');
     el.toggleAttribute('playsinline', this.config.playsinline);
+    el.toggleAttribute('disablePictureInPicture', this.config.disablePictureInPicture);
     this._account.playerId && el.setAttribute('data-player', this._account.playerId);
     this._account.accountId && el.setAttribute('data-account', this._account.accountId);
     this.config.startTime && el.setAttribute('data-start-time', `${this.config.startTime}`);
