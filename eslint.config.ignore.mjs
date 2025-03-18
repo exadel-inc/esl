@@ -14,10 +14,7 @@ export default [
       '**/dist/**',
       // Generated sources
       'modules/**',
-      'polyfills/**',
-      // E2E tests commons
-      'e2e/reporters/**',
-      'e2e/transformer/**',
+      'polyfills/**'
     ]
   }
 ];

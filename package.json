@@ -57,8 +57,7 @@
     "src/polyfills/**/*.ts"
   ],
   "workspaces": [
-    "packages/*",
-    "e2e"
+    "packages/*"
   ],
   "scripts": {
     "start": "cd packages/esl-website && npm run start",
