@@ -118,3 +118,16 @@ export const parseCSSTime = (timeStr: string): number => /(\d*\.?\d+)(ms|s)/i.te
 export function parseCSSTimeSet(timeStr: string): number[] {
   return timeStr.split(',').map((timeSubstr) => parseCSSTime(timeSubstr));
 }
+
+/**
+ * Common parser for lazy attribute. Case insensetive. Note:
+ * - empty string or unknown values are treated as `auto`.
+ * - `null` (or non string objects) is treated as `none`.
+ * - `manual` or `none` are treated as it is
+ */
+export function parseLazyAttr(value: string | null): 'auto' | 'manual' | 'none' {
+  if (typeof value !== 'string') return 'none';
+  const v = value.trim().toLowerCase();
+  if (v === 'none' || v === 'manual') return v;
+  return 'auto';
+}

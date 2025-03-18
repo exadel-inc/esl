@@ -11,7 +11,8 @@ import {
   parseString,
   parseTime,
   parseCSSTime,
-  parseCSSTimeSet
+  parseCSSTimeSet,
+  parseLazyAttr
 } from '../format';
 
 describe('misc/format helper tests', () => {
@@ -256,5 +257,24 @@ describe('misc/format helper tests', () => {
       'time = %p',
       (time, num) => expect(parseCSSTimeSet.apply(null, time)).toStrictEqual(num)
     );
+  });
+});
+
+describe('parseLazyAttr', () => {
+  test.each([
+    [undefined, 'none'],
+    [null, 'none'],
+    ['', 'auto'],
+    ['auto', 'auto'],
+    ['none', 'none'],
+    ['manual', 'manual'],
+    ['NONE', 'none'],
+    ['MANUAL', 'manual'],
+    ['Auto', 'auto'],
+    ['Manual', 'manual'],
+    ['None', 'none'],
+    [' manual ', 'manual'],
+  ])('parseLazyAttr of %p to be %p', (value, expected) => {
+    expect(parseLazyAttr(value as any)).toBe(expected);
   });
 });
