@@ -12,5 +12,7 @@ The ESL v5.2.0 has been released, bringing several improvements and fixes:
 - Added the ability to control slide reordering in the default renderer of ESLCarousel (see the `lazy-reorder` option). 
   This update also includes minor fixes related to default styles and CLS issues.
 - Significant updates and optimizations in ESL's shared ESLint/Stylelint configurations.
+- ESLMedia improvements, including 'disablePictureInPicture' support, fix first frame poster on iOS, and more.
 - Fixed drag behavior for ESLScrollbar with an `html` target.
+- ESLUtils: `pick` object utility function and `parseLazyAttr` formatter.
 - Site improvements, including a complete reimplementation of the page layout.
