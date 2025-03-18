@@ -1,15 +1,17 @@
 @import (reference) '../../common/variables.less';
 
 .header {
-  position: relative;
-  z-index: 10;
+  position: sticky;
+  grid-area: header;
 
-  // force to move to the separate layer
-  transform: translate3d(0px, 0px, 0px);
+  top: 0;
+  left: 0;
+  z-index: 10;
 
   color: @landing-fg-color;
   background-color: @landing-bg-color;
 
+  width: 100vw;
   height: var(--_header-height, @header-height-mobile);
   @media @md-xl {
     height: var(--_header-height, @header-height-desktop);
@@ -211,4 +213,25 @@
     font-weight: 500;
     margin-left: 1rem;
   }
+}
+
+.header::after {
+  content: '';
+  display: block;
+
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  height: @header-height-mobile;
+  pointer-events: none;
+  box-shadow: none;
+  transition: box-shadow 0.3s ease-in-out;
+
+  @media @md-xl {
+    height: @header-height-desktop;
+  }
+}
+
+.esl-scrollbar:not([at-start]):not([inactive]) ~ .header::after {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.6);
 }

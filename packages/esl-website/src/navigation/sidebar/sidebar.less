@@ -15,13 +15,11 @@ esl-d-sidebar {
   color: @nav-dark-fg;
   background: @nav-dark-bg;
 
+  grid-area: sidebar;
   position: fixed;
   top: @header-height-mobile;
   z-index: 10;
-  /* stylelint-disable */
-  height: calc(~'100vh - @{header-height-mobile}');
-  height: calc(~'var(--100vh, 100vh) - @{header-height-mobile}');
-  /* stylelint-enable */
+  height: calc(~'100dvh - @{header-height-mobile}');
   max-width: 0;
 
   box-shadow: 4px 8px 8px 0 rgba(0, 0, 0, 0.5);
@@ -56,13 +54,10 @@ esl-d-sidebar {
   }
 
   @media @md-xl {
-    position: relative;
+    position: sticky;
     top: 0;
     max-width: var(--esl-sidebar-width-closed);
-    height: var(--100vh, 100vh);
-    @supports (height: 100dvh) {
-      height: 100dvh;
-    }
+    height: 100dvh;
   }
 
   &.open {

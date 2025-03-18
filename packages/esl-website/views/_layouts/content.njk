@@ -5,61 +5,57 @@
   {% include 'navigation/header.njk' %}
   {% include 'navigation/sidebar.njk' %}
 
-  <main class="esl-scrollable-content">
+  <main class="content {{ containerCls or 'container' }} {{ 'container-aside' if aside }} {{ 'markdown-container' if isMarkdownSource }}">
     {% set isMarkdownSource = page.templateSyntax.includes('md') %}
-    <div class="content {{ containerCls or 'container' }} {{ 'container-aside' if aside }} {{ 'markdown-container' if isMarkdownSource }}">
-      {% if title %}
-        {% include 'navigation/breadcrumbs.njk' %}
-        <h1 class="page-title">
-          {% if icon %}{% include "static/assets/" + icon %}{% endif %}
-          {{ title | safe }}
-          {% if 'dev' in [].concat(tags) %}
-            <span class="badge badge-small badge-sup badge-danger"
-                  title="Component is under development">Dev</span>{% endif %}
-          {% if 'draft' in [].concat(tags) %}
-            <span class="badge badge-small badge-sup badge-danger"
-                  title="Page is in draft state and will be excluded from public build">Draft</span>{% endif %}
-          {% if 'new' in [].concat(tags) %}
-            <span class="badge badge-small badge-sup badge-success"
-                  title="Functionality on this page appeared in the latest releases">New</span>
-          {% endif %}
-        </h1>
-      {% endif %}
-      {% if showBackLink %}
-        <a esl-d-back-link class="arrow-link reverse">Back</a>
-      {% endif %}
-      {% if aside %}
-        <aside class="aside">
-          {% if 'beta' in [].concat(tags) %}
-            <p class="alert alert-warning">
-              <b>Beta</b>: components on this page are ready for use but are still under development and may have breaking changes in the next major release.
-            </p>
-          {% endif %}
-          {% if 'deprecated' in [].concat(tags) and aside.deprecationSpec %}
-            <div class="alert alert-warning">
-              {% mdRender aside.deprecationSpec, 'deprecation', 'intro' %}
-            </div>
-          {% endif %}
-          {% if 'deprecated' in [].concat(tags) and aside.deprecationText %}
-            <div class="alert alert-warning">
-              {{ aside.deprecationText | safe }}
-            </div>
-          {% endif %}
+    {% if title %}
+      {% include 'navigation/breadcrumbs.njk' %}
+      <h1 class="page-title">
+        {% if icon %}{% include "static/assets/" + icon %}{% endif %}
+        {{ title | safe }}
+        {% if 'dev' in [].concat(tags) %}
+          <span class="badge badge-small badge-sup badge-danger"
+                title="Component is under development">Dev</span>{% endif %}
+        {% if 'draft' in [].concat(tags) %}
+          <span class="badge badge-small badge-sup badge-danger"
+                title="Page is in draft state and will be excluded from public build">Draft</span>{% endif %}
+        {% if 'new' in [].concat(tags) %}
+          <span class="badge badge-small badge-sup badge-success"
+                title="Functionality on this page appeared in the latest releases">New</span>
+        {% endif %}
+      </h1>
+    {% endif %}
+    {% if showBackLink %}
+      <a esl-d-back-link class="arrow-link reverse">Back</a>
+    {% endif %}
+    {% if aside %}
+      <aside class="aside">
+        {% if 'beta' in [].concat(tags) %}
+          <p class="alert alert-warning">
+            <b>Beta</b>: components on this page are ready for use but are still under development and may have breaking changes in the next major release.
+          </p>
+        {% endif %}
+        {% if 'deprecated' in [].concat(tags) and aside.deprecationSpec %}
+          <div class="alert alert-warning">
+            {% mdRender aside.deprecationSpec, 'deprecation', 'intro' %}
+          </div>
+        {% endif %}
+        {% if 'deprecated' in [].concat(tags) and aside.deprecationText %}
+          <div class="alert alert-warning">
+            {{ aside.deprecationText | safe }}
+          </div>
+        {% endif %}
 
-          {% from 'navigation/aside.njk' import metaAll with context %}
-          {{ metaAll(aside) }}
-        </aside>
-      {% endif %}
+        {% from 'navigation/aside.njk' import metaAll with context %}
+        {{ metaAll(aside) }}
+      </aside>
+    {% endif %}
 
-      {{ content | safe or 'No content.' }}
-    </div>
-
-    <footer class="footer-compact container-fluid">
-      {% include 'navigation/banner.njk' %}
-      {% include 'navigation/footer-compact.njk' %}
-    </footer>
+    {{ content | safe or 'No content.' }}
   </main>
 
-  <esl-scrollbar target="::prev" class="main-scroll"></esl-scrollbar>
-  <div class="header-shadow"></div>
+  <footer class="footer-compact container-fluid">
+    {% include 'navigation/banner.njk' %}
+    {% include 'navigation/footer-compact.njk' %}
+  </footer>
+
 {% endblock %}
