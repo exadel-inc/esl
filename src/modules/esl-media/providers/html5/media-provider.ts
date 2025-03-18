@@ -18,28 +18,26 @@ export abstract class HTMLMediaProvider extends BaseProvider {
 
   protected override _el: HTMLMediaElement;
 
-  protected static applyElementSettings(el: HTMLMediaElement, cfg: MediaProviderConfig): HTMLMediaElement {
-    el.classList.add('esl-media-inner');
-    el.autoplay = cfg.autoplay;
-    el.preload = cfg.preload || 'auto' ;
-    el.loop = cfg.loop;
-    el.muted = cfg.muted;
-    el.controls = cfg.controls;
-    el.tabIndex = cfg.focusable ? 0 : -1;
-    el.toggleAttribute('playsinline', cfg.playsinline);
-    return el;
-  }
-
   protected abstract createElement(): HTMLMediaElement;
+  protected applyElementSettings(cfg: MediaProviderConfig): void {
+    this._el.classList.add('esl-media-inner');
+    this._el.autoplay = cfg.autoplay;
+    this._el.preload = cfg.preload || 'auto' ;
+    this._el.loop = cfg.loop;
+    this._el.muted = cfg.muted;
+    this._el.controls = cfg.controls;
+    this._el.currentTime = cfg.startTime || 0;
+    this._el.tabIndex = cfg.focusable ? 0 : -1;
+  }
 
   public override onConfigChange(param: ProviderObservedParams, value: boolean): void {
     super.onConfigChange(param, value);
-    HTMLMediaProvider.applyElementSettings(this._el, this.config);
+    this.applyElementSettings(this.config);
   }
 
   public bind(): void {
     this._el = this.createElement();
-    HTMLMediaProvider.applyElementSettings(this._el, this.config);
+    this.applyElementSettings(this.config);
     this.component.appendChild(this._el);
     this.bindListeners();
   }
