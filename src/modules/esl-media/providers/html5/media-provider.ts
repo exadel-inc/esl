@@ -1,3 +1,4 @@
+import {isMobileIOS} from '../../../esl-utils/environment';
 import {BaseProvider, PlayerStates} from '../../core/esl-media-provider';
 
 import type {MediaProviderConfig, ProviderObservedParams} from '../../core/esl-media-provider';
@@ -39,6 +40,11 @@ export abstract class HTMLMediaProvider extends BaseProvider {
     this._el = this.createElement();
     this.applyElementSettings(this.config);
     this.component.appendChild(this._el);
+    // iOS needs additional kick to start loading metadata
+    if (isMobileIOS) {
+      this._el.load();
+      this._el.currentTime = this.config.startTime || 0;
+    }
     this.bindListeners();
   }
 
