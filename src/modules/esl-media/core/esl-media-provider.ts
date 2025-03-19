@@ -23,7 +23,7 @@ export const MediaProviderConfigKeys: (keyof ESLMedia)[] = [
   'autoplay',
   'title',
   'preload',
-  'playsinline',
+  'playsInline',
   'disablePictureInPicture',
   'startTime',
   'focusable'

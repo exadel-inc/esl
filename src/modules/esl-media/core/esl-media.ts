@@ -104,12 +104,12 @@ export class ESLMedia extends ESLBaseElement {
   /** Marker to show controls for resource player */
   @boolAttr() public controls: boolean;
   /** Allow media to play inline (see HTML video/audio spec) */
-  @boolAttr() public playsinline: boolean;
+  @boolAttr({name: 'playsinline'}) public playsInline: boolean;
   /**
    * Prevents the browser from suggesting a Picture-in-Picture context menu or
    * to request Picture-in-Picture automatically in some cases.
    */
-  @boolAttr() public disablePictureInPicture: boolean;
+  @boolAttr({name: 'disablepictureinpicture'}) public disablePictureInPicture: boolean;
   /** Allows play resource only in viewport area */
   @boolAttr() public playInViewport: boolean;
   /** Allows to start viewing a resource from a specific time offset. */

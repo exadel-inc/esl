@@ -21,7 +21,7 @@ export class VideoProvider extends HTMLMediaProvider {
   }
   protected override applyElementSettings(cfg: MediaProviderConfig): void {
     super.applyElementSettings(cfg);
-    this._el.playsInline = cfg.playsinline;
+    this._el.playsInline = cfg.playsInline;
     this._el.disablePictureInPicture = cfg.disablePictureInPicture;
   }
 
