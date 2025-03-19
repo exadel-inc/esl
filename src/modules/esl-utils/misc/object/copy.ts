@@ -25,7 +25,7 @@ export function pick<T extends object, K extends keyof T>(obj: T, keys: K[]): Pi
   const result: Record<K, any> = {} as any;
   if (!obj) return result;
   for (const key of keys) {
-    if (Object.hasOwn(obj, key)) result[key] = (obj as any)[key];
+    if (key in obj) result[key] = obj[key];
   }
   return result as Pick<T, K>;
 }

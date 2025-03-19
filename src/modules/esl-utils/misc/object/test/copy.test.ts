@@ -92,7 +92,8 @@ describe('misc/object: copy', () => {
       [{a: 1, b: 1}, ['a', 'b'], {a: 1, b: 1}],
       [{a: 1, b: 1}, ['b'], {b: 1}],
       [{a: 1, b: 1}, ['c'], {}],
-      [{a: 1, b: {}}, ['a', 'b'], {a: 1, b: {}}]
+      [{a: 1, b: {}}, ['a', 'b'], {a: 1, b: {}}],
+      [Object.setPrototypeOf({a: 1}, {b: 2}), ['a', 'b'], {a: 1, b: 2}],
     ])('omit from %p properties %p', (inp, keys, out) => {
       expect(pick(inp as any, keys)).toEqual(out);
     });
