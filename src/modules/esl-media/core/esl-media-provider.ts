@@ -15,8 +15,6 @@ export enum PlayerStates {
 }
 
 export const MediaProviderConfigKeys: (keyof ESLMedia)[] = [
-  'mediaSrc',
-  'mediaId',
   'loop',
   'muted',
   'controls',
@@ -29,7 +27,7 @@ export const MediaProviderConfigKeys: (keyof ESLMedia)[] = [
   'focusable'
 ] as const;
 
-export type MediaProviderConfig = Pick<ESLMedia, typeof MediaProviderConfigKeys[number]>;
+export type MediaProviderConfig = Pick<ESLMedia, typeof MediaProviderConfigKeys[number]> & ({mediaSrc: string} | {mediaId: string});
 
 export type ProviderType = (new(component: ESLMedia, config: MediaProviderConfig) => BaseProvider) & typeof BaseProvider;
 
@@ -46,7 +44,11 @@ export abstract class BaseProvider {
     return null;
   }
   static parseConfig(component: ESLMedia): MediaProviderConfig {
-    return pick(component, MediaProviderConfigKeys);
+    const {mediaSrc, mediaId} = component;
+    const config = pick(component, MediaProviderConfigKeys);
+    if (mediaSrc) Object.assign(config, {mediaSrc});
+    if (mediaId) Object.assign(config, {mediaId});
+    return config;
   }
 
   protected config: MediaProviderConfig;

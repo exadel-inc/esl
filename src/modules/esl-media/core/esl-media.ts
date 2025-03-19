@@ -113,7 +113,7 @@ export class ESLMedia extends ESLBaseElement {
   /** Allows play resource only in viewport area */
   @boolAttr() public playInViewport: boolean;
   /** Allows to start viewing a resource from a specific time offset. */
-  @attr({parser: parseInt}) public startTime: number;
+  @attr({defaultValue: 0, parser: parseInt}) public startTime: number;
   /** Allows player to accept focus */
   @attr({
     parser: parseBoolean,
