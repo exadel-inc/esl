@@ -1,5 +1,5 @@
 import type {ESLBaseElementShape} from '../../esl-base-element/core/esl-base-element.shape';
-import type {ESLMedia, ESLMediaFillMode, ESLMediaLazyMode} from './esl-media';
+import type {ESLMedia, ESLMediaFillMode} from './esl-media';
 
 /**
  * Tag declaration interface of ESLMedia element
@@ -24,7 +24,7 @@ export type ESLMediaTagShape = ({
   'aspect-ratio'?: string;
 
   /** Define lazy loading mode */
-  lazy?: ESLMediaLazyMode;
+  lazy?: 'auto' | 'manual' | 'none' | '';
   /** Define autoplay marker */
   autoplay?: boolean;
   /** Define auto grab focus on play marker */

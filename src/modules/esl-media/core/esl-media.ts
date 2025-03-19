@@ -6,7 +6,7 @@ import {SPACE, PAUSE} from '../../esl-utils/dom/keys';
 import {isInViewport} from '../../esl-utils/dom/visible';
 import {prop, attr, boolAttr, listen, memoize} from '../../esl-utils/decorators';
 import {debounce} from '../../esl-utils/async';
-import {parseAspectRatio, parseBoolean} from '../../esl-utils/misc/format';
+import {parseAspectRatio, parseBoolean, parseLazyAttr} from '../../esl-utils/misc/format';
 
 import {ESLMediaQuery} from '../../esl-media-query/core';
 import {ESLResizeObserverTarget} from '../../esl-event-listener/core';
@@ -22,10 +22,6 @@ import type {BaseProvider} from './esl-media-provider';
 import type {ESLMediaRegistryEvent} from './esl-media-registry.event';
 
 export type ESLMediaFillMode = 'cover' | 'inscribe' | '';
-
-export type ESLMediaLazyMode = 'auto' | 'manual' | 'none';
-
-const isLazyAttr = (v: string): v is ESLMediaLazyMode => ['auto', 'manual', 'none'].includes(v);
 
 /**
  * ESLMedia - custom element, that provides an ability to add and configure media (video / audio)
@@ -95,10 +91,7 @@ export class ESLMedia extends ESLBaseElement {
   /** Strict aspect ratio definition */
   @attr() public aspectRatio: string;
   /** Allows lazy load resource */
-  @attr({
-    parser: (value: string) => isLazyAttr(value) ? value : 'auto',
-    defaultValue: 'none'
-  }) public lazy: ESLMediaLazyMode;
+  @attr({parser: parseLazyAttr}) public lazy: 'auto' | 'manual' | 'none';
   /** Autoplay resource marker */
   @boolAttr() public autoplay: boolean;
 
@@ -111,7 +104,12 @@ export class ESLMedia extends ESLBaseElement {
   /** Marker to show controls for resource player */
   @boolAttr() public controls: boolean;
   /** Allow media to play inline (see HTML video/audio spec) */
-  @boolAttr() public playsinline: boolean;
+  @boolAttr({name: 'playsinline'}) public playsInline: boolean;
+  /**
+   * Prevents the browser from suggesting a Picture-in-Picture context menu or
+   * to request Picture-in-Picture automatically in some cases.
+   */
+  @boolAttr({name: 'disablepictureinpicture'}) public disablePictureInPicture: boolean;
   /** Allows play resource only in viewport area */
   @boolAttr() public playInViewport: boolean;
   /** Allows to start viewing a resource from a specific time offset. */

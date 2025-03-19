@@ -59,7 +59,7 @@ export class YouTubeProvider extends BaseProvider {
       iv_load_policy: 3,
       autoplay: Number(cfg.autoplay),
       controls: Number(cfg.controls),
-      playsinline: Number(cfg.playsinline),
+      playsinline: Number(cfg.playsInline),
       disablekb: Number(!cfg.controls), // TODO: criteria
       autohide: Number(!cfg.controls), // TODO: criteria
       start: cfg.startTime

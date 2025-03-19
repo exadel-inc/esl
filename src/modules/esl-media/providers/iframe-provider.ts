@@ -35,7 +35,8 @@ export class IframeBasicProvider extends BaseProvider {
     el.setAttribute('tabindex', this.config.focusable ? '0' : '-1');
     el.setAttribute('scrolling', 'no');
     el.setAttribute('allowfullscreen', 'yes');
-    el.toggleAttribute('playsinline', this.config.playsinline);
+    el.toggleAttribute('playsinline', this.config.playsInline);
+    el.toggleAttribute('disablePictureInPicture', this.config.disablePictureInPicture);
     el.src = this.config.mediaSrc || '';
     return el;
   }

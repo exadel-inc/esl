@@ -1,3 +1,4 @@
+import {pick} from '../../esl-utils/misc/object';
 import {DelayedTask} from '../../esl-utils/async/delayed-task';
 import {ESLMediaProviderRegistry} from './esl-media-registry';
 
@@ -13,19 +14,22 @@ export enum PlayerStates {
   UNINITIALIZED = -2
 }
 
-export interface MediaProviderConfig {
-  mediaSrc?: string;
-  mediaId?: string;
-  loop: boolean;
-  muted: boolean;
-  controls: boolean;
-  autoplay: boolean;
-  title: string;
-  preload?: 'none' | 'metadata' | 'auto' | '';
-  playsinline?: boolean;
-  startTime?: number;
-  focusable?: boolean;
-}
+export const MediaProviderConfigKeys: (keyof ESLMedia)[] = [
+  'mediaSrc',
+  'mediaId',
+  'loop',
+  'muted',
+  'controls',
+  'autoplay',
+  'title',
+  'preload',
+  'playsInline',
+  'disablePictureInPicture',
+  'startTime',
+  'focusable'
+] as const;
+
+export type MediaProviderConfig = Pick<ESLMedia, typeof MediaProviderConfigKeys[number]>;
 
 export type ProviderType = (new(component: ESLMedia, config: MediaProviderConfig) => BaseProvider) & typeof BaseProvider;
 
@@ -42,11 +46,7 @@ export abstract class BaseProvider {
     return null;
   }
   static parseConfig(component: ESLMedia): MediaProviderConfig {
-    const {loop, muted, controls, autoplay, title, preload, playsinline, mediaId, mediaSrc, startTime, focusable} = component;
-    const config = {loop, muted, controls, autoplay, title, preload, playsinline, startTime, focusable};
-    if (mediaId) Object.assign(config, {mediaId});
-    if (mediaSrc) Object.assign(config, {mediaSrc});
-    return config;
+    return pick(component, MediaProviderConfigKeys);
   }
 
   protected config: MediaProviderConfig;
