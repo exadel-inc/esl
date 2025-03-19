@@ -120,7 +120,7 @@ export function parseCSSTimeSet(timeStr: string): number[] {
 }
 
 /**
- * Common parser for lazy attribute. Case insensetive. Note:
+ * Common parser for lazy attribute. Case insensitive. Note:
  * - empty string or unknown values are treated as `auto`.
  * - `null` (or non string objects) is treated as `none`.
  * - `manual` or `none` are treated as it is
