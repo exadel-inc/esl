@@ -3,7 +3,7 @@
   
 | :clock10: Start time | :hourglass: Duration |
 | --- | ---: |
-|3/20/2025, 4:20:10 PM|19.96s|
+|3/20/2025, 4:30:53 PM|19.99s|
 
 | | :white_check_mark: Passed | :x: Failed | :construction: Todo | :white_circle: Total |
 | --- | ---: | ---: | ---:| ---: |
@@ -17,12 +17,12 @@
   ### tests/homepage.copyright.test.ts
 <table>
 <tr><th>Test</th><th>Status</th><th>Time</th></tr>
-<tr><td>Homepage footer manual validation: Check if the footer copyright contains correct version</td><td>:x:</td><td>44ms</td></tr>
+<tr><td>Homepage footer manual validation: Check if the footer copyright contains correct version</td><td>:x:</td><td>31ms</td></tr>
 <tr><td colspan="3">
 ```text
 Error: expect(received).toContain(expected) // indexOf
 
-Expected substring: "0.0.0"
+Expected substring: "5.1.0"
 Received string:    "
         ESL v5.2.0-local © 2025 Exadel, Inc.
         Code licensed under MIT.
@@ -33,23 +33,23 @@ Received string:    "
     at fulfilled (/home/runner/work/esl/esl/packages/snapshot-tests/tests/homepage.copyright.test.ts:38:58)
 ```
 </td></tr>
-<tr><td>Homepage footer manual validation: Check if the footer coypright contains correct year</td><td>:white_check_mark:</td><td>7ms</td></tr>
+<tr><td>Homepage footer manual validation: Check if the footer coypright contains correct year</td><td>:white_check_mark:</td><td>4ms</td></tr>
 </table>
 
 ### tests/test.feature
 <table>
 <tr><th>Test</th><th>Status</th><th>Time</th></tr>
-<tr><td>Feature: Test page looks fine: test page screen</td><td>:white_check_mark:</td><td>3.209s</td></tr>
+<tr><td>Feature: Test page looks fine: test page screen</td><td>:white_check_mark:</td><td>3.21s</td></tr>
 </table>
 
 ### tests/homepage.feature
 <table>
 <tr><th>Test</th><th>Status</th><th>Time</th></tr>
-<tr><td>Feature: Homepage looks fine: test homepage screen</td><td>:white_check_mark:</td><td>3.64s</td></tr>
-<tr><td>Feature: Homepage looks fine: test homepage screen on mobile</td><td>:white_check_mark:</td><td>2.85s</td></tr>
-<tr><td>Feature: Homepage looks fine: test homepage hamburger menu on mobile</td><td>:white_check_mark:</td><td>3.326s</td></tr>
-<tr><td>Feature: Homepage looks fine: test homepage footer on desktop</td><td>:white_check_mark:</td><td>2.664s</td></tr>
-<tr><td>Feature: Homepage looks fine: test homepage footer on mobile</td><td>:white_check_mark:</td><td>2.273s</td></tr>
+<tr><td>Feature: Homepage looks fine: test homepage screen</td><td>:white_check_mark:</td><td>3.578s</td></tr>
+<tr><td>Feature: Homepage looks fine: test homepage screen on mobile</td><td>:white_check_mark:</td><td>2.848s</td></tr>
+<tr><td>Feature: Homepage looks fine: test homepage hamburger menu on mobile</td><td>:white_check_mark:</td><td>3.327s</td></tr>
+<tr><td>Feature: Homepage looks fine: test homepage footer on desktop</td><td>:white_check_mark:</td><td>2.65s</td></tr>
+<tr><td>Feature: Homepage looks fine: test homepage footer on mobile</td><td>:white_check_mark:</td><td>2.267s</td></tr>
 </table>
 
 
