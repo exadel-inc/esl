@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@exadel/esl-snapshot-tests",
-  "version": "5.2.0",
+  "version": "5.2.1-beta.0",
   "description": "Integration snapshot tests for ESL",
   "homepage": "https://esl-ui.com/",
   "license": "MIT",
