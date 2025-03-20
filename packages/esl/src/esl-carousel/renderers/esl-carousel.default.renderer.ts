@@ -1,3 +1,4 @@
+import {ESLMediaQuery} from '../../esl-media-query/core';
 import {normalize, sign} from '../core/esl-carousel.utils';
 import {ESLCarouselRenderer} from '../core/esl-carousel.renderer';
 
@@ -30,6 +31,13 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     return 1;
   }
 
+  /** @returns true if moving half of the slides before current is forbidden */
+  protected get lazyReorder(): boolean {
+    const reserve = this.$carousel.getAttribute('lazy-reorder');
+    if (reserve === null) return false;
+    return ESLMediaQuery.for(reserve).matches;
+  }
+
   /** Actual slide size (uses average) */
   protected get slideSize(): number {
     return this.$slides.reduce((size, $slide) => {
@@ -48,9 +56,9 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
 
   public override redraw(initial = false): void {
     this.resize();
+
     // Calculate initial offset based on current rendered state (available only on an initial render)
     const fallbackOffset = initial ? this.getOffset(this.getReserveCount()) : 0;
-
     this.reorder();
     this.setActive(this.currentIndex);
 
@@ -187,6 +195,8 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     if (!loop || !freeSlides) return 0;
     // if back option is not set, prefer to reserve slides with respect to semantic order
     if (typeof back !== 'boolean') back = !!currentIndex;
+    // Check if reorder is forbidden (if back option is set - we should reserve at least one slide for animation)
+    if (this.lazyReorder) return back ? 1 : 0;
     // otherwise, ensure that there are at least half of free slides reserved (if the back option is set - round up, otherwise - round down)
     return back ? Math.ceil(freeSlides / 2) : Math.floor(freeSlides / 2);
   }

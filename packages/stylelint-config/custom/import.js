@@ -1,9 +1,6 @@
-/**
- * Custom stylelint rule to prevent using absolute/relative paths in @import directive
- */
 import stylelint from 'stylelint';
 
-const RULE_NAME = '@esl/import-type';
+const {validateOptions, ruleMessages, report} = stylelint.utils;
 
 const trimPath = (path) => path
   .replace(/^\s*(url\()?['"]?/, '')
@@ -15,15 +12,25 @@ const getMsgBase = (type, opt) => {
   if (typeof opt?.message === 'string') return opt.message;
   return `Only ${type} paths should be used`;
 };
-const getMsg = (type, opt, path) => {
-  return getMsgBase(type, opt).replace('{path}', path);
-};
 
-export default stylelint.createPlugin(RULE_NAME, function (type, opt) {
-  return function (root, result) {
-    const isValid = stylelint.utils.validateOptions(result, RULE_NAME, {
+/**
+ * Custom stylelint rule to prevent using absolute/relative paths in @import directive
+ *
+ * @typedef {'off' | 'absolute' | 'relative'} ESLImportRuleType
+ *
+ * @typedef {Object} ESLImportRuleOpt
+ * @property {string} [severity='error'] - Rule severity
+ * @property {string} [message] - Custom message
+ *
+ * @param {ESLImportRuleType} type - Rule type
+ * @param {ESLImportRuleOpt} [opt] - Rule options
+ */
+function importRuleFn(type, opt) {
+  return (root, result) => {
+    const {ruleName, messages} = importRuleFn;
+    const isValid = validateOptions(result, ruleName, {
       actual: type,
-      possible: ["off", "absolute", "relative"]
+      possible: ['off', 'absolute', 'relative']
     });
 
     // Skip if rule is disabled
@@ -32,21 +39,33 @@ export default stylelint.createPlugin(RULE_NAME, function (type, opt) {
     // Rule message
     const severity = opt?.severity || 'error';
 
-    root.walkAtRules("import", (node) => {
+    root.walkAtRules('import', (node) => {
       const path = trimPath(node.params);
       const isRelative = path.startsWith('.') || !path.includes('/');
 
       // Absolute path
       if (type === 'absolute' && isRelative) {
-        const message = getMsg(type, opt, path);
-        stylelint.utils.report({message, node, result, severity, ruleName: RULE_NAME});
+        const message = messages.rejected(type, opt, path);
+        report({message, node, result, severity, ruleName});
       }
 
       // Relative path
       if (type === 'relative' && !isRelative) {
-        const message = getMsg(type, opt, path);
-        stylelint.utils.report({message, node, result, severity, ruleName: RULE_NAME});
+        const message = messages.rejected(type, opt, path);
+        report({message, node, result, severity, ruleName});
       }
     });
   };
+}
+
+importRuleFn.ruleName = '@esl/import-type';
+importRuleFn.messages = ruleMessages(importRuleFn.ruleName, {
+  /**
+   * @param {ESLImportRuleType} type
+   * @param {ESLImportRuleOpt} opt
+   * @param {string} path
+   */
+  rejected: (type, opt, path) => getMsgBase(type, opt).replace('{path}', path)
 });
+
+export default stylelint.createPlugin(importRuleFn.ruleName, importRuleFn);

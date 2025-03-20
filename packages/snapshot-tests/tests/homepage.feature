@@ -3,14 +3,14 @@ Feature: Homepage looks fine
     Given a page "/"
     When on desktop
     Then wait for 2s
-    And take a screenshot of a full page
+    And take a screenshot
     Then check if the screenshot is equal to the snapshotted version
 
   Scenario: test homepage screen on mobile
     Given a page "/"
     When on mobile
     Then wait for 2.5s
-    And take a screenshot of a full page
+    And take a screenshot
     Then check if the screenshot is equal to the snapshotted version
 
   Scenario: test homepage hamburger menu on mobile
@@ -20,7 +20,7 @@ Feature: Homepage looks fine
     Then find the element by selector ".header-hamburger"
     And click element
     Then wait for 1s
-    And take a screenshot of a full page
+    And take a screenshot
     Then check if the screenshot is equal to the snapshotted version
 
   Scenario: test homepage footer on desktop

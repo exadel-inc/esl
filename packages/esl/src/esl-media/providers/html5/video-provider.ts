@@ -1,6 +1,8 @@
 import {BaseProvider} from '../../core/esl-media-provider';
 import {HTMLMediaProvider} from './media-provider';
 
+import type {MediaProviderConfig} from '../../core/esl-media-provider';
+
 /**
  * Simple Video API provider for {@link ESLMedia}
  * @author Yuliya Adamskaya
@@ -16,6 +18,11 @@ export class VideoProvider extends HTMLMediaProvider {
     const el = document.createElement('video');
     el.src = this.src;
     return el;
+  }
+  protected override applyElementSettings(cfg: MediaProviderConfig): void {
+    super.applyElementSettings(cfg);
+    this._el.playsInline = cfg.playsInline;
+    this._el.disablePictureInPicture = cfg.disablePictureInPicture;
   }
 
   get defaultAspectRatio(): number {
