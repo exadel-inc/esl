@@ -69,7 +69,7 @@
     "lint": "concurrently npm:lint:*",
     "lint:js": "eslint \"src/**/*.ts\"",
     "lint:css": "stylelint \"src/**/*.less\"",
-    "pack": "npm pack --pack-destination ../../",
+    "pack": "npm pack --pack-destination ../../target/",
     "prepare": "npm run build"
   },
   "dependencies": {

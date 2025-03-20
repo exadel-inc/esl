@@ -23,7 +23,7 @@
     "lint": "",
     "clean": "rimraf dist",
     "build": "npm run clean && tsc --project tsconfig.build.json",
-    "pack": "npm pack --pack-destination ../../",
+    "pack": "npm pack --pack-destination ../../target/",
     "prepare": "npm run build"
   },
   "dependencies": {

@@ -26,7 +26,7 @@
     "test:e2e:update": "npm run run:update --workspace packages/snapshot-tests",
     "lint": "lerna run lint",
     "build": "lerna run build",
-    "pack": "lerna run pack",
+    "pack": "npx mkdirp target && lerna run pack",
     "prepare": "husky",
     "preversion": "npm test",
     "version:notes": "node scripts/notes.js"
