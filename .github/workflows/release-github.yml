@@ -43,41 +43,49 @@ jobs:
         with:
           script: |
             const { execSync } = require('child_process');
-            const version = require('./lerna.json').version;
-            const latestTag = execSync('git describe --tags --abbrev=0').toString().trim();
-            if (!leastTag || !version) throw new Error('No tags found');
-            const isNewVersion = version !== latestTag;
 
-            // Print status
-            console.log('Version:', version);
-            console.log('Latest Tag:', latestTag);
-            console.log('Is New Version:', isNewVersion);
-            // Set outputs
+            // Get all git tags on the current branch
+            const tags = execSync('git tag --list "v*" --sort=-v:refname')
+              .toString()
+              .split('\n');
+
+            // Check if there are any tags
+            if (tags.length === 0) throw new Error('No git tags found');
+
+            // Get the Project Version
+            const version = require('./lerna.json').version;
+            // Get the latest version from the tags
+            const gitVersion = tags[0].trim().substring(1);
+
+            // Debug output
+            console.log('Info:', { version, gitVersion });
+
+            // Set the outputs
             core.setOutput('version', version);
-            core.setOutput('isNewVersion', isNewVersion);
+            core.setOutput('isNewVersion', gitVersion !== version);
             core.setOutput('prerelease', version.includes('beta'));
 
       - name: Build
-        if: ${{ steps.info.outputs.isNewVersion == 'true' }}
+        if: ${{ steps.info.outputs.isNewVersion }}
         run: npm run build
 
       - name: Build Tarballs
-        if: ${{ steps.info.outputs.isNewVersion == 'true' }}
+        if: ${{ steps.info.outputs.isNewVersion }}
         run: npm run pack
 
       - name: Create Tag
-        if: ${{ steps.info.outputs.isNewVersion == 'true' }}
+        if: ${{ steps.info.outputs.isNewVersion }}
         run: |
           git tag -a v${{ steps.info.outputs.version }} -m "chore(release): v${{ steps.info.outputs.version }}"
           git push origin v${{ steps.info.outputs.version }} --no-verify
 
       - name: Build Release Notes
-        if: ${{ steps.info.outputs.isNewVersion == 'true' }}
+        if: ${{ steps.info.outputs.isNewVersion }}
         id: release-notes
         run: npm run version:notes
 
       - name: Create GitHub Release
-        if: ${{ steps.info.outputs.isNewVersion == 'true' }}
+        if: ${{ steps.info.outputs.isNewVersion }}
         uses: ncipollo/release-action@v1
         with:
           name: v${{ steps.info.outputs.version }}
