@@ -46,12 +46,12 @@
     "modules/esl-share/buttons/**/*.js",
     "modules/esl-carousel/core.js",
     "modules/esl-carousel/renderers/**/*.js",
-    "src/modules/lib.ts",
-    "src/modules/esl-media/providers/**/*.ts",
-    "src/modules/esl-share/actions/**/*.ts",
-    "src/modules/esl-share/buttons/**/*.ts",
-    "src/modules/esl-carousel/core.ts",
-    "src/modules/esl-carousel/renderers/**/*.ts",
+    "src/lib.ts",
+    "src/esl-media/providers/**/*.ts",
+    "src/esl-share/actions/**/*.ts",
+    "src/esl-share/buttons/**/*.ts",
+    "src/esl-carousel/core.ts",
+    "src/esl-carousel/renderers/**/*.ts",
     "polyfills/**/*.js"
   ],
   "scripts": {
