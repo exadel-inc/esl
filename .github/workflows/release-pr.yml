@@ -1,8 +1,8 @@
 name: Release PR
 
 on:
-  #  push:
-  #    branches: [ main ]
+  push:
+    branches: [ main, main-beta ]
   workflow_dispatch:
 
 permissions:
@@ -12,10 +12,17 @@ permissions:
 env:
   node-version: 20.x
 
+concurrency:
+  group: release-pr-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   release-pr:
     name: Release Please
     runs-on: ubuntu-latest
+
+    env:
+      TARGET_BRANCH: ${{ github.ref == 'refs/heads/main' && 'release/main' || 'release/main-beta' }}
 
     steps:
       - name: Deep Checkout
@@ -26,15 +33,13 @@ jobs:
       - name: Install NPM Dependencies
         run: npm ci
 
-#      - name: Set Git user globally to github-actions
-#        uses: gotmax23/set-bot-git-user-action@main
-#        with:
-#          global: true
-#          bot: github-actions
-#          name: "Github Actions: Release PR Bot"
-
-      - name: Version Bump (Lerna)
+      - name: Stable Version Bump (Lerna)
+        if: ${{ github.ref == 'refs/heads/main' }}
         run: npx lerna version --conventional-commits --yes
+
+      - name: Beta Version Bump (Lerna)
+        if: ${{ github.ref != 'refs/heads/main' }}
+        run: npx lerna version --conventional-commits --conventional-prerelease --preid beta --yes
 
       - name: Store the new version
         id: info
@@ -50,8 +55,8 @@ jobs:
         name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
         with:
-          branch: release/main
-          title: "Auto PR: release/main → main (v${{ steps.info.outputs.version }})"
+          branch: ${{ env.TARGET_BRANCH }}
+          title: "Auto PR: ${{ env.TARGET_BRANCH }} → ${{ github.ref }} (v${{ steps.info.outputs.version }})"
           commit-message: 'chore: release v${{ steps.info.outputs.version }}'
           body: "This is an automated Release PR for version v${{ steps.info.outputs.version }}."
           draft: true
