@@ -1,8 +1,8 @@
 name: Release PR
 
 on:
-#  push:
-#    branches: [ main ]
+  push:
+    branches: [ main, main-beta ]
   workflow_dispatch:
 
 permissions:
@@ -12,22 +12,59 @@ permissions:
 env:
   node-version: 20.x
 
+concurrency:
+  group: release-pr-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   release-pr:
     name: Release Please
     runs-on: ubuntu-latest
 
+    env:
+      TARGET_BRANCH: ${{ github.ref == 'refs/heads/main' && 'release/main' || 'release/main-beta' }}
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - name: Deep Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Use Node v${{ env.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          cache: 'npm'
+          node-version: ${{ env.node-version }}
+
+      - name: Install NPM Dependencies
+        run: npm ci
+
+      - name: Stable Version Bump (Lerna)
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run: npx lerna version --conventional-commits --yes
+
+      - name: Beta Version Bump (Lerna)
+        if: ${{ github.ref != 'refs/heads/main' }}
+        run: npx lerna version --conventional-commits --conventional-prerelease --preid beta --yes
+
+      - name: Store the new version
+        id: info
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const version = require('./lerna.json').version;
+            console.log('Current version:', version);
+            core.setOutput('version', version);
 
       # Open a PR from release/main to main
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v6
+      - if: steps.info.outputs.version
+        name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
         with:
-          base: main
-          branch: release/main
-          title: "Auto PR: release/main → main"
-          body: "This is an automated Release PR"
+          branch: ${{ env.TARGET_BRANCH }}
+          title: "Auto PR: ${{ env.TARGET_BRANCH }} → ${{ github.ref }} (v${{ steps.info.outputs.version }})"
+          commit-message: 'chore: release v${{ steps.info.outputs.version }}'
+          body: "This is an automated Release PR for version v${{ steps.info.outputs.version }}."
+          draft: true
           labels: "automated-pr"
           assignees: "ala-n"

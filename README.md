@@ -52,37 +52,37 @@ See the rundown of web components and read the specs.
 With our UI component library, you get flexible syntax sugar meant for building on top of basic components and 
 controlling their life cycle.
 
-- ##### [ESL Base Element](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-base-element/README.md)
-- ##### [ESL Mixin Element](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-mixin-element/README.md)
-- ##### [ESL Media Query](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-media-query/README.md)
-- ##### [ESL Traversing Query](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-traversing-query/README.md)
-- ##### [ESL Event Listener](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-event-listener/README.md)
-- ##### [ESL Utils](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-utils/README.md)
+- ##### [ESL Base Element](https://github.com/exadel-inc/esl/blob/HEAD/packages/esl/src/esl-base-element/README.md)
+- ##### [ESL Mixin Element](https://github.com/exadel-inc/esl/blob/HEAD/packages/esl/src/esl-mixin-element/README.md)
+- ##### [ESL Media Query](https://github.com/exadel-inc/esl/blob/HEAD/packages/esl/src/esl-media-query/README.md)
+- ##### [ESL Traversing Query](https://github.com/exadel-inc/esl/blob/HEAD/packages/esl/src/esl-traversing-query/README.md)
+- ##### [ESL Event Listener](https://github.com/exadel-inc/esl/blob/HEAD/packages/esl/src/esl-event-listener/README.md)
+- ##### [ESL Utils](https://github.com/exadel-inc/esl/blob/HEAD/packages/esl/src/esl-utils/README.md)
 
 ### Components
 
 Our HTML UI component library provides you with all the elements you’ll need to construct UX modules 
 with excellent performance.
 
-- ##### [ESL A11yGroup](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-a11y-group/README.md) (beta)
-- ##### [ESL Alert](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-alert/README.md)
-- ##### [ESL Animate](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-animate/README.md)
-- ##### [ESL Carousel](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-carousel/README.md) (beta)
-- ##### [ESL Footnotes](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-footnotes/README.md) (beta)
-- ##### [ESL Image Utils](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-image-utils/README.md)
-- ##### [ESL Image (Legacy)](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-image/README.md)
-- ##### [ESL Media](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-media/README.md)
-- ##### [ESL Panel](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-panel/README.md)
-- ##### [ESL Panel Group](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-panel-group/README.md)
-- ##### [ESL Popup](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-popup/README.md) (beta)
-- ##### [ESL Related Target](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-related-target/README.md)
-- ##### [ESL Scrollbar](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-scrollbar/README.md)
-- ##### [ESL Select](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-forms/esl-select/README.md) (beta)
-- ##### [ESL Select List](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-forms/esl-select-list/README.md) (beta)
-- ##### [ESL Share](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-share/README.md) (beta)
-- ##### [ESL Tab and Tabs](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-tab/README.md)
-- ##### [ESL Toggleable](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-toggleable/README.md)
-- ##### [ESL Trigger](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-trigger/README.md)
+- ##### [ESL A11yGroup](https://github.com/exadel-inc/esl/blob/HEAD/packages/esl/src/esl-a11y-group/README.md) (beta)
+- ##### [ESL Alert](https://github.com/exadel-inc/esl/blob/HEAD/packages/esl/src/esl-alert/README.md)
+- ##### [ESL Animate](https://github.com/exadel-inc/esl/blob/HEAD/packages/esl/src/esl-animate/README.md)
+- ##### [ESL Carousel](https://github.com/exadel-inc/esl/blob/HEAD/packages/esl/src/esl-carousel/README.md) (beta)
+- ##### [ESL Footnotes](https://github.com/exadel-inc/esl/blob/HEAD/packages/esl/src/esl-footnotes/README.md) (beta)
+- ##### [ESL Image Utils](https://github.com/exadel-inc/esl/blob/HEAD/packages/esl/src/esl-image-utils/README.md)
+- ##### [ESL Image (Legacy)](https://github.com/exadel-inc/esl/blob/HEAD/packages/esl/src/esl-image/README.md)
+- ##### [ESL Media](https://github.com/exadel-inc/esl/blob/HEAD/packages/esl/src/esl-media/README.md)
+- ##### [ESL Panel](https://github.com/exadel-inc/esl/blob/HEAD/packages/esl/src/esl-panel/README.md)
+- ##### [ESL Panel Group](https://github.com/exadel-inc/esl/blob/HEAD/packages/esl/src/esl-panel-group/README.md)
+- ##### [ESL Popup](https://github.com/exadel-inc/esl/blob/HEAD/packages/esl/src/esl-popup/README.md) (beta)
+- ##### [ESL Related Target](https://github.com/exadel-inc/esl/blob/HEAD/packages/esl/src/esl-related-target/README.md)
+- ##### [ESL Scrollbar](https://github.com/exadel-inc/esl/blob/HEAD/packages/esl/src/esl-scrollbar/README.md)
+- ##### [ESL Select](https://github.com/exadel-inc/esl/blob/HEAD/packages/esl/src/esl-forms/esl-select/README.md) (beta)
+- ##### [ESL Select List](https://github.com/exadel-inc/esl/blob/HEAD/packages/esl/src/esl-forms/esl-select-list/README.md) (beta)
+- ##### [ESL Share](https://github.com/exadel-inc/esl/blob/HEAD/packages/esl/src/esl-share/README.md) (beta)
+- ##### [ESL Tab and Tabs](https://github.com/exadel-inc/esl/blob/HEAD/packages/esl/src/esl-tab/README.md)
+- ##### [ESL Toggleable](https://github.com/exadel-inc/esl/blob/HEAD/packages/esl/src/esl-toggleable/README.md)
+- ##### [ESL Trigger](https://github.com/exadel-inc/esl/blob/HEAD/packages/esl/src/esl-trigger/README.md)
 
 ---
 ## Installation Guide

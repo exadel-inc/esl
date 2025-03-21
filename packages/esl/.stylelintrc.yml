@@ -15,14 +15,3 @@ rules:
 
   # Disallow duplicate properties within declaration blocks
   declaration-block-no-duplicate-properties: true
-
-overrides:
-  # Demo site pages sources
-  - files: ['packages/esl-website/**/*.{css,less}']
-    rules:
-      # No import restrictions
-      '@esl/import-type': off
-      # Warn about duplicate properties within declaration blocks
-      declaration-block-no-duplicate-properties:
-        - true
-        - severity: warning

@@ -19,11 +19,10 @@
       "DOM.Iterable"
     ],
     "rootDir": "src",
-    "outDir": "./"
+    "outDir": "./modules"
   },
   "include": [
-    "src/modules",
-    "src/polyfills"
+    "src"
   ],
   "exclude": [
     "modules",
