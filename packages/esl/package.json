@@ -65,6 +65,7 @@
     "watch": "concurrently npm:watch:*",
     "watch:ts": "tsc --project tsconfig.build.json --watch",
     "watch:less": "chokidar --initial \"src/**/*.less\" -c \"npm run build:less\"",
+    "watch:docs": "chokidar --initial \"src/**/*.md\" -c \"npm run build:docs\"",
     "test": "jest --silent --noStackTrace",
     "lint": "concurrently npm:lint:*",
     "lint:js": "eslint \"src/**/*.ts\"",
