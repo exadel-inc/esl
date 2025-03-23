@@ -26,7 +26,7 @@
     "run:eleventy:e2e": "eleventy --serve -- --env=e2e",
     "build": "npm run clean && concurrently \"npm run build:ts\" \"npm run build:less && npm run minify:css\" && npm run build:eleventy",
     "build:ts": "webpack --mode=production",
-    "build:less": "foreach -x \"lessc #{path} dist/bundles/#{name}.css --source-map=dist/bundles/#{name}.css.map\" -g \"src/*.less\"",
+    "build:less": "findx \"src/*.less\" \"lessc {{path}} dist/bundles/{{name}}.css --source-map=dist/bundles/{{name}}.css.map\"",
     "build:eleventy": "eleventy -- --env=production",
     "build:analyzer": "webpack --mode=production --profile --json dist/stats.json && webpack-bundle-analyzer dist/stats.json dist/bundles -s gzip -m static -r dist/stats.html"
   },
