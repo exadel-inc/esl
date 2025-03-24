@@ -92,17 +92,6 @@ describe('ESLMediaQuery', () => {
       expect(ESLMediaQuery.from(query).toString()).toBe(expected);
       DevicesMock.isSafari = false;
     });
-
-    test('Bot DPR override test', () => {
-      DevicesMock.isBot = true;
-      ESLScreenDPR.ignoreBotsDpr = true;
-
-      expect(ESLMediaQuery.from('@1x').toString()).toBe('(min-resolution: 96.0dpi)');
-      expect(ESLMediaQuery.from('@3x, @2.4x').toString()).toBe('not all');
-
-      DevicesMock.isBot = false;
-      ESLScreenDPR.ignoreBotsDpr = false;
-    });
   });
 
   describe('Device type shortcut', () => {

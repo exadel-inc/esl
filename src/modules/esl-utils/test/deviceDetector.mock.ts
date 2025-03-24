@@ -1,7 +1,6 @@
 export const DevicesMock = {
   isMobile: false,
-  isSafari: false,
-  isBot: false
+  isSafari: false
 };
 
 jest.mock('../environment/device-detector', () => DevicesMock);

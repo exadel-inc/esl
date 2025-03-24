@@ -1,7 +1,6 @@
 import {
   isAndroid,
   isBlink,
-  isBot,
   isEdgeHTML,
   isGecko,
   isIE,
@@ -52,7 +51,6 @@ export class ESLEnvShortcuts {
 ESLEnvShortcuts.add('touch', isTouchDevice);
 
 // Basic device type shortcuts
-ESLEnvShortcuts.add('bot', isBot);
 ESLEnvShortcuts.add('mobile', isMobile);
 ESLEnvShortcuts.add('desktop', !isMobile);
 ESLEnvShortcuts.add('android', isAndroid);
