@@ -73,7 +73,7 @@ The semantic-release project and GitHub actions are used to automate the release
 ## Project Structure
 
 ESL project is a monorepo that consists of several packages and directories.
-ESL use Lerna to manage monorepo packages, their dependencies, versioning, publishing, and running scripts.
+ESL uses Lerna to manage monorepo packages, their dependencies, versioning, publishing, and running scripts.
 ESL top-level directory structure is as follows:
 
 - [📁 packages](../packages) - ESL monorepo root
