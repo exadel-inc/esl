@@ -46,12 +46,6 @@
     "modules/esl-share/buttons/**/*.js",
     "modules/esl-carousel/core.js",
     "modules/esl-carousel/renderers/**/*.js",
-    "src/lib.ts",
-    "src/esl-media/providers/**/*.ts",
-    "src/esl-share/actions/**/*.ts",
-    "src/esl-share/buttons/**/*.ts",
-    "src/esl-carousel/core.ts",
-    "src/esl-carousel/renderers/**/*.ts",
     "polyfills/**/*.js"
   ],
   "scripts": {
@@ -83,55 +77,19 @@
     "@exadel/stylelint-config-esl": "../stylelint-config"
   },
   "contributors": [
-    {
-      "name": "ala-n",
-      "email": "astsefanovich@exadel.com"
-    },
-    {
-      "name": "ymurashka",
-      "email": "ymurashka@exadel.com"
-    },
-    {
-      "name": "yadamska",
-      "email": "yadamska@exadel.com"
-    },
-    {
-      "name": "dshovchko",
-      "email": "dshovchko@exadel.com"
-    },
-    {
-      "name": "abarmina",
-      "email": "abarmina@exadel.com"
-    },
-    {
-      "name": "alesun",
-      "email": "alesun@exadel.com"
-    },
-    {
-      "name": "fshovchko",
-      "email": "fshovchko@exadel.com"
-    }
+    "ala-n <astsefanovich@exadel.com>",
+    "ymurashka <ymurashka@exadel.com>",
+    "yadamska <yadamska@exadel.com>",
+    "dshovchko <dshovchko@exadel.com>",
+    "abarmina <abarmina@exadel.com>",
+    "alesun <alesun@exadel.com>",
+    "fshovchko <fshovchko@exadel.com>"
   ],
   "maintainers": [
-    {
-      "name": "ala-n",
-      "email": "astsefanovich@exadel.com"
-    },
-    {
-      "name": "yadamska",
-      "email": "yadamska@exadel.com"
-    },
-    {
-      "name": "dshovchko",
-      "email": "dshovchko@exadel.com"
-    },
-    {
-      "name": "abarmina",
-      "email": "abarmina@exadel.com"
-    },
-    {
-      "name": "alesun",
-      "email": "alesun@exadel.com"
-    }
+    "ala-n <astsefanovich@exadel.com>",
+    "yadamska <yadamska@exadel.com>",
+    "dshovchko <dshovchko@exadel.com>",
+    "abarmina <abarmina@exadel.com>",
+    "alesun <alesun@exadel.com>"
   ]
 }

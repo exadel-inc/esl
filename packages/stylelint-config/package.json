@@ -32,25 +32,10 @@
     "stylelint": ">=16.0.0"
   },
   "maintainers": [
-    {
-      "name": "ala-n",
-      "email": "astsefanovich@exadel.com"
-    },
-    {
-      "name": "yadamska",
-      "email": "yadamska@exadel.com"
-    },
-    {
-      "name": "dshovchko",
-      "email": "dshovchko@exadel.com"
-    },
-    {
-      "name": "abarmina",
-      "email": "abarmina@exadel.com"
-    },
-    {
-      "name": "alesun",
-      "email": "alesun@exadel.com"
-    }
+    "ala-n <astsefanovich@exadel.com>",
+    "yadamska <yadamska@exadel.com>",
+    "dshovchko <dshovchko@exadel.com>",
+    "abarmina <abarmina@exadel.com>",
+    "alesun <alesun@exadel.com>"
   ]
 }

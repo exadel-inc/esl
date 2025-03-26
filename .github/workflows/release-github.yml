@@ -93,6 +93,7 @@ jobs:
           name: v${{ steps.info.outputs.version }}
           tag: v${{ steps.info.outputs.version }}
           bodyFile: 'RELEASE_NOTES.md'
+          artifacts: 'target/*.tgz'
           token: ${{ secrets.GITHUB_TOKEN }}
           draft: true
           prerelease: ${{ steps.info.outputs.prerelease }}
