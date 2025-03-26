@@ -35,7 +35,8 @@
   "files": [
     "modules/**/*.{js,ts,less,css,md}",
     "polyfills/**/*.{js,ts,less,css,md}",
-    "tsconfig.json"
+    "tsconfig.json",
+    "README.md"
   ],
   "module": "modules/all.js",
   "types": "modules/all.d.ts",
