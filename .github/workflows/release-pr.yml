@@ -62,9 +62,9 @@ jobs:
         uses: peter-evans/create-pull-request@v7
         with:
           branch: ${{ env.TARGET_BRANCH }}
-          title: "Auto PR: ${{ env.TARGET_BRANCH }} → ${{ github.ref }} (v${{ steps.info.outputs.version }})"
+          title: "Auto Bump: ${{ env.TARGET_BRANCH }} → ${{ github.ref }} (v${{ steps.info.outputs.version }})"
           commit-message: 'chore: release v${{ steps.info.outputs.version }}'
           body: "This is an automated Release PR for version v${{ steps.info.outputs.version }}."
           draft: true
           labels: "automated-pr"
-          assignees: "ala-n"
+          assignees: "ala-n, abarmina, NastaLeo"

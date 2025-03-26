@@ -56,58 +56,5 @@
     "stylelint": "^16.16.0",
     "ts-jest": "^29.3.0",
     "typescript": "5.8.2"
-  },
-  "browserslist": [
-    "last 3 versions",
-    "> 1%",
-    "not dead"
-  ],
-  "contributors": [
-    {
-      "name": "ala-n",
-      "email": "astsefanovich@exadel.com"
-    },
-    {
-      "name": "ymurashka",
-      "email": "ymurashka@exadel.com"
-    },
-    {
-      "name": "yadamska",
-      "email": "yadamska@exadel.com"
-    },
-    {
-      "name": "dshovchko",
-      "email": "dshovchko@exadel.com"
-    },
-    {
-      "name": "abarmina",
-      "email": "abarmina@exadel.com"
-    },
-    {
-      "name": "alesun",
-      "email": "alesun@exadel.com"
-    }
-  ],
-  "maintainers": [
-    {
-      "name": "ala-n",
-      "email": "astsefanovich@exadel.com"
-    },
-    {
-      "name": "yadamska",
-      "email": "yadamska@exadel.com"
-    },
-    {
-      "name": "dshovchko",
-      "email": "dshovchko@exadel.com"
-    },
-    {
-      "name": "abarmina",
-      "email": "abarmina@exadel.com"
-    },
-    {
-      "name": "alesun",
-      "email": "alesun@exadel.com"
-    }
-  ]
+  }
 }
