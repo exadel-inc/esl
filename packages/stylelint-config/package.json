@@ -17,7 +17,9 @@
   "main": "index.js",
   "files": [
     "custom/*.js",
-    "index.js"
+    "index.js",
+    "CHANGELOG.md",
+    "README.md"
   ],
   "scripts": {
     "test": "",

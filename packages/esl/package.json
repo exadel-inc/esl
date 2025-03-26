@@ -36,6 +36,7 @@
     "modules/**/*.{js,ts,less,css,md}",
     "polyfills/**/*.{js,ts,less,css,md}",
     "tsconfig.json",
+    "CHANGELOG.md",
     "README.md"
   ],
   "module": "modules/all.js",

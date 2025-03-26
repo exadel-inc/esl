@@ -16,7 +16,9 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
-    "dist/**/*.{js,ts,md}"
+    "dist/**/*.{js,ts,md}",
+    "CHANGELOG.md",
+    "README.md"
   ],
   "scripts": {
     "test": "jest",
