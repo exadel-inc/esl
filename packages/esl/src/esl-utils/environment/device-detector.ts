@@ -28,7 +28,7 @@ export const isSafari = isWebkit && /^((?!chrome|android).)*safari/i.test(userAg
 // Blink
 export const isBlink = isWebkit && !isSafari;
 
-/** @deprecated Bot detection */
+/** @deprecated bot detection no longer works (speed bot now has no specific) and supported from ESL side */
 export const isBot = /Chrome-Lighthouse|Google Page Speed Insights/i.test(userAgent);
 
 // Mobile
