@@ -30,7 +30,12 @@ jobs:
       - name: Install NPM Dependencies
         run: npm ci
 
+      - name: Create NPM Token
+        run: echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > ~/.npmrc
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       - name: Publish to NPM
-        run: lerna publish from-package --yes
+        run: lerna publish from-package --yes --loglevel=verbose
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

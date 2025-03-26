@@ -5,7 +5,7 @@
 
 [![npm](https://img.shields.io/npm/v/@exadel/esl?style=for-the-badge)](https://www.npmjs.com/package/@exadel/esl)
 [![npm Downloads](https://img.shields.io/npm/dt/@exadel/esl.svg?label=npm%20downloads&style=for-the-badge)](https://www.npmjs.com/package/@exadel/esl)
-[![version](https://img.shields.io/github/package-json/v/exadel-inc/esl?style=for-the-badge)](https://github.com/exadel-inc/esl/releases/latest)
+[![version](https://img.shields.io/github/lerna-json/v/exadel-inc/esl?style=for-the-badge)](https://github.com/exadel-inc/esl/releases/latest)
 [![build](https://img.shields.io/github/actions/workflow/status/exadel-inc/esl/validate.yml?style=for-the-badge)](https://github.com/exadel-inc/esl/actions/workflows/validate.yml)
 [![Tests Coverage](https://img.shields.io/codeclimate/coverage/exadel-inc/esl?style=for-the-badge)](https://codeclimate.com/github/exadel-inc/esl)
 [![License](https://img.shields.io/badge/license-MIT-green.svg?style=for-the-badge)](./README.md)
