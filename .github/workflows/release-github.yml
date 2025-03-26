@@ -75,12 +75,6 @@ jobs:
         if: ${{ steps.info.outputs.isNewVersion }}
         run: npm run pack
 
-      - name: Create Tag
-        if: ${{ steps.info.outputs.isNewVersion }}
-        run: |
-          git tag -a v${{ steps.info.outputs.version }} -m "chore(release): v${{ steps.info.outputs.version }}"
-          git push origin v${{ steps.info.outputs.version }} --no-verify
-
       - name: Build Release Notes
         if: ${{ steps.info.outputs.isNewVersion }}
         id: release-notes

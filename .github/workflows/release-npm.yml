@@ -2,7 +2,7 @@ name: Release Handler (NPM)
 
 on:
   release:
-    types: [ created ]
+    types: [published]
   workflow_dispatch:
 
 permissions:
@@ -14,9 +14,6 @@ env:
 
 jobs:
   publish:
-    # Run if release is not a draft or run through workflow_dispatch
-    if: ${{ github.event.release.draft == false || github.event_name == 'workflow_dispatch' }}
-
     name: Publish (NPM)
     runs-on: ubuntu-latest
 
