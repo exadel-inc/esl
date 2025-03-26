@@ -56,14 +56,16 @@ jobs:
             const version = require('./lerna.json').version;
             // Get the latest version from the tags
             const gitVersion = tags[0].trim().substring(1);
+            // Check if the version is the same as the latest tag
+            const isNewVersion = gitVersion !== version;
 
             // Debug output
-            console.log('Info:', { version, gitVersion });
+            console.log('Info:', { version, gitVersion, isNewVersion });
 
             // Set the outputs
             core.setOutput('version', version);
-            core.setOutput('isNewVersion', gitVersion !== version);
-            core.setOutput('prerelease', version.includes('beta'));
+            if (isNewVersion) core.setOutput('isNewVersion', 'true');
+            if (version.includes('beta')) core.setOutput('prerelease', 'true');
 
       - name: Build
         if: ${{ steps.info.outputs.isNewVersion }}
