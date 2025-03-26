@@ -108,7 +108,6 @@ The list of predefined breakpoints is the following:
 Additional preprocessor to provide DPR shortcuts.
 
 #### ESLScreenDPR API
-  - `ignoreBotsDpr` - marker to enable DPR ignoring for PageSpeed Bots
   - `toDPI` - converts to DPI (Dots Per Inch) based on a given number value
   - `process` - creates a string representation of the DPI value, in the format of (e.g. `(min-resolution: {value}dpi)`)
 
