@@ -1,8 +1,7 @@
 {
   "extends": "./tsconfig.json",
   "include": [
-    "src/modules",
-    "src/polyfills"
+    "src"
   ],
   "exclude": [
     "*.test.ts",

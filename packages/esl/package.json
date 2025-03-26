@@ -1,0 +1,133 @@
+{
+  "name": "@exadel/esl",
+  "version": "5.2.0",
+  "private": false,
+  "description": "Exadel Smart Library (ESL) is the lightweight custom elements library that provide a set of super-flexible components",
+  "license": "MIT",
+  "homepage": "https://esl-ui.com/",
+  "keywords": [
+    "esl",
+    "lightweight",
+    "typescript",
+    "flexible",
+    "web components",
+    "web components utils",
+    "custom elements",
+    "custom elements ts",
+    "component library",
+    "animate",
+    "accordion",
+    "tabs",
+    "embedded-video",
+    "scrollbar"
+  ],
+  "bugs": {
+    "url": "https://github.com/exadel-inc/esl/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/exadel-inc/esl.git"
+  },
+  "publishConfig": {
+    "access": "public",
+    "scope": "@exadel"
+  },
+  "files": [
+    "modules/**/*.{js,ts,less,css,md}",
+    "polyfills/**/*.{js,ts,less,css,md}",
+    "tsconfig.json"
+  ],
+  "module": "modules/all.js",
+  "types": "modules/all.d.ts",
+  "sideEffects": [
+    "modules/lib.js",
+    "modules/esl-media/providers/**/*.js",
+    "modules/esl-share/actions/**/*.js",
+    "modules/esl-share/buttons/**/*.js",
+    "modules/esl-carousel/core.js",
+    "modules/esl-carousel/renderers/**/*.js",
+    "src/lib.ts",
+    "src/esl-media/providers/**/*.ts",
+    "src/esl-share/actions/**/*.ts",
+    "src/esl-share/buttons/**/*.ts",
+    "src/esl-carousel/core.ts",
+    "src/esl-carousel/renderers/**/*.ts",
+    "polyfills/**/*.js"
+  ],
+  "scripts": {
+    "clean": "rimraf modules",
+    "build": "npm run clean && concurrently \"npm run build:less\" \"npm run build:ts\" \"npm run build:docs\"",
+    "build:ts": "tsc --project tsconfig.build.json",
+    "build:less": "npm run build:less:cpy && npm run build:less:css",
+    "build:less:cpy": "copyfiles \"src/**/*.less\" \"modules\" --up 1 --all",
+    "build:less:css": "findx \"modules/{*,*/*,{esl-utils,esl-forms}/*/*}.less !**/*.mixin.less\" \"lessc {{path}} {{dir}}/{{name}}.css\"",
+    "build:docs": "copyfiles \"src/**/*.md\" \"modules\" --up 1 --all",
+    "watch": "concurrently npm:watch:*",
+    "watch:ts": "tsc --project tsconfig.build.json --watch",
+    "watch:less": "chokidar --initial \"src/**/*.less\" -c \"npm run build:less\"",
+    "watch:docs": "chokidar --initial \"src/**/*.md\" -c \"npm run build:docs\"",
+    "test": "jest --silent --noStackTrace",
+    "lint": "concurrently npm:lint:*",
+    "lint:js": "eslint \"src/**/*.ts\"",
+    "lint:css": "stylelint \"src/**/*.less\"",
+    "pack": "npm pack --pack-destination ../../target/",
+    "prepare": "npm run build"
+  },
+  "dependencies": {
+    "@types/video.js": "7.3.58",
+    "@types/youtube": "0.1.0"
+  },
+  "devDependencies": {
+    "@exadel/eslint-config-esl": "../eslint-config",
+    "@exadel/eslint-plugin-esl": "../eslint-plugin",
+    "@exadel/stylelint-config-esl": "../stylelint-config"
+  },
+  "contributors": [
+    {
+      "name": "ala-n",
+      "email": "astsefanovich@exadel.com"
+    },
+    {
+      "name": "ymurashka",
+      "email": "ymurashka@exadel.com"
+    },
+    {
+      "name": "yadamska",
+      "email": "yadamska@exadel.com"
+    },
+    {
+      "name": "dshovchko",
+      "email": "dshovchko@exadel.com"
+    },
+    {
+      "name": "abarmina",
+      "email": "abarmina@exadel.com"
+    },
+    {
+      "name": "alesun",
+      "email": "alesun@exadel.com"
+    }
+  ],
+  "maintainers": [
+    {
+      "name": "ala-n",
+      "email": "astsefanovich@exadel.com"
+    },
+    {
+      "name": "yadamska",
+      "email": "yadamska@exadel.com"
+    },
+    {
+      "name": "dshovchko",
+      "email": "dshovchko@exadel.com"
+    },
+    {
+      "name": "abarmina",
+      "email": "abarmina@exadel.com"
+    },
+    {
+      "name": "alesun",
+      "email": "alesun@exadel.com"
+    }
+  ]
+}
