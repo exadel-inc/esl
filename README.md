@@ -37,10 +37,14 @@
 
 ESL is mono-repository now to see more detailed iformation you can visit one of the folowing sub-packages:
 
-  - [ESL Library](./packages/esl/README.md) - ESL core library with all the components and utilities.
-  - [ESL ESLint Plugin](./packages/eslint-plugin/README.md) - ESL ESLint Plugin that provides ESL-specific rules and configurations for ESLint to simplify ESL updates and code quality control.
-  - [ESL ESLint Config](./packages/eslint-config/README.md) - ESL ESLint Shared Config that provides actual ESL team code style and quality agreements.
-  - [ESL Stylelint Config](./packages/stylelint-config/README.md) - ESL Stylelint Shared Config that provides actual ESL team CSS style and quality agreements.
+  - ### [ESL Library](./packages/esl/README.md)
+    ESL core library with all the components and utilities.
+  - ### [ESL ESLint Plugin](./packages/eslint-plugin/README.md)
+    ESL ESLint Plugin that provides ESL-specific rules and configurations for ESLint to simplify ESL updates and code quality control.
+  - ### [ESL ESLint Config](./packages/eslint-config/README.md)
+    ESL ESLint Shared Config that provides actual ESL team code style and quality agreements.
+  - ### [ESL Stylelint Config](./packages/stylelint-config/README.md)
+    ESL Stylelint Shared Config that provides actual ESL team CSS style and quality agreements.
 
 ---
 <a name="contributing"></a>
