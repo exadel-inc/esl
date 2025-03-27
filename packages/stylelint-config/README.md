@@ -1,4 +1,4 @@
-# [ESL](../../) Shared StyleLint Configuration
+# [Exadel Smart Library](../../) - Shared StyleLint Configuration
 
 Authors: *Alexey Stsefanovich (ala'n)*.
 

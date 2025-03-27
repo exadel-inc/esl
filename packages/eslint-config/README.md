@@ -1,4 +1,4 @@
-# [ESL](../../) Shared ESLint Configuration
+# [Exadel Smart Library](../../) - Shared ESLint Configuration
 
 Authors: *Anastasiya Lesun, Alexey Stsefanovich (ala'n)*.
 

@@ -1,4 +1,4 @@
-# [ESL](../../) migration support
+# [Exadel Smart Library](../../) - Migration support
 
 Authors: *Natalia Smirnova, Alexey Stsefanovich (ala'n)*.
 
