@@ -92,12 +92,12 @@ const ts = { // lang.ts
         },
         globals: {
             ...globals.browser
-        },
-        settings: {
-            'import/resolver': {
-                typescript: true
-            }
         }
+    },
+    settings: {
+      'import/resolver': {
+        typescript: true
+      }
     }
 };
 ```
@@ -116,3 +116,9 @@ Here is the list of included plugins and their ESLint aliases:
 - `sonarjs` - rules for code quality from [eslint-plugin-sonarjs](https://www.npmjs.com/package/eslint-plugin-sonarjs);
 
 All mentioned plugins are direct dependencies of `@exadel/eslint-config-esl` package, you don't need to install them separately.
+
+---
+
+**Exadel, Inc.**
+
+[![](../../docs/images/exadel-logo.png)](https://exadel.com)

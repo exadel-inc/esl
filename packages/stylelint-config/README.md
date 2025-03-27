@@ -34,3 +34,9 @@ module.exports = {
   ]
 };
 ```
+
+---
+
+**Exadel, Inc.**
+
+[![](../../docs/images/exadel-logo.png)](https://exadel.com)

@@ -90,3 +90,10 @@ There are a couple of basic [configurations](https://github.com/exadel-inc/esl/t
   - defaults/es-config-default.eslint.yml
   - defaults/ts-config-default.eslint.yml
 Note: You may still need to configure them temporarily in the root of the project to ensure ESLint can parse your code correctly.
+
+
+---
+
+**Exadel, Inc.**
+
+[![](../../docs/images/exadel-logo.png)](https://exadel.com)
