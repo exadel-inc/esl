@@ -1,6 +1,8 @@
-# Exadel Smart Library
+<h1 align="center">Exadel Smart Library</h1> 
+<p align="center"><i>(mono-repository root)</i></p>
+
 <p align="center">
-  <img width="300" height="300" src="https://github.com/exadel-inc/esl/blob/main/docs/images/logo.png?raw=true">
+  <img width="300" height="300" src="https://github.com/exadel-inc/esl/blob/main/docs/images/logo.png?raw=true"/>
 </p>
 
 [![version](https://img.shields.io/github/lerna-json/v/exadel-inc/esl?style=for-the-badge&label=version)](https://github.com/exadel-inc/esl/releases/latest)
