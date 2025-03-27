@@ -5,15 +5,27 @@
   <img width="300" height="300" src="https://github.com/exadel-inc/esl/blob/main/docs/images/logo.png?raw=true"/>
 </p>
 
-[![version](https://img.shields.io/github/lerna-json/v/exadel-inc/esl?style=for-the-badge&label=version)](https://github.com/exadel-inc/esl/releases/latest)
-[![build](https://img.shields.io/github/actions/workflow/status/exadel-inc/esl/validate.yml?style=for-the-badge)](https://github.com/exadel-inc/esl/actions/workflows/validate.yml)
-[![Tests Coverage](https://img.shields.io/codeclimate/coverage/exadel-inc/esl?style=for-the-badge)](https://codeclimate.com/github/exadel-inc/esl)
-[![License](https://img.shields.io/badge/license-MIT-green.svg?style=for-the-badge)](./README.md)
+<p align="center">
+  <a href="https://github.com/exadel-inc/esl/releases/latest">
+    <img src="https://img.shields.io/github/lerna-json/v/exadel-inc/esl?style=for-the-badge&label=version" alt="version"/>
+  </a>
+  <a href="https://github.com/exadel-inc/esl/actions/workflows/validate.yml">
+    <img src="https://img.shields.io/github/actions/workflow/status/exadel-inc/esl/validate.yml?style=for-the-badge" alt="build"/>
+  </a>
+  <a href="https://codeclimate.com/github/exadel-inc/esl">
+    <img src="https://img.shields.io/codeclimate/coverage/exadel-inc/esl?style=for-the-badge" alt="Tests Coverage"/>
+  </a>
+  <a href="./README.md">
+    <img src="https://img.shields.io/badge/license-MIT-green.svg?style=for-the-badge" alt="License"/>
+  </a>
+</p>
 
-Exadel Smart Library (**ESL**) is an open-source **lightweight** and **flexible** UI component library based on web components.
-Increase your site’s performance by building UX models with custom components from our library. 
-The ESL web UI components library is compatible with any framework, which makes ESL ideal for projects regardless of 
-their tech stack.
+
+<p align="center">
+  Exadel Smart Library (<b>ESL</b>) is an open-source <b>lightweight</b> and <b>flexible</b> UI component library based on web components.
+  Increase your site’s performance by building UX models with custom components from our library.
+  The ESL web UI components library is compatible with any framework, which makes ESL ideal for projects regardless of their tech stack.
+</p>
 
 <p align="center">
 <a href="https://esl-ui.com"><img src="./docs/images/welcome-btn.png" alt="Visit our UI component library website with examples" width="409" height="75" title="Click to visit our UI component library website with examples"/></a>
