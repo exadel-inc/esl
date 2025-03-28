@@ -35,8 +35,7 @@
 
 ## Overview
 
-ESL is mono-repository now to see more detailed iformation you can visit one of the folowing sub-packages:
-
+ESL is mono-repository now to see more detailed information you can visit one of the following sub-packages:
   - ### [ESL Library](./packages/esl/README.md)
     ESL core library with all the components and utilities.
   - ### [ESL ESLint Plugin](./packages/eslint-plugin/README.md)
