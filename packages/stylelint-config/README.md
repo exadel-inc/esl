@@ -1,4 +1,4 @@
-# [ESL](../../) Shared StyleLint Configuration
+# [Exadel Smart Library](../../) - Shared StyleLint Configuration
 
 Authors: *Alexey Stsefanovich (ala'n)*.
 
@@ -34,3 +34,9 @@ module.exports = {
   ]
 };
 ```
+
+---
+
+**Exadel, Inc.**
+
+[![](../../docs/images/exadel-logo.png)](https://exadel.com)
