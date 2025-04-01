@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 import {cucumber, GenericTransformer} from 'stucumber';
 
 function process(source, filename) {
@@ -21,5 +23,10 @@ function process(source, filename) {
   }
 }
 
-export {cucumber, process};
-export default {cucumber, process};
+function getCacheKey(source, filename) {
+  const stat = fs.statSync(filename);
+  return `${filename}-${stat.mtimeMs}`;
+}
+
+export {cucumber, process, getCacheKey};
+export default {cucumber, process, getCacheKey};
