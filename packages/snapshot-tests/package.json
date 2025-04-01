@@ -7,7 +7,7 @@
   "homepage": "https://esl-ui.com/",
   "license": "MIT",
   "scripts": {
-    "run": "NODE_OPTIONS='$NODE_OPTIONS --experimental-vm-modules' jest",
+    "run": "jest",
     "run:update": "jest -u",
     "run:update:only": "jest -u --no-autorun",
     "run:tests:only": "jest --no-autorun",
