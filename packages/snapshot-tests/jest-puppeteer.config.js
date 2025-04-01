@@ -1,10 +1,10 @@
+import puppeteerEnv from 'jest-environment-puppeteer';
+
 if (!process.argv.includes('--no-autorun') && !process.env.PORT) {
   process.env.PORT = '3007';
 }
 
-const {JestPuppeteerConfig} = await import('jest-environment-puppeteer');
-
-/** @type {JestPuppeteerConfig} */
+/** @type {puppeteerEnv.JestPuppeteerConfig} */
 const config = {
   launch: {
     headless: 'new',
