@@ -1,12 +1,13 @@
 {
   "private": true,
   "name": "@exadel/esl-snapshot-tests",
+  "type": "module",
   "version": "5.3.1",
   "description": "Snapshot tests for ESL",
   "homepage": "https://esl-ui.com/",
   "license": "MIT",
   "scripts": {
-    "run": "jest",
+    "run": "NODE_OPTIONS='$NODE_OPTIONS --experimental-vm-modules' jest",
     "run:update": "jest -u",
     "run:update:only": "jest -u --no-autorun",
     "run:tests:only": "jest --no-autorun",
@@ -16,10 +17,11 @@
   },
   "dependencies": {
     "@exadel/esl-website": "../esl-website",
+    "@swc/jest": "^0.2.37",
     "@types/jest-environment-puppeteer": "^5.0.6",
     "@types/pixelmatch": "^5.2.6",
     "jest-puppeteer": "^11.0.0",
-    "pixelmatch": "^5.3.0",
+    "pixelmatch": "^7.1.0",
     "puppeteer": "^24.4.0",
     "rimraf": "^6.0.1",
     "sharp": "^0.33.5",

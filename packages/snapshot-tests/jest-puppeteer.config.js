@@ -2,8 +2,10 @@ if (!process.argv.includes('--no-autorun') && !process.env.PORT) {
   process.env.PORT = '3007';
 }
 
-/** @type {import('jest-environment-puppeteer').JestPuppeteerConfig} */
-module.exports = {
+const {JestPuppeteerConfig} = await import('jest-environment-puppeteer');
+
+/** @type {JestPuppeteerConfig} */
+const config = {
   launch: {
     headless: 'new',
     product: 'chrome',
@@ -29,5 +31,7 @@ module.exports = {
 };
 
 if (process.argv.includes('--no-autorun')) {
-  delete module.exports.server;
+  delete config.server;
 }
+
+export default config;

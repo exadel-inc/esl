@@ -1,4 +1,4 @@
-const {cucumber, GenericTransformer} = require('stucumber');
+import {cucumber, GenericTransformer} from 'stucumber';
 
 function process(source, filename) {
   const transformer = new GenericTransformer({
@@ -21,5 +21,5 @@ function process(source, filename) {
   }
 }
 
-module.exports = {cucumber, process};
-module.exports.default = {cucumber, process};
+export {cucumber, process};
+export default {cucumber, process};
