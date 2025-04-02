@@ -1,4 +1,4 @@
-# [ESL](../../) Shared ESLint Configuration
+# [Exadel Smart Library](../../) - Shared ESLint Configuration
 
 Authors: *Anastasiya Lesun, Alexey Stsefanovich (ala'n)*.
 
@@ -93,6 +93,11 @@ const ts = { // lang.ts
         globals: {
             ...globals.browser
         }
+    },
+    settings: {
+      'import/resolver': {
+        typescript: true
+      }
     }
 };
 ```
@@ -106,8 +111,14 @@ Here is the list of included plugins and their ESLint aliases:
 - `typescript-eslint` - TypeScript specific rules from [TypeScript ESLint](https://typescript-eslint.io/) project.
 - `@stylistic` - code style rules from [@stylistic](https://eslint.style/) project.
 - `import` - rules for imports from [eslint-plugin-import-x](https://www.npmjs.com/package/eslint-plugin-import-x);
+  - `eslint-import-resolver-typescript` - TypeScript resolver for `import` plugin;
 - `tsdoc` - rules for TSDoc comments from [eslint-plugin-tsdoc](https://www.npmjs.com/package/eslint-plugin-tsdoc);
 - `sonarjs` - rules for code quality from [eslint-plugin-sonarjs](https://www.npmjs.com/package/eslint-plugin-sonarjs);
-- `editorconfig` - rules for EditorConfig from [eslint-plugin-editorconfig](https://www.npmjs.com/package/eslint-plugin-editorconfig);
 
 All mentioned plugins are direct dependencies of `@exadel/eslint-config-esl` package, you don't need to install them separately.
+
+---
+
+**Exadel, Inc.**
+
+[![](../../docs/images/exadel-logo.png)](https://exadel.com)

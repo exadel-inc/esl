@@ -1,3 +1,56 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [5.3.1](https://github.com/exadel-inc/esl/compare/v5.3.0...v5.3.1) (2025-03-26)
+
+
+### Bug Fixes
+
+* fix missing README file ([a827954](https://github.com/exadel-inc/esl/commit/a8279548cb159ebe78b33742d02f8aacf9ec77fc))
+
+
+
+
+
+# [5.3.0](https://github.com/exadel-inc/esl/compare/v5.2.0...v5.3.0) (2025-03-26)
+
+
+### Bug Fixes
+
+* **esl-utils:** deprecate `isBot` utility and remove 'bot' shortcut from ESLMediaQuery support ([#3012](https://github.com/exadel-inc/esl/issues/3012)) ([6fd7732](https://github.com/exadel-inc/esl/commit/6fd7732a6fc4ffc3e9c2a037ed1d9f280c3a7e3a)), closes [#2996](https://github.com/exadel-inc/esl/issues/2996)
+* **eslint-config:** fix import plugin configuration ([705dfd1](https://github.com/exadel-inc/esl/commit/705dfd15453252f866a064a2c3b00f81d3138a89))
+
+
+### Features
+
+* ESL repository migrated to classic monorepo structure; all processes now managed trough lerna ([f242051](https://github.com/exadel-inc/esl/commit/f242051df0dcc5a3562007cadf98c85344ed7eeb))
+
+
+
+
+
+## [5.2.0](https://github.com/exadel-inc/esl/compare/v5.1.0...v5.2.0) (2025-03-19)
+
+### Features
+
+* **esl-carousel:** ability to forbid slide reorder in the loop mode ([fcf0316](https://github.com/exadel-inc/esl/commit/fcf0316a9595e81f6af6844b8610cb57d1365b79))
+* **esl-utils:** add `pick` method implementation to `esl-utils/misc/object` ([503ef52](https://github.com/exadel-inc/esl/commit/503ef52e23b4f5d6fc05700abc8fe68ce39cff3d))
+* **esl-utils:** implement reusable `parseLazyAttr` method in `esl-utils/misc/format` ([22518ab](https://github.com/exadel-inc/esl/commit/22518ab3df00884e2d4ac0e44325aed7e5c3df16))
+* **eslint-config:** extend @exadel/eslint-config-esl defaults with sonarjs rules for all levels ([a6d433f](https://github.com/exadel-inc/esl/commit/a6d433f3b3a579dde917536fb8aa1e3657f51389))
+
+### Bug Fixes
+
+* **esl-carousel:** fix initial CLS for looped carousels ([f67f97b](https://github.com/exadel-inc/esl/commit/f67f97b810c0f02885a16da746b05b143eb2c6c4)), closes [#2879](https://github.com/exadel-inc/esl/issues/2879)
+* **esl-media:** fix ESLMedia does not show preview on iOS Mobile devices ([241f0f7](https://github.com/exadel-inc/esl/commit/241f0f79ba8bc240121c7b57ae32c22bc83445e0))
+* **esl-media:** rework native media settings applier, native video provider now supports `disablePictureInPicture` and `startTime` ([0c90b9c](https://github.com/exadel-inc/esl/commit/0c90b9c1402c102650648480419cdbab98bda0d2))
+* **esl-media:** support for `disablePictureInPicture` in bightcove/iframe provider ([b0657b7](https://github.com/exadel-inc/esl/commit/b0657b7764d7288363e96c1af73bcb0bbbc6d0b7))
+* **esl-media:** update config parser implementation, fix `lazy` attr parser, add `disablePictureInPicture` attribute support ([9e0a2eb](https://github.com/exadel-inc/esl/commit/9e0a2eb5e0e55188147b8649b3b861cb0224fe3d))
+* **esl-scrollbar:** inconsistent dragging if target is `html` ([50a71ae](https://github.com/exadel-inc/esl/commit/50a71ae0a939888b8a49cab177b35613201c9207))
+* **eslint-config:** replace legacy editorconfig-eslint-plugin with direct rules ([dc8853e](https://github.com/exadel-inc/esl/commit/dc8853e5545d35e3dec62c9847681385c169ef1e))
+* **stylelint-config:** extend @exadel/stylelint-config-esl defaults with the primary rules ([5f53cb8](https://github.com/exadel-inc/esl/commit/5f53cb8aa25a5ccbdfc65158ea397fee30c0f29d))
+
 ## [5.1.0](https://github.com/exadel-inc/esl/compare/v5.0.1...v5.1.0) (2025-03-05)
 
 ### Features

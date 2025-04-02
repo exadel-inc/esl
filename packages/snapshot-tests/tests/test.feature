@@ -3,5 +3,5 @@ Feature: Test page looks fine
     Given a page "/test/test-page"
     When on desktop
     Then wait for 2s
-    And take a screenshot of a full page
+    And take a screenshot
     Then check if the screenshot is equal to the snapshotted version

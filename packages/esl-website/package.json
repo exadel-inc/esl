@@ -1,6 +1,6 @@
 {
   "name": "@exadel/esl-website",
-  "version": "5.1.0",
+  "version": "5.3.1",
   "type": "module",
   "private": true,
   "description": "ESL Website source",
@@ -13,8 +13,11 @@
     "start": "npm run clean && concurrently --kill-others \"npm run watch:lib\" \"npm run watch:ts\" \"npm run watch:less\" \"npm run watch:eleventy\"",
     "start:test": "npm run clean && npm run build:ts && npm run build:less && npm run run:eleventy:e2e",
     "test": "",
+    "lint": "concurrently npm:lint:*",
+    "lint:js": "eslint \"src/**/*.ts\" --max-warnings 3",
+    "lint:css": "stylelint \"src/**/*.less\"",
     "clean": "rimraf \"dist\"",
-    "watch:lib": "cd ../.. && npm run watch",
+    "watch:lib": "cd ../.. && npm run watch --workspace=packages/esl",
     "watch:ts": "webpack --watch",
     "watch:less": "chokidar --initial \"../../node_modules/@exadel/esl/modules/**/*.less\" \"src/**/*.less\" -c \"npm run build:less\"",
     "watch:eleventy": "eleventy --serve --incremental -- --env=development",
@@ -23,33 +26,31 @@
     "run:eleventy:e2e": "eleventy --serve -- --env=e2e",
     "build": "npm run clean && concurrently \"npm run build:ts\" \"npm run build:less && npm run minify:css\" && npm run build:eleventy",
     "build:ts": "webpack --mode=production",
-    "build:less": "foreach -x \"lessc #{path} dist/bundles/#{name}.css --source-map=dist/bundles/#{name}.css.map\" -g \"src/*.less\"",
+    "build:less": "findx \"src/*.less\" \"lessc {{path}} dist/bundles/{{name}}.css --source-map=dist/bundles/{{name}}.css.map\"",
     "build:eleventy": "eleventy -- --env=production",
     "build:analyzer": "webpack --mode=production --profile --json dist/stats.json && webpack-bundle-analyzer dist/stats.json dist/bundles -s gzip -m static -r dist/stats.html"
   },
   "dependencies": {
     "@11ty/eleventy": "^3.0.0",
-    "@11ty/eleventy-dev-server": "^2.0.6",
-    "@exadel/esl": "../../",
-    "@exadel/ui-playground": "2.1.0-beta.7",
+    "@11ty/eleventy-dev-server": "^2.0.8",
+    "@exadel/esl": "../esl",
+    "@exadel/ui-playground": "2.1.0-beta.10",
     "@juggle/resize-observer": "^3.4.0",
     "@types/prismjs": "^1.26.5",
     "@types/smoothscroll-polyfill": "^0.3.4",
     "clean-css-cli": "^5.6.3",
     "html-minifier-terser": "^7.2.0",
-    "image-size": "^2.0.0",
+    "image-size": "^2.0.1",
     "js-yaml": "^4.1.0",
     "out-url": "^1.2.2",
-    "prismjs": "^1.29.0",
+    "prismjs": "^1.30.0",
     "smoothscroll-polyfill": "^0.4.4",
     "ts-loader": "^9.5.2",
     "webpack": "^5.98.0",
     "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "^6.0.1"
   },
-  "browserslist": [
-    "last 3 major version",
-    ">0.3%",
-    "not dead"
-  ]
+  "overrides": {
+    "@exadel/esl": "../esl"
+  }
 }

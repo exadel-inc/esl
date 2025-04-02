@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "skipLibCheck": true,
+    "experimentalDecorators": true,
+    "alwaysStrict": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "noImplicitOverride": true,
+    "esModuleInterop": true,
+    "target": "ES6",
+    "downlevelIteration": true,
+    "module": "ES2015",
+    "moduleResolution": "Node",
+    "lib": [
+      "ES2018",
+      "ES2022.Object",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "rootDir": "src",
+    "outDir": "./modules"
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "modules",
+    "polyfills",
+    "node_modules"
+  ]
+}
