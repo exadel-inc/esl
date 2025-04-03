@@ -12,7 +12,7 @@ process.env.NODE_OPTIONS = '--experimental-vm-modules';
 export default {
   preset: 'jest-puppeteer',
   transform: {
-    '^.+\\.tsx?$': '@swc/jest',
+    '^.+\\.tsx?$': ['ts-jest', { useESM: true }],
     '^.+\\.feature$': './src/transformer/gherkin.js'
   },
   extensionsToTreatAsEsm: ['.tsx', '.ts'],
