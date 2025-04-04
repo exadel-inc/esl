@@ -1,9 +1,5 @@
-const fs = require('fs');
+import fs from 'fs';
 
-function mkDir(dirPath) {
+export function mkDir(dirPath) {
   if (!fs.existsSync(dirPath)) fs.mkdirSync(dirPath, {recursive: true});
 }
-
-module.exports = {
-  mkDir
-};

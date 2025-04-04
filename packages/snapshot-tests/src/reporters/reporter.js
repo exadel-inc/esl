@@ -1,17 +1,17 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
-const {print} = require('./printers');
-const {buildSnapshotName, getDiffDir, getDirName} = require('../utils/image-snapshot.name');
-const {mkDir} = require('../utils/directory');
+import {buildSnapshotName, getDiffDir, getDirName} from '../utils/image-snapshot.name.js';
+import {mkDir} from '../utils/directory.js';
+import {print} from './printers.js';
 
 const writeFileSafe = (filename, data) => {
   const dirname = path.dirname(filename);
-  mkDir(dirname)
+  mkDir(dirname);
   fs.writeFileSync(filename, data);
 };
 
-class SnapshotAwareReporter {
+export class SnapshotAwareReporter {
   constructor(globalConfig, options) {
     this._globalConfig = globalConfig;
     this._options = options;
@@ -84,5 +84,4 @@ class SnapshotAwareReporter {
   }
 }
 
-module.exports = SnapshotAwareReporter;
-module.exports.default = SnapshotAwareReporter;
+export default SnapshotAwareReporter;

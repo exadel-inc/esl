@@ -1,17 +1,21 @@
-// Test env in dev mode produces a big amount of stdin/out listeners, so limit increased
-require('events').EventEmitter.defaultMaxListeners  = 50;
+import {EventEmitter} from 'events';
+import {rimraf} from 'rimraf';
 
+// Test env in dev mode produces a big amount of stdin/out listeners, so limit increased
+EventEmitter.defaultMaxListeners = 50;
 // Cleanup diff output directory
-const rimraf = require('rimraf');
 rimraf.sync('./.diff');
+// Enable ESM modules in Jest
+process.env.NODE_OPTIONS = '--experimental-vm-modules';
 
 // Actual Jest configuration
-module.exports = {
+export default {
   preset: 'jest-puppeteer',
   transform: {
-    '^.+\\.tsx?$': 'ts-jest',
+    '^.+\\.tsx?$': ['ts-jest', { useESM: true }],
     '^.+\\.feature$': './src/transformer/gherkin.js'
   },
+  extensionsToTreatAsEsm: ['.tsx', '.ts'],
   roots: ['./tests/'],
   testRegex: ['(.+)\\.(spec|test)\\.ts$', '(.+).feature'],
   moduleFileExtensions: ['ts', 'js', 'feature'],

@@ -5,7 +5,7 @@ import {DiffImageComposer} from './image-snapshot.composer';
 
 import type {SnapshotData} from './image-snapshot.pocessor';
 
-export type SnapshotMatcherOptions = pixelmatch.PixelmatchOptions;
+export type SnapshotMatcherOptions = Parameters<typeof pixelmatch>[5];
 
 type ImagesCompareResult = {
   reason: 'content';

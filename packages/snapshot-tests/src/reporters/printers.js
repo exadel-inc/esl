@@ -51,7 +51,7 @@ function printFiles(fileStat, basePath) {
   return text;
 }
 
-function print({stats, files, basePath}) {
+export function print({stats, files, basePath}) {
   return `# Test Results
   ## Summary
   ${printSummary(stats)}
@@ -61,5 +61,3 @@ function print({stats, files, basePath}) {
   ${printFiles(files, basePath)}
 `;
 }
-
-exports.print = print;
