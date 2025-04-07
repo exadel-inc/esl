@@ -1,4 +1,6 @@
-const {cucumber, GenericTransformer} = require('stucumber');
+import fs from 'fs';
+
+import {cucumber, GenericTransformer} from 'stucumber';
 
 function process(source, filename) {
   const transformer = new GenericTransformer({
@@ -21,5 +23,10 @@ function process(source, filename) {
   }
 }
 
-module.exports = {cucumber, process};
-module.exports.default = {cucumber, process};
+function getCacheKey(source, filename) {
+  const stat = fs.statSync(filename);
+  return `${filename}-${stat.mtimeMs}`;
+}
+
+export {cucumber, process, getCacheKey};
+export default {cucumber, process, getCacheKey};
