@@ -33,3 +33,4 @@ import './renderers/esl-carousel.none.renderer';
 import './renderers/esl-carousel.default.renderer';
 import './renderers/esl-carousel.grid.renderer';
 import './renderers/esl-carousel.centered.renderer';
+import './renderers/esl-carousel.css.renderer';
