@@ -5,7 +5,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [5.3.2](https://github.com/exadel-inc/esl/compare/v5.3.1...v5.3.2) (2025-04-09)
 
-**Note:** Version bump only for package @exadel/esl-root
+Regular version bump for project dependencies
 
 
 
