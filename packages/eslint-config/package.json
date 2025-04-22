@@ -22,7 +22,7 @@
     "pack": "npm pack --pack-destination ../../target/"
   },
   "dependencies": {
-    "@eslint/js": "^9.25.0",
+    "@eslint/js": "^9.25.1",
     "@stylistic/eslint-plugin": "^4.2.0",
     "@stylistic/eslint-plugin-jsx": "^4.2.0",
     "eslint-import-resolver-typescript": "^4.3.2",
