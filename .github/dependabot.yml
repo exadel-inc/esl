@@ -32,10 +32,11 @@ updates:
         patterns:
           - "jest-*"
           - "@types/jest"
-      semantic-release:
+      eslint-plugin-import:
         patterns:
-          - "semantic-release"
-          - "@semantic-release/*"
+          - "eslint-plugin-import"
+          - "eslint-plugin-import-x"
+          - "eslint-import-resolver-*"
 
   # Maintain dependencies for GitHub Actions
   - package-ecosystem: "github-actions"
