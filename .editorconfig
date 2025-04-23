@@ -19,3 +19,7 @@ insert_final_newline = true
 [*.{md, txt}]
 indent_size = unset
 trim_trailing_whitespace = false
+
+# Lerna config managed by scripts
+[lerna.json]
+insert_final_newline = false
