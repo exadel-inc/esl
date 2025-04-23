@@ -1,5 +1,5 @@
 .esl-carousel-css-renderer {
-  @SLIDE_CAROUSEL_ANIMATION: 2s linear;
+  @SLIDE_CAROUSEL_ANIMATION: var(--transition-duration, 250ms) linear;
 
   [esl-carousel-slides] {
     display: block;
@@ -15,7 +15,8 @@
     backface-visibility: hidden;
   }
 
-  &[animating] [esl-carousel-slide] {
+  &[animating] [esl-carousel-slide],
+  [esl-carousel-slides].moving {
     transition: transform @SLIDE_CAROUSEL_ANIMATION;
   }
 
@@ -56,9 +57,5 @@
 
   [esl-carousel-slide].next.left {
     left: -100%;
-  }
-
-  &[touch-animating] [esl-carousel-slides] {
-    transition: transform @SLIDE_CAROUSEL_ANIMATION;
   }
 }
