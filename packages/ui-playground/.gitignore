@@ -1,7 +1,2 @@
 # Generated surces
-/bundles
-/esm
-/site/dist
-
-# Report
-.report
+/dist

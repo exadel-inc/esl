@@ -37,14 +37,14 @@ To implement custom UIPlayground components, see [UIPPlugin](src/core/README.md#
 To register all components, you can use the next callback:
 
 ```typescript
-import {init} from '@exadel/ui-playground/esm/registration';
+import {init} from '@exadel/ui-playground';
 init();
 ```
 
 There is also an ability to register only Core/Plugins/Settings parts. To do this, call one of the functions below:
 
 ```typescript
-import {registerCore, registerPlugins, registerSettings} from '@exadel/ui-playground/esm/registration';
+import {registerCore, registerPlugins, registerSettings} from '@exadel/ui-playground';
 registerCore();
 registerPlugins();
 registerSettings();
@@ -54,7 +54,7 @@ The callbacks above register UIP components by themselves. But if you want to ha
 there is a way to register components manually:
 
 ```typescript
-import {UIPRoot} from '@exadel/ui-playground/esm/registration';
+import {UIPRoot} from '@exadel/ui-playground';
 UIPRoot.register();
 ```
 
@@ -63,7 +63,7 @@ to import styles for all UIP component, you can import either
 *registration.less* or *registration.css* file:
 
 ```less
-@import '@exadel/ui-playground/esm/registration.css';
+@import '@exadel/ui-playground/dist/registration.css';
 ```
 
 # Browser support
