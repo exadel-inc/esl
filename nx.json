@@ -26,6 +26,9 @@
       "cache": true
     },
     "lint": {
+      "dependsOn": [
+        "@exadel/eslint-plugin-esl:build"
+      ],
       "cache": false
     },
     "pack": {

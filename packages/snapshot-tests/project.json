@@ -4,7 +4,7 @@
     "run": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "jest"
+        "command": "npx jest"
       },
       "dependsOn": [
         "^build"
@@ -13,7 +13,7 @@
     "run:update": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "jest -u"
+        "command": "npx jest -u"
       },
       "dependsOn": [
         "^build"
