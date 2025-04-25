@@ -9,15 +9,8 @@
       "inputs": [
         "{workspaceRoot}/tsconfig.json",
         "{projectRoot}/tsconfig.json",
-        "{projectRoot}/src/**/*.js",
-        "{projectRoot}/src/**/*.ts",
-        "{projectRoot}/src/**/*.tsx",
-        "{projectRoot}/src/**/*.css",
-        "{projectRoot}/src/**/*.less",
-        "{projectRoot}/views/**/*.md",
-        "{projectRoot}/views/**/*.html",
-        "{projectRoot}/views/**/*.njk",
-        "{projectRoot}/views/**/*.yml"
+        "{projectRoot}/src/**/*",
+        "{projectRoot}/views/**/*"
       ],
       "outputs": [
         "{projectRoot}/dist",
