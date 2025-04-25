@@ -1,0 +1,23 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "targets": {
+    "run": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "jest"
+      },
+      "dependsOn": [
+        "^build"
+      ]
+    },
+    "run:update": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "jest -u"
+      },
+      "dependsOn": [
+        "^build"
+      ]
+    }
+  }
+}
