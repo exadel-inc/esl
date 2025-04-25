@@ -1,15 +1,28 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "targetDefaults": {
-    "clean": {
+    "run": {
       "dependsOn": [
-        "^clean"
+        "build"
       ]
     },
     "build": {
       "dependsOn": [
         "clean",
         "^build"
+      ],
+      "inputs": [
+        "{workspaceRoot}/tsconfig.json",
+        "{projectRoot}/tsconfig.json",
+        "{projectRoot}/src/**/*.js",
+        "{projectRoot}/src/**/*.ts",
+        "{projectRoot}/src/**/*.tsx",
+        "{projectRoot}/src/**/*.css",
+        "{projectRoot}/src/**/*.less",
+        "{projectRoot}/views/**/*.md",
+        "{projectRoot}/views/**/*.html",
+        "{projectRoot}/views/**/*.njk",
+        "{projectRoot}/views/**/*.yml"
       ],
       "outputs": [
         "{projectRoot}/dist",
@@ -18,18 +31,19 @@
       "cache": true
     },
     "lint": {
-      "dependsOn": [
-        "^lint"
-      ]
+      "cache": false
     },
     "pack": {
       "dependsOn": [
         "build"
+      ],
+      "outputs": [
+        "{workspaceRoot}/target/{projectName}-*.tgz"
       ]
     },
     "test": {
       "dependsOn": [
-        "^test"
+        "build"
       ],
       "outputs": [
         "{projectRoot}/coverage"
