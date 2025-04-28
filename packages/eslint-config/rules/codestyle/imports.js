@@ -1,4 +1,4 @@
-import importPlugin from 'eslint-plugin-import-x';
+import importPlugin from 'eslint-plugin-import';
 
 export default [
   {
@@ -12,6 +12,7 @@ export default [
           'groups': ['builtin', 'external', 'parent', 'sibling', 'index', 'object', 'type']
         }
       ]
+
     }
   }
 ];
