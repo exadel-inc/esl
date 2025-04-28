@@ -67,10 +67,6 @@ jobs:
             if (isNewVersion) core.setOutput('isNewVersion', 'true');
             if (version.includes('beta')) core.setOutput('prerelease', 'true');
 
-      - name: Build
-        if: ${{ steps.info.outputs.isNewVersion }}
-        run: npm run build
-
       - name: Build Tarballs
         if: ${{ steps.info.outputs.isNewVersion }}
         run: npm run pack
