@@ -1,0 +1,33 @@
+{% extends './html5.njk' %}
+{% set scrollbar = true %}
+
+{% block head %}
+  <link rel="icon" type="image/png" href="{{ '/assets/uip-logo.png' | url }}" />
+  <link rel="stylesheet" type="text/css" href="{{ '/bundles/playground.css' | url }}" />
+
+  {% block extra_head %}{% endblock %}
+{% endblock %}
+
+{% block body %}
+  {% include 'header.njk' %}
+  {% include 'sidebar.njk' %}
+
+  <main class="main esl-scrollable-content" role="main">
+    <div class="content">
+      {% if isLandingPage %}
+        {{ content | safe or 'No content.' }}
+      {% endif %}
+      {% if not isLandingPage %}
+        <div class="container">
+          {{ content | safe or 'No content.' }}
+        </div>
+      {% endif %}
+    </div>
+    {% include 'footer.njk' %}
+  </main>
+  <esl-scrollbar target="::prev" class="page-scrollbar"></esl-scrollbar>
+
+  {% block extra_body %}{% endblock %}
+
+  <script src="{{ '/bundles/playground.js' | url }}"></script>
+{% endblock %}
