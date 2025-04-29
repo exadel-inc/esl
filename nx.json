@@ -1,15 +1,16 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "targetDefaults": {
-    "clean": {
-      "dependsOn": [
-        "^clean"
-      ]
-    },
     "build": {
       "dependsOn": [
         "clean",
         "^build"
+      ],
+      "inputs": [
+        "{workspaceRoot}/tsconfig.json",
+        "{projectRoot}/tsconfig.json",
+        "{projectRoot}/src/**/*",
+        "{projectRoot}/views/**/*"
       ],
       "outputs": [
         "{projectRoot}/dist",
@@ -19,17 +20,21 @@
     },
     "lint": {
       "dependsOn": [
-        "^lint"
-      ]
+        "@exadel/eslint-plugin-esl:build"
+      ],
+      "cache": false
     },
     "pack": {
       "dependsOn": [
         "build"
+      ],
+      "outputs": [
+        "{workspaceRoot}/target/{projectName}-*.tgz"
       ]
     },
     "test": {
       "dependsOn": [
-        "^test"
+        "build"
       ],
       "outputs": [
         "{projectRoot}/coverage"

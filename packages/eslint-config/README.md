@@ -110,8 +110,8 @@ Here is the list of included plugins and their ESLint aliases:
 - `@eslint/js` - basic ESLint rules from [eslint](https://eslint.org/) project.
 - `typescript-eslint` - TypeScript specific rules from [TypeScript ESLint](https://typescript-eslint.io/) project.
 - `@stylistic` - code style rules from [@stylistic](https://eslint.style/) project.
-- `import` - rules for imports from [eslint-plugin-import-x](https://www.npmjs.com/package/eslint-plugin-import-x);
-  - `eslint-import-resolver-typescript` - TypeScript resolver for `import` plugin;
+- `import` - rules for imports from [eslint-plugin-import](https://www.npmjs.com/package/eslint-plugin-import);
+  Note: the config does not provide typescript import resolver out of the box. In case you have path aliases in your project, you need to add `import/resolver` setting manually.
 - `tsdoc` - rules for TSDoc comments from [eslint-plugin-tsdoc](https://www.npmjs.com/package/eslint-plugin-tsdoc);
 - `sonarjs` - rules for code quality from [eslint-plugin-sonarjs](https://www.npmjs.com/package/eslint-plugin-sonarjs);
 

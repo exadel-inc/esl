@@ -2,7 +2,7 @@
   "name": "@exadel/eslint-config-esl",
   "type": "module",
   "private": false,
-  "version": "5.3.1",
+  "version": "5.4.0",
   "keywords": [
     "eslint",
     "eslint-config",
@@ -22,15 +22,14 @@
     "pack": "npm pack --pack-destination ../../target/"
   },
   "dependencies": {
-    "@eslint/js": "^9.22.0",
+    "@eslint/js": "^9.25.0",
     "@stylistic/eslint-plugin": "^4.2.0",
     "@stylistic/eslint-plugin-jsx": "^4.2.0",
-    "eslint-import-resolver-typescript": "^4.3.1",
-    "eslint-plugin-import-x": "4.10.0",
+    "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-sonarjs": "^3.0.2",
     "eslint-plugin-tsdoc": "^0.4.0",
     "globals": "^16.0.0",
-    "typescript-eslint": "^8.29.0"
+    "typescript-eslint": "^8.31.0"
   },
   "peerDependencies": {
     "eslint": ">=9.0.0"

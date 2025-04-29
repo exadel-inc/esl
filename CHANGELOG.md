@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.4.0](https://github.com/exadel-inc/esl/compare/v5.3.2...v5.4.0) (2025-04-28)
+
+
+### Features
+
+* **eslint-config:** replace `eslint-import-plugin-x` with `eslint-import-plugin` ([431d078](https://github.com/exadel-inc/esl/commit/431d0788c9302b09569420e00f22cf693a9236fc))
+
+
+
+
+
+## [5.3.2](https://github.com/exadel-inc/esl/compare/v5.3.1...v5.3.2) (2025-04-09)
+
+Regular version bump for project dependencies
+
+
+
+
+
 ## [5.3.1](https://github.com/exadel-inc/esl/compare/v5.3.0...v5.3.1) (2025-03-26)
 
 

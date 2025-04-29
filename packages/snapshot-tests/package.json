@@ -2,15 +2,15 @@
   "private": true,
   "name": "@exadel/esl-snapshot-tests",
   "type": "module",
-  "version": "5.3.1",
+  "version": "5.4.0",
   "description": "Snapshot tests for ESL",
   "homepage": "https://esl-ui.com/",
   "license": "MIT",
   "scripts": {
-    "run": "jest",
-    "run:update": "jest -u",
-    "run:update:only": "jest -u --no-autorun",
-    "run:tests:only": "jest --no-autorun",
+    "run": "lerna run run --scope @exadel/esl-snapshot-tests",
+    "run:update": "lerna run run:update --scope @exadel/esl-snapshot-tests",
+    "dev:tests": "jest --no-autorun",
+    "dev:update": "jest -u --no-autorun",
     "run:server": "cd ../.. && cross-env-shell PORT=3007 npm run start:test --workspace=packages/esl-website",
     "test": "",
     "lint": "eslint \"**/*.ts\""
@@ -21,9 +21,9 @@
     "@types/pixelmatch": "^5.2.6",
     "jest-puppeteer": "^11.0.0",
     "pixelmatch": "^7.1.0",
-    "puppeteer": "^24.5.0",
+    "puppeteer": "^24.7.2",
     "rimraf": "^6.0.1",
-    "sharp": "^0.33.5",
+    "sharp": "^0.34.1",
     "stucumber": "^0.19.0"
   }
 }

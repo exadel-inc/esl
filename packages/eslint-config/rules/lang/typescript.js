@@ -13,10 +13,5 @@ export default [{
     globals: {
       ...globals.browser
     }
-  },
-  settings: {
-    'import/resolver': {
-      typescript: true
-    }
   }
 }];

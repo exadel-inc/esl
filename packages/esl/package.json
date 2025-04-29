@@ -1,6 +1,6 @@
 {
   "name": "@exadel/esl",
-  "version": "5.3.1",
+  "version": "5.4.0",
   "private": false,
   "description": "Exadel Smart Library (ESL) is the lightweight custom elements library that provide a set of super-flexible components",
   "license": "MIT",
@@ -66,8 +66,7 @@
     "lint": "concurrently npm:lint:*",
     "lint:js": "eslint \"src/**/*.ts\"",
     "lint:css": "stylelint \"src/**/*.less\"",
-    "pack": "npm pack --pack-destination ../../target/",
-    "prepare": "npm run build"
+    "pack": "npm pack --pack-destination ../../target/"
   },
   "dependencies": {
     "@types/video.js": "7.3.58",
