@@ -1,0 +1,43 @@
+---
+title: Components
+---
+
+{% if title %}
+  <h1 class="collection-title">
+    {{ title | safe }}
+  </h1>
+{% endif %}
+
+<ul class="collection-list">
+  {% for plugin in collections.core %}
+    <li class="item">
+      <a href="{{ plugin.url | url }}">{{ plugin.data.title }}</a>
+    </li>
+  {%- endfor %}
+  <h2 class="title">Plugins</h2>
+  {% for plugin in collections.plugins %}
+    {% if plugin.data.listItem %}
+      <li class="item">
+        <a href="{{ plugin.url | url }}">{{ plugin.data.title }}</a>
+      </li>
+    {%- endif %}
+    {% if plugin.data.isSettingList %}
+      <ul class="collection-sublist">
+        {% for setting in collections.setting %}
+          <li class="item">
+            <a href="{{ setting.url | url }}">{{ setting.data.title }}</a>
+          </li>
+        {%- endfor %}
+      </ul>
+    {%- endif %}
+    {% if plugin.data.isSnippetItems %}
+    <ul class="collection-sublist">
+      {% for snippetItem in collections.snippets %}
+      <li class="item">
+        <a href="{{ snippetItem.url | url }}">{{ snippetItem.data.title }}</a>
+      </li>
+      {%- endfor %}
+    </ul>
+    {%- endif %}
+  {%- endfor %}
+</ul>

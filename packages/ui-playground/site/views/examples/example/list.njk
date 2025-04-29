@@ -1,0 +1,119 @@
+---
+title: Example with list of cards
+---
+
+<uip-root>
+  <div class="uip-toolbar">
+    <uip-snippets dropdown-view="all"></uip-snippets>
+    <uip-theme-toggle></uip-theme-toggle>
+  </div>
+  <script type="text/html" uip-snippet label="List of aqua cards">
+    <div class="card-list">
+      <div class="card-item aqua">Card #1</div>
+      <div class="card-item aqua">Card #2</div>
+      <div class="card-item aqua">Card #3</div>
+    </div>
+  </script><script type="text/html" uip-snippet label="List of aqua cards">
+    <div class="card-list">
+      <div class="card-item aqua">Card #1</div>
+      <div class="card-item aqua">Card #2</div>
+      <div class="card-item aqua">Card #3</div>
+    </div>
+  </script><script type="text/html" uip-snippet label="List of aqua cards">
+    <div class="card-list">
+      <div class="card-item aqua">Card #1</div>
+      <div class="card-item aqua">Card #2</div>
+      <div class="card-item aqua">Card #3</div>
+    </div>
+  </script><script type="text/html" uip-snippet label="List of aqua cards">
+    <div class="card-list">
+      <div class="card-item aqua">Card #1</div>
+      <div class="card-item aqua">Card #2</div>
+      <div class="card-item aqua">Card #3</div>
+    </div>
+  </script><script type="text/html" uip-snippet label="List of aqua cards">
+    <div class="card-list">
+      <div class="card-item aqua">Card #1</div>
+      <div class="card-item aqua">Card #2</div>
+      <div class="card-item aqua">Card #3</div>
+    </div>
+  </script><script type="text/html" uip-snippet label="List of aqua cards">
+    <div class="card-list">
+      <div class="card-item aqua">Card #1</div>
+      <div class="card-item aqua">Card #2</div>
+      <div class="card-item aqua">Card #3</div>
+    </div>
+  </script><script type="text/html" uip-snippet label="List of aqua cards">
+    <div class="card-list">
+      <div class="card-item aqua">Card #1</div>
+      <div class="card-item aqua">Card #2</div>
+      <div class="card-item aqua">Card #3</div>
+    </div>
+  </script><script type="text/html" uip-snippet label="List of aqua cards">
+    <div class="card-list">
+      <div class="card-item aqua">Card #1</div>
+      <div class="card-item aqua">Card #2</div>
+      <div class="card-item aqua">Card #3</div>
+    </div>
+  </script><script type="text/html" uip-snippet label="List of aqua cards">
+    <div class="card-list">
+      <div class="card-item aqua">Card #1</div>
+      <div class="card-item aqua">Card #2</div>
+      <div class="card-item aqua">Card #3</div>
+    </div>
+  </script>
+  <script type="text/html" uip-snippet active label="Long list of red cards containing seven items" wrap-items>
+    <div class="card-list">
+      <div class="card-item red">Card #1</div>
+      <div class="card-item red">Card #2</div>
+      <div class="card-item red">Card #3</div>
+      <div class="card-item red">Card #4</div>
+      <div class="card-item red">Card #5</div>
+      <div class="card-item red">Card #6</div>
+      <div class="card-item red">Card #7</div>
+    </div>
+  </script>
+  <script type="text/html" uip-snippet label="List of green cards">
+    <div class="card-list">
+      <div class="card-item green">Card #1</div>
+      <div class="card-item green">Card #2</div>
+      <div class="card-item green">Card #3</div>
+    </div>
+  </script>
+  <script type="text/html" uip-snippet label="List of aqua cards #2">
+    <div class="card-list">
+      <div class="card-item aqua">Card #1</div>
+      <div class="card-item aqua">Card #2</div>
+      <div class="card-item aqua">Card #3</div>
+    </div>
+  </script>
+  <script type="text/html" uip-snippet label="List of aqua cards #3">
+    <div class="card-list">
+      <div class="card-item aqua">Card #1</div>
+      <div class="card-item aqua">Card #2</div>
+      <div class="card-item aqua">Card #3</div>
+    </div>
+  </script>
+  <script type="text/html" uip-snippet label="List of aqua cards #4">
+    <div class="card-list">
+      <div class="card-item aqua">Card #1</div>
+      <div class="card-item aqua">Card #2</div>
+      <div class="card-item aqua">Card #3</div>
+    </div>
+  </script>
+  <uip-preview></uip-preview>
+  <uip-settings target=".card-list" vertical resizable>
+    <uip-select-setting label="Card color:" target=".card-item" attribute="class" mode="append">
+      <option value="red">Red</option>
+      <option value="aqua">Aqua</option>
+      <option value="green green-clr">Green</option>
+    </uip-select-setting>
+    <uip-select-setting label="Text alignment:" target=".card-item" attribute="class" mode="append">
+      <option value="top">Top</option>
+      <option value="center">Center</option>
+      <option value="bottom bottom-alignment">Bottom</option>
+    </uip-select-setting>
+    <uip-bool-setting label="Wrap items" attribute="wrap-items"></uip-bool-setting>
+  </uip-settings>
+  <uip-editor collapsible></uip-editor>
+</uip-root>

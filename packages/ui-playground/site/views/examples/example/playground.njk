@@ -1,0 +1,52 @@
+---
+title: Example with a playground that contains playground inside
+---
+<uip-snippets root="::next"></uip-snippets>
+<uip-root>
+  <script type="text/html" uip-snippet label="Playground">
+    <uip-root>
+      <uip-snippets class="uip-toolbar"></uip-snippets>
+      <uip-preview></uip-preview>
+      <template uip-snippet label="List of aqua cards">
+        <div class="card-list">
+          <div class="card-item aqua">Card #1</div>
+          <div class="card-item aqua">Card #2</div>
+          <div class="card-item aqua">Card #3</div>
+        </div>
+      </template>
+      <template uip-snippet label="Long list of red cards containing seven items" wrap-items>
+        <div class="card-list">
+          <div class="card-item red">Card #1</div>
+          <div class="card-item red">Card #2</div>
+          <div class="card-item red">Card #3</div>
+          <div class="card-item red">Card #4</div>
+          <div class="card-item red">Card #5</div>
+          <div class="card-item red">Card #6</div>
+          <div class="card-item red">Card #7</div>
+        </div>
+      </template>
+      <uip-settings target=".card-list" vertical dir-toggle theme-toggle>
+        <uip-select-setting label="Card color:" target=".card-item" attribute="class" mode="append">
+          <option value="red">Red</option>
+          <option value="aqua">Aqua</option>
+          <option value="green">Green</option>
+        </uip-select-setting>
+        <uip-bool-setting label="Wrap items" attribute="wrap-items"></uip-bool-setting>
+      </uip-settings>
+      <uip-editor collapsible></uip-editor>
+    </uip-root>
+  </script>
+  <script type="text/html" uip-snippet label="List of aqua cards">
+    <div class="card-list">
+      <div class="card-item aqua">Card #1</div>
+      <div class="card-item aqua">Card #2</div>
+      <div class="card-item aqua">Card #3</div>
+    </div>
+  </script>
+  <uip-preview resizable></uip-preview>
+  <uip-editor collapsible></uip-editor>
+
+  <uip-settings collapsible vertical="@+sm" target=".demo-form">
+      <uip-bool-setting label="Snippets dropdown view" target="uip-snippets" attribute="dropdown-view" value="all"></uip-bool-setting>
+  </uip-settings>
+</uip-root>

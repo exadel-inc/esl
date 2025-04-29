@@ -1,0 +1,23 @@
+# IDE
+.idea
+*.iml
+*.ipr
+*.iws
+.DS_Store
+
+# Libs
+node_modules
+
+# Generated surces
+/bundles
+/esm
+/site/dist
+
+# Logs & Tmp
+npm-debug.log
+
+# Report
+.report
+
+# Sonar
+/.scannerwork
