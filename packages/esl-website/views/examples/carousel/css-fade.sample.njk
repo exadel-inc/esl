@@ -1,0 +1,48 @@
+---
+title: Fade Carousel (CSS)
+order: -1
+tags: carousel-sample
+---
+
+<div class="esl-carousel-no-extra-space esl-carousel-nav-container">
+  <button type="button" class="esl-carousel-arrow inner prev hide-xs" esl-carousel-nav="group:prev">
+    <span class="sr-only">Previous Slide</span>
+  </button>
+
+  <esl-carousel demo-options-target
+                class="esl-carousel-css-fade"
+                type="css"
+                esl-carousel-touch=""
+                loop="true">
+    <ul esl-carousel-slides>
+      {% for i in range(0, 4) -%}
+        <li esl-carousel-slide {{ 'active' if loop.first }}>
+          <div class="card">
+            <div class="img-container img-container-16-9" esl-image-container>
+              <img class="img-fade img-cover"
+                   alt="{{ 'Carousel slide ' + loop.index }}"
+                   src="{{ '/assets/carousel/' + loop.index + '-sm.jpg' | url }}"
+                   loading="lazy" />
+              <div class="h1 text-slide text-white">Slide {{ loop.index }}</div>
+            </div>
+          </div>
+        </li>
+      {%- endfor %}
+    </ul>
+  </esl-carousel>
+
+  <button type="button" class="esl-carousel-arrow inner next hide-xs" esl-carousel-nav="group:next">
+    <span class="sr-only">Next Slide</span>
+  </button>
+
+  <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
+
+  <style>
+    .text-slide {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  </style>
+</div>

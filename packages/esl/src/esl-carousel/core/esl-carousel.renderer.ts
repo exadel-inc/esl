@@ -63,6 +63,13 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
     return this.$carousel.$slides || [];
   }
 
+  protected get animating(): boolean {
+    return this.$carousel.hasAttribute('animating');
+  }
+  protected set animating(value: boolean) {
+    this.$carousel.toggleAttribute('animating', value);
+  }
+
   public equal(config: ESLCarouselConfig): boolean {
     return isEqual(this.config, config);
   }

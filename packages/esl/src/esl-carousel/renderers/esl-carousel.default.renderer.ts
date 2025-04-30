@@ -76,7 +76,7 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     this.$slides.forEach((el) => el.style.removeProperty('order'));
     this.$area.style.removeProperty('transform');
     this.$area.style.removeProperty(ESLDefaultCarouselRenderer.SIZE_PROP);
-    this.$carousel.$$attr('animating', false);
+    this.animating = false;
     this.$carousel.$$attr('active', false);
   }
 
@@ -96,16 +96,16 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
   protected async animateTo(index: number, duration = 250): Promise<void> {
     this.currentIndex = this.normalizeIndex(index);
     const offset = -this.getOffset(this.currentIndex);
-    this.$carousel.$$attr('animating', true);
+    this.animating = true;
     await this.$area.animate({
       transform: [`translate3d(${this.vertical ? `0px, ${offset}px` : `${offset}px, 0px`}, 0px)`]
     }, {duration, easing: 'linear'}).finished;
-    this.$carousel.$$attr('animating', false);
+    this.animating =  false;
   }
 
   /** Pre-processing animation action. */
   public override async onBeforeAnimate(nextIndex: number, direction: ESLCarouselDirection, params: ESLCarouselActionParams): Promise<void> {
-    if (this.$carousel.hasAttribute('animating')) throw new Error('[ESL] Carousel: already animating');
+    if (this.animating) throw new Error('[ESL] Carousel: already animating');
     this.$carousel.$$attr('active', true);
   }
 

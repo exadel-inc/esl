@@ -1,12 +1,12 @@
 .esl-carousel-css-renderer {
-  @SLIDE_CAROUSEL_ANIMATION: var(--transition-duration, 250ms) linear;
+  --esl-carousel-transition-duration: 25000ms;
 
   [esl-carousel-slides] {
     display: block;
     position: relative;
     width: 100%;
     --offset: 0;
-    transform: translate3d(var(--offsetArea, 0), 0, 0);
+    transform: translate3d(var(--esl-carousel-move-offset, 0), 0, 0);
   }
 
   [esl-carousel-slide] {
@@ -16,8 +16,8 @@
   }
 
   &[animating] [esl-carousel-slide],
-  [esl-carousel-slides].moving {
-    transition: transform @SLIDE_CAROUSEL_ANIMATION;
+  &[animating] [esl-carousel-slides] {
+    transition: transform var(--esl-carousel-transition-duration) linear;
   }
 
   [esl-carousel-slide].next,
