@@ -14,10 +14,15 @@ export class ESLCSSCarouselRenderer extends ESLCarouselRenderer {
   public static readonly NEXT_SLIDE_TOLERANCE = 0.25;
 
   public static readonly OFFSET_PROP = '--esl-carousel-move-offset';
+  public static readonly OFFSET_ABS_PROP = '--esl-carousel-move-abs';
   public static readonly TRANSITION_DURATION_PROP = '--esl-carousel-transition-duration';
 
   /** Active index */
   protected currentIndex: number = 0;
+
+  protected get tolerance(): number {
+    return this.$carousel.clientWidth * ESLCSSCarouselRenderer.NEXT_SLIDE_TOLERANCE;
+  }
 
   protected get offset(): number {
     const offset = this.$area.style.getPropertyValue(ESLCSSCarouselRenderer.OFFSET_PROP);
@@ -25,9 +30,12 @@ export class ESLCSSCarouselRenderer extends ESLCarouselRenderer {
   }
   protected set offset(offset: number) {
     if (offset) {
+      const abs = Math.min(1, Math.abs(offset) / this.tolerance);
       this.$area.style.setProperty(ESLCSSCarouselRenderer.OFFSET_PROP, `${offset}px`);
+      this.$area.style.setProperty(ESLCSSCarouselRenderer.OFFSET_ABS_PROP, String(abs));
     } else {
       this.$area.style.removeProperty(ESLCSSCarouselRenderer.OFFSET_PROP);
+      this.$area.style.removeProperty(ESLCSSCarouselRenderer.OFFSET_ABS_PROP);
     }
   }
 
@@ -53,7 +61,7 @@ export class ESLCSSCarouselRenderer extends ESLCarouselRenderer {
    * Prepare to renderer animation.
    */
   public override onBind(): void {
-    this.currentIndex = this.$carousel.activeIndex;
+    this.currentIndex = this.normalizeIndex(Math.max(0, this.$carousel.activeIndex));
     this.setActive(this.currentIndex);
   }
 
@@ -112,6 +120,7 @@ export class ESLCSSCarouselRenderer extends ESLCarouselRenderer {
     if (!$nextSlide || $nextSlide === $activeSlide) return;
 
     this.offset = offset;
+    this.$carousel.$$attr('shifted', !!offset);
     this.setPreActive(nextIndex);
     $nextSlide.classList.add(offset < 0 ? 'right' : 'left');
   }
@@ -123,21 +132,21 @@ export class ESLCSSCarouselRenderer extends ESLCarouselRenderer {
 
     const direction = -Math.sign(offset);
     const nextIndex = this.currentIndex + direction;
-    const slideWidth = $activeSlide.offsetWidth;
+    const slideWidth = this.$carousel.clientWidth;
 
     const isBorderSlide = !this.loop && (nextIndex < 0 || nextIndex + this.count > this.size);
-    const shouldChangeSlide = Math.abs(offset) / ESLCSSCarouselRenderer.NEXT_SLIDE_TOLERANCE >= slideWidth;
+    const shouldChangeSlide = Math.abs(offset) >= slideWidth * ESLCSSCarouselRenderer.NEXT_SLIDE_TOLERANCE;
 
+    this.animating = true;
     if (!isBorderSlide && shouldChangeSlide) {
       this.offset = -direction * slideWidth;
       this.currentIndex = this.normalizeIndex(nextIndex);
     } else {
       this.offset = 0;
     }
-
-    this.animating = true;
     await this.transitionDuration$$;
     this.setActive(this.currentIndex, {direction});
+    this.$carousel.$$attr('shifted', false);
     this.onAfterAnimation();
   }
 

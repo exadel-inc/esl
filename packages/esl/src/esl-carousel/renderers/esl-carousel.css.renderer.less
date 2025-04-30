@@ -5,8 +5,6 @@
     display: block;
     position: relative;
     width: 100%;
-    --offset: 0;
-    transform: translate3d(var(--esl-carousel-move-offset, 0), 0, 0);
   }
 
   [esl-carousel-slide] {
@@ -15,47 +13,11 @@
     backface-visibility: hidden;
   }
 
-  &[animating] [esl-carousel-slide],
-  &[animating] [esl-carousel-slides] {
-    transition: transform var(--esl-carousel-transition-duration) linear;
-  }
-
-  [esl-carousel-slide][active],
-  [esl-carousel-slide][pre-active] {
-    --offset: 0;
-    transform: translate3d(var(--offset, 0), 0, 0);
-  }
-
-  [esl-carousel-slide].forward {
-    --offset: -100%;
-    transform: translate3d(var(--offset, 0), 0, 0);
-  }
-
-  [esl-carousel-slide].backward {
-    --offset: 100%;
-    transform: translate3d(var(--offset, 0), 0, 0);
-  }
-
   [esl-carousel-slide][active],
   [esl-carousel-slide][pre-active] {
     display: block;
   }
-
-  [esl-carousel-slide][pre-active] {
-    position: absolute;
-    top: 0;
-    width: 100%;
-  }
-
-  [esl-carousel-slide][pre-active].right {
-    left: 100%;
-  }
-
-  [esl-carousel-slide][active] {
-    left: 0;
-  }
-
-  [esl-carousel-slide][pre-active].left {
-    left: -100%;
-  }
 }
+
+@import './esl-carousel.css.renderer.fade.less';
+@import './esl-carousel.css.renderer.slide.less';
