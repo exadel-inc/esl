@@ -1,5 +1,5 @@
 .esl-carousel-css-renderer {
-  --esl-carousel-transition-duration: 25000ms;
+  --esl-carousel-transition-duration: 250ms;
 
   [esl-carousel-slides] {
     display: block;
@@ -20,8 +20,8 @@
     transition: transform var(--esl-carousel-transition-duration) linear;
   }
 
-  [esl-carousel-slide].next,
-  [esl-carousel-slide][active] {
+  [esl-carousel-slide][active],
+  [esl-carousel-slide][pre-active] {
     --offset: 0;
     transform: translate3d(var(--offset, 0), 0, 0);
   }
@@ -37,17 +37,17 @@
   }
 
   [esl-carousel-slide][active],
-  [esl-carousel-slide].next {
+  [esl-carousel-slide][pre-active] {
     display: block;
   }
 
-  [esl-carousel-slide].next {
+  [esl-carousel-slide][pre-active] {
     position: absolute;
     top: 0;
     width: 100%;
   }
 
-  [esl-carousel-slide].next.right {
+  [esl-carousel-slide][pre-active].right {
     left: 100%;
   }
 
@@ -55,7 +55,7 @@
     left: 0;
   }
 
-  [esl-carousel-slide].next.left {
+  [esl-carousel-slide][pre-active].left {
     left: -100%;
   }
 }

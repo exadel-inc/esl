@@ -70,8 +70,6 @@ export class ESLCSSCarouselRenderer extends ESLCarouselRenderer {
     if (this.animating) throw new Error('[ESL] Carousel: already animating');
 
     const $nextSlide = this.$slides[index];
-    $nextSlide.classList.add('next');
-
     const dir = direction === ESLCarouselDirection.NEXT ? 'right' : 'left';
     $nextSlide.classList.add(dir);
 
@@ -81,18 +79,18 @@ export class ESLCSSCarouselRenderer extends ESLCarouselRenderer {
   }
 
   /** Processes animation. */
-  public override async onAnimate(nextIndex: number, direction: ESLCarouselDirection): Promise<void> {
+  public override async onAnimate(index: number, direction: ESLCarouselDirection): Promise<void> {
     this.animating = true;
     const {$activeSlide} = this.$carousel;
     if (!$activeSlide) throw new Error('[ESL] Carousel: no active slide');
 
-    const $nextSlide = this.$carousel.$slides[nextIndex];
+    const $nextSlide = this.$carousel.$slides[index];
 
     const to = direction === ESLCarouselDirection.NEXT ? 'forward' : 'backward';
     const dir = direction === ESLCarouselDirection.NEXT ? 'right' : 'left';
 
     $activeSlide.classList.add(to);
-    $nextSlide.classList.add('next', to, dir);
+    $nextSlide.classList.add(to, dir);
     await promisifyNextRender();
     await this.transitionDuration$$;
   }
@@ -109,11 +107,13 @@ export class ESLCSSCarouselRenderer extends ESLCarouselRenderer {
     if (!$activeSlide) throw new Error('[ESL] Carousel: no active slide');
     if (Math.abs(offset) > $activeSlide.offsetWidth) return;
 
-    const $nextSlide = this.$carousel.$slides[this.normalizeIndex(this.currentIndex - Math.sign(offset))];
+    const nextIndex = this.normalizeIndex(this.currentIndex - Math.sign(offset));
+    const $nextSlide = this.$carousel.$slides[nextIndex];
     if (!$nextSlide || $nextSlide === $activeSlide) return;
 
     this.offset = offset;
-    $nextSlide.classList.add('next', offset < 0 ? 'right' : 'left');
+    this.setPreActive(nextIndex);
+    $nextSlide.classList.add(offset < 0 ? 'right' : 'left');
   }
 
   public async commit(offset: number): Promise<void> {
@@ -142,7 +142,7 @@ export class ESLCSSCarouselRenderer extends ESLCarouselRenderer {
   }
 
   protected onAfterAnimation(): void {
-    CSSClassUtils.remove(this.$slides, 'next left right forward backward');
+    CSSClassUtils.remove(this.$slides, 'left right forward backward');
     this.transitionDuration = null;
     this.animating = false;
     this.offset = 0;
