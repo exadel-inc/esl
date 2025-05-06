@@ -1,5 +1,7 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "tags": ["type:e2e", "scope:testing"],
   "targets": {
     "run": {
       "executor": "nx:run-commands",

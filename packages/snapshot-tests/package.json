@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "@exadel/esl-snapshot-tests",
+  "name": "@exadel/esl-e2e",
   "type": "module",
   "version": "5.4.0",
   "description": "Snapshot tests for ESL",
