@@ -110,13 +110,16 @@
     },
     "lint:eslint": {
       "executor": "nx:run-commands",
+      "dependsOn": [
+        "@exadel/eslint-plugin-esl:build"
+      ],
       "options": {
         "command": "eslint \"src/**/*.ts\" --max-warnings 3",
         "cwd": "packages/esl"
       },
       "cache": true,
       "inputs": [
-        "{projectRoot}/src/**/*",
+        "{projectRoot}/src/**/*.ts",
         "{projectRoot}/eslint.config.mjs"
       ]
     },
@@ -128,7 +131,7 @@
       },
       "cache": true,
       "inputs": [
-        "{projectRoot}/src/**/*",
+        "{projectRoot}/src/**/*.less",
         "{projectRoot}/.stylelint.yml"
       ]
     }
