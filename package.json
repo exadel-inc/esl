@@ -19,7 +19,7 @@
     "packages/*"
   ],
   "scripts": {
-    "start": "cd packages/esl-website && npm run start",
+    "start": "lerna run start --scope @exadel/esl-website",
     "test": "lerna run test",
     "test:ci": "lerna run test -- --coverage",
     "test:e2e": "lerna run run --scope @exadel/esl-snapshot-tests",

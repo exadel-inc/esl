@@ -11,4 +11,4 @@ while read local_ref local_sha remote_ref remote_sha; do
   fi
 done
 
-npm run test -ws --include-workspace-root
+npm run test
