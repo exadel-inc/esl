@@ -10,7 +10,7 @@
     "node": ">=20.0.0"
   },
   "scripts": {
-    "start": "npm run clean && concurrently --kill-others \"npm run watch:lib\" \"npm run watch:ts\" \"npm run watch:less\" \"npm run watch:eleventy\"",
+    "start": "npm run clean && concurrently --kill-others \"npm run watch:lib\" \"npm run watch:playground\" \"npm run watch:ts\" \"npm run watch:less\" \"npm run watch:eleventy\"",
     "start:test": "npm run clean && npm run build:ts && npm run build:less && npm run run:eleventy:e2e",
     "test": "",
     "lint": "concurrently npm:lint:*",
@@ -18,6 +18,7 @@
     "lint:css": "stylelint \"src/**/*.less\"",
     "clean": "rimraf \"dist\"",
     "watch:lib": "cd ../.. && npm run watch --workspace=packages/esl",
+    "watch:playground": "cd ../.. && npm run watch --workspace=packages/ui-playground",
     "watch:ts": "webpack --watch",
     "watch:less": "chokidar --initial \"../../node_modules/@exadel/esl/modules/**/*.less\" \"src/**/*.less\" -c \"npm run build:less\"",
     "watch:eleventy": "eleventy --serve --incremental -- --env=development",
