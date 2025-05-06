@@ -1,0 +1,136 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "targets": {
+    "clean": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "rimraf modules",
+        "cwd": "packages/esl"
+      }
+    },
+    "build": {
+      "executor": "nx:noop",
+      "dependsOn": [
+        "build:ts",
+        "build:less",
+        "build:docs"
+      ]
+    },
+    "watch": {
+      "executor": "nx:noop",
+      "dependsOn": [
+        "watch:ts",
+        "watch:less",
+        "watch:docs"
+      ]
+    },
+    "build:ts": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "rimraf -g \"modules/**/*.{js,ts}\"",
+          "tsc --project tsconfig.build.json"
+        ],
+        "parallel": false,
+        "cwd": "packages/esl"
+      },
+      "cache": true,
+      "inputs": [
+        "{projectRoot}/src/**/*.ts",
+        "{projectRoot}/tsconfig.json"
+      ],
+      "outputs": [
+        "{projectRoot}/modules/**/*.js",
+        "{projectRoot}/modules/**/*.d.ts"
+      ]
+    },
+    "watch:ts": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc --project tsconfig.build.json --watch",
+        "cwd": "packages/esl"
+      }
+    },
+    "build:less": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "rimraf -g \"modules/**/*.{css,less}\"",
+          "copyfiles \"src/**/*.less\" \"modules\" --up 1 --all",
+          "findx \"modules/{*,*/*,{esl-utils,esl-forms}/*/*}.less !**/*.mixin.less\" \"lessc {{path}} {{dir}}/{{name}}.css\""
+        ],
+        "cwd": "packages/esl",
+        "parallel": false
+      },
+      "cache": true,
+      "inputs": [
+        "{projectRoot}/src/**/*.css",
+        "{projectRoot}/src/**/*.less"
+      ],
+      "outputs": [
+        "{projectRoot}/modules/**/*.css",
+        "{projectRoot}/modules/**/*.less"
+      ]
+    },
+    "watch:less": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "chokidar --initial \"src/**/*.less\" -c \"nx run @exadel/esl:build:less\"",
+        "cwd": "packages/esl"
+      }
+    },
+    "build:docs": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "rimraf -g \"modules/**/*.md\"",
+          "copyfiles \"src/**/*.md\" \"modules\" --up 1 --all"
+        ],
+        "parallel": false,
+        "cwd": "packages/esl"
+      },
+      "cache": true,
+      "inputs": [
+        "{projectRoot}/src/**/*.md"
+      ],
+      "outputs": [
+        "{projectRoot}/modules/**/*.md"
+      ]
+    },
+    "watch:docs": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "chokidar --initial \"src/**/*.md\" -c \"nx run @exadel/esl:build:docs\"",
+        "cwd": "packages/esl"
+      }
+    },
+    "lint": {
+      "executor": "nx:noop",
+      "dependsOn": ["lint:eslint", "lint:stylelint"]
+    },
+    "lint:eslint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "eslint \"src/**/*.ts\" --max-warnings 3",
+        "cwd": "packages/esl"
+      },
+      "cache": true,
+      "inputs": [
+        "{projectRoot}/src/**/*",
+        "{projectRoot}/eslint.config.mjs"
+      ]
+    },
+    "lint:stylelint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "stylelint \"src/**/*.less\"",
+        "cwd": "packages/esl"
+      },
+      "cache": true,
+      "inputs": [
+        "{projectRoot}/src/**/*",
+        "{projectRoot}/.stylelint.yml"
+      ]
+    }
+  }
+}

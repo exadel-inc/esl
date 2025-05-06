@@ -51,21 +51,11 @@
     "polyfills/**/*.js"
   ],
   "scripts": {
-    "clean": "rimraf modules",
-    "build": "npm run clean && concurrently \"npm run build:less\" \"npm run build:ts\" \"npm run build:docs\"",
-    "build:ts": "tsc --project tsconfig.build.json",
-    "build:less": "npm run build:less:cpy && npm run build:less:css",
-    "build:less:cpy": "copyfiles \"src/**/*.less\" \"modules\" --up 1 --all",
-    "build:less:css": "findx \"modules/{*,*/*,{esl-utils,esl-forms}/*/*}.less !**/*.mixin.less\" \"lessc {{path}} {{dir}}/{{name}}.css\"",
-    "build:docs": "copyfiles \"src/**/*.md\" \"modules\" --up 1 --all",
-    "watch": "concurrently npm:watch:*",
-    "watch:ts": "tsc --project tsconfig.build.json --watch",
-    "watch:less": "chokidar --initial \"src/**/*.less\" -c \"npm run build:less\"",
-    "watch:docs": "chokidar --initial \"src/**/*.md\" -c \"npm run build:docs\"",
+    "clean": "lerna run clean --scope @exadel/esl",
+    "build": "lerna run build --scope @exadel/esl --verbose",
+    "watch": "lerna run watch --scope @exadel/esl",
+    "lint": "lerna run lint --scope @exadel/esl",
     "test": "jest --silent --noStackTrace",
-    "lint": "concurrently npm:lint:*",
-    "lint:js": "eslint \"src/**/*.ts\"",
-    "lint:css": "stylelint \"src/**/*.less\"",
     "pack": "npm pack --pack-destination ../../target/"
   },
   "dependencies": {
