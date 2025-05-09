@@ -19,7 +19,7 @@
   "scripts": {
     "test": "",
     "lint": "",
-    "pack": "npm pack --pack-destination ../../target/"
+    "pack": "nx run @exadel/eslint-config:pack"
   },
   "dependencies": {
     "@eslint/js": "^9.25.0",

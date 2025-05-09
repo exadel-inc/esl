@@ -2,15 +2,11 @@
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "targetDefaults": {
     "lint": {
-      "dependsOn": [
-        "@exadel/eslint-plugin-esl:build"
-      ],
+      "dependsOn": ["@exadel/eslint-plugin-esl:build"],
       "cache": false
     },
     "pack": {
-      "dependsOn": [
-        "build"
-      ]
+      "dependsOn": ["build"]
     }
   },
   "plugins": []

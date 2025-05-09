@@ -1,0 +1,49 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "targets": {
+    "clean": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "rimraf dist"
+      },
+      "cache": false,
+      "outputs": []
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["clean"],
+      "options": {
+        "command": "tsc --project tsconfig.build.json",
+        "cwd": "packages/eslint-plugin"
+      },
+      "cache": true,
+      "outputs": [
+        "{workspaceRoot}/dist/**/*.{js,ts}"
+      ]
+    },
+
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "jest --silent",
+        "cwd": "packages/eslint-plugin"
+      },
+      "cache": true,
+      "outputs": [
+        "{projectRoot}/coverage/**/*.{json,lcov,html}"
+      ]
+    },
+
+    "pack": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npm pack --pack-destination=../../target/",
+        "cwd": "packages/eslint-plugin"
+      },
+      "cache": true,
+      "outputs": [
+        "{workspaceRoot}/target/exadel-eslint-plugin-esl-*.tgz"
+      ]
+    }
+  }
+}
