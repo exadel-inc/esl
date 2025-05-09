@@ -1,3 +1,8 @@
+const isCI = process.env.CI === 'true';
+const collectCoverage = process.env.TEST_COVERAGE !== 'false';
+const coverageReporters = ['lcov'];
+if (!isCI) coverageReporters.push('html');
+
 module.exports = {
   transform: {
     '^.+\\.tsx?$': 'ts-jest'
@@ -6,12 +11,13 @@ module.exports = {
   roots: ['src'],
   testRegex: '/test/(.+)\\.test\\.ts$',
   moduleFileExtensions: ['ts', 'js', 'json', 'html'],
-  coverageReporters: ['lcov', 'html'],
   setupFiles: [
     './src/esl-utils/test/deviceDetector.mock.ts',
     './src/esl-utils/test/matchMedia.mock.ts',
     './src/esl-utils/test/resizeObserver.mock.ts'
   ],
+  collectCoverage,
+  coverageReporters,
   collectCoverageFrom: [
     'src/**/*.ts',
     // test dir

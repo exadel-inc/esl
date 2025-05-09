@@ -6,8 +6,11 @@
       "options": {
         "command": "rimraf modules",
         "cwd": "packages/esl"
-      }
+      },
+      "cache": false,
+      "outputs": []
     },
+
     "build": {
       "executor": "nx:noop",
       "dependsOn": [
@@ -24,6 +27,7 @@
         "watch:docs"
       ]
     },
+
     "build:ts": {
       "executor": "nx:run-commands",
       "options": {
@@ -51,12 +55,12 @@
         "cwd": "packages/esl"
       }
     },
+
     "build:less": {
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "rimraf -g \"modules/**/*.{css,less}\"",
-          "copyfiles \"src/**/*.less\" \"modules\" --up 1 --all",
+          "cpy \"src/**/*.less\" \"modules\" --parents --clean",
           "findx \"modules/{*,*/*,{esl-utils,esl-forms}/*/*}.less !**/*.mixin.less\" \"lessc {{path}} {{dir}}/{{name}}.css\""
         ],
         "cwd": "packages/esl",
@@ -74,19 +78,17 @@
     },
     "watch:less": {
       "executor": "nx:run-commands",
+      "dependsOn": ["build:less"],
       "options": {
-        "command": "chokidar --initial \"src/**/*.less\" -c \"nx run @exadel/esl:build:less\"",
+        "command": "chokidar \"src/**/*.less\" -c \"nx run @exadel/esl:build:less\"",
         "cwd": "packages/esl"
       }
     },
+
     "build:docs": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": [
-          "rimraf -g \"modules/**/*.md\"",
-          "copyfiles \"src/**/*.md\" \"modules\" --up 1 --all"
-        ],
-        "parallel": false,
+        "command": "cpy \"src/**/*.md\" \"modules\" --parents --clean",
         "cwd": "packages/esl"
       },
       "cache": true,
@@ -99,11 +101,13 @@
     },
     "watch:docs": {
       "executor": "nx:run-commands",
+      "dependsOn": ["build:docs"],
       "options": {
-        "command": "chokidar --initial \"src/**/*.md\" -c \"nx run @exadel/esl:build:docs\"",
+        "command": "chokidar \"src/**/*.md\" -c \"nx run @exadel/esl:build:docs\"",
         "cwd": "packages/esl"
       }
     },
+
     "lint": {
       "executor": "nx:noop",
       "dependsOn": ["lint:eslint", "lint:stylelint"]
@@ -133,6 +137,35 @@
       "inputs": [
         "{projectRoot}/src/**/*.less",
         "{projectRoot}/.stylelint.yml"
+      ]
+    },
+
+    "test": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["build:ts"],
+      "options": {
+        "command": "jest --silent",
+        "cwd": "packages/esl"
+      },
+      "cache": true,
+      "inputs": [
+        "{projectRoot}/src/**/*.ts",
+        "{projectRoot}/jest.config.ts"
+      ],
+      "outputs": [
+        "{projectRoot}/coverage/**/*.{json,lcov,html}"
+      ]
+    },
+
+    "pack": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npm pack --pack-destination=../../target/",
+        "cwd": "packages/esl"
+      },
+      "cache": true,
+      "outputs": [
+        "{workspaceRoot}/target/exadel-esl-*.tgz"
       ]
     }
   }
