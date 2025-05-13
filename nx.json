@@ -9,5 +9,5 @@
       "dependsOn": ["build"]
     }
   },
-  "plugins": []
+  "plugins": ["@exadel/esl-nx-tools"]
 }

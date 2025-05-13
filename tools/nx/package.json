@@ -1,0 +1,16 @@
+{
+  "name": "@exadel/esl-nx-tools",
+  "version": "0.0.0",
+  "private": true,
+  "type": "commonjs",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "executors": "./src/executors.json",
+  "scripts": {
+    "build": "tsc",
+    "postinstall": "tsc"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  }
+}

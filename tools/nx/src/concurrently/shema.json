@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "title": "Concurrently Executor",
+  "type": "object",
+  "properties": {
+    "targets": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of targets to run concurrently."
+    }
+  },
+  "required": ["targets"]
+}

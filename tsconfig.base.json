@@ -1,0 +1,20 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": ".",
+    "rootDir": ".",
+    "target": "es2018",
+    "module": "commonjs",
+    "lib": ["es2020"],
+    "declaration": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "paths": {
+      "@exadel/esl-nx-tools": ["tools/nx/index.ts"]
+    }
+  }
+}
