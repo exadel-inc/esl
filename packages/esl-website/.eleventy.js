@@ -17,10 +17,14 @@ export default async (config) => {
     }
   }
 
-  // Add MD files from the library sources
-  config.addWatchTarget('../../README.md');
+  // Observing the common files for the documentation
   config.addWatchTarget('../../docs/**/*.md');
-  config.addWatchTarget('../../packages/**/*.md');
+
+  // TODO: Update and restore observation of the packages
+  // Observing the output of the build process for packages
+  // config.addWatchTarget('../../packages/dist/**/*.md');
+  // Observing the output of the build process for the core library
+  // config.addWatchTarget('../../packages/esl/modules/**/*.md');
 
   // Setup simple copy operations
   config.addPassthroughCopy({
