@@ -20,12 +20,14 @@
       ]
     },
     "watch": {
-      "executor": "nx:noop",
-      "dependsOn": [
-        "watch:ts",
-        "watch:less",
-        "watch:docs"
-      ]
+      "executor": "@exadel/esl-nx-tools:concurrently",
+      "options": {
+        "targets": [
+          "@exadel/esl:watch:ts",
+          "@exadel/esl:watch:less",
+          "@exadel/esl:watch:docs"
+        ]
+      }
     },
 
     "build:ts": {
@@ -33,7 +35,8 @@
       "options": {
         "commands": [
           "rimraf -g \"modules/**/*.{js,ts}\"",
-          "tsc --project tsconfig.build.json"
+          "tsc --project tsconfig.build.json",
+          "nodetouch \"modules/.ts.done\""
         ],
         "parallel": false,
         "cwd": "packages/esl"
@@ -61,7 +64,8 @@
       "options": {
         "commands": [
           "cpy \"src/**/*.less\" \"modules\" --parents --clean",
-          "findx \"modules/{*,*/*,{esl-utils,esl-forms}/*/*}.less !**/*.mixin.less\" \"lessc {{path}} {{dir}}/{{name}}.css\""
+          "findx \"modules/{*,*/*,{esl-utils,esl-forms}/*/*}.less !**/*.mixin.less\" \"lessc {{path}} {{dir}}/{{name}}.css\"",
+          "nodetouch \"modules/.less.done\""
         ],
         "cwd": "packages/esl",
         "parallel": false
@@ -78,7 +82,6 @@
     },
     "watch:less": {
       "executor": "nx:run-commands",
-      "dependsOn": ["build:less"],
       "options": {
         "command": "chokidar \"src/**/*.less\" -c \"nx run @exadel/esl:build:less\"",
         "cwd": "packages/esl"
@@ -88,7 +91,11 @@
     "build:docs": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "cpy \"src/**/*.md\" \"modules\" --parents --clean",
+        "commands": [
+          "cpy \"src/**/*.md\" \"modules\" --parents --clean",
+          "nodetouch \"modules/.docs.done\""
+        ],
+        "parallel": false,
         "cwd": "packages/esl"
       },
       "cache": true,
@@ -101,7 +108,6 @@
     },
     "watch:docs": {
       "executor": "nx:run-commands",
-      "dependsOn": ["build:docs"],
       "options": {
         "command": "chokidar \"src/**/*.md\" -c \"nx run @exadel/esl:build:docs\"",
         "cwd": "packages/esl"
