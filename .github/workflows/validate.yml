@@ -41,7 +41,7 @@ jobs:
       - name: Install NPM Dependencies
         run: npm ci
       - name: Run Tests
-        run: npm run test:ci
+        run: npm run test
       - name: Collect and Publish coverage to Code Climate
         uses: paambaati/codeclimate-action@v9.0.0
         continue-on-error: true

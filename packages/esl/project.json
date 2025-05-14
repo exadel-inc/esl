@@ -170,11 +170,7 @@
       "options": {
         "command": "npm pack --pack-destination=../../target/",
         "cwd": "packages/esl"
-      },
-      "cache": true,
-      "outputs": [
-        "{workspaceRoot}/target/exadel-esl-*.tgz"
-      ]
+      }
     }
   }
 }

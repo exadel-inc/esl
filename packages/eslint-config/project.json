@@ -7,11 +7,7 @@
       "options": {
         "command": "npm pack --pack-destination=../../target/",
         "cwd": "packages/eslint-config"
-      },
-      "cache": true,
-      "outputs": [
-        "{workspaceRoot}/target/exadel-eslint-config-esl-*.tgz"
-      ]
+      }
     }
   }
 }

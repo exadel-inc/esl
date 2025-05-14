@@ -7,11 +7,7 @@
       "options": {
         "command": "npm pack --pack-destination=../../target/",
         "cwd": "packages/stylelint-config"
-      },
-      "cache": true,
-      "outputs": [
-        "{workspaceRoot}/target/exadel-stylelint-config-esl-*.tgz"
-      ]
+      }
     }
   }
 }
