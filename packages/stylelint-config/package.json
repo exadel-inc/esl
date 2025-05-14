@@ -24,7 +24,7 @@
   "scripts": {
     "test": "",
     "lint": "",
-    "pack": "nx run @exadel/stylelint-config:pack"
+    "pack": "nx run stylelint-config:pack"
   },
   "dependencies": {
     "@stylistic/stylelint-config": "^2.0.0",

@@ -1,5 +1,6 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "eslint-plugin",
   "targets": {
     "clean": {
       "executor": "nx:run-commands",

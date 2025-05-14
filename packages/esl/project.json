@@ -1,5 +1,7 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "esl",
+  "projectType": "library",
   "targets": {
     "clean": {
       "executor": "nx:run-commands",
@@ -23,9 +25,9 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          {"command": "nx run @exadel/esl:watch:ts", "prefix": "[ESL watch:ts]"},
-          {"command": "nx run @exadel/esl:watch:less", "prefix": "[ESL watch:less]"},
-          {"command": "nx run @exadel/esl:watch:docs", "prefix": "[ESL watch:docs]"}
+          {"command": "nx run esl:watch:ts", "prefix": "[ESL watch:ts]"},
+          {"command": "nx run esl:watch:less", "prefix": "[ESL watch:less]"},
+          {"command": "nx run esl:watch:docs", "prefix": "[ESL watch:docs]"}
         ],
         "cwd": "packages/esl",
         "parallel": true
@@ -85,7 +87,7 @@
     "watch:less": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "chokidar \"src/**/*.less\" -c \"nx run @exadel/esl:build:less\"",
+        "command": "chokidar \"src/**/*.less\" -c \"nx run esl:build:less\"",
         "cwd": "packages/esl"
       }
     },
@@ -111,7 +113,7 @@
     "watch:docs": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "chokidar \"src/**/*.md\" -c \"nx run @exadel/esl:build:docs\"",
+        "command": "chokidar \"src/**/*.md\" -c \"nx run esl:build:docs\"",
         "cwd": "packages/esl"
       }
     },
@@ -122,9 +124,7 @@
     },
     "lint:eslint": {
       "executor": "nx:run-commands",
-      "dependsOn": [
-        "@exadel/eslint-plugin-esl:build"
-      ],
+      "dependsOn": ["eslint-plugin:build"],
       "options": {
         "command": "eslint \"src/**/*.ts\" --max-warnings 3",
         "cwd": "packages/esl"

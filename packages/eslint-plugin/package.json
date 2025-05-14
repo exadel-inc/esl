@@ -22,10 +22,10 @@
   ],
   "scripts": {
     "lint": "",
-    "test": "nx run @exadel/eslint-plugin-esl:test",
-    "clean": "nx run @exadel/eslint-plugin-esl:clean",
-    "build": "nx run @exadel/eslint-plugin-esl:build",
-    "pack": "nx run @exadel/eslint-plugin-esl:pack"
+    "test": "nx run eslint-plugin:test",
+    "clean": "nx run eslint-plugin:clean",
+    "build": "nx run eslint-plugin:build",
+    "pack": "nx run eslint-plugin:pack"
   },
   "dependencies": {
     "kleur": "^4.1.5",

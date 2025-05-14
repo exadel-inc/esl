@@ -10,10 +10,10 @@
     "node": ">=20.0.0"
   },
   "scripts": {
-    "start": "nx run @exadel/esl-website:start",
-    "build": "nx run @exadel/esl-website:build",
-    "clean": "nx run @exadel/esl-website:clean",
-    "lint": "nx run @exadel/esl-website:lint"
+    "start": "nx run esl-website:start",
+    "build": "nx run esl-website:build",
+    "clean": "nx run esl-website:clean",
+    "lint": "nx run esl-website:lint"
   },
   "dependencies": {
     "@11ty/eleventy": "^3.0.0",

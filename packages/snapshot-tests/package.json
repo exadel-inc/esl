@@ -7,8 +7,8 @@
   "homepage": "https://esl-ui.com/",
   "license": "MIT",
   "scripts": {
-    "run": "lerna run run --scope @exadel/esl-snapshot-tests",
-    "run:update": "lerna run run:update --scope @exadel/esl-snapshot-tests",
+    "run": "lerna run run --scope esl-e2e",
+    "run:update": "lerna run run:update --scope esl-e2e",
     "dev:tests": "jest --no-autorun",
     "dev:update": "jest -u --no-autorun",
     "run:server": "cd ../.. && cross-env-shell PORT=3007 npm run start --workspace=packages/esl-website --site-env=e2e",

@@ -51,12 +51,12 @@
     "polyfills/**/*.js"
   ],
   "scripts": {
-    "clean": "nx run @exadel/esl:clean",
-    "build": "nx run @exadel/esl:build",
-    "watch": "nx run @exadel/esl:watch",
-    "lint": "nx run @exadel/esl:lint",
-    "test": "nx run @exadel/esl:test",
-    "pack": "nx run @exadel/esl:pack"
+    "clean": "nx run esl:clean",
+    "build": "nx run esl:build",
+    "watch": "nx run esl:watch",
+    "lint": "nx run esl:lint",
+    "test": "nx run esl:test",
+    "pack": "nx run esl:pack"
   },
   "dependencies": {
     "@types/video.js": "7.3.58",

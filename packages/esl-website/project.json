@@ -1,5 +1,6 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "esl-website",
   "projectType": "application",
   "targets": {
     "clean": {
@@ -17,8 +18,8 @@
       ],
       "options": {
         "commands": [
-          "nx run @exadel/esl-website:run:eleventy",
-          "nx run @exadel/esl-website:watch:assets"
+          "nx run esl-website:run:eleventy",
+          "nx run esl-website:watch:assets"
         ],
         "parallel": true,
         "cwd": "packages/esl-website"
@@ -35,8 +36,8 @@
     "build": {
       "executor": "nx:noop",
       "dependsOn": [
-        "@exadel/esl-website:build:assets",
-        "@exadel/esl-website:build:eleventy",
+        "esl-website:build:assets",
+        "esl-website:build:eleventy",
       ]
     },
     "build:eleventy": {
@@ -59,18 +60,18 @@
     "build:assets": {
       "executor": "nx:noop",
       "dependsOn": [
-        "@exadel/esl:build",
-        "@exadel/esl-website:build:ts",
-        "@exadel/esl-website:build:less"
+        "esl:build",
+        "esl-website:build:ts",
+        "esl-website:build:less"
       ]
     },
     "watch:assets": {
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "nx run @exadel/esl:watch",
-          {"command": "nx run @exadel/esl-website:watch:ts", "prefix": "[Site watch:ts]"},
-          {"command": "nx run @exadel/esl-website:watch:less", "prefix": "[Site watch:less]"}
+          "nx run esl:watch",
+          {"command": "nx run esl-website:watch:ts", "prefix": "[Site watch:ts]"},
+          {"command": "nx run esl-website:watch:less", "prefix": "[Site watch:less]"}
         ]
       }
     },
@@ -106,7 +107,7 @@
     "build:less": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "nx run @exadel/esl-website:build:less:only",
+        "command": "nx run esl-website:build:less:only",
         "cwd": "packages/esl-website"
       },
       "dependsOn": ["^build:less"]
@@ -133,7 +134,7 @@
     "watch:less": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "chokidar \"../../node_modules/@exadel/esl/modules/.less.done\" \"src/**/*.less\" -c \"nx run @exadel/esl-website:build:less:only\"",
+        "command": "chokidar \"../../node_modules/@exadel/esl/modules/.less.done\" \"src/**/*.less\" -c \"nx run esl-website:build:less:only\"",
         "cwd": "packages/esl-website"
       }
     },
@@ -144,9 +145,7 @@
     },
     "lint:eslint": {
       "executor": "nx:run-commands",
-      "dependsOn": [
-        "@exadel/eslint-plugin-esl:build"
-      ],
+      "dependsOn": ["eslint-plugin:build"],
       "options": {
         "command": "eslint \"src/**/*.ts\" --max-warnings 3",
         "cwd": "packages/esl-website"

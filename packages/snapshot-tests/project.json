@@ -1,5 +1,6 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "esl-e2e",
   "projectType": "application",
   "tags": ["type:e2e", "scope:testing"],
   "targets": {
