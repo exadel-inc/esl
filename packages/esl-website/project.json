@@ -2,6 +2,142 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "targets": {
+    "clean": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "rimraf dist",
+        "cwd": "packages/esl-website"
+      }
+    },
+
+    "start": {
+      "executor": "nx:run-commands",
+      "dependsOn": [
+        "build"
+      ],
+      "options": {
+        "commands": [
+          "nx run @exadel/esl-website:run:eleventy",
+          "nx run @exadel/esl-website:watch:assets"
+        ],
+        "parallel": true,
+        "cwd": "packages/esl-website"
+      }
+    },
+    "run:eleventy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "eleventy --serve --incremental -- --env={args.site-env}",
+        "cwd": "packages/esl-website"
+      }
+    },
+
+    "build": {
+      "executor": "nx:noop",
+      "dependsOn": [
+        "@exadel/esl-website:build:assets",
+        "@exadel/esl-website:build:eleventy",
+      ]
+    },
+    "build:eleventy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "eleventy -- --env={args.site-env}",
+        "cwd": "packages/esl-website"
+      },
+      "dependsOn": ["^build:docs"],
+      "cache": true,
+      "inputs": [
+        "{projectRoot}/src/**/*",
+        "{projectRoot}/views/**/*"
+      ],
+      "outputs": [
+        "{projectRoot}/dist/**/*"
+      ]
+    },
+
+    "build:assets": {
+      "executor": "nx:noop",
+      "dependsOn": [
+        "@exadel/esl:build",
+        "@exadel/esl-website:build:ts",
+        "@exadel/esl-website:build:less"
+      ]
+    },
+    "watch:assets": {
+      "executor": "@exadel/esl-nx-tools:concurrently",
+      "options": {
+        "targets": [
+          "@exadel/esl:watch",
+          "@exadel/esl-website:watch:ts",
+          "@exadel/esl-website:watch:less"
+        ]
+      }
+    },
+
+    "build:ts": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "rimraf -g \"dist/**/*.js\"",
+          "webpack --mode=production"
+        ],
+        "parallel": false,
+        "cwd": "packages/esl-website"
+      },
+      "cache": true,
+      "dependsOn": ["^build:ts"],
+      "inputs": [
+        "{projectRoot}/src/**/*.ts",
+        "{projectRoot}/webpack.config.js"
+      ],
+      "outputs": [
+        "{projectRoot}/dist/**/*.{js,ts}"
+      ]
+    },
+    "watch:ts": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "webpack --watch",
+        "cwd": "packages/esl-website"
+      }
+    },
+
+    "build:less": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "nx run @exadel/esl-website:build:less:only",
+        "cwd": "packages/esl-website"
+      },
+      "dependsOn": ["^build:less"]
+    },
+    "build:less:only": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "rimraf -g \"dist/**/*.css\"",
+          "findx \"src/*.less\" \"lessc {{path}} dist/bundles/{{name}}.css --source-map=dist/bundles/{{name}}.css.map --clean-css\""
+        ],
+        "parallel": false,
+        "cwd": "packages/esl-website"
+      },
+      "cache": true,
+      "inputs": [
+        "{projectRoot}/src/**/*.less",
+        "{workspaceRoot}/node_modules/@exadel/esl/modules/**/*.less"
+      ],
+      "outputs": [
+        "{projectRoot}/dist/bundles/**/*.css"
+      ]
+    },
+    "watch:less": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "chokidar \"../../node_modules/@exadel/esl/modules/.less.done\" \"src/**/*.less\" -c \"nx run @exadel/esl-website:build:less:only\"",
+        "cwd": "packages/esl-website"
+      }
+    },
+
     "lint": {
       "executor": "nx:noop",
       "dependsOn": ["lint:eslint", "lint:stylelint"]

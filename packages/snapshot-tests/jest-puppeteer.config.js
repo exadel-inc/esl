@@ -1,5 +1,3 @@
-import puppeteerEnv from 'jest-environment-puppeteer';
-
 if (!process.argv.includes('--no-autorun') && !process.env.PORT) {
   process.env.PORT = '3007';
 }

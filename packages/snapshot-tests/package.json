@@ -11,7 +11,7 @@
     "run:update": "lerna run run:update --scope @exadel/esl-snapshot-tests",
     "dev:tests": "jest --no-autorun",
     "dev:update": "jest -u --no-autorun",
-    "run:server": "cd ../.. && cross-env-shell PORT=3007 npm run start:test --workspace=packages/esl-website",
+    "run:server": "cd ../.. && cross-env-shell PORT=3007 npm run start --workspace=packages/esl-website --site-env=e2e",
     "test": "",
     "lint": "eslint \"**/*.ts\""
   },
