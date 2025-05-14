@@ -8,6 +8,5 @@
     "pack": {
       "dependsOn": ["build"]
     }
-  },
-  "plugins": ["@exadel/esl-nx-tools"]
+  }
 }

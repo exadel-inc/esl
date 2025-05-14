@@ -65,12 +65,12 @@
       ]
     },
     "watch:assets": {
-      "executor": "@exadel/esl-nx-tools:concurrently",
+      "executor": "nx:run-commands",
       "options": {
-        "targets": [
-          "@exadel/esl:watch",
-          "@exadel/esl-website:watch:ts",
-          "@exadel/esl-website:watch:less"
+        "commands": [
+          "nx run @exadel/esl:watch",
+          {"command": "nx run @exadel/esl-website:watch:ts", "prefix": "[Site watch:ts]"},
+          {"command": "nx run @exadel/esl-website:watch:less", "prefix": "[Site watch:less]"}
         ]
       }
     },

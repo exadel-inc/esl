@@ -1,9 +1,0 @@
-{
-  "executors": {
-    "concurrently": {
-      "implementation": "./src/concurrently/index",
-      "schema": "./src/concurrently/shema.json",
-      "description": "Concurrently executor for running multiple targets in parallel."
-    }
-  }
-}

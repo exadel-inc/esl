@@ -20,13 +20,15 @@
       ]
     },
     "watch": {
-      "executor": "@exadel/esl-nx-tools:concurrently",
+      "executor": "nx:run-commands",
       "options": {
-        "targets": [
-          "@exadel/esl:watch:ts",
-          "@exadel/esl:watch:less",
-          "@exadel/esl:watch:docs"
-        ]
+        "commands": [
+          {"command": "nx run @exadel/esl:watch:ts", "prefix": "[ESL watch:ts]"},
+          {"command": "nx run @exadel/esl:watch:less", "prefix": "[ESL watch:less]"},
+          {"command": "nx run @exadel/esl:watch:docs", "prefix": "[ESL watch:docs]"}
+        ],
+        "cwd": "packages/esl",
+        "parallel": true
       }
     },
 

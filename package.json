@@ -16,8 +16,7 @@
     "url": "git+https://github.com/exadel-inc/esl.git"
   },
   "workspaces": [
-    "packages/*",
-    "tools/*"
+    "packages/*"
   ],
   "scripts": {
     "start": "lerna run start --scope @exadel/esl-website",
