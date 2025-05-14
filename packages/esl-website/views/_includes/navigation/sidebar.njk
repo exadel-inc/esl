@@ -11,7 +11,7 @@
       <esl-scrollbar class="sidebar-scrollbar" target="::next"></esl-scrollbar>
 
       <ul class="sidebar-nav-list esl-scrollable-content">
-        <li class="sidebar-nav-item">
+        <li class="sidebar-nav-item" dtyle="border-bottom: 0px;">
           <div class="sidebar-nav-item-heading {{ 'active' if functions.isActivePath(page.url, 'search') }}">
             <a class="sidebar-nav-item-heading-inner"
                href="{{ '/search.html' | url }}"
@@ -28,8 +28,12 @@
           {% set isNoEmpty = collections[item.data.collection] | released | exclude('data.collection') | length %}
           {% set isActive = env.isDev or functions.isActivePath(page.url, item.data.collection) %}
 
-          {% if isNoEmpty or (isNoEmpty and isActive) %}
+          {% if (isNoEmpty or (isNoEmpty and isActive)) and ('subnav' not in item.data.tags) %}
             {{ navItem (item.data.title, item.data.collection, item.data.icon) }}
+          {% endif %}
+
+          {% if item.data.collection === 'examples' or item.data.collection === 'blogs' or item.data.collection === 'playground'  %}
+            <hr style="    border-top: 1px solid rgba(255, 255, 255, 0.1);"/>
           {% endif %}
         {% endfor %}
 
