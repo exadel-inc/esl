@@ -8,19 +8,32 @@
       "options": {
         "command": "npx jest",
         "cwd": "packages/snapshot-tests"
-      },
-      "dependsOn": [
-        "^build"
-      ]
+      }
     },
     "run:update": {
       "executor": "nx:run-commands",
       "options": {
         "command": "npx jest -u",
         "cwd": "packages/snapshot-tests"
-      },
+      }
+    },
+
+    "lint": {
+      "executor": "nx:noop",
       "dependsOn": [
-        "^build"
+        "lint:eslint"
+      ]
+    },
+    "lint:eslint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "eslint \"src/**/*.ts\"",
+        "cwd": "packages/snapshot-tests"
+      },
+      "cache": true,
+      "inputs": [
+        "{projectRoot}/src/**/*.ts",
+        "{projectRoot}/eslint.config.mjs"
       ]
     }
   }

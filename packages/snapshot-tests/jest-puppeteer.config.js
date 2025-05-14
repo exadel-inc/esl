@@ -1,5 +1,6 @@
-if (!process.argv.includes('--no-autorun') && !process.env.PORT) {
-  process.env.PORT = '3007';
+if (!process.argv.includes('--no-autorun')) {
+  if (!process.env.PORT) process.env.PORT = '3007';
+  process.env.SITE_ENV = 'e2e';
 }
 
 /** @type {puppeteerEnv.JestPuppeteerConfig} */

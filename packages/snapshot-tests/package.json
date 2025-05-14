@@ -7,13 +7,12 @@
   "homepage": "https://esl-ui.com/",
   "license": "MIT",
   "scripts": {
-    "run": "lerna run run --scope esl-e2e",
-    "run:update": "lerna run run:update --scope esl-e2e",
+    "run": "nx run esl-e2e:run",
+    "run:update": "nx run esl-e2e:run:update",
     "dev:tests": "jest --no-autorun",
     "dev:update": "jest -u --no-autorun",
-    "run:server": "cd ../.. && cross-env-shell PORT=3007 npm run start --workspace=packages/esl-website --site-env=e2e",
-    "test": "",
-    "lint": "eslint \"**/*.ts\""
+    "run:server": "cross-env-shell PORT=3007 SITE_ENV=e2e nx run esl-website:start",
+    "lint": "nx run esl-e2e:lint"
   },
   "dependencies": {
     "@exadel/esl-website": "../esl-website",
