@@ -122,9 +122,6 @@
       "executor": "nx:noop",
       "dependsOn": ["lint:eslint", "lint:stylelint"]
     },
-    "lint:eslint": {
-      "dependsOn": ["eslint-plugin:build"]
-    },
     "lint:stylelint": {
       "executor": "nx:run-commands",
       "options": {
@@ -135,23 +132,6 @@
       "inputs": [
         "{projectRoot}/src/**/*.less",
         "{projectRoot}/.stylelint.yml"
-      ]
-    },
-
-    "test": {
-      "executor": "nx:run-commands",
-      "dependsOn": ["build:ts"],
-      "options": {
-        "command": "jest --silent",
-        "cwd": "packages/esl"
-      },
-      "cache": true,
-      "inputs": [
-        "{projectRoot}/src/**/*.ts",
-        "{projectRoot}/jest.config.ts"
-      ],
-      "outputs": [
-        "{projectRoot}/coverage/**/*.{json,lcov,html}"
       ]
     },
 

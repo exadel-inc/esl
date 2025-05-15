@@ -21,8 +21,7 @@
     "README.md"
   ],
   "scripts": {
-    "lint": "",
-    "test": "nx run eslint-plugin:test",
+    "test": "nx run eslint-plugin:test:jest",
     "clean": "nx run eslint-plugin:clean",
     "build": "nx run eslint-plugin:build",
     "pack": "nx run eslint-plugin:pack"

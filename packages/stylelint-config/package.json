@@ -22,8 +22,6 @@
     "README.md"
   ],
   "scripts": {
-    "test": "",
-    "lint": "",
     "pack": "nx run stylelint-config:pack"
   },
   "dependencies": {

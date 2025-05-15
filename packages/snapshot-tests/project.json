@@ -20,9 +20,7 @@
 
     "lint": {
       "executor": "nx:noop",
-      "dependsOn": [
-        "lint:eslint"
-      ]
+      "dependsOn": ["lint:eslint"]
     }
   }
 }

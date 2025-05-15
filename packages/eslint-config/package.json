@@ -17,8 +17,6 @@
   "main": "index.js",
   "sideEffects": false,
   "scripts": {
-    "test": "",
-    "lint": "",
     "pack": "nx run eslint-config:pack"
   },
   "dependencies": {

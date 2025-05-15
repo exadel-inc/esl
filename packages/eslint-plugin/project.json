@@ -24,18 +24,6 @@
       ]
     },
 
-    "test": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "jest --silent",
-        "cwd": "packages/eslint-plugin"
-      },
-      "cache": true,
-      "outputs": [
-        "{projectRoot}/coverage/**/*.{json,lcov,html}"
-      ]
-    },
-
     "pack": {
       "executor": "nx:run-commands",
       "options": {

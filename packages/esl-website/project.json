@@ -143,9 +143,6 @@
       "executor": "nx:noop",
       "dependsOn": ["lint:eslint", "lint:stylelint"]
     },
-    "lint:eslint": {
-      "dependsOn": ["eslint-plugin:build"],
-    },
     "lint:stylelint": {
       "executor": "nx:run-commands",
       "options": {

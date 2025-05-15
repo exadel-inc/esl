@@ -9,8 +9,8 @@
   "scripts": {
     "run": "nx run esl-e2e:run",
     "run:update": "nx run esl-e2e:run:update",
-    "dev:tests": "jest --no-autorun",
-    "dev:update": "jest -u --no-autorun",
+    "dev:tests": "nx jest:test --no-autorun",
+    "dev:update": "nx jest:test -u --no-autorun",
     "run:server": "cross-env-shell PORT=3007 SITE_ENV=e2e nx run esl-website:start",
     "lint": "nx run esl-e2e:lint"
   },
