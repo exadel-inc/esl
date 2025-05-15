@@ -23,18 +23,6 @@
       "dependsOn": [
         "lint:eslint"
       ]
-    },
-    "lint:eslint": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "eslint \"src/**/*.ts\"",
-        "cwd": "packages/snapshot-tests"
-      },
-      "cache": true,
-      "inputs": [
-        "{projectRoot}/src/**/*.ts",
-        "{projectRoot}/eslint.config.mjs"
-      ]
     }
   }
 }

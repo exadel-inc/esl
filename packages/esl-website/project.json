@@ -144,17 +144,7 @@
       "dependsOn": ["lint:eslint", "lint:stylelint"]
     },
     "lint:eslint": {
-      "executor": "nx:run-commands",
       "dependsOn": ["eslint-plugin:build"],
-      "options": {
-        "command": "eslint \"src/**/*.ts\" --max-warnings 3",
-        "cwd": "packages/esl-website"
-      },
-      "cache": true,
-      "inputs": [
-        "{projectRoot}/src/**/*.ts",
-        "{projectRoot}/eslint.config.mjs"
-      ]
     },
     "lint:stylelint": {
       "executor": "nx:run-commands",

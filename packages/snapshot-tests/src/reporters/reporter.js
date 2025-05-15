@@ -63,7 +63,7 @@ export class SnapshotAwareReporter {
     const basePath = path.resolve(this._globalConfig.rootDir);
     for (const result of results.testResults) {
       const filepath = path.relative(basePath, result.testFilePath);
-      const tests = result.testResults.map(test => this.buildTestStat(test, result.testFilePath));
+      const tests = result.testResults.map((test) => this.buildTestStat(test, result.testFilePath));
       testResults.push({filepath, tests});
     }
     return testResults;
