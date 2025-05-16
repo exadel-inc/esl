@@ -16,15 +16,8 @@ export default async (config) => {
       throw e;
     }
   }
-
-  // Observing the common files for the documentation
-  config.addWatchTarget('../../docs/**/*.md');
-
-  // TODO: Update and restore observation of the packages
-  // Observing the output of the build process for packages
-  // config.addWatchTarget('../../packages/dist/**/*.md');
-  // Observing the output of the build process for the core library
-  // config.addWatchTarget('../../packages/esl/modules/**/*.md');
+  // Observe the config files for 11ty
+  config.addWatchTarget('./11ty/**/*.js', {resetConfig: true});
 
   // Setup simple copy operations
   config.addPassthroughCopy({

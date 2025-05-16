@@ -52,7 +52,8 @@
       ],
       "outputs": [
         "{projectRoot}/modules/**/*.js",
-        "{projectRoot}/modules/**/*.d.ts"
+        "{projectRoot}/modules/**/*.d.ts",
+        "{projectRoot}/modules/.ts.done"
       ]
     },
     "watch:ts": {
@@ -81,7 +82,8 @@
       ],
       "outputs": [
         "{projectRoot}/modules/**/*.css",
-        "{projectRoot}/modules/**/*.less"
+        "{projectRoot}/modules/**/*.less",
+        "{projectRoot}/modules/.less.done"
       ]
     },
     "watch:less": {
@@ -107,7 +109,8 @@
         "{projectRoot}/src/**/*.md"
       ],
       "outputs": [
-        "{projectRoot}/modules/**/*.md"
+        "{projectRoot}/modules/**/*.md",
+        "{projectRoot}/modules/.docs.done"
       ]
     },
     "watch:docs": {
