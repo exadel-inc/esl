@@ -1,7 +1,11 @@
 const isCI = process.env.CI === 'true';
 const collectCoverage = process.env.TEST_COVERAGE !== 'false';
-const coverageReporters = ['lcov'];
-if (!isCI) coverageReporters.push('html');
+const coverageReporters = [];
+if (isCI) {
+  coverageReporters.push(['lcov', { projectRoot: '../..' }]);
+} else {
+  coverageReporters.push('html');
+}
 
 module.exports = {
   transform: {
