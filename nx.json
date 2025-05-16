@@ -25,7 +25,8 @@
       "plugin": "@nx/jest/plugin",
       "exclude": ["packages/snapshot-tests/**/*"],
       "options": {
-        "targetName": "test:jest"
+        "targetName": "test:jest",
+        "collectCoverage": true
       }
     }
   ]
