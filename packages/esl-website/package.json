@@ -31,7 +31,7 @@
     "build:analyzer": "webpack --mode=production --profile --json dist/stats.json && webpack-bundle-analyzer dist/stats.json dist/bundles -s gzip -m static -r dist/stats.html"
   },
   "dependencies": {
-    "@11ty/eleventy": "^3.0.0",
+    "@11ty/eleventy": "^3.1.0",
     "@11ty/eleventy-dev-server": "^2.0.8",
     "@exadel/esl": "../esl",
     "@exadel/ui-playground": "2.1.0-beta.10",
@@ -40,13 +40,13 @@
     "@types/smoothscroll-polyfill": "^0.3.4",
     "clean-css-cli": "^5.6.3",
     "html-minifier-terser": "^7.2.0",
-    "image-size": "^2.0.1",
+    "image-size": "^2.0.2",
     "js-yaml": "^4.1.0",
     "out-url": "^1.2.2",
     "prismjs": "^1.30.0",
     "smoothscroll-polyfill": "^0.4.4",
     "ts-loader": "^9.5.2",
-    "webpack": "^5.99.7",
+    "webpack": "^5.99.8",
     "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "^6.0.1"
   },
