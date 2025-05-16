@@ -14,7 +14,7 @@
     "start": {
       "executor": "nx:run-commands",
       "dependsOn": [
-        "build"
+        "esl-website:build:assets"
       ],
       "options": {
         "commands": [
@@ -22,6 +22,16 @@
           "nx run esl-website:watch:assets"
         ],
         "parallel": true,
+        "cwd": "packages/esl-website"
+      }
+    },
+    "run": {
+      "executor": "nx:run-commands",
+      "dependsOn": [
+        "esl-website:build:assets"
+      ],
+      "options": {
+        "command": "nx run esl-website:run:eleventy",
         "cwd": "packages/esl-website"
       }
     },

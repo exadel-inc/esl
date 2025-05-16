@@ -22,7 +22,7 @@ const config = {
     ]
   },
   server: {
-    command: 'npm run run:server',
+    command: 'npx nx run esl-website:run',
     port: process.env.PORT,
     launchTimeout: 120000,
     debug: true
