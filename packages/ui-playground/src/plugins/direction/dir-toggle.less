@@ -1,0 +1,73 @@
+uip-dir-toggle {
+  display: none;
+}
+.uip-dir-toggle {
+  display: inline-flex;
+  gap: 0.25em;
+  cursor: pointer;
+  user-select: none;
+
+  align-items: center;
+  justify-content: center;
+
+  height: 1.5rem;
+  line-height: 1em;
+
+  svg {
+    width: 100%;
+    height: 100%;
+
+    fill: currentColor;
+    stroke: currentColor;
+  }
+
+  &-label {
+    display: none;
+  }
+
+  &-figure {
+    display: flex;
+    user-select: none;
+    pointer-events: none;
+    font-weight: 500;
+    letter-spacing: -1px;
+    margin: 0 0 0 -2px;
+    align-items: center;
+  }
+
+  .uip-settings-container > & {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: fit-content;
+    height: auto;
+  }
+
+  .uip-settings-container > & &-label {
+    display: block;
+    &::after {
+      content: ':';
+    }
+  }
+
+  .uip-settings-container > & &-figure {
+    width: auto;
+    min-height: 1.5em;
+    vertical-align: middle;
+
+    border: 1px solid currentColor;
+    border-radius: 0.25em;
+    margin: 2px;
+    padding: 2px;
+
+    &::after {
+      content: '';
+      display: block;
+      width: 0.5em;
+      height: 100%;
+      background: var(--uip-plugin-divider);
+      border-radius: inherit;
+      margin-inline-start: 0.25em;
+    }
+  }
+}

@@ -1,0 +1,41 @@
+.uip-slider-setting {
+  input {
+    display: block;
+    width: 100%;
+  }
+
+  input[type='range'] {
+    -webkit-appearance: none;
+    margin: 10px 0 5px;
+    height: 10px;
+    background: var(--uip-plugin-bg, #000);
+    border: 1px solid var(--uip-plugin-fg, #ccc);
+    border-radius: 5px;
+  }
+
+  input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    background: var(--uip-plugin-fg, #000);
+    cursor: ew-resize;
+    transition: background 0.1s linear;
+  }
+
+  input[type='range']::-webkit-slider-runnable-track {
+    -webkit-appearance: none;
+    box-shadow: none;
+    border: none;
+    background: transparent;
+  }
+
+  .slider-value {
+    opacity: 0.8;
+    color: var(--uip-plugin-fg, #000);
+
+    &.disabled {
+      font-size: 14px;
+    }
+  }
+}

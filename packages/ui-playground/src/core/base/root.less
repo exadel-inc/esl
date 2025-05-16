@@ -1,0 +1,39 @@
+uip-root {
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.uip-root {
+  position: relative;
+  display: grid;
+  align-content: start;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto minmax(0, auto);
+  grid-template-areas:
+    'header header'
+    'note sidebar'
+    'preview sidebar'
+    'settings settings'
+    'editor editor'
+    'editor-js editor-js';
+
+  min-width: 100%;
+  height: auto;
+  opacity: 1;
+}
+
+.uip-toolbar {
+  grid-area: header;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5em;
+  align-items: center;
+  width: 100%;
+  margin: 0;
+  padding: 5px;
+
+  color: var(--uip-header-fg, #000);
+  background: var(--uip-header-bg, transparent);
+  border-bottom: var(--uip-header-divider, none);
+}

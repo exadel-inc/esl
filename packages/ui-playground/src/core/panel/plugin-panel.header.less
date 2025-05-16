@@ -1,0 +1,64 @@
+.uip-plugin-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  flex: 0 0 auto;
+
+  color: var(--uip-plugin-header-fg, #000);
+  background: var(--uip-plugin-header-bg, transparent);
+
+  font-weight: 500;
+
+  .uip-plugin[label] &,
+  .uip-plugin[collapsible] & {
+    padding: 2px 10px;
+  }
+
+  &-icon {
+    display: inline-flex;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-inline-end: 5px;
+    transform-origin: center center;
+    justify-content: center;
+
+    > svg {
+      fill: currentColor;
+      stroke: currentColor;
+    }
+  }
+
+  &-title {
+    margin-inline-end: auto;
+  }
+
+  &-title:not(:empty) {
+    flex: 1 1 auto;
+    padding: 5px;
+    line-height: 1em;
+  }
+
+  &-trigger {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    appearance: none;
+  }
+
+  &-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    z-index: 2;
+  }
+}

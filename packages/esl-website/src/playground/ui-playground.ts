@@ -1,4 +1,8 @@
-import {init, UIPJSRenderingPreprocessors, UIPRenderingTemplatesService} from '@exadel/ui-playground';
+import {
+  init,
+  UIPJSRenderingPreprocessors,
+  UIPRenderingTemplatesService
+} from '@exadel/ui-playground';
 
 // Add ESL lib alias
 UIPJSRenderingPreprocessors.addRegexReplacer(
