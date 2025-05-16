@@ -31,7 +31,7 @@
     "build:analyzer": "webpack --mode=production --profile --json dist/stats.json && webpack-bundle-analyzer dist/stats.json dist/bundles -s gzip -m static -r dist/stats.html"
   },
   "dependencies": {
-    "@11ty/eleventy": "^3.0.0",
+    "@11ty/eleventy": "^3.1.0",
     "@11ty/eleventy-dev-server": "^2.0.8",
     "@exadel/esl": "../esl",
     "@exadel/ui-playground": "2.1.0-beta.10",
