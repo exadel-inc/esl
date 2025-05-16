@@ -1,5 +1,4 @@
-import {parseTime} from '../../esl-utils/misc/format';
-import {promisifyNextRender, promisifyTimeout} from '../../esl-utils/async/promise';
+import {promisifyNextRender} from '../../esl-utils/async/promise';
 import {ESLCarouselRenderer} from '../core/esl-carousel.renderer';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ESLCarouselDirection} from '../core/esl-carousel.types';
@@ -15,7 +14,6 @@ export class ESLCSSCarouselRenderer extends ESLCarouselRenderer {
 
   public static readonly OFFSET_PROP = '--esl-carousel-move-offset';
   public static readonly OFFSET_ABS_PROP = '--esl-carousel-move-abs';
-  public static readonly TRANSITION_DURATION_PROP = '--esl-carousel-transition-duration';
 
   /** Active index */
   protected currentIndex: number = 0;
@@ -37,23 +35,6 @@ export class ESLCSSCarouselRenderer extends ESLCarouselRenderer {
       this.$area.style.removeProperty(ESLCSSCarouselRenderer.OFFSET_PROP);
       this.$area.style.removeProperty(ESLCSSCarouselRenderer.OFFSET_ABS_PROP);
     }
-  }
-
-  protected get transitionDuration(): number {
-    const name = ESLCSSCarouselRenderer.TRANSITION_DURATION_PROP;
-    const duration = getComputedStyle(this.$area).getPropertyValue(name);
-    return parseTime(duration);
-  }
-  protected set transitionDuration(value: number | null) {
-    if (typeof value === 'number') {
-      this.$carousel.style.setProperty(ESLCSSCarouselRenderer.TRANSITION_DURATION_PROP, `${value}ms`);
-    } else {
-      this.$carousel.style.removeProperty(ESLCSSCarouselRenderer.TRANSITION_DURATION_PROP);
-    }
-  }
-
-  protected get transitionDuration$$(): Promise<void> {
-    return promisifyTimeout(this.transitionDuration);
   }
 
   /**
@@ -81,8 +62,6 @@ export class ESLCSSCarouselRenderer extends ESLCarouselRenderer {
     const dir = direction === ESLCarouselDirection.NEXT ? 'right' : 'left';
     $nextSlide.classList.add(dir);
 
-    // TODO: discuss
-    // this.transitionDuration = params.stepDuration;
     return promisifyNextRender();
   }
 
@@ -128,7 +107,6 @@ export class ESLCSSCarouselRenderer extends ESLCarouselRenderer {
   public async commit(offset: number): Promise<void> {
     const $activeSlide = this.$carousel.$activeSlide;
     if (!$activeSlide) throw new Error('[ESL] Carousel: no active slide');
-    if (!this.loop && this.offset === 0) return;
 
     const direction = -Math.sign(offset);
     const nextIndex = this.currentIndex + direction;
