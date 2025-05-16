@@ -10,25 +10,10 @@
     "node": ">=20.0.0"
   },
   "scripts": {
-    "start": "npm run clean && concurrently --kill-others \"npm run watch:lib\" \"npm run watch:ts\" \"npm run watch:less\" \"npm run watch:eleventy\"",
-    "start:test": "npm run clean && npm run build:ts && npm run build:less && npm run run:eleventy:e2e",
-    "test": "",
-    "lint": "concurrently npm:lint:*",
-    "lint:js": "eslint \"src/**/*.ts\" --max-warnings 3",
-    "lint:css": "stylelint \"src/**/*.less\"",
-    "clean": "rimraf \"dist\"",
-    "watch:lib": "cd ../.. && npm run watch --workspace=packages/esl",
-    "watch:ts": "webpack --watch",
-    "watch:less": "chokidar --initial \"../../node_modules/@exadel/esl/modules/**/*.less\" \"src/**/*.less\" -c \"npm run build:less\"",
-    "watch:eleventy": "eleventy --serve --incremental -- --env=development",
-    "minify:css": "cleancss --batch --batch-suffix \"\" \"dist/bundles/*.css\" --source-map",
-    "run:eleventy": "eleventy --serve -- --env=production",
-    "run:eleventy:e2e": "eleventy --serve -- --env=e2e",
-    "build": "npm run clean && concurrently \"npm run build:ts\" \"npm run build:less && npm run minify:css\" && npm run build:eleventy",
-    "build:ts": "webpack --mode=production",
-    "build:less": "findx \"src/*.less\" \"lessc {{path}} dist/bundles/{{name}}.css --source-map=dist/bundles/{{name}}.css.map\"",
-    "build:eleventy": "eleventy -- --env=production",
-    "build:analyzer": "webpack --mode=production --profile --json dist/stats.json && webpack-bundle-analyzer dist/stats.json dist/bundles -s gzip -m static -r dist/stats.html"
+    "start": "nx run esl-website:start",
+    "build": "nx run esl-website:build",
+    "clean": "nx run esl-website:clean",
+    "lint": "nx run esl-website:lint"
   },
   "dependencies": {
     "@11ty/eleventy": "^3.1.0",

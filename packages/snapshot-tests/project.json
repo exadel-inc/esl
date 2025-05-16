@@ -1,25 +1,26 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "esl-e2e",
+  "projectType": "application",
   "targets": {
     "run": {
       "executor": "nx:run-commands",
       "options": {
         "command": "npx jest",
         "cwd": "packages/snapshot-tests"
-      },
-      "dependsOn": [
-        "^build"
-      ]
+      }
     },
     "run:update": {
       "executor": "nx:run-commands",
       "options": {
         "command": "npx jest -u",
         "cwd": "packages/snapshot-tests"
-      },
-      "dependsOn": [
-        "^build"
-      ]
+      }
+    },
+
+    "lint": {
+      "executor": "nx:noop",
+      "dependsOn": ["lint:eslint"]
     }
   }
 }

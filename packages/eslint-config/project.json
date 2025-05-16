@@ -1,0 +1,13 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "eslint-config",
+  "targets": {
+    "pack": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npm pack --pack-destination=../../target/",
+        "cwd": "packages/eslint-config"
+      }
+    }
+  }
+}
