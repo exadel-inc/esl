@@ -3,7 +3,7 @@
   
 | :clock10: Start time | :hourglass: Duration |
 | --- | ---: |
-|5/16/2025, 12:27:26 AM|21.05s|
+|5/16/2025, 12:34:05 AM|25.29s|
 
 | | :white_check_mark: Passed | :x: Failed | :construction: Todo | :white_circle: Total |
 | --- | ---: | ---: | ---:| ---: |
@@ -17,24 +17,24 @@
   ### tests/homepage.copyright.test.ts
 <table>
 <tr><th>Test</th><th>Status</th><th>Time</th></tr>
-<tr><td>Homepage footer manual validation: Check if the footer copyright contains correct version</td><td>:white_check_mark:</td><td>44ms</td></tr>
+<tr><td>Homepage footer manual validation: Check if the footer copyright contains correct version</td><td>:white_check_mark:</td><td>111ms</td></tr>
 <tr><td>Homepage footer manual validation: Check if the footer coypright contains correct year</td><td>:white_check_mark:</td><td>4ms</td></tr>
 </table>
 
 ### tests/test.feature
 <table>
 <tr><th>Test</th><th>Status</th><th>Time</th></tr>
-<tr><td>Feature: Test page looks fine: test page screen</td><td>:white_check_mark:</td><td>3.103s</td></tr>
+<tr><td>Feature: Test page looks fine: test page screen</td><td>:white_check_mark:</td><td>4.481s</td></tr>
 </table>
 
 ### tests/homepage.feature
 <table>
 <tr><th>Test</th><th>Status</th><th>Time</th></tr>
-<tr><td>Feature: Homepage looks fine: test homepage screen</td><td>:x:</td><td>4.356s</td></tr>
-<tr><td colspan="3"><img src="https://github.com/exadel-inc/esl/blob/diff-report/homepage.feature/feature-homepage-looks-fine-test-homepage-screen-diff.jpg?raw=true" alt="Test Diff feature-homepage-looks-fine-test-homepage-screen-diff.jpg"/></td></tr><tr><td>Feature: Homepage looks fine: test homepage screen on mobile</td><td>:x:</td><td>2.999s</td></tr>
-<tr><td colspan="3"><img src="https://github.com/exadel-inc/esl/blob/diff-report/homepage.feature/feature-homepage-looks-fine-test-homepage-screen-on-mobile-diff.jpg?raw=true" alt="Test Diff feature-homepage-looks-fine-test-homepage-screen-on-mobile-diff.jpg"/></td></tr><tr><td>Feature: Homepage looks fine: test homepage hamburger menu on mobile</td><td>:white_check_mark:</td><td>3.299s</td></tr>
-<tr><td>Feature: Homepage looks fine: test homepage footer on desktop</td><td>:white_check_mark:</td><td>2.602s</td></tr>
-<tr><td>Feature: Homepage looks fine: test homepage footer on mobile</td><td>:white_check_mark:</td><td>2.311s</td></tr>
+<tr><td>Feature: Homepage looks fine: test homepage screen</td><td>:x:</td><td>5.012s</td></tr>
+<tr><td colspan="3"><img src="https://github.com/exadel-inc/esl/blob/diff-report/homepage.feature/feature-homepage-looks-fine-test-homepage-screen-diff.jpg?raw=true" alt="Test Diff feature-homepage-looks-fine-test-homepage-screen-diff.jpg"/></td></tr><tr><td>Feature: Homepage looks fine: test homepage screen on mobile</td><td>:x:</td><td>3.127s</td></tr>
+<tr><td colspan="3"><img src="https://github.com/exadel-inc/esl/blob/diff-report/homepage.feature/feature-homepage-looks-fine-test-homepage-screen-on-mobile-diff.jpg?raw=true" alt="Test Diff feature-homepage-looks-fine-test-homepage-screen-on-mobile-diff.jpg"/></td></tr><tr><td>Feature: Homepage looks fine: test homepage hamburger menu on mobile</td><td>:white_check_mark:</td><td>3.311s</td></tr>
+<tr><td>Feature: Homepage looks fine: test homepage footer on desktop</td><td>:white_check_mark:</td><td>2.607s</td></tr>
+<tr><td>Feature: Homepage looks fine: test homepage footer on mobile</td><td>:white_check_mark:</td><td>2.268s</td></tr>
 </table>
 
 
