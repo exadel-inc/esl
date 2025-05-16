@@ -67,17 +67,15 @@ export class ESLCSSCarouselRenderer extends ESLCarouselRenderer {
 
   /** Processes animation. */
   public override async onAnimate(index: number, direction: ESLCarouselDirection): Promise<void> {
-    this.animating = true;
     const {$activeSlide} = this.$carousel;
+    const $nextSlide = this.$slides[index];
     if (!$activeSlide) throw new Error('[ESL] Carousel: no active slide');
 
-    const $nextSlide = this.$carousel.$slides[index];
-
+    this.animating = true;
     const to = direction === ESLCarouselDirection.NEXT ? 'forward' : 'backward';
-    const dir = direction === ESLCarouselDirection.NEXT ? 'right' : 'left';
-
+    $nextSlide.classList.add(to);
     $activeSlide.classList.add(to);
-    $nextSlide.classList.add(to, dir);
+
     await promisifyNextRender();
     await this.transitionDuration$$;
   }
@@ -122,6 +120,7 @@ export class ESLCSSCarouselRenderer extends ESLCarouselRenderer {
     } else {
       this.offset = 0;
     }
+
     await this.transitionDuration$$;
     this.setActive(this.currentIndex, {direction});
     this.$carousel.$$attr('shifted', false);
