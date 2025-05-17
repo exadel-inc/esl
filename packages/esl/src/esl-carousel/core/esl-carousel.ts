@@ -3,7 +3,7 @@ import {ESLBaseElement} from '../../esl-base-element/core';
 import {attr, boolAttr, ready, decorate, listen, memoize} from '../../esl-utils/decorators';
 import {isMatches} from '../../esl-utils/dom/traversing';
 import {microtask} from '../../esl-utils/async';
-import {parseBoolean, parseTime, sequentialUID} from '../../esl-utils/misc';
+import {parseBoolean, parseTime, sequentialUID, toCamelCase} from '../../esl-utils/misc';
 
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core';
@@ -47,7 +47,7 @@ export class ESLCarousel extends ESLBaseElement {
   @attr({defaultValue: 'false'}) public vertical: string | boolean;
 
   /** Duration of the single slide transition */
-  @attr({defaultValue: '250'}) public stepDuration: string;
+  @attr() public stepDuration: string;
 
   /** Container selector (supports traversing query). Carousel itself by default */
   @attr({defaultValue: ''}) public container: string;
@@ -143,7 +143,7 @@ export class ESLCarousel extends ESLBaseElement {
       memoize.clear(this, '$container');
       return this.updateStateMarkers();
     }
-    memoize.clear(this, `${attrName}Rule`);
+    memoize.clear(this, `${toCamelCase(attrName)}Rule`);
     this.update();
   }
 
