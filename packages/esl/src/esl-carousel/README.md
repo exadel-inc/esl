@@ -185,7 +185,7 @@ To fine-tune the layout you can use the following recipes:
     To define the space between the slides you can just use native flexbox `gap` property.
     The renderer is aware of the gap and will adjust the slide size and calculations accordingly.
   3. Transitions:
-     The renderer uses the JavaScript Animation API to animate slides. The only way to customize the transition is by setting the duration via the CSS variable `--esl-carousel-transition-duration`. 
+     The renderer uses the JavaScript Animation API to animate slides. The only way to customize the transition is by setting the duration via the CSS variable `--esl-carousel-step-duration`. 
      The carousel renderer reads the computed value of this CSS variable to determine the transition duration.
      In addition to using the CSS variable directly, you can also specify the `step-duration` attribute on the `<esl-carousel>` element. This attribute supports `ESLMediaRuleList` syntax, including definitions based on `media` attribute. 
      Technically, the `step-duration` attribute sets the transition duration CSS variable on the carousel root element during the animation step.
@@ -214,8 +214,8 @@ Note that the Grid renderer is more restrictive in terms of the slide size defin
 Uses the `ESLCSSCarouselRenderer` implementation.
 This renderer does not apply any JavaScript-based animation logic. It relies entirely on CSS-defined transitions and animations.
 
-> **Note:** This renderer does not listen for specific transition or animation events. Therefore, the animation duration must be explicitly defined using the `--esl-carousel-transition-duration` CSS variable.
-It is also good practice to define the `--esl-carousel-transition-timing-function` CSS variable within your animation. This enables duration customization via the `step-duration` attribute as well.
+> **Note:** This renderer does not listen for specific transition or animation events. Therefore, the animation duration must be explicitly defined using the `--esl-carousel-step-duration` CSS variable.
+It is also good practice to use the `--esl-carousel-step-duration` CSS variable within your animation. This enables duration customization via the `step-duration` attribute as well.
 
 Animations can make use of global markers such as `active`, `pre-active`, `next`, and `prev` attributes, as well as the `animating` state attribute on the carousel element.
 
