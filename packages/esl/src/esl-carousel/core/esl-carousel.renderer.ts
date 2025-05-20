@@ -12,7 +12,7 @@ import type {ESLCarouselSlideEventInit} from './esl-carousel.events';
 import type {ESLCarouselActionParams, ESLCarouselConfig, ESLCarouselNavInfo} from './esl-carousel.types';
 
 export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
-  /** CSS variable name fo set transition duration */
+  /** CSS variable name to set transition duration */
   public static readonly TRANSITION_DURATION_PROP = '--esl-carousel-transition-duration';
 
   public static is: string;

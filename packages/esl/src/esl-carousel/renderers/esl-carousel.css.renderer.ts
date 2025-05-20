@@ -12,8 +12,8 @@ export class ESLCSSCarouselRenderer extends ESLCarouselRenderer {
 
   public static readonly NEXT_SLIDE_TOLERANCE = 0.25;
 
-  public static readonly OFFSET_PROP = '--esl-carousel-move-offset';
-  public static readonly OFFSET_ABS_PROP = '--esl-carousel-move-abs';
+  public static readonly OFFSET_PROP = '--esl-carousel-offset';
+  public static readonly OFFSET_PROP_REL = '--esl-carousel-offset-ratio';
 
   /** Active index */
   protected currentIndex: number = 0;
@@ -29,11 +29,11 @@ export class ESLCSSCarouselRenderer extends ESLCarouselRenderer {
   protected set offset(offset: number) {
     if (offset) {
       const abs = Math.min(1, Math.abs(offset) / this.tolerance);
-      this.$area.style.setProperty(ESLCSSCarouselRenderer.OFFSET_PROP, `${offset}px`);
-      this.$area.style.setProperty(ESLCSSCarouselRenderer.OFFSET_ABS_PROP, String(abs));
+      this.$area.style.setProperty(ESLCSSCarouselRenderer.OFFSET_PROP, `${offset.toFixed(1)}px`);
+      this.$area.style.setProperty(ESLCSSCarouselRenderer.OFFSET_PROP_REL, abs.toFixed(4));
     } else {
       this.$area.style.removeProperty(ESLCSSCarouselRenderer.OFFSET_PROP);
-      this.$area.style.removeProperty(ESLCSSCarouselRenderer.OFFSET_ABS_PROP);
+      this.$area.style.removeProperty(ESLCSSCarouselRenderer.OFFSET_PROP_REL);
     }
   }
 
