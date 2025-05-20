@@ -52,6 +52,18 @@ aside:
         </ul>
       </script>
 
+      <script type="text/html"
+              label="Repeat animation with custom config"
+              uip-snippet
+              uip-snippet-js="js-snippet-animate-mixin">
+        <ul class="round simple-grid simple-grid-list" style="gap: 100px">
+          {% for i in range(0, 5) -%}
+            <li class="simple-grid-cell bg-blue round esl-animate-fade"
+                esl-animate="{repeat: true, ratio: 1}"></li>
+          {% endfor %}
+        </ul>
+      </script>
+
       <script id="js-snippet-animate-element" type="text/plain">
         import { ESLAnimate } from '@exadel/esl';
         ESLAnimate.register();
@@ -62,18 +74,18 @@ aside:
       </script>
 
       <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
-      <uip-preview></uip-preview>
-      <uip-settings target=".simple-grid-cell" label="Settings" resizable vertical="@+sm">
-        <uip-select-setting label="Animation type:" attribute="class" mode="append">
+      <uip-preview style="max-height: 600px"></uip-preview>
+      <uip-settings label="Settings" resizable vertical="@+sm">
+        <uip-select-setting target=".simple-grid-cell" label="Animation type:" attribute="class" mode="append">
           <option value="esl-animate-fade">Fade</option>
           <option value="esl-animate-slide up">Slide Up</option>
           <option value="esl-animate-slide left">Slide Left</option>
           <option value="esl-animate-slide down">Slide Down</option>
           <option value="esl-animate-slide right">Slide Right</option>
         </uip-select-setting>
-        <uip-bool-setting label="Repeat" attribute="repeat"></uip-bool-setting>
-        <uip-bool-setting label="Group" target="esl-animate" attribute="group"></uip-bool-setting>
-        <uip-slider-setting label="Animation delay:" target="esl-animate" attribute="group-delay" min="100" max="1000"></uip-slider-setting>
+        <uip-bool-setting target="esl-animate" label="Repeat" attribute="repeat"></uip-bool-setting>
+        <uip-bool-setting target="esl-animate" label="Group" attribute="group"></uip-bool-setting>
+        <uip-slider-setting target="esl-animate" label="Animation delay:" attribute="group-delay" min="100" max="1000"></uip-slider-setting>
       </uip-settings>
       <uip-editor label="Source code (HTML)" collapsible copy></uip-editor>
       <uip-editor source="js" label="Source code (JS)" collapsible collapsed copy></uip-editor>
