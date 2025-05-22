@@ -226,7 +226,7 @@ The renderer supports the move operation, but you must rely on one of the follow
 * `--esl-carousel-offset` – A CSS variable representing the move offset in pixels.
 * `--esl-carousel-offset-ratio` – A CSS variable representing the offset relative to the carousel size and move tolerance.
 
-By default, this renderer does not include any specific animation. However, a few built-in implementations are provided (see below).
+By default, this renderer does not include any specific animation. However, several built-in animation implementations are provided (detailed below).
 
 #### CSS Fade Renderer (type: `css-fade`)
 An extension of the default CSS renderer that provides fade animation styles for slide transitions.
