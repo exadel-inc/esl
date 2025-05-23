@@ -14,7 +14,7 @@
     "start": {
       "executor": "nx:run-commands",
       "dependsOn": [
-        "n"
+        "esl-website:build:assets"
       ],
       "options": {
         "commands": [
