@@ -1,6 +1,6 @@
 <a href="#uip-plugin" id="uip-plugin"></a>
 
-# UIPPlugin
+## UIPPlugin
 
 **UIPPlugin** - base class for all UIP elements.
 Should be used as a parent class for all custom plugins of UIP to correctly observe UIPRoot state.
@@ -18,7 +18,7 @@ provides access to [UIPRoot](src/core/README.md#uip-root).
 - **collapsed** - collapses the plugin by default.
 - **vertical** - sets vertical orientation for the plugin.
 
-## Processing markup changes
+### Processing markup changes
 
 ```typescript
 import {UIPPlugin} from './plugin';
@@ -33,7 +33,7 @@ class UIPComponent extends UIPPlugin {
 
 You can find a way of getting current markup in [UIPStateModel](src/core/README.md#uip-state-model) section.
 
-## Example
+### Example
 
 ```typescript
 import {UIPPlugin} from './plugin';
@@ -52,14 +52,14 @@ class UIPPreview extends UIPPlugin {
 
 <a href="#uip-root" id="uip-root"></a>
 
-# UIPRoot
+## UIPRoot
 
 **UIPRoot** - container for **UIPPlugin** components.
 
 **UIPRoot** contains [UIPStateModel](src/core/README.md#uip-state-model) and [UIPSnippets](src/plugins/snippets/README.md) getters. It also allows **UIPPlugin** elements
 to subscribe to model, snippets or theme changes (or unsubscribe from them). More details can be found in [UIPPlugin](src/core/README.md#uip-plugin) section.
 
-## Example
+### Example
 
 ```html
 <uip-root></uip-root>
@@ -69,7 +69,7 @@ to subscribe to model, snippets or theme changes (or unsubscribe from them). Mor
 
 <a href="#uip-state-model" id="uip-state-model"></a>
 
-# UIPStateModel
+## UIPStateModel
 
 **UIPStateModel** - state manager which contains current UIP state and provides methods for changing it.
 
@@ -111,7 +111,7 @@ current attribute value to the new one).
 
 The examples of using this API can be found in [UIPSetting](src/plugins/settings/README.md) implementations (e.g. [UIPBoolSetting](src/settings/bool-setting/README.md)).
 
-## Example
+### Example
 
 ```typescript
 import {UIPPlugin} from './plugin';

@@ -1,5 +1,3 @@
-# UIP Editor
-
 **UIPEditor** - UIP module to provide live-editor for current UIPlayground content. 
 Extends [UIPPlugin](src/core/README.md#uip-plugin).
 
