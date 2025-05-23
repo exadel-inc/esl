@@ -76,7 +76,7 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     this.$slides.forEach((el) => el.style.removeProperty('order'));
     this.$area.style.removeProperty('transform');
     this.$area.style.removeProperty(ESLDefaultCarouselRenderer.SIZE_PROP);
-    this.$carousel.$$attr('animating', false);
+    this.animating = false;
     this.$carousel.$$attr('active', false);
   }
 
@@ -93,19 +93,19 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
   }
 
   /** Animates scene offset to index */
-  protected async animateTo(index: number, duration = 250): Promise<void> {
+  protected async animateTo(index: number, duration: number): Promise<void> {
     this.currentIndex = this.normalizeIndex(index);
     const offset = -this.getOffset(this.currentIndex);
-    this.$carousel.$$attr('animating', true);
+    this.animating = true;
     await this.$area.animate({
       transform: [`translate3d(${this.vertical ? `0px, ${offset}px` : `${offset}px, 0px`}, 0px)`]
     }, {duration, easing: 'linear'}).finished;
-    this.$carousel.$$attr('animating', false);
+    this.animating =  false;
   }
 
   /** Pre-processing animation action. */
   public override async onBeforeAnimate(nextIndex: number, direction: ESLCarouselDirection, params: ESLCarouselActionParams): Promise<void> {
-    if (this.$carousel.hasAttribute('animating')) throw new Error('[ESL] Carousel: already animating');
+    if (this.animating) throw new Error('[ESL] Carousel: already animating');
     this.$carousel.$$attr('active', true);
   }
 
@@ -115,9 +115,9 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     this.currentIndex = activeIndex;
     if (!$slidesArea) return;
     const distance = normalize((nextIndex - activeIndex) * direction, this.size);
-    const speed = Math.min(1, this.count / distance);
+    const speed = Math.min(1, this.count / distance) * this.transitionDuration;
     while (this.currentIndex !== nextIndex) {
-      await this.onStepAnimate(direction * this.INDEX_MOVE_MULTIPLIER, params.stepDuration * speed);
+      await this.onStepAnimate(direction * this.INDEX_MOVE_MULTIPLIER, speed);
     }
   }
 
@@ -174,7 +174,7 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     const count = (amount - Math.floor(amount)) > tolerance ? Math.ceil(amount) : Math.floor(amount);
     const index = from + count * this.INDEX_MOVE_MULTIPLIER * (offset < 0 ? 1 : -1);
 
-    await this.animateTo(index);
+    await this.animateTo(index, this.transitionDuration);
 
     this.reorder();
     this.setTransformOffset(-this.getOffset(this.currentIndex));

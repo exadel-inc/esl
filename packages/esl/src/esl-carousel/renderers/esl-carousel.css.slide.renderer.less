@@ -1,0 +1,41 @@
+.esl-carousel-css-renderer.esl-carousel-css-slide {
+  [esl-carousel-slides] {
+    transform: translate3d(var(--esl-carousel-offset, 0), 0, 0);
+  }
+
+  &[animating] [esl-carousel-slide],
+  &[animating] [esl-carousel-slides] {
+    transition: transform var(--esl-carousel-step-duration) linear;
+  }
+
+  [esl-carousel-slide][active],
+  [esl-carousel-slide][pre-active] {
+    transform: translate3d(0, 0, 0);
+  }
+
+  [esl-carousel-slide].forward {
+    transform: translate3d(-100%, 0, 0);
+  }
+
+  [esl-carousel-slide].backward {
+    transform: translate3d(100%, 0, 0);
+  }
+
+  [esl-carousel-slide][pre-active] {
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+
+  [esl-carousel-slide][pre-active].right {
+    left: 100%;
+  }
+
+  [esl-carousel-slide][active] {
+    left: 0;
+  }
+
+  [esl-carousel-slide][pre-active].left {
+    left: -100%;
+  }
+}
