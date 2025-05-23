@@ -17,9 +17,7 @@
   "main": "index.js",
   "sideEffects": false,
   "scripts": {
-    "test": "",
-    "lint": "",
-    "pack": "npm pack --pack-destination ../../target/"
+    "pack": "nx run eslint-config:pack"
   },
   "dependencies": {
     "@eslint/js": "^9.25.0",
@@ -28,8 +26,8 @@
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-sonarjs": "^3.0.2",
     "eslint-plugin-tsdoc": "^0.4.0",
-    "globals": "^16.0.0",
-    "typescript-eslint": "^8.31.0"
+    "globals": "^16.1.0",
+    "typescript-eslint": "^8.32.1"
   },
   "peerDependencies": {
     "eslint": ">=9.0.0"
