@@ -1,4 +1,4 @@
-### Installation
+## Installation
 
 Install UIPlayground [npm dependency](https://www.npmjs.com/package/@exadel/ui-playground)
    ```bash
@@ -16,7 +16,7 @@ Import CSS styles
 
 ---
 
-### Project Structure
+## Project Structure
 
 UI playground components are divided into two main categories: **Core Components** and **Plugins**. The whole list of available components is described [here](/playground/components/).
 

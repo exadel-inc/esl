@@ -1,55 +1,5 @@
 {% from 'navigation/sidebar-item.njk' import navItem with context %}
 
-<style>
-  .gradient-hr {
-      display: list-item;
-      border: none;
-      height: 1px;
-      width: 100%;
-      background: linear-gradient(to right, rgba(56, 56, 56, 1), rgba(56, 56, 56, 0));
-      position: relative;
-      z-index: 1;
-  }
-
-  .gradient-hr-center {
-    display: list-item;
-    position: relative;
-
-    border: none;
-    height: 1px;
-    width: 100%;
-    margin: 1rem auto;
-    background: linear-gradient(to right, 
-    rgba(255, 255, 255, 0), rgba(56, 56, 56, 1), rgba(255, 255, 255, 0));
-
-  }
-
-  .gradient-hr-glow::before {
-      content: '';
-      position: absolute;
-      top: -4px;
-      left: 0;
-      width: 100%;
-      height: 8px;
-      background: linear-gradient(to right, rgba(56, 56, 56, 1), rgba(56, 56, 56, 0));
-      filter: blur(4px);
-      z-index: 0;
-  }
-
-  .gradient-hr-center-glow::before {
-      content: '';
-      position: absolute;
-      top: -4px;
-      left: 0;
-      width: 100%;
-      height: 8px;
-      background: linear-gradient(to right, 
-    rgba(255, 255, 255, 0),rgba(56, 56, 56, 1), rgba(255, 255, 255, 0));
-      filter: blur(2px);
-      z-index: 0;
-  }
-</style>
-
 <esl-d-sidebar id="sidebar" class="open" aria-label="Site Navigation">
   <nav class="sidebar-nav">
     <a class="sidebar-heading" href="{{ '/' | url }}">
@@ -74,16 +24,17 @@
           </div>
         </li>
 
-        {% for item in collections.nav | sortBy('order') %}
+        {% set nav = collections.nav | sortBy('order') %}
+        {% for item in nav %}
           {% set isNoEmpty = collections[item.data.collection] | released | exclude('data.collection') | length %}
           {% set isActive = env.isDev or functions.isActivePath(page.url, item.data.collection) %}
+        
+          {% if (isNoEmpty or (isNoEmpty and isActive)) %}
+            {% set coreTag = 'core-collection'%}
+            {% set isLast = nav[loop.index0 + 1].data[coreTag] != item.data[coreTag] %}
+            {% set isFirst = nav[loop.index0 - 1].data[coreTag] != item.data[coreTag] %}
 
-          {% if (isNoEmpty or (isNoEmpty and isActive)) and ('subnav' not in item.data.tags) %}
-            {{ navItem (item.data.title, item.data.collection, item.data.icon) }}
-          {% endif %}
-
-          {% if item.data.collection === 'examples' or item.data.collection === 'blogs' or item.data.collection === 'playground'  %}
-            <hr class="gradient-hr" />
+            {{ navItem (item.data.title, item.data.collection, item.data.icon, isLast, isFirst) }}
           {% endif %}
         {% endfor %}
 

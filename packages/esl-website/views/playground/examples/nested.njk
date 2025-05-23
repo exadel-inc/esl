@@ -2,39 +2,42 @@
   layout: content
   title: Example with a playground that contains playground inside
   seoTitle: UI Playground example with a playground that contains playground inside
-  name: Nested
-  parent: 'Examples'
-  order: 4
+  name: Nested Playgrounds
+  parent: 'Playground Examples'
+  order: 3
   tags: [playground, playground-examples]
 ---
+
+<p> This example demonstrates UI Playground’s capability to nest one playground instance within another while preserving full functionality for code modification </p>
 
 <uip-snippets root="::next"></uip-snippets>
 <uip-root>
   <script type="text/html" uip-snippet label="Playground">
     <uip-root>
       <uip-snippets class="uip-toolbar"></uip-snippets>
+
       <uip-preview></uip-preview>
       <template uip-snippet label="List of aqua cards">
-        <div class="card-list">
-          <div class="card-item aqua">Card #1</div>
-          <div class="card-item aqua">Card #2</div>
-          <div class="card-item aqua">Card #3</div>
+        <div class="uip-d-card-list">
+          <div class="uip-d-card-item aqua">Card #1</div>
+          <div class="uip-d-card-item aqua">Card #2</div>
+          <div class="uip-d-card-item aqua">Card #3</div>
         </div>
       </template>
       <template uip-snippet label="Long list of red cards containing seven items" wrap-items>
-        <div class="card-list">
-          <div class="card-item red">Card #1</div>
-          <div class="card-item red">Card #2</div>
-          <div class="card-item red">Card #3</div>
-          <div class="card-item red">Card #4</div>
-          <div class="card-item red">Card #5</div>
-          <div class="card-item red">Card #6</div>
-          <div class="card-item red">Card #7</div>
+        <div class="uip-d-card-list">
+          <div class="uip-d-card-item red">Card #1</div>
+          <div class="uip-d-card-item red">Card #2</div>
+          <div class="uip-d-card-item red">Card #3</div>
+          <div class="uip-d-card-item red">Card #4</div>
+          <div class="uip-d-card-item red">Card #5</div>
+          <div class="uip-d-card-item red">Card #6</div>
+          <div class="uip-d-card-item red">Card #7</div>
         </div>
       </template>
-      <uip-settings target=".card-list" vertical dir-toggle theme-toggle>
-        <uip-select-setting label="Card color:" target=".card-item" attribute="class" mode="append">
-          <option value="red">Red</option>
+      <uip-settings target=".uip-d-card-list" vertical dir-toggle theme-toggle>
+        <uip-select-setting label="Card color:" target=".uip-d-card-item" attribute="class" mode="append">
+          <option value="red">Orange</option>
           <option value="aqua">Aqua</option>
           <option value="green">Green</option>
         </uip-select-setting>
@@ -44,10 +47,10 @@
     </uip-root>
   </script>
   <script type="text/html" uip-snippet label="List of aqua cards">
-    <div class="card-list">
-      <div class="card-item aqua">Card #1</div>
-      <div class="card-item aqua">Card #2</div>
-      <div class="card-item aqua">Card #3</div>
+    <div class="uip-d-card-list">
+      <div class="uip-d-card-item aqua">Card #1</div>
+      <div class="uip-d-card-item aqua">Card #2</div>
+      <div class="uip-d-card-item aqua">Card #3</div>
     </div>
   </script>
   <uip-preview resizable></uip-preview>
