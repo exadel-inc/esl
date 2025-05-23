@@ -40,20 +40,10 @@
   },
   "homepage": "https://github.com/exadel-inc/esl/tree/main/packages/ui-playground",
   "scripts": {
-    "clean": "rimraf dist",
-    "build": "npm run clean && npm run build:less && npm run build:ts",
-    "build:ts": "tsc --project tsconfig.json",
-    "build:less": "npm run build:less:cpy && npm run build:less:css",
-    "build:less:cpy": "copyfiles -u 1 \"./src/**/*.less\" \"dist\"",
-    "build:less:css": "findx \"dist/{*,*/*}.less\" \"lessc {{path}} {{dir}}/{{name}}.css\"",
-    "watch": "concurrently npm:watch:*",
-    "watch:ts": "tsc --project tsconfig.json --watch",
-    "watch:less": "chokidar --initial \"src/**/*.less\" -c \"npm run build:less\"",
-    "lint": "concurrently npm:lint:*",
-    "lint:js": "eslint src/**/*.ts",
-    "lint:css": "stylelint src/**/*.less",
-    "test": "",
-    "pack": "npm pack --pack-destination ../../target/"
+    "clean": "nx run uip:clean",
+    "build": "nx run uip:build",
+    "watch": "nx run uip:watch",
+    "pack": "nx run uip:pack"
   },
   "dependencies": {
     "@exadel/esl": "../esl",

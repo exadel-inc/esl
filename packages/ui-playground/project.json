@@ -1,0 +1,119 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "uip",
+  "targets": {
+    "clean": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "rimraf dist",
+        "cwd": "packages/ui-playground"
+      },
+      "cache": false,
+      "outputs": []
+    },
+
+    "build": {
+      "executor": "nx:noop",
+      "dependsOn": [
+        "build:ts",
+        "build:less"
+      ]
+    },
+    "watch": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          {"command": "nx run uip:watch:ts", "prefix": "[UIP watch:ts]"},
+          {"command": "nx run uip:watch:less", "prefix": "[UIP watch:less]"}
+        ],
+        "cwd": "packages/ui-playground",
+        "parallel": true
+      }
+    },
+
+    "build:ts": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "rimraf -g \"dist/**/*.{js,ts}\"",
+          "tsc --project tsconfig.json",
+          "nodetouch \"dist/.ts.done\""
+        ],
+        "parallel": false,
+        "cwd": "packages/ui-playground"
+      },
+      "cache": true,
+      "inputs": [
+        "{projectRoot}/src/**/*.ts",
+        "{projectRoot}/tsconfig.json"
+      ],
+      "outputs": [
+        "{projectRoot}/dist/**/*.js",
+        "{projectRoot}/dist/**/*.d.ts",
+        "{projectRoot}/dist/.ts.done"
+      ]
+    },
+    "watch:ts": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc --project tsconfig.json --watch",
+        "cwd": "packages/ui-playground"
+      }
+    },
+
+    "build:less": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "cpy \"src/**/*.less\" \"dist\" --parents --clean",
+          "findx \"dist/{*,*/*}.less\" \"lessc {{path}} {{dir}}/{{name}}.css\"",
+          "nodetouch \"dist/.less.done\""
+        ],
+        "cwd": "packages/ui-playground",
+        "parallel": false
+      },
+      "cache": true,
+      "inputs": [
+        "{projectRoot}/src/**/*.css",
+        "{projectRoot}/src/**/*.less"
+      ],
+      "outputs": [
+        "{projectRoot}/dist/**/*.css",
+        "{projectRoot}/dist/**/*.less",
+        "{projectRoot}/dist/.less.done"
+      ]
+    },
+    "watch:less": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "chokidar \"src/**/*.less\" -c \"nx run uip:build:less\"",
+        "cwd": "packages/ui-playground"
+      }
+    },
+
+    "lint": {
+      "executor": "nx:noop",
+      "dependsOn": ["lint:eslint", "lint:stylelint"]
+    },
+    "lint:stylelint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "stylelint \"src/**/*.less\"",
+        "cwd": "packages/ui-playground"
+      },
+      "cache": true,
+      "inputs": [
+        "{projectRoot}/src/**/*.less",
+        "{projectRoot}/.stylelint.yml"
+      ]
+    },
+
+    "pack": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npm pack --pack-destination=../../target/",
+        "cwd": "packages/ui-playground"
+      }
+    }
+  }
+}
