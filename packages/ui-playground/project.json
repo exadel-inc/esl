@@ -33,6 +33,7 @@
 
     "build:ts": {
       "executor": "nx:run-commands",
+      "dependsOn": ["^build:ts"],
       "options": {
         "commands": [
           "rimraf -g \"dist/**/*.{js,ts}\"",
@@ -63,6 +64,7 @@
 
     "build:less": {
       "executor": "nx:run-commands",
+      "dependsOn": ["^build:less"],
       "options": {
         "commands": [
           "cpy \"src/**/*.less\" \"dist\" --parents --clean",
