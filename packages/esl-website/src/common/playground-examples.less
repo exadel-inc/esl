@@ -1,0 +1,33 @@
+.uip-d-card-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  max-width: 600px;
+  margin: 0 auto;
+
+  .uip-d-card-item {
+    padding: 1em;
+    margin: 0.5em;
+    color: white;
+    flex: 1 1 150px;
+    text-align: center;
+
+    border-radius: 10px;
+    border: 5px solid;
+
+    &.red {
+      background-color: @primary-orange;
+      border-color: @primary-orange-dark;
+    }
+
+    &.aqua {
+      background-color: @secondary-blue;
+      border-color: @primary-blue;
+    }
+
+    &.green {
+      background-color: @primary-green;
+      border-color: @primary-green-dark;
+    }
+  }
+}

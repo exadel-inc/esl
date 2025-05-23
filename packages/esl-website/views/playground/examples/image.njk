@@ -1,31 +1,38 @@
 ---
   layout: content
-  title: Example with image
-  seoTitle: UI Playground example with image
-  name: Image
-  parent: 'Examples'
-  order: 1
+  title: Example with images
+  seoTitle: UI Playground example with images
+  name: Image Playground
+  parent: 'Playground Examples'
+  order: 2
   tags: [playground, playground-examples]
 ---
+
+<p>
+  This example demonstrates the built-in functionality of snippet notes, aswell as various playground plug-in settings.
+</p>  
+<p>
+  if the dropdown arrow on top left is clicked, the list of all snippets will be shown. The image example is a snippet with a note, which can be used to provide additional information about the snippet. The second example is an image link, which can be used to create a clickable image that links to another page.
+</p>
 
 <uip-root editor-collapsed>
   <div class="uip-toolbar">
     <uip-snippets dropdown-view="all"></uip-snippets>
     <uip-theme-toggle></uip-theme-toggle>
   </div>
-  <script type="text/html" uip-snippet-note="snippet-note1" uip-snippet uip-isolated label="Example with image">
-    <img class="demo-img" alt="patrick" src="{{ '/assets/patrick.png' | url }}" height="500" width="500">
+  <script type="text/html" uip-snippet-note="snippet-note1" uip-snippet uip-isolated label="Image example">
+    <img class="demo-img" alt="volcano" src="{{ '/assets/nature/volcano.jpg' | url }}" height="561" width="1090">
   </script>
   <script type="text/html" uip-snippet-note="snippet-note2" uip-snippet label="Example with image link">
     <a class="img-link" href="https://www.google.com/">
-      <img class="demo-img" alt="patrick2" src="{{ '/assets/patrick.png' | url }}" height="500" width="500">
+      <img class="demo-img" alt="forest" src="{{ '/assets/nature/forest+clouds.jpg' | url }}" height="453" width="686">
     </a>
   </script>
   <script id="snippet-note1" type="text/html">
-    Snippet note 1
+    Snippet Note 1
   </script>
   <script id="snippet-note2" type="text/html">
-    Snippet note 2
+    Snippet Note 2
   </script>
   <uip-note></uip-note>
   <uip-preview></uip-preview>

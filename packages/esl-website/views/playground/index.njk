@@ -1,190 +1,69 @@
 ---
   layout: content
   title: Playground
-  seoTitle: UI Playground
-  name: Playground
   order: 11
-  tags: [nav, playground-landing]
+  tags: [nav]
 
+  containerCls: uip typo-large
+  landing: true
+  core-collection: playground
   collection: playground
-  icon: sidebar/playground-logo.svg
+
+  icon: sidebar/playground.svg
   eleventyImport:
     collections: ["playground"]
 ---
 
-<style>
-  .playground-background-logo {
-    right: 0%;
-    z-index: -1;
-    stroke: #00a2ff;
-    position: fixed;
-    pointer-events: none;
-    top: 0;
-    height: 50%;
-    width: 50%;
-    opacity: .05;
-  }
-
-  .playground-marquee {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem 0;
-    margin-bottom: 1.5rem;
-
-    position: relative;
-    flex-direction: column;
-    min-height: 50vh;
-    break-inside: avoid-page;
-
-    .playground-logo {
-      font-size: 5rem;
-      font-weight: 500;
-
-      display:flex;
-      color: #0f3460;
-      border: 0.1em solid #0f3460;
-      padding: 1rem;
-      border-radius: 20px;
-    }
-  }
-
-  .playground-description {
-    text-align: center;
-    line-height: 1.6;
-    margin: 1.5rem auto;
-  }
-
-  .playground-section {
-    padding: 2rem;
-
-    h2 {
-      text-align: center;
-      color: #0f3460;
-    }
-
-    ul {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 3rem;
-      list-style-type: none;
-      padding: 0;
-    }
-
-    li {
-      background-color: #ffffff;
-      padding: 1.5rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-  }
-
-  .playground-typewriter {
-    overflow: hidden;
-    white-space: nowrap;
-    display: inline-block;
-    position: relative;
-    width: 0;
-    animation: typewriter 10s steps(12) infinite normal both, blink-caret 0.75s step-end infinite;
-    border-right: 0.1em solid #0f3460;
-  }
-
-  @keyframes typewriter {
-    0%, 5% {
-      width: 0;
-    }
-
-    15%, 40% {
-      width: 6.5em;
-    }
-    
-    45%, 70% {
-      width: 6.5em;
-    }
-    
-    80%, 95% {
-      width: 0;
-    }
-
-    100% {
-      width: 0;
-    }
-  }
-
-  @keyframes blink-caret {
-    from, to {
-      border-color: transparent;
-    }
-    50% {
-      border-color:#0f3460;
-    }
-  }
-</style>
-
-<div class="playground-background-logo">
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 242 242">
-  <path 
-    d="M 237,121 A 116,116 0 1,1 5,121 A 116,116 0 1,1 237,121 M 225,121 A 96,96 0 1,0 17,121 A 96,96 0 1,0 225,121 Z" stroke-width="1" fill="none"/>
-  <path
-    d="M77.308 93.97 50.53 120.75l26.95 26.949a8 8 0 0 1-11.315 11.314l-32.508-32.509a8 8 0 0 1 0-11.313c.418-.418.87-.78 1.348-1.086a8.028 8.028 0 0 1 1.37-1.827l29.62-29.62A8 8 0 0 1 77.308 93.97ZM143.992 97.124l-13.856-8-30 51.962 13.856 8 30-51.962ZM99.136 142.818l13.856 8-14.928 9.856 1.073-17.856ZM144.064 81a8 8 0 0 0-10.928 2.928l-2 3.464 13.856 8 2-3.464A7.998 7.998 0 0 0 144.064 81ZM207.124 127.564a8 8 0 0 0 1.348-12.398l-32.509-32.51a8 8 0 0 0-11.314 11.315l26.95 26.949-26.778 26.778a8 8 0 0 0 11.313 11.314l29.621-29.62a8.007 8.007 0 0 0 1.369-1.828Z" stroke-width="1" fill="none"/>
-  </svg>
-</div>
-
-<div class="playground-marquee">
-  <div class="playground-logo">
-    <span class="playground-brackets">&lt;</span>
-      <span class="playground-typewriter">
-        UI Playground
-      </span>
-    <span>&gt;</span>
+<div class="uip-marquee">
+  <div class="uip-logo">
+    &lt;
+      <span class="uip-logo-typewriter">UI Playground</span>
+    &gt;
   </div>
+  <p class="uip-description">{{playground.marquee.description}}</p>
 </div>
 
-<p class="playground-description">
-  UI Playground is a library designed to enable developers to present, play with, and demonstrate various components. 
-  It provides a structured interface to manipulate component settings, adjust markup, and showcase visual outputs in a controlled environment.
-</p>
+<br/>
 
-<div class="playground-section">
-  <h2>Why UI Playground?</h2>
-  <ul>
-    <li>Seamless display of components with structured formatting.</li>
-    <li>Real-time HTML and component setting adjustments.</li>
-    <li>Interactive configuration for component behavior and appearance.</li>
-    <li>Plugin support for extended functionality.</li>
-    <li>Instant preview of adjustments with live updates.</li>
-    <li>Support for core components and optional plugins.</li>
-    <li>Organized, reusable component architecture.</li>
-    <li>Access to comprehensive documentation and guides.</li>
+<div class="uip-benefits">
+  <h2>{{playground.benefits.title}}</h2>
+  <esl-animate target="::next::child" group></esl-animate>
+  <ul class="uip-benefits-list">
+    {% for item in playground.benefits.items %}
+      <li class="uip-benefits-list-item esl-animate-slide left">
+        {{ item.text }}
+      </li>
+    {% endfor %}
   </ul>
 </div>
 
+<br/>
 
-<div class="playground-section">
-  <h2>Try it yourself!</h2>
+<div class="uip-demo">
+  <h2>{{playground.demo.title}}</h2>
+  <p> {{playground.demo.description}} </p>
 
-  <uip-root editor-collapsed>
+  <uip-root store-key='uip-landing' editor-collapsed>
     <script type="text/html" uip-snippet label="Logo">
-      <div class="logo-content gray-clr">
-        <a class="get-started" href="{{ '/general/getting-started/' | url }}">
-          <span>Get Started with UI Playground</span>
-          <div>
-            <svg width="100" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 268 268">
-              <circle cx="135" cy="134" r="116" fill="none" stroke-width="10"/>
-              <path d="M91.308 106.971 64.53 133.749l26.95 26.949a8 8 0 0 1-11.315 11.314l-32.508-32.509a8 8 0 0 1 0-11.313c.418-.418.87-.78 1.348-1.086a8.028 8.028 0 0 1 1.37-1.827l29.62-29.62a8 8 0 0 1 11.313 11.314ZM157.992 110.124l-13.856-8-30 51.962 13.856 8 30-51.962ZM113.136 155.818l13.856 8-14.928 9.856 1.072-17.856ZM158.064 94a8 8 0 0 0-10.928 2.928l-2 3.464 13.856 8 2-3.464A7.999 7.999 0 0 0 158.064 94ZM221.124 140.564a8 8 0 0 0 1.348-12.398l-32.509-32.51a8 8 0 0 0-11.314 11.315l26.95 26.949-26.778 26.778a8 8 0 0 0 11.313 11.314l29.621-29.62a8.007 8.007 0 0 0 1.369-1.828Z"/>
-            </svg>
-          </div>
+      <div class="logo-content">
+        <a class="get-started blue-clr" href="{{ '/playground/introduction/' | url }}">
+          <span>Get started with</span>
+            {% set snippetContent %}
+              {% include 'static/assets/sidebar/playground.svg' %}
+            {% endset %}
+            {{ snippetContent | replace('<svg', '<svg width="100"') | safe }}
         </a>
       </div>
     </script>
-    <uip-preview class="fill center-alignment"></uip-preview>
+    <uip-preview></uip-preview>
 
-    <uip-settings resizable collapsible vertical="@+sm" target=".logo-content" theme-toggle dir-toggle>
-      <uip-slider-setting label="Width:" target=".logo-content svg" attribute="width" min="50" max="150"></uip-slider-setting>
-      <uip-select-setting label="Color:" attribute="class" mode="append">
-        <option value="gray-clr">Dark gray</option>
-        <option value="blue-clr">Blue</option>
-        <option value="purple-clr">Purple</option>
+    <uip-settings resizable collapsible vertical="@+sm" target=".logo-content" theme-toggle>
+      <uip-slider-setting label="Width:" target=".get-started svg" attribute="width" min="50" max="150"></uip-slider-setting>
+
+      <uip-select-setting label="Color:" attribute="class" target=".get-started" mode="append">
+        <option value="orange">Orange</option>
+        <option value="blue">Blue</option>
+        <option value="green">Green</option>
       </uip-select-setting>
     </uip-settings>
 
