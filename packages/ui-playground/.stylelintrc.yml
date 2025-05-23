@@ -1,0 +1,5 @@
+# Use LESS preprocessor
+customSyntax: postcss-less
+
+extends:
+  - '@exadel/stylelint-config-esl'
