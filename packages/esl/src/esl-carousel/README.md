@@ -185,7 +185,10 @@ To fine-tune the layout you can use the following recipes:
     To define the space between the slides you can just use native flexbox `gap` property.
     The renderer is aware of the gap and will adjust the slide size and calculations accordingly.
   3. Transitions:
-    The renderer utilizes JS Animation API to animate the slides. The only way to customize the transition timing is to use the `step-duration` attribute on the `esl-carousel` element.
+     The renderer uses the JavaScript Animation API to animate slides. The only way to customize the transition is by setting the duration via the CSS variable `--esl-carousel-step-duration`. 
+     The carousel renderer reads the computed value of this CSS variable to determine the transition duration.
+     In addition to using the CSS variable directly, you can also specify the `step-duration` attribute on the `<esl-carousel>` element. This attribute supports `ESLMediaRuleList` syntax, including definitions based on `media` attribute. 
+     Technically, the `step-duration` attribute sets the transition duration CSS variable on the carousel root element during the animation step.
   4. Siblings visibility and overflow:
     The CSS overflow property is set to `clip`(or `hidden` for legacy browsers) on the `esl-carousel` element to hide out of view slides.
     However, the start position and calculations are based on `esl-carousel-slides` container element.
@@ -197,11 +200,41 @@ To fine-tune the layout you can use the following recipes:
     Note that if you use siblings visibility effect, you will not see the last slide before the first one in the loop mode unless backward animation is playing.
     However, this option could be useful to limit CLS issues, when content of the slide is heavy (e.g. `esl-media` with the fill option).
 
+- #### Centered (type: `centered`) Renderer
+An extension of the default renderer that centers the active slide in the carousel.
+Does not have any critical configurational or functional differences from the default renderer except the process of offset calculation.
+
 - #### Grid (type: `grid`) Renderer <i class="badge badge-sup badge-warning">beta</i>
 The grid renderer for ESL Carousel is based on the Default renderer but uses the CSS Grid layout to display slides.
 Unlike the Default renderer, the Grid renderer displays multiple rows (horizontal case) or columns (vertical case) of slides.
 
 Note that the Grid renderer is more restrictive in terms of the slide size definition. Unlike the Default renderer, the Grid renderer does not support relative sizes for the slides (grid layout liitations).
+
+#### Default CSS Renderer (type: `css`)
+Uses the `ESLCSSCarouselRenderer` implementation.
+This renderer does not apply any JavaScript-based animation logic. It relies entirely on CSS-defined transitions and animations.
+
+> **Note:** This renderer does not listen for specific transition or animation events. Therefore, the animation duration must be explicitly defined using the `--esl-carousel-step-duration` CSS variable.
+It is also good practice to use the `--esl-carousel-step-duration` CSS variable within your animation. This enables duration customization via the `step-duration` attribute as well.
+
+Animations can make use of global markers such as `active`, `pre-active`, `next`, and `prev` attributes, as well as the `animating` state attribute on the carousel element.
+
+Additionally, the renderer provides the CSS classes `left`, `right`, `forward`, and `backward` on affected slides to help define animation direction.
+
+The renderer supports the move operation, but you must rely on one of the following CSS variables and markers:
+* `shifted` – A root element attribute added to the carousel element when the move operation is not committed.
+* `--esl-carousel-offset` – A CSS variable representing the move offset in pixels.
+* `--esl-carousel-offset-ratio` – A CSS variable representing the offset relative to the carousel size and move tolerance.
+
+By default, this renderer does not include any specific animation. However, several built-in animation implementations are provided (detailed below).
+
+#### CSS Fade Renderer (type: `css-fade`)
+An extension of the default CSS renderer that provides fade animation styles for slide transitions.
+Supports move operations relative to the carousel size and move tolerance.
+
+#### CSS Slide Renderer (type: `css-slide`)
+An extension of the default CSS renderer that provides sliding animation styles for slide transitions.
+Supports move operations based on absolute pixel offset.
 
 - #### None (type: `none`) Renderer
 The none renderer for ESL Carousel is a dummy renderer that does not change the slides layout and assumes that all the slides are visible at once.

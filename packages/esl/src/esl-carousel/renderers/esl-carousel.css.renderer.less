@@ -1,0 +1,18 @@
+.esl-carousel-css-renderer {
+  [esl-carousel-slides] {
+    display: block;
+    position: relative;
+    width: 100%;
+  }
+
+  [esl-carousel-slide] {
+    position: relative;
+    display: none;
+    backface-visibility: hidden;
+  }
+
+  [esl-carousel-slide][active],
+  [esl-carousel-slide][pre-active] {
+    display: block;
+  }
+}

@@ -1,5 +1,7 @@
 import {memoize} from '../../esl-utils/decorators';
 import {isEqual} from '../../esl-utils/misc/object';
+import {parseTime} from '../../esl-utils/misc/format';
+import {promisifyTimeout} from '../../esl-utils/async/promise/timeout';
 import {SyntheticEventTarget} from '../../esl-utils/dom';
 import {ESLCarouselDirection} from './esl-carousel.types';
 import {ESLCarouselSlideEvent} from './esl-carousel.events';
@@ -10,6 +12,9 @@ import type {ESLCarouselSlideEventInit} from './esl-carousel.events';
 import type {ESLCarouselActionParams, ESLCarouselConfig, ESLCarouselNavInfo} from './esl-carousel.types';
 
 export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
+  /** CSS variable name to set transition duration */
+  public static readonly TRANSITION_DURATION_PROP = '--esl-carousel-step-duration';
+
   public static is: string;
   public static classes: string[] = [];
 
@@ -61,6 +66,29 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
   /** @returns {@link ESLCarousel} `$slides` */
   public get $slides(): HTMLElement[] {
     return this.$carousel.$slides || [];
+  }
+
+  protected get animating(): boolean {
+    return this.$carousel.hasAttribute('animating');
+  }
+  protected set animating(value: boolean) {
+    this.$carousel.toggleAttribute('animating', value);
+  }
+
+  protected get transitionDuration(): number {
+    const name = ESLCarouselRenderer.TRANSITION_DURATION_PROP;
+    const duration = getComputedStyle(this.$area).getPropertyValue(name);
+    return parseTime(duration);
+  }
+  protected set transitionDuration(value: number | null) {
+    if (typeof value === 'number' && value > 0) {
+      this.$carousel.style.setProperty(ESLCarouselRenderer.TRANSITION_DURATION_PROP, `${value}ms`);
+    } else {
+      this.$carousel.style.removeProperty(ESLCarouselRenderer.TRANSITION_DURATION_PROP);
+    }
+  }
+  protected get transitionDuration$$(): Promise<void> {
+    return promisifyTimeout(this.transitionDuration);
   }
 
   public equal(config: ESLCarouselConfig): boolean {
@@ -117,6 +145,7 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
     this.$carousel.dispatchEvent(ESLCarouselSlideEvent.create('CHANGE', details));
     this.setPreActive(index);
 
+    this.transitionDuration = params.stepDuration;
     try {
       await this.onBeforeAnimate(index, direction, params);
       await this.onAnimate(index, direction, params);
@@ -124,6 +153,7 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
     } catch (e: unknown) {
       console.error(e);
     }
+    this.transitionDuration = null;
 
     this.setActive(index, {direction, ...params});
   }
