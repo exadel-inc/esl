@@ -1,0 +1,23 @@
+seoTitle: Exadel UI Playground
+description: >
+  Exadel UI Playground is a developer-focused library for rendering, configuring, and testing UI components in isolation.
+  It provides a structured interface for modifying component properties, editing underlying markup, and previewing real-time visual changes within a controlled environment.
+playground:
+  marquee:
+    description: >
+      UI Playground is a library designed to enable developers to present, play with, and demonstrate various components. 
+      It provides a structured interface to manipulate component settings, adjust markup, and showcase visual outputs in a controlled environment.
+  benefits:
+    title: Why UI Playground?
+    items:
+      - text: Visualize components with clean formatting
+      - text: Tweak HTML and settings in real time
+      - text: Customize behavior with interactive controls
+      - text: Add plugins to extend functionality
+      - text: Build with reusable, structured components
+      - text: Support with detailed documentation
+  demo:
+    title: >
+      Try it yourself!
+    description: >
+      Explore various features such as real-time HTML editing, adjusting text colors, and resizing the logo - all with instant visual feedback in the example below.
