@@ -1,0 +1,149 @@
+.uip-landing::before {
+  z-index: -1;
+  content: '';
+  position: fixed;
+
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 100vw;
+
+  background-image: url('/assets/playground-logo.svg');
+  background-repeat: no-repeat;
+  background-position: top right;
+  background-size: contain;
+
+  opacity: 0.05;
+}
+
+.uip-landing {
+  &-marquee {
+    display: grid;
+    grid-template-rows: 1fr auto;
+
+    margin-bottom: 7rem;
+    min-height: 50vh;
+
+    justify-items: center;
+  }
+
+  &-logo {
+    display: flex;
+    grid-row: 1 / 2;
+    align-self: center;
+
+    color: @primary-bg;
+    border: 0.1em solid @primary-bg;
+    padding: 1rem;
+    border-radius: 20px;
+
+    font-family: 'E2EMonoFont', monospace;
+    font-size: 5rem;
+    font-weight: 500;
+    letter-spacing: normal;
+
+    &-typewriter {
+      overflow: hidden;
+      white-space: nowrap;
+      animation: typewriter 10s steps(12) infinite normal both, blink-caret 0.75s step-end infinite;
+      border-right: 0.1em solid @primary-bg;
+    }
+
+    @keyframes typewriter {
+      0%,
+      5% {
+        width: 0;
+      }
+      15%,
+      40% {
+        width: 13ch;
+      }
+      45%,
+      70% {
+        width: 13ch;
+      }
+      80%,
+      95% {
+        width: 0;
+      }
+      100% {
+        width: 0;
+      }
+    }
+
+    @keyframes blink-caret {
+      from,
+      to {
+        border-color: transparent;
+      }
+      50% {
+        border-color: @primary-bg;
+      }
+    }
+  }
+
+  &-description {
+    grid-row: 2 / 3;
+    align-self: end;
+
+    margin: 0;
+    text-align: center;
+  }
+
+  &-heading {
+    text-align: center;
+    color: @primary-bg;
+  }
+
+  &-benefits {
+    margin-bottom: 7rem;
+
+    &-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3rem;
+      list-style-type: none;
+
+      &-item {
+        background-color: #fff;
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px #0000001a;
+      }
+    }
+  }
+
+  &-d {
+    &-logo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 250px;
+
+      &-link {
+        display: flex;
+        align-items: center;
+        padding: 20px;
+        border-radius: 10px;
+        font-size: 3rem;
+        border: 4px solid;
+        fill: currentColor;
+
+        &.blue {
+          border-color: @primary-blue;
+          color: @primary-blue;
+        }
+
+        &.orange {
+          border-color: @primary-orange;
+          color: @primary-orange;
+        }
+
+        &.green {
+          border-color: @primary-green;
+          color: @primary-green;
+        }
+      }
+    }
+  }
+}
