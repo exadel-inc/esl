@@ -1,12 +1,13 @@
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
-import {bind, listen, ready} from '../../../esl-utils/decorators';
+import {bind, listen, memoize, ready} from '../../../esl-utils/decorators';
 
 import {ESLCarouselPlugin} from '../esl-carousel.plugin';
 import {ESLCarouselSlideEvent} from '../../core/esl-carousel.events';
+import {parseTime} from '../../../esl-utils/misc/format';
 
 export interface ESLCarouselAutoplayConfig {
   /** Timeout to send next command to the host carousel */
-  timeout: number;
+  timeout: string | number;
   /** Navigation command to send to the host carousel. Default: 'slide:next' */
   command: string;
 }
@@ -20,12 +21,19 @@ export interface ESLCarouselAutoplayConfig {
 @ExportNs('Carousel.Autoplay')
 export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutoplayConfig> {
   public static override is = 'esl-carousel-autoplay';
+  public static override DEFAULT_CONFIG: ESLCarouselAutoplayConfig = {
+    timeout: 5000,
+    command: 'slide:next'
+  };
   public static override DEFAULT_CONFIG_KEY = 'timeout';
 
   private _timeout: number | null = null;
 
   public get active(): boolean {
     return !!this._timeout;
+  }
+  public get timeout(): number {
+    return parseTime(this.config.timeout);
   }
 
   @ready
@@ -47,8 +55,9 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
   /** Activates the timer to send commands */
   public start(): void {
     this.stop();
-    if (this.config.timeout <= 0 || isNaN(+this.config.timeout)) return;
-    this._timeout = window.setTimeout(this._onInterval, this.config.timeout);
+    const {timeout} = this;
+    if (timeout <= 0 || isNaN(+timeout)) return;
+    this._timeout = window.setTimeout(this._onInterval, timeout);
   }
 
   /** Deactivates the timer to send commands */
@@ -61,7 +70,7 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
   @bind
   protected _onInterval(): void {
     this.$host?.goTo(this.config.command);
-    this._timeout = window.setTimeout(this._onInterval, this.config.timeout);
+    this._timeout = window.setTimeout(this._onInterval, this.timeout);
   }
 
   /** Handles auxiliary events to pause/resume timer */

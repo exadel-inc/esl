@@ -31,8 +31,8 @@ export interface ESLCarouselWheelConfig {
 @ExportNs('Carousel.Wheel')
 export class ESLCarouselWheelMixin extends ESLCarouselPlugin<ESLCarouselWheelConfig> {
   public static override is = 'esl-carousel-wheel';
-  public static override DEFAULT_CONFIG_KEY = 'command';
-  public static readonly DEFAULT_CONFIG: ESLCarouselWheelConfig = {
+  public static override readonly DEFAULT_CONFIG_KEY = 'command';
+  public static override readonly DEFAULT_CONFIG: ESLCarouselWheelConfig = {
     command: 'slide',
     ignore: '[contenteditable]',
     direction: 'auto',

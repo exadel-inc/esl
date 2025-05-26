@@ -36,8 +36,8 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin<ESLCarouselTouchCon
   public static readonly DRAG_TYPE = 'drag';
   public static readonly SWIPE_TYPE = 'swipe';
 
-  public static override DEFAULT_CONFIG_KEY = 'type';
-  public static readonly DEFAULT_CONFIG: ESLCarouselTouchConfig = {
+  public static override readonly DEFAULT_CONFIG_KEY = 'type';
+  public static override readonly DEFAULT_CONFIG: ESLCarouselTouchConfig = {
     tolerance: 10,
     type: 'drag',
     swipeType: 'group',
@@ -54,7 +54,7 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin<ESLCarouselTouchCon
 
   @memoize()
   public override get config(): ESLCarouselTouchConfig {
-    return Object.assign({}, ESLCarouselTouchMixin.DEFAULT_CONFIG, this.configQuery.value || {});
+    return super.config;
   }
 
   /* Handle dynamic config change */

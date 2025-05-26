@@ -5,7 +5,9 @@ import {ESLMediaRuleList} from '../../esl-media-query/core';
 import {ESLCarousel} from '../core/esl-carousel';
 
 /** Base mixin plugin of {@link ESLCarousel} */
-export abstract class ESLCarouselPlugin<Config> extends ESLMixinElement {
+export abstract class ESLCarouselPlugin<Config extends Record<string, any>> extends ESLMixinElement {
+  /** Default configuration */
+  protected static DEFAULT_CONFIG: Record<string, any> = {};
   /** Config key to be used if passed non object value */
   protected static DEFAULT_CONFIG_KEY: string = '';
 
@@ -30,7 +32,8 @@ export abstract class ESLCarouselPlugin<Config> extends ESLMixinElement {
 
   /** Active plugin configuration object */
   public get config(): Config {
-    return this.configQuery.value || {} as Config;
+    const base = (this.constructor as typeof ESLCarouselPlugin).DEFAULT_CONFIG as Config;
+    return Object.assign({}, base, this.configQuery.value || {});
   }
 
   /**
