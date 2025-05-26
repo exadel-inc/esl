@@ -3,9 +3,7 @@ function randomColor() {
 }
 
 function isActivePath(url, collection) {
-  if (!collection) return false;
-  if (collection.includes('/')) return url.includes(collection);
-  return url.split('/').filter(Boolean)[0] === collection;
+  return collection && url.includes(collection);
 }
 
 function findItemsByName(names, collection) {

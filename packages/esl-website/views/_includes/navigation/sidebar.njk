@@ -11,7 +11,7 @@
       <esl-scrollbar class="sidebar-scrollbar" target="::next"></esl-scrollbar>
 
       <ul class="sidebar-nav-list esl-scrollable-content">
-        <li class="sidebar-nav-item" dtyle="border-bottom: 0px;">
+        <li class="sidebar-nav-item">
           <div class="sidebar-nav-item-heading {{ 'active' if functions.isActivePath(page.url, 'search') }}">
             <a class="sidebar-nav-item-heading-inner"
                href="{{ '/search.html' | url }}"
@@ -24,17 +24,11 @@
           </div>
         </li>
 
-        {% set nav = collections.nav | sortBy('order') %}
-        {% for item in nav %}
+        {% for item in collections.nav | sortBy('order') %}
           {% set isNoEmpty = collections[item.data.collection] | released | exclude('data.collection') | length %}
           {% set isActive = env.isDev or functions.isActivePath(page.url, item.data.collection) %}
-        
-          {% if (isNoEmpty or (isNoEmpty and isActive)) %}
-            {% set coreTag = 'core-collection'%}
-            {% set isLast = nav[loop.index0 + 1].data[coreTag] != item.data[coreTag] %}
-            {% set isFirst = nav[loop.index0 - 1].data[coreTag] != item.data[coreTag] %}
-
-            {{ navItem (item.data.title, item.data.collection, item.data.icon, isLast, isFirst) }}
+          {% if isNoEmpty or (isNoEmpty and isActive) %}
+            {{ navItem (item.data.title, item.data.collection, item.data.icon) }}
           {% endif %}
         {% endfor %}
 

@@ -1,4 +1,4 @@
-{% macro navItem(title, collection, icon, opt = {}, isLast, isFirst) %}
+{% macro navItem(title, collection, icon, opt = {}) %}
   {% set isDevCollection = collection == 'dev' %}
   {% set isPrimaryActive = functions.isActivePath(page.url, collection) %}
 
@@ -9,11 +9,7 @@
   {% endif %}
 
   {% if items.length %}
-    {% if isFirst %}
-    <hr />
-  {% endif %}
-
-  <li class="sidebar-nav-item {% if isLast %} sidebar-nav-item-last {% endif %}">
+  <li class="sidebar-nav-item">
     <div class="sidebar-nav-item-heading {{ 'active' if isPrimaryActive }}">
       <a class="sidebar-nav-item-link icon-link" href="{{ ('/' + collection) | url }}"
          aria-label="{{ title }} home page">
