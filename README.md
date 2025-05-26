@@ -44,8 +44,6 @@ ESL is mono-repository now to see more detailed information you can visit one of
     ESL ESLint Shared Config that provides actual ESL team code style and quality agreements.
   - ### [ESL Stylelint Config](./packages/stylelint-config/README.md)
     ESL Stylelint Shared Config that provides actual ESL team CSS style and quality agreements.
-  - ### [UI Playground](./packages/ui-playground/README.md)
-    UI Playground.
 
 ---
 <a name="contributing"></a>

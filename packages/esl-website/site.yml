@@ -15,7 +15,6 @@ sitemapCollections:
   - core
   - components
   - examples
-  - playground
   - news
 
 rewriteRules:
