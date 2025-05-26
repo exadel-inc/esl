@@ -35,7 +35,7 @@
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
-    "@nx/eslint": "^20.8.0",
+    "@nx/eslint": "^21.1.2",
     "@nx/jest": "^20.8.0",
     "@types/jest": "^29.5.14",
     "chokidar-cli": "^3.0.0",
