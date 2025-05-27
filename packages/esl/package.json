@@ -1,0 +1,86 @@
+{
+  "name": "@exadel/esl",
+  "version": "5.4.0",
+  "private": false,
+  "description": "Exadel Smart Library (ESL) is the lightweight custom elements library that provide a set of super-flexible components",
+  "license": "MIT",
+  "homepage": "https://esl-ui.com/",
+  "keywords": [
+    "esl",
+    "lightweight",
+    "typescript",
+    "flexible",
+    "web components",
+    "web components utils",
+    "custom elements",
+    "custom elements ts",
+    "component library",
+    "animate",
+    "accordion",
+    "tabs",
+    "embedded-video",
+    "scrollbar"
+  ],
+  "bugs": {
+    "url": "https://github.com/exadel-inc/esl/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/exadel-inc/esl.git"
+  },
+  "publishConfig": {
+    "access": "public",
+    "scope": "@exadel"
+  },
+  "files": [
+    "modules/**/*.{js,ts,less,css,md}",
+    "polyfills/**/*.{js,ts,less,css,md}",
+    "tsconfig.json",
+    "CHANGELOG.md",
+    "README.md"
+  ],
+  "module": "modules/all.js",
+  "types": "modules/all.d.ts",
+  "sideEffects": [
+    "modules/lib.js",
+    "modules/esl-media/providers/**/*.js",
+    "modules/esl-share/actions/**/*.js",
+    "modules/esl-share/buttons/**/*.js",
+    "modules/esl-carousel/core.js",
+    "modules/esl-carousel/renderers/**/*.js",
+    "polyfills/**/*.js"
+  ],
+  "scripts": {
+    "clean": "nx run esl:clean",
+    "build": "nx run esl:build",
+    "watch": "nx run esl:watch",
+    "lint": "nx run esl:lint",
+    "test": "nx run esl:test:jest",
+    "pack": "nx run esl:pack"
+  },
+  "dependencies": {
+    "@types/video.js": "7.3.58",
+    "@types/youtube": "0.1.1"
+  },
+  "devDependencies": {
+    "@exadel/eslint-config-esl": "../eslint-config",
+    "@exadel/eslint-plugin-esl": "../eslint-plugin",
+    "@exadel/stylelint-config-esl": "../stylelint-config"
+  },
+  "contributors": [
+    "ala-n <astsefanovich@exadel.com>",
+    "ymurashka <ymurashka@exadel.com>",
+    "yadamska <yadamska@exadel.com>",
+    "dshovchko <dshovchko@exadel.com>",
+    "abarmina <abarmina@exadel.com>",
+    "alesun <alesun@exadel.com>",
+    "fshovchko <fshovchko@exadel.com>"
+  ],
+  "maintainers": [
+    "ala-n <astsefanovich@exadel.com>",
+    "yadamska <yadamska@exadel.com>",
+    "dshovchko <dshovchko@exadel.com>",
+    "abarmina <abarmina@exadel.com>",
+    "alesun <alesun@exadel.com>"
+  ]
+}

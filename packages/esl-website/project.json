@@ -1,0 +1,171 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "esl-website",
+  "projectType": "application",
+  "targets": {
+    "clean": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "rimraf dist",
+        "cwd": "packages/esl-website"
+      }
+    },
+
+    "start": {
+      "executor": "nx:run-commands",
+      "dependsOn": [
+        "esl-website:build:assets"
+      ],
+      "options": {
+        "commands": [
+          "nx run esl-website:run:eleventy",
+          "nx run esl-website:watch:assets"
+        ],
+        "parallel": true,
+        "cwd": "packages/esl-website"
+      }
+    },
+    "run": {
+      "executor": "nx:run-commands",
+      "dependsOn": [
+        "esl-website:build:assets"
+      ],
+      "options": {
+        "command": "nx run esl-website:run:eleventy",
+        "cwd": "packages/esl-website"
+      }
+    },
+    "run:eleventy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "eleventy --serve --incremental -- --env={args.site-env}",
+        "cwd": "packages/esl-website"
+      }
+    },
+
+    "build": {
+      "executor": "nx:noop",
+      "dependsOn": [
+        "esl-website:build:assets",
+        "esl-website:build:eleventy"
+      ]
+    },
+    "build:eleventy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "eleventy -- --env={args.site-env}",
+        "cwd": "packages/esl-website"
+      },
+      "dependsOn": ["^build:docs"],
+      "cache": true,
+      "inputs": [
+        "{projectRoot}/11ty/**/*",
+        "{projectRoot}/src/**/*",
+        "{projectRoot}/views/**/*",
+        "{projectRoot}/.eleventy.js"
+      ],
+      "outputs": [
+        "{projectRoot}/dist/**/*"
+      ]
+    },
+
+    "build:assets": {
+      "executor": "nx:noop",
+      "dependsOn": [
+        "esl:build",
+        "esl-website:build:ts",
+        "esl-website:build:less"
+      ]
+    },
+    "watch:assets": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "nx run esl:watch",
+          {"command": "nx run esl-website:watch:ts", "prefix": "[Site watch:ts]"},
+          {"command": "nx run esl-website:watch:less", "prefix": "[Site watch:less]"}
+        ]
+      }
+    },
+
+    "build:ts": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "rimraf -g \"dist/**/*.js\"",
+          "webpack --mode=production"
+        ],
+        "parallel": false,
+        "cwd": "packages/esl-website"
+      },
+      "cache": true,
+      "dependsOn": ["^build:ts"],
+      "inputs": [
+        "{projectRoot}/src/**/*.ts",
+        "{projectRoot}/webpack.config.js"
+      ],
+      "outputs": [
+        "{projectRoot}/dist/**/*.{js,ts}"
+      ]
+    },
+    "watch:ts": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "webpack --watch",
+        "cwd": "packages/esl-website"
+      }
+    },
+
+    "build:less": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "nx run esl-website:build:less:only",
+        "cwd": "packages/esl-website"
+      },
+      "dependsOn": ["^build:less"]
+    },
+    "build:less:only": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "rimraf -g \"dist/**/*.css\"",
+          "findx \"src/*.less\" \"lessc {{path}} dist/bundles/{{name}}.css --source-map=dist/bundles/{{name}}.css.map --clean-css\""
+        ],
+        "parallel": false,
+        "cwd": "packages/esl-website"
+      },
+      "cache": true,
+      "inputs": [
+        "{projectRoot}/src/**/*.less",
+        "{workspaceRoot}/node_modules/@exadel/esl/modules/**/*.less"
+      ],
+      "outputs": [
+        "{projectRoot}/dist/bundles/**/*.css"
+      ]
+    },
+    "watch:less": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "chokidar \"../../node_modules/@exadel/esl/modules/.less.done\" \"src/**/*.less\" -c \"nx run esl-website:build:less:only\"",
+        "cwd": "packages/esl-website"
+      }
+    },
+
+    "lint": {
+      "executor": "nx:noop",
+      "dependsOn": ["lint:eslint", "lint:stylelint"]
+    },
+    "lint:stylelint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "stylelint \"src/**/*.less\"",
+        "cwd": "packages/esl-website"
+      },
+      "cache": true,
+      "inputs": [
+        "{projectRoot}/src/**/*.less",
+        "{projectRoot}/.stylelint.yml"
+      ]
+    }
+  }
+}

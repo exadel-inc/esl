@@ -1,0 +1,42 @@
+{% macro grid(collection, options = {}) %}
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap" rel="stylesheet">
+
+  <ul class="collection-grid unstyled-list {{ 'collection-grid-column' if options.isList }} {{ options.classes or ''}}">
+    {% for item in collections[collection] | released | exclude('data.hidden') | exclude('data.parent') | sortBy('order', 'name') %}
+      {% set badgeAllowed = not options.noBadge %}
+      {% set isDraft = badgeAllowed and [].concat(item.data.tags).includes('draft') %}
+      {% set isNew = badgeAllowed and [].concat(item.data.tags).includes('new') %}
+      {% set isUpdated = badgeAllowed and [].concat(item.data.tags).includes('updated') %}
+      <li>
+        <a class="collection-grid-item {{ 'draft' if isDraft }}"
+           href="{{ item.url | url }}">
+          <div class="collection-grid-title collection-grid-box">
+          <span>{{ item.data.name }}
+            {% if isDraft %}
+              <sup class="badge badge-sup badge-danger" title="Draft">draft</sup>
+            {% endif %}
+            {% if isNew %}
+              <sup class="badge badge-sup badge-success" title="New">new</sup>
+            {% endif %}
+            {% if isUpdated %}
+              <sup class="badge badge-sup badge-success" title="Updated" aria-label="Updated">upd</sup>
+            {% endif %}
+          </span>
+          </div>
+          <hr class="collection-grid-divider" />
+          <div class="collection-grid-box collection-grid-svg">
+            {% if item.data.collectionIcon or item.data.icon %}
+              {% include "static/assets/" + (item.data.collectionIcon or item.data.icon) %}
+            {% elseif options.isList %}
+              <span class="arrows-icon right"></span>
+            {% elseif item.data.iconAlt %}
+              <div class="collection-grid-alt {{ 'collection-grid-alt-small' if item.data.iconAlt.length >= 20 }}">
+                {{ item.data.iconAlt }}
+              </div>
+            {% endif %}
+          </div>
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endmacro %}

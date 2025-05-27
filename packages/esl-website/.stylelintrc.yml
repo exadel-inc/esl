@@ -1,0 +1,11 @@
+# Use LESS preprocessor
+customSyntax: postcss-less
+
+extends:
+  - '@exadel/stylelint-config-esl'
+
+rules:
+  # Warn about duplicate properties within declaration blocks
+  declaration-block-no-duplicate-properties:
+    - true
+    - severity: warning

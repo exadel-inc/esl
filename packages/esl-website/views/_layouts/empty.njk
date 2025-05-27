@@ -1,0 +1,17 @@
+{% extends './base.njk' %}
+
+{% block content %}
+  {% include 'navigation/header.njk' %}
+
+  <main class="content {{ containerCls or 'container' }} {{ 'container-aside' if aside }}">
+    {% if title %}
+      <h1 class="page-title">
+        {{ title | safe }}
+        {% if 'beta' in [].concat(tags) %}<span class="badge badge-sup badge-warning">Beta</span>{% endif %}
+        {% if 'draft' in [].concat(tags) %}<span class="badge badge-sup badge-danger">Draft</span>{% endif %}
+      </h1>
+    {% endif %}
+
+    {{ content | safe or 'No content.' }}
+  </main>
+{% endblock %}

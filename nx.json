@@ -1,0 +1,33 @@
+{
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "targetDefaults": {
+    "pack": {
+      "dependsOn": [
+        "build"
+      ],
+      "cache": false
+    },
+    "test:jest": {
+      "dependsOn": ["build"]
+    },
+    "lint:eslint": {
+      "dependsOn": ["eslint-plugin:build"]
+    }
+  },
+  "plugins": [
+    {
+      "plugin": "@nx/eslint/plugin",
+      "options": {
+        "targetName": "lint:eslint"
+      }
+    },
+    {
+      "plugin": "@nx/jest/plugin",
+      "exclude": ["packages/snapshot-tests/**/*"],
+      "options": {
+        "targetName": "test:jest",
+        "collectCoverage": true
+      }
+    }
+  ]
+}

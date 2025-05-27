@@ -1,0 +1,44 @@
+{% extends './base.njk' %}
+{% set baseClass = 'presentation-layout typo-large' %}
+
+ {% block headlib %}
+   <link rel="stylesheet" type="text/css" href="{{ '/bundles/site.css' | url }}" />
+   <link rel="stylesheet" type="text/css" href="{{ '/bundles/site.presentation.css' | url }}" />
+ {% endblock %}
+
+{% block content %}
+  {% include 'presentation/header.njk' %}
+  {% include 'presentation/sidebar.njk' %}
+
+  <main>
+    <esl-carousel id="presentation-carousel"
+                  class="presentation-carousel"
+                  media="all | @mobile | print"
+                  type="default | default | none"
+                  vertical="true | false | true"
+                  count="1"
+                  esl-carousel-wheel="{ignore: 'uip-root, [contenteditable]', preventDefault: true}"
+                  esl-carousel-touch="swipe"
+                  esl-carousel-keyboard>
+      <ul esl-carousel-slides tabindex="-1" class="presentation-carousel-inner markdown-container">
+        {% for item in collections[slides] | sortBy('path', 'order') %}
+        <li esl-carousel-slide
+            {% if item.data.hash %}id="slide-{{ item.data.hash }}" {% endif %}
+            {{ 'active' if loop.first}}
+            class="presentation-slide {{ item.data.cls }}">
+          <div class="container presentation-content esl-scrollable-content">
+            {% if item.data.titleTag and item.data.titleTag !== 'none' %}
+              <{{ item.data.titleTag }} class="presentation-title {{ item.data.titleCls }}">
+                {{ item.data.title | safe or 'No title.' }}
+              </{{ item.data.titleTag }}>
+            {% endif %}
+            {{ item.content | safe or 'No content.' }}
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+    </esl-carousel>
+  </main>
+
+  {% include 'presentation/footer.njk' %}
+{% endblock %}

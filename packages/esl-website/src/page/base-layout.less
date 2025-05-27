@@ -1,0 +1,51 @@
+@import '../common/variables.less';
+
+@page {
+  size: a4 portrait;
+  margin: 2rem;
+}
+
+.base-layout {
+  display: grid;
+  grid-template-areas:
+    'header header'
+    'sidebar main'
+    'sidebar footer';
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto 1fr auto;
+
+  min-height: 100dvh;
+
+  footer {
+    grid-area: footer;
+  }
+
+  main {
+    grid-area: main;
+  }
+
+  .page-title {
+    padding: 1rem 0;
+
+    svg {
+      max-height: 40px;
+      fill: black;
+      margin-bottom: 10px;
+    }
+  }
+
+  .system-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+
+  .main-scroll {
+    position: fixed;
+    z-index: 5;
+    top: @header-height-mobile;
+    bottom: 0;
+  }
+}

@@ -40,17 +40,15 @@ jobs:
           node-version: ${{ env.node-version }}
       - name: Install NPM Dependencies
         run: npm ci
-      - name: Build ESL
-        run: npm run build
-      - name: Build Site
-        run: npm run build -w site
+      - name: Build ESL & Site
+        run: npm run build:website
         env:
           SITE_BASE_URL: ${{ steps.pages.outputs.base_url }}
           BUILD_VERSION: ${{ github.run_number }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./site/dist
+          path: ./packages/esl-website/dist
 
   # Deployment job
   deploy-site:

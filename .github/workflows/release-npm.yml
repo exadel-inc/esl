@@ -1,0 +1,44 @@
+name: Release Handler (NPM)
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: write
+
+env:
+  node-version: 20.x
+
+jobs:
+  publish:
+    name: Publish (NPM)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node v${{ env.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          cache: 'npm'
+          node-version: ${{ env.node-version }}
+
+      - name: Install NPM Dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Create NPM Token
+        run: echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > ~/.npmrc
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish to NPM
+        run: lerna publish from-package --yes --loglevel=verbose
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

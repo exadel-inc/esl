@@ -1,0 +1,78 @@
+@import (reference) '../../common/variables.less';
+
+esl-d-sidebar {
+  --esl-sidebar-width: 100vw;
+  --esl-sidebar-width-closed: 72px;
+  @media @sm-xl {
+    --esl-sidebar-width: 21rem;
+  }
+
+  display: block;
+  @media print {
+    display: none;
+  }
+
+  color: @nav-dark-fg;
+  background: @nav-dark-bg;
+
+  grid-area: sidebar;
+  position: fixed;
+  top: @header-height-mobile;
+  z-index: 10;
+  height: calc(~'100dvh - @{header-height-mobile}');
+  max-width: 0;
+
+  box-shadow: 4px 8px 8px 0 rgba(0, 0, 0, 0.5);
+  @media @md-xl {
+    box-shadow: 4px 0 8px 0 rgba(0, 0, 0, 0.5);
+  }
+
+  &[animation] {
+    transition:
+      max-width 0.5s ease-in-out,
+      visibility 0.5s linear;
+    &.open {
+      transition:
+        max-width 0.5s ease-in-out,
+        visibility 0s linear;
+    }
+  }
+
+  &,
+  & .sidebar-content {
+    width: var(--esl-sidebar-width);
+  }
+
+  @media @xs-sm {
+    &:not(.esl-d-sidebar) {
+      display: none;
+    }
+    visibility: hidden;
+    &.open {
+      visibility: visible;
+    }
+  }
+
+  @media @md-xl {
+    position: sticky;
+    top: 0;
+    max-width: var(--esl-sidebar-width-closed);
+    height: 100dvh;
+  }
+
+  &.open {
+    max-width: var(--esl-sidebar-width);
+  }
+
+  @media @md-xl {
+    .landing-layout & {
+      display: none;
+    }
+  }
+}
+
+@import './sidebar-controls.less';
+@import './sidebar-content.less';
+@import './sidebar-primary-nav.less';
+@import './sidebar-seccondary-nav.less';
+@import './sidebar-share.less';

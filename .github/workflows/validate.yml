@@ -24,10 +24,8 @@ jobs:
           node-version: ${{ env.node-version }}
       - name: Install NPM Dependencies
         run: npm ci
-      - name: Run Linting JS
-        run: npm run lint:js
-      - name: Run Linting CSS
-        run: npm run lint:css
+      - name: Run Linting
+        run: npm run lint
 
   test:
     name: Unit Tests & Coverage
@@ -43,7 +41,7 @@ jobs:
       - name: Install NPM Dependencies
         run: npm ci
       - name: Run Tests
-        run: npm run test:ci
+        run: npm run test
       - name: Collect and Publish coverage to Code Climate
         uses: paambaati/codeclimate-action@v9.0.0
         continue-on-error: true
@@ -51,20 +49,6 @@ jobs:
           CC_TEST_REPORTER_ID: ${{secrets.CC_REPORTER_ID}}
         with:
           verifyDownload: false
-          coverageLocations: ${{github.workspace}}/.report/lcov.info:lcov
-
-  test-custom-eslint:
-    name: Custom ESLint Plugin Tests
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-      - name: Use Node v${{ env.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          cache: 'npm'
-          node-version: ${{ env.node-version }}
-      - name: Install NPM Dependencies
-        run: npm ci
-      - name: Run ESLint Plugin Tests
-        run: npm run test -w packages/eslint-plugin
+          coverageLocations: |
+            ${{github.workspace}}/packages/esl/coverage/lcov.info:lcov
+            ${{github.workspace}}/packages/eslint-plugin/coverage/lcov.info:lcov

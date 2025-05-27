@@ -12,20 +12,16 @@ node_modules
 *.tgz
 target
 
-site/dist
-e2e/.diff
-
-# Generated surces
-/modules
-/polyfills
-
 # NPM
 .npmrc
 
 # Logs & Tmp
 npm-debug.log
+lerna-debug.log
+
+# Git
 .gitconfig
 
-# Jest & Sonar
-/.report
-/.scannerwork
+# Nx
+.nx/cache
+.nx/workspace-data

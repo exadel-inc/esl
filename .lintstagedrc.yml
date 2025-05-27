@@ -1,5 +1,0 @@
-"*.ts":
-  - "eslint --max-warnings 3"
-  - "jest --silent --noStackTrace --bail --passWithNoTests --findRelatedTests"
-"*.less":
-  - "stylelint"

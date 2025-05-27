@@ -1,0 +1,89 @@
+name: Release Publisher (GitHub)
+
+on:
+  push:
+    branches:
+      - main
+      - main-beta
+
+permissions:
+  contents: write
+  packages: write
+
+env:
+  node-version: 20.x
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  release:
+    name: Release (Tag & GitHub Release)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Use Node v${{ env.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          cache: 'npm'
+          node-version: ${{ env.node-version }}
+
+      - name: Install NPM Dependencies
+        run: npm ci
+
+      - name: Resolve Version
+        id: info
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { execSync } = require('child_process');
+
+            // Get all git tags on the current branch
+            const tags = execSync('git tag --list "v*" --sort=-v:refname')
+              .toString()
+              .split('\n');
+
+            // Check if there are any tags
+            if (tags.length === 0) throw new Error('No git tags found');
+
+            // Get the Project Version
+            const version = require('./lerna.json').version;
+            // Get the latest version from the tags
+            const gitVersion = tags[0].trim().substring(1);
+            // Check if the version is the same as the latest tag
+            const isNewVersion = gitVersion !== version;
+
+            // Debug output
+            console.log('Info:', { version, gitVersion, isNewVersion });
+
+            // Set the outputs
+            core.setOutput('version', version);
+            if (isNewVersion) core.setOutput('isNewVersion', 'true');
+            if (version.includes('beta')) core.setOutput('prerelease', 'true');
+
+      - name: Build Tarballs
+        if: ${{ steps.info.outputs.isNewVersion }}
+        run: npm run pack
+
+      - name: Build Release Notes
+        if: ${{ steps.info.outputs.isNewVersion }}
+        id: release-notes
+        run: npm run version:notes
+
+      - name: Create GitHub Release
+        if: ${{ steps.info.outputs.isNewVersion }}
+        uses: ncipollo/release-action@v1
+        with:
+          name: v${{ steps.info.outputs.version }}
+          tag: v${{ steps.info.outputs.version }}
+          bodyFile: 'RELEASE_NOTES.md'
+          artifacts: 'target/*.tgz'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          draft: true
+          prerelease: ${{ steps.info.outputs.prerelease }}
