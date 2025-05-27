@@ -1,5 +1,5 @@
 import {ESLMixinElement} from '../../esl-mixin-element/core';
-import {bind, ready, memoize} from '../../esl-utils/decorators';
+import {bind, ready, memoize, listen} from '../../esl-utils/decorators';
 import {evaluate} from '../../esl-utils/misc/format';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
 import {ESLCarousel} from '../core/esl-carousel';
@@ -31,6 +31,7 @@ export abstract class ESLCarouselPlugin<Config extends Record<string, any>> exte
   }
 
   /** Active plugin configuration object */
+  @memoize()
   public get config(): Config {
     const base = (this.constructor as typeof ESLCarouselPlugin).DEFAULT_CONFIG as Config;
     return Object.assign({}, base, this.configQuery.value || {});
@@ -54,24 +55,26 @@ export abstract class ESLCarouselPlugin<Config extends Record<string, any>> exte
   protected override connectedCallback(): boolean | void {
     const {$host} = this;
     if (($host as unknown) instanceof ESLCarousel) {
-      super.connectedCallback();
-      return true;
+      return super.connectedCallback();
     }
     const {is} = this.constructor as typeof ESLCarouselPlugin;
     console.warn('[ESL]: ESLCarousel %s plugin rejected for non correct target %o', is, $host);
     this.$host.removeAttribute(is);
-    return false;
   }
 
   protected override attributeChangedCallback(attrName: string, oldValue: string | null, newValue: string | null): void {
     if (attrName === (this.constructor as typeof ESLCarouselPlugin).is) {
       memoize.clear(this, 'configQuery');
+      this.$$on(this.onConfigChange);
       this.onConfigChange();
     }
   }
 
   /** Callback to be executed on plugin configuration query change (attribute change) */
-  protected onConfigChange(): void {}
+  @listen({event: 'change', target: ($this: ESLCarouselPlugin<any>) => $this.configQuery})
+  protected onConfigChange(): void {
+    memoize.clear(this, 'config');
+  }
 
   /** Register mixin-plugin in ESLMixinRegistry */
   public static override register(): void {

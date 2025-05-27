@@ -1,5 +1,5 @@
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
-import {listen, memoize} from '../../../esl-utils/decorators';
+import {listen} from '../../../esl-utils/decorators';
 import {getParentScrollOffsets, isOffsetChanged} from '../../../esl-utils/dom/scroll';
 
 import {ESLCarouselPlugin} from '../esl-carousel.plugin';
@@ -52,16 +52,6 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin<ESLCarouselTouchCon
   /** Initial scroll offsets, filled on touch action start */
   protected startScrollOffsets: ElementScrollOffset[];
 
-  @memoize()
-  public override get config(): ESLCarouselTouchConfig {
-    return super.config;
-  }
-
-  /* Handle dynamic config change */
-  protected override onConfigChange(): void {
-    memoize.clear(this, 'config');
-  }
-
   /** @returns whether the swipe mode is active */
   public get isSwipeMode(): boolean {
     return this.config.type === ESLCarouselTouchMixin.SWIPE_TYPE;
@@ -108,7 +98,6 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin<ESLCarouselTouchCon
   /** Handles `mousedown` / `touchstart` event to manage thumb drag start and scroll clicks */
   @listen('pointerdown')
   protected _onPointerDown(event: PointerEvent): void {
-    memoize.clear(this, 'config');
     if (this.isDisabled) return;
 
     this.startEvent = event;

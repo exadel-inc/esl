@@ -48,6 +48,13 @@ export class ESLCarouselWheelMixin extends ESLCarouselPlugin<ESLCarouselWheelCon
     }
   }
 
+  /** Resubscribe according new config */
+  @listen({inherit: true})
+  protected override onConfigChange(): void {
+    super.onConfigChange();
+    this.$$on(this._onWheel);
+  }
+
   /** @returns true if the plugin should track passed event */
   @bind
   protected isEventIgnored(e: WheelEvent & {target: Element}): boolean {
