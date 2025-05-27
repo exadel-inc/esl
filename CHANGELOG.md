@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.5.0-beta.0](https://github.com/exadel-inc/esl/compare/v5.4.0...v5.5.0-beta.0) (2025-05-27)
+
+
+### Bug Fixes
+
+* **esl-animate:** fix esl-animate does not work with repeat + ratio 1 ([3ff2221](https://github.com/exadel-inc/esl/commit/3ff222138ed3baaecf54ffe191920c416c3e8f9b))
+
+
+### Features
+
+* **esl-carousel:** CSS renderer base implementation ([0a825fa](https://github.com/exadel-inc/esl/commit/0a825fa0f5a444f629fa8240ac4cfa91fc542dc7))
+* **esl-carousel:** introduce CSS based carousel animation time ([6667d87](https://github.com/exadel-inc/esl/commit/6667d87a897230f755dd534d622df8022e600398))
+* **esl-carousel:** introduce separate CSS based renderers (slide and fade one) ([6f9eb35](https://github.com/exadel-inc/esl/commit/6f9eb35ee73e6ca4eb30e67f0ad571ad9305e132))
+* **esl-popup:** introduce config prop for easily accessing params of popup ([2252767](https://github.com/exadel-inc/esl/commit/2252767c513905932dbf5cebfa080ba71174a679))
+* remove deprecated alias for ActionParams on ESLAlert, ESLPanel, ESLPopup, ESLTooltip ([4c99720](https://github.com/exadel-inc/esl/commit/4c9972092f233b42ec10fd8563ed27d3c8075eed))
+
+
+
+
+
 # [5.4.0](https://github.com/exadel-inc/esl/compare/v5.3.2...v5.4.0) (2025-04-28)
 
 
