@@ -5,7 +5,7 @@ import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {afterNextRender, rafDecorator} from '../../esl-utils/async/raf';
 import {ESLToggleable} from '../../esl-toggleable/core';
 import {isElement, isRelativeNode, isRTL, Rect, getListScrollParents, getViewportRect} from '../../esl-utils/dom';
-import {parseBoolean, parseNumber, toBooleanAttribute} from '../../esl-utils/misc/format';
+import {parseBoolean, toBooleanAttribute} from '../../esl-utils/misc/format';
 import {copy} from '../../esl-utils/misc/object/copy';
 import {ESLIntersectionTarget, ESLIntersectionEvent} from '../../esl-event-listener/core/targets/intersection.target';
 import {calcPopupPosition, isOnHorizontalAxis} from './esl-popup-position';
@@ -13,11 +13,10 @@ import {ESLPopupPlaceholder} from './esl-popup-placeholder';
 import {ESL_POPUP_CONFIG_KEYS} from './esl-popup-types';
 
 import type {ESLToggleableActionParams, ESLA11yType} from '../../esl-toggleable/core';
-import type {PopupPositionConfig, PositionType, PositionOriginType, IntersectionRatioRect} from './esl-popup-position';
+import type {PopupPositionConfig, PositionType, PositionOriginType, IntersectionRatioRect, PlacementType, AlignmentType} from './esl-popup-position';
 import type {ESLPopupActionParams, ProxiedParams} from './esl-popup-types';
 
 const INTERSECTION_LIMIT_FOR_ADJACENT_AXIS = 0.7;
-const DEFAULT_OFFSET_ARROW = 50;
 
 @ExportNs('Popup')
 export class ESLPopup extends ESLToggleable {
@@ -38,6 +37,7 @@ export class ESLPopup extends ESLToggleable {
   /**
    * Popup position relative to the trigger.
    * Currently supported: 'top', 'bottom', 'left', 'right' position types ('top' by default)
+   *                      in combination with alignment 'start' and 'end' (e.g. 'top end', 'right start' etc.)
    */
   @attr({defaultValue: 'top'}) public position: PositionType;
 
@@ -50,19 +50,14 @@ export class ESLPopup extends ESLToggleable {
   /** Disable hiding the popup depending on the visibility of the activator */
   @boolAttr() public disableActivatorObservation: boolean;
 
-  /**
-   * Margins on the edges of the arrow.
-   * This is the value in pixels that will be between the edge of the popup and
-   * the arrow at extreme positions of the arrow (when offsetArrow is set to 0 or 100)
-   */
-  @attr({defaultValue: 5, parser: parseInt}) public marginArrow: number;
+  /** Alignment of the popup relative to the tether: 'start', 'end' */
+  @attr() public alignmentTether: AlignmentType;
 
-  /**
-   * Offset of the arrow as a percentage of the popup edge
-   * (0% - at the left edge,
-   *  100% - at the right edge,
-   *  for RTL it is vice versa) */
-  @attr({defaultValue: `${DEFAULT_OFFSET_ARROW}`}) public offsetArrow: string;
+  /** Safe margins on the edges of the popup. */
+  @attr({defaultValue: 5, parser: parseInt}) public marginTether: number;
+
+  /** Offset of the tether relative to the position on the trigger */
+  @attr({defaultValue: 0, parser: parseInt}) public offsetPlacement: number;
 
   /** offset in pixels from the trigger element */
   @attr({defaultValue: 3, parser: parseInt}) public offsetTrigger: number;
@@ -141,12 +136,11 @@ export class ESLPopup extends ESLToggleable {
     memoize.clear(this, '$arrow');
   }
 
-  /** Get offsets arrow ratio */
-  @memoize()
-  protected get offsetArrowRatio(): number {
-    const offset = parseNumber(this.config.offsetArrow, DEFAULT_OFFSET_ARROW);
-    const offsetNormalized = Math.max(0, Math.min(offset, 100));
-    const ratio = offsetNormalized / 100;
+  /** Get offsets tether ratio */
+  protected get offsetTetherRatio(): number {
+    const {alignmentTether} = this.config;
+    if (!['start', 'end'].includes(alignmentTether)) return 0.5;
+    const ratio = (alignmentTether === 'end') ? 1 : 0;
     return isRTL(this) ? 1 - ratio : ratio;
   }
 
@@ -248,7 +242,7 @@ export class ESLPopup extends ESLToggleable {
 
     this.$$off({group: 'observer'});
 
-    memoize.clear(this, ['offsetArrowRatio', '$container']);
+    memoize.clear(this, ['offsetTetherRatio', '$container']);
   }
 
   protected get scrollTargets(): EventTarget[] {
@@ -368,8 +362,9 @@ export class ESLPopup extends ESLToggleable {
   }
 
   protected get positionConfig(): PopupPositionConfig {
-    const {$arrow, activator, containerRect, offsetArrowRatio} = this;
-    const {position, positionOrigin, behavior, marginArrow, offsetContainer, offsetTrigger} = this.config;
+    const {$arrow, activator, containerRect, offsetTetherRatio} = this;
+    const {position, positionOrigin, behavior, offsetContainer, offsetPlacement, marginTether, offsetTrigger} = this.config;
+    const [placement, alignment] = position.split(/\s+/) as [PlacementType, AlignmentType];
 
     const popupRect = Rect.from(this);
     const arrowRect = $arrow ? Rect.from($arrow) : new Rect();
@@ -377,11 +372,13 @@ export class ESLPopup extends ESLToggleable {
 
     const innerMargin = offsetTrigger + arrowRect.width / 2;
     return {
-      position,
+      placement,
+      alignment,
       hasInnerOrigin: positionOrigin === 'inner',
       behavior,
-      marginArrow,
-      offsetArrowRatio,
+      marginTether,
+      offsetTetherRatio,
+      offsetPlacement,
       intersectionRatio: this._intersectionRatio,
       arrow: arrowRect,
       element: popupRect,
@@ -389,7 +386,7 @@ export class ESLPopup extends ESLToggleable {
       inner: positionOrigin === 'inner' ? triggerRect.shrink(innerMargin) : triggerRect.grow(innerMargin),
       outer: (typeof offsetContainer === 'number') ?
         containerRect.shrink(offsetContainer) :
-        containerRect.shrink(...offsetContainer),
+        containerRect.shrink(...(offsetContainer ?? [(this.constructor as typeof ESLPopup).DEFAULT_PARAMS.offsetContainer])),
       isRTL: isRTL(this)
     };
   }
