@@ -3,9 +3,12 @@ import {Rect} from '../../esl-utils/dom/rect';
 import type {Point} from '../../esl-utils/dom/point';
 
 export type DimensionNameType = 'width' | 'height';
-export type PositionType = 'top' | 'bottom' | 'left' | 'right';
+
+export type PlacementType = 'top' | 'left' | 'bottom' | 'right';
+export type AlignmentType = '' | 'start' | 'end';
+export type PositionType = '' | PlacementType | AlignmentType | `${PlacementType} ${AlignmentType}`;
 export type PositionOriginType = 'inner' | 'outer';
-export type PlacedAtType = 'top' | 'bottom' | 'left' | 'right' | 'top-inner' | 'bottom-inner' | 'left-inner' | 'right-inner';
+export type PlacedAtType = PlacementType | `${PlacementType}-inner`;
 
 export interface PopupPositionValue {
   placedAt: PlacedAtType;
@@ -21,11 +24,13 @@ export interface IntersectionRatioRect {
 }
 
 export interface PopupPositionConfig {
-  position: PositionType;
+  placement: PlacementType;
+  alignment?: AlignmentType;
   hasInnerOrigin: boolean;
   behavior: string;
-  marginArrow: number;
-  offsetArrowRatio: number;
+  marginTether: number;
+  offsetTetherRatio: number;
+  offsetPlacement: number;
   intersectionRatio: IntersectionRatioRect;
   arrow: Rect;
   element: Rect;
@@ -48,16 +53,16 @@ interface PopupAlignmentConfig {
  * Checks that the position along the horizontal axis
  * @param position - name of position
  */
-export function isOnHorizontalAxis(position: PositionType): boolean {
-  return ['left', 'right'].includes(position);
+export function isOnHorizontalAxis(position: PositionType | PlacementType): boolean {
+  return ['left', 'right'].includes(position.split(/\s+/)[0]);
 }
 
 /**
  * Checks whether the specified position corresponds to the starting side
  * @param position - name of position
  */
-function isStartingSide(position: PositionType): boolean {
-  return ['left', 'top'].includes(position);
+function isStartingSide(placement: PlacementType): boolean {
+  return ['left', 'top'].includes(placement);
 }
 
 /**
@@ -76,7 +81,7 @@ function getDimensionName(position: PositionType, alter: boolean = false): Dimen
  * @param isOpposite - should it be the opposite position?
  */
 function getPlacedAt(cfg: PopupPositionConfig, isOpposite: boolean = false): PlacedAtType {
-  const position = isOpposite ? getOppositePosition(cfg.position) : cfg.position;
+  const position = isOpposite ? getOppositePlacement(cfg.placement) : cfg.placement;
   return `${position}${cfg.hasInnerOrigin ? '-inner' : ''}`;
 }
 
@@ -85,10 +90,10 @@ function getPlacedAt(cfg: PopupPositionConfig, isOpposite: boolean = false): Pla
  * @param cfg - popup position config
  */
 function calcPopupPositionByMajorAxis(cfg: PopupPositionConfig): number {
-  const {position, inner, element, hasInnerOrigin} = cfg;
-  const coord = inner[position];
-  const size = element[getDimensionName(position)];
-  return isStartingSide(position)
+  const {placement, inner, element, hasInnerOrigin} = cfg;
+  const coord = inner[placement];
+  const size = element[getDimensionName(placement)];
+  return isStartingSide(placement)
     ? (hasInnerOrigin ? coord : coord - size)
     : (hasInnerOrigin ? coord - size : coord);
 }
@@ -98,10 +103,20 @@ function calcPopupPositionByMajorAxis(cfg: PopupPositionConfig): number {
  * @param cfg - popup position config
  */
 function calcPopupPositionByMinorAxis(cfg: PopupPositionConfig): number {
-  const {position, inner, arrow, marginArrow, offsetArrowRatio} = cfg;
-  const centerPosition = inner[isOnHorizontalAxis(position) ? 'cy' : 'cx'];
-  const dimensionName = getDimensionName(position, true);
-  return centerPosition - arrow[dimensionName] / 2 - marginArrow - calcUsableSizeForArrow(cfg, dimensionName) * offsetArrowRatio;
+  const {placement, alignment, arrow, offsetTetherRatio, marginTether, trigger} = cfg;
+  let tetherPlacement;
+  switch (alignment) {
+    case 'start':
+      tetherPlacement = trigger[isOnHorizontalAxis(placement) ? 'y' : 'x'];
+      break;
+    case 'end':
+      tetherPlacement = trigger[isOnHorizontalAxis(placement) ? 'bottom' : 'right'];
+      break;
+    default:
+      tetherPlacement = trigger[isOnHorizontalAxis(placement) ? 'cy' : 'cx'];
+  }
+  const dimensionName = getDimensionName(placement, true);
+  return (tetherPlacement + cfg.offsetPlacement) - arrow[dimensionName] / 2 - marginTether - calcUsableSizeForArrow(cfg, dimensionName) * offsetTetherRatio;
 }
 
 /**
@@ -112,7 +127,7 @@ function calcPopupBasicRect(cfg: PopupPositionConfig): Rect {
   const {width, height} = cfg.element;
   const coordForMajor = calcPopupPositionByMajorAxis(cfg);
   const coordForMinor = calcPopupPositionByMinorAxis(cfg);
-  return isOnHorizontalAxis(cfg.position)
+  return isOnHorizontalAxis(cfg.placement)
     ? new Rect(coordForMajor, coordForMinor, width, height)
     : new Rect(coordForMinor, coordForMajor, width, height);
 }
@@ -131,16 +146,16 @@ function calcBasicPosition(cfg: PopupPositionConfig): PopupPositionValue {
 }
 
 /**
- * Gets opposite position.
- * @param position - name of position
+ * Gets opposite placement.
+ * @param placement - name of placement
  * */
-function getOppositePosition(position: PositionType): PositionType {
+function getOppositePlacement(placement: PlacementType): PlacementType {
   return ({
     top: 'bottom',
     left: 'right',
     right: 'left',
     bottom: 'top'
-  }[position] || position) as PositionType;
+  }[placement] || placement) as PlacementType;
 }
 
 /**
@@ -152,12 +167,12 @@ function getOppositePosition(position: PositionType): PositionType {
 function fitOnMajorAxis(cfg: PopupPositionConfig, value: PopupPositionValue): PopupPositionValue {
   if (!['fit', 'fit-major'].includes(cfg.behavior)) return value;
 
-  const {position, hasInnerOrigin, outer} = cfg;
-  const intersectionRatio = cfg.intersectionRatio[hasInnerOrigin ? getOppositePosition(position) : position] || 0;
+  const {placement, hasInnerOrigin, outer} = cfg;
+  const intersectionRatio = cfg.intersectionRatio[hasInnerOrigin ? getOppositePlacement(placement) : placement] || 0;
   const valueToCheck = hasInnerOrigin ? cfg.inner : value.popup;
-  const isComingOut = isStartingSide(position)
-    ? valueToCheck[position] < outer[position]
-    : outer[position] < valueToCheck[position];
+  const isComingOut = isStartingSide(placement)
+    ? valueToCheck[placement] < outer[placement]
+    : outer[placement] < valueToCheck[placement];
   const isRequireAdjusting = hasInnerOrigin
     ? intersectionRatio === 0 && isComingOut
     : intersectionRatio > 0 || isComingOut;
@@ -172,10 +187,10 @@ function fitOnMajorAxis(cfg: PopupPositionConfig, value: PopupPositionValue): Po
  * @returns updated popup position value
  * */
 function adjustAlongMajorAxis(cfg: PopupPositionConfig, value: PopupPositionValue): PopupPositionValue {
-  const oppositeConfig = {...cfg, position: getOppositePosition(cfg.position)};
+  const oppositeConfig = {...cfg, placement: getOppositePlacement(cfg.placement)};
   const {x, y, width, height} = value.popup;
   const adjustedCoord = calcPopupPositionByMajorAxis(oppositeConfig);
-  const popup = isOnHorizontalAxis(cfg.position)
+  const popup = isOnHorizontalAxis(cfg.placement)
     ? new Rect(adjustedCoord, y, width, height)
     : new Rect(x, adjustedCoord, width, height);
   return {...value, popup, placedAt: getPlacedAt(cfg, true)};
@@ -195,8 +210,8 @@ function adjustAlignmentBySide(cfg: PopupPositionConfig, diffCoord: number, arro
   if (isStart ? diffCoord < 0 : diffCoord > 0) {
     arrowAdjust = diffCoord;
     const newCoord = arrowCoord + arrowAdjust;
-    const dimension = getDimensionName(cfg.position, true);
-    const arrowLimit = cfg.marginArrow + (isStart ? 0 : calcUsableSizeForArrow(cfg, dimension));
+    const dimension = getDimensionName(cfg.placement, true);
+    const arrowLimit = cfg.marginTether + (isStart ? 0 : calcUsableSizeForArrow(cfg, dimension));
     if (isStart ? newCoord < arrowLimit : newCoord > arrowLimit) {
       arrowAdjust -= newCoord - arrowLimit;
     }
@@ -212,10 +227,10 @@ function adjustAlignmentBySide(cfg: PopupPositionConfig, diffCoord: number, arro
  * @returns configuration for adjusting position along the minor axis
  */
 function setupAlignmentBySide(cfg: PopupPositionConfig, popup: Rect): PopupAlignmentConfig {
-  const isHorizontal = isOnHorizontalAxis(cfg.position);
+  const isHorizontal = isOnHorizontalAxis(cfg.placement);
   const start = isHorizontal ? 'y' : 'x';
   const end = isHorizontal ? 'bottom' : 'right';
-  const dimension = getDimensionName(cfg.position, true);
+  const dimension = getDimensionName(cfg.placement, true);
   const isOutAtStart = popup[start] < cfg.outer[start];
   const isOutAtEnd = popup[end] > cfg.outer[end];
   const isWider = cfg.outer[dimension] < cfg.element[dimension];
@@ -261,7 +276,7 @@ function fitOnMinorAxis(cfg: PopupPositionConfig, value: PopupPositionValue): Po
  * @param dimensionName - the name of dimension (height or width)
  */
 function calcUsableSizeForArrow(cfg: PopupPositionConfig, dimensionName: DimensionNameType): number {
-  return cfg.element[dimensionName] - cfg.arrow[dimensionName] - 2 * cfg.marginArrow;
+  return cfg.element[dimensionName] - cfg.arrow[dimensionName] - 2 * cfg.marginTether;
 }
 
 /**
@@ -270,7 +285,7 @@ function calcUsableSizeForArrow(cfg: PopupPositionConfig, dimensionName: Dimensi
  * @param dimensionName - the name of dimension (height or width)
  */
 function calcArrowPosition(cfg: PopupPositionConfig, dimensionName: DimensionNameType): number {
-  return cfg.marginArrow + calcUsableSizeForArrow(cfg, dimensionName) * cfg.offsetArrowRatio;
+  return cfg.marginTether + calcUsableSizeForArrow(cfg, dimensionName) * cfg.offsetTetherRatio;
 }
 
 /**
