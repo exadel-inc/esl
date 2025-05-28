@@ -13,200 +13,173 @@ aside:
 ---
 
 <style>
-  .trigger-for-inner-popup-v {
-    height: 200px;
-    width: 350px;
-    padding: 80px;
-  }
-  .trigger-for-inner-popup-h {
-    height: 350px;
-    width: 200px;
-  }
+  .uip-popup-content {display: flex; justify-content: center; align-items: center; height: 100%;}
+  .uip-popup-content.align-items-start {align-items: flex-start;}
+  .uip-popup-trigger-outer {aspect-ratio: 1; display: flex; align-items: center;}
+  .uip-popup-trigger-inner {width: 100%; height:100%; display: flex; align-items: center; justify-content: center;}
+  .uip-popup-trigger-diagonal-alignment {aspect-ratio: 1; display: flex; align-items: center;}
 </style>
 
-<section id="popup-controls">
-  <div>
-    <label for="marginArrow">Arrow margin:</label>
-    <input type="text" id="marginArrow" name="marginArrow" min="0" max="100" value="5" size="3">
+<section class="row">
+  <div class="col-12">
+    <uip-root>
+      <script type="text/html"
+              label="Popup outside the trigger"
+              uip-snippet
+              uip-snippet-js="js-snippet-popup">
+
+        <div class="uip-popup-content">
+          <esl-trigger
+            target="#uip-popup-outer"
+            class="uip-popup-trigger-outer btn btn-sec-blue">
+            Click me
+          </esl-trigger>
+          <esl-popup
+            id="uip-popup-outer"
+            class=""
+            position="top"
+            position-origin="outer"
+            alignment-tether=""
+            margin-tether="5"
+            offset-trigger="3"
+            offset-placement="0">
+            <div style="height: 170px; width:250px;"></div>
+          </esl-popup>
+        </div>
+      </script>
+      <script type="text/html"
+              label="Popup inside the trigger"
+              uip-snippet
+              uip-snippet-js="js-snippet-popup">
+        <div class="uip-popup-content">
+          <esl-trigger
+            target="#uip-popup-inner"
+            class="uip-popup-trigger-inner btn btn-sec-blue">
+            Click me
+          </esl-trigger>
+          <esl-popup
+            id="uip-popup-inner"
+            class=""
+            position="top"
+            position-origin="inner"
+            alignment-tether=""
+            margin-tether="5"
+            offset-trigger="3"
+            offset-placement="0">
+            <div style="height: 170px; width:250px;"></div>
+          </esl-popup>
+        </div>
+      </script>
+      <script type="text/html"
+              label="Popup menu"
+              uip-snippet
+              uip-snippet-js="js-snippet-popup">
+        <div class="uip-popup-content align-items-start">
+          <esl-trigger
+            target="#uip-popup-menu"
+            class="uip-popup-trigger-menu btn btn-sec-blue">
+            Click me
+          </esl-trigger>
+          <esl-popup
+            id="uip-popup-menu"
+            class="disable-arrow"
+            position="bottom start"
+            alignment-tether="start"
+            margin-tether="0"
+            offset-trigger="3"
+            offset-placement="0">
+            <div style="height: 200px; width:150px;"></div>
+          </esl-popup>
+        </div>
+      </script>
+      <script type="text/html"
+              label="Right edge alignment"
+              uip-snippet
+              uip-snippet-js="js-snippet-popup">
+        <div class="uip-popup-content">
+          <esl-trigger
+            target="#uip-popup-right-edge-alignment"
+            class="uip-popup-trigger-right-edge-alignment btn btn-sec-blue">
+            Click me
+          </esl-trigger>
+          <esl-popup
+            id="uip-popup-right-edge-alignment"
+            class=""
+            position="top end"
+            alignment-tether="end"
+            margin-tether="10"
+            offset-trigger="3"
+            offset-placement="-24">
+            <div style="height: 70px; width:250px;"></div>
+          </esl-popup>
+        </div>
+      </script>
+      <script type="text/html"
+              label="Diagonal alignment"
+              uip-snippet
+              uip-snippet-js="js-snippet-popup">
+        <div class="uip-popup-content">
+          <esl-trigger
+            target="#uip-popup-diagonal-alignment"
+            class="uip-popup-trigger-diagonal-alignment btn btn-sec-blue">
+            Click me
+          </esl-trigger>
+          <esl-popup
+            id="uip-popup-diagonal-alignment"
+            class="disable-arrow"
+            position="right start"
+            alignment-tether="end"
+            margin-tether="0"
+            offset-trigger="0"
+            offset-placement="0">
+            <div style="height: 100px; width:100px;"></div>
+          </esl-popup>
+        </div>
+      </script>
+
+      <script id="js-snippet-popup" type="text/plain">
+        import { ESLPopup, ESLTrigger } from '@exadel/esl';
+        ESLPopup.register();
+        ESLTrigger.register();
+      </script>
+
+      <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
+      <uip-preview resizable></uip-preview>
+      <uip-settings target="esl-popup" label="Settings" resizable vertical="@+sm">
+        <uip-select-setting label="Position" target="esl-popup" attribute="position">
+          <option value="top">Top</option>
+          <option value="bottom">Bottom</option>
+          <option value="left">Left</option>
+          <option value="right">Right</option>
+          <option value="top start">Top+start</option>
+          <option value="bottom start">Bottom+start</option>
+          <option value="left start">Left+start</option>
+          <option value="right start">Right+start</option>
+          <option value="top end">Top+end</option>
+          <option value="bottom end">Bottom+end</option>
+          <option value="left end">Left+end</option>
+          <option value="right end">Right+end</option>
+        </uip-select-setting>
+
+        <uip-bool-setting label="Disable arrow" target="esl-popup" attribute="class" mode="append" value="disable-arrow" ></uip-bool-setting>
+
+        <uip-text-setting label="Placement offset" target="esl-popup" attribute="offset-placement" value="0"></uip-text-setting>
+
+        <uip-select-setting label="Tether alignment" target="esl-popup" attribute="alignment-tether">
+          <option value="">(empty by default)</option>
+          <option value="start">Start</option>
+          <option value="end">End</option>
+        </uip-select-setting>
+
+        <uip-text-setting label="Tether offset" target="esl-popup" attribute="margin-tether" value="5"></uip-text-setting>
+
+        <uip-text-setting label="Trigger offset" target="esl-popup" attribute="offset-trigger" value="3"></uip-text-setting>
+
+
+
+      </uip-settings>
+      <uip-editor label="Source code (HTML)" collapsible copy></uip-editor>
+      <uip-editor source="js" label="Source code (JS)" collapsible collapsed copy></uip-editor>
+    </uip-root>
   </div>
-  <div>
-    <label for="offsetArrow">Arrow offset:</label>
-    <input type="range" id="offsetArrow" name="offsetArrow" min="0" max="100" value="50" step="1">
-  </div>
-  <script>
-    var elMarginArrow = document.querySelector('#marginArrow');
-    var handlerMarginArrowChange = function() {
-      Array.from(document.querySelectorAll('esl-popup')).forEach(function(el) {
-        el.setAttribute('margin-arrow', elMarginArrow.value);
-      });
-    };
-    elMarginArrow.addEventListener('change', handlerMarginArrowChange);
-  </script>
-  <script>
-    var elOffsetArrow = document.querySelector('#offsetArrow');
-    var handlerOffsetArrowChange = function() {
-      Array.from(document.querySelectorAll('esl-popup')).forEach(function(el) {
-        el.setAttribute('offset-arrow', elOffsetArrow.value);
-      });
-    };
-    elOffsetArrow.addEventListener('change', handlerOffsetArrowChange);
-  </script>
 </section>
-
-<h2>Popups with an arrow</h2>
-
-<section class="row justify-content-between">
-  <esl-trigger target="#popup-t-a" mode="toggle" class="btn btn-sec-blue">Top</esl-trigger>
-  <esl-trigger target="#popup-t-a" mode="toggle" class="btn btn-sec-blue">Top</esl-trigger>
-  <esl-trigger target="#popup-t-a" mode="toggle" class="btn btn-sec-blue">Top</esl-trigger>
-</section>
-
-<section class="row justify-content-between">
-  <esl-trigger target="#popup-l-a" mode="toggle" class="btn btn-sec-blue">Left</esl-trigger>
-  <esl-trigger target="#popup-l-a" mode="toggle" class="btn btn-sec-blue">Left</esl-trigger>
-  <esl-trigger target="#popup-r-a" mode="toggle" class="btn btn-sec-blue">Right</esl-trigger>
-  <esl-trigger target="#popup-r-a" mode="toggle" class="btn btn-sec-blue">Right</esl-trigger>
-</section>
-
-<section class="row justify-content-between">
-  <esl-trigger target="#popup-b-a" mode="toggle" class="btn btn-sec-blue">Bottom</esl-trigger>
-  <esl-trigger target="#popup-b-a" mode="toggle" class="btn btn-sec-blue">Bottom</esl-trigger>
-  <esl-trigger target="#popup-b-a" mode="toggle" class="btn btn-sec-blue">Bottom</esl-trigger>
-</section>
-
-<hr/>
-
-<h2>Popups without an arrow</h2>
-
-<section class="row justify-content-between">
-  <esl-trigger target="#popup-t" mode="toggle" class="btn btn-sec-blue">Top</esl-trigger>
-  <esl-trigger target="#popup-t" mode="toggle" class="btn btn-sec-blue">Top</esl-trigger>
-  <esl-trigger target="#popup-t" mode="toggle" class="btn btn-sec-blue">Top</esl-trigger>
-</section>
-
-<section class="row justify-content-between">
-  <esl-trigger target="#popup-l" mode="toggle" class="btn btn-sec-blue">Left</esl-trigger>
-  <esl-trigger target="#popup-l" mode="toggle" class="btn btn-sec-blue">Left</esl-trigger>
-  <esl-trigger target="#popup-r" mode="toggle" class="btn btn-sec-blue">Right</esl-trigger>
-  <esl-trigger target="#popup-r" mode="toggle" class="btn btn-sec-blue">Right</esl-trigger>
-</section>
-
-<section class="row justify-content-between">
-  <esl-trigger target="#popup-b" mode="toggle" class="btn btn-sec-blue">Bottom</esl-trigger>
-  <esl-trigger target="#popup-b" mode="toggle" class="btn btn-sec-blue">Bottom</esl-trigger>
-  <esl-trigger target="#popup-b" mode="toggle" class="btn btn-sec-blue">Bottom</esl-trigger>
-</section>
-
-<hr/>
-
-<h2>Inner popups with an arrow</h2>
-
-<section class="row justify-content-between">
-  <div>
-    <esl-trigger target="::next" mode="toggle" class="btn btn-sec-blue trigger-for-inner-popup-v">Top Inner Popup</esl-trigger>
-    <esl-popup class="demo-top-popup" position="top" position-origin="inner">
-      <div style="height: 50px; width:250px;"></div>
-    </esl-popup>
-  </div>
-  <div>
-    <esl-trigger target="::next" mode="toggle" class="btn btn-sec-blue trigger-for-inner-popup-h">Left Inner Popup</esl-trigger>
-    <esl-popup class="demo-left-popup" position="left" position-origin="inner">
-      <div style="height: 250px; width:50px;"></div>
-    </esl-popup>
-  </div>
-  <div>
-    <esl-trigger target="::next" mode="toggle" class="btn btn-sec-blue trigger-for-inner-popup-h">Right Inner Popup</esl-trigger>
-    <esl-popup class="demo-right-popup" position="right" position-origin="inner">
-      <div style="height: 250px; width:50px;"></div>
-    </esl-popup>
-  </div>
-  <div>
-    <esl-trigger target="::next" mode="toggle" class="btn btn-sec-blue trigger-for-inner-popup-v">Bottom Inner Popup</esl-trigger>
-    <esl-popup class="demo-bottom-popup" position="bottom" position-origin="inner">
-      <div style="height: 50px; width:250px;"></div>
-    </esl-popup>
-  </div>
-</section>
-
-<hr/>
-
-<h2>Inner popups without an arrow</h2>
-
-<section class="row justify-content-between">
-  <div>
-    <esl-trigger target="::next" mode="toggle" class="btn btn-sec-blue trigger-for-inner-popup-v">Top Inner Popup</esl-trigger>
-    <esl-popup class="demo-top-popup disable-arrow" position="top" position-origin="inner">
-      <div style="height: 50px; width:250px;"></div>
-    </esl-popup>
-  </div>
-  <div>
-    <esl-trigger target="::next" mode="toggle" class="btn btn-sec-blue trigger-for-inner-popup-h">Left Inner Popup</esl-trigger>
-    <esl-popup class="demo-left-popup disable-arrow" position="left" position-origin="inner">
-      <div style="height: 250px; width:50px;"></div>
-    </esl-popup>
-  </div>
-  <div>
-    <esl-trigger target="::next" mode="toggle" class="btn btn-sec-blue trigger-for-inner-popup-h">Right Inner Popup</esl-trigger>
-    <esl-popup class="demo-right-popup disable-arrow" position="right" position-origin="inner">
-      <div style="height: 250px; width:50px;"></div>
-    </esl-popup>
-  </div>
-  <div>
-    <esl-trigger target="::next" mode="toggle" class="btn btn-sec-blue trigger-for-inner-popup-v">Bottom Inner Popup</esl-trigger>
-    <esl-popup class="demo-bottom-popup disable-arrow" position="bottom" position-origin="inner">
-      <div style="height: 50px; width:250px;"></div>
-    </esl-popup>
-  </div>
-</section>
-
-<hr/>
-
-<h2>Examples of popups when they are defined in the neighborhood of a trigger</h2>
-
-<h3>Trigger target uses class</h3>
-<section class="row justify-content-between">
-  <esl-trigger target="::parent::find(.demo-top-popup)" mode="toggle" class="btn btn-sec-blue">Top</esl-trigger>
-  <esl-trigger target="::parent::find(.demo-left-popup)" mode="toggle" class="btn btn-sec-blue">Left</esl-trigger>
-  <esl-trigger target="::parent::find(.demo-right-popup)" mode="toggle" class="btn btn-sec-blue">Right</esl-trigger>
-  <esl-trigger target="::parent::find(.demo-bottom-popup)" mode="toggle" class="btn btn-sec-blue">Bottom</esl-trigger>
-  <esl-popup class="demo-top-popup" position="top">
-    <div style="height: 50px; width:250px;"></div>
-    <span class="esl-popup-arrow"></span>
-  </esl-popup>
-  <esl-popup class="demo-bottom-popup" position="bottom">
-    <div style="height: 50px; width:250px;"></div>
-    <span class="esl-popup-arrow"></span>
-  </esl-popup>
-  <esl-popup class="demo-left-popup" position="left">
-    <div style="height: 250px; width:50px;"></div>
-    <span class="esl-popup-arrow"></span>
-  </esl-popup>
-  <esl-popup class="demo-right-popup" position="right">
-    <div style="height: 250px; width:50px;"></div>
-    <span class="esl-popup-arrow"></span>
-  </esl-popup>
-</section>
-
-<hr/>
-
-<h3>Trigger target uses id</h3>
-<section class="row justify-content-between">
-  <esl-trigger target="#demo-top-popup" mode="toggle" class="btn btn-sec-blue">Top</esl-trigger>
-  <esl-trigger target="#demo-left-popup" mode="toggle" class="btn btn-sec-blue">Left</esl-trigger>
-  <esl-trigger target="#demo-right-popup" mode="toggle" class="btn btn-sec-blue">Right</esl-trigger>
-  <esl-trigger target="#demo-bottom-popup" mode="toggle" class="btn btn-sec-blue">Bottom</esl-trigger>
-  <esl-popup id="demo-top-popup" position="top">
-    <div style="height: 50px; width:250px;"></div>
-  </esl-popup>
-  <esl-popup id="demo-bottom-popup" position="bottom">
-    <div style="height: 50px; width:250px;"></div>
-  </esl-popup>
-  <esl-popup id="demo-left-popup" position="left">
-    <div style="height: 250px; width:50px;"></div>
-  </esl-popup>
-  <esl-popup id="demo-right-popup" position="right">
-    <div style="height: 250px; width:50px;"></div>
-  </esl-popup>
-</section>
-
-{% include 'popup.njk' %}
