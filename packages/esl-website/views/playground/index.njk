@@ -44,16 +44,13 @@
       <div class="uip-landing-d-logo">
         <a class="uip-landing-d-logo-link blue" href="{{ '/playground/introduction/' | url }}">
           <span>Get started with</span>
-            {% set snippetContent %}
-              {% include 'static/assets/sidebar/playground.svg' %}
-            {% endset %}
-            {{ snippetContent | replace('<svg', '<svg width="100"') | safe }}
+          {% include 'static/assets/sidebar/playground.svg' %}
         </a>
       </div>
     </script>
     <uip-preview></uip-preview>
     <uip-settings resizable collapsible vertical="@+sm" target=".uip-landing-d-logo" theme-toggle>
-      <uip-slider-setting label="Width:" target=".uip-landing-d-logo svg" attribute="width" min="50" max="150"></uip-slider-setting>
+      <uip-slider-setting label="Height:" target=".uip-landing-d-logo svg" attribute="height" min="50" max="150"></uip-slider-setting>
       <uip-select-setting label="Color:" attribute="class" target=".uip-landing-d-logo-link" mode="append">
         <option value="orange">Orange</option>
         <option value="blue">Blue</option>
