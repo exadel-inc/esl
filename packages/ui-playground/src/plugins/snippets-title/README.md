@@ -1,11 +1,11 @@
-# UIP Snippets Title
+## UIP Snippets Title
 
 **UIPSnippetsTitle** - small plugin to display a title of the currently selected snippet.
 More details can be found in [UIP Snippets](src/plugins/snippets/README.md) section.
 
 The following sample will render snippets as a tab list in the header of the UI Playground:
 
-## Example
+### Example
 
 ```html
 <uip-root>

@@ -1,11 +1,9 @@
-# UIP Text Direction Toggle
-
 **UIPDirSwitcher** - text direction switcher plugin for UIPlayground.
 
 The text direction switcher can be added to the UIPlayground toolbar header or to the Settings toolbar
 via attribute *dir-toggle*.
 
-## Example 1
+## Example
 
 ```html
 <uip-root>
@@ -16,7 +14,7 @@ via attribute *dir-toggle*.
     ...
 </uip-root>
 ```
-## Example 2
+## Attribute Example
 
 ```html
 <uip-settings dir-toggle resizable collapsible>
