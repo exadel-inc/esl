@@ -39,6 +39,7 @@ import {
   ESLCarouselKeyboardMixin,
   ESLCarouselRelateToMixin,
   ESLCarouselAutoplayMixin,
+  ESLCarouselAutoplayProgressMixin,
   ESLLazyTemplate
 } from '@exadel/esl/modules/all';
 
@@ -125,6 +126,7 @@ ESLCarouselTouchMixin.register();
 ESLCarouselKeyboardMixin.register();
 ESLCarouselRelateToMixin.register();
 ESLCarouselAutoplayMixin.register();
+ESLCarouselAutoplayProgressMixin.register();
 ESLCarouselWheelMixin.register();
 
 ESLAnimate.register();

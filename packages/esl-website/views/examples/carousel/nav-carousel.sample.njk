@@ -2,18 +2,21 @@
 title: Carousel (Nav Carousel)
 order: 10
 tags: carousel-sample
+
+slideCount: 16
 ---
 <div class="flex-column main-carousel esl-carousel-nav-container">
   <esl-carousel demo-options-target
                 id="main-carousel"
-                type="default"
-                esl-carousel-touch
+                type="css-fade"
+                esl-carousel-touch="swipe"
                 esl-carousel-relate-to="#nav-carousel">
     <ul esl-carousel-slides>
-      {% for item in range(0, 8) %}
+      {% for item in range(0, slideCount) %}
         <li esl-carousel-slide>
           <div class="img-container img-container-16-9" esl-image-container>
             <img class="img-fade img-cover"
+                 draggable="false"
                  alt="{{ 'Carousel slide ' + loop.index }}"
                  src="{{ '/assets/carousel/' + loop.index + '-sm.jpg' | url }}"
                  loading="lazy" />
@@ -30,7 +33,7 @@ tags: carousel-sample
                 esl-carousel-touch="drag"
                 count="5">
     <ul esl-carousel-slides>
-      {% for item in range(0, 16) %}
+      {% for item in range(0, slideCount) %}
         <li esl-carousel-slide>
           <div class="img-container img-container-4-3"
                esl-image-container
