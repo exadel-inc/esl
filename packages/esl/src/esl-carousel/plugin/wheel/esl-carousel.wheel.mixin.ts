@@ -48,7 +48,7 @@ export class ESLCarouselWheelMixin extends ESLCarouselPlugin<ESLCarouselWheelCon
     }
   }
 
-  /** Resubscribe according new config */
+  /** Resubscribes according new config */
   @listen({inherit: true})
   protected override onConfigChange(): void {
     super.onConfigChange();

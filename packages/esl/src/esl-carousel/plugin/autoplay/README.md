@@ -18,7 +18,7 @@ The configuration properties of the `esl-carousel-autoplay` are the following:
  - `duration` (primary property, could be declared as the only value in the attribute)
    Supports CSS time format (e.g. `1s`, `500ms`) or a number in milliseconds.
    Declares the autoplay cycle duration in milliseconds. The value is required. 
-   To disable the autoplay set the value to `0`, negative value or `none` (it is enough to set one of these values to deactivate all autoplay features).
+   To disable the autoplay, set the value to `0`, negative value or `none` (it is enough to set one of these values to deactivate all autoplay features).
    Set to `10s` if the value is not provided explicitly.
  - `command` (optional) (default: `slide:next`)
    Declares the autoplay command. Could be any `ESLCarouselSlideTarget` nav string.
@@ -28,24 +28,24 @@ The configuration properties of the `esl-carousel-autoplay` are the following:
  - `control` (optional)
    The ESLTraversingQuery selector for the controls that should be treated as the autoplay plugin enable/disable controls.
  - `controlsCls` (optional)
-   The class that will be added to the controls when the autoplay is enabled. Supports ESL CSSClassUtils syntax.
+   The class to be added to controls when autoplay is enabled. Supports ESL CSSClassUtils syntax.
  - `containerCls` (optional)
-   The class that will be added to the carousel container when the autoplay is enabled. Supports ESL CSSClassUtils syntax.
+   The class to be added to the carousel container when autoplay is enabled. Supports ESL CSSClassUtils syntax.
 
 ## Events
 
-The `esl-carousel-autoplay` plugin emit the `esl:autoplay:change` event when the autoplay to notify about one of the following changes:
+The `esl-carousel-autoplay` plugin emits the `esl:autoplay:change` event when it is changed to notify about one of the following changes:
  - Autoplay/plugin is enabled/disabled
  - Autoplay is paused/resumed
  - Autoplay next cycle is started
 
-Each of `esl:autoplay:change` event contains quick access (own properties) for the following state props:
+Each of `esl:autoplay:change` events contains quick access (own properties) for the following state props:
  - `enabled` (boolean) - true if the autoplay plugin is enabled, false otherwise
  - `active` (boolean) - true if the autoplay is active (starts a new cycle), false otherwise
  - `duration` (number) - the current autoplay duration in milliseconds
 
-The `esl:autoplay:change` event dispatched on the `esl-carousel` element. 
-It is not propagated to the parent elements (non bubbling event).
+The `esl:autoplay:change` event is dispatched on the `esl-carousel` element. 
+It is not propagated to the parent elements (non-bubbling event).
 The `esl:autoplay:change` event is not cancelable.
 
 The primary use case of the `esl:autoplay:change` event is to create a progress bar for the autoplay cycle.
@@ -103,7 +103,7 @@ or
 ```
 
 ### Using ESLMediaRuleList capabilities
-The configuration bellow make the autoplay to be enabled only on `MD` and `LG` breakpoints, with different durations for each breakpoint.
+The configuration below enables autoplay only on `MD` and `LG` breakpoints, with different durations for each breakpoint.
 But utilizing the `controls` and `containerCls` properties, for both enabled breakpoints.
 ```html
 <esl-carousel esl-carousel-autoplay="{controls: '.esl-carousel-control', duration: 0, containerCls: 'autoplay-enabled'} | @MD => 5s | @LG => 10s">
