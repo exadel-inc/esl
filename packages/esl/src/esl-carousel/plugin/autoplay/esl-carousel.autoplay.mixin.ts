@@ -9,10 +9,12 @@ import {ESLCarouselSlideEvent} from '../../core/esl-carousel.events';
 import {ESLCarouselAutoplayEvent} from './esl-carousel.autoplay.event';
 
 export interface ESLCarouselAutoplayConfig {
-  /** Timeout to send next command to the host carousel */
+  /** Duration of the autoplay timer in milliseconds. Default: 5000 */
   duration: string | number;
   /** Navigation command to send to the host carousel. Default: 'slide:next' */
   command: string;
+  /** Weather to track user interaction (focus/hover) with the carousel to pause/resume autoplay */
+  trackInteraction: boolean;
   /** Selector for control to toggle plugin state */
   control?: string;
   /** Class to toggle on control element, when autoplay is active */
@@ -31,8 +33,9 @@ export interface ESLCarouselAutoplayConfig {
 export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutoplayConfig> {
   public static override is = 'esl-carousel-autoplay';
   public static override DEFAULT_CONFIG: ESLCarouselAutoplayConfig = {
-    duration: 5000,
-    command: 'slide:next'
+    duration: 10000,
+    command: 'slide:next',
+    trackInteraction: true
   };
   public static override DEFAULT_CONFIG_KEY: keyof ESLCarouselAutoplayConfig = 'duration';
 
@@ -82,6 +85,7 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
   protected override onConfigChange(): void {
     super.onConfigChange();
     memoize.clear(this, ['$controls', 'duration']);
+    this.$$on({auto: true});
     // Full restart during config change
     this.stop();
     this.start();
@@ -132,7 +136,10 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
   }
 
   /** Handles auxiliary events that represent user interaction to pause/resume timer */
-  @listen('mouseleave mouseenter focusin focusout')
+  @listen({
+    event: 'mouseleave mouseenter focusin focusout',
+    condition: ($this: ESLCarouselAutoplayMixin) => $this.config.trackInteraction
+  })
   protected _onInteract(e: Event): void {
     if (!this.enabled) return;
     if (['mouseenter', 'focusin'].includes(e.type)) {
