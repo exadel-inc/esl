@@ -13,7 +13,7 @@ export interface ESLCarouselAutoplayConfig {
   duration: string | number;
   /** Navigation command to send to the host carousel. Default: 'slide:next' */
   command: string;
-  /** Weather to track user interaction (focus/hover) with the carousel to pause/resume autoplay */
+  /** Whether to track user interaction (focus/hover) with the carousel to pause/resume autoplay */
   trackInteraction: boolean;
   /** Selector for control to toggle plugin state */
   control?: string;

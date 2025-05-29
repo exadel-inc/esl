@@ -25,7 +25,7 @@ The configuration properties of the `esl-carousel-autoplay` are the following:
  - `trackInteraction` (optional) (default: `true`)
    If set to `true`, the autoplay will be paused on user interaction with the carousel (e.g. mouseover, focus, touchstart).
    If set to `false`, the autoplay will not be paused on user interaction.
- - `controls` (optional)
+ - `control` (optional)
    The ESLTraversingQuery selector for the controls that should be treated as the autoplay plugin enable/disable controls.
  - `controlsCls` (optional)
    The class that will be added to the controls when the autoplay is enabled. Supports ESL CSSClassUtils syntax.
@@ -54,10 +54,10 @@ The primary use case of the `esl:autoplay:change` event is to create a progress 
 
 In addition to the status event, the `esl-carousel-autoplay` goes with an optional additional custom attribute `esl-carousel-autoplay-progress`.
 It could be added to any element that should be used as a progress bar for the autoplay cycle.
-The `esl-carousel-autoplay-progress` custom attribute will automatically bind to the `esl:autoplay:change` event and refect autoplay cycle progress by setting the following properties:
+The `esl-carousel-autoplay-progress` custom attribute will automatically bind to the `esl:autoplay:change` event and reflect autoplay cycle progress by setting the following properties:
  - `autoplay-enabled` boolean attribute - true if the autoplay plugin is enabled, false otherwise
  - `animate` boolean attribute - appears on each autoplay cycle start; drops for a one frame to allow CSS transitions/animation to be handled
- - `--esl-autoplay-duration` CSS variable - the current autoplay duration in milliseconds
+ - `--esl-autoplay-timeout` CSS variable - the current autoplay duration in milliseconds
 
 The only parameter that `esl-carousel-autoplay-progress` custom attribute accepts as its value is the `esl-carousel` ESLTraversingQuery selector.
 If selector is not provided, the `esl-carousel-autoplay-progress` will try to find first `esl-carousel` element inside the closest `.esl-carousel-container` parent.
