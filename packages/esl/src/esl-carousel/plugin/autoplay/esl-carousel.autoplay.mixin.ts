@@ -127,7 +127,7 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
   /** Handles click on control element to toggle plugin state */
   @listen({
     event: 'click',
-    target: ($this: ESLCarouselAutoplayMixin)=> $this.$controls,
+    target: ($this: ESLCarouselAutoplayMixin) => $this.$controls,
     condition: ($this: ESLCarouselAutoplayMixin)=> !!$this.$controls.length
   })
   protected _onToggle(e: Event): void {
