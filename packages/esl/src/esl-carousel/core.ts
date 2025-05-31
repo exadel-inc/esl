@@ -21,6 +21,8 @@ export * from './plugin/keyboard/esl-carousel.keyboard.mixin';
 
 // Autoplay
 export * from './plugin/autoplay/esl-carousel.autoplay.mixin';
+export * from './plugin/autoplay/esl-carousel.autoplay.event';
+export * from './plugin/autoplay/esl-carousel.autoplay.progress.mixin';
 
 // Link Utility
 export * from './plugin/relation/esl-carousel.relation.mixin';

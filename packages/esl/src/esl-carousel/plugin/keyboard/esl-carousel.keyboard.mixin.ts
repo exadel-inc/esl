@@ -31,9 +31,10 @@ export class ESLCarouselKeyboardMixin extends ESLCarouselPlugin<ESLCarouselKeybo
   /** Handles `keydown` event */
   @listen('keydown')
   protected _onKeydown(event: KeyboardEvent): void {
-    if (!this.$host || this.$host.animating || this.config.command === 'none') return;
-    if (event.key === this.nextKey) this.$host.goTo(`${this.config.command || 'slide'}:next`);
-    if (event.key === this.prevKey) this.$host.goTo(`${this.config.command || 'slide'}:prev`);
+    const {command} = this.config;
+    if (!this.$host || this.$host.animating || command === 'none') return;
+    if (event.key === this.nextKey) this.$host.goTo(`${command || 'slide'}:next`);
+    if (event.key === this.prevKey) this.$host.goTo(`${command || 'slide'}:prev`);
   }
 }
 

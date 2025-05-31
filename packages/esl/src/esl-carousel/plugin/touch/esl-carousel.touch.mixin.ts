@@ -1,5 +1,5 @@
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
-import {listen, memoize} from '../../../esl-utils/decorators';
+import {listen} from '../../../esl-utils/decorators';
 import {getParentScrollOffsets, isOffsetChanged} from '../../../esl-utils/dom/scroll';
 
 import {ESLCarouselPlugin} from '../esl-carousel.plugin';
@@ -36,8 +36,8 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin<ESLCarouselTouchCon
   public static readonly DRAG_TYPE = 'drag';
   public static readonly SWIPE_TYPE = 'swipe';
 
-  public static override DEFAULT_CONFIG_KEY = 'type';
-  public static readonly DEFAULT_CONFIG: ESLCarouselTouchConfig = {
+  public static override readonly DEFAULT_CONFIG_KEY = 'type';
+  public static override readonly DEFAULT_CONFIG: ESLCarouselTouchConfig = {
     tolerance: 10,
     type: 'drag',
     swipeType: 'group',
@@ -51,16 +51,6 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin<ESLCarouselTouchCon
   protected startEvent?: PointerEvent;
   /** Initial scroll offsets, filled on touch action start */
   protected startScrollOffsets: ElementScrollOffset[];
-
-  @memoize()
-  public override get config(): ESLCarouselTouchConfig {
-    return Object.assign({}, ESLCarouselTouchMixin.DEFAULT_CONFIG, this.configQuery.value || {});
-  }
-
-  /* Handle dynamic config change */
-  protected override onConfigChange(): void {
-    memoize.clear(this, 'config');
-  }
 
   /** @returns whether the swipe mode is active */
   public get isSwipeMode(): boolean {
@@ -108,7 +98,6 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin<ESLCarouselTouchCon
   /** Handles `mousedown` / `touchstart` event to manage thumb drag start and scroll clicks */
   @listen('pointerdown')
   protected _onPointerDown(event: PointerEvent): void {
-    memoize.clear(this, 'config');
     if (this.isDisabled) return;
 
     this.startEvent = event;

@@ -297,10 +297,12 @@ export class ESLCarousel extends ESLBaseElement {
   }
 
   /** Goes to the target according to passed params */
-  public goTo(target: HTMLElement | ESLCarouselSlideTarget, params: Partial<ESLCarouselActionParams> = {}): Promise<void> {
+  public async goTo(target: HTMLElement | ESLCarouselSlideTarget, params: Partial<ESLCarouselActionParams> = {}): Promise<void> {
     if (target instanceof HTMLElement) return this.goTo(this.indexOf(target), params);
-    if (!this.renderer) return Promise.reject();
-    return this.renderer.navigate(toIndex(target, this.state), this.mergeParams(params));
+    if (!this.renderer) throw new Error('Renderer is not available');
+    const index = toIndex(target, this.state);
+    if (isNaN(index.index)) throw new Error(`Invalid target index passed ${target}`);
+    return this.renderer.navigate(index, this.mergeParams(params));
   }
 
   /** Moves slides by the passed offset */
