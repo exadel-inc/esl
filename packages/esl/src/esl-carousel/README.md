@@ -219,7 +219,7 @@ It is also good practice to use the `--esl-carousel-step-duration` CSS variable 
 
 Animations can make use of global markers such as `active`, `pre-active`, `next`, and `prev` attributes, as well as the `animating` state attribute on the carousel element.
 
-Additionally, the renderer provides the CSS classes `left`, `right`, `forward`, and `backward` on affected slides to help define animation direction.
+Additionally, the renderer provides the CSS classes `forward`, and `backward` on `[esl-carousels-slides]` to help define animation direction.
 
 The renderer supports the move operation, but you must rely on one of the following CSS variables and markers:
 * `shifted` – A root element attribute added to the carousel element when the move operation is not committed.
@@ -227,6 +227,9 @@ The renderer supports the move operation, but you must rely on one of the follow
 * `--esl-carousel-offset-ratio` – A CSS variable representing the offset relative to the carousel size and move tolerance.
 
 By default, this renderer does not include any specific animation. However, several built-in animation implementations are provided (detailed below).
+
+It is important to note that the CSS renderer uses a grid layout for the slides container to ensure consistent slide sizes (auto-height).
+You need to override the layout intentionally if you want to use a different method to normalize the slide/carousel sizes.
 
 #### CSS Fade Renderer (type: `css-fade`)
 An extension of the default CSS renderer that provides fade animation styles for slide transitions.
