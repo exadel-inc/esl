@@ -5,7 +5,7 @@ fi
 
 # Skip check for remove remote branch operation
 while read local_ref local_sha remote_ref remote_sha; do
-  if [[ "$local_sha" == "0000000000000000000000000000000000000000" ]]; then
+  if [ "$local_sha" = "0000000000000000000000000000000000000000" ]; then
     echo "Skipping pre-push check for deleted branch"
     exit 0
   fi
