@@ -103,20 +103,27 @@ function calcPopupPositionByMajorAxis(cfg: PopupPositionConfig): number {
  * @param cfg - popup position config
  */
 function calcPopupPositionByMinorAxis(cfg: PopupPositionConfig): number {
-  const {placement, alignment, arrow, offsetTetherRatio, marginTether, trigger} = cfg;
-  let tetherPlacement;
-  switch (alignment) {
-    case 'start':
-      tetherPlacement = trigger[isOnHorizontalAxis(placement) ? 'y' : 'x'];
-      break;
-    case 'end':
-      tetherPlacement = trigger[isOnHorizontalAxis(placement) ? 'bottom' : 'right'];
-      break;
-    default:
-      tetherPlacement = trigger[isOnHorizontalAxis(placement) ? 'cy' : 'cx'];
-  }
+  const {placement, arrow, offsetTetherRatio, marginTether} = cfg;
   const dimensionName = getDimensionName(placement, true);
-  return (tetherPlacement + cfg.offsetPlacement) - arrow[dimensionName] / 2 - marginTether - calcUsableSizeForArrow(cfg, dimensionName) * offsetTetherRatio;
+  return calcTetherPlacement(cfg) - arrow[dimensionName] / 2 - marginTether - calcUsableSizeForArrow(cfg, dimensionName) * offsetTetherRatio;
+}
+
+/**
+ * Gets the coordinate for tether placement based on the alignment and placement.
+ * @param cfg - popup position config
+ */
+function getTetherPlacementCoord(cfg: PopupPositionConfig): 'y' | 'x' | 'bottom' | 'right' | 'cy' | 'cx' {
+  if (cfg.alignment === 'start') return isOnHorizontalAxis(cfg.placement) ? 'y' : 'x';
+  if (cfg.alignment === 'end') return isOnHorizontalAxis(cfg.placement) ? 'bottom' : 'right';
+  return isOnHorizontalAxis(cfg.placement) ? 'cy' : 'cx';
+}
+
+/**
+ * Calculates the tether placement coordinate on the minor axis.
+ * @param cfg - popup position config
+ */
+function calcTetherPlacement(cfg: PopupPositionConfig): number {
+  return cfg.trigger[getTetherPlacementCoord(cfg)] + cfg.offsetPlacement;
 }
 
 /**
