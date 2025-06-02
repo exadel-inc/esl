@@ -30,11 +30,19 @@ updates:
         patterns:
           - "jest-*"
           - "@types/jest"
+      eslint:
+        patterns:
+          - "eslint"
+          - "@eslint/*"
       eslint-plugin-import:
         patterns:
           - "eslint-plugin-import"
           - "eslint-plugin-import-x"
           - "eslint-import-resolver-*"
+      nx:
+        patterns:
+          - "nx"
+          - "@nx/*"
 
   # Maintain dependencies for GitHub Actions
   - package-ecosystem: "github-actions"
