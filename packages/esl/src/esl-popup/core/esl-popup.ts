@@ -137,6 +137,7 @@ export class ESLPopup extends ESLToggleable {
   }
 
   /** Get offsets tether ratio */
+  @memoize()
   protected get offsetTetherRatio(): number {
     const {alignmentTether} = this.config;
     if (!['start', 'end'].includes(alignmentTether)) return 0.5;
