@@ -20,7 +20,7 @@
     "pack": "nx run eslint-config:pack"
   },
   "dependencies": {
-    "@eslint/js": "^9.27.0",
+    "@eslint/js": "^9.28.0",
     "@stylistic/eslint-plugin": "^4.4.0",
     "@stylistic/eslint-plugin-jsx": "^4.4.0",
     "eslint-plugin-import": "^2.31.0",
