@@ -26,7 +26,7 @@
     "lint": "nx run-many -t lint",
     "build": "nx run-many -t build",
     "build:core": "nx run esl:build",
-    "build:website": "nx run esl-website:build --site-env=production",
+    "build:website": "nx run esl-website:build",
     "pack": "npx mkdirp target && nx run-many -t pack",
     "prepare": "husky",
     "preversion": "npm test",

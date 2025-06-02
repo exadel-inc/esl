@@ -43,6 +43,7 @@ jobs:
       - name: Build ESL & Site
         run: npm run build:website
         env:
+          SITE_ENV: production
           SITE_BASE_URL: ${{ steps.pages.outputs.base_url }}
           BUILD_VERSION: ${{ github.run_number }}
       - name: Upload artifact
