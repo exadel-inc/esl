@@ -38,7 +38,7 @@
     "run:eleventy": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "eleventy --serve --incremental -- --env={args.site-env}",
+        "command": "eleventy --serve --incremental",
         "cwd": "packages/esl-website"
       }
     },
@@ -53,12 +53,13 @@
     "build:eleventy": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "eleventy -- --env={args.site-env}",
+        "command": "eleventy",
         "cwd": "packages/esl-website"
       },
       "dependsOn": ["^build:docs"],
       "cache": true,
       "inputs": [
+        {"env": "SITE_ENV"},
         "{projectRoot}/11ty/**/*",
         "{projectRoot}/src/**/*",
         "{projectRoot}/views/**/*",
@@ -101,6 +102,7 @@
       "cache": true,
       "dependsOn": ["^build:ts"],
       "inputs": [
+        {"env": "SITE_ENV"},
         "{projectRoot}/src/**/*.ts",
         "{projectRoot}/webpack.config.js"
       ],
@@ -136,6 +138,7 @@
       },
       "cache": true,
       "inputs": [
+        {"env": "SITE_ENV"},
         "{projectRoot}/src/**/*.less",
         "{workspaceRoot}/node_modules/@exadel/esl/modules/**/*.less"
       ],
