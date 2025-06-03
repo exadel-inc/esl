@@ -60,6 +60,7 @@
       "cache": true,
       "inputs": [
         {"env": "SITE_ENV"},
+        {"input": "default", "projects": ["esl"]},
         "{projectRoot}/11ty/**/*",
         "{projectRoot}/src/**/*",
         "{projectRoot}/views/**/*",
@@ -103,6 +104,7 @@
       "dependsOn": ["^build:ts"],
       "inputs": [
         {"env": "SITE_ENV"},
+        {"input": "default", "projects": ["esl"]},
         "{projectRoot}/src/**/*.ts",
         "{projectRoot}/webpack.config.js"
       ],
@@ -139,8 +141,9 @@
       "cache": true,
       "inputs": [
         {"env": "SITE_ENV"},
-        "{projectRoot}/src/**/*.less",
-        "{workspaceRoot}/node_modules/@exadel/esl/modules/**/*.less"
+        {"input": "default", "projects": ["esl"]},
+        "{projectRoot}/src/**/*.css",
+        "{projectRoot}/src/**/*.less"
       ],
       "outputs": [
         "{projectRoot}/dist/bundles/**/*.css"
@@ -149,8 +152,7 @@
     "watch:less": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "chokidar \"../../node_modules/@exadel/esl/modules/.less.done\" \"src/**/*.less\" -c \"nx run esl-website:build:less:only\"",
-        "cwd": "packages/esl-website"
+        "command": "chokidar \"packages/esl/modules/.less.done\" \"packages/esl-website/src/**/*.less\" -c \"nx run esl-website:build:less:only\""
       }
     },
 
