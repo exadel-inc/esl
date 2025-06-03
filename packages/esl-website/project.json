@@ -74,6 +74,7 @@
       "executor": "nx:noop",
       "dependsOn": [
         "esl:build",
+        "uip:build",
         "esl-website:build:ts",
         "esl-website:build:less"
       ]
@@ -83,6 +84,7 @@
       "options": {
         "commands": [
           "nx run esl:watch",
+          "nx run uip:watch",
           {"command": "nx run esl-website:watch:ts", "prefix": "[Site watch:ts]"},
           {"command": "nx run esl-website:watch:less", "prefix": "[Site watch:less]"}
         ]
@@ -149,7 +151,13 @@
     "watch:less": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "chokidar \"../../node_modules/@exadel/esl/modules/.less.done\" \"src/**/*.less\" -c \"nx run esl-website:build:less:only\"",
+        "command": "chokidar",
+        "args": [
+          "\"../../node_modules/@exadel/esl/modules/.less.done\"",
+          "\"../../node_modules/@exadel/ui-playground/dist/.less.done\"",
+          "\"src/**/*.less\"",
+          "-c \"nx run esl-website:build:less:only\""
+        ],
         "cwd": "packages/esl-website"
       }
     },

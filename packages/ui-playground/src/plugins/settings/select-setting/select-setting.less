@@ -1,0 +1,35 @@
+@import '@exadel/esl/modules/esl-forms/esl-select/core.less';
+@import '@exadel/esl/modules/esl-forms/esl-select-list/core.less';
+
+.uip-select-setting .esl-select {
+  display: block;
+  min-width: 0;
+
+  .esl-select-renderer {
+    padding: 0 2px;
+    border: 1px solid var(--uip-plugin-divider, #ccc);
+
+    &::after {
+      color: var(--uip-plugin-fg, #000);
+    }
+  }
+}
+
+.uip-select-dropdown {
+  .esl-select-list {
+    color: var(--uip-plugin-fg, #000);
+    background-color: var(--uip-plugin-bg, #fff);
+  }
+
+  .esl-select-list .esl-select-list-container {
+    margin-right: 0;
+  }
+
+  .esl-select-item::before {
+    border-color: var(--uip-plugin-fg, #000);
+  }
+
+  .esl-select-item[selected]::before {
+    background-color: var(--uip-plugin-fg, #000);
+  }
+}
