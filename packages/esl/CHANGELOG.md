@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.6.1](https://github.com/exadel-inc/esl/compare/v5.6.0...v5.6.1) (2025-06-06)
+
+
+### Bug Fixes
+
+* **esl-carousel:** fix incorrect `canNavigate` behaviour for undefined direction navigation (equal distance for both direction to reach the target slide) ([34a70fa](https://github.com/exadel-inc/esl/commit/34a70fab80f92d1f8572bbf219d5546d7164ceb8))
+* **esl-carousel:** improve collision handling, introduce special type of Error - ESLCarouselNavRejection it represents renderer rejection but not produce noisy log in console ([b02207a](https://github.com/exadel-inc/esl/commit/b02207a001a7f83cb60bf6dca9bc8bbc6e803f63))
+
+
+
+
+
 # [5.6.0](https://github.com/exadel-inc/esl/compare/v5.5.0...v5.6.0) (2025-06-03)
 
 
