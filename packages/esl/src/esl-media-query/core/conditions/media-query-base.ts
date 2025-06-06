@@ -1,6 +1,6 @@
 export interface IMediaQueryCondition extends EventTarget {
   /** @returns true if current environment satisfies query */
-  matches: boolean;
+  readonly matches: boolean;
 
   /** Subscribes to media query state change. Shortcut for `addEventListener('change', callback)` */
   addEventListener(callback: EventListener): void;

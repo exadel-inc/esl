@@ -1,18 +1,21 @@
 import {memoize} from '../../esl-utils/decorators';
+import {isObject} from '../../esl-utils/misc/object/types';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 
 import {ESLScreenDPR} from './common/screen-dpr';
 import {ESLScreenBreakpoints} from './common/screen-breakpoint';
 import {ESLEnvShortcuts} from './common/env-shortcuts';
+import {ESLStaticShortcuts} from './common/static-shortcuts';
 
 import {ALL, NOT_ALL} from './conditions/media-query-const';
 import {MediaQueryCondition} from './conditions/media-query-condition';
+import {MediaQueryInversion} from './conditions/media-query-inversion';
 import {MediaQueryConjunction, MediaQueryDisjunction} from './conditions/media-query-containers';
 
 import type {IMediaQueryCondition} from './conditions/media-query-base';
 
 export interface IMediaQueryPreprocessor {
-  process: (match: string) => string | boolean | undefined;
+  process: (match: string) => IMediaQueryCondition | string | boolean | undefined;
 }
 
 /**
@@ -69,13 +72,14 @@ export abstract class ESLMediaQuery implements IMediaQueryCondition {
   }
 
   /** Preprocess simple query term by applying replacers and shortcuts rules */
-  protected static preprocess(term: string): string {
+  protected static preprocess(term: string): string | IMediaQueryCondition {
     if (!this.SHORTCUT_PATTERN.test(term)) return term;
     const shortcut = term.trim().substring(1).toLowerCase();
     for (const replacer of this._preprocessors) {
       const result = replacer.process(shortcut);
+      if (isObject(result)) return result;
       if (typeof result === 'string') return result;
-      if (typeof result === 'boolean') return result ? 'all' : 'not all';
+      if (typeof result === 'boolean') return result ? ALL : NOT_ALL;
     }
     return term;
   }
@@ -84,13 +88,17 @@ export abstract class ESLMediaQuery implements IMediaQueryCondition {
   protected static parseSimpleQuery(term: string): ESLMediaQuery {
     const query = term.replace(/^\s*not\s+/, '');
     const queryInverted = query !== term;
+
     const processedQuery = ESLMediaQuery.preprocess(query);
+    if (typeof processedQuery === 'object') {
+      return queryInverted ? new MediaQueryInversion(processedQuery) : processedQuery;
+    }
+
     const sanitizedQuery = processedQuery.replace(/^\s*not\s+/, '');
     const resultInverted = processedQuery !== sanitizedQuery;
     const invert = queryInverted !== resultInverted;
 
     if (ALL.eq(sanitizedQuery)) return invert ? NOT_ALL : ALL;
-    if (NOT_ALL.eq(sanitizedQuery)) return invert ? ALL : NOT_ALL;
     return new MediaQueryCondition(sanitizedQuery, invert);
   }
 
@@ -111,6 +119,7 @@ export abstract class ESLMediaQuery implements IMediaQueryCondition {
 ESLMediaQuery.use(ESLScreenDPR);
 ESLMediaQuery.use(ESLScreenBreakpoints);
 ESLMediaQuery.use(ESLEnvShortcuts);
+ESLMediaQuery.use(ESLStaticShortcuts);
 
 declare global {
   export interface ESLLibrary {
