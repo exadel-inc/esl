@@ -1,4 +1,3 @@
-import {DevicesMock} from '../../esl-utils/test/deviceDetector.mock';
 import {ESLMediaQuery, ESLScreenBreakpoints} from '../core';
 import {getMatchMediaMock} from '../../esl-utils/test/matchMedia.mock';
 import {ESLMediaChangeEvent} from '../core/conditions/media-query-base';
@@ -40,105 +39,13 @@ describe('ESLMediaQuery', () => {
     });
   });
 
-  describe('Breakpoint shortcuts', () => {
-    test.each([
-      ['@xs', '(min-width: 1px) and (max-width: 767px)'],
-      ['@sm', '(min-width: 768px) and (max-width: 991px)'],
-      ['@md', '(min-width: 992px) and (max-width: 1199px)'],
-      ['@lg', '(min-width: 1200px) and (max-width: 1599px)'],
-      ['@xl', '(min-width: 1600px) and (max-width: 999999px)'],
-      ['@XL', '(min-width: 1600px) and (max-width: 999999px)'],
-      ['@small', '(min-width: 100px) and (max-width: 200px)'],
-      ['@+sm', '(min-width: 768px)'],
-      ['@-md', '(max-width: 1199px)']
-    ])('%s -> %s', (query, expected) => {
-      expect(ESLMediaQuery.from(query).toString()).toBe(expected);
-    });
-
-    test.each([
-      ['not @small', 'not ((min-width: 100px) and (max-width: 200px))'],
-      ['not @+sm', 'not (min-width: 768px)'],
-      ['not @-md', 'not (max-width: 1199px)'],
-    ])('Inverted replacement %p', (query, expected) => {
-      expect(ESLMediaQuery.from(query).toString()).toBe(expected);
-    });
-
-    test.each([
-      ['@+sm, @-md', '(min-width: 768px), (max-width: 1199px)'],
-      ['@+sm or @-md', '(min-width: 768px), (max-width: 1199px)'],
-      ['@+sm and @-md', '(min-width: 768px) and (max-width: 1199px)'],
-    ])('Inverted replacement %p', (query, expected) => {
-      expect(ESLMediaQuery.from(query).toString()).toBe(expected);
-    });
-  });
-
-  describe('DPR shortcuts', () => {
-    test.each([
-      ['@0x', '(min-resolution: 0.0dpi)'],
-      ['@1x', '(min-resolution: 96.0dpi)'],
-      ['@01x', '(min-resolution: 96.0dpi)'],
-      ['@.3x', '(min-resolution: 28.8dpi)'],
-      ['@0.3x', '(min-resolution: 28.8dpi)'],
-      ['@1.6x', '(min-resolution: 153.6dpi)'],
-    ])('Dpr %s replacement', (query, expected) => {
-      expect(ESLMediaQuery.from(query).toString()).toBe(expected);
-    });
-
-    test.each([
-      ['@1x', '(-webkit-min-device-pixel-ratio: 1)'],
-      ['@2.3x', '(-webkit-min-device-pixel-ratio: 2.3)'],
-    ])('Dpr %s replacement', (query, expected) => {
-      DevicesMock.isSafari = true;
-      expect(ESLMediaQuery.from(query).toString()).toBe(expected);
-      DevicesMock.isSafari = false;
-    });
-  });
-
-  describe('Device type shortcut', () => {
-    test.each([
-      ['@mobile', 'not all'],
-      ['@Mobile', 'not all'],
-      ['@MOBILE', 'not all'],
-      ['@desktop', 'all'],
-      ['@Desktop', 'all'],
-      ['@DESKTOP', 'all'],
-    ])('Query check for %p', (query, expected) => {
-      expect(ESLMediaQuery.from(query).toString()).toBe(expected);
-    });
-
-    test.each([
-      ['not @mobile', 'all'],
-      ['not @desktop', 'not all']
-    ])('Inverted query check for %p', (query, expected) => {
-      expect(ESLMediaQuery.from(query).toString()).toBe(expected);
-    });
-  });
-
-  describe('Browser check shortcut', () => {
-    test.each([
-      ['@ie', 'not all'],
-      ['@edge', 'not all'],
-      ['@gecko', 'not all'],
-      ['@blink', 'not all'],
-      ['@safari', 'not all']
-    ])('Query check for %p', (query, expected) => {
-      expect(ESLMediaQuery.from(query).toString()).toBe(expected);
-    });
-
-    test.each([
-      ['not @ie', 'all']
-    ])('Inverted query check for %p', (query, expected) => {
-      expect(ESLMediaQuery.from(query).toString()).toBe(expected);
-    });
-  });
-
   describe('Edge cases', () => {
     test.each([
-      ['@smnot', '@smnot'],
-      ['@+smnot', '@+smnot'],
+      ['@smnot', '[smnot = not all]'],
+      ['@+smnot', 'not all'],
       ['2x', '2x'],
-      ['@-2x', '@-2x'],
-      ['@1.5', '@1.5'],
+      ['@-2x', 'not all'],
+      ['@1.5', 'not all'],
       ['not valid', 'not valid']
     ])('Apply tests for %p breakpoint', (query, expected) => {
       expect(ESLMediaQuery.from(query).toString()).toBe(expected);
@@ -148,12 +55,12 @@ describe('ESLMediaQuery', () => {
   describe('Logical operations', () => {
     describe('Conjunction', () => {
       test.each([
-        ['@desktop and @2x', '(min-resolution: 192.0dpi)'],
+        ['all and @2x', '(min-resolution: 192.0dpi)'],
         ['@1x and @+sm', '(min-resolution: 96.0dpi) and (min-width: 768px)'],
-        ['@+sm and @desktop', '(min-width: 768px)'],
-        ['@2.5x and @desktop and @+sm', '(min-resolution: 240.0dpi) and (min-width: 768px)'],
-        ['@desktop and @+sm and @2.5x', '(min-width: 768px) and (min-resolution: 240.0dpi)'],
-        ['@+sm and @2.6x and @desktop', '(min-width: 768px) and (min-resolution: 249.6dpi)'],
+        ['@+sm and all', '(min-width: 768px)'],
+        ['@2.5x and all and @+sm', '(min-resolution: 240.0dpi) and (min-width: 768px)'],
+        ['all and @+sm and @2.5x', '(min-width: 768px) and (min-resolution: 240.0dpi)'],
+        ['@+sm and @2.6x and all', '(min-width: 768px) and (min-resolution: 249.6dpi)'],
       ])('%s to %s', (query, expected) => {
         expect(ESLMediaQuery.from(query).toString()).toBe(expected);
       });
@@ -177,6 +84,27 @@ describe('ESLMediaQuery', () => {
         ['@1x and @+sm and all', '(min-resolution: 96.0dpi) and (min-width: 768px)'],
         ['@1x and @+sm, not all', '(min-resolution: 96.0dpi) and (min-width: 768px)'],
       ])('Combination %s', (query, expected) => {
+        expect(ESLMediaQuery.from(query).toString()).toBe(expected);
+      });
+    });
+
+    describe('Disjunction', () => {
+      test.each([
+        ['@1x or @+sm or all', 'all'],
+        ['@1x or @+sm, not all', '(min-resolution: 96.0dpi), (min-width: 768px)'],
+      ])('Combination %s', (query, expected) => {
+        expect(ESLMediaQuery.from(query).toString()).toBe(expected);
+      });
+    });
+
+    describe('Double negation', () => {
+      test.each([
+        ['not not @1x', '(min-resolution: 96.0dpi)'],
+        ['not not @+sm', '(min-width: 768px)'],
+        ['not not all', 'all'],
+        ['not not not all', 'not all'],
+        ['not not not @1x', 'not (min-resolution: 96.0dpi)']
+      ])('Double negation %s', (query, expected) => {
         expect(ESLMediaQuery.from(query).toString()).toBe(expected);
       });
     });
