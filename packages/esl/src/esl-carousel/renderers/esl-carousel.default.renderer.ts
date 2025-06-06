@@ -1,6 +1,7 @@
 import {ESLMediaQuery} from '../../esl-media-query/core';
 import {normalize, sign} from '../core/esl-carousel.utils';
 import {ESLCarouselRenderer} from '../core/esl-carousel.renderer';
+import {ESLCarouselNavRejection} from '../core/esl-carousel.errors';
 
 import type {ESLCarouselDirection, ESLCarouselActionParams} from '../core/esl-carousel.types';
 
@@ -104,8 +105,8 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
   }
 
   /** Pre-processing animation action. */
-  public override async onBeforeAnimate(nextIndex: number, direction: ESLCarouselDirection, params: ESLCarouselActionParams): Promise<void> {
-    if (this.animating) throw new Error('[ESL] Carousel: already animating');
+  public override async onBeforeAnimate(index: number, direction: ESLCarouselDirection, params: ESLCarouselActionParams): Promise<void> {
+    if (this.animating) throw new ESLCarouselNavRejection(index);
     this.$carousel.$$attr('active', true);
   }
 

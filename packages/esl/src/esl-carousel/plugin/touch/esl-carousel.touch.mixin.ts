@@ -143,7 +143,7 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin<ESLCarouselTouchCon
     // Swipe final check
     if (this.isSwipeMode && offset && !this.isPrevented && this.isSwipeAccepted(event)) {
       const target = `${this.config.swipeType}:${offset < 0 ? 'next' : 'prev'}`;
-      if (this.$host.canNavigate(target)) this.$host.goTo(target, {activator: this});
+      if (this.$host.canNavigate(target)) this.$host.goTo(target, {activator: this}).catch(console.debug);
     }
   }
 }

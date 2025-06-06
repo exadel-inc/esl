@@ -2,6 +2,7 @@ import {promisifyNextRender} from '../../esl-utils/async/promise';
 import {ESLCarouselRenderer} from '../core/esl-carousel.renderer';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ESLCarouselDirection} from '../core/esl-carousel.types';
+import {ESLCarouselNavRejection} from '../core/esl-carousel.errors';
 
 import type {ESLCarouselActionParams} from '../core/esl-carousel.types';
 
@@ -56,7 +57,7 @@ export class ESLCSSCarouselRenderer extends ESLCarouselRenderer {
 
   /** Pre-processing animation action. */
   public override async onBeforeAnimate(index: number, direction: ESLCarouselDirection, params: ESLCarouselActionParams): Promise<void> {
-    if (this.animating) throw new Error('[ESL] Carousel: already animating');
+    if (this.animating) throw new ESLCarouselNavRejection(index);
     return promisifyNextRender();
   }
 

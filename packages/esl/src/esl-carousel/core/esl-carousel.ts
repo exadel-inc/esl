@@ -228,7 +228,7 @@ export class ESLCarousel extends ESLBaseElement {
     const detail = e.detail || {};
     if (!isMatches(this, detail.match)) return;
     const index = this.$slides.findIndex(($slide) => $slide.contains(e.target as Element));
-    if (index !== -1 && !this.isActive(index)) this.goTo(index);
+    if (index !== -1 && !this.isActive(index)) this.goTo(index).catch(console.debug);
   }
 
   /** @returns slides that are processed by the current carousel. */

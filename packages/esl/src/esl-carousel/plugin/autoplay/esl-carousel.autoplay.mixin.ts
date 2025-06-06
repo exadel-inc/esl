@@ -117,7 +117,7 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
   protected async _onCycle(exec?: boolean): Promise<void> {
     this._duration && window.clearTimeout(this._duration);
     this._duration = null;
-    if (exec) await this.$host?.goTo(this.config.command);
+    if (exec) await this.$host?.goTo(this.config.command).catch(console.debug);
     if (!this.enabled || this.active) return;
     const {duration} = this;
     this._duration = window.setTimeout(() => this._onCycle(true), duration);

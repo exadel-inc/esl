@@ -28,13 +28,21 @@ export class ESLCarouselKeyboardMixin extends ESLCarouselPlugin<ESLCarouselKeybo
     return this.$host.config.vertical ? ARROW_UP : ARROW_LEFT;
   }
 
+  /** @returns result command for carousel */
+  protected getCommandFromKey(key: string): string {
+    const {command} = this.config;
+    if (command === 'none') return '';
+    if (key === this.nextKey) return `${command || 'slide'}:next`;
+    if (key === this.prevKey) return `${command || 'slide'}:prev`;
+    return '';
+  }
+
   /** Handles `keydown` event */
   @listen('keydown')
   protected _onKeydown(event: KeyboardEvent): void {
-    const {command} = this.config;
-    if (!this.$host || this.$host.animating || command === 'none') return;
-    if (event.key === this.nextKey) this.$host.goTo(`${command || 'slide'}:next`);
-    if (event.key === this.prevKey) this.$host.goTo(`${command || 'slide'}:prev`);
+    if (!this.$host || this.$host.animating) return;
+    const command = this.getCommandFromKey(event.key);
+    command && this.$host.goTo(command).catch(console.debug);
   }
 }
 

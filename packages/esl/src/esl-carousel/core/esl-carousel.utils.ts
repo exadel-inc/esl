@@ -10,6 +10,9 @@ import type {
 /** @returns sign of the value */
 export const sign = (value: number): -1 | 1 | 0 => value > 0 ? 1 : value < 0 ? -1 : 0;
 
+const bounds =
+  (value: number, min: number, max: number): number => Math.max(min, Math.min(max, value));
+
 /** @returns normalized slide index in bounds of [0, count] range */
 export function normalize(index: number, size: number): number {
   return (size + (index % size)) % size;
@@ -17,7 +20,7 @@ export function normalize(index: number, size: number): number {
 
 /** @returns normalize first slide index according to the carousel mode */
 export function normalizeIndex(index: number, {size, count, loop}: ESLCarouselStaticState): number {
-  return loop && count < size ? normalize(index, size) : Math.max(0, Math.min(size - count, index));
+  return loop && count < size ? normalize(index, size) : bounds(index, 0, size - count);
 }
 
 /** @returns normalized sequence of slides starting from the current index */
@@ -129,5 +132,5 @@ export function canNavigate(target: ESLCarouselSlideTarget, cfg: ESLCarouselStat
   if (cfg.size <= cfg.count) return false;
   const {direction, index} = toIndex(target, cfg);
   if (!cfg.loop && direction && index < direction * cfg.activeIndex) return false;
-  return !!direction && index !== cfg.activeIndex;
+  return index !== cfg.activeIndex;
 }

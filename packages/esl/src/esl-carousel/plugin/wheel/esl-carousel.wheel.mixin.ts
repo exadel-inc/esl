@@ -77,7 +77,7 @@ export class ESLCarouselWheelMixin extends ESLCarouselPlugin<ESLCarouselWheelCon
     if (!this.$host || this.$host.animating) return;
     const delta = this.isVertical ? e.deltaY : e.deltaX;
     const direction = delta > 0 ? 'next' : 'prev';
-    this.$host?.goTo(`${this.config.command || 'slide'}:${direction}`);
+    this.$host?.goTo(`${this.config.command || 'slide'}:${direction}`).catch(console.debug);
   }
 }
 

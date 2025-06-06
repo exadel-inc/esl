@@ -44,7 +44,7 @@ export class ESLCarouselRelateToMixin extends ESLCarouselPlugin<ESLCarouselRelat
   @listen({event: ($this: ESLCarouselRelateToMixin) => $this.event})
   protected _onSlideChange(e: ESLCarouselSlideEvent): void {
     if (!this.$target || e.activator === this) return;
-    this.$target.goTo(this.$host.activeIndex, {activator: this});
+    this.$target.goTo(this.$host.activeIndex, {activator: this}).catch(console.debug);
   }
 }
 
