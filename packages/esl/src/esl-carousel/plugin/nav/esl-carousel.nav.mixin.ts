@@ -36,8 +36,12 @@ export class ESLCarouselNavMixin extends ESLMixinElement {
 
   /** @returns ESLCarousel instance; based on {@link carousel} attribute */
   @memoize()
-  public get $carousel(): ESLCarousel | null {
+  public get $carousel(): ESLCarousel {
     return ESLTraversingQuery.first(this.carousel, this.$host) as ESLCarousel;
+  }
+
+  public get isActive(): boolean {
+    return !!this.$carousel?.renderer && !this.$carousel.incomplete;
   }
 
   /** @returns accessible target ID */
@@ -65,10 +69,12 @@ export class ESLCarouselNavMixin extends ESLMixinElement {
     target: ($nav: ESLCarouselNavMixin) => $nav.$carousel
   })
   protected _onUpdate(): void {
-    const isActive = !!this.$carousel?.renderer && !this.$carousel.incomplete;
+    const isActive = this.isActive;
+    const isCurrent = isActive && this.$carousel.isCurrent(this.command);
     const isDisabled = isActive && !this.$carousel.canNavigate(this.command);
     this.$$attr('active', isActive);
     this.$$attr('disabled', isDisabled);
+    this.$$attr('current', isCurrent);
     this.$$attr('aria-controls', this.targetID);
   }
 
