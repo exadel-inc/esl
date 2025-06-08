@@ -134,3 +134,28 @@ export function canNavigate(target: ESLCarouselSlideTarget, cfg: ESLCarouselStat
   if (!cfg.loop && direction && index < direction * cfg.activeIndex) return false;
   return index !== cfg.activeIndex;
 }
+
+/** @returns whether the index is an active index in the carousel */
+export function isActiveIndex(index: number, cfg: ESLCarouselState): boolean {
+  const i = cfg.loop ? normalize(index, cfg.size) : bounds(index, 0, cfg.size - 1);
+  const endIndex = cfg.activeIndex + cfg.count;
+  const overflow = cfg.loop && endIndex > cfg.size ? endIndex % cfg.size : 0;
+  return i >= cfg.activeIndex && i < endIndex - overflow || i >= 0 && i < overflow;
+}
+
+/**
+ * @returns whether the target is an active index in the carousel.
+ * Note: does not count relative targets even if they point to the active index.
+ */
+export function isActiveTarget(target: ESLCarouselSlideTarget, cfg: ESLCarouselState): boolean {
+  if (typeof target === 'number') return isActiveIndex(target, cfg);
+  const {type, index} = splitTarget(target);
+  const {value, isRelative} = parseIndex(index);
+  if (isRelative) return false;
+  if (type === 'group') {
+    const start = groupToIndex(value, cfg.count, cfg.size);
+    const end = Math.min(start + cfg.count - 1, cfg.loop ? Number.POSITIVE_INFINITY : cfg.size - 1);
+    return isActiveIndex(start, cfg) && isActiveIndex(end, cfg);
+  }
+  return isActiveIndex(value, cfg);
+}

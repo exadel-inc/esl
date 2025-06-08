@@ -10,7 +10,7 @@ import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
 import {ESLResizeObserverTarget} from '../../esl-event-listener/core';
 
-import {normalize, toIndex, canNavigate} from './esl-carousel.utils';
+import {normalize, toIndex, canNavigate, isActiveTarget} from './esl-carousel.utils';
 
 import {ESLCarouselSlide} from './esl-carousel.slide';
 import {ESLCarouselChangeEvent} from './esl-carousel.events';
@@ -322,6 +322,11 @@ export class ESLCarousel extends ESLBaseElement {
   /** @returns index of the passed slide */
   public indexOf(slide: HTMLElement): number {
     return this.$slides.indexOf(slide);
+  }
+
+  /** @returns if the passed slide target points to the current active slides */
+  public isCurrent(target: ESLCarouselSlideTarget): boolean {
+    return isActiveTarget(target, this.state);
   }
 
   /** @returns if the passed slide target can be reached */
