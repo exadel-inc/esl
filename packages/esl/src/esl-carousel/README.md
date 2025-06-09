@@ -210,7 +210,7 @@ Unlike the Default renderer, the Grid renderer displays multiple rows (horizonta
 
 Note that the Grid renderer is more restrictive in terms of the slide size definition. Unlike the Default renderer, the Grid renderer does not support relative sizes for the slides (grid layout liitations).
 
-#### Default CSS Renderer (type: `css`)
+#### Default CSS Renderer (type: `css`) <i class="badge badge-sup badge-success">new</i>
 Uses the `ESLCSSCarouselRenderer` implementation.
 This renderer does not apply any JavaScript-based animation logic. It relies entirely on CSS-defined transitions and animations.
 

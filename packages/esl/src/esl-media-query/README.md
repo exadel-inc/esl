@@ -1,6 +1,6 @@
 # [ESL](../../../) Media Query Utils
 
-Version: *3.0.0*
+Version: *4.0.0*
 
 Authors: *Alexey Stsefanovich (ala'n)*, *Yuliya Adamskaya*, *Julia Murashko*
 
@@ -116,7 +116,7 @@ Additional preprocessor to provide DPR shortcuts.
 ---
 
 <a name="shortcuts"></a>
-### ESLMediaShortcuts
+### ESLMediaShortcuts <i class="badge badge-sup badge-success">new</i>
 
 `ESLMediaShortcuts`(previously `ESLEnvShortcuts`) is a registry for shortcuts to describe any static/dynamic related conditions that can be used inside `ESLMediaQuery` conditions.
 
