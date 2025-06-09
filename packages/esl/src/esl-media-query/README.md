@@ -120,7 +120,7 @@ Additional preprocessor to provide DPR shortcuts.
 
 `ESLMediaShortcuts`(previously `ESLEnvShortcuts`) is a registry for shortcuts to describe any static/dynamic related conditions that can be used inside `ESLMediaQuery` conditions.
 
-A shortcuts can be added to the registry through `ESLMediaShortcuts.set` method
+A shortcut can be added to the registry through `ESLMediaShortcuts.set` method
 `ESLMediaShortcuts` allows adding boolean result that will be converted to `all` / `not all` query condition or setup result as native MediaQuery string.
 
 `ESLMediaShortcuts` supports dynamic shortcut updates.
