@@ -59,7 +59,7 @@ Note: ESLMediaQuery has no real instances and represents `IMediaQueryConditionIn
   - `MediaQueryConjunction` - group of conditions unified by `and` operator
   - `MediaQueryDisjunction` - group of conditions unified by `or` operator
   - `MediaQueryNegation` - condition with `not` operator
-  - `MediaQueryShortcut` - wrapper around `ESLEnvShortcuts` registry shortcuts (this conditions considered as dynamic to ensure user can replace them at runtime).
+  - `MediaQueryShortcut` - wrapper around `ESLMediaShortcuts` registry shortcuts (these conditions considered as dynamic to ensure user can replace them at runtime).
 
 The `ESLMediaQuery`(`IMediaQueryConditionInterface`) instances provide the following set of properties and methods:
   - `matches` - returns `true` if the current environment configuration is acceptable for current query condition
