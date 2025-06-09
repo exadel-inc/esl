@@ -117,6 +117,50 @@ Note: a single value attributes will be considered as all-rule so they spreads a
  - `isPrev(slide: HTMLElement)` - returns if the slide is prev.
  - `canNavigate(target: ESLCarouselSlideTarget)` - returns if the carousel can navigate to the target nav string.
 
+---
+
+### ESLCarousel Events
+
+ESLCarousel dispatches several custom events to notify about state changes and actions. 
+You can listen to these events on the `<esl-carousel>` element to react to slide changes, configuration updates, and more.
+
+#### Slide Change Events
+
+All slide change events use the `ESLCarouselSlideEvent` class and provide the following useful properties:
+- `indexesBefore`: Indexes of slides active before the change
+- `indexesAfter`: Indexes of slides that will be active after the change
+- `direction`: Direction of the slide animation (`'next'` or `'prev'`)
+- `activator`: The object that initiated the change (if any)
+- `$slidesBefore`, `$slidesAfter`: Arrays of slide elements before/after
+
+**Event types:**
+
+- **`esl:before:slide-change`**
+  - Dispatched *before* the active slide(s) change. Cancelable.
+
+- **`esl:slide-change`**
+  - Dispatched *when* the active slide(s) change.
+
+- **`esl:after:slide-change`**
+  - Dispatched *after* the slide change animation completes.
+
+#### Carousel Configuration Change Event
+
+The configuration change event uses the `ESLCarouselChangeEvent` class and provides the following useful properties:
+- `initial`: `true` if this is the initial event on carousel creation
+- `config`: Current carousel configuration
+- `oldConfig`: Previous configuration (if available)
+- `added`: Array of slide elements added
+- `removed`: Array of slide elements removed
+
+**Event types:**
+- **`esl:carousel:change`**
+  - Dispatched when the carousel configuration or slides change (e.g., on creation, resize, or slide add/remove).
+
+For more details, see the event classes in `core/esl-carousel.events.ts`.
+
+---
+
 #### `ESLCarouselSlideTarget` type
 The ESLCarouselSlideTarget is a string that defines the target slide for the carousel navigation.
 
