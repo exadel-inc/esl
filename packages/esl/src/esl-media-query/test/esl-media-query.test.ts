@@ -160,7 +160,7 @@ describe('ESLMediaQuery', () => {
       }));
     });
 
-    test('Conjunction listener',  ()=> {
+    test('Conjunction listener',  () => {
       const fn1 = jest.fn();
       const fn2 = jest.fn();
 
@@ -195,7 +195,7 @@ describe('ESLMediaQuery', () => {
       expect(fn2).toBeCalledTimes(2);
     });
 
-    test('Disjunction listener',  ()=> {
+    test('Disjunction listener',  () => {
       const fn1 = jest.fn();
       const fn2 = jest.fn();
 
@@ -228,6 +228,35 @@ describe('ESLMediaQuery', () => {
       ESLMediaQuery.for('@lg or @xl').removeEventListener(fn2);
       mockLgMatchMedia.matches = true;
       mockXlMatchMedia.matches = false;
+      expect(fn1).toBeCalledTimes(1);
+      expect(fn2).toBeCalledTimes(2);
+    });
+
+    test('Negation listener', () => {
+      const fn1 = jest.fn();
+      const fn2 = jest.fn();
+
+      mockLgMatchMedia.matches = false;
+
+      ESLMediaQuery.for('not @lg').addEventListener(fn1);
+      ESLMediaQuery.for('not @lg').addEventListener('change', fn2);
+
+      expect(ESLMediaQuery.for('not @lg').matches).toBe(true);
+      expect(fn1).toBeCalledTimes(0);
+      expect(fn2).toBeCalledTimes(0);
+
+      mockLgMatchMedia.matches = true;
+      expect(ESLMediaQuery.for('not @lg').matches).toBe(false);
+      expect(fn1).toBeCalledTimes(1);
+      expect(fn2).toBeCalledTimes(1);
+
+      ESLMediaQuery.for('not @lg').removeEventListener(fn1);
+      mockLgMatchMedia.matches = false;
+      expect(fn1).toBeCalledTimes(1);
+      expect(fn2).toBeCalledTimes(2);
+
+      ESLMediaQuery.for('not @lg').removeEventListener(fn2);
+      mockLgMatchMedia.matches = true;
       expect(fn1).toBeCalledTimes(1);
       expect(fn2).toBeCalledTimes(2);
     });
