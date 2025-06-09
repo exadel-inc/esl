@@ -58,6 +58,8 @@ Note: ESLMediaQuery has no real instances and represents `IMediaQueryConditionIn
   - `MediaQueryCondition` - simple wrapper around native MediaQueryList object
   - `MediaQueryConjunction` - group of conditions unified by `and` operator
   - `MediaQueryDisjunction` - group of conditions unified by `or` operator
+  - `MediaQueryNegation` - condition with `not` operator
+  - `MediaQueryShortcut` - wrapper around `ESLMediaShortcuts` registry shortcuts (these conditions considered as dynamic to ensure user can replace them at runtime).
 
 The `ESLMediaQuery`(`IMediaQueryConditionInterface`) instances provide the following set of properties and methods:
   - `matches` - returns `true` if the current environment configuration is acceptable for current query condition
@@ -114,28 +116,31 @@ Additional preprocessor to provide DPR shortcuts.
 ---
 
 <a name="shortcuts"></a>
-### ESLEnvShortcuts
+### ESLMediaShortcuts
 
-`ESLEnvShortcuts` is a simple registry for a static shortcuts to describe environment related conditions.
+`ESLMediaShortcuts`(previously `ESLEnvShortcuts`) is a registry for shortcuts to describe any static/dynamic related conditions that can be used inside `ESLMediaQuery` conditions.
 
-An additional shortcuts can be added to the registry through `ESLEnvShortcuts.add` method
-ESLEnvShortcuts allows adding boolean result that will be converted to `all` / `not all` query condition or setup result as native MediaQuery string. 
+A shortcut can be added to the registry through `ESLMediaShortcuts.set` method
+`ESLMediaShortcuts` allows adding boolean result that will be converted to `all` / `not all` query condition or setup result as native MediaQuery string.
 
-Environment shortcuts can be removed with `ESLEnvShortcuts.remove` method.
+`ESLMediaShortcuts` supports dynamic shortcut updates.
+Note: shortcut name cannot contain spaces, starts with a digit (after `@` symbol) or contain any special characters except for `-` and `_`.
 
 The list of predefined environment shortcuts is the following:
-  - `@BOT` - detects search/pagespeed bots
   - `@MOBILE` - detects mobile devices 
   - `@DESKTOP` - detects desktops
+
   - `@ANDROID` - detects Android devices
   - `@IOS` - detects iOS devices  
   - `@TOUCH` - cross-browser touch support detection
-  - `@IE` - detects InternetExplorer 11
   - `@EDGE` - detects legacy Edge browser (<18) based on EdgeHTML engine
   - `@GECKO` - detects Gecko engine based browsers (e.g. Firefox)
   - `@BLINK` - detects Blink engine based browsers (e.g. Google Chrome, Opera)
   - `@SAFARI` - detects safari browsers
   - `@SAFARI-IOS` - detects mobile safari browsers
+
+Note: `ESLMediaShortcuts` is a singleton for the window object.
+Note: `ESLMediaShortcuts` considered as a last processor in the `ESLMediaQuery` processing chain.
 
 ---
 

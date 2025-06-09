@@ -1,5 +1,6 @@
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
 import {isSafari} from '../../../esl-utils/environment/device-detector';
+import {MediaQueryCondition} from '../conditions/media-query-condition';
 
 /**
  * DPR preprocessor. Used to replace DPR shortcuts.
@@ -15,12 +16,17 @@ export class ESLScreenDPR {
     return (96 * dpr).toFixed(1);
   }
 
-  public static process(match: string): string | undefined {
-    if (!ESLScreenDPR.VALUE_REGEXP.test(match)) return;
+  public static getMedia(match: string): string | undefined {
     const dpr = parseFloat(match);
-    if (dpr < 0 || isNaN(dpr)) return;
+    if (dpr < 0 || isNaN(dpr)) return 'not all';
     if (isSafari) return `(-webkit-min-device-pixel-ratio: ${dpr})`;
     return `(min-resolution: ${ESLScreenDPR.toDPI(dpr)}dpi)`;
+  }
+
+  public static process(match: string): MediaQueryCondition | undefined {
+    if (!ESLScreenDPR.VALUE_REGEXP.test(match)) return;
+    const media = ESLScreenDPR.getMedia(match);
+    return media ? new MediaQueryCondition(media) : undefined;
   }
 }
 
