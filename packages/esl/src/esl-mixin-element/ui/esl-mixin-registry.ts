@@ -5,7 +5,7 @@ import type {
 } from './esl-mixin-element';
 
 // Private key to store mixin instances
-const STORE = (window.Symbol || String)('__esl_mixins');
+const STORE = Symbol.for('__esl_mixins');
 
 // Singleton for registry
 let global: ESLMixinRegistry;
