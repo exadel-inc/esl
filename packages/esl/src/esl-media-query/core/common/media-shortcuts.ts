@@ -21,7 +21,7 @@ import type {IMediaQueryCondition} from '../conditions/media-query-base';
 const SHORTCUT_REGEXP = /^[a-z][a-z0-9-_]*$/i;
 
 // Global shortcuts store key
-const SHORTCUTS_STORE = Symbol.for('ESLEnvShortcutsStore');
+const SHORTCUTS_STORE = Symbol.for('__esl_media_shortcuts');
 
 /**
  * Static shortcuts' preprocessor. Used to store device related shortcuts.
