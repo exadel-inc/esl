@@ -21,7 +21,7 @@ import type {IMediaQueryCondition} from '../conditions/media-query-base';
 const SHORTCUT_REGEXP = /^[a-z][a-z0-9-_]*$/i;
 
 // Global shortcuts store key
-const SHORTCUTS_STORE = Symbol('ESLEnvShortcutsStore');
+const SHORTCUTS_STORE = Symbol.for('__esl_media_shortcuts');
 
 /**
  * Static shortcuts' preprocessor. Used to store device related shortcuts.
@@ -57,6 +57,7 @@ export class ESLMediaShortcuts {
     if (!value) return ESLMediaShortcuts.set(shortcut, NOT_ALL);
     if (typeof value === 'boolean') return ESLMediaShortcuts.set(shortcut, value ? ALL : NOT_ALL);
     if (typeof value === 'string') return ESLMediaShortcuts.set(shortcut, new MediaQueryCondition(value));
+    if (!SHORTCUT_REGEXP.test(shortcut)) throw new Error(`[ESL] Invalid shortcut name: "${shortcut}". Expected pattern: ${SHORTCUT_REGEXP}`);
     ESLMediaShortcuts.resolve(shortcut).condition = value.optimize();
   }
 

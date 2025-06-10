@@ -161,4 +161,12 @@ describe('ESLMediaQuery: shortcuts', () => {
       expect(ESLMediaQuery.from('not @stest3').matches).toBe(false);
     });
   });
+
+  describe('Static shortcut name validation', () => {
+    test.each([
+      '@test', '1', '123test', 'test+1', 'test*1', 'test/1', 'test\\1'
+    ])('Shortcut %p validation', (name) => {
+      expect(() => ESLMediaShortcuts.set(name, true)).toThrow();
+    });
+  });
 });
