@@ -57,7 +57,7 @@ export class ESLMediaShortcuts {
     if (!value) return ESLMediaShortcuts.set(shortcut, NOT_ALL);
     if (typeof value === 'boolean') return ESLMediaShortcuts.set(shortcut, value ? ALL : NOT_ALL);
     if (typeof value === 'string') return ESLMediaShortcuts.set(shortcut, new MediaQueryCondition(value));
-    if (!SHORTCUT_REGEXP.test(shortcut)) throw new Error(`[ESL] Invalid shortcut name: "${shortcut}"`);
+    if (!SHORTCUT_REGEXP.test(shortcut)) throw new Error(`[ESL] Invalid shortcut name: "${shortcut}". Expected pattern: ${SHORTCUT_REGEXP}`);
     ESLMediaShortcuts.resolve(shortcut).condition = value.optimize();
   }
 
