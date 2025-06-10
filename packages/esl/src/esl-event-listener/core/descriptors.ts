@@ -9,7 +9,7 @@ import type {
 } from './types';
 
 /** Key to store listeners on the host */
-const DESCRIPTORS = (window.Symbol || String)('__esl_descriptors');
+const DESCRIPTORS = Symbol.for('__esl_descriptors');
 
 /**
  * @param host - host object
