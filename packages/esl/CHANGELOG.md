@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.7.1](https://github.com/exadel-inc/esl/compare/v5.7.0...v5.7.1) (2025-06-10)
+
+
+### Bug Fixes
+
+* **esl-media-query:** fix singleton storage for ESLMediaShortcuts + add shortcut name validation ([76dbf6e](https://github.com/exadel-inc/esl/commit/76dbf6e7463978895c0a5481a80e3416190b088a))
+* fix all private symbols across library to be multi-bundeled-prof ([c072818](https://github.com/exadel-inc/esl/commit/c07281805d42d53ecca4b57cc0c9adc137ecc488))
+
+
+
+
+
 # [5.7.0](https://github.com/exadel-inc/esl/compare/v5.6.0...v5.7.0) (2025-06-09)
 
 
