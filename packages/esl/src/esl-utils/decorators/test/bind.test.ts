@@ -166,6 +166,6 @@ describe('Common @bind decorator test', () => {
         // @ts-ignore
         @bind public a = 1;
       }
-    }).toThrowError();
+    }).toThrow();
   });
 });

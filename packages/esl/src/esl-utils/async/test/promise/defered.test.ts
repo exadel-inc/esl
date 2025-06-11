@@ -44,7 +44,7 @@ describe('async/promise/deferred', () => {
       const def$$ = createDeferred();
       def$$.reject(1);
       await promisifyTimeout(0);
-      expect(throwFn).not.toBeCalled();
+      expect(throwFn).not.toHaveBeenCalled();
     });
   });
 

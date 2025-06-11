@@ -12,9 +12,9 @@ describe('async/debounce', () => {
     debounced();
     jest.advanceTimersByTime(25);
     expect(debounced()).toBeUndefined();
-    expect(fn).toBeCalledTimes(0);
+    expect(fn).toHaveBeenCalledTimes(0);
     jest.advanceTimersByTime(50);
-    expect(fn).toBeCalledTimes(1);
+    expect(fn).toHaveBeenCalledTimes(1);
   });
 
   test('call context', () => {
@@ -47,7 +47,7 @@ describe('async/debounce', () => {
       () => {
         throw new Error('Promise shouldn`t be resolved');
       },
-      () => expect(fn).toBeCalledTimes(0)
+      () => expect(fn).toHaveBeenCalledTimes(0)
     );
   });
 
@@ -58,13 +58,13 @@ describe('async/debounce', () => {
     expect(debounced.promise).toBeInstanceOf(Promise);
     expect(debounced(1)).toBe(debounced(2));
     expect(debounced.promise).toBeInstanceOf(Promise);
-    expect(fn).toBeCalledTimes(0);
+    expect(fn).toHaveBeenCalledTimes(0);
     jest.advanceTimersByTime(10);
-    expect(fn).toBeCalledTimes(0);
+    expect(fn).toHaveBeenCalledTimes(0);
     debounced(4);
     const promise$ = debounced.promise;
     jest.advanceTimersByTime(20);
-    expect(fn).toBeCalledTimes(1);
+    expect(fn).toHaveBeenCalledTimes(1);
 
     return expect(promise$).resolves.toBe(5);
   });

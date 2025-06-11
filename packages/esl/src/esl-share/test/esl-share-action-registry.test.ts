@@ -17,7 +17,7 @@ describe('ESLShareActionRegistry tests', () => {
 
     test('should throw an error when register invalid action', () => {
       const {instance} = ESLShareActionRegistry;
-      expect(() => instance.register({} as any)).toThrowError();
+      expect(() => instance.register({} as any)).toThrow();
     });
 
     test('should register action', () => {

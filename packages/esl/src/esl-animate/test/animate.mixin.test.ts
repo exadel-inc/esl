@@ -23,18 +23,18 @@ describe('ESLAnimateMixin mixin', () => {
 
   test('ESLAnimateMixin instance', () => {
     expect(mixin).toBeInstanceOf(ESLAnimateMixin);
-    expect(ESLAnimateService.observe).toBeCalledWith($el, {force: true});
+    expect(ESLAnimateService.observe).toHaveBeenCalledWith($el, {force: true});
   });
 
   test('manual reanimate call', () => {
     mixin.options = {repeat: true};
     mixin.reanimate();
-    expect(ESLAnimateService.observe).toBeCalledWith($el, {force: true, repeat: true});
+    expect(ESLAnimateService.observe).toHaveBeenCalledWith($el, {force: true, repeat: true});
   });
 
   test('disconnected callback', async () => {
     $el.toggleAttribute(ESLAnimateMixin.is);
     await Promise.resolve();
-    expect(ESLAnimateService.unobserve).toBeCalled();
+    expect(ESLAnimateService.unobserve).toHaveBeenCalled();
   });
 });
