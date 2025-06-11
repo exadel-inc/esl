@@ -13,13 +13,13 @@ describe('async/promise/try-until', () => {
     const promise$ = tryUntil(observedFn, 3, 100);
     promise$.then(successFn);
 
-    expect(observedFn).toBeCalled();
-    expect(successFn).not.toBeCalled();
+    expect(observedFn).toHaveBeenCalled();
+    expect(successFn).not.toHaveBeenCalled();
 
     jest.advanceTimersByTime(110);
 
-    expect(observedFn).toBeCalledTimes(2);
-    expect(successFn).not.toBeCalled();
+    expect(observedFn).toHaveBeenCalledTimes(2);
+    expect(successFn).not.toHaveBeenCalled();
 
     observedFn.mockReturnValue(true);
     jest.advanceTimersByTime(110);

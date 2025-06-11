@@ -131,12 +131,12 @@ describe('ESLMediaQuery: shortcuts', () => {
     test('Static shortcut can be observed', () => {
       const listener = jest.fn();
       ESLMediaQuery.from('@stest').addEventListener(listener);
-      expect(listener).not.toBeCalled();
+      expect(listener).not.toHaveBeenCalled();
 
       ESLMediaShortcuts.set('stest', true);
-      expect(listener).toBeCalledTimes(1);
-      expect(listener).lastCalledWith(expect.any(ESLMediaChangeEvent));
-      expect(listener).lastCalledWith(expect.objectContaining({
+      expect(listener).toHaveBeenCalledTimes(1);
+      expect(listener).toHaveBeenLastCalledWith(expect.any(ESLMediaChangeEvent));
+      expect(listener).toHaveBeenLastCalledWith(expect.objectContaining({
         matches: true,
         media: String(ESLMediaQuery.from('@stest')),
         target:  ESLMediaQuery.from('@stest'),
@@ -144,9 +144,9 @@ describe('ESLMediaQuery: shortcuts', () => {
       }));
 
       ESLMediaShortcuts.set('stest', false);
-      expect(listener).toBeCalledTimes(2);
-      expect(listener).lastCalledWith(expect.any(ESLMediaChangeEvent));
-      expect(listener).lastCalledWith(expect.objectContaining({
+      expect(listener).toHaveBeenCalledTimes(2);
+      expect(listener).toHaveBeenLastCalledWith(expect.any(ESLMediaChangeEvent));
+      expect(listener).toHaveBeenLastCalledWith(expect.objectContaining({
         matches: false,
         media: String(ESLMediaQuery.from('@stest')),
         target:  ESLMediaQuery.from('@stest'),
