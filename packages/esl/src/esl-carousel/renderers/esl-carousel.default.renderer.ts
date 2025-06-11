@@ -1,7 +1,6 @@
 import {ESLMediaQuery} from '../../esl-media-query/core';
 import {normalize, sign} from '../core/esl-carousel.utils';
 import {ESLCarouselRenderer} from '../core/esl-carousel.renderer';
-import {ESLCarouselNavRejection} from '../core/esl-carousel.errors';
 
 import type {ESLCarouselDirection, ESLCarouselActionParams} from '../core/esl-carousel.types';
 
@@ -104,12 +103,6 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     this.animating =  false;
   }
 
-  /** Pre-processing animation action. */
-  public override async onBeforeAnimate(index: number, direction: ESLCarouselDirection, params: ESLCarouselActionParams): Promise<void> {
-    if (this.animating) throw new ESLCarouselNavRejection(index);
-    this.$carousel.$$attr('active', true);
-  }
-
   /** Processes animation. */
   public async onAnimate(nextIndex: number, direction: ESLCarouselDirection, params: ESLCarouselActionParams): Promise<void> {
     const {activeIndex, $slidesArea} =  this.$carousel;
@@ -117,9 +110,11 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     if (!$slidesArea) return;
     const distance = normalize((nextIndex - activeIndex) * direction, this.size);
     const speed = Math.min(1, this.count / distance) * this.transitionDuration;
+    this.$carousel.$$attr('active', true);
     while (this.currentIndex !== nextIndex) {
       await this.onStepAnimate(direction * this.INDEX_MOVE_MULTIPLIER, speed);
     }
+    this.$carousel.$$attr('active', false);
   }
 
   /** Post-processing animation action. */
@@ -127,7 +122,7 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     // Make sure we end up in a defined state on transition end
     this.reorder();
     this.setTransformOffset(-this.getOffset(this.currentIndex));
-    this.$carousel.$$attr('active', false);
+    return super.onAfterAnimate(nextIndex, direction, params);
   }
 
   /** Makes pre-processing the transition animation of one slide. */
@@ -144,7 +139,7 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
 
   /** Handles the slides transition. */
   public move(offset: number, from: number, params: ESLCarouselActionParams): void {
-    this.$carousel.toggleAttribute('active', true);
+    this.$carousel.$$attr('active', true);
 
     const slideSize = this.slideSize + this.gap;
     const count = Math.floor(Math.abs(offset) / slideSize);
