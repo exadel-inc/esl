@@ -49,29 +49,29 @@ describe('async/promise/deferred', () => {
   });
 
   describe('Resolved/rejected Deferred is finalized', () => {
-    test('Resolved Deferred can not be re-resolved', () => {
+    test('Resolved Deferred can not be re-resolved', async () => {
       const def$$ = createDeferred();
       def$$.resolve(1);
       def$$.resolve(2);
-      expect(def$$.promise).resolves.toBe(1);
+      await expect(def$$.promise).resolves.toBe(1);
     });
-    test('Resolved Deferred can not be rejected', () => {
+    test('Resolved Deferred can not be rejected', async () => {
       const def$$ = createDeferred();
       def$$.resolve(1);
       def$$.reject();
-      expect(def$$.promise).resolves.toBe(1);
+      await expect(def$$.promise).resolves.toBe(1);
     });
-    test('Rejected Deferred can not be re-resolved', () => {
+    test('Rejected Deferred can not be re-resolved', async () => {
       const def$$ = createDeferred();
       def$$.reject(1);
       def$$.reject(2);
-      expect(def$$.promise).rejects.toBe(1);
+      await expect(def$$.promise).rejects.toBe(1);
     });
-    test('Rejected Deferred can not be rejected', () => {
+    test('Rejected Deferred can not be rejected', async () => {
       const def$$ = createDeferred();
       def$$.reject(1);
       def$$.resolve(2);
-      expect(def$$.promise).rejects.toBe(1);
+      await expect(def$$.promise).rejects.toBe(1);
     });
   });
 });

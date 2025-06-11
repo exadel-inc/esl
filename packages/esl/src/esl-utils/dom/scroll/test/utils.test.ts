@@ -138,7 +138,7 @@ describe('Function lockScroll', () => {
       expect($html.getAttribute('esl-scroll-lock')).toBe('native');
     });
 
-    test('should be locked with native strategy', () => {
+    test('should be locked with pseudo strategy', () => {
       lockScroll($html, {strategy: 'pseudo'});
       expect($html.getAttribute('esl-scroll-lock')).toBe('pseudo');
     });

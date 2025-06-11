@@ -28,7 +28,7 @@ describe('common @decorate decorator test', () => {
     const t2 = new Test();
     test('@decorator doesn\'t have effect on instance creation', () => expect(wrap).toHaveBeenCalledTimes(1));
     test('Second instance creates its own wrapped method', () => expect(t2.test()).toBe(v2));
-    test('Decorated with @decorator method returns wrapped method every time', () => expect(t2.test).toBe(fn2));
+    test('Decorated with @decorator method returns wrapped method every time (second instance)', () => expect(t2.test).toBe(fn2));
 
     const t3 = new Test();
     test('Original function passed as a first argument for wrapper', () => expect(t3.test()).toBe(original));

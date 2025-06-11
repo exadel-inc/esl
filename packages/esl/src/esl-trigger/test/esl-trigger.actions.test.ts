@@ -194,12 +194,12 @@ describe('ESLTrigger event handling', () => {
 
       beforeAll(() => document.body.append($trigger));
 
-      test('change event fired', () => {
+      test('change event fired on mouseenter', () => {
         $trigger.dispatchEvent(new MouseEvent('mouseenter'));
         expect($trigger.$target!.show).toHaveBeenCalledTimes(1);
       });
 
-      test('change event fired', () => {
+      test('change event fired on mouseleave', () => {
         $trigger.dispatchEvent(new MouseEvent('mouseleave'));
         expect($trigger.$target!.hide).toHaveBeenCalledTimes(1);
       });
