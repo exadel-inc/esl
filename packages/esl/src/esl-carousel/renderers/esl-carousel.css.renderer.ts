@@ -2,7 +2,6 @@ import {promisifyNextRender} from '../../esl-utils/async/promise';
 import {ESLCarouselRenderer} from '../core/esl-carousel.renderer';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ESLCarouselDirection} from '../core/esl-carousel.types';
-import {ESLCarouselNavRejection} from '../core/esl-carousel.errors';
 
 import type {ESLCarouselActionParams} from '../core/esl-carousel.types';
 
@@ -55,17 +54,12 @@ export class ESLCSSCarouselRenderer extends ESLCarouselRenderer {
     this.onAfterAnimation();
   }
 
-  /** Pre-processing animation action. */
-  public override async onBeforeAnimate(index: number, direction: ESLCarouselDirection, params: ESLCarouselActionParams): Promise<void> {
-    if (this.animating) throw new ESLCarouselNavRejection(index);
-    return promisifyNextRender();
-  }
-
   /** Processes animation. */
   public override async onAnimate(index: number, direction: ESLCarouselDirection): Promise<void> {
     const {$activeSlide} = this.$carousel;
     if (!$activeSlide) throw new Error('[ESL] Carousel: no active slide');
 
+    await promisifyNextRender();
     this.animating = true;
     this.$area.classList.add(direction === ESLCarouselDirection.NEXT ? 'forward' : 'backward');
 
@@ -74,9 +68,10 @@ export class ESLCSSCarouselRenderer extends ESLCarouselRenderer {
   }
 
   /** Post-processing animation action. */
-  public override async onAfterAnimate(index: number): Promise<void> {
+  public override async onAfterAnimate(index: number, direction: ESLCarouselDirection, params: ESLCarouselActionParams): Promise<void> {
     this.currentIndex = index;
     this.onAfterAnimation();
+    return super.onAfterAnimate(index, direction, params);
   }
 
   public override move(offset: number): void {
