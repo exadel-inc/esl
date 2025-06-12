@@ -62,12 +62,8 @@ export class ESLTrigger extends ESLBaseTrigger {
   /** Update `$target` Toggleable  from `target` selector */
   public updateTargetFromSelector(): void {
     if (!this.target) return;
-    this.$target = ESLTraversingQuery.first(this.target, this) as ESLToggleable;
-
-    if (this.$target instanceof ESLToggleablePlaceholder && this.$target.$origin) {
-      // change target if it is an instance of the placeholder element
-      this.$target = this.$target.$origin;
-    }
+    const $target = ESLTraversingQuery.first(this.target, this) as ESLToggleable | ESLToggleablePlaceholder;
+    this.$target = ($target instanceof ESLToggleablePlaceholder) ? $target.$origin : $target;
   }
 
   /** Check if the event target should be ignored */
