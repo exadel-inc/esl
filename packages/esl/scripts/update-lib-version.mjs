@@ -8,7 +8,7 @@ const content = fs.readFileSync(fPath, 'utf8');
 
 // Replace the version in ExportNs.declare('...');
 const updatedContent = content.replace(
-  /ExportNs\.declare\(['"]([\d.]+)['"]\);/,
+  /ExportNs\.declare\(['"]([-.\w]+)['"]\);/,
   `ExportNs.declare('${pkj.version}');`
 );
 
