@@ -56,7 +56,8 @@
     "watch": "nx run esl:watch",
     "lint": "nx run esl:lint",
     "test": "nx run esl:test:jest",
-    "pack": "nx run esl:pack"
+    "pack": "nx run esl:pack",
+    "version": "node ./scripts/update-lib-version.mjs && git add src/lib.ts"
   },
   "dependencies": {
     "@types/video.js": "7.3.58",
