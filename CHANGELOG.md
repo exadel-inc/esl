@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.8.0](https://github.com/exadel-inc/esl/compare/v5.7.1...v5.8.0) (2025-06-13)
+
+
+### Bug Fixes
+
+* **esl-carousel:** fix carousel renderer flow to prevent pre-active markers before lock check + logic generalization ([b658df5](https://github.com/exadel-inc/esl/commit/b658df56b2e879e41b8f3cd87da8d1883a0d79f3))
+* **eslint-config:** replace @stylistic/eslint-plugin-jsx rules with @stylistic/eslint-plugin embedded jsx support ([152d284](https://github.com/exadel-inc/esl/commit/152d28405f4341d164a004f5f117b63edebb2126))
+
+
+### Features
+
+* add `ESL.version` to "open" mode of ESL package ([588d837](https://github.com/exadel-inc/esl/commit/588d837f20f1b33873e99fe6159bb846809aaa6a))
+
+
+
+
+
 ## [5.7.1](https://github.com/exadel-inc/esl/compare/v5.7.0...v5.7.1) (2025-06-10)
 
 
