@@ -2,8 +2,6 @@ esl-trigger {
   cursor: pointer;
   // Default behaviour if no target is specified
   &[no-target] {
-    filter: grayscale(100%);
-    cursor: not-allowed;
-    pointer-events: none;
+    display: none;
   }
 }
