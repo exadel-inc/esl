@@ -134,7 +134,8 @@ export abstract class ESLBaseTrigger extends ESLBaseElement {
   public updateState(): boolean {
     const {active, isTargetActive} = this;
 
-    this.toggleAttribute('active', isTargetActive);
+    this.$$attr('no-target', !this.$target);
+    this.$$attr('active', isTargetActive);
     const clsTarget = ESLTraversingQuery.first(this.activeClassTarget, this) as HTMLElement;
     clsTarget && CSSClassUtils.toggle(clsTarget, this.activeClass, isTargetActive);
 
@@ -159,7 +160,8 @@ export abstract class ESLBaseTrigger extends ESLBaseElement {
   /** Handles ESLToggleable state change */
   @listen({
     event: (that: ESLBaseTrigger) => that.OBSERVED_EVENTS,
-    target: (that: ESLBaseTrigger) => that.$target
+    target: (that: ESLBaseTrigger) => that.$target,
+    condition: (that: ESLBaseTrigger) => !!that.$target
   })
   protected _onTargetStateChange(originalEvent?: Event): void {
     if (!this.updateState()) return;
