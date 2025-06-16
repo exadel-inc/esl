@@ -22,7 +22,7 @@ export class ESLCarouselRelateToMixin extends ESLCarouselPlugin<ESLCarouselRelat
   public static override DEFAULT_CONFIG_KEY = 'target';
 
   protected get event(): string {
-    return (this.config.proactive ? ESLCarouselSlideEvent.CHANGE : '') + ' ' + ESLCarouselSlideEvent.AFTER;
+    return [this.config.proactive ? ESLCarouselSlideEvent.CHANGE : null, ESLCarouselSlideEvent.AFTER].filter(Boolean).join(' ');
   }
 
   /** @returns ESLCarousel target to share state changes */
