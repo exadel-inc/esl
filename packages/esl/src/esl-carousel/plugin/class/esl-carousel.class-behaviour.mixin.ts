@@ -1,9 +1,9 @@
-import {ESLCarouselPlugin} from '../esl-carousel.plugin';
 import {listen} from '../../../esl-utils/decorators/listen';
+import {ExportNs} from '../../../esl-utils/environment/export-ns';
 import {CSSClassUtils} from '../../../esl-utils/dom/class';
+import {ESLCarouselPlugin} from '../esl-carousel.plugin';
 import {ESLCarouselSlide} from '../../core/esl-carousel.slide';
 import {ESLCarouselSlideEvent} from '../../core/esl-carousel.events';
-import {ExportNs} from '../../../esl-utils/environment/export-ns';
 
 export interface ESLCarouselClassBehaviourConfig {
   mode?: 'default' | 'proactive';
