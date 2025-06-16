@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.8.0](https://github.com/exadel-inc/esl/compare/v5.7.1...v5.8.0) (2025-06-16)
+
+
+### Bug Fixes
+
+* **eslint-config:** replace @stylistic/eslint-plugin-jsx rules with @stylistic/eslint-plugin embedded jsx support ([152d284](https://github.com/exadel-inc/esl/commit/152d28405f4341d164a004f5f117b63edebb2126))
+
+
+
+
+
 ## [5.7.1](https://github.com/exadel-inc/esl/compare/v5.7.0...v5.7.1) (2025-06-10)
 
 **Note:** Version bump only for package @exadel/eslint-config-esl
