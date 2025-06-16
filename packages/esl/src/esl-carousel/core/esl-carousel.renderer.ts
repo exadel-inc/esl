@@ -6,7 +6,7 @@ import {SyntheticEventTarget} from '../../esl-utils/dom';
 import {ESLCarouselDirection} from './esl-carousel.types';
 import {ESLCarouselSlideEvent} from './esl-carousel.events';
 import {ESLCarouselNavRejection} from './esl-carousel.errors';
-import {indexToDirection, normalize, normalizeIndex, sequence} from './esl-carousel.utils';
+import {normalize, normalizeIndex, sequence} from './esl-carousel.utils';
 
 import type {ESLCarousel} from './esl-carousel';
 import type {ESLCarouselSlideEventInit} from './esl-carousel.events';
@@ -135,14 +135,8 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
   public async navigate(to: ESLCarouselNavInfo, params: ESLCarouselActionParams): Promise<void> {
     const index = this.normalizeIndex(to.index, params);
     const direction = this.normalizeDirection(to.direction, params);
-
-    const indexesAfter = sequence(index, this.count, this.size);
-    const indexesBefore = this.$carousel.activeIndexes;
-    if (indexesBefore.toString() === indexesAfter.toString()) return;
-
-    const details = {...params, direction, indexesBefore, indexesAfter};
-    if (!this.$carousel.dispatchEvent(ESLCarouselSlideEvent.create('BEFORE', details))) return;
-    this.$carousel.dispatchEvent(ESLCarouselSlideEvent.create('CHANGE', details));
+    if (index === this.$carousel.activeIndex) return; // skip if index is already active
+    if (!this.dispatchChangeEvent('BEFORE', index, {...params, direction})) return;
 
     try {
       this.transitionDuration = params.stepDuration;
@@ -159,7 +153,7 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
   /** Pre-processing animation action. */
   public async onBeforeAnimate(index: number, direction: ESLCarouselDirection, params: ESLCarouselActionParams): Promise<void> {
     if (this.animating) throw new ESLCarouselNavRejection(index);
-    this.setPreActive(index);
+    this.setPreActive(index, {...params, direction, final: true});
   }
 
   /** Processes animation. */
@@ -167,7 +161,7 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
 
   /** Post-processing animation action. */
   public async onAfterAnimate(index: number, direction: ESLCarouselDirection, params: ESLCarouselActionParams): Promise<void> {
-    this.setActive(index, {direction, ...params});
+    this.setActive(index, {...params, direction});
   }
 
   /** Moves slide by the passed offset in px */
@@ -176,16 +170,13 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
   public abstract commit(offset: number, from: number, params: ESLCarouselActionParams): Promise<void>;
 
   /** Sets active slides from passed index **/
-  public setActive(current: number, event?: Partial<ESLCarouselSlideEventInit>): void {
-    const related = this.$carousel.activeIndex;
+  public setActive(index: number, event?: Partial<ESLCarouselSlideEventInit>): void {
     const indexesBefore = this.$carousel.activeIndexes;
     const count = Math.min(this.count, this.size);
-    const indexesAfter = [];
 
     for (let i = 0; i < this.size; i++) {
-      const position = normalize(i + current, this.size);
+      const position = normalize(i + index, this.size);
       const $slide = this.$slides[position];
-      if (i < count) indexesAfter.push(position);
 
       $slide.toggleAttribute('active', i < count);
       $slide.toggleAttribute('pre-active', false);
@@ -193,19 +184,38 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
       $slide.toggleAttribute('prev', i === this.size - 1 && i >= count && (this.loop || position !== this.size - 1));
     }
 
-    if (event && typeof event === 'object') {
-      const direction = event.direction || indexToDirection(related, this.$carousel.state);
-      const details = {...event, direction, indexesBefore, indexesAfter};
-      this.$carousel.dispatchEvent(ESLCarouselSlideEvent.create('AFTER', details));
-    }
+    event && this.dispatchChangeEvent('AFTER', index, {...event, indexesBefore});
   }
 
-  public setPreActive(from: number, force = true): void {
+  /** Sets pre-active (slides that going to be active) slides from the passed index **/
+  public setPreActive(index: number, event?: Partial<ESLCarouselSlideEventInit>): void {
+    let changed = false;
     const count = Math.min(this.count, this.size);
+
     for (let i = 0; i < this.size; ++i) {
-      const $slide = this.$slides[normalize(i + from, this.size)];
-      $slide.toggleAttribute('pre-active', force && i < count);
+      const position = normalize(i + index, this.size);
+      const $slide = this.$slides[position];
+
+      if ($slide.hasAttribute('active')) continue; // skip already active slides
+      changed = changed || ($slide.hasAttribute('pre-active') !== (i < count));
+      $slide.toggleAttribute('pre-active', i < count);
     }
+
+    if (event && changed) this.dispatchChangeEvent('CHANGE', index, event);
+  }
+
+  /** Dispatches a change event with the given type and index */
+  protected dispatchChangeEvent(
+    name: 'BEFORE' | 'CHANGE' | 'AFTER',
+    index: number,
+    event: Partial<ESLCarouselSlideEventInit>
+  ): boolean {
+    const indexesBefore = event.indexesBefore || this.$carousel.activeIndexes;
+    const count = Math.min(this.count, this.size);
+    const indexesAfter = sequence(index, count, this.size);
+
+    const details = {...event, indexesBefore, indexesAfter};
+    return this.$carousel.dispatchEvent(ESLCarouselSlideEvent.create(name, details));
   }
 
   // Register API

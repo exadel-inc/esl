@@ -14,6 +14,11 @@ export abstract class ESLCarouselPlugin<Config extends Record<string, any>> exte
   /** {@link ESLCarousel} host instance */
   public override $host: ESLCarousel;
 
+  /** Plugin name, also an attribute name in the carousel configuration */
+  public get name(): string {
+    return (this.constructor as typeof ESLCarouselPlugin).is;
+  }
+
   /** Plugin configuration attribute value */
   public get configValue(): string {
     const plugin = (this.constructor as typeof ESLCarouselPlugin);

@@ -131,18 +131,22 @@ All slide change events use the `ESLCarouselSlideEvent` class and provide the fo
 - `indexesAfter`: Indexes of slides that will be active after the change
 - `direction`: Direction of the slide animation (`'next'` or `'prev'`)
 - `activator`: The object that initiated the change (if any)
+- `final`: `true` if the change is final (the carousel guarantees that the change will be applied)
 - `$slidesBefore`, `$slidesAfter`: Arrays of slide elements before/after
 
 **Event types:**
 
 - **`esl:before:slide-change`**
-  - Dispatched *before* the active slide(s) change. Cancelable.
+  - Dispatched *before* the active slide(s) change. Cancelable. 
+  - Does not dispatch by move operation (touch plugin, etc.).
 
 - **`esl:slide-change`**
-  - Dispatched *when* the active slide(s) change.
+  - Dispatched *when* the active slide(s) is going to change. 
+  - Does not gather the result change, in case `final` is `false` (for example for `move` operation, as it could be rejected on the commit).
 
 - **`esl:after:slide-change`**
   - Dispatched *after* the slide change animation completes.
+  - Always dispatched after the `esl:slide-change` event, even if the change was canceled (rejected). A canceled event will have same indexes for `indexesBefore` and `indexesAfter`.
 
 #### Carousel Configuration Change Event
 

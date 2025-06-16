@@ -11,6 +11,8 @@ export interface ESLCarouselSlideEventInit {
   direction?: ESLCarouselDirection;
   /** Auxiliary request attribute that represents object that initiates slide change */
   activator?: any;
+  /** Whether the slide change is final (leads to actual active slide change) */
+  final?: boolean;
 }
 
 /** {@link ESLCarousel} event that represents slide change event */
@@ -26,6 +28,7 @@ export class ESLCarouselSlideEvent extends Event implements ESLCarouselSlideEven
   public readonly indexesBefore: number[];
   public readonly indexesAfter: number[];
   public readonly direction: ESLCarouselDirection;
+  public readonly final: boolean = false;
   public readonly activator?: any;
 
   protected constructor(
@@ -37,7 +40,7 @@ export class ESLCarouselSlideEvent extends Event implements ESLCarouselSlideEven
       cancelable: ESLCarouselSlideEvent.BEFORE === type,
       composed: true
     });
-    Object.assign(this, init);
+    Object.assign(this, init, type === ESLCarouselSlideEvent.AFTER ? {final: true} : {});
   }
 
   /** @returns first index of before sate */
