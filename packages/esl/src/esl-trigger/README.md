@@ -9,10 +9,10 @@ Authors: *Alexey Stsefanovich (ala'n)*, *Julia Murashko*.
 **ESLTrigger** - a custom element, that allows triggering `ESLToggleable` instances state changes.
 
 **NOTE** (update `5.8.0`): Starting from `5.8.0` version, default `ESLTrigger` styles handle missing target element by setting `display: none` to the trigger element. 
-If you want to keep the trigger visible, you can override default styles for the `no-target` attribute of the trigger `esl-trigger[no-target] { display: block: }`, 
+If you want to keep the trigger visible, you can override default styles for the `no-target` attribute of the trigger `esl-trigger[no-target] { display: block; }`, 
 or just skip importing default styles in your project.
 It is also important to note that there is no more indirect console warning about missing target element, 
-use selector query with `no-target` attribute or relay on hidden state of the trigger element that comes out of the box now.
+use selector query with `no-target` attribute or rely on hidden state of the trigger element that comes out of the box now.
 
 ### Attributes / Properties
 - 

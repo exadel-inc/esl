@@ -11,9 +11,9 @@ control
 `ESLToggleable` or, usually, `ESLPanel`.
 
 **NOTE** (update `5.8.0`): Starting from `5.8.0` version, default `ESLTab` styles handle missing target panel by setting `display: none` to the trigger element.
-If you want to keep the trigger visible, you can override default styles for the `no-target` attribute of the tab `esl-tab[no-target] { display: block: }`.
+If you want to keep the trigger visible, you can override default styles for the `no-target` attribute of the tab `esl-tab[no-target] { display: block; }`.
 It is also important to note that there is no more indirect console warning about missing target element,
-use selector query with `no-target` attribute or relay on hidden state of the tab element that comes out of the box now.
+use selector query with `no-target` attribute or rely on hidden state of the tab element that comes out of the box now.
 
 
 ### ESLTabs Attributes / Properties
