@@ -187,7 +187,7 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
     event && this.dispatchChangeEvent('AFTER', index, {...event, indexesBefore});
   }
 
-  /** Sets pre-active (slides that going to be active) slides from the passed index **/
+  /** Sets pre-active (slides that are going to be active) slides from the passed index **/
   public setPreActive(index: number, event?: Partial<ESLCarouselSlideEventInit>): void {
     let changed = false;
     const count = Math.min(this.count, this.size);
