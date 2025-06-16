@@ -12,7 +12,7 @@ export interface ESLCarouselClassBehaviourConfig {
  * Plugin for {@link ESLCarousel} that allows to control the `container-class` feature behavior.
  *
  * Supports two modes:
- * - `default`: do not change default behavior - adds/removes classes on the container element after slides changed
+ * - `default`: do not change default behavior - adds/removes classes on the container element after slides have changed
  * - `proactive`: adds/removes classes on the container element proactively as soon as change starts
  */
 export class ESLCarouselClassBehaviourMixin extends ESLCarouselPlugin<ESLCarouselClassBehaviourConfig> {

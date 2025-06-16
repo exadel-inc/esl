@@ -1,4 +1,4 @@
-# ESL Carousel Container Class Plugin <i class="badge badge-sup badge-warning">beta</i>
+# ESL Carousel Container Class Plugin
 
 <a name="intro"></a>
 
@@ -11,18 +11,18 @@ The plugin enables a `proactive` mode, where classes are updated as soon as the 
 ## Configuration
 The `esl-carousel-class-behavior` plugin uses the ESLMediaQuery syntax for configuration. 
 The only supported configuration option is `mode`, which can be set to either `default` or `proactive`.
-- `default`: The container's classes are updated after the slide change completes. THis is the default ESLCarousel behavior, the plugin is not needed if you use only this mode.
+- `default`: The container's classes are updated after completing the slide change. This is the default ESLCarousel behavior, the plugin is not needed if you use only this mode.
 - `proactive`: The container's classes are updated as soon as the slide change starts, before the transition begins. This mode is useful for animations that require the container class to be updated immediately.
 
 NOTE: As was previously mentioned, the plugin value supports the ESLMediaQuery syntax, which allows you to switch between different modes based on animation and renderer you use.
 
-NOTE: Plugin does not change target for the `container-class` attribute, so if behaves exactly like ESLCarousel's API defines it (based on `container` attribute).
+NOTE: Plugin does not change target for the `container-class` attribute, so it behaves exactly like ESLCarousel's API defines it (based on `container` attribute).
 
 ## Usage
 To use the mixin, register the `ESLCarouselContainerClassMixin`:
 
 ```javascript
-EslCarouselClassBehaviourMixin.register();
+ESLCarouselClassBehaviourMixin.register();
 ```
 
 Then use the mixin on any `esl-carousel` element where you want to control container classes:
