@@ -70,9 +70,7 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
     return sel ? ESLTraversingQuery.all(sel, this.$host) as HTMLElement[] : [];
   }
 
-  @ready
-  protected override connectedCallback(): void {
-    super.connectedCallback();
+  protected override onInit(): void {
     this.start();
   }
 
