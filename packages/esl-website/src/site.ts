@@ -40,6 +40,7 @@ import {
   ESLCarouselRelateToMixin,
   ESLCarouselAutoplayMixin,
   ESLCarouselAutoplayProgressMixin,
+  ESLCarouselClassBehaviourMixin,
   ESLLazyTemplate
 } from '@exadel/esl/modules/all';
 
@@ -128,6 +129,7 @@ ESLCarouselRelateToMixin.register();
 ESLCarouselAutoplayMixin.register();
 ESLCarouselAutoplayProgressMixin.register();
 ESLCarouselWheelMixin.register();
+ESLCarouselClassBehaviourMixin.register();
 
 ESLAnimate.register();
 ESLAnimateMixin.register();

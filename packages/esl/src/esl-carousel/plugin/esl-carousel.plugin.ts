@@ -14,6 +14,11 @@ export abstract class ESLCarouselPlugin<Config extends Record<string, any>> exte
   /** {@link ESLCarousel} host instance */
   public override $host: ESLCarousel;
 
+  /** Plugin name, also an attribute name in the carousel configuration */
+  public get name(): string {
+    return (this.constructor as typeof ESLCarouselPlugin).is;
+  }
+
   /** Plugin configuration attribute value */
   public get configValue(): string {
     const plugin = (this.constructor as typeof ESLCarouselPlugin);
@@ -52,14 +57,16 @@ export abstract class ESLCarouselPlugin<Config extends Record<string, any>> exte
   }
 
   @ready
-  protected override connectedCallback(): boolean | void {
+  protected override connectedCallback(): void {
     const {$host} = this;
     if (($host as unknown) instanceof ESLCarousel) {
-      return super.connectedCallback();
+      super.connectedCallback();
+      this.onInit();
+    } else {
+      const {is} = this.constructor as typeof ESLCarouselPlugin;
+      console.warn('[ESL]: ESLCarousel %s plugin rejected for non correct target %o', is, $host);
+      this.$host.removeAttribute(is);
     }
-    const {is} = this.constructor as typeof ESLCarouselPlugin;
-    console.warn('[ESL]: ESLCarousel %s plugin rejected for non correct target %o', is, $host);
-    this.$host.removeAttribute(is);
   }
 
   protected override attributeChangedCallback(attrName: string, oldValue: string | null, newValue: string | null): void {
@@ -68,6 +75,10 @@ export abstract class ESLCarouselPlugin<Config extends Record<string, any>> exte
       this.$$on(this.onConfigChange);
       this.onConfigChange();
     }
+  }
+
+  /** Callback to be executed on plugin initialization */
+  protected onInit(): void {
   }
 
   /** Callback to be executed on plugin configuration query change (attribute change) */

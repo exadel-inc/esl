@@ -21,9 +21,8 @@ export class ESLCarouselRelateToMixin extends ESLCarouselPlugin<ESLCarouselRelat
   public static override is = 'esl-carousel-relate-to';
   public static override DEFAULT_CONFIG_KEY = 'target';
 
-  @memoize()
   protected get event(): string {
-    return this.config.proactive ? ESLCarouselSlideEvent.BEFORE : ESLCarouselSlideEvent.AFTER;
+    return [this.config.proactive ? ESLCarouselSlideEvent.CHANGE : null, ESLCarouselSlideEvent.AFTER].filter(Boolean).join(' ');
   }
 
   /** @returns ESLCarousel target to share state changes */
@@ -33,10 +32,16 @@ export class ESLCarouselRelateToMixin extends ESLCarouselPlugin<ESLCarouselRelat
     return ($target instanceof ESLCarousel) ? $target : null;
   }
 
+  protected override onInit(): void {
+    if (!this.$target) return;
+    this.$target.goTo(this.$host.activeIndex, {activator: this}).catch(console.debug);
+  }
+
+  @listen({inherit: true})
   protected override onConfigChange(): void {
     // Listener event change is not handled by resubscribe automatically
     this.$$off(this._onSlideChange);
-    memoize.clear(this, ['$target', 'event']);
+    memoize.clear(this, '$target');
     this.$$on(this._onSlideChange);
   }
 
@@ -44,7 +49,7 @@ export class ESLCarouselRelateToMixin extends ESLCarouselPlugin<ESLCarouselRelat
   @listen({event: ($this: ESLCarouselRelateToMixin) => $this.event})
   protected _onSlideChange(e: ESLCarouselSlideEvent): void {
     if (!this.$target || e.activator === this) return;
-    this.$target.goTo(this.$host.activeIndex, {activator: this}).catch(console.debug);
+    this.$target.goTo(e.indexAfter, {activator: this}).catch(console.debug);
   }
 }
 

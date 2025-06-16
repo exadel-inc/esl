@@ -141,9 +141,11 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
   public move(offset: number, from: number, params: ESLCarouselActionParams): void {
     this.$carousel.$$attr('active', true);
 
+    const direction = sign(-offset);
     const slideSize = this.slideSize + this.gap;
-    const count = Math.floor(Math.abs(offset) / slideSize);
-    const index = from + count * this.INDEX_MOVE_MULTIPLIER * (offset < 0 ? 1 : -1);
+    const amount = Math.abs(offset) / slideSize;
+    const index = from + Math.floor(amount) * this.INDEX_MOVE_MULTIPLIER * direction;
+    const next = from + Math.ceil(amount) * this.INDEX_MOVE_MULTIPLIER * direction;
 
     // check left border of non-loop state
     if (!this.loop && offset > 0 && index <= 0) return;
@@ -156,29 +158,33 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     const stageOffset = this.getOffset(this.currentIndex) - (offset % slideSize);
     this.setTransformOffset(-stageOffset);
 
+    if (next !== index) {
+      const nextIndex = normalize(next, this.size);
+      this.setPreActive(nextIndex, {...params, direction: sign(next - index)});
+    }
+
     if (this.currentIndex !== this.$carousel.activeIndex) {
-      this.setActive(this.currentIndex, {direction: sign(-offset)});
+      this.setActive(this.currentIndex, {...params, direction});
     }
   }
 
   /** Ends current transition and make permanent all changes performed in the transition. */
   public async commit(offset: number, from: number, params: ESLCarouselActionParams): Promise<void> {
+    const dir = sign(-offset);
     const slideSize = this.slideSize + this.gap;
-
     const amount = Math.abs(offset) / slideSize;
     const tolerance = ESLDefaultCarouselRenderer.NEXT_SLIDE_TOLERANCE;
     const count = (amount - Math.floor(amount)) > tolerance ? Math.ceil(amount) : Math.floor(amount);
-    const index = from + count * this.INDEX_MOVE_MULTIPLIER * (offset < 0 ? 1 : -1);
+    const index = from + count * this.INDEX_MOVE_MULTIPLIER * dir;
 
+    const direction = index === this.currentIndex ? -dir : dir;
     await this.animateTo(index, this.transitionDuration);
 
     this.reorder();
     this.setTransformOffset(-this.getOffset(this.currentIndex));
     this.$carousel.$$attr('active', false);
 
-    if (this.currentIndex !== this.$carousel.activeIndex) {
-      this.setActive(this.currentIndex, {direction: sign(-offset)});
-    }
+    this.setActive(this.currentIndex, {...params, direction});
   }
 
   /**
