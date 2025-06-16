@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.8.0](https://github.com/exadel-inc/esl/compare/v5.7.1...v5.8.0) (2025-06-16)
+
+
+### Bug Fixes
+
+* **esl-carousel:** fix `esl-carousel-relate-to` plugin to correctly handle proactive action (including updated events API) ([b189b01](https://github.com/exadel-inc/esl/commit/b189b01f9462d78cd18e281f268b8389cc6b4837))
+* **esl-carousel:** fix carousel renderer flow to prevent pre-active markers before lock check + logic generalization ([b658df5](https://github.com/exadel-inc/esl/commit/b658df56b2e879e41b8f3cd87da8d1883a0d79f3))
+
+
+### Features
+
+* add `ESL.version` to "open" mode of ESL package ([588d837](https://github.com/exadel-inc/esl/commit/588d837f20f1b33873e99fe6159bb846809aaa6a))
+* **esl-carousel:** rework events API to have both proactive and final event being dispatched during move/commit operations; `pre-active` slides now processed equal during move operation for renderers; `pre-active` marker can not be applied to `active` slide ([4477cce](https://github.com/exadel-inc/esl/commit/4477cce7e36f1a97623e0a3357293e977bf3c9f9))
+* **esl-carousel:** support for proactive `container-class` handling using 'esl-carousel-class-behavior' plugin ([152a9fe](https://github.com/exadel-inc/esl/commit/152a9fe909a398f268dc5de8c6bd136ae7733d30))
+* **esl-tab:** default `no-target` attribute styles to hide inactive tab ([1198795](https://github.com/exadel-inc/esl/commit/1198795c6697e3c3303bf17dd483c725d0b3e6e9))
+* **esl-trigger:** `no-target` attribute support out of the box, no console warning (default 'disabled' styles) ([fc78f25](https://github.com/exadel-inc/esl/commit/fc78f250562b27604623c4a65237dc5571958806))
+
+
+
+
+
 ## [5.7.1](https://github.com/exadel-inc/esl/compare/v5.7.0...v5.7.1) (2025-06-10)
 
 
