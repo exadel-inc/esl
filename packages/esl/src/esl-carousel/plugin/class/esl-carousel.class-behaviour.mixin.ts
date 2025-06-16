@@ -1,6 +1,7 @@
-import {ESLCarouselPlugin} from '../esl-carousel.plugin';
 import {listen} from '../../../esl-utils/decorators/listen';
+import {ExportNs} from '../../../esl-utils/environment/export-ns';
 import {CSSClassUtils} from '../../../esl-utils/dom/class';
+import {ESLCarouselPlugin} from '../esl-carousel.plugin';
 import {ESLCarouselSlide} from '../../core/esl-carousel.slide';
 import {ESLCarouselSlideEvent} from '../../core/esl-carousel.events';
 
@@ -15,6 +16,7 @@ export interface ESLCarouselClassBehaviourConfig {
  * - `default`: do not change default behavior - adds/removes classes on the container element after slides have changed
  * - `proactive`: adds/removes classes on the container element proactively as soon as change starts
  */
+@ExportNs('Carousel.ClassBehaviour')
 export class ESLCarouselClassBehaviourMixin extends ESLCarouselPlugin<ESLCarouselClassBehaviourConfig> {
   public static override is = 'esl-carousel-class-behavior';
   public static override DEFAULT_CONFIG: ESLCarouselClassBehaviourConfig = {
