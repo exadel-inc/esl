@@ -1,6 +1,6 @@
 {
   "name": "@exadel/esl-website",
-  "version": "5.8.0",
+  "version": "5.8.1",
   "type": "module",
   "private": true,
   "description": "ESL Website source",
