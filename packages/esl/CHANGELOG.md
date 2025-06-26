@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.8.1](https://github.com/exadel-inc/esl/compare/v5.8.0...v5.8.1) (2025-06-26)
+
+
+### Bug Fixes
+
+* **esl-mixin-element:** fix ESLMixinRegistry instance duplicate due to creation in separate context ([52f661e](https://github.com/exadel-inc/esl/commit/52f661e5bfbe1089d17ff61ecce89f977f312f98))
+
+
+
+
+
 # [5.8.0](https://github.com/exadel-inc/esl/compare/v5.7.1...v5.8.0) (2025-06-16)
 
 
