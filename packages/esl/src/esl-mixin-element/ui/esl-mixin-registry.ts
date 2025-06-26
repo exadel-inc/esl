@@ -6,9 +6,7 @@ import type {
 
 // Private key to store mixin instances
 const STORE = Symbol.for('__esl_mixins');
-
-// Singleton for registry
-let global: ESLMixinRegistry;
+const REGISTRY = Symbol.for('__esl_mixin_registry');
 
 /** Registry to store and initialize {@link ESLMixinElement} instances */
 export class ESLMixinRegistry {
@@ -18,9 +16,8 @@ export class ESLMixinRegistry {
   protected mutation$$ = new MutationObserver(this._onMutation.bind(this));
 
   public constructor() {
-    if (global) return global;
-    // eslint-disable-next-line @typescript-eslint/no-this-alias
-    global = this;
+    if (window[REGISTRY]) return window[REGISTRY];
+    Object.defineProperty(window, REGISTRY, {value: this}); // window[REGISTRY] <readonly>= this;
   }
 
   /** Array of registered mixin tags */
@@ -131,13 +128,13 @@ export class ESLMixinRegistry {
   public static get($el: HTMLElement, name: string): ESLMixinElement | null;
   /** @returns mixin instance by name */
   public static get(this: any, el: HTMLElement, mixin: string = this.is): ESLMixinElement | null {
-    const store = (el as any)[STORE] as Record<string, ESLMixinElement> | undefined;
+    const store = el[STORE];
     return (store && store[mixin]) || null;
   }
 
   /** @returns all mixins initialized on passed host element */
   public static getAll(el: HTMLElement): ESLMixinElement[] {
-    const store = (el as any)[STORE] as Record<string, ESLMixinElement> | undefined;
+    const store = el[STORE];
     return store ? Object.values(store) : [];
   }
 
@@ -149,8 +146,7 @@ export class ESLMixinRegistry {
   /** Sets mixin instance to the element store */
   private static set(el: HTMLElement, mixin: ESLMixinElement): void {
     if (!Object.hasOwnProperty.call(el, STORE)) Object.defineProperty(el, STORE, {value: {}, configurable: true});
-    const store = (el as any)[STORE] as Record<string, ESLMixinElement>;
-    store[(mixin.constructor as ESLMixinElementConstructable).is] = mixin;
+    el[STORE]![(mixin.constructor as ESLMixinElementConstructable).is] = mixin;
   }
 
   /** Inits mixin instance on the element */
@@ -164,7 +160,7 @@ export class ESLMixinRegistry {
 
   /** Destroys passed mixin on the element */
   private static destroy(el: HTMLElement, mixin: string): void {
-    const store = (el as any)[STORE] as Record<string, ESLMixinElement>;
+    const store = el[STORE];
     if (!store) return;
     const instance = store[mixin];
     if (!instance) return;
@@ -174,9 +170,18 @@ export class ESLMixinRegistry {
 
   /** Destroys all mixins on the element and its subtree */
   private static destroyAll(el: HTMLElement): void {
-    const store = (el as any)[STORE] as Record<string, ESLMixinElement> | undefined;
+    const store = el[STORE];
     store && Object.keys(store).forEach((name) => ESLMixinRegistry.destroy(el, name));
     if (!el.children?.length) return;
     Array.prototype.forEach.call(el.children, (child: Element) => ESLMixinRegistry.destroyAll(child as HTMLElement));
+  }
+}
+
+declare global {
+  interface Window {
+    [REGISTRY]?: ESLMixinRegistry;
+  }
+  interface HTMLElement {
+    [STORE]?: Record<string, ESLMixinElement>;
   }
 }
