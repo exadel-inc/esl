@@ -147,6 +147,8 @@ export class ESLMedia extends ESLBaseElement {
   /** @readonly Width is greater than height state marker */
   @boolAttr({readonly: true}) public wide: boolean;
 
+  /** Private property to mark if the element is visible */
+  public _isVisible: boolean;
   /** Marker if the last action (play/pause/stop) was initiated by the user */
   protected _isManualAction: boolean;
   /** Applied provider instance */
