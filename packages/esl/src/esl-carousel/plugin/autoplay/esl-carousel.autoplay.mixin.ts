@@ -1,8 +1,9 @@
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
-import {listen, memoize, ready} from '../../../esl-utils/decorators';
+import {listen, memoize} from '../../../esl-utils/decorators';
 import {parseTime} from '../../../esl-utils/misc/format';
 import {CSSClassUtils} from '../../../esl-utils/dom/class';
 import {ESLTraversingQuery} from '../../../esl-traversing-query/core';
+import {ESLIntersectionTarget, ESLIntersectionEvent} from '../../../esl-event-listener/core';
 
 import {ESLCarouselPlugin} from '../esl-carousel.plugin';
 import {ESLCarouselSlideEvent} from '../../core/esl-carousel.events';
@@ -13,6 +14,8 @@ export interface ESLCarouselAutoplayConfig {
   duration: string | number;
   /** Navigation command to send to the host carousel. Default: 'slide:next' */
   command: string;
+  /** Intersection observer threshold to start/stop autoplay based on visibility. Default: 0.25 */
+  intersection: number;
   /** Whether to track user interaction (focus/hover) with the carousel to pause/resume autoplay */
   trackInteraction: boolean;
   /** Selector for control to toggle plugin state */
@@ -35,6 +38,7 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
   public static override DEFAULT_CONFIG: ESLCarouselAutoplayConfig = {
     duration: 10000,
     command: 'slide:next',
+    intersection: 0.25,
     trackInteraction: true
   };
   public static override DEFAULT_CONFIG_KEY: keyof ESLCarouselAutoplayConfig = 'duration';
@@ -89,11 +93,15 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
     this.start();
   }
 
-  /** Activates and restarts the autoplay carousel timer */
-  public start(): void {
+  /**
+   * Activates and restarts the autoplay carousel timer.
+   * @param system - If true, the plugin will be force started, without intersection observer check.
+   */
+  public start(system = false): void {
     const {duration} = this;
     this.enabled = +duration > 0;
-    if (this.enabled) this._onCycle();
+    if (!this.enabled) return;
+    system ? this._onCycle() : this.$$on(this._onIntersection);
   }
 
   /**
@@ -102,7 +110,10 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
    */
   public stop(system = false): void {
     if (!this.active && !this.enabled) return;
-    if (!system) this.enabled = false;
+    if (!system) {
+      this.enabled = false;
+      this.$$off(this._onIntersection);
+    }
     this._duration && window.clearTimeout(this._duration);
     this._duration = null;
     ESLCarouselAutoplayEvent.dispatch(this);
@@ -145,6 +156,17 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
     } else {
       this.start();
     }
+  }
+
+  /** Handles intersection changes to start/stop autoplay based on visibility */
+  @listen({
+    auto: false,
+    event: ESLIntersectionEvent.TYPE,
+    target: ($this: ESLCarouselAutoplayMixin) =>
+      ESLIntersectionTarget.for($this.$host, {threshold: [$this.config.intersection]})
+  })
+  protected _onIntersection(e: ESLIntersectionEvent): void {
+    e.isIntersecting ? this.start(true) : this.stop(true);
   }
 
   /** Handles carousel slide change event to restart the timer */
