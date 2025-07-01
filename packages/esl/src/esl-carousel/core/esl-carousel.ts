@@ -13,9 +13,10 @@ import {ESLResizeObserverTarget} from '../../esl-event-listener/core';
 import {normalize, toIndex, canNavigate} from './esl-carousel.utils';
 
 import {ESLCarouselSlide} from './esl-carousel.slide';
-import {ESLCarouselRenderer} from './esl-carousel.renderer';
 import {ESLCarouselChangeEvent} from './esl-carousel.events';
+import {ESLCarouselRendererRegistry} from './esl-carousel.renderer.registry';
 
+import type {ESLCarouselRenderer} from './esl-carousel.renderer';
 import type {
   ESLCarouselState,
   ESLCarouselSlideTarget,
@@ -127,7 +128,7 @@ export class ESLCarousel extends ESLBaseElement {
   /** @returns currently active renderer */
   @memoize()
   public get renderer(): ESLCarouselRenderer {
-    return ESLCarouselRenderer.registry.create(this, this.configCurrent);
+    return ESLCarouselRendererRegistry.instance.create(this, this.configCurrent);
   }
 
   @ready
@@ -213,7 +214,7 @@ export class ESLCarousel extends ESLBaseElement {
     this.update();
   }
 
-  @listen({event: 'change', target: ESLCarouselRenderer.registry})
+  @listen({event: 'change', target: ESLCarouselRendererRegistry.instance})
   protected _onRegistryUpdate(): void {
     this.update();
   }

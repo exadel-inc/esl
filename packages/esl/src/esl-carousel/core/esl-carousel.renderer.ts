@@ -1,12 +1,11 @@
-import {memoize} from '../../esl-utils/decorators';
 import {isEqual} from '../../esl-utils/misc/object';
 import {parseTime} from '../../esl-utils/misc/format';
 import {promisifyTimeout} from '../../esl-utils/async/promise/timeout';
-import {SyntheticEventTarget} from '../../esl-utils/dom';
 import {ESLCarouselDirection} from './esl-carousel.types';
 import {ESLCarouselSlideEvent} from './esl-carousel.events';
 import {ESLCarouselNavRejection} from './esl-carousel.errors';
 import {normalize, normalizeIndex, sequence} from './esl-carousel.utils';
+import {ESLCarouselRendererRegistry} from './esl-carousel.renderer.registry';
 
 import type {ESLCarousel} from './esl-carousel';
 import type {ESLCarouselSlideEventInit} from './esl-carousel.events';
@@ -219,32 +218,7 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
   }
 
   // Register API
-  @memoize()
-  public static get registry(): ESLCarouselRendererRegistry {
-    return new ESLCarouselRendererRegistry();
-  }
-  public static register(view: ESLCarouselRendererConstructor = this as any): void {
-    ESLCarouselRenderer.registry.register(view);
-  }
-}
-
-export type ESLCarouselRendererConstructor = (new(carousel: ESLCarousel, config: ESLCarouselConfig) => ESLCarouselRenderer) & typeof ESLCarouselRenderer;
-
-export class ESLCarouselRendererRegistry extends SyntheticEventTarget {
-  private store = new Map<string, ESLCarouselRendererConstructor>();
-
-  public create(carousel: ESLCarousel, config: ESLCarouselConfig): ESLCarouselRenderer {
-    let Renderer = this.store.get(config.type);
-    if (!Renderer) [Renderer] = this.store.values(); // take first Renderer in store
-    return new Renderer(carousel, config);
-  }
-
-  public register(view: ESLCarouselRendererConstructor): void {
-    if (!view || !view.is) throw Error('[ESL]: CarouselRendererRegistry: incorrect registration request');
-    if (this.store.has(view.is)) throw Error(`View with name ${view.is} already defined`);
-    this.store.set(view.is, view);
-    const detail = {name: view.is, view};
-    const event = new CustomEvent('change', {detail});
-    this.dispatchEvent(event);
+  public static register(view: typeof ESLCarouselRenderer = this): void {
+    ESLCarouselRendererRegistry.instance.register(view);
   }
 }
