@@ -120,9 +120,7 @@ export class ESLCarousel extends ESLBaseElement {
 
   /** Carousel instance current {@link ESLCarouselState} */
   public get state(): ESLCarouselState {
-    return Object.assign({}, this.renderer.config, {
-      activeIndex: this.activeIndex
-    });
+    return this.renderer.state;
   }
 
   /** @returns currently active renderer */
@@ -276,32 +274,19 @@ export class ESLCarousel extends ESLBaseElement {
 
   /** @returns index of first (the most left in the loop) active slide */
   public get activeIndex(): number {
-    if (this.size <= 0) return -1;
-    if (this.isActive(0)) {
-      for (let i = this.size - 1; i > 0; --i) {
-        if (!this.isActive(i)) return normalize(i + 1, this.size);
-      }
-    }
-    return this.$slides.findIndex(this.isActive, this);
+    return this.renderer.activeIndex;
   }
 
   /** @returns list of active slide indexes. */
   public get activeIndexes(): number[] {
-    const start = this.activeIndex;
-    if (start < 0) return [];
-    const indexes = [];
-    for (let i = 0; i < this.size; i++) {
-      const index = normalize(i + start, this.size);
-      if (this.isActive(index)) indexes.push(index);
-    }
-    return indexes;
+    return this.renderer.activeIndexes;
   }
 
   /** Goes to the target according to passed params */
   public async goTo(target: HTMLElement | ESLCarouselSlideTarget, params: Partial<ESLCarouselActionParams> = {}): Promise<void> {
     if (target instanceof HTMLElement) return this.goTo(this.indexOf(target), params);
     if (!this.renderer) throw new Error('Renderer is not available');
-    const index = toIndex(target, this.state);
+    const index = toIndex(target, this.renderer);
     if (isNaN(index.index)) throw new Error(`Invalid target index passed ${target}`);
     return this.renderer.navigate(index, this.mergeParams(params));
   }
@@ -336,7 +321,7 @@ export class ESLCarousel extends ESLBaseElement {
 
   /** @returns if the passed slide target can be reached */
   public canNavigate(target: ESLCarouselSlideTarget): boolean {
-    return canNavigate(target, this.state);
+    return canNavigate(target, this.renderer);
   }
 
   /** @returns if the passed element (or slide on a passed index) is an active slide */
