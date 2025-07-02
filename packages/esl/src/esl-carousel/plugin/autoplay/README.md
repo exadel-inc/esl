@@ -23,7 +23,7 @@ The configuration properties of the `esl-carousel-autoplay` are the following:
  - `command` (optional) (default: `slide:next`)
    Declares the autoplay command. Could be any `ESLCarouselSlideTarget` nav string.
  - `intersection` (optional) (default: `0.25`)
-   The intersection ratio for the `IntersectionObserver` to be used for the autoplay plugin.
+   The intersection ratio for the `IntersectionObserver` is to be used for the autoplay plugin.
    The value is a number between `0` and `1`, where `0` means that the autoplay will start immediately when the carousel is in the viewport, and `1` means that the autoplay will start only when the carousel is fully visible in the viewport.
    Set to `0.25` if the value is not provided explicitly.
  - `trackInteraction` (optional) (default: `true`)
