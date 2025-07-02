@@ -45,6 +45,8 @@ export type ESLCarouselConfig = ESLCarouselStaticState & {
 export type ESLCarouselState = ESLCarouselStaticState & {
   /** First active slide index */
   activeIndex: number;
+  /** Additional slides shift size in pixels */
+  offset: number;
 };
 
 /** Object describing carousel navigation target details */

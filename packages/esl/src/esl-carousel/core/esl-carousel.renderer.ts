@@ -52,6 +52,11 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig, ESLCarou
     return this._bound ? this.$slides.length : 0;
   }
 
+  /** @returns slides shift size in pixels */
+  public get offset(): number {
+    return 0;
+  }
+
   /** @returns active slide index or -1 if the renderer is not bound */
   public get activeIndex(): number {
     if (this.size <= 0) return -1;
@@ -83,8 +88,8 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig, ESLCarou
 
   /** @returns renderer state safe copy */
   public get state(): ESLCarouselState {
-    const {size, count, loop, vertical, activeIndex} = this;
-    return {size, count, loop, vertical, activeIndex};
+    const {size, count, loop, vertical, activeIndex, offset} = this;
+    return {size, count, loop, vertical, activeIndex, offset};
   }
 
   /** @returns {@link ESLCarousel} `$slidesArea` */
@@ -195,7 +200,7 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig, ESLCarou
   /** Moves slide by the passed offset in px */
   public abstract move(offset: number, from: number, params: ESLCarouselActionParams): void;
   /** Normalizes move offset to the "nearest stable" slide position */
-  public abstract commit(offset: number, from: number, params: ESLCarouselActionParams): Promise<void>;
+  public abstract commit(params: ESLCarouselActionParams): Promise<void>;
 
   /** Sets active slides from passed index **/
   public setActive(index: number, event?: Partial<ESLCarouselSlideEventInit>): void {

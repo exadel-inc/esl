@@ -272,6 +272,11 @@ export class ESLCarousel extends ESLBaseElement {
     return this.$slides.length || 0;
   }
 
+  /** @returns additional shift of the stage in pixels */
+  public get offset(): number {
+    return this.renderer.offset || 0;
+  }
+
   /** @returns index of first (the most left in the loop) active slide */
   public get activeIndex(): number {
     return this.renderer.activeIndex;
@@ -298,9 +303,9 @@ export class ESLCarousel extends ESLBaseElement {
   }
 
   /** Commits slides to the nearest stable position */
-  public commit(offset: number, from: number = this.activeIndex, params: Partial<ESLCarouselActionParams> = {}): Promise<void> {
+  public commit(params: Partial<ESLCarouselActionParams> = {}): Promise<void> {
     if (!this.renderer) return Promise.reject();
-    return this.renderer.commit(offset, from, this.mergeParams(params));
+    return this.renderer.commit(this.mergeParams(params));
   }
 
   /** Merges request params with default params */
