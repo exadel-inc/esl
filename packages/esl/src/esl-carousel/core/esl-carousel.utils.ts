@@ -68,7 +68,7 @@ export function indexToDirection(index: number, {activeIndex, size, loop}: ESLCa
 /** Splits target string into type and index parts */
 function splitTarget(target: number | string): {index: string, type?: string} {
   // Sanitize value
-  target = String(target).replace(/\s/, '');
+  target = String(target).replace(/\s+/g, '');
   // Short form of next/prev considered as slide target
   if (target === 'next' || target === 'prev') return {index: target, type: 'slide'};
   // Split type and index part
