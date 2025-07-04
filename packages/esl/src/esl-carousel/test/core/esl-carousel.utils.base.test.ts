@@ -29,7 +29,7 @@ describe('ESLCarousel: Nav Utils (Core)', () => {
       [1, {count: 3, size: 8}, 3],
       [2, {count: 3, size: 8}, 5],
       [2, {count: 3, size: 9}, 6],
-      [5, {count: 1, size: 5}, 4]
+      [4, {count: 1, size: 5}, 4]
     ])(
       '(group = %d, %o) => %d',
       (group: number, {count, size}: {count: number, size: number}, result: number) => expect(groupToIndex(group, count, size)).toBe(result)

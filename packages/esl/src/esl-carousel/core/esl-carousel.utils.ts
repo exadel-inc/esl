@@ -41,8 +41,8 @@ function calcDirection(from: number, to: number, size: number): ESLCarouselDirec
 /** @returns numeric index from group index */
 export function groupToIndex(group: number, count: number, size: number): number {
   const groupCount = Math.ceil(size / count);
-  const value = bounds(group, 0, groupCount - 1);
-  const index = value + 1 === groupCount ? size - count : count * value;
+  if (group < 0 || group >= groupCount) return NaN;
+  const index = group + 1 === groupCount ? size - count : count * group;
   return normalize(index, size);
 }
 
@@ -90,7 +90,8 @@ function parseIndex(index: string | ESLCarouselNavIndex): {value: number, isRela
 /** @returns normalized numeric index from string with absolute or relative index */
 function resolveSlideIndex(indexStr: string | ESLCarouselNavIndex, cfg: ESLCarouselState): ESLCarouselNavInfo {
   const {value, isRelative, direction} = parseIndex(indexStr);
-  const target = value + (isRelative ? cfg.activeIndex : 0);
+  const target = value + (isRelative ? cfg.activeIndex : -1);
+  if (!isRelative && (target < 0 || target >= cfg.size)) return {index: NaN};
   const index = isRelative ? normalizeIndex(target, cfg) : bounds(target, 0, cfg.size - cfg.count);
   return {index, direction: direction || indexToDirection(index, cfg)};
 }
@@ -99,7 +100,7 @@ function resolveSlideIndex(indexStr: string | ESLCarouselNavIndex, cfg: ESLCarou
 function resolveGroupIndex(indexStr: string | ESLCarouselNavIndex, cfg: ESLCarouselState): ESLCarouselNavInfo {
   const {value, isRelative, direction} = parseIndex(indexStr);
   if (!isRelative) {
-    const index = groupToIndex(value, cfg.count, cfg.size);
+    const index = groupToIndex(value - 1, cfg.count, cfg.size);
     return {index, direction: indexToDirection(index, cfg)};
   }
   // TODO: extend navigation boundaries
@@ -136,6 +137,7 @@ export function toIndex(target: ESLCarouselSlideTarget, cfg: ESLCarouselState): 
 export function canNavigate(target: ESLCarouselSlideTarget, cfg: ESLCarouselState): boolean {
   if (cfg.size <= cfg.count) return false;
   const {direction, index} = toIndex(target, cfg);
+  if (isNaN(index)) return false;
   if (!cfg.loop && direction && index < direction * cfg.activeIndex) return false;
   return index !== cfg.activeIndex;
 }

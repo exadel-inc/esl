@@ -58,11 +58,24 @@ describe('ESLCarousel: Nav Utils (Index)', () => {
 
     describe('slide target absolute full', () => {
       test.each([
-        ['slide:0', {size: 5, count: 1, activeIndex: 2, loop: true}, 0],
-        ['slide:1', {size: 5, count: 2, activeIndex: 2, loop: true}, 1]
+        // slide:1 should point to index 0, slide:2 to index 1, etc. (1-based)
+        ['slide:1', {size: 5, count: 1, activeIndex: 2, loop: true}, 0],
+        ['slide:2', {size: 5, count: 2, activeIndex: 2, loop: true}, 1],
+        ['slide:3', {size: 5, count: 2, activeIndex: 2, loop: true}, 2],
+        ['slide:5', {size: 5, count: 1, activeIndex: 0, loop: true}, 4]
       ])(
         '(target = %s, cfg = %p) = %d',
         (target: ESLCarouselSlideTarget, cfg: ESLCarouselState, result: number) => expect(toIndex(target, cfg).index).toBe(result)
+      );
+    });
+
+    describe('slide target out of bounds', () => {
+      test.each([
+        ['slide:0', {size: 5, count: 1, activeIndex: 2, loop: true}],
+        ['slide:6', {size: 5, count: 2, activeIndex: 2, loop: true}]
+      ])(
+        '(target = %s, cfg = %p) should return NaN',
+        (target: ESLCarouselSlideTarget, cfg: ESLCarouselState) => expect(toIndex(target, cfg).index).toBe(NaN)
       );
     });
 
@@ -82,12 +95,25 @@ describe('ESLCarousel: Nav Utils (Index)', () => {
 
     describe('group direct target', () => {
       test.each([
-        ['group: 0', {size: 8, count: 3, activeIndex: 0}, 0],
-        ['group: 1', {size: 8, count: 3, activeIndex: 1}, 3],
-        ['group: 2', {size: 8, count: 3, activeIndex: 2}, 5]
+        // group:1 should point to group index 0, group:2 to group index 1, etc. (1-based)
+        ['group:1', {size: 8, count: 3, activeIndex: 0}, 0],
+        ['group:2', {size: 8, count: 3, activeIndex: 1}, 3],
+        ['group:3', {size: 8, count: 3, activeIndex: 2}, 5]
       ])(
         '(target = %s, cfg = %p) = %d',
         (target: ESLCarouselSlideTarget, cfg: ESLCarouselState, result: number) => expect(toIndex(target, cfg).index).toBe(result)
+      );
+    });
+
+    describe('group out of bounds', () => {
+      test.each([
+        ['group:0', {size: 8, count: 3, activeIndex: 0}],
+        ['group:4', {size: 8, count: 3, activeIndex: 2}],
+        ['group:5', {size: 8, count: 3, activeIndex: 2}],
+        ['group:5', {size: 8, count: 2, activeIndex: 2}]
+      ])(
+        '(target = %s, cfg = %p) should return NaN',
+        (target: ESLCarouselSlideTarget, cfg: ESLCarouselState) => expect(toIndex(target, cfg).index).toBe(NaN)
       );
     });
 
