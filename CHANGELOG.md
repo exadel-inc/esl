@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.9.0](https://github.com/exadel-inc/esl/compare/v5.8.1...v5.9.0) (2025-07-04)
+
+
+### Features
+
+* **esl-carousel:** add out of the box viewport visibility control for ESL Carousel autoplay plugin ([f7a9feb](https://github.com/exadel-inc/esl/commit/f7a9feb1ec504e86c7cd958ced5ac6cee5f0dca1)), closes [#3190](https://github.com/exadel-inc/esl/issues/3190)
+* **esl-carousel:** major rework state API to use `ESLCarouselRenderer` instance ([9849a1f](https://github.com/exadel-inc/esl/commit/9849a1f19c5879bb5d53b7c4b00c8dc40c3cba53))
+* **esl-carousel:** move stage offset to public ESL Carousel navigation API ([d4ce7b6](https://github.com/exadel-inc/esl/commit/d4ce7b64e4589ce6f36aa47f747183dca3604547))
+
+
+
+
+
 ## [5.8.1](https://github.com/exadel-inc/esl/compare/v5.8.0...v5.8.1) (2025-06-26)
 
 
