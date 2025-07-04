@@ -166,21 +166,34 @@ For more details, see the event classes in `core/esl-carousel.events.ts`.
 ---
 
 #### `ESLCarouselSlideTarget` type
-The ESLCarouselSlideTarget is a string that defines the target slide for the carousel navigation.
+The ESLCarouselSlideTarget is a number or string that defines the target slide for any function or plugin in 
+the carousel navigation API.
 
-The following nav strings (commands) are available:
-- `prev` or `slide: prev` - go to the previous slide.
-- `next` or `slide: next` - go to the next slide.
-- `group: prev` - go to the previous slide group.
-- `group: next` - go to the next slide group.
-- `1`, `2`, `3`, ... - go to the slide by direct index.
-- `slide: 1`, `slide: 2`, `slide: 3`, ... - go to the slide by direct index.
-- `group: 1`, `group: 2`, `group: 3`, ... - go to the slide group by direct index.
-- `+1`, `slide: +1`, `slide: +2`, ... - increment the current slide index.
-- `-1`, `slide: -1`, `slide: -2`, ... - decrement the current slide index.
-- `group: +1`, `group: +2`, ... - increment the current slide group index.
-- `group: -1`, `group: -2`, ... - decrement the current slide group index.
+The following nav commands are available:
+- `0`, `1`, `2`, ... (positive number or a number as a string) - pointing directly to the slide index (starting from 0). 
+  If the number is greater than the count of slides, it will be wrapped around for a loop mode or will be clamped to the last slide index otherwise.
+- `-1`, `-2`, ... (negative number or a number as a string with a minus sign) - pointing to the slide index from the end of the carousel.
+  For example, `-1` will point to the last slide, `-2` will point to the second last slide, etc.
+- `slide:1`, `slide:2`, ... (index prefixed with a `slide:` with unsigned integer value) - pointing to the slide index (starting from 1).
+  For example, `slide:1` will point to the first slide, `slide:2` will point to the second slide, etc.
+  Prefixed unsigned integer value does not wrap around or clamp to the last slide index, so it will always point to the exact slide index.
+  If index is greater than the count of slides, navigation will be rejected.
+- `slide:+1`, `slide:-1`, ... - (index prefixed with a `slide:` and an explicitly signed integer value) - is the relative navigation command.
+  For example, `slide:+1` will point to the next slide, `slide:-1` will point to the previous slide, etc.
+  This command will increment or decrement the current active slide index by the given value.
+- `prev`, `slide: prev` - is an alias for `slide: -1` command, which will navigate to the previous slide.
+- `next`, `slide: next` - is an alias for `slide: +1` command, which will navigate to the next slide.
+- `group:1`, `group:2`, ... (index prefixed with a `group:` with unsigned integer value) - pointing to the slide group by a direct index (starting from 1).
+  If the group index is greater than the count of groups navigation will be rejected.
+- `group:+1`, `group:-1`, ... (index prefixed with a `group:` and an explicitly signed integer value) - is the relative navigation command for slide groups.
+  For example, `group:+1` will point to the next slide group, `group: -1` will point to the previous slide group, etc.
+- `group: prev`, `group: next` - is an alias for `group: -1` and `group: +1` commands, which will navigate to the previous or next slide group respectively.
 
+NOTE: Please be aware of the numbering differences:
+ - If you do not use any prefix, the index starts from 0 (zero), following typical JavaScript collection behavior. 
+   The system will also normalize the index if it exceeds bounds (similar to `at` function).
+ - If you use a prefix (such as `slide:` or `group:`), the index starts from 1 (one). 
+   In this case, the system treats the value as a user-defined API input and will not normalize the index—only direct targeting will be applied.
 
 ### ESL Carousel Slide API
 
