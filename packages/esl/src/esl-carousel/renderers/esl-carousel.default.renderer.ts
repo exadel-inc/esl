@@ -1,5 +1,5 @@
 import {ESLMediaQuery} from '../../esl-media-query/core';
-import {normalize, sign} from '../core/esl-carousel.utils';
+import {bounds, normalize, sign} from '../core/esl-carousel.utils';
 import {ESLCarouselRenderer} from '../core/esl-carousel.renderer';
 
 import type {ESLCarouselDirection, ESLCarouselActionParams} from '../core/esl-carousel.types';
@@ -53,7 +53,7 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
    * Prepare to renderer animation.
    */
   public override onBind(): void {
-    this.currentIndex = this.normalizeIndex(Math.max(0, this.$carousel.activeIndex));
+    this.currentIndex = bounds(this.$carousel.activeIndex, 0, this.size - this.count);
     this.redraw(true);
   }
 

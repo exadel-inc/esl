@@ -1,7 +1,7 @@
 import {promisifyNextRender} from '../../esl-utils/async/promise';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ESLCarouselRenderer} from '../core/esl-carousel.renderer';
-import {sign} from '../core/esl-carousel.utils';
+import {sign, bounds} from '../core/esl-carousel.utils';
 import {ESLCarouselDirection} from '../core/esl-carousel.types';
 
 import type {ESLCarouselActionParams} from '../core/esl-carousel.types';
@@ -43,7 +43,7 @@ export class ESLCSSCarouselRenderer extends ESLCarouselRenderer {
    * Prepare to renderer animation.
    */
   public override onBind(): void {
-    this.currentIndex = this.normalizeIndex(Math.max(0, this.$carousel.activeIndex));
+    this.currentIndex = bounds(this.$carousel.activeIndex, 0, this.size - this.count);
     this.setActive(this.currentIndex);
   }
 

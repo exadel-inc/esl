@@ -10,7 +10,7 @@ import type {
 /** @returns sign of the value */
 export const sign = (value: number): -1 | 1 | 0 => value > 0 ? 1 : value < 0 ? -1 : 0;
 
-const bounds =
+export const bounds =
   (value: number, min: number, max: number): number => Math.max(min, Math.min(max, value));
 
 /** @returns normalized slide index in bounds of [0, count] range */
@@ -38,10 +38,10 @@ function calcDirection(from: number, to: number, size: number): ESLCarouselDirec
   return sign(to - from) * sign(size / 2 - abs);
 }
 
-/** @returns normalized numeric index from group index */
+/** @returns numeric index from group index */
 export function groupToIndex(group: number, count: number, size: number): number {
   const groupCount = Math.ceil(size / count);
-  const value = normalize(group, groupCount);
+  const value = bounds(group, 0, groupCount - 1);
   const index = value + 1 === groupCount ? size - count : count * value;
   return normalize(index, size);
 }
@@ -66,13 +66,14 @@ export function indexToDirection(index: number, {activeIndex, size, loop}: ESLCa
 }
 
 /** Splits target string into type and index parts */
-function splitTarget(target: string): {index: string, type: string} {
+function splitTarget(target: number | string): {index: string, type?: string} {
   // Sanitize value
   target = String(target).replace(/\s/, '');
+  // Short form of next/prev considered as slide target
+  if (target === 'next' || target === 'prev') return {index: target, type: 'slide'};
   // Split type and index part
   const [type, index] = String(target).split(':');
-  // 'slide' type is used if no prefix provided
-  return index ? {type, index} : {type: 'slide', index: target};
+  return index ? {type, index} : {index: target};
 }
 
 /** Parses index value defining its value and type (absolute|relative) */
@@ -90,7 +91,7 @@ function parseIndex(index: string | ESLCarouselNavIndex): {value: number, isRela
 function resolveSlideIndex(indexStr: string | ESLCarouselNavIndex, cfg: ESLCarouselState): ESLCarouselNavInfo {
   const {value, isRelative, direction} = parseIndex(indexStr);
   const target = value + (isRelative ? cfg.activeIndex : 0);
-  const index = normalizeIndex(target, cfg);
+  const index = isRelative ? normalizeIndex(target, cfg) : bounds(target, 0, cfg.size - cfg.count);
   return {index, direction: direction || indexToDirection(index, cfg)};
 }
 
@@ -112,16 +113,20 @@ function resolveGroupIndex(indexStr: string | ESLCarouselNavIndex, cfg: ESLCarou
   return {index, direction: direction || indexToDirection(index, cfg)};
 }
 
-/** @returns normalized index from target definition and current state */
+/** @returns normalized numeric index from simple index definition */
+function resolveIndex(target: number | string, cfg: ESLCarouselState): ESLCarouselNavInfo {
+  const i = normalize(+target, cfg.size);
+  const index = cfg.loop ? i : bounds(Math.max(i, +target), 0, cfg.size - cfg.count);
+  const direction = indexToDirection(index, cfg);
+  return {index, direction};
+}
+
+/** @returns normalized first index from target definition and current state */
 export function toIndex(target: ESLCarouselSlideTarget, cfg: ESLCarouselState): ESLCarouselNavInfo {
-  if (typeof target === 'number') {
-    const index = normalizeIndex(target, cfg);
-    return {index, direction: indexToDirection(index, cfg)};
-  }
   const {type, index} = splitTarget(target);
   if (type === 'group') return resolveGroupIndex(index, cfg);
   if (type === 'slide') return resolveSlideIndex(index, cfg);
-  return {index: cfg.activeIndex};
+  return resolveIndex(index, cfg);
 }
 
 /**
