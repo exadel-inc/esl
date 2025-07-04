@@ -118,6 +118,8 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     while (this.currentIndex !== nextIndex) {
       await this.onStepAnimate(direction * this.INDEX_MOVE_MULTIPLIER, speed);
     }
+    // if no slide change performed, reset offset
+    if (this.offset !== 0) await this.onStepAnimate(0, speed);
     this.$carousel.$$attr('active', false);
   }
 
@@ -185,12 +187,8 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     const index = this.currentIndex + count * this.INDEX_MOVE_MULTIPLIER * dir;
 
     await this.animateTo(index, this.transitionDuration);
-
-    this.reorder();
-    this.setTransformOffset(-this.getOffset(this.currentIndex));
     this.$carousel.$$attr('active', false);
-
-    this.setActive(this.currentIndex, {...params, direction});
+    await this.onAfterAnimate(this.currentIndex, direction, params);
   }
 
   /**

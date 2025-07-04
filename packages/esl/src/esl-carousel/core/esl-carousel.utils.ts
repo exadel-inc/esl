@@ -139,5 +139,5 @@ export function canNavigate(target: ESLCarouselSlideTarget, cfg: ESLCarouselStat
   const {direction, index} = toIndex(target, cfg);
   if (isNaN(index)) return false;
   if (!cfg.loop && direction && index < direction * cfg.activeIndex) return false;
-  return index !== cfg.activeIndex;
+  return index !== cfg.activeIndex || Math.abs(cfg.offset) > 0;
 }

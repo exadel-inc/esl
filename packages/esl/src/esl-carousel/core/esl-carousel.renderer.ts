@@ -168,7 +168,7 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig, ESLCarou
   public async navigate(to: ESLCarouselNavInfo, params: ESLCarouselActionParams): Promise<void> {
     const index = this.normalizeIndex(to.index, params);
     const direction = this.normalizeDirection(to.direction, params);
-    if (index === this.activeIndex) return; // skip if index is already active
+    if (index === this.activeIndex && !this.offset) return; // skip if index is already active
     if (!this.dispatchChangeEvent('BEFORE', index, {...params, direction})) return;
 
     try {

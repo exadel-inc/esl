@@ -114,9 +114,8 @@ export class ESLCSSCarouselRenderer extends ESLCarouselRenderer {
     }
 
     await this.transitionDuration$$;
-    this.setActive(this.currentIndex, {...params, direction});
     this.$carousel.$$attr('shifted', false);
-    this.onAfterAnimation();
+    await this.onAfterAnimate(this.currentIndex, direction, params);
   }
 
   protected onAfterAnimation(): void {
