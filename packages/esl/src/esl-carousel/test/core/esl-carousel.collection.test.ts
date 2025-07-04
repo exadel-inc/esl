@@ -1,4 +1,9 @@
-import {ESLCarousel} from '../../core';
+import {ESLCarousel} from '../../core/esl-carousel';
+import {ESLCarouselDummyRenderer} from '../common/esl-carousel.dummy.renderer';
+
+jest.mock('../../../esl-utils/dom/ready', () => ({
+  onDocumentReady: (cb: any) => cb()
+}));
 
 describe('ESLCarousel: Slides Collection methods', () => {
   class CarouselMock extends ESLCarousel {
@@ -18,10 +23,16 @@ describe('ESLCarousel: Slides Collection methods', () => {
     }
   }
   CarouselMock.register();
+  ESLCarouselDummyRenderer.register();
 
   describe('ESlCarousel#activeIndex and ESlCarousel#$activeSlide resolves start active slide form carousel collection', () => {
     const mock = new CarouselMock();
     mock.count = '3';
+    beforeAll(async () => {
+      document.body.appendChild(mock);
+      await CarouselMock.registered;
+    });
+    afterAll(() => document.body.removeChild(mock));
 
     test('No slides', () => {
       mock.setMockActiveSlides([]);
@@ -93,6 +104,12 @@ describe('ESLCarousel: Slides Collection methods', () => {
   describe('ESlCarousel#activeIndexes and ESlCarousel#$activeSlides resolves active slides indexes form carousel collection', () => {
     const mock = new CarouselMock();
     mock.count = '3';
+
+    beforeAll(async () => {
+      document.body.appendChild(mock);
+      await CarouselMock.registered;
+    });
+    afterAll(() => document.body.removeChild(mock));
 
     test('No slides', () => {
       mock.setMockActiveSlides([]);

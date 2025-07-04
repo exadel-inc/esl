@@ -1,18 +1,17 @@
-import {memoize} from '../../esl-utils/decorators';
 import {isEqual} from '../../esl-utils/misc/object';
 import {parseTime} from '../../esl-utils/misc/format';
 import {promisifyTimeout} from '../../esl-utils/async/promise/timeout';
-import {SyntheticEventTarget} from '../../esl-utils/dom';
 import {ESLCarouselDirection} from './esl-carousel.types';
 import {ESLCarouselSlideEvent} from './esl-carousel.events';
 import {ESLCarouselNavRejection} from './esl-carousel.errors';
 import {normalize, normalizeIndex, sequence} from './esl-carousel.utils';
+import {ESLCarouselRendererRegistry} from './esl-carousel.renderer.registry';
 
 import type {ESLCarousel} from './esl-carousel';
 import type {ESLCarouselSlideEventInit} from './esl-carousel.events';
-import type {ESLCarouselActionParams, ESLCarouselConfig, ESLCarouselNavInfo} from './esl-carousel.types';
+import type {ESLCarouselActionParams, ESLCarouselConfig, ESLCarouselState, ESLCarouselNavInfo} from './esl-carousel.types';
 
-export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
+export abstract class ESLCarouselRenderer implements ESLCarouselConfig, ESLCarouselState {
   /** CSS variable name to set transition duration */
   public static readonly TRANSITION_DURATION_PROP = '--esl-carousel-step-duration';
 
@@ -53,10 +52,44 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
     return this._bound ? this.$slides.length : 0;
   }
 
-  /** @returns renderer config */
+  /** @returns slides shift size in pixels */
+  public get offset(): number {
+    return 0;
+  }
+
+  /** @returns active slide index or -1 if the renderer is not bound */
+  public get activeIndex(): number {
+    if (this.size <= 0) return -1;
+    if (this.$carousel.isActive(0)) {
+      for (let i = this.size - 1; i > 0; --i) {
+        if (!this.$carousel.isActive(i)) return normalize(i + 1, this.size);
+      }
+    }
+    return this.$slides.findIndex(this.$carousel.isActive, this.$carousel);
+  }
+
+  /** @returns list of active slide indexes */
+  public get activeIndexes(): number[] {
+    const start = this.activeIndex;
+    if (start < 0) return [];
+    const indexes = [];
+    for (let i = 0; i < this.size; i++) {
+      const index = normalize(i + start, this.size);
+      if (this.$carousel.isActive(index)) indexes.push(index);
+    }
+    return indexes;
+  }
+
+  /** @returns renderer config safe copy */
   public get config(): ESLCarouselConfig {
     const {type, size, count, loop, vertical} = this;
     return {type, size, count, loop, vertical};
+  }
+
+  /** @returns renderer state safe copy */
+  public get state(): ESLCarouselState {
+    const {size, count, loop, vertical, activeIndex, offset} = this;
+    return {size, count, loop, vertical, activeIndex, offset};
   }
 
   /** @returns {@link ESLCarousel} `$slidesArea` */
@@ -93,7 +126,7 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
   }
 
   public equal(config: ESLCarouselConfig): boolean {
-    return isEqual(this.config, config);
+    return this._bound && isEqual(this.config, config);
   }
 
   public bind(): void {
@@ -135,7 +168,7 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
   public async navigate(to: ESLCarouselNavInfo, params: ESLCarouselActionParams): Promise<void> {
     const index = this.normalizeIndex(to.index, params);
     const direction = this.normalizeDirection(to.direction, params);
-    if (index === this.$carousel.activeIndex) return; // skip if index is already active
+    if (index === this.activeIndex) return; // skip if index is already active
     if (!this.dispatchChangeEvent('BEFORE', index, {...params, direction})) return;
 
     try {
@@ -167,11 +200,11 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
   /** Moves slide by the passed offset in px */
   public abstract move(offset: number, from: number, params: ESLCarouselActionParams): void;
   /** Normalizes move offset to the "nearest stable" slide position */
-  public abstract commit(offset: number, from: number, params: ESLCarouselActionParams): Promise<void>;
+  public abstract commit(params: ESLCarouselActionParams): Promise<void>;
 
   /** Sets active slides from passed index **/
   public setActive(index: number, event?: Partial<ESLCarouselSlideEventInit>): void {
-    const indexesBefore = this.$carousel.activeIndexes;
+    const indexesBefore = this.activeIndexes;
     const count = Math.min(this.count, this.size);
 
     for (let i = 0; i < this.size; i++) {
@@ -210,7 +243,7 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
     index: number,
     event: Partial<ESLCarouselSlideEventInit>
   ): boolean {
-    const indexesBefore = event.indexesBefore || this.$carousel.activeIndexes;
+    const indexesBefore = event.indexesBefore || this.activeIndexes;
     const count = Math.min(this.count, this.size);
     const indexesAfter = sequence(index, count, this.size);
 
@@ -219,32 +252,7 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig {
   }
 
   // Register API
-  @memoize()
-  public static get registry(): ESLCarouselRendererRegistry {
-    return new ESLCarouselRendererRegistry();
-  }
-  public static register(view: ESLCarouselRendererConstructor = this as any): void {
-    ESLCarouselRenderer.registry.register(view);
-  }
-}
-
-export type ESLCarouselRendererConstructor = (new(carousel: ESLCarousel, config: ESLCarouselConfig) => ESLCarouselRenderer) & typeof ESLCarouselRenderer;
-
-export class ESLCarouselRendererRegistry extends SyntheticEventTarget {
-  private store = new Map<string, ESLCarouselRendererConstructor>();
-
-  public create(carousel: ESLCarousel, config: ESLCarouselConfig): ESLCarouselRenderer {
-    let Renderer = this.store.get(config.type);
-    if (!Renderer) [Renderer] = this.store.values(); // take first Renderer in store
-    return new Renderer(carousel, config);
-  }
-
-  public register(view: ESLCarouselRendererConstructor): void {
-    if (!view || !view.is) throw Error('[ESL]: CarouselRendererRegistry: incorrect registration request');
-    if (this.store.has(view.is)) throw Error(`View with name ${view.is} already defined`);
-    this.store.set(view.is, view);
-    const detail = {name: view.is, view};
-    const event = new CustomEvent('change', {detail});
-    this.dispatchEvent(event);
+  public static register(view: typeof ESLCarouselRenderer = this): void {
+    ESLCarouselRendererRegistry.instance.register(view);
   }
 }

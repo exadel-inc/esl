@@ -26,6 +26,9 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
   /** First index of active slides. */
   protected currentIndex: number = 0;
 
+  /** @returns shift size in pixels */
+  public override accessor offset: number = 0;
+
   /** Multiplier for the index move on the slide move */
   protected get INDEX_MOVE_MULTIPLIER(): number {
     return 1;
@@ -101,6 +104,7 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
       transform: [`translate3d(${this.vertical ? `0px, ${offset}px` : `${offset}px, 0px`}, 0px)`]
     }, {duration, easing: 'linear'}).finished;
     this.animating =  false;
+    this.offset = 0; // reset offset after animation
   }
 
   /** Processes animation. */
@@ -131,7 +135,7 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
 
     // Make sure there is a slide in required direction
     this.reorder(indexOffset < 0);
-    const offsetFrom = -this.getOffset(this.currentIndex);
+    const offsetFrom = this.offset - this.getOffset(this.currentIndex);
     this.setTransformOffset(offsetFrom);
 
     await this.animateTo(index, duration);
@@ -155,7 +159,8 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     this.currentIndex = normalize(index, this.size);
     this.reorder(offset > 0);
 
-    const stageOffset = this.getOffset(this.currentIndex) - (offset % slideSize);
+    this.offset = offset % slideSize;
+    const stageOffset = this.getOffset(this.currentIndex) - this.offset;
     this.setTransformOffset(-stageOffset);
 
     if (next !== index) {
@@ -169,15 +174,16 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
   }
 
   /** Ends current transition and make permanent all changes performed in the transition. */
-  public async commit(offset: number, from: number, params: ESLCarouselActionParams): Promise<void> {
+  public async commit(params: ESLCarouselActionParams): Promise<void> {
+    const {offset} = this;
     const dir = sign(-offset);
     const slideSize = this.slideSize + this.gap;
     const amount = Math.abs(offset) / slideSize;
     const tolerance = ESLDefaultCarouselRenderer.NEXT_SLIDE_TOLERANCE;
-    const count = (amount - Math.floor(amount)) > tolerance ? Math.ceil(amount) : Math.floor(amount);
-    const index = from + count * this.INDEX_MOVE_MULTIPLIER * dir;
+    const direction = params.direction || sign((amount - Math.floor(amount)) - tolerance);
+    const count = direction > 0 ? Math.ceil(amount) : Math.floor(amount);
+    const index = this.currentIndex + count * this.INDEX_MOVE_MULTIPLIER * dir;
 
-    const direction = index === this.currentIndex ? -dir : dir;
     await this.animateTo(index, this.transitionDuration);
 
     this.reorder();

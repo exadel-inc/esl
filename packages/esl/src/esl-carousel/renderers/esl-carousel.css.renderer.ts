@@ -23,11 +23,11 @@ export class ESLCSSCarouselRenderer extends ESLCarouselRenderer {
     return this.$carousel.clientWidth * ESLCSSCarouselRenderer.NEXT_SLIDE_TOLERANCE;
   }
 
-  protected get offset(): number {
+  public override get offset(): number {
     const offset = this.$area.style.getPropertyValue(ESLCSSCarouselRenderer.OFFSET_PROP);
     return parseFloat(offset) || 0;
   }
-  protected set offset(offset: number) {
+  public override set offset(offset: number) {
     if (offset) {
       const abs = Math.min(1, Math.abs(offset) / this.tolerance);
       this.$area.style.setProperty(ESLCSSCarouselRenderer.OFFSET_PROP, `${offset.toFixed(1)}px`);
@@ -91,7 +91,8 @@ export class ESLCSSCarouselRenderer extends ESLCarouselRenderer {
     this.setPreActive(nextIndex, {...params, direction});
   }
 
-  public async commit(offset: number, from: number, params: ESLCarouselActionParams): Promise<void> {
+  public async commit(params: ESLCarouselActionParams): Promise<void> {
+    const {offset} = this;
     const $activeSlide = this.$carousel.$activeSlide;
     if (!$activeSlide) throw new Error('[ESL] Carousel: no active slide');
 
