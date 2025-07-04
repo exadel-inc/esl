@@ -1,5 +1,5 @@
 import {ESLMediaQuery} from '../../esl-media-query/core';
-import {bounds, normalize, sign} from '../core/esl-carousel.utils';
+import {bounds, normalize, normalizeIndex, sign} from '../core/esl-carousel.utils';
 import {ESLCarouselRenderer} from '../core/esl-carousel.renderer';
 
 import type {ESLCarouselDirection, ESLCarouselActionParams} from '../core/esl-carousel.types';
@@ -66,9 +66,9 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     this.setActive(this.currentIndex);
 
     // Set initial offset based on pre-calculation
-    initial && this.setTransformOffset(-fallbackOffset);
+    initial && this.setTransformOffset(this.offset - fallbackOffset);
     // Update offset according to main algorithm (fix edge cases if the fallback offset is not correct)
-    this.setTransformOffset(-this.getOffset(this.currentIndex));
+    this.setTransformOffset(this.offset - this.getOffset(this.currentIndex));
   }
 
   /**
@@ -103,8 +103,8 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     await this.$area.animate({
       transform: [`translate3d(${this.vertical ? `0px, ${offset}px` : `${offset}px, 0px`}, 0px)`]
     }, {duration, easing: 'linear'}).finished;
-    this.animating =  false;
     this.offset = 0; // reset offset after animation
+    this.animating =  false;
   }
 
   /** Processes animation. */
@@ -153,15 +153,16 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     const index = from + Math.floor(amount) * this.INDEX_MOVE_MULTIPLIER * direction;
     const next = from + Math.ceil(amount) * this.INDEX_MOVE_MULTIPLIER * direction;
 
-    // check left border of non-loop state
-    if (!this.loop && offset > 0 && index <= 0) return;
-    // check right border of non-loop state
-    if (!this.loop && offset < 0 && index + this.count >= this.size) return;
+    // Normalize index according to loop state
+    this.currentIndex = normalizeIndex(index, this);
+    // Block move before the first slide if loop is disabled
+    if (this.currentIndex === 0 && !this.loop) offset = Math.min(0, offset);
+    // Block move after the last slide if loop is disabled
+    if (this.currentIndex + this.count >= this.size && !this.loop) offset = Math.max(0, offset);
 
-    this.currentIndex = normalize(index, this.size);
     this.reorder(offset > 0);
 
-    this.offset = offset % slideSize;
+    this.offset = Math.round(offset % slideSize);
     const stageOffset = this.getOffset(this.currentIndex) - this.offset;
     this.setTransformOffset(-stageOffset);
 

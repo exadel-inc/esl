@@ -52,7 +52,8 @@ export class ESLCSSCarouselRenderer extends ESLCarouselRenderer {
    * Clear animation.
    */
   public override onUnbind(): void {
-    this.onAfterAnimation();
+    this.animating = false;
+    CSSClassUtils.remove(this.$area, 'forward backward');
   }
 
   /** Processes animation. */
@@ -71,7 +72,9 @@ export class ESLCSSCarouselRenderer extends ESLCarouselRenderer {
   /** Post-processing animation action. */
   public override async onAfterAnimate(index: number, direction: ESLCarouselDirection, params: ESLCarouselActionParams): Promise<void> {
     this.currentIndex = index;
-    this.onAfterAnimation();
+    this.animating = false;
+    this.offset = 0;
+    CSSClassUtils.remove(this.$area, 'forward backward');
     return super.onAfterAnimate(index, direction, params);
   }
 
@@ -116,11 +119,5 @@ export class ESLCSSCarouselRenderer extends ESLCarouselRenderer {
     await this.transitionDuration$$;
     this.$carousel.$$attr('shifted', false);
     await this.onAfterAnimate(this.currentIndex, direction, params);
-  }
-
-  protected onAfterAnimation(): void {
-    CSSClassUtils.remove(this.$area, 'forward backward');
-    this.animating = false;
-    this.offset = 0;
   }
 }
