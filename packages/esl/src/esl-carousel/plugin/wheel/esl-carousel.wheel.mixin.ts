@@ -1,13 +1,15 @@
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
 import {throttle} from '../../../esl-utils/async/throttle';
+import {isElement} from '../../../esl-utils/dom/api';
 import {bind, decorate, listen} from '../../../esl-utils/decorators';
 import {ESLWheelEvent, ESLWheelTarget} from '../../../esl-event-listener/core';
 
+import {sign} from '../../core/esl-carousel.utils';
 import {ESLCarouselPlugin} from '../esl-carousel.plugin';
 
 export interface ESLCarouselWheelConfig {
   /** Prefix to request next/prev navigation */
-  command: 'slide' | 'group';
+  type: 'slide' | 'group' | 'move' | 'none';
   /** CSS selector to ignore wheel event from */
   ignore: string;
   /**
@@ -31,9 +33,9 @@ export interface ESLCarouselWheelConfig {
 @ExportNs('Carousel.Wheel')
 export class ESLCarouselWheelMixin extends ESLCarouselPlugin<ESLCarouselWheelConfig> {
   public static override is = 'esl-carousel-wheel';
-  public static override readonly DEFAULT_CONFIG_KEY = 'command';
+  public static override readonly DEFAULT_CONFIG_KEY = 'type';
   public static override readonly DEFAULT_CONFIG: ESLCarouselWheelConfig = {
-    command: 'slide',
+    type: 'slide',
     ignore: '[contenteditable]',
     direction: 'auto',
     preventDefault: true
@@ -52,13 +54,15 @@ export class ESLCarouselWheelMixin extends ESLCarouselPlugin<ESLCarouselWheelCon
   @listen({inherit: true})
   protected override onConfigChange(): void {
     super.onConfigChange();
+    this.$$on(this._onInertWheel);
     this.$$on(this._onWheel);
   }
 
   /** @returns true if the plugin should track passed event */
   @bind
-  protected isEventIgnored(e: WheelEvent & {target: Element}): boolean {
+  protected isEventIgnored(e: WheelEvent): boolean {
     if (e.shiftKey === this.isVertical) return true;
+    if (!isElement(e.target)) return false;
     const {ignore} = this.config;
     return !!ignore && !!e.target.closest(ignore);
   }
@@ -70,14 +74,41 @@ export class ESLCarouselWheelMixin extends ESLCarouselPlugin<ESLCarouselWheelCon
       distance: 10,
       preventDefault: plugin.config.preventDefault,
       ignore: plugin.isEventIgnored
-    })
+    }),
+    condition: (plugin: ESLCarouselWheelMixin) => plugin.config.type === 'slide' || plugin.config.type === 'group'
   })
   @decorate(throttle, 400)
-  protected _onWheel(e: ESLWheelEvent): void {
+  protected _onInertWheel(e: ESLWheelEvent): void {
     if (!this.$host || this.$host.animating) return;
     const delta = this.isVertical ? e.deltaY : e.deltaX;
-    const direction = delta > 0 ? 'next' : 'prev';
-    this.$host?.goTo(`${this.config.command || 'slide'}:${direction}`).catch(console.debug);
+    if (!delta) return;
+    this.$host?.goTo(`${this.config.type}:${sign(delta)}`).catch(console.debug);
+  }
+
+  /** Handles auxiliary events to move the carousel */
+  @listen({
+    event: 'wheel',
+    passive: false,
+    condition: (plugin: ESLCarouselWheelMixin) => plugin.config.type === 'move'
+  })
+  protected _onWheel(e: WheelEvent): void {
+    if (!this.$host || this.$host.animating || this.isEventIgnored(e)) return;
+    const delta = (this.isVertical !== e.shiftKey) ? e.deltaY : e.deltaX;
+    if (!delta) return; // Ignore zero delta
+    // Prevent default action if configured
+    if (this.config.preventDefault) e.preventDefault();
+
+    switch (e.deltaMode) {
+      case WheelEvent.DOM_DELTA_PAGE:
+        this.$host.goTo('group:' + sign(delta)).catch(console.debug);
+        break;
+      case WheelEvent.DOM_DELTA_LINE:
+        this.$host.goTo('slide:' + sign(delta)).catch(console.debug);
+        break;
+      case WheelEvent.DOM_DELTA_PIXEL:
+        this.$host.move(this.$host.offset + delta);
+        break;
+    }
   }
 }
 
