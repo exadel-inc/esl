@@ -23,12 +23,13 @@ describe('ESLCarousel: Nav Utils', () => {
       ['group: prev', {activeIndex: 2, size: 5, count: 2, loop: false}],
       ['group: prev', {activeIndex: 4, size: 5, count: 2, loop: false}],
       // Indexes
-      ['slide:1', {activeIndex: 0, size: 4, count: 1, loop: true}],
+      ['slide:1', {activeIndex: 1, size: 4, count: 1, loop: true}],
       ['slide:2', {activeIndex: 0, size: 4, count: 1, loop: true}],
       ['slide:3', {activeIndex: 0, size: 4, count: 1, loop: true}],
-      ['slide:0', {activeIndex: 1, size: 4, count: 1, loop: true}],
-      ['slide:2', {activeIndex: 1, size: 4, count: 1, loop: true}],
       ['slide:3', {activeIndex: 1, size: 4, count: 1, loop: true}],
+      ['group:1', {activeIndex: 1, size: 8, count: 3, loop: true}],
+      ['group:1', {activeIndex: 3, size: 8, count: 3, loop: true}],
+      ['group:2', {activeIndex: 0, size: 8, count: 3, loop: true}],
     ])(
       'Target %s is allowed for %p configuration',
       (target: ESLCarouselSlideTarget, cfg: ESLCarouselState) => expect(canNavigate(target, cfg)).toBe(true)
@@ -56,8 +57,11 @@ describe('ESLCarousel: Nav Utils', () => {
       ['group: next', {activeIndex: 4, size: 5, count: 2, loop: false}],
       ['group: prev', {activeIndex: 0, size: 5, count: 2, loop: false}],
       // Indexes
-      ['slide:0', {activeIndex: 0, size: 4, count: 1, loop: true}],
-      ['slide:1', {activeIndex: 1, size: 4, count: 1, loop: true}]
+      ['slide:0', {activeIndex: 0, size: 4, count: 1, loop: true}], // invalid, should not navigate
+      ['slide:1', {activeIndex: 0, size: 4, count: 1, loop: true}], // already at first slide
+      ['slide:2', {activeIndex: 1, size: 4, count: 1, loop: true}],
+      ['group:0', {activeIndex: 0, size: 8, count: 3, loop: true}],
+      ['group:1', {activeIndex: 0, size: 8, count: 3, loop: true}],
     ])(
       'Target %s is not allowed for %p configuration',
       (target: ESLCarouselSlideTarget, cfg: ESLCarouselState) => expect(canNavigate(target, cfg)).toBe(false)

@@ -1,7 +1,7 @@
 import {promisifyNextRender} from '../../esl-utils/async/promise';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ESLCarouselRenderer} from '../core/esl-carousel.renderer';
-import {sign} from '../core/esl-carousel.utils';
+import {sign, bounds} from '../core/esl-carousel.utils';
 import {ESLCarouselDirection} from '../core/esl-carousel.types';
 
 import type {ESLCarouselActionParams} from '../core/esl-carousel.types';
@@ -43,7 +43,7 @@ export class ESLCSSCarouselRenderer extends ESLCarouselRenderer {
    * Prepare to renderer animation.
    */
   public override onBind(): void {
-    this.currentIndex = this.normalizeIndex(Math.max(0, this.$carousel.activeIndex));
+    this.currentIndex = bounds(this.$carousel.activeIndex, 0, this.size - this.count);
     this.setActive(this.currentIndex);
   }
 
@@ -52,7 +52,8 @@ export class ESLCSSCarouselRenderer extends ESLCarouselRenderer {
    * Clear animation.
    */
   public override onUnbind(): void {
-    this.onAfterAnimation();
+    this.animating = false;
+    CSSClassUtils.remove(this.$area, 'forward backward');
   }
 
   /** Processes animation. */
@@ -71,7 +72,9 @@ export class ESLCSSCarouselRenderer extends ESLCarouselRenderer {
   /** Post-processing animation action. */
   public override async onAfterAnimate(index: number, direction: ESLCarouselDirection, params: ESLCarouselActionParams): Promise<void> {
     this.currentIndex = index;
-    this.onAfterAnimation();
+    this.animating = false;
+    this.offset = 0;
+    CSSClassUtils.remove(this.$area, 'forward backward');
     return super.onAfterAnimate(index, direction, params);
   }
 
@@ -114,14 +117,7 @@ export class ESLCSSCarouselRenderer extends ESLCarouselRenderer {
     }
 
     await this.transitionDuration$$;
-    this.setActive(this.currentIndex, {...params, direction});
     this.$carousel.$$attr('shifted', false);
-    this.onAfterAnimation();
-  }
-
-  protected onAfterAnimation(): void {
-    CSSClassUtils.remove(this.$area, 'forward backward');
-    this.animating = false;
-    this.offset = 0;
+    await this.onAfterAnimate(this.currentIndex, direction, params);
   }
 }
