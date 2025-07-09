@@ -131,18 +131,14 @@ export class ESLWheelTarget extends SyntheticEventTarget {
     const {DOM_DELTA_LINE, DOM_DELTA_PAGE} = WheelEvent;
     const deltaValue = (isVertical && event.shiftKey) ? 0 : (isVertical || event.shiftKey) ? event.deltaY : event.deltaX;
 
-    let delta;
     switch (event.deltaMode) {
       case DOM_DELTA_LINE:
-        delta = deltaValue * parseInt(window.getComputedStyle(this.target).lineHeight, 10);
-        break;
+        return deltaValue * parseInt(window.getComputedStyle(this.target).lineHeight, 10);
       case DOM_DELTA_PAGE:
-        delta = isVertical ? window.innerHeight : window.innerWidth;
-        break;
+        return isVertical ? window.innerHeight : window.innerWidth;
       default:
-        delta = deltaValue * window.devicePixelRatio;
+        return deltaValue * window.devicePixelRatio;
     }
-    return delta;
   }
 
   /** Subscribes to wheel event */
