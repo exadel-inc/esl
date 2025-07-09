@@ -25,7 +25,7 @@ export class ESLCarouselRelateToMixin extends ESLCarouselPlugin<ESLCarouselRelat
   };
   public static override DEFAULT_CONFIG_KEY = 'target';
 
-  /** @returns events name to listen for carousel state changes */
+  /** @returns event name(s) to listen for carousel state changes */
   protected get event(): string {
     return [this.config.proactive ? ESLCarouselSlideEvent.CHANGE : null, ESLCarouselSlideEvent.AFTER].filter(Boolean).join(' ');
   }
