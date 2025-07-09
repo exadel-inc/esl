@@ -1,3 +1,5 @@
+import {PlayerStates} from './esl-media-provider';
+
 import type {ESLMedia} from './esl-media';
 
 let iObserver: IntersectionObserver;
@@ -32,11 +34,11 @@ function handleViewport(entry: IntersectionObserverEntry): void {
   }
 
   // Videos that not playing and in a min ratio to start should be started
-  if (!video._isVisible && ratio >= video.RATIO_TO_PLAY) {
-    // TODO: support for play-in-viewport="restart" to restart video if ended
-    if (video.active) return;
+  if (!video._isVisible && !video.active && ratio >= video.RATIO_TO_PLAY) {
     // Set visibility state to true
     video._isVisible = true;
+
+    if (video.playInViewport === 'start' && video.state === PlayerStates.ENDED) return;
     // Disallow for non autoplay-able videos or videos that was controlled by user
     if (!video.autoplay || video.isUserInitiated) return;
     video.play(video.canActivate(), true);
