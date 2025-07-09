@@ -129,7 +129,7 @@ export class ESLWheelTarget extends SyntheticEventTarget {
    */
   private calculateScrollPixels(event: WheelEvent, isVertical: boolean): number {
     const {DOM_DELTA_LINE, DOM_DELTA_PAGE} = WheelEvent;
-    const deltaValue = (isVertical && event.shiftKey) ? 0 : (isVertical || event.shiftKey) ? event.deltaY : event.deltaX;
+    const deltaValue = isVertical !== event.shiftKey ? event.deltaY : event.deltaX;
 
     switch (event.deltaMode) {
       case DOM_DELTA_LINE:
