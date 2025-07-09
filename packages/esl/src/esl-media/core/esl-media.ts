@@ -23,10 +23,11 @@ import type {ESLMediaRegistryEvent} from './esl-media-registry.event';
 
 export type ESLMediaFillMode = 'cover' | 'inscribe' | '';
 
-function parsePlayInViewportAttr(value: string | null): 'start' | 'restart' {
-  if (typeof value !== 'string') return 'start';
+function parsePlayInViewportAttr(value: string | null): 'restart' | boolean {
+  if (typeof value !== 'string') return false;
   const v = value.trim().toLowerCase();
-  return v === 'restart' ? v : 'start';
+  if (v === 'none') return false;
+  return v === 'restart' ? v : true;
 }
 
 /**
@@ -117,7 +118,7 @@ export class ESLMedia extends ESLBaseElement {
    */
   @boolAttr({name: 'disablepictureinpicture'}) public disablePictureInPicture: boolean;
   /** Allows play resource only in viewport area */
-  @attr({parser: parsePlayInViewportAttr}) public playInViewport: 'start' | 'restart';
+  @attr({parser: parsePlayInViewportAttr}) public playInViewport: 'restart' | boolean;
   /** Allows to start viewing a resource from a specific time offset. */
   @attr({defaultValue: 0, parser: parseInt}) public startTime: number;
   /** Allows player to accept focus */

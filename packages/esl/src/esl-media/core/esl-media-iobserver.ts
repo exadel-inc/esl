@@ -38,7 +38,7 @@ function handleViewport(entry: IntersectionObserverEntry): void {
     // Set visibility state to true
     video._isVisible = true;
 
-    if (video.playInViewport === 'start' && video.state === PlayerStates.ENDED) return;
+    if (video.playInViewport && video.playInViewport !== 'restart' && video.state === PlayerStates.ENDED) return;
     // Disallow for non autoplay-able videos or videos that was controlled by user
     if (!video.autoplay || video.isUserInitiated) return;
     video.play(video.canActivate(), true);
