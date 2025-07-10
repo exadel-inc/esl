@@ -91,6 +91,7 @@ Note: a single value attributes will be considered as all-rule so they spreads a
  - `config` -  the current configuration of the carousel (contains all the config props like count, loop, type, etc).
 
  - `size` - the number of slides in the carousel.
+ - `offset` - the current offset of the carousel in pixels. (Calculates from the active slide stable position).
  - `activeIndex` - the index of the first active slide.
  - `activeIndexes` - the array of indexes of the active slides.
 
@@ -106,7 +107,7 @@ Note: a single value attributes will be considered as all-rule so they spreads a
  - `goTo(target: HTMLElement | ESLCarouselSlideTarget, params?: Partial<ESLCarouselActionParams>)` - navigate to the target slide.
    As a target you can use the slide element or a special navigation string (See ESLCarouselSlideTarget).
  - `move(offset: number, from?: number, params?: Partial<ESLCarouselActionParams>)` - shifts stage with the passed offset.
- - `public commit(offset: number, from?: number, params?: Partial<ESLCarouselActionParams>)` - reset the carousel to the stable (unshifted) state.
+ - `public commit(offset: number)` - reset the carousel to the stable (unshifted) state.
 
  - `slideAt(index: number)` - returns the slide element at the given index.
  - `indexOf(slide: HTMLElement)` - returns the index of the given slide element.
@@ -129,7 +130,7 @@ You can listen to these events on the `<esl-carousel>` element to react to slide
 All slide change events use the `ESLCarouselSlideEvent` class and provide the following useful properties:
 - `indexesBefore`: Indexes of slides active before the change
 - `indexesAfter`: Indexes of slides that will be active after the change
-- `direction`: Direction of the slide animation (`'next'` or `'prev'`)
+- `direction`: Direction of the slide animation (-1 for backward, 1 for forward)
 - `activator`: The object that initiated the change (if any)
 - `final`: `true` if the change is final (the carousel guarantees that the change will be applied)
 - `$slidesBefore`, `$slidesAfter`: Arrays of slide elements before/after
@@ -162,6 +163,14 @@ The configuration change event uses the `ESLCarouselChangeEvent` class and provi
   - Dispatched when the carousel configuration or slides change (e.g., on creation, resize, or slide add/remove).
 
 For more details, see the event classes in `core/esl-carousel.events.ts`.
+
+#### Carousel Move Event
+The move event uses the `ESLCarouselMoveEvent` class and provides the following useful properties:
+- `offset`: The offset applied to the carousel (in pixels)
+- `delta`: The delta of the offset change (in pixels)
+- `direction`: Direction of the move (-1 for backward, 1 for forward)
+- `indexesAfter`: Indexes of slides that will be active after the move
+- `activator`: The object that initiated the move (if any)
 
 ---
 
