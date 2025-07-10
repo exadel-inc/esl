@@ -53,7 +53,12 @@ export abstract class ESLBaseTrigger extends ESLBaseElement {
   @attr({defaultValue: '0'}) public hoverHideDelay: string;
 
   /** Prevent ESC keyboard event handling for target element hiding */
-  @attr({parser: parseBoolean, serializer: toBooleanAttribute}) public ignoreEsc: boolean;
+  @attr({parser: parseBoolean, serializer: toBooleanAttribute})
+  public ignoreEsc: boolean;
+
+  /** Marker to stop event bubbling */
+  @attr({defaultValue: true, parser: parseBoolean, serializer: toBooleanAttribute})
+  public stopPropagation: boolean;
 
   /** Action to pass to the Toggleable. Supports `show`, `hide` and `toggle` values. `toggle` by default */
   @prop('toggle') public mode: 'toggle' | 'show' | 'hide';
@@ -147,6 +152,7 @@ export abstract class ESLBaseTrigger extends ESLBaseElement {
 
   /** Handles target primary (observed) event */
   protected _onPrimaryEvent(event: Event): void {
+    if (this.stopPropagation) event.stopPropagation();
     switch (this.mode) {
       case 'show':
         return this.showTarget({event});

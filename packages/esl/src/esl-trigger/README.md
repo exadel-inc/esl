@@ -45,6 +45,8 @@ use selector query with `no-target` attribute or rely on hidden state of the tri
 - `hover-show-delay` - show delay override value for hover (number in ms or `none`)
 
 - `hover-hide-delay` - hide delay override value for hover (number in ms or `none`)
+ 
+- `stop-propagation` - stop event bubbling on click and keydown events (default `true`)
 
 ### Readonly Attributes / Properties
 
