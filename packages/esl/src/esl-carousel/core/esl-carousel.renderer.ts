@@ -2,13 +2,13 @@ import {isEqual} from '../../esl-utils/misc/object';
 import {parseTime} from '../../esl-utils/misc/format';
 import {promisifyTimeout} from '../../esl-utils/async/promise/timeout';
 import {ESLCarouselDirection} from './esl-carousel.types';
-import {ESLCarouselSlideEvent} from './esl-carousel.events';
+import {ESLCarouselMoveEvent, ESLCarouselSlideEvent} from './esl-carousel.events';
 import {ESLCarouselNavRejection} from './esl-carousel.errors';
 import {normalize, normalizeIndex, sequence} from './esl-carousel.utils';
 import {ESLCarouselRendererRegistry} from './esl-carousel.renderer.registry';
 
 import type {ESLCarousel} from './esl-carousel';
-import type {ESLCarouselSlideEventInit} from './esl-carousel.events';
+import type {ESLCarouselSlideEventInit, ESLCarouselMoveEventInit} from './esl-carousel.events';
 import type {ESLCarouselActionParams, ESLCarouselConfig, ESLCarouselState, ESLCarouselNavInfo} from './esl-carousel.types';
 
 export abstract class ESLCarouselRenderer implements ESLCarouselConfig, ESLCarouselState {
@@ -249,6 +249,19 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig, ESLCarou
 
     const details = {...event, indexesBefore, indexesAfter};
     return this.$carousel.dispatchEvent(ESLCarouselSlideEvent.create(name, details));
+  }
+
+  /** Dispatches a move event with the given offset, index and event details */
+  protected dispatchMoveEvent(
+    offset: number,
+    index: number,
+    delta: number,
+    event: Partial<ESLCarouselMoveEventInit>
+  ): void {
+    const count = Math.min(this.count, this.size);
+    const indexesAfter = sequence(index, count, this.size);
+    const details = {...event, offset, delta, indexesAfter};
+    this.$carousel.dispatchEvent(ESLCarouselMoveEvent.create(details));
   }
 
   // Register API

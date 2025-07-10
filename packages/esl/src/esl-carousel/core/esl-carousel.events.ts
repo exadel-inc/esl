@@ -68,6 +68,52 @@ export class ESLCarouselSlideEvent extends Event implements ESLCarouselSlideEven
   }
 }
 
+/** {@link ESLCarouselMoveEvent} init object */
+export interface ESLCarouselMoveEventInit {
+  /** Carousel offset in pixels */
+  offset: number;
+  /** Move offset delta in pixels */
+  delta: number;
+  /** A list of indexes of slides that were active after the move */
+  indexesAfter: number[];
+  /** Direction of slide animation */
+  direction?: ESLCarouselDirection;
+  /** Auxiliary request attribute that represents object that initiates slide move */
+  activator?: any;
+}
+
+/** {@link ESLCarousel} event that represents slide move event */
+export class ESLCarouselMoveEvent extends Event implements ESLCarouselMoveEventInit {
+  /** {@link ESLCarouselMoveEvent} event type dispatched on carousel move */
+  public static readonly TYPE = 'esl:carousel:move';
+
+  public override readonly target: ESLCarousel;
+  public readonly offset: number;
+  public readonly indexesAfter: number[];
+  public readonly delta: number;
+  public readonly activator?: any;
+
+  protected constructor(
+    type: typeof ESLCarouselMoveEvent.TYPE,
+    init: ESLCarouselMoveEventInit
+  ) {
+    super(type, {
+      bubbles: false, // Do not bubble, to improve performance
+      cancelable: false,
+      composed: true
+    });
+    Object.assign(this, init);
+  }
+
+  get direction(): ESLCarouselDirection {
+    return Math.sign(this.delta);
+  }
+
+  public static create(init: ESLCarouselMoveEventInit): ESLCarouselMoveEvent {
+    return new ESLCarouselMoveEvent(ESLCarouselMoveEvent.TYPE, init);
+  }
+}
+
 /** {@link ESLCarouselChangeEvent} init object */
 interface ESLCarouselChangeEventInit {
   /** Whether the event is initial (on carousel creation) */
