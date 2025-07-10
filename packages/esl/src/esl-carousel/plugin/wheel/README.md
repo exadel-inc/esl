@@ -32,7 +32,7 @@ Values:
 The selector string to ignore elements for the wheel event. Default is `[contenteditable]`.
 
 ### `preventDefault` (optional)
-Prevent default wheel event behaviour in case event have handled. Default is `true`.
+Prevent default wheel event behavior when the event has been handled. Default is `true`.
 
 ## Usage Examples
 

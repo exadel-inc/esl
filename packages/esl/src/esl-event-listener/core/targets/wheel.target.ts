@@ -76,7 +76,9 @@ export class ESLWheelTarget extends SyntheticEventTarget {
     switch (event.deltaMode) {
       case WheelEvent.DOM_DELTA_LINE: {
         const styles = window.getComputedStyle(event.target as Element);
-        return deltaValue * parseInt(styles.lineHeight, 10);
+        const lineHeight = parseInt(styles.lineHeight, 10);
+        const normalizedLineHeight = isNaN(lineHeight) ? 16 : lineHeight; // Fallback to 16px if lineHeight is NaN
+        return deltaValue * normalizedLineHeight;
       }
       case WheelEvent.DOM_DELTA_PAGE:
         return isVertical ? window.innerHeight : window.innerWidth;

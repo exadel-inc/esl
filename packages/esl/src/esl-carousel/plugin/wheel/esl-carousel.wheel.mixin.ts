@@ -82,7 +82,7 @@ export class ESLCarouselWheelMixin extends ESLCarouselPlugin<ESLCarouselWheelCon
     if (!this.$host || this.$host.animating) return;
     const delta = this.isVertical ? e.deltaY : e.deltaX;
     if (!delta) return;
-    this.$host?.goTo(`${this.config.type}:${sign(delta)}`).catch(console.debug);
+    this.$host?.goTo(`${this.config.type}:${sign(delta)}`, {activator: this}).catch(console.debug);
   }
 
   /** Handles auxiliary events to move the carousel */
@@ -97,7 +97,7 @@ export class ESLCarouselWheelMixin extends ESLCarouselPlugin<ESLCarouselWheelCon
     if (!delta) return; // Ignore zero delta
     // Prevent default action if configured
     if (this.config.preventDefault) e.preventDefault();
-    this.$host?.move(this.$host.offset + delta);
+    this.$host?.move(this.$host.offset + delta, {activator: this});
   }
 }
 
