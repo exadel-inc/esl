@@ -76,7 +76,7 @@ export class ESLCarouselNavMixin extends ESLMixinElement {
   @listen('click')
   protected _onClick(e: PointerEvent): void {
     if (!this.$carousel || typeof this.$carousel.goTo !== 'function') return;
-    this.$carousel.goTo(this.command).catch(console.debug);
+    this.$carousel.goTo(this.command, {activator: this.$host}).catch(console.debug);
     e.preventDefault();
   }
 }
