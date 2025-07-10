@@ -97,7 +97,7 @@ export class ESLCarouselWheelMixin extends ESLCarouselPlugin<ESLCarouselWheelCon
     if (!delta) return; // Ignore zero delta
     // Prevent default action if configured
     if (this.config.preventDefault) e.preventDefault();
-    this.$host?.move(this.$host.offset + delta, {activator: this});
+    this.$host?.move(this.$host.offset + delta, this.$host.activeIndex, {activator: this});
   }
 }
 
