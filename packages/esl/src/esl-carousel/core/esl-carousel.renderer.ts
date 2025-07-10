@@ -247,7 +247,7 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig, ESLCarou
     return this.$carousel.dispatchEvent(ESLCarouselSlideEvent.create(name, details));
   }
 
-  /** Dispatches a move event with the given offset, index and event details */
+  /** Dispatches a move event with the given offset, index, delta and event details */
   protected dispatchMoveEvent(
     offsetBefore: number,
     event: ESLCarouselActionParams
