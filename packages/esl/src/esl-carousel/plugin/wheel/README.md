@@ -16,8 +16,8 @@ The configuration properties of the `esl-carousel-wheel` are the following:
 
 ### `type` (primary property, could be declared as the only value in the attribute)
 Declares the type of navigation to execute on the wheel event. Could be one of the following:
- - `slide` - moves the carousel by a slide, based on long(inert) wheel interation (default)
- - `group` - moves the carousel by a group, based on long(inert) wheel interation
+ - `slide` - moves the carousel by a slide, based on long(inert) wheel interaction (default)
+ - `group` - moves the carousel by a group, based on long(inert) wheel interaction
  - `move` - moves the carousel by the wheel delta amount (note: produces free state navigation)
  - `none` - disables wheel navigation
 
