@@ -61,6 +61,12 @@ export class ESLToggleableManager {
     return this.getChainFor(scope).includes(related);
   }
 
+  /** Focuses on the first focusable element of the toggleable, if possible */
+  protected grabFocus(element: ESLToggleable, options: FocusOptions = {preventScroll: true}): void {
+    if (!element || !element.open) return;
+    (element.$focusables[0] || element).focus(options);
+  }
+
   /** Changes focus scope to the specified element. Previous scope saved in the stack. */
   public attach(element: ESLToggleable): void {
     this.active.add(element);
@@ -76,7 +82,7 @@ export class ESLToggleableManager {
     // Remove the element from the stack and add it on top
     this.stack = this.stack.filter((el) => el !== element).concat(element);
     // Focus on the first focusable element
-    this.queue(() => (element.$focusables[0] || element).focus({preventScroll: true}));
+    this.queue(() => this.grabFocus(element));
   }
 
   /** Removes the specified element from the known focus scopes. */
@@ -125,8 +131,7 @@ export class ESLToggleableManager {
     // Trap focus inside the element
     if (current.a11y === 'modal') {
       this._focusTaskMng.cancel();
-      const $focusable = current.$focusables[0] || current;
-      $focusable.focus({preventScroll: true});
+      this.grabFocus(current);
     }
   }
 
