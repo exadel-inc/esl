@@ -64,6 +64,27 @@ export class ESLWheelTarget extends SyntheticEventTarget {
     return null;
   }
 
+  /**
+   * Normalizes the delta value from a WheelEvent based on the delta mode and axis
+   * @param event - The WheelEvent to normalize
+   * @param isVertical - A boolean indicating if the delta should be normalized for vertical scrolling
+   * @returns The normalized delta value in pixels
+   */
+  public static normalizeDelta(event: WheelEvent, isVertical: boolean): number {
+    const deltaValue = isVertical !== event.shiftKey ? event.deltaY : event.deltaX;
+
+    switch (event.deltaMode) {
+      case WheelEvent.DOM_DELTA_LINE: {
+        const styles = window.getComputedStyle(event.target as Element);
+        return deltaValue * parseInt(styles.lineHeight, 10);
+      }
+      case WheelEvent.DOM_DELTA_PAGE:
+        return isVertical ? window.innerHeight : window.innerWidth;
+      default:
+        return deltaValue * window.devicePixelRatio;
+    }
+  }
+
   protected constructor(
     protected readonly target: Element,
     settings?: ESLWheelTargetSetting
@@ -113,32 +134,12 @@ export class ESLWheelTarget extends SyntheticEventTarget {
    */
   protected resolveEventDetails(events: WheelEvent[]): Omit<ESLWheelEventInfo, 'axis'> {
     const delta = events.reduce((agg, e) => ({
-      x: agg.x + this.calculateScrollPixels(e, false),
-      y: agg.y + this.calculateScrollPixels(e, true)
+      x: agg.x + ESLWheelTarget.normalizeDelta(e, false),
+      y: agg.y + ESLWheelTarget.normalizeDelta(e, true)
     }), {x: 0, y: 0});
 
     const duration = events[events.length - 1].timeStamp - events[0].timeStamp;
     return {deltaX: delta.x, deltaY: delta.y, events, duration};
-  }
-
-  /**
-   * Calculates the scroll pixels for a given wheel event
-   * @param event - An event to retrieve scroll value from
-   * @param isVertical - A boolean indicating the axis (vertical or horizontal) for scroll calculation
-   * @returns The number of pixels scrolled
-   */
-  private calculateScrollPixels(event: WheelEvent, isVertical: boolean): number {
-    const {DOM_DELTA_LINE, DOM_DELTA_PAGE} = WheelEvent;
-    const deltaValue = isVertical !== event.shiftKey ? event.deltaY : event.deltaX;
-
-    switch (event.deltaMode) {
-      case DOM_DELTA_LINE:
-        return deltaValue * parseInt(window.getComputedStyle(this.target).lineHeight, 10);
-      case DOM_DELTA_PAGE:
-        return isVertical ? window.innerHeight : window.innerWidth;
-      default:
-        return deltaValue * window.devicePixelRatio;
-    }
   }
 
   /** Subscribes to wheel event */

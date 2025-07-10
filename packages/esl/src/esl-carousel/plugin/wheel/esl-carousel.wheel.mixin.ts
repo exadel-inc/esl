@@ -54,7 +54,7 @@ export class ESLCarouselWheelMixin extends ESLCarouselPlugin<ESLCarouselWheelCon
   @listen({inherit: true})
   protected override onConfigChange(): void {
     super.onConfigChange();
-    this.$$on(this._onInertWheel);
+    this.$$on(this._onLongWheel);
     this.$$on(this._onWheel);
   }
 
@@ -75,10 +75,10 @@ export class ESLCarouselWheelMixin extends ESLCarouselPlugin<ESLCarouselWheelCon
       preventDefault: plugin.config.preventDefault,
       ignore: plugin.isEventIgnored
     }),
-    condition: (plugin: ESLCarouselWheelMixin) => plugin.config.type === 'slide' || plugin.config.type === 'group'
+    condition: (plugin: ESLCarouselWheelMixin) => ['slide', 'group'].includes(plugin.config.type)
   })
   @decorate(throttle, 400)
-  protected _onInertWheel(e: ESLWheelEvent): void {
+  protected _onLongWheel(e: ESLWheelEvent): void {
     if (!this.$host || this.$host.animating) return;
     const delta = this.isVertical ? e.deltaY : e.deltaX;
     if (!delta) return;
@@ -93,22 +93,11 @@ export class ESLCarouselWheelMixin extends ESLCarouselPlugin<ESLCarouselWheelCon
   })
   protected _onWheel(e: WheelEvent): void {
     if (!this.$host || this.$host.animating || this.isEventIgnored(e)) return;
-    const delta = (this.isVertical !== e.shiftKey) ? e.deltaY : e.deltaX;
+    const delta = ESLWheelTarget.normalizeDelta(e, this.isVertical);
     if (!delta) return; // Ignore zero delta
     // Prevent default action if configured
     if (this.config.preventDefault) e.preventDefault();
-
-    switch (e.deltaMode) {
-      case WheelEvent.DOM_DELTA_PAGE:
-        this.$host.goTo('group:' + sign(delta)).catch(console.debug);
-        break;
-      case WheelEvent.DOM_DELTA_LINE:
-        this.$host.goTo('slide:' + sign(delta)).catch(console.debug);
-        break;
-      case WheelEvent.DOM_DELTA_PIXEL:
-        this.$host.move(this.$host.offset + delta);
-        break;
-    }
+    this.$host?.move(this.$host.offset + delta);
   }
 }
 
