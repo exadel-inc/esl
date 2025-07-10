@@ -63,6 +63,10 @@ export interface ESLCarouselActionParams {
   activator?: any;
   /** Direction to move to */
   direction?: ESLCarouselDirection;
+  /** Whether the action is final (e.g. after animation) */
+  final?: boolean;
+  /** List of indexes before the change */
+  indexesBefore: number[];
   /** Duration of a single slide transition in milliseconds. (Set to 0 to disable animation) */
   stepDuration: number;
 }

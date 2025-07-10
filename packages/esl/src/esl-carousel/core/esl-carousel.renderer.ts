@@ -2,13 +2,12 @@ import {isEqual} from '../../esl-utils/misc/object';
 import {parseTime} from '../../esl-utils/misc/format';
 import {promisifyTimeout} from '../../esl-utils/async/promise/timeout';
 import {ESLCarouselDirection} from './esl-carousel.types';
-import {ESLCarouselSlideEvent} from './esl-carousel.events';
+import {ESLCarouselMoveEvent, ESLCarouselSlideEvent} from './esl-carousel.events';
 import {ESLCarouselNavRejection} from './esl-carousel.errors';
 import {normalize, normalizeIndex, sequence} from './esl-carousel.utils';
 import {ESLCarouselRendererRegistry} from './esl-carousel.renderer.registry';
 
 import type {ESLCarousel} from './esl-carousel';
-import type {ESLCarouselSlideEventInit} from './esl-carousel.events';
 import type {ESLCarouselActionParams, ESLCarouselConfig, ESLCarouselState, ESLCarouselNavInfo} from './esl-carousel.types';
 
 export abstract class ESLCarouselRenderer implements ESLCarouselConfig, ESLCarouselState {
@@ -203,8 +202,7 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig, ESLCarou
   public abstract commit(params: ESLCarouselActionParams): Promise<void>;
 
   /** Sets active slides from passed index **/
-  public setActive(index: number, event?: Partial<ESLCarouselSlideEventInit>): void {
-    const indexesBefore = this.activeIndexes;
+  public setActive(index: number, event?: ESLCarouselActionParams): void {
     const count = Math.min(this.count, this.size);
 
     for (let i = 0; i < this.size; i++) {
@@ -217,11 +215,11 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig, ESLCarou
       $slide.toggleAttribute('prev', i === this.size - 1 && i >= count && (this.loop || position !== this.size - 1));
     }
 
-    event && this.dispatchChangeEvent('AFTER', index, {...event, indexesBefore});
+    event && this.dispatchChangeEvent('AFTER', index, {...event});
   }
 
   /** Sets pre-active (slides that are going to be active) slides from the passed index **/
-  public setPreActive(index: number, event?: Partial<ESLCarouselSlideEventInit>): void {
+  public setPreActive(index: number, event?: ESLCarouselActionParams, final = false): void {
     let changed = false;
     const count = Math.min(this.count, this.size);
 
@@ -241,14 +239,24 @@ export abstract class ESLCarouselRenderer implements ESLCarouselConfig, ESLCarou
   protected dispatchChangeEvent(
     name: 'BEFORE' | 'CHANGE' | 'AFTER',
     index: number,
-    event: Partial<ESLCarouselSlideEventInit>
+    event: ESLCarouselActionParams
   ): boolean {
-    const indexesBefore = event.indexesBefore || this.activeIndexes;
     const count = Math.min(this.count, this.size);
     const indexesAfter = sequence(index, count, this.size);
-
-    const details = {...event, indexesBefore, indexesAfter};
+    const details = {...event, indexesAfter};
     return this.$carousel.dispatchEvent(ESLCarouselSlideEvent.create(name, details));
+  }
+
+  /** Dispatches a move event with the given offset, index, delta and event details */
+  protected dispatchMoveEvent(
+    offsetBefore: number,
+    event: ESLCarouselActionParams
+  ): void {
+    const offset = this.offset;
+    if (Math.floor(offset - offsetBefore) === 0) return; // skip if offset is not changed
+    const indexesAfter = this.activeIndexes;
+    const details = {...event, offset, offsetBefore, indexesAfter};
+    this.$carousel.dispatchEvent(ESLCarouselMoveEvent.create(details));
   }
 
   // Register API

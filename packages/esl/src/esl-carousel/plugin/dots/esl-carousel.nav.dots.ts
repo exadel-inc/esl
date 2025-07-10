@@ -189,7 +189,7 @@ export class ESLCarouselNavDots extends ESLBaseElement {
     if (!this.$carousel || typeof this.$carousel.goTo !== 'function') return;
     const $btn = event.$delegate as HTMLElement;
     const target = $btn.getAttribute('esl-carousel-dot') || '';
-    this.$carousel.goTo(`group:${+target}`).catch(console.debug);
+    this.$carousel.goTo(`group:${+target}`, {activator: this}).catch(console.debug);
     (this.tabIndex >= 0 ? this : $btn).focus({preventScroll: true});
   }
 

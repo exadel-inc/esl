@@ -162,6 +162,7 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
 
     this.reorder(offset > 0);
 
+    const offsetBefore = this.offset;
     this.offset = Math.round(offset % slideSize);
     const stageOffset = this.getOffset(this.currentIndex) - this.offset;
     this.setTransformOffset(-stageOffset);
@@ -174,6 +175,7 @@ export class ESLDefaultCarouselRenderer extends ESLCarouselRenderer {
     if (this.currentIndex !== this.$carousel.activeIndex) {
       this.setActive(this.currentIndex, {...params, direction});
     }
+    this.dispatchMoveEvent(offsetBefore, params);
   }
 
   /** Ends current transition and make permanent all changes performed in the transition. */

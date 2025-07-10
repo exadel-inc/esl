@@ -42,7 +42,7 @@ export class ESLCarouselKeyboardMixin extends ESLCarouselPlugin<ESLCarouselKeybo
   protected _onKeydown(event: KeyboardEvent): void {
     if (!this.$host || this.$host.animating) return;
     const command = this.getCommandFromKey(event.key);
-    command && this.$host.goTo(command).catch(console.debug);
+    command && this.$host.goTo(command, {activator: this}).catch(console.debug);
   }
 }
 
