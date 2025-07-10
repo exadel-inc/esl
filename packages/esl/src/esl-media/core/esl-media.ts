@@ -23,6 +23,13 @@ import type {ESLMediaRegistryEvent} from './esl-media-registry.event';
 
 export type ESLMediaFillMode = 'cover' | 'inscribe' | '';
 
+function parsePlayInViewportAttr(value: string | null): 'restart' | boolean {
+  if (typeof value !== 'string') return false;
+  const v = value.trim().toLowerCase();
+  if (v === 'none') return false;
+  return v === 'restart' ? v : true;
+}
+
 /**
  * ESLMedia - custom element, that provides an ability to add and configure media (video / audio)
  * using a single tag as well as work with external providers using simple native-like API.
@@ -111,7 +118,7 @@ export class ESLMedia extends ESLBaseElement {
    */
   @boolAttr({name: 'disablepictureinpicture'}) public disablePictureInPicture: boolean;
   /** Allows play resource only in viewport area */
-  @boolAttr() public playInViewport: boolean;
+  @attr({parser: parsePlayInViewportAttr}) public playInViewport: 'restart' | boolean;
   /** Allows to start viewing a resource from a specific time offset. */
   @attr({defaultValue: 0, parser: parseInt}) public startTime: number;
   /** Allows player to accept focus */
@@ -147,6 +154,8 @@ export class ESLMedia extends ESLBaseElement {
   /** @readonly Width is greater than height state marker */
   @boolAttr({readonly: true}) public wide: boolean;
 
+  /** Private property to mark if the element is visible */
+  public _isVisible: boolean;
   /** Marker if the last action (play/pause/stop) was initiated by the user */
   protected _isManualAction: boolean;
   /** Applied provider instance */
