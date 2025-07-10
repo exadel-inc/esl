@@ -107,7 +107,7 @@ Note: a single value attributes will be considered as all-rule so they spreads a
  - `goTo(target: HTMLElement | ESLCarouselSlideTarget, params?: Partial<ESLCarouselActionParams>)` - navigate to the target slide.
    As a target you can use the slide element or a special navigation string (See ESLCarouselSlideTarget).
  - `move(offset: number, from?: number, params?: Partial<ESLCarouselActionParams>)` - shifts stage with the passed offset.
- - `public commit(offset: number)` - reset the carousel to the stable (unshifted) state.
+ - `commit(offset: number)` - resets the carousel to the stable (unshifted) state.
 
  - `slideAt(index: number)` - returns the slide element at the given index.
  - `indexOf(slide: HTMLElement)` - returns the index of the given slide element.
