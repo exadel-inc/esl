@@ -311,7 +311,8 @@ export class ESLCarousel extends ESLBaseElement {
   /** Merges request params with default params */
   protected mergeParams(params: Partial<ESLCarouselActionParams>): ESLCarouselActionParams {
     const stepDuration = this.stepDurationRule.value || 0;
-    return {stepDuration, ...params};
+    const indexesBefore = this.activeIndexes;
+    return {stepDuration, indexesBefore, ...params};
   }
 
   /** @returns slide by index (supports not normalized indexes) */

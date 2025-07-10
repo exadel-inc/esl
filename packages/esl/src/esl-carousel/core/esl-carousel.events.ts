@@ -1,35 +1,23 @@
+import {ESLCarouselActionEvent} from './esl-carousel.events.base';
+
 import type {ESLCarousel} from './esl-carousel';
+import type {ESLCarouselActionEventBaseInit} from './esl-carousel.events.base';
 import type {ESLCarouselDirection, ESLCarouselStaticState} from './esl-carousel.types';
 
 /** {@link ESLCarouselSlideEvent} init object */
-export interface ESLCarouselSlideEventInit {
-  /** A list of indexes of slides that were active before the change */
-  indexesBefore: number[];
-  /** A list of indexes of slides that are active after the change */
-  indexesAfter: number[];
+export interface ESLCarouselSlideEventInit extends ESLCarouselActionEventBaseInit {
   /** Direction of slide animation */
   direction?: ESLCarouselDirection;
-  /** Auxiliary request attribute that represents object that initiates slide change */
-  activator?: any;
-  /** Whether the slide change is final (leads to actual active slide change) */
-  final?: boolean;
 }
 
 /** {@link ESLCarousel} event that represents slide change event */
-export class ESLCarouselSlideEvent extends Event implements ESLCarouselSlideEventInit {
+export class ESLCarouselSlideEvent extends ESLCarouselActionEvent implements ESLCarouselSlideEventInit {
   /** {@link ESLCarouselSlideEvent} cancelable event type dispatched before slide change (pre-event) */
   public static readonly BEFORE = 'esl:before:slide-change';
   /** {@link ESLCarouselSlideEvent} event type dispatched before carousel is going to change active slide (post-event) */
   public static readonly CHANGE = 'esl:slide-change';
   /** {@link ESLCarouselSlideEvent} event type dispatched after slide change (post-event) */
   public static readonly AFTER = 'esl:after:slide-change';
-
-  public override readonly target: ESLCarousel;
-  public readonly indexesBefore: number[];
-  public readonly indexesAfter: number[];
-  public readonly direction: ESLCarouselDirection;
-  public readonly final: boolean = false;
-  public readonly activator?: any;
 
   protected constructor(
     type: string,
@@ -43,55 +31,26 @@ export class ESLCarouselSlideEvent extends Event implements ESLCarouselSlideEven
     Object.assign(this, init, type === ESLCarouselSlideEvent.AFTER ? {final: true} : {});
   }
 
-  /** @returns first index of before sate */
-  public get indexBefore(): number {
-    return this.indexesBefore[0];
-  }
-
-  /** @returns first index of after state */
-  public get indexAfter(): number {
-    return this.indexesAfter[0];
-  }
-
-  /** @returns list of slides that are active before the change */
-  public get $slidesBefore(): HTMLElement[] {
-    return this.indexesBefore.map((index) => this.target.slideAt(index));
-  }
-
-  /** @returns list of slides that are active after the change */
-  public get $slidesAfter(): HTMLElement[] {
-    return this.indexesAfter.map((index) => this.target.slideAt(index));
-  }
-
   public static create(type: 'BEFORE' | 'CHANGE' | 'AFTER', init: ESLCarouselSlideEventInit): ESLCarouselSlideEvent {
     return new ESLCarouselSlideEvent(ESLCarouselSlideEvent[type], init);
   }
 }
 
 /** {@link ESLCarouselMoveEvent} init object */
-export interface ESLCarouselMoveEventInit {
+export interface ESLCarouselMoveEventInit extends ESLCarouselActionEventBaseInit {
   /** Carousel offset in pixels */
   offset: number;
-  /** Move offset delta in pixels */
-  delta: number;
-  /** A list of indexes of slides that were active after the move */
-  indexesAfter: number[];
-  /** Direction of slide animation */
-  direction?: ESLCarouselDirection;
-  /** Auxiliary request attribute that represents object that initiates slide move */
-  activator?: any;
+  /** Carousel offset before the move in pixels */
+  offsetBefore: number;
 }
 
 /** {@link ESLCarousel} event that represents slide move event */
-export class ESLCarouselMoveEvent extends Event implements ESLCarouselMoveEventInit {
+export class ESLCarouselMoveEvent extends ESLCarouselActionEvent implements ESLCarouselMoveEventInit {
   /** {@link ESLCarouselMoveEvent} event type dispatched on carousel move */
   public static readonly TYPE = 'esl:carousel:move';
 
-  public override readonly target: ESLCarousel;
   public readonly offset: number;
-  public readonly indexesAfter: number[];
-  public readonly delta: number;
-  public readonly activator?: any;
+  public readonly offsetBefore: number;
 
   protected constructor(
     type: typeof ESLCarouselMoveEvent.TYPE,
@@ -102,11 +61,12 @@ export class ESLCarouselMoveEvent extends Event implements ESLCarouselMoveEventI
       cancelable: false,
       composed: true
     });
-    Object.assign(this, init);
-  }
-
-  get direction(): ESLCarouselDirection {
-    return Math.sign(this.delta);
+    const delta = init.offset - init.offsetBefore;
+    Object.assign(this, init, {
+      final: true, // Move itself is always final
+      delta,
+      direction: Math.sign(delta)
+    });
   }
 
   public static create(init: ESLCarouselMoveEventInit): ESLCarouselMoveEvent {

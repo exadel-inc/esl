@@ -89,14 +89,11 @@ export class ESLCSSCarouselRenderer extends ESLCarouselRenderer {
     const $nextSlide = this.$carousel.$slides[nextIndex];
     if (!$nextSlide || $nextSlide === $activeSlide) return;
 
-    const previousOffset = this.offset;
+    const offsetBefore = this.offset;
     this.offset = offset;
     this.$carousel.$$attr('shifted', !!offset);
     this.setPreActive(nextIndex, {...params, direction});
-
-    if (previousOffset !== offset) {
-      this.dispatchMoveEvent(offset, this.currentIndex, previousOffset - offset, params);
-    }
+    this.dispatchMoveEvent(offsetBefore, params);
   }
 
   public async commit(params: ESLCarouselActionParams): Promise<void> {
