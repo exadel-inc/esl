@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.9.0](https://github.com/exadel-inc/esl/compare/v5.8.1...v5.9.0) (2025-07-10)
+
+
+### Bug Fixes
+
+* **esl-carousel:** fix missing activators for build-in plugins ([f133dbe](https://github.com/exadel-inc/esl/commit/f133dbebe0c1182c434461b2aab088fd8e86e9a2))
+* **esl-media:** fix ESLMedia play-in-viewport observes viewport intersection ratio threshold incorrectly ([1df78c6](https://github.com/exadel-inc/esl/commit/1df78c6d57a4cd1f5ca0eeb0902b4ac2efd2e53d))
+* **esl-popup:** fix ESLPopup is still visible when the trigger is outside the viewport ([e17823e](https://github.com/exadel-inc/esl/commit/e17823e23987048db72cae21f4426cdf92e84402))
+* **esl-toggleable:** fix a11y warning of trying to focus hidden element (happens due to collision issue of focus & task queries) ([f41bd46](https://github.com/exadel-inc/esl/commit/f41bd469620f3603c702ad61fc2ad1b59d74b1bb))
+
+
+### Features
+
+* **esl-carousel:** add out of the box viewport visibility control for ESL Carousel autoplay plugin ([f7a9feb](https://github.com/exadel-inc/esl/commit/f7a9feb1ec504e86c7cd958ced5ac6cee5f0dca1)), closes [#3190](https://github.com/exadel-inc/esl/issues/3190)
+* **esl-carousel:** extended esl-carousel-wheel implementation ([f48eda4](https://github.com/exadel-inc/esl/commit/f48eda48f9b604bdac1ed03056b02aa6a82b9595))
+* **esl-carousel:** implement updated `esl-carousel-relate-to` plugin that follows specification and expected flow ([0a23b82](https://github.com/exadel-inc/esl/commit/0a23b82f39f816007878a4215da5b33e0d9f362f))
+* **esl-carousel:** introduce non-bubbling move event for esl-carousel ([37480c9](https://github.com/exadel-inc/esl/commit/37480c9de016a6b9e4babcd8ec1272b1d1839052))
+* **esl-carousel:** major rework state API to use `ESLCarouselRenderer` instance ([9849a1f](https://github.com/exadel-inc/esl/commit/9849a1f19c5879bb5d53b7c4b00c8dc40c3cba53))
+* **esl-carousel:** move stage offset to public ESL Carousel navigation API ([d4ce7b6](https://github.com/exadel-inc/esl/commit/d4ce7b64e4589ce6f36aa47f747183dca3604547))
+* **esl-carousel:** update carousel nav syntax according spec (more clear behaviour) ([a7b9f08](https://github.com/exadel-inc/esl/commit/a7b9f08143a25818ff9f83796003a977c960066f))
+* **esl-carousel:** update index processing to use 1-based indexing for prefixed requests, add correct out of bounds/invalid requests handling ([8421f90](https://github.com/exadel-inc/esl/commit/8421f90699af6ab7aa2bf943c39eb5c6ceb153e6))
+* **esl-media:** extend `play-in-viewport` by two options ([28081f5](https://github.com/exadel-inc/esl/commit/28081f5dfd1ce9fd0616135ef8f4af4d5b77f14a))
+* **esl-trigger:** esl-base-trigger based elements now stops handled `click` and `keydown` events bubbling by default ([1618a5f](https://github.com/exadel-inc/esl/commit/1618a5f261e573615f041d9475ec608aa85044cf))
+
+
+
+
+
 ## [5.8.1](https://github.com/exadel-inc/esl/compare/v5.8.0...v5.8.1) (2025-06-26)
 
 
