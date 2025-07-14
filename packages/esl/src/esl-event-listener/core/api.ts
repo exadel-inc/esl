@@ -5,6 +5,7 @@ import {ESLEventListener} from './listener';
 import {getDescriptors, isEventDescriptor, initDescriptor} from './descriptors';
 
 import type {
+  ESLEventName,
   ESLListenerHandler,
   ESLListenerCriteria,
   ESLListenerDescriptor,
@@ -78,10 +79,10 @@ export class ESLEventUtils {
    * @param descriptor - event or {@link ESLListenerDescriptor} with defined event type
    * @param handler - handler function to subscribe
    */
-  public static subscribe<EType extends keyof ESLListenerEventMap>(
+  public static subscribe<EType extends ESLEventName>(
     host: object,
     descriptor: EType | ESLListenerDescriptor<EType>,
-    handler: ESLListenerHandler<ESLListenerEventMap[EType]>
+    handler: ESLListenerHandler<EType>
   ): ESLEventListener[];
   /**
    * Subscribes `handler` function decorated with {@link ESLListenerDescriptorFn} with the passed additional {@link ESLListenerDescriptor} data

@@ -2,11 +2,25 @@ import type {PropertyProvider} from '../../esl-utils/misc/functions';
 
 declare global {
   /** Extended event map with the custom event definition */
-  export interface ESLListenerEventMap extends HTMLElementEventMap {
-    /** User custom event or group of events */
-    [e: string]: Event;
-  }
+  export interface ESLListenerEventMap extends HTMLElementEventMap {}
 }
+
+/** Event name definition */
+export type ESLEventName = keyof ESLListenerEventMap | string;
+
+/**
+ * Helper type to extract Event types union by event string
+ * @example
+ * ```typescript
+ * type MyEvent = ESLEventFor<'click'>; // MouseEvent
+ * type MyEvent = ESLEventFor<'custom'>; // Event
+ * type MyEvent = ESLEventFor<'click custom'>; // MouseEvent | Event
+ * ```
+ */
+export type ESLEventType<EName extends ESLEventName> =
+  EName extends keyof ESLListenerEventMap ? ESLListenerEventMap[EName] :
+    EName extends `${infer T} ${infer U}` ? ESLEventType<T> | ESLEventType<U> :
+      Event;
 
 /** Extended event with a delegated event target */
 export type DelegatedEvent<EventType extends Event = Event> = EventType & {
@@ -18,9 +32,9 @@ export type DelegatedEvent<EventType extends Event = Event> = EventType & {
 export type ESLListenerTarget = EventTarget | EventTarget[] | string | null;
 
 /** Descriptor to create {@link ESLEventListener} */
-export type ESLListenerDescriptor<EType extends keyof ESLListenerEventMap = string> = {
+export type ESLListenerDescriptor<EName extends ESLEventName = string> = {
   /** A case-sensitive string (or provider function) representing the event type to listen for */
-  event: EType | PropertyProvider<EType>;
+  event: EName | PropertyProvider<EName>;
   /**
    * A boolean value indicating that events for this listener will be dispatched on the capture phase.
    * @see AddEventListenerOptions.capture
@@ -58,29 +72,29 @@ export type ESLListenerDescriptor<EType extends keyof ESLListenerEventMap = stri
 };
 
 /** Resolved descriptor (definition) to create {@link ESLEventListener} */
-export interface ESLListenerDefinition<EType extends keyof ESLListenerEventMap = string> extends ESLListenerDescriptor<EType> {
+export interface ESLListenerDefinition<EName extends ESLEventName = string> extends ESLListenerDescriptor<EName> {
   /** A case-sensitive string (or provider function) representing the event type to listen for */
-  event: EType;
+  event: EName;
 }
 
 /** Describes callback handler */
-export type ESLListenerHandler<EType extends Event = Event> = ((event: EType) => void) | (() => void);
+export type ESLListenerHandler<E extends ESLEventName | Event = Event> =
+  ((event: E extends ESLEventName ? ESLEventType<E> : E extends Event ? E : Event) => void) | (() => void);
 
 /** Condition (criteria) to find {@link ESLListenerDescriptor} */
 export type ESLListenerDescriptorCriteria =
   | undefined
-  | keyof ESLListenerEventMap
+  | string
   | Partial<ESLListenerDefinition>;
 
 /** Condition (criteria) to find {@link ESLEventListener} */
 export type ESLListenerCriteria = ESLListenerDescriptorCriteria | ESLListenerHandler;
 
 /** Function decorated as {@link ESLListenerDescriptor} */
-export type ESLListenerDescriptorFn<EType extends keyof ESLListenerEventMap = string> =
-  ESLListenerHandler<ESLListenerEventMap[EType]> & ESLListenerDescriptor<EType>;
+export type ESLListenerDescriptorFn<EName extends ESLEventName = string> = ESLListenerHandler<EName> & ESLListenerDescriptor<EName>;
 
 /** Descriptor to create {@link ESLEventListener} based on class property */
-export type ESLListenerDescriptorExt<T extends keyof ESLListenerEventMap = string> = Partial<ESLListenerDescriptor<T>> & {
+export type ESLListenerDescriptorExt<T extends ESLEventName = string> = Partial<ESLListenerDescriptor<T>> & {
   /** Defines if the listener metadata should be inherited from the method of the superclass */
   inherit?: boolean;
 };
