@@ -1,8 +1,10 @@
-import type {PropertyProvider} from '../../esl-utils/misc/functions';
+import type {Trim, PropertyProvider} from '../../esl-utils/misc';
 
 declare global {
   /** Extended event map with the custom event definition */
-  export interface ESLListenerEventMap extends HTMLElementEventMap {}
+  export interface ESLListenerEventMap extends HTMLElementEventMap {
+    '': never; // Prevents using empty string as event name
+  }
 }
 
 /** Event name definition */
@@ -18,11 +20,11 @@ export type ESLEventName = keyof ESLListenerEventMap | string;
  * ```
  */
 export type ESLEventType<EName extends ESLEventName> =
-  EName extends keyof ESLListenerEventMap ? ESLListenerEventMap[EName] :
-    EName extends `${infer T} ${infer U}` ? ESLEventType<T> | ESLEventType<U> :
-      Event;
+  Trim<EName> extends keyof ESLListenerEventMap ? ESLListenerEventMap[Trim<EName>] :
+    Trim<EName> extends `${infer T} ${infer U}` ? ESLEventType<T> | ESLEventType<U> :
+      EName extends '' ? never : Event;
 
-/** Extended event with a delegated event target */
+/** An extended event with a delegated event target */
 export type DelegatedEvent<EventType extends Event = Event> = EventType & {
   /** Delegated target element, that exactly accepted by `selector` CSS selector */
   $delegate: Element | null;
@@ -79,7 +81,7 @@ export interface ESLListenerDefinition<EName extends ESLEventName = string> exte
 
 /** Describes callback handler */
 export type ESLListenerHandler<E extends ESLEventName | Event = Event> =
-  ((event: E extends ESLEventName ? ESLEventType<E> : E extends Event ? E : Event) => void) | (() => void);
+  ((event: E extends ESLEventName ? ESLEventType<E> : E) => void) | (() => void);
 
 /** Condition (criteria) to find {@link ESLListenerDescriptor} */
 export type ESLListenerDescriptorCriteria =
