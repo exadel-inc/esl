@@ -79,10 +79,10 @@ export class ESLEventUtils {
    * @param descriptor - event or {@link ESLListenerDescriptor} with defined event type
    * @param handler - handler function to subscribe
    */
-  public static subscribe<EType extends ESLEventName>(
+  public static subscribe<EName extends ESLEventName>(
     host: object,
-    descriptor: EType | ESLListenerDescriptor<EType>,
-    handler: ESLListenerHandler<EType>
+    descriptor: EName | ESLListenerDescriptor<EName>,
+    handler: ESLListenerHandler<EName>
   ): ESLEventListener[];
   /**
    * Subscribes `handler` function decorated with {@link ESLListenerDescriptorFn} with the passed additional {@link ESLListenerDescriptor} data
