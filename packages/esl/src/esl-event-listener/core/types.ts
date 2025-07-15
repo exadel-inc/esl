@@ -1,4 +1,4 @@
-import type {Trim, PropertyProvider} from '../../esl-utils/misc';
+import type {Trim, MaybeArgFn, PropertyProvider} from '../../esl-utils/misc';
 
 declare global {
   /** Extended event map with the custom event definition */
@@ -81,7 +81,8 @@ export interface ESLListenerDefinition<EName extends ESLEventName = string> exte
 
 /** Describes callback handler */
 export type ESLListenerHandler<E extends ESLEventName | Event = Event> =
-  ((event: E extends ESLEventName ? ESLEventType<E> : E) => void) | (() => void);
+  E extends '' ? never : // Prevents using empty string as event name
+    MaybeArgFn<E extends ESLEventName ? ESLEventType<E> : E>;
 
 /** Condition (criteria) to find {@link ESLListenerDescriptor} */
 export type ESLListenerDescriptorCriteria =
