@@ -18,3 +18,4 @@ export * from './misc/format';
 export * from './misc/functions';
 export * from './misc/memoize';
 export * from './misc/url';
+export * from './misc/types';
