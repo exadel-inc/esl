@@ -1,7 +1,7 @@
 import {ESLEventUtils} from '../../esl-event-listener/core';
 
 import type {PropertyProvider} from '../misc/functions';
-import type {DelegatedEvent, ESLListenerHandler, ESLListenerDescriptorExt} from '../../esl-event-listener/core';
+import type {ESLEventType, ESLEventName, DelegatedEvent, ESLListenerHandler, ESLListenerDescriptorExt} from '../../esl-event-listener/core';
 
 type ListenDecorator<EType extends Event> =
   (target: any, property: string, descriptor: TypedPropertyDescriptor<ESLListenerHandler<EType>>) => void;
@@ -11,7 +11,7 @@ type ListenDecorator<EType extends Event> =
  * Defines auto-subscribable event
  * @param event - event type string or event provider function
  */
-export function listen<K extends keyof ESLListenerEventMap>(event: K | PropertyProvider<K>): ListenDecorator<ESLListenerEventMap[K]>;
+export function listen<EName extends ESLEventName>(event: EName | PropertyProvider<EName>): ListenDecorator<ESLEventType<EName>>;
 /**
  * Decorator to declare listener ({@link ESLEventListener}) meta information using {@link ESLListenerDescriptor}
  * Defines auto-subscribable event by default
@@ -22,15 +22,15 @@ export function listen<K extends keyof ESLListenerEventMap>(event: K | PropertyP
  *
  * @see DelegatedEvent.prototype.$delegate
  */
-export function listen<K extends keyof ESLListenerEventMap>(
-  desc: ESLListenerDescriptorExt<K> & {selector: string | PropertyProvider<string>}
-): ListenDecorator<DelegatedEvent<ESLListenerEventMap[K]> | ESLListenerEventMap[K]>;
+export function listen<EName extends ESLEventName>(
+  desc: ESLListenerDescriptorExt<EName> & {selector: string | PropertyProvider<string>}
+): ListenDecorator<DelegatedEvent<ESLEventType<EName>> | ESLEventType<EName>>;
 /**
  * Decorator to declare listener ({@link ESLEventListener}) meta information using {@link ESLListenerDescriptor}
  * Defines auto-subscribable event by default
  * @param desc - event listener configuration {@link ESLListenerDescriptor}
  */
-export function listen<K extends keyof ESLListenerEventMap>(desc: ESLListenerDescriptorExt<K>): ListenDecorator<ESLListenerEventMap[K]>;
+export function listen<EName extends ESLEventName>(desc: ESLListenerDescriptorExt<EName>): ListenDecorator<ESLEventType<EName>>;
 
 export function listen(desc: string | PropertyProvider<string> | ESLListenerDescriptorExt): ListenDecorator<Event> {
   return function listener<Host extends object>(target: Host, propertyKey: keyof Host & string): void {

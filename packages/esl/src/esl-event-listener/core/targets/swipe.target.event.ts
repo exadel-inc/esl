@@ -62,3 +62,11 @@ export class ESLSwipeGestureEvent extends UIEvent implements ESLSwipeGestureEven
     return new ESLSwipeGestureEvent(target, swipeInfo);
   }
 }
+
+declare global {
+  /** Extended event map with the custom event definition */
+  export interface ESLListenerEventMap {
+    /** Custom swipe event dispatched by {@link ESLSwipeGestureTarget} */
+    [ESLSwipeGestureEvent.TYPE]: ESLSwipeGestureEvent;
+  }
+}

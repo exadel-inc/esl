@@ -6,6 +6,8 @@ export const identity = <T>(arg: T): T => arg;
 
 export type NoopFnSignature = () => void;
 
+export type MaybeArgFn<T> = (() => void) | ((arg: T) => void);
+
 export type AnyToVoidFnSignature = (...args: any[]) => void;
 
 export type AnyToAnyFnSignature = (...args: any[]) => any;

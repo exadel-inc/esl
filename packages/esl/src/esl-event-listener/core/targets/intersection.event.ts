@@ -59,3 +59,15 @@ export class ESLIntersectionEvent extends Event implements IntersectionObserverE
     return event;
   }
 }
+
+declare global {
+  /** Extended event map with the custom event definition */
+  export interface ESLListenerEventMap {
+    /** Custom intersection event dispatched by {@link ESLIntersectionTarget} */
+    [ESLIntersectionEvent.TYPE]: ESLIntersectionEvent;
+    /** Custom intersection event dispatched by {@link ESLIntersectionTarget} on viewport enter */
+    [ESLIntersectionEvent.IN]: ESLIntersectionEvent;
+    /** Custom intersection event dispatched by {@link ESLIntersectionTarget} on viewport exit */
+    [ESLIntersectionEvent.OUT]: ESLIntersectionEvent;
+  }
+}

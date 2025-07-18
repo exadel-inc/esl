@@ -43,3 +43,11 @@ export class ESLWheelEvent extends UIEvent implements ESLWheelEventInfo {
     return new ESLWheelEvent(target, wheelInfo);
   }
 }
+
+declare global {
+  /** Extended event map with the custom event definition */
+  export interface ESLListenerEventMap {
+    /** Long wheel event dispatched by {@link ESLWheelTarget} */
+    [ESLWheelEvent.TYPE]: ESLWheelEvent;
+  }
+}
