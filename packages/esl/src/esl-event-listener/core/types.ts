@@ -97,7 +97,7 @@ export type ESLListenerCriteria = ESLListenerDescriptorCriteria | ESLListenerHan
 export type ESLListenerDescriptorFn<EName extends ESLEventName = string> = ESLListenerHandler<EName> & ESLListenerDescriptor<EName>;
 
 /** Descriptor to create {@link ESLEventListener} based on class property */
-export type ESLListenerDescriptorExt<T extends ESLEventName = string> = Partial<ESLListenerDescriptor<T>> & {
+export type ESLListenerDescriptorExt<EName extends ESLEventName = string> = Partial<ESLListenerDescriptor<EName>> & {
   /** Defines if the listener metadata should be inherited from the method of the superclass */
   inherit?: boolean;
 };
