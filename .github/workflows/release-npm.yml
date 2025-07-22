@@ -38,7 +38,13 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
+      - name: Print Environment Info
+        run: nx report
+        shell: bash
+
       - name: Publish to NPM
-        run: lerna publish from-package --yes --loglevel=verbose
+        run: nx release publish
+        shell: bash
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
