@@ -8,6 +8,10 @@
     "stylelint-config",
     "esl"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/exadel-inc/esl.git"
+  },
   "publishConfig": {
     "access": "public",
     "scope": "@exadel"

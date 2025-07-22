@@ -6,6 +6,10 @@
   "description": "Snapshot tests for ESL",
   "homepage": "https://esl-ui.com/",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/exadel-inc/esl.git"
+  },
   "scripts": {
     "run": "nx run esl-e2e:run",
     "run:update": "nx run esl-e2e:run:update",
