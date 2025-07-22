@@ -17,7 +17,6 @@ target
 
 # Logs & Tmp
 npm-debug.log
-lerna-debug.log
 
 # Git
 .gitconfig

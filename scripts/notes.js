@@ -7,7 +7,7 @@ const VERSION_HEADING_REGEXP = /##? \[([^\]]+)]/gm
 const fs = require('fs');
 const path = require('path');
 
-const {version} = require('../lerna.json');
+const {version} = require('../packages/esl/package.json');
 const CHANGELOG_FILE = path.resolve(__dirname, '../CHANGELOG.md');
 const RELEASE_NOTES_FILE = path.resolve(__dirname, '../RELEASE_NOTES.md');
 
