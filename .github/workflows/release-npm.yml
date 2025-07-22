@@ -16,10 +16,16 @@ jobs:
   publish:
     name: Publish (NPM)
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          filter: tree:0
 
       - name: Use Node v${{ env.node-version }}
         uses: actions/setup-node@v4
