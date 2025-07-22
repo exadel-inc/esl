@@ -9,6 +9,9 @@ export {ESLElementResizeEvent};
 
 /** Adapter class for {@link ResizeObserver} that implements {@link EventTarget} */
 export class ESLResizeObserverTarget extends SyntheticEventTarget {
+
+  public readonly _allowedEvents = ['resize'] as const;
+
   /** {@link ESLResizeObserverTarget} instances holder */
   protected static readonly mapping = new WeakMap<Element, ESLResizeObserverTarget>();
   /** {@link ResizeObserver} instance to observe DOM element related to {@link ESLResizeObserverTarget} */
