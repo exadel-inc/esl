@@ -18,7 +18,7 @@
   "dependencies": {
     "@11ty/eleventy": "^3.1.2",
     "@11ty/eleventy-dev-server": "^2.0.8",
-    "@exadel/esl": "../esl",
+    "@exadel/esl": "file:../esl",
     "@exadel/ui-playground": "2.1.0-beta.10",
     "@juggle/resize-observer": "^3.4.0",
     "@types/prismjs": "^1.26.5",
@@ -36,6 +36,6 @@
     "webpack-cli": "^6.0.1"
   },
   "overrides": {
-    "@exadel/esl": "../esl"
+    "@exadel/esl": "file:../esl"
   }
 }

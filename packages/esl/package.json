@@ -64,9 +64,9 @@
     "@types/youtube": "0.1.2"
   },
   "devDependencies": {
-    "@exadel/eslint-config-esl": "../eslint-config",
-    "@exadel/eslint-plugin-esl": "../eslint-plugin",
-    "@exadel/stylelint-config-esl": "../stylelint-config"
+    "@exadel/eslint-config-esl": "file:../eslint-config",
+    "@exadel/eslint-plugin-esl": "file:../eslint-plugin",
+    "@exadel/stylelint-config-esl": "file:../stylelint-config"
   },
   "contributors": [
     "ala-n <astsefanovich@exadel.com>",

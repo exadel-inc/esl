@@ -45,18 +45,18 @@ jobs:
         with:
           script: |
             const { execSync } = require('child_process');
-            const version = require('./lerna.json').version;
+            const version = require('./packages/esl/package.json').version;
             const tag = `v${version}`;
             const result = execSync(`git ls-remote --tags origin | grep "refs/tags/${tag}" | wc -l`).toString().trim();
             if (+result > 0) core.setOutput('allowed', true);
 
       - name: Stable Version Bump (Lerna)
         if: ${{ github.ref == 'refs/heads/main' && steps.preversion.outputs.allowed }}
-        run: npx lerna version --conventional-commits --yes
+        run: npx nx release --skip-publish
 
       - name: Beta Version Bump (Lerna)
         if: ${{ github.ref != 'refs/heads/main' && steps.preversion.outputs.allowed }}
-        run: npx lerna version --conventional-commits --conventional-prerelease --preid beta --yes
+        run: npx nx release prerelease --skip-publish --preid beta
 
       - name: Store the new version
         if: ${{ steps.preversion.outputs.allowed }}
@@ -64,7 +64,7 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const version = require('./lerna.json').version;
+            const version = require('./packages/esl/package.json').version;
             console.log('Current version:', version);
             core.setOutput('version', version);
 
