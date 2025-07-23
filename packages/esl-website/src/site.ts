@@ -41,7 +41,8 @@ import {
   ESLCarouselAutoplayMixin,
   ESLCarouselAutoplayProgressMixin,
   ESLCarouselClassBehaviourMixin,
-  ESLLazyTemplate
+  ESLLazyTemplate,
+  ESLLineClamp
 } from '@exadel/esl/modules/all';
 
 import {ESLRandomText} from '@exadel/esl/modules/esl-random-text/core';
@@ -138,6 +139,7 @@ ESLAnimateMixin.register();
 ESLRelatedTarget.register();
 ESLOpenState.register();
 ESLLazyTemplate.register();
+ESLLineClamp.register();
 
 // Share component loading
 import(/* webpackChunkName: 'common/esl-share' */'./esl-share/esl-share');
