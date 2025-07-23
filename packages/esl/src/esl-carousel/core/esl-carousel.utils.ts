@@ -10,6 +10,9 @@ import type {
 /** @returns sign of the value */
 export const sign = (value: number): -1 | 1 | 0 => value > 0 ? 1 : value < 0 ? -1 : 0;
 
+/** @returns stringified sign of the value */
+export const direction = (value: number): '+1' | '-1' | '' => value > 0 ? '+1' : value < 0 ? '-1' : '';
+
 export const bounds =
   (value: number, min: number, max: number): number => Math.max(min, Math.min(max, value));
 
