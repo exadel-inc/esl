@@ -6,6 +6,9 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/exadel-inc/esl/releases/latest">
+    <img src="https://img.shields.io/github/package-json/v/exadel-inc/esl?style=for-the-badge&label=version" alt="version"/>
+  </a>
   <a href="https://github.com/exadel-inc/esl/actions/workflows/validate.yml">
     <img src="https://img.shields.io/github/actions/workflow/status/exadel-inc/esl/validate.yml?style=for-the-badge" alt="build"/>
   </a>
