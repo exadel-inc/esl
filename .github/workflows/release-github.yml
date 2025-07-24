@@ -53,7 +53,7 @@ jobs:
             if (tags.length === 0) throw new Error('No git tags found');
 
             // Get the Project Version
-            const version = require('./packages/esl/package.json').version;
+            const version = require('./package.json').version;
             // Get the latest version from the tags
             const gitVersion = tags[0].trim().substring(1);
             // Check if the version is the same as the latest tag
