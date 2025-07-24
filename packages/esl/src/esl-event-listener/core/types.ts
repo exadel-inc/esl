@@ -36,13 +36,12 @@ export type DelegatedEvent<EventType extends Event = Event> = EventType & {
 /** String CSS selector to find the target or {@link EventTarget} object or array of {@link EventTarget}s */
 export type ESLListenerTarget = EventTarget | EventTarget[] | string | null;
 
-type IsEqual<T, U> = T extends U ? U extends T ? true : false : false;
-
-type EventTypeName<EType, EventMap = ESLListenerEventMap> = {[K in keyof EventMap]: EType extends EventMap[K] ?
-  IsEqual<EventMap[K], Event> extends true ? never
-    : K
-  : never;
-}[keyof EventMap];
+type EventTypeName<EType> = {
+  [K in keyof ESLListenerEventMap]: (ESLListenerEventMap[K] extends CustomEvent<infer Detail> ? Detail : ESLListenerEventMap[K]) extends infer D ?
+    D extends EType ?
+      K : never
+    : never
+}[keyof ESLListenerEventMap];
 
 type ESLEventConstraint<EName extends ESLEventName, ETarget> =
   ETarget extends TypedTarget<infer EClass>
