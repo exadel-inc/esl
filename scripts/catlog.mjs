@@ -1,5 +1,6 @@
 import color from 'kleur';
 import fs from 'fs';
+import os from 'os';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -21,12 +22,12 @@ function loadCatTemplates() {
   try {
     const textContent = fs.readFileSync(TEMPLATES_PATH, 'utf8');
     // Split by double newlines and filter out empty entries
-    const cats = textContent.split('\n\n\n').filter(cat => cat.trim().length > 0);
-    return cats;
+    return textContent.split(`${os.EOL}${os.EOL}${os.EOL}`)
+      .filter(cat => cat.trim().length > 0);
   } catch (error) {
     console.error(color.red(`Error loading cat templates from ${TEMPLATES_PATH}:`), error.message);
     // Fallback to a simple cat if file loading fails
-    return ['Cats are gone somewhere...\nPlease contact the maintainer!'];
+    return [`Cats are gone somewhere...${os.EOL}Please contact the maintainer!`];
   }
 }
 
@@ -36,10 +37,16 @@ function centerText(text, width, textWidth = text.length) {
   return padString + text + padString;
 }
 
+function normalizeCat(cat) {
+  const width = Math.max(...cat.map(line => line.length));
+  // Ensure each line is the same width by padding with spaces at the end
+  return cat.map(line => line.padEnd(width, ' '));
+}
+
 function getRandomCat() {
   const catTemplates = loadCatTemplates();
   const randomIndex = Math.floor(Math.random() * catTemplates.length);
-  return catTemplates[randomIndex].split('\n'); // Split into lines for display
+  return normalizeCat(catTemplates[randomIndex].split(os.EOL)); // Split into lines for display
 }
 
 function calculateDisplayWidth(message, catLines) {
