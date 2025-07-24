@@ -4,13 +4,13 @@ import {resolveDomTarget} from '../../../esl-utils/abstract/dom-target';
 import {ESLElementResizeEvent} from './resize.target.event';
 
 import type {ESLDomElementTarget} from '../../../esl-utils/abstract/dom-target';
+import type {TypedTarget} from '../types';
 
 export {ESLElementResizeEvent};
 
 /** Adapter class for {@link ResizeObserver} that implements {@link EventTarget} */
-export class ESLResizeObserverTarget extends SyntheticEventTarget {
-
-  public readonly _allowedEvents = ['resize'] as const;
+export class ESLResizeObserverTarget extends SyntheticEventTarget implements TypedTarget<ESLElementResizeEvent> {
+  declare readonly __eventClass__: ESLElementResizeEvent;
 
   /** {@link ESLResizeObserverTarget} instances holder */
   protected static readonly mapping = new WeakMap<Element, ESLResizeObserverTarget>();

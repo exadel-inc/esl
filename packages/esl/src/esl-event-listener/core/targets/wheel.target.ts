@@ -12,6 +12,7 @@ import type {ESLWheelEventInfo} from './wheel.target.event';
 import type {Predicate} from '../../../esl-utils/misc/functions';
 import type {ESLDomElementTarget} from '../../../esl-utils/abstract/dom-target';
 import type {ElementScrollOffset} from '../../../esl-utils/dom/scroll';
+import type {TypedTarget} from '../types';
 
 export {ESLWheelEvent};
 
@@ -34,7 +35,9 @@ export interface ESLWheelTargetSetting {
 /**
  * Implementation of EventTarget to observe wheel events for inertial scrolling
  */
-export class ESLWheelTarget extends SyntheticEventTarget {
+export class ESLWheelTarget extends SyntheticEventTarget implements TypedTarget<ESLWheelEvent> {
+  declare readonly __eventClass__: ESLWheelEvent;
+
   protected static defaultConfig: Required<ESLWheelTargetSetting> = {
     skipOnScroll: true,
     distance: 400,

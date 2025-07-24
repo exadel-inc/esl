@@ -1,6 +1,5 @@
 import {uniq} from '../../misc/array';
 import {overrideEvent} from './misc';
-import type {ESLStrictEventTarget} from '../../../esl-event-listener/core/types';
 
 /** Key to store listeners on the {@link SyntheticEventTarget} instance*/
 const LISTENERS: unique symbol  = Symbol('_listeners'); // private
@@ -10,7 +9,7 @@ const LISTENERS: unique symbol  = Symbol('_listeners'); // private
  * Replicates behavior of native event
  * Doesn't give explicit access to callback storage
  */
-export class SyntheticEventTarget implements ESLStrictEventTarget {
+export class SyntheticEventTarget implements EventTarget {
   // Event type to use in the shortcut calls
   public static DEFAULT_EVENT = 'change';
 
