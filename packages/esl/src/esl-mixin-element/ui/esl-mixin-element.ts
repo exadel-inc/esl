@@ -8,6 +8,7 @@ import {ESLMixinRegistry} from './esl-mixin-registry';
 import {ESLMixinAttributesObserver} from './esl-mixin-attr';
 
 import type {
+  ESLEventName,
   ESLEventListener,
   ESLListenerCriteria,
   ESLListenerDescriptor,
@@ -58,9 +59,9 @@ export class ESLMixinElement implements ESLBaseComponent, ESLDomElementRelated {
   /** Subscribes `handler` method marked with `@listen` decorator */
   public $$on(handler: ESLListenerHandler): ESLEventListener[];
   /** Subscribes `handler` function by the passed DOM event descriptor {@link ESLListenerDescriptor} or event name */
-  public $$on<EType extends keyof ESLListenerEventMap>(
-    event: EType | ESLListenerDescriptor<EType>,
-    handler: ESLListenerHandler<ESLListenerEventMap[EType]>
+  public $$on<EName extends ESLEventName>(
+    event: EName | ESLListenerDescriptor<EName>,
+    handler: ESLListenerHandler<EName>
   ): ESLEventListener[];
   public $$on(event: any, handler?: any): ESLEventListener[] {
     return ESLEventUtils.subscribe(this, event, handler);

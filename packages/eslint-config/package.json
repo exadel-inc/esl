@@ -2,12 +2,16 @@
   "name": "@exadel/eslint-config-esl",
   "type": "module",
   "private": false,
-  "version": "5.9.0",
+  "version": "5.9.1",
   "keywords": [
     "eslint",
     "eslint-config",
     "esl"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/exadel-inc/esl.git"
+  },
   "publishConfig": {
     "access": "public",
     "scope": "@exadel"
@@ -21,7 +25,7 @@
   },
   "dependencies": {
     "@eslint/js": "^9.28.0",
-    "@stylistic/eslint-plugin": "^5.2.1",
+    "@stylistic/eslint-plugin": "^5.2.2",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-sonarjs": "^3.0.4",
     "eslint-plugin-tsdoc": "^0.4.0",

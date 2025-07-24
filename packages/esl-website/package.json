@@ -1,6 +1,6 @@
 {
   "name": "@exadel/esl-website",
-  "version": "5.9.0",
+  "version": "5.9.1",
   "type": "module",
   "private": true,
   "description": "ESL Website source",
@@ -8,6 +8,10 @@
   "license": "MIT",
   "engines": {
     "node": ">=20.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/exadel-inc/esl.git"
   },
   "scripts": {
     "start": "nx run esl-website:start",
