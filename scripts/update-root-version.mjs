@@ -10,7 +10,7 @@ import glob from 'fast-glob';
 import {execSync} from 'child_process';
 
 const PWD = dirname(fileURLToPath(import.meta.url));
-const ROOT_DIR = resolve(`${PWD}/..`);
+const ROOT_DIR = resolve(PWD, '..');
 const ROOT_PACKAGE_JSON = `${ROOT_DIR}/package.json`;
 
 const {version, workspaces} = JSON.parse(fs.readFileSync(ROOT_PACKAGE_JSON, 'utf8'));
