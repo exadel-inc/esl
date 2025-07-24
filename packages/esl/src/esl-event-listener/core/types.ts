@@ -1,7 +1,5 @@
 import type {Trim, MaybeArgFn, PropertyProvider} from '../../esl-utils/misc';
 
-export const ESL_ALLOWED_EVENTS = '_allowedEvents' as const;
-
 declare global {
   /** Extended event map with the custom event definition */
   export interface ESLListenerEventMap extends HTMLElementEventMap {
