@@ -18,7 +18,7 @@ export class ESLLineClamp extends ESLMixinElement {
   static override is = 'esl-line-clamp';
 
   /** Indicates whether the line clamping is active */
-  @boolAttr({name: 'clamped'}) public clamped: boolean;
+  @boolAttr({name: 'clamped', readonly: true}) public clamped: boolean;
 
   /** Media query to activate clamping with number of lines */
   @attr({name: ESLLineClamp.is, defaultValue: ''}) public lines: string;
@@ -70,11 +70,11 @@ export class ESLLineClamp extends ESLMixinElement {
   @listen({event: 'resize', target: ESLResizeObserverTarget.for})
   protected onResize(): void {
     const {clientHeight, clientWidth, scrollHeight, scrollWidth} = this.$host;
-    this.clamped = clientHeight < scrollHeight || clientWidth < scrollWidth;
+    this.$$attr('clamped', clientHeight < scrollHeight || clientWidth < scrollWidth);
   }
 
   /** Handles show request events to scroll target into view */
-  @listen({event: 'esl:show:request'})
+  @listen('esl:show:request')
   protected onShowRequest(e: CustomEvent): void {
     const $target: HTMLElement = (e.target as HTMLElement);
     $target.scrollIntoView();
