@@ -2,7 +2,7 @@
 
 This section describes the project structure and our development guidelines.
 
-  - [Setup the project](#setup-the-project)
+  - [Set up the project](#setup-the-project)
   - [Project Stack](#project-stack)
   - [Project Structure](#project-structure)
   - [Project Scripts](#project-scripts)
@@ -12,9 +12,12 @@ This section describes the project structure and our development guidelines.
   - [Update demo pages](#update-demo-pages)
     - [Syntax highlighting for IDE](#syntax-highlighting-for-ide)
 
-## Setup the project
+## Set up the project
 
-1.  To get started you will need Node.js version `>=20.8.1` and NPM version `>=9.0.0`. 
+1.  To get started you will need 
+    - Node.js version `>=20.8.1`
+    - NPM version `>=10.0.0`
+    Note: refer to `package.json` engines value of the root package for the exact versions.
 
 2.  After cloning the repo, run:
     ```commandline
@@ -31,38 +34,53 @@ This section describes the project structure and our development guidelines.
     npm run start
     ```
     to start development server. 
-    The development server watches source file changes out of the box.
+    The development server builds, run project site locally and watches source file changes out of the box.
 
 
-You can create prod output assets in any moment using
+You can create prod output for each asset in any moment using
 ```commandline
 npm run build
 ```
+for the whole project, or
+```commandline
+npm run build --workspace=<workspace>
+```
+to build a specific workspace, e.g. `npm run build --workspace=esl`.
 
 Also, you can run tests and lints using
 ```commandline
+npm run lint
 npm run test
 ```
+for the whole project, or
+```commandline
+npm run lint --workspace=<workspace>
+npm run test --workspace=<workspace>
+```
+to run lints and tests for a specific workspace.
 
 To make sure that all checks are passed before you commit and push your changes,
 please make sure that you allow `husky` to set up git hooks for you.
 
 
-__NOTE__: be aware of the `prepare` step that runs build during `npm i` process.
-In case you need to update dependencies in the code version that is broken and 
-can not build successfully, use the `--ignore-scripts` param:
-```commandline
-npm i --ignore-scripts
-```
+__NOTE__: be aware that the project test build before each push to the repository.
+In case you have run `npm run build` + `npm run test` before pushing, yourself check will take seconds due to Nx cache.
 
 ## Project Stack
 
 ESL codebase is written using TypeScript and LESS CSS-preprocessor.
 
+ESL is a monorepo project that uses [Nx](https://nx.dev/) to manage the codebase, build, test, and lint tasks.
+Note: before 5.10.0 ESL used [Lerna](https://lerna.js.org/) to manage the monorepo (that is still Nx under the hood).
+
+It is recommended to familiarize yourself with the [Nx documentation](https://nx.dev/getting-started/intro) to understand how to work with the ESL codebase.
+All the main scripts of repository are available trough the NPM workspaces, so you can run them using `npm run <script>` command to run root-level scripts 
+or `npm run <script> --workspace=<workspace>` to run workspace-level scripts.
+
 ESL uses the following tools to keep codebase quality
 - ESLint to lint scripts
 - Own ESLint shared configuration (see [eslint-config](../packages/eslint-config) sub-package)
-- StyleLint to lint styles
+- StyleLint to lint styles + own StyleLint shared configuration (see [stylelint-config](../packages/stylelint-config) sub-package)
 - Jest to run unit tests
 - CommitLint to check commit message format
 
@@ -92,7 +110,7 @@ ESL top-level directory structure is as follows:
       - 📄 lib.ts - global object type definition and activator
       - 📄 all.less - bundled source style 
     - [📁 polyfills](../packages/esl/src/polyfills) - (Legacy) small polyfills and shims distributed with the library
-  - [📁 site](../packages/esl-website) - demo site root directory
+  - [📁 esl-website](../packages/esl-website) - demo site root directory
     - [📁 11ty](../packages/esl-website/11ty) - demo site 11ty configuration files
       - 📄 *.js - will be applied to 11ty config automatically
       - 📄 _*.js - will not be applied to 11ty configuration
@@ -121,20 +139,26 @@ ESL top-level directory structure is as follows:
   - [📁 stylelint-config](../packages/stylelint-config) - sub-package root for ESL StyleLint shared configuration
     - [📁 custom](../packages/eslint-config/custom) - custom StyleLint plugins/rules directory
     - [📄 index.js](../packages/stylelint-config/index.js) - StyleLint shared configuration main file
+  - [📁 snapshot-tests](../packages/snapshot-tests) - sub-package root for ESL snapshot tests
+    - [📁 src](../packages/snapshot-tests/src) - snapshot tests build sources
+    - [📁 test](../packages/snapshot-tests/test) - snapshot tests
 
 - [📁 scripts](../scripts) - library common build scripts
 - [📁 .github](../.github) - library repository configuration and documentation
 - [📁 .husky](../.husky) - git hooks configuration
 
-## Project Scripts
+## Additional Project Scripts
 
-- `npm start` or `npm run start` - start demo server locally.
-  Runs local build, watch and BrowserSync.
-  Uses `:3005` port by default.
-- `npm run clean` - clear output folders
+As was mentioned above, ESL provide the following main scripts to run tasks (awilable both at the root and workspace level):
+- `npm start` or `npm run start` - start demo server locally. Uses `:3005` port by default.
 - `npm run build` - build project
-- `npm test` or `npm run test` - run linters and tests (silent task, used in CI/CD)
+- `npm run test` - run linters and tests (silent task, used in CI/CD)
 - `npm run lint` - run linting
+
+In case you need to build current projects tarballs you need to run:
+- `npm run pack`
+Note: this script will build all the packages in the monorepo and create tarballs for each package in the root `target` directory.
+Note: project do not support root-level default tarball command (`npm pack`), so you need to use exact `npm run pack` instead.
 
 ## Project Conventions
 
