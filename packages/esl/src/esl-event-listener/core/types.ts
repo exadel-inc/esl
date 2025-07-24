@@ -37,9 +37,10 @@ export type DelegatedEvent<EventType extends Event = Event> = EventType & {
 export type ESLListenerTarget = EventTarget | EventTarget[] | string | null;
 
 type EventTypeName<EType> = {
-  [K in keyof ESLListenerEventMap]: (ESLListenerEventMap[K] extends CustomEvent<infer Detail> ? Detail : ESLListenerEventMap[K]) extends infer D ?
-    D extends EType ?
-      K : never
+  [EKey in keyof ESLListenerEventMap]: (ESLListenerEventMap[EKey] extends CustomEvent<infer Detail> ?
+    Detail : ESLListenerEventMap[EKey]) extends infer EName ?
+    EName extends EType ?
+      EKey : never
     : never
 }[keyof ESLListenerEventMap];
 
