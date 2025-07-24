@@ -9,7 +9,7 @@ describe('ESLLineClamp (mixin): tests', () => {
     ESLLineClamp.register();
   });
 
-  beforeEach(async() => {
+  beforeEach(async () => {
     $host = document.createElement('div');
     $host.setAttribute(ESLLineClamp.is, '3');
     document.body.appendChild($host);
