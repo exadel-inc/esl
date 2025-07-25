@@ -17,6 +17,7 @@ target
 
 # Logs & Tmp
 npm-debug.log
+*.tmp.*
 
 # Git
 .gitconfig

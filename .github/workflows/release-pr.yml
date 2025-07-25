@@ -72,6 +72,13 @@ jobs:
             console.log('Current version:', version);
             core.setOutput('version', version);
 
+      - name: Generate Release Notes
+        if: ${{ steps.info.outputs.version && steps.preversion.outputs.allowed }}
+        run: |
+          echo "This is an automated Release PR for version v${{ steps.info.outputs.version }}." > PR_MESSAGE.tmp.md
+          echo "" >> PR_MESSAGE.tmp.md
+          npm run version:notes >> PR_MESSAGE.tmp.md
+
       # Open a PR from release/main to main
       - if: ${{ steps.info.outputs.version && steps.preversion.outputs.allowed }}
         name: Create Pull Request
@@ -80,7 +87,7 @@ jobs:
           branch: ${{ env.TARGET_BRANCH }}
           title: "Auto Bump: ${{ env.TARGET_BRANCH }} → ${{ github.ref }} (v${{ steps.info.outputs.version }})"
           commit-message: 'chore: release v${{ steps.info.outputs.version }}'
-          body: "This is an automated Release PR for version v${{ steps.info.outputs.version }}."
+          body-path: "PR_MESSAGE.tmp.md"
           draft: true
           labels: "automated-pr"
           assignees: "ala-n, abarmina, NastaLeo"

@@ -1,7 +1,5 @@
-/**
- * Release process step to update the root package.json version based on a max version of all sub-packages
- */
-
+#!/usr/bin/env node
+// Release process step to update the root package.json version based on a max version of all sub-packages
 import fs from 'fs';
 import {fileURLToPath} from 'url';
 import {dirname, resolve} from 'path';

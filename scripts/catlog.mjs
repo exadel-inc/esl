@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import color from 'kleur';
 import fs from 'fs';
 import os from 'os';
