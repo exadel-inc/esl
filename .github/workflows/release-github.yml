@@ -74,7 +74,7 @@ jobs:
       - name: Build Release Notes
         if: ${{ steps.info.outputs.isNewVersion }}
         id: release-notes
-        run: npm run version:notes > RELEASE_NOTES.md
+        run: npm run --silent version:notes > RELEASE_NOTES.md
 
       - name: Create GitHub Release
         if: ${{ steps.info.outputs.isNewVersion }}
