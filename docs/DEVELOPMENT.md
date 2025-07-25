@@ -71,7 +71,6 @@ In case you have run `npm run build` + `npm run test` before pushing, yourself c
 ESL codebase is written using TypeScript and LESS CSS-preprocessor.
 
 ESL is a monorepo project that uses [Nx](https://nx.dev/) to manage the codebase, build, test, and lint tasks.
-Note: before 5.10.0 ESL used [Lerna](https://lerna.js.org/) to manage the monorepo (that is still Nx under the hood).
 
 It is recommended to familiarize yourself with the [Nx documentation](https://nx.dev/getting-started/intro) to understand how to work with the ESL codebase.
 All the main scripts of repository are available trough the NPM workspaces, so you can run them using `npm run <script>` command to run root-level scripts 
@@ -91,7 +90,7 @@ The semantic-release project and GitHub actions are used to automate the release
 ## Project Structure
 
 ESL project is a monorepo that consists of several packages and directories.
-ESL uses Lerna to manage monorepo packages, their dependencies, versioning, publishing, and running scripts.
+ESL uses Nx to manage monorepo packages, their dependencies, versioning, publishing, and running scripts.
 ESL top-level directory structure is as follows:
 
 - [📁 packages](../packages) - ESL monorepo root

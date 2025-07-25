@@ -50,11 +50,11 @@ jobs:
             const result = execSync(`git ls-remote --tags origin | grep "refs/tags/${tag}" | wc -l`).toString().trim();
             if (+result > 0) core.setOutput('allowed', true);
 
-      - name: Stable Version Bump (Lerna)
+      - name: Stable Version Bump (Nx)
         if: ${{ github.ref == 'refs/heads/main' && steps.preversion.outputs.allowed }}
         run: npm run release:stable
 
-      - name: Beta Version Bump (Lerna)
+      - name: Beta Version Bump (Nx)
         if: ${{ github.ref != 'refs/heads/main' && steps.preversion.outputs.allowed }}
         run: npm run release:beta
 
