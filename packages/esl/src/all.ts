@@ -60,3 +60,6 @@ export * from './esl-anchornav/core';
 
 // Lazy Template
 export * from './esl-lazy-template/core';
+
+// Line Clamp
+export * from './esl-line-clamp/core';
