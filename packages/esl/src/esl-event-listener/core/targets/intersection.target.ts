@@ -5,6 +5,7 @@ import {wrap} from '../../../esl-utils/misc/array';
 import {ESLIntersectionEvent} from './intersection.event';
 
 import type {ESLIntersectionEventType} from './intersection.event';
+import type {TypedTarget} from '../types';
 
 export {ESLIntersectionEvent};
 
@@ -15,7 +16,9 @@ export {ESLIntersectionEvent};
  *
  * Note: does not support sharing, creates new {@link IntersectionObserver} instance for each {@link ESLIntersectionTarget} instance
  */
-export class ESLIntersectionTarget extends SyntheticEventTarget {
+export class ESLIntersectionTarget extends SyntheticEventTarget implements TypedTarget<ESLIntersectionEvent> {
+  declare __eventClass__: ESLIntersectionEvent;
+
   /** Default {@link IntersectionObserverInit} options */
   public static readonly DEFAULTS: IntersectionObserverInit = {threshold: [0.01]};
 

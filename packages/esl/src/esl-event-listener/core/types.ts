@@ -7,8 +7,11 @@ declare global {
   }
 }
 
+export type TypedTarget<EClass> = EventTarget & {readonly __eventClass__: EClass};
+
 /** Event name definition */
 export type ESLEventName = keyof ESLListenerEventMap | string;
+export type ESLEventTarget = ESLListenerTarget | PropertyProvider<ESLListenerTarget>;
 
 /**
  * Helper type to extract Event types union by event string
@@ -33,8 +36,25 @@ export type DelegatedEvent<EventType extends Event = Event> = EventType & {
 /** String CSS selector to find the target or {@link EventTarget} object or array of {@link EventTarget}s */
 export type ESLListenerTarget = EventTarget | EventTarget[] | string | null;
 
+type EventTypeName<EType> = {
+  [EKey in keyof ESLListenerEventMap]: (ESLListenerEventMap[EKey] extends CustomEvent<infer Detail> ?
+    Detail : ESLListenerEventMap[EKey]) extends infer EName ?
+    EName extends EType ?
+      EKey : never
+    : never
+}[keyof ESLListenerEventMap];
+
+type ESLEventConstraint<EName extends ESLEventName, ETarget> =
+  ETarget extends TypedTarget<infer EClass>
+    ? EClass extends object
+      ? EName extends EventTypeName<EClass>
+        ? unknown
+        : {event: EventTypeName<EClass> & PropertyProvider<EventTypeName<EClass>>}
+      : unknown
+    : unknown;
+
 /** Descriptor to create {@link ESLEventListener} */
-export type ESLListenerDescriptor<EName extends ESLEventName = string> = {
+export type ESLListenerDescriptor <EName extends ESLEventName = string, ETarget = ESLEventTarget> = ESLEventConstraint<EName, ETarget> & {
   /** A case-sensitive string (or provider function) representing the event type to listen for */
   event: EName | PropertyProvider<EName>;
   /**
@@ -62,7 +82,7 @@ export type ESLListenerDescriptor<EName extends ESLEventName = string> = {
    * **Note**: string values are processed by the {@link ESLTraversingQuery} syntax
    * (e.g. `button` selects all buttons globally, while `::find(button)` selects only buttons inside current element)
    */
-  target?: ESLListenerTarget | PropertyProvider<ESLListenerTarget>;
+  target?: ETarget | PropertyProvider<ETarget>;
 
   /** A boolean value indicating that the listener should be automatically subscribed within connected callback */
   auto?: boolean;
@@ -97,7 +117,8 @@ export type ESLListenerCriteria = ESLListenerDescriptorCriteria | ESLListenerHan
 export type ESLListenerDescriptorFn<EName extends ESLEventName = string> = ESLListenerHandler<EName> & ESLListenerDescriptor<EName>;
 
 /** Descriptor to create {@link ESLEventListener} based on class property */
-export type ESLListenerDescriptorExt<EName extends ESLEventName = string> = Partial<ESLListenerDescriptor<EName>> & {
-  /** Defines if the listener metadata should be inherited from the method of the superclass */
-  inherit?: boolean;
-};
+export type ESLListenerDescriptorExt<EName extends ESLEventName = string, ETarget = ESLEventTarget> =
+  ESLEventConstraint<EName, ETarget> & Partial<Omit<ESLListenerDescriptor<EName, ETarget>, keyof ESLEventConstraint<any, any>>> & {
+    /** Defines if the listener metadata should be inherited from the method of the superclass */
+    inherit?: boolean;
+  };

@@ -66,6 +66,6 @@ declare global {
   /** Extended event map with the custom event definition */
   export interface ESLListenerEventMap {
     /** Native resize event or {@link ESLElementResizeEvent} in case {@link ESLResizeObserverTarget} */
-    'resize': UIEvent | ESLElementResizeEvent;
+    [ESLElementResizeEvent.TYPE]: UIEvent | ESLElementResizeEvent;
   }
 }
