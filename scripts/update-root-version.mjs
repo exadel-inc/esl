@@ -41,9 +41,9 @@ if (maxVersion !== version) {
   console.log(`Updating root package.json version from ${version} to ${maxVersion}`);
   // Using npm to update the root package.json version (to handle package-lock.json and hooks)
   // Do not commit this change automatically, as it may require manual review
-  execSync(`npm version ${maxVersion} --no-git-tag-version`, {stdio: 'inherit', cwd: PWD});
+  execSync(`npm version ${maxVersion} --no-git-tag-version`, {stdio: 'inherit', cwd: ROOT_DIR});
   // Ensure both package.json and package-lock.json are in stash
-  execSync('git add package.json package-lock.json', {stdio: 'inherit', cwd: PWD});
+  execSync('git add package.json package-lock.json', {stdio: 'inherit', cwd: ROOT_DIR});
 } else {
   console.log(`Root package.json version is already up-to-date: ${version}`);
 }
