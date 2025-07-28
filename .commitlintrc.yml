@@ -42,6 +42,7 @@ rules:
       - esl-image
       - esl-image-utils
       - esl-lazy-template
+      - esl-line-clamp
       - esl-media
       - esl-media-query
       - esl-mixin-element

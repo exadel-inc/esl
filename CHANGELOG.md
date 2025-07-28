@@ -1,9 +1,13 @@
-# Change Log
+## 5.9.1 (2025-07-22)
 
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [5.9.0](https://github.com/exadel-inc/esl/compare/v5.8.1...v5.9.0) (2025-07-10)
+### Bug Fixes
+
+* **esl-media:** fix user detection to treat stop by ending as system command ([ad6ee44](https://github.com/exadel-inc/esl/commit/ad6ee44f340228a704baba1e01cd435067ae87a3))
+
+
+
+## 5.9.0 (2025-07-10)
 
 
 ### Bug Fixes
@@ -29,9 +33,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-
-
-## [5.8.1](https://github.com/exadel-inc/esl/compare/v5.8.0...v5.8.1) (2025-06-26)
+## 5.8.1 (2025-06-26)
 
 
 ### Bug Fixes
@@ -42,7 +44,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-# [5.8.0](https://github.com/exadel-inc/esl/compare/v5.7.1...v5.8.0) (2025-06-16)
+## 5.8.0 (2025-06-16)
 
 
 ### Bug Fixes
@@ -64,7 +66,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-## [5.7.1](https://github.com/exadel-inc/esl/compare/v5.7.0...v5.7.1) (2025-06-10)
+## 5.7.1 (2025-06-10)
 
 
 ### Bug Fixes
@@ -76,7 +78,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-# [5.7.0](https://github.com/exadel-inc/esl/compare/v5.6.0...v5.7.0) (2025-06-09)
+## 5.7.0 (2025-06-09)
 
 
 ### Bug Fixes
@@ -93,7 +95,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-# [5.6.0](https://github.com/exadel-inc/esl/compare/v5.5.0...v5.6.0) (2025-06-03)
+## 5.6.0 (2025-06-03)
 
 
 ### Features
@@ -104,7 +106,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-# [5.5.0](https://github.com/exadel-inc/esl/compare/v5.4.0...v5.5.0) (2025-06-02)
+## 5.5.0 (2025-06-02)
 
 
 ### Bug Fixes
@@ -127,7 +129,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-# [5.4.0](https://github.com/exadel-inc/esl/compare/v5.3.2...v5.4.0) (2025-04-28)
+## 5.4.0 (2025-04-28)
 
 
 ### Features
@@ -138,7 +140,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-## [5.3.2](https://github.com/exadel-inc/esl/compare/v5.3.1...v5.3.2) (2025-04-09)
+## 5.3.2 (2025-04-09)
 
 Regular version bump for project dependencies
 
@@ -146,7 +148,7 @@ Regular version bump for project dependencies
 
 
 
-## [5.3.1](https://github.com/exadel-inc/esl/compare/v5.3.0...v5.3.1) (2025-03-26)
+## 5.3.1 (2025-03-26)
 
 
 ### Bug Fixes
@@ -157,7 +159,7 @@ Regular version bump for project dependencies
 
 
 
-# [5.3.0](https://github.com/exadel-inc/esl/compare/v5.2.0...v5.3.0) (2025-03-26)
+## 5.3.0 (2025-03-26)
 
 
 ### Bug Fixes
@@ -174,7 +176,7 @@ Regular version bump for project dependencies
 
 
 
-## [5.2.0](https://github.com/exadel-inc/esl/compare/v5.1.0...v5.2.0) (2025-03-19)
+## 5.2.0 (2025-03-19)
 
 ### Features
 
@@ -194,7 +196,7 @@ Regular version bump for project dependencies
 * **eslint-config:** replace legacy editorconfig-eslint-plugin with direct rules ([dc8853e](https://github.com/exadel-inc/esl/commit/dc8853e5545d35e3dec62c9847681385c169ef1e))
 * **stylelint-config:** extend @exadel/stylelint-config-esl defaults with the primary rules ([5f53cb8](https://github.com/exadel-inc/esl/commit/5f53cb8aa25a5ccbdfc65158ea397fee30c0f29d))
 
-## [5.1.0](https://github.com/exadel-inc/esl/compare/v5.0.1...v5.1.0) (2025-03-05)
+## 5.1.0 (2025-03-05)
 
 ### Features
 
@@ -212,7 +214,7 @@ Regular version bump for project dependencies
 * **esl-media:** auto-init call for non-lazy players with play-in-viewport feature enabled ([d4a30ab](https://github.com/exadel-inc/esl/commit/d4a30ab3c54e5ad5284918790700c83d1b274c1b))
 * **esl-media:** detect youtube provider stopped state ([#2918](https://github.com/exadel-inc/esl/issues/2918)) ([85da24f](https://github.com/exadel-inc/esl/commit/85da24ff3bb41e05a2e8582a1186c8706426972e))
 
-## [5.0.1](https://github.com/exadel-inc/esl/compare/v5.0.0...v5.0.1) (2025-02-05)
+## 5.0.1 (2025-02-05)
 
 ### Bug Fixes
 
@@ -223,21 +225,20 @@ Regular version bump for project dependencies
 * **esl-media:** postpone BrightcoveProvider ready state notification until metadata is available ([e3d4159](https://github.com/exadel-inc/esl/commit/e3d41590a93169168fe699e60fab1e7df6e56d1b))
 * **eslint-plugin:** remove peer dependency for esl (handled via warnings) ([c06fbde](https://github.com/exadel-inc/esl/commit/c06fbdee050ff5608eda8d3e8bb8c4fba000b981))
 
-## [5.0.1-beta.2](https://github.com/exadel-inc/esl/compare/v5.0.1-beta.1...v5.0.1-beta.2) (2025-01-24)
+## 5.0.1-beta.2 (2025-01-24)
 
 ### Bug Fixes
 
 * **eslint-plugin:** remove peer dependency for esl (handled via warnings) ([c06fbde](https://github.com/exadel-inc/esl/commit/c06fbdee050ff5608eda8d3e8bb8c4fba000b981))
 
-## [5.0.1-beta.1](https://github.com/exadel-inc/esl/compare/v5.0.0...v5.0.1-beta.1) (2025-01-24)
+## 5.0.1-beta.1 (2025-01-24)
 
 ### Bug Fixes
 
 * **esl-carousel:** ability to provide slide size fallback trough `--esl-slide-fallback-size` variable ([78ae62f](https://github.com/exadel-inc/esl/commit/78ae62f01ce651a24aa165115382ff13d96a0b84)), closes [#2879](https://github.com/exadel-inc/esl/issues/2879)
 * **esl-carousel:** fix initial rendering layout shift to eliminate CLS degradation ([7d65335](https://github.com/exadel-inc/esl/commit/7d6533548545744502191b761773e6be9c5081eb)), closes [#2879](https://github.com/exadel-inc/esl/issues/2879)
 
-## [5.0.0](https://github.com/exadel-inc/esl/compare/v4.18.1...v5.0.0) (2025-01-17)
-
+## 5.0.0 (2025-01-17)
 Note: 5.0.0 stable release is equal to 5.0.0-beta.45
 
 ### ⚠ BREAKING CHANGES
@@ -365,13 +366,13 @@ Note: 5.0.0 stable release is equal to 5.0.0-beta.45
 * **lint:** fix Literal import processing & update eslint 9.11.1 ([3345564](https://github.com/exadel-inc/esl/commit/334556429dc2f976c669d0662654056ab0876e90))
 
 
-## [5.0.0-beta.45](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.44...v5.0.0-beta.45) (2025-01-16)
+## 5.0.0-beta.45 (2025-01-16)
 
 ### Bug Fixes
 
 * overall dependencies invalidation ([35e3042](https://github.com/exadel-inc/esl/commit/35e30421b012dac82509b54dcc4a3e54dc4e9449))
 
-## [5.0.0-beta.44](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.43...v5.0.0-beta.44) (2025-01-16)
+## 5.0.0-beta.44 (2025-01-16)
 
 ### Bug Fixes
 
@@ -379,14 +380,14 @@ Note: 5.0.0 stable release is equal to 5.0.0-beta.45
 * **esl-toggleable:** inner activator leads to infinite loop while getting toggleables chain ([b8c40dc](https://github.com/exadel-inc/esl/commit/b8c40dc539d2bb1650237b3672a01a2a8924c937))
 * **eslint-plugin:** remove 4 version checks due to stable 5.0.0 release; fix unexpected version note message ([2312443](https://github.com/exadel-inc/esl/commit/231244375b83b8a061bfff3fa4dc74a0738a7db5))
 
-## [5.0.0-beta.43](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.42...v5.0.0-beta.43) (2024-12-18)
+## 5.0.0-beta.43 (2024-12-18)
 
 ### Bug Fixes
 
 * **esl-media:** make esl-media unfocusable according to `focusable` attribute, provide default based on `controls` option ([#2829](https://github.com/exadel-inc/esl/issues/2829)) ([44be58d](https://github.com/exadel-inc/esl/commit/44be58d58bc2ee01f2efc1b12eef2359fa73eb44))
 * **esl-toggleable:** ESLToggleable should ignore activator direct events ([9a8d545](https://github.com/exadel-inc/esl/commit/9a8d545f0992e4c8c75109accc966c9e6ba198c4))
 
-## [5.0.0-beta.42](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.41...v5.0.0-beta.42) (2024-12-10)
+## 5.0.0-beta.42 (2024-12-10)
 
 ### ⚠ BREAKING CHANGES
 
@@ -406,7 +407,7 @@ Note: 5.0.0 stable release is equal to 5.0.0-beta.45
 
 * **esl-media:** fix conflict of alignment classes, move definition to the main mixin ([55589f2](https://github.com/exadel-inc/esl/commit/55589f26828e4279f2e59d28d70c61ad48648963))
 
-## [5.0.0-beta.41](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.40...v5.0.0-beta.41) (2024-11-18)
+## 5.0.0-beta.41 (2024-11-18)
 
 ### Bug Fixes
 
@@ -414,7 +415,7 @@ Note: 5.0.0 stable release is equal to 5.0.0-beta.45
 * **esl-toggleable:** focus management reworked to use scopes. Introduced `ESLToggleableFocusManager` ([fbac20e](https://github.com/exadel-inc/esl/commit/fbac20eae422a4d3a822c3df4572b5ac7275a4f9))
 * **eslint-config:** update file lines limit to `500` LOC ([f0825ff](https://github.com/exadel-inc/esl/commit/f0825fffa694be811350926305f94d5f5a23232b))
 
-## [5.0.0-beta.40](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.39...v5.0.0-beta.40) (2024-11-15)
+## 5.0.0-beta.40 (2024-11-15)
 
 ### ⚠ BREAKING CHANGES
 
@@ -441,14 +442,14 @@ Note: 5.0.0 stable release is equal to 5.0.0-beta.45
 * **esl-tooltip:** simplify code and remove overrides (according to esl-popup base state) ([699ac7f](https://github.com/exadel-inc/esl/commit/699ac7ff8ad5ff7d32cdbdd5fdec29632da1cf40))
 * **esl-utils:** fix visibility and a11y checks for getKeyboardFocusableElements ([e078c78](https://github.com/exadel-inc/esl/commit/e078c78b2ac607bff82b6a25832e95e513e3a7bf))
 
-## [5.0.0-beta.39](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.38...v5.0.0-beta.39) (2024-11-11)
+## 5.0.0-beta.39 (2024-11-11)
 
 ### Features
 
 * **esl-popup:** add position-origin attribute ([6be5133](https://github.com/exadel-inc/esl/commit/6be51338181d403c43291cb87713496f3bb2a308))
 * **esl-utils:** `safeContains` traverse utility ([7ca4f8b](https://github.com/exadel-inc/esl/commit/7ca4f8bcdaac756650fd60f5256128f2949e0ded))
 
-## [5.0.0-beta.38](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.37...v5.0.0-beta.38) (2024-11-04)
+## 5.0.0-beta.38 (2024-11-04)
 
 ### ⚠ BREAKING CHANGES
 
@@ -459,7 +460,7 @@ Note: 5.0.0 stable release is equal to 5.0.0-beta.45
 * **esl-footnotes:** claenup readonly API of `esl-note` ([cb43086](https://github.com/exadel-inc/esl/commit/cb430865e265b808d0312e96c0f76b755aaff4bc))
 * **esl-footnotes:** migrate esl-note to esl-base-trigger ([d2e0dbb](https://github.com/exadel-inc/esl/commit/d2e0dbb4a37e4a85da39a59e5a02289c5f848bc4))
 
-## [5.0.0-beta.37](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.36...v5.0.0-beta.37) (2024-10-21)
+## 5.0.0-beta.37 (2024-10-21)
 
 ### Bug Fixes
 
@@ -468,7 +469,7 @@ Note: 5.0.0 stable release is equal to 5.0.0-beta.45
 * **esl-drag-to-scroll:** fix issue with un-prevented click action after drag ([c98cfa4](https://github.com/exadel-inc/esl/commit/c98cfa49a1629790a01dab4a6704d5fcea6e19d7))
 * **esl-drag-to-scroll:** fix propagation of the click if drag detected ([0b4aee6](https://github.com/exadel-inc/esl/commit/0b4aee6611d0c69f4df8445b41aade9754bcd9ca))
 
-## [5.0.0-beta.36](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.35...v5.0.0-beta.36) (2024-09-30)
+## 5.0.0-beta.36 (2024-09-30)
 
 ### Features
 
@@ -480,7 +481,7 @@ Note: 5.0.0 stable release is equal to 5.0.0-beta.45
 
 * **lint:** fix Literal import processing & update eslint 9.11.1 ([3345564](https://github.com/exadel-inc/esl/commit/334556429dc2f976c669d0662654056ab0876e90))
 
-## [5.0.0-beta.34](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.33...v5.0.0-beta.34) (2024-09-19)
+## 5.0.0-beta.34 (2024-09-19)
 
 ### Features
 
@@ -496,7 +497,7 @@ Note: 5.0.0 stable release is equal to 5.0.0-beta.45
 
 * **esl-carousel:** fix slide mixin initialization order ([ad92042](https://github.com/exadel-inc/esl/commit/ad92042f1c11f6f798b490a4e270ce42ba58e3fc))
 
-## [5.0.0-beta.32](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.31...v5.0.0-beta.32) (2024-08-22)
+## 5.0.0-beta.32 (2024-08-22)
 
 ### Features
 
@@ -515,7 +516,7 @@ Note: 5.0.0 stable release is equal to 5.0.0-beta.45
 * **lint:** fix package missing `kleur` dependency ([b6581b9](https://github.com/exadel-inc/esl/commit/b6581b9094e222ce218e1dd9b3f7295de838d2cf))
 * **site:** share preview cards ([58194ca](https://github.com/exadel-inc/esl/commit/58194ca867d035b07980d9f3faddd23a2d03ee17))
 
-## [5.0.0-beta.31](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.30...v5.0.0-beta.31) (2024-08-13)
+## 5.0.0-beta.31 (2024-08-13)
 
 ### ⚠ BREAKING CHANGES
 
@@ -540,14 +541,14 @@ Note: 5.0.0 stable release is equal to 5.0.0-beta.45
 
 * **esl-image-utils:** update implementation to use json attr and new compact representation ([602afc7](https://github.com/exadel-inc/esl/commit/602afc7eb4e208c11d89cfe9bce8198d4c0b664e))
 
-## [5.0.0-beta.30](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.29...v5.0.0-beta.30) (2024-07-31)
+## 5.0.0-beta.30 (2024-07-31)
 
 ### Bug Fixes
 
 * **esl-carousel:** fix carousel empty state ([8f88589](https://github.com/exadel-inc/esl/commit/8f885890e317ad28adf4da7810c515d238b2298f))
 * **esl-carousel:** fix incomplete centered carousel rendering ([0d7adce](https://github.com/exadel-inc/esl/commit/0d7adce75833b6fc9794f4230667494d0b59a837))
 
-## [5.0.0-beta.29](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.28...v5.0.0-beta.29) (2024-07-30)
+## 5.0.0-beta.29 (2024-07-30)
 
 ### Features
 
@@ -558,19 +559,19 @@ Note: 5.0.0 stable release is equal to 5.0.0-beta.45
 * **esl-carousel:** carousel now uses average of the real slide sizes during move action routines ([2472723](https://github.com/exadel-inc/esl/commit/2472723d3fa11d46c8dc26f22e06496cacc1c7a9))
 * **esl-carousel:** touch behaviour fix - incorrect touch-action target is used ([18b1ba1](https://github.com/exadel-inc/esl/commit/18b1ba1c2a5a8b30753dc5220704cdf78f2aa822))
 
-## [5.0.0-beta.28](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.27...v5.0.0-beta.28) (2024-07-29)
+## 5.0.0-beta.28 (2024-07-29)
 
 ### Bug Fixes
 
 * **esl-carousel:** fix count of slides to be rendered before the first slide ([cd68ea3](https://github.com/exadel-inc/esl/commit/cd68ea3c0b9076b2c6d237f9fa547af73b4fedd0))
 
-## [5.0.0-beta.27](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.26...v5.0.0-beta.27) (2024-07-23)
+## 5.0.0-beta.27 (2024-07-23)
 
 ### Features
 
 * **esl-carousel:** `esl-carousel-nav` default classes and attributes reworked ([fd50c71](https://github.com/exadel-inc/esl/commit/fd50c719bf08f184b89bc531a4bf46e443eff6fd))
 
-## [5.0.0-beta.26](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.25...v5.0.0-beta.26) (2024-07-22)
+## 5.0.0-beta.26 (2024-07-22)
 
 ### Bug Fixes
 
@@ -578,7 +579,7 @@ Note: 5.0.0 stable release is equal to 5.0.0-beta.45
 * **esl-carousel:** a11ty targets for arrow controls ([8240921](https://github.com/exadel-inc/esl/commit/82409211823673074c6fe44ac5fa0ade6e8ccabe))
 * **esl-carousel:** remove specificity hack for carousel clipping ([0fa0ac7](https://github.com/exadel-inc/esl/commit/0fa0ac7d32a77458b8c90d8b5904c420357f2705))
 
-## [5.0.0-beta.25](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.24...v5.0.0-beta.25) (2024-07-22)
+## 5.0.0-beta.25 (2024-07-22)
 
 ### Features
 
@@ -595,7 +596,7 @@ Note: 5.0.0 stable release is equal to 5.0.0-beta.45
 * **esl-carousel:** fix ESLCarouselNavDots livecycle and carousel observation ([c03c8f9](https://github.com/exadel-inc/esl/commit/c03c8f9322fc69fe7771f71b11031ba1e6e02d94))
 * **esl-carousel:** rework carousel slide change event with complete and more clear information ([0b5983f](https://github.com/exadel-inc/esl/commit/0b5983fe67922246cee2e760af3b1d0535dcf61b))
 
-## [5.0.0-beta.24](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.23...v5.0.0-beta.24) (2024-07-15)
+## 5.0.0-beta.24 (2024-07-15)
 
 ### Features
 
@@ -608,7 +609,7 @@ Note: 5.0.0 stable release is equal to 5.0.0-beta.45
 * **esl-event-listener:** fix missing signature for `$$on` method of base component ([7197e30](https://github.com/exadel-inc/esl/commit/7197e30af63b71573237eb3433a69ff91c8a011a))
 * **esl-mixin-element:** major fix for nested hierarchy mixin disconnection ([d360da0](https://github.com/exadel-inc/esl/commit/d360da0e61e90c2ef71ba219256505e741429ca3)), closes [#2505](https://github.com/exadel-inc/esl/issues/2505)
 
-## [5.0.0-beta.23](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.22...v5.0.0-beta.23) (2024-07-01)
+## 5.0.0-beta.23 (2024-07-01)
 
 ### Features
 
@@ -626,13 +627,13 @@ Note: 5.0.0 stable release is equal to 5.0.0-beta.45
 * **esl-carousel:** fix deprecated type usage inside carousel wheel plugin ([1c9f8c4](https://github.com/exadel-inc/esl/commit/1c9f8c4eba488074a5b236ed6556f29d80d72735))
 * **esl-carousel:** improve log messaging and fix initialization exceptions ([8e45f58](https://github.com/exadel-inc/esl/commit/8e45f588a669900fdd53e54c0d1a6357e9159b09))
 
-## [5.0.0-beta.22](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.21...v5.0.0-beta.22) (2024-06-26)
+## 5.0.0-beta.22 (2024-06-26)
 
 ### Bug Fixes
 
 * **esl-carousel:** fix incorrect alignment of the grid carousel renderer if there are no enough slides ([6956729](https://github.com/exadel-inc/esl/commit/69567295a56d0017e6364f3aa558f10d79efac38))
 
-## [5.0.0-beta.21](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.20...v5.0.0-beta.21) (2024-06-25)
+## 5.0.0-beta.21 (2024-06-25)
 
 ### Features
 
@@ -642,7 +643,7 @@ Note: 5.0.0 stable release is equal to 5.0.0-beta.45
 
 * **deps:** bump puppeteer from 22.11.2 to 22.12.0 ([2a5c371](https://github.com/exadel-inc/esl/commit/2a5c3713c51b55efa37d676d89e815708431072c))
 
-## [5.0.0-beta.20](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.19...v5.0.0-beta.20) (2024-06-20)
+## 5.0.0-beta.20 (2024-06-20)
 
 ### Bug Fixes
 
@@ -656,7 +657,7 @@ Note: 5.0.0 stable release is equal to 5.0.0-beta.45
 * **esl-carousel:** add possibility to hide controls according to closest container state ([b941748](https://github.com/exadel-inc/esl/commit/b941748a4ba7d51adf6ea9b8747570e8c774dd16))
 * **lint:** notify about version differences for `eslint-plugin-esl` ([4cc0ddc](https://github.com/exadel-inc/esl/commit/4cc0ddc515f1c2b5ed2f4e2d745001784a98ce2f))
 
-## [5.0.0-beta.19](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.18...v5.0.0-beta.19) (2024-05-31)
+## 5.0.0-beta.19 (2024-05-31)
 
 
 ### Features
@@ -672,7 +673,7 @@ Note: 5.0.0 stable release is equal to 5.0.0-beta.45
 * **esl-utils:** fix event cancellation handling ([8e45a75](https://github.com/exadel-inc/esl/commit/8e45a7560c3260f21dbe22e9beaa64c8afe19ca5))
 * **esl-utils:** fix isRelativeNode signature (can accept undefined as a node) ([4e2c7af](https://github.com/exadel-inc/esl/commit/4e2c7af179d186de521e7a55c0be66d1e3dc68fa))
 
-## [5.0.0-beta.18](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.17...v5.0.0-beta.18) (2024-05-24)
+## 5.0.0-beta.18 (2024-05-24)
 
 
 ### Features
@@ -689,7 +690,7 @@ Note: 5.0.0 stable release is equal to 5.0.0-beta.45
 * **esl-media:** play-in-viewport tolerance changed to 50% (75% before) ([06d2a13](https://github.com/exadel-inc/esl/commit/06d2a13ca0bbde6c5d4fbd93e6a68f94fe93ef4e))
 * **esl-panel:** fix the falsy state of animation in the default open panel in esl-panel-group ([64925e0](https://github.com/exadel-inc/esl/commit/64925e0b47293124430f988474df821c423cc2bd))
 
-## [5.0.0-beta.17](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.16...v5.0.0-beta.17) (2024-05-21)
+## 5.0.0-beta.17 (2024-05-21)
 
 
 ### Features
@@ -710,14 +711,14 @@ Note: 5.0.0 stable release is equal to 5.0.0-beta.45
 * **esl-popup:** fix it is not possible to set the offset-arrow to 0 ([c6f1a9f](https://github.com/exadel-inc/esl/commit/c6f1a9f2ddfcbbc5bad2adb3da6a73bc34e50277))
 * **esl-utils:** fix parseNumber signature (undefined when default provided) ([647b736](https://github.com/exadel-inc/esl/commit/647b7364e3a8024d9d3d4cdef464dc98078a0d01))
 
-## [5.0.0-beta.16](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.15...v5.0.0-beta.16) (2024-04-30)
+## 5.0.0-beta.16 (2024-04-30)
 
 
 ### Bug Fixes
 
 * **esl-event-listener:** fix `listen` decorator strict types are incorrect ([94c85f2](https://github.com/exadel-inc/esl/commit/94c85f2ddbea29b420c2540e025c7d510dfba5b1))
 
-## [5.0.0-beta.15](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.14...v5.0.0-beta.15) (2024-04-29)
+## 5.0.0-beta.15 (2024-04-29)
 
 
 ### Features
@@ -732,7 +733,7 @@ Note: 5.0.0 stable release is equal to 5.0.0-beta.45
 * **esl-footnotes:** drop extra margins for `esl-carousel-slides` container ([be4e9b0](https://github.com/exadel-inc/esl/commit/be4e9b0cfb75781e0eea06704c2eecd0cfe8c66b))
 * **esl-footnotes:** fix default display block for `esl-footnote` tag ([beba690](https://github.com/exadel-inc/esl/commit/beba690ee6f1846df071970b3456fec4603db6bb))
 
-## [5.0.0-beta.14](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.13...v5.0.0-beta.14) (2024-04-20)
+## 5.0.0-beta.14 (2024-04-20)
 
 
 ### Features
@@ -751,14 +752,14 @@ Note: 5.0.0 stable release is equal to 5.0.0-beta.45
 * **esl-carousel:** it is impossible to use cascading of css variable properly to define dots styles on the carousel level ([d361295](https://github.com/exadel-inc/esl/commit/d361295d6bce56f57986f7c69092273cd187eb74))
 * **site:** `esl-animate` example page wrong animation ([7fd86b4](https://github.com/exadel-inc/esl/commit/7fd86b405839ebb3c15dcd22eabdcf14967e41a5))
 
-## [5.0.0-beta.13](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.12...v5.0.0-beta.13) (2024-04-16)
+## 5.0.0-beta.13 (2024-04-16)
 
 
 ### Features
 
 * **esl-carousel:** rework `ESLCarouselNavDots` plugin, improve a11ty ([ab40f94](https://github.com/exadel-inc/esl/commit/ab40f94324d617fb313f8aee4471d82dd82cdf6d))
 
-## [5.0.0-beta.12](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.11...v5.0.0-beta.12) (2024-04-12)
+## 5.0.0-beta.12 (2024-04-12)
 
 
 ### ⚠ BREAKING CHANGES
@@ -795,7 +796,7 @@ Note: 5.0.0 stable release is equal to 5.0.0-beta.45
 * **esl-utils:** fix argument list on next fn call ([c2e5c1d](https://github.com/exadel-inc/esl/commit/c2e5c1d89384bff3d7f27f81a79f5e568122b26f))
 * **esl-utils:** fix event cancellation handling ([dffbc53](https://github.com/exadel-inc/esl/commit/dffbc53992841731e6dbc2c73991fc740991fa33))
 
-## [5.0.0-beta.11](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.10...v5.0.0-beta.11) (2024-03-01)
+## 5.0.0-beta.11 (2024-03-01)
 
 
 ### Features
@@ -809,7 +810,7 @@ Note: 5.0.0 stable release is equal to 5.0.0-beta.45
 * **esl-popup:** fix incorrect behavior of popup for fit-major and fit-minor modes ([f26f907](https://github.com/exadel-inc/esl/commit/f26f90703309a2ead44669b4143196951c381abf))
 * **esl-toggleable:** outside action should be handled from entire page ([aa6f5a5](https://github.com/exadel-inc/esl/commit/aa6f5a52a9c3639dc50e27d837247cfa22653aeb))
 
-## [5.0.0-beta.10](https://github.com/exadel-inc/esl/compare/v5.0.0-beta.9...v5.0.0-beta.10) (2024-02-14)
+## 5.0.0-beta.10 (2024-02-14)
 
 
 ### Features
