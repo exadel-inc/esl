@@ -1,3 +1,10 @@
+## 5.10.0 (2025-07-28)
+
+### 🚀 Features
+
+- **esl-line-clamp:** introduce esl-line-clamp mixin to limit text content in the block ([fef05f07b](https://github.com/exadel-inc/esl/commit/fef05f07b))
+- **deps:** bump @stylistic/stylelint-plugin from 3.1.3 to 4.0.0; the plugin now requires stylelint version 16.22.0 or higher. ([#3261](https://github.com/exadel-inc/esl/pull/3261))
+
 # Change Log
 
 All notable changes to this project will be documented in this file.
