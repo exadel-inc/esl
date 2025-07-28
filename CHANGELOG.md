@@ -1,3 +1,17 @@
+## 5.10.0 (2025-07-28)
+
+### 🚀 Features
+
+- **deps:** bump @stylistic/stylelint-plugin from 3.1.3 to 4.0.0; the plugin now requires stylelint version 16.22.0 or higher. ([#3261](https://github.com/exadel-inc/esl/pull/3261))
+- **esl-event-listener:** introduce improve ESLEventUtils event type handling ([de4217fb1](https://github.com/exadel-inc/esl/commit/de4217fb1))
+- **esl-line-clamp:** introduce esl-line-clamp mixin to limit text content in the block ([fef05f07b](https://github.com/exadel-inc/esl/commit/fef05f07b))
+- **esl-utils:** introduce common TS type utils file ([c962eb353](https://github.com/exadel-inc/esl/commit/c962eb353))
+
+### 🩹 Fixes
+
+- **esl-carousel:** fix wheel event handling (wheel ignores next slide direction) ([#3260](https://github.com/exadel-inc/esl/issues/3260))
+- **esl-event-listener:** fix missing event type definitions for custom event targets ([bd5c8ba16](https://github.com/exadel-inc/esl/commit/bd5c8ba16))
+
 ## 5.9.1 (2025-07-22)
 
 
