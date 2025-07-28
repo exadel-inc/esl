@@ -3,7 +3,7 @@ layout: content
 title: ESL Line Clamp
 seoTitle: Handle line clamping functionality for any element using ESL Mixin
 name: Line Clamp
-tags: [examples, new]
+tags: [examples, new, beta]
 collectionIcon: examples/line-clamp.svg
 aside:
   min-version: 5.10.0
@@ -69,6 +69,7 @@ aside:
         </section>
       </script>
 
+      {% if env.isDev %}
       <script type="text/html"
               label="Focus behavior demo"
               uip-snippet
@@ -92,6 +93,7 @@ aside:
           <esl-footnotes></esl-footnotes>
         </section>
       </script>
+      {% endif %}
 
       <script id="js-snippet-line-clamp" type="text/plain">
         import { ESLLineClamp } from '@exadel/esl';
