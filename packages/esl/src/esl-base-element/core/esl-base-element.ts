@@ -8,7 +8,8 @@ import type {
   ESLEventListener,
   ESLListenerHandler,
   ESLListenerCriteria,
-  ESLListenerDescriptor
+  ESLListenerDescriptor,
+  ESLListenerTarget
 } from '../../esl-utils/dom/events';
 import type {ESLBaseComponent} from '../../esl-utils/abstract/component';
 
@@ -70,8 +71,8 @@ export abstract class ESLBaseElement extends HTMLElement implements ESLBaseCompo
   /** Subscribes `handler` method marked with `@listen` decorator */
   public $$on(handler: ESLListenerHandler): ESLEventListener[];
   /** Subscribes `handler` function by the passed DOM event descriptor {@link ESLListenerDescriptor} or event name */
-  public $$on<EName extends ESLEventName>(
-    event: EName | ESLListenerDescriptor<EName>,
+  public $$on<ETarget extends ESLListenerTarget, EName extends ESLEventName>(
+    event: EName | ESLListenerDescriptor<ETarget, EName>,
     handler: ESLListenerHandler<EName>
   ): ESLEventListener[];
   public $$on(event: any, handler?: any): ESLEventListener[] {
