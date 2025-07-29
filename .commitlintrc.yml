@@ -60,6 +60,7 @@ rules:
       - esl-traversing-query
       - esl-trigger
       - esl-utils
+      - ui-playground
       - site
       - patch
       - deps

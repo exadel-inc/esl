@@ -1,17 +1,12 @@
 import {lang, strict} from '@exadel/eslint-config-esl';
-import {recommended as eslRecommended} from '@exadel/eslint-plugin-esl';
 
 export default [
   {
     ignores: [
-      // Common configuration
-      'site/webpack.config.js',
       // Common directories
       'node_modules/**',
       // Submodule output
-      'esm/**',
-      'bundles/**',
-      'site/dist/**',
+      'dist/**'
     ]
   },
 
@@ -20,5 +15,11 @@ export default [
   ...strict,
 
   // ESL ESLint Plugin
-  ...eslRecommended
+  ...await (async () => {
+    try {
+      return (await import('@exadel/eslint-plugin-esl')).recommended;
+    } catch {
+      return [];
+    }
+  })(),
 ];

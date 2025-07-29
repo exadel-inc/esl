@@ -23,7 +23,7 @@
     "@11ty/eleventy": "^3.1.2",
     "@11ty/eleventy-dev-server": "^2.0.8",
     "@exadel/esl": "^5.10.0",
-    "@exadel/ui-playground": "2.1.0-beta.10",
+    "@exadel/ui-playground": "^3.0.0",
     "@juggle/resize-observer": "^3.4.0",
     "@types/prismjs": "^1.26.5",
     "@types/smoothscroll-polyfill": "^0.3.4",
@@ -38,8 +38,5 @@
     "webpack": "^5.100.2",
     "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "^6.0.1"
-  },
-  "overrides": {
-    "@exadel/esl": "file:../esl"
   }
 }

@@ -75,6 +75,7 @@
       "executor": "nx:noop",
       "dependsOn": [
         "esl:build",
+        "uip:build",
         "esl-website:build:ts",
         "esl-website:build:less"
       ]
@@ -84,6 +85,7 @@
       "options": {
         "commands": [
           "nx run esl:watch",
+          "nx run uip:watch",
           {"command": "nx run esl-website:watch:ts", "prefix": "[Site watch:ts]"},
           {"command": "nx run esl-website:watch:less", "prefix": "[Site watch:less]"}
         ]
@@ -152,7 +154,13 @@
     "watch:less": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "chokidar \"packages/esl/modules/.less.done\" \"packages/esl-website/src/**/*.less\" -c \"nx run esl-website:build:less:only\""
+        "command": "chokidar",
+        "args": [
+          "\"packages/esl/modules/.less.done\"",
+          "\"packages/ui-playground/dist/.less.done\"",
+          "\"packages/esl-website/src/**/*.less\"",
+          "-c \"nx run esl-website:build:less:only\""
+        ]
       }
     },
 
