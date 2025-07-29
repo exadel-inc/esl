@@ -1,4 +1,5 @@
 import type {
+  ESLEventName,
   ESLEventListener,
   ESLListenerHandler,
   ESLListenerCriteria,
@@ -11,9 +12,9 @@ export interface ESLBaseComponent {
   /** Subscribes `handler` method marked with `@listen` decorator */
   $$on(handler: ESLListenerHandler): ESLEventListener[];
   /** Subscribes `handler` function by the passed DOM event descriptor {@link ESLListenerDescriptor} or event name */
-  $$on<EType extends keyof ESLListenerEventMap>(
-    event: EType | ESLListenerDescriptor<EType>,
-    handler: ESLListenerHandler<ESLListenerEventMap[EType]>
+  $$on<EName extends ESLEventName>(
+    event: EName | ESLListenerDescriptor<EName>,
+    handler: ESLListenerHandler<EName>
   ): ESLEventListener[];
 
   /** Unsubscribes event listeners */

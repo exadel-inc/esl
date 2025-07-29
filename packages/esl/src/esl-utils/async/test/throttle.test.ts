@@ -11,14 +11,14 @@ describe('async/throttle', () => {
 
     expect(throttled()).toBeUndefined();
     jest.advanceTimersByTime(1);
-    expect(fn).toBeCalledTimes(1);
+    expect(fn).toHaveBeenCalledTimes(1);
     jest.advanceTimersByTime(50);
     expect(throttled()).toBeUndefined();
-    expect(fn).toBeCalledTimes(1);
+    expect(fn).toHaveBeenCalledTimes(1);
     jest.advanceTimersByTime(100);
-    expect(fn).toBeCalledTimes(2);
+    expect(fn).toHaveBeenCalledTimes(2);
     expect(throttled()).toBeUndefined();
-    expect(fn).toBeCalledTimes(2);
+    expect(fn).toHaveBeenCalledTimes(2);
   });
 
   test('test context', () => {
@@ -54,13 +54,13 @@ describe('async/throttle', () => {
     expect(throttled.promise).toBeInstanceOf(Promise);
     expect(throttled(4)).toBeUndefined();
 
-    expect(fn).toBeCalledTimes(1);
-    expect(fn).lastCalledWith(1);
+    expect(fn).toHaveBeenCalledTimes(1);
+    expect(fn).toHaveBeenLastCalledWith(1);
 
     const {promise} = throttled;
 
     jest.advanceTimersByTime(100);
-    expect(fn).toBeCalledTimes(2);
+    expect(fn).toHaveBeenCalledTimes(2);
     return expect(promise).resolves.toBe(5);
   });
 });

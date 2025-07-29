@@ -1,6 +1,6 @@
 {
   "name": "@exadel/esl",
-  "version": "5.4.0",
+  "version": "5.10.0",
   "private": false,
   "description": "Exadel Smart Library (ESL) is the lightweight custom elements library that provide a set of super-flexible components",
   "license": "MIT",
@@ -26,7 +26,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/exadel-inc/esl.git"
+    "url": "https://github.com/exadel-inc/esl.git"
   },
   "publishConfig": {
     "access": "public",
@@ -51,31 +51,22 @@
     "polyfills/**/*.js"
   ],
   "scripts": {
-    "clean": "rimraf modules",
-    "build": "npm run clean && concurrently \"npm run build:less\" \"npm run build:ts\" \"npm run build:docs\"",
-    "build:ts": "tsc --project tsconfig.build.json",
-    "build:less": "npm run build:less:cpy && npm run build:less:css",
-    "build:less:cpy": "copyfiles \"src/**/*.less\" \"modules\" --up 1 --all",
-    "build:less:css": "findx \"modules/{*,*/*,{esl-utils,esl-forms}/*/*}.less !**/*.mixin.less\" \"lessc {{path}} {{dir}}/{{name}}.css\"",
-    "build:docs": "copyfiles \"src/**/*.md\" \"modules\" --up 1 --all",
-    "watch": "concurrently npm:watch:*",
-    "watch:ts": "tsc --project tsconfig.build.json --watch",
-    "watch:less": "chokidar --initial \"src/**/*.less\" -c \"npm run build:less\"",
-    "watch:docs": "chokidar --initial \"src/**/*.md\" -c \"npm run build:docs\"",
-    "test": "jest --silent --noStackTrace",
-    "lint": "concurrently npm:lint:*",
-    "lint:js": "eslint \"src/**/*.ts\"",
-    "lint:css": "stylelint \"src/**/*.less\"",
-    "pack": "npm pack --pack-destination ../../target/"
+    "clean": "nx run esl:clean",
+    "build": "nx run esl:build",
+    "watch": "nx run esl:watch",
+    "lint": "nx run esl:lint",
+    "test": "nx run esl:test:jest",
+    "pack": "nx run esl:pack",
+    "version": "node ./scripts/update-lib-version.mjs && git add src/lib.ts"
   },
   "dependencies": {
     "@types/video.js": "7.3.58",
-    "@types/youtube": "0.1.0"
+    "@types/youtube": "0.1.2"
   },
   "devDependencies": {
-    "@exadel/eslint-config-esl": "../eslint-config",
-    "@exadel/eslint-plugin-esl": "../eslint-plugin",
-    "@exadel/stylelint-config-esl": "../stylelint-config"
+    "@exadel/eslint-config-esl": "^5.10.0",
+    "@exadel/eslint-plugin-esl": "^5.10.0",
+    "@exadel/stylelint-config-esl": "^5.10.0"
   },
   "contributors": [
     "ala-n <astsefanovich@exadel.com>",

@@ -36,5 +36,5 @@ export class ESLNoneCarouselRenderer extends ESLCarouselRenderer {
 
   /* Handles the slide move actions */
   public move(offset: number, from: number, params: ESLCarouselActionParams): void {}
-  public async commit(offset: number, from: number, params: ESLCarouselActionParams): Promise<void> {}
+  public async commit(params: ESLCarouselActionParams): Promise<void> {}
 }

@@ -2,18 +2,20 @@
 title: Carousel (Nav Carousel)
 order: 10
 tags: carousel-sample
+
+slideCount: 16
 ---
 <div class="flex-column main-carousel esl-carousel-nav-container">
   <esl-carousel demo-options-target
                 id="main-carousel"
-                type="default"
-                esl-carousel-touch
-                esl-carousel-relate-to="#nav-carousel">
+                type="css-fade"
+                esl-carousel-touch="swipe">
     <ul esl-carousel-slides>
-      {% for item in range(0, 8) %}
+      {% for item in range(0, slideCount) %}
         <li esl-carousel-slide>
           <div class="img-container img-container-16-9" esl-image-container>
             <img class="img-fade img-cover"
+                 draggable="false"
                  alt="{{ 'Carousel slide ' + loop.index }}"
                  src="{{ '/assets/carousel/' + loop.index + '-sm.jpg' | url }}"
                  loading="lazy" />
@@ -24,27 +26,30 @@ tags: carousel-sample
   </esl-carousel>
 </div>
 <div class="flex-column marquee-nav-carousel esl-carousel-nav-container">
-  <button type="button" class="esl-carousel-arrow inner prev" esl-carousel-nav="-4"></button>
+  <button type="button" class="esl-carousel-arrow inner prev" esl-carousel-nav="slide:-3"></button>
 
   <esl-carousel id="nav-carousel"
+                media="@-SM|@MD|@XL"
+                count="2|4|5"
                 esl-carousel-touch="drag"
-                count="5">
+                esl-carousel-relate-to="#main-carousel">
     <ul esl-carousel-slides>
-      {% for item in range(0, 16) %}
+      {% for item in range(0, slideCount) %}
         <li esl-carousel-slide>
           <div class="img-container img-container-4-3"
                esl-image-container
-               esl-carousel-nav="slide:{{ loop.index - 1 }}"
+               esl-carousel-nav="slide:{{loop.index}}"
                esl-carousel-nav-target="#main-carousel">
             <img class="img-fade img-cover"
                  alt="{{ 'Carousel slide ' + loop.index }}"
                  src="{{ '/assets/carousel/' + loop.index + '-sm.jpg' | url }}"
-                 loading="lazy" />
+                 loading="lazy"
+                 draggable="false"/>
           </div>
         </li>
       {% endfor %}
     </ul>
   </esl-carousel>
 
-  <button type="button" class="esl-carousel-arrow inner next" esl-carousel-nav="+4"></button>
+  <button type="button" class="esl-carousel-arrow inner next" esl-carousel-nav="slide:+3"></button>
 </div>

@@ -1,45 +1,63 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "targetDefaults": {
-    "build": {
-      "dependsOn": [
-        "clean",
-        "^build"
-      ],
-      "inputs": [
-        "{workspaceRoot}/tsconfig.json",
-        "{projectRoot}/tsconfig.json",
-        "{projectRoot}/src/**/*",
-        "{projectRoot}/views/**/*"
-      ],
-      "outputs": [
-        "{projectRoot}/dist",
-        "{projectRoot}/modules"
-      ],
-      "cache": true
-    },
-    "lint": {
-      "dependsOn": [
-        "@exadel/eslint-plugin-esl:build"
-      ],
-      "cache": false
-    },
     "pack": {
       "dependsOn": [
         "build"
       ],
-      "outputs": [
-        "{workspaceRoot}/target/{projectName}-*.tgz"
-      ]
+      "cache": false
     },
-    "test": {
+    "test:jest": {
       "dependsOn": [
         "build"
-      ],
-      "outputs": [
-        "{projectRoot}/coverage"
+      ]
+    },
+    "lint:eslint": {
+      "dependsOn": [
+        "eslint-plugin:build"
       ]
     }
   },
-  "plugins": []
+  "plugins": [
+    {
+      "plugin": "@nx/eslint/plugin",
+      "options": {
+        "targetName": "lint:eslint"
+      }
+    },
+    {
+      "plugin": "@nx/jest/plugin",
+      "exclude": [
+        "packages/snapshot-tests/**/*"
+      ],
+      "options": {
+        "targetName": "test:jest",
+        "collectCoverage": true
+      }
+    }
+  ],
+  "release": {
+    "projects": [
+      "packages/*"
+    ],
+    "git": {
+      "commit": false,
+      "tag": false
+    },
+    "version": {
+      "conventionalCommits": true
+    },
+    "changelog": {
+      "projectChangelogs": {
+        "renderOptions": {
+          "authors": false
+        }
+      },
+      "workspaceChangelog": {
+        "renderOptions": {
+          "authors": false
+        }
+      }
+    }
+  }
 }

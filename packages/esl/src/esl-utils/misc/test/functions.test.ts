@@ -22,12 +22,12 @@ describe('misc/functions', () => {
       const obj = {};
       const test = jest.fn(function () { return this; });
       expect(resolveProperty(test, obj)).toBe(obj);
-      expect(test).lastCalledWith(obj);
+      expect(test).toHaveBeenLastCalledWith(obj);
     });
     test('null context', () => {
       const test = jest.fn(function () { return this; });
       expect(resolveProperty(test, null)).toBe(null);
-      expect(test).lastCalledWith(null);
+      expect(test).toHaveBeenLastCalledWith(null);
     });
   });
 });

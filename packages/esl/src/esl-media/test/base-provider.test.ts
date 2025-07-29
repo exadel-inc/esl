@@ -8,18 +8,18 @@ describe('ESLMedia: BaseProvider tests', () => {
   const {instance} = ESLMediaProviderRegistry;
 
   test('BaseProvider can\'t be registered', () => {
-    expect(() => (BaseProvider as ProviderType).register()).toThrowError();
+    expect(() => (BaseProvider as ProviderType).register()).toThrow();
   });
 
   test('Not provider can\'t be registered', () => {
-    expect(() => BaseProvider.register([] as any)).toThrowError();
+    expect(() => BaseProvider.register([] as any)).toThrow();
   });
 
   test('Provider should have correct name', () => {
     class EmptyProvider extends BaseProviderMock {
       static override readonly providerName = '';
     }
-    expect(() => EmptyProvider.register()).toThrowError();
+    expect(() => EmptyProvider.register()).toThrow();
   });
 
   test('Test provider registered', () => {

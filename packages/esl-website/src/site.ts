@@ -39,7 +39,10 @@ import {
   ESLCarouselKeyboardMixin,
   ESLCarouselRelateToMixin,
   ESLCarouselAutoplayMixin,
-  ESLLazyTemplate
+  ESLCarouselAutoplayProgressMixin,
+  ESLCarouselClassBehaviourMixin,
+  ESLLazyTemplate,
+  ESLLineClamp
 } from '@exadel/esl/modules/all';
 
 import {ESLRandomText} from '@exadel/esl/modules/esl-random-text/core';
@@ -125,7 +128,9 @@ ESLCarouselTouchMixin.register();
 ESLCarouselKeyboardMixin.register();
 ESLCarouselRelateToMixin.register();
 ESLCarouselAutoplayMixin.register();
+ESLCarouselAutoplayProgressMixin.register();
 ESLCarouselWheelMixin.register();
+ESLCarouselClassBehaviourMixin.register();
 
 ESLAnimate.register();
 ESLAnimateMixin.register();
@@ -134,6 +139,7 @@ ESLAnimateMixin.register();
 ESLRelatedTarget.register();
 ESLOpenState.register();
 ESLLazyTemplate.register();
+ESLLineClamp.register();
 
 // Share component loading
 import(/* webpackChunkName: 'common/esl-share' */'./esl-share/esl-share');

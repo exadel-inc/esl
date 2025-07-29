@@ -1,4 +1,5 @@
 import {ESLMedia} from '../core/esl-media';
+import {IntersectionObserverMock} from '../../esl-utils/test/intersectionObserver.mock';
 import {promisifyTimeout} from '../../esl-utils/async/promise';
 import {BaseProviderMock} from './mocks/base-provider.mock';
 
@@ -18,8 +19,12 @@ describe('[ESLMedia]: ESLMediaManager tests', () => {
         instance.mediaSrc = 'mock';
         instance.mediaType = 'mock';
         instances.push(instance);
+        IntersectionObserverMock.mock();
       }
       await ESLMedia.registered;
+    });
+    afterAll(() => {
+      IntersectionObserverMock.unmock();
     });
     beforeEach(async () => {
       document.body.append(...instances);

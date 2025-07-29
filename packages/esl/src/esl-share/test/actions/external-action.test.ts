@@ -47,7 +47,7 @@ describe('ESLShare: "external" action public API', () => {
   test('should simulate click() on anchor to make external jump (also checks link placeholders replacement)', () => {
     jest.spyOn(document, 'createElement').mockImplementation(mockCreateElement);
     externalAction?.share($button);
-    expect(mockAnchorElement.click).toBeCalledTimes(1);
+    expect(mockAnchorElement.click).toHaveBeenCalledTimes(1);
     expect((mockAnchorElement as any).href).toBe(
       '//host/sharer?title=Test%20btn%20title&url=http%3A%2F%2Flocalhost%2Ftest%2Furl&t=Test%20btn%20title&u=http%3A%2F%2Flocalhost%2Ftest%2Furl'
     );

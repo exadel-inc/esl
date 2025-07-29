@@ -41,7 +41,7 @@ describe('ESLShare: "copy" action public API', () => {
 
   test('should call navigation.clipboard.writeText() when share() calls', () => {
     copyAction?.share($button);
-    expect(mockClipboard.writeText).toBeCalledWith('http://localhost/test/button/url');
+    expect(mockClipboard.writeText).toHaveBeenCalledWith('http://localhost/test/button/url');
   });
 
   test('should dispatch esl:alert:show with shareAdditional.copyAlertMsg when share() calls', (done) => {

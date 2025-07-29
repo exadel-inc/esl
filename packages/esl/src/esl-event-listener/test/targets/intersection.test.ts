@@ -11,27 +11,27 @@ describe('ESLIntersectionTarget proxy', () => {
 
     test('ESLResizeObserverTarget.for(undefined) returns null without error', () => {
       expect(ESLIntersectionTarget.for(undefined as any)).toBeNull();
-      expect(consoleSpy).toBeCalled();
+      expect(consoleSpy).toHaveBeenCalled();
     });
 
     test('ESLResizeObserverTarget.for(null) returns null without error', () => {
       expect(ESLIntersectionTarget.for(null as any)).toBeNull();
-      expect(consoleSpy).toBeCalled();
+      expect(consoleSpy).toHaveBeenCalled();
     });
 
     test('ESLResizeObserverTarget.for(123) returns null without error', () => {
       expect(ESLIntersectionTarget.for(123 as any)).toBeNull();
-      expect(consoleSpy).toBeCalled();
+      expect(consoleSpy).toHaveBeenCalled();
     });
 
     test('ESLResizeObserverTarget.for({}) returns null without error', () => {
       expect(ESLIntersectionTarget.for({} as any)).toBeNull();
-      expect(consoleSpy).toBeCalled();
+      expect(consoleSpy).toHaveBeenCalled();
     });
 
     test('ESLResizeObserverTarget.for({}) returns null without error', () => {
       expect(ESLIntersectionTarget.for([1, 2, 3] as any)).toBeNull();
-      expect(consoleSpy).toBeCalled();
+      expect(consoleSpy).toHaveBeenCalled();
     });
   });
 
@@ -39,20 +39,20 @@ describe('ESLIntersectionTarget proxy', () => {
     test('ESLIntersectionTarget.for() creates IntersectionObserver instance', () => {
       const target = ESLIntersectionTarget.for(document.createElement('div'));
       expect(target).not.toBeNull();
-      expect(IntersectionObserver).toBeCalled();
+      expect(IntersectionObserver).toHaveBeenCalled();
     });
 
     test('ESLIntersectionTarget.for() creates IntersectionObserver instance with default options', () => {
       const target = ESLIntersectionTarget.for(document.createElement('div'));
       expect(target).not.toBeNull();
-      expect(IntersectionObserver).toBeCalledWith(expect.any(Function), ESLIntersectionTarget.DEFAULTS);
+      expect(IntersectionObserver).toHaveBeenCalledWith(expect.any(Function), ESLIntersectionTarget.DEFAULTS);
     });
 
     test('ESLIntersectionTarget.for() creates IntersectionObserver instance with custom options', () => {
       const options = {rootMargin: '10px'};
       const target = ESLIntersectionTarget.for(document.createElement('div'), options);
       expect(target).not.toBeNull();
-      expect(IntersectionObserver).toBeCalledWith(expect.any(Function), {
+      expect(IntersectionObserver).toHaveBeenCalledWith(expect.any(Function), {
         ...ESLIntersectionTarget.DEFAULTS,
         ...options
       });
@@ -65,7 +65,7 @@ describe('ESLIntersectionTarget proxy', () => {
 
       const listener = jest.fn();
       target.addEventListener(listener);
-      expect(IntersectionObserverMock.lastInstance.observe).toBeCalled();
+      expect(IntersectionObserverMock.lastInstance.observe).toHaveBeenCalled();
     });
 
     test('ESLIntersectionTarget does not subscribe to IntersectionObserver on second subscription', () => {
@@ -75,7 +75,7 @@ describe('ESLIntersectionTarget proxy', () => {
       target.addEventListener(listener);
       const listener2 = jest.fn();
       target.addEventListener(listener2);
-      expect(IntersectionObserverMock.lastInstance.observe).toBeCalledTimes(1);
+      expect(IntersectionObserverMock.lastInstance.observe).toHaveBeenCalledTimes(1);
     });
 
     test('ESLIntersectionTarget disconnect IntersectionObserver on last unsubscription', () => {
@@ -86,9 +86,9 @@ describe('ESLIntersectionTarget proxy', () => {
       const listener2 = jest.fn();
       target.addEventListener(listener2);
       target.removeEventListener(listener);
-      expect(IntersectionObserverMock.lastInstance.disconnect).not.toBeCalled();
+      expect(IntersectionObserverMock.lastInstance.disconnect).not.toHaveBeenCalled();
       target.removeEventListener(listener2);
-      expect(IntersectionObserverMock.lastInstance.disconnect).toBeCalled();
+      expect(IntersectionObserverMock.lastInstance.disconnect).toHaveBeenCalled();
     });
   });
 
@@ -100,7 +100,7 @@ describe('ESLIntersectionTarget proxy', () => {
       const listener = jest.fn();
       target.addEventListener(listener);
       IntersectionObserverMock.trigger($el, {isIntersecting: true});
-      expect(listener).toBeCalled();
+      expect(listener).toHaveBeenCalled();
     });
 
     test('ESLIntersectionTarget dispatches ESLIntersectionEvent with IntersectionObserverEntry properties', () => {
@@ -114,8 +114,8 @@ describe('ESLIntersectionTarget proxy', () => {
         intersectionRatio: 0.5
       });
       IntersectionObserverMock.trigger($el, entry);
-      expect(listener).lastCalledWith(expect.objectContaining({type: ESLIntersectionEvent.TYPE}));
-      expect(listener).lastCalledWith(expect.objectContaining(entry));
+      expect(listener).toHaveBeenLastCalledWith(expect.objectContaining({type: ESLIntersectionEvent.TYPE}));
+      expect(listener).toHaveBeenLastCalledWith(expect.objectContaining(entry));
     });
   });
 });

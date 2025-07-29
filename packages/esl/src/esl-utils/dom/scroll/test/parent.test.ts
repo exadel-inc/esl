@@ -5,6 +5,8 @@ const $body = document.body;
 
 describe('Function isScrollable', () => {
   const target = document.createElement('div');
+  beforeAll(() => document.body.appendChild(target));
+  afterAll(() => document.body.removeChild(target));
 
   describe('Element isn`t scrollable', () => {
     test('element shouldn`t be scrollable without overflow property', () => {
@@ -42,6 +44,8 @@ describe('Function isScrollable', () => {
 
 describe('Function getScrollParent', () => {
   const target = document.createElement('div');
+  beforeAll(() => document.body.appendChild(target));
+  afterAll(() => document.body.removeChild(target));
 
   describe('Element doesn`t have scrollable parent(s)', () => {
     beforeAll(() => target.style.overflow = '');
@@ -65,8 +69,8 @@ describe('Function getScrollParent', () => {
     const thirdLevelChild = document.createElement('div');
 
     secondLevelChild.appendChild(thirdLevelChild);
-    target.appendChild(firstLevelChild);
     firstLevelChild.appendChild(secondLevelChild);
+    target.appendChild(firstLevelChild);
 
     beforeAll(() => target.style.overflow = 'auto');
 
@@ -111,6 +115,8 @@ describe('Function getScrollParent', () => {
 
 describe('Function getListScrollParents', () => {
   const target = document.createElement('div');
+  beforeAll(() => document.body.appendChild(target));
+  afterAll(() => document.body.removeChild(target));
 
   test('target`s scroll parent(s) should not be found for element', () => {
     expect(getListScrollParents(target)).toEqual([]);

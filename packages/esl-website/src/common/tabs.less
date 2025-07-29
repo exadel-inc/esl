@@ -89,6 +89,10 @@
     background-color 0.25s linear,
     color 0.25s linear;
 
+  &[no-target] {
+    display: none;
+  }
+
   &:focus,
   &:hover {
     @inactive-color: mix(@secondary-blue, #ccc, 50);

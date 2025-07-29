@@ -36,7 +36,7 @@ describe('ESLShare: "media" action public API', () => {
   test('should call window.open() with buttons link when share() (also checks link placeholders replacement)', () => {
     const mockOpen = jest.spyOn(window, 'open').mockImplementation(() => null);
     mediaAction?.share($button);
-    expect(mockOpen).toBeCalledWith(
+    expect(mockOpen).toHaveBeenCalledWith(
       '//host/sharer?title=Test%20btn%20title&url=http%3A%2F%2Flocalhost%2Ftest%2Furl&t=Test%20btn%20title&u=http%3A%2F%2Flocalhost%2Ftest%2Furl',
       '_blank',
       'scrollbars=0,resizable=1,menubar=0,left=100,top=100,width=750,height=500,toolbar=0,status=0'
