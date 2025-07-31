@@ -16,7 +16,7 @@ export class ESLIntersectionEvent extends Event implements IntersectionObserverE
   /** @deprecated use {@link TYPE} instead */
   public static readonly type = this.TYPE;
 
-  public override readonly type: typeof ESLIntersectionEvent.TYPE;
+  public override readonly type: typeof ESLIntersectionEvent.TYPE | typeof ESLIntersectionEvent.IN | typeof ESLIntersectionEvent.OUT;
 
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/IntersectionObserverEntry/target) */
   public override readonly target: Element;

@@ -1,4 +1,4 @@
-import type {Trim, MaybeArgFn, ResolvableProperty} from '../../esl-utils/misc';
+import type {Trim, MaybeArgFn, ValueOrProvider} from '../../esl-utils/misc';
 
 declare global {
   /** Extended event map with the custom event definition */
@@ -36,7 +36,7 @@ export type ESLListenerTarget = EventTarget | EventTarget[] | string | null;
 /** Descriptor to create {@link ESLEventListener} */
 export type ESLListenerDescriptor <EName extends ESLEventName = string> = {
   /** A case-sensitive string (or provider function) representing the event type to listen for */
-  event: ResolvableProperty<EName>;
+  event: ValueOrProvider<EName>;
   /**
    * A boolean value indicating that events for this listener will be dispatched on the capture phase.
    * @see AddEventListenerOptions.capture
@@ -53,16 +53,16 @@ export type ESLListenerDescriptor <EName extends ESLEventName = string> = {
    * Subscription rejected by condition does not count as warning during subscription process
    * Rejected by condition subscription does not count as warning during subscription process
    */
-  condition?: ResolvableProperty<boolean>;
+  condition?: ValueOrProvider<boolean>;
 
   /** A string (or provider function) representing CSS selector to check delegated event target (undefined (disabled) by default) */
-  selector?: ResolvableProperty<string>;
+  selector?: ValueOrProvider<string>;
   /**
    * An ESLEventTarget (or provider function) to subscribe the event listener to
    * **Note**: string values are processed by the {@link ESLTraversingQuery} syntax
    * (e.g. `button` selects all buttons globally, while `::find(button)` selects only buttons inside current element)
    */
-  target?: ResolvableProperty<ESLListenerTarget>;
+  target?: ValueOrProvider<ESLListenerTarget>;
 
   /** A boolean value indicating that the listener should be automatically subscribed within connected callback */
   auto?: boolean;
