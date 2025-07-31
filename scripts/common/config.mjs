@@ -30,7 +30,7 @@ export async function getProjectFile(projectName, file) {
     return (await fs.readFile(filePath, 'utf8')).toString();
   } catch (error) {
     if (error.code === 'ENOENT') {
-      throw new Error(`Changelog file not found for project "${projectName}".`);
+      throw new Error(`File "${file}" not found for project "${projectName}".`);
     }
     throw error;
   }
