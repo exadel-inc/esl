@@ -62,7 +62,10 @@
     "conventionalCommits": {
       "types": {
         "chore": {
-          "releaseType": "patch"
+          "releaseType": "patch",
+          "changelog": {
+            "hidden": true
+          }
         },
         "refactor": {
           "releaseType": "patch"
