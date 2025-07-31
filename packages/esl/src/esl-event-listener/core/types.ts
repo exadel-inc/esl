@@ -34,7 +34,7 @@ export type DelegatedEvent<EventType extends Event = Event> = EventType & {
 export type ESLListenerTarget = EventTarget | EventTarget[] | string | null;
 
 /** Descriptor to create {@link ESLEventListener} */
-export type ESLListenerDescriptor <EName extends ESLEventName = string> = {
+export type ESLListenerDescriptor<EName extends ESLEventName = string> = {
   /** A case-sensitive string (or provider function) representing the event type to listen for */
   event: ValueOrProvider<EName>;
   /**
