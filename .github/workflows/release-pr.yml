@@ -77,7 +77,7 @@ jobs:
         run: |
           echo "This is an automated Release PR for version v${{ steps.info.outputs.version }}." > PR_MESSAGE.tmp.md
           echo "" >> PR_MESSAGE.tmp.md
-          npm run --silent version:notes >> PR_MESSAGE.tmp.md
+          npm run --silent get:changelog >> PR_MESSAGE.tmp.md
 
       # Open a PR from release/main to main
       - if: ${{ steps.info.outputs.version && steps.preversion.outputs.allowed }}
