@@ -21,12 +21,16 @@ export interface IMediaQueryCondition extends EventTarget {
 
 /** A custom event dispatched by {@link ESLMediaQuery} instances */
 export class ESLMediaChangeEvent extends Event {
+  public static readonly TYPE = 'change';
+
+  public override readonly type: typeof ESLMediaChangeEvent.TYPE;
+
   /** `true` if the query is matched device conditions when event was dispatched */
   public readonly matches: boolean;
   public override readonly target: IMediaQueryCondition;
 
   constructor(matches: boolean) {
-    super('change');
+    super(ESLMediaChangeEvent.TYPE);
     this.matches = matches;
   }
 

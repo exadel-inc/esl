@@ -17,6 +17,8 @@ interface ESLCarouselAutoplayEventInit {
 export class ESLCarouselAutoplayEvent extends Event implements ESLCarouselAutoplayEventInit {
   public static readonly NAME = 'esl:autoplay:change';
 
+  public override readonly type: typeof ESLCarouselAutoplayEvent.NAME;
+
   public override target: ESLCarousel;
 
   public readonly enabled: boolean;

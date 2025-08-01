@@ -10,6 +10,8 @@ export interface ESLCarouselSlideEventInit extends ESLCarouselActionEventBaseIni
   direction?: ESLCarouselDirection;
 }
 
+type ESLCarouselSlideEventType = typeof ESLCarouselSlideEvent.BEFORE | typeof ESLCarouselSlideEvent.CHANGE | typeof ESLCarouselSlideEvent.AFTER;
+
 /** {@link ESLCarousel} event that represents slide change event */
 export class ESLCarouselSlideEvent extends ESLCarouselActionEvent implements ESLCarouselSlideEventInit {
   /** {@link ESLCarouselSlideEvent} cancelable event type dispatched before slide change (pre-event) */
@@ -19,8 +21,10 @@ export class ESLCarouselSlideEvent extends ESLCarouselActionEvent implements ESL
   /** {@link ESLCarouselSlideEvent} event type dispatched after slide change (post-event) */
   public static readonly AFTER = 'esl:after:slide-change';
 
+  public override readonly type: ESLCarouselSlideEventType;
+
   protected constructor(
-    type: string,
+    type: ESLCarouselSlideEventType,
     init: ESLCarouselSlideEventInit
   ) {
     super(type, {
@@ -48,6 +52,8 @@ export interface ESLCarouselMoveEventInit extends ESLCarouselActionEventBaseInit
 export class ESLCarouselMoveEvent extends ESLCarouselActionEvent implements ESLCarouselMoveEventInit {
   /** {@link ESLCarouselMoveEvent} event type dispatched on carousel move */
   public static readonly TYPE = 'esl:carousel:move';
+
+  public override readonly type: typeof ESLCarouselMoveEvent.TYPE;
 
   public readonly offset: number;
   public readonly offsetBefore: number;
@@ -92,6 +98,8 @@ interface ESLCarouselChangeEventInit {
 export class ESLCarouselChangeEvent extends Event implements ESLCarouselChangeEventInit {
   /** {@link ESLCarouselSlideEvent} event type dispatched on carousel config changes */
   public static readonly TYPE = 'esl:carousel:change';
+
+  public override readonly type: typeof ESLCarouselChangeEvent.TYPE;
 
   public override readonly target: ESLCarousel;
   public readonly initial: boolean = false;

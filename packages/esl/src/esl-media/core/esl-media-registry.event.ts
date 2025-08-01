@@ -7,13 +7,17 @@ import type {ProviderType} from './esl-media-provider';
  * An event dispatched by {@link ESLMediaProviderRegistry} on new provider registration
  */
 export class ESLMediaRegistryEvent extends Event {
+  public static readonly TYPE = 'change';
+
+  public override readonly type: typeof ESLMediaRegistryEvent.TYPE;
+
   public override readonly target: ESLMediaProviderRegistry;
 
   /** Registered provider instance */
   public readonly provider: ProviderType;
 
   constructor(target: ESLMediaProviderRegistry, provider: ProviderType) {
-    super('change', {bubbles: false, cancelable: false});
+    super(ESLMediaRegistryEvent.TYPE, {bubbles: false, cancelable: false});
     this.provider = provider;
     overrideEvent(this, 'target', target);
   }

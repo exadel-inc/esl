@@ -22,5 +22,7 @@ export type Predicate<T> = (el: T) => boolean;
  */
 export type PropertyProvider<T> = (this: unknown, that: unknown) => T;
 
+export type ValueOrProvider<PropType> = PropType | PropertyProvider<PropType>;
+
 /** Resolves {@link PropertyProvider} function to the value */
 export const resolveProperty = <T>(val: T | PropertyProvider<T>, origin: unknown): T => typeof val === 'function' ? val.call(origin, origin) : val;
