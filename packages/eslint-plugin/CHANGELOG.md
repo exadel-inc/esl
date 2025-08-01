@@ -1,3 +1,7 @@
+## 5.10.1 (2025-08-01)
+
+This was a version bump only for eslint-plugin to align it with other projects, there were no code changes.
+
 ## 5.10.0 (2025-07-28)
 
 ### 🚀 Features
