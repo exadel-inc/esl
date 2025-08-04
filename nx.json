@@ -58,6 +58,24 @@
           "authors": false
         }
       }
+    },
+    "conventionalCommits": {
+      "types": {
+        "chore": {
+          "releaseType": "patch",
+          "changelog": {
+            "hidden": true
+          }
+        },
+        "refactor": {
+          "releaseType": "patch"
+        },
+        "docs": {
+          "changelog": {
+            "title": "Documentation updates"
+          }
+        }
+      }
     }
   }
 }
