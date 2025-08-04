@@ -35,6 +35,8 @@ export class ESLSwipeGestureEvent extends UIEvent implements ESLSwipeGestureEven
   /** @deprecated Use {@link TYPE} instead */
   public static readonly type = this.TYPE;
 
+  public override readonly type: typeof ESLSwipeGestureEvent.TYPE;
+
   public override readonly target: Element;
 
   public readonly direction: SwipeDirection;

@@ -24,6 +24,8 @@ export class ESLWheelEvent extends UIEvent implements ESLWheelEventInfo {
   /** @deprecated Use {@link TYPE} instead */
   public static readonly type = this.TYPE;
 
+  public override readonly type: typeof ESLWheelEvent.TYPE;
+
   public override readonly target: Element;
 
   public readonly axis: 'x' | 'y';

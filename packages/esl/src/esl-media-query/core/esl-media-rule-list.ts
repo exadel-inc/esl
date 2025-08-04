@@ -8,6 +8,10 @@ import type {RulePayloadParser} from './esl-media-rule';
 
 /** Custom event dispatched by {@link ESLMediaRuleList} instances */
 export class ESLMediaRuleListEvent<T = any> extends Event {
+  public static readonly TYPE = 'change';
+
+  public override readonly type: typeof ESLMediaRuleListEvent.TYPE;
+
   /** Current value of target {@link ESLMediaRuleList} instances */
   public readonly current: T;
   /** Previous value of target {@link ESLMediaRuleList} instances */
@@ -16,7 +20,7 @@ export class ESLMediaRuleListEvent<T = any> extends Event {
   public override readonly target: ESLMediaRuleList<T>;
 
   constructor(current: T, previous: T) {
-    super('change');
+    super(ESLMediaRuleListEvent.TYPE);
     Object.assign(this, {current, previous});
   }
 }
