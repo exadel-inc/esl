@@ -1,4 +1,4 @@
-import type {Trim, MaybeArgFn, ResolvableProperty} from '../../esl-utils/misc';
+import type {Trim, MaybeArgFn, ValueOrProvider} from '../../esl-utils/misc';
 
 declare global {
   /** Extended event map with the custom event definition */
@@ -11,7 +11,6 @@ export type TypedTarget<EClass> = EventTarget & {readonly __eventClass__: EClass
 
 /** Event name definition */
 export type ESLEventName = keyof ESLListenerEventMap | string;
-export type ESLEventTarget = ESLListenerTarget | PropertyProvider<ESLListenerTarget>;
 
 /**
  * Helper type to extract Event types union by event string
@@ -49,7 +48,7 @@ type ESLEventConstraint<EName extends ESLEventName, ETarget> =
     ? EClass extends object
       ? EName extends EventTypeName<EClass>
         ? unknown
-        : {event: ResolvableProperty<EventTypeName<EClass>>}
+        : {event: ValueOrProvider<EventTypeName<EClass>>}
       : unknown
     : unknown;
 
@@ -57,7 +56,7 @@ type ESLEventConstraint<EName extends ESLEventName, ETarget> =
 export type ESLListenerDescriptor <ETarget extends ESLListenerTarget = ESLListenerTarget, EName extends ESLEventName = string> =
 ESLEventConstraint<EName, ETarget> & {
   /** A case-sensitive string (or provider function) representing the event type to listen for */
-  event: ResolvableProperty<EName>;
+  event: ValueOrProvider<EName>;
   /**
    * A boolean value indicating that events for this listener will be dispatched on the capture phase.
    * @see AddEventListenerOptions.capture
@@ -74,16 +73,16 @@ ESLEventConstraint<EName, ETarget> & {
    * Subscription rejected by condition does not count as warning during subscription process
    * Rejected by condition subscription does not count as warning during subscription process
    */
-  condition?: ResolvableProperty<boolean>;
+  condition?: ValueOrProvider<boolean>;
 
   /** A string (or provider function) representing CSS selector to check delegated event target (undefined (disabled) by default) */
-  selector?: ResolvableProperty<string>;
+  selector?: ValueOrProvider<string>;
   /**
    * An ESLEventTarget (or provider function) to subscribe the event listener to
    * **Note**: string values are processed by the {@link ESLTraversingQuery} syntax
    * (e.g. `button` selects all buttons globally, while `::find(button)` selects only buttons inside current element)
    */
-  target?: ResolvableProperty<ETarget>;
+  target?: ValueOrProvider<ETarget>;
 
   /** A boolean value indicating that the listener should be automatically subscribed within connected callback */
   auto?: boolean;

@@ -8,6 +8,8 @@ export class ESLElementResizeEvent extends UIEvent implements ResizeObserverEntr
   /** @deprecated Use {@link TYPE} instead */
   public static readonly type = this.TYPE;
 
+  public override readonly type: typeof ESLElementResizeEvent.TYPE;
+
   /** A reference to the {@link Element} or SVGElement being observed */
   public override readonly target: Element;
   /** A reference to the {@link ESLResizeObserverTarget} */

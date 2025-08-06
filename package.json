@@ -1,7 +1,7 @@
 {
   "name": "@exadel/esl-root",
   "private": true,
-  "version": "5.9.1",
+  "version": "5.10.0",
   "description": "Exadel Smart Library (ESL) is the lightweight custom elements library that provide a set of super-flexible components",
   "license": "MIT",
   "homepage": "https://esl-ui.com/",
@@ -34,23 +34,29 @@
     "pack": "npx mkdirp target && nx run-many -t pack && npm run success \"All packed\"",
     "success": "node scripts/catlog.mjs",
     "prepare": "husky",
+    "get:version": "node scripts/get-version.mjs",
+    "get:changelog": "node scripts/get-changelog.mjs",
     "release:stable": "nx release --skip-publish",
     "release:beta": "nx release prerelease --skip-publish --preid beta",
-    "version:root": "node scripts/update-root-version.mjs",
-    "version:notes": "node scripts/notes.mjs"
+    "version:root": "node scripts/update-root-version.mjs"
+  },
+  "dependencies": {
+    "@nx/devkit": "21.3.11",
+    "@nx/eslint": "21.3.11",
+    "@nx/jest": "21.3.11",
+    "@nx/js": "21.3.11",
+    "nx": "21.3.11",
+    "semver": "^7.7.2"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
-    "@nx/eslint": "21.3.5",
-    "@nx/jest": "21.3.5",
-    "@nx/js": "21.3.5",
     "@types/jest": "^30.0.0",
     "chokidar-cli": "^3.0.0",
     "copyfiles": "^2.4.1",
     "cpy-cli": "^5.0.0",
-    "cross-env": "^7.0.3",
-    "eslint": "^9.31.0",
+    "cross-env": "^10.0.0",
+    "eslint": "^9.32.0",
     "findx-cli": "^0.2.2",
     "husky": "^9.1.7",
     "jest": "^30.0.5",
@@ -58,16 +64,14 @@
     "kleur": "^4.1.5",
     "less": "^4.4.0",
     "less-plugin-clean-css": "^1.6.0",
-    "lint-staged": "^16.1.2",
-    "nx": "21.3.5",
+    "lint-staged": "^16.1.4",
     "postcss": "^8.5.6",
     "postcss-less": "^6.0.0",
     "rimraf": "^6.0.1",
-    "semver": "^7.7.2",
     "smoothscroll-polyfill": "^0.4.4",
-    "stylelint": "^16.22.0",
+    "stylelint": "^16.23.0",
     "touch": "^3.1.1",
-    "ts-jest": "^29.4.0",
-    "typescript": "5.8.3"
+    "ts-jest": "^29.4.1",
+    "typescript": "5.9.2"
   }
 }
