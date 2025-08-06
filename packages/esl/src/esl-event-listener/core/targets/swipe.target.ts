@@ -12,7 +12,6 @@ import type {ElementScrollOffset} from '../../../esl-utils/dom//scroll';
 import type {CSSSize} from '../../../esl-utils/dom/units';
 import type {SwipeDirection, ESLSwipeGestureEventInfo} from './swipe.target.event';
 import type {ESLDomElementTarget} from '../../../esl-utils/abstract/dom-target';
-import type {TypedTarget} from '../types';
 
 export {ESLSwipeGestureEvent};
 
@@ -31,9 +30,7 @@ export interface ESLSwipeGestureSetting {
 /**
  * Implementation of EventTarget to observe swipe events
  */
-export class ESLSwipeGestureTarget extends SyntheticEventTarget implements TypedTarget<ESLSwipeGestureEvent> {
-  declare readonly __eventClass__: ESLSwipeGestureEvent;
-
+export class ESLSwipeGestureTarget extends SyntheticEventTarget<ESLSwipeGestureEvent> {
   protected static defaultConfig: Required<ESLSwipeGestureSetting> = {
     skipOnScroll: true,
     threshold: '20px',

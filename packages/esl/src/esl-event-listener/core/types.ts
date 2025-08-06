@@ -7,7 +7,9 @@ declare global {
   }
 }
 
-export type TypedTarget<EClass> = EventTarget & {readonly __eventClass__: EClass};
+export interface TypedEventTarget<EType extends Event> extends EventTarget {
+  dispatchEvent: (event: EType) => boolean;
+}
 
 /** Event name definition */
 export type ESLEventName = keyof ESLListenerEventMap | string;
@@ -35,26 +37,13 @@ export type DelegatedEvent<EventType extends Event = Event> = EventType & {
 /** String CSS selector to find the target or {@link EventTarget} object or array of {@link EventTarget}s */
 export type ESLListenerTarget = EventTarget | EventTarget[] | string | null;
 
-type EventTypeName<EType> = {
-  [EKey in keyof ESLListenerEventMap]: (ESLListenerEventMap[EKey] extends CustomEvent<infer Detail> ?
-    Detail : ESLListenerEventMap[EKey]) extends infer EName ?
-    EName extends EType ?
-      EKey : never
-    : never
-}[keyof ESLListenerEventMap];
-
-type ESLEventConstraint<EName extends ESLEventName, ETarget> =
-  ETarget extends TypedTarget<infer EClass>
-    ? EClass extends object
-      ? EName extends EventTypeName<EClass>
-        ? unknown
-        : {event: ValueOrProvider<EventTypeName<EClass>>}
-      : unknown
-    : unknown;
+export type ExtractEventName<ETarget> = ETarget extends TypedEventTarget<infer EClass> ? EClass['type'] : ESLEventName;
 
 /** Descriptor to create {@link ESLEventListener} */
-export type ESLListenerDescriptor <ETarget extends ESLListenerTarget = ESLListenerTarget, EName extends ESLEventName = string> =
-ESLEventConstraint<EName, ETarget> & {
+export type ESLListenerDescriptor <
+  ETarget extends ESLListenerTarget = ESLListenerTarget,
+  EName extends ExtractEventName<ETarget> = ExtractEventName<ETarget>
+> = {
   /** A case-sensitive string (or provider function) representing the event type to listen for */
   event: ValueOrProvider<EName>;
   /**
@@ -94,11 +83,13 @@ ESLEventConstraint<EName, ETarget> & {
 };
 
 /** Resolved descriptor (definition) to create {@link ESLEventListener} */
-export type ESLListenerDefinition<ETarget extends ESLListenerTarget = ESLListenerTarget, EName extends ESLEventName = string> =
-  ESLListenerDescriptor<ETarget, EName> & {
-    /** A case-sensitive string (or provider function) representing the event type to listen for */
-    event: EName;
-  };
+export type ESLListenerDefinition<
+  ETarget extends ESLListenerTarget = ESLListenerTarget,
+  EName extends ExtractEventName<ETarget> = ExtractEventName<ETarget>
+> = ESLListenerDescriptor<ETarget, EName> & {
+  /** A case-sensitive string (or provider function) representing the event type to listen for */
+  event: EName;
+};
 
 /** Describes callback handler */
 export type ESLListenerHandler<E extends ESLEventName | Event = Event> =
@@ -115,12 +106,16 @@ export type ESLListenerDescriptorCriteria =
 export type ESLListenerCriteria = ESLListenerDescriptorCriteria | ESLListenerHandler;
 
 /** Function decorated as {@link ESLListenerDescriptor} */
-export type ESLListenerDescriptorFn<ETarget extends ESLListenerTarget = ESLListenerTarget, EName extends ESLEventName = string> =
-  ESLListenerHandler<EName> & ESLListenerDescriptor<ETarget, EName>;
+export type ESLListenerDescriptorFn<
+  ETarget extends ESLListenerTarget = ESLListenerTarget,
+  EName extends ExtractEventName<ETarget> = ExtractEventName<ETarget>
+> = ESLListenerHandler<EName> & ESLListenerDescriptor<ETarget, EName>;
 
 /** Descriptor to create {@link ESLEventListener} based on class property */
-export type ESLListenerDescriptorExt<ETarget extends ESLListenerTarget = ESLListenerTarget, EName extends ESLEventName = string> =
-  ESLEventConstraint<EName, ETarget> & Partial<Omit<ESLListenerDescriptor<ETarget, EName>, keyof ESLEventConstraint<any, any>>> & {
-    /** Defines if the listener metadata should be inherited from the method of the superclass */
-    inherit?: boolean;
-  };
+export type ESLListenerDescriptorExt<
+  ETarget extends ESLListenerTarget = ESLListenerTarget,
+  EName extends ExtractEventName<ETarget> = ExtractEventName<ETarget>
+> = Partial<ESLListenerDescriptor<ETarget, EName>> & {
+  /** Defines if the listener metadata should be inherited from the method of the superclass */
+  inherit?: boolean;
+};
