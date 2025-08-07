@@ -46,7 +46,7 @@ describe('ESLCarousel: Autoplay Plugin', () => {
     });
   });
 
-  describe('ESLCarouselTouchMixin custom config', () => {
+  describe('ESLCarouselAutoplayMixin custom config', () => {
     const $carousel = ESLCarousel.create();
 
     beforeEach(() => document.body.appendChild($carousel));

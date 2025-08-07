@@ -21,7 +21,7 @@ describe('ESLCarousel: Autoplay Plugin Controls', () => {
     jest.useRealTimers();
   });
 
-  describe('ESLCarouselTouchMixin: supports control definition', () => {
+  describe('ESLCarouselAutoplayMixin: supports control definition', () => {
     const $carousel = ESLCarousel.create();
     $carousel.setAttribute('esl-carousel-autoplay', '{control: "button"}');
     const $trigger = document.createElement('button');
