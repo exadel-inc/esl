@@ -18,7 +18,7 @@ describe('ESLMedia: BaseProvider lifecycle', () => {
   });
 
   afterAll(() => {
-    IntersectionObserverMock.unmock();
+    IntersectionObserverMock.restore();
   });
 
   test('Initial state is UNINITIALIZED', () => {
