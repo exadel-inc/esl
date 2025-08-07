@@ -1,0 +1,32 @@
+.uip-plugin-panel {
+  display: flex;
+  position: relative;
+
+  &[resizing] .uip-plugin-inner,
+  .no-animate & .uip-plugin-inner {
+    transition: none !important;
+  }
+
+  .uip-plugin-resize-bar {
+    border: 3px solid transparent;
+    z-index: 10;
+    margin: -3px;
+    box-sizing: border-box;
+  }
+
+  &[collapsed] .uip-plugin-resize-bar,
+  &:not([resizable]) .uip-plugin-resize-bar {
+    display: none;
+  }
+
+  &[collapsed] .uip-plugin-inner {
+    visibility: hidden;
+  }
+
+  --uip-plugin-width: 250px;
+  --uip-plugin-height: 325px;
+}
+
+@import './plugin-panel.header.less';
+@import './plugin-panel.horizontal.less';
+@import './plugin-panel.vertical.less';

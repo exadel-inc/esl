@@ -1,0 +1,61 @@
+{
+  "name": "@exadel/ui-playground",
+  "private": true,
+  "version": "3.0.0",
+  "description": "UIPlayground is a solution for presenting your custom components.",
+  "license": "MIT",
+  "keywords": [
+    "playground",
+    "demo",
+    "presentation",
+    "editor",
+    "custom elements"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "scope": "@exadel"
+  },
+  "types": "dist/registration.d.ts",
+  "module": "dist/registration.js",
+  "style": "dist/registration.css",
+  "files": [
+    "dist/**/*.{js,ts,css,less}",
+    "README.md",
+    "CLA.md",
+    "CHANGELOG.md",
+    "tsconfig.json"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/exadel-inc/esl.git"
+  },
+  "contributors": [
+    "Yuliya Adamskaya <yadamska@exadel.com>",
+    "Harshunova Natallia <nharshunova@exadel.com>",
+    "Palanevich Aliaksandr <apalanevich@exadel.com>",
+    "Valchetskaya Palina <pvalchetskaya@exadel.com>",
+    "Bazukevich Aliaksandr <abazukevich@exadel.com>"
+  ],
+  "bugs": {
+    "url": "https://github.com/exadel-inc/ui-playground/issues"
+  },
+  "homepage": "https://github.com/exadel-inc/esl/tree/main/packages/ui-playground",
+  "scripts": {
+    "clean": "nx run uip:clean",
+    "build": "nx run uip:build",
+    "watch": "nx run uip:watch",
+    "pack": "nx run uip:pack"
+  },
+  "dependencies": {
+    "@exadel/esl": "^5.10.0",
+    "codejar": "4.2.0",
+    "jsx-dom": "6.4.23",
+    "prismjs": "1.30.0"
+  },
+  "devDependencies": {
+    "@exadel/eslint-config-esl": "^5.10.0",
+    "@exadel/eslint-plugin-esl": "^5.10.0",
+    "@exadel/stylelint-config-esl": "^5.10.0",
+    "@types/prismjs": "^1.26.5"
+  }
+}

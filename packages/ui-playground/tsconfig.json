@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "skipLibCheck": true,
+    "experimentalDecorators": true,
+    "allowJs": true,
+    "alwaysStrict": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "esModuleInterop": true,
+    "target": "ES6",
+    "downlevelIteration": true,
+    "module": "ES2020",
+    "moduleResolution": "Node",
+    "lib": [
+      "ES2018",
+      "ES2022.Object",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "rootDir": "src",
+    "outDir": "./dist",
+    "jsx": "react"
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "*.test.ts",
+    "**/test/*.ts",
+    "node_modules"
+  ]
+}

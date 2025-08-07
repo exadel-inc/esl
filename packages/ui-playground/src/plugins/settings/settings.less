@@ -1,0 +1,106 @@
+uip-settings {
+  display: none;
+}
+.uip-settings {
+  grid-area: settings;
+
+  accent-color: var(--uip-plugin-fg, #000);
+
+  &-inner {
+    flex: 1 1 auto;
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    padding: 20px 10px;
+  }
+
+  &-container {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    order: 0;
+    gap: 20px;
+    width: 100%;
+  }
+
+  &-scrollbar {
+    flex: 0 0 auto;
+    order: 1;
+  }
+
+  &.vertical {
+    .uip-settings-container {
+      min-width: 200px;
+    }
+    .uip-settings-scrollbar {
+      position: relative;
+      padding-right: 0;
+
+      &[inactive] {
+        display: none;
+      }
+    }
+  }
+
+  &:not(.vertical) {
+    .uip-settings-scrollbar {
+      order: -1;
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+    }
+    &:not([collapsed]) .uip-settings-scrollbar:not([inactive]) {
+      opacity: 1;
+      transition-delay: 0.5s;
+    }
+  }
+
+  &-toolbar-option {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  &.vertical .uip-plugin-header-icon {
+    &::after {
+      content: '';
+      position: relative;
+      top: 4px;
+      width: 15px;
+      height: 15px;
+      background: currentColor;
+      clip-path: polygon(20% 50%, 70% 0%, 80% 5%, 35% 50%, 80% 95%, 70% 100%);
+    }
+
+    .settings-icon {
+      display: none;
+    }
+  }
+
+  // Rotate on collapsed state change
+  &[collapsed] .uip-plugin-header-icon {
+    animation: rotate-back 0.5s linear both;
+  }
+  &:not([collapsed]) .uip-plugin-header-icon {
+    animation: rotate 0.5s linear both;
+  }
+
+  &[inactive]&[hideable] {
+    display: none;
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(180deg);
+  }
+}
+@keyframes rotate-back {
+  0% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
