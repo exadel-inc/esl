@@ -1,6 +1,8 @@
 import {uniq} from '../../misc/array';
 import {overrideEvent} from './misc';
 
+import type {TypedEventTarget} from '../events';
+
 /** Key to store listeners on the {@link SyntheticEventTarget} instance*/
 const LISTENERS: unique symbol  = Symbol('_listeners'); // private
 
@@ -9,15 +11,15 @@ const LISTENERS: unique symbol  = Symbol('_listeners'); // private
  * Replicates behavior of native event
  * Doesn't give explicit access to callback storage
  */
-export class SyntheticEventTarget implements EventTarget {
+export class SyntheticEventTarget<T extends Event = Event> implements TypedEventTarget<T> {
   // Event type to use in the shortcut calls
   public static DEFAULT_EVENT = 'change';
 
   private readonly [LISTENERS]: Record<string, EventListenerOrEventListenerObject[]> = {};
 
   protected getEventListeners(): EventListenerOrEventListenerObject[];
-  protected getEventListeners(type: string): EventListenerOrEventListenerObject[];
-  protected getEventListeners(type?: string): EventListenerOrEventListenerObject[] {
+  protected getEventListeners(type: T['type']): EventListenerOrEventListenerObject[];
+  protected getEventListeners(type?: T['type']): EventListenerOrEventListenerObject[] {
     if (typeof type !== 'string') return uniq(Object.values(this[LISTENERS]).flat(1));
     return this[LISTENERS][type] || [];
   }
@@ -28,8 +30,8 @@ export class SyntheticEventTarget implements EventTarget {
   }
 
   public addEventListener(callback: EventListenerOrEventListenerObject): void;
-  public addEventListener(type: string, callback: EventListenerOrEventListenerObject): void;
-  public addEventListener(type: string | EventListenerOrEventListenerObject, callback?: EventListenerOrEventListenerObject): void {
+  public addEventListener(type: T['type'], callback: EventListenerOrEventListenerObject): void;
+  public addEventListener(type: T['type'] | EventListenerOrEventListenerObject, callback?: EventListenerOrEventListenerObject): void {
     if (typeof type !== 'string') return this.addEventListener((this.constructor as typeof SyntheticEventTarget).DEFAULT_EVENT, type);
 
     validateEventListenerType(callback);
@@ -40,8 +42,8 @@ export class SyntheticEventTarget implements EventTarget {
   }
 
   public removeEventListener(callback: EventListenerOrEventListenerObject): void;
-  public removeEventListener(type: string, callback: EventListenerOrEventListenerObject): void;
-  public removeEventListener(type: string | EventListenerOrEventListenerObject, callback?: EventListenerOrEventListenerObject): void {
+  public removeEventListener(type: T['type'], callback: EventListenerOrEventListenerObject): void;
+  public removeEventListener(type: T['type'] | EventListenerOrEventListenerObject, callback?: EventListenerOrEventListenerObject): void {
     if (typeof type !== 'string') return this.removeEventListener((this.constructor as typeof SyntheticEventTarget).DEFAULT_EVENT, type);
 
     validateEventListenerType(callback);
@@ -50,7 +52,7 @@ export class SyntheticEventTarget implements EventTarget {
     this[LISTENERS][type] = listeners.filter((cb) => cb !== callback);
   }
 
-  public dispatchEvent(e: Event): boolean {
+  public dispatchEvent(e: T): boolean {
     overrideEvent(e, 'currentTarget', this);
     if (!e.target) overrideEvent(e, 'target', this);
     if (!e.srcElement) overrideEvent(e, 'srcElement', e.target);
