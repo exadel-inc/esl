@@ -230,13 +230,15 @@ export default [
     }
   },
   {
-    files: ['**/*.test.ts', '**/*.spec.ts'],
+    files: ['**/*.test.ts', '**/*.spec.ts', '**/*.test-d.ts', '**/*.spec-d.ts'],
     plugins: {
       '@typescript-eslint': plugin
     },
     rules: {
       // ts-ignore is off to test clean es cases
       '@typescript-eslint/ban-ts-comment': 'off',
+      // tests could contain unused classes
+      '@typescript-eslint/no-unused-vars': 'off',
       // there is no need to evaluate tests strictly
       '@typescript-eslint/non-nullable-type-assertion-style': 'off',
       // return type on functions or class methods is not required in tests
