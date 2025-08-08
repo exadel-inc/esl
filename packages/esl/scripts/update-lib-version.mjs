@@ -1,7 +1,7 @@
 import fs from 'fs';
 import {fileURLToPath} from 'url';
 
-import pkj from '../package.json' with { type: 'json' };
+import pkj from '../package.json' with {type: 'json'};
 
 const fPath = fileURLToPath(new URL('../src/lib.ts', import.meta.url));
 const content = fs.readFileSync(fPath, 'utf8');

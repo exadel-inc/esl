@@ -42,9 +42,15 @@ export default [
     }
   },
   {
-    files: ['**/*.test.ts', '**/*.spec.ts'],
+    files: ['**/*.test.ts', '**/*.spec.ts', '**/*.test-d.ts', '**/*.spec-d.ts'],
     rules: {
+      // Allow the use of TS directives in test declaration files
       '@typescript-eslint/ban-ts-comment': 'off',
+      // Allow unused variables in test declaration files
+      '@typescript-eslint/no-unused-vars': 'off',
+      // Allow unused expressions in test declaration files
+      '@typescript-eslint/no-unused-expressions': 'off',
+      // Allow missed return type on functions or class methods in test files
       '@typescript-eslint/explicit-function-return-type': 'off'
     }
   }
