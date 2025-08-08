@@ -1,3 +1,9 @@
+## 5.11.0 (2025-08-08)
+
+### 🚀 Features
+
+- **ui-playground:** squashed ui-playground repository version https://github.com/exadel-inc/ui-playground.git ([c5856a4f0](https://github.com/exadel-inc/esl/commit/c5856a4f0))
+
 # [2.1.0-beta.10](https://github.com/exadel-inc/ui-playground/compare/v2.1.0-beta.9...v2.1.0-beta.10) (2025-03-04)
 
 

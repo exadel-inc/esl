@@ -1,3 +1,13 @@
+## 5.11.0 (2025-08-08)
+
+### 🚀 Features
+
+- **ui-playground:** squashed ui-playground repository version https://github.com/exadel-inc/ui-playground.git ([c5856a4f0](https://github.com/exadel-inc/esl/commit/c5856a4f0))
+
+### 💅 Refactors
+
+- **site:** update site example for esl-carousel-autoplay plugin ([f5b0aaead](https://github.com/exadel-inc/esl/commit/f5b0aaead))
+
 ## 5.10.0 (2025-07-28)
 
 ### 🚀 Features

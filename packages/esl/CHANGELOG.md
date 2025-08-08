@@ -1,3 +1,23 @@
+## 5.11.0 (2025-08-08)
+
+### 🚀 Features
+
+- **esl-carousel:** add ability to define esl-carousel-autoplay plugin timeout per slide ([#3255](https://github.com/exadel-inc/esl/issues/3255))
+- **ui-playground:** squashed ui-playground repository version https://github.com/exadel-inc/ui-playground.git ([c5856a4f0](https://github.com/exadel-inc/esl/commit/c5856a4f0))
+
+### 🩹 Fixes
+
+- **esl-carousel:** do not debug-log slide move if slide is actually just added ([dfbf1aab6](https://github.com/exadel-inc/esl/commit/dfbf1aab6))
+
+### 💅 Refactors
+
+- **esl-carousel:** cosmetic rename `direction` utility to `dir` to less mess-up with same property ([e4442690f](https://github.com/exadel-inc/esl/commit/e4442690f))
+- **esl-event-listener:** declare type per custom event instance ([fa8de0086](https://github.com/exadel-inc/esl/commit/fa8de0086))
+
+### Documentation updates
+
+- **esl-carousel:** small improvements in documentation for `esl-carousel-autoplay-progress` ([562a4e7ce](https://github.com/exadel-inc/esl/commit/562a4e7ce))
+
 ## 5.10.0 (2025-07-28)
 
 ### 🚀 Features
