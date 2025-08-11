@@ -9,11 +9,8 @@
          href="{{ item.data.link or (item.url | url) }}"></a>
     {% endif %}
     <div id="newsline-item-{{ index }}" class="newsline-content">
-      <h3 class="newsline-content-title">
+      <h3 class="newsline-content-title" {% if item.date %} data-date="{{ item.date.getTime() }}"{% endif %}>
         {{ item.data.title or item.data.name }}
-        {% if item.data.date | fresh %}
-          <sup class="badge badge-small badge-sup badge-success">new</sup>
-        {% endif %}
       </h3>
 
       {% if isArticle %}
