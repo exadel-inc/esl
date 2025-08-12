@@ -32,25 +32,4 @@
       </div>
     </div>
   </div>
-
-  <script>
-    const timeout = 30 * 24 * 60 * 60 * 1000;
-    const now = Date.now();
-
-    document
-      .querySelectorAll('.newsline-content-title[data-date]')
-      .forEach(updateNewsLabel);
-
-    function updateNewsLabel(el) {
-      const timestamp = parseInt(el.dataset.date, 10);
-      const isFresh = timestamp && now - timestamp < timeout;
-
-      if (isFresh) {
-        const badge = document.createElement('sup');
-        badge.className = 'badge badge-small badge-sup badge-success';
-        badge.textContent = 'new';
-        el.appendChild(badge);
-      } 
-    }
-  </script>
 {% endif %}
