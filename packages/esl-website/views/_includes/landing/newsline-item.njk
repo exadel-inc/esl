@@ -9,7 +9,7 @@
          href="{{ item.data.link or (item.url | url) }}"></a>
     {% endif %}
     <div id="newsline-item-{{ index }}" class="newsline-content">
-      <h3 class="newsline-content-title" esl-d-new-label="{{ item.date.getTime() }}">{{ item.data.title or item.data.name }}</h3>
+      <h3 class="newsline-content-title" esl-d-new-label="{{ item.date.getTime() }}">{{ item.data.title or item.data.name }} </h3>
 
       {% if isArticle %}
         <div class="newsline-content-text markdown-container">{{ item.templateContent | text | truncate(250) }}</div>
