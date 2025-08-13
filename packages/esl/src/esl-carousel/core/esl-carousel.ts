@@ -187,7 +187,7 @@ export class ESLCarousel extends ESLBaseElement {
   public addSlide(slide: HTMLElement): void {
     slide.setAttribute(this.slideAttrName, '');
     if (slide.parentNode === this.$slidesArea) return this.update();
-    console.debug('[ESL]: ESLCarousel moves slide to correct location', slide);
+    if (slide.parentNode) console.debug('[ESL]: ESLCarousel moves slide to correct location', slide);
     this.$slidesArea.appendChild(slide);
   }
 

@@ -24,7 +24,7 @@ describe('[ESLMedia]: ESLMediaManager tests', () => {
       await ESLMedia.registered;
     });
     afterAll(() => {
-      IntersectionObserverMock.unmock();
+      IntersectionObserverMock.restore();
     });
     beforeEach(async () => {
       document.body.append(...instances);

@@ -4,7 +4,7 @@ import {isElement} from '../../../esl-utils/dom/api';
 import {bind, decorate, listen} from '../../../esl-utils/decorators';
 import {ESLWheelEvent, ESLWheelTarget} from '../../../esl-event-listener/core';
 
-import {direction} from '../../core/esl-carousel.utils';
+import {dir} from '../../core/esl-carousel.utils';
 import {ESLCarouselPlugin} from '../esl-carousel.plugin';
 
 export interface ESLCarouselWheelConfig {
@@ -82,7 +82,7 @@ export class ESLCarouselWheelMixin extends ESLCarouselPlugin<ESLCarouselWheelCon
     if (!this.$host || this.$host.animating) return;
     const delta = this.isVertical ? e.deltaY : e.deltaX;
     if (!delta) return;
-    this.$host?.goTo(`${this.config.type}:${direction(delta)}`, {activator: this}).catch(console.debug);
+    this.$host?.goTo(`${this.config.type}:${dir(delta)}`, {activator: this}).catch(console.debug);
   }
 
   /** Handles auxiliary events to move the carousel */

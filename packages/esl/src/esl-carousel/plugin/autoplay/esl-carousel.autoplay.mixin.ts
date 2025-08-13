@@ -2,6 +2,7 @@ import {ExportNs} from '../../../esl-utils/environment/export-ns';
 import {listen, memoize} from '../../../esl-utils/decorators';
 import {parseTime} from '../../../esl-utils/misc/format';
 import {CSSClassUtils} from '../../../esl-utils/dom/class';
+import {ESLMediaRuleList} from '../../../esl-media-query/core';
 import {ESLTraversingQuery} from '../../../esl-traversing-query/core';
 import {ESLIntersectionTarget, ESLIntersectionEvent} from '../../../esl-event-listener/core';
 
@@ -43,12 +44,15 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
   };
   public static override DEFAULT_CONFIG_KEY: keyof ESLCarouselAutoplayConfig = 'duration';
 
+  /** Attribute to set the slide timeout duration */
+  public static SLIDE_DURATION_ATTRIBUTE = ESLCarouselAutoplayMixin.is + '-timeout';
+
   private _enabled: boolean = true;
-  private _duration: number | null = null;
+  private _timeout: number | null = null;
 
   /** True if the autoplay timer is currently active */
   public get active(): boolean {
-    return !!this._duration;
+    return !!this._timeout;
   }
 
   /** True if the autoplay plugin is enabled */
@@ -65,6 +69,25 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
   /** The duration of the autoplay timer in milliseconds */
   public get duration(): number {
     return parseTime(this.config.duration);
+  }
+
+  /**
+   * The duration of the autoplay timer in milliseconds
+   * Tries to get the value from the slide attribute `esl-carousel-autoplay-timeout`.
+   * If not set, uses the default duration from the config.
+   * Accepts only positive values.
+   *
+   * @returns The duration in milliseconds
+   */
+  public get effectiveDuration(): number {
+    const {$activeSlide} = this.$host;
+    if (!$activeSlide) return this.duration;
+    // Get the timeout from the active slide attribute
+    const value = $activeSlide.getAttribute(ESLCarouselAutoplayMixin.SLIDE_DURATION_ATTRIBUTE);
+    if (!value) return this.duration;
+    // Parse the value as a media rule list, if it contains media queries
+    const rule = ESLMediaRuleList.parse(value, this.$host.media, parseTime);
+    return rule.value! > 0 ? rule.value! : this.duration;
   }
 
   /** A list of control elements to toggle plugin state */
@@ -114,9 +137,9 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
       this.enabled = false;
       this.$$off(this._onIntersection);
     }
-    this._duration && window.clearTimeout(this._duration);
-    this._duration = null;
-    ESLCarouselAutoplayEvent.dispatch(this);
+    this._timeout && window.clearTimeout(this._timeout);
+    this._timeout = null;
+    ESLCarouselAutoplayEvent.dispatch(this, this.effectiveDuration);
   }
 
   /**
@@ -124,13 +147,13 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
    * Produces cycle self call after a timeout with enabled command execution.
    */
   protected async _onCycle(exec?: boolean): Promise<void> {
-    this._duration && window.clearTimeout(this._duration);
-    this._duration = null;
+    this._timeout && window.clearTimeout(this._timeout);
+    this._timeout = null;
     if (exec) await this.$host?.goTo(this.config.command, {activator: this}).catch(console.debug);
     if (!this.enabled || this.active) return;
-    const {duration} = this;
-    this._duration = window.setTimeout(() => this._onCycle(true), duration);
-    ESLCarouselAutoplayEvent.dispatch(this);
+    const {effectiveDuration} = this;
+    this._timeout = window.setTimeout(() => this._onCycle(true), effectiveDuration);
+    ESLCarouselAutoplayEvent.dispatch(this, effectiveDuration);
   }
 
   /** Handles click on control element to toggle plugin state */

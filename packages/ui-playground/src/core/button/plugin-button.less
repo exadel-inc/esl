@@ -1,0 +1,15 @@
+.uip-plugin-button {
+  position: relative;
+  transition: color 0.25s ease-in-out;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    z-index: -1;
+  }
+
+  .uip-plugin-header-toolbar &:hover {
+    color: var(--uip-plugin-hover-fg);
+  }
+}

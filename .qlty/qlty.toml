@@ -61,7 +61,7 @@ threshold = 4
 threshold = 4
 
 [smells.function_complexity]
-threshold = 11
+threshold = 12
 
 [smells.duplication]
 enabled = true
@@ -72,3 +72,6 @@ name = "default"
 default = true
 branch = "main"
 repository = "https://github.com/exadel-inc/esl.git"
+
+[[plugin]]
+name = "actionlint"

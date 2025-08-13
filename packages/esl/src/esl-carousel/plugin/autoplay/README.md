@@ -6,7 +6,7 @@ The `esl-carousel-autoplay` is a custom attribute (mixin/plugin) for `ESLCarouse
 It allows the carousel to automatically transition between slides after a specified timeout, by producing a navigation command at the specified interval.
 The `esl-carousel-autoplay` is a carousel plugin, so it should be added directly to the `esl-carousel` element, otherwise it will self destroy itself.
 The plugin supports the ESLMedia query syntax, allowing different configurations for different media conditions.
-Out of the box, it supports different customizations and features, such as pausing on hover/focus, simple control binding, and progress bar.
+Out of the box, it supports different customizations and features, such as pausing on hover/focus, simple control binding, progress bar, and per-slide timeout customization.
 
 ## Configuration
 
@@ -31,10 +31,56 @@ The configuration properties of the `esl-carousel-autoplay` are the following:
    If set to `false`, the autoplay will not be paused on user interaction.
  - `control` (optional)
    The ESLTraversingQuery selector for the controls that should be treated as the autoplay plugin enable/disable controls.
- - `controlsCls` (optional)
+ - `controlCls` (optional)
    The class to be added to controls when autoplay is enabled. Supports ESL CSSClassUtils syntax.
  - `containerCls` (optional)
    The class to be added to the carousel container when autoplay is enabled. Supports ESL CSSClassUtils syntax.
+
+## Per-Slide Timeout Customization
+
+Individual slides can override the default autoplay timeout by using the `esl-carousel-autoplay-timeout` attribute.
+This allows for different autoplay switch times for each slide.
+
+**IMPORTANT: The `esl-carousel-autoplay-timeout` attribute does not support negative values or `none`, and cannot be used to disable autoplay for a specific slide.**
+
+### Usage
+
+The `esl-carousel-autoplay-timeout` attribute can be added to any carousel slide.
+For carousels showing multiple slides simultaneously (group mode), the autoplay uses the timeout defined by the first active slide.
+
+```html
+<esl-carousel esl-carousel-autoplay="3s">
+  <esl-carousel-slide>Default timeout (3s)</esl-carousel-slide>
+  <esl-carousel-slide esl-carousel-autoplay-timeout="5s">Custom timeout (5s)</esl-carousel-slide>
+  <esl-carousel-slide esl-carousel-autoplay-timeout="1s">Fast timeout (1s)</esl-carousel-slide>
+</esl-carousel>
+```
+
+### Media Query Support
+
+The attribute supports ESL media query syntax for responsive timeout values:
+
+```html
+<!-- Unified query syntax -->
+<esl-carousel-slide esl-carousel-autoplay-timeout="2s | @XS => 4s">
+  Different timeouts for different screen sizes
+</esl-carousel-slide>
+
+<!-- Tuple query syntax (based on carousel's media attribute) -->
+<esl-carousel media="all | @XS | @SM" esl-carousel-autoplay="3s">
+  <esl-carousel-slide esl-carousel-autoplay-timeout="2s | 3s | 4s">
+    Timeout varies by breakpoint: 2s (all), 3s (@XS), 4s (@SM)
+  </esl-carousel-slide>
+</esl-carousel>
+```
+
+### Supported Time Formats
+
+The attribute accepts the same time formats as the main autoplay duration:
+- CSS time format: `1s`, `500ms`, `2.5s`
+- Milliseconds as numbers: `1000`, `2500`
+- ESL media query wrapped values: `1s | @MD => 2s`
+- In case of invalid value, the attribute will be ignored and the default autoplay duration will be used.
 
 ## Events
 
@@ -61,7 +107,7 @@ It could be added to any element that should be used as a progress bar for the a
 The `esl-carousel-autoplay-progress` custom attribute will automatically bind to the `esl:autoplay:change` event and reflect autoplay cycle progress by setting the following properties:
  - `autoplay-enabled` boolean attribute - true if the autoplay plugin is enabled, false otherwise
  - `animate` boolean attribute - appears on each autoplay cycle start; drops for a one frame to allow CSS transitions/animation to be handled
- - `--esl-autoplay-timeout` CSS variable - the current autoplay duration in milliseconds
+ - `--esl-autoplay-timeout` CSS variable - the current autoplay duration as a CSS time value (e.g. `3000ms`)
 
 The only parameter that `esl-carousel-autoplay-progress` custom attribute accepts as its value is the `esl-carousel` ESLTraversingQuery selector.
 If selector is not provided, the `esl-carousel-autoplay-progress` will try to find first `esl-carousel` element inside the closest `.esl-carousel-container` parent.

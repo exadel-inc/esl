@@ -43,7 +43,7 @@ jobs:
       - name: Run Tests
         run: npm run test
       - name: Collect and Publish coverage to Qlty
-        uses: qltysh/qlty-action/coverage@v1
+        uses: qltysh/qlty-action/coverage@v2
         with:
           token: ${{ secrets.QLTY_COVERAGE_TOKEN }}
           files: |

@@ -30,8 +30,8 @@ export class ESLCarouselAutoplayEvent extends Event implements ESLCarouselAutopl
     Object.assign(this, init);
   }
 
-  public static dispatch(plugin: ESLCarouselAutoplayMixin): boolean {
-    const {enabled, active, duration} = plugin;
+  public static dispatch(plugin: ESLCarouselAutoplayMixin, duration: number): boolean {
+    const {enabled, active} = plugin;
     const event = new ESLCarouselAutoplayEvent({enabled, active, duration});
     return plugin.$host.dispatchEvent(event);
   }

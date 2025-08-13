@@ -1,0 +1,4 @@
+"*.ts":
+  - "eslint --max-warnings 3"
+"*.less":
+  - "stylelint"
