@@ -71,7 +71,7 @@ export abstract class ESLBaseElement extends HTMLElement implements ESLBaseCompo
   /** Subscribes `handler` method marked with `@listen` decorator */
   public $$on(handler: ESLListenerHandler): ESLEventListener[];
   /** Subscribes `handler` function by the passed DOM event descriptor {@link ESLListenerDescriptor} or event name */
-  public $$on<ETarget extends ESLListenerTarget, EName extends ExtractEventName<ETarget>>(
+  public $$on<ETarget extends ESLListenerTarget, EName extends ExtractEventName<ETarget, EName>>(
     event: EName | ESLListenerDescriptor<ETarget, EName>,
     handler: ESLListenerHandler<EName>
   ): ESLEventListener[];

@@ -30,7 +30,7 @@ export function listen<EName extends ESLEventName>(event: EName | PropertyProvid
  *
  * @see DelegatedEvent.prototype.$delegate
  */
-export function listen<ETarget extends ESLListenerTarget, EName extends ExtractEventName<ETarget>>(
+export function listen<ETarget extends ESLListenerTarget, EName extends ExtractEventName<ETarget, EName>>(
   desc: ESLListenerDescriptorExt<ETarget, EName> & {selector: string | PropertyProvider<string>}
 ): ListenDecorator<DelegatedEvent<ESLEventType<EName>> | ESLEventType<EName>>;
 /**
@@ -38,7 +38,7 @@ export function listen<ETarget extends ESLListenerTarget, EName extends ExtractE
  * Defines auto-subscribable event by default
  * @param desc - event listener configuration {@link ESLListenerDescriptor}
  */
-export function listen<ETarget extends ESLListenerTarget, EName extends ExtractEventName<ETarget>>(
+export function listen<ETarget extends ESLListenerTarget, EName extends ExtractEventName<ETarget, EName>>(
   desc: ESLListenerDescriptorExt<ETarget, EName>): ListenDecorator<ESLEventType<EName>>;
 
 export function listen(desc: string | PropertyProvider<string> | ESLListenerDescriptorExt): ListenDecorator<Event> {
