@@ -36,8 +36,9 @@
     "prepare": "husky",
     "get:version": "node scripts/get-version.mjs",
     "get:changelog": "node scripts/get-changelog.mjs",
-    "release:stable": "nx release --skip-publish",
-    "release:beta": "nx release prerelease --skip-publish --preid beta",
+    "release:stable": "nx release --skip-publish && npm run version:post",
+    "release:beta": "nx release prerelease --skip-publish --preid beta && npm run version:post",
+    "version:post": "nx run-many -t version:post",
     "version:root": "node scripts/update-root-version.mjs"
   },
   "dependencies": {

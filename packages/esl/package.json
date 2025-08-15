@@ -57,7 +57,7 @@
     "lint": "nx run esl:lint",
     "test": "nx run esl:test",
     "pack": "nx run esl:pack",
-    "version": "node ./scripts/update-lib-version.mjs && git add src/lib.ts"
+    "version": "nx run esl:version:post"
   },
   "dependencies": {
     "@types/video.js": "7.3.58",
