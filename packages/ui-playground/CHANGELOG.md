@@ -1,3 +1,9 @@
+## 5.11.1 (2025-08-15)
+
+### 🩹 Fixes
+
+- `esl` package should contain actual version info in global scope ([23fb7686f](https://github.com/exadel-inc/esl/commit/23fb7686f))
+
 ## 5.11.0 (2025-08-15)
 
 ### 🚀 Features
