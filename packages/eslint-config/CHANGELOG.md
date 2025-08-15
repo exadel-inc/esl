@@ -1,3 +1,14 @@
+## 5.11.0 (2025-08-15)
+
+### 🚀 Features
+
+- **eslint-config:** extend test rules to `*.test-d.ts` files (type tests) ([10922c9ec](https://github.com/exadel-inc/esl/commit/10922c9ec))
+- **ui-playground:** squashed ui-playground repository version https://github.com/exadel-inc/ui-playground.git ([c5856a4f0](https://github.com/exadel-inc/esl/commit/c5856a4f0))
+
+### Documentation updates
+
+- fix qlty (coverage, maintainability) badges ([5700cd927](https://github.com/exadel-inc/esl/commit/5700cd927))
+
 ## 5.10.0 (2025-07-28)
 
 ### 🚀 Features
