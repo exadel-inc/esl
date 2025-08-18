@@ -5,11 +5,12 @@ import {ESLEventListener} from './listener';
 import {getDescriptors, isEventDescriptor, initDescriptor} from './descriptors';
 
 import type {
-  ESLEventName,
   ESLListenerHandler,
   ESLListenerCriteria,
   ESLListenerDescriptor,
-  ESLListenerDescriptorFn
+  ESLListenerDescriptorFn,
+  ESLListenerTarget,
+  ExtractEventName
 } from './types';
 
 // Export all related types
@@ -59,7 +60,8 @@ export class ESLEventUtils {
    * */
   public static subscribe(host: object): ESLEventListener[];
   /** Subscribes (or resubscribes) all known descriptors that matches criteria */
-  public static subscribe(host: object, criteria: ESLListenerCriteria): ESLEventListener[];
+  public static subscribe<ETarget extends ESLListenerTarget, EName extends ExtractEventName<ETarget, EName>>(
+    host: object, criteria: ESLListenerCriteria<ETarget, EName>): ESLEventListener[];
   /**
    * Subscribes decorated as an {@link ESLListenerDescriptorFn} `handler` function
    * @param host - host object (listeners context) to associate subscription
@@ -72,16 +74,17 @@ export class ESLEventUtils {
    * @param descriptor - event or {@link ESLListenerDescriptor} with defined event type
    * @param criteria - optional set of criteria {@link ESLListenerCriteria} to filter listeners list
    */
-  public static subscribe(host: object, descriptor: Partial<ESLListenerDescriptor>, criteria: ESLListenerCriteria): ESLEventListener[];
+  public static subscribe<ETarget extends ESLListenerTarget, EName extends ExtractEventName<ETarget, EName>>(
+    host: object, descriptor: Partial<ESLListenerDescriptor<ETarget, EName>>, criteria: ESLListenerCriteria<ETarget, EName>): ESLEventListener[];
   /**
    * Subscribes `handler` function with the passed event type or {@link ESLListenerDescriptor} with event type declared
    * @param host - host object (listeners context) to associate subscription
    * @param descriptor - event or {@link ESLListenerDescriptor} with defined event type
    * @param handler - handler function to subscribe
    */
-  public static subscribe<EName extends ESLEventName>(
+  public static subscribe<ETarget extends ESLListenerTarget, EName extends ExtractEventName<ETarget, EName>>(
     host: object,
-    descriptor: EName | ESLListenerDescriptor<EName>,
+    descriptor: EName | ESLListenerDescriptor<ETarget, EName>,
     handler: ESLListenerHandler<EName>
   ): ESLEventListener[];
   /**
@@ -90,10 +93,10 @@ export class ESLEventUtils {
    * @param descriptor - {@link ESLListenerDescriptor} additional data
    * @param handler - handler function decorated as {@link ESLListenerDescriptorFn}
    */
-  public static subscribe<EType extends keyof ESLListenerEventMap>(
+  public static subscribe<ETarget extends ESLListenerTarget, EName extends ExtractEventName<ETarget, EName>>(
     host: object,
-    descriptor: Partial<ESLListenerDescriptor>,
-    handler: ESLListenerDescriptorFn<EType>
+    descriptor: Partial<ESLListenerDescriptor<ETarget, EName>>,
+    handler: ESLListenerDescriptorFn<ETarget, EName>
   ): ESLEventListener[];
   public static subscribe(
     host: object,

@@ -99,13 +99,19 @@ export type ESLListenerHandler<E extends ESLEventName | Event = Event> =
     MaybeArgFn<E extends ESLEventName ? ESLEventType<E> : E>;
 
 /** Condition (criteria) to find {@link ESLListenerDescriptor} */
-export type ESLListenerDescriptorCriteria =
+export type ESLListenerDescriptorCriteria<
+  ETarget extends ESLListenerTarget = ESLListenerTarget,
+  EName extends ExtractEventName<ETarget, EName> = ExtractEventName<ETarget>
+> =
   | undefined
   | string
-  | Partial<ESLListenerDefinition>;
+  | Partial<ESLListenerDefinition<ETarget, EName>>;
 
 /** Condition (criteria) to find {@link ESLEventListener} */
-export type ESLListenerCriteria = ESLListenerDescriptorCriteria | ESLListenerHandler;
+export type ESLListenerCriteria<
+  ETarget extends ESLListenerTarget = ESLListenerTarget,
+  EName extends ExtractEventName<ETarget, EName> = ExtractEventName<ETarget>
+> = ESLListenerDescriptorCriteria<ETarget, EName> | ESLListenerHandler;
 
 /** Function decorated as {@link ESLListenerDescriptor} */
 export type ESLListenerDescriptorFn<

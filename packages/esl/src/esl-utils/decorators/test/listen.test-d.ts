@@ -51,7 +51,7 @@ class TestClass {
   onIntersectionEvent1(e: ESLIntersectionEvent) {}
 
   // Event name definition with multiple events is accepted for the intersection target
-  @listen({event: 'mouseover click', target: ESLIntersectionTarget.for})
+  @listen({event: 'intersects:in intersects:out', target: ESLIntersectionTarget.for})
   onIntersectionEvent2(e: Event) {}
 
   // @ts-expect-error - event argument should be compatible with the intersection event name
