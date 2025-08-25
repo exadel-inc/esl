@@ -48,6 +48,7 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
   public static SLIDE_DURATION_ATTRIBUTE = ESLCarouselAutoplayMixin.is + '-timeout';
 
   private _enabled: boolean = true;
+  private _inViewport: boolean = false;
   private _timeout: number | null = null;
 
   /** True if the autoplay timer is currently active */
@@ -86,8 +87,11 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
     const value = $activeSlide.getAttribute(ESLCarouselAutoplayMixin.SLIDE_DURATION_ATTRIBUTE);
     if (!value) return this.duration;
     // Parse the value as a media rule list, if it contains media queries
-    const rule = ESLMediaRuleList.parse(value, this.$host.media, parseTime);
-    return rule.value! > 0 ? rule.value! : this.duration;
+    const parsed = ESLMediaRuleList.parse(value, this.$host.media, parseTime);
+    // Invalid or empty value, fallback to default duration
+    if (typeof parsed.value === 'undefined' || isNaN(parsed.value)) return this.duration;
+    // Walid but non-positive value, disable autoplay
+    return parsed.value;
   }
 
   /** A list of control elements to toggle plugin state */
@@ -109,7 +113,7 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
   @listen({inherit: true})
   protected override onConfigChange(): void {
     super.onConfigChange();
-    memoize.clear(this, ['$controls', 'duration']);
+    memoize.clear(this, '$controls');
     this.$$on({auto: true});
     // Full restart during config change
     this.stop();
@@ -121,9 +125,10 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
    * @param system - If true, the plugin will be force started, without intersection observer check.
    */
   public start(system = false): void {
-    const {duration} = this;
-    this.enabled = +duration > 0;
+    if (!system) this.enabled = true;
+    if (isNaN(this.duration)) this.enabled = false;
     if (!this.enabled) return;
+    if (system && !this._inViewport) return;
     system ? this._onCycle() : this.$$on(this._onIntersection);
   }
 
@@ -152,7 +157,9 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
     if (exec) await this.$host?.goTo(this.config.command, {activator: this}).catch(console.debug);
     if (!this.enabled || this.active) return;
     const {effectiveDuration} = this;
-    this._timeout = window.setTimeout(() => this._onCycle(true), effectiveDuration);
+    if (effectiveDuration > 0 && this.$host?.canNavigate(this.config.command)) {
+      this._timeout = window.setTimeout(() => this._onCycle(true), effectiveDuration);
+    }
     ESLCarouselAutoplayEvent.dispatch(this, effectiveDuration);
   }
 
@@ -177,7 +184,7 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
     if (['mouseenter', 'focusin'].includes(e.type)) {
       this.stop(true);
     } else {
-      this.start();
+      this.start(true);
     }
   }
 
@@ -189,13 +196,14 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
       ESLIntersectionTarget.for($this.$host, {threshold: [$this.config.intersection]})
   })
   protected _onIntersection(e: ESLIntersectionEvent): void {
+    this._inViewport = e.isIntersecting;
     e.isIntersecting ? this.start(true) : this.stop(true);
   }
 
   /** Handles carousel slide change event to restart the timer */
   @listen(ESLCarouselSlideEvent.AFTER)
   protected _onSlideChange(): void {
-    if (this.active) this.start();
+    if (this.enabled) this.start(true);
   }
 }
 
