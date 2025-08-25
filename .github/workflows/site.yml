@@ -47,7 +47,7 @@ jobs:
           SITE_BASE_URL: ${{ steps.pages.outputs.base_url }}
           BUILD_VERSION: ${{ github.run_number }}
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: ./packages/esl-website/dist
 
