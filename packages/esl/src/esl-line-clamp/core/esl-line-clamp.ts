@@ -90,7 +90,7 @@ export class ESLLineClamp extends ESLMixinElement {
   protected onFocusOut(e: FocusEvent): void {
     const $relatedTarget = e.relatedTarget as HTMLElement;
     if (!isElement($relatedTarget) || this.$host.contains($relatedTarget)) return;
-    const $target = e.target as any;
+    const $target = e.target as Element & {$target?: Element};
     if (isElement($target.$target) && $target.$target.contains($relatedTarget)) return;
     this.$host.scrollTo(0, 0);
   }
@@ -100,7 +100,7 @@ export class ESLLineClamp extends ESLMixinElement {
   @listen({event: 'resize', target: ESLResizeObserverTarget.for})
   protected onResize(): void {
     const {height} = this.$host.getBoundingClientRect();
-    if (this.lastHeight !== height && this.linesQuery.value === 'auto') {
+    if (this.linesQuery.value === 'auto' && this.lastHeight !== height) {
       this.lastHeight = height;
       this.updateLines();
     }
@@ -109,7 +109,7 @@ export class ESLLineClamp extends ESLMixinElement {
   }
 
   /** Observes custom broadcast 'esl:refresh' event to force refresh */
-  @listen({auto: false, event: 'esl:refresh', target: window})
+  @listen({event: 'esl:refresh', target: window})
   protected onRefresh({target}: Event): void {
     if (isElement(target) && !isRelativeNode(target, this.$host)) return;
     this.updateLines();
