@@ -56,3 +56,20 @@ Apply line clamping to the paragraph without defining a limit. The number of lin
 </p>
 ```
 
+### Auto mode
+
+The mixin also supports automatic mode. This is when you don't know the exact number of lines to display, and you can't explicitly specify them using CSS variables or pass them as an attribute. In this case, you can use the mixin in automatic mode.
+```html
+<p esl-line-clamp="auto">
+  <!-- text -->
+</p>
+```
+
+Or using media query
+```html
+<p esl-line-clamp="4 | @+MD=>auto">
+  <!-- text -->
+</p>
+```
+
+For it to work, the element to which the mixin is applied must have a `max-height` specified. In this case, the mixin will be able to calculate the number of lines for clamping. If the automatically calculated number of lines is infinity or a non-numeric value or less than 1, then the mixin does not set a limit.
