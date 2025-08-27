@@ -19,9 +19,9 @@ function roundLineHeight(value: number, precision = 0.1): number {
  */
 @ExportNs('LineClamp')
 export class ESLLineClamp extends ESLMixinElement {
-  static override is = 'esl-line-clamp';
+  public static override is = 'esl-line-clamp';
 
-  static mask: string = '@XS|@SM|@MD|@LG|@XL';
+  public static mask: string = '@XS|@SM|@MD|@LG|@XL';
 
   /** Indicates whether the line clamping is active */
   @boolAttr({name: 'clamped', readonly: true}) public clamped: boolean;
