@@ -76,9 +76,9 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
    * The duration of the autoplay timer in milliseconds
    * Tries to get the value from the slide attribute `esl-carousel-autoplay-timeout`.
    * If not set, uses the default duration from the config.
-   * Accepts only positive values.
+   * Non-positive (0 or negative) values pause autoplay for the current slide. Invalid / NaN values fall back to default duration.
    *
-   * @returns The duration in milliseconds
+   * @returns The duration in milliseconds (or a non-positive number to indicate pause)
    */
   public get effectiveDuration(): number {
     const {$activeSlide} = this.$host;
@@ -90,7 +90,7 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
     const parsed = ESLMediaRuleList.parse(value, this.$host.media, parseTime);
     // Invalid or empty value, fallback to default duration
     if (typeof parsed.value === 'undefined' || isNaN(parsed.value)) return this.duration;
-    // Walid but non-positive value, disable autoplay
+    // Valid but non-positive value, disable autoplay
     return parsed.value;
   }
 
