@@ -75,9 +75,9 @@ Or using media query
 For it to work, the element to which the mixin is applied must have a `max-height` specified. In this case, the mixin will be able to calculate the number of lines for clamping. If the automatically calculated number of lines is infinity or a non-numeric value or less than 1, then the mixin does not set a limit.
 
 
-### Tuple values
+### ESLMediaQuery tuple values
 
-Mixin supports values in the form of tuples — a tuple string of values that uses '|' as a separator. A mask must be specified for this. Mask - media conditions tuple string (uses '|' as separator), to be used in case of tuple syntax. The last value is used if the mask is empty or not specified.
+Mixin supports ESL Media Query syntax for values — a tuple string of values that uses '|' as a separator. A mask must be specified for this. Mask - `ESLMedaiQuery` media conditions tuple string (uses '|' as separator), to be used in case of tuple syntax. The last value is used if the mask is empty or not specified.
 
 ```html
 <p esl-line-clamp="1|2|3">
@@ -85,9 +85,9 @@ Mixin supports values in the form of tuples — a tuple string of values that us
 </p>
 ```
 
-The mask can be defined as default before registering the mixin
+The mask can be defined globally as the default before registering the mixin
 ```ts
-ESLLineClamp.mask = '@XS|@SM|@MD';
+ESLLineClamp.DEFAULT_MASK = '@XS|@SM|@MD';
 ```
 
 Or specifу a mask at the point of use of the mixin
