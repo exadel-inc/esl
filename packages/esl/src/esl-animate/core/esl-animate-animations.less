@@ -1,16 +1,19 @@
 @media screen {
   .esl-animate-fade {
+    --esl-animation-transition: 1.5s ease;
+
     opacity: 0;
 
     &.in {
       opacity: 1;
-      transition: opacity 1.5s;
+      transition: opacity var(--esl-animation-transition);
     }
   }
 
   .esl-animate-slide {
     --esl-animation-offset-x: 0;
     --esl-animation-offset-y: 0;
+    --esl-animation-transition: 1s ease;
 
     opacity: 0;
     transform: translate3d(
@@ -23,8 +26,8 @@
       opacity: 1;
       transform: translate3d(0, 0, 0);
       transition:
-        transform 1s,
-        opacity 1s;
+        transform var(--esl-animation-transition),
+        opacity var(--esl-animation-transition);
     }
 
     &:not(.in) {
