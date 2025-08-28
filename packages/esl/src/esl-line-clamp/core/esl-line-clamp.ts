@@ -21,7 +21,7 @@ function roundLineHeight(value: number, precision = 0.1): number {
 export class ESLLineClamp extends ESLMixinElement {
   public static override is = 'esl-line-clamp';
 
-  public static mask: string = '@XS|@SM|@MD|@LG|@XL';
+  public static DEFAULT_MASK: string = '';
 
   /** Indicates whether the line clamping is active */
   @boolAttr({name: 'clamped', readonly: true}) public clamped: boolean;
@@ -29,13 +29,23 @@ export class ESLLineClamp extends ESLMixinElement {
   /** Media query to activate clamping with number of lines */
   @attr({name: ESLLineClamp.is, defaultValue: ''}) public lines: string;
 
+  /** Media conditions tuple string (uses '|' as separator), to be used in case of tuple syntax */
+  @attr({
+    name: ESLLineClamp.is + '-mask',
+    defaultValue: ESLLineClamp.DEFAULT_MASK
+  })
+  public mask: string;
+
   /**
    * Returns parsed media rule list for line clamping configuration
    * @returns ESLMediaRuleList instance for managing responsive line limits
    */
   @memoize()
   public get linesQuery(): ESLMediaRuleList<string> {
-    return ESLMediaRuleList.parse(this.lines, ESLLineClamp.mask, String);
+    console.log('linesQuery', `"${this.mask}"`);
+    return this.mask
+      ? ESLMediaRuleList.parse(this.lines, this.mask, String)
+      : ESLMediaRuleList.parse(this.lines, String);
   }
 
   protected get linesExpected(): string | null {
