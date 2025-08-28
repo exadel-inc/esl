@@ -44,7 +44,7 @@ Public properties:
   - `enabled` (boolean, readonly): reflects whether autoplay feature is turned on.
   - `active` (boolean, readonly): indicates that a cycle timer is currently scheduled (internal timeout is set).
 
-Note: the `enabled` state may be `true` while `active` is `false`. Autoplay is enabled but inactive when any of the following applies:
+Note: the `enabled` state may be `true` while `active` is `false`. Autoplay is enabled but inactive when any of the following apply:
  - Current slide effective timeout is `0` (per‑slide pause)
  - Carousel is not sufficiently visible (intersection below threshold)
  - User interaction pause (hover / focus) with `trackInteraction: true`
@@ -57,7 +57,7 @@ Public methods:
  - `stop()`: disables the autoplay plugin and stops any scheduled autoplay cycle.
 
 Note: both `start()` and `stop()` methods can be called with boolean argument `true` to make start/stop action marked as temporal (not changing the `enabled` state). 
-System use such calls to pause autoplay temporarily (e.g. on interaction or insufficient visibility) without changing the `enabled` state.
+System uses such calls to pause autoplay temporarily (e.g. on interaction or insufficient visibility) without changing the `enabled` state.
 
 ## Per-Slide Timeout Customization
 
