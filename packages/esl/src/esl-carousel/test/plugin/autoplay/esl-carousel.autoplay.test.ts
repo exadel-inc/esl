@@ -78,6 +78,8 @@ describe('ESLCarousel: Autoplay Plugin', () => {
     const $carousel = ESLCarousel.create();
     const goToSpy = jest.spyOn($carousel, 'goTo');
 
+    jest.spyOn($carousel, 'canNavigate').mockReturnValue(true);
+
     beforeEach(() => {
       document.body.appendChild($carousel);
       goToSpy.mockImplementation(() => Promise.resolve());
@@ -129,6 +131,7 @@ describe('ESLCarousel: Autoplay Plugin', () => {
 
   describe('ESLCarouselAutoplayMixin: observes user interaction', () => {
     const $carousel = ESLCarousel.create();
+    jest.spyOn($carousel, 'canNavigate').mockReturnValue(true);
 
     beforeEach(async () => {
       document.body.appendChild($carousel);
