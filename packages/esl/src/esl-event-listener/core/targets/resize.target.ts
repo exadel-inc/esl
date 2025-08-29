@@ -8,7 +8,7 @@ import type {ESLDomElementTarget} from '../../../esl-utils/abstract/dom-target';
 export {ESLElementResizeEvent};
 
 /** Adapter class for {@link ResizeObserver} that implements {@link EventTarget} */
-export class ESLResizeObserverTarget extends SyntheticEventTarget {
+export class ESLResizeObserverTarget extends SyntheticEventTarget<ESLElementResizeEvent> {
   /** {@link ESLResizeObserverTarget} instances holder */
   protected static readonly mapping = new WeakMap<Element, ESLResizeObserverTarget>();
   /** {@link ResizeObserver} instance to observe DOM element related to {@link ESLResizeObserverTarget} */
