@@ -64,7 +64,8 @@ export class ESLToggleableManager {
   /** Focuses on the first focusable element of the toggleable, if possible */
   protected grabFocus(element: ESLToggleable, options: FocusOptions = {preventScroll: true}): void {
     if (!element || !element.open) return;
-    (element.$focusables[0] || element).focus(options);
+    const autoFocusable = element.querySelector<HTMLElement>('[autofocus], [data-autofocus]');
+    (autoFocusable || element.$focusables[0] || element).focus(options);
   }
 
   /** Changes focus scope to the specified element. Previous scope saved in the stack. */

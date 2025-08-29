@@ -37,10 +37,10 @@ Use `ESLToggleableDispatcher.init()` to initialize (and bind) `ESLToggleableDisp
  - `a11y` - Accessibility behavior pattern. <i class="badge badge-sup badge-success">new</i>  
     Available values:
     - `none` (default) - does not affect focus management or behavior
-    - `autofocus` - focus on the first focusable element on show
-    - `popup` - focus on the first focusable element and return focus to the activator after the last focusable element. Closees on focus lost when `close-on-outside-action` is set.
-    - `modal` - focus on the first focusable element and trap focus inside the Toggleable. Does not allow focus lost outside. Closes active Toggleables in 'ppopup' mode.
-    - `dialog` - focus on the first focusable element and trap focus inside the Toggleable. Does not allow focus lost outside. Does not close active Toggleables in 'ppopup' mode. <i class="badge badge-sup badge-warning">beta</i>
+    - `autofocus` - on show, focus the first element with the `autofocus` attribute (or `data-autofocus`); if none, focus the first focusable element
+    - `popup` - on show, focus the first element with the `autofocus` attribute (or `data-autofocus`); if none, focus the first focusable element; return focus to the activator after the last focusable element. Closes on focus loss when `close-on-outside-action` is set
+    - `modal` - on show, focus the first element with the `autofocus` attribute (or `data-autofocus`); if none, focus the first focusable element; trap focus inside the Toggleable. Does not allow focus loss outside. Closes active Toggleables in 'popup' mode
+    - `dialog` - on show, focus the first element with the `autofocus` attribute (or `data-autofocus`); if none, focus the first focusable element; trap focus inside the Toggleable. Does not allow focus loss outside. Does not close active Toggleables in 'popup' mode. <i class="badge badge-sup badge-warning">beta</i>
 
  - `initial-params` - Initial params to pass to show/hide action on start
  - `default-params` - Default params to merge into passed action params
