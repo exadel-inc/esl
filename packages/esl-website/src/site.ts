@@ -141,6 +141,8 @@ ESLAnimateMixin.register();
 ESLRelatedTarget.register();
 ESLOpenState.register();
 ESLLazyTemplate.register();
+
+ESLLineClamp.DEFAULT_MASK = '@xs|@sm|@md|@lg|@xl';
 ESLLineClamp.register();
 
 // Share component loading

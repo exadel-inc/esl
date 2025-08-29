@@ -32,7 +32,7 @@ export class ESLLineClamp extends ESLMixinElement {
   /** Media conditions tuple string (uses '|' as separator), to be used in case of tuple syntax */
   @attr({
     name: ESLLineClamp.is + '-mask',
-    defaultValue: ESLLineClamp.DEFAULT_MASK
+    defaultValue: () => ESLLineClamp.DEFAULT_MASK
   })
   public mask: string;
 
@@ -42,10 +42,7 @@ export class ESLLineClamp extends ESLMixinElement {
    */
   @memoize()
   public get linesQuery(): ESLMediaRuleList<string> {
-    console.log('linesQuery', `"${this.mask}"`);
-    return this.mask
-      ? ESLMediaRuleList.parse(this.lines, this.mask, String)
-      : ESLMediaRuleList.parse(this.lines, String);
+    return ESLMediaRuleList.parse(this.lines, this.mask);
   }
 
   protected get linesExpected(): string | null {

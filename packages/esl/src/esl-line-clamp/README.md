@@ -77,7 +77,8 @@ For it to work, the element to which the mixin is applied must have a `max-heigh
 
 ### ESLMediaQuery tuple values
 
-Mixin supports ESL Media Query syntax for values — a tuple string of values that uses '|' as a separator. A mask must be specified for this. Mask - `ESLMedaiQuery` media conditions tuple string (uses '|' as separator), to be used in case of tuple syntax. The last value is used if the mask is empty or not specified.
+Mixin supports ESL Media Query syntax for values — a tuple string of values that uses '|' as a separator. A mask must be specified for this. Mask - `ESLMedaiQuery` media conditions tuple string (uses '|' as separator), to be used in case of tuple syntax.
+Note: line-clamp mixin will produce an error in case global mask empty or incompatible with the tuple clamp value.
 
 ```html
 <p esl-line-clamp="1|2|3">
