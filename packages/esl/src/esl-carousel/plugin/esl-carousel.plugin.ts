@@ -31,7 +31,7 @@ export abstract class ESLCarouselPlugin<Config extends Record<string, any>> exte
 
   /** Plugin configuration query */
   @memoize()
-  @safe(ESLMediaRuleList.EMPTY)
+  @safe(ESLMediaRuleList.empty<Config | null>())
   public get configQuery(): ESLMediaRuleList<Config | null> {
     return ESLMediaRuleList.parse(this.configValue, this.$host.media, this.parseConfig);
   }

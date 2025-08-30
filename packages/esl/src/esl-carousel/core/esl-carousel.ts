@@ -73,31 +73,31 @@ export class ESLCarousel extends ESLBaseElement {
 
   /** Renderer type {@link ESLMediaRuleList} instance */
   @memoize()
-  @safe(ESLMediaRuleList.EMPTY)
+  @safe(ESLMediaRuleList.empty<string>())
   public get typeRule(): ESLMediaRuleList<string> {
     return ESLMediaRuleList.parse(this.type, this.media);
   }
   /** Loop marker {@link ESLMediaRuleList} instance */
   @memoize()
-  @safe(ESLMediaRuleList.EMPTY)
+  @safe(ESLMediaRuleList.empty<boolean>())
   public get loopRule(): ESLMediaRuleList<boolean> {
     return ESLMediaRuleList.parse(this.loop as string, this.media, parseBoolean);
   }
   /** Count of visible slides {@link ESLMediaRuleList} instance */
   @memoize()
-  @safe(ESLMediaRuleList.EMPTY)
+  @safe(ESLMediaRuleList.empty<number>())
   public get countRule(): ESLMediaRuleList<number> {
     return ESLMediaRuleList.parse(this.count as string, this.media, parseInt);
   }
   /** Orientation of the carousel {@link ESLMediaRuleList} instance */
   @memoize()
-  @safe(ESLMediaRuleList.EMPTY)
+  @safe(ESLMediaRuleList.empty<boolean>())
   public get verticalRule(): ESLMediaRuleList<boolean> {
     return ESLMediaRuleList.parse(this.vertical as string, this.media, parseBoolean);
   }
   /** Duration of the single slide transition {@link ESLMediaRuleList} instance */
   @memoize()
-  @safe(ESLMediaRuleList.EMPTY)
+  @safe(ESLMediaRuleList.empty<number>())
   public get stepDurationRule(): ESLMediaRuleList<number> {
     return ESLMediaRuleList.parse(this.stepDuration, this.media, parseTime);
   }

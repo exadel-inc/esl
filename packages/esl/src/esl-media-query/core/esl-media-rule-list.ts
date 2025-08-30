@@ -38,7 +38,13 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
   /** Object value parser. Uses {@link evaluate} to parse value */
   public static OBJECT_PARSER = <U = any>(val: string): U | undefined => evaluate(val);
 
-  public static readonly EMPTY: ESLMediaRuleList = new ESLMediaRuleList([]);
+  /** Empty {@link ESLMediaRuleList} instance */
+  public static readonly EMPTY: ESLMediaRuleList<never> = new ESLMediaRuleList([]);
+
+  /** @returns empty {@link ESLMediaRuleList} instance */
+  public static empty<U>(): ESLMediaRuleList<U> {
+    return ESLMediaRuleList.EMPTY as ESLMediaRuleList<U>;
+  }
 
   /**
    * Creates {@link ESLMediaRuleList} from string query representation
@@ -162,7 +168,7 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
   }
 
   protected _value: T | undefined;
-  protected readonly _rules: ESLMediaRule<T>[];
+  protected readonly _rules: readonly ESLMediaRule<T>[];
 
   private constructor(rules: ESLMediaRule<T>[]) {
     super();
@@ -191,7 +197,7 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
   }
 
   /** Array of {@link ESLMediaRule}s that forms the current {@link ESLMediaRuleList} */
-  public get rules(): ESLMediaRule<T>[] {
+  public get rules(): readonly ESLMediaRule<T>[] {
     return this._rules;
   }
 

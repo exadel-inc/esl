@@ -10,13 +10,19 @@ import type {ValueOrProvider, AnyToAnyFnSignature} from '../misc/functions';
  * @param fallback - value or provider used when the original function throws (default: null)
  * @throws Error when applied to a non-function / non-getter
  */
+export function safe<R>(fallback: ValueOrProvider<R>): (
+  target: any,
+  propertyKey: string,
+  descriptor: TypedPropertyDescriptor<R> | TypedPropertyDescriptor<(...args: any[]) => R>
+) => void;
+export function safe(): MethodDecorator & PropertyDecorator; // no-fallback variant (fallback defaults to null)
 /** Implementation */
-export function safe<Type = void>(fallback?: ValueOrProvider<Type>): MethodDecorator & PropertyDecorator {
+export function safe(fallback?: ValueOrProvider<any>): MethodDecorator & PropertyDecorator {
   return function (
     target: any,
     propertyKey: string,
     descriptor: PropertyDescriptor
-  ): PropertyDescriptor {
+  ): PropertyDescriptor | void {
     const originalMethod: AnyToAnyFnSignature | undefined = descriptor.value || descriptor.get;
     if (typeof originalMethod !== 'function') throw new Error('@safe can only be applied to methods or getters');
     const isGetter = !!descriptor.get && !descriptor.value;
@@ -25,10 +31,10 @@ export function safe<Type = void>(fallback?: ValueOrProvider<Type>): MethodDecor
         return originalMethod.apply(this, args);
       } catch (error) {
         if (typeof this.$$error === 'function') this.$$error(error, propertyKey, originalMethod);
-        return resolveProperty((fallback as any) ?? null, this) as Type;
+        return resolveProperty(fallback ?? null, this);
       }
     } as AnyToAnyFnSignature;
     if (isGetter) descriptor.get = wrappedMethod; else descriptor.value = wrappedMethod;
     return descriptor;
-  } as (MethodDecorator & PropertyDecorator);
+  } as MethodDecorator & PropertyDecorator;
 }

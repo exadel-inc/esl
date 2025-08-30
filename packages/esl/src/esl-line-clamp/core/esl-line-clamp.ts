@@ -41,7 +41,7 @@ export class ESLLineClamp extends ESLMixinElement {
    * @returns ESLMediaRuleList instance for managing responsive line limits
    */
   @memoize()
-  @safe(ESLMediaRuleList.EMPTY)
+  @safe(ESLMediaRuleList.empty<string>())
   public get linesQuery(): ESLMediaRuleList<string> {
     return ESLMediaRuleList.parse(this.lines, this.mask);
   }
