@@ -1,5 +1,5 @@
 import {ESLMixinElement} from '../../esl-mixin-element/core';
-import {bind, ready, memoize, listen} from '../../esl-utils/decorators';
+import {bind, ready, memoize, listen, safe} from '../../esl-utils/decorators';
 import {evaluate} from '../../esl-utils/misc/format';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
 import {ESLCarousel} from '../core/esl-carousel';
@@ -31,6 +31,7 @@ export abstract class ESLCarouselPlugin<Config extends Record<string, any>> exte
 
   /** Plugin configuration query */
   @memoize()
+  @safe(ESLMediaRuleList.empty<Config | null>())
   public get configQuery(): ESLMediaRuleList<Config | null> {
     return ESLMediaRuleList.parse(this.configValue, this.$host.media, this.parseConfig);
   }
