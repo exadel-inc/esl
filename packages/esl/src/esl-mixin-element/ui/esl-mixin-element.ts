@@ -108,7 +108,7 @@ export class ESLMixinElement implements ESLBaseComponent, ESLDomElementRelated {
   }
 
   /** Default error logger for `@safe` decorator */
-  public $$error(error: Error | string): void {
+  public $$error(error: Error | string, key: string): void {
     const message = error instanceof Error ? error.message : String(error);
     console.error(`[ESL] ${(this.constructor as typeof ESLMixinElement).is}(%o): %s`, this.$host, message);
   }

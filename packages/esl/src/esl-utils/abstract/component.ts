@@ -45,5 +45,5 @@ export interface ESLBaseComponent {
   $$attr(name: string, value?: null | boolean | string): string | null;
 
   /** Default error logger for `@safe` decorator */
-  $$error(error: Error | string): void;
+  $$error(error: Error | string, key: string): void;
 }

@@ -30,7 +30,7 @@ export function safe(fallback?: ValueOrProvider<any>): MethodDecorator & Propert
       try {
         return originalMethod.apply(this, args);
       } catch (error) {
-        if (typeof this.$$error === 'function') this.$$error(error, propertyKey, originalMethod);
+        if (typeof this.$$error === 'function') this.$$error(error, propertyKey);
         return resolveProperty(fallback ?? null, this);
       }
     } as AnyToAnyFnSignature;
