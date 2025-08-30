@@ -1,6 +1,6 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLMixinElement} from '../../esl-mixin-element/core';
-import {attr, boolAttr, listen, memoize} from '../../esl-utils/decorators';
+import {attr, boolAttr, safe, listen, memoize} from '../../esl-utils/decorators';
 import {isElement, isRelativeNode} from '../../esl-utils/dom';
 import {ESLResizeObserverTarget} from '../../esl-event-listener/core';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
@@ -41,6 +41,7 @@ export class ESLLineClamp extends ESLMixinElement {
    * @returns ESLMediaRuleList instance for managing responsive line limits
    */
   @memoize()
+  @safe(ESLMediaRuleList.EMPTY)
   public get linesQuery(): ESLMediaRuleList<string> {
     return ESLMediaRuleList.parse(this.lines, this.mask);
   }
