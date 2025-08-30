@@ -1,6 +1,6 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement} from '../../esl-base-element/core';
-import {attr, boolAttr, ready, decorate, listen, memoize} from '../../esl-utils/decorators';
+import {attr, boolAttr, safe, ready, decorate, listen, memoize} from '../../esl-utils/decorators';
 import {isMatches} from '../../esl-utils/dom/traversing';
 import {microtask} from '../../esl-utils/async';
 import {parseBoolean, parseTime, sequentialUID, toCamelCase} from '../../esl-utils/misc';
@@ -73,26 +73,31 @@ export class ESLCarousel extends ESLBaseElement {
 
   /** Renderer type {@link ESLMediaRuleList} instance */
   @memoize()
+  @safe(ESLMediaRuleList.EMPTY)
   public get typeRule(): ESLMediaRuleList<string> {
     return ESLMediaRuleList.parse(this.type, this.media);
   }
   /** Loop marker {@link ESLMediaRuleList} instance */
   @memoize()
+  @safe(ESLMediaRuleList.EMPTY)
   public get loopRule(): ESLMediaRuleList<boolean> {
     return ESLMediaRuleList.parse(this.loop as string, this.media, parseBoolean);
   }
   /** Count of visible slides {@link ESLMediaRuleList} instance */
   @memoize()
+  @safe(ESLMediaRuleList.EMPTY)
   public get countRule(): ESLMediaRuleList<number> {
     return ESLMediaRuleList.parse(this.count as string, this.media, parseInt);
   }
   /** Orientation of the carousel {@link ESLMediaRuleList} instance */
   @memoize()
+  @safe(ESLMediaRuleList.EMPTY)
   public get verticalRule(): ESLMediaRuleList<boolean> {
     return ESLMediaRuleList.parse(this.vertical as string, this.media, parseBoolean);
   }
   /** Duration of the single slide transition {@link ESLMediaRuleList} instance */
   @memoize()
+  @safe(ESLMediaRuleList.EMPTY)
   public get stepDurationRule(): ESLMediaRuleList<number> {
     return ESLMediaRuleList.parse(this.stepDuration, this.media, parseTime);
   }
