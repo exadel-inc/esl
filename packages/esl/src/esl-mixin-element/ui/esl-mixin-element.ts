@@ -107,6 +107,12 @@ export class ESLMixinElement implements ESLBaseComponent, ESLDomElementRelated {
     return ESLEventUtils.dispatch(this.$host, eventName, eventInit);
   }
 
+  /** Default error logger for `@safe` decorator */
+  public $$error(error: Error | string): void {
+    const message = error instanceof Error ? error.message : String(error);
+    console.error(`[ESL] ${(this.constructor as typeof ESLMixinElement).is}(%o): %s`, this.$host, message);
+  }
+
   /** Register current mixin definition */
   public static register(): void {
     (new ESLMixinRegistry()).register(this);
