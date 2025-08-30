@@ -38,9 +38,13 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
   /** Object value parser. Uses {@link evaluate} to parse value */
   public static OBJECT_PARSER = <U = any>(val: string): U | undefined => evaluate(val);
 
+  public static readonly EMPTY: ESLMediaRuleList = new ESLMediaRuleList([]);
+
   /**
    * Creates {@link ESLMediaRuleList} from string query representation
    * Expect serialized {@link ESLMediaRule}s separated by '|'
+   *
+   * @throws TypeError if value is an invalid query string
    *
    * @param query - query ("arrow" syntax) string
    */
@@ -51,6 +55,8 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
    *
    * @param query - query string
    * @param parser - value parser function
+   *
+   * @throws TypeError if value is an invalid query string
    */
   public static parse<U>(query: string, parser: RulePayloadParser<U>): ESLMediaRuleList<U>;
   /**
@@ -60,6 +66,8 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
    *
    * @param query - media rule query ('arrow' syntax) string or tuple string of values (uses '|' as separator)
    * @param mask - media conditions tuple string (uses '|' as separator), to be used in case of tuple syntax
+   *
+   * @throws TypeError if value is an invalid query string
    *
    * @example
    * ```ts
@@ -76,6 +84,8 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
    * @param query - media rule query ('arrow' syntax) string or tuple string of values (uses '|' as separator)
    * @param mask - media conditions tuple string (uses '|' as separator), to be used in case of tuple syntax
    * @param parser - value parser function
+   *
+   * @throws TypeError if value is an invalid query string
    *
    * @example
    * ```ts
@@ -118,6 +128,8 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
    * @param mask - media conditions tuple string (uses '|' as separator)
    * @param values - values tuple string (uses '|' as separator)
    *
+   * @throws TypeError if values count doesn't correspond to the mask conditions count
+   *
    * @example
    * ```ts
    * ESLMediaRuleList.parseTuple('@XS|@SM|@MD|@LG|@XL', '1|2|3|4|5')
@@ -131,6 +143,8 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
    * @param values - values tuple string (uses '|' as separator)
    * @param parser - value parser function
    *
+   * @throws TypeError if values count doesn't correspond to the mask conditions count
+   *
    * @example
    * ```ts
    * ESLMediaRuleList.parseTuple(@XS|@SM|@MD|@LG|@XL', '1|2|3|4|5', Number)
@@ -141,7 +155,7 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
     const queries = mask.split('|');
     const valueList = values.split('|');
     while (valueList.length < queries.length && valueList.length !== 0) valueList.push(valueList[valueList.length - 1]);
-    if (valueList.length !== queries.length) throw Error('Value doesn\'t correspond to mask');
+    if (valueList.length !== queries.length) throw new TypeError(`tuple "${values}" doesn't correspond to mask "${mask}"`);
     const rules: (ESLMediaRule | undefined)[] = queries.map((query, i) => ESLMediaRule.create(valueList[i], query, parser));
     const validRules = rules.filter((rule) => !!rule);
     return new ESLMediaRuleList(validRules);
