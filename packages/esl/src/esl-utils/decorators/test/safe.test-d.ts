@@ -32,6 +32,9 @@ class SafeTypesTest {
     return 'test';
   }
 
+  @safe()
+  safeFn(): void {}
+
   // @ts-expect-error
   @safe('fallback')
   get incompatibleProperty(): number {
@@ -55,4 +58,12 @@ class SafeTypesTest {
   incompatibleFallbackFnType(): string {
     return 'test';
   }
+
+  // @ts-expect-error
+  @safe(true)
+  incompatibleSafeFn(): void {}
+
+  // @ts-expect-error
+  @safe(null)
+  incompatibleSafeFn2(): void {}
 }

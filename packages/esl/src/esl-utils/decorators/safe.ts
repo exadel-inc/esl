@@ -31,7 +31,7 @@ export function safe(fallback?: ValueOrProvider<any>): MethodDecorator & Propert
         return originalMethod.apply(this, args);
       } catch (error) {
         if (typeof this.$$error === 'function') this.$$error(error, propertyKey);
-        return resolveProperty(fallback ?? null, this);
+        return resolveProperty(fallback, this);
       }
     } as AnyToAnyFnSignature;
     if (isGetter) descriptor.get = wrappedMethod; else descriptor.value = wrappedMethod;

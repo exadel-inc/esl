@@ -97,5 +97,32 @@ describe('Decorator: @safe', () => {
       expect(obj.method()).toBe('dynamic fallback');
       expect(provider).toHaveBeenCalledWith(obj);
     });
+
+    test('Supports void methods', () => {
+      class TestClass {
+        @safe()
+        method(): void {
+          throw new Error('Test error');
+        }
+      }
+      const obj = new TestClass();
+      expect(() => obj.method()).not.toThrow();
+      // Should return undefined for void methods
+      expect(obj.method()).toBeUndefined();
+    });
+
+    test('Can be applied to async methods (but only handles sync throws)', async () => {
+      class TestClass {
+        @safe(Promise.resolve('fallback'))
+        async method(shouldThrow: boolean): Promise<string> {
+          if (shouldThrow) throw new Error('Test error');
+          return 'original';
+        }
+      }
+      const obj = new TestClass();
+      await expect(obj.method(false)).resolves.toBe('original');
+      // Async errors are not caught by @safe, so the promise rejects
+      await expect(obj.method(true)).rejects.toThrow('Test error');
+    });
   });
 });
