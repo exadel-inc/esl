@@ -19,16 +19,16 @@ describe('common @decorate decorator test', () => {
     }
 
     const t1 = new Test();
-    test('@decorator is lazy', () => expect(wrap).toBeCalledTimes(0));
+    test('@decorator is lazy', () => expect(wrap).toHaveBeenCalledTimes(0));
     test('Decorated with @decorator method returns wrapped method', () => expect(t1.test()).toBe(v1));
-    test('@decorator called ones it\'s accessed', () => expect(wrap).toBeCalledTimes(1));
+    test('@decorator called ones it\'s accessed', () => expect(wrap).toHaveBeenCalledTimes(1));
     test('Decorated with @decorator method returns wrapped method every time', () => expect(t1.test).toBe(fn1));
-    test('@decorator does not redecorate method second time', () => expect(wrap).toBeCalledTimes(1));
+    test('@decorator does not redecorate method second time', () => expect(wrap).toHaveBeenCalledTimes(1));
 
     const t2 = new Test();
-    test('@decorator doesn\'t have effect on instance creation', () => expect(wrap).toBeCalledTimes(1));
+    test('@decorator doesn\'t have effect on instance creation', () => expect(wrap).toHaveBeenCalledTimes(1));
     test('Second instance creates its own wrapped method', () => expect(t2.test()).toBe(v2));
-    test('Decorated with @decorator method returns wrapped method every time', () => expect(t2.test).toBe(fn2));
+    test('Decorated with @decorator method returns wrapped method every time (second instance)', () => expect(t2.test).toBe(fn2));
 
     const t3 = new Test();
     test('Original function passed as a first argument for wrapper', () => expect(t3.test()).toBe(original));
@@ -36,7 +36,7 @@ describe('common @decorate decorator test', () => {
       const arg1 = Symbol('arg1');
       const arg2 = Symbol('arg1');
       expect(t3.test(arg1, arg2)).toBe(original);
-      expect(originalFn).lastCalledWith(arg1, arg2);
+      expect(originalFn).toHaveBeenLastCalledWith(arg1, arg2);
     });
   });
 
@@ -68,7 +68,7 @@ describe('common @decorate decorator test', () => {
     );
     test(
       'Arguments passed correctly',
-      () => expect(originalFn).lastCalledWith(arg1)
+      () => expect(originalFn).toHaveBeenLastCalledWith(arg1)
     );
     test(
       'Second call still works correct',
@@ -80,7 +80,7 @@ describe('common @decorate decorator test', () => {
     );
     test(
       'Decoration does not happens on super access',
-      () => expect(wrap).toBeCalledTimes(0)
+      () => expect(wrap).toHaveBeenCalledTimes(0)
     );
 
     const instance2 = new Child();

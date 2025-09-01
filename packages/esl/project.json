@@ -1,0 +1,173 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "esl",
+  "projectType": "library",
+  "targets": {
+    "clean": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "rimraf modules",
+        "cwd": "packages/esl"
+      },
+      "cache": false,
+      "outputs": []
+    },
+
+    "build": {
+      "executor": "nx:noop",
+      "dependsOn": [
+        "build:ts",
+        "build:less",
+        "build:docs"
+      ]
+    },
+    "watch": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          {"command": "nx run esl:watch:ts", "prefix": "[ESL watch:ts]"},
+          {"command": "nx run esl:watch:less", "prefix": "[ESL watch:less]"},
+          {"command": "nx run esl:watch:docs", "prefix": "[ESL watch:docs]"}
+        ],
+        "cwd": "packages/esl",
+        "parallel": true
+      }
+    },
+
+    "build:ts": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "rimraf -g \"modules/**/*.{js,ts}\"",
+          "tsc --project tsconfig.build.json",
+          "nodetouch \"modules/.ts.done\""
+        ],
+        "parallel": false,
+        "cwd": "packages/esl"
+      },
+      "cache": true,
+      "inputs": [
+        "{projectRoot}/src/**/*.ts",
+        "{projectRoot}/tsconfig.json"
+      ],
+      "outputs": [
+        "{projectRoot}/modules/**/*.js",
+        "{projectRoot}/modules/**/*.d.ts",
+        "{projectRoot}/modules/.ts.done"
+      ]
+    },
+    "watch:ts": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc --project tsconfig.build.json --watch",
+        "cwd": "packages/esl"
+      }
+    },
+
+    "build:less": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "cpy \"src/**/*.less\" \"modules\" --parents --clean",
+          "findx \"modules/{*,*/*,{esl-utils,esl-forms}/*/*}.less !**/*.mixin.less\" \"lessc {{path}} {{dir}}/{{name}}.css\"",
+          "nodetouch \"modules/.less.done\""
+        ],
+        "cwd": "packages/esl",
+        "parallel": false
+      },
+      "cache": true,
+      "inputs": [
+        "{projectRoot}/src/**/*.css",
+        "{projectRoot}/src/**/*.less"
+      ],
+      "outputs": [
+        "{projectRoot}/modules/**/*.css",
+        "{projectRoot}/modules/**/*.less",
+        "{projectRoot}/modules/.less.done"
+      ]
+    },
+    "watch:less": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "chokidar \"src/**/*.less\" -c \"nx run esl:build:less\"",
+        "cwd": "packages/esl"
+      }
+    },
+
+    "build:docs": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "cpy \"src/**/*.md\" \"modules\" --parents --clean",
+          "nodetouch \"modules/.docs.done\""
+        ],
+        "parallel": false,
+        "cwd": "packages/esl"
+      },
+      "cache": true,
+      "inputs": [
+        "{projectRoot}/src/**/*.md"
+      ],
+      "outputs": [
+        "{projectRoot}/modules/**/*.md",
+        "{projectRoot}/modules/.docs.done"
+      ]
+    },
+    "watch:docs": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "chokidar \"src/**/*.md\" -c \"nx run esl:build:docs\"",
+        "cwd": "packages/esl"
+      }
+    },
+
+    "lint": {
+      "executor": "nx:noop",
+      "dependsOn": ["lint:eslint", "lint:stylelint"]
+    },
+    "lint:stylelint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "stylelint \"src/**/*.less\"",
+        "cwd": "packages/esl"
+      },
+      "cache": true,
+      "inputs": [
+        "{projectRoot}/src/**/*.less",
+        "{projectRoot}/.stylelint.yml"
+      ]
+    },
+
+    "test:types": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc --project tsconfig.typetest.json",
+        "cwd": "packages/esl"
+      },
+      "cache": true,
+      "inputs": [
+        "{projectRoot}/src/**/*.ts",
+        "{projectRoot}/tsconfig.typetest.json"
+      ]
+    },
+    "test": {
+      "executor": "nx:noop",
+      "dependsOn": ["test:types", "test:jest"]
+    },
+
+    "pack": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npm pack --pack-destination=../../target/",
+        "cwd": "packages/esl"
+      }
+    },
+    "version:post": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node ./scripts/update-lib-version.mjs && git add src/lib.ts",
+        "cwd": "packages/esl"
+      }
+    }
+  }
+}

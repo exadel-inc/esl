@@ -1,5 +1,4 @@
 import {lang, strict} from '@exadel/eslint-config-esl';
-import {recommended as eslRecommended} from '@exadel/eslint-plugin-esl';
 
 export default [
   {
@@ -20,9 +19,16 @@ export default [
   },
 
   // Using shared ESL ESLint Config
+  ...lang.js,
   ...lang.ts,
   ...strict,
 
   // ESL ESLint Plugin
-  ...eslRecommended
+  ...await (async () => {
+    try {
+      return (await import('@exadel/eslint-plugin-esl')).recommended;
+    } catch {
+      return [];
+    }
+  })(),
 ];

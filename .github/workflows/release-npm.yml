@@ -16,10 +16,16 @@ jobs:
   publish:
     name: Publish (NPM)
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          filter: tree:0
 
       - name: Use Node v${{ env.node-version }}
         uses: actions/setup-node@v4
@@ -38,7 +44,13 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
+      - name: Print Environment Info
+        run: npx nx report
+        shell: bash
+
       - name: Publish to NPM
-        run: lerna publish from-package --yes --loglevel=verbose
+        run: npx nx release publish
+        shell: bash
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true

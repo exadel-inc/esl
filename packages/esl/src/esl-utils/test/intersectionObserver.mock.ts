@@ -5,6 +5,8 @@ import {Rect} from '../dom/rect';
 let original: typeof IntersectionObserver;
 let lastMock: IntersectionObserverMock;
 
+const lastEntry = new WeakMap<Element, IntersectionObserverEntry>();
+
 export class RectMock extends Rect implements DOMRect {
   public constructor();
   public constructor(x: number, y: number, width: number, height: number);
@@ -37,14 +39,15 @@ export class IntersectionObserverMock implements IntersectionObserver {
   }
 
   private _onObserve(e: CustomEvent): void {
-    const entries =  wrap(e.detail).map(
-      (entry) => IntersectionObserverMock.createEntry(e.target as Element, entry)
-    );
-    this.callback(entries, this);
+    this.callback(wrap(e.detail), this);
   }
 
   public observe(element: Element): void {
     element.addEventListener('intersection', this._onObserve);
+    if (lastEntry.has(element)) {
+      // If the element was already observed, trigger the callback with the last entry as DOM IntersectionObserver would do
+      this.callback([lastEntry.get(element)!], this);
+    }
   }
 
   public unobserve(element: Element): void {
@@ -74,9 +77,11 @@ export class IntersectionObserverMock implements IntersectionObserver {
 
   public static trigger(
     $el: Element,
-    detail: Partial<IntersectionObserverEntry> | Partial<IntersectionObserverEntry>[]
+    detail: Partial<IntersectionObserverEntry>
   ): void {
-    ESLEventUtils.dispatch($el, 'intersection', {detail});
+    const entry = IntersectionObserverMock.createEntry($el, detail);
+    ESLEventUtils.dispatch($el, 'intersection', {detail: entry});
+    lastEntry.set($el, entry);
   }
 
   public static mock(): void {
@@ -85,7 +90,7 @@ export class IntersectionObserverMock implements IntersectionObserver {
       (cb) => (lastMock = new IntersectionObserverMock(cb))
     );
   }
-  public static unmock(): void {
+  public static restore(): void {
     window.IntersectionObserver = original;
   }
 

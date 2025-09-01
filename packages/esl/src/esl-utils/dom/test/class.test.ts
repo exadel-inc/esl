@@ -177,7 +177,7 @@ describe('multiple targets', () => {
     expect(CSSClassUtils.has(els, 'a')).toBe(false);
   });
   test('trivial',  () => {
-    expect(() => CSSClassUtils.add([], 'a')).not.toThrowError();
-    expect(() => CSSClassUtils.remove([], 'a')).not.toThrowError();
+    expect(() => CSSClassUtils.add([], 'a')).not.toThrow();
+    expect(() => CSSClassUtils.remove([], 'a')).not.toThrow();
   });
 });

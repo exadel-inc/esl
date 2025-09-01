@@ -53,7 +53,12 @@ export abstract class ESLBaseTrigger extends ESLBaseElement {
   @attr({defaultValue: '0'}) public hoverHideDelay: string;
 
   /** Prevent ESC keyboard event handling for target element hiding */
-  @attr({parser: parseBoolean, serializer: toBooleanAttribute}) public ignoreEsc: boolean;
+  @attr({parser: parseBoolean, serializer: toBooleanAttribute})
+  public ignoreEsc: boolean;
+
+  /** Marker to stop event bubbling */
+  @attr({defaultValue: true, parser: parseBoolean, serializer: toBooleanAttribute})
+  public stopPropagation: boolean;
 
   /** Action to pass to the Toggleable. Supports `show`, `hide` and `toggle` values. `toggle` by default */
   @prop('toggle') public mode: 'toggle' | 'show' | 'hide';
@@ -134,7 +139,8 @@ export abstract class ESLBaseTrigger extends ESLBaseElement {
   public updateState(): boolean {
     const {active, isTargetActive} = this;
 
-    this.toggleAttribute('active', isTargetActive);
+    this.$$attr('no-target', !this.$target);
+    this.$$attr('active', isTargetActive);
     const clsTarget = ESLTraversingQuery.first(this.activeClassTarget, this) as HTMLElement;
     clsTarget && CSSClassUtils.toggle(clsTarget, this.activeClass, isTargetActive);
 
@@ -146,6 +152,7 @@ export abstract class ESLBaseTrigger extends ESLBaseElement {
 
   /** Handles target primary (observed) event */
   protected _onPrimaryEvent(event: Event): void {
+    if (this.stopPropagation) event.stopPropagation();
     switch (this.mode) {
       case 'show':
         return this.showTarget({event});
@@ -159,7 +166,8 @@ export abstract class ESLBaseTrigger extends ESLBaseElement {
   /** Handles ESLToggleable state change */
   @listen({
     event: (that: ESLBaseTrigger) => that.OBSERVED_EVENTS,
-    target: (that: ESLBaseTrigger) => that.$target
+    target: (that: ESLBaseTrigger) => that.$target,
+    condition: (that: ESLBaseTrigger) => !!that.$target
   })
   protected _onTargetStateChange(originalEvent?: Event): void {
     if (!this.updateState()) return;

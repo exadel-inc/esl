@@ -18,6 +18,7 @@ export function buildEnumParser<
   T3 extends string
 >(def: T0, v1: T1, v2: T2, v3: T3): EnumParser<T0 | T1 | T2 | T3>;
 /** Parses string to 5-value union type */
+// eslint-disable-next-line max-params
 export function buildEnumParser<
   T0 extends string,
   T1 extends string,

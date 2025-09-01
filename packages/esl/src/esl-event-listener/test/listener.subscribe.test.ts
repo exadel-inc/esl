@@ -27,7 +27,7 @@ describe('ESLEventUtils:subscribe tests', () => {
       const handle = jest.fn();
       ESLEventUtils.subscribe($host, {event: provider}, handle);
       expect(ESLEventUtils.listeners($host).length).toBe(1);
-      expect(provider).toBeCalledWith($host);
+      expect(provider).toHaveBeenCalledWith($host);
       ESLEventUtils.unsubscribe($host);
     });
 
@@ -99,7 +99,7 @@ describe('ESLEventUtils:subscribe tests', () => {
       const handle = jest.fn();
       ESLEventUtils.subscribe($host, {event: 'click'}, handle);
       $host.click();
-      expect(handle).toBeCalledTimes(1);
+      expect(handle).toHaveBeenCalledTimes(1);
       ESLEventUtils.unsubscribe($host);
     });
   });

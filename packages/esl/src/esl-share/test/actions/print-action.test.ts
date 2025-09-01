@@ -31,6 +31,6 @@ describe('ESLShare: "print" action public API', () => {
   test('should call window.print() when share() calls', () => {
     const mockPrint = jest.spyOn(window, 'print').mockImplementation(() => null);
     printAction?.share($button);
-    expect(mockPrint).toBeCalled();
+    expect(mockPrint).toHaveBeenCalled();
   });
 });

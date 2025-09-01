@@ -16,11 +16,8 @@ export default async (config) => {
       throw e;
     }
   }
-
-  // Add MD files from the library sources
-  config.addWatchTarget('../../README.md');
-  config.addWatchTarget('../../docs/**/*.md');
-  config.addWatchTarget('../../packages/**/*.md');
+  // Observe the config files for 11ty
+  config.addWatchTarget('./11ty/**/*.js', {resetConfig: true});
 
   // Setup simple copy operations
   config.addPassthroughCopy({

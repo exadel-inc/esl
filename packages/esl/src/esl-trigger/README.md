@@ -1,6 +1,6 @@
 # [ESL](../../../) Trigger
 
-Version: *2.0.0*.
+Version: *2.1.0*.
 
 Authors: *Alexey Stsefanovich (ala'n)*, *Julia Murashko*.
 
@@ -8,10 +8,14 @@ Authors: *Alexey Stsefanovich (ala'n)*, *Julia Murashko*.
 
 **ESLTrigger** - a custom element, that allows triggering `ESLToggleable` instances state changes.
 
+**NOTE** (update `5.8.0`): Starting from `5.8.0` version, default `ESLTrigger` styles handle missing target element by setting `display: none` to the trigger element. 
+If you want to keep the trigger visible, you can override default styles for the `no-target` attribute of the trigger `esl-trigger[no-target] { display: block; }`, 
+or just skip importing default styles in your project.
+It is also important to note that there is no more indirect console warning about missing target element, 
+use selector query with `no-target` attribute or rely on hidden state of the trigger element that comes out of the box now.
+
 ### Attributes / Properties
-
-- `active` - readonly marker of active Toggleable target
-
+- 
 - `active-class` - CSS classes to set on active state
 
 - `active-class-target` - target element ESLTraversingQuery selector to set `active-class`
@@ -41,6 +45,14 @@ Authors: *Alexey Stsefanovich (ala'n)*, *Julia Murashko*.
 - `hover-show-delay` - show delay override value for hover (number in ms or `none`)
 
 - `hover-hide-delay` - hide delay override value for hover (number in ms or `none`)
+ 
+- `stop-propagation` - stop event bubbling on click and keydown events (default `true`)
+
+### Readonly Attributes / Properties
+
+- `active` - readonly marker of active Toggleable target
+
+- `no-target` - readonly marker to indicate that no target Toggleable was found <i class="badge badge-sup badge-success">new</i>
 
 ### Events
 

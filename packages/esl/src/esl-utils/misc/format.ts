@@ -88,19 +88,21 @@ export function format(str: string, source: Record<string, any>, matcher: RegExp
     return val === undefined ? match : val;
   });
 }
+
 /**
  * Parses time string ([CSS style](https://developer.mozilla.org/en-US/docs/Web/CSS/time))
  * Less strict than CSS spec, allows empty string, numbers without units, ending dot.
+ * Note: literal `none` is treated as `0`.
  * @example
  * `.3s`, `4.5s`, `1000ms`
  * @returns number - time in milliseconds
 */
-export function parseTime(timeStr: string): number {
-  const str = timeStr.trim().toLowerCase();
-  const parseNoEmpty = (s: string): number => s ? +s : NaN;
-  if (str.endsWith('ms')) return parseNoEmpty(str.slice(0, -2));
-  if (str.endsWith('s')) return parseNoEmpty(str.slice(0, -1)) * 1000;
-  return +str; // empty string without unit is treated as 0
+export function parseTime(timeStr: number | string): number {
+  const str = String(timeStr).trim().toLowerCase();
+  if (str === 'none') return 0;
+  if (str.endsWith('ms')) return parseFloat(str.slice(0, -2));
+  if (str.endsWith('s')) return parseFloat(str.slice(0, -1)) * 1000;
+  return +str; // Empty string treated as 0, numbers without units treated as milliseconds
 }
 
 /**

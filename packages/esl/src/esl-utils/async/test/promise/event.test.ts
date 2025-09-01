@@ -17,7 +17,7 @@ describe('async/promise/event', () => {
       const promise$ = promisifyEvent(el, 'test');
       el.dispatchEvent(new CustomEvent('test'));
       await promise$;
-      return expect(spy).toBeCalledWith('test', expect.any(Function), undefined);
+      return expect(spy).toHaveBeenCalledWith('test', expect.any(Function), undefined);
     });
 
     test('Rejected by timeout if it is exceeded', async () => {
@@ -34,7 +34,7 @@ describe('async/promise/event', () => {
       try {
         await promise$;
       } catch {
-        expect(spy).toBeCalledWith('test', expect.any(Function), undefined);
+        expect(spy).toHaveBeenCalledWith('test', expect.any(Function), undefined);
       }
     });
     describe('AbortSignal handling', () => {
@@ -58,7 +58,7 @@ describe('async/promise/event', () => {
         const promise$ = promisifyEvent(el, 'test', null, {signal});
         el.dispatchEvent(new CustomEvent('test'));
         await promise$;
-        return expect(spy).toBeCalledWith('abort', expect.any(Function));
+        return expect(spy).toHaveBeenCalledWith('abort', expect.any(Function));
       });
       test('AbortSignal listener unsubscribed if the promise was rejected by timeout', async () => {
         const el = document.createElement('div');
@@ -70,7 +70,7 @@ describe('async/promise/event', () => {
         try {
           await promise$;
         } catch {
-          expect(spy).toBeCalledWith('abort', expect.any(Function));
+          expect(spy).toHaveBeenCalledWith('abort', expect.any(Function));
         }
       });
       test('AbortSignal listener unsubscribed if the promise was rejected by signal', async () => {
@@ -83,7 +83,7 @@ describe('async/promise/event', () => {
         try {
           await promise$;
         } catch {
-          expect(spy).toBeCalledWith('abort', expect.any(Function));
+          expect(spy).toHaveBeenCalledWith('abort', expect.any(Function));
         }
       });
     });

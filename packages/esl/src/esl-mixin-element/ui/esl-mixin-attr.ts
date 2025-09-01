@@ -1,6 +1,7 @@
 import {ESLMixinRegistry} from './esl-mixin-registry';
 import type {ESLMixinElement, ESLMixinElementInternal} from './esl-mixin-element';
 
+// TODO: fix duplicate in separate scopes (non-critical as only one instance per mixin type is created)
 // Singleton cache for ESLMixinAttributesObserver instances
 const instances = new Map<string, ESLMixinAttributesObserver>();
 

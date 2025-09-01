@@ -52,8 +52,7 @@ ESLMedia supports `load-condition` attribute that restricts loading of media res
 Attribute uses [ESLMediaQuery](../esl-media-query/README.md) syntax.
 
 #### Play in viewport restriction
-In case of `play-in-viewport` attribute is set, ESLMedia will automatically stop media playback when it is out of the viewport area,
-and resume playback when it returns to the viewport.
+In case of `play-in-viewport` attribute is set, ESLMedia will automatically stop media playback when it is out of the viewport area.
 
 #### Group restriction
 ESLMedia supports `group` attribute that restricts the number of active media players in the given group.
@@ -119,7 +118,9 @@ Also, ESLMedia provides attributes to reflect media state and additional classes
    - `16:9` - colon-separated proportion
    - `16/9` - slash-separated proportion
 
- - `play-in-viewport` (boolean) - auto stop media which is out of viewport area
+ - `play-in-viewport` - auto stop media which is out of viewport area. Supports two options of behaviour when media re-enters into the viewport:
+   - `start` - default, media will not be restarted if it was ended
+   - `restart` - media restarts automatically
  
  - `autofocus` (boolean) - set focus to the player when the media starts playing
  

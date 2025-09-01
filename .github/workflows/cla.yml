@@ -18,19 +18,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/create-github-app-token@v2
+        id: app-token
+        with:
+          app-id: ${{ vars.ORG_CI_BOT_ID }}
+          private-key: ${{ secrets.ORG_CI_BOT_PK }}
       - name: cla-assistant-check
         uses: contributor-assistant/github-action@v2.6.1
         if: startsWith(github.event.comment.body, 'recheckcla') || contains(github.event.comment.body, 'I have read the CLA Document and I hereby sign the CLA') || github.event_name == 'pull_request_target'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PERSONAL_ACCESS_TOKEN : ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+          PERSONAL_ACCESS_TOKEN : ${{ steps.app-token.outputs.token }}
         with:
           path-to-signatures: 'signatures/cla.json'
           path-to-document: 'https://github.com/exadel-inc/esl/blob/main/CLA.md'
 
           branch: 'history/cla'
-          allowlist: ala-n,julia-murashko,yadamskaya,dshovchko,bot*
+          allowlist: bot*
 
-          signed-commit-message: 'chore: $contributorName has signed the CLA in #$pullRequestNo'
+          signed-commit-message: 'chore: @$contributorName has signed the CLA in #$pullRequestNo'
           create-file-commit-message: 'chore: created file for storing CLA Signatures'
-          custom-notsigned-prcomment: 'Thank you for your submission, we really appreciate it. We ask that you sign our  <a href="https://github.com/exadel-inc/esl/blob/main/CLA.md">Contributor Licence Agreement</a> before we can accept your contribution. You can sign the CLA by just posting a Pull Request Comment same as the below format.'
+          custom-notsigned-prcomment: 'Thank you for your submission, we really appreciate it. We ask that you sign our  <a href="https://github.com/exadel-inc/esl/blob/main/CLA.md">Contributor License Agreement</a> before we can accept your contribution. You can sign the CLA by just posting a Pull Request Comment same as the below format.'

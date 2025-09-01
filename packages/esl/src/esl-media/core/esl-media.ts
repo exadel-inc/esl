@@ -2,9 +2,9 @@ import {ESLBaseElement} from '../../esl-base-element/core';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {isSafeContains} from '../../esl-utils/dom/traversing';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
-import {SPACE, PAUSE} from '../../esl-utils/dom/keys';
+import {PAUSE, SPACE} from '../../esl-utils/dom/keys';
 import {isInViewport} from '../../esl-utils/dom/visible';
-import {prop, attr, boolAttr, listen, memoize} from '../../esl-utils/decorators';
+import {attr, boolAttr, listen, memoize, prop} from '../../esl-utils/decorators';
 import {debounce} from '../../esl-utils/async';
 import {parseAspectRatio, parseBoolean, parseLazyAttr} from '../../esl-utils/misc/format';
 
@@ -22,6 +22,13 @@ import type {BaseProvider} from './esl-media-provider';
 import type {ESLMediaRegistryEvent} from './esl-media-registry.event';
 
 export type ESLMediaFillMode = 'cover' | 'inscribe' | '';
+
+function parsePlayInViewportAttr(value: string | null): 'restart' | boolean {
+  if (typeof value !== 'string') return false;
+  const v = value.trim().toLowerCase();
+  if (v === 'none') return false;
+  return v === 'restart' ? v : true;
+}
 
 /**
  * ESLMedia - custom element, that provides an ability to add and configure media (video / audio)
@@ -111,7 +118,7 @@ export class ESLMedia extends ESLBaseElement {
    */
   @boolAttr({name: 'disablepictureinpicture'}) public disablePictureInPicture: boolean;
   /** Allows play resource only in viewport area */
-  @boolAttr() public playInViewport: boolean;
+  @attr({parser: parsePlayInViewportAttr}) public playInViewport: 'restart' | boolean;
   /** Allows to start viewing a resource from a specific time offset. */
   @attr({defaultValue: 0, parser: parseInt}) public startTime: number;
   /** Allows player to accept focus */
@@ -147,6 +154,8 @@ export class ESLMedia extends ESLBaseElement {
   /** @readonly Width is greater than height state marker */
   @boolAttr({readonly: true}) public wide: boolean;
 
+  /** Private property to mark if the element is visible */
+  public _isVisible: boolean;
   /** Marker if the last action (play/pause/stop) was initiated by the user */
   protected _isManualAction: boolean;
   /** Applied provider instance */
@@ -291,6 +300,12 @@ export class ESLMedia extends ESLBaseElement {
 
   /** Detects if the user manipulate trough native controls */
   protected detectUserInteraction(cmd: string): void {
+    // Pause on ended state is usually system action
+    if (this.state === PlayerStates.ENDED && cmd === 'pause') {
+      this._isManualAction = false;
+      this._provider?.resetLastCommand();
+      return;
+    }
     if (!this.controls || this._isManualAction) return;
     if (this._provider?.lastCommand === cmd) return;
     // User cannot manipulate the player outside the viewport

@@ -44,7 +44,7 @@ describe('Common @bind decorator test', () => {
     }
 
     test(
-      'Context of bounded method saved if method called outside ',
+      'Context of bounded method saved if method called outside',
       () => {
         const instance = new Test('1');
         const cb = instance.getThisName;
@@ -166,6 +166,6 @@ describe('Common @bind decorator test', () => {
         // @ts-ignore
         @bind public a = 1;
       }
-    }).toThrowError();
+    }).toThrow();
   });
 });

@@ -131,7 +131,7 @@ describe('Decorator: @listen', () => {
         onEvent() {}
       }
       new Test();
-    }).toThrowError();
+    }).toThrow();
   });
 
   describe('@listen creates auto-subscribable(collectable) descriptors', () => {

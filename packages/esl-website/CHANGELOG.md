@@ -1,7 +1,121 @@
+## 5.12.0 (2025-08-29)
+
+### 🚀 Features
+
+- **esl-line-clamp:** add an attribute to specify mask to use tuple string of values ([995b25cf4](https://github.com/exadel-inc/esl/commit/995b25cf4))
+
+### 🩹 Fixes
+
+- `esl` package should contain actual version info in global scope ([23fb7686f](https://github.com/exadel-inc/esl/commit/23fb7686f))
+
+### Documentation updates
+
+- **esl-line-clamp:** fix typo and inconsistencies ([6a4743e40](https://github.com/exadel-inc/esl/commit/6a4743e40))
+
+## 5.11.0 (2025-08-15)
+
+### 🚀 Features
+
+- **ui-playground:** squashed ui-playground repository version https://github.com/exadel-inc/ui-playground.git ([c5856a4f0](https://github.com/exadel-inc/esl/commit/c5856a4f0))
+
+### 💅 Refactors
+
+- **site:** add empty space at news title end ([1d6bee779](https://github.com/exadel-inc/esl/commit/1d6bee779))
+- **site:** refactor new label with mixin approach ([51a27fff2](https://github.com/exadel-inc/esl/commit/51a27fff2))
+- **site:** news section labels refresh ([01912dfec](https://github.com/exadel-inc/esl/commit/01912dfec))
+- **site:** update site example for esl-carousel-autoplay plugin ([f5b0aaead](https://github.com/exadel-inc/esl/commit/f5b0aaead))
+
+### Documentation updates
+
+- fix qlty (coverage, maintainability) badges ([5700cd927](https://github.com/exadel-inc/esl/commit/5700cd927))
+
+## 5.10.0 (2025-07-28)
+
+### 🚀 Features
+
+- **esl-line-clamp:** introduce esl-line-clamp mixin to limit text content in the block ([fef05f07b](https://github.com/exadel-inc/esl/commit/fef05f07b))
+- **deps:** bump @stylistic/stylelint-plugin from 3.1.3 to 4.0.0; the plugin now requires stylelint version 16.22.0 or higher. ([#3261](https://github.com/exadel-inc/esl/pull/3261))
+
 # Change Log
 
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [5.9.1](https://github.com/exadel-inc/esl/compare/v5.9.0...v5.9.1) (2025-07-22)
+
+**Note:** Version bump only for package @exadel/esl-website
+
+
+
+
+
+# [5.9.0](https://github.com/exadel-inc/esl/compare/v5.8.1...v5.9.0) (2025-07-10)
+
+**Note:** Version bump only for package @exadel/esl-website
+
+
+
+
+
+## [5.8.1](https://github.com/exadel-inc/esl/compare/v5.8.0...v5.8.1) (2025-06-26)
+
+**Note:** Version bump only for package @exadel/esl-website
+
+
+
+
+
+# [5.8.0](https://github.com/exadel-inc/esl/compare/v5.7.1...v5.8.0) (2025-06-16)
+
+
+### Features
+
+* **esl-carousel:** support for proactive `container-class` handling using 'esl-carousel-class-behavior' plugin ([152a9fe](https://github.com/exadel-inc/esl/commit/152a9fe909a398f268dc5de8c6bd136ae7733d30))
+* **esl-tab:** default `no-target` attribute styles to hide inactive tab ([1198795](https://github.com/exadel-inc/esl/commit/1198795c6697e3c3303bf17dd483c725d0b3e6e9))
+
+
+
+
+
+## [5.7.1](https://github.com/exadel-inc/esl/compare/v5.7.0...v5.7.1) (2025-06-10)
+
+**Note:** Version bump only for package @exadel/esl-website
+
+
+
+
+
+# [5.7.0](https://github.com/exadel-inc/esl/compare/v5.6.0...v5.7.0) (2025-06-09)
+
+**Note:** Version bump only for package @exadel/esl-website
+
+
+
+
+
+# [5.6.0](https://github.com/exadel-inc/esl/compare/v5.5.0...v5.6.0) (2025-06-03)
+
+**Note:** Version bump only for package @exadel/esl-website
+
+
+
+
+
+# [5.5.0](https://github.com/exadel-inc/esl/compare/v5.4.0...v5.5.0) (2025-06-02)
+
+
+### Bug Fixes
+
+* **esl-animate:** fix esl-animate does not work with repeat + ratio 1 ([3ff2221](https://github.com/exadel-inc/esl/commit/3ff222138ed3baaecf54ffe191920c416c3e8f9b))
+
+
+### Features
+
+* **esl-carousel:** introduce separate CSS based renderers (slide and fade one) ([6f9eb35](https://github.com/exadel-inc/esl/commit/6f9eb35ee73e6ca4eb30e67f0ad571ad9305e132))
+
+
+
+
 
 # [5.4.0](https://github.com/exadel-inc/esl/compare/v5.3.2...v5.4.0) (2025-04-28)
 

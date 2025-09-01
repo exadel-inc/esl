@@ -35,6 +35,8 @@ export class ESLSwipeGestureEvent extends UIEvent implements ESLSwipeGestureEven
   /** @deprecated Use {@link TYPE} instead */
   public static readonly type = this.TYPE;
 
+  public override readonly type: typeof ESLSwipeGestureEvent.TYPE;
+
   public override readonly target: Element;
 
   public readonly direction: SwipeDirection;
@@ -60,5 +62,13 @@ export class ESLSwipeGestureEvent extends UIEvent implements ESLSwipeGestureEven
   /** Creates {@link ESLSwipeGestureEvent} based on {@link ESLSwipeGestureEventInfo} */
   public static fromConfig(target: Element, swipeInfo: ESLSwipeGestureEventInfo): ESLSwipeGestureEvent {
     return new ESLSwipeGestureEvent(target, swipeInfo);
+  }
+}
+
+declare global {
+  /** Extended event map with the custom event definition */
+  export interface ESLListenerEventMap {
+    /** Custom swipe event dispatched by {@link ESLSwipeGestureTarget} */
+    [ESLSwipeGestureEvent.TYPE]: ESLSwipeGestureEvent;
   }
 }

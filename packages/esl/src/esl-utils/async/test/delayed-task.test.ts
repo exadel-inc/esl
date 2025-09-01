@@ -8,14 +8,14 @@ describe('async/delayed-task', () => {
     const task = new DelayedTask();
 
     task.put(fn1);
-    expect(fn1).toBeCalledTimes(1);
+    expect(fn1).toHaveBeenCalledTimes(1);
     task.put(fn2, -1);
-    expect(fn2).toBeCalledTimes(1);
+    expect(fn2).toHaveBeenCalledTimes(1);
     task.put(fn2);
-    expect(fn2).toBeCalledTimes(2);
+    expect(fn2).toHaveBeenCalledTimes(2);
     task.put(fn1);
-    expect(fn1).toBeCalledTimes(2);
-    expect(fn2).toBeCalledTimes(2);
+    expect(fn1).toHaveBeenCalledTimes(2);
+    expect(fn2).toHaveBeenCalledTimes(2);
   });
 
   test('simple microtask', (done) => {
@@ -25,9 +25,9 @@ describe('async/delayed-task', () => {
 
     task.put(fn1, 0);
     task.put(fn1, 0);
-    expect(fn1).toBeCalledTimes(0);
+    expect(fn1).toHaveBeenCalledTimes(0);
     setTimeout(() => {
-      expect(fn1).toBeCalledTimes(1);
+      expect(fn1).toHaveBeenCalledTimes(1);
       done();
     }, 10);
   });
@@ -39,9 +39,9 @@ describe('async/delayed-task', () => {
 
     task.put(fn1, 0);
     task.put(fn1);
-    expect(fn1).toBeCalledTimes(1);
+    expect(fn1).toHaveBeenCalledTimes(1);
     setTimeout(() => {
-      expect(fn1).toBeCalledTimes(1);
+      expect(fn1).toHaveBeenCalledTimes(1);
       done();
     }, 10);
   });
@@ -54,20 +54,20 @@ describe('async/delayed-task', () => {
 
     task.put(fn2, 50);
     task.put(fn1, 40);
-    expect(fn1).toBeCalledTimes(0);
-    expect(fn2).toBeCalledTimes(0);
+    expect(fn1).toHaveBeenCalledTimes(0);
+    expect(fn2).toHaveBeenCalledTimes(0);
 
     setTimeout(() => {
       task.put(fn2, 20);
-      expect(fn1).toBeCalledTimes(0);
-      expect(fn2).toBeCalledTimes(0);
+      expect(fn1).toHaveBeenCalledTimes(0);
+      expect(fn2).toHaveBeenCalledTimes(0);
 
       setTimeout(() => {
-        expect(fn1).toBeCalledTimes(0);
-        expect(fn2).toBeCalledTimes(1);
+        expect(fn1).toHaveBeenCalledTimes(0);
+        expect(fn2).toHaveBeenCalledTimes(1);
         task.put(fn1, false);
-        expect(fn1).toBeCalledTimes(1);
-        expect(fn2).toBeCalledTimes(1);
+        expect(fn1).toHaveBeenCalledTimes(1);
+        expect(fn2).toHaveBeenCalledTimes(1);
         done();
       }, 30);
     }, 10);
@@ -82,9 +82,9 @@ describe('async/delayed-task', () => {
     task.put(fn1, 0);
     expect(task.fn).toBe(fn1);
     task.cancel();
-    expect(fn1).toBeCalledTimes(0);
+    expect(fn1).toHaveBeenCalledTimes(0);
     setTimeout(() => {
-      expect(fn1).toBeCalledTimes(0);
+      expect(fn1).toHaveBeenCalledTimes(0);
       done();
     }, 10);
   });

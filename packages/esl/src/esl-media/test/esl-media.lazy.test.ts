@@ -13,7 +13,7 @@ describe('esl-media: lazy loading unit tests', () => {
     // silent console.debug
     jest.spyOn(console, 'debug').mockImplementation(() => undefined);
   });
-  afterAll(() => IntersectionObserverMock.unmock());
+  afterAll(() => IntersectionObserverMock.restore());
 
   test('ESLMedia is loading immediately unless the lazy and disabled attributes are set', () => {
     const $media = ESLMedia.create();

@@ -58,23 +58,23 @@ describe('ESLScreenBreakpoint tests', () => {
 
   test(
     'Empty keys is not allowed in custom breakpoint name',
-    () => expect(() => add('', 200, 300)).toThrowError()
+    () => expect(() => add('', 200, 300)).toThrow()
   );
   test(
     'Non-Latin keys are not allowed in custom breakpoint name',
-    () => expect(() => add('небольшой', 200, 300)).toThrowError()
+    () => expect(() => add('небольшой', 200, 300)).toThrow()
   );
   test(
     'Extra "@" is not allowed in custom breakpoint name',
-    () => expect(() => add('@XS', 200, 300)).toThrowError()
+    () => expect(() => add('@XS', 200, 300)).toThrow()
   );
   test(
     'Numeric key is not allowed in custom breakpoint name',
-    () => expect(() => add('123', 200, 300)).toThrowError()
+    () => expect(() => add('123', 200, 300)).toThrow()
   );
 
   test(
     'Digits allowed as part of regular custom breakpoint name',
-    () => expect(() => add('xs123', 200, 300)).not.toThrowError()
+    () => expect(() => add('xs123', 200, 300)).not.toThrow()
   );
 });

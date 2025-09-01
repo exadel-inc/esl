@@ -1,7 +1,6 @@
-import puppeteerEnv from 'jest-environment-puppeteer';
-
-if (!process.argv.includes('--no-autorun') && !process.env.PORT) {
-  process.env.PORT = '3007';
+if (!process.argv.includes('--no-autorun')) {
+  if (!process.env.PORT) process.env.PORT = '3007';
+  process.env.SITE_ENV = 'e2e';
 }
 
 /** @type {puppeteerEnv.JestPuppeteerConfig} */
@@ -23,7 +22,7 @@ const config = {
     ]
   },
   server: {
-    command: 'npm run run:server',
+    command: 'npx nx run esl-website:run',
     port: process.env.PORT,
     launchTimeout: 120000,
     debug: true
