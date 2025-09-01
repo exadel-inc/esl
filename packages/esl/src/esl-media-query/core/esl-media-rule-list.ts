@@ -25,6 +25,9 @@ export class ESLMediaRuleListEvent<T = any> extends Event {
   }
 }
 
+// Singleton empty rule list placeholder
+let empty: ESLMediaRuleList;
+
 /**
  * ESLMediaRuleList - {@link ESLMediaRule} observable collection
  * @author Yuliya Adamskaya, Alexey Stsefanovich (ala'n)
@@ -38,12 +41,10 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
   /** Object value parser. Uses {@link evaluate} to parse value */
   public static OBJECT_PARSER = <U = any>(val: string): U | undefined => evaluate(val);
 
-  /** Empty {@link ESLMediaRuleList} instance */
-  public static readonly EMPTY: ESLMediaRuleList<never> = new ESLMediaRuleList([]);
-
   /** @returns empty {@link ESLMediaRuleList} instance */
   public static empty<U>(): ESLMediaRuleList<U> {
-    return ESLMediaRuleList.EMPTY as ESLMediaRuleList<U>;
+    if (!empty) empty = new ESLMediaRuleList([]);
+    return empty;
   }
 
   /**

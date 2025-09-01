@@ -205,4 +205,17 @@ describe('ESLMediaRuleList', () => {
       expect(ESLMediaRuleList.parse.apply(null, params).toString()).toBe(canonical);
     });
   });
+
+  describe('Empty rule list', () => {
+    test('Empty rule list always has undefined value', () => {
+      const mrl = ESLMediaRuleList.empty<string>();
+      expect(mrl.rules.length).toBe(0);
+      expect(mrl.value).toBe(undefined);
+      expect(mrl.active.length).toBe(0);
+      expect(mrl.activeValue).toBe(undefined);
+    });
+    test('Empty rule list factory is a singleton producer', () => {
+      expect(ESLMediaRuleList.empty()).toBe(ESLMediaRuleList.empty());
+    });
+  });
 });
