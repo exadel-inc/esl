@@ -41,7 +41,9 @@ export function ExportNs<T extends Function>(name?: string) {
 }
 
 /** Declare ESL global */
-ExportNs.declare = (): void => {
+ExportNs.declare = (version: string): void => {
   if ('ESL' in window) return;
-  Object.defineProperty(window, 'ESL', {value: {}});
+  const ns = {};
+  Object.defineProperty(ns, 'version', {value: version});
+  Object.defineProperty(window, 'ESL', {value: ns});
 };

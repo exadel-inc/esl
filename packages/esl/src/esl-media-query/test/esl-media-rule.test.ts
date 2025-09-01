@@ -61,7 +61,7 @@ describe('ESLMediaRule', () => {
       const serialized = '@sm => {a: 1';
       const rule = ESLMediaRule.parse(serialized, ESLMediaRuleList.OBJECT_PARSER);
       expect(rule).not.toBeDefined();
-      expect(spy).toBeCalled();
+      expect(spy).toHaveBeenCalled();
     });
 
     test('hello', () => {
@@ -101,12 +101,12 @@ describe('ESLMediaRule', () => {
     test('addEventListener', () => {
       const spyAdd = jest.spyOn(ESLMediaQuery.ALL, 'addEventListener');
       testRule.addEventListener(callback);
-      expect(spyAdd).toBeCalled();
+      expect(spyAdd).toHaveBeenCalled();
     });
     test('removeEventListener', () => {
       const spyRemove = jest.spyOn(ESLMediaQuery.ALL, 'removeEventListener');
       testRule.removeEventListener(callback);
-      expect(spyRemove).toBeCalled();
+      expect(spyRemove).toHaveBeenCalled();
     });
   });
 });

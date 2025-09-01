@@ -91,6 +91,7 @@ Note: a single value attributes will be considered as all-rule so they spreads a
  - `config` -  the current configuration of the carousel (contains all the config props like count, loop, type, etc).
 
  - `size` - the number of slides in the carousel.
+ - `offset` - the current offset of the carousel in pixels. (Calculates from the active slide stable position).
  - `activeIndex` - the index of the first active slide.
  - `activeIndexes` - the array of indexes of the active slides.
 
@@ -106,7 +107,7 @@ Note: a single value attributes will be considered as all-rule so they spreads a
  - `goTo(target: HTMLElement | ESLCarouselSlideTarget, params?: Partial<ESLCarouselActionParams>)` - navigate to the target slide.
    As a target you can use the slide element or a special navigation string (See ESLCarouselSlideTarget).
  - `move(offset: number, from?: number, params?: Partial<ESLCarouselActionParams>)` - shifts stage with the passed offset.
- - `public commit(offset: number, from?: number, params?: Partial<ESLCarouselActionParams>)` - reset the carousel to the stable (unshifted) state.
+ - `commit(offset: number)` - resets the carousel to the stable (unshifted) state.
 
  - `slideAt(index: number)` - returns the slide element at the given index.
  - `indexOf(slide: HTMLElement)` - returns the index of the given slide element.
@@ -117,22 +118,91 @@ Note: a single value attributes will be considered as all-rule so they spreads a
  - `isPrev(slide: HTMLElement)` - returns if the slide is prev.
  - `canNavigate(target: ESLCarouselSlideTarget)` - returns if the carousel can navigate to the target nav string.
 
+---
+
+### ESLCarousel Events
+
+ESLCarousel dispatches several custom events to notify about state changes and actions. 
+You can listen to these events on the `<esl-carousel>` element to react to slide changes, configuration updates, and more.
+
+#### Slide Change Events
+
+All slide change events use the `ESLCarouselSlideEvent` class and provide the following useful properties:
+- `indexesBefore`: Indexes of slides active before the change
+- `indexesAfter`: Indexes of slides that will be active after the change
+- `direction`: Direction of the slide animation (-1 for backward, 1 for forward)
+- `activator`: The object that initiated the change (if any)
+- `final`: `true` if the change is final (the carousel guarantees that the change will be applied)
+- `$slidesBefore`, `$slidesAfter`: Arrays of slide elements before/after
+
+**Event types:**
+
+- **`esl:before:slide-change`**
+  - Dispatched *before* the active slide(s) change. Cancelable. 
+  - Does not dispatch by move operation (touch plugin, etc.).
+
+- **`esl:slide-change`**
+  - Dispatched *when* the active slide(s) is going to change. 
+  - Does not gather the result change, in case `final` is `false` (for example for `move` operation, as it could be rejected on the commit).
+
+- **`esl:after:slide-change`**
+  - Dispatched *after* the slide change animation completes.
+  - Always dispatched after the `esl:slide-change` event, even if the change was canceled (rejected). A canceled event will have same indexes for `indexesBefore` and `indexesAfter`.
+
+#### Carousel Configuration Change Event
+
+The configuration change event uses the `ESLCarouselChangeEvent` class and provides the following useful properties:
+- `initial`: `true` if this is the initial event on carousel creation
+- `config`: Current carousel configuration
+- `oldConfig`: Previous configuration (if available)
+- `added`: Array of slide elements added
+- `removed`: Array of slide elements removed
+
+**Event types:**
+- **`esl:carousel:change`**
+  - Dispatched when the carousel configuration or slides change (e.g., on creation, resize, or slide add/remove).
+
+For more details, see the event classes in `core/esl-carousel.events.ts`.
+
+#### Carousel Move Event
+The move event uses the `ESLCarouselMoveEvent` class and provides the following useful properties:
+- `offset`: The offset applied to the carousel (in pixels)
+- `delta`: The delta of the offset change (in pixels)
+- `direction`: Direction of the move (-1 for backward, 1 for forward)
+- `indexesAfter`: Indexes of slides that will be active after the move
+- `activator`: The object that initiated the move (if any)
+
+---
+
 #### `ESLCarouselSlideTarget` type
-The ESLCarouselSlideTarget is a string that defines the target slide for the carousel navigation.
+The ESLCarouselSlideTarget is a number or string that defines the target slide for any function or plugin in 
+the carousel navigation API.
 
-The following nav strings (commands) are available:
-- `prev` or `slide: prev` - go to the previous slide.
-- `next` or `slide: next` - go to the next slide.
-- `group: prev` - go to the previous slide group.
-- `group: next` - go to the next slide group.
-- `1`, `2`, `3`, ... - go to the slide by direct index.
-- `slide: 1`, `slide: 2`, `slide: 3`, ... - go to the slide by direct index.
-- `group: 1`, `group: 2`, `group: 3`, ... - go to the slide group by direct index.
-- `+1`, `slide: +1`, `slide: +2`, ... - increment the current slide index.
-- `-1`, `slide: -1`, `slide: -2`, ... - decrement the current slide index.
-- `group: +1`, `group: +2`, ... - increment the current slide group index.
-- `group: -1`, `group: -2`, ... - decrement the current slide group index.
+The following nav commands are available:
+- `0`, `1`, `2`, ... (positive number or a number as a string) - pointing directly to the slide index (starting from 0). 
+  If the number is greater than the count of slides, it will be wrapped around for a loop mode or will be clamped to the last slide index otherwise.
+- `-1`, `-2`, ... (negative number or a number as a string with a minus sign) - pointing to the slide index from the end of the carousel.
+  For example, `-1` will point to the last slide, `-2` will point to the second last slide, etc.
+- `slide:1`, `slide:2`, ... (index prefixed with a `slide:` with unsigned integer value) - pointing to the slide index (starting from 1).
+  For example, `slide:1` will point to the first slide, `slide:2` will point to the second slide, etc.
+  Prefixed unsigned integer value does not wrap around or clamp to the last slide index, so it will always point to the exact slide index.
+  If index is greater than the count of slides, navigation will be rejected.
+- `slide:+1`, `slide:-1`, ... - (index prefixed with a `slide:` and an explicitly signed integer value) - is the relative navigation command.
+  For example, `slide:+1` will point to the next slide, `slide:-1` will point to the previous slide, etc.
+  This command will increment or decrement the current active slide index by the given value.
+- `prev`, `slide: prev` - is an alias for `slide: -1` command, which will navigate to the previous slide.
+- `next`, `slide: next` - is an alias for `slide: +1` command, which will navigate to the next slide.
+- `group:1`, `group:2`, ... (index prefixed with a `group:` with unsigned integer value) - pointing to the slide group by a direct index (starting from 1).
+  If the group index is greater than the count of groups navigation will be rejected.
+- `group:+1`, `group:-1`, ... (index prefixed with a `group:` and an explicitly signed integer value) - is the relative navigation command for slide groups.
+  For example, `group:+1` will point to the next slide group, `group: -1` will point to the previous slide group, etc.
+- `group: prev`, `group: next` - is an alias for `group: -1` and `group: +1` commands, which will navigate to the previous or next slide group respectively.
 
+NOTE: Please be aware of the numbering differences:
+ - If you do not use any prefix, the index starts from 0 (zero), following typical JavaScript collection behavior. 
+   The system will also normalize the index if it exceeds bounds (similar to `at` function).
+ - If you use a prefix (such as `slide:` or `group:`), the index starts from 1 (one). 
+   In this case, the system treats the value as a user-defined API input and will not normalize the index—only direct targeting will be applied.
 
 ### ESL Carousel Slide API
 
@@ -185,7 +255,10 @@ To fine-tune the layout you can use the following recipes:
     To define the space between the slides you can just use native flexbox `gap` property.
     The renderer is aware of the gap and will adjust the slide size and calculations accordingly.
   3. Transitions:
-    The renderer utilizes JS Animation API to animate the slides. The only way to customize the transition timing is to use the `step-duration` attribute on the `esl-carousel` element.
+     The renderer uses the JavaScript Animation API to animate slides. The only way to customize the transition is by setting the duration via the CSS variable `--esl-carousel-step-duration`. 
+     The carousel renderer reads the computed value of this CSS variable to determine the transition duration.
+     In addition to using the CSS variable directly, you can also specify the `step-duration` attribute on the `<esl-carousel>` element. This attribute supports `ESLMediaRuleList` syntax, including definitions based on `media` attribute. 
+     Technically, the `step-duration` attribute sets the transition duration CSS variable on the carousel root element during the animation step.
   4. Siblings visibility and overflow:
     The CSS overflow property is set to `clip`(or `hidden` for legacy browsers) on the `esl-carousel` element to hide out of view slides.
     However, the start position and calculations are based on `esl-carousel-slides` container element.
@@ -197,11 +270,44 @@ To fine-tune the layout you can use the following recipes:
     Note that if you use siblings visibility effect, you will not see the last slide before the first one in the loop mode unless backward animation is playing.
     However, this option could be useful to limit CLS issues, when content of the slide is heavy (e.g. `esl-media` with the fill option).
 
+- #### Centered (type: `centered`) Renderer
+An extension of the default renderer that centers the active slide in the carousel.
+Does not have any critical configurational or functional differences from the default renderer except the process of offset calculation.
+
 - #### Grid (type: `grid`) Renderer <i class="badge badge-sup badge-warning">beta</i>
 The grid renderer for ESL Carousel is based on the Default renderer but uses the CSS Grid layout to display slides.
 Unlike the Default renderer, the Grid renderer displays multiple rows (horizontal case) or columns (vertical case) of slides.
 
 Note that the Grid renderer is more restrictive in terms of the slide size definition. Unlike the Default renderer, the Grid renderer does not support relative sizes for the slides (grid layout liitations).
+
+#### Default CSS Renderer (type: `css`) <i class="badge badge-sup badge-success">new</i>
+Uses the `ESLCSSCarouselRenderer` implementation.
+This renderer does not apply any JavaScript-based animation logic. It relies entirely on CSS-defined transitions and animations.
+
+> **Note:** This renderer does not listen for specific transition or animation events. Therefore, the animation duration must be explicitly defined using the `--esl-carousel-step-duration` CSS variable.
+It is also good practice to use the `--esl-carousel-step-duration` CSS variable within your animation. This enables duration customization via the `step-duration` attribute as well.
+
+Animations can make use of global markers such as `active`, `pre-active`, `next`, and `prev` attributes, as well as the `animating` state attribute on the carousel element.
+
+Additionally, the renderer provides the CSS classes `forward`, and `backward` on `[esl-carousels-slides]` to help define animation direction.
+
+The renderer supports the move operation, but you must rely on one of the following CSS variables and markers:
+* `shifted` – A root element attribute added to the carousel element when the move operation is not committed.
+* `--esl-carousel-offset` – A CSS variable representing the move offset in pixels.
+* `--esl-carousel-offset-ratio` – A CSS variable representing the offset relative to the carousel size and move tolerance.
+
+By default, this renderer does not include any specific animation. However, several built-in animation implementations are provided (detailed below).
+
+It is important to note that the CSS renderer uses a grid layout for the slides container to ensure consistent slide sizes (auto-height).
+You need to override the layout intentionally if you want to use a different method to normalize the slide/carousel sizes.
+
+#### CSS Fade Renderer (type: `css-fade`)
+An extension of the default CSS renderer that provides fade animation styles for slide transitions.
+Supports move operations relative to the carousel size and move tolerance.
+
+#### CSS Slide Renderer (type: `css-slide`)
+An extension of the default CSS renderer that provides sliding animation styles for slide transitions.
+Supports move operations based on absolute pixel offset.
 
 - #### None (type: `none`) Renderer
 The none renderer for ESL Carousel is a dummy renderer that does not change the slides layout and assumes that all the slides are visible at once.

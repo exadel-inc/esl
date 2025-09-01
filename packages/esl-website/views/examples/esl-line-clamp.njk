@@ -1,0 +1,149 @@
+---
+layout: content
+title: ESL Line Clamp
+seoTitle: Handle line clamping functionality for any element using ESL Mixin
+name: Line Clamp
+tags: [examples, new, beta]
+collectionIcon: examples/line-clamp.svg
+aside:
+  min-version: 5.10.0
+  components:
+    - esl-line-clamp
+---
+<style>
+  .esl-line-clamp-demo {
+    max-height: 500px;
+  }
+  .esl-line-clamp-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .esl-line-clamp-card {
+    border: 1px solid #ccc;
+    width: 350px;
+    height: auto;
+    min-height: 200px;
+    padding: 15px;
+  }
+</style>
+
+<section class="row">
+  <div class="col-12">
+    <uip-root>
+      <script type="text/html"
+              label="Basic"
+              uip-snippet
+              uip-snippet-js="js-snippet-line-clamp">
+        <style>
+          .esl-line-clamp-card {
+            --esl-line-clamp: 5;
+          }
+        </style>
+        <section class="esl-line-clamp-demo">
+          <div class="esl-line-clamp-container">
+            <div class="esl-line-clamp-card">
+              <p esl-line-clamp><!-- text x150 --></p>
+            </div>
+            <div class="esl-line-clamp-card">
+              <p esl-line-clamp><!-- text x150 --></p>
+            </div>
+          </div>
+        </section>
+      </script>
+
+      <script type="text/html"
+              label="With media query"
+              uip-snippet
+              uip-snippet-js="js-snippet-line-clamp">
+        <section class="esl-line-clamp-demo">
+          <div class="esl-line-clamp-container">
+            <div class="esl-line-clamp-card">
+              <p esl-line-clamp="none | @+MD => 4 | @XL => 7"><!-- text x150 --></p>
+            </div>
+            <div class="esl-line-clamp-card">
+              <p esl-line-clamp="none | @+MD => 4 | @XL => 7"><!-- text x150 --></p>
+            </div>
+          </div>
+        </section>
+      </script>
+
+      <script type="text/html"
+              label="Auto mode"
+              uip-snippet
+              uip-snippet-js="js-snippet-line-clamp">
+        <section class="esl-line-clamp-demo">
+          <div class="esl-line-clamp-container">
+            <div class="esl-line-clamp-card">
+              <p esl-line-clamp="auto" style="max-height: 150px;">With max-height: 150px; <br> <!-- text x150 --></p>
+            </div>
+            <div class="esl-line-clamp-card">
+              <p esl-line-clamp="auto">Without max-height; <br> <!-- text x50 --></p>
+            </div>
+          </div>
+        </section>
+      </script>
+
+      <script type="text/html"
+              label="Mask and tuples"
+              uip-snippet
+              uip-snippet-js="js-snippet-line-clamp">
+        <section class="esl-line-clamp-demo">
+          <div class="esl-line-clamp-container">
+            <div class="esl-line-clamp-card">
+              <p esl-line-clamp="8|6|4" esl-line-clamp-mask="@XL|@MD|@XS">
+                With mask "@XL|@MD|@XS" and values "8|6|4".<br>
+                That means 8 for XL and up, 6 for MD and up, 4 for XS and up, otherwise no clamping.<br>
+                <!-- text x150 -->
+              </p>
+            </div>
+            <div class="esl-line-clamp-card">
+              <p esl-line-clamp="1|2|3|4|5">
+                Without mask (default global) <br>
+                <!-- text x50 -->
+              </p>
+            </div>
+          </div>
+        </section>
+      </script>
+
+      {% if env.isDev %}
+      <script type="text/html"
+              label="Focus behavior demo"
+              uip-snippet
+              uip-snippet-js="js-snippet-line-clamp">
+        <style>
+          .esl-line-clamp-card {
+            --esl-line-clamp: 5;
+          }
+        </style>
+        <section class="esl-line-clamp-demo">
+          <p>Just a paragraph with a <a href="#">link</a>.</p>
+          <div class="esl-line-clamp-container">
+            <div class="esl-line-clamp-card">
+              <p esl-line-clamp>This demonstrates the focus behavior of the line clamp. Quisque faucibus ex vitae pellentesque sem placerat. <a href="https://esl-ui.com/">In id cursus mi pretium tellus duis convallis</a>. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent <a href="https://esl-ui.com/">taciti sociosqu</a>. Ad litora <span><a href="https://esl-ui.com/">torquent</a></span> per conubia nostra inceptos <span class="esl-note-wrapper">himenaeos<esl-note>Note from first card</esl-note></span></p>
+            </div>
+            <div class="esl-line-clamp-card">
+              <p esl-line-clamp>Lorem ipsum dolor sit amet consectetur adipiscing elit at vis tincidunt <a href="https://esl-ui.com/">argumentum</a> comprehensam. Quisque faucibus ex vitae pellentesque sem placerat. <a href="https://esl-ui.com/">In id cursus mi pretium tellus duis convallis</a>. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent <a href="https://esl-ui.com/">taciti sociosqu</a>. Ad litora <span><a href="https://esl-ui.com/">torquent</a></span> per conubia nostra inceptos <span class="esl-note-wrapper">himenaeos<esl-note>Note from second card</esl-note></span></p>
+            </div>
+          </div>
+          <p>Just a paragraph with a <a href="#">link</a>.</p>
+          <esl-footnotes></esl-footnotes>
+        </section>
+      </script>
+      {% endif %}
+
+      <script id="js-snippet-line-clamp" type="text/plain">
+        import { ESLLineClamp } from '@exadel/esl';
+
+        ESLLineClamp.register();
+      </script>
+
+      <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
+      <uip-preview></uip-preview>
+      <uip-editor label="Source code (HTML)" collapsible copy></uip-editor>
+      <uip-editor source="js" label="Source code (JS)" collapsible collapsed copy></uip-editor>
+    </uip-root>
+  </div>
+</section>

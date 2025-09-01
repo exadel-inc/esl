@@ -58,7 +58,7 @@ describe('ESLResizeObserverTarget EventTarget adapter', () => {
 
       test('Subscription produces ResizeObserver interaction', () => {
         target.addEventListener(cb1);
-        expect(mock.observe).lastCalledWith(el);
+        expect(mock.observe).toHaveBeenLastCalledWith(el);
         expect(mock.unobserve).not.toHaveBeenCalled();
       });
       test('Second subscription does not produces ResizeObserver interaction', () => {
@@ -98,7 +98,7 @@ describe('ESLResizeObserverTarget EventTarget adapter', () => {
       });
       test('ESLDomElementRelated subscription produces ResizeObserver interaction', () => {
         targetMixin.addEventListener(cb1);
-        expect(mock.observe).lastCalledWith(el);
+        expect(mock.observe).toHaveBeenLastCalledWith(el);
         expect(mock.unobserve).not.toHaveBeenCalled();
       });
       test('Repeated subscription of ESLDomElementRelated host does not produces ResizeObserver interaction', () => {

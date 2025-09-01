@@ -29,12 +29,12 @@ Install UIPlayground [npm dependency](https://www.npmjs.com/package/@exadel/ui-p
    ```
 Run initialization function
    ```javascript
-   import {init} from '@exadel/ui-playground/esm/registration.js';
+   import {init} from '@exadel/ui-playground/dist/registration.js';
    init();
    ```
 Import CSS styles
    ```css
-   @import "@exadel/ui-playground/esm/registration.css";
+   @import "@exadel/ui-playground/dist/registration.css";
    ```
 
 ---

@@ -1,0 +1,100 @@
+---
+title: Autoplay Carousel (CSS)
+order: 11
+tags: carousel-sample
+---
+
+<div class="esl-carousel-no-extra-space esl-carousel-nav-container">
+  <button type="button" class="esl-carousel-arrow inner prev hide-xs" esl-carousel-nav="group:prev">
+    <span class="sr-only">Previous Slide</span>
+  </button>
+
+  <esl-carousel demo-options-target
+                type="css-slide"
+                esl-carousel-autoplay="{duration: '3s', control: '#autoplay-ctrl', controlCls: '!btn-inactive', containerCls: 'autoplay-enabled'}"
+                loop="true">
+    <ul esl-carousel-slides>
+      {% for i in range(0, 4) -%}
+        <li esl-carousel-slide {{ 'active' if loop.first }}
+            {% if loop.index == 1 %}esl-carousel-autoplay-timeout="3s"{% endif %}
+            {% if loop.index == 2 %}esl-carousel-autoplay-timeout="5s"{% endif %}
+            {% if loop.index == 3 %}esl-carousel-autoplay-timeout="2s"{% endif %}
+            {% if loop.index == 4 %}esl-carousel-autoplay-timeout="4s"{% endif %}>
+          <div class="card">
+            <div class="img-container img-container-16-9" esl-image-container>
+              <img class="img-fade img-cover"
+                   alt="{{ 'Carousel slide ' + loop.index }}"
+                   src="{{ '/assets/carousel/' + loop.index + '-sm.jpg' | url }}"
+                   loading="lazy" />
+              <div class="h1 text-slide text-white">
+                Slide {{ loop.index }}
+                <small class="d-block mt-1" style="font-size: 0.6em;">
+                  {% if loop.index == 1 %}(3s timeout){% endif %}
+                  {% if loop.index == 2 %}(5s timeout){% endif %}
+                  {% if loop.index == 3 %}(2s timeout){% endif %}
+                  {% if loop.index == 4 %}(4s timeout){% endif %}
+                </small>
+              </div>
+            </div>
+          </div>
+        </li>
+      {%- endfor %}
+    </ul>
+
+    <!-- Absolutely positioned toggle button inside carousel for proper hover handling -->
+    <button id="autoplay-ctrl" class="btn btn-sec-white autoplay-toggle btn-inactive" esl-carousel-autoplay-progress>
+      <span class="control-text">Pause</span>
+      <svg class="progress" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+        <circle r="10" cx="12" cy="12" fill="none" stroke-width="2" stroke-linecap="round"></circle>
+      </svg>
+    </button>
+  </esl-carousel>
+
+  <button type="button" class="esl-carousel-arrow inner next hide-xs" esl-carousel-nav="group:next">
+    <span class="sr-only">Next Slide</span>
+  </button>
+
+  <style>
+    .text-slide {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+
+    /* Absolutely positioned toggle button similar to carousel arrows */
+    .autoplay-toggle {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Progress bar styling using CSS variables from esl-carousel-autoplay-progress */
+    .progress circle {
+      stroke: currentColor;
+      stroke-dasharray: 62.83185307179586; /* 2 * Math.PI * 10 */
+      stroke-dashoffset: 62.83185307179586; /* full circle */
+    }
+
+    /* Dynamic progress animation using CSS variable */
+    [autoplay-enabled][animate] .progress circle {
+      stroke-dashoffset: 0;
+      transition: stroke-dashoffset var(--esl-autoplay-timeout, 3s) linear;
+    }
+
+    /* Visual feedback for autoplay state */
+    .autoplay-enabled {
+      outline: 4px solid rgba(135, 206, 250, 0.8);
+    }
+
+    .progress {
+      flex-shrink: 0;
+    }
+  </style>
+</div>

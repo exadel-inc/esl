@@ -3,7 +3,7 @@ import {ESLBaseElement} from '../../esl-base-element/core';
 import {attr, boolAttr, ready, decorate, listen, memoize} from '../../esl-utils/decorators';
 import {isMatches} from '../../esl-utils/dom/traversing';
 import {microtask} from '../../esl-utils/async';
-import {parseBoolean, parseTime, sequentialUID} from '../../esl-utils/misc';
+import {parseBoolean, parseTime, sequentialUID, toCamelCase} from '../../esl-utils/misc';
 
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core';
@@ -13,9 +13,10 @@ import {ESLResizeObserverTarget} from '../../esl-event-listener/core';
 import {normalize, toIndex, canNavigate} from './esl-carousel.utils';
 
 import {ESLCarouselSlide} from './esl-carousel.slide';
-import {ESLCarouselRenderer} from './esl-carousel.renderer';
 import {ESLCarouselChangeEvent} from './esl-carousel.events';
+import {ESLCarouselRendererRegistry} from './esl-carousel.renderer.registry';
 
+import type {ESLCarouselRenderer} from './esl-carousel.renderer';
 import type {
   ESLCarouselState,
   ESLCarouselSlideTarget,
@@ -47,7 +48,7 @@ export class ESLCarousel extends ESLBaseElement {
   @attr({defaultValue: 'false'}) public vertical: string | boolean;
 
   /** Duration of the single slide transition */
-  @attr({defaultValue: '250'}) public stepDuration: string;
+  @attr() public stepDuration: string;
 
   /** Container selector (supports traversing query). Carousel itself by default */
   @attr({defaultValue: ''}) public container: string;
@@ -119,15 +120,13 @@ export class ESLCarousel extends ESLBaseElement {
 
   /** Carousel instance current {@link ESLCarouselState} */
   public get state(): ESLCarouselState {
-    return Object.assign({}, this.renderer.config, {
-      activeIndex: this.activeIndex
-    });
+    return this.renderer.state;
   }
 
   /** @returns currently active renderer */
   @memoize()
   public get renderer(): ESLCarouselRenderer {
-    return ESLCarouselRenderer.registry.create(this, this.configCurrent);
+    return ESLCarouselRendererRegistry.instance.create(this, this.configCurrent);
   }
 
   @ready
@@ -143,7 +142,7 @@ export class ESLCarousel extends ESLBaseElement {
       memoize.clear(this, '$container');
       return this.updateStateMarkers();
     }
-    memoize.clear(this, `${attrName}Rule`);
+    memoize.clear(this, `${toCamelCase(attrName)}Rule`);
     this.update();
   }
 
@@ -188,7 +187,7 @@ export class ESLCarousel extends ESLBaseElement {
   public addSlide(slide: HTMLElement): void {
     slide.setAttribute(this.slideAttrName, '');
     if (slide.parentNode === this.$slidesArea) return this.update();
-    console.debug('[ESL]: ESLCarousel moves slide to correct location', slide);
+    if (slide.parentNode) console.debug('[ESL]: ESLCarousel moves slide to correct location', slide);
     this.$slidesArea.appendChild(slide);
   }
 
@@ -213,7 +212,7 @@ export class ESLCarousel extends ESLBaseElement {
     this.update();
   }
 
-  @listen({event: 'change', target: ESLCarouselRenderer.registry})
+  @listen({event: 'change', target: ESLCarouselRendererRegistry.instance})
   protected _onRegistryUpdate(): void {
     this.update();
   }
@@ -228,7 +227,7 @@ export class ESLCarousel extends ESLBaseElement {
     const detail = e.detail || {};
     if (!isMatches(this, detail.match)) return;
     const index = this.$slides.findIndex(($slide) => $slide.contains(e.target as Element));
-    if (index !== -1 && !this.isActive(index)) this.goTo(index);
+    if (index !== -1 && !this.isActive(index)) this.goTo(index).catch(console.debug);
   }
 
   /** @returns slides that are processed by the current carousel. */
@@ -273,34 +272,28 @@ export class ESLCarousel extends ESLBaseElement {
     return this.$slides.length || 0;
   }
 
+  /** @returns additional shift of the stage in pixels */
+  public get offset(): number {
+    return this.renderer.offset || 0;
+  }
+
   /** @returns index of first (the most left in the loop) active slide */
   public get activeIndex(): number {
-    if (this.size <= 0) return -1;
-    if (this.isActive(0)) {
-      for (let i = this.size - 1; i > 0; --i) {
-        if (!this.isActive(i)) return normalize(i + 1, this.size);
-      }
-    }
-    return this.$slides.findIndex(this.isActive, this);
+    return this.renderer.activeIndex;
   }
 
   /** @returns list of active slide indexes. */
   public get activeIndexes(): number[] {
-    const start = this.activeIndex;
-    if (start < 0) return [];
-    const indexes = [];
-    for (let i = 0; i < this.size; i++) {
-      const index = normalize(i + start, this.size);
-      if (this.isActive(index)) indexes.push(index);
-    }
-    return indexes;
+    return this.renderer.activeIndexes;
   }
 
   /** Goes to the target according to passed params */
-  public goTo(target: HTMLElement | ESLCarouselSlideTarget, params: Partial<ESLCarouselActionParams> = {}): Promise<void> {
+  public async goTo(target: HTMLElement | ESLCarouselSlideTarget, params: Partial<ESLCarouselActionParams> = {}): Promise<void> {
     if (target instanceof HTMLElement) return this.goTo(this.indexOf(target), params);
-    if (!this.renderer) return Promise.reject();
-    return this.renderer.navigate(toIndex(target, this.state), this.mergeParams(params));
+    if (!this.renderer) throw new Error('Renderer is not available');
+    const index = toIndex(target, this.renderer);
+    if (isNaN(index.index)) throw new Error(`Invalid target index passed ${target}`);
+    return this.renderer.navigate(index, this.mergeParams(params));
   }
 
   /** Moves slides by the passed offset */
@@ -310,15 +303,16 @@ export class ESLCarousel extends ESLBaseElement {
   }
 
   /** Commits slides to the nearest stable position */
-  public commit(offset: number, from: number = this.activeIndex, params: Partial<ESLCarouselActionParams> = {}): Promise<void> {
+  public commit(params: Partial<ESLCarouselActionParams> = {}): Promise<void> {
     if (!this.renderer) return Promise.reject();
-    return this.renderer.commit(offset, from, this.mergeParams(params));
+    return this.renderer.commit(this.mergeParams(params));
   }
 
   /** Merges request params with default params */
   protected mergeParams(params: Partial<ESLCarouselActionParams>): ESLCarouselActionParams {
     const stepDuration = this.stepDurationRule.value || 0;
-    return {stepDuration, ...params};
+    const indexesBefore = this.activeIndexes;
+    return {stepDuration, indexesBefore, ...params};
   }
 
   /** @returns slide by index (supports not normalized indexes) */
@@ -333,7 +327,7 @@ export class ESLCarousel extends ESLBaseElement {
 
   /** @returns if the passed slide target can be reached */
   public canNavigate(target: ESLCarouselSlideTarget): boolean {
-    return canNavigate(target, this.state);
+    return canNavigate(target, this.renderer);
   }
 
   /** @returns if the passed element (or slide on a passed index) is an active slide */

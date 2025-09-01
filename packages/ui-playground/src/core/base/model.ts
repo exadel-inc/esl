@@ -45,7 +45,7 @@ export type ChangeAttrConfig = {
  */
 export class UIPStateModel extends SyntheticEventTarget {
   /** Snippets {@link UIPSnippetItem} value objects */
-  private _snippets: UIPSnippetItem[];
+  private _snippets: UIPSnippetItem[] = [];
 
   /** Current js state */
   private _js: string = '';

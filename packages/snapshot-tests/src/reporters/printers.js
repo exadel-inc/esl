@@ -22,11 +22,12 @@ const resolveURL = (basePath, snapshot) => {
   return path.replace(/\\/g, '/');
 };
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function printFiles(fileStat, basePath) {
   let text = '';
   for (const file of fileStat) {
     text += `### ${file.filepath}\n`;
-    text += `<table>\n`;
+    text += '<table>\n';
     text += '<tr><th>Test</th><th>Status</th><th>Time</th></tr>\n';
     for (const test of file.tests) {
       const statusTest = test.status === 'passed' ? ':white_check_mark:' : ':x:';
@@ -38,14 +39,14 @@ function printFiles(fileStat, basePath) {
         text += `<tr><td colspan="3"><img src="${resolveURL(basePath, `${test.dirPath}/${test.snapshot}`)}" alt="Test Diff ${test.snapshot}"/></td></tr>`;
       }
       if (test.status !== 'passed' && !test.hasSnapshot) {
-        text += `<tr><td colspan="3">\n`;
+        text += '<tr><td colspan="3">\n';
         text += '```text\n';
         text += test.messages.join('\n');
         text += '\n```\n';
-        text += `</td></tr>\n`;
+        text += '</td></tr>\n';
       }
     }
-    text += `</table>`;
+    text += '</table>';
     text += '\n\n';
   }
   return text;

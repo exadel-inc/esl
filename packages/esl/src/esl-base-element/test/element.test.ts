@@ -31,11 +31,11 @@ describe('ESLBaseElement', () => {
 
   test('ESLBaseElement register validate', async () => {
     // Tag is not empty
-    expect(() => TestElement2.register('')).toThrowError();
+    expect(() => TestElement2.register('')).toThrow();
     TestElement2.register('test-test');
     await customElements.whenDefined('test-test');
-    expect(() => TestElement2.register('test-test')).not.toThrowError();
-    expect(() => TestElement2.register('test-test-2')).toThrowError();
+    expect(() => TestElement2.register('test-test')).not.toThrow();
+    expect(() => TestElement2.register('test-test-2')).toThrow();
     try {
       // eslint-disable-next-line require-atomic-updates
       TestElement2.is = 'test-test-2';
@@ -57,7 +57,7 @@ describe('ESLBaseElement', () => {
       }
 
       TestInherited.register();
-    }).not.toThrowError();
+    }).not.toThrow();
   });
 
   describe('ESLBaseElement has correct tag name on connected callback', () => {
@@ -73,7 +73,7 @@ describe('ESLBaseElement', () => {
 
     beforeAll(() => document.body.append(document.createElement(customName)));
     afterAll(() => [...document.body.querySelectorAll(customName)].forEach((node) => node.parentElement?.removeChild(node)));
-    test('Register an element with custom tag name', () => expect(() => TestEl.register(customName)).not.toThrowError());
+    test('Register an element with custom tag name', () => expect(() => TestEl.register(customName)).not.toThrow());
   });
 
   describe('ESLBaseElement prototype', () => {

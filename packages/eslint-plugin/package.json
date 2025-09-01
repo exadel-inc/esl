@@ -1,12 +1,16 @@
 {
   "name": "@exadel/eslint-plugin-esl",
   "private": false,
-  "version": "5.4.0",
+  "version": "5.12.0",
   "keywords": [
     "eslint",
     "eslint-plugin",
     "esl"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/exadel-inc/esl.git"
+  },
   "publishConfig": {
     "access": "public",
     "scope": "@exadel"
@@ -21,15 +25,14 @@
     "README.md"
   ],
   "scripts": {
-    "test": "jest",
-    "lint": "",
-    "clean": "rimraf dist",
-    "build": "npm run clean && tsc --project tsconfig.build.json",
-    "pack": "npm pack --pack-destination ../../target/"
+    "test": "nx run eslint-plugin:test:jest",
+    "clean": "nx run eslint-plugin:clean",
+    "build": "nx run eslint-plugin:build",
+    "pack": "nx run eslint-plugin:pack"
   },
   "dependencies": {
     "kleur": "^4.1.5",
-    "semver": "^7.7.1"
+    "semver": "^7.7.2"
   },
   "devDependencies": {
     "@types/eslint": "^9.6.1",

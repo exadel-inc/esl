@@ -1,0 +1,10 @@
+# ESL Core Maintainers for repo configuration and dependabot files
+/package.json @exadel-inc/esl-core-maintainers
+/package-lock.json @exadel-inc/esl-core-maintainers
+/packages/*/package.json @exadel-inc/esl-core-maintainers
+/nx.json @exadel-inc/esl-core-maintainers
+/.gitignore @exadel-inc/esl-core-maintainers
+/.gitattributes @exadel-inc/esl-core-maintainers
+/.eslint.config.* @exadel-inc/esl-core-maintainers
+/.stylelintrc* @exadel-inc/esl-core-maintainers
+/.github/* @exadel-inc/esl-core-maintainers

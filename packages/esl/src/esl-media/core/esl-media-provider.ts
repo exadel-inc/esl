@@ -67,7 +67,7 @@ export abstract class BaseProvider {
     if (this.config.autoplay) {
       this.config.autoplay = this.component._onBeforePlay('initial');
     }
-    this._lastCmdType = this.config.autoplay ? 'play' : 'pause';
+    this.resetLastCommand();
   }
 
   /** Wraps _ready promise */
@@ -182,6 +182,20 @@ export abstract class BaseProvider {
   /** @returns last requested command type */
   public get lastCommand(): string {
     return this._lastCmdType;
+  }
+  /** Resets last requested command type */
+  public resetLastCommand(): void {
+    switch (this.state) {
+      case PlayerStates.PLAYING:
+        this._lastCmdType = 'play';
+        break;
+      case PlayerStates.PAUSED:
+      case PlayerStates.ENDED:
+        this._lastCmdType = 'pause';
+        break;
+      default:
+        this._lastCmdType = this.config.autoplay ? 'play' : 'pause';
+    }
   }
 
   /**

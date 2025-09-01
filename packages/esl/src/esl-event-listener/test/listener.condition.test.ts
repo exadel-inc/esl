@@ -9,7 +9,7 @@ describe('ESlEventListener subscription with conditional statement', () => {
     const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
     const handler = jest.fn();
     ESLEventUtils.subscribe(host, {event: 'click', condition: false}, handler);
-    expect(warnSpy).not.toBeCalled();
+    expect(warnSpy).not.toHaveBeenCalled();
   });
 
   test('ESLEventListener does not subscribe if condition is false', () => {

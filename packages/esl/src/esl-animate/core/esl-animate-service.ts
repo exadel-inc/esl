@@ -50,7 +50,7 @@ export class ESLAnimateService {
   /** ESLAnimateService default animation configuration */
   protected static DEFAULT_CONFIG: ESLAnimateConfigInner = {cls: 'in', groupDelay: 100, ratio: 0.4};
   /** ESLAnimationService IntersectionObserver properties */
-  protected static OPTIONS_OBSERVER: IntersectionObserverInit = {threshold: [0.001, 0.2, 0.4, 0.6, 0.8]};
+  protected static OPTIONS_OBSERVER: IntersectionObserverInit = {threshold: [0.001, 0.2, 0.4, 0.6, 0.8, 1]};
 
   /**
    * Subscribe ESlAnimateService on element(s) to animate it on viewport intersection

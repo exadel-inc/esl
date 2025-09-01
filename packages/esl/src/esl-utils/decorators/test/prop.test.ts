@@ -91,7 +91,7 @@ describe('Decorator: @prop', () => {
         public field: string;
       }
       new TestElement();
-    }).toThrowError(/own property/);
+    }).toThrow(/own property/);
   });
 
   describe('Overriding @attr works fine', () => {

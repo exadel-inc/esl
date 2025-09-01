@@ -12,7 +12,7 @@ describe('esl-media: lazy loading unit tests', () => {
     IntersectionObserverMock.mock();
     ESLMedia.register();
   });
-  afterAll(() => IntersectionObserverMock.unmock());
+  afterAll(() => IntersectionObserverMock.restore());
 
   const createMedia = (props: Partial<ESLMedia>) => {
     const $media = ESLMedia.create();

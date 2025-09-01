@@ -83,7 +83,7 @@ export class ESLMediaManager {
       if (system && $media.isUserInitiated) return;
       if (!$media.autoplay) return;
       if (!isSafeContains(scope, $media)) return;
-      if (!isVisible($media, {visibility: true, viewport: $media.playInViewport})) return;
+      if (!isVisible($media, {visibility: true, viewport: !!$media.playInViewport})) return;
       $media.play(false, true);
     });
   }

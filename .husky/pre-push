@@ -5,10 +5,15 @@ fi
 
 # Skip check for remove remote branch operation
 while read local_ref local_sha remote_ref remote_sha; do
-  if [[ "$local_sha" == "0000000000000000000000000000000000000000" ]]; then
+  if [ "$local_sha" = "0000000000000000000000000000000000000000" ]; then
     echo "Skipping pre-push check for deleted branch"
     exit 0
   fi
 done
 
-npm run test -ws --include-workspace-root
+# Set FAST CI environment variable
+export CI=true
+export TEST_COVERAGE=false
+
+# Run tests
+npm run test

@@ -1,0 +1,19 @@
+.esl-carousel-css-renderer {
+  [esl-carousel-slides] {
+    display: grid;
+    grid-template-areas: 'slide';
+    position: relative;
+    width: 100%;
+  }
+
+  [esl-carousel-slide] {
+    grid-area: slide;
+    z-index: 0;
+    position: relative;
+    backface-visibility: hidden;
+  }
+
+  [esl-carousel-slide][active] {
+    z-index: 1;
+  }
+}

@@ -13,11 +13,11 @@ describe('dom/events: SyntheticEventTarget', () => {
       const listener = jest.fn();
       et.addEventListener('change', listener);
 
-      test('listener shoudn`t be called', () => expect(listener).toBeCalledTimes(0));
+      test('listener shoudn`t be called', () => expect(listener).toHaveBeenCalledTimes(0));
 
       test('listener should be called once', () => {
         et.dispatchEvent(event1);
-        expect(listener).toBeCalledWith(event1);
+        expect(listener).toHaveBeenCalledWith(event1);
       });
 
       test('listener should be called two times', () => {
@@ -33,7 +33,7 @@ describe('dom/events: SyntheticEventTarget', () => {
       test('listener shouldn`t be called third time', () => {
         et.removeEventListener('change', listener);
         et.dispatchEvent(event3);
-        expect(listener).toBeCalledTimes(2);
+        expect(listener).toHaveBeenCalledTimes(2);
       });
 
       afterAll(() => jest.clearAllMocks());
@@ -48,11 +48,11 @@ describe('dom/events: SyntheticEventTarget', () => {
       const listener = jest.fn();
       et.addEventListener(listener);
 
-      test('listener shoudn`t be called', () => expect(listener).toBeCalledTimes(0));
+      test('listener shoudn`t be called', () => expect(listener).toHaveBeenCalledTimes(0));
 
       test('listener should be called once', () => {
         et.dispatchEvent(event1);
-        expect(listener).toBeCalledWith(event1);
+        expect(listener).toHaveBeenCalledWith(event1);
       });
 
       describe('Listener should be stored', () => {
@@ -72,7 +72,7 @@ describe('dom/events: SyntheticEventTarget', () => {
       test('listener shouldn`t be called second time', () => {
         et.removeEventListener(listener);
         et.dispatchEvent(event2);
-        expect(listener).toBeCalledTimes(1);
+        expect(listener).toHaveBeenCalledTimes(1);
       });
 
       afterAll(() => jest.clearAllMocks());
@@ -81,10 +81,10 @@ describe('dom/events: SyntheticEventTarget', () => {
     describe('API restriction', () => {
       const et = new SyntheticEventTarget();
       // @ts-ignore
-      test('should fail without params', () => expect(() => et.addEventListener()).toThrowError());
-      test('should fail with null passed as param', () => expect(() => et.addEventListener(null as any)).toThrowError());
-      test('should fail with number passed as param', () => expect(() => et.addEventListener(1 as any)).toThrowError());
-      test('should fail with string passed as callback', () => expect(() => et.addEventListener('change', 'click' as any)).toThrowError());
+      test('should fail without params', () => expect(() => et.addEventListener()).toThrow());
+      test('should fail with null passed as param', () => expect(() => et.addEventListener(null as any)).toThrow());
+      test('should fail with number passed as param', () => expect(() => et.addEventListener(1 as any)).toThrow());
+      test('should fail with string passed as callback', () => expect(() => et.addEventListener('change', 'click' as any)).toThrow());
     });
   });
 
@@ -100,11 +100,11 @@ describe('dom/events: SyntheticEventTarget', () => {
       };
       et.addEventListener('change', listener);
 
-      test('listener event handler shoudn`t be called', () => expect(listener.handleEvent).toBeCalledTimes(0));
+      test('listener event handler shoudn`t be called', () => expect(listener.handleEvent).toHaveBeenCalledTimes(0));
 
       test('listener event handler should be called once', () => {
         et.dispatchEvent(event1);
-        expect(listener.handleEvent).toBeCalledWith(event1);
+        expect(listener.handleEvent).toHaveBeenCalledWith(event1);
       });
 
       test('listener event handler should be called second time', () => {
@@ -115,7 +115,7 @@ describe('dom/events: SyntheticEventTarget', () => {
       test('listener event handler shouldn`t be called third time', () => {
         et.removeEventListener('change', listener);
         et.dispatchEvent(event3);
-        expect(listener.handleEvent).toBeCalledTimes(2);
+        expect(listener.handleEvent).toHaveBeenCalledTimes(2);
       });
     });
 
@@ -128,21 +128,21 @@ describe('dom/events: SyntheticEventTarget', () => {
 
       test('listener event handler shoudn`t be called', () => {
         et.addEventListener(listener);
-        expect(listener.handleEvent).toBeCalledTimes(0);});
+        expect(listener.handleEvent).toHaveBeenCalledTimes(0);});
 
       test('listener event handler should be called once', () => {
         et.dispatchEvent(event1);
-        expect(listener.handleEvent).toBeCalledWith(event1);
+        expect(listener.handleEvent).toHaveBeenCalledWith(event1);
       });
 
       test('listener event handler shouldn`t be called second time', () => {
         et.removeEventListener(listener);
         et.dispatchEvent(event2);
-        expect(listener.handleEvent).toBeCalledTimes(1);
+        expect(listener.handleEvent).toHaveBeenCalledTimes(1);
       });
     });
 
-    test('api restriction', () => expect(() => et.addEventListener({} as any)).toThrowError());
+    test('api restriction', () => expect(() => et.addEventListener({} as any)).toThrow());
   });
 
   describe('PreventDefault', () => {
@@ -153,7 +153,7 @@ describe('dom/events: SyntheticEventTarget', () => {
 
       test('event shouldn`t be prevented', () => {
         const result = et.dispatchEvent(new Event('change', {cancelable: true}));
-        expect(listener).toBeCalled();
+        expect(listener).toHaveBeenCalled();
         expect(result).toBe(false);
       });
     });
@@ -165,7 +165,7 @@ describe('dom/events: SyntheticEventTarget', () => {
 
       test('preventDefault method should work correctly', () => {
         const result = et.dispatchEvent(new Event('change', {cancelable: true}));
-        expect(listener).toBeCalled();
+        expect(listener).toHaveBeenCalled();
         expect(result).toBe(true);
       });
     });
