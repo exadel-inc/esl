@@ -19,6 +19,8 @@ export interface ESLCarouselAutoplayConfig {
   intersection: number;
   /** Whether to track user interaction (focus/hover) with the carousel to pause/resume autoplay */
   trackInteraction: boolean;
+  /** Selector to define trackInteraction behaviour scope */
+  interactionScope?: string;
   /** Selector for control to toggle plugin state */
   control?: string;
   /** Class to toggle on control element, when autoplay is active */
@@ -101,6 +103,22 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
     return sel ? ESLTraversingQuery.all(sel, this.$host) as HTMLElement[] : [];
   }
 
+  @memoize()
+  public get $interactionScope(): HTMLElement[] {
+    const sel = this.config.interactionScope;
+    return sel ? ESLTraversingQuery.all(sel, this.$host) as HTMLElement[] : [this.$host];
+  }
+
+  /** True if autoplay is allowed to run (in viewport and not paused by interaction, if tracked) */
+  public get cycleAllowed(): boolean {
+    if (!this._inViewport) return false;
+    if (!this.config.trackInteraction || !this.$interactionScope.length) return true;
+    // Check for a hover/focus state
+    return this.$interactionScope.every(
+      ($el) => !$el.matches('*:hover, *:focus-within')
+    );
+  }
+
   protected override onInit(): void {
     this.start();
   }
@@ -113,7 +131,7 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
   @listen({inherit: true})
   protected override onConfigChange(): void {
     super.onConfigChange();
-    memoize.clear(this, '$controls');
+    memoize.clear(this, ['$controls', '$interactionScope']);
     this.$$on({auto: true});
     // Full restart during config change
     this.stop();
@@ -128,7 +146,7 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
     if (!system) this.enabled = true;
     if (isNaN(this.duration)) this.enabled = false;
     if (!this.enabled) return;
-    if (system && !this._inViewport) return;
+    if (system && !this.cycleAllowed) return;
     system ? this._onCycle() : this.$$on(this._onIntersection);
   }
 
@@ -177,6 +195,7 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
   /** Handles auxiliary events that represent user interaction to pause/resume timer */
   @listen({
     event: 'mouseleave mouseenter focusin focusout',
+    target: ($this: ESLCarouselAutoplayMixin) => $this.$interactionScope,
     condition: ($this: ESLCarouselAutoplayMixin) => $this.config.trackInteraction
   })
   protected _onInteract(e: Event): void {
