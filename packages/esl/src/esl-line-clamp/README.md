@@ -56,3 +56,44 @@ Apply line clamping to the paragraph without defining a limit. The number of lin
 </p>
 ```
 
+### Auto mode
+
+The mixin also supports automatic mode. This is when you don't know the exact number of lines to display, and you can't explicitly specify them using CSS variables or pass them as an attribute. In this case, you can use the mixin in automatic mode.
+```html
+<p esl-line-clamp="auto">
+  <!-- text -->
+</p>
+```
+
+Or using media query
+```html
+<p esl-line-clamp="4 | @+MD=>auto">
+  <!-- text -->
+</p>
+```
+
+For it to work, the element to which the mixin is applied must have a `max-height` specified. In this case, the mixin will be able to calculate the number of lines for clamping. If the automatically calculated number of lines is infinity or a non-numeric value or less than 1, then the mixin does not set a limit.
+
+
+### ESLMediaQuery tuple values
+
+Mixin supports ESL Media Query syntax for values — a tuple string of values that uses '|' as a separator. A mask must be specified for this. Mask - `ESLMediaQuery` media conditions tuple string (uses '|' as separator), to be used in case of tuple syntax.
+Note: line-clamp mixin will produce an error in case global mask empty or incompatible with the tuple clamp value.
+
+```html
+<p esl-line-clamp="1|2|3">
+  <!-- text -->
+</p>
+```
+
+The mask can be defined globally as the default before registering the mixin
+```ts
+ESLLineClamp.DEFAULT_MASK = '@XS|@SM|@MD';
+```
+
+Or specify a mask at the point of use of the mixin
+```html
+<p esl-line-clamp="1|2|3|4|5" esl-line-clamp-mask="@XS|@SM|@MD|@LG|@XL">
+  <!-- text -->
+</p>
+```

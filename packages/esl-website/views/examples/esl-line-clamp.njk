@@ -69,6 +69,45 @@ aside:
         </section>
       </script>
 
+      <script type="text/html"
+              label="Auto mode"
+              uip-snippet
+              uip-snippet-js="js-snippet-line-clamp">
+        <section class="esl-line-clamp-demo">
+          <div class="esl-line-clamp-container">
+            <div class="esl-line-clamp-card">
+              <p esl-line-clamp="auto" style="max-height: 150px;">With max-height: 150px; <br> <!-- text x150 --></p>
+            </div>
+            <div class="esl-line-clamp-card">
+              <p esl-line-clamp="auto">Without max-height; <br> <!-- text x50 --></p>
+            </div>
+          </div>
+        </section>
+      </script>
+
+      <script type="text/html"
+              label="Mask and tuples"
+              uip-snippet
+              uip-snippet-js="js-snippet-line-clamp">
+        <section class="esl-line-clamp-demo">
+          <div class="esl-line-clamp-container">
+            <div class="esl-line-clamp-card">
+              <p esl-line-clamp="8|6|4" esl-line-clamp-mask="@XL|@MD|@XS">
+                With mask "@XL|@MD|@XS" and values "8|6|4".<br>
+                That means 8 for XL and up, 6 for MD and up, 4 for XS and up, otherwise no clamping.<br>
+                <!-- text x150 -->
+              </p>
+            </div>
+            <div class="esl-line-clamp-card">
+              <p esl-line-clamp="1|2|3|4|5">
+                Without mask (default global) <br>
+                <!-- text x50 -->
+              </p>
+            </div>
+          </div>
+        </section>
+      </script>
+
       {% if env.isDev %}
       <script type="text/html"
               label="Focus behavior demo"

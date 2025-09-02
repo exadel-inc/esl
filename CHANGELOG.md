@@ -1,3 +1,58 @@
+## 5.12.0 (2025-08-29)
+
+### 🚀 Features
+
+- **esl-animate:** added CSS variable for transition timing/function ([989374a41](https://github.com/exadel-inc/esl/commit/989374a41))
+- **esl-carousel:** rework esl-carousel-autoplay plugin to support pause on slides marked with 0 duration; turn autoplay to inactive state if the navigation command is not possible for current carousel state ([0356225b0](https://github.com/exadel-inc/esl/commit/0356225b0))
+- **esl-line-clamp:** add auto mode for esl-line-clamp mixin ([cdd46db03](https://github.com/exadel-inc/esl/commit/cdd46db03))
+- **esl-line-clamp:** add an attribute to specify mask to use tuple string of values ([995b25cf4](https://github.com/exadel-inc/esl/commit/995b25cf4))
+- **esl-toggleable:** add high priority for focusable elements with the autofocus attribute ([2e84cd4f7](https://github.com/exadel-inc/esl/commit/2e84cd4f7))
+- **esl-utils:** `parseTime` will treat `none` as 0 (exclusion) ([e90035d65](https://github.com/exadel-inc/esl/commit/e90035d65))
+
+### 🩹 Fixes
+
+- `esl` package should contain actual version info in global scope ([23fb7686f](https://github.com/exadel-inc/esl/commit/23fb7686f))
+- **esl-line-clamp:** fix styles of esl-line-clamp mixin ([2e5796321](https://github.com/exadel-inc/esl/commit/2e5796321))
+- **esl-utils:** add tests and validation to prevent prototype pollution (CWE-1321) for `set` and `setByPath` utils ([bee0378e1](https://github.com/exadel-inc/esl/commit/bee0378e1))
+
+### 💅 Refactors
+
+- **esl-carousel:** fix typos in JSDocs ([199b8ad63](https://github.com/exadel-inc/esl/commit/199b8ad63))
+- **esl-toggleable:** change the way of detecting auto-focusable element ([87daaa878](https://github.com/exadel-inc/esl/commit/87daaa878))
+
+### Documentation updates
+
+- **esl-carousel:** update esl-carousel-autoplay documentation ([ea9e882cb](https://github.com/exadel-inc/esl/commit/ea9e882cb))
+- **esl-line-clamp:** update README with auto mode ([3cf1b1fdd](https://github.com/exadel-inc/esl/commit/3cf1b1fdd))
+- **esl-line-clamp:** update README ([cadfb7a79](https://github.com/exadel-inc/esl/commit/cadfb7a79))
+- **esl-line-clamp:** fix typo and inconsistencies ([6a4743e40](https://github.com/exadel-inc/esl/commit/6a4743e40))
+
+## 5.11.0 (2025-08-15)
+
+### 🚀 Features
+
+- **esl-carousel:** add ability to define esl-carousel-autoplay plugin timeout per slide ([#3255](https://github.com/exadel-inc/esl/issues/3255))
+- **eslint-config:** extend test rules to `*.test-d.ts` files (type tests) ([10922c9ec](https://github.com/exadel-inc/esl/commit/10922c9ec))
+- **ui-playground:** squashed ui-playground repository version https://github.com/exadel-inc/ui-playground.git ([c5856a4f0](https://github.com/exadel-inc/esl/commit/c5856a4f0))
+
+### 🩹 Fixes
+
+- **esl-carousel:** do not debug-log slide move if slide is actually just added ([dfbf1aab6](https://github.com/exadel-inc/esl/commit/dfbf1aab6))
+
+### 💅 Refactors
+
+- **esl-carousel:** cosmetic rename `direction` utility to `dir` to less mess-up with same property ([e4442690f](https://github.com/exadel-inc/esl/commit/e4442690f))
+- **esl-event-listener:** declare type per custom event instance ([fa8de0086](https://github.com/exadel-inc/esl/commit/fa8de0086))
+- **site:** update site example for esl-carousel-autoplay plugin ([f5b0aaead](https://github.com/exadel-inc/esl/commit/f5b0aaead))
+- **site:** news section labels refresh ([01912dfec](https://github.com/exadel-inc/esl/commit/01912dfec))
+- **site:** refactor new label with mixin approach ([51a27fff2](https://github.com/exadel-inc/esl/commit/51a27fff2))
+- **site:** add empty space at news title end ([1d6bee779](https://github.com/exadel-inc/esl/commit/1d6bee779))
+
+### Documentation updates
+
+- fix qlty (coverage, maintainability) badges ([5700cd927](https://github.com/exadel-inc/esl/commit/5700cd927))
+- **esl-carousel:** small improvements in documentation for `esl-carousel-autoplay-progress` ([562a4e7ce](https://github.com/exadel-inc/esl/commit/562a4e7ce))
+
 ## 5.10.0 (2025-07-28)
 
 ### 🚀 Features

@@ -1,6 +1,6 @@
 {
   "name": "@exadel/esl",
-  "version": "5.10.0",
+  "version": "5.12.0",
   "private": false,
   "description": "Exadel Smart Library (ESL) is the lightweight custom elements library that provide a set of super-flexible components",
   "license": "MIT",
@@ -57,16 +57,16 @@
     "lint": "nx run esl:lint",
     "test": "nx run esl:test",
     "pack": "nx run esl:pack",
-    "version": "node ./scripts/update-lib-version.mjs && git add src/lib.ts"
+    "version": "nx run esl:version:post"
   },
   "dependencies": {
     "@types/video.js": "7.3.58",
     "@types/youtube": "0.1.2"
   },
   "devDependencies": {
-    "@exadel/eslint-config-esl": "^5.10.0",
-    "@exadel/eslint-plugin-esl": "^5.10.0",
-    "@exadel/stylelint-config-esl": "^5.10.0"
+    "@exadel/eslint-config-esl": "^5.12.0",
+    "@exadel/eslint-plugin-esl": "^5.12.0",
+    "@exadel/stylelint-config-esl": "^5.12.0"
   },
   "contributors": [
     "ala-n <astsefanovich@exadel.com>",

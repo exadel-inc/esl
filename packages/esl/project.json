@@ -161,6 +161,13 @@
         "command": "npm pack --pack-destination=../../target/",
         "cwd": "packages/esl"
       }
+    },
+    "version:post": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node ./scripts/update-lib-version.mjs && git add src/lib.ts",
+        "cwd": "packages/esl"
+      }
     }
   }
 }

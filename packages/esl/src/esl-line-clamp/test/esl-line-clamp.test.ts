@@ -47,4 +47,42 @@ describe('ESLLineClamp (mixin): tests', () => {
     await microtaskQueue();
     expect($host.style.getPropertyValue('--esl-line-clamp')).toBe('5');
   });
+
+  describe('auto mode of clamping', () => {
+    test('should set CSS custom property based on the maximum height', async () => {
+      const getComputedStyleSpy = jest.spyOn(window, 'getComputedStyle');
+      getComputedStyleSpy.mockImplementation(() => ({lineHeight: '10px', maxHeight: '95px'} as CSSStyleDeclaration));
+      $host.setAttribute(ESLLineClamp.is, 'auto');
+      await microtaskQueue();
+      expect($host.style.getPropertyValue('--esl-line-clamp')).toBe('9');
+      getComputedStyleSpy.mockRestore();
+    });
+
+    test('should set CSS custom property with rounded fractional values', async () => {
+      const getComputedStyleSpy = jest.spyOn(window, 'getComputedStyle');
+      getComputedStyleSpy.mockImplementation(() => ({lineHeight: '10.01px', maxHeight: '20px'} as CSSStyleDeclaration));
+      $host.setAttribute(ESLLineClamp.is, 'auto');
+      await microtaskQueue();
+      expect($host.style.getPropertyValue('--esl-line-clamp')).toBe('2');
+      getComputedStyleSpy.mockRestore();
+    });
+
+    test('should remove CSS custom property when the max-height is not defined', async () => {
+      const getComputedStyleSpy = jest.spyOn(window, 'getComputedStyle');
+      getComputedStyleSpy.mockImplementation(() => ({lineHeight: '20px', maxHeight: 'none'} as CSSStyleDeclaration));
+      $host.setAttribute(ESLLineClamp.is, 'auto');
+      await microtaskQueue();
+      expect($host.style.getPropertyValue('--esl-line-clamp')).toBe('');
+      getComputedStyleSpy.mockRestore();
+    });
+
+    test('should remove CSS custom property when calculated value < 1', async () => {
+      const getComputedStyleSpy = jest.spyOn(window, 'getComputedStyle');
+      getComputedStyleSpy.mockImplementation(() => ({lineHeight: '20px', maxHeight: '19px'} as CSSStyleDeclaration));
+      $host.setAttribute(ESLLineClamp.is, 'auto');
+      await microtaskQueue();
+      expect($host.style.getPropertyValue('--esl-line-clamp')).toBe('');
+      getComputedStyleSpy.mockRestore();
+    });
+  });
 });

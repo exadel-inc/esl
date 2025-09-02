@@ -8,4 +8,4 @@ declare global {
   }
 }
 
-ExportNs.declare('5.9.1');
+ExportNs.declare('5.12.0');

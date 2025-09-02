@@ -46,6 +46,7 @@ describe('ESLCarouselAutoplayMixin: per slide timer definition', () => {
   });
 
   test('Plugin executes slide command with per slide duration (integration)', async () => {
+    $carousel.loop = true;
     $carousel.setAttribute('esl-carousel-autoplay', '');
     await microtask();
     IntersectionObserverMock.trigger($carousel, {intersectionRatio: 1, isIntersecting: true});
