@@ -1,3 +1,7 @@
+## 5.12.1-preview.0 (2025-09-03)
+
+This was a version bump only for esl-website to align it with other projects, there were no code changes.
+
 ## 5.12.0 (2025-08-29)
 
 ### 🚀 Features

@@ -38,6 +38,7 @@
     "get:changelog": "node scripts/get-changelog.mjs",
     "release:stable": "nx release --skip-publish && npm run version:post",
     "release:beta": "nx release prerelease --skip-publish --preid beta && npm run version:post",
+    "release:preview": "nx release prerelease --skip-publish --preid preview && npm run version:post",
     "version:post": "nx run-many -t version:post",
     "version:root": "node scripts/update-root-version.mjs"
   },
