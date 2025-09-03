@@ -43,4 +43,7 @@ export interface ESLBaseComponent {
    * @returns the current attribute value or previous value for mutation
    */
   $$attr(name: string, value?: null | boolean | string): string | null;
+
+  /** Default error logger for `@safe` decorator */
+  $$error(error: Error | string, key: string): void;
 }

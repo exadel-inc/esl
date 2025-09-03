@@ -119,6 +119,12 @@ export abstract class ESLBaseElement extends HTMLElement implements ESLBaseCompo
     return ESLEventUtils.dispatch(this, eventName, eventInit);
   }
 
+  /** Default error logger for `@safe` decorator */
+  public $$error(error: Error | string, key: string): void {
+    const message = error instanceof Error ? error.message : String(error);
+    console.error(`[ESL] ${this.baseTagName}(%o): %s`, this, message);
+  }
+
   /**
    * Register component in the {@link customElements} registry
    * @param tagName - custom tag name to register custom element
