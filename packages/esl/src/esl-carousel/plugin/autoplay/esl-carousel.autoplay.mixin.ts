@@ -23,9 +23,9 @@ export interface ESLCarouselAutoplayConfig {
   interactionScope?: string;
   /** Selector for external control(s) toggling autoplay */
   control?: string;
-  /** CSS class toggled on control elements while effective enabled */
+  /** CSS class applied to external autoplay control elements while autoplay is enabled */
   controlCls?: string;
-  /** CSS class toggled on carousel container while effective enabled */
+  /** CSS class applied to the carousel container while autoplay is enabled */
   containerCls?: string;
 }
 

@@ -17,15 +17,15 @@ Configuration properties:
  - `duration` (primary) – CSS time (`1s`, `500ms`) or number (ms). Required.
    * `> 0` – base autoplay cycle duration
    * `0` – no base cycle (autoplay stays enabled but inactive unless a slide overrides with a positive per‑slide timeout)
-   * negative / invalid / `none` – globally disable the plugin (effective `enabled = false`)
+   * negative / invalid / `none` – globally disable the plugin
    Defaults to `10s` if omitted.
  - `command` (optional, default: `slide:next`) – navigation command to execute each cycle.
  - `intersection` (optional, default: `0.25`) – intersection ratio (0..1) required to run. Below threshold cycle is suspended.
  - `trackInteraction` (optional, default: `true`) – pause while hovered or focus (keyboard focus‑visible) is within interaction scope.
  - `interactionScope` (optional) – selector (ESLTraversingQuery) defining scope for interaction tracking (defaults to host carousel).
  - `control` (optional) – selector for element(s) acting as manual enable/disable toggles.
- - `controlCls` (optional) – class toggled on control elements while autoplay is effectively enabled.
- - `containerCls` (optional) – class toggled on carousel container while autoplay is effectively enabled.
+ - `controlCls` (optional) – CSS class applied to external autoplay control elements while autoplay is enabled.
+ - `containerCls` (optional) – CSS class applied to the carousel container while autoplay is enabled.
 
 ### Public properties / state
 
@@ -94,9 +94,9 @@ Supported time formats:
  - Cycle (re)starts or stops (schedule cleared or created)
 
 Event payload fields:
- - `enabled` – effective enabled state
+ - `enabled` – enabled state (autoplay not manually disabled and global duration is valid non‑negative value)
  - `active` – timer scheduled
- - `duration` – effective duration used for (next) cycle (0 if no timer)
+ - `duration` – effective duration used for (next) cycle (0 on clear state)
 
 Use case examples: progress indicator, custom UI state, analytics.
 
