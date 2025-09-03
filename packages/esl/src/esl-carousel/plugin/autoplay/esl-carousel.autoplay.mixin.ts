@@ -11,29 +11,27 @@ import {ESLCarouselSlideEvent} from '../../core/esl-carousel.events';
 import {ESLCarouselAutoplayEvent} from './esl-carousel.autoplay.event';
 
 export interface ESLCarouselAutoplayConfig {
-  /** Duration of the autoplay timer in milliseconds. Default: 5000 */
+  /** Global autoplay duration (ms) or media rule pattern. 0 means "no default cycle"; negative / invalid disables plugin */
   duration: string | number;
-  /** Navigation command to send to the host carousel. Default: 'slide:next' */
+  /** Navigation command executed each cycle */
   command: string;
-  /** Intersection observer threshold to start/stop autoplay based on visibility. Default: 0.25 */
+  /** Intersection threshold used to (auto) pause when out of viewport */
   intersection: number;
-  /** Whether to track user interaction (focus/hover) with the carousel to pause/resume autoplay */
+  /** Enable hover / focus based pausing */
   trackInteraction: boolean;
-  /** Selector to define trackInteraction behaviour scope */
+  /** Scope selector for interaction tracking (defaults to host (carousel)) */
   interactionScope?: string;
-  /** Selector for control to toggle plugin state */
+  /** Selector for external control(s) toggling autoplay */
   control?: string;
-  /** Class to toggle on control element, when autoplay is active */
+  /** CSS class toggled on control elements while effective enabled */
   controlCls?: string;
-  /** Class to toggle on container element, when autoplay is active */
+  /** CSS class toggled on carousel container while effective enabled */
   containerCls?: string;
 }
 
 /**
- * {@link ESLCarousel} autoplay (auto-advance) plugin mixin
- * Automatically switch slides by timeout
- *
- * @author Alexey Stsefanovich (ala'n)
+ * Autoplay plugin mixin for {@link ESLCarousel}.
+ * Schedules slide navigation by timeout while allowed by viewport, interaction and config constraints.
  */
 @ExportNs('Carousel.Autoplay')
 export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutoplayConfig> {
@@ -46,134 +44,141 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
   };
   public static override DEFAULT_CONFIG_KEY: keyof ESLCarouselAutoplayConfig = 'duration';
 
-  /** Attribute to set the slide timeout duration */
+  /** Per-slide override attribute name for timeout */
   public static SLIDE_DURATION_ATTRIBUTE = ESLCarouselAutoplayMixin.is + '-timeout';
 
-  private _enabled: boolean = true;
+  /** User suspension flag (inverse of manual enable state) */
+  private _suspended: boolean = false;
+  /** Last known viewport intersection state */
   private _inViewport: boolean = false;
+  /** Active cycle timeout id (null if no cycle scheduled) */
   private _timeout: number | null = null;
 
-  /** True if the autoplay timer is currently active */
+  /** True when a navigation timeout is currently scheduled */
   public get active(): boolean {
     return !!this._timeout;
   }
 
-  /** True if the autoplay plugin is enabled */
+  /**
+   * Effective enabled state.
+   * True when user did not suspend and global duration is non-negative / valid.
+   * (duration = 0 keeps plugin enabled but suppresses default scheduling unless slide overrides).
+   */
   public get enabled(): boolean {
-    return this._enabled;
+    return !this._suspended && this.duration >= 0;
   }
-  protected set enabled(value: boolean) {
-    this._enabled = value;
-    CSSClassUtils.toggle(this.$controls, this.config.controlCls, this._enabled);
-    const {$container} = this.$host;
-    $container && CSSClassUtils.toggle($container, this.config.containerCls, this._enabled);
+  /** Manually enable / disable (suspend) autoplay */
+  public set enabled(value: boolean) {
+    this._suspended = !value;
+    this.update();
   }
 
-  /** The duration of the autoplay timer in milliseconds */
+  /** Global base duration in ms (raw config parsed). Negative / NaN => disabled */
   public get duration(): number {
     return parseTime(this.config.duration);
   }
 
   /**
-   * The duration of the autoplay timer in milliseconds
-   * Tries to get the value from the slide attribute `esl-carousel-autoplay-timeout`.
-   * If not set, uses the default duration from the config.
-   * Non-positive (0 or negative) values pause autoplay for the current slide. Invalid / NaN values fall back to default duration.
-   *
-   * @returns The duration in milliseconds (or a non-positive number to indicate pause)
+   * Effective current slide duration.
+   * Tries active slide attribute; falls back to global duration.
+   * Non-positive result pauses cycle for the slide only (unless global invalid disables plugin).
    */
   public get effectiveDuration(): number {
     const {$activeSlide} = this.$host;
     if (!$activeSlide) return this.duration;
-    // Get the timeout from the active slide attribute
     const value = $activeSlide.getAttribute(ESLCarouselAutoplayMixin.SLIDE_DURATION_ATTRIBUTE);
     if (!value) return this.duration;
-    // Parse the value as a media rule list, if it contains media queries
     const parsed = ESLMediaRuleList.parse(value, this.$host.media, parseTime);
-    // Invalid or empty value, fallback to default duration
     if (typeof parsed.value === 'undefined' || isNaN(parsed.value)) return this.duration;
-    // Valid but non-positive value, disable autoplay
     return parsed.value;
   }
 
-  /** A list of control elements to toggle plugin state */
+  /** Control elements collection (memoized) */
   @memoize()
   public get $controls(): HTMLElement[] {
     const sel = this.config.control;
     return sel ? ESLTraversingQuery.all(sel, this.$host) as HTMLElement[] : [];
   }
 
+  /** Interaction scope elements (memoized) */
   @memoize()
   public get $interactionScope(): HTMLElement[] {
     const sel = this.config.interactionScope;
     return sel ? ESLTraversingQuery.all(sel, this.$host) as HTMLElement[] : [this.$host];
   }
 
-  /** True if autoplay is allowed to run (in viewport and not paused by interaction, if tracked) */
-  public get cycleAllowed(): boolean {
+  /** True if any scope element is hovered */
+  public get hovered(): boolean {
+    return this.$interactionScope.some(($el) => $el.matches('*:hover'));
+  }
+
+  /** True if keyboard-visible focus is within scope */
+  public get focused(): boolean {
+    if (!document.activeElement?.matches('*:focus-visible')) return false;
+    return this.$interactionScope.some(($el) => $el.matches('*:focus-within'));
+  }
+
+  /** Runtime allowance: enabled + in viewport + no blocking interaction (if tracked) */
+  public get allowed(): boolean {
+    if (!this.enabled) return false;
     if (!this._inViewport) return false;
-    if (!this.config.trackInteraction || !this.$interactionScope.length) return true;
-    // Check for a hover/focus state
-    return this.$interactionScope.every(
-      ($el) => !$el.matches('*:hover, *:focus-within')
-    );
+    if (this.config.trackInteraction) {
+      return !this.hovered && !this.focused;
+    }
+    return true;
   }
 
+  /** Init lifecycle hook */
   protected override onInit(): void {
-    this.start();
+    this.update();
   }
 
-  protected override disconnectedCallback(): void {
-    super.disconnectedCallback();
-    this.stop();
-  }
-
+  /** React to config changes (rebuild memoized queries, re-evaluate state) */
   @listen({inherit: true})
   protected override onConfigChange(): void {
     super.onConfigChange();
     memoize.clear(this, ['$controls', '$interactionScope']);
-    this.$$on({auto: true});
-    // Full restart during config change
-    this.stop();
-    this.start();
+    this.update();
   }
 
-  /**
-   * Activates and restarts the autoplay carousel timer.
-   * @param system - If true, the plugin will be force started, without intersection observer check.
-   */
-  public start(system = false): void {
-    if (!system) this.enabled = true;
-    if (isNaN(this.duration)) this.enabled = false;
-    if (!this.enabled) return;
-    if (system && !this.cycleAllowed) return;
-    system ? this._onCycle() : this.$$on(this._onIntersection);
+  /** Suspend & cleanup on disconnect */
+  protected override disconnectedCallback(): void {
+    this._suspended = true;
+    this.updateMarkers();
+    this.invalidate();
+    super.disconnectedCallback();
   }
 
-  /**
-   * Deactivates the autoplay carousel timer.
-   * @param system - If true, the plugin will be suspended but not disabled.
-   */
-  public stop(system = false): void {
-    if (!this.active && !this.enabled) return;
-    if (!system) {
-      this.enabled = false;
-      this.$$off(this._onIntersection);
+  /** Update classes and listeners, then re-validate cycle */
+  protected update(): void {
+    this.updateMarkers();
+    this.$$on({group: 'state'});
+    this.invalidate();
+  }
+
+  /** Update UI markers (CSS classes) reflecting effective enable state */
+  protected updateMarkers(): void {
+    const {$container} = this.$host;
+    CSSClassUtils.toggle(this.$controls, this.config.controlCls, this.enabled);
+    $container && CSSClassUtils.toggle($container, this.config.containerCls, this.enabled);
+  }
+
+  /** Re-evaluate cycle scheduling (optionally force restart) */
+  protected invalidate(restart = false): void {
+    if (!this.allowed || restart) {
+      this._timeout && window.clearTimeout(this._timeout);
+      this._timeout = null;
+      ESLCarouselAutoplayEvent.dispatch(this, 0);
     }
-    this._timeout && window.clearTimeout(this._timeout);
-    this._timeout = null;
-    ESLCarouselAutoplayEvent.dispatch(this, this.effectiveDuration);
+    if (this.allowed && !this.active) this._onCycle();
   }
 
-  /**
-   * Starts a new autoplay cycle.
-   * Produces cycle self call after a timeout with enabled command execution.
-   */
+  /** Internal cycle handler (exec step then schedule next) */
   protected async _onCycle(exec?: boolean): Promise<void> {
     this._timeout && window.clearTimeout(this._timeout);
     this._timeout = null;
     if (exec) await this.$host?.goTo(this.config.command, {activator: this}).catch(console.debug);
-    if (!this.enabled || this.active) return;
+    if (!this.allowed || this.active) return;
     const {effectiveDuration} = this;
     if (effectiveDuration > 0 && this.$host?.canNavigate(this.config.command)) {
       this._timeout = window.setTimeout(() => this._onCycle(true), effectiveDuration);
@@ -181,48 +186,45 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
     ESLCarouselAutoplayEvent.dispatch(this, effectiveDuration);
   }
 
-  /** Handles click on control element to toggle plugin state */
+  /** Viewport intersection listener controlling runtime allowance */
   @listen({
-    event: 'click',
-    target: ($this: ESLCarouselAutoplayMixin) => $this.$controls,
-    condition: ($this: ESLCarouselAutoplayMixin)=> !!$this.$controls.length
-  })
-  protected _onToggle(e: Event): void {
-    this.enabled ? this.stop() : this.start();
-    e.preventDefault();
-  }
-
-  /** Handles auxiliary events that represent user interaction to pause/resume timer */
-  @listen({
-    event: 'mouseleave mouseenter focusin focusout',
-    target: ($this: ESLCarouselAutoplayMixin) => $this.$interactionScope,
-    condition: ($this: ESLCarouselAutoplayMixin) => $this.config.trackInteraction
-  })
-  protected _onInteract(e: Event): void {
-    if (!this.enabled) return;
-    if (['mouseenter', 'focusin'].includes(e.type)) {
-      this.stop(true);
-    } else {
-      this.start(true);
-    }
-  }
-
-  /** Handles intersection changes to start/stop autoplay based on visibility */
-  @listen({
-    auto: false,
+    group: 'state',
+    condition: ($this: ESLCarouselAutoplayMixin) => $this.enabled,
     event: ESLIntersectionEvent.TYPE,
     target: ($this: ESLCarouselAutoplayMixin) =>
       ESLIntersectionTarget.for($this.$host, {threshold: [$this.config.intersection]})
   })
   protected _onIntersection(e: ESLIntersectionEvent): void {
     this._inViewport = e.isIntersecting;
-    e.isIntersecting ? this.start(true) : this.stop(true);
+    this.invalidate();
   }
 
-  /** Handles carousel slide change event to restart the timer */
+  /** Hover/focus interaction listener toggling pause state */
+  @listen({
+    group: 'state',
+    event: 'mouseleave mouseenter focusin focusout',
+    target: ($this: ESLCarouselAutoplayMixin) => $this.$interactionScope,
+    condition: ($this: ESLCarouselAutoplayMixin) => $this.enabled && $this.config.trackInteraction
+  })
+  protected _onInteract(): void {
+    this.invalidate();
+  }
+
+  /** Slide change listener (forces cycle restart) */
   @listen(ESLCarouselSlideEvent.AFTER)
   protected _onSlideChange(): void {
-    if (this.enabled) this.start(true);
+    if (this.enabled) this.invalidate(true);
+  }
+
+  /** Control click handler toggling manual enabled state */
+  @listen({
+    event: 'click',
+    target: ($this: ESLCarouselAutoplayMixin) => $this.$controls,
+    condition: ($this: ESLCarouselAutoplayMixin)=> !!$this.$controls.length
+  })
+  protected _onToggle(e: Event): void {
+    this.enabled = !this.enabled;
+    e.preventDefault();
   }
 }
 
