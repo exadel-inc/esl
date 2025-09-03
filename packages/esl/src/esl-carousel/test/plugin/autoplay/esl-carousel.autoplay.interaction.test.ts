@@ -53,7 +53,7 @@ describe('ESLCarousel: Autoplay Plugin (interaction)', () => {
   const simulateFocus = (value: boolean) => {
     interactionState.focus = value;
     if (value) {
-      ($carousel as any).focus?.();
+      ($carousel as HTMLElement).focus?.();
       Object.defineProperty(document, 'activeElement', {configurable: true, get: () => $carousel});
       $carousel.dispatchEvent(new FocusEvent('focusin', {bubbles: true}));
     } else {
