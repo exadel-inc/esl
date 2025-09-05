@@ -145,7 +145,7 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
   protected override disconnectedCallback(): void {
     this._suspended = true;
     this.updateMarkers();
-    this.invalidate();
+    this.refresh();
     super.disconnectedCallback();
   }
 
@@ -153,7 +153,7 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
   protected update(): void {
     this.updateMarkers();
     this.$$on({group: 'state'});
-    this.invalidate();
+    this.refresh();
   }
 
   /** Update UI markers (CSS classes) reflecting effective enable state */
@@ -164,7 +164,7 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
   }
 
   /** Re-evaluate cycle scheduling (optionally force restart) */
-  protected invalidate(restart = false): void {
+  protected refresh(restart = false): void {
     if (!this.allowed || restart) {
       this._timeout && window.clearTimeout(this._timeout);
       this._timeout = null;
@@ -196,7 +196,7 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
   })
   protected _onIntersection(e: ESLIntersectionEvent): void {
     this._inViewport = e.isIntersecting;
-    this.invalidate();
+    this.refresh();
   }
 
   /** Hover/focus interaction listener toggling pause state */
@@ -207,13 +207,13 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
     condition: ($this: ESLCarouselAutoplayMixin) => $this.enabled && $this.config.trackInteraction
   })
   protected _onInteract(): void {
-    this.invalidate();
+    this.refresh();
   }
 
   /** Slide change listener (forces cycle restart) */
   @listen(ESLCarouselSlideEvent.AFTER)
   protected _onSlideChange(): void {
-    if (this.enabled) this.invalidate(true);
+    if (this.enabled) this.refresh(true);
   }
 
   /** Control click handler toggling manual enabled state */
