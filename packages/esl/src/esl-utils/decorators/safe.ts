@@ -34,7 +34,12 @@ export function safe(fallback?: ValueOrProvider<any>): MethodDecorator & Propert
         return resolveProperty(fallback, this);
       }
     } as AnyToAnyFnSignature;
-    if (isGetter) descriptor.get = wrappedMethod; else descriptor.value = wrappedMethod;
+
+    if (isGetter) {
+      descriptor.get = wrappedMethod;
+    } else {
+      descriptor.value = wrappedMethod;
+    }
     return descriptor;
   } as MethodDecorator & PropertyDecorator;
 }
