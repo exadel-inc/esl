@@ -92,7 +92,7 @@ export type ESLListenerDefinition<
   EName extends ExtractEventName<ETarget> = ExtractEventName<ETarget>
 > = ESLListenerDescriptor<ETarget, EName> & {
   /** A case-sensitive string (or provider function) representing the event type to listen for */
-  event: EventQuery<EName>;
+  event: EName;
 };
 
 /** Describes callback handler */

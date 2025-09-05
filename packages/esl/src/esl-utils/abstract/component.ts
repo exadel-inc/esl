@@ -1,8 +1,10 @@
 import type {
+  ExtractEventName,
   ESLEventListener,
+  ESLListenerTarget,
   ESLListenerHandler,
   ESLListenerCriteria,
-  ESLListenerDescriptor, ESLListenerTarget, ExtractEventName
+  ESLListenerDescriptor
 } from '../../esl-event-listener/core';
 
 export interface ESLBaseComponent {
