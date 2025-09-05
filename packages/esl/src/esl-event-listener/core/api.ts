@@ -5,10 +5,13 @@ import {ESLEventListener} from './listener';
 import {getDescriptors, isEventDescriptor, initDescriptor} from './descriptors';
 
 import type {
+  DelegatedEvent,
+  ESLEventType,
   ESLListenerHandler,
   ESLListenerCriteria,
   ESLListenerDescriptor,
   ESLListenerDescriptorFn,
+  ESLListenerDescriptorCriteria,
   ESLListenerTarget,
   ExtractEventName
 } from './types';
@@ -75,7 +78,7 @@ export class ESLEventUtils {
    * @param criteria - optional set of criteria {@link ESLListenerCriteria} to filter listeners list
    */
   public static subscribe<ETarget extends ESLListenerTarget, EName extends ExtractEventName<ETarget, EName>>(
-    host: object, descriptor: Partial<ESLListenerDescriptor<ETarget, EName>>, criteria: ESLListenerCriteria<ETarget, EName>): ESLEventListener[];
+    host: object, descriptor: Partial<ESLListenerDescriptor<ETarget, EName>>, criteria: ESLListenerDescriptorCriteria<ETarget, EName>): ESLEventListener[];
   /**
    * Subscribes `handler` function with the passed event type or {@link ESLListenerDescriptor} with event type declared
    * @param host - host object (listeners context) to associate subscription
@@ -85,7 +88,7 @@ export class ESLEventUtils {
   public static subscribe<ETarget extends ESLListenerTarget, EName extends ExtractEventName<ETarget, EName>>(
     host: object,
     descriptor: EName | ESLListenerDescriptor<ETarget, EName>,
-    handler: ESLListenerHandler<EName>
+    handler: ESLListenerHandler<EName | DelegatedEvent<ESLEventType<EName>>>
   ): ESLEventListener[];
   /**
    * Subscribes `handler` function decorated with {@link ESLListenerDescriptorFn} with the passed additional {@link ESLListenerDescriptor} data

@@ -1,19 +1,19 @@
 import type {
-  ESLEventName,
   ESLEventListener,
   ESLListenerHandler,
   ESLListenerCriteria,
-  ESLListenerDescriptor
+  ESLListenerDescriptor, ESLListenerTarget, ExtractEventName
 } from '../../esl-event-listener/core';
 
 export interface ESLBaseComponent {
   /** Subscribes (or resubscribes) all known descriptors that matches criteria */
-  $$on(criteria: ESLListenerCriteria): ESLEventListener[];
+  $$on<ETarget extends ESLListenerTarget, EName extends ExtractEventName<ETarget, EName>>(
+    criteria: ESLListenerCriteria<ETarget, EName>): ESLEventListener[];
   /** Subscribes `handler` method marked with `@listen` decorator */
   $$on(handler: ESLListenerHandler): ESLEventListener[];
   /** Subscribes `handler` function by the passed DOM event descriptor {@link ESLListenerDescriptor} or event name */
-  $$on<EName extends ESLEventName>(
-    event: EName | ESLListenerDescriptor<EName>,
+  $$on<ETarget extends ESLListenerTarget, EName extends ExtractEventName<ETarget, EName>>(
+    event: EName | ESLListenerDescriptor<ETarget, EName>,
     handler: ESLListenerHandler<EName>
   ): ESLEventListener[];
 
