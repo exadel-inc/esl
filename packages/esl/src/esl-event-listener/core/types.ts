@@ -1,4 +1,4 @@
-import type {Trim, MaybeArgFn, ValueOrProvider} from '../../esl-utils/misc';
+import type {Trim, MaybeArgFn, ValueOrProvider, StrComb2} from '../../esl-utils/misc';
 
 declare global {
   /** Extended event map with the custom event definition */
@@ -38,7 +38,7 @@ export type DelegatedEvent<EventType extends Event = Event> = EventType & {
 export type ESLListenerTarget = EventTarget | EventTarget[] | string | null;
 
 /** One or more event names separated by space */
-export type EventQuery<EName extends string> = EName | `${EName} ${EName}` | `${EName} ${EName} ${EName}` | `${EName} ${EName} ${EName} ${string}`;
+export type EventQuery<EName extends string> = EName | StrComb2<EName> | `${StrComb2<EName>} ${string & {}}`;
 
 /** Extracts event name(s) applicable for the provided target */
 export type ExtractEventName<ETarget> = ETarget extends TypedEventTarget<infer EClass> ? EClass['type'] : ESLEventName;
@@ -92,7 +92,7 @@ export type ESLListenerDefinition<
   EName extends ExtractEventName<ETarget> = ExtractEventName<ETarget>
 > = ESLListenerDescriptor<ETarget, EName> & {
   /** A case-sensitive string (or provider function) representing the event type to listen for */
-  event: EName;
+  event: EventQuery<EName>;
 };
 
 /** Describes callback handler */
