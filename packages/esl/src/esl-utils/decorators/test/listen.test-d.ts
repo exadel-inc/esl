@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import {listen} from '../listen.js';
 import {ESLIntersectionTarget, ESLResizeObserverTarget, ESLSwipeGestureTarget, ESLWheelTarget} from '../../../esl-event-listener/core.js';
 
@@ -6,91 +5,107 @@ import type {DelegatedEvent} from '../../../esl-event-listener/core/types';
 import type {ESLElementResizeEvent, ESLIntersectionEvent, ESLSwipeGestureEvent, ESLWheelEvent} from '../../../esl-event-listener/core.js';
 
 class TestClass {
-  // The definitions are compatible with the event name
+  // The listen definition works properly with a basic single DOM event ('click') name and exact event type ('MouseEvent') argument
   @listen('click')
-  onEvent(e: MouseEvent) {}
+  onClick(e: MouseEvent) {}
 
-  // @ts-expect-error - event argument should be compatible with the event name
+  // @ts-expect-error - A basic single DOM event listener must reject an incompatible event argument type
   @listen('click')
-  onEvent2(e: KeyboardEvent) {}
+  onClickIncompatibleArgError(e: KeyboardEvent) {}
 
-  // The declarations should allow more generic event argument
+  // A basic single DOM event listener allows a generic Event argument type
   @listen('click')
-  onEvent3(e: Event) {}
+  onClickGeneric(e: Event) {}
 
-  // If the listener definition uses selector, definition allows simple event
+  // If the listener definition uses a selector, it allows a direct event argument matching the DOM event
   @listen({event: 'click', selector: '.test'})
-  onEvent4(e: MouseEvent) {}
+  onClickSelector(e: MouseEvent) {}
 
-  // If the listener definition uses selector, definition allows delegated event
+  // If the listener definition uses a selector, it allows a DelegatedEvent wrapper of a compatible event type
   @listen({event: 'click', selector: '.test'})
-  onEvent5(e: DelegatedEvent<MouseEvent>) {}
+  onClickSelectorDelegated(e: DelegatedEvent<MouseEvent>) {}
 
-  // @ts-expect-error - If the listener definition uses selector, definition should not allow incompatible event subtype
+  // @ts-expect-error - Selector usage must reject a DelegatedEvent with an incompatible underlying event subtype
   @listen({event: 'click', selector: '.test'})
-  onEvent6(e: DelegatedEvent<KeyboardEvent>) {}
+  onClickSelectorWrongDelegatedSubtypeError(e: DelegatedEvent<KeyboardEvent>) {}
 
-  // Event name definition supports multiple events
+  // Multiple space-separated DOM event names resolve to a union and accept a shared compatible MouseEvent argument
   @listen('click mouseover')
-  onEvent7(e: MouseEvent) {}
+  onClickMouseover(e: MouseEvent) {}
 
-  // @ts-expect-error - event argument should be compatible with the event name
+  // @ts-expect-error - Multiple DOM event names reject an argument type incompatible with all resolved event types
   @listen('click mouseover')
-  onEvent8(e: KeyboardEvent) {}
+  onClickMouseoverIncompatibleArgError(e: KeyboardEvent) {}
 
-  // Event definition can be un-trimmed
+  // Correct object config with multiple events (same semantics as string form)
+  @listen({event: 'click mouseover'})
+  onClickMouseoverObjectConfig(e: MouseEvent) {}
+
+  // Untrimmed event name string is normalized and accepted with a compatible MouseEvent argument
   @listen(' click ')
-  onEvent9(e: MouseEvent) {}
+  onClickUntrimmed(e: MouseEvent) {}
 
-  // @ts-expect-error - un-trimmed event definition should not allow incompatible event subtype
+  // @ts-expect-error - Untrimmed event name after normalization still rejects an incompatible argument type
   @listen(' click ')
-  onEvent10(e: KeyboardEvent) {}
+  onClickUntrimmedIncompatibleArgError(e: KeyboardEvent) {}
 
-  // Event name definition is correct for the intersection target
+  // Extra internal whitespace between events should be normalized
+  @listen('  click   mouseover  ')
+  onClickMouseoverExtraSpaces(e: MouseEvent) {}
+
+  // @ts-expect-error - Extra internal whitespace between events should be normalized (error case)
+  @listen('  click   mouseover  ')
+  onClickMouseoverExtraSpacesError(e: TouchEvent) {}
+
+  // Intersection observer target specific event name maps correctly to ESLIntersectionEvent argument
   @listen({event: 'intersects', target: ESLIntersectionTarget.for})
-  onIntersectionEvent1(e: ESLIntersectionEvent) {}
+  onIntersects(e: ESLIntersectionEvent) {}
 
-  // Event name definition with multiple events is accepted for the intersection target
+  // Multiple intersection-specific event names share the same ESLIntersectionEvent argument type
   @listen({event: 'intersects:in intersects:out', target: ESLIntersectionTarget.for})
-  onIntersectionEvent2(e: Event) {}
+  onIntersectsMulti(e: ESLIntersectionEvent) {}
 
-  // @ts-expect-error - event argument should be compatible with the intersection event name
+  // @ts-expect-error - Intersection target event rejects an unrelated DOM event argument type
   @listen({event: 'intersects', target: ESLIntersectionTarget.for})
-  onIntersectionEvent3(e: MouseEvent) {}
+  onIntersectsIncompatibleArgError(e: MouseEvent) {}
 
-  // @ts-expect-error - event name definition should be compatible with the intersection target
+  // @ts-expect-error - Non-intersection event name is invalid when used with intersection target
   @listen({event: 'click', target: ESLIntersectionTarget.for})
-  onIntersectionEvent4(e: Event) {}
+  onIntersectsWrongEventNameError(e: Event) {}
 
-  // Event name definition is correct for the resize target
+  // Resize observer target event name maps to the specific ESLElementResizeEvent argument type
   @listen({event: 'resize', target: ESLResizeObserverTarget.for})
-  onResizeEvent1(e: ESLElementResizeEvent) {}
+  onResize(e: ESLElementResizeEvent) {}
 
-  // Event name definition is correct for the resize target
+  // Resize observer target event accepts a more generic UIEvent argument type
   @listen({event: 'resize', target: ESLResizeObserverTarget.for})
-  onResizeEvent2(e: UIEvent) {}
+  onResizeGeneric(e: UIEvent) {}
 
-  // @ts-expect-error - event argument should be compatible with the resize event name
+  // @ts-expect-error - Resize observer event rejects an unrelated custom event type
   @listen({event: 'resize', target: ESLResizeObserverTarget.for})
-  onResizeEvent3(e: ESLIntersectionEvent) {}
+  onResizeIncompatibleArgError(e: ESLIntersectionEvent) {}
 
-  // @ts-expect-error - event name definition should be compatible with the resize target
+  // @ts-expect-error - Wrong event name for resize observer target is rejected
   @listen({event: 'click', target: ESLResizeObserverTarget.for})
-  onResizeEvent4(e: Event) {}
+  onResizeWrongEventNameError(e: Event) {}
 
-  // Event name definition is correct for the longwheel target
+  // Wheel target custom event name maps correctly to ESLWheelEvent argument
   @listen({event: 'longwheel', target: ESLWheelTarget.for})
-  onWheelEvent1(e: ESLWheelEvent) {}
+  onLongwheel(e: ESLWheelEvent) {}
 
-  // @ts-expect-error - event argument should be compatible with the longwheel event name
+  // @ts-expect-error - Wrong DOM event name used with wheel target custom event expectation is rejected
   @listen({event: 'click', target: ESLWheelTarget.for})
-  onWheelEvent2(e: MouseEvent) {}
+  onLongwheelWrongEventNameError(e: MouseEvent) {}
 
-  // Event name definition is correct for the swipe target
+  // Swipe gesture target custom event maps correctly to ESLSwipeGestureEvent argument
   @listen({event: 'swipe', target: ESLSwipeGestureTarget.for})
-  onSwipeEvent1(e: ESLSwipeGestureEvent) {}
+  onSwipe(e: ESLSwipeGestureEvent) {}
 
-  // @ts-expect-error - event argument should be compatible with the swipe event name
+  // @ts-expect-error - Wrong DOM event name used with swipe gesture target is rejected
   @listen({event: 'click', target: ESLSwipeGestureTarget.for})
-  onSwipeEvent2(e: MouseEvent) {}
+  onSwipeWrongEventNameError(e: MouseEvent) {}
+
+  // @ts-expect-error - Invalid event name for resize observer target (event split case)
+  @listen({event: 'resize:other', target: ESLResizeObserverTarget.for})
+  onResizeWrongSimilarEventNameError(e: ESLElementResizeEvent) {}
 }
