@@ -1,4 +1,3 @@
-import '../../../polyfills/es5-target-shim';
 import {ESLBaseElement} from '../core';
 
 describe('ESLBaseElement', () => {

@@ -8,11 +8,14 @@ import {ESLMixinRegistry} from './esl-mixin-registry';
 import {ESLMixinAttributesObserver} from './esl-mixin-attr';
 
 import type {
-  ESLEventName,
+  DelegatedEvent,
+  ESLEventType,
   ESLEventListener,
   ESLListenerCriteria,
   ESLListenerDescriptor,
-  ESLListenerHandler
+  ESLListenerHandler,
+  ESLListenerTarget,
+  ExtractEventName
 } from '../../esl-utils/dom/events';
 import type {ESLBaseComponent} from '../../esl-utils/abstract/component';
 import type {ESLDomElementRelated} from '../../esl-utils/abstract/dom-target';
@@ -55,13 +58,14 @@ export class ESLMixinElement implements ESLBaseComponent, ESLDomElementRelated {
   protected attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null): void {}
 
   /** Subscribes (or resubscribes) all known descriptors that matches criteria */
-  public $$on(criteria: ESLListenerCriteria): ESLEventListener[];
+  public $$on<ETarget extends ESLListenerTarget, EName extends ExtractEventName<ETarget>>(
+    criteria: ESLListenerCriteria<ETarget, EName>): ESLEventListener[];
   /** Subscribes `handler` method marked with `@listen` decorator */
   public $$on(handler: ESLListenerHandler): ESLEventListener[];
   /** Subscribes `handler` function by the passed DOM event descriptor {@link ESLListenerDescriptor} or event name */
-  public $$on<EName extends ESLEventName>(
-    event: EName | ESLListenerDescriptor<EName>,
-    handler: ESLListenerHandler<EName>
+  public $$on<ETarget extends ESLListenerTarget, EName extends ExtractEventName<ETarget>>(
+    event: EName | ESLListenerDescriptor<ETarget, EName>,
+    handler: ESLListenerHandler<EName | DelegatedEvent<ESLEventType<EName>>>
   ): ESLEventListener[];
   public $$on(event: any, handler?: any): ESLEventListener[] {
     return ESLEventUtils.subscribe(this, event, handler);

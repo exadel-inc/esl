@@ -1,4 +1,3 @@
-import '../../../../polyfills/es5-target-shim';
 import {attr} from '../attr';
 import {ESLTestTemplate} from '../../test/template';
 
