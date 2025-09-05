@@ -7,12 +7,12 @@ import type {
 
 export interface ESLBaseComponent {
   /** Subscribes (or resubscribes) all known descriptors that matches criteria */
-  $$on<ETarget extends ESLListenerTarget, EName extends ExtractEventName<ETarget, EName>>(
+  $$on<ETarget extends ESLListenerTarget, EName extends ExtractEventName<ETarget>>(
     criteria: ESLListenerCriteria<ETarget, EName>): ESLEventListener[];
   /** Subscribes `handler` method marked with `@listen` decorator */
   $$on(handler: ESLListenerHandler): ESLEventListener[];
   /** Subscribes `handler` function by the passed DOM event descriptor {@link ESLListenerDescriptor} or event name */
-  $$on<ETarget extends ESLListenerTarget, EName extends ExtractEventName<ETarget, EName>>(
+  $$on<ETarget extends ESLListenerTarget, EName extends ExtractEventName<ETarget>>(
     event: EName | ESLListenerDescriptor<ETarget, EName>,
     handler: ESLListenerHandler<EName>
   ): ESLEventListener[];

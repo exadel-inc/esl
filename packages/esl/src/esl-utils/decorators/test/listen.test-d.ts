@@ -108,4 +108,8 @@ class TestClass {
   // @ts-expect-error - Invalid event name for resize observer target (event split case)
   @listen({event: 'resize:other', target: ESLResizeObserverTarget.for})
   onResizeWrongSimilarEventNameError(e: ESLElementResizeEvent) {}
+
+  // @ts-expect-error - Invalid event name for wheel target (event split case)
+  @listen({event: 'mouseover mouseout', target: ESLSwipeGestureTarget.for})
+  onMultiEvent(e: Event) {}
 }

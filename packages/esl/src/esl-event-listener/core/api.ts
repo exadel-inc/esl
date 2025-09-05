@@ -63,7 +63,7 @@ export class ESLEventUtils {
    * */
   public static subscribe(host: object): ESLEventListener[];
   /** Subscribes (or resubscribes) all known descriptors that matches criteria */
-  public static subscribe<ETarget extends ESLListenerTarget, EName extends ExtractEventName<ETarget, EName>>(
+  public static subscribe<ETarget extends ESLListenerTarget, EName extends ExtractEventName<ETarget>>(
     host: object, criteria: ESLListenerCriteria<ETarget, EName>): ESLEventListener[];
   /**
    * Subscribes decorated as an {@link ESLListenerDescriptorFn} `handler` function
@@ -77,7 +77,7 @@ export class ESLEventUtils {
    * @param descriptor - event or {@link ESLListenerDescriptor} with defined event type
    * @param criteria - optional set of criteria {@link ESLListenerCriteria} to filter listeners list
    */
-  public static subscribe<ETarget extends ESLListenerTarget, EName extends ExtractEventName<ETarget, EName>>(
+  public static subscribe<ETarget extends ESLListenerTarget, EName extends ExtractEventName<ETarget>>(
     host: object, descriptor: Partial<ESLListenerDescriptor<ETarget, EName>>, criteria: ESLListenerDescriptorCriteria<ETarget, EName>): ESLEventListener[];
   /**
    * Subscribes `handler` function with the passed event type or {@link ESLListenerDescriptor} with event type declared
@@ -85,7 +85,7 @@ export class ESLEventUtils {
    * @param descriptor - event or {@link ESLListenerDescriptor} with defined event type
    * @param handler - handler function to subscribe
    */
-  public static subscribe<ETarget extends ESLListenerTarget, EName extends ExtractEventName<ETarget, EName>>(
+  public static subscribe<ETarget extends ESLListenerTarget, EName extends ExtractEventName<ETarget>>(
     host: object,
     descriptor: EName | ESLListenerDescriptor<ETarget, EName>,
     handler: ESLListenerHandler<EName | DelegatedEvent<ESLEventType<EName>>>
@@ -96,7 +96,7 @@ export class ESLEventUtils {
    * @param descriptor - {@link ESLListenerDescriptor} additional data
    * @param handler - handler function decorated as {@link ESLListenerDescriptorFn}
    */
-  public static subscribe<ETarget extends ESLListenerTarget, EName extends ExtractEventName<ETarget, EName>>(
+  public static subscribe<ETarget extends ESLListenerTarget, EName extends ExtractEventName<ETarget>>(
     host: object,
     descriptor: Partial<ESLListenerDescriptor<ETarget, EName>>,
     handler: ESLListenerDescriptorFn<ETarget, EName>

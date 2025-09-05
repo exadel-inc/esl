@@ -37,17 +37,19 @@ export type DelegatedEvent<EventType extends Event = Event> = EventType & {
 /** String CSS selector to find the target or {@link EventTarget} object or array of {@link EventTarget}s */
 export type ESLListenerTarget = EventTarget | EventTarget[] | string | null;
 
-export type ExtractEventName<ETarget, EName extends ESLEventName = string> = ETarget extends TypedEventTarget<infer EClass> ?
-    EClass['type'] | (Trim<EName> extends `${infer _T} ${infer _U}` ? (string & {}) : never) :
-  ESLEventName;
+/** One or more event names separated by space */
+export type EventQuery<EName extends string> = EName | `${EName} ${EName}` | `${EName} ${EName} ${EName}` | `${EName} ${EName} ${EName} ${string}`;
+
+/** Extracts event name(s) applicable for the provided target */
+export type ExtractEventName<ETarget> = ETarget extends TypedEventTarget<infer EClass> ? EClass['type'] : ESLEventName;
 
 /** Descriptor to create {@link ESLEventListener} */
 export type ESLListenerDescriptor <
   ETarget extends ESLListenerTarget = ESLListenerTarget,
-  EName extends ExtractEventName<ETarget, EName> = ExtractEventName<ETarget>
+  EName extends ExtractEventName<ETarget> = ExtractEventName<ETarget>
 > = {
   /** A case-sensitive string (or provider function) representing the event type to listen for */
-  event: ValueOrProvider<EName>;
+  event: ValueOrProvider<EventQuery<EName>>;
   /**
    * A boolean value indicating that events for this listener will be dispatched on the capture phase.
    * @see AddEventListenerOptions.capture
@@ -87,7 +89,7 @@ export type ESLListenerDescriptor <
 /** Resolved descriptor (definition) to create {@link ESLEventListener} */
 export type ESLListenerDefinition<
   ETarget extends ESLListenerTarget = ESLListenerTarget,
-  EName extends ExtractEventName<ETarget, EName> = ExtractEventName<ETarget>
+  EName extends ExtractEventName<ETarget> = ExtractEventName<ETarget>
 > = ESLListenerDescriptor<ETarget, EName> & {
   /** A case-sensitive string (or provider function) representing the event type to listen for */
   event: EName;
@@ -101,7 +103,7 @@ export type ESLListenerHandler<E extends ESLEventName | Event = Event> =
 /** Condition (criteria) to find {@link ESLListenerDescriptor} */
 export type ESLListenerDescriptorCriteria<
   ETarget extends ESLListenerTarget = ESLListenerTarget,
-  EName extends ExtractEventName<ETarget, EName> = ExtractEventName<ETarget>
+  EName extends ExtractEventName<ETarget> = ExtractEventName<ETarget>
 > =
   | undefined
   | string
@@ -110,19 +112,19 @@ export type ESLListenerDescriptorCriteria<
 /** Condition (criteria) to find {@link ESLEventListener} */
 export type ESLListenerCriteria<
   ETarget extends ESLListenerTarget = ESLListenerTarget,
-  EName extends ExtractEventName<ETarget, EName> = ExtractEventName<ETarget>
+  EName extends ExtractEventName<ETarget> = ExtractEventName<ETarget>
 > = ESLListenerDescriptorCriteria<ETarget, EName> | ESLListenerHandler;
 
 /** Function decorated as {@link ESLListenerDescriptor} */
 export type ESLListenerDescriptorFn<
   ETarget extends ESLListenerTarget = ESLListenerTarget,
-  EName extends ExtractEventName<ETarget, EName> = ExtractEventName<ETarget>
+  EName extends ExtractEventName<ETarget> = ExtractEventName<ETarget>
 > = ESLListenerHandler<EName> & ESLListenerDescriptor<ETarget, EName>;
 
 /** Descriptor to create {@link ESLEventListener} based on class property */
 export type ESLListenerDescriptorExt<
   ETarget extends ESLListenerTarget = ESLListenerTarget,
-  EName extends ExtractEventName<ETarget, EName> = ExtractEventName<ETarget>
+  EName extends ExtractEventName<ETarget> = ExtractEventName<ETarget>
 > = Partial<ESLListenerDescriptor<ETarget, EName>> & {
   /** Defines if the listener metadata should be inherited from the method of the superclass */
   inherit?: boolean;
