@@ -1,3 +1,7 @@
+## 5.13.0 (2025-09-05)
+
+This was a version bump only for eslint-config to align it with other projects, there were no code changes.
+
 ## 5.12.0 (2025-08-29)
 
 ### 🩹 Fixes
