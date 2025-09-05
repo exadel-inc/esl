@@ -2,7 +2,7 @@
   "private": true,
   "name": "@exadel/esl-e2e",
   "type": "module",
-  "version": "5.12.0",
+  "version": "5.13.0",
   "description": "Snapshot tests for ESL",
   "homepage": "https://esl-ui.com/",
   "license": "MIT",
@@ -19,7 +19,7 @@
     "lint": "nx run esl-e2e:lint"
   },
   "dependencies": {
-    "@exadel/esl-website": "^5.12.0",
+    "@exadel/esl-website": "^5.13.0",
     "@types/jest-environment-puppeteer": "^5.0.6",
     "@types/pixelmatch": "^5.2.6",
     "jest-puppeteer": "^11.0.0",
