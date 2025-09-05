@@ -1,4 +1,3 @@
-import '../../../../polyfills/es5-target-shim';
 import {jsonAttr} from '../json-attr';
 
 describe('Decorator: jsonAttr', () => {

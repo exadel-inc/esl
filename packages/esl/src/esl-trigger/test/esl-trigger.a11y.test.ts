@@ -1,4 +1,3 @@
-import '../../../polyfills/es5-target-shim';
 import {ESLTrigger} from '../core/esl-trigger';
 import {createToggleableMock} from '../../esl-toggleable/test/toggleable.mock';
 
