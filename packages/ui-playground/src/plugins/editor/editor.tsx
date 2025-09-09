@@ -8,11 +8,13 @@ import Prism from 'prismjs';
 import {CodeJar} from 'codejar';
 
 import {debounce} from '@exadel/esl/modules/esl-utils/async/debounce';
-import {attr, boolAttr, decorate, listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
+import {attr, decorate, listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 
+import {parseBoolean, toBooleanAttribute} from '@exadel/esl/modules/esl-utils/misc/format';
 import {UIPPluginPanel} from '../../core/panel/plugin-panel';
 import {CopyIcon} from '../copy/copy-button.icon';
 import {ResetIcon} from '../reset/reset-button.icon';
+import {UIPDefaults} from '../../core/config/config';
 import {EditorIcon} from './editor.icon';
 
 import type {UIPSnippetsList} from '../snippets-list/snippets-list';
@@ -34,7 +36,20 @@ export class UIPEditor extends UIPPluginPanel {
   @attr({defaultValue: 'html'}) public source: UIPEditableSource;
 
   /** Marker to display copy widget */
-  @boolAttr({name: 'copy'}) public showCopy: boolean;
+  @attr({defaultValue: () => UIPDefaults.for('editor').label}) public label: string;
+
+  /** Marker to display copy widget */
+  @attr({parser: parseBoolean, serializer: toBooleanAttribute, name: 'copy', defaultValue: () => UIPDefaults.for('editor').copy})
+  public showCopy: boolean;
+
+  /** Marker to make enable toggle collapse action for section header. @see UIPPluginPanel */
+  @attr({parser: parseBoolean, serializer: toBooleanAttribute, defaultValue: () => UIPDefaults.for('editor').collapsible})
+  public collapsible: boolean;
+
+  /** Marker that indicates resizable state of the panel. @see UIPPluginPanel */
+  @attr({parser: parseBoolean, serializer: toBooleanAttribute, defaultValue: () => UIPDefaults.for('editor').resizable})
+  public resizable: boolean;
+
 
   protected override get $icon(): JSX.Element {
     return <EditorIcon/>;
@@ -113,6 +128,8 @@ export class UIPEditor extends UIPPluginPanel {
   protected override connectedCallback(): void {
     super.connectedCallback();
     this.innerHTML = '';
+
+    this.collapsible = this.collapsible!;
 
     // Prefill content
     this.appendChild(this.$header);
