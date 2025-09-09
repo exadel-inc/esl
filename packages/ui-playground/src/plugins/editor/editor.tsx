@@ -129,8 +129,6 @@ export class UIPEditor extends UIPPluginPanel {
     super.connectedCallback();
     this.innerHTML = '';
 
-    this.collapsible = this.collapsible!;
-
     // Prefill content
     this.appendChild(this.$header);
     this.appendChild(this.$inner);

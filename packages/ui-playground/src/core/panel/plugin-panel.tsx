@@ -73,6 +73,7 @@ export abstract class UIPPluginPanel extends UIPPlugin {
 
   protected override connectedCallback(): void {
     super.connectedCallback();
+    this.collapsible = this.collapsible!;
     this.classList.add('uip-plugin-panel');
     this._onLayoutModeChange();
   }

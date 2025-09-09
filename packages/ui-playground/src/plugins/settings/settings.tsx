@@ -90,8 +90,6 @@ export class UIPSettings extends UIPPluginPanel {
 
   protected override connectedCallback(): void {
     super.connectedCallback();
-
-    this.collapsible = this.collapsible!;
     this.hideable = this.hideable!;
 
     this.appendChild(this.$header);
