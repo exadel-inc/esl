@@ -35,4 +35,17 @@ UIPRenderingTemplatesService.add('default', `
   </html>
 `);
 
-init();
+init({
+  editor: {
+    label: 'Source code',
+    copy: true,
+    collapsible: true,
+  },
+  settings: {
+    label: 'Settings',
+    themeToggle: true,
+    collapsible: true,
+    hideable: true,
+    resizable: true
+  }
+});

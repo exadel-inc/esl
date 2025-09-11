@@ -204,7 +204,7 @@ aside:
 
       <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
       <uip-preview></uip-preview>
-      <uip-settings label="Settings" resizable vertical="@+sm">
+      <uip-settings vertical="@+sm">
         <uip-select-setting target=".img-container" label="Image ratio:" attribute="class" mode="append">
           <option value="img-container-16-9">16 x 9</option>
           <option value="img-container-4-3">4 x 3</option>
@@ -225,8 +225,8 @@ aside:
         <uip-bool-setting label="Border" target=".img-container" mode="append" attribute="class" value="border"></uip-bool-setting>
         <uip-bool-setting label="Inscribe" target=".cover-mode-image" mode="append" attribute="class" value="bg-inscribe"></uip-bool-setting>
       </uip-settings>
-      <uip-editor label="Source code (HTML)" collapsible copy></uip-editor>
-      <uip-editor source="js" label="Source code (JS)" collapsible collapsed copy></uip-editor>
+      <uip-editor label="Source code (HTML)"></uip-editor>
+      <uip-editor source="js" label="Source code (JS)" collapsed></uip-editor>
     </uip-root>
   </div>
 </section>
