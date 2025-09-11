@@ -1,4 +1,4 @@
-# UIP Select Setting
+## UIP Select Setting
 
 **UIPSelectSetting** - custom setting to select attribute's value. Extends [UIPSetting](src/plugins/settings/README.md).
 
@@ -9,7 +9,7 @@ value with selected, and the second one appends selected value to the attribute.
 
 **UIPSelectSetting** also supports **multiple** attribute to allow selecting multiple values.
 
-## Example
+### Example
 
 ```html
 <uip-settings>
