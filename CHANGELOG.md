@@ -1,3 +1,7 @@
+## 5.13.1 (2025-09-11)
+
+This was a version bump only, there were no code changes.
+
 ## 5.13.0 (2025-09-05)
 
 ### 🚀 Features
