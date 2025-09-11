@@ -1,3 +1,7 @@
+## 5.13.1 (2025-09-11)
+
+This was a version bump only for stylelint-config to align it with other projects, there were no code changes.
+
 ## 5.13.0 (2025-09-05)
 
 This was a version bump only for stylelint-config to align it with other projects, there were no code changes.
