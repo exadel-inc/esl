@@ -26,12 +26,12 @@ describe('ESLTrigger event handling', () => {
 
       test('toggle (show)', () => {
         $trigger.click();
-        expect($trigger.$target!.show).toBeCalledTimes(1);
+        expect($trigger.$target!.show).toHaveBeenCalledTimes(1);
       });
 
       test('toggle (hide)', () => {
         $trigger.click();
-        expect($trigger.$target!.hide).toBeCalledTimes(1);
+        expect($trigger.$target!.hide).toHaveBeenCalledTimes(1);
       });
     });
 
@@ -44,12 +44,12 @@ describe('ESLTrigger event handling', () => {
 
       test('toggle (show) disabled', () => {
         $trigger.click();
-        expect($trigger.$target!.show).toBeCalledTimes(0);
+        expect($trigger.$target!.show).toHaveBeenCalledTimes(0);
       });
 
       test('toggle (hide) disabled', () => {
         $trigger.click();
-        expect($trigger.$target!.hide).toBeCalledTimes(0);
+        expect($trigger.$target!.hide).toHaveBeenCalledTimes(0);
       });
     });
 
@@ -62,12 +62,12 @@ describe('ESLTrigger event handling', () => {
 
       test('click toggle (show)', () => {
         $trigger.dispatchEvent(new MouseEvent('click'));
-        expect($trigger.$target!.show).toBeCalledTimes(1);
+        expect($trigger.$target!.show).toHaveBeenCalledTimes(1);
       });
 
       test('click toggle (hide) disabled', () => {
         $trigger.dispatchEvent(new MouseEvent('click'));
-        expect($trigger.$target!.hide).toBeCalledTimes(0);
+        expect($trigger.$target!.hide).toHaveBeenCalledTimes(0);
       });
     });
 
@@ -80,12 +80,12 @@ describe('ESLTrigger event handling', () => {
 
       test('toggle (hide)', () => {
         $trigger.click();
-        expect($trigger.$target!.hide).toBeCalledTimes(1);
+        expect($trigger.$target!.hide).toHaveBeenCalledTimes(1);
       });
 
       test('toggle (show) disabled', () => {
         $trigger.click();
-        expect($trigger.$target!.show).toBeCalledTimes(0);
+        expect($trigger.$target!.show).toHaveBeenCalledTimes(0);
       });
     });
 
@@ -101,12 +101,12 @@ describe('ESLTrigger event handling', () => {
 
       test('toggle (show)', () => {
         $target.click();
-        expect($trigger.$target!.show).toBeCalledTimes(1);
+        expect($trigger.$target!.show).toHaveBeenCalledTimes(1);
       });
 
       test('toggle (hide)', () => {
         $target.click();
-        expect($trigger.$target!.hide).toBeCalledTimes(1);
+        expect($trigger.$target!.hide).toHaveBeenCalledTimes(1);
       });
     });
 
@@ -122,12 +122,12 @@ describe('ESLTrigger event handling', () => {
 
       test('toggle (show) ignored', () => {
         div.click();
-        expect($trigger.$target!.show).toBeCalledTimes(0);
+        expect($trigger.$target!.show).toHaveBeenCalledTimes(0);
       });
 
       test('toggle (hide) ignored', () => {
         div.click();
-        expect($trigger.$target!.hide).toBeCalledTimes(0);
+        expect($trigger.$target!.hide).toHaveBeenCalledTimes(0);
       });
     });
   });
@@ -194,12 +194,12 @@ describe('ESLTrigger event handling', () => {
 
       beforeAll(() => document.body.append($trigger));
 
-      test('change event fired', () => {
+      test('change event fired on mouseenter', () => {
         $trigger.dispatchEvent(new MouseEvent('mouseenter'));
         expect($trigger.$target!.show).toHaveBeenCalledTimes(1);
       });
 
-      test('change event fired', () => {
+      test('change event fired on mouseleave', () => {
         $trigger.dispatchEvent(new MouseEvent('mouseleave'));
         expect($trigger.$target!.hide).toHaveBeenCalledTimes(1);
       });

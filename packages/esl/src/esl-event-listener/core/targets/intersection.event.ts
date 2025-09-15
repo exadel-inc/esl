@@ -16,6 +16,8 @@ export class ESLIntersectionEvent extends Event implements IntersectionObserverE
   /** @deprecated use {@link TYPE} instead */
   public static readonly type = this.TYPE;
 
+  public override readonly type: ESLIntersectionEventType;
+
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/IntersectionObserverEntry/target) */
   public override readonly target: Element;
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/IntersectionObserverEntry/boundingClientRect) */
@@ -57,5 +59,17 @@ export class ESLIntersectionEvent extends Event implements IntersectionObserverE
     } = entry;
     Object.assign(event, {boundingClientRect, intersectionRatio, intersectionRect, isIntersecting, rootBounds, time});
     return event;
+  }
+}
+
+declare global {
+  /** Extended event map with the custom event definition */
+  export interface ESLListenerEventMap {
+    /** Custom intersection event dispatched by {@link ESLIntersectionTarget} */
+    [ESLIntersectionEvent.TYPE]: ESLIntersectionEvent;
+    /** Custom intersection event dispatched by {@link ESLIntersectionTarget} on viewport enter */
+    [ESLIntersectionEvent.IN]: ESLIntersectionEvent;
+    /** Custom intersection event dispatched by {@link ESLIntersectionTarget} on viewport exit */
+    [ESLIntersectionEvent.OUT]: ESLIntersectionEvent;
   }
 }

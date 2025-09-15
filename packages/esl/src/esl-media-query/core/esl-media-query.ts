@@ -1,18 +1,20 @@
 import {memoize} from '../../esl-utils/decorators';
+import {isObject} from '../../esl-utils/misc/object/types';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 
 import {ESLScreenDPR} from './common/screen-dpr';
 import {ESLScreenBreakpoints} from './common/screen-breakpoint';
-import {ESLEnvShortcuts} from './common/env-shortcuts';
+import {ESLMediaShortcuts} from './common/media-shortcuts';
 
 import {ALL, NOT_ALL} from './conditions/media-query-const';
 import {MediaQueryCondition} from './conditions/media-query-condition';
+import {MediaQueryNegation} from './conditions/media-query-negation';
 import {MediaQueryConjunction, MediaQueryDisjunction} from './conditions/media-query-containers';
 
 import type {IMediaQueryCondition} from './conditions/media-query-base';
 
 export interface IMediaQueryPreprocessor {
-  process: (match: string) => string | boolean | undefined;
+  process: (match: string) => IMediaQueryCondition | undefined;
 }
 
 /**
@@ -62,36 +64,29 @@ export abstract class ESLMediaQuery implements IMediaQueryCondition {
   /** Creates {@link ESLMediaQuery} condition instance from query string */
   public static from(query: string): ESLMediaQuery {
     const conjunctions = query.split(/\sor\s|,/).map((term) => {
-      const conditions = term.split(/\sand\s/).map(ESLMediaQuery.parseSimpleQuery);
+      const conditions = term.split(/\sand\s/).map(this.parseSingleQuery, this);
       return new MediaQueryConjunction(conditions);
     });
     return new MediaQueryDisjunction(conjunctions).optimize();
   }
 
-  /** Preprocess simple query term by applying replacers and shortcuts rules */
-  protected static preprocess(term: string): string {
-    if (!this.SHORTCUT_PATTERN.test(term)) return term;
-    const shortcut = term.trim().substring(1).toLowerCase();
-    for (const replacer of this._preprocessors) {
-      const result = replacer.process(shortcut);
-      if (typeof result === 'string') return result;
-      if (typeof result === 'boolean') return result ? 'all' : 'not all';
-    }
-    return term;
-  }
-
   /** Creates simple {@link ESLMediaQuery} condition */
-  protected static parseSimpleQuery(term: string): ESLMediaQuery {
+  protected static parseSingleQuery(term: string): ESLMediaQuery {
+    // Wrap `not` operator
     const query = term.replace(/^\s*not\s+/, '');
-    const queryInverted = query !== term;
-    const processedQuery = ESLMediaQuery.preprocess(query);
-    const sanitizedQuery = processedQuery.replace(/^\s*not\s+/, '');
-    const resultInverted = processedQuery !== sanitizedQuery;
-    const invert = queryInverted !== resultInverted;
+    if (query !== term) return new MediaQueryNegation(this.parseSingleQuery(query));
 
-    if (ALL.eq(sanitizedQuery)) return invert ? NOT_ALL : ALL;
-    if (NOT_ALL.eq(sanitizedQuery)) return invert ? ALL : NOT_ALL;
-    return new MediaQueryCondition(sanitizedQuery, invert);
+    // Check for shortcuts
+    if (this.SHORTCUT_PATTERN.test(term)) {
+      const shortcut = term.trim().substring(1).toLowerCase();
+      for (const replacer of this._preprocessors) {
+        const result = replacer.process(shortcut);
+        if (isObject(result)) return result;
+      }
+      return ESLMediaShortcuts.process(shortcut);
+    }
+    // Otherwise, wrap as MediaQueryCondition
+    return new MediaQueryCondition(term.trim());
   }
 
   // Implements IESLMQCondition to allow use ESLMediaQuery as IESLMQCondition type alias
@@ -110,7 +105,6 @@ export abstract class ESLMediaQuery implements IMediaQueryCondition {
 // Register otb preprocessors
 ESLMediaQuery.use(ESLScreenDPR);
 ESLMediaQuery.use(ESLScreenBreakpoints);
-ESLMediaQuery.use(ESLEnvShortcuts);
 
 declare global {
   export interface ESLLibrary {

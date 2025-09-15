@@ -276,13 +276,13 @@ export class ESLPopup extends ESLToggleable {
   protected _onActivatorIntersection(event: ESLIntersectionEvent): void {
     this._intersectionRatio = {};
     if (!event.isIntersecting) {
-      this.hide();
+      this.hide({hideDelay: 0});
       return;
     }
 
     const isHorizontal = isOnHorizontalAxis(this.config.position);
     const checkIntersection = (isMajorAxis: boolean, intersectionRatio: number): void => {
-      if (isMajorAxis && intersectionRatio < INTERSECTION_LIMIT_FOR_ADJACENT_AXIS) this.hide();
+      if (isMajorAxis && intersectionRatio < INTERSECTION_LIMIT_FOR_ADJACENT_AXIS) this.hide({hideDelay: 0});
     };
     if (event.intersectionRect.y !== event.boundingClientRect.y) {
       this._intersectionRatio.top = event.intersectionRect.height / event.boundingClientRect.height;

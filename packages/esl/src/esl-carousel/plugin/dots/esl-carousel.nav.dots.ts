@@ -159,7 +159,7 @@ export class ESLCarouselNavDots extends ESLBaseElement {
     if (force || this.$dots.length !== this.count) {
       const $dots = new Array(this.count).fill(null).map((_, index) => this.dotBuilder(index, this));
       // Attribute `esl-carousel-dot` is necessary for proper work of ESLCarouselNavDots plugin, we do not relay on customizable dotBuilder(including default)
-      $dots.forEach(($dot, index) => $dot.setAttribute('esl-carousel-dot', String(index)));
+      $dots.forEach(($dot, index) => $dot.setAttribute('esl-carousel-dot', String(index + 1)));
       memoize.clear(this, '$dots');
       this.replaceChildren(...$dots);
     }
@@ -189,7 +189,7 @@ export class ESLCarouselNavDots extends ESLBaseElement {
     if (!this.$carousel || typeof this.$carousel.goTo !== 'function') return;
     const $btn = event.$delegate as HTMLElement;
     const target = $btn.getAttribute('esl-carousel-dot') || '';
-    this.$carousel.goTo(`group:${+target}`);
+    this.$carousel.goTo(`group:${+target}`, {activator: this}).catch(console.debug);
     (this.tabIndex >= 0 ? this : $btn).focus({preventScroll: true});
   }
 

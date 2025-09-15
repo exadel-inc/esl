@@ -138,10 +138,34 @@
       ]
     },
 
+    "test:types": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc --project tsconfig.typetest.json",
+        "cwd": "packages/esl"
+      },
+      "cache": true,
+      "inputs": [
+        "{projectRoot}/src/**/*.ts",
+        "{projectRoot}/tsconfig.typetest.json"
+      ]
+    },
+    "test": {
+      "executor": "nx:noop",
+      "dependsOn": ["test:types", "test:jest"]
+    },
+
     "pack": {
       "executor": "nx:run-commands",
       "options": {
         "command": "npm pack --pack-destination=../../target/",
+        "cwd": "packages/esl"
+      }
+    },
+    "version:post": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node ./scripts/update-lib-version.mjs && git add src/lib.ts",
         "cwd": "packages/esl"
       }
     }

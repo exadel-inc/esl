@@ -80,33 +80,33 @@ describe('ESLSwipeGestureTarget EventTarget', () => {
     test('ESLSwipeGestureTarget detects left swipe', async () => {
       $el.dispatchEvent(createEvent(START_EVENT, {pageX: 100, pageY: 100}));
       window.dispatchEvent(createEvent(END_EVENT, {pageX: 50, pageY: 100, target: $el}));
-      expect(listener).lastCalledWith(expect.any(ESLSwipeGestureEvent));
-      expect(listener).lastCalledWith(expect.objectContaining({direction: 'left'}));
-      expect(listener).lastCalledWith(expect.objectContaining({angle: 270}));
+      expect(listener).toHaveBeenLastCalledWith(expect.any(ESLSwipeGestureEvent));
+      expect(listener).toHaveBeenLastCalledWith(expect.objectContaining({direction: 'left'}));
+      expect(listener).toHaveBeenLastCalledWith(expect.objectContaining({angle: 270}));
     });
 
     test('ESLSwipeGestureTarget detects right swipe', async () => {
       $el.dispatchEvent(createEvent(START_EVENT, {pageX: 100, pageY: 100}));
       window.dispatchEvent(createEvent(END_EVENT, {pageX: 150, pageY: 100, target: $el}));
-      expect(listener).lastCalledWith(expect.any(ESLSwipeGestureEvent));
-      expect(listener).lastCalledWith(expect.objectContaining({direction: 'right'}));
-      expect(listener).lastCalledWith(expect.objectContaining({angle: 90}));
+      expect(listener).toHaveBeenLastCalledWith(expect.any(ESLSwipeGestureEvent));
+      expect(listener).toHaveBeenLastCalledWith(expect.objectContaining({direction: 'right'}));
+      expect(listener).toHaveBeenLastCalledWith(expect.objectContaining({angle: 90}));
     });
 
     test('ESLSwipeGestureTarget detects up swipe', async () => {
       $el.dispatchEvent(createEvent(START_EVENT, {pageX: 100, pageY: 100}));
       window.dispatchEvent(createEvent(END_EVENT, {pageX: 100, pageY: 50, target: $el}));
-      expect(listener).lastCalledWith(expect.any(ESLSwipeGestureEvent));
-      expect(listener).lastCalledWith(expect.objectContaining({direction: 'up'}));
-      expect(listener).lastCalledWith(expect.objectContaining({angle: 0}));
+      expect(listener).toHaveBeenLastCalledWith(expect.any(ESLSwipeGestureEvent));
+      expect(listener).toHaveBeenLastCalledWith(expect.objectContaining({direction: 'up'}));
+      expect(listener).toHaveBeenLastCalledWith(expect.objectContaining({angle: 0}));
     });
 
     test('ESLSwipeGestureTarget detects down swipe', async () => {
       $el.dispatchEvent(createEvent(START_EVENT, {pageX: 100, pageY: 100}));
       window.dispatchEvent(createEvent(END_EVENT, {pageX: 100, pageY: 150, target: $el}));
-      expect(listener).lastCalledWith(expect.any(ESLSwipeGestureEvent));
-      expect(listener).lastCalledWith(expect.objectContaining({direction: 'down'}));
-      expect(listener).lastCalledWith(expect.objectContaining({angle: 180}));
+      expect(listener).toHaveBeenLastCalledWith(expect.any(ESLSwipeGestureEvent));
+      expect(listener).toHaveBeenLastCalledWith(expect.objectContaining({direction: 'down'}));
+      expect(listener).toHaveBeenLastCalledWith(expect.objectContaining({angle: 180}));
     });
 
     test('ESLSwipeGestureTarget ignores short horizontal swipes', async () => {

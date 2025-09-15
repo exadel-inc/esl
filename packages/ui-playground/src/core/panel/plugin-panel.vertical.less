@@ -1,0 +1,73 @@
+.uip-plugin-panel.vertical.vertical {
+  grid-area: sidebar;
+  flex-direction: row;
+
+  .uip-plugin-resize-bar {
+    order: -1;
+    cursor: col-resize;
+  }
+
+  .uip-plugin-inner {
+    width: var(--uip-plugin-width, 250px);
+    max-width: var(--uip-plugin-width, 250px);
+    max-height: 100%;
+
+    transition:
+      visibility 0s linear,
+      padding-left 0.3s linear,
+      padding-right 0.3s linear,
+      max-width 0.3s linear;
+  }
+
+  &[collapsed] .uip-plugin-inner {
+    max-width: 0;
+    padding-left: 0;
+    padding-right: 0;
+
+    transition:
+      visibility 0.3s linear,
+      padding-left 0.3s linear,
+      padding-right 0.3s linear,
+      max-width 0.3s linear;
+  }
+
+  .uip-plugin-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2px 4px;
+  }
+
+  &[resizable] .uip-plugin-header {
+    min-width: 1px;
+  }
+
+  .uip-plugin-header-toolbar {
+    position: absolute;
+    flex-direction: column;
+    top: 0.25rem;
+    left: 0;
+    right: 0;
+    gap: 0.5rem;
+  }
+
+  .uip-plugin-header-title {
+    display: none;
+  }
+  &:not([collapsible]) {
+    .uip-plugin-header.has-toolbar {
+      min-width: calc(1.25rem + 8px);
+    }
+    .uip-plugin-header:not(.has-toolbar) {
+      padding: 0;
+    }
+    .uip-plugin-header-icon {
+      display: none;
+    }
+  }
+
+  .uip-plugin-header-icon {
+    width: 1.25rem;
+    margin-inline-end: 0;
+  }
+}

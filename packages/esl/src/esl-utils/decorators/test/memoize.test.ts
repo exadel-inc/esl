@@ -15,14 +15,14 @@ describe('common @memoize decorator test', () => {
       fn.mockReturnValue(NaN);
       expect(instance.test).toBe(NaN);
       expect(instance.test).toBe(NaN);
-      expect(fn).toBeCalledTimes(1);
+      expect(fn).toHaveBeenCalledTimes(1);
 
       expect(memoize.has(instance, 'test')).toBe(true);
       memoize.clear(instance, 'test');
       expect(memoize.has(instance, 'test')).toBe(false);
 
       expect(instance.test).toBe(NaN);
-      expect(fn).toBeCalledTimes(2);
+      expect(fn).toHaveBeenCalledTimes(2);
     });
   });
 
@@ -39,14 +39,14 @@ describe('common @memoize decorator test', () => {
       fn.mockReturnValue(NaN);
       expect(TestClass.test).toBe(NaN);
       expect(TestClass.test).toBe(NaN);
-      expect(fn).toBeCalledTimes(1);
+      expect(fn).toHaveBeenCalledTimes(1);
 
       expect(memoize.has(TestClass, 'test')).toBe(true);
       memoize.clear(TestClass, 'test');
       expect(memoize.has(TestClass, 'test')).toBe(false);
 
       expect(TestClass.test).toBe(NaN);
-      expect(fn).toBeCalledTimes(2);
+      expect(fn).toHaveBeenCalledTimes(2);
     });
   });
 
@@ -64,7 +64,7 @@ describe('common @memoize decorator test', () => {
       fn.mockReturnValue('a');
       expect(instance.test()).toBe('a');
       expect(instance.test()).toBe('a');
-      expect(fn).toBeCalledTimes(1);
+      expect(fn).toHaveBeenCalledTimes(1);
 
       expect(memoize.has(instance, 'test')).toBe(true);
       memoize.clear(instance, 'test');
@@ -72,7 +72,7 @@ describe('common @memoize decorator test', () => {
 
       expect(instance.test()).toBe('a');
       expect(instance.test()).toBe('a');
-      expect(fn).toBeCalledTimes(2);
+      expect(fn).toHaveBeenCalledTimes(2);
     });
   });
 
@@ -95,7 +95,7 @@ describe('common @memoize decorator test', () => {
       fn.mockReturnValue('a');
       expect(instance.test1()).toBe('a');
       expect(instance.test2()).toBe('a');
-      expect(fn).toBeCalledTimes(2);
+      expect(fn).toHaveBeenCalledTimes(2);
 
       expect(memoize.has(instance, 'test1')).toBe(true);
       expect(memoize.has(instance, 'test2')).toBe(true);
@@ -105,7 +105,7 @@ describe('common @memoize decorator test', () => {
 
       expect(instance.test1()).toBe('a');
       expect(instance.test2()).toBe('a');
-      expect(fn).toBeCalledTimes(4);
+      expect(fn).toHaveBeenCalledTimes(4);
     });
   });
 
@@ -122,7 +122,7 @@ describe('common @memoize decorator test', () => {
       fn.mockReturnValue('a');
       expect(TestClass.test()).toBe('a');
       expect(TestClass.test()).toBe('a');
-      expect(fn).toBeCalledTimes(1);
+      expect(fn).toHaveBeenCalledTimes(1);
 
       expect(memoize.has(TestClass, 'test')).toBe(true);
       memoize.clear(TestClass, 'test');
@@ -130,7 +130,7 @@ describe('common @memoize decorator test', () => {
 
       expect(TestClass.test()).toBe('a');
       expect(TestClass.test()).toBe('a');
-      expect(fn).toBeCalledTimes(2);
+      expect(fn).toHaveBeenCalledTimes(2);
     });
   });
 
@@ -172,6 +172,6 @@ describe('common @memoize decorator test', () => {
         public test = 'a';
       }
       new TestClass();
-    }).toThrowError();
+    }).toThrow();
   });
 });

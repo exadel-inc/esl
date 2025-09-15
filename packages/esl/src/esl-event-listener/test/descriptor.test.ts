@@ -36,12 +36,12 @@ describe('dom/events: ESLEventUtils: ESLListenerDescriptor Utils', () => {
   describe('ESLEventUtils.initDescriptor', () => {
     test('ESLEventUtils.initDescriptor: missing key throws error', () => {
       const host: any = {};
-      expect(() => ESLEventUtils.initDescriptor(host, 'fn', {event: 'event'})).toThrowError();
+      expect(() => ESLEventUtils.initDescriptor(host, 'fn', {event: 'event'})).toThrow();
     });
 
     test('ESLEventUtils.initDescriptor: incorrect key type throws error', () => {
       const host = {fn: null};
-      expect(() => ESLEventUtils.initDescriptor(host, 'fn', {event: 'event'})).toThrowError();
+      expect(() => ESLEventUtils.initDescriptor(host, 'fn', {event: 'event'})).toThrow();
     });
 
     test('ESLEventUtils.initDescriptor: returns host key', () => {
@@ -100,7 +100,7 @@ describe('dom/events: ESLEventUtils: ESLListenerDescriptor Utils', () => {
       test('ESLEventUtils.initDescriptor: can inherit descriptor from prototype', () => {
         const host = {fn2: () => void 0};
         Object.setPrototypeOf(host, proto);
-        expect(() => ESLEventUtils.initDescriptor(host, 'fn2', {inherit: true, selector: 'b'})).toThrowError();
+        expect(() => ESLEventUtils.initDescriptor(host, 'fn2', {inherit: true, selector: 'b'})).toThrow();
       });
 
       test('ESLEventUtils.initDescriptor: inheriting of type (auto collectable) of the prototype', () => {

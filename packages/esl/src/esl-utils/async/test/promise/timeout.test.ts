@@ -27,8 +27,8 @@ describe('async/promise/timeout', () => {
     promise$.then(resCb, rejCb);
 
     jest.advanceTimersByTime(50);
-    expect(resCb).not.toBeCalled();
-    expect(rejCb).not.toBeCalled();
+    expect(resCb).not.toHaveBeenCalled();
+    expect(rejCb).not.toHaveBeenCalled();
     jest.advanceTimersByTime(100);
   });
 });

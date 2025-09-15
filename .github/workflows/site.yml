@@ -29,12 +29,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
       - name: Use Node v${{ env.node-version }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           cache: 'npm'
           node-version: ${{ env.node-version }}
@@ -43,10 +43,11 @@ jobs:
       - name: Build ESL & Site
         run: npm run build:website
         env:
+          SITE_ENV: production
           SITE_BASE_URL: ${{ steps.pages.outputs.base_url }}
           BUILD_VERSION: ${{ github.run_number }}
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: ./packages/esl-website/dist
 

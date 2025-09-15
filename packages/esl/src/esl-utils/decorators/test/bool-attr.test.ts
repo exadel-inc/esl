@@ -1,4 +1,3 @@
-import '../../../../polyfills/es5-target-shim';
 import {boolAttr} from '../bool-attr';
 
 describe('Decorator: boolAttr', () => {
@@ -65,7 +64,7 @@ describe('Decorator: boolAttr', () => {
 
   test('Decorator: boolAttr - readonly attr', () => {
     expect(el.readonlyField).toBe(false);
-    expect(() => {el.readonlyField = true;}).toThrowError();
+    expect(() => {el.readonlyField = true;}).toThrow();
     expect(el.readonlyField).toBe(false);
     expect(el.hasAttribute('readonly-field')).toBeFalsy();
     el.setAttribute('readonly-field', '1');

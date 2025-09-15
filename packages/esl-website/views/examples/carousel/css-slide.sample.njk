@@ -1,0 +1,45 @@
+---
+title: Slide Carousel (CSS)
+order: 9
+tags: carousel-sample
+---
+
+<div class="esl-carousel-no-extra-space esl-carousel-nav-container">
+  <button type="button" class="esl-carousel-arrow inner prev hide-xs" esl-carousel-nav="group:prev">
+    <span class="sr-only">Previous Slide</span>
+  </button>
+
+  <esl-carousel demo-options-target
+                type="css-slide"
+                esl-carousel-touch
+                loop="true">
+    <ul esl-carousel-slides>
+      {% for i in range(0, 4) -%}
+        <li esl-carousel-slide {{ 'active' if loop.first }}>
+          <div class="card">
+            <div class="card-bg img-container" esl-image-container>
+              <img class="img-fade img-cover"
+                   alt="{{ 'Carousel slide ' + loop.index }}"
+                   src="{{ '/assets/carousel/' + (loop.index + 2) + '-sm.jpg' | url }}"
+                   loading="lazy" />
+            </div>
+            <div class="card-content card-content-spaced text-white text-center">
+              <div class="h1">Slide {{ loop.index }}</div>
+              {% if loop.index <= 2 %}
+                <!-- paragraph {{1 + (2 - i)}} -->
+              {% else %}
+                <!-- paragraph {{1 + (i - 2)}} -->
+              {% endif %}
+            </div>
+          </div>
+        </li>
+      {%- endfor %}
+    </ul>
+  </esl-carousel>
+
+  <button type="button" class="esl-carousel-arrow inner next hide-xs" esl-carousel-nav="group:next">
+    <span class="sr-only">Next Slide</span>
+  </button>
+
+  <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
+</div>

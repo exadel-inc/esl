@@ -1,5 +1,3 @@
-import '../../../polyfills/es5-target-shim';
-
 import {ESLBaseElement} from '../core';
 import {listen} from '../../esl-utils/decorators/listen';
 import {randUID} from '../../esl-utils/misc/uid';
@@ -28,8 +26,8 @@ describe('ESLBaseElement: listeners', () => {
     test('ESLBaseElement subscription works correctly', () => {
       mockHandler.mockReset();
       el.click();
-      expect(mockHandler).toBeCalled();
-      expect(mockHandler).lastCalledWith(el, expect.any(Event));
+      expect(mockHandler).toHaveBeenCalled();
+      expect(mockHandler).toHaveBeenLastCalledWith(el, expect.any(Event));
     });
 
     test('ESLBaseElement successfully auto unsubscribed', async () => {
@@ -56,13 +54,13 @@ describe('ESLBaseElement: listeners', () => {
       const desc = {event: 'click'};
 
       el.$$on(el.onEvent1);
-      expect(mock).lastCalledWith(el, el.onEvent1, undefined);
+      expect(mock).toHaveBeenLastCalledWith(el, el.onEvent1, undefined);
 
       el.$$on(desc, el.onEvent2);
-      expect(mock).lastCalledWith(el, desc, el.onEvent2);
+      expect(mock).toHaveBeenLastCalledWith(el, desc, el.onEvent2);
 
       el.$$on('test', el.onEvent2);
-      expect(mock).lastCalledWith(el, 'test', el.onEvent2);
+      expect(mock).toHaveBeenLastCalledWith(el, 'test', el.onEvent2);
     });
 
     test('$$off', () => {
@@ -72,13 +70,13 @@ describe('ESLBaseElement: listeners', () => {
       const desc = {event: 'click'};
 
       el.$$off(el.onEvent1);
-      expect(mock).lastCalledWith(el, el.onEvent1);
+      expect(mock).toHaveBeenLastCalledWith(el, el.onEvent1);
 
       el.$$off(el.onEvent2, desc);
-      expect(mock).lastCalledWith(el, el.onEvent2, desc);
+      expect(mock).toHaveBeenLastCalledWith(el, el.onEvent2, desc);
 
       el.$$off(el.onEvent2, 'test');
-      expect(mock).lastCalledWith(el, el.onEvent2, 'test');
+      expect(mock).toHaveBeenLastCalledWith(el, el.onEvent2, 'test');
     });
   });
 });

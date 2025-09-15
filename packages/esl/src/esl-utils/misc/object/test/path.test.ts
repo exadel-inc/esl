@@ -248,4 +248,32 @@ describe('misc/object: path', () => {
       });
     });
   });
+
+  describe('Prototype pollution checks (CWE-1321)', () => {
+    test.each([
+      '__proto__.polluted',
+      'constructor.prototype.polluted',
+      ['__proto__', 'polluted'],
+      [{key: '__proto__'}, {key: 'polluted'}],
+      ['constructor', 'prototype', 'polluted'],
+      [{key: 'constructor'}, {key: 'prototype'}, {key: 'polluted'}],
+      '[__proto__].polluted'
+    ])('setByPath should ignore malicious path: %p', (maliciousPath: any) => {
+      const obj: any = {};
+      setByPath(obj, maliciousPath, 'ATTACK');
+      expect(({} as any).polluted).toBeUndefined(); // Object prototype not polluted
+      expect(obj.polluted).toBeUndefined(); // target unchanged
+      expect(obj).toEqual({});
+    });
+
+    test.each([
+      '__proto__.polluted',
+      'constructor.prototype.polluted'
+    ])('set should ignore malicious path: %p', (maliciousPath: string) => {
+      const obj: any = {};
+      set(obj, maliciousPath, 'ATTACK');
+      expect(({} as any).polluted).toBeUndefined();
+      expect(obj.polluted).toBeUndefined();
+    });
+  });
 });

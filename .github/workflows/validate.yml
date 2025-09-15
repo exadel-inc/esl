@@ -16,9 +16,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Use Node v${{ env.node-version }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           cache: 'npm'
           node-version: ${{ env.node-version }}
@@ -32,9 +32,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Use Node v${{ env.node-version }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           cache: 'npm'
           node-version: ${{ env.node-version }}
@@ -42,13 +42,10 @@ jobs:
         run: npm ci
       - name: Run Tests
         run: npm run test
-      - name: Collect and Publish coverage to Code Climate
-        uses: paambaati/codeclimate-action@v9.0.0
-        continue-on-error: true
-        env:
-          CC_TEST_REPORTER_ID: ${{secrets.CC_REPORTER_ID}}
+      - name: Collect and Publish coverage to Qlty
+        uses: qltysh/qlty-action/coverage@v2
         with:
-          verifyDownload: false
-          coverageLocations: |
-            ${{github.workspace}}/packages/esl/coverage/lcov.info:lcov
-            ${{github.workspace}}/packages/eslint-plugin/coverage/lcov.info:lcov
+          token: ${{ secrets.QLTY_COVERAGE_TOKEN }}
+          files: |
+            packages/esl/coverage/lcov.info
+            packages/eslint-plugin/coverage/lcov.info

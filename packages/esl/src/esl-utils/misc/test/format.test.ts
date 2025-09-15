@@ -162,6 +162,8 @@ describe('misc/format helper tests', () => {
       ['.3ms', 0.3],
       // Negative integer
       ['-456ms', -456],
+      // Exclusion
+      ['none', 0],
       // Case insensitive
       ['14mS', 14],
       ['14S', 14000],

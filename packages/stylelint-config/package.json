@@ -2,12 +2,16 @@
   "name": "@exadel/stylelint-config-esl",
   "type": "module",
   "private": false,
-  "version": "5.4.0",
+  "version": "5.13.0",
   "keywords": [
     "stylelint",
     "stylelint-config",
     "esl"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/exadel-inc/esl.git"
+  },
   "publishConfig": {
     "access": "public",
     "scope": "@exadel"
@@ -25,8 +29,8 @@
     "pack": "nx run stylelint-config:pack"
   },
   "dependencies": {
-    "@stylistic/stylelint-config": "^2.0.0",
-    "@stylistic/stylelint-plugin": "^3.1.2"
+    "@stylistic/stylelint-config": "^3.0.1",
+    "@stylistic/stylelint-plugin": "^4.0.0"
   },
   "peerDependencies": {
     "stylelint": ">=16.0.0"

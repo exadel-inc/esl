@@ -24,12 +24,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
       - name: Use Node v${{ env.node-version }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           cache: 'npm'
           node-version: ${{ env.node-version }}
@@ -39,7 +39,7 @@ jobs:
 
       - name: Resolve Version
         id: info
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const { execSync } = require('child_process');
@@ -53,7 +53,7 @@ jobs:
             if (tags.length === 0) throw new Error('No git tags found');
 
             // Get the Project Version
-            const version = require('./lerna.json').version;
+            const version = require('./package.json').version;
             // Get the latest version from the tags
             const gitVersion = tags[0].trim().substring(1);
             // Check if the version is the same as the latest tag
@@ -74,7 +74,7 @@ jobs:
       - name: Build Release Notes
         if: ${{ steps.info.outputs.isNewVersion }}
         id: release-notes
-        run: npm run version:notes
+        run: npm run --silent get:changelog > RELEASE_NOTES.md
 
       - name: Create GitHub Release
         if: ${{ steps.info.outputs.isNewVersion }}

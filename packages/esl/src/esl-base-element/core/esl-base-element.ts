@@ -4,10 +4,14 @@ import {ESLEventUtils} from '../../esl-utils/dom/events';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 
 import type {
+  DelegatedEvent,
+  ESLEventType,
   ESLEventListener,
   ESLListenerHandler,
   ESLListenerCriteria,
-  ESLListenerDescriptor
+  ESLListenerDescriptor,
+  ESLListenerTarget,
+  ExtractEventName
 } from '../../esl-utils/dom/events';
 import type {ESLBaseComponent} from '../../esl-utils/abstract/component';
 
@@ -65,13 +69,14 @@ export abstract class ESLBaseElement extends HTMLElement implements ESLBaseCompo
   }
 
   /** Subscribes (or resubscribes) all known descriptors that matches criteria */
-  public $$on(criteria: ESLListenerCriteria): ESLEventListener[];
+  public $$on<ETarget extends ESLListenerTarget, EName extends ExtractEventName<ETarget>>(
+    criteria: ESLListenerCriteria<ETarget, EName>): ESLEventListener[];
   /** Subscribes `handler` method marked with `@listen` decorator */
   public $$on(handler: ESLListenerHandler): ESLEventListener[];
   /** Subscribes `handler` function by the passed DOM event descriptor {@link ESLListenerDescriptor} or event name */
-  public $$on<EType extends keyof ESLListenerEventMap>(
-    event: EType | ESLListenerDescriptor<EType>,
-    handler: ESLListenerHandler<ESLListenerEventMap[EType]>
+  public $$on<ETarget extends ESLListenerTarget, EName extends ExtractEventName<ETarget>>(
+    event: EName | ESLListenerDescriptor<ETarget, EName>,
+    handler: ESLListenerHandler<EName | DelegatedEvent<ESLEventType<EName>>>
   ): ESLEventListener[];
   public $$on(event: any, handler?: any): ESLEventListener[] {
     return ESLEventUtils.subscribe(this, event, handler);
@@ -114,6 +119,12 @@ export abstract class ESLBaseElement extends HTMLElement implements ESLBaseCompo
    */
   public $$fire(eventName: string, eventInit?: CustomEventInit): boolean {
     return ESLEventUtils.dispatch(this, eventName, eventInit);
+  }
+
+  /** Default error logger for `@safe` decorator */
+  public $$error(error: Error | string, key: string): void {
+    const message = error instanceof Error ? error.message : String(error);
+    console.error(`[ESL] ${this.baseTagName}(%o): %s`, this, message);
   }
 
   /**

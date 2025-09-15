@@ -1,6 +1,6 @@
 {
   "name": "@exadel/esl-website",
-  "version": "5.4.0",
+  "version": "5.13.0",
   "type": "module",
   "private": true,
   "description": "ESL Website source",
@@ -9,6 +9,10 @@
   "engines": {
     "node": ">=20.0.0"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/exadel-inc/esl.git"
+  },
   "scripts": {
     "start": "nx run esl-website:start",
     "build": "nx run esl-website:build",
@@ -16,26 +20,24 @@
     "lint": "nx run esl-website:lint"
   },
   "dependencies": {
-    "@11ty/eleventy": "^3.1.0",
-    "@11ty/eleventy-dev-server": "^2.0.8",
-    "@exadel/esl": "../esl",
-    "@exadel/ui-playground": "2.1.0-beta.10",
+    "@11ty/eleventy": "3.1.1",
+    "@11ty/eleventy-dev-server": "2.0.8",
+    "@exadel/esl": "^5.13.0",
+    "@exadel/ui-playground": "^5.13.0",
     "@juggle/resize-observer": "^3.4.0",
     "@types/prismjs": "^1.26.5",
     "@types/smoothscroll-polyfill": "^0.3.4",
     "clean-css-cli": "^5.6.3",
     "html-minifier-terser": "^7.2.0",
     "image-size": "^2.0.2",
+    "jsdom": "^27.0.0",
     "js-yaml": "^4.1.0",
     "out-url": "^1.2.2",
     "prismjs": "^1.30.0",
     "smoothscroll-polyfill": "^0.4.4",
-    "ts-loader": "^9.5.2",
-    "webpack": "^5.99.9",
+    "ts-loader": "^9.5.4",
+    "webpack": "^5.101.3",
     "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "^6.0.1"
-  },
-  "overrides": {
-    "@exadel/esl": "../esl"
   }
 }

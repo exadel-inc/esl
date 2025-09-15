@@ -7,4 +7,4 @@ export * from './decorators/ready';
 export * from './decorators/memoize';
 export * from './decorators/decorate';
 export * from './decorators/listen';
-
+export * from './decorators/safe';

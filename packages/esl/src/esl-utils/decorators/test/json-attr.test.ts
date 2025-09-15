@@ -1,4 +1,3 @@
-import '../../../../polyfills/es5-target-shim';
 import {jsonAttr} from '../json-attr';
 
 describe('Decorator: jsonAttr', () => {
@@ -75,7 +74,7 @@ describe('Decorator: jsonAttr', () => {
 
   test('Decorator: jsonAttr - readonly attr', () => {
     expect(el.readonlyField).toEqual({});
-    expect(() => { el.readonlyField = {}; }).toThrowError();
+    expect(() => { el.readonlyField = {}; }).toThrow();
     expect(el.readonlyField).toEqual({});
     el.setAttribute('readonly-field', '{b: 2}');
     expect(el.readonlyField).toEqual({b: 2});

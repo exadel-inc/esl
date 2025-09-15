@@ -24,6 +24,8 @@ export class ESLWheelEvent extends UIEvent implements ESLWheelEventInfo {
   /** @deprecated Use {@link TYPE} instead */
   public static readonly type = this.TYPE;
 
+  public override readonly type: typeof ESLWheelEvent.TYPE;
+
   public override readonly target: Element;
 
   public readonly axis: 'x' | 'y';
@@ -41,5 +43,13 @@ export class ESLWheelEvent extends UIEvent implements ESLWheelEventInfo {
   /** Creates {@link ESLWheelEvent} based on {@link ESLWheelEventInfo} */
   public static fromConfig(target: Element, wheelInfo: ESLWheelEventInfo): ESLWheelEvent {
     return new ESLWheelEvent(target, wheelInfo);
+  }
+}
+
+declare global {
+  /** Extended event map with the custom event definition */
+  export interface ESLListenerEventMap {
+    /** Long wheel event dispatched by {@link ESLWheelTarget} */
+    [ESLWheelEvent.TYPE]: ESLWheelEvent;
   }
 }

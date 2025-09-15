@@ -1,14 +1,13 @@
-import config from '@exadel/esl/package.json' with {type: 'json'};
+import pkj from '../package.json' with {type: 'json'};
 
 const isValidEnv = (env) => ['development', 'production', 'e2e'].includes(String(env).toLowerCase());
-const argEnv = process.argv.find((arg) => arg.startsWith('--env='))?.split('=')[1];
-const env = isValidEnv(argEnv) ? argEnv : process.env['SITE_ENV'] || 'development';
+const env = isValidEnv(process.env['SITE_ENV']) ? process.env['SITE_ENV'] : 'development';
 const isE2E = env === 'e2e';
 const isDev = env === 'development' || isE2E;
 const date = new Date();
 
 const buildVersion = process.env['BUILD_VERSION'] || 'local';
-const packageVersion = config.version;
+const packageVersion = pkj.version;
 const version = `${packageVersion}-${buildVersion}`; // e.g. 1.0.0-123
 
 export const context = {isDev, isE2E, version, env, date, buildVersion, packageVersion};

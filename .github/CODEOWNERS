@@ -3,7 +3,6 @@
 /package-lock.json @exadel-inc/esl-core-maintainers
 /packages/*/package.json @exadel-inc/esl-core-maintainers
 /nx.json @exadel-inc/esl-core-maintainers
-/lerna.json @exadel-inc/esl-core-maintainers
 /.gitignore @exadel-inc/esl-core-maintainers
 /.gitattributes @exadel-inc/esl-core-maintainers
 /.eslint.config.* @exadel-inc/esl-core-maintainers

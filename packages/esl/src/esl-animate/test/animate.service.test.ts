@@ -9,7 +9,7 @@ describe('ESLAnimateService', () => {
   });
 
   afterAll(() => {
-    IntersectionObserverMock.unmock();
+    IntersectionObserverMock.restore();
     jest.clearAllMocks();
     jest.useRealTimers();
   });

@@ -15,6 +15,17 @@
     flex: 0 0 auto;
   }
   &-content {
+    position: relative;
     flex: 1 1 auto;
+
+    &-spaced {
+      margin: auto;
+      padding: 3em;
+      flex: 0 0 auto;
+    }
+  }
+  & &-bg {
+    position: absolute;
+    inset: 0;
   }
 }

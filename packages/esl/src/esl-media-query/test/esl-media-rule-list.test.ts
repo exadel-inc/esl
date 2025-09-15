@@ -48,12 +48,12 @@ describe('ESLMediaRuleList', () => {
       mockSmMatchMedia.matches = false;
       mockMdMatchMedia.matches = true;
       expect(mrl.value).toBe('1');
-      expect(listener).not.toBeCalled();
+      expect(listener).not.toHaveBeenCalled();
 
       mockSmMatchMedia.matches = true;
       mockMdMatchMedia.matches = true;
       expect(mrl.value).toBe('2');
-      expect(listener).toBeCalled();
+      expect(listener).toHaveBeenCalled();
     });
 
     test('Extended media case parsed correctly: "1 | @sm or @md => 2"', () => {
@@ -67,12 +67,12 @@ describe('ESLMediaRuleList', () => {
       mockSmMatchMedia.matches = false;
       mockMdMatchMedia.matches = false;
       expect(mrl.value).toBe('1');
-      expect(listener).not.toBeCalled();
+      expect(listener).not.toHaveBeenCalled();
 
       mockSmMatchMedia.matches = true;
       mockMdMatchMedia.matches = false;
       expect(mrl.value).toBe('2');
-      expect(listener).toBeCalled();
+      expect(listener).toHaveBeenCalled();
 
       mockSmMatchMedia.matches = false;
       mockMdMatchMedia.matches = true;
@@ -175,7 +175,7 @@ describe('ESLMediaRuleList', () => {
     });
 
     test('Values cortege longer then mask cortege is not allowed', () => {
-      expect(() => ESLMediaRuleList.parseTuple('@xs', '1|2|3')).toThrowError();
+      expect(() => ESLMediaRuleList.parseTuple('@xs', '1|2|3')).toThrow();
     });
   });
 
@@ -203,6 +203,19 @@ describe('ESLMediaRuleList', () => {
       [['@-xs => hello | @+sm => world'], '(max-width: 767px) => hello | (min-width: 768px) => world'],
     ])('Should correctly parse "%s" with media condition "%s"', (params: any[], canonical: string) => {
       expect(ESLMediaRuleList.parse.apply(null, params).toString()).toBe(canonical);
+    });
+  });
+
+  describe('Empty rule list', () => {
+    test('Empty rule list always has undefined value', () => {
+      const mrl = ESLMediaRuleList.empty<string>();
+      expect(mrl.rules.length).toBe(0);
+      expect(mrl.value).toBe(undefined);
+      expect(mrl.active.length).toBe(0);
+      expect(mrl.activeValue).toBe(undefined);
+    });
+    test('Empty rule list factory is a singleton producer', () => {
+      expect(ESLMediaRuleList.empty()).toBe(ESLMediaRuleList.empty());
     });
   });
 });
