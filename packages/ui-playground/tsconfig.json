@@ -20,7 +20,11 @@
     ],
     "rootDir": "src",
     "outDir": "./dist",
-    "jsx": "react"
+    "jsx": "react-jsx",
+    "jsxImportSource": "jsx-dom",
+    "types": [
+      "./src/types/internal.d.ts"
+    ],
   },
   "include": [
     "src"
