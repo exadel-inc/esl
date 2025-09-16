@@ -30,7 +30,7 @@ export interface ESLSwipeGestureSetting {
 /**
  * Implementation of EventTarget to observe swipe events
  */
-export class ESLSwipeGestureTarget extends SyntheticEventTarget {
+export class ESLSwipeGestureTarget extends SyntheticEventTarget<ESLSwipeGestureEvent> {
   protected static defaultConfig: Required<ESLSwipeGestureSetting> = {
     skipOnScroll: true,
     threshold: '20px',

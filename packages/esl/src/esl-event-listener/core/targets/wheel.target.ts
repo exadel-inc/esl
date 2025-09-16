@@ -34,7 +34,7 @@ export interface ESLWheelTargetSetting {
 /**
  * Implementation of EventTarget to observe wheel events for inertial scrolling
  */
-export class ESLWheelTarget extends SyntheticEventTarget {
+export class ESLWheelTarget extends SyntheticEventTarget<ESLWheelEvent> {
   protected static defaultConfig: Required<ESLWheelTargetSetting> = {
     skipOnScroll: true,
     distance: 400,

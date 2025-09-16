@@ -1,3 +1,25 @@
+## 5.13.0 (2025-09-05)
+
+### 🚀 Features
+
+- **esl-carousel:** add ability to define interaction scope, fix initial checks to prevent autoplay on hover/focus after state change ([a5c1953ff](https://github.com/exadel-inc/esl/commit/a5c1953ff))
+- **esl-utils:** add `@safe` decorator for error handling with fallback support ([f9754b7c8](https://github.com/exadel-inc/esl/commit/f9754b7c8))
+- **esl-media-query:** add an empty ruleset `ESLMediaRuleList.EMPTY`, update error message and type for `parse` and `parseTuple` ([94e82f2c6](https://github.com/exadel-inc/esl/commit/94e82f2c6))
+- **esl-event-listener:** introduce `TypedTarget` interface ([f1be1b8fc](https://github.com/exadel-inc/esl/commit/f1be1b8fc))
+- **esl-event-listener:** strict types for typed EventTargets ([6035e28f7](https://github.com/exadel-inc/esl/commit/6035e28f7))
+- **esl-event-listener:** strict types for SyntheticEventTarget ([fa0cd867d](https://github.com/exadel-inc/esl/commit/fa0cd867d))
+- **esl-event-listener:** implement correct multi-event support with restrictive EventTarget ([563f53b9d](https://github.com/exadel-inc/esl/commit/563f53b9d))
+
+### 🩹 Fixes
+
+- **esl-event-listener:** fix `ESLEventListener.subscribe` types to correctly differentiate criteria from handler instance ([efa047e3e](https://github.com/exadel-inc/esl/commit/efa047e3e))
+
+### 💅 Refactors
+
+- **esl-carousel:** esl-carousel-autoplay internal API and state machine completely reworked ([2b8b7a4f3](https://github.com/exadel-inc/esl/commit/2b8b7a4f3))
+- **esl-carousel:** improve error handling for media query based params ([a83e7ff36](https://github.com/exadel-inc/esl/commit/a83e7ff36))
+- **esl-line-clamp:** improve error handling for media query based params ([0fbccdd1a](https://github.com/exadel-inc/esl/commit/0fbccdd1a))
+
 ## 5.12.0 (2025-08-29)
 
 ### 🚀 Features

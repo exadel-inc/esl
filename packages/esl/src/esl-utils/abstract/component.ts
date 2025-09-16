@@ -1,6 +1,7 @@
 import type {
-  ESLEventName,
+  ExtractEventName,
   ESLEventListener,
+  ESLListenerTarget,
   ESLListenerHandler,
   ESLListenerCriteria,
   ESLListenerDescriptor
@@ -8,12 +9,13 @@ import type {
 
 export interface ESLBaseComponent {
   /** Subscribes (or resubscribes) all known descriptors that matches criteria */
-  $$on(criteria: ESLListenerCriteria): ESLEventListener[];
+  $$on<ETarget extends ESLListenerTarget, EName extends ExtractEventName<ETarget>>(
+    criteria: ESLListenerCriteria<ETarget, EName>): ESLEventListener[];
   /** Subscribes `handler` method marked with `@listen` decorator */
   $$on(handler: ESLListenerHandler): ESLEventListener[];
   /** Subscribes `handler` function by the passed DOM event descriptor {@link ESLListenerDescriptor} or event name */
-  $$on<EName extends ESLEventName>(
-    event: EName | ESLListenerDescriptor<EName>,
+  $$on<ETarget extends ESLListenerTarget, EName extends ExtractEventName<ETarget>>(
+    event: EName | ESLListenerDescriptor<ETarget, EName>,
     handler: ESLListenerHandler<EName>
   ): ESLEventListener[];
 
@@ -43,4 +45,7 @@ export interface ESLBaseComponent {
    * @returns the current attribute value or previous value for mutation
    */
   $$attr(name: string, value?: null | boolean | string): string | null;
+
+  /** Default error logger for `@safe` decorator */
+  $$error(error: Error | string, key: string): void;
 }

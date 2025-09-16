@@ -1,4 +1,3 @@
-import '../../../../polyfills/es5-target-shim';
 import {boolAttr} from '../bool-attr';
 
 describe('Decorator: boolAttr', () => {
