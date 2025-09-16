@@ -18,45 +18,45 @@
 
       <uip-preview></uip-preview>
       <template uip-snippet label="List of aqua cards">
-        <div class="uip-d-card-list">
-          <div class="uip-d-card-item aqua">Card #1</div>
-          <div class="uip-d-card-item aqua">Card #2</div>
-          <div class="uip-d-card-item aqua">Card #3</div>
+        <div class="simple-grid">
+          <div class="simple-grid-cell card bg-blue">Card #1</div>
+          <div class="simple-grid-cell card bg-blue">Card #2</div>
+          <div class="simple-grid-cell card bg-blue">Card #3</div>
         </div>
       </template>
-      <template uip-snippet label="Long list of red cards containing seven items" wrap-items>
-        <div class="uip-d-card-list">
-          <div class="uip-d-card-item red">Card #1</div>
-          <div class="uip-d-card-item red">Card #2</div>
-          <div class="uip-d-card-item red">Card #3</div>
-          <div class="uip-d-card-item red">Card #4</div>
-          <div class="uip-d-card-item red">Card #5</div>
-          <div class="uip-d-card-item red">Card #6</div>
-          <div class="uip-d-card-item red">Card #7</div>
+      <template uip-snippet label="Long list of orange cards containing seven items" wrap-items>
+        <div class="simple-grid">
+          <div class="simple-grid-cell card bg-orange">Card #1</div>
+          <div class="simple-grid-cell card bg-orange">Card #2</div>
+          <div class="simple-grid-cell card bg-orange">Card #3</div>
+          <div class="simple-grid-cell card bg-orange">Card #4</div>
+          <div class="simple-grid-cell card bg-orange">Card #5</div>
+          <div class="simple-grid-cell card bg-orange">Card #6</div>
+          <div class="simple-grid-cell card bg-orange">Card #7</div>
         </div>
       </template>
-      <uip-settings target=".uip-d-card-list" vertical dir-toggle theme-toggle>
-        <uip-select-setting label="Card color:" target=".uip-d-card-item" attribute="class" mode="append">
-          <option value="red">Orange</option>
-          <option value="aqua">Aqua</option>
-          <option value="green">Green</option>
+      <uip-settings target=".simple-grid" vertical dir-toggle theme-toggle>
+        <uip-select-setting label="Card color:" target=".card" attribute="class" mode="append">
+          <option value="bg-orange">Orange</option>
+          <option value="bg-blue">Aqua</option>
+          <option value="bg-green">Green</option>
         </uip-select-setting>
-        <uip-bool-setting label="Wrap items" attribute="wrap-items"></uip-bool-setting>
+        <uip-bool-setting label="Wide" attribute="class" mode="append" value="simple-grid-compact"></uip-bool-setting>
       </uip-settings>
       <uip-editor collapsible></uip-editor>
     </uip-root>
   </script>
   <script type="text/html" uip-snippet label="List of aqua cards">
-    <div class="uip-d-card-list">
-      <div class="uip-d-card-item aqua">Card #1</div>
-      <div class="uip-d-card-item aqua">Card #2</div>
-      <div class="uip-d-card-item aqua">Card #3</div>
+    <div class="simple-grid simple-grid-compact">
+      <div class="simple-grid-cell card bg-blue">Card #1</div>
+      <div class="simple-grid-cell card bg-blue">Card #2</div>
+      <div class="simple-grid-cell card bg-blue">Card #3</div>
     </div>
   </script>
   <uip-preview resizable></uip-preview>
   <uip-editor collapsible></uip-editor>
 
-  <uip-settings collapsible vertical="@+sm" target=".demo-form">
+  <uip-settings collapsible vertical="@+sm">
       <uip-bool-setting label="Snippets dropdown view" target="uip-snippets" attribute="dropdown-view" value="all"></uip-bool-setting>
   </uip-settings>
 </uip-root>
