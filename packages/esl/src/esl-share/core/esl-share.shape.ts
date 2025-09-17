@@ -20,10 +20,8 @@ export interface ESLShareTagShape<T extends ESLShare = ESLShare> extends ESLTrig
 }
 
 declare global {
-  namespace JSX {
-    export interface IntrinsicElements {
-      /** {@link ESLShare} custom tag */
-      'esl-share': ESLShareTagShape;
-    }
+  export interface ESLIntrinsicElements {
+    /** {@link ESLShare} custom tag */
+    'esl-share': ESLShareTagShape;
   }
 }

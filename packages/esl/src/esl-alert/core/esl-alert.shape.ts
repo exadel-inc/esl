@@ -14,10 +14,8 @@ export interface ESLAlertShape extends ESLToggleableTagShape<ESLAlert> {
 }
 
 declare global {
-  namespace JSX {
-    export interface IntrinsicElements {
-      /** {@link ESLAlert} custom tag */
-      'esl-alert': ESLAlertShape;
-    }
+  export interface ESLIntrinsicElements {
+    /** {@link ESLAlert} custom tag */
+    'esl-alert': ESLAlertShape;
   }
 }

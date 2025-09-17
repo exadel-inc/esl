@@ -11,10 +11,8 @@ export interface ESLToggleableDispatcherTagShape extends ESLBaseElementShape<ESL
 }
 
 declare global {
-  namespace JSX {
-    export interface IntrinsicElements {
-      /** {@link ESLToggleableDispatcher} custom tag */
-      'esl-toggleable-dispatcher': ESLToggleableDispatcherTagShape;
-    }
+  export interface ESLIntrinsicElements {
+    /** {@link ESLToggleableDispatcher} custom tag */
+    'esl-toggleable-dispatcher': ESLToggleableDispatcherTagShape;
   }
 }

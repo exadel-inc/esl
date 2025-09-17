@@ -11,10 +11,8 @@ export interface ESLSharePopupTagShape extends ESLPopupTagShape<ESLSharePopup> {
 }
 
 declare global {
-  namespace JSX {
-    export interface IntrinsicElements {
-      /** {@link ESLSharePopup} custom tag */
-      'esl-share-popup': ESLSharePopupTagShape;
-    }
+  export interface ESLIntrinsicElements {
+    /** {@link ESLSharePopup} custom tag */
+    'esl-share-popup': ESLSharePopupTagShape;
   }
 }

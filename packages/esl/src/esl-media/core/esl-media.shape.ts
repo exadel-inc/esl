@@ -64,10 +64,8 @@ export type ESLMediaTagShape = ({
 } & ESLBaseElementShape<ESLMedia>;
 
 declare global {
-  namespace JSX {
-    export interface IntrinsicElements {
-      /** {@link ESLMedia} custom tag */
-      'esl-media': ESLMediaTagShape;
-    }
+  export interface ESLIntrinsicElements {
+    /** {@link ESLMedia} custom tag */
+    'esl-media': ESLMediaTagShape;
   }
 }

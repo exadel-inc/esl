@@ -57,10 +57,8 @@ export interface ESLToggleableTagShape<T extends ESLToggleable = ESLToggleable> 
 }
 
 declare global {
-  namespace JSX {
-    export interface IntrinsicElements {
-      /** {@link ESLToggleable} custom tag */
-      'esl-toggleable': ESLToggleableTagShape;
-    }
+  export interface ESLIntrinsicElements {
+    /** {@link ESLToggleable} custom tag */
+    'esl-toggleable': ESLToggleableTagShape;
   }
 }

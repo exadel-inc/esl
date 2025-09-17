@@ -20,10 +20,8 @@ export interface ESLSelectListTagShape extends ESLBaseElementShape<ESLSelectList
 }
 
 declare global {
-  namespace JSX {
-    export interface IntrinsicElements {
-      /** {@link ESLSelectList} custom tag */
-      'esl-select-list': ESLSelectListTagShape;
-    }
+  export interface ESLIntrinsicElements {
+    /** {@link ESLSelectList} custom tag */
+    'esl-select-list': ESLSelectListTagShape;
   }
 }

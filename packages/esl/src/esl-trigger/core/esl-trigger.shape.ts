@@ -51,10 +51,8 @@ export interface ESLTriggerTagShape<T extends ESLBaseTrigger = ESLTrigger> exten
 }
 
 declare global {
-  namespace JSX {
-    export interface IntrinsicElements {
-      /** {@link ESLTrigger} custom tag */
-      'esl-trigger': ESLTriggerTagShape;
-    }
+  export interface ESLIntrinsicElements {
+    /** {@link ESLTrigger} custom tag */
+    'esl-trigger': ESLTriggerTagShape;
   }
 }

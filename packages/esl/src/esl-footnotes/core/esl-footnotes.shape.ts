@@ -20,10 +20,8 @@ export interface ESLFootnotesTagShape extends ESLBaseElementShape<ESLFootnotes> 
 }
 
 declare global {
-  namespace JSX {
-    export interface IntrinsicElements {
-      /** {@link ESLFootnotes} custom tag */
-      'esl-footnotes': ESLFootnotesTagShape;
-    }
+  export interface ESLIntrinsicElements {
+    /** {@link ESLFootnotes} custom tag */
+    'esl-footnotes': ESLFootnotesTagShape;
   }
 }

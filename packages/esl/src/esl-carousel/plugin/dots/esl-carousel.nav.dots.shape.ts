@@ -13,10 +13,8 @@ export interface ESLCarouselNavDotsShape extends ESLBaseElementShape<ESLCarousel
 }
 
 declare global {
-  namespace JSX {
-    export interface IntrinsicElements {
-      /** {@link ESLCarouselNavDots} custom tag */
-      'esl-carousel-dots': ESLCarouselNavDotsShape;
-    }
+  export interface ESLIntrinsicElements {
+    /** {@link ESLCarouselNavDots} custom tag */
+    'esl-carousel-dots': ESLCarouselNavDotsShape;
   }
 }

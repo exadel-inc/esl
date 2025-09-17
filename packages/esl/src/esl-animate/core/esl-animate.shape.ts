@@ -41,10 +41,8 @@ export interface ESLAnimateShape extends ESLBaseElementShape<ESLAnimate> {
 }
 
 declare global {
-  namespace JSX {
-    export interface IntrinsicElements {
-      /** {@link ESLAnimate} custom tag */
-      'esl-animate': ESLAnimateShape;
-    }
+  export interface ESLIntrinsicElements {
+    /** {@link ESLAnimate} custom tag */
+    'esl-animate': ESLAnimateShape;
   }
 }

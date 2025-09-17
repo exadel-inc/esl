@@ -16,10 +16,8 @@ export interface ESLAnchornavTagShape<T extends ESLAnchornav = ESLAnchornav> ext
 }
 
 declare global {
-  namespace JSX {
-    export interface IntrinsicElements {
-      /** {@link ESLAnchornav} custom tag */
-      'esl-anchornav': ESLAnchornavTagShape;
-    }
+  export interface ESLIntrinsicElements {
+    /** {@link ESLAnchornav} custom tag */
+    'esl-anchornav': ESLAnchornavTagShape;
   }
 }

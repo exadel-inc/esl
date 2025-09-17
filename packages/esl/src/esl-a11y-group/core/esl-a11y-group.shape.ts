@@ -17,10 +17,8 @@ export interface ESLA11yGroupTagShape extends ESLBaseElementShape<ESLA11yGroup> 
 }
 
 declare global {
-  namespace JSX {
-    export interface IntrinsicElements {
+    export interface ESLIntrinsicElements {
       /** {@link ESLA11yGroup} custom tag */
       'esl-a11y-group': ESLA11yGroupTagShape;
     }
-  }
 }

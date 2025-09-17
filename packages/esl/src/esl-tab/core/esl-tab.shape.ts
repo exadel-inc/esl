@@ -9,10 +9,8 @@ export interface ESLTabTagShape extends ESLTriggerTagShape<ESLTab> {
 }
 
 declare global {
-  namespace JSX {
-    export interface IntrinsicElements {
-      /** {@link ESLTab} custom tag */
-      'esl-tab': ESLTabTagShape;
-    }
+  export interface ESLIntrinsicElements {
+    /** {@link ESLTab} custom tag */
+    'esl-tab': ESLTabTagShape;
   }
 }

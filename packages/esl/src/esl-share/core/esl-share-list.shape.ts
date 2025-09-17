@@ -18,10 +18,8 @@ export interface ESLShareListTagShape extends ESLBaseElementShape<ESLShareList> 
 }
 
 declare global {
-  namespace JSX {
-    export interface IntrinsicElements {
-      /** {@link ESLShareList} custom tag */
-      'esl-share-list': ESLShareListTagShape;
-    }
+  export interface ESLIntrinsicElements {
+    /** {@link ESLShareList} custom tag */
+    'esl-share-list': ESLShareListTagShape;
   }
 }

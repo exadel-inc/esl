@@ -42,10 +42,8 @@ export interface ESLPanelGroupTagShape extends ESLBaseElementShape<ESLPanelGroup
 }
 
 declare global {
-  namespace JSX {
-    export interface IntrinsicElements {
-      /** {@link ESLPanelGroup} custom tag */
-      'esl-panel-group': ESLPanelGroupTagShape;
-    }
+  export interface ESLIntrinsicElements {
+    /** {@link ESLPanelGroup} custom tag */
+    'esl-panel-group': ESLPanelGroupTagShape;
   }
 }

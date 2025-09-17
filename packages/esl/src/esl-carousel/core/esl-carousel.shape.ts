@@ -32,10 +32,8 @@ export interface ESLCarouselShape extends ESLBaseElementShape<ESLCarousel> {
 }
 
 declare global {
-  namespace JSX {
-    export interface IntrinsicElements {
-      /** {@link ESLAnimate} custom tag */
-      'esl-carousel': ESLCarouselShape;
-    }
+  export interface ESLIntrinsicElements {
+    /** {@link ESLAnimate} custom tag */
+    'esl-carousel': ESLCarouselShape;
   }
 }

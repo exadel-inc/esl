@@ -31,10 +31,8 @@ export interface ESLNoteTagShape extends ESLBaseElementShape<ESLNote> {
 }
 
 declare global {
-  namespace JSX {
-    export interface IntrinsicElements {
-      /** {@link ESLNote} custom tag */
-      'esl-note': ESLNoteTagShape;
-    }
+  export interface ESLIntrinsicElements {
+    /** {@link ESLNote} custom tag */
+    'esl-note': ESLNoteTagShape;
   }
 }

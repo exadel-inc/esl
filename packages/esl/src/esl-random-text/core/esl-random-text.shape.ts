@@ -25,10 +25,8 @@ export interface ESLRandomTextShape extends ESLBaseElementShape<ESLRandomText> {
 }
 
 declare global {
-  namespace JSX {
-    export interface IntrinsicElements {
-      /** {@link ESLRandomTextShape} custom tag */
-      'esl-random-text': ESLRandomTextShape;
-    }
+  export interface ESLIntrinsicElements {
+    /** {@link ESLRandomTextShape} custom tag */
+    'esl-random-text': ESLRandomTextShape;
   }
 }

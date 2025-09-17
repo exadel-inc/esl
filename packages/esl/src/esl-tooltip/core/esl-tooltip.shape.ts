@@ -8,10 +8,8 @@ import type {ESLTooltip} from './esl-tooltip';
 export interface ESLTooltipTagShape<T extends ESLTooltip = ESLTooltip> extends ESLPopupTagShape<T> {}
 
 declare global {
-  namespace JSX {
-    export interface IntrinsicElements {
-      /** {@link ESLTooltip} custom tag */
-      'esl-tooltip': ESLTooltipTagShape;
-    }
+  export interface ESLIntrinsicElements {
+    /** {@link ESLTooltip} custom tag */
+    'esl-tooltip': ESLTooltipTagShape;
   }
 }
