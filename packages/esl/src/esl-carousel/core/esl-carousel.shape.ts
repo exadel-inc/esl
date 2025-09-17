@@ -5,7 +5,7 @@ import type {ESLCarousel} from './esl-carousel';
  * Tag declaration interface of {@link ESLCarousel} element
  * Used for TSX declaration
  */
-export interface ESLCarouselShape extends ESLBaseElementShape<ESLCarousel> {
+export interface ESLCarouselTagShape extends ESLBaseElementShape<ESLCarousel> {
   /** Media query pattern used for {@link ESLMediaRuleList} of `type`, `loop` and `count` (default: `all`) */
   media?: string;
   /** Renderer type name (`multi` by default). Supports {@link ESLMediaRuleList} syntax */
@@ -30,3 +30,6 @@ export interface ESLCarouselShape extends ESLBaseElementShape<ESLCarousel> {
   /** Plugins attributes */
   [key: `esl-carousel-${string}`]: string;
 }
+
+/** @deprecated alias for {@link ESLCarouselTagShape} */
+export type ESLCarouselShape = ESLCarouselTagShape;

@@ -1,7 +1,7 @@
 import type {ESLBaseElementShape} from '../../esl-base-element/core/esl-base-element.shape';
 import type {ESLRandomText} from './esl-random-text';
 
-export interface ESLRandomTextShape extends ESLBaseElementShape<ESLRandomText> {
+export interface ESLRandomTextTagShape extends ESLBaseElementShape<ESLRandomText> {
   /**
    * Choose words randomly from {@link DICTIONARY} rather than sequentially
    * @see ESLRandomText#shuffle
@@ -23,3 +23,6 @@ export interface ESLRandomTextShape extends ESLBaseElementShape<ESLRandomText> {
   /** No children allowed */
   children: never | [];
 }
+
+/** @deprecated alias for {@link ESLRandomTextTagShape} */
+export type ESLRandomTextShape = ESLRandomTextTagShape;

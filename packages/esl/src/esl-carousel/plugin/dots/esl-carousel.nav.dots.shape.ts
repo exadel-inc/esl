@@ -1,7 +1,7 @@
 import type {ESLBaseElementShape} from '../../../esl-base-element/core/esl-base-element.shape';
 import type {ESLCarouselNavDots} from './esl-carousel.nav.dots';
 
-export interface ESLCarouselNavDotsShape extends ESLBaseElementShape<ESLCarouselNavDots> {
+export interface ESLCarouselNavDotsTagShape extends ESLBaseElementShape<ESLCarouselNavDots> {
   /** {@link ESLTraversingQuery} string to find {@link ESLCarousel} instance (alias for prop `carousel`) */
   'target'?: string;
 
@@ -11,3 +11,6 @@ export interface ESLCarouselNavDotsShape extends ESLBaseElementShape<ESLCarousel
   /** Does not accept child nodes */
   children?: never[];
 }
+
+/** @deprecated alias for {@link ESLCarouselNavDotsTagShape} */
+export type ESLCarouselNavDotsShape = ESLCarouselNavDotsTagShape;

@@ -5,7 +5,7 @@ import type {ESLAnimate} from './esl-animate';
  * Tag declaration interface of {@link ESLAnimate} element
  * Used for TSX declaration
  */
-export interface ESLAnimateShape extends ESLBaseElementShape<ESLAnimate> {
+export interface ESLAnimateTagShape extends ESLBaseElementShape<ESLAnimate> {
   /**
    * Class(es) to add on viewport intersection
    * @see ESLAnimateConfig.cls
@@ -39,3 +39,6 @@ export interface ESLAnimateShape extends ESLBaseElementShape<ESLAnimate> {
    */
   target?: string;
 }
+
+/** @deprecated alias for {@link ESLAnimateTagShape} */
+export type ESLAnimateShape = ESLAnimateTagShape;
