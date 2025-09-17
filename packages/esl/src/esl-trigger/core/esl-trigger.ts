@@ -14,9 +14,6 @@ export class ESLTrigger extends ESLBaseTrigger {
   public static override is = 'esl-trigger';
   public static observedAttributes = ['target'];
 
-  /** Event that represents {@link ESLTrigger} state change */
-  @prop('esl:change:active') public override CHANGE_EVENT: string;
-
   /** Selector for ignored inner elements */
   @attr({defaultValue: 'a[href]'}) public ignore: string;
 

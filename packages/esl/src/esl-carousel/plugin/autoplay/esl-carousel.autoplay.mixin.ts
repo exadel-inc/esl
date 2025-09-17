@@ -27,6 +27,8 @@ export interface ESLCarouselAutoplayConfig {
   controlCls?: string;
   /** CSS class applied to the carousel container while autoplay is enabled */
   containerCls?: string;
+  /** Selector for items that, when active, should disable autoplay */
+  blockingItemsSelector?: string;
 }
 
 /**
@@ -40,7 +42,8 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
     duration: 10000,
     command: 'slide:next',
     intersection: 0.25,
-    trackInteraction: true
+    trackInteraction: true,
+    blockingItemsSelector: 'esl-share[active], esl-note[active]',
   };
   public static override DEFAULT_CONFIG_KEY: keyof ESLCarouselAutoplayConfig = 'duration';
 
@@ -112,6 +115,13 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
     return this.$interactionScope.some(($el) => $el.matches('*:hover'));
   }
 
+  public get hasActiveBlockingItems(): boolean {
+    const {blockingItemsSelector} = this.config;
+    const {$activeSlide} = this.$host;
+
+    return !!blockingItemsSelector && ESLTraversingQuery.first(blockingItemsSelector, $activeSlide) !== null;
+  }
+
   /** True if keyboard-visible focus is within scope */
   public get focused(): boolean {
     if (!document.activeElement?.matches('*:focus-visible')) return false;
@@ -123,7 +133,7 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
     if (!this.enabled) return false;
     if (!this._inViewport) return false;
     if (this.config.trackInteraction) {
-      return !this.hovered && !this.focused;
+      return !this.hovered && !this.focused && !this.hasActiveBlockingItems;
     }
     return true;
   }
@@ -199,10 +209,10 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
     this.refresh();
   }
 
-  /** Hover/focus interaction listener toggling pause state */
+  /** Hover/focus interaction or triggers activation listener toggling pause state */
   @listen({
     group: 'state',
-    event: 'mouseleave mouseenter focusin focusout',
+    event: 'mouseleave mouseenter focusin focusout esl:change:active',
     target: ($this: ESLCarouselAutoplayMixin) => $this.$interactionScope,
     condition: ($this: ESLCarouselAutoplayMixin) => $this.enabled && $this.config.trackInteraction
   })
