@@ -1,6 +1,6 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {isElement} from '../../esl-utils/dom/api';
-import {attr, prop, ready} from '../../esl-utils/decorators';
+import {attr, ready} from '../../esl-utils/decorators';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {ESLToggleablePlaceholder} from '../../esl-toggleable/core';
 

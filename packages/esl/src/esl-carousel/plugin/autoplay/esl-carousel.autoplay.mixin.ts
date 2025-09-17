@@ -43,7 +43,7 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
     command: 'slide:next',
     intersection: 0.25,
     trackInteraction: true,
-    blockingItemsSelector: 'esl-share[active], esl-note[active]',
+    blockingItemsSelector: 'esl-share[active], esl-note[active]'
   };
   public static override DEFAULT_CONFIG_KEY: keyof ESLCarouselAutoplayConfig = 'duration';
 
