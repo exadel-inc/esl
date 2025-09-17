@@ -36,6 +36,7 @@
     "prepare": "husky",
     "get:version": "node scripts/get-version.mjs",
     "get:changelog": "node scripts/get-changelog.mjs",
+    "get:disttag": "node scripts/get-dist-tag.mjs",
     "release:stable": "nx release --skip-publish && npm run version:post",
     "release:beta": "nx release prerelease --skip-publish --preid beta && npm run version:post",
     "version:post": "nx run-many -t version:post",
