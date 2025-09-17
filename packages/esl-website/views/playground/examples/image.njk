@@ -1,0 +1,49 @@
+---
+  layout: content
+  title: Example with images
+  seoTitle: UI Playground example with images
+  name: Image Playground
+  order: 2
+  parent: 'Playground Examples'
+  tags: [playground, playground-examples, draft]
+---
+
+<p>
+  This example demonstrates the built-in functionality of snippet notes, as well as various playground plug-in settings.
+</p>
+<p>
+  if the dropdown arrow on top left is clicked, the list of all snippets will be shown. The image example is a snippet with a note, which can be used to provide additional information about the snippet. The second example is an image link, which can be used to create a clickable image that links to another page.
+</p>
+
+<uip-root editor-collapsed>
+  <div class="uip-toolbar">
+    <uip-snippets dropdown-view="all"></uip-snippets>
+    <uip-theme-toggle></uip-theme-toggle>
+  </div>
+  <script type="text/html" uip-snippet-note="snippet-note1" uip-snippet uip-isolated label="Image example">
+    <img class="demo-img" alt="volcano" src="{{ '/assets/nature/volcano.jpg' | url }}" height="561" width="1090">
+  </script>
+  <script type="text/html" uip-snippet-note="snippet-note2" uip-snippet label="Example with image link">
+    <a class="img-link" href="https://www.google.com/">
+      <img class="demo-img" alt="forest" src="{{ '/assets/nature/forest+clouds.jpg' | url }}" height="453" width="686">
+    </a>
+  </script>
+  <script id="snippet-note1" type="text/html">
+    Snippet Note 1
+  </script>
+  <script id="snippet-note2" type="text/html">
+    Snippet Note 2
+  </script>
+  <uip-note></uip-note>
+  <uip-preview></uip-preview>
+  <uip-settings target=".demo-img" vertical collapsible>
+    <uip-text-setting label="Source:" attribute="src"></uip-text-setting>
+    <uip-text-setting label="Alternative alt text:" attribute="alt"></uip-text-setting>
+    <uip-slider-setting label="Height:" attribute="Height" min="300" max="1000"></uip-slider-setting>
+    <uip-slider-setting label="Width:" attribute="Width" min="300" max="1000"></uip-slider-setting>
+    <uip-text-setting label="Link:" attribute="href" target=".img-link"></uip-text-setting>
+    <uip-bool-setting label="Open in new window" attribute="target" target=".img-link"
+                      value="_blank"></uip-bool-setting>
+  </uip-settings>
+  <uip-editor collapsible></uip-editor>
+</uip-root>

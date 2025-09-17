@@ -1,0 +1,39 @@
+---
+  layout: content
+  title: Dummy text (pre-processors) example
+  seoTitle: UI Playground example with dummy text
+  name: Text Playground
+  order: 0
+  parent: 'Playground Examples'
+  tags: [playground, playground-examples, draft]
+---
+
+<p>This example demonstrates the use of built-in text preprocessors, along with real-time style adjustments and HTML code editing</p>
+
+<uip-root role="presentation">
+  <div class="uip-toolbar">
+    <uip-snippets dropdown-view="all"></uip-snippets>
+    <uip-theme-toggle></uip-theme-toggle>
+  </div>
+
+  <script type="text/html" uip-snippet-js="snippet-js-1" uip-snippet label="Text preprocessors example">
+    <style>
+      .text {
+        color: green;
+      }
+    </style>
+    <h2><!-- text --></h2>
+    <div class="text">
+      Hello text
+      <!-- paragraph x2 -->
+    </div>
+    <button type="button">
+      <!-- text x5 -->
+    </button>
+  </script>
+
+  <uip-preview class="centered-content" resizable></uip-preview>
+
+  <uip-editor copy collapsible label="Markdown"></uip-editor>
+  <uip-editor source="js" copy collapsible label="JavaScript"></uip-editor>
+</uip-root>
