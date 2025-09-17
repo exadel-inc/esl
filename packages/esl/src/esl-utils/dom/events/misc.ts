@@ -45,8 +45,16 @@ export const getOffsetPoint = (el: Element): Point => {
  * @param el - EventTarget to dispatch event
  * @param eventName - name of the event to dispatch
  * @param eventInit - object that specifies characteristics of the event. See {@link CustomEventInit}
+ * @returns `true` if either event's cancelable attribute value is false or its preventDefault() method was not invoked, 
+ *          and `false` otherwise, according to MDN EventTarget.dispatchEvent() specification.
+ *          Returns `true` immediately if eventName is empty or contains only whitespace.
  */
 export const dispatchCustomEvent = (el: EventTarget, eventName: string, eventInit?: CustomEventInit): boolean => {
+  // Return true early for empty or whitespace-only event names without creating/dispatching events
+  if (!eventName || !eventName.trim()) {
+    return true;
+  }
+  
   const init = Object.assign({
     bubbles: true,
     composed: true,
