@@ -37,7 +37,7 @@ UIPRenderingTemplatesService.add('default', `
 
 init({
   editor: {
-    label: 'Source code',
+    label: 'Source code ({{sourceType}})',
     copy: true,
     collapsible: true,
   },

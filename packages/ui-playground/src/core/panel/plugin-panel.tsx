@@ -73,13 +73,14 @@ export abstract class UIPPluginPanel extends UIPPlugin {
 
   protected override connectedCallback(): void {
     super.connectedCallback();
-    this.collapsible = this.collapsible!;
     this.classList.add('uip-plugin-panel');
+    this.$$cls('collapsible', this.collapsible);
     this._onLayoutModeChange();
   }
 
   protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     super.attributeChangedCallback(attrName, oldVal, newVal);
+    if (attrName === 'collapsible') this.$$cls('collapsible', this.collapsible);
     if (attrName === 'vertical') {
       this.$$off(this._onLayoutModeChange);
       this.$$on(this._onLayoutModeChange);

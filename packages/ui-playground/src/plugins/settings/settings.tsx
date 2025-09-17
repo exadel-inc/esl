@@ -18,32 +18,34 @@ import type {UIPSetting} from './base-setting/base-setting';
  */
 export class UIPSettings extends UIPPluginPanel {
   public static is = 'uip-settings';
+
+  public static readonly configKey = 'settings';
   public static observedAttributes = ['dir-toggle', 'theme-toggle', ...UIPPluginPanel.observedAttributes];
 
   /** Attribute to set all inner {@link UIPSetting} settings' {@link UIPSetting#target} targets */
   @attr() public target: string;
 
   /** Marker to display copy widget */
-  @attr({defaultValue: () => UIPDefaults.for('settings').label}) public label: string;
+  @attr({defaultValue: () => UIPDefaults.for(UIPSettings).label}) public label: string;
 
   /** Marker to display direction toggle button (ltr/rtl) */
-  @attr({parser: parseBoolean, serializer: toBooleanAttribute, defaultValue: () => UIPDefaults.for('settings').dirToggle})
+  @attr({parser: parseBoolean, serializer: toBooleanAttribute, defaultValue: () => UIPDefaults.for(UIPSettings).dirToggle})
   public dirToggle: boolean;
 
   /** Marker to display theme toggle button (light/dark) */
-  @attr({parser: parseBoolean, serializer: toBooleanAttribute, defaultValue: () => UIPDefaults.for('settings').themeToggle})
+  @attr({parser: parseBoolean, serializer: toBooleanAttribute, defaultValue: () => UIPDefaults.for(UIPSettings).themeToggle})
   public themeToggle: boolean;
 
   /** Marker to make settings panel hidden when no active settings found */
-  @attr({parser: parseBoolean, serializer: toBooleanAttribute, defaultValue: () => UIPDefaults.for('settings').hideable})
+  @attr({parser: parseBoolean, serializer: toBooleanAttribute, defaultValue: () => UIPDefaults.for(UIPSettings).hideable})
   public hideable: boolean;
 
   /** Marker to make enable toggle collapse action for section header. @see UIPPluginPanel */
-  @attr({parser: parseBoolean, serializer: toBooleanAttribute, defaultValue: () => UIPDefaults.for('settings').collapsible})
+  @attr({parser: parseBoolean, serializer: toBooleanAttribute, defaultValue: () => UIPDefaults.for(UIPSettings).collapsible})
   public collapsible: boolean;
 
   /** Marker that indicates resizable state of the panel. @see UIPPluginPanel */
-  @attr({parser: parseBoolean, serializer: toBooleanAttribute, defaultValue: () => UIPDefaults.for('settings').resizable})
+  @attr({parser: parseBoolean, serializer: toBooleanAttribute, defaultValue: () => UIPDefaults.for(UIPSettings).resizable})
   public resizable: boolean;
 
   /** @readonly internal settings items state marker */
@@ -90,7 +92,7 @@ export class UIPSettings extends UIPPluginPanel {
 
   protected override connectedCallback(): void {
     super.connectedCallback();
-    this.hideable = this.hideable!;
+    this.$$cls('hideable', this.hideable);
 
     this.appendChild(this.$header);
     this.appendChild(this.$inner);

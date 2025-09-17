@@ -23,7 +23,7 @@ export class UIPDefaults {
     Object.assign(this.defaultConfigs, config);
   }
 
-  public static for<T extends keyof UIPDefaultConfig>(key: T): Partial<UIPDefaultConfig[T]> {
-    return this.defaultConfigs[key] || {};
+  public static for<T extends {readonly configKey: keyof UIPDefaultConfig}>(target: T): Partial<UIPDefaultConfig[T['configKey']]> {
+    return this.defaultConfigs[target.configKey] ?? {};
   }
 }
