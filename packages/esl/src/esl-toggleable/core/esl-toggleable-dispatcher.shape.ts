@@ -9,10 +9,3 @@ export interface ESLToggleableDispatcherTagShape extends ESLBaseElementShape<ESL
   /** Children are not allowed for ESLToggleableDispatcher */
   children?: never[];
 }
-
-declare global {
-  export interface ESLIntrinsicElements {
-    /** {@link ESLToggleableDispatcher} custom tag */
-    'esl-toggleable-dispatcher': ESLToggleableDispatcherTagShape;
-  }
-}

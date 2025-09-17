@@ -16,10 +16,3 @@ export interface ESLShareListTagShape extends ESLBaseElementShape<ESLShareList> 
   /** Children are not allowed for ESLShareList */
   children?: never[];
 }
-
-declare global {
-  export interface ESLIntrinsicElements {
-    /** {@link ESLShareList} custom tag */
-    'esl-share-list': ESLShareListTagShape;
-  }
-}

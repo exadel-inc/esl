@@ -18,10 +18,3 @@ export interface ESLShareTagShape<T extends ESLShare = ESLShare> extends ESLTrig
   /** Allowed children */
   children?: any;
 }
-
-declare global {
-  export interface ESLIntrinsicElements {
-    /** {@link ESLShare} custom tag */
-    'esl-share': ESLShareTagShape;
-  }
-}

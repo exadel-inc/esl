@@ -23,10 +23,3 @@ export interface ESLRandomTextShape extends ESLBaseElementShape<ESLRandomText> {
   /** No children allowed */
   children: never | [];
 }
-
-declare global {
-  export interface ESLIntrinsicElements {
-    /** {@link ESLRandomTextShape} custom tag */
-    'esl-random-text': ESLRandomTextShape;
-  }
-}

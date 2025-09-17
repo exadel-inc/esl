@@ -18,10 +18,3 @@ export interface ESLSelectListTagShape extends ESLBaseElementShape<ESLSelectList
   /** Allowed children */
   children?: any;
 }
-
-declare global {
-  export interface ESLIntrinsicElements {
-    /** {@link ESLSelectList} custom tag */
-    'esl-select-list': ESLSelectListTagShape;
-  }
-}

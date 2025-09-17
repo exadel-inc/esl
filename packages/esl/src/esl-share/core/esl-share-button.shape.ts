@@ -24,10 +24,3 @@ export interface ESLShareButtonTagShape extends ESLBaseElementShape<ESLShareButt
   /** Allowed children */
   children?: any;
 }
-
-declare global {
-  export interface ESLIntrinsicElements {
-    /** {@link ESLShareButton} custom tag */
-    'esl-share-button': ESLShareButtonTagShape;
-  }
-}

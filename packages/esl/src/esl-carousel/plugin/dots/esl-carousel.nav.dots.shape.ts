@@ -11,10 +11,3 @@ export interface ESLCarouselNavDotsShape extends ESLBaseElementShape<ESLCarousel
   /** Does not accept child nodes */
   children?: never[];
 }
-
-declare global {
-  export interface ESLIntrinsicElements {
-    /** {@link ESLCarouselNavDots} custom tag */
-    'esl-carousel-dots': ESLCarouselNavDotsShape;
-  }
-}

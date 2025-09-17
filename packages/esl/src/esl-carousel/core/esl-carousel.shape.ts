@@ -30,10 +30,3 @@ export interface ESLCarouselShape extends ESLBaseElementShape<ESLCarousel> {
   /** Plugins attributes */
   [key: `esl-carousel-${string}`]: string;
 }
-
-declare global {
-  export interface ESLIntrinsicElements {
-    /** {@link ESLAnimate} custom tag */
-    'esl-carousel': ESLCarouselShape;
-  }
-}

@@ -7,10 +7,3 @@ import type {ESLTab} from './esl-tab';
  */
 export interface ESLTabTagShape extends ESLTriggerTagShape<ESLTab> {
 }
-
-declare global {
-  export interface ESLIntrinsicElements {
-    /** {@link ESLTab} custom tag */
-    'esl-tab': ESLTabTagShape;
-  }
-}

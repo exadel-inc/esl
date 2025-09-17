@@ -49,10 +49,3 @@ export interface ESLTriggerTagShape<T extends ESLBaseTrigger = ESLTrigger> exten
   /** Allowed children */
   children?: any;
 }
-
-declare global {
-  export interface ESLIntrinsicElements {
-    /** {@link ESLTrigger} custom tag */
-    'esl-trigger': ESLTriggerTagShape;
-  }
-}

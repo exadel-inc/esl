@@ -35,10 +35,3 @@ export interface ESLPopupTagShape<T extends ESLPopup = ESLPopup> extends ESLTogg
   /** Allowed children */
   children?: any;
 }
-
-declare global {
-  export interface ESLIntrinsicElements {
-    /** {@link ESLPopup} custom tag */
-    'esl-popup': ESLPopupTagShape;
-  }
-}

@@ -9,10 +9,3 @@ export interface ESLSharePopupTagShape extends ESLPopupTagShape<ESLSharePopup> {
   /** Allowed children */
   children?: any;
 }
-
-declare global {
-  export interface ESLIntrinsicElements {
-    /** {@link ESLSharePopup} custom tag */
-    'esl-share-popup': ESLSharePopupTagShape;
-  }
-}

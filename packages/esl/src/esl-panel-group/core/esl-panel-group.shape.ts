@@ -40,10 +40,3 @@ export interface ESLPanelGroupTagShape extends ESLBaseElementShape<ESLPanelGroup
   /** Allowed children */
   children?: any;
 }
-
-declare global {
-  export interface ESLIntrinsicElements {
-    /** {@link ESLPanelGroup} custom tag */
-    'esl-panel-group': ESLPanelGroupTagShape;
-  }
-}

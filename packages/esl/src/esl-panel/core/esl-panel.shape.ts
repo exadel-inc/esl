@@ -16,10 +16,3 @@ export interface ESLPanelTagShape extends ESLToggleableTagShape<ESLPanel> {
   /** Define CSS selector of the parent group (default: 'esl-panel-group')*/
   'panel-group-sel'?: string;
 }
-
-declare global {
-  export interface ESLIntrinsicElements {
-    /** {@link ESLPanel} custom tag */
-    'esl-panel': ESLPanelTagShape;
-  }
-}

@@ -12,10 +12,3 @@ export interface ESLAlertShape extends ESLToggleableTagShape<ESLAlert> {
    */
   target?: string;
 }
-
-declare global {
-  export interface ESLIntrinsicElements {
-    /** {@link ESLAlert} custom tag */
-    'esl-alert': ESLAlertShape;
-  }
-}

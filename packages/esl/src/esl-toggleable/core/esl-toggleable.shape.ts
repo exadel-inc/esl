@@ -55,10 +55,3 @@ export interface ESLToggleableTagShape<T extends ESLToggleable = ESLToggleable> 
   /** Allowed children */
   children?: any;
 }
-
-declare global {
-  export interface ESLIntrinsicElements {
-    /** {@link ESLToggleable} custom tag */
-    'esl-toggleable': ESLToggleableTagShape;
-  }
-}

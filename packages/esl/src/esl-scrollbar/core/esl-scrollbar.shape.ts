@@ -23,10 +23,3 @@ export interface ESLScrollbarTagShape extends ESLBaseElementShape<ESLScrollbar> 
   /** Children are not allowed for ESLScrollbar*/
   children?: never[];
 }
-
-declare global {
-  export interface ESLIntrinsicElements {
-    /** {@link ESLScrollbar} custom tag */
-    'esl-scrollbar': ESLScrollbarTagShape;
-  }
-}

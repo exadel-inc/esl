@@ -22,10 +22,3 @@ export interface ESLTabsTagShape extends ESLBaseElementShape<ESLTabs> {
   /** Allowed children */
   children?: any;
 }
-
-declare global {
-  export interface ESLIntrinsicElements {
-    /** {@link ESLTabs} custom tag */
-    'esl-tabs': ESLTabsTagShape;
-  }
-}

@@ -14,10 +14,3 @@ export interface ESLAnchornavTagShape<T extends ESLAnchornav = ESLAnchornav> ext
   /** Allowed children */
   children?: any;
 }
-
-declare global {
-  export interface ESLIntrinsicElements {
-    /** {@link ESLAnchornav} custom tag */
-    'esl-anchornav': ESLAnchornavTagShape;
-  }
-}

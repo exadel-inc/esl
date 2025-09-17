@@ -39,10 +39,3 @@ export interface ESLAnimateShape extends ESLBaseElementShape<ESLAnimate> {
    */
   target?: string;
 }
-
-declare global {
-  export interface ESLIntrinsicElements {
-    /** {@link ESLAnimate} custom tag */
-    'esl-animate': ESLAnimateShape;
-  }
-}
