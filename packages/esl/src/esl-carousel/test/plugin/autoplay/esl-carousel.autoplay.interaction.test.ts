@@ -23,6 +23,7 @@ describe('ESLCarousel: Autoplay Plugin (interaction)', () => {
     jest.useRealTimers();
   });
 
+  const $popupTrigger = document.createElement('esl-note');
   const $carousel = ESLCarousel.create();
   jest.spyOn($carousel, 'canNavigate').mockReturnValue(true);
 
@@ -62,9 +63,18 @@ describe('ESLCarousel: Autoplay Plugin (interaction)', () => {
     }
   };
 
+  const simulatePopupOpen = (value: boolean) => {
+    value ? $popupTrigger.setAttribute('active', '') : $popupTrigger.removeAttribute('active');
+    value && $popupTrigger.dispatchEvent(new Event('esl:change:active', {bubbles: true}));
+  };
+
   beforeEach(async () => {
     document.body.appendChild($carousel);
     $carousel.setAttribute('esl-carousel-autoplay', '');
+
+    $carousel.appendChild($popupTrigger);
+    $popupTrigger.removeAttribute('active');
+
     applySpies();
     await microtask();
     IntersectionObserverMock.trigger($carousel, {intersectionRatio: 1, isIntersecting: true});
@@ -116,6 +126,25 @@ describe('ESLCarousel: Autoplay Plugin (interaction)', () => {
     simulateFocus(false);
     await microtask();
     expect(plugin.active).toBe(true);
+  });
+
+  test('Pauses on popup open', async () => {
+    const plugin = ESLCarouselAutoplayMixin.get($carousel)!;
+    expect(plugin.allowed).toBe(true);
+    simulatePopupOpen(true);
+    await microtask();
+    expect(plugin.allowed).toBe(false);
+  });
+
+  test('Resumes after popup closes', async () => {
+    const plugin = ESLCarouselAutoplayMixin.get($carousel)!;
+    expect(plugin.allowed).toBe(true);
+    simulatePopupOpen(true);
+    await microtask();
+    expect(plugin.allowed).toBe(false);
+    simulatePopupOpen(false);
+    await microtask();
+    expect(plugin.allowed).toBe(true);
   });
 
   test('Re-enables and starts after focus out following manual disable', async () => {

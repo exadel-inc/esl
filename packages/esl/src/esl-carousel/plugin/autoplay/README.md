@@ -26,6 +26,8 @@ Configuration properties:
  - `control` (optional) – selector for element(s) acting as manual enable/disable toggles.
  - `controlCls` (optional) – CSS class applied to external autoplay control elements while autoplay is enabled.
  - `containerCls` (optional) – CSS class applied to the carousel container while autoplay is enabled.
+ - `blockingItemsSelector` (optional) – selector (ESLTraversingQuery) for items that, when activated, stop carousel autoplay. Defaults to `esl-share[active], esl-note[active]`.
+ - `blockingEvents` (optional) – space-separated list of event names that toggle blocking state on the carousel when fired. Defaults to `esl:change:active`.
 
 ### Public properties / state
 

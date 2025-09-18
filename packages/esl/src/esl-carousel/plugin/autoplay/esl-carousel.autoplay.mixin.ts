@@ -27,6 +27,10 @@ export interface ESLCarouselAutoplayConfig {
   controlCls?: string;
   /** CSS class applied to the carousel container while autoplay is enabled */
   containerCls?: string;
+  /** Selector for items that, when active, should disable autoplay */
+  blockingItemsSelector?: string;
+  /** Events that should block autoplay when fired on interaction scope elements */
+  blockingEvents?: string;
 }
 
 /**
@@ -40,7 +44,9 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
     duration: 10000,
     command: 'slide:next',
     intersection: 0.25,
-    trackInteraction: true
+    trackInteraction: true,
+    blockingItemsSelector: 'esl-share[active], esl-note[active]',
+    blockingEvents: 'esl:change:active'
   };
   public static override DEFAULT_CONFIG_KEY: keyof ESLCarouselAutoplayConfig = 'duration';
 
@@ -112,6 +118,13 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
     return this.$interactionScope.some(($el) => $el.matches('*:hover'));
   }
 
+  public get hasActiveBlockingItems(): boolean {
+    const {blockingItemsSelector} = this.config;
+    const {$activeSlide} = this.$host;
+
+    return !!blockingItemsSelector && ESLTraversingQuery.first(blockingItemsSelector, $activeSlide) !== null;
+  }
+
   /** True if keyboard-visible focus is within scope */
   public get focused(): boolean {
     if (!document.activeElement?.matches('*:focus-visible')) return false;
@@ -123,7 +136,7 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
     if (!this.enabled) return false;
     if (!this._inViewport) return false;
     if (this.config.trackInteraction) {
-      return !this.hovered && !this.focused;
+      return !this.hovered && !this.focused && !this.hasActiveBlockingItems;
     }
     return true;
   }
@@ -141,6 +154,17 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
     this.update();
   }
 
+  /** Subscribe to events that block autoplay */
+  protected subscribeToBlockingEvents(): void {
+    const {blockingEvents} = this.config;
+    if (!blockingEvents) return;
+    this.$$on({
+      group: 'state',
+      event: blockingEvents,
+      target: () => this.$interactionScope
+    }, () => this.refresh());
+  }
+
   /** Suspend & cleanup on disconnect */
   protected override disconnectedCallback(): void {
     this._suspended = true;
@@ -153,6 +177,7 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
   protected update(): void {
     this.updateMarkers();
     this.$$on({group: 'state'});
+    this.subscribeToBlockingEvents();
     this.refresh();
   }
 
