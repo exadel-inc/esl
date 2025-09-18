@@ -5,7 +5,7 @@ import type {ESLAlert} from './esl-alert';
  * Tag declaration interface of {@link ESLAlert} element
  * Used for TSX declaration
  */
-export interface ESLAlertShape extends ESLToggleableTagShape<ESLAlert> {
+export interface ESLAlertTagShape extends ESLToggleableTagShape<ESLAlert> {
   /**
    * Defines the scope (using {@link ESLTraversingQuery} syntax) element to listen for an activation event.
    * Parent element by default
@@ -13,11 +13,5 @@ export interface ESLAlertShape extends ESLToggleableTagShape<ESLAlert> {
   target?: string;
 }
 
-declare global {
-  namespace JSX {
-    export interface IntrinsicElements {
-      /** {@link ESLAlert} custom tag */
-      'esl-alert': ESLAlertShape;
-    }
-  }
-}
+/** @deprecated alias for {@link ESLAlertTagShape} */
+export type ESLAlertShape = ESLAlertTagShape;

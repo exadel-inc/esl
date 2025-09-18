@@ -1,5 +1,3 @@
-import React from 'jsx-dom';
-
 import {listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 import {UIPPluginButton} from '../../core/button/plugin-button';
 import type {UIPPreview} from '../../core/preview/preview';

@@ -1,5 +1,3 @@
-import React from 'jsx-dom';
-
 import {listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 import {UIPPlugin} from '../../core/base/plugin';
 

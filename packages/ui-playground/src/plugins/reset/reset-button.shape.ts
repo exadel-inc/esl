@@ -7,7 +7,7 @@ export interface UIPResetShape extends ESLBaseElementShape<UIPReset> {
   children?: any;
 }
 
-declare global {
+declare module 'jsx-dom' {
   namespace JSX {
     interface IntrinsicElements {
       'uip-reset': UIPResetShape;

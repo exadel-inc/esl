@@ -1,11 +1,9 @@
-# UIP Theme Toggle
-
 **UIPThemeSwitcher** - theme switcher plugin for UIPlayground.
 
 The theme switcher can be added to the UIPlayground toolbar header or to the Settings toolbar 
 via attribute *theme-toggle*.
 
-## Example 1
+## Example
  
 ```html
 <uip-root>
@@ -16,7 +14,7 @@ via attribute *theme-toggle*.
     ...
 </uip-root>
 ```
-## Example 2
+## Or
 
 ```html
 <uip-settings theme-toggle resizable collapsible>

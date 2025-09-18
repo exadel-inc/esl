@@ -1,5 +1,3 @@
-# UIP Snippets
-
 **UIPSnippets** - the primary plugin to display snippets of the UI Playground.
 
 **UIPSnippets** uses [UIPSnippetList](src/plugins/snippets-list/README.md) to render the list of snippets and [UIPSnippetsTitle](src/plugins/snippets-title/README.md) to render the title of the list.
