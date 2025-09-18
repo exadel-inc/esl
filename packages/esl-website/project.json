@@ -38,7 +38,7 @@
     "run:eleventy": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "eleventy --serve --incremental -- --env={args.site-env}",
+        "command": "eleventy --serve --incremental",
         "cwd": "packages/esl-website"
       }
     },
@@ -53,12 +53,14 @@
     "build:eleventy": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "eleventy -- --env={args.site-env}",
+        "command": "eleventy",
         "cwd": "packages/esl-website"
       },
       "dependsOn": ["^build:docs"],
       "cache": true,
       "inputs": [
+        {"env": "SITE_ENV"},
+        {"input": "default", "projects": ["esl"]},
         "{projectRoot}/11ty/**/*",
         "{projectRoot}/src/**/*",
         "{projectRoot}/views/**/*",
@@ -73,6 +75,7 @@
       "executor": "nx:noop",
       "dependsOn": [
         "esl:build",
+        "uip:build",
         "esl-website:build:ts",
         "esl-website:build:less"
       ]
@@ -82,6 +85,7 @@
       "options": {
         "commands": [
           "nx run esl:watch",
+          "nx run uip:watch",
           {"command": "nx run esl-website:watch:ts", "prefix": "[Site watch:ts]"},
           {"command": "nx run esl-website:watch:less", "prefix": "[Site watch:less]"}
         ]
@@ -101,6 +105,8 @@
       "cache": true,
       "dependsOn": ["^build:ts"],
       "inputs": [
+        {"env": "SITE_ENV"},
+        {"input": "default", "projects": ["esl"]},
         "{projectRoot}/src/**/*.ts",
         "{projectRoot}/webpack.config.js"
       ],
@@ -136,8 +142,10 @@
       },
       "cache": true,
       "inputs": [
-        "{projectRoot}/src/**/*.less",
-        "{workspaceRoot}/node_modules/@exadel/esl/modules/**/*.less"
+        {"env": "SITE_ENV"},
+        {"input": "default", "projects": ["esl", "uip"]},
+        "{projectRoot}/src/**/*.css",
+        "{projectRoot}/src/**/*.less"
       ],
       "outputs": [
         "{projectRoot}/dist/bundles/**/*.css"
@@ -146,8 +154,13 @@
     "watch:less": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "chokidar \"../../node_modules/@exadel/esl/modules/.less.done\" \"src/**/*.less\" -c \"nx run esl-website:build:less:only\"",
-        "cwd": "packages/esl-website"
+        "command": "chokidar",
+        "args": [
+          "\"packages/esl/modules/.less.done\"",
+          "\"packages/ui-playground/dist/.less.done\"",
+          "\"packages/esl-website/src/**/*.less\"",
+          "-c \"nx run esl-website:build:less:only\""
+        ]
       }
     },
 

@@ -28,19 +28,19 @@ describe('ESlEventListener subscription with target or selector defined by provi
     const handler = jest.fn();
     const provider  = jest.fn();
     ESLEventUtils.subscribe(host, {event: 'click', selector: provider}, handler);
-    expect(handler).toBeCalledTimes(0);
+    expect(handler).toHaveBeenCalledTimes(0);
 
     provider.mockReturnValue('.btn1');
     btn1.click();
-    expect(handler).toBeCalledTimes(1);
+    expect(handler).toHaveBeenCalledTimes(1);
     btn2.click();
-    expect(handler).toBeCalledTimes(1);
+    expect(handler).toHaveBeenCalledTimes(1);
 
     provider.mockReturnValue('.btn2');
     btn1.click();
-    expect(handler).toBeCalledTimes(1);
+    expect(handler).toHaveBeenCalledTimes(1);
     btn2.click();
-    expect(handler).toBeCalledTimes(2);
+    expect(handler).toHaveBeenCalledTimes(2);
   });
 
   test('Target provider receives host in arg and context', () => {
@@ -59,9 +59,9 @@ describe('ESlEventListener subscription with target or selector defined by provi
     const provider  = jest.fn(() => '::find(.btn2)');
     ESLEventUtils.subscribe(host, {event: 'click', target: provider}, handler);
     btn1.click();
-    expect(handler).not.toBeCalled();
+    expect(handler).not.toHaveBeenCalled();
     btn2.click();
-    expect(handler).toBeCalled();
+    expect(handler).toHaveBeenCalled();
   });
 
   test('ESlEventListener does not produce subscription if target provider returns null', () => {
@@ -72,7 +72,7 @@ describe('ESlEventListener subscription with target or selector defined by provi
     const listeners = ESLEventUtils.subscribe(host, {event: 'click', target: provider}, handler);
     host.click();
     expect(listeners).toEqual([]);
-    expect(provider).toBeCalled();
-    expect(handler).not.toBeCalled();
+    expect(provider).toHaveBeenCalled();
+    expect(handler).not.toHaveBeenCalled();
   });
 });

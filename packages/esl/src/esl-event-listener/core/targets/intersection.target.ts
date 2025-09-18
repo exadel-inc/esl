@@ -15,7 +15,7 @@ export {ESLIntersectionEvent};
  *
  * Note: does not support sharing, creates new {@link IntersectionObserver} instance for each {@link ESLIntersectionTarget} instance
  */
-export class ESLIntersectionTarget extends SyntheticEventTarget {
+export class ESLIntersectionTarget extends SyntheticEventTarget<ESLIntersectionEvent> {
   /** Default {@link IntersectionObserverInit} options */
   public static readonly DEFAULTS: IntersectionObserverInit = {threshold: [0.01]};
 

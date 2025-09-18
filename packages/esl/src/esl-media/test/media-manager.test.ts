@@ -1,4 +1,5 @@
 import {ESLMedia} from '../core/esl-media';
+import {IntersectionObserverMock} from '../../esl-utils/test/intersectionObserver.mock';
 import {promisifyTimeout} from '../../esl-utils/async/promise';
 import {BaseProviderMock} from './mocks/base-provider.mock';
 
@@ -18,8 +19,12 @@ describe('[ESLMedia]: ESLMediaManager tests', () => {
         instance.mediaSrc = 'mock';
         instance.mediaType = 'mock';
         instances.push(instance);
+        IntersectionObserverMock.mock();
       }
       await ESLMedia.registered;
+    });
+    afterAll(() => {
+      IntersectionObserverMock.restore();
     });
     beforeEach(async () => {
       document.body.append(...instances);
@@ -29,10 +34,13 @@ describe('[ESLMedia]: ESLMediaManager tests', () => {
       instances.forEach((i) => i.remove());
     });
 
+    // TODO: needs to be reworked after delayed task refactoring (which is the reason of incorrect await time)
     async function runPlayTestSequence(expectMatrix: boolean[][]): Promise<void> {
       expect(instances.length).toBe(expectMatrix.length); // Ensure test data is correct
       for (let i = 0; i < instances.length; i++) {
         await instances[i].play();
+        // Wait for 2 microtasks + 2 tasks + 100ms of time
+        await promisifyTimeout(50);
         await promisifyTimeout(50);
         expect(instances.map(isActive)).toEqual(expectMatrix[i]);
       }

@@ -7,16 +7,19 @@
 
 <p align="center">
   <a href="https://github.com/exadel-inc/esl/releases/latest">
-    <img src="https://img.shields.io/github/lerna-json/v/exadel-inc/esl?style=for-the-badge&label=version" alt="version"/>
+    <img src="https://img.shields.io/github/package-json/v/exadel-inc/esl?label=version&labelColor=%23334155" alt="version"/>
   </a>
   <a href="https://github.com/exadel-inc/esl/actions/workflows/validate.yml">
-    <img src="https://img.shields.io/github/actions/workflow/status/exadel-inc/esl/validate.yml?style=for-the-badge" alt="build"/>
-  </a>
-  <a href="https://codeclimate.com/github/exadel-inc/esl">
-    <img src="https://img.shields.io/codeclimate/coverage/exadel-inc/esl?style=for-the-badge" alt="Tests Coverage"/>
+    <img src="https://img.shields.io/github/actions/workflow/status/exadel-inc/esl/validate.yml?labelColor=%23334155" alt="build"/>
   </a>
   <a href="./README.md">
-    <img src="https://img.shields.io/badge/license-MIT-green.svg?style=for-the-badge" alt="License"/>
+    <img src="https://img.shields.io/badge/license-MIT-green.svg?labelColor=%23334155" alt="License"/>
+  </a>
+  <a href="https://qlty.sh/gh/exadel-inc/projects/esl">
+    <img src="https://qlty.sh/gh/exadel-inc/projects/esl/coverage.svg" alt="Tests Coverage"/>
+  </a>
+  <a href="https://qlty.sh/gh/exadel-inc/projects/esl">
+    <img src="https://qlty.sh/gh/exadel-inc/projects/esl/maintainability.svg" alt="Maintainability"/>
   </a>
 </p>
 
@@ -38,6 +41,8 @@
 ESL is mono-repository now to see more detailed information you can visit one of the following sub-packages:
   - ### [ESL Library](./packages/esl/README.md)
     ESL core library with all the components and utilities.
+  - ### [UI Playground](./packages/ui-playground/README.md)
+    ESL UI Playground library that provides interface for editing and previewing real-time changes within a code.
   - ### [ESL ESLint Plugin](./packages/eslint-plugin/README.md)
     ESL ESLint Plugin that provides ESL-specific rules and configurations for ESLint to simplify ESL updates and code quality control.
   - ### [ESL ESLint Config](./packages/eslint-config/README.md)

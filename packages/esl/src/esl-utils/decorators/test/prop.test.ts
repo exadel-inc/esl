@@ -1,5 +1,3 @@
-import '../../../../polyfills/es5-target-shim';
-
 import {attr, boolAttr, jsonAttr} from '../../../esl-utils/decorators';
 import {prop} from '../prop';
 
@@ -91,7 +89,7 @@ describe('Decorator: @prop', () => {
         public field: string;
       }
       new TestElement();
-    }).toThrowError(/own property/);
+    }).toThrow(/own property/);
   });
 
   describe('Overriding @attr works fine', () => {

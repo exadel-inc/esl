@@ -1,5 +1,5 @@
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
-import {listen, memoize} from '../../../esl-utils/decorators';
+import {listen} from '../../../esl-utils/decorators';
 import {getParentScrollOffsets, isOffsetChanged} from '../../../esl-utils/dom/scroll';
 
 import {ESLCarouselPlugin} from '../esl-carousel.plugin';
@@ -8,7 +8,7 @@ import type {ElementScrollOffset} from '../../../esl-utils/dom/scroll';
 
 export interface ESLCarouselTouchConfig {
   /** Condition to have drag and swipe support active. (primary property) */
-  type: 'drag' | 'swipe' | 'none' | '';
+  type: 'free' | 'drag' | 'swipe' | 'none' | '';
   /** Min distance in pixels to activate dragging mode */
   tolerance: number;
   /** Defines type of swipe */
@@ -34,10 +34,11 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin<ESLCarouselTouchCon
   public static override is = 'esl-carousel-touch';
 
   public static readonly DRAG_TYPE = 'drag';
+  public static readonly FREE_TYPE = 'free';
   public static readonly SWIPE_TYPE = 'swipe';
 
-  public static override DEFAULT_CONFIG_KEY = 'type';
-  public static readonly DEFAULT_CONFIG: ESLCarouselTouchConfig = {
+  public static override readonly DEFAULT_CONFIG_KEY = 'type';
+  public static override readonly DEFAULT_CONFIG: ESLCarouselTouchConfig = {
     tolerance: 10,
     type: 'drag',
     swipeType: 'group',
@@ -47,20 +48,12 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin<ESLCarouselTouchCon
 
   /** Start index of the drag action */
   protected startIndex: number;
+  /** Start shift of the drag action */
+  protected startOffset: number;
   /** Start pointer event to detect action */
   protected startEvent?: PointerEvent;
   /** Initial scroll offsets, filled on touch action start */
   protected startScrollOffsets: ElementScrollOffset[];
-
-  @memoize()
-  public override get config(): ESLCarouselTouchConfig {
-    return Object.assign({}, ESLCarouselTouchMixin.DEFAULT_CONFIG, this.configQuery.value || {});
-  }
-
-  /* Handle dynamic config change */
-  protected override onConfigChange(): void {
-    memoize.clear(this, 'config');
-  }
 
   /** @returns whether the swipe mode is active */
   public get isSwipeMode(): boolean {
@@ -70,11 +63,15 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin<ESLCarouselTouchCon
   public get isDragMode(): boolean {
     return this.config.type === ESLCarouselTouchMixin.DRAG_TYPE;
   }
+  /** @returns whether the free mode is active */
+  public get isFreeMode(): boolean {
+    return this.config.type === ESLCarouselTouchMixin.FREE_TYPE;
+  }
 
   /** @returns whether the plugin is disabled (due to carousel state or plugin config) */
   public get isDisabled(): boolean {
     // Plugin is disabled
-    if (!this.isDragMode && !this.isSwipeMode) return true;
+    if (!this.isDragMode && !this.isSwipeMode && !this.isFreeMode) return true;
     // Carousel is not ready
     if (!this.$host.renderer || this.$host.animating) return true;
     // No nav required
@@ -93,7 +90,7 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin<ESLCarouselTouchCon
   protected getOffset(event: PointerEvent): number {
     if (event.type === 'pointercancel') return 0;
     const property = this.$host.config.vertical ? 'clientY' : 'clientX';
-    return this.startEvent ? (event[property] - this.startEvent[property]) : 0;
+    return this.startOffset + (this.startEvent ? (event[property] - this.startEvent[property]) : 0);
   }
 
   /** @returns if the passed event leads to swipe action */
@@ -108,11 +105,11 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin<ESLCarouselTouchCon
   /** Handles `mousedown` / `touchstart` event to manage thumb drag start and scroll clicks */
   @listen('pointerdown')
   protected _onPointerDown(event: PointerEvent): void {
-    memoize.clear(this, 'config');
     if (this.isDisabled) return;
 
     this.startEvent = event;
     this.startIndex = this.$host.activeIndex;
+    this.startOffset = this.$host.offset;
     this.startScrollOffsets = getParentScrollOffsets(event.target as Element, this.$host);
 
     this.$$on({group: 'pointer'});
@@ -133,7 +130,9 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin<ESLCarouselTouchCon
 
     this.$host.setPointerCapture(event.pointerId);
 
-    if (this.isDragMode) this.$host.move(offset, this.startIndex, {activator: this});
+    if (this.isDragMode || this.isFreeMode) {
+      this.$host.move(offset, this.startIndex, {activator: this});
+    }
   }
 
   /** Processes `mouseup` and `touchend` events. */
@@ -150,11 +149,15 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin<ESLCarouselTouchCon
 
     const offset = this.getOffset(event);
     // Commit drag offset (should be commited to 0 if the event is canceled)
-    if (this.isDragMode) this.$host.commit(offset, this.startIndex, {activator: this});
+    if (this.isDragMode) {
+      this.$host.move(offset, this.startIndex, {activator: this});
+      this.$host.commit({activator: this}).catch(console.debug);
+    }
     // Swipe final check
     if (this.isSwipeMode && offset && !this.isPrevented && this.isSwipeAccepted(event)) {
       const target = `${this.config.swipeType}:${offset < 0 ? 'next' : 'prev'}`;
-      if (this.$host.canNavigate(target)) this.$host.goTo(target, {activator: this});
+      if (!this.$host.canNavigate(target)) return;
+      this.$host.goTo(target, {activator: this}).catch(console.debug);
     }
   }
 }

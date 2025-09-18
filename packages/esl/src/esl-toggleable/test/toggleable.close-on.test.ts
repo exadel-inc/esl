@@ -89,7 +89,7 @@ describe('ESLToggleable: close-on trigger handler', () => {
     $el.addEventListener('esl:hide', $fn);
     $trigger.querySelector('span')?.click();
 
-    expect($fn).lastCalledWith(expect.objectContaining({
+    expect($fn).toHaveBeenLastCalledWith(expect.objectContaining({
       type: 'esl:hide',
       detail: expect.objectContaining({
         params: expect.objectContaining({

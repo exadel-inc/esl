@@ -10,46 +10,46 @@ describe('async/raf', () => {
   test('afterNextRender', () => {
     const fn = jest.fn();
     afterNextRender(fn);
-    expect(fn).not.toBeCalled();
+    expect(fn).not.toHaveBeenCalled();
     RAFMock.instance.triggerNextAnimationFrame();
-    expect(fn).not.toBeCalled();
+    expect(fn).not.toHaveBeenCalled();
     RAFMock.instance.triggerNextAnimationFrame();
-    expect(fn).toBeCalled();
+    expect(fn).toHaveBeenCalled();
   });
 
   test('rafDecorator', () => {
     const fn = jest.fn();
     const rafInc = rafDecorator(fn);
 
-    expect(fn).not.toBeCalled();
+    expect(fn).not.toHaveBeenCalled();
     rafInc();
     rafInc();
-    expect(fn).not.toBeCalled();
+    expect(fn).not.toHaveBeenCalled();
     RAFMock.instance.triggerNextAnimationFrame();
-    expect(fn).toBeCalled();
+    expect(fn).toHaveBeenCalled();
   });
 
   test('rafDecoratorArguments', () => {
     const fn = jest.fn();
     const rafInc = rafDecorator(fn);
 
-    expect(fn).not.toBeCalled();
+    expect(fn).not.toHaveBeenCalled();
     rafInc();
     rafInc(1, 2);
-    expect(fn).not.toBeCalled();
+    expect(fn).not.toHaveBeenCalled();
     RAFMock.instance.triggerNextAnimationFrame();
-    expect(fn).toBeCalledWith(1, 2);
+    expect(fn).toHaveBeenCalledWith(1, 2);
   });
 
   test('rafDecoratorArguments2', () => {
     const fn = jest.fn();
     const rafInc = rafDecorator(fn);
 
-    expect(fn).not.toBeCalled();
+    expect(fn).not.toHaveBeenCalled();
     rafInc(1, 2);
     rafInc();
-    expect(fn).not.toBeCalled();
+    expect(fn).not.toHaveBeenCalled();
     RAFMock.instance.triggerNextAnimationFrame();
-    expect(fn).toBeCalledWith();
+    expect(fn).toHaveBeenCalledWith();
   });
 });

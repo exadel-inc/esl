@@ -1,0 +1,62 @@
+---
+  layout: content
+  title: Example with a playground that contains playground inside
+  seoTitle: UI Playground example with a playground that contains playground inside
+  name: Nested Playgrounds
+  order: 3
+  parent: 'Playground Examples'
+  tags: [playground, playground-examples, draft]
+---
+
+<p> This example demonstrates UI Playground’s capability to nest one playground instance within another while preserving full functionality for code modification </p>
+
+<uip-snippets root="::next"></uip-snippets>
+<uip-root>
+  <script type="text/html" uip-snippet label="Playground">
+    <uip-root>
+      <uip-snippets class="uip-toolbar"></uip-snippets>
+
+      <uip-preview></uip-preview>
+      <template uip-snippet label="List of aqua cards">
+        <div class="simple-grid">
+          <div class="simple-grid-cell card bg-blue">Card #1</div>
+          <div class="simple-grid-cell card bg-blue">Card #2</div>
+          <div class="simple-grid-cell card bg-blue">Card #3</div>
+        </div>
+      </template>
+      <template uip-snippet label="Long list of orange cards containing seven items" wrap-items>
+        <div class="simple-grid">
+          <div class="simple-grid-cell card bg-orange">Card #1</div>
+          <div class="simple-grid-cell card bg-orange">Card #2</div>
+          <div class="simple-grid-cell card bg-orange">Card #3</div>
+          <div class="simple-grid-cell card bg-orange">Card #4</div>
+          <div class="simple-grid-cell card bg-orange">Card #5</div>
+          <div class="simple-grid-cell card bg-orange">Card #6</div>
+          <div class="simple-grid-cell card bg-orange">Card #7</div>
+        </div>
+      </template>
+      <uip-settings target=".simple-grid" vertical dir-toggle theme-toggle>
+        <uip-select-setting label="Card color:" target=".card" attribute="class" mode="append">
+          <option value="bg-orange">Orange</option>
+          <option value="bg-blue">Aqua</option>
+          <option value="bg-green">Green</option>
+        </uip-select-setting>
+        <uip-bool-setting label="Wide" attribute="class" mode="append" value="simple-grid-compact"></uip-bool-setting>
+      </uip-settings>
+      <uip-editor collapsible></uip-editor>
+    </uip-root>
+  </script>
+  <script type="text/html" uip-snippet label="List of aqua cards">
+    <div class="simple-grid simple-grid-compact">
+      <div class="simple-grid-cell card bg-blue">Card #1</div>
+      <div class="simple-grid-cell card bg-blue">Card #2</div>
+      <div class="simple-grid-cell card bg-blue">Card #3</div>
+    </div>
+  </script>
+  <uip-preview resizable></uip-preview>
+  <uip-editor collapsible></uip-editor>
+
+  <uip-settings collapsible vertical="@+sm">
+      <uip-bool-setting label="Snippets dropdown view" target="uip-snippets" attribute="dropdown-view" value="all"></uip-bool-setting>
+  </uip-settings>
+</uip-root>

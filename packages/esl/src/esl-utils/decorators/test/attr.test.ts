@@ -1,4 +1,3 @@
-import '../../../../polyfills/es5-target-shim';
 import {attr} from '../attr';
 import {ESLTestTemplate} from '../../test/template';
 
@@ -84,7 +83,7 @@ describe('Decorator: attr', () => {
 
   test('Decorator: attr - readonly attr', () => {
     expect(el.readonlyField).toBe('');
-    expect(() => {el.readonlyField = '';}).toThrowError();
+    expect(() => {el.readonlyField = '';}).toThrow();
     expect(el.readonlyField).toBe('');
     expect(el.hasAttribute('readonly-field')).toBeFalsy();
     el.setAttribute('readonly-field', '1');

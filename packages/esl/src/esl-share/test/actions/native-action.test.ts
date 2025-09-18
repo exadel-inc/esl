@@ -38,7 +38,7 @@ describe('ESLShare: "native" action public API', () => {
 
   test('should call navigator.share() when share() calls', () => {
     nativeAction?.share($button);
-    expect(mockShare).toBeCalledWith({
+    expect(mockShare).toHaveBeenCalledWith({
       title: 'Test button title',
       url: 'http://localhost/test/button/url',
     });

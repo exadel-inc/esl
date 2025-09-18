@@ -1,0 +1,71 @@
+.uip-plugin-panel:not(.vertical) {
+  flex-direction: column;
+  margin-bottom: 1px;
+
+  .uip-plugin-resize-bar {
+    order: 100;
+    cursor: row-resize;
+  }
+
+  .uip-plugin-inner {
+    position: relative;
+    display: grid;
+    place-items: start;
+    height: auto;
+    // stylelint-disable-next-line declaration-block-no-duplicate-properties
+    overflow: hidden; // Fallback
+    overflow: clip;
+    width: 100%;
+    max-width: 100%;
+
+    grid-template-rows: 1fr;
+    transition:
+      visibility 0s linear,
+      padding-top 0.5s linear,
+      padding-bottom 0.5s linear,
+      grid-template-rows 0.5s ease-in-out;
+  }
+
+  .uip-plugin-content {
+    max-height: var(--uip-plugin-height, 325px);
+  }
+
+  &[collapsed] .uip-plugin-inner {
+    padding-top: 0;
+    padding-bottom: 0;
+    grid-template-rows: 0fr;
+    transition:
+      visibility 0.5s linear,
+      padding-top 0.5s linear,
+      padding-bottom 0.5s linear,
+      grid-template-rows 0.5s ease-in-out;
+  }
+
+  .uip-plugin-header {
+    padding: 5px 10px;
+    width: 100%;
+  }
+
+  .uip-plugin-header-toolbar {
+    gap: 0.75rem;
+    margin-inline-end: 0.25rem;
+  }
+
+  &[collapsible] .uip-plugin-header::after {
+    content: '';
+    justify-self: flex-end;
+    position: relative;
+    margin: 5px 10px;
+    width: 15px;
+    height: 15px;
+    z-index: 1;
+    background: currentColor;
+    clip-path: polygon(50% 80%, 0% 30%, 5% 20%, 50% 65%, 95% 20%, 100% 30%);
+    animation: rotate 0.5s linear both;
+  }
+
+  &[collapsible][collapsed] .uip-plugin-header::after {
+    top: 2px;
+    animation: rotate-back 0.5s linear both;
+  }
+}

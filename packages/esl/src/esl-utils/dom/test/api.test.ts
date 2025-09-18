@@ -16,34 +16,33 @@ describe('Module `dom/api` tests:', () => {
     ])('isElement returns false for non Element object: %o)', (value) => expect(isElement(value)).toBe(false));
 
     test.each([
-      document.createElement('div'),
-      document.createElement('span'),
-      document.createElement('a'),
-      document.createElement('button')
-    ])('isElement returns true for Element object: %o)', (value) => expect(isElement(value)).toBe(true));
+      'div', 'span', 'a', 'button'
+    ])('isElement returns true for %s Element object)', (tag) => {
+      expect(isElement(document.createElement(tag))).toBe(true);
+    });
 
     test.each([
-      document.createTextNode(''),
-      document.createComment(''),
-      document.createDocumentFragment()
-    ])('isElement returns false for non Element object: %o)', (value) => expect(isElement(value)).toBe(false));
+      ['HTML Text Node', () => document.createTextNode('')],
+      ['HTML Comment', () => document.createComment('')],
+      ['HTML Fragment', () => document.createDocumentFragment()]
+    ])('isElement returns false for non Element object: %s)', (comment, factory) => {
+      expect(isElement(factory())).toBe(false);
+    });
 
     describe('isElement returns true for Element objects from different realms', () => {
       const $iframe: HTMLIFrameElement = document.createElement('iframe');
-      document.body.appendChild($iframe);
-      const $iframeDoc = $iframe.contentDocument as Document;
+
+      beforeAll(() => document.body.appendChild($iframe));
+      afterAll(() => $iframe.remove());
 
       test.each([
-        $iframeDoc.createElement('div'),
-        $iframeDoc.createElement('span'),
-        $iframeDoc.createElement('a'),
-        $iframeDoc.createElement('button')
-      ])('isElement returns true for Element object: %o)', (value) => {
-        $iframeDoc.body.appendChild(value);
-        expect(isElement(value)).toBe(true);
+        'div', 'span', 'a', 'button'
+      ])('isElement returns true for %s Element object from iframe)', (tag) => {
+        const $iframeDoc = $iframe.contentDocument as Document;
+        const element = $iframeDoc.createElement(tag);
+        $iframeDoc.body.appendChild(element);
+        expect(isElement(element)).toBe(true);
       });
-
-      afterAll(() => $iframe.remove());
     });
   });
 });

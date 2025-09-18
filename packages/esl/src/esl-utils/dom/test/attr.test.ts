@@ -103,9 +103,9 @@ describe('Attribute', () => {
       expect($el.getAttribute(attrName)).toBe('');
     });
 
-    test('shouldn`t throw any type errors for non-valid host', () => expect(() => setAttr({$host: null} as any, attrName, true)).not.toThrowError());
+    test('shouldn`t throw any type errors for non-valid host', () => expect(() => setAttr({$host: null} as any, attrName, true)).not.toThrow());
 
-    test('shouldn`t throw any type errors for non-valid element', () => expect(() => setAttr(null as any, attrName, true)).not.toThrowError());
+    test('shouldn`t throw any type errors for non-valid element', () => expect(() => setAttr(null as any, attrName, true)).not.toThrow());
 
     test('sets attribute for array of elements', () => {
       const $el1 = document.createElement('div');

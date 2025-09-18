@@ -36,7 +36,7 @@ export type ESLMediaTagShape = ({
   /** Allow show controls */
   controls?: boolean;
   /** Define viewport control marker */
-  'play-in-viewport'?: boolean;
+  'play-in-viewport'?: 'start' | 'restart' | 'none' | boolean;
   /** Define preload media param */
   'preload'?: 'none' | 'metadata' | 'auto' | '';
   /** Allow play media inline */
@@ -62,12 +62,3 @@ export type ESLMediaTagShape = ({
   /** Children are not allowed for ESLMedia */
   children?: never[];
 } & ESLBaseElementShape<ESLMedia>;
-
-declare global {
-  namespace JSX {
-    export interface IntrinsicElements {
-      /** {@link ESLMedia} custom tag */
-      'esl-media': ESLMediaTagShape;
-    }
-  }
-}

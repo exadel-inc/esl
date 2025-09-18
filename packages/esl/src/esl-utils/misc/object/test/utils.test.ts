@@ -86,7 +86,7 @@ describe('misc/object: utils', () => {
       const filter = jest.fn(() => true);
       extractValues(obj, filter);
 
-      expect(filter).toBeCalledTimes(3);
+      expect(filter).toHaveBeenCalledTimes(3);
       for (const pair of Object.entries(obj).concat(Object.entries(proto))) {
         expect(filter).toHaveBeenCalledWith(...pair.reverse());
       }

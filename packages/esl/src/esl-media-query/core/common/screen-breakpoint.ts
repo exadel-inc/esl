@@ -1,4 +1,5 @@
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
+import {MediaQueryCondition} from '../conditions/media-query-condition';
 
 const registry = new Map<string, ESLScreenBreakpoint>();
 
@@ -46,14 +47,19 @@ export abstract class ESLScreenBreakpoints {
     return Array.from(registry.keys());
   }
 
-  /** @returns breakpoints shortcut replacement */
-  public static process(term: string): string | undefined {
+  public static getMedia(term: string): string | undefined {
     const [, sign, bp] = ESLScreenBreakpoints.BP_REGEXP.exec(term) || [];
     const shortcut = ESLScreenBreakpoints.get(bp);
     if (!shortcut) return;
     if (sign === '+') return shortcut.mediaQueryGE;
     if (sign === '-') return shortcut.mediaQueryLE;
     return shortcut.mediaQuery;
+  }
+
+  /** @returns breakpoints shortcut replacement */
+  public static process(term: string): MediaQueryCondition | undefined {
+    const media = ESLScreenBreakpoints.getMedia(term);
+    return media ? new MediaQueryCondition(media) : undefined;
   }
 }
 

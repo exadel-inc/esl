@@ -19,6 +19,7 @@ export default [
   },
 
   // Using shared ESL ESLint Config
+  ...lang.js,
   ...lang.ts,
   ...strict,
 

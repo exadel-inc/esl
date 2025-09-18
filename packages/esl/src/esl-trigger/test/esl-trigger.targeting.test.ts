@@ -23,25 +23,25 @@ describe('ESLTrigger find target according to the query in target attribute', ()
 
   test('target from selector', () => {
     $trigger.click();
-    expect($tgl1.show).toBeCalledTimes(1);
+    expect($tgl1.show).toHaveBeenCalledTimes(1);
   });
 
   test('selector target removed', () => {
     $tgl1.remove();
     $trigger.click();
-    expect($tgl1.show).toBeCalledTimes(0);
+    expect($tgl1.show).toHaveBeenCalledTimes(0);
   });
 
   test('selector updated', () => {
     $trigger.target = '::next';
     $trigger.setAttribute('target', '::next');
     $trigger.click();
-    expect($tgl2.show).toBeCalledTimes(1);
+    expect($tgl2.show).toHaveBeenCalledTimes(1);
   });
 
   test('target set explicitly', () => {
     $trigger.$target = $tgl3;
     $trigger.click();
-    expect($tgl3.show).toBeCalledTimes(1);
+    expect($tgl3.show).toHaveBeenCalledTimes(1);
   });
 });

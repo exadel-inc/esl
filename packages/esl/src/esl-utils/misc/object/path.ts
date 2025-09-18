@@ -45,6 +45,9 @@ const parseKeysPath = (path: string): PathKeyDef[] => {
   return parts;
 };
 
+// Keys that are blocked to prevent CWE-1321 (prototype pollution)
+const DEPRECATED_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
+
 /**
  * Gets object property using "path" key
  *
@@ -98,6 +101,8 @@ export const get = (data: any, path: string, defaultValue?: any): any => getByPa
 export const setByPath = (target: any, path: string | PathKey[], value: any): any => {
   const keys = parseKeys(path);
   const depth = keys.length - 1;
+  // prevent prototype pollution
+  if (keys.some(({key}) => DEPRECATED_KEYS.has(key as string))) return target;
   keys.reduce((cur: any, {key, isIndex, isIndexed}: PathKeyDef, pos: number) => {
     if (isIndex && !key) key = cur.length || 0; // a[] only
     if (pos !== depth && isObjectLike(cur[key])) return cur[key]; // key already presented

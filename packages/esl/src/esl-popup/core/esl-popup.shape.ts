@@ -37,12 +37,3 @@ export interface ESLPopupTagShape<T extends ESLPopup = ESLPopup> extends ESLTogg
   /** Allowed children */
   children?: any;
 }
-
-declare global {
-  namespace JSX {
-    export interface IntrinsicElements {
-      /** {@link ESLPopup} custom tag */
-      'esl-popup': ESLPopupTagShape;
-    }
-  }
-}

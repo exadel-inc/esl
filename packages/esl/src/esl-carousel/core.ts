@@ -1,5 +1,5 @@
 // TSX support
-export type {ESLCarouselShape} from './core/esl-carousel.shape';
+export type {ESLCarouselShape, ESLCarouselTagShape} from './core/esl-carousel.shape';
 
 // Core
 export * from './core/esl-carousel.events';
@@ -10,7 +10,7 @@ export {ESLCarouselSlide} from './core/esl-carousel.slide';
 export * from './plugin/nav/esl-carousel.nav.mixin';
 
 // Navigation Dots
-export type {ESLCarouselNavDotsShape} from './plugin/dots/esl-carousel.nav.dots.shape';
+export type {ESLCarouselNavDotsShape, ESLCarouselNavDotsTagShape} from './plugin/dots/esl-carousel.nav.dots.shape';
 export * from './plugin/dots/esl-carousel.nav.dots';
 
 // Touch support
@@ -21,12 +21,17 @@ export * from './plugin/keyboard/esl-carousel.keyboard.mixin';
 
 // Autoplay
 export * from './plugin/autoplay/esl-carousel.autoplay.mixin';
+export * from './plugin/autoplay/esl-carousel.autoplay.event';
+export * from './plugin/autoplay/esl-carousel.autoplay.progress.mixin';
 
 // Link Utility
 export * from './plugin/relation/esl-carousel.relation.mixin';
 
 // Wheel support
 export * from './plugin/wheel/esl-carousel.wheel.mixin';
+
+// Class management
+export * from './plugin/class/esl-carousel.class-behaviour.mixin';
 
 // Renderer Default
 import './renderers/esl-carousel.none.renderer';

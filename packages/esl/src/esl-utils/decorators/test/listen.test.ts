@@ -1,5 +1,3 @@
-import '../../../../polyfills/es5-target-shim';
-
 import {listen} from '../listen';
 import {ESLEventUtils} from '../../dom/events';
 
@@ -131,7 +129,7 @@ describe('Decorator: @listen', () => {
         onEvent() {}
       }
       new Test();
-    }).toThrowError();
+    }).toThrow();
   });
 
   describe('@listen creates auto-subscribable(collectable) descriptors', () => {

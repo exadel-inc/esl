@@ -73,13 +73,13 @@ describe('ESLWheelTarget', () => {
     beforeEach(() => listener.mockReset());
 
     test('ESLWheelTarget ignores vertical scroll when predicate filter deltaX amount', () => {
-      $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 0, deltaY: 100}));
+      $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 0, deltaY: 100, shiftKey: false}));
       jest.advanceTimersByTime(100);
       expect(listener).not.toHaveBeenCalled();
     });
 
     test('ESLWheelTarget doesn\'t ignore horizontal scroll when predicate filter deltaX amount', () => {
-      $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 100, deltaY: 0}));
+      $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 100, deltaY: 0, shiftKey: false}));
       jest.advanceTimersByTime(100);
       expect(listener).toHaveBeenCalled();
     });
@@ -95,36 +95,36 @@ describe('ESLWheelTarget', () => {
     beforeEach(() => listener.mockReset());
 
     test('ESLWheelTarget ignores horizontal short swipe', () => {
-      $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 100}));
+      $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 100, shiftKey: false}));
       jest.advanceTimersByTime(50);
       expect(listener).not.toHaveBeenCalled();
     });
 
     test('ESLWheelTarget ignores vertical short swipe',  () => {
-      $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaY: 100}));
+      $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaY: 100, shiftKey: false}));
       jest.advanceTimersByTime(50);
       expect(listener).not.toHaveBeenCalled();
     });
 
     test('ESLWheelTarget ignores diagonal short swipe', () => {
-      $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 100, deltaY: 100}));
+      $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 100, deltaY: 100, shiftKey: false}));
       jest.advanceTimersByTime(50);
       expect(listener).not.toHaveBeenCalled();
     });
 
     test('ESLWheelTarget should handle rapid alternation in scroll direction without false positives', () => {
-      $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 50}));
-      $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: -50}));
-      $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 50}));
-      $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: -50}));
+      $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 50, shiftKey: false}));
+      $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: -50, shiftKey: false}));
+      $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 50, shiftKey: false}));
+      $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: -50, shiftKey: false}));
       jest.advanceTimersByTime(50);
       expect(listener).not.toHaveBeenCalled();
     });
 
     test('ESLWheelTarget should ignore long scroll when scrolls are beyond timeout', () => {
-      $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 100}));
+      $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 100, shiftKey: false}));
       jest.advanceTimersByTime(50);
-      $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 100}));
+      $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 100, shiftKey: false}));
       jest.advanceTimersByTime(50);
       expect(listener).not.toHaveBeenCalled();
     });
@@ -140,7 +140,7 @@ describe('ESLWheelTarget', () => {
     beforeEach(() => listener.mockReset());
 
     test('ESLWheelTarget detects horizontal long scroll', () => {
-      $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 100}));
+      $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 100, shiftKey: false}));
       jest.advanceTimersByTime(50);
       expect(listener).toHaveBeenLastCalledWith(expect.any(ESLWheelEvent));
       expect(listener).toHaveBeenLastCalledWith(expect.objectContaining({deltaX: 100, axis: 'x'}));
@@ -154,21 +154,21 @@ describe('ESLWheelTarget', () => {
     });
 
     test('ESLWheelTarget detects vertical long scroll', () => {
-      $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaY: 100}));
+      $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaY: 100, shiftKey: false}));
       jest.advanceTimersByTime(50);
       expect(listener).toHaveBeenLastCalledWith(expect.any(ESLWheelEvent));
       expect(listener).toHaveBeenLastCalledWith(expect.objectContaining({deltaY: 100, axis: 'y'}));
     });
 
     test('ESLWheelTarget detects negative vertical long scroll', () => {
-      $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaY: -100}));
+      $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaY: -100, shiftKey: false}));
       jest.advanceTimersByTime(50);
       expect(listener).toHaveBeenLastCalledWith(expect.any(ESLWheelEvent));
       expect(listener).toHaveBeenLastCalledWith(expect.objectContaining({deltaY: -100, axis: 'y'}));
     });
 
     test('ESLWheelTarget detects both horizontal and vertical long scrolls withing time limit', () => {
-      $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 100, deltaY: 200}));
+      $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 100, deltaY: 200, shiftKey: false}));
       jest.advanceTimersByTime(50);
       expect(listener).toHaveBeenCalledTimes(2);
       expect(listener.mock.calls.slice(-1)[0][0]).toEqual(expect.objectContaining({deltaY: 200, axis: 'y'}));
@@ -176,10 +176,10 @@ describe('ESLWheelTarget', () => {
     });
 
     test('ESLWheelTarget detects long scroll when multiple small scrolls exceed distance', async () => {
-      $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 50}));
-      $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 50}));
-      $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 50}));
-      $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 50}));
+      $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 50, shiftKey: false}));
+      $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 50, shiftKey: false}));
+      $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 50, shiftKey: false}));
+      $el.dispatchEvent(Object.assign(new Event('wheel'), {deltaX: 50, shiftKey: false}));
       jest.advanceTimersByTime(50);
       expect(listener).toHaveBeenCalled();
       expect(listener).toHaveBeenLastCalledWith(expect.objectContaining({deltaX: 200, axis: 'x'}));

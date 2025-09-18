@@ -19,7 +19,7 @@ describe('Shortcut helpers for EventUtils', () => {
     const mixin = TestHelpersMixin.get($el) as TestHelpersMixin;
     const props = {event: 'test'};
     mixin.$$on(props, mixin.onEvent);
-    expect(mock).lastCalledWith(mixin, props, mixin.onEvent);
+    expect(mock).toHaveBeenLastCalledWith(mixin, props, mixin.onEvent);
   });
 
   test('$$off call leads to correct unsubscribe call with mixin as a host', () => {
@@ -27,6 +27,6 @@ describe('Shortcut helpers for EventUtils', () => {
     const mixin = TestHelpersMixin.get($el) as TestHelpersMixin;
     const props = {event: 'test'};
     mixin.$$off(props, mixin.onEvent);
-    expect(mock).lastCalledWith(mixin, props, mixin.onEvent);
+    expect(mock).toHaveBeenLastCalledWith(mixin, props, mixin.onEvent);
   });
 });

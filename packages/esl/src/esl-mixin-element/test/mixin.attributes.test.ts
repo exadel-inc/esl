@@ -48,8 +48,8 @@ describe('ESLMixinElement: attribute observation', () => {
       $host.setAttribute(TestMixin.is, newValue);
       await Promise.resolve();
 
-      expect(mixin.attributeChangedCallback).toBeCalledTimes(1);
-      expect(mixin.attributeChangedCallback).toBeCalledWith(TestMixin.is, oldValue, newValue);
+      expect(mixin.attributeChangedCallback).toHaveBeenCalledTimes(1);
+      expect(mixin.attributeChangedCallback).toHaveBeenCalledWith(TestMixin.is, oldValue, newValue);
     });
   });
 
@@ -82,8 +82,8 @@ describe('ESLMixinElement: attribute observation', () => {
       $host.setAttribute(attrName, newValue);
       await Promise.resolve();
 
-      expect(mixin.attributeChangedCallback).toBeCalledTimes(1);
-      expect(mixin.attributeChangedCallback).toBeCalledWith(attrName, oldValue, newValue);
+      expect(mixin.attributeChangedCallback).toHaveBeenCalledTimes(1);
+      expect(mixin.attributeChangedCallback).toHaveBeenCalledWith(attrName, oldValue, newValue);
     });
   });
 });

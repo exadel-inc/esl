@@ -47,8 +47,7 @@
   background-color: transparent;
 
   &:active {
-    top: 1px;
-    left: 1px;
+    translate: 1px 1px;
   }
 
   &:hover,
@@ -90,6 +89,14 @@
   &-sec-orange {
     --btn-color: @primary-orange;
     --btn-color-bg: fadeout(@primary-orange, 50%);
+  }
+  &-sec-white {
+    --btn-color: #ffffff;
+    --btn-color-bg: fadeout(#ffffff, 50%);
+  }
+
+  &-inactive {
+    opacity: 0.6;
   }
 
   &-link {

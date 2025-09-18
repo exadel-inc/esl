@@ -42,6 +42,7 @@ rules:
       - esl-image
       - esl-image-utils
       - esl-lazy-template
+      - esl-line-clamp
       - esl-media
       - esl-media-query
       - esl-mixin-element
@@ -59,6 +60,7 @@ rules:
       - esl-traversing-query
       - esl-trigger
       - esl-utils
+      - ui-playground
       - site
       - patch
       - deps
