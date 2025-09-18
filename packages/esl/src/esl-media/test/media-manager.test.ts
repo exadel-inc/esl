@@ -34,10 +34,13 @@ describe('[ESLMedia]: ESLMediaManager tests', () => {
       instances.forEach((i) => i.remove());
     });
 
+    // TODO: needs to be reworked after delayed task refactoring (which is the reason of incorrect await time)
     async function runPlayTestSequence(expectMatrix: boolean[][]): Promise<void> {
       expect(instances.length).toBe(expectMatrix.length); // Ensure test data is correct
       for (let i = 0; i < instances.length; i++) {
         await instances[i].play();
+        // Wait for 2 microtask 2 task + 100ms of time
+        await promisifyTimeout(50);
         await promisifyTimeout(50);
         expect(instances.map(isActive)).toEqual(expectMatrix[i]);
       }

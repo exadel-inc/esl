@@ -39,5 +39,5 @@ export class Deferred<T> {
 
 /** Creates Deferred Object that wraps promise and its resolve and reject callbacks */
 export function createDeferred<T>(): Deferred<T> {
-  return new Deferred();
+  return new Deferred<T>();
 }
