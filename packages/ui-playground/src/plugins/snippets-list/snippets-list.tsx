@@ -1,5 +1,3 @@
-import React from 'jsx-dom';
-
 import {attr, decorate, listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 import {debounce} from '@exadel/esl/modules/esl-utils/async/debounce';
 

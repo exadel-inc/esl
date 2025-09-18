@@ -1,4 +1,3 @@
-import React from 'jsx-dom';
 import {attr, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 
 import {TokenListUtils} from '../../../core/utils/token-list';

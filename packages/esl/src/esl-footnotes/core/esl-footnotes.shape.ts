@@ -18,12 +18,3 @@ export interface ESLFootnotesTagShape extends ESLBaseElementShape<ESLFootnotes> 
   /** Children are not allowed for ESLShare */
   children?: never[];
 }
-
-declare global {
-  namespace JSX {
-    export interface IntrinsicElements {
-      /** {@link ESLFootnotes} custom tag */
-      'esl-footnotes': ESLFootnotesTagShape;
-    }
-  }
-}

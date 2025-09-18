@@ -1,5 +1,3 @@
-import React from 'jsx-dom';
-
 export const ThemeToggleIcon = (): SVGElement => (<>
   <svg class="uip-light-theme" xmlns="http://www.w3.org/2000/svg" stroke="#4e4e4e" stroke-width="1.25" stroke-linecap="round" viewBox="0 0 24 24">
     <path d="M8.08 2.42C-6.59 12.5 11.62 30.71 21.52 15.86" fill="none"/>

@@ -5,7 +5,7 @@ import type {ESLCarousel} from './esl-carousel';
  * Tag declaration interface of {@link ESLCarousel} element
  * Used for TSX declaration
  */
-export interface ESLCarouselShape extends ESLBaseElementShape<ESLCarousel> {
+export interface ESLCarouselTagShape extends ESLBaseElementShape<ESLCarousel> {
   /** Media query pattern used for {@link ESLMediaRuleList} of `type`, `loop` and `count` (default: `all`) */
   media?: string;
   /** Renderer type name (`multi` by default). Supports {@link ESLMediaRuleList} syntax */
@@ -31,11 +31,5 @@ export interface ESLCarouselShape extends ESLBaseElementShape<ESLCarousel> {
   [key: `esl-carousel-${string}`]: string;
 }
 
-declare global {
-  namespace JSX {
-    export interface IntrinsicElements {
-      /** {@link ESLAnimate} custom tag */
-      'esl-carousel': ESLCarouselShape;
-    }
-  }
-}
+/** @deprecated alias for {@link ESLCarouselTagShape} */
+export type ESLCarouselShape = ESLCarouselTagShape;

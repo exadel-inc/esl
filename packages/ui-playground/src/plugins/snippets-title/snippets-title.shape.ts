@@ -3,7 +3,7 @@ import type {ESLBaseElementShape} from '@exadel/esl/modules/esl-base-element/cor
 
 type UIPSnippetsShape = ESLBaseElementShape<UIPSnippetsTitle>;
 
-declare global {
+declare module 'jsx-dom' {
   namespace JSX {
     interface IntrinsicElements {
       'uip-snippets-title': UIPSnippetsShape;
