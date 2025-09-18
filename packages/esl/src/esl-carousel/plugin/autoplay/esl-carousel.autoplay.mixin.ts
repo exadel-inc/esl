@@ -30,7 +30,7 @@ export interface ESLCarouselAutoplayConfig {
   /** Selector for items that, when active, should disable autoplay */
   blockSelector?: string;
   /** Events that should block autoplay when fired on interaction scope elements */
-  watchEvents?: string;
+  watchEvents: string;
 }
 
 /**
@@ -121,9 +121,7 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
   /** True if active slide contains any blocking items */
   public get hasActiveBlockingItems(): boolean {
     const {blockSelector} = this.config;
-    const {$activeSlide} = this.$host;
-
-    return !!blockSelector && ESLTraversingQuery.first(blockSelector, $activeSlide) !== null;
+    return !!blockSelector && this.$interactionScope.some(($el) => ESLTraversingQuery.first(blockSelector, $el) !== null);
   }
 
   /** True if keyboard-visible focus is within scope */
@@ -152,18 +150,8 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
   protected override onConfigChange(): void {
     super.onConfigChange();
     memoize.clear(this, ['$controls', '$interactionScope']);
+    this.$$off(this._onBlockingEvent);
     this.update();
-  }
-
-  /** Subscribe to events that block autoplay */
-  protected subscribeToBlockingEvents(): void {
-    const {watchEvents} = this.config;
-    if (!watchEvents) return;
-    this.$$on({
-      group: 'state',
-      event: watchEvents,
-      target: () => this.$interactionScope
-    }, () => this.refresh());
   }
 
   /** Suspend & cleanup on disconnect */
@@ -178,7 +166,6 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
   protected update(): void {
     this.updateMarkers();
     this.$$on({group: 'state'});
-    this.subscribeToBlockingEvents();
     this.refresh();
   }
 
@@ -251,6 +238,16 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
   protected _onToggle(e: Event): void {
     this.enabled = !this.enabled;
     e.preventDefault();
+  }
+
+  /** Subscribe to events that block autoplay */
+  @listen({
+    event: ($this: ESLCarouselAutoplayMixin) => $this.config.watchEvents,
+    target: ($this: ESLCarouselAutoplayMixin) => $this.$interactionScope,
+    condition: ($this: ESLCarouselAutoplayMixin) => $this.enabled
+  })
+  protected _onBlockingEvent(): void {
+    this.refresh();
   }
 }
 
