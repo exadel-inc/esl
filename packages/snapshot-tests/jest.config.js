@@ -17,7 +17,7 @@ export default {
   },
   extensionsToTreatAsEsm: ['.tsx', '.ts'],
   roots: ['./tests/'],
-  testRegex: ['(.+)\\\.(spec|test)\\.ts$', '(.+).feature'],
+  testRegex: ['(.+)\\.(spec|test)\\.ts$', '(.+).feature'],
   moduleFileExtensions: ['ts', 'js', 'feature'],
   setupFilesAfterEnv: ['./src/serializers/image-snapshot.ts', './src/scenarios.ts'],
   reporters: [
