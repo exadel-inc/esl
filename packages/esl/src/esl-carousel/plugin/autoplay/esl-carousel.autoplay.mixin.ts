@@ -28,9 +28,9 @@ export interface ESLCarouselAutoplayConfig {
   /** CSS class applied to the carousel container while autoplay is enabled */
   containerCls?: string;
   /** Selector for items that, when active, should disable autoplay */
-  blockingItemsSelector?: string;
+  blockSelector?: string;
   /** Events that should block autoplay when fired on interaction scope elements */
-  blockingEvents?: string;
+  watchEvents?: string;
 }
 
 /**
@@ -45,8 +45,8 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
     command: 'slide:next',
     intersection: 0.25,
     trackInteraction: true,
-    blockingItemsSelector: 'esl-share[active], esl-note[active]',
-    blockingEvents: 'esl:change:active'
+    blockSelector: 'esl-share[active], esl-note[active]',
+    watchEvents: 'esl:change:active'
   };
   public static override DEFAULT_CONFIG_KEY: keyof ESLCarouselAutoplayConfig = 'duration';
 
@@ -118,11 +118,12 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
     return this.$interactionScope.some(($el) => $el.matches('*:hover'));
   }
 
+  /** True if active slide contains any blocking items */
   public get hasActiveBlockingItems(): boolean {
-    const {blockingItemsSelector} = this.config;
+    const {blockSelector} = this.config;
     const {$activeSlide} = this.$host;
 
-    return !!blockingItemsSelector && ESLTraversingQuery.first(blockingItemsSelector, $activeSlide) !== null;
+    return !!blockSelector && ESLTraversingQuery.first(blockSelector, $activeSlide) !== null;
   }
 
   /** True if keyboard-visible focus is within scope */
@@ -156,11 +157,11 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
 
   /** Subscribe to events that block autoplay */
   protected subscribeToBlockingEvents(): void {
-    const {blockingEvents} = this.config;
-    if (!blockingEvents) return;
+    const {watchEvents} = this.config;
+    if (!watchEvents) return;
     this.$$on({
       group: 'state',
-      event: blockingEvents,
+      event: watchEvents,
       target: () => this.$interactionScope
     }, () => this.refresh());
   }
