@@ -16,10 +16,10 @@ This guide explains how to enable TypeScript IntelliSense (props completion, typ
 
 ---
 ## 1. Overview
-`@exadel/esl` ships tag shape interfaces (e.g. `ESLAlertShape`) and a helper interface `ESLIntrinsicElements` that maps tag names to their TypeScript shapes. To make editors recognize those tags inside TSX/JSX you must extend the host runtime's `JSX.IntrinsicElements` with `ESLIntrinsicElements`.
+`@exadel/esl` ships tag shape interfaces (e.g. `ESLAlertShape`) and a helper interface `ESLIntrinsicElements` that maps tag names to their TypeScript shapes. To make editors recognize those tags inside TSX/JSX, you must extend the host runtime's `JSX.IntrinsicElements` with `ESLIntrinsicElements`.
 
 ## 2. JSX-DOM v6 (legacy)
-In JSX-DOM v6 the ESL package auto-augments the global `JSX` namespace. Just import ESL once in your project (usually in your main bundle or `global.d.ts` extra types file) and you can start writing ESL tags:
+In JSX-DOM v6, the ESL package automatically augments the global `JSX` namespace. Just import ESL once in your project (usually in your main bundle or `global.d.ts` extra types file) and you can start writing ESL tags:
 ```ts 
 // global.d.ts
 import '@exadel/esl';
@@ -31,7 +31,7 @@ const view = <esl-alert active="" variant="info">Hello</esl-alert>;
 ```
 
 ## 3. JSX-DOM v8+ (current)
-Starting from JSX-DOM v8 implicit global augmentation is not applied. You must create a declaration file and explicitly extend the runtime module.
+Starting from JSX-DOM v8, implicit global augmentation is no longer applied. You must create a declaration file and explicitly extend the runtime module.
 
 Create (or update) `types/global.d.ts` (path/name arbitrary, ensure it is included by `tsconfig.json`):
 ```ts
@@ -78,7 +78,7 @@ const Layout = () => (
 );
 ```
 
-For older versions of react steps declared for legacy JSX-DOM 6 are enough, no extra type definitions required.
+For older versions of React, the steps declared for legacy JSX-DOM 6 are sufficient - no extra type definitions are required.
 
 ## 5. Advanced: selective tag exposure
 If you want IntelliSense only for a subset of tags (e.g., design-system curation), build a custom interface:
@@ -122,7 +122,7 @@ Issue: React 17+ automatic runtime.
 Fix: Augmentation still applies; your `esl-jsx.d.ts` file just needs to be in scope. No change required.
 
 ## Reference
-ESL provides the helper interface `ESLIntrinsicElements` (see package: `@exadel/esl`) mapping:
+ESL provides the helper interface `ESLIntrinsicElements` (see package `@exadel/esl`) with the following mapping:
 ```
 'esl-a11y-group' -> ESLA11yGroupTagShape
 'esl-alert'       -> ESLAlertTagShape
@@ -133,5 +133,5 @@ ESL provides the helper interface `ESLIntrinsicElements` (see package: `@exadel/
 Use it to keep your augmentation DRY and automatically in sync with new releases.
 
 ---
-Questions or improvements? Open an issue or PR in the ESL repository.
+Questions or suggestions? Open an issue or PR in the ESL repository.
 
