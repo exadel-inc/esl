@@ -45,7 +45,7 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
     command: 'slide:next',
     intersection: 0.25,
     trackInteraction: true,
-    blockerSelector: 'esl-share[active], esl-note[active]',
+    blockerSelector: '::find(esl-share[active], esl-note[active])',
     watchEvents: 'esl:change:active'
   };
   public static override DEFAULT_CONFIG_KEY: keyof ESLCarouselAutoplayConfig = 'duration';
@@ -121,7 +121,7 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
   /** True if active slide contains any blocking items */
   public get hasActiveBlockingItems(): boolean {
     const {blockerSelector} = this.config;
-    return !!blockerSelector && this.$interactionScope.some(($el) => ESLTraversingQuery.first(blockerSelector, $el) !== null);
+    return !!blockerSelector && !!ESLTraversingQuery.first(blockerSelector, this.$host);
   }
 
   /** True if keyboard-visible focus is within scope */
