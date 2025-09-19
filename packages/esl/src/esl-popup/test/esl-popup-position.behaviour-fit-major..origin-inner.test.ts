@@ -10,10 +10,11 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to fit-major and 
   const container = new Rect(0, 0, 1000, 1000);
   const cfgRef = {
     behavior: 'fit-major',
-    position: 'top',
+    placement: 'top',
     hasInnerOrigin: true,
-    marginArrow: 10,
-    offsetArrowRatio: 0.5,
+    offsetPlacement: 0,
+    marginTether: 10,
+    offsetTetherRatio: 0.5,
     intersectionRatio: {},
     arrow,
     element: popup,
@@ -30,7 +31,7 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to fit-major and 
 
   describe('should flip to the opposite position:', () => {
     test('when there is a lack of space at the top', () => {
-      const cfg = {...cfgRef, position: 'top', outer: container.shift(0, 400)} as PopupPositionConfig;
+      const cfg = {...cfgRef, placement: 'top', outer: container.shift(0, 400)} as PopupPositionConfig;
       const expected = Object.assign({}, expectedRef) as PopupPositionValue;
       expected.popup = popup.shift(400, 525);
       expected.placedAt = 'bottom-inner';
@@ -38,7 +39,7 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to fit-major and 
     });
 
     test('when there is a lack of space at the left', () => {
-      const cfg = {...cfgRef, position: 'left', outer: container.shift(400, 0)} as PopupPositionConfig;
+      const cfg = {...cfgRef, placement: 'left', outer: container.shift(400, 0)} as PopupPositionConfig;
       const expected = Object.assign({}, expectedRef) as PopupPositionValue;
       expected.popup = popup.shift(525, 400);
       expected.placedAt = 'right-inner';
@@ -46,14 +47,14 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to fit-major and 
     });
 
     test('when there is a lack of space at the bottom', () => {
-      const cfg = {...cfgRef, position: 'bottom', outer: container.shift(0, -400)} as PopupPositionConfig;
+      const cfg = {...cfgRef, placement: 'bottom', outer: container.shift(0, -400)} as PopupPositionConfig;
       const expected = Object.assign({}, expectedRef) as PopupPositionValue;
       expected.popup = popup.shift(400, 275);
       expect(calcPopupPosition(cfg)).toEqual(expected);
     });
 
     test('when there is a lack of space at the right', () => {
-      const cfg = {...cfgRef, position: 'right', outer: container.shift(-400, 0)} as PopupPositionConfig;
+      const cfg = {...cfgRef, placement: 'right', outer: container.shift(-400, 0)} as PopupPositionConfig;
       const expected = Object.assign({}, expectedRef) as PopupPositionValue;
       expected.popup = popup.shift(275, 400);
       expected.placedAt = 'left-inner';
@@ -65,7 +66,7 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to fit-major and 
     test('when there is a lack of space at the top', () => {
       const cfg = {
         ...cfgRef,
-        position: 'top',
+        placement: 'top',
         outer: container.shift(0, 400),
         intersectionRatio: {bottom: 0.1}
       } as PopupPositionConfig;
@@ -77,7 +78,7 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to fit-major and 
     test('when there is a lack of space at the left', () => {
       const cfg = {
         ...cfgRef,
-        position: 'left',
+        placement: 'left',
         outer: container.shift(400, 0),
         intersectionRatio: {right: 0.1}
       } as PopupPositionConfig;
@@ -90,7 +91,7 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to fit-major and 
     test('when there is a lack of space at the bottom', () => {
       const cfg = {
         ...cfgRef,
-        position: 'bottom',
+        placement: 'bottom',
         outer: container.shift(0, -400),
         intersectionRatio: {top: 0.1}
       } as PopupPositionConfig;
@@ -103,7 +104,7 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to fit-major and 
     test('when there is a lack of space at the right', () => {
       const cfg = {
         ...cfgRef,
-        position: 'right',
+        placement: 'right',
         outer: container.shift(-400, 0),
         intersectionRatio: {left: 0.1}
       } as PopupPositionConfig;

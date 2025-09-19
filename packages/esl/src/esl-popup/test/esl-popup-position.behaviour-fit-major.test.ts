@@ -11,9 +11,10 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to fit-major', ()
   const intersectionRatio = {top: 0, left: 0, right: 0, bottom: 0};
   const cfgRef = {
     behavior: 'fit-major',
-    position: 'top',
-    marginArrow: 7,
-    offsetArrowRatio: 0,
+    placement: 'top',
+    offsetPlacement: 0,
+    marginTether: 7,
+    offsetTetherRatio: 0,
     intersectionRatio,
     arrow,
     element: popup,
@@ -30,7 +31,7 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to fit-major', ()
 
   describe('should flip to the opposite position:', () => {
     test('when there is a lack of space at the top', () => {
-      const cfg = {...cfgRef, position: 'top', outer: container.shift(0, 400)} as PopupPositionConfig;
+      const cfg = {...cfgRef, placement: 'top', outer: container.shift(0, 400)} as PopupPositionConfig;
       const expected = Object.assign({}, expectedRef) as PopupPositionValue;
       expected.popup = popup.shift(488, 530);
       expected.placedAt = 'bottom';
@@ -38,7 +39,7 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to fit-major', ()
     });
 
     test('when there is a lack of space at the left', () => {
-      const cfg = {...cfgRef, position: 'left', outer: container.shift(400, 0)} as PopupPositionConfig;
+      const cfg = {...cfgRef, placement: 'left', outer: container.shift(400, 0)} as PopupPositionConfig;
       const expected = Object.assign({}, expectedRef) as PopupPositionValue;
       expected.popup = popup.shift(530, 488);
       expected.placedAt = 'right';
@@ -46,14 +47,14 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to fit-major', ()
     });
 
     test('when there is a lack of space at the bottom', () => {
-      const cfg = {...cfgRef, position: 'bottom', outer: container.shift(0, -400)} as PopupPositionConfig;
+      const cfg = {...cfgRef, placement: 'bottom', outer: container.shift(0, -400)} as PopupPositionConfig;
       const expected = Object.assign({}, expectedRef) as PopupPositionValue;
       expected.popup = popup.shift(488, 290);
       expect(calcPopupPosition(cfg)).toEqual(expected);
     });
 
     test('when there is a lack of space at the right', () => {
-      const cfg = {...cfgRef, position: 'right', outer: container.shift(-400, 0)} as PopupPositionConfig;
+      const cfg = {...cfgRef, placement: 'right', outer: container.shift(-400, 0)} as PopupPositionConfig;
       const expected = Object.assign({}, expectedRef) as PopupPositionValue;
       expected.popup = popup.shift(190, 488);
       expected.placedAt = 'left';
@@ -61,7 +62,7 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to fit-major', ()
     });
 
     test('when the activator is crossing the top edge of the container', () => {
-      const cfg = {...cfgRef, position: 'top', intersectionRatio: {top: 0.5, left: 0, right: 0, bottom: 0}} as PopupPositionConfig;
+      const cfg = {...cfgRef, placement: 'top', intersectionRatio: {top: 0.5, left: 0, right: 0, bottom: 0}} as PopupPositionConfig;
       const expected = Object.assign({}, expectedRef) as PopupPositionValue;
       expected.popup = popup.shift(488, 530);
       expected.placedAt = 'bottom';
@@ -69,7 +70,7 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to fit-major', ()
     });
 
     test('when the activator is crossing the left edge of the container', () => {
-      const cfg = {...cfgRef, position: 'left', intersectionRatio: {top: 0, left: 0.5, right: 0, bottom: 0}} as PopupPositionConfig;
+      const cfg = {...cfgRef, placement: 'left', intersectionRatio: {top: 0, left: 0.5, right: 0, bottom: 0}} as PopupPositionConfig;
       const expected = Object.assign({}, expectedRef) as PopupPositionValue;
       expected.popup = popup.shift(530, 488);
       expected.placedAt = 'right';
@@ -77,14 +78,14 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to fit-major', ()
     });
 
     test('when the activator is crossing the bottom edge of the container', () => {
-      const cfg = {...cfgRef, position: 'bottom', intersectionRatio: {top: 0, left: 0, right: 0, bottom: 0.5}} as PopupPositionConfig;
+      const cfg = {...cfgRef, placement: 'bottom', intersectionRatio: {top: 0, left: 0, right: 0, bottom: 0.5}} as PopupPositionConfig;
       const expected = Object.assign({}, expectedRef) as PopupPositionValue;
       expected.popup = popup.shift(488, 290);
       expect(calcPopupPosition(cfg)).toEqual(expected);
     });
 
     test('when the activator is crossing the right edge of the container', () => {
-      const cfg = {...cfgRef, position: 'right', intersectionRatio: {top: 0, left: 0, right: 0.5, bottom: 0}} as PopupPositionConfig;
+      const cfg = {...cfgRef, placement: 'right', intersectionRatio: {top: 0, left: 0, right: 0.5, bottom: 0}} as PopupPositionConfig;
       const expected = Object.assign({}, expectedRef) as PopupPositionValue;
       expected.popup = popup.shift(190, 488);
       expected.placedAt = 'left';
