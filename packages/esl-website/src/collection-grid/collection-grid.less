@@ -100,10 +100,11 @@
     font-size: 1.75rem;
   }
 
-  &-column {
-    grid-template-columns: repeat(2, 1fr);
-  }
   @media @md-xl {
+    &-column {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
     &-column&-compact {
       grid-template-columns: repeat(4, 1fr);
     }

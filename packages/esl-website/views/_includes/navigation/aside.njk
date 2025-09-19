@@ -2,7 +2,7 @@
   {% if pages %}
     <div class="related-card">
       <span class="related-card-heading">{{ title }}</span>
-      <ul class="related-card-content related-card-list">
+      <ul class="related-card-list">
         {% set links = functions.findItemsByName(pages, collections[collection]) %}
         {% for page in links | released %}
           <li class="related-card-item">
