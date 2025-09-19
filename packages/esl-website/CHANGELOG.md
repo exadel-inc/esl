@@ -1,3 +1,23 @@
+## 5.14.0-beta.0 (2025-09-19)
+
+### 💅 Refactors
+
+- **site:** move header titles to the actual collection ([f780c38db](https://github.com/exadel-inc/esl/commit/f780c38db))
+- **ui-playground:** migrate UIP project to latest (8) JSX-DOM ([5275cb787](https://github.com/exadel-inc/esl/commit/5275cb787))
+- **site:** add playground description ([e83a7eb79](https://github.com/exadel-inc/esl/commit/e83a7eb79))
+- **site:** playground navigation ([772859d85](https://github.com/exadel-inc/esl/commit/772859d85))
+- **site:** remove unused sidebar logo ([1c676738f](https://github.com/exadel-inc/esl/commit/1c676738f))
+- **site:** add empty line ([1c77e2f7f](https://github.com/exadel-inc/esl/commit/1c77e2f7f))
+- **site:** remove unused tags ([05c77d33f](https://github.com/exadel-inc/esl/commit/05c77d33f))
+- **site:** drop changes not related to playground readme ([c1a0a222e](https://github.com/exadel-inc/esl/commit/c1a0a222e))
+- **site:** add automated brakpoints on sidebar, adjust playground examples ([fdd2aebfc](https://github.com/exadel-inc/esl/commit/fdd2aebfc))
+- **site:** add rulers in sidebar ([54454cc1a](https://github.com/exadel-inc/esl/commit/54454cc1a))
+- **site:** add playground section ([dbaf99955](https://github.com/exadel-inc/esl/commit/dbaf99955))
+
+### Documentation updates
+
+- add detailed TSX support guide ([dee009e76](https://github.com/exadel-inc/esl/commit/dee009e76))
+
 ## 5.13.0 (2025-09-05)
 
 This was a version bump only for esl-website to align it with other projects, there were no code changes.
