@@ -14,7 +14,7 @@ import type {ESLToggleable, ESLToggleableActionParams} from '../../esl-toggleabl
 /** Base class for elements that should trigger {@link ESLToggleable} instance */
 export abstract class ESLBaseTrigger extends ESLBaseElement {
   /** Event that represents {@link ESLTrigger} state change */
-  @prop('') public CHANGE_EVENT: string;
+  @prop('esl:change:active') public CHANGE_EVENT: string;
   /** Events to observe target {@link ESLToggleable} instance state */
   @prop('esl:show esl:hide') public OBSERVED_EVENTS: string;
 
