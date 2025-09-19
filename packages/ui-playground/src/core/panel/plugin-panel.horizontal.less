@@ -51,7 +51,7 @@
     margin-inline-end: 0.25rem;
   }
 
-  &[collapsible] .uip-plugin-header::after {
+  &.collapsible .uip-plugin-header::after {
     content: '';
     justify-self: flex-end;
     position: relative;
@@ -64,7 +64,7 @@
     animation: rotate 0.5s linear both;
   }
 
-  &[collapsible][collapsed] .uip-plugin-header::after {
+  &.collapsible[collapsed] .uip-plugin-header::after {
     top: 2px;
     animation: rotate-back 0.5s linear both;
   }

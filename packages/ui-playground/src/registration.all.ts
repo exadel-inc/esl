@@ -5,13 +5,15 @@ import {ESLScrollbar} from '@exadel/esl/modules/esl-scrollbar/core';
 
 import {init} from './registration';
 
+import type {UIPDefaultConfig} from './core/config/config';
+
 export * from './registration';
 
-export function initWithESL(): void {
+export function initWithESL(config?: Partial<UIPDefaultConfig>): void {
   ESLAlert.register();
   ESLTrigger.register();
   ESLToggleable.register();
   ESLScrollbar.register();
 
-  init();
+  init(config);
 }
