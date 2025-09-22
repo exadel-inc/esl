@@ -1,4 +1,4 @@
-import {parseObject} from '../object';
+import {parseObject, parseObjectSafe} from '../object';
 
 describe('misc/format - extended object parser', () => {
   // ---------------------------------------------------------------------------
@@ -40,10 +40,6 @@ describe('misc/format - extended object parser', () => {
       } else {
         expect(result).toBe(expected);
       }
-    });
-
-    test('whitespace only -> null', () => {
-      expect(parseObject('   ')).toBeNull();
     });
 
     test('null argument (runtime) -> null', () => {
@@ -174,12 +170,9 @@ describe('misc/format - extended object parser', () => {
   // ---------------------------------------------------------------------------
   describe('invalid / unsupported inputs', () => {
     test.each([
-      ['', 'empty string -> null already covered, but explicit invalid when trimmed empty is handled separately'],
-      ['\n\t', 'whitespace -> null already covered']
-    ])('sanity (already covered no throw): %p', (value) => {
-      if (!value.trim()) {
-        expect(parseObject(value as any)).toBeNull();
-      }
+      '', '\n\t', '   '
+    ])('whitespace only: %p should throw', (input) => {
+      expect(() => parseObject(input)).toThrow();
     });
 
     test.each([
@@ -201,6 +194,46 @@ describe('misc/format - extended object parser', () => {
       ['[1;2,;3;;;]']
     ])('parseObject(%p) should throw', (value) => {
       expect(() => parseObject(value as any)).toThrow();
+    });
+  });
+
+  // ---------------------------------------------------------------------------
+  // parseObjectSafe wrapper tests
+  // ---------------------------------------------------------------------------
+  describe('parseObjectSafe', () => {
+    let warnSpy: jest.SpyInstance;
+    beforeEach(() => {
+      warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    });
+    afterEach(() => {
+      warnSpy.mockRestore();
+    });
+
+    test('returns parsed value for valid relaxed object', () => {
+      expect(parseObjectSafe('{a:1; b:2}')).toEqual({a: 1, b: 2});
+      expect(warnSpy).not.toHaveBeenCalled();
+    });
+
+    test('returns parsed value for primitive', () => {
+      expect(parseObjectSafe('true')).toBe(true);
+      expect(parseObjectSafe('"str"')).toBe('str');
+    });
+
+    test('returns fallback for invalid input and warns', () => {
+      const fallback = {fallback: true};
+      const result = parseObjectSafe('{a:}', fallback);
+      expect(result).toBe(fallback);
+      expect(warnSpy).toHaveBeenCalled();
+    });
+
+    test('returns undefined (no fallback) for invalid input', () => {
+      const result = parseObjectSafe('{a:}');
+      expect(result).toBeUndefined();
+      expect(warnSpy).toHaveBeenCalled();
+    });
+
+    test('does not throw for invalid input', () => {
+      expect(() => parseObjectSafe('{a:}')).not.toThrow();
     });
   });
 });

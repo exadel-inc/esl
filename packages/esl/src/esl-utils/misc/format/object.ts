@@ -46,26 +46,31 @@ function toJSON(raw: string): string {
 
 /**
  * Extended object parser for lightweight config syntax (HTML attribute friendly).
+ *
+ * This function provides an extended parsing capability for strings representing
+ * lightweight configuration syntax. It supports both strict JSON and a relaxed JSON-like
+ * syntax, making it suitable for use in scenarios like HTML attributes or other
+ * lightweight configuration formats.
+ *
  * Supported features:
- * - Strict JSON (objects, arrays, primitives, strings)
- * - Relaxed JSON (JSONv5-lite):
- *   - unquoted keys (identifier / numeric)
- *   - single quotes for keys and string literals
- *   - trailing commas
- * - Extra sugar:
- *   - ';' can be used instead of ',' as an entry separator (objects & arrays)
- *   - top-level object braces may be omitted (e.g. `a:1; b:2`)
- * - Top-level primitives accepted (boolean, null, number – incl. leading zeros / + sign – and strings)
+ * - **Strict JSON**: Fully supports JSON objects, arrays, primitives, and strings.
+ * - **Relaxed JSON (JSONv5-lite)**:
+ *   - Allows unquoted keys (identifier or numeric).
+ *   - Supports single quotes for keys and string literals.
+ *   - Handles trailing commas gracefully.
+ * - **Extra sugar**:
+ *   - Allows `;` as an alternative to `,` for entry separation in objects and arrays.
+ *   - Top-level object braces may be omitted (e.g., `a:1; b:2` is valid).
+ * - **Top-level primitives**: Accepts boolean, null, numbers (including leading zeros or `+` sign), and strings.
  *
  * Not supported / intentionally omitted:
- * - Expressions, identifiers as values (e.g. `{a: someVar}`)
- * - Some malformed escape sequences may surface as JSON errors (consistent with JSON.parse)
+ * - **Expressions or identifiers as values**: For example, `{a: someVar}` is not supported.
+ * - **Malformed escape sequences**: These may result in JSON parsing errors, consistent with `JSON.parse`.
  */
 export function parseObject(value: string): any {
-  if (value === undefined || value === null) return null;
   const src = String(value).trim();
   // trimmed empty string -> null
-  if (!src) return null;
+  if (!src) throw TypeError('Can not parse empty string');
   // Boolean or null
   if (RE_BOOL_NULL.test(src)) return JSON.parse(src);
   // String literal
@@ -74,4 +79,26 @@ export function parseObject(value: string): any {
   if (RE_NUMBER.test(src)) return Number(src);
   // Object/array
   return JSON.parse(toJSON(src));
+}
+
+/**
+ * Safely parses a string into an object, array, or primitive value.
+ *
+ * This function is a safe wrapper around the {@link parseObject} function. It attempts
+ * to parse the provided string using `parseObject`. If parsing fails (e.g., due to invalid
+ * syntax), it catches the error and returns a fallback value instead of throwing an exception.
+ *
+ * @param value - The string to parse. It can represent JSON, relaxed JSON, or
+ *                         lightweight config syntax.
+ * @param fallback - The value to return if parsing fails. Defaults to `undefined`.
+ * @returns The parsed object, array, or primitive value. If parsing fails, the
+ *                  fallback value is returned.
+ */
+export function parseObjectSafe(value: string, fallback?: any): any {
+  try {
+    return parseObject(value);
+  } catch (error) {
+    console.warn('[ESL]: Cannot parse object value:', error);
+    return fallback;
+  }
 }
