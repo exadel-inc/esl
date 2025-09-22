@@ -26,7 +26,7 @@ const resolveURL = (basePath, snapshot) => {
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
 function printFiles(fileStat, basePath) {
-  return  nunjucks.render('test-details.njk', { fileStat, basePath });
+  return  nunjucks.render('./test-details.njk', { fileStat, basePath });
 }
 
 export function print({stats, files, basePath}) {
