@@ -1,0 +1,35 @@
+<h2>Tests Details</h2>
+{% for file in fileStat %}
+<h3>{{ file.filePath }}</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Test</th>
+      <th>Status</th>
+      <th>Time</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for test in file.tests %}
+    <tr>
+      <td>{{test.name}}: {{test.title}}</td>
+      <td>{{test.status === 'passed' ? ':white_check_mark:' : ':x:'}}</td>
+      <td>{{test.time < 1000 ? test.time + 'ms' : (test.time / 1000) + 's'}}</td>
+    </tr>
+
+    {% if test.status != 'passed' %}
+    <tr>
+      <td colspan="3">
+      {% if test.hasSnapshot %}
+        <img src="{{ basePath | resolveURL(test.dirPath + '/' + test.snapshot) }}" alt="Test Diff {{ test.snapshot }}" />
+      {% else %}
+        <pre>{{ test.messages | join('\n') }}</pre>
+      {% endif %}
+      </td>
+    </tr>
+    {% endif %}
+
+  {% endfor %}
+  </tbody>
+</table>
+{% endfor %}
