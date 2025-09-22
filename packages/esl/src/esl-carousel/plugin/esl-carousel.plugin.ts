@@ -1,6 +1,6 @@
 import {ESLMixinElement} from '../../esl-mixin-element/core';
 import {bind, ready, memoize, listen, safe} from '../../esl-utils/decorators';
-import {evaluate} from '../../esl-utils/misc/format';
+import {parseObjectSafe} from '../../esl-utils/misc/format';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
 import {ESLCarousel} from '../core/esl-carousel';
 
@@ -52,7 +52,7 @@ export abstract class ESLCarouselPlugin<Config extends Record<string, any>> exte
   @bind
   protected parseConfig(value: string): Config | null {
     if (!value) return null;
-    if (value.trim().startsWith('{')) return evaluate(value, {});
+    if (value.trim().startsWith('{')) return parseObjectSafe(value, {});
     const {DEFAULT_CONFIG_KEY} = (this.constructor as typeof ESLCarouselPlugin);
     return {[DEFAULT_CONFIG_KEY]: value} as Config;
   }
