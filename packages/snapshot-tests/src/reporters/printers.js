@@ -1,7 +1,5 @@
 import nunjucks from 'nunjucks';
 
-const njk = nunjucks.configure('packages/snapshot-tests/src/templates');
-
 const printSummary = (stats) => {
   let text = '\n';
 
@@ -28,7 +26,7 @@ const resolveURL = (basePath, snapshot) => {
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
 function printFiles(fileStat, basePath) {
-  return njk.render('test-details.njk', { fileStat, basePath });
+  return nunjucks.render('packages/snapshot-tests/src/templates/test-details.njk', { fileStat, basePath });
 }
 
 export function print({stats, files, basePath}) {
