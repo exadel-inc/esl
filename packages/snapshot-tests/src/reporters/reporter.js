@@ -72,14 +72,14 @@ export class SnapshotAwareReporter {
   async onRunComplete(contexts, results) {
     const stats = this.buildStats(results);
     const files = this.buildTestResults(results);
-    writeFileSafe(this._options.outputPath, print({stats, files}, this._options.templatePath));
+    writeFileSafe(this._options.outputPath, print({stats, files, template: this._options.templatePath}));
 
     if (process.env.GITHUB_ACTIONS && process.env.DIFF_REPORT_BRANCH && this._options.outputPublishPath) {
       const serverUrl = process.env.GITHUB_SERVER_URL;
       const repository = process.env.GITHUB_REPOSITORY;
       const branch = process.env.DIFF_REPORT_BRANCH;
       const basePath = `${serverUrl}/${repository}/blob/${branch}/`;
-      writeFileSafe(this._options.outputPublishPath, print({stats, files, basePath}, this._options.templatePath));
+      writeFileSafe(this._options.outputPublishPath, print({stats, files, basePath, template: this._options.templatePath}));
     }
   }
 }
