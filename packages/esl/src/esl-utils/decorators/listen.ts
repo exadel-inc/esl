@@ -15,8 +15,17 @@ type ListenDecorator<EType extends Event> =
   (target: any, property: string, descriptor: TypedPropertyDescriptor<ESLListenerHandler<EType>>) => void;
 
 /**
- * Decorator to declare listener ({@link ESLEventListener}) meta information
- * Defines auto-subscribable event
+ * Decorator to declare listener ({@link ESLEventListener}) meta information.
+ * Short form: `@listen('event') onEvent(e) {}`
+ * Descriptor form: `@listen({event: 'event', target: '.target', selector: '.delegate', once: true})`
+ * - Automatically marks descriptor `auto: true` (auto-subscribed by ESLBaseElement / ESLMixinElement) unless `inherit` set
+ * - Accepts `event`, `selector`, `target` as static values or PropertyProviders (resolved at subscription time)
+ * - Delegation: providing `selector` enables delegation; use `e: DelegatedEvent<Event>` to access `e.$delegate`
+ * - Multiple events: a space separated string produces multiple subscriptions (e.g. `event1 event2`)
+ * - Inheritance: `inherit: true` merges missing descriptor fields from prototype chain descriptor of same method
+ * - Does NOT wrap the method; combines safely with other decorators (e.g. `@safe`, `@memoize`)
+ * For advanced features (groups, manual subscribe/unsubscribe, extended targets) see ../../../esl-event-listener/README.md
+ * and related docs under ../../../esl-event-listener/docs/ .
  * @param event - event type string or event provider function
  */
 export function listen<EName extends ESLEventName>(event: EName | PropertyProvider<EName>): ListenDecorator<ESLEventType<EName>>;
