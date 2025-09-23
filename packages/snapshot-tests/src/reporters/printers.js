@@ -1,4 +1,5 @@
 import nunjucks from 'nunjucks';
+import path from 'path';
 
 const printSummary = (stats) => {
   let text = '\n';
@@ -26,7 +27,9 @@ const resolveURL = (basePath, snapshot) => {
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
 function printFiles(fileStat, basePath) {
-  return nunjucks.render('packages/snapshot-tests/src/templates/test-details.njk', { fileStat, basePath });
+  nunjucks.configure(path.resolve(__dirname, '../templates'), { autoescape: true });
+  console.log(path.resolve(__dirname, '../templates'));
+  return nunjucks.render('test-details.njk', { fileStat, basePath });
 }
 
 export function print({stats, files, basePath}) {
