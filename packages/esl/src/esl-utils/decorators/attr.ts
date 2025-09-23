@@ -40,9 +40,15 @@ const buildAttrName =
   (propName: string, dataAttr: boolean): string => dataAttr ? `data-${toKebabCase(propName)}` : toKebabCase(propName);
 
 /**
- * Decorator to map current property to element attribute value.
- * Maps string type property.
- * @param config - mapping configuration. See {@link AttrDescriptor}
+ * `@attr` decorator: maps a property to an HTML attribute with optional parsing, serialization, default and inheritance.
+ * - On get: reads local attribute (or inherited per `inherit`), returns parser(attr) or `defaultValue` if absent.
+ * - `defaultValue` (or provider) affects only JS property when attribute is missing; it does NOT set an initial DOM attribute.
+ * - Parser: `(string|null) => T` (default: `parseString`).
+ * - Serializer: `(value: T) => string|boolean|null`; `null|false|undefined` removes attribute, `true` sets empty string, other string sets exact value.
+ * - Inheritance: when enabled, falls back to closest ancestor attribute (optionally alternate name).
+ * - Boolean with default pattern: `@attr({defaultValue: true, parser: parseBoolean, serializer: toBooleanAttribute})`
+ * differs from `@boolAttr` by allowing a default `true` without attribute and explicit `false` via `attr="false"`.
+ * - Works with wrapper objects exposing `$host` (resolved internally by underlying DOM helpers)
  */
 export const attr = <T = string>(config: AttrDescriptor<T> = {}): ESLAttributeDecorator => {
   return (target: ESLDomElementTarget, propName: string): any => {
