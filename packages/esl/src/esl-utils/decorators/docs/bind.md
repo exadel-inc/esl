@@ -96,9 +96,3 @@ The decorator preserves the original method signature. No return type widening o
 - Keep method logic independent of decoration (test original via `Class.prototype.method`).
 - Combine with performance decorators (e.g. `@memoize`) by placing `@bind` last (closest to the method) if you want the bound version to be the final wrapped function.
 
----
-## Related
-- `@safe` – error containment wrapper.
-- Other decorators (e.g. `@memoize`) – can be combined.
-
-

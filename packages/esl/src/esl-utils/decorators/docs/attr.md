@@ -192,8 +192,3 @@ Useful when DOM updates come from outside (e.g., server-rendered or managed by a
 - For expensive default providers, cache manually on first use if attribute remains unset.
 - Avoid heavy parsing on every access; consider caching derived values in another property if frequently read.
 
----
-## Related
-- `@boolAttr` – presence-based boolean mapping
-- `@jsonAttr` – JSON serialization mapping
-- `@prop` – prototype default / override pattern

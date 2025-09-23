@@ -78,8 +78,3 @@ jsonAttr<T>(config?: {
   defaultValue?: T; // used only if attribute is absent
 }): PropertyDecorator;
 ```
-
----
-## Related
-- `@attr` (generic + custom parser/serializer) – see `attr.md`
-- `@prop` – convert mapped property into static/prototype value

@@ -145,9 +145,3 @@ class FeatureFlags {
 - Use `readonly` for constants or always-derived getters to prevent accidental shadowing.
 - Use provider only when repeated recalculation is cheap or desired every access. If you want one-time lazy init, combine with manual write after first computation.
 - Freeze or deep-freeze complex static objects to avoid unintended shared mutation.
-
----
-## Related
-- `@attr` / `@boolAttr` / `@jsonAttr` – attribute-to-property bindings
-- `@listen` – event listener binding
-- `@safe`, `@memoize` – functional method wrappers

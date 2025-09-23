@@ -126,9 +126,3 @@ Generic `Fn` is preserved. If your wrapper changes the call signature (e.g. adds
 - Debounce/throttle typically should see the bound method (place `@decorate` after `@bind` if using both).
 - Test original logic through `Class.prototype.method` when needed (remains accessible).
 
----
-## Related
-- `@bind` – lazy binding
-- `@memoize` – caching
-- `@safe` – error containment
-

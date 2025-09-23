@@ -245,9 +245,3 @@ Full semantics: see `../../../esl-event-listener/docs/1-overview.md`.
 - Keep handlers side-effect free except for the intended reaction; heavy logic may warrant `@safe` or throttling via `@decorate` wrappers.
 - Re-run `ESLEventUtils.subscribe` (`this.$$on` for ESLBaseElement/ESLBaseMixin) after changing dynamic provider-dependent state that affects `event` / `selector` / `target`.
 
----
-## Related
-- Core README: `../../../esl-event-listener/README.md`
-- `ESLEventUtils` API: `../../../esl-event-listener/docs/2-public-api.md`
-- `@attr`, `@boolAttr` – often used for condition flags in `condition` providers
-- `DelegatedEvent` type: improves delegation typing clarity
