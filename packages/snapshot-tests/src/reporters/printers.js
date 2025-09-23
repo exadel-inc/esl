@@ -24,16 +24,16 @@ const resolveURL = (basePath, snapshot) => {
   return path.replace(/\\/g, '/');
 };
 
-function printFiles(fileStat, basePath) {
-  return nunjucks.render('packages/snapshot-tests/src/templates/test-details.njk', { fileStat, basePath });
+function printFiles(fileStat, basePath, templatePath) {
+  return nunjucks.render(templatePath, { fileStat, basePath });
 }
 
-export function print({stats, files, basePath}) {
+export function print({stats, files, basePath}, templatePath) {
   return `# Test Results
   ## Summary
   ${printSummary(stats)}
 
   ---
-  ${printFiles(files, basePath)}
+  ${printFiles(files, basePath, templatePath)}
 `;
 }

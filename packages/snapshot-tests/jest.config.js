@@ -24,7 +24,8 @@ export default {
     ['./src/reporters/reporter.js', {
       diffDir: './.diff',
       outputPath: './.diff/README.md',
-      outputPublishPath: './.diff/index.md'
+      outputPublishPath: './.diff/index.md',
+      templatePath: './src/templates/test-details.njk'
     }],
     ['github-actions', {silent: false}],
     'default'

@@ -79,7 +79,7 @@ export class SnapshotAwareReporter {
       const repository = process.env.GITHUB_REPOSITORY;
       const branch = process.env.DIFF_REPORT_BRANCH;
       const basePath = `${serverUrl}/${repository}/blob/${branch}/`;
-      writeFileSafe(this._options.outputPublishPath, print({stats, files, basePath}));
+      writeFileSafe(this._options.outputPublishPath, print({stats, files, basePath}, this._options.templatePath));
     }
   }
 }
