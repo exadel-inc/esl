@@ -2,19 +2,17 @@
 {% for file in fileStat %}
 <h3>{{ file.filePath }}</h3>
 <table>
-  <thead>
-    <tr>
-      <th>Test</th>
-      <th>Status</th>
-      <th>Time</th>
-    </tr>
-  </thead>
   <tbody>
+  <tr>
+    <td>Test</td>
+    <td>Status</td>
+    <td>Time</td>
+  </tr>
   {% for test in file.tests %}
     <tr>
       <td>{{test.name}}: {{test.title}}</td>
-      <td>{% if test.status === 'passed' %}? :white_check_mark: {% else %} :x: {% endif %}</td>
-      <td>{% if test.time < 1000 %}? test.time + 'ms' {% else %} (test.time / 1000) + 's' {% endif %}</td>
+      <td>{% if test.status === 'passed' %} ✅ {% else %} ❌ {% endif %}</td>
+      <td>{% if test.time < 1000 %} {{test.time}} + 'ms' {% else %} {{ (test.time / 1000) }}+ 's' {% endif %}</td>
     </tr>
 
     {% if test.status != 'passed' %}
