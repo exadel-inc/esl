@@ -52,9 +52,8 @@ export abstract class ESLCarouselPlugin<Config extends Record<string, any>> exte
   @bind
   protected parseConfig(value: string): Config | null {
     if (!value) return null;
-    if (value.trim().startsWith('{')) return parseObjectSafe(value, {});
     const {DEFAULT_CONFIG_KEY} = (this.constructor as typeof ESLCarouselPlugin);
-    return {[DEFAULT_CONFIG_KEY]: value} as Config;
+    return parseObjectSafe(value, {[DEFAULT_CONFIG_KEY]: value});
   }
 
   @ready

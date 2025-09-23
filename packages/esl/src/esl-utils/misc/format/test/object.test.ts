@@ -215,8 +215,8 @@ describe('misc/format - extended object parser', () => {
     });
 
     test('returns parsed value for primitive', () => {
-      expect(parseObjectSafe('true')).toBe(true);
-      expect(parseObjectSafe('"str"')).toBe('str');
+      expect(parseObjectSafe('true', undefined, true)).toBe(true);
+      expect(parseObjectSafe('"str"', undefined, true)).toBe('str');
     });
 
     test('returns fallback for invalid input and warns', () => {

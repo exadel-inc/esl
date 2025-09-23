@@ -23,7 +23,7 @@ export class ESLMediaControlMixin extends ESLMixinElement {
   @memoize()
   public get config(): ESLMediaControlConfig {
     const attrVal = this.$$attr(ESLMediaControlMixin.is) || '{}';
-    const userConfig = attrVal.trim().startsWith('{') ? parseObjectSafe(attrVal, {}) : {target: attrVal};
+    const userConfig = parseObjectSafe(attrVal, {target: attrVal});
     return {...ESLMediaControlMixin.DEFAULT_CONFIG, ...userConfig};
   }
 

@@ -1,3 +1,5 @@
+import {isObject} from '../object/types';
+
 // ---------------------------------------------------------------------------
 // RegExp constants (hoisted for perf & clarity)
 // ---------------------------------------------------------------------------
@@ -82,7 +84,7 @@ export function parseObject(value: string): any {
 }
 
 /**
- * Safely parses a string into an object, array, or primitive value.
+ * Safely parses a string into an object.
  *
  * This function is a safe wrapper around the {@link parseObject} function. It attempts
  * to parse the provided string using `parseObject`. If parsing fails (e.g., due to invalid
@@ -91,12 +93,15 @@ export function parseObject(value: string): any {
  * @param value - The string to parse. It can represent JSON, relaxed JSON, or
  *                         lightweight config syntax.
  * @param fallback - The value to return if parsing fails. Defaults to `undefined`.
+ * @param allowPrimitive - Whether to allow primitive values (e.g., numbers, strings)
+ *                                           as valid results. Defaults to `false`.
  * @returns The parsed object, array, or primitive value. If parsing fails, the
  *                  fallback value is returned.
  */
-export function parseObjectSafe(value: string, fallback?: any): any {
+export function parseObjectSafe(value: string, fallback?: any, allowPrimitive = false): any {
   try {
-    return parseObject(value);
+    const parsed = parseObject(value);
+    return allowPrimitive || isObject(parsed) ? parsed : fallback;
   } catch (error) {
     console.warn('[ESL]: Cannot parse object value:', error);
     return fallback;
