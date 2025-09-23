@@ -72,7 +72,7 @@ export class SnapshotAwareReporter {
   async onRunComplete(contexts, results) {
     const stats = this.buildStats(results);
     const files = this.buildTestResults(results);
-    writeFileSafe(this._options.outputPath, print({stats, files}));
+    writeFileSafe(this._options.outputPath, print({stats, files}, this._options.templatePath));
 
     if (process.env.GITHUB_ACTIONS && process.env.DIFF_REPORT_BRANCH && this._options.outputPublishPath) {
       const serverUrl = process.env.GITHUB_SERVER_URL;
