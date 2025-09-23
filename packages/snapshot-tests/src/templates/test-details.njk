@@ -9,23 +9,23 @@
     <td>Time</td>
   </tr>
   {% for test in file.tests %}
-    <tr>
-      <td>{{test.name}}: {{test.title}}</td>
-      <td>{% if test.status === 'passed' %} ✅ {% else %} ❌ {% endif %}</td>
-      <td>{% if test.time < 1000 %} {{test.time + 'ms'}} {% else %} {{ (test.time / 1000) + 's' }} {% endif %}</td>
-    </tr>
+  <tr>
+    <td>{{test.name}}: {{test.title}}</td>
+    <td>{% if test.status == 'passed' %} ✅ {% else %} ❌ {% endif %}</td>
+    <td>{% if test.time < 1000 %} {{test.time + 'ms'}} {% else %} {{ (test.time / 1000) + 's' }} {% endif %}</td>
+  </tr>
 
-    {% if test.status != 'passed' %}
-    <tr>
-      <td colspan="3">
-      {% if test.hasSnapshot %}
-        <img src="" alt="Test Diff {{ test.snapshot }}" />
-      {% else %}
-        <pre>{{ test.messages | join('\n') }}</pre>
-      {% endif %}
-      </td>
-    </tr>
+  {% if test.status != 'passed' %}
+  <tr>
+    <td colspan="3">
+    {% if test.hasSnapshot %}
+      <img src="" alt="Test Diff {{ test.snapshot }}" />
+    {% else %}
+      <pre>{{ test.messages | join('\n') }}</pre>
     {% endif %}
+    </td>
+  </tr>
+  {% endif %}
 
   {% endfor %}
   </tbody>
