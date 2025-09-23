@@ -1,5 +1,5 @@
 <h2>Tests Details</h2>
-{% for file in fileStat %}
+{% for file in files %}
 <h3>{{ file.filePath }}</h3>
 <table>
   <tbody>
@@ -12,7 +12,7 @@
     <tr>
       <td>{{test.name}}: {{test.title}}</td>
       <td>{% if test.status === 'passed' %} ✅ {% else %} ❌ {% endif %}</td>
-      <td>{% if test.time < 1000 %} {{test.time}} + 'ms' {% else %} {{ (test.time / 1000) }}+ 's' {% endif %}</td>
+      <td>{% if test.time < 1000 %} {{test.time + 'ms'}} {% else %} {{ (test.time / 1000) + 's' }} {% endif %}</td>
     </tr>
 
     {% if test.status != 'passed' %}
