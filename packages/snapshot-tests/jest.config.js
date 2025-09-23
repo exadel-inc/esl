@@ -16,7 +16,7 @@ export default {
     '^.+\\.feature$': './src/transformer/gherkin.js'
   },
   extensionsToTreatAsEsm: ['.tsx', '.ts'],
-  roots: ['./tests/'],
+  roots: ['./tests/', './src/templates'],
   testRegex: ['(.+)\\.(spec|test)\\.ts$', '(.+).feature'],
   moduleFileExtensions: ['ts', 'js', 'feature'],
   setupFilesAfterEnv: ['./src/serializers/image-snapshot.ts', './src/scenarios.ts'],

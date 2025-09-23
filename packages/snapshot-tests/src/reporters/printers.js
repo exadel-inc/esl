@@ -1,5 +1,4 @@
 import nunjucks from 'nunjucks';
-import path from 'path';
 
 const printSummary = (stats) => {
   let text = '\n';
@@ -25,10 +24,8 @@ const resolveURL = (basePath, snapshot) => {
   return path.replace(/\\/g, '/');
 };
 
-// eslint-disable-next-line sonarjs/cognitive-complexity
 function printFiles(fileStat, basePath) {
-  nunjucks.configure(path.resolve('packages/snapshot-tests/src/templates', '../templates'), { autoescape: true });
-  return nunjucks.render('test-details.njk', { fileStat, basePath });
+  return nunjucks.render('packages/snapshot-tests/src/templates/test-details.njk', { fileStat, basePath });
 }
 
 export function print({stats, files, basePath}) {
