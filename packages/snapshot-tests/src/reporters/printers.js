@@ -27,8 +27,7 @@ const resolveURL = (basePath, snapshot) => {
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
 function printFiles(fileStat, basePath) {
-  nunjucks.configure(path.resolve(__dirname, '../templates'), { autoescape: true });
-  console.log(path.resolve(__dirname, '../templates'));
+  nunjucks.configure(path.resolve('packages/snapshot-tests/src/templates', '../templates'), { autoescape: true });
   return nunjucks.render('test-details.njk', { fileStat, basePath });
 }
 
