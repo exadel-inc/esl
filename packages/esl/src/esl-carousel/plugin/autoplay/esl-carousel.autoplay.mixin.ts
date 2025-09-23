@@ -79,7 +79,7 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
     this.update();
   }
 
-  /** Global base duration in ms (raw config parsed). Negative / NaN => disabled */
+  /** Global base duration in ms (raw config parsed). Negative / NaN considered as disabled */
   public get duration(): number {
     return parseTime(this.config.duration);
   }

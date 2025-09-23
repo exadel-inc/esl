@@ -1,3 +1,29 @@
+## 5.14.0-beta.0 (2025-09-19)
+
+### 🚀 Features
+
+- **esl-carousel:** introduce capabilities to provide custom autoplay restrictions. Resolves #3349 ([#3349](https://github.com/exadel-inc/esl/issues/3349))
+- introduce ESLIntrinsicElements ESL custom tag jsx declaration interface ([8b053737b](https://github.com/exadel-inc/esl/commit/8b053737b))
+
+### 🩹 Fixes
+
+- **esl-utils:** handle empty eventName in dispatch function ([8821c837a](https://github.com/exadel-inc/esl/commit/8821c837a))
+- **esl-trigger:** update esl-base-trigger and it's instances to dispatch `esl:change:action` ([e1b84e326](https://github.com/exadel-inc/esl/commit/e1b84e326))
+
+### 💅 Refactors
+
+- rename some Shape types declarations for consistency ([6e709d0d6](https://github.com/exadel-inc/esl/commit/6e709d0d6))
+- introduce global ESLIntrinsicElements interface ([fe64e7871](https://github.com/exadel-inc/esl/commit/fe64e7871))
+- **ui-playground:** migrate UIP project to latest (8) JSX-DOM ([5275cb787](https://github.com/exadel-inc/esl/commit/5275cb787))
+- **site:** add playground description ([e83a7eb79](https://github.com/exadel-inc/esl/commit/e83a7eb79))
+- **site:** playground navigation ([772859d85](https://github.com/exadel-inc/esl/commit/772859d85))
+- **site:** drop changes not related to playground readme ([c1a0a222e](https://github.com/exadel-inc/esl/commit/c1a0a222e))
+- **site:** add playground section ([dbaf99955](https://github.com/exadel-inc/esl/commit/dbaf99955))
+
+### Documentation updates
+
+- add detailed TSX support guide ([dee009e76](https://github.com/exadel-inc/esl/commit/dee009e76))
+
 ## 5.13.0 (2025-09-05)
 
 ### 🚀 Features

@@ -26,14 +26,14 @@ export class SharpService {
     const images = img.map((image) => sharp(image));
     const metadata = await Promise.all(images.map((image) => image.metadata()));
 
-    const tWidth = Math.max(...metadata.map((m) => m.width!));
-    const tHeight = Math.max(...metadata.map((m) => m.height!));
+    const tWidth = Math.max(...metadata.map((m) => m.width));
+    const tHeight = Math.max(...metadata.map((m) => m.height));
 
     return Promise.all(images.map((image, index) => image.extend({
       left: 0,
-      right: Math.max(0, Math.ceil(tWidth - metadata[index].width!)),
+      right: Math.max(0, Math.ceil(tWidth - metadata[index].width)),
       top: 0,
-      bottom: Math.max(0, Math.ceil(tHeight - metadata[index].height!)),
+      bottom: Math.max(0, Math.ceil(tHeight - metadata[index].height)),
       background: {r: 255, g: 255, b: 255, alpha: 1}
     }).toBuffer()));
   }

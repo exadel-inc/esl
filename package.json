@@ -1,7 +1,7 @@
 {
   "name": "@exadel/esl-root",
   "private": true,
-  "version": "5.13.0",
+  "version": "5.14.0-beta.0",
   "description": "Exadel Smart Library (ESL) is the lightweight custom elements library that provide a set of super-flexible components",
   "license": "MIT",
   "homepage": "https://esl-ui.com/",
@@ -27,7 +27,7 @@
     "test": "nx run-many -t test && npm run success \"Tests passed\"",
     "test:e2e": "nx run esl-e2e:run",
     "test:e2e:update": "nx run esl-e2e:run:update",
-    "lint": "nx run-many -t lint && npm run success \"Lint success\"",
+    "lint": "nx run-many -t lint --output-style=stream && npm run success \"Lint success\"",
     "build": "nx run-many -t build",
     "build:core": "nx run esl:build",
     "build:website": "nx run esl-website:build",
