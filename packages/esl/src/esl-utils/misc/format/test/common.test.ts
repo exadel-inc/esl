@@ -1,4 +1,4 @@
-import {evaluate, parseAspectRatio, parseLazyAttr} from '../common';
+import {parseAspectRatio, parseLazyAttr} from '../common';
 
 describe('misc/format - common formatters test', () => {
   test('parseAspectRatio', () => {
@@ -32,23 +32,5 @@ describe('misc/format - common formatters test', () => {
     ])('parseLazyAttr of %p to be %p', (value, expected) => {
       expect(parseLazyAttr(value as any)).toBe(expected);
     });
-  });
-
-  test('evaluate', () => {
-    let throwError = false;
-    jest.spyOn(console, 'warn').mockImplementation(() => { throwError = true; });
-    expect(evaluate('0')).toBe(0);
-    expect(evaluate('true')).toBe(true);
-    expect(evaluate('false')).toBe(false);
-    expect(evaluate('null')).toBe(null);
-    expect(evaluate('"0"')).toBe('0');
-    expect(evaluate('[1, 2]')).toEqual([1, 2]);
-    expect(evaluate('{}')).toEqual({});
-    expect(evaluate('{a: 1}')).toEqual({a: 1});
-    expect(evaluate('{"a": "1"}')).toEqual({a: '1'});
-    expect(throwError).toBe(false);
-    expect(evaluate('{')).toBe(undefined);
-    expect(throwError).toBe(true);
-    expect(evaluate('{', 'no')).toBe('no');
   });
 });

@@ -72,7 +72,7 @@ function toJSON(raw: string): string {
 export function parseObject(value: string): any {
   const src = String(value).trim();
   // trimmed empty string -> null
-  if (!src) throw TypeError('Can not parse empty string');
+  if (!src) throw TypeError('Cannot parse empty string');
   // Boolean or null
   if (RE_BOOL_NULL.test(src)) return JSON.parse(src);
   // String literal

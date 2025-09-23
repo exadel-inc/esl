@@ -24,17 +24,3 @@ export function parseLazyAttr(value: string | null): 'auto' | 'manual' | 'none' 
   if (v === 'none' || v === 'manual') return v;
   return 'auto';
 }
-
-/**
- * @deprecated
- * Evaluates passed string or returns `defaultValue`
- */
-export function evaluate(str: string, defaultValue?: any): any {
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-implied-eval
-    return str ? (new Function(`return ${str}`))() : defaultValue;
-  } catch (e) {
-    console.warn('[ESL]: Cannot parse value ', str, e);
-    return defaultValue;
-  }
-}
