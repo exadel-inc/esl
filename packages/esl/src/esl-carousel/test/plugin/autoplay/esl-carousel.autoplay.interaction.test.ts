@@ -29,7 +29,7 @@ describe('ESLCarousel: Autoplay Plugin (interaction)', () => {
 
   const interactionState = {hover: false, focus: false};
   const realMatches = Element.prototype.matches;
-  let matchesSpy: jest.SpyInstance<any, any> | null = null;
+  let matchesSpy: jest.SpyInstance | null = null;
   let activeElementDescriptor: PropertyDescriptor | undefined;
 
   const applySpies = () => {

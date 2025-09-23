@@ -100,7 +100,7 @@ export class UIPBoolSetting extends UIPSetting {
 
   /** Updates setting's value for append {@link mode} */
   protected updateAppend(attrValues: (string | null)[]): void {
-    const containsFunction = (val: string | null) =>
+    const containsFunction = (val: string | null): boolean =>
       TokenListUtils.contains(TokenListUtils.split(val), [this.value]);
 
     if (attrValues.every(containsFunction)) return this.setValue(this.value);
