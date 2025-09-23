@@ -2,11 +2,16 @@ import {getPropertyDescriptor} from '../misc/object/utils';
 import type {AnyToAnyFnSignature} from '../misc/functions';
 
 /**
- * Common TS decorator to apply decorator function
- * (like {@link debounce}, {@link throttle}, {@link rafDecorator})
- * to the class method
- * @param decorator - function decorator, should accept decorated method as first argument
- * @param args - additional arguments to pass into `decorator`
+ * `@decorate` decorator: adapts a higher-order function `(fn) => wrappedFn` into a lazy method decorator.
+ * - Applies only to class (prototype or static) methods (value descriptors)
+ * - First instance access: binds original to `this`, passes it to `decorator(...args)`, caches wrapped fn on the instance
+ * - Prototype (or super) access returns the original unwrapped function
+ * - Reassignment replaces accessor with a normal writable value (no further wrapping)
+ * - Copy of original own enumerable properties is assigned to the wrapped function
+ *
+ * @param decorator - higher‑order function receiving the bound original method
+ * @param args - extra arguments forwarded to `decorator` after the original function
+ * @throws TypeError when applied to a non-method (accessor / field)
  */
 export function decorate<Args extends any[], Fn extends AnyToAnyFnSignature>(
   decorator: (fn: Fn, ...params: Args) => Fn,
@@ -30,7 +35,7 @@ export function decorate<Args extends any[], Fn extends AnyToAnyFnSignature>(
         const desc = getPropertyDescriptor(proto, propertyKey);
         // Return original function in case of prototype or super call
         if (!desc || desc.get !== getBound) return originalFn;
-        // Create a new decorated instance of function
+        // Create a new decorated instance of function (original first bound to instance)
         const decoratedFn = decorator(originalFn.bind(this), ...args);
         // Copy original function own keys
         Object.assign(decoratedFn, originalFn);
