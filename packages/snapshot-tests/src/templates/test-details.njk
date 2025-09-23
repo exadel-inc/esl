@@ -19,7 +19,7 @@
     <tr>
       <td colspan="3">
       {% if test.hasSnapshot %}
-        <img src="{{ basePath | resolveURL(test.dirPath + '/' + test.snapshot) }}" alt="Test Diff {{ test.snapshot }}" />
+        <img src="" alt="Test Diff {{ test.snapshot }}" />
       {% else %}
         <pre>{{ test.messages | join('\n') }}</pre>
       {% endif %}
