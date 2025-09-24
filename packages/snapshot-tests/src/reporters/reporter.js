@@ -70,10 +70,9 @@ export class SnapshotAwareReporter {
   }
 
   async onRunComplete(contexts, results) {
-    const env = nunjucks.configure('snapshot-tests/stc/templates', {autoescape: true});
     const stats = this.buildStats(results);
     const files = this.buildTestResults(results);
-    const content = env.render(this._options.templatePath, {stats, files});
+    const content = nunjucks.render(this._options.templatePath, {stats, files});
     writeFileSafe(this._options.outputPath, content);
 
     if (process.env.GITHUB_ACTIONS && process.env.DIFF_REPORT_BRANCH && this._options.outputPublishPath) {
@@ -81,7 +80,7 @@ export class SnapshotAwareReporter {
       const repository = process.env.GITHUB_REPOSITORY;
       const branch = process.env.DIFF_REPORT_BRANCH;
       const basePath = `${serverUrl}/${repository}/blob/${branch}/`;
-      const content1 = env.render(this._options.templatePath, {stats, files, basePath});
+      const content1 = nunjucks.render(this._options.templatePath, {stats, files, basePath});
       writeFileSafe(this._options.outputPublishPath, content1);
     }
   }

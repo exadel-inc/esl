@@ -25,7 +25,7 @@ export default {
       diffDir: './.diff',
       outputPath: './.diff/README.md',
       outputPublishPath: './.diff/index.md',
-      templatePath: 'summary.njk'
+      templatePath: 'snapshot-tests/stc/templates/summary.njk'
     }],
     ['github-actions', {silent: false}],
     'default'
