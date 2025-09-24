@@ -11,9 +11,10 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to fit-minor', ()
   const intersectionRatio = {top: 0, left: 0, right: 0, bottom: 0};
   const cfgRef = {
     behavior: 'fit-minor',
-    position: 'top',
-    marginArrow: 20,
-    offsetArrowRatio: 0.5,
+    placement: 'top',
+    offsetPlacement: 0,
+    marginTether: 20,
+    offsetTetherRatio: 0.5,
     intersectionRatio,
     arrow,
     element: popup,
@@ -30,7 +31,7 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to fit-minor', ()
 
   describe('should not adjust when there is enough space for the popup:', () => {
     test('on the top position', () => {
-      const cfg = {...cfgRef, position: 'top'} as PopupPositionConfig;
+      const cfg = {...cfgRef, placement: 'top'} as PopupPositionConfig;
       const expected = Object.assign({}, expectedRef) as PopupPositionValue;
       expected.arrow = {x: 135, y: 85};
       expected.popup = popup.shift(360, 290);
@@ -38,7 +39,7 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to fit-minor', ()
     });
 
     test('on the bottom position', () => {
-      const cfg = {...cfgRef, position: 'bottom'} as PopupPositionConfig;
+      const cfg = {...cfgRef, placement: 'bottom'} as PopupPositionConfig;
       const expected = Object.assign({}, expectedRef) as PopupPositionValue;
       expected.popup = popup.shift(360, 530);
       expected.placedAt = 'bottom';
@@ -46,7 +47,7 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to fit-minor', ()
     });
 
     test('on the left position', () => {
-      const cfg = {...cfgRef, position: 'left'} as PopupPositionConfig;
+      const cfg = {...cfgRef, placement: 'left'} as PopupPositionConfig;
       const expected = Object.assign({}, expectedRef) as PopupPositionValue;
       expected.popup = popup.shift(190, 410);
       expected.placedAt = 'left';
@@ -54,7 +55,7 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to fit-minor', ()
     });
 
     test('on the right position', () => {
-      const cfg = {...cfgRef, position: 'right'} as PopupPositionConfig;
+      const cfg = {...cfgRef, placement: 'right'} as PopupPositionConfig;
       const expected = Object.assign({}, expectedRef) as PopupPositionValue;
       expected.popup = popup.shift(530, 410);
       expected.placedAt = 'right';
@@ -64,7 +65,7 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to fit-minor', ()
 
   describe('should adjust the position by moving to:', () => {
     test('left when there is a lack of space on the right side in the top position', () => {
-      const cfg = {...cfgRef, position: 'top', outer: container.shift(-440, 0)} as PopupPositionConfig;
+      const cfg = {...cfgRef, placement: 'top', outer: container.shift(-440, 0)} as PopupPositionConfig;
       const expected = Object.assign({}, expectedRef) as PopupPositionValue;
       expected.arrow = {x: 235, y: 85};
       expected.popup = popup.shift(260, 290);
@@ -72,7 +73,7 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to fit-minor', ()
     });
 
     test('right when there is a lack of space on the left side in the top position', () => {
-      const cfg = {...cfgRef, position: 'top', outer: container.shift(440, 0)} as PopupPositionConfig;
+      const cfg = {...cfgRef, placement: 'top', outer: container.shift(440, 0)} as PopupPositionConfig;
       const expected = Object.assign({}, expectedRef) as PopupPositionValue;
       expected.arrow = {x: 55, y: 85};
       expected.popup = popup.shift(440, 290);
@@ -80,7 +81,7 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to fit-minor', ()
     });
 
     test('left when there is a lack of space on the right side in the bottom position', () => {
-      const cfg = {...cfgRef, position: 'bottom', outer: container.shift(-440, 0)} as PopupPositionConfig;
+      const cfg = {...cfgRef, placement: 'bottom', outer: container.shift(-440, 0)} as PopupPositionConfig;
       const expected = Object.assign({}, expectedRef) as PopupPositionValue;
       expected.arrow = {x: 235, y: 85};
       expected.popup = popup.shift(260, 530);
@@ -89,7 +90,7 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to fit-minor', ()
     });
 
     test('right when there is a lack of space on the left side in the bottom position', () => {
-      const cfg = {...cfgRef, position: 'bottom', outer: container.shift(440, 0)} as PopupPositionConfig;
+      const cfg = {...cfgRef, placement: 'bottom', outer: container.shift(440, 0)} as PopupPositionConfig;
       const expected = Object.assign({}, expectedRef) as PopupPositionValue;
       expected.arrow = {x: 55, y: 85};
       expected.popup = popup.shift(440, 530);
@@ -100,21 +101,21 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to fit-minor', ()
 
   describe('should adjust when the popup is outing both sides of the container', () => {
     test('when the popup has a position on the vertical axis and LTR text direction', () => {
-      const cfg = {...cfgRef, position: 'top', element: popup.resize(1000, 0)} as PopupPositionConfig;
+      const cfg = {...cfgRef, placement: 'top', element: popup.resize(1000, 0)} as PopupPositionConfig;
       const expected = Object.assign({}, expectedRef) as PopupPositionValue;
       expected.arrow = {x: 495, y: 85};
       expected.popup = popup.shift(0, 290).resize(1000, 0);
       expect(calcPopupPosition(cfg)).toEqual(expected);
     });
     test('when the popup has a position on the vertical axis and RTL text direction', () => {
-      const cfg = {...cfgRef, position: 'top', element: popup.resize(1000, 0), isRTL: true} as PopupPositionConfig;
+      const cfg = {...cfgRef, placement: 'top', element: popup.resize(1000, 0), isRTL: true} as PopupPositionConfig;
       const expected = Object.assign({}, expectedRef) as PopupPositionValue;
       expected.arrow = {x: 795, y: 85};
       expected.popup = popup.shift(-300, 290).resize(1000, 0);
       expect(calcPopupPosition(cfg)).toEqual(expected);
     });
     test('when the popup has a position on the horizontal axis', () => {
-      const cfg = {...cfgRef, position: 'right', element: popup.resize(0, 1000)} as PopupPositionConfig;
+      const cfg = {...cfgRef, placement: 'right', element: popup.resize(0, 1000)} as PopupPositionConfig;
       const expected = Object.assign({}, expectedRef) as PopupPositionValue;
       expected.arrow = {x: 135, y: 495};
       expected.popup = popup.shift(530, 0).resize(0, 1000);
@@ -122,7 +123,7 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to fit-minor', ()
       expect(calcPopupPosition(cfg)).toEqual(expected);
     });
     test('when the popup has a position on the horizontal axis RTL', () => {
-      const cfg = {...cfgRef, position: 'right', element: popup.resize(0, 1000), isRTL: true} as PopupPositionConfig;
+      const cfg = {...cfgRef, placement: 'right', element: popup.resize(0, 1000), isRTL: true} as PopupPositionConfig;
       const expected = Object.assign({}, expectedRef) as PopupPositionValue;
       expected.arrow = {x: 135, y: 695};
       expected.popup = popup.shift(530, -200).resize(0, 1000);
@@ -136,7 +137,7 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to fit-minor', ()
       test('when the popup has a position on the vertical axis and crosses the initial side', () => {
         const cfg = {
           ...cfgRef,
-          position: 'top',
+          placement: 'top',
           element: popup.resize(1000, 0),
           outer: container.shift(400, 0)
         } as PopupPositionConfig;
@@ -148,7 +149,7 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to fit-minor', ()
       test('when the popup has a position on the vertical axis and crosses the final side', () => {
         const cfg = {
           ...cfgRef,
-          position: 'top',
+          placement: 'top',
           element: popup.resize(1000, 0),
           outer: container.shift(-400, 0)
         } as PopupPositionConfig;
@@ -160,7 +161,7 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to fit-minor', ()
       test('when the popup has a position on the horizontal axis and crosses the initial side', () => {
         const cfg = {
           ...cfgRef,
-          position: 'right',
+          placement: 'right',
           element: popup.resize(0, 1000),
           outer: container.shift(0, 400)
         } as PopupPositionConfig;
@@ -173,7 +174,7 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to fit-minor', ()
       test('when the popup has a position on the horizontal axis and crosses the final side', () => {
         const cfg = {
           ...cfgRef,
-          position: 'right',
+          placement: 'right',
           element: popup.resize(0, 1000),
           outer: container.shift(0, -400)
         } as PopupPositionConfig;
@@ -189,7 +190,7 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to fit-minor', ()
       test('when the popup has a position on the vertical axis and crosses the initial side', () => {
         const cfg = {
           ...cfgRef,
-          position: 'top',
+          placement: 'top',
           isRTL: true,
           element: popup.resize(1000, 0),
           outer: container.shift(400, 0)
@@ -202,7 +203,7 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to fit-minor', ()
       test('when the popup has a position on the vertical axis and crosses the final side', () => {
         const cfg = {
           ...cfgRef,
-          position: 'top',
+          placement: 'top',
           isRTL: true,
           element: popup.resize(1000, 0),
           outer: container.shift(-400, 0)
@@ -215,7 +216,7 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to fit-minor', ()
       test('when the popup has a position on the horizontal axis and crosses the initial side', () => {
         const cfg = {
           ...cfgRef,
-          position: 'right',
+          placement: 'right',
           isRTL: true,
           element: popup.resize(0, 1000),
           outer: container.shift(0, 400)
@@ -229,7 +230,7 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to fit-minor', ()
       test('when the popup has a position on the horizontal axis and crosses the final side', () => {
         const cfg = {
           ...cfgRef,
-          position: 'right',
+          placement: 'right',
           isRTL: true,
           element: popup.resize(0, 1000),
           outer: container.shift(0, -400)
