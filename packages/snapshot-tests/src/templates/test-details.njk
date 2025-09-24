@@ -1,3 +1,4 @@
+{% if files %} <hr/>  {% endif %}
 <h2>Tests Details</h2>
 {% for file in files %}
 <h3>{{ file.filepath }}</h3>
@@ -19,7 +20,8 @@
   <tr>
     <td colspan="3">
     {% if test.hasSnapshot %}
-      <img src="" alt="Test Diff {{ test.snapshot }}" />
+      {% set snapshot = test.dirPath/test.snapshot %}
+      <img src="{{ src | resolveUrl(bathePath, snapshot) }}" alt="Test Diff {{ test.snapshot }}" />
     {% else %}
       <pre>{{ test.messages | join('\n') }}</pre>
     {% endif %}

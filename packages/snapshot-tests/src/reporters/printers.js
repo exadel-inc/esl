@@ -1,7 +1,7 @@
 import nunjucks from 'nunjucks';
 
 const printSummary = (stats, template) => {
-  return nunjucks.render(template[0], {stats});
+  return nunjucks.render(template, {stats});
 };
 
 const resolveURL = (basePath, snapshot) => {
@@ -12,14 +12,14 @@ const resolveURL = (basePath, snapshot) => {
 };
 
 function printFiles(files, basePath, template) {
-  return nunjucks.render(template[1], {files, basePath});
+  const env = new nunjucks.Environment();
+  env.addFilter('resolveURL', resolveURL);
+  return nunjucks.render(template, {files, basePath});
 }
 
-export function print({stats, files, basePath, template}) {
-  return `# Test Results
-  ${printSummary(stats, template)}
-
-  ---
-  ${printFiles(files, basePath, template)}
+export function print({stats, files, basePath, templates}) {
+  return `
+  ${printSummary(stats, templates[0])}
+  ${printFiles(files, basePath, templates[1])}
 `;
 }
