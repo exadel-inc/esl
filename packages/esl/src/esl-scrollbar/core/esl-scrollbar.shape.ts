@@ -23,12 +23,3 @@ export interface ESLScrollbarTagShape extends ESLBaseElementShape<ESLScrollbar> 
   /** Children are not allowed for ESLScrollbar*/
   children?: never[];
 }
-
-declare global {
-  namespace JSX {
-    export interface IntrinsicElements {
-      /** {@link ESLScrollbar} custom tag */
-      'esl-scrollbar': ESLScrollbarTagShape;
-    }
-  }
-}

@@ -26,12 +26,3 @@ export interface ESLImageTagShape extends ESLBaseElementShape<ESLImage> {
   /** Children are not allowed for ESLImage */
   children?: never[];
 }
-
-declare global {
-  namespace JSX {
-    export interface IntrinsicElements {
-      /** {@link ESLImage} custom tag */
-      'esl-image': ESLImageTagShape;
-    }
-  }
-}

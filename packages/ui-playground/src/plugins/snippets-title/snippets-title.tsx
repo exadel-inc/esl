@@ -1,5 +1,3 @@
-import React from 'jsx-dom';
-
 import {listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 
 import {UIPPlugin} from '../../core/base/plugin';
@@ -21,9 +19,9 @@ export class UIPSnippetsTitle extends UIPPlugin {
 
   /** Active snippet title inner element */
   @memoize()
-  protected get $inner(): JSX.Element {
+  protected get $inner(): HTMLElement {
     const type = this.constructor as typeof UIPSnippetsTitle;
-    return <span className={type.is + '-inner'}></span>;
+    return <span className={type.is + '-inner'}></span> as HTMLElement;
   }
 
   protected override connectedCallback(): void {

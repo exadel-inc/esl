@@ -15,7 +15,7 @@ module.exports = {
   moduleFileExtensions: ['ts', 'js', 'json'],
   collectCoverage,
   coverageReporters,
-  "collectCoverageFrom": [
-    "src/**/*.ts"
+  collectCoverageFrom: [
+    'src/**/*.ts'
   ]
 };

@@ -50,7 +50,11 @@ jobs:
 
       - name: Resolve Distribution Tag
         id: tag
-        run: npm run --silent get:disttag
+        shell: bash
+        run: |
+          DIST_TAG=$(npm run --silent get:disttag)
+          echo "Resolved dist-tag: $DIST_TAG"
+          echo "tag=$DIST_TAG" >> "$GITHUB_OUTPUT"
 
       - name: Publish to NPM
         run: npx nx release publish --tag=${{ steps.tag.outputs.tag }}

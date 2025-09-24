@@ -63,9 +63,7 @@
       "types": {
         "chore": {
           "releaseType": "patch",
-          "changelog": {
-            "hidden": true
-          }
+          "changelog": false
         },
         "refactor": {
           "releaseType": "patch"

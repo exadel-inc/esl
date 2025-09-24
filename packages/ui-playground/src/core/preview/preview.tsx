@@ -1,5 +1,3 @@
-import React from 'jsx-dom';
-
 import {attr, listen, memoize, prop} from '@exadel/esl/modules/esl-utils/decorators';
 import {ESLIntersectionTarget} from '@exadel/esl/modules/esl-event-listener/core';
 import {parseBoolean, toBooleanAttribute} from '@exadel/esl/modules/esl-utils/misc';

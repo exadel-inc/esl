@@ -17,7 +17,7 @@ export abstract class UIPPluginButton extends UIPPlugin {
    */
   public static create<T extends typeof UIPPluginButton>(
     this: T,
-    content?: string | Element | JSX.Element,
+    content?: string | Element,
     cls: string = ''
   ): InstanceType<T> {
     const $el = document.createElement(this.is) as InstanceType<T>;
