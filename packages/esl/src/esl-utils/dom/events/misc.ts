@@ -47,6 +47,8 @@ export const getOffsetPoint = (el: Element): Point => {
  * @param eventInit - object that specifies characteristics of the event. See {@link CustomEventInit}
  */
 export const dispatchCustomEvent = (el: EventTarget, eventName: string, eventInit?: CustomEventInit): boolean => {
+  if (!eventName || !eventName.trim()) return true;
+
   const init = Object.assign({
     bubbles: true,
     composed: true,

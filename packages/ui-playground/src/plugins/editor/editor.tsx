@@ -2,7 +2,6 @@
 window.Prism = window.Prism || {};
 if (typeof Prism.manual === 'undefined') Prism.manual = true;
 
-import React from 'jsx-dom';
 import Prism from 'prismjs';
 
 import {CodeJar} from 'codejar';
@@ -46,8 +45,8 @@ export class UIPEditor extends UIPPluginPanel {
   @attr({name: 'copy', parser: parseBoolean, serializer: toBooleanAttribute, defaultValue: ($this: UIPEditor) => UIPDefaults.for($this).copy})
   public showCopy: boolean;
 
-  protected override get $icon(): JSX.Element {
-    return <EditorIcon/>;
+  protected override get $icon(): HTMLElement {
+    return <EditorIcon/> as HTMLElement;
   }
 
   @memoize()

@@ -28,12 +28,13 @@
           {% set isNoEmpty = collections[item.data.collection] | released | exclude('data.collection') | length %}
           {% set isActive = env.isDev or functions.isActivePath(page.url, item.data.collection) %}
 
-          {% if isNoEmpty or (isNoEmpty and isActive) %}
+          {% if isNoEmpty or isActive %}
+            {% if item.data.groupStart %} <hr class="sidebar-hr"/> {% endif %}
             {{ navItem (item.data.title, item.data.collection, item.data.icon) }}
           {% endif %}
         {% endfor %}
 
-        <hr class="sidebar-nav-item-divider show-xs"/>
+        <hr class="sidebar-hr show-xs"/>
 
         <li class="sidebar-nav-item sidebar-nav-item-share">
           <esl-share-list list="group:site"

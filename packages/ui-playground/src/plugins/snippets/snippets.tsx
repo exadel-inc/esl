@@ -1,5 +1,3 @@
-import React from 'jsx-dom';
-
 import {attr, listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 import {ESLMediaQuery} from '@exadel/esl/modules/esl-media-query/core';
 import {UIPPlugin} from '../../core/base/plugin';

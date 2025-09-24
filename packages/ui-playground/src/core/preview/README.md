@@ -1,4 +1,4 @@
-# UIP Preview
+## UIP Preview
 
 **UIPPreview** - is a mandatory UIP custom element that displays active markup. Extends [UIPPlugin](src/core/README.md#uip-plugin).
 
@@ -6,7 +6,7 @@
 
 The `uip-preview` should be placed inside [UIPRoot](src/core/README.md#uip-root) element.
 
-## Example
+### Example
 
 ```html
 <uip-preview></uip-preview>

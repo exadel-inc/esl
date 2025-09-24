@@ -7,9 +7,11 @@
       <span class="header-long-name">{{ site.brand }}</span>
     </a>
     <ul class="header-nav">
-      <li class="header-nav-item"><a class="header-link" href="{{ '/core' | url }}">Core</a></li>
-      <li class="header-nav-item"><a class="header-link" href="{{ '/components' | url }}">Components</a></li>
-      <li class="header-nav-item"><a class="header-link" href="{{ '/examples' | url }}">Examples</a></li>
+      {% for item in collections['nav-header'] | released | sortBy('order') %}
+        <li class="header-nav-item">
+          <a class="header-link" href="{{ item.url | url }}">{{ item.data.title }}</a>
+        </li>
+      {% endfor %}
       <li class="header-nav-item">
         <a class="header-link icon-link" href="{{ site.github.url }}" target="_blank" aria-label="Open on GitHub">
           {% include 'static/assets/common/github.svg' %}

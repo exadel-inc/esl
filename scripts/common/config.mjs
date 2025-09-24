@@ -10,6 +10,11 @@ export async function getProjects() {
   return (projects = config.projects);
 }
 
+export async function getAllProjectNames() {
+  const projects = await getProjects();
+  return Object.entries(projects).map(([name]) => name);
+}
+
 export async function getProject(projectName) {
   const projects = await getProjects();
   if (!projects[projectName]) {

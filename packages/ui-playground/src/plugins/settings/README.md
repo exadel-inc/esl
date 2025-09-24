@@ -1,5 +1,3 @@
-# UIP Settings
-
 **UIPSettings** - custom element which stores settings (**UIPSetting**).
 Extends [UIPPlugin](src/core/README.md#uip-plugin).
 
@@ -9,7 +7,7 @@ our standard UIP flow for change detection and settings updates.
 
 **UIPSettings** has also its own toolbar where the theme or text direction for UIPlayground can be specified using the *theme-toggle* and *dir-toggle* attributes.
 
-# UIP Setting
+## UIP Setting
 
 **UIPSetting** - custom element for manipulating element attributes. Custom settings should extend
 *UIPSetting* class.
@@ -35,7 +33,7 @@ Examples of existing custom settings:
 - [UIPSelectSetting](src/plugins/select-setting/README.md)
 - [UIPSliderSetting](src/plugins/slider-setting/README.md)
   
-## Example
+### Example
 
 ```html
 <uip-settings resizable collapsible theme-toggle dir-toggle target=".esl-media">

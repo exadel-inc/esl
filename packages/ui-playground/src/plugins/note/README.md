@@ -1,5 +1,3 @@
-# UIP Note
-
 **UIPNote** - custom element that is associated with a snippet. **UIPNote** is displayed if the snippet item is active.
 
 ## Example

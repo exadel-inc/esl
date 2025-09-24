@@ -5,7 +5,7 @@ export interface UIPDirSwitcherShape extends ESLBaseElementShape<UIPDirSwitcher>
   children?: any;
 }
 
-declare global {
+declare module 'jsx-dom' {
   namespace JSX {
     interface IntrinsicElements {
       'uip-dir-toggle': UIPDirSwitcherShape;

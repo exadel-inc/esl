@@ -1,5 +1,4 @@
 import {ESLSwipeGestureEvent, ESLSwipeGestureTarget} from '../../core/targets/swipe.target';
-import {promisifyTimeout} from '../../../esl-utils/async/promise/timeout';
 import {overrideEvent} from '../../../esl-utils/dom/events/misc';
 
 describe('ESLSwipeGestureTarget EventTarget', () => {
@@ -69,6 +68,11 @@ describe('ESLSwipeGestureTarget EventTarget', () => {
       return event;
     };
 
+    // Synthetic timestamps to avoid real timing / flakiness
+    const TIME_START = 0;
+    const TIME_VALID = 100; // < 150ms timeout
+    const TIME_LONG = 250; // > 150ms timeout
+
     const $el = document.createElement('div');
     const target = ESLSwipeGestureTarget.for($el, {timeout: 150});
     const listener = jest.fn();
@@ -77,71 +81,70 @@ describe('ESLSwipeGestureTarget EventTarget', () => {
     afterAll(() => target.removeEventListener('swipe', listener));
     beforeEach(() => listener.mockReset());
 
-    test('ESLSwipeGestureTarget detects left swipe', async () => {
-      $el.dispatchEvent(createEvent(START_EVENT, {pageX: 100, pageY: 100}));
-      window.dispatchEvent(createEvent(END_EVENT, {pageX: 50, pageY: 100, target: $el}));
+    test('ESLSwipeGestureTarget detects left swipe', () => {
+      $el.dispatchEvent(createEvent(START_EVENT, {pageX: 100, pageY: 100, timeStamp: TIME_START}));
+      window.dispatchEvent(createEvent(END_EVENT, {pageX: 50, pageY: 100, target: $el, timeStamp: TIME_VALID}));
       expect(listener).toHaveBeenLastCalledWith(expect.any(ESLSwipeGestureEvent));
       expect(listener).toHaveBeenLastCalledWith(expect.objectContaining({direction: 'left'}));
       expect(listener).toHaveBeenLastCalledWith(expect.objectContaining({angle: 270}));
     });
 
-    test('ESLSwipeGestureTarget detects right swipe', async () => {
-      $el.dispatchEvent(createEvent(START_EVENT, {pageX: 100, pageY: 100}));
-      window.dispatchEvent(createEvent(END_EVENT, {pageX: 150, pageY: 100, target: $el}));
+    test('ESLSwipeGestureTarget detects right swipe', () => {
+      $el.dispatchEvent(createEvent(START_EVENT, {pageX: 100, pageY: 100, timeStamp: TIME_START}));
+      window.dispatchEvent(createEvent(END_EVENT, {pageX: 150, pageY: 100, target: $el, timeStamp: TIME_VALID}));
       expect(listener).toHaveBeenLastCalledWith(expect.any(ESLSwipeGestureEvent));
       expect(listener).toHaveBeenLastCalledWith(expect.objectContaining({direction: 'right'}));
       expect(listener).toHaveBeenLastCalledWith(expect.objectContaining({angle: 90}));
     });
 
-    test('ESLSwipeGestureTarget detects up swipe', async () => {
-      $el.dispatchEvent(createEvent(START_EVENT, {pageX: 100, pageY: 100}));
-      window.dispatchEvent(createEvent(END_EVENT, {pageX: 100, pageY: 50, target: $el}));
+    test('ESLSwipeGestureTarget detects up swipe', () => {
+      $el.dispatchEvent(createEvent(START_EVENT, {pageX: 100, pageY: 100, timeStamp: TIME_START}));
+      window.dispatchEvent(createEvent(END_EVENT, {pageX: 100, pageY: 50, target: $el, timeStamp: TIME_VALID}));
       expect(listener).toHaveBeenLastCalledWith(expect.any(ESLSwipeGestureEvent));
       expect(listener).toHaveBeenLastCalledWith(expect.objectContaining({direction: 'up'}));
       expect(listener).toHaveBeenLastCalledWith(expect.objectContaining({angle: 0}));
     });
 
-    test('ESLSwipeGestureTarget detects down swipe', async () => {
-      $el.dispatchEvent(createEvent(START_EVENT, {pageX: 100, pageY: 100}));
-      window.dispatchEvent(createEvent(END_EVENT, {pageX: 100, pageY: 150, target: $el}));
+    test('ESLSwipeGestureTarget detects down swipe', () => {
+      $el.dispatchEvent(createEvent(START_EVENT, {pageX: 100, pageY: 100, timeStamp: TIME_START}));
+      window.dispatchEvent(createEvent(END_EVENT, {pageX: 100, pageY: 150, target: $el, timeStamp: TIME_VALID}));
       expect(listener).toHaveBeenLastCalledWith(expect.any(ESLSwipeGestureEvent));
       expect(listener).toHaveBeenLastCalledWith(expect.objectContaining({direction: 'down'}));
       expect(listener).toHaveBeenLastCalledWith(expect.objectContaining({angle: 180}));
     });
 
-    test('ESLSwipeGestureTarget ignores short horizontal swipes', async () => {
-      $el.dispatchEvent(createEvent(START_EVENT, {pageX: 100, pageY: 100}));
-      window.dispatchEvent(createEvent(END_EVENT, {pageX: 110, pageY: 105, target: $el}));
+    test('ESLSwipeGestureTarget ignores short horizontal swipes', () => {
+      $el.dispatchEvent(createEvent(START_EVENT, {pageX: 100, pageY: 100, timeStamp: TIME_START}));
+      window.dispatchEvent(createEvent(END_EVENT, {pageX: 110, pageY: 105, target: $el, timeStamp: TIME_VALID}));
       expect(listener).not.toHaveBeenCalled();
     });
 
-    test('ESLSwipeGestureTarget ignores short vertical swipes', async () => {
-      $el.dispatchEvent(createEvent(START_EVENT, {pageX: 100, pageY: 100}));
-      window.dispatchEvent(createEvent(END_EVENT, {pageX: 105, pageY: 110, target: $el}));
+    test('ESLSwipeGestureTarget ignores short vertical swipes', () => {
+      $el.dispatchEvent(createEvent(START_EVENT, {pageX: 100, pageY: 100, timeStamp: TIME_START}));
+      window.dispatchEvent(createEvent(END_EVENT, {pageX: 105, pageY: 110, target: $el, timeStamp: TIME_VALID}));
       expect(listener).not.toHaveBeenCalled();
     });
 
-    test('ESLSwipeGestureTarget ignores long - lasting swipe', async () => {
-      $el.dispatchEvent(createEvent(START_EVENT, {pageX: 100, pageY: 100}));
-      await promisifyTimeout(200);
-      window.dispatchEvent(createEvent(END_EVENT, {pageX: 210, pageY: 105, target: $el}));
+    test('ESLSwipeGestureTarget ignores long - lasting swipe', () => {
+      $el.dispatchEvent(createEvent(START_EVENT, {pageX: 100, pageY: 100, timeStamp: TIME_START}));
+      window.dispatchEvent(createEvent(END_EVENT, {pageX: 210, pageY: 105, target: $el, timeStamp: TIME_LONG}));
       expect(listener).not.toHaveBeenCalled();
     });
 
-    test('ESLSwipeGestureTarget ignores unlinked events', async () => {
-      window.dispatchEvent(createEvent(END_EVENT, {pageX: 210, pageY: 105, target: $el}));
+    test('ESLSwipeGestureTarget ignores unlinked events', () => {
+      window.dispatchEvent(createEvent(END_EVENT, {pageX: 210, pageY: 105, target: $el, timeStamp: TIME_VALID}));
       expect(listener).not.toHaveBeenCalled();
     });
 
-    test('ESLSwipeGestureTarget processes diagonal swipes', async () => {
-      $el.dispatchEvent(createEvent(START_EVENT, {pageX: 100, pageY: 100}));
-      window.dispatchEvent(createEvent(END_EVENT, {pageX: 150, pageY: 150, target: $el}));
+    test('ESLSwipeGestureTarget processes diagonal right-down swipes', () => {
+      $el.dispatchEvent(createEvent(START_EVENT, {pageX: 100, pageY: 100, timeStamp: TIME_START}));
+      window.dispatchEvent(createEvent(END_EVENT, {pageX: 150, pageY: 150, target: $el, timeStamp: TIME_VALID}));
       expect(listener).toHaveBeenCalledWith(expect.objectContaining({direction: 'right'}));
     });
 
-    test('ESLSwipeGestureTarget processes diagonal swipes', async () => {
-      $el.dispatchEvent(createEvent(START_EVENT, {pageX: 100, pageY: 100}));
-      window.dispatchEvent(createEvent(END_EVENT, {pageX: 50, pageY: 50, target: $el}));
+    test('ESLSwipeGestureTarget processes diagonal left-up swipes', () => {
+      $el.dispatchEvent(createEvent(START_EVENT, {pageX: 100, pageY: 100, timeStamp: TIME_START}));
+      window.dispatchEvent(createEvent(END_EVENT, {pageX: 50, pageY: 50, target: $el, timeStamp: TIME_VALID}));
       expect(listener).toHaveBeenCalledWith(expect.objectContaining({direction: 'left'}));
     });
   });
