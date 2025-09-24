@@ -8,8 +8,8 @@
       <td>⌛ Duration</td>
     </tr>
     <tr>
-      <td>9/24/2025, 9:55:12 AM</td>
-      <td>20.41s</td>
+      <td>9/24/2025, 10:07:36 AM</td>
+      <td>20.61s</td>
     </tr>
   </tbody>
 </table>
@@ -54,7 +54,7 @@
   <tr>
     <td>Homepage footer manual validation: Check if the footer copyright contains correct version</td>
     <td> ✅ </td>
-    <td> 35ms </td>
+    <td> 37ms </td>
   </tr>
 
   
@@ -63,7 +63,7 @@
   <tr>
     <td>Homepage footer manual validation: Check if the footer coypright contains correct year</td>
     <td> ❌ </td>
-    <td> 7ms </td>
+    <td> 5ms </td>
   </tr>
 
   
@@ -102,7 +102,7 @@ Received string:    [31m&quot;[39m
   <tr>
     <td>Feature: Test page looks fine: test page screen</td>
     <td> ✅ </td>
-    <td> 3.238s </td>
+    <td> 3.187s </td>
   </tr>
 
   
@@ -123,7 +123,7 @@ Received string:    [31m&quot;[39m
   <tr>
     <td>Feature: Homepage looks fine: test homepage screen</td>
     <td> ✅ </td>
-    <td> 3.492s </td>
+    <td> 3.577s </td>
   </tr>
 
   
@@ -132,7 +132,7 @@ Received string:    [31m&quot;[39m
   <tr>
     <td>Feature: Homepage looks fine: test homepage screen on mobile</td>
     <td> ✅ </td>
-    <td> 2.857s </td>
+    <td> 2.884s </td>
   </tr>
 
   
@@ -150,7 +150,7 @@ Received string:    [31m&quot;[39m
   <tr>
     <td>Feature: Homepage looks fine: test homepage footer on desktop</td>
     <td> ✅ </td>
-    <td> 2.606s </td>
+    <td> 2.612s </td>
   </tr>
 
   
@@ -159,7 +159,7 @@ Received string:    [31m&quot;[39m
   <tr>
     <td>Feature: Homepage looks fine: test homepage footer on mobile</td>
     <td> ✅ </td>
-    <td> 2.271s </td>
+    <td> 2.288s </td>
   </tr>
 
   
