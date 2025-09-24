@@ -4,7 +4,7 @@ Lightweight resilience decorator for methods and getters. It wraps the original 
 
 ---
 ## Why
-In UI component code a lot of accessors and small helper methods may occasionally fail (uninitialized state, missing DOM, parsing issues) where a hard throw is undesirable and a neutral fallback is enough. Repeating local `try/catch` blocks:
+In UI component code a lot of accessors and small helper methods may occasionally fail (uninitialized state, missing DOM, parsing issues) where throwing an exception is undesirable and a neutral fallback value suffices. Repeating local `try/catch` blocks:
 - Adds noise / decreases readability.
 - Is easy to forget.
 - Causes inconsistent logging.

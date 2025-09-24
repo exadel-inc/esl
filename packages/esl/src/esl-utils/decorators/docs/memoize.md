@@ -4,7 +4,7 @@ Caches method return values or getter value to avoid recomputation. Works for in
 
 ---
 ## Why
-Expensive pure (or effectively pure) calculations and derived state accessors are common in component logic. Re-computing them every call wastes CPU and may allocate garbage. Manual caching patterns add boilerplate and are easy to get wrong or forget to invalidate.
+Expensive pure (or effectively pure) calculations and derived state accessors are common in component logic. Re-computing them on every call wastes CPU cycles and may create unnecessary garbage allocations. Manual caching patterns add boilerplate and are easy to get wrong or forget to invalidate.
 
 `@memoize` provides:
 - Zero-dependency, lightweight memoization.
