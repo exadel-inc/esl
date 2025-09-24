@@ -16,23 +16,23 @@
     <td>{% if test.time < 1000 %} {{test.time + 'ms'}} {% else %} {{ (test.time / 1000) + 's' }} {% endif %}</td>
   </tr>
 
-  {% if test.status != 'passed' %}
+  {% if test.status != 'passed' -%}
   <tr>
     <td colspan="3">
-    {% if test.hasSnapshot %}
-      {% set snapshot = test.dirPath/test.snapshot %}
+    {%- if test.hasSnapshot %}
+      {% set snapshot = test.dirPath / test.snapshot %}
       {% if not basePath %}
         {% set src = snapshot %}
-        {% else %}
+      {% else %}
         {% set srcBase = basePath + ('/' if not basePath | last == '/') + snapshot + ('?raw=true' if 'github' in basePath) %}
       {% endif %}
-      <img src="{{ src or (srcBase | replace('/\/', '/')) }}" alt="Test Diff {{ test.snapshot }}" />
-    {% else %}
+      <img src="{{ src or (srcBase | replace('/\/', '/')) }}" alt="Test Diff {{ test.snapshot }}"/>
+    {%- else -%}
       <pre>{{ test.messages | join('.') }}</pre>
-    {% endif %}
+    {%- endif -%}
     </td>
   </tr>
-  {% endif %}
+  {%- endif %}
 
   {% endfor %}
   </tbody>

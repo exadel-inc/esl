@@ -1,12 +1,4 @@
 import nunjucks from 'nunjucks';
-const env = new nunjucks.Environment();
-
-env.addFilter('resolveURL', function resolveURL(basePath, snapshot) {
-  if (!basePath) return snapshot;
-  let path = basePath + (basePath.endsWith('/') ? '' : '/') + snapshot;
-  if (basePath.includes('github')) path += '?raw=true';
-  return path.replace(/\\/g, '/');
-});
 
 const printSummary = (stats, template) => nunjucks.render(template, {stats});
 
