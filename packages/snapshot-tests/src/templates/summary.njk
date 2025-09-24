@@ -1,0 +1,37 @@
+<h2>Summary</h2>
+<table>
+  <tbody>
+    <tr>
+      <td>🕙 Start time</td>
+      <td>⌛ Duration</td>
+    </tr>
+    <tr>
+      <td>{{ stats.startTimeStr }}</td>
+      <td>{{ stats.totalTimeStr }}</td>
+    </tr>
+  </tbody>
+</table>
+<table>
+  <tbody>
+    <tr>
+      <td>✅ Passed</td>
+      <td>❌ Failed</td>
+      <td>🚧 Todo</td>
+      <td>⚪ Total</td>
+    </tr>
+    <tr>
+      <td>Test Suites</td>
+      <td>{{ stats.numPassedTestSuites }}</td>
+      <td>{{ stats.numFailedTestSuites }}</td>
+      <td>-</td>
+      <td>{{ stats.numTotalTestSuites }}</td>
+    </tr>
+    <tr>
+      <td>Tests</td>
+      <td>{{ stats.numPassedTests }}</td>
+      <td>{{ stats.numFailedTests }}</td>
+      <td>{{ stats.numTodoTests }}</td>
+      <td>{{ stats.numTotalTests }}</td>
+    </tr>
+  </tbody>
+</table>
