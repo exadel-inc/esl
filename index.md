@@ -8,8 +8,8 @@
       <td>⌛ Duration</td>
     </tr>
     <tr>
-      <td>9/24/2025, 12:46:11 PM</td>
-      <td>21.67s</td>
+      <td>9/24/2025, 1:52:00 PM</td>
+      <td>21.94s</td>
     </tr>
   </tbody>
 </table>
@@ -54,7 +54,7 @@
   <tr>
     <td>Homepage footer manual validation: Check if the footer copyright contains correct version</td>
     <td> ✅ </td>
-    <td> 30ms </td>
+    <td> 45ms </td>
   </tr>
 
   
@@ -66,11 +66,8 @@
     <td> 7ms </td>
   </tr>
 
-  
   <tr>
-    <td colspan="3">
-    
-      <pre>Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoContain[2m([22m[32mexpected[39m[2m) // indexOf[22m
+    <td colspan="3"><pre>Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoContain[2m([22m[32mexpected[39m[2m) // indexOf[22m
 
 Expected substring: [32m&quot;bla-bla&quot;[39m
 Received string:    [31m&quot;[39m
@@ -80,11 +77,8 @@ Received string:    [31m&quot;[39m
 [31m      &quot;[39m
     at /home/runner/work/esl/esl/packages/snapshot-tests/tests/homepage.copyright.test.ts:20:21
     at Generator.next (&lt;anonymous&gt;)
-    at fulfilled (/home/runner/work/esl/esl/packages/snapshot-tests/tests/homepage.copyright.test.ts:4:58)</pre>
-    
-    </td>
+    at fulfilled (/home/runner/work/esl/esl/packages/snapshot-tests/tests/homepage.copyright.test.ts:4:58)</pre></td>
   </tr>
-  
 
   
   </tbody>
@@ -102,7 +96,7 @@ Received string:    [31m&quot;[39m
   <tr>
     <td>Feature: Test page looks fine: test page screen</td>
     <td> ✅ </td>
-    <td> 3.228s </td>
+    <td> 3.22s </td>
   </tr>
 
   
@@ -123,49 +117,39 @@ Received string:    [31m&quot;[39m
   <tr>
     <td>Feature: Homepage looks fine: test homepage screen</td>
     <td> ❌ </td>
-    <td> 4.522s </td>
+    <td> 4.524s </td>
   </tr>
 
-  
   <tr>
     <td colspan="3">
-    
       
       
         
       
-      <img src="https:/github.com/exadel-inc/esl/blob/diff-report/NaN?raw=true" alt="Test Diff feature-homepage-looks-fine-test-homepage-screen-diff.jpg" />
-    
-    </td>
+      <img src="https:/github.com/exadel-inc/esl/blob/diff-report/NaN?raw=true" alt="Test Diff feature-homepage-looks-fine-test-homepage-screen-diff.jpg"/></td>
   </tr>
-  
 
   
   <tr>
     <td>Feature: Homepage looks fine: test homepage screen on mobile</td>
     <td> ❌ </td>
-    <td> 3.182s </td>
+    <td> 3.197s </td>
   </tr>
 
-  
   <tr>
     <td colspan="3">
-    
       
       
         
       
-      <img src="https:/github.com/exadel-inc/esl/blob/diff-report/NaN?raw=true" alt="Test Diff feature-homepage-looks-fine-test-homepage-screen-on-mobile-diff.jpg" />
-    
-    </td>
+      <img src="https:/github.com/exadel-inc/esl/blob/diff-report/NaN?raw=true" alt="Test Diff feature-homepage-looks-fine-test-homepage-screen-on-mobile-diff.jpg"/></td>
   </tr>
-  
 
   
   <tr>
     <td>Feature: Homepage looks fine: test homepage hamburger menu on mobile</td>
     <td> ✅ </td>
-    <td> 3.309s </td>
+    <td> 3.317s </td>
   </tr>
 
   
@@ -174,7 +158,7 @@ Received string:    [31m&quot;[39m
   <tr>
     <td>Feature: Homepage looks fine: test homepage footer on desktop</td>
     <td> ✅ </td>
-    <td> 2.627s </td>
+    <td> 2.624s </td>
   </tr>
 
   
@@ -183,7 +167,7 @@ Received string:    [31m&quot;[39m
   <tr>
     <td>Feature: Homepage looks fine: test homepage footer on mobile</td>
     <td> ✅ </td>
-    <td> 2.341s </td>
+    <td> 2.295s </td>
   </tr>
 
   
