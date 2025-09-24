@@ -101,4 +101,18 @@ describe('async/delayed-task', () => {
     expect(task.cancel()).toBe(fn1);
     expect(task.fn).toBeNull();
   });
+
+  test('fn property cleared after execution', (done) => {
+    const fn1 = jest.fn();
+    const task = new DelayedTask();
+
+    task.put(fn1, 10);
+    expect(task.fn).toBe(fn1);
+
+    setTimeout(() => {
+      expect(fn1).toHaveBeenCalledTimes(1);
+      expect(task.fn).toBeNull(); // Should be null after execution
+      done();
+    }, 20);
+  });
 });

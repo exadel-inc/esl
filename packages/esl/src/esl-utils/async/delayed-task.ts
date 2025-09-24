@@ -12,7 +12,9 @@ export class DelayedTask {
   /** Execute deferred task immediately */
   protected run = (): void => {
     this._timeout = null;
-    this._fn && this._fn();
+    const fn = this._fn;
+    this._fn = null;
+    fn && fn();
   };
 
   /** @returns Function of currently deferred (planned) task */
