@@ -3,10 +3,6 @@
     <div class="marquee-heading-container">
       <h1 class="marquee-heading">{{ landing.marquee.title }}</h1>
     </div>
-    <div class="marquee-body">
-      <p class="marquee-slogan-line">{{ landing.marquee.slogan }}</p>
-      <p>{{ landing.marquee.description }}</p>
-    </div>
     <div class="btn-container">
       {% for cta in landing.marquee.ctas or [] %}
         <a class="btn btn-lg btn-{{ cta.style }}" href="{{ cta.url | url }}">{{ cta.text }}</a>
