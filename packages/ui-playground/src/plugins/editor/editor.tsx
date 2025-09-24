@@ -39,19 +39,19 @@ export class UIPEditor extends UIPPluginPanel {
   public source: UIPEditableSource;
 
   /** Marker to display copy widget */
-  @attr({defaultValue: ($this: UIPEditor) => (UIPDefaults.for(UIPEditor).label || '').replace('{{sourceType}}', $this.source.toUpperCase())})
+  @attr({defaultValue: ($this: UIPEditor) => (UIPDefaults.for($this).label || '').replace('{{sourceType}}', $this.source.toUpperCase())})
   public label: string;
 
   /** Marker to display copy widget */
-  @attr({parser: parseBoolean, serializer: toBooleanAttribute, defaultValue: () => UIPDefaults.for(UIPEditor).copy, name: 'copy'})
+  @attr({name: 'copy', parser: parseBoolean, serializer: toBooleanAttribute, defaultValue: ($this: UIPEditor) => UIPDefaults.for($this).copy})
   public showCopy: boolean;
 
   /** Marker to make enable toggle collapse action for section header. @see UIPPluginPanel */
-  @attr({parser: parseBoolean, serializer: toBooleanAttribute, defaultValue: () => UIPDefaults.for(UIPEditor).collapsible})
+  @attr({parser: parseBoolean, serializer: toBooleanAttribute, defaultValue: ($this: UIPEditor) => UIPDefaults.for($this).collapsible})
   public collapsible: boolean;
 
   /** Marker that indicates resizable state of the panel. @see UIPPluginPanel */
-  @attr({parser: parseBoolean, serializer: toBooleanAttribute, defaultValue: () => UIPDefaults.for(UIPEditor).resizable})
+  @attr({parser: parseBoolean, serializer: toBooleanAttribute, defaultValue: ($this: UIPEditor) => UIPDefaults.for($this).resizable})
   public resizable: boolean;
 
   protected override get $icon(): JSX.Element {

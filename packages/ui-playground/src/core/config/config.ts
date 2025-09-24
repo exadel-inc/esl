@@ -1,3 +1,7 @@
+export abstract class UIPConfigurable {
+  public static readonly configKey: keyof UIPDefaultConfig;
+}
+
 export interface UIPDefaultConfig {
   editor: {
     label?: string;
@@ -23,7 +27,7 @@ export class UIPDefaults {
     Object.assign(this.defaultConfigs, config);
   }
 
-  public static for<T extends {readonly configKey: keyof UIPDefaultConfig}>(target: T): Partial<UIPDefaultConfig[T['configKey']]> {
-    return this.defaultConfigs[target.configKey] ?? {};
+  public static for<T extends UIPConfigurable>(target: T): Record<string, any> {
+    return this.defaultConfigs[(target.constructor as typeof UIPConfigurable).configKey] ?? {};
   }
 }
