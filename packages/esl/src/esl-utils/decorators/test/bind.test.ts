@@ -161,7 +161,6 @@ describe('Common @bind decorator test', () => {
 
   test('Decoration of illegal cass member throws error', () => {
     expect(() => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class Test {
         // @ts-ignore
         @bind public a = 1;

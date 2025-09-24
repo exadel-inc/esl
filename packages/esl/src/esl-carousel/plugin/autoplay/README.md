@@ -2,146 +2,118 @@
 
 <a name="intro"></a>
 
-The `esl-carousel-autoplay` is a custom attribute (mixin/plugin) for `ESLCarousel` that provides an autoplay functionality.
-It allows the carousel to automatically transition between slides after a specified timeout, by producing a navigation command at the specified interval.
-The `esl-carousel-autoplay` is a carousel plugin, so it should be added directly to the `esl-carousel` element, otherwise it will self destroy itself.
-The plugin supports the ESLMedia query syntax, allowing different configurations for different media conditions.
-Out of the box, it supports different customizations and features, such as pausing on hover/focus, simple control binding, progress bar, and per-slide timeout customization.
+The `esl-carousel-autoplay` is a custom attribute (plugin/mixin) for `ESLCarousel` that provides autoplay functionality.
+It lets the carousel automatically navigate between slides on a timed cycle, issuing a navigation command at each interval.
+Attach the plugin directly on the `esl-carousel` element (it will self‑remove if applied elsewhere).
+The plugin supports ESL media rule syntax, enabling responsive configuration.
+Features include: hover/focus pause, simple enable/disable controls, progress helper, and per‑slide timeout overrides.
 
 ## Configuration
 
-As the `esl-carousel-autoplay` is a plugin, it utilizes the ESLCarousel's plugin configuration system.
-Tht means the only source of configuration is the `esl-carousel-autoplay` attribute value.
-It supports ESLMedia query syntax to provide different configurations for different media conditions (and it could be declared with a tuple sintax according to media atrribute).
+The only configuration source is the `esl-carousel-autoplay` attribute value (plugin config system).
+Supports ESL media rule syntax (either unified arrow syntax or tuple form bound to the carousel `media` attribute).
 
-The configuration properties of the `esl-carousel-autoplay` are the following:
- - `duration` (primary property, could be declared as the only value in the attribute)
-   Supports CSS time format (e.g. `1s`, `500ms`) or a number in milliseconds.
-   Declares the autoplay cycle duration in milliseconds. The value is required. 
-   To disable the autoplay (turn the plugin off), set the value to `0`, negative value or `none` (it is enough to set one of these values to deactivate all autoplay features).
-   Set to `10s` if the value is not provided explicitly.
- - `command` (optional) (default: `slide:next`)
-   Declares the autoplay command. Could be any `ESLCarouselSlideTarget` nav string.
- - `intersection` (optional) (default: `0.25`)
-   The intersection ratio for the `IntersectionObserver` is to be used for the autoplay plugin.
-   The value is a number between `0` and `1`, where `0` means that the autoplay will start immediately when the carousel appears in the viewport, and `1` means that the autoplay will start only when the carousel is fully visible in the viewport.
-   Set to `0.25` if the value is not provided explicitly. (Values outside the [0,1] range are treated by browser/observer implementation and are not validated by the plugin.)
- - `trackInteraction` (optional) (default: `true`)
-   If set to `true`, the autoplay will be paused on user interaction with the carousel (e.g. mouseover, focus, touchstart).
-   If set to `false`, the autoplay will not be paused on user interaction.
- - `control` (optional)
-   The ESLTraversingQuery selector for the elements that should be treated as the autoplay plugin enable/disable control(s).
- - `controlCls` (optional)
-   The class to be added to control elements when autoplay is enabled. Supports ESL CSSClassUtils syntax.
- - `containerCls` (optional)
-   The class to be added to the carousel container when autoplay is enabled. Supports ESL CSSClassUtils syntax.
+Configuration properties:
+ - `duration` (primary) – CSS time (`1s`, `500ms`) or number (ms). Required.
+   * `> 0` – base autoplay cycle duration
+   * `0` – no base cycle (autoplay stays enabled but inactive unless a slide overrides with a positive per‑slide timeout)
+   * negative / invalid / `none` – globally disable the plugin
+   Defaults to `10s` if omitted.
+ - `command` (optional, default: `slide:next`) – navigation command to execute each cycle.
+ - `intersection` (optional, default: `0.25`) – intersection ratio (0..1) required to run. Below threshold cycle is suspended.
+ - `trackInteraction` (optional, default: `true`) – pause while hovered or focus (keyboard focus‑visible) is within interaction scope.
+ - `interactionScope` (optional) – selector (ESLTraversingQuery) defining scope for interaction tracking (defaults to host carousel).
+ - `control` (optional) – selector for element(s) acting as manual enable/disable toggles.
+ - `controlCls` (optional) – CSS class applied to external autoplay control elements while autoplay is enabled.
+ - `containerCls` (optional) – CSS class applied to the carousel container while autoplay is enabled.
+ - `blockerSelector` (optional) – selector (ESLTraversingQuery) for items that, when activated, stop carousel autoplay. Defaults to `::find(esl-share[active], esl-note[active])`.
+ - `watchEvents` (optional) – space-separated list of event names that toggle blocking state on the carousel when fired. Defaults to `esl:change:active`.
 
-### Public properties and states
+### Public properties / state
 
-Public properties:
-  - `duration` (number, readonly): reflects the global autoplay duration in milliseconds (as set in configuration).
-  - `effectiveDuration` (number, readonly): reflects the current effective autoplay duration in milliseconds (that will be used for the next cycle).
-  - `enabled` (boolean, readonly): reflects whether autoplay feature is turned on.
-  - `active` (boolean, readonly): indicates that a cycle timer is currently scheduled (internal timeout is set).
+ - `enabled` (boolean, read/write) – manual user switch (setter suspends / resumes). Getter returns effective enabled: user not suspended AND global duration >= 0.
+ - `duration` (number, readonly) – parsed global duration (ms). Negative / NaN means disabled.
+ - `effectiveDuration` (number, readonly) – current slide duration (per‑slide override or global). `<= 0` pauses only the current slide.
+ - `active` (boolean, readonly) – a timer is scheduled (cycle running).
+ - `allowed` (boolean, readonly) – runtime allowance (enabled + in viewport + no blocking interaction when tracking).
 
-Note: the `enabled` state may be `true` while `active` is `false`. Autoplay is enabled but inactive when any of the following apply:
- - Current slide effective timeout is `0` (per‑slide pause)
- - Carousel is not sufficiently visible (intersection below threshold)
- - User interaction pause (hover / focus) with `trackInteraction: true`
- - Navigation command cannot execute now (`canNavigate` is false)
+Notes:
+ - `enabled = true` and `active = false` is normal when: base duration is `0`; current slide override is `0`/non‑positive; carousel not sufficiently visible; user is hovering or focused; navigation command currently not possible.
+ - Base `duration = 0` does NOT disable the plugin – it just suppresses default cycles unless a per‑slide timeout overrides it.
+ - Negative / invalid duration disables the plugin until changed.
 
-Plugin is fully disabled when `enabled` is `false` (no automatic reactivation until started again).
+### Manual control
+Any element matching the `control` selector toggles `enabled` on click. Programmatic toggle: `carousel.autoplay.enabled = false` / `true`.
 
-Public methods:
- - `start()`: enables the autoplay plugin (if it was disabled) and starts the autoplay cycle (if possible).
- - `stop()`: disables the autoplay plugin and stops any scheduled autoplay cycle.
+## Per‑Slide Timeout Customization
 
-Note: both `start()` and `stop()` methods can be called with boolean argument `true` to make start/stop action marked as temporal (not changing the `enabled` state). 
-System uses such calls to pause autoplay temporarily (e.g. on interaction or insufficient visibility) without changing the `enabled` state.
+Use `esl-carousel-autoplay-timeout` on a slide to override the cycle duration for that slide.
+If omitted, the global duration (which may be 0) is used.
+If parsing fails or value is invalid, the global duration is used (NOT treated as pause unless that global duration itself is 0 / non‑positive).
+`<= 0` per‑slide value pauses autoplay only while that slide is active.
 
-## Per-Slide Timeout Customization
+Note: An intentionally invalid value in a media rule branch can be used to fallback to the global duration. Example: 
+```html
+<esl-carousel-slide esl-carousel-autoplay-timeout="0 | @desktop => inherit"></esl-carousel-slide>
+```
+Here `0` disables autoplay for this slide on non‑desktop breakpoints, while the invalid `inherit` token on `@desktop` resolves to the global autoplay duration (so autoplay runs there).
 
-Individual slides can override the default autoplay timeout by using the `esl-carousel-autoplay-timeout` attribute.
-This allows for different autoplay switch times for each slide.
-
-Note: per-slide timeout `0` / `none` / or negative pauses autoplay only on that slide. 
-Autoplay resumes automatically on a slide with positive timeout and navigable command. If the per‑slide attribute value is invalid / cannot be parsed, the plugin treats it as `0` (pause) for that slide.
-
-### Usage
-
-The `esl-carousel-autoplay-timeout` attribute can be added to any carousel slide.
-For carousels showing multiple slides simultaneously (group mode), the autoplay uses the timeout defined by the first active slide.
-If the value is invalid carousel will use plugin's main duration as fallback.
-Negative values, `0`, or `none` will pause autoplay on that slide.
-
+Example:
 ```html
 <esl-carousel esl-carousel-autoplay="3s">
   <esl-carousel-slide>Default timeout (3s)</esl-carousel-slide>
-  <esl-carousel-slide esl-carousel-autoplay-timeout="5s">Custom timeout (5s)</esl-carousel-slide>
-  <esl-carousel-slide esl-carousel-autoplay-timeout="1s">Fast timeout (1s)</esl-carousel-slide>
-  <esl-carousel-slide esl-carousel-autoplay-timeout="0">Autoplay paused only on this slide</esl-carousel-slide>
+  <esl-carousel-slide esl-carousel-autoplay-timeout="5s">Custom (5s)</esl-carousel-slide>
+  <esl-carousel-slide esl-carousel-autoplay-timeout="1s">Fast (1s)</esl-carousel-slide>
+  <esl-carousel-slide esl-carousel-autoplay-timeout="0">Paused on this slide</esl-carousel-slide>
 </esl-carousel>
 ```
 
-### Media Query Support
-
-The attribute supports ESL media query syntax for responsive timeout values:
-
+### Media Queries for per‑slide
 ```html
-<!-- Unified query syntax -->
 <esl-carousel-slide esl-carousel-autoplay-timeout="2s | @XS => 4s | @LG => 0">
-  Different timeouts for different screen sizes (autoplay inactive on @LG)
+  Adaptive durations (paused on @LG)
 </esl-carousel-slide>
+```
 
-<!-- Tuple query syntax (based on carousel's media attribute) -->
+Tuple syntax variant (bound to carousel media):
+```html
 <esl-carousel media="all | @XS | @SM" esl-carousel-autoplay="3s">
-  <esl-carousel-slide esl-carousel-autoplay-timeout="2s | 3s | 0">
-    Timeout varies by breakpoint: 2s (all), 3s (@XS), 0 (inactive on @SM)
-  </esl-carousel-slide>
+  <esl-carousel-slide esl-carousel-autoplay-timeout="2s | 3s | 0"></esl-carousel-slide>
 </esl-carousel>
 ```
 
-### Supported Time Formats
-
-The attribute accepts the same time formats as the main autoplay duration:
-- CSS time format: `1s`, `500ms`, `2.5s`
-- Milliseconds as numbers: `1000`, `2500`
-- `0`, `none` or negative number to pause on a slide
-- ESL media query wrapped values: `1s | @MD => 2s | @LG => 0`
+Supported time formats:
+ - CSS times: `1s`, `500ms`, `2.5s`
+ - Plain numbers: `1000`, `2500`
+ - `0` or negative: pause for the slide
+ - ESL media rule sets: `1s | @MD => 2s | @LG => 0`
 
 ## Events
 
-The `esl-carousel-autoplay` plugin emits the `esl:autoplay:change` event when it is changed to notify about one of the following changes:
- - Autoplay/plugin is enabled/disabled
- - Autoplay is paused/resumed (interaction / intersection / per-slide 0 / navigation ability changes)
- - Autoplay next cycle is started
+`esl:autoplay:change` (non-bubbling, non-cancelable) emitted on the carousel when:
+ - Manual enable/disable changes
+ - Runtime allowance changes (intersection / interaction / navigation availability)
+ - Cycle (re)starts or stops (schedule cleared or created)
 
-Each of `esl:autoplay:change` events contains quick access (own properties) for the following state props:
- - `enabled` (boolean) - true if the autoplay plugin is enabled (root duration > 0), false otherwise
- - `active` (boolean) - true if the autoplay is active (timer scheduled), false otherwise
- - `duration` (number) - the current `effectiveDuration` in milliseconds
+Event payload fields:
+ - `enabled` – enabled state (autoplay not manually disabled and global duration is valid non‑negative value)
+ - `active` – timer scheduled
+ - `duration` – effective duration used for (next) cycle (0 on clear state)
 
-The `esl:autoplay:change` event is dispatched on the `esl-carousel` element. 
-It is not propagated to the parent elements (non-bubbling event).
-The `esl:autoplay:change` event is not cancelable.
+Use case examples: progress indicator, custom UI state, analytics.
 
-Typical use cases include building a progress bar for the autoplay cycle and reacting to state changes when autoplay is paused on a slide (`0` timeout) or due to interaction / visibility / command limitations.
+## Progress helper custom attribute
 
-## Out of the box progress custom attribute
+`esl-carousel-autoplay-progress` listens for `esl:autoplay:change` and exposes:
+ - `[autoplay-enabled]` boolean attribute
+ - `[animate]` attribute pulsed on each cycle start
+ - `--esl-autoplay-timeout` CSS variable (ms) for styling animations
 
-In addition to the status event, the `esl-carousel-autoplay` goes with an optional additional custom attribute `esl-carousel-autoplay-progress`.
-It could be added to any element that should be used as a progress bar for the autoplay cycle.
-The `esl-carousel-autoplay-progress` custom attribute will automatically bind to the `esl:autoplay:change` event and reflect autoplay cycle progress by setting the following properties:
- - `autoplay-enabled` boolean attribute - true if the autoplay plugin is enabled, false otherwise
- - `animate` boolean attribute - appears on each autoplay cycle start; drops for a one frame to allow CSS transitions/animation to be handled
- - `--esl-autoplay-timeout` CSS variable - the current autoplay duration as a CSS time value (e.g. `3000ms`)
-
-The only parameter that `esl-carousel-autoplay-progress` custom attribute accepts as its value is the `esl-carousel` ESLTraversingQuery selector.
-If selector is not provided, the `esl-carousel-autoplay-progress` will try to find first `esl-carousel` element inside the closest `.esl-carousel-container` parent.
+Value: optional ESLTraversingQuery to target a carousel; otherwise nearest carousel inside closest `.esl-carousel-container`.
 
 ## Examples
 
-### Basic autoplay with custom duration
+### Basic autoplay
 ```html
 <esl-carousel esl-carousel-autoplay="10s">
   <ul esl-carousel-slides>
@@ -152,36 +124,38 @@ If selector is not provided, the `esl-carousel-autoplay-progress` will try to fi
 </esl-carousel>
 ```
 
-### Autoplay with custom command and control
+### Base suppressed (duration 0) with per‑slide override
 ```html
-<esl-carousel esl-carousel-autoplay="{duration: '5s', command: 'slide:next', control: '.esl-carousel-control'}">
+<esl-carousel esl-carousel-autoplay="0">
+  <ul esl-carousel-slides>
+    <li esl-carousel-slide esl-carousel-autoplay-timeout="4s">Only this slide auto advances</li>
+    <li esl-carousel-slide>Static (no cycle here)</li>
+  </ul>
+</esl-carousel>
+```
+
+### Disable below breakpoint
+```html
+<esl-carousel esl-carousel-autoplay="8s | @XS => none">
+```
+(or use a negative value instead of `none`).
+
+### Responsive with controls and container class
+```html
+<esl-carousel esl-carousel-autoplay="{control: '.esl-carousel-control', duration: 0, containerCls: 'autoplay-enabled'} | @MD => 5s | @LG => 10s">
   <ul esl-carousel-slides>
     <li esl-carousel-slide>Slide 1</li>
     <li esl-carousel-slide>Slide 2</li>
-    <li esl-carousel-slide>Slide 3</li>
   </ul>
 </esl-carousel>
-<div class="esl-carousel-controls">
-  <button type="button" class="esl-carousel-control">Next</button>
-</div>
+<button class="esl-carousel-control">Toggle Autoplay</button>
 ```
+This keeps plugin ready (duration 0) on small screens and starts cycles only from @MD / @LG.
 
-### Disabling autoplay on mobile breakpoint
-```html
-<esl-carousel esl-carousel-autoplay="10s | @XS => 0">
-```
-or
-```html
-<esl-carousel esl-carousel-autoplay="10s | @XS => none">
-```
-or
-```html
-<esl-carousel esl-carousel-autoplay="10s | @XS => {duration: 0}">
-```
+---
 
-### Using ESLMediaRuleList capabilities
-The configuration below enables autoplay only on `MD` and `LG` breakpoints, with different durations for each breakpoint.
-But utilizing the `control` and `containerCls` properties, for both enabled breakpoints.
-```html
-<esl-carousel esl-carousel-autoplay="{control: '.esl-carousel-control', duration: 0, containerCls: 'autoplay-enabled'} | @MD => 5s | @LG => 10s">
-```
+Short reference:
+- Set global `duration = 0` to keep autoplay enabled but idle until overridden per slide.
+- Use `none` / negative to fully disable.
+- Per‑slide `0` pauses only that slide.
+- `enabled` writable for manual suspend/resume; `active` shows scheduled timer.

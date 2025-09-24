@@ -1,5 +1,3 @@
-import '../../../../polyfills/es5-target-shim';
-
 import {attr, boolAttr, jsonAttr} from '../../../esl-utils/decorators';
 import {prop} from '../prop';
 

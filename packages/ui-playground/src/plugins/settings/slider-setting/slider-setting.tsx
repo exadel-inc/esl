@@ -1,5 +1,3 @@
-import React from 'jsx-dom';
-
 import {attr, memoize, listen} from '@exadel/esl/modules/esl-utils/decorators';
 
 import {UIPSetting} from '../base-setting/base-setting';

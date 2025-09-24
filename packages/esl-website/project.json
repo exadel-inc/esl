@@ -143,7 +143,7 @@
       "cache": true,
       "inputs": [
         {"env": "SITE_ENV"},
-        {"input": "default", "projects": ["esl"]},
+        {"input": "default", "projects": ["esl", "uip"]},
         "{projectRoot}/src/**/*.css",
         "{projectRoot}/src/**/*.less"
       ],

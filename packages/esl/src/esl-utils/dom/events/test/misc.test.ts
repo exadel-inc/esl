@@ -156,5 +156,10 @@ describe('dom/events: misc', () => {
       expect(event.bubbles).toBe(false);
       expect(event.cancelable).toBe(false);
     });
+
+    test('dispatchCustomEvent does not dispatch empty event', () => {
+      dispatchCustomEvent(el, '');
+      expect(el.dispatchEvent).not.toHaveBeenCalled();
+    });
   });
 });

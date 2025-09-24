@@ -15,12 +15,3 @@ export interface ESLA11yGroupTagShape extends ESLBaseElementShape<ESLA11yGroup> 
   /** Children are not allowed for ESLA11yGroup */
   children?: never[];
 }
-
-declare global {
-  namespace JSX {
-    export interface IntrinsicElements {
-      /** {@link ESLA11yGroup} custom tag */
-      'esl-a11y-group': ESLA11yGroupTagShape;
-    }
-  }
-}

@@ -1,5 +1,3 @@
-import '../../../../polyfills/es5-target-shim';
-
 import {listen} from '../listen';
 import {ESLEventUtils} from '../../dom/events';
 

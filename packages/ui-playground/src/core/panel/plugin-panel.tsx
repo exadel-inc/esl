@@ -1,5 +1,3 @@
-import React from 'jsx-dom';
-
 import {CSSClassUtils} from '@exadel/esl/modules/esl-utils/dom';
 import {skipOneRender} from '@exadel/esl/modules/esl-utils/async';
 import {ESLMediaQuery} from '@exadel/esl/modules/esl-media-query/core';
@@ -32,7 +30,7 @@ export abstract class UIPPluginPanel extends UIPPlugin {
   protected _startSize: number = NaN;
 
   /** Plugin header icon */
-  protected get $icon(): JSX.Element | null {
+  protected get $icon(): HTMLElement | null {
     return null;
   }
 

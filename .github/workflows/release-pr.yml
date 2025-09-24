@@ -31,7 +31,7 @@ jobs:
           fetch-depth: 0
 
       - name: Use Node v${{ env.node-version }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           cache: 'npm'
           node-version: ${{ env.node-version }}
@@ -41,7 +41,7 @@ jobs:
 
       - name: Check if current version created
         id: preversion
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const { execSync } = require('child_process');
@@ -65,7 +65,7 @@ jobs:
       - name: Store the new version
         if: ${{ steps.preversion.outputs.allowed }}
         id: info
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const version = require('./package.json').version;

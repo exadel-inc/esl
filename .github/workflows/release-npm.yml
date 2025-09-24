@@ -28,7 +28,7 @@ jobs:
           filter: tree:0
 
       - name: Use Node v${{ env.node-version }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           cache: 'npm'
           node-version: ${{ env.node-version }}
@@ -48,8 +48,16 @@ jobs:
         run: npx nx report
         shell: bash
 
+      - name: Resolve Distribution Tag
+        id: tag
+        shell: bash
+        run: |
+          DIST_TAG=$(npm run --silent get:disttag)
+          echo "Resolved dist-tag: $DIST_TAG"
+          echo "tag=$DIST_TAG" >> "$GITHUB_OUTPUT"
+
       - name: Publish to NPM
-        run: npx nx release publish
+        run: npx nx release publish --tag=${{ steps.tag.outputs.tag }}
         shell: bash
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

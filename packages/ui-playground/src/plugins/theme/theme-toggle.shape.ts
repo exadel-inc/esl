@@ -5,7 +5,7 @@ export interface UIPThemeSwitcherShape extends ESLBaseElementShape<UIPThemeSwitc
   children?: any;
 }
 
-declare global {
+declare module 'jsx-dom' {
   namespace JSX {
     interface IntrinsicElements {
       'uip-theme-toggle': UIPThemeSwitcherShape;

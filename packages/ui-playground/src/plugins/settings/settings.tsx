@@ -1,5 +1,3 @@
-import React from 'jsx-dom';
-
 import {debounce} from '@exadel/esl/modules/esl-utils/async/debounce';
 import {attr, boolAttr, decorate, listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 
@@ -27,8 +25,8 @@ export class UIPSettings extends UIPPluginPanel {
   /** @readonly internal settings items state marker */
   @boolAttr({readonly: true}) public inactive: boolean;
 
-  protected override get $icon(): JSX.Element {
-    return <SettingsIcon/>;
+  protected override get $icon(): HTMLElement {
+    return <SettingsIcon/> as HTMLElement;
   }
 
   @memoize()
