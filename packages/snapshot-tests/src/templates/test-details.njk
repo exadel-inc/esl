@@ -21,7 +21,7 @@
     <td colspan="3">
     {% if test.hasSnapshot %}
       {% set snapshot = test.dirPath/test.snapshot %}
-      <img src="{{ basePath | resolveUrl(snapshot) }}" alt="Test Diff {{ test.snapshot }}" />
+      <img src="{{ basePath | resolveUrl(basePath, snapshot) }}" alt="Test Diff {{ test.snapshot }}" />
     {% else %}
       <pre>{{ test.messages | join('\n') }}</pre>
     {% endif %}
