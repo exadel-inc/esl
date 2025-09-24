@@ -1,82 +1,43 @@
+{% from 'row.njk' import row with context %}
+{% from 'error-row.njk' import errorRow with context %}
+
 <h1>Test Results</h1>
 <h2>Summary</h2>
 <table>
   <tbody>
-    <tr>
-      <td>🕙 Start time</td>
-      <td>⌛ Duration</td>
-    </tr>
-    <tr>
-      <td>{{ stats.startTimeStr }}</td>
-      <td>{{ stats.totalTimeStr }}</td>
-    </tr>
+    {{ row(['🕙 Start time', '⌛ Duration']) }}
+    {{ row([stats.startTimeStr, stats.totalTimeStr]) }}
   </tbody>
 </table>
 <table>
   <tbody>
-    <tr>
-      <td></td>
-      <td>✅ Passed</td>
-      <td>❌ Failed</td>
-      <td>🚧 Todo</td>
-      <td>⚪ Total</td>
-    </tr>
-    <tr>
-      <td>Test Suites</td>
-      <td>{{ stats.numPassedTestSuites }}</td>
-      <td>{{ stats.numFailedTestSuites }}</td>
-      <td>-</td>
-      <td>{{ stats.numTotalTestSuites }}</td>
-    </tr>
-    <tr>
-      <td>Tests</td>
-      <td>{{ stats.numPassedTests }}</td>
-      <td>{{ stats.numFailedTests }}</td>
-      <td>{{ stats.numTodoTests }}</td>
-      <td>{{ stats.numTotalTests }}</td>
-    </tr>
+    {{ row(['', '✅ Passed', '❌ Failed', '🚧 Todo', '⚪ Total']) }}
+    {{ row(['Test Suites', stats.numPassedTestSuites, stats.numFailedTestSuites, '-', stats.numTotalTestSuites]) }}
+    {{ row(['Tests', stats.numPassedTests, stats.numFailedTests, stats.numTodoTests, stats.numTotalTests]) }}
   </tbody>
 </table>
 
 {% if files %}
-  <hr/>
-  <h2>Tests Details</h2>
+<hr/>
+<h2>Tests Details</h2>
 {% endif %}
 {% for file in files %}
-  <h3>{{ file.filepath }}</h3>
-  <table>
-    <tbody>
-    <tr>
-      <td>Test</td>
-      <td>Status</td>
-      <td>Time</td>
-    </tr>
-    {% for test in file.tests %}
-      <tr>
-        <td>{{test.name}}: {{test.title}}</td>
-        <td>{% if test.status == 'passed' %} ✅ {% else %} ❌ {% endif %}</td>
-        <td>{% if test.time < 1000 %} {{test.time + 'ms'}} {% else %} {{ (test.time / 1000) + 's' }} {% endif %}</td>
-      </tr>
+<h3>{{ file.filepath }}</h3>
+<table>
+  <tbody>
+  {{ row(['Test', 'Status', 'Time']) }}
 
-      {% if test.status != 'passed' -%}
-        <tr>
-          <td colspan="3">
-            {%- if test.hasSnapshot -%}
-              {% set snapshot = test.dirPath / test.snapshot %}
-              {% if not basePath %}
-                {% set src = snapshot %}
-              {% else %}
-                {% set srcBase = basePath + ('/' if not basePath | last == '/') + snapshot + ('?raw=true' if 'github' in basePath) %}
-              {% endif %}
-              <img src="{{ src or (srcBase | replace('/\/', '/')) }}" alt="Test Diff {{ test.snapshot }}"/>
-            {%- else -%}
-              <pre>{{ test.messages | join('.') }}</pre>
-            {%- endif -%}
-          </td>
-        </tr>
-      {%- endif %}
+  {% for test in file.tests %}
+    {% set title = test.name + ':' test.title %}
+    {% set status = '✅' if test.status == 'passed' else '❌' %}
+    {% set timing = test.time + 'ms' if test.time < 1000 else (test.time / 1000) + 's' %}
+    {{ row([title, status, timing]) }}
 
-    {% endfor %}
-    </tbody>
-  </table>
+    {% if test.status != 'passed' -%}
+      {{ errorRow(test, basePath) }}
+    {%- endif %}
+
+  {% endfor %}
+  </tbody>
+</table>
 {% endfor %}

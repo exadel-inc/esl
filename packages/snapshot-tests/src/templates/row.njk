@@ -1,0 +1,9 @@
+{% macro row(list) %}
+  {% if list and list.length %}
+    <tr>
+      {% for item in list %}
+      <td>{{ item }}</td>
+      {% enfor %}
+    </tr>
+  {% endif %}
+{% endmacro %}
