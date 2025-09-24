@@ -1,7 +1,7 @@
 import nunjucks from 'nunjucks';
 
 const printSummary = (stats, template) => {
-  return nunjucks.render(template[0], stats);
+  return nunjucks.render(template[0], {stats});
 };
 
 const resolveURL = (basePath, snapshot) => {
