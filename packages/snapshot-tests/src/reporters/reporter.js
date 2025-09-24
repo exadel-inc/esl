@@ -70,6 +70,7 @@ export class SnapshotAwareReporter {
   }
 
   async onRunComplete(contexts, results) {
+    nunjucks.configure('snapshot-tests/stc/templates', {autoescape: true});
     const stats = this.buildStats(results);
     const files = this.buildTestResults(results);
     const content = nunjucks.render(this._options.templatePath, {stats, files});
