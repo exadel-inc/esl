@@ -1,4 +1,4 @@
-import {lang, strict} from '@exadel/eslint-config-esl';
+import {lang, strict, esl} from '@exadel/eslint-config-esl';
 
 export default [
   {
@@ -21,15 +21,7 @@ export default [
   ...lang.js,
   ...lang.ts,
   ...strict,
-
-  // ESL ESLint Plugin
-  ...await (async () => {
-    try {
-      return (await import('@exadel/eslint-plugin-esl')).recommended;
-    } catch {
-      return [];
-    }
-  })(),
+  ...esl.recommended,
 
   // Custom ESLint rules
   {
