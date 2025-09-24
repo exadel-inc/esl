@@ -1,9 +1,9 @@
 import fs from 'fs';
 import path from 'path';
+import nunjucks from 'nunjucks';
 
 import {buildSnapshotName, getDiffDir, getDirName} from '../utils/image-snapshot.name.js';
 import {mkDir} from '../utils/directory.js';
-import {print} from './printers.js';
 
 const writeFileSafe = (filename, data) => {
   const dirname = path.dirname(filename);
@@ -72,14 +72,16 @@ export class SnapshotAwareReporter {
   async onRunComplete(contexts, results) {
     const stats = this.buildStats(results);
     const files = this.buildTestResults(results);
-    writeFileSafe(this._options.outputPath, print({stats, files, templates: this._options.templatePath}));
+    const content = nunjucks.render(this._options.templatePath, {stats, files});
+    writeFileSafe(this._options.outputPath, content);
 
     if (process.env.GITHUB_ACTIONS && process.env.DIFF_REPORT_BRANCH && this._options.outputPublishPath) {
       const serverUrl = process.env.GITHUB_SERVER_URL;
       const repository = process.env.GITHUB_REPOSITORY;
       const branch = process.env.DIFF_REPORT_BRANCH;
       const basePath = `${serverUrl}/${repository}/blob/${branch}/`;
-      writeFileSafe(this._options.outputPublishPath, print({stats, files, basePath, templates: this._options.templatePath}));
+      const content1 = nunjucks.render(this._options.templatePath, {stats, files, basePath});
+      writeFileSafe(this._options.outputPublishPath, content1);
     }
   }
 }
