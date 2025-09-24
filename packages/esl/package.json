@@ -65,7 +65,6 @@
   },
   "devDependencies": {
     "@exadel/eslint-config-esl": "^5.13.0",
-    "@exadel/eslint-plugin-esl": "^5.13.0",
     "@exadel/stylelint-config-esl": "^5.13.0"
   },
   "contributors": [
