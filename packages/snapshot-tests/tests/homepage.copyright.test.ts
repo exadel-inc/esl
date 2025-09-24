@@ -17,7 +17,7 @@ describe('Homepage footer manual validation', () => {
     const $copyright = await page.$('footer .footer-copyright');
 
     const content = await $copyright?.evaluate((el) => el.textContent);
-    expect(content).toContain('©');
+    expect(content).toContain('bla-bla');
   });
 
   // TODO: Check privacy policy link
