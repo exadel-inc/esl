@@ -30,7 +30,8 @@
     "eslint-plugin-sonarjs": "^3.0.5",
     "eslint-plugin-tsdoc": "^0.4.0",
     "globals": "^16.4.0",
-    "typescript-eslint": "^8.44.1"
+    "typescript-eslint": "^8.44.1",
+    "semiver": "^1.1.0"
   },
   "devDependencies": {
     "@types/eslint": "^9.6.1"
