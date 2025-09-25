@@ -5,8 +5,7 @@ description: >
 playground:
   marquee:
     description: >
-      UI Playground is a library designed to enable developers to present, play with, and demonstrate various components. 
-      It provides a structured interface to manipulate component settings, adjust markup, and showcase visual outputs in a controlled environment.
+      UI Playground is a library built for developers to explore, customize, and demonstrate UI components. It offers a structured interface to modify settings, adjust markup, and view changes in real time—providing a controlled, interactive environment.
   benefits:
     title: Why UI Playground?
     items:

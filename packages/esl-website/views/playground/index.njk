@@ -1,5 +1,5 @@
 ---
-  layout: content
+  layout: sub-landing
   title: Playground
   order: 10
   tags: [nav, nav-header, draft]
@@ -15,11 +15,9 @@
     collections: ["playground"]
 ---
 
-<div class="uip-landing-marquee container">
+<div class="uip-landing-marquee container uip-container">
   <div class="uip-landing-logo">
-    &lt;
-      <span class="uip-landing-logo-typewriter">UI Playground</span>
-    &gt;
+    <span class="uip-landing-logo-typewriter">UI Playground</span>
   </div>
   <p class="uip-landing-description">{{playground.marquee.description}}</p>
 </div>
@@ -36,14 +34,14 @@
   </ul>
 </div>
 
-<div class="uip-landing-d container">
+<div class="uip-landing-d container uip-container">
   <h2 class="uip-landing-heading">{{playground.demo.title}}</h2>
   <p> {{playground.demo.description}} </p>
 
   <uip-root store-key='uip-landing' editor-collapsed>
     <script type="text/html" uip-snippet label="Logo">
       <div class="uip-landing-d-logo">
-        <a class="uip-landing-d-logo-link blue" href="{{ '/playground/introduction/' | url }}">
+        <a class="uip-landing-d-logo-link bg-white" href="{{ '/playground/introduction/' | url }}">
           <span>Get started with</span>
           {% include 'static/assets/sidebar/playground.svg' %}
         </a>
@@ -52,10 +50,11 @@
     <uip-preview></uip-preview>
     <uip-settings resizable collapsible vertical="@+sm" target=".uip-landing-d-logo" theme-toggle>
       <uip-slider-setting label="Height:" target=".uip-landing-d-logo svg" attribute="height" min="50" max="150"></uip-slider-setting>
-      <uip-select-setting label="Color:" attribute="class" target=".uip-landing-d-logo-link" mode="append">
-        <option value="orange">Orange</option>
-        <option value="blue">Blue</option>
-        <option value="green">Green</option>
+      <uip-select-setting label="Background:" attribute="class" target=".uip-landing-d-logo-link" mode="append">
+        <option value="bg-white">White</option>
+        <option value="bg-orange">Orange</option>
+        <option value="bg-blue">Blue</option>
+        <option value="bg-green">Green</option>
       </uip-select-setting>
     </uip-settings>
     <uip-editor collapsible copy></uip-editor>

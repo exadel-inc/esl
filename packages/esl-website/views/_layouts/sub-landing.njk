@@ -1,0 +1,17 @@
+{% extends './base.njk' %}
+{% set baseClass = 'sidebar-layout' %}
+
+{% block content %}
+  {% include 'navigation/header.njk' %}
+  {% include 'navigation/sidebar.njk' %}
+
+  <main class="content {{ containerCls or 'container' }}">
+    {{ content | safe or 'No content.' }}
+  </main>
+
+  <footer class="footer-compact container-fluid">
+    {% include 'navigation/banner.njk' %}
+    {% include 'navigation/footer-compact.njk' %}
+  </footer>
+
+{% endblock %}

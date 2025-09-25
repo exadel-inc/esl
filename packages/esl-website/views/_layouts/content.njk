@@ -7,8 +7,7 @@
 
   <main class="content {{ containerCls or 'container' }} {{ 'container-aside' if aside }} {{ 'markdown-container' if isMarkdownSource }}">
     {% set isMarkdownSource = page.templateSyntax.includes('md') %}
-    {% set titleBlacklist = ['Playground'] %}
-    {% if title and title not in titleBlacklist %}
+    {% if title %}
       {% include 'navigation/breadcrumbs.njk' %}
       <h1 class="page-title">
         {% if icon %}{% include "static/assets/" + icon %}{% endif %}
