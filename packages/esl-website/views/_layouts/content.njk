@@ -5,8 +5,8 @@
   {% include 'navigation/header.njk' %}
   {% include 'navigation/sidebar.njk' %}
 
+  {% set isMarkdownSource = page.templateSyntax.includes('md') %}
   <main class="content {{ containerCls or 'container' }} {{ 'container-aside' if aside }} {{ 'markdown-container' if isMarkdownSource }}">
-    {% set isMarkdownSource = page.templateSyntax.includes('md') %}
     {% if title %}
       {% include 'navigation/breadcrumbs.njk' %}
       <h1 class="page-title">
