@@ -17,27 +17,24 @@
   </tbody>
 </table>
 
-{% if files -%}
+{%- if files -%}
 <hr/>
 <h2>Tests Details</h2>
-{%- endif %}
-{% for file in files -%}
+{%- endif -%}
+{%- for file in files -%}
 <h3>{{ file.filepath }}</h3>
 <table>
   <tbody>
-  {{ row(['Test', 'Status', 'Time']) }}
-
-  {% for test in file.tests -%}
-    {% set title = test.name + ': ' + test.title %}
-    {% set status = '✅' if test.status == 'passed' else '❌' %}
-    {% set timing = test.time + 'ms' if test.time < 1000 else (test.time / 1000) + 's' %}
-    {{ row([title, status, timing]) }}
-
-    {% if test.status != 'passed' -%}
-      {{ errorRow(test, basePath) }}
-    {%- endif %}
-
-  {%- endfor %}
+    {{ row(['Test', 'Status', 'Time']) }}
+    {%- for test in file.tests -%}
+      {%- set title = test.name + ': ' + test.title -%}
+      {%- set status = '✅' if test.status == 'passed' else '❌' -%}
+      {%- set timing = test.time + 'ms' if test.time < 1000 else (test.time / 1000) + 's' -%}
+      {{ row([title, status, timing]) }}
+      {%- if test.status != 'passed' -%}
+        {{ errorRow(test, basePath) }}
+      {%- endif -%}
+    {%- endfor -%}
   </tbody>
 </table>
-{%- endfor %}
+{%- endfor -%}

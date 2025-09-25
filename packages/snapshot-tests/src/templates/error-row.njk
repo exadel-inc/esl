@@ -1,17 +1,17 @@
-{% macro errorRow(test, basePath) -%}
+{%- macro errorRow(test, basePath) -%}
   <tr>
     <td colspan="3">
-      {% if test.hasSnapshot -%}
-        {% set snapshot = test.dirPath / test.snapshot %}
-        {% if not basePath -%}
-          {% set src = snapshot %}
+      {%- if test.hasSnapshot -%}
+        {%- set snapshot = test.dirPath / test.snapshot -%}
+        {%- if not basePath -%}
+          {%- set src = snapshot -%}
         {%- else -%}
-          {% set srcBase = basePath + ('/' if not basePath | last == '/') + snapshot + ('?raw=true' if 'github' in basePath) %}
-        {%- endif %}
+          {%- set srcBase = basePath + ('/' if not basePath | last == '/') + snapshot + ('?raw=true' if 'github' in basePath) -%}
+        {%- endif -%}
         <img src="{{ src or (srcBase | replace('/\/', '/')) }}" alt="Test Diff {{ test.snapshot }}"/>
       {%- else -%}
         <pre>{{ test.messages | join('.') }}</pre>
-      {%- endif %}
+      {%- endif- %}
     </td>
   </tr>
-{%- endmacro %}
+{%- endmacro -%}
