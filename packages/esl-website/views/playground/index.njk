@@ -40,21 +40,20 @@
 
   <uip-root store-key='uip-landing' editor-collapsed>
     <script type="text/html" uip-snippet label="Logo">
-      <div class="uip-landing-d-logo">
-        <a class="uip-landing-d-logo-link bg-white" href="{{ '/playground/introduction/' | url }}">
-          <span>Get started with</span>
+      <div class="uip-landing-d-container">
+        <a class="btn btn-xl btn-sec-blue" href="{{ '/playground/introduction/' | url }}">
+          <span>Get started</span> 
           {% include 'static/assets/sidebar/playground.svg' %}
         </a>
       </div>
     </script>
     <uip-preview></uip-preview>
-    <uip-settings resizable collapsible vertical="@+sm" target=".uip-landing-d-logo" theme-toggle>
-      <uip-slider-setting label="Height:" target=".uip-landing-d-logo svg" attribute="height" min="50" max="150"></uip-slider-setting>
-      <uip-select-setting label="Background:" attribute="class" target=".uip-landing-d-logo-link" mode="append">
-        <option value="bg-white">White</option>
-        <option value="bg-orange">Orange</option>
-        <option value="bg-blue">Blue</option>
-        <option value="bg-green">Green</option>
+    <uip-settings resizable collapsible vertical="@+md" target=".uip-landing-d-btn" theme-toggle>
+      <uip-slider-setting label="Height:" target="svg" attribute="height" min="50" max="100"></uip-slider-setting>
+      <uip-select-setting label="Color:" attribute="class" target=".btn-xl" mode="append">
+        <option value="btn-sec-orange">Orange</option>
+        <option value="btn-sec-blue">Blue</option>
+        <option value="btn-sec-green">Green</option>
       </uip-select-setting>
     </uip-settings>
     <uip-editor collapsible copy></uip-editor>

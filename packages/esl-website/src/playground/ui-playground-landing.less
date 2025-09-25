@@ -36,7 +36,7 @@
     margin: 4rem 0;
     border-radius: 20px;
 
-    font-size: max(min(calc(100vw / 20), 80px), 25px);
+    font-size: clamp(25px, calc(100vw / 20), 80px);
     font-family: 'E2EMonoFont', monospace;
     font-weight: 500;
     letter-spacing: normal;
@@ -123,22 +123,10 @@
     }
   }
 
-  &-d {
-    &-logo {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 250px;
-
-      &-link {
-        display: flex;
-        align-items: center;
-        padding: 20px;
-        border-radius: 10px;
-        font-size: calc(min(100vw / 10, 50px));
-        border: 4px solid;
-        fill: currentColor;
-      }
-    }
+  &-d-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 250px;
   }
 }
