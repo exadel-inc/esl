@@ -41,26 +41,7 @@ Even if you use the whole utils module, it is still tiny.
     Throttling is a pattern that allows limiting function calls to one execution per timeout.
 
 
-- #### TS Decorators
-
-    - ##### <a href="./decorators/attr.ts" target="_blank">@attr</a> - a TS decorator to create a property reflected to a DOM element attribute.
-
-    - ##### <a href="./decorators/bind.ts" target="_blank">@bind</a> - a TS decorator to bind method context to current class instance.
-
-    - ##### <a href="./decorators/bool-attr.ts" target="_blank">@boolAttr</a> - a TS decorator to create a boolean property reflected to a DOM element attribute-marker.
-
-    - ##### <a href="./decorators/decorate.ts" target="_blank">@decorate</a> - a TS decorator to decorate and bind class method.
-
-    - ##### <a href="./decorators/jsonAttr.ts" target="_blank">@jsonAttr</a> - a TS decorator to create an object property reflected to a DOM element attribute with JSON value.
-
-    - ##### <a href="./decorators/listen.ts" target="_blank">@listen</a> - a TS decorator to transform method into event listener descriptor.
-
-    - ##### <a href="./decorators/memoize.ts" target="_blank">@memoize</a> - a TS decorator to make method or get accessor memoized.
-
-    - ##### <a href="./decorators/prop.ts" target="_blank">@prop</a> - a TS decorator to define a field on the prototype level.
-
-    - ##### <a href="./decorators/ready.ts" target="_blank">@ready</a> - a TS decorator to postpone method execution until DOM is ready.
-      See `esl-utils.dom.ready#onDocumentReady` utility function for details.
+- #### <a href="./decorators/README.md" target="_blank">TS Decorators</a>
 
 - #### DOM Helpers
 

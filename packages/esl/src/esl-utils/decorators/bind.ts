@@ -1,6 +1,16 @@
 import {getPropertyDescriptor} from '../misc/object/utils';
 
-/** Decorator "bind" allows to bind prototype method context to class instance */
+/**
+ * `@bind` decorator: lazily binds a class prototype method to its instance (`this`).
+ * - Lazy one-time binding performed on first instance access
+ * - Access via prototype returns the original (unbound) function
+ * - Caches bound function on the instance (no further getter overhead)
+ * - Only applicable to plain prototype methods (not accessors / fields)
+ * - Reassignment installs the new function as a normal writable value (no rebinding logic)
+ * - Preserves original enumerability; descriptor remains configurable
+ *
+ * @throws TypeError when applied to a non-method
+ */
 // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
 export function bind<Fn extends Function>(target: object,
                                           propertyKey: string,
