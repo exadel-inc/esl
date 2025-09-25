@@ -11,7 +11,7 @@
         <img src="{{ src or (srcBase | replace('/\/', '/')) }}" alt="Test Diff {{ test.snapshot }}"/>
       {%- else -%}
         <pre>{{ test.messages | join('.') }}</pre>
-      {%- endif- %}
+      {%- endif -%}
     </td>
   </tr>
 {%- endmacro -%}
