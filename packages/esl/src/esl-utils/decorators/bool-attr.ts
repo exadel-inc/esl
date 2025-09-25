@@ -30,7 +30,12 @@ const buildAttrName =
 
 /**
  * Decorator to map current property to element boolean (marker) attribute state.
- * Maps boolean type property.
+ * - Presence mapping: attribute present means true, attribute absent means false (no third state)
+ * - No `defaultValue` option; cannot implicitly default to true without attribute (use `@attr` tri‑state pattern for that)
+ * - Setting property: truthy value ensures attribute presence (empty string); falsy value removes the attribute
+ * - `readonly` option exposes getter only (writes ignored at JS level)
+ * - Supports `data-*` via `dataAttr`
+ * - Works with wrapper objects exposing `$host` (resolved internally by underlying DOM helpers)
  * @param config - mapping configuration. See {@link BoolAttrDescriptor}
  */
 export const boolAttr = (config: BoolAttrDescriptor = {}): ESLAttributeDecorator => {

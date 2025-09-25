@@ -1,9 +1,11 @@
 import {debounce} from '@exadel/esl/modules/esl-utils/async/debounce';
 import {attr, boolAttr, decorate, listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
+import {parseBoolean, toBooleanAttribute} from '@exadel/esl/modules/esl-utils/misc/format';
 
 import {UIPPluginPanel} from '../../core/panel/plugin-panel';
 import {ThemeToggleIcon} from '../theme/theme-toggle.icon';
 
+import {UIPDefaults} from '../../core/config/config';
 import {SettingsIcon} from './settings.icon';
 
 import type {UIPSetting} from './base-setting/base-setting';
@@ -14,13 +16,27 @@ import type {UIPSetting} from './base-setting/base-setting';
  */
 export class UIPSettings extends UIPPluginPanel {
   public static is = 'uip-settings';
+
+  public static readonly configKey = 'settings';
   public static observedAttributes = ['dir-toggle', 'theme-toggle', ...UIPPluginPanel.observedAttributes];
 
   /** Attribute to set all inner {@link UIPSetting} settings' {@link UIPSetting#target} targets */
   @attr() public target: string;
 
-  @boolAttr() public dirToggle: boolean;
-  @boolAttr() public themeToggle: boolean;
+  /** Marker to display copy widget */
+  @attr({defaultValue: ($this: UIPSettings) => UIPDefaults.for($this).label}) public label: string;
+
+  /** Marker to display direction toggle button (ltr/rtl) */
+  @attr({parser: parseBoolean, serializer: toBooleanAttribute, defaultValue: ($this: UIPSettings) => UIPDefaults.for($this).dirToggle})
+  public dirToggle: boolean;
+
+  /** Marker to display theme toggle button (light/dark) */
+  @attr({parser: parseBoolean, serializer: toBooleanAttribute, defaultValue: ($this: UIPSettings) => UIPDefaults.for($this).themeToggle})
+  public themeToggle: boolean;
+
+  /** Marker to make settings panel hidden when no active settings found */
+  @attr({parser: parseBoolean, serializer: toBooleanAttribute, defaultValue: ($this: UIPSettings) => UIPDefaults.for($this).hideable})
+  public hideable: boolean;
 
   /** @readonly internal settings items state marker */
   @boolAttr({readonly: true}) public inactive: boolean;
@@ -66,6 +82,8 @@ export class UIPSettings extends UIPPluginPanel {
 
   protected override connectedCallback(): void {
     super.connectedCallback();
+    this.$$cls('hideable', this.hideable);
+
     this.appendChild(this.$header);
     this.appendChild(this.$inner);
     this.appendChild(this.$resize);

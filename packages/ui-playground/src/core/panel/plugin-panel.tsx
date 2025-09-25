@@ -2,8 +2,12 @@ import {CSSClassUtils} from '@exadel/esl/modules/esl-utils/dom';
 import {skipOneRender} from '@exadel/esl/modules/esl-utils/async';
 import {ESLMediaQuery} from '@exadel/esl/modules/esl-media-query/core';
 import {attr, boolAttr, listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
+import {parseBoolean, toBooleanAttribute} from '@exadel/esl/modules/esl-utils/misc/format';
 
 import {UIPPlugin} from '../base/plugin';
+import {UIPDefaults} from '../config/config';
+
+import type {UIPConfigurable} from '../config/config';
 
 export abstract class UIPPluginPanel extends UIPPlugin {
   public static readonly observedAttributes: string[] = ['vertical', 'collapsible', ...UIPPlugin.observedAttributes];
@@ -12,10 +16,12 @@ export abstract class UIPPluginPanel extends UIPPlugin {
   @boolAttr() public collapsed: boolean;
 
   /** Marker to make enable toggle collapse action for section header */
-  @boolAttr() public collapsible: boolean;
+  @attr({parser: parseBoolean, serializer: toBooleanAttribute, defaultValue: ($this: UIPConfigurable) => UIPDefaults.for($this).collapsible})
+  public collapsible: boolean;
 
   /** Marker that indicates resizable state of the panel */
-  @boolAttr() public resizable: boolean;
+  @attr({parser: parseBoolean, serializer: toBooleanAttribute, defaultValue: ($this: UIPConfigurable) => UIPDefaults.for($this).resizable})
+  public resizable: boolean;
 
   /** Marker that indicates resizing state of the panel */
   @boolAttr() public resizing: boolean;
@@ -69,11 +75,13 @@ export abstract class UIPPluginPanel extends UIPPlugin {
   protected override connectedCallback(): void {
     super.connectedCallback();
     this.classList.add('uip-plugin-panel');
+    this.$$cls('collapsible', this.collapsible);
     this._onLayoutModeChange();
   }
 
   protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     super.attributeChangedCallback(attrName, oldVal, newVal);
+    if (attrName === 'collapsible') this.$$cls('collapsible', this.collapsible);
     if (attrName === 'vertical') {
       this.$$off(this._onLayoutModeChange);
       this.$$on(this._onLayoutModeChange);

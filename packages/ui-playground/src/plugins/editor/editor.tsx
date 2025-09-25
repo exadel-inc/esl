@@ -7,11 +7,13 @@ import Prism from 'prismjs';
 import {CodeJar} from 'codejar';
 
 import {debounce} from '@exadel/esl/modules/esl-utils/async/debounce';
-import {attr, boolAttr, decorate, listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
+import {attr, decorate, listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 
+import {parseBoolean, toBooleanAttribute} from '@exadel/esl/modules/esl-utils/misc/format';
 import {UIPPluginPanel} from '../../core/panel/plugin-panel';
 import {CopyIcon} from '../copy/copy-button.icon';
 import {ResetIcon} from '../reset/reset-button.icon';
+import {UIPDefaults} from '../../core/config/config';
 import {EditorIcon} from './editor.icon';
 
 import type {UIPSnippetsList} from '../snippets-list/snippets-list';
@@ -24,16 +26,24 @@ import type {UIPEditableSource} from '../../core/base/source';
  */
 export class UIPEditor extends UIPPluginPanel {
   public static override is = 'uip-editor';
+
+  public static readonly configKey = 'editor';
   public static override observedAttributes = ['copy', ...UIPPluginPanel.observedAttributes];
 
   /** Highlight method declaration  */
   public static highlight = (editor: HTMLElement): void => Prism.highlightElement(editor, false);
 
   /** Source for Editor plugin (default: 'html') */
-  @attr({defaultValue: 'html'}) public source: UIPEditableSource;
+  @attr({defaultValue: 'html'})
+  public source: UIPEditableSource;
 
   /** Marker to display copy widget */
-  @boolAttr({name: 'copy'}) public showCopy: boolean;
+  @attr({defaultValue: ($this: UIPEditor) => (UIPDefaults.for($this).label || '').replace('{{sourceType}}', $this.source.toUpperCase())})
+  public label: string;
+
+  /** Marker to display copy widget */
+  @attr({name: 'copy', parser: parseBoolean, serializer: toBooleanAttribute, defaultValue: ($this: UIPEditor) => UIPDefaults.for($this).copy})
+  public showCopy: boolean;
 
   protected override get $icon(): HTMLElement {
     return <EditorIcon/> as HTMLElement;

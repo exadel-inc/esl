@@ -10,32 +10,15 @@ import {siteConfig} from './site.config.js';
 const PWD = dirname(fileURLToPath(import.meta.url));
 
 class MDRenderer {
+  static FIRST_HEADER = 'body>:is(h1,h2,h3,h4)';
+
   static async render(filePath, startAnchor, endAnchor) {
     try {
       const content = await MDRenderer.parseFile(filePath);
       const {window} = new JSDOM(content);
 
-      // Exclude part before start anchor
-      if (startAnchor) {
-        const startAnchorElement = MDRenderer.findAnchor(window.document, startAnchor);
-        if (startAnchorElement) {
-          while (startAnchorElement.previousSibling) startAnchorElement.previousSibling.remove();
-          startAnchorElement.remove();
-        } else {
-          console.error('MDRenderer.render: start anchor "%s" not found for %s', startAnchor, filePath);
-        }
-      }
-
-      // Exclude part after end anchor
-      if (endAnchor) {
-        const endAnchorElement = MDRenderer.findAnchor(window.document, endAnchor);
-        if (endAnchorElement) {
-          while (endAnchorElement.nextSibling) endAnchorElement.nextSibling.remove();
-          endAnchorElement.remove();
-        } else {
-          console.error('MDRenderer.render: end anchor "%s" not found for %s', endAnchor, filePath);
-        }
-      }
+      if (startAnchor) MDRenderer.dropContentBefore(window, startAnchor, filePath);
+      if (endAnchor) MDRenderer.dropContentAfter(window, endAnchor, filePath);
 
       // Resolve content links
       MDRenderer.resolveLinks(window.document.body, filePath);
@@ -45,6 +28,31 @@ class MDRenderer {
     } catch (e) {
       console.error('MDRenderer.render: error during rendering...\n%s', e);
       return `Critical rendering error: ${e}`;
+    }
+  }
+
+  static dropHeader(context) {
+    const firstHeader = context.document.querySelector(MDRenderer.FIRST_HEADER);
+    if (firstHeader) firstHeader.remove();
+  }
+  static dropContentBefore(context, marker, src) {
+    if (marker === '$content') return MDRenderer.dropHeader(context);
+    // Exclude part before start anchor (legacy behavior)
+    const startElement = MDRenderer.findAnchor(context.document, marker);
+    if (startElement) {
+      while (startElement.previousSibling) startElement.previousSibling.remove();
+      startElement.remove();
+    } else {
+      console.error('MDRenderer.render: start anchor "%s" not found for %s', marker, src);
+    }
+  }
+  static dropContentAfter(context, marker, src) {
+    const startElement = MDRenderer.findAnchor(context.document, marker);
+    if (startElement) {
+      while (startElement.nextSibling) startElement.nextSibling.remove();
+      startElement.remove();
+    } else {
+      console.error('MDRenderer.render: end anchor "%s" not found for %s', marker, src);
     }
   }
 
