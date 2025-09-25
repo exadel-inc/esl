@@ -21,7 +21,7 @@ export default [
   ...lang.js,
   ...lang.ts,
   ...strict,
-  ...esl.recommended,
+  ...esl.recommended(),
 
   // Custom ESLint rules
   {

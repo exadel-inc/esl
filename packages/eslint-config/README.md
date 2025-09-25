@@ -25,7 +25,7 @@ Once installed, the configuration needs to be added in eslint configuration file
 
 ```js
 // Import only configs you need
-import {lang, base, codestyle, medium, strict} from '@exadel/eslint-config-esl';
+import {lang, base, codestyle, medium, strict, esl} from '@exadel/eslint-config-esl';
 
 export default [
     // Default lang (parsers) configs, if required
@@ -33,8 +33,11 @@ export default [
     //...lang.ts,
         
     // ESL ESLint configuration of your choice
-    ...strict // or medium, or base, or codestyle   
-    // Note: recommended sets of eslint / typscript-esint are included in base, medium and strict config.     
+    ...strict, // or medium, or base, or codestyle   
+    // Note: recommended sets of eslint / typescript-eslint are included in base, medium and strict config.     
+
+    // (Optional) ESL integrated migration / deprecation checks (warn severity by default)
+    ...esl.recommended(),
         
     // ESLint user configuration ...
 ];
@@ -116,6 +119,100 @@ Here is the list of included plugins and their ESLint aliases:
 - `sonarjs` - rules for code quality from [eslint-plugin-sonarjs](https://www.npmjs.com/package/eslint-plugin-sonarjs);
 
 All mentioned plugins are direct dependencies of `@exadel/eslint-config-esl` package, you don't need to install them separately.
+
+<a name="deprecations"></a>
+
+### Deprecation & Migration Assistance (Integrated)
+
+The previously separate `@exadel/eslint-plugin-esl` (migration / deprecation plugin) was removed.
+Its functionality is now integrated directly into this shared config package under the `esl` export.
+
+#### Key points
+- Flat-config only (ESLint 9+).
+- Three helper rules: `deprecated-alias`, `deprecated-paths`, `deprecated-static`.
+- Automatic union of all known version deprecations in `esl.recommended()`.
+- All rules autofix where safe.
+- You control a single uniform severity for all deprecation rules.
+
+#### Enabling (default WARN)
+```js
+import {esl} from '@exadel/eslint-config-esl';
+export default [
+  ...esl.recommended(), // same as esl.recommended('warn')
+];
+```
+
+#### Custom severity
+Accepted severity values (case-insensitive):
+- numbers: `0 | 1 | 2`
+- strings: `off | warn | error`
+
+Examples:
+```js
+...esl.recommended('error');       // escalate all deprecation rules to error
+...esl.recommended(0);             // disable all deprecation rules
+...esl.recommended('off');         // same as above
+```
+
+#### Helper rules & config shapes
+1. `@exadel/esl/deprecated-alias`
+```js
+{ "DeprecatedName": "ReplacementName" }
+```
+2. `@exadel/esl/deprecated-paths`
+```js
+{
+  AliasName: { legacy: 'old/path.js', path: '@exadel/esl/AliasName' }
+  // or legacy: ['old/a.js','old/b.js']
+}
+```
+3. `@exadel/esl/deprecated-static`
+```js
+{
+  ClassName: {
+    oldMethod: 'newMethod',
+    anotherOld: { replacement: 'newOne', message: 'ClassName.newOne()' }
+  }
+}
+```
+
+#### Building a custom subset
+Use `esl.forConfig(customConfig, severity)`:
+```js
+import {esl} from '@exadel/eslint-config-esl';
+const onlyAliases = esl.forConfig({
+  aliases: esl.configs['6.0.0'].aliases,
+  paths: {},
+  staticMembers: {}
+}, 'error');
+
+export default [
+  ...onlyAliases
+];
+```
+
+`forConfig` second argument behaves the same as `recommended` severity parameter. If omitted, defaults to `warn`.
+
+#### Migration from removed standalone plugin
+Old rules (removed):
+- `@exadel/esl/deprecated-4-aliases`
+- `@exadel/esl/deprecated-4-methods`
+- `@exadel/esl/deprecated-4-import`
+- `@exadel/esl/deprecated-5-aliases`
+
+Now use:
+```js
+...esl.recommended(); // or with desired severity
+```
+Optionally tailor with `forConfig` (see above) but per-item toggling is intentionally not exposed.
+
+#### Why a single severity knob?
+- Keeps deprecation signal consistent.
+- Simplifies CI policy (treat all deprecations uniformly).
+- Easier future extension for version scoping.
+
+#### Future roadmap
+Planned: version-scoped modes (e.g. "treat code as if upgrading to 7.x") and opt‑in early warnings. Today `recommended()` returns union of released deprecations.
 
 ---
 

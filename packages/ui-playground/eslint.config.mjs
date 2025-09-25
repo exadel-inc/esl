@@ -13,5 +13,5 @@ export default [
   // Using shared ESL ESLint Config
   ...lang.ts,
   ...strict,
-  ...esl.recommended
+  ...esl.recommended() // default warn severity
 ];
