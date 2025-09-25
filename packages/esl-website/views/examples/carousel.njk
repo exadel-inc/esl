@@ -33,7 +33,7 @@ aside:
 
       <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
       <uip-preview></uip-preview>
-      <uip-settings target="[demo-options-target]" label="Quick Options" collapsible collapsed>
+      <uip-settings target="[demo-options-target]" collapsed>
         <uip-bool-setting label="Loop" attribute="loop"></uip-bool-setting>
         <uip-select-setting label="Touch Plugin:" attribute="esl-carousel-touch" mode="replace">
           <option value="none">Disable</option>
@@ -41,8 +41,8 @@ aside:
           <option value="swipe">Always Swipe</option>
         </uip-select-setting>
       </uip-settings>
-      <uip-editor label="Source code (HTML)" collapsible copy></uip-editor>
-      <uip-editor source="js" label="Source code (JS)" collapsible collapsed copy></uip-editor>
+      <uip-editor></uip-editor>
+      <uip-editor source="js" collapsed></uip-editor>
     </uip-root>
   </div>
 </section>

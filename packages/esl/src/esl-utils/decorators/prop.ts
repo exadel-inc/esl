@@ -1,4 +1,4 @@
-import type {PropertyProvider} from '../misc/functions';
+import type {PropertyProvider, ValueOrProvider} from '../misc/functions';
 
 /** Property configuration */
 export type OverrideDecoratorConfig = {
@@ -28,21 +28,17 @@ function setter(name: string, readonly?: boolean) {
 }
 
 /**
- * `@prop` is auxiliary decorator to define a field on the prototype level.
- *` @prop` can be used to override decorated property from the parent level
+ * `@prop` decorator: defines a prototype-level property (value or computed via provider) with optional flags.
+ * - Static value: defined on prototype (writable unless `readonly`)
+ * - Provider function: installed as getter; each access invokes provider with `(this)`; optional setter creates own value
+ * - Readonly: setter becomes no-op (provider case) or value made non-writable (static case)
+ * - Enumerable flag passed through
+ * - Throws if attempting to decorate an already own property on the prototype object
  *
- * You can also use an @override decorator in combination with ECMA Script class property definition:
- * `@prop() public field: any = initial value;`
- *
- * The class property initial value is a part of object creation, so it goes to the object itself,
- * while the @override value is defined on the prototype level.
- *
- * If the value is a provider function, it will be resolved via instance each time property accessed.
- *
- * @param value - value or PropertyProvider to set up in prototype
- * @param prototypeConfig - prototype property configuration
+ * @param value - static value or provider function producing the value per access
+ * @param prototypeConfig - configuration object with optional `readonly` and `enumerable` flags
  */
-export function prop<T = any>(value?: T | PropertyProvider<T>, prototypeConfig: OverrideDecoratorConfig = {}) {
+export function prop<T = any>(value?: ValueOrProvider<T>, prototypeConfig: OverrideDecoratorConfig = {}) {
   return function (obj: any, name: string): any {
     if (Object.hasOwnProperty.call(obj, name)) {
       throw new TypeError('Can\'t override own property');

@@ -7,8 +7,18 @@ import type {MethodTypedDecorator} from '../misc/functions';
 export function memoize(): MethodDecorator;
 export function memoize<H extends MemoHashFn>(hashFn: H): MethodTypedDecorator<(...args: Parameters<H>) => any>;
 /**
- * Memoization decorator helper.
- * @see memoizeFn Original memoizeFn function decorator.
+ * `@memoize` decorator: caches method results or getter value.
+ * - Supports prototype methods & getters and static methods & getters
+ * - Prototype method: first call installs a per‑instance memoized function (independent caches per instance)
+ * - Prototype getter: first access computes & stores value directly on the instance (value cache removable by deleting own prop)
+ * - Static members: wrapped by shared `memoizeFn` (single cache per class member)
+ * - Hash fn: string | null key; `undefined` means skip caching; default only supports 0-1 primitive arg
+ * - Cache control: `memoize.clear(target, key)` removes cached value/function; `memoize.has(target, key, ...args)` checks presence
+ * - Underlying memoized functions expose: `.cache: Map`, `.clear()`, `.has(...args)`
+ *
+ * @param hashFn - optional hash function; defaults to `defaultArgsHashFn`
+ * @throws TypeError when applied to non-function / non-getter descriptor
+ * @see memoizeFn low-level function memoizer
  */
 export function memoize(hashFn: MemoHashFn = defaultArgsHashFn) {
   return function (target: any, prop: string, descriptor: TypedPropertyDescriptor<any>): void {
