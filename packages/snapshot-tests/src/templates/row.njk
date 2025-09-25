@@ -1,9 +1,9 @@
-{% macro row(list) %}
-  {% if list and list.length %}
+{%- macro row(list) %}
+  {%- if list and list.length %}
     <tr>
-      {% for item in list %}
+      {%- for item in list %}
       <td>{{ item }}</td>
-      {% endfor %}
+      {%- endfor %}
     </tr>
-  {% endif %}
-{% endmacro %}
+  {%- endif %}
+{%- endmacro %}
