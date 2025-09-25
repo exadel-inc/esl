@@ -1,4 +1,5 @@
 import plugin from './plugin/plugin.js';
+import {checkCompatibility} from './plugin/compatibility/check.js';
 
 /**
  * Builds flat ruleset from passed plugin configuration.
@@ -6,6 +7,8 @@ import plugin from './plugin/plugin.js';
  * @param {0|1|2|'off'|'warn'|'error'} severity
  */
 function forConfig(config, severity = 1) {
+  checkCompatibility();
+
   return [{
     plugins: {
       '@exadel/esl': plugin
