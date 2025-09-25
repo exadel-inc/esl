@@ -1,40 +1,33 @@
-# Test Results
-  ## Summary
-  
-| :clock10: Start time | :hourglass: Duration |
-| --- | ---: |
-|9/25/2025, 12:06:50 PM|20.82s|
-
-| | :white_check_mark: Passed | :x: Failed | :construction: Todo | :white_circle: Total |
-| --- | ---: | ---: | ---:| ---: |
-|Test Suites|2|1|-|3|
-|Tests|7|1|0|8|
 
 
 
-  ---
-  ## Tests Details
-  ### tests/homepage.copyright.test.ts
+<h1>Test Results</h1>
+<h2>Summary</h2>
 <table>
-<tr><th>Test</th><th>Status</th><th>Time</th></tr>
-<tr><td>Homepage footer manual validation: Check if the footer copyright contains correct version</td><td>:white_check_mark:</td><td>65ms</td></tr>
-<tr><td>Homepage footer manual validation: Check if the footer coypright contains correct year</td><td>:white_check_mark:</td><td>4ms</td></tr>
+  <tbody>
+  <tr><td>🕙 Start time</td><td>⌛ Duration</td></tr>
+  <tr><td>9/25/2025, 7:32:55 PM</td><td>21.12s</td></tr>
+  </tbody>
 </table>
-
-### tests/test.feature
 <table>
-<tr><th>Test</th><th>Status</th><th>Time</th></tr>
-<tr><td>Feature: Test page looks fine: test page screen</td><td>:white_check_mark:</td><td>3.208s</td></tr>
-</table>
-
-### tests/homepage.feature
-<table>
-<tr><th>Test</th><th>Status</th><th>Time</th></tr>
-<tr><td>Feature: Homepage looks fine: test homepage screen</td><td>:white_check_mark:</td><td>3.511s</td></tr>
-<tr><td>Feature: Homepage looks fine: test homepage screen on mobile</td><td>:white_check_mark:</td><td>2.868s</td></tr>
-<tr><td>Feature: Homepage looks fine: test homepage hamburger menu on mobile</td><td>:white_check_mark:</td><td>3.311s</td></tr>
-<tr><td>Feature: Homepage looks fine: test homepage footer on desktop</td><td>:x:</td><td>3.004s</td></tr>
-<tr><td colspan="3"><img src="homepage.feature/feature-homepage-looks-fine-test-homepage-footer-on-desktop-diff.jpg" alt="Test Diff feature-homepage-looks-fine-test-homepage-footer-on-desktop-diff.jpg"/></td></tr><tr><td>Feature: Homepage looks fine: test homepage footer on mobile</td><td>:white_check_mark:</td><td>2.281s</td></tr>
-</table>
-
-
+  <tbody>
+  <tr><td></td><td>✅ Passed</td><td>❌ Failed</td><td>🚧 Todo</td><td>⚪ Total</td></tr>
+  <tr><td>Test Suites</td><td>2</td><td>1</td><td>-</td><td>3</td></tr>
+  <tr><td>Tests</td><td>7</td><td>1</td><td>0</td><td>8</td></tr>
+  </tbody>
+</table><hr/>
+  <h2>Tests Details</h2><h3>tests/homepage.copyright.test.ts</h3>
+    <table>
+      <tbody>
+      <tr><td>Test</td><td>Status</td><td>Time</td></tr><tr><td>Homepage footer manual validation: Check if the footer copyright contains correct version</td><td>✅</td><td>35ms</td></tr><tr><td>Homepage footer manual validation: Check if the footer coypright contains correct year</td><td>✅</td><td>7ms</td></tr></tbody>
+    </table><h3>tests/test.feature</h3>
+    <table>
+      <tbody>
+      <tr><td>Test</td><td>Status</td><td>Time</td></tr><tr><td>Feature: Test page looks fine: test page screen</td><td>✅</td><td>3.234s</td></tr></tbody>
+    </table><h3>tests/homepage.feature</h3>
+    <table>
+      <tbody>
+      <tr><td>Test</td><td>Status</td><td>Time</td></tr><tr><td>Feature: Homepage looks fine: test homepage screen</td><td>✅</td><td>3.547s</td></tr><tr><td>Feature: Homepage looks fine: test homepage screen on mobile</td><td>✅</td><td>2.874s</td></tr><tr><td>Feature: Homepage looks fine: test homepage hamburger menu on mobile</td><td>✅</td><td>3.346s</td></tr><tr><td>Feature: Homepage looks fine: test homepage footer on desktop</td><td>❌</td><td>3.037s</td></tr><tr>
+    <td colspan="3"><img src="" alt="Test Diff feature-homepage-looks-fine-test-homepage-footer-on-desktop-diff.jpg"/></td>
+  </tr><tr><td>Feature: Homepage looks fine: test homepage footer on mobile</td><td>✅</td><td>2.293s</td></tr></tbody>
+    </table>
