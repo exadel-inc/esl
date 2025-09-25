@@ -17,10 +17,9 @@
   </tbody>
 </table>
 
-{%- if files -%}
+{%- if files and files.length -%}
 <hr/>
 <h2>Tests Details</h2>
-{%- endif -%}
 {%- for file in files -%}
 <h3>{{ file.filepath }}</h3>
 <table>
@@ -38,3 +37,4 @@
   </tbody>
 </table>
 {%- endfor -%}
+{%- endif -%}
