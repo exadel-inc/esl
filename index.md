@@ -1,345 +1,40 @@
+# Test Results
+  ## Summary
+  
+| :clock10: Start time | :hourglass: Duration |
+| --- | ---: |
+|9/25/2025, 2:58:20 AM|20.78s|
+
+| | :white_check_mark: Passed | :x: Failed | :construction: Todo | :white_circle: Total |
+| --- | ---: | ---: | ---:| ---: |
+|Test Suites|2|1|-|3|
+|Tests|7|1|0|8|
 
 
 
-<h1>Test Results</h1>
-<h2>Summary</h2>
+  ---
+  ## Tests Details
+  ### tests/homepage.copyright.test.ts
 <table>
-  <tbody>
-    
-  
-    <tr>
-      
-      <td>🕙 Start time</td>
-      
-      <td>⌛ Duration</td>
-      
-    </tr>
-  
-
-    
-  
-    <tr>
-      
-      <td>9/24/2025, 3:37:09 PM</td>
-      
-      <td>21.86s</td>
-      
-    </tr>
-  
-
-  </tbody>
-</table>
-<table>
-  <tbody>
-    
-  
-    <tr>
-      
-      <td></td>
-      
-      <td>✅ Passed</td>
-      
-      <td>❌ Failed</td>
-      
-      <td>🚧 Todo</td>
-      
-      <td>⚪ Total</td>
-      
-    </tr>
-  
-
-    
-  
-    <tr>
-      
-      <td>Test Suites</td>
-      
-      <td>1</td>
-      
-      <td>2</td>
-      
-      <td>-</td>
-      
-      <td>3</td>
-      
-    </tr>
-  
-
-    
-  
-    <tr>
-      
-      <td>Tests</td>
-      
-      <td>5</td>
-      
-      <td>3</td>
-      
-      <td>0</td>
-      
-      <td>8</td>
-      
-    </tr>
-  
-
-  </tbody>
+<tr><th>Test</th><th>Status</th><th>Time</th></tr>
+<tr><td>Homepage footer manual validation: Check if the footer copyright contains correct version</td><td>:white_check_mark:</td><td>32ms</td></tr>
+<tr><td>Homepage footer manual validation: Check if the footer coypright contains correct year</td><td>:white_check_mark:</td><td>4ms</td></tr>
 </table>
 
-
-<hr/>
-<h2>Tests Details</h2>
-
-
-<h3>tests/homepage.copyright.test.ts</h3>
+### tests/test.feature
 <table>
-  <tbody>
-  
-  
-    <tr>
-      
-      <td>Test</td>
-      
-      <td>Status</td>
-      
-      <td>Time</td>
-      
-    </tr>
-  
-
-
-  
-    
-    
-    
-    
-  
-    <tr>
-      
-      <td>Homepage footer manual validation: Check if the footer copyright contains correct version</td>
-      
-      <td>✅</td>
-      
-      <td>33ms</td>
-      
-    </tr>
-  
-
-
-    
-
-  
-    
-    
-    
-    
-  
-    <tr>
-      
-      <td>Homepage footer manual validation: Check if the footer coypright contains correct year</td>
-      
-      <td>❌</td>
-      
-      <td>8ms</td>
-      
-    </tr>
-  
-
-
-    
-  <tr>
-    <td colspan="3"><pre>Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoContain[2m([22m[32mexpected[39m[2m) // indexOf[22m
-
-Expected substring: [32m&quot;bla-bla&quot;[39m
-Received string:    [31m&quot;[39m
-[31m        ESL v5.13.0-local © 2025 Exadel, Inc.[39m
-[31m        Code licensed under MIT.[39m
-[31m        Privacy[39m
-[31m      &quot;[39m
-    at /home/runner/work/esl/esl/packages/snapshot-tests/tests/homepage.copyright.test.ts:20:21
-    at Generator.next (&lt;anonymous&gt;)
-    at fulfilled (/home/runner/work/esl/esl/packages/snapshot-tests/tests/homepage.copyright.test.ts:4:58)</pre></td>
-  </tr>
-
-
-  
-  </tbody>
+<tr><th>Test</th><th>Status</th><th>Time</th></tr>
+<tr><td>Feature: Test page looks fine: test page screen</td><td>:white_check_mark:</td><td>3.184s</td></tr>
 </table>
 
-<h3>tests/test.feature</h3>
+### tests/homepage.feature
 <table>
-  <tbody>
-  
-  
-    <tr>
-      
-      <td>Test</td>
-      
-      <td>Status</td>
-      
-      <td>Time</td>
-      
-    </tr>
-  
-
-
-  
-    
-    
-    
-    
-  
-    <tr>
-      
-      <td>Feature: Test page looks fine: test page screen</td>
-      
-      <td>✅</td>
-      
-      <td>3.268s</td>
-      
-    </tr>
-  
-
-
-    
-
-  
-  </tbody>
+<tr><th>Test</th><th>Status</th><th>Time</th></tr>
+<tr><td>Feature: Homepage looks fine: test homepage screen</td><td>:white_check_mark:</td><td>3.482s</td></tr>
+<tr><td>Feature: Homepage looks fine: test homepage screen on mobile</td><td>:white_check_mark:</td><td>2.86s</td></tr>
+<tr><td>Feature: Homepage looks fine: test homepage hamburger menu on mobile</td><td>:white_check_mark:</td><td>3.351s</td></tr>
+<tr><td>Feature: Homepage looks fine: test homepage footer on desktop</td><td>:x:</td><td>2.984s</td></tr>
+<tr><td colspan="3"><img src="https://github.com/exadel-inc/esl/blob/diff-report/homepage.feature/feature-homepage-looks-fine-test-homepage-footer-on-desktop-diff.jpg?raw=true" alt="Test Diff feature-homepage-looks-fine-test-homepage-footer-on-desktop-diff.jpg"/></td></tr><tr><td>Feature: Homepage looks fine: test homepage footer on mobile</td><td>:white_check_mark:</td><td>2.284s</td></tr>
 </table>
 
-<h3>tests/homepage.feature</h3>
-<table>
-  <tbody>
-  
-  
-    <tr>
-      
-      <td>Test</td>
-      
-      <td>Status</td>
-      
-      <td>Time</td>
-      
-    </tr>
-  
-
-
-  
-    
-    
-    
-    
-  
-    <tr>
-      
-      <td>Feature: Homepage looks fine: test homepage screen</td>
-      
-      <td>❌</td>
-      
-      <td>4.625s</td>
-      
-    </tr>
-  
-
-
-    
-  <tr>
-    <td colspan="3">
-        
-          
-        
-        <img src="https:/github.com/exadel-inc/esl/blob/diff-report/NaN?raw=true" alt="Test Diff feature-homepage-looks-fine-test-homepage-screen-diff.jpg"/></td>
-  </tr>
-
-
-  
-    
-    
-    
-    
-  
-    <tr>
-      
-      <td>Feature: Homepage looks fine: test homepage screen on mobile</td>
-      
-      <td>❌</td>
-      
-      <td>3.177s</td>
-      
-    </tr>
-  
-
-
-    
-  <tr>
-    <td colspan="3">
-        
-          
-        
-        <img src="https:/github.com/exadel-inc/esl/blob/diff-report/NaN?raw=true" alt="Test Diff feature-homepage-looks-fine-test-homepage-screen-on-mobile-diff.jpg"/></td>
-  </tr>
-
-
-  
-    
-    
-    
-    
-  
-    <tr>
-      
-      <td>Feature: Homepage looks fine: test homepage hamburger menu on mobile</td>
-      
-      <td>✅</td>
-      
-      <td>3.309s</td>
-      
-    </tr>
-  
-
-
-    
-
-  
-    
-    
-    
-    
-  
-    <tr>
-      
-      <td>Feature: Homepage looks fine: test homepage footer on desktop</td>
-      
-      <td>✅</td>
-      
-      <td>2.609s</td>
-      
-    </tr>
-  
-
-
-    
-
-  
-    
-    
-    
-    
-  
-    <tr>
-      
-      <td>Feature: Homepage looks fine: test homepage footer on mobile</td>
-      
-      <td>✅</td>
-      
-      <td>2.294s</td>
-      
-    </tr>
-  
-
-
-    
-
-  
-  </tbody>
-</table>
 
