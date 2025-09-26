@@ -5,6 +5,14 @@ const require = createRequire(import.meta.url);
 /** Internal cache for resolved ESL package.json object (null when not found). */
 let _eslPackageCache = undefined; // undefined => not attempted; null => failed; object => pkg.json contents
 
+const tryResolve = (paths) => {
+  try {
+    return require.resolve('@exadel/esl/package.json', paths ? {paths} : undefined);
+  } catch {
+    return null;
+  }
+};
+
 /**
  * Resolve and read consumer-installed `@exadel/esl` package.json (parsed object).
  *
@@ -21,15 +29,15 @@ let _eslPackageCache = undefined; // undefined => not attempted; null => failed;
 export function resolveESLPackage(force = false) {
   if (!force && _eslPackageCache !== undefined) return _eslPackageCache;
 
-  const tryResolve = (paths) => {
-    try { return require.resolve('@exadel/esl/package.json', paths ? {paths} : undefined); } catch { return null; }
-  };
-
   let pkgPath = tryResolve([process.cwd()]);
   if (!pkgPath) pkgPath = tryResolve();
   if (!pkgPath) return (_eslPackageCache = null);
 
-  try { _eslPackageCache = require(pkgPath); } catch { _eslPackageCache = null; }
+  try {
+    _eslPackageCache = require(pkgPath);
+  } catch {
+    _eslPackageCache = null;
+  }
   return _eslPackageCache;
 }
 

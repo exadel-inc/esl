@@ -9,6 +9,14 @@ let _compatChecked = false; // ensures single auto check unless forced
 const SEMVER_CORE_RE = /\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?/;
 const parseMajor = (v) => Number((v || '0').split('.')[0].replace(/[^0-9]/g, ''));
 
+function resolveCurrentVersion() {
+  try {
+    return require('../../../../package.json').version;
+  } catch {
+    return null;
+  }
+}
+
 /**
  * Check runtime compatibility between this installed config and the ESL package's declared recommendation.
  *
@@ -28,13 +36,16 @@ export function checkCompatibility(force = false) {
   if (!force && _compatChecked) return;
   _compatChecked = true;
 
-  let currentPkg; try { currentPkg = require('../../../../package.json'); } catch { return; }
-  const currentVersion = currentPkg && currentPkg.version; if (!currentVersion) return;
+  const currentVersion = resolveCurrentVersion();
+  if (!currentVersion) return;
 
-  const recommendedRange = resolveRecommendedPluginVersion(); if (!recommendedRange) return;
-  const coreMatch = recommendedRange.match(SEMVER_CORE_RE); if (!coreMatch) return;
+  const recommendedRange = resolveRecommendedPluginVersion();
+  if (!recommendedRange) return;
+
+  const coreMatch = recommendedRange.match(SEMVER_CORE_RE);
+  if (!coreMatch) return;
+
   const minRequired = coreMatch[0];
-
   const currentMajor = parseMajor(currentVersion);
   const requiredMajor = parseMajor(minRequired);
 
