@@ -18,7 +18,7 @@ function resolveCurrentVersion() {
 }
 
 /**
- * Check runtime compatibility between this installed config and the ESL package's declared recommendation.
+ * Checks runtime compatibility between this installed config and the ESL package's declared recommendation.
  *
  * Logic:
  * 1. Reads own package version (current config).

@@ -7,7 +7,7 @@ import {checkCompatibility} from './compatibility/check.js';
 // Detect ESLint verbose mode via CLI flag
 const DEBUG = Array.isArray(process.argv) && process.argv.includes('--verbose');
 
-/** Decide if a version falls into a block's range (original simple logic) */
+/** Decides if a version falls into a block's range (original simple logic) */
 function inRange(version, {min, max}) {
   if (!version) return true; // unknown -> include all (safe superset)
   if (min && semiver(version, min) < 0) return false; // version < min
@@ -15,7 +15,7 @@ function inRange(version, {min, max}) {
   return true;
 }
 
-/** Build merged config for detected ESL version */
+/** Builds merged config for detected ESL version */
 function buildConfigFor(version) {
   const merged = {aliases: {}, paths: {}, staticMembers: {}};
   for (const block of configs) {
@@ -28,7 +28,7 @@ function buildConfigFor(version) {
   return merged;
 }
 
-/** Assemble rule array from merged config */
+/** Assembles rule array from merged config */
 function asFlatConfig(cfg, severity = 1) {
   if (DEBUG) {
     console.log('[@exadel/eslint-config-esl] Apply configuration: %p', cfg);
@@ -45,7 +45,7 @@ function asFlatConfig(cfg, severity = 1) {
 }
 
 /**
- * Build deprecation configuration for a specific ESL version (testing / manual scenarios).
+ * Builds deprecation configuration for a specific ESL version (testing / manual scenarios).
  * Logs forced version when --verbose supplied.
  * @param {string} eslVersion
  * @param {0|1|2|'off'|'warn'|'error'} [severity=1]
@@ -60,7 +60,7 @@ export function version(eslVersion, severity = 1) {
 let _warnedMissingVersion = false;
 
 /**
- * Build version-aware recommended ESL deprecation configuration.
+ * Builds version-aware recommended ESL deprecation configuration.
  * If ESL version can't be resolved, all known deprecations are included (superset) and a warning is logged once.
  * Logs chosen version only if ESLint invoked with --verbose.
  * @param {0|1|2|'off'|'warn'|'error'} [severity=1]

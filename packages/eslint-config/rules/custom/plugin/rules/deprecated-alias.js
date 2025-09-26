@@ -14,7 +14,7 @@ function buildFixer(node, context, alias) {
 }
 
 /**
- * Find usage's ranges of the deprecated alias
+ * Finds usage's ranges of the deprecated alias
  * @param context - AST tree object
  * @param importNode - import node to process
  */

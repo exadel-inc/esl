@@ -14,7 +14,7 @@ const tryResolve = (paths) => {
 };
 
 /**
- * Resolve and read consumer-installed `@exadel/esl` package.json (parsed object).
+ * Resolves and reads consumer-installed `@exadel/esl` package.json (parsed object).
  *
  * Resolution strategy:
  * 1. Attempt resolution starting from consumer CWD (flat config execution context).
@@ -42,7 +42,7 @@ export function resolveESLPackage(force = false) {
 }
 
 /**
- * Get resolved ESL package version.
+ * Gets resolved ESL package version.
  * @param {boolean} [force=false] Force re-resolution of underlying package.
  * @returns {string|null} Version string or null if not found.
  */
@@ -52,7 +52,7 @@ export function resolveESLVersion(force = false) {
 }
 
 /**
- * Resolve recommended @exadel/eslint-config-esl version range declared in ESL devDependencies.
+ * Resolves recommended @exadel/eslint-config-esl version range declared in ESL devDependencies.
  * @param {boolean} [force=false] Force re-resolution of underlying package.
  * @returns {string|null} Semver range string (e.g. "^5.0.0") or null if not declared.
  */
