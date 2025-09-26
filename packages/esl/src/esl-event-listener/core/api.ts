@@ -32,13 +32,6 @@ export class ESLEventUtils {
   public static descriptors = getDescriptors;
 
   /**
-   * Gets auto {@link ESLListenerDescriptorFn}s of the passed object
-   *
-   * @deprecated alias for `descriptors(host, {auto: true})`
-   */
-  public static getAutoDescriptors = (host: object): ESLListenerDescriptorFn[] => getDescriptors(host, {auto: true});
-
-  /**
    * Decorates passed `key` of the `host` as an {@link ESLListenerDescriptorFn} using `desc` meta information
    * @param host - object holder of the function to decorate
    * @param key - string key of the function in holder object

@@ -5,8 +5,6 @@ import type {ESLResizeObserverTarget} from './resize.target';
 /** Custom event that {@link ESLResizeObserverTarget} produces */
 export class ESLElementResizeEvent extends UIEvent implements ResizeObserverEntry {
   public static readonly TYPE = 'resize';
-  /** @deprecated Use {@link TYPE} instead */
-  public static readonly type = this.TYPE;
 
   public override readonly type: typeof ESLElementResizeEvent.TYPE;
 

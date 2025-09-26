@@ -29,12 +29,6 @@ export class ESLAlert extends ESLToggleable {
   public static override is = 'esl-alert';
   public static override observedAttributes = ['target'];
 
-  /**
-   * Legacy default show/hide params for all ESLAlert instances
-   * @deprecated Use {@link ESLAlert.DEFAULT_PARAMS} instead
-   */
-  public static defaultConfig: ESLAlertActionParams = {};
-
   /** Default show/hide params for all ESLAlert instances */
   public static override DEFAULT_PARAMS: ESLAlertActionParams = {
     hideTime: 300,
@@ -74,7 +68,7 @@ export class ESLAlert extends ESLToggleable {
 
   protected override mergeDefaultParams(params?: ESLToggleableActionParams): ESLToggleableActionParams {
     const type = this.constructor as typeof ESLAlert;
-    return Object.assign({}, type.defaultConfig, type.DEFAULT_PARAMS, this.defaultParams || {}, params || {});
+    return Object.assign({}, type.DEFAULT_PARAMS, this.defaultParams || {}, params || {});
   }
 
   protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {

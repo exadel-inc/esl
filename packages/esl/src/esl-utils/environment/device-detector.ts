@@ -1,5 +1,3 @@
-import {ExportNs} from './export-ns';
-
 const {userAgent, vendor, platform} = window.navigator;
 
 // IE Detection
@@ -28,9 +26,6 @@ export const isSafari = isWebkit && /^((?!chrome|android).)*safari/i.test(userAg
 // Blink
 export const isBlink = isWebkit && !isSafari;
 
-/** @deprecated bot detection no longer works (speed bot now has no specific) and supported from ESL side */
-export const isBot = /Chrome-Lighthouse|Google Page Speed Insights/i.test(userAgent);
-
 // Mobile
 export const isAndroid = /Android/i.test(userAgent);
 export const isMobileIOS13 = /* iOS 13+ detection */ (platform === 'MacIntel' && window.navigator.maxTouchPoints > 1);
@@ -53,62 +48,3 @@ export const hasHover = !matchMedia('(hover: none)').matches;
 
 /** true if a user prefers to minimize the amount of non-essential motion */
 export const isReducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-/**
- * Device detection utility
- * @readonly
- * @deprecated use separate checks from the same module instead
- */
-@ExportNs('DeviceDetector')
-export abstract class DeviceDetector {
-  // IE Detection
-  public static readonly isTrident = isTrident;
-  public static readonly isIE = isIE;
-
-  // Edge Detection
-  public static readonly isEdgeHTML = isEdgeHTML;
-  public static readonly isBlinkEdge = isBlinkEdge;
-  public static readonly isEdge = isEdge;
-
-  // Gecko
-  public static readonly isGecko = isGecko;
-  public static readonly isFirefox = isFirefox;
-
-  // Opera / Chrome
-  public static readonly isOpera = isOpera;
-  public static readonly isChrome = isChrome;
-
-  // Webkit
-  public static readonly isWebkit = isWebkit;
-
-  // Safari
-  public static readonly isSafari = isSafari;
-
-  // Blink
-  public static readonly isBlink = isBlink;
-
-  // Bot detection
-  public static readonly isBot = isBot;
-
-  // Mobile
-  public static readonly isAndroid = isAndroid;
-  public static readonly isMobileIOS13 = isMobileIOS13;
-  public static readonly isMobileIOS = isMobileIOS;
-  public static readonly isLegacyMobile = isLegacyMobile;
-
-  public static readonly isMobile = isMobile;
-  public static readonly isMobileSafari = isMobileSafari;
-
-  // Touch Detection
-  public static isTouchDevice = isTouchDevice;
-
-  // Hover check
-  // Note: always true for IE
-  public static hasHover = hasHover;
-}
-
-declare global {
-  export interface ESLLibrary {
-    DeviceDetector: typeof DeviceDetector;
-  }
-}

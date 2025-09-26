@@ -45,21 +45,3 @@ export function resolvePromise<T>(arg: T | PromiseLike<T>): Promise<T> {
 export function rejectPromise<T = never>(arg?: T | PromiseLike<T>): Promise<T> {
   return Promise.reject(arg);
 }
-
-/**
- * Promise utils helper class
- * Note: use individual methods in case you need correct "tree shaking"
- * @deprecated use separate function extend
- */
-export abstract class PromiseUtils {
-  static fromTimeout = promisifyTimeout;
-  static fromEvent = promisifyEvent;
-  static fromMarker = promisifyMarker;
-
-  static repeat = repeatSequence;
-  static tryUntil = tryUntil;
-
-  static deferred = createDeferred;
-  static resolve = resolvePromise;
-  static reject = rejectPromise;
-}
