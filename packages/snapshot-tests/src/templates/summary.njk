@@ -31,7 +31,7 @@
         {%- set timing = test.time + 'ms' if test.time < 1000 else (test.time / 1000) + 's' -%}
         {{ row([title, status, timing]) }}
         {%- if test.status != 'passed' -%}
-          {{ errorRow(test, basePath) }}
+          {{ errorRow(test, resolveSnapshot) }}
         {%- endif -%}
       {%- endfor -%}
       </tbody>
