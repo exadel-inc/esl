@@ -1,4 +1,4 @@
-import {flat, range, tuple, uniq, wrap, unwrap, groupBy} from '../array';
+import {range, tuple, uniq, wrap, unwrap, groupBy} from '../array';
 
 describe('misc/array helper tests', () => {
   test('tuple', () => {
@@ -9,17 +9,6 @@ describe('misc/array helper tests', () => {
     expect(tuple([1, 2, 3, 4])).toEqual([[1, 2], [3, 4]]);
     expect(tuple([1, 2, 3, 4, 5])).toEqual([[1, 2], [3, 4], [5]]);
     expect(tuple([1, 2, 3, 4, 5, 6])).toEqual([[1, 2], [3, 4], [5, 6]]);
-  });
-
-  test('flat', () => {
-    expect(flat([])).toEqual([]);
-    expect(flat([0])).toEqual([0]);
-    expect(flat([1])).toEqual([1]);
-    expect(flat([1, 2])).toEqual([1, 2]);
-    expect(flat([1, [2, 3]])).toEqual([1, 2, 3]);
-    expect(flat([[1, 2], [3, 4]])).toEqual([1, 2, 3, 4]);
-    expect(flat([[1], [2, 3, 4], [], [5]])).toEqual([1, 2, 3, 4, 5]);
-    expect(flat([null, 1, 2, 3, [4, 5], null, [6]])).toEqual([null, 1, 2, 3, 4, 5, null, 6]);
   });
 
   test('wrap', () => {
