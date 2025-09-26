@@ -33,22 +33,9 @@ export default {
     const mapping = context.options[0];
     if (!mapping || typeof mapping !== 'object' || Array.isArray(mapping)) return {};
 
-    // Transform config: {Alias: {legacy: string | string[], path: string}} into internal representation
-    const entries = Object.entries(mapping)
-      .map(([alias, value]) => {
-        if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
-        const {legacy, path} = value;
-        if (typeof path !== 'string') return null;
-        if (typeof legacy !== 'string' && !Array.isArray(legacy)) return null;
-        const deprecated = (typeof legacy === 'string' ? [legacy] : legacy).filter((p) => typeof p === 'string');
-        if (!deprecated.length) return null;
-        return {alias, deprecated, path};
-      })
-      .filter(Boolean);
+    const byAlias = createAliasMap(mapping);
+    if (!byAlias.size) return {};
 
-    if (!entries.length) return {};
-
-    const byAlias = new Map(entries.map((e) => [e.alias, e]));
     const processed = new WeakSet();
     const sourceCode = context.getSourceCode();
 
@@ -60,7 +47,6 @@ export default {
         if (!record) return null;
         const importDecl = node.parent; // ImportDeclaration
         const importedSource = importDecl.source && importDecl.source.value;
-        if (typeof importedSource !== 'string') return null;
         if (!record.deprecated.includes(importedSource)) return null;
         if (processed.has(importDecl)) return null; // already fixed/report for this declaration
 
@@ -79,3 +65,21 @@ export default {
     };
   }
 };
+
+function createAliasMap(mapping) {
+  const result = new Map();
+  if (!mapping || typeof mapping !== 'object' || Array.isArray(mapping)) return result;
+
+  for (const [alias, raw] of Object.entries(mapping)) {
+    if (!raw || typeof raw !== 'object') continue;
+
+    const {legacy, path} = raw;
+    if (typeof path !== 'string') continue;
+
+    const deprecated = [].concat(legacy).filter((v) => typeof v === 'string');
+    if (!deprecated.length) continue;
+
+    result.set(alias, {alias, deprecated, path});
+  }
+  return result;
+}
