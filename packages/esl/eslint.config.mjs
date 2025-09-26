@@ -5,7 +5,6 @@ export default [
     ignores: [
       // Common configuration
       'jest.config.js',
-      'eslint.config.js',
       // Generated sources
       'modules/**',
       'polyfills/**'

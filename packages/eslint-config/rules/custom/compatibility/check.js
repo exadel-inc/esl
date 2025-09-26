@@ -7,7 +7,7 @@ const require = createRequire(import.meta.url);
 let _compatChecked = false; // ensures single auto check unless forced
 
 const SEMVER_CORE_RE = /\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?/;
-const parseMajor = (v) => Number((v || '0').split('.')[0].replace(/[^0-9]/g, ''));
+const parseMajor = (v) => Number((v || '0').split('.')[0].replace(/\D/g, ''));
 
 function resolveCurrentVersion() {
   try {
@@ -50,11 +50,13 @@ export function checkCompatibility(force = false) {
   const requiredMajor = parseMajor(minRequired);
 
   if (currentMajor !== requiredMajor) {
+    // eslint-disable-next-line @stylistic/max-len
     console.warn(`[@exadel/eslint-config-esl] Version mismatch: ESL recommends major ${requiredMajor} (range: ${recommendedRange}) but installed config is ${currentVersion}. Consider upgrading @exadel/eslint-config-esl.`);
     return;
   }
   try {
     if (semiver(currentVersion, minRequired) < 0) {
+      // eslint-disable-next-line @stylistic/max-len
       console.warn(`[@exadel/eslint-config-esl] Outdated version: ESL requires at least ${minRequired} (range: ${recommendedRange}), but found ${currentVersion}. Please update @exadel/eslint-config-esl.`);
     }
   } catch { /* swallow unexpected parse issues */ }

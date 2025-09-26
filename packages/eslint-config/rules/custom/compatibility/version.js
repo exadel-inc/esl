@@ -3,7 +3,7 @@ import {createRequire} from 'module';
 const require = createRequire(import.meta.url);
 
 /** Internal cache for resolved ESL package.json object (null when not found). */
-let _eslPackageCache = undefined; // undefined => not attempted; null => failed; object => pkg.json contents
+let _eslPackageCache; // undefined => not attempted; null => failed; object => pkg.json contents
 
 const tryResolve = (paths) => {
   try {

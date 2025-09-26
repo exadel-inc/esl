@@ -3,8 +3,6 @@ import {lang, strict, esl} from '@exadel/eslint-config-esl';
 export default [
   {
     ignores: [
-      // Common configuration
-      'eslint.config.js',
       // Common directories
       'node_modules/**',
       'dist/**',

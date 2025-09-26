@@ -3,7 +3,7 @@ export default [
     rules: {
       // Enforce camelcase naming convention
       'camelcase': ['warn', {
-          properties: 'never'
+        properties: 'never'
       }],
 
       // Require following curly brace conventions
