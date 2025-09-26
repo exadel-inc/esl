@@ -5,7 +5,7 @@
  */
 export const configs = [
   {
-    min: '6.0.0',
+    min: '5.13.0',
     max: '7.0.0',
     aliases: {
       ESLAlertShape: 'ESLAlertTagShape',

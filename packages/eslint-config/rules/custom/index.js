@@ -30,6 +30,10 @@ function buildConfigFor(version) {
 
 /** Assemble rule array from merged config */
 function asFlatConfig(cfg, severity = 1) {
+  if (DEBUG) {
+    console.log('[@exadel/eslint-config-esl] Apply configuration: %p', cfg);
+    console.log('[@exadel/eslint-config-esl] Use severity: %s', severity);
+  }
   return [{
     plugins: {'@exadel/esl': plugin},
     rules: {
@@ -48,7 +52,7 @@ function asFlatConfig(cfg, severity = 1) {
  * @returns {Array<object>}
  */
 export function version(eslVersion, severity = 1) {
-  if (DEBUG) console.log('[@exadel/eslint-config-esl] building deprecation config for forced ESL version: ' + eslVersion);
+  if (DEBUG) console.log('[@exadel/eslint-config-esl] building deprecation config for ESL version: ' + eslVersion);
   return asFlatConfig(buildConfigFor(eslVersion), severity);
 }
 
