@@ -2,6 +2,10 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "eslint-config",
   "targets": {
+    "lint": {
+      "executor": "nx:noop",
+      "dependsOn": ["lint:eslint"]
+    },
     "pack": {
       "executor": "nx:run-commands",
       "options": {

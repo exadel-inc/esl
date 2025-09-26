@@ -35,6 +35,15 @@ class MDRenderer {
     const firstHeader = context.document.querySelector(MDRenderer.FIRST_HEADER);
     if (firstHeader) firstHeader.remove();
   }
+  static dropCopyright(context) {
+    // Get last 3 elements of the body
+    const [hr, text, logo] = [...context.document.body.children].slice(-3);
+    if (!logo || !text || !hr) return;
+    if (!hr.matches('hr')) return; // Starts with ruler
+    if (!text.textContent.includes(siteConfig.copyright)) return; // Contains copyright text
+    [hr, text, logo].forEach((el) => el.remove());
+  }
+
   static dropContentBefore(context, marker, src) {
     if (marker === '$content') return MDRenderer.dropHeader(context);
     // Exclude part before start anchor (legacy behavior)
@@ -47,6 +56,7 @@ class MDRenderer {
     }
   }
   static dropContentAfter(context, marker, src) {
+    if (marker === '$content') return MDRenderer.dropCopyright(context);
     const startElement = MDRenderer.findAnchor(context.document, marker);
     if (startElement) {
       while (startElement.nextSibling) startElement.nextSibling.remove();
