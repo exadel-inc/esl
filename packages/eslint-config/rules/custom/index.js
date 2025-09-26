@@ -1,57 +1,75 @@
+import semiver from 'semiver';
 import plugin from './plugin/plugin.js';
-import {checkCompatibility} from './plugin/compatibility/check.js';
+import {configs} from './configs.js';
+import {resolveESLVersion} from './compatibility/version.js';
+import {checkCompatibility} from './compatibility/check.js';
 
-/**
- * Builds flat ruleset from passed plugin configuration.
- * @param {object} config
- * @param {0|1|2|'off'|'warn'|'error'} severity
- */
-function forConfig(config, severity = 1) {
-  checkCompatibility();
+// Detect ESLint verbose mode via CLI flag
+const DEBUG = Array.isArray(process.argv) && process.argv.includes('--verbose');
 
+/** Decide if a version falls into a block's range (original simple logic) */
+function inRange(version, {min, max}) {
+  if (!version) return true; // unknown -> include all (safe superset)
+  if (min && semiver(version, min) < 0) return false; // version < min
+  if (max && semiver(version, max) >= 0) return false; // version >= max
+  return true;
+}
+
+/** Build merged config for detected ESL version */
+function buildConfigFor(version) {
+  const merged = {aliases: {}, paths: {}, staticMembers: {}};
+  for (const block of configs) {
+    if (!block || typeof block !== 'object') continue;
+    if (!inRange(version, block)) continue;
+    if (block.aliases) Object.assign(merged.aliases, block.aliases);
+    if (block.paths) Object.assign(merged.paths, block.paths);
+    if (block.staticMembers) Object.assign(merged.staticMembers, block.staticMembers);
+  }
+  return merged;
+}
+
+/** Assemble rule array from merged config */
+function asFlatConfig(cfg, severity = 1) {
   return [{
-    plugins: {
-      '@exadel/esl': plugin
-    },
+    plugins: {'@exadel/esl': plugin},
     rules: {
-      '@exadel/esl/deprecated-alias': [severity, config.aliases],
-      '@exadel/esl/deprecated-paths': [severity, config.paths],
-      '@exadel/esl/deprecated-static': [severity, config.staticMembers]
+      '@exadel/esl/deprecated-alias': [severity, cfg.aliases],
+      '@exadel/esl/deprecated-paths': [severity, cfg.paths],
+      '@exadel/esl/deprecated-static': [severity, cfg.staticMembers]
     }
   }];
 }
 
-export const configs = {
-  '6.0.0' : {
-    aliases: {
-      ESLAlertShape: 'ESLAlertTagShape',
-      ESLAnimateShape: 'ESLAnimateTagShape',
-      ESLCarouselShape: 'ESLCarouselTagShape',
-      ESLCarouselNavDotsShape: 'ESLCarouselNavDotsTagShape',
-      ESLRandomTextShape: 'ESLRandomTextTagShape'
-    },
-    paths: {},
-    staticMembers: {}
-  }
-};
-
 /**
- * Returns recommended config based on detected ESL version
- * @param {0|1|2|'off'|'warn'|'error'} severity
+ * Build deprecation configuration for a specific ESL version (testing / manual scenarios).
+ * Logs forced version when --verbose supplied.
+ * @param {string} eslVersion
+ * @param {0|1|2|'off'|'warn'|'error'} [severity=1]
+ * @returns {Array<object>}
  */
-function recommended(severity = 1) {
-  const config = {};
-  Object.values(configs).forEach((cfg) => {
-    Object.entries(cfg).forEach(([key, value]) => {
-      config[key] = Object.assign(config[key] || {}, value);
-    });
-  });
-  return forConfig(config, severity);
+export function version(eslVersion, severity = 1) {
+  if (DEBUG) console.log('[@exadel/eslint-config-esl] building deprecation config for forced ESL version: ' + eslVersion);
+  return asFlatConfig(buildConfigFor(eslVersion), severity);
 }
 
-export default {
-  plugin,
-  configs,
-  forConfig,
-  recommended
-};
+
+let _warnedMissingVersion = false;
+
+/**
+ * Build version-aware recommended ESL deprecation configuration.
+ * If ESL version can't be resolved, all known deprecations are included (superset) and a warning is logged once.
+ * Logs chosen version only if ESLint invoked with --verbose.
+ * @param {0|1|2|'off'|'warn'|'error'} [severity=1]
+ * @returns {Array<object>}
+ */
+export function recommended(severity = 1) {
+  checkCompatibility();
+  const v = resolveESLVersion();
+  if (!v && !_warnedMissingVersion) {
+    console.warn('[@exadel/eslint-config-esl] ESL package version not detected; applying all known deprecations.');
+    _warnedMissingVersion = true;
+  }
+  return version(v, severity);
+}
+
+export default { plugin, configs, recommended, version };

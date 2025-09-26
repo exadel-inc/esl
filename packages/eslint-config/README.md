@@ -130,9 +130,10 @@ Its functionality is now integrated directly into this shared config package und
 #### Key points
 - Flat-config only (ESLint 9+).
 - Three helper rules: `deprecated-alias`, `deprecated-paths`, `deprecated-static`.
-- Automatic union of all known version deprecations in `esl.recommended()`.
+- Version-aware: `esl.recommended()` detects the installed `@exadel/esl` version and applies only relevant deprecations.
+- If the version can't be detected, a superset (all known deprecations) is applied and a single warning is printed.
 - All rules autofix where safe.
-- You control a single uniform severity for all deprecation rules.
+- Uniform severity control (single parameter).
 
 #### Enabling (default WARN)
 ```js
@@ -149,70 +150,81 @@ Accepted severity values (case-insensitive):
 
 Examples:
 ```js
-...esl.recommended('error');       // escalate all deprecation rules to error
-...esl.recommended(0);             // disable all deprecation rules
+...esl.recommended('error');       // escalate
+...esl.recommended(0);             // disable all deprecations
 ...esl.recommended('off');         // same as above
 ```
 
-#### Helper rules & config shapes
-1. `@exadel/esl/deprecated-alias`
-```js
-{ "DeprecatedName": "ReplacementName" }
-```
-2. `@exadel/esl/deprecated-paths`
-```js
-{
-  AliasName: { legacy: 'old/path.js', path: '@exadel/esl/AliasName' }
-  // or legacy: ['old/a.js','old/b.js']
-}
-```
-3. `@exadel/esl/deprecated-static`
-```js
-{
-  ClassName: {
-    oldMethod: 'newMethod',
-    anotherOld: { replacement: 'newOne', message: 'ClassName.newOne()' }
-  }
-}
-```
-
-#### Building a custom subset
-Use `esl.forConfig(customConfig, severity)`:
+#### Forcing a specific ESL version (tests / CI / preview)
+You can force generation for a target ESL version (bypassing auto-detection):
 ```js
 import {esl} from '@exadel/eslint-config-esl';
-const onlyAliases = esl.forConfig({
-  aliases: esl.configs['6.0.0'].aliases,
-  paths: {},
-  staticMembers: {}
-}, 'error');
-
 export default [
-  ...onlyAliases
+  ...esl.version('6.1.0', 'warn')
+];
+```
+This is mainly useful in CI or when validating upcoming upgrades.
+
+#### Verbose output
+Run ESLint with `--verbose` to see a single log line indicating which ESL version (or superset fallback) was used to build the deprecation config.
+
+#### Migration from removed standalone plugin
+Historically a standalone migration / deprecation plugin existed (`@exadel/eslint-plugin-esl`). It exposed grouped configs separating deprecations introduced in ESL v4 and v5.
+Those configs (`default-4`, `default-5`, `default`, plus a flat-friendly `recommended`) are removed and replaced with the version‑aware `esl.recommended()` helper in this package.
+
+Minimal legacy examples for context:
+```js
+// .eslintrc.js (legacy non-flat)
+module.exports = {
+  plugins: ['@exadel/esl'],
+  extends: ['plugin:@exadel/esl/default']
+};
+```
+```js
+// eslint.config.mjs (legacy flat)
+import deprecated from '@exadel/eslint-plugin-esl';
+export default [
+  ...deprecated.configs.recommended
+];
+```
+Other legacy variants included:
+- Selecting `plugin:@exadel/esl/default-5` to escalate older (v4) deprecations to error while keeping newer (v5) at warn.
+- Using `default-4` or `default` explicitly for narrower sets.
+- Manually enabling individual rule IDs like `@exadel/esl/deprecated-4-aliases` or `@exadel/esl/deprecated-5-methods` with custom severities.
+All those granular patterns are intentionally consolidated now.
+
+Current approach (single spread):
+```js
+import {esl} from '@exadel/eslint-config-esl';
+export default [
+  ...esl.recommended('warn')
 ];
 ```
 
-`forConfig` second argument behaves the same as `recommended` severity parameter. If omitted, defaults to `warn`.
+Key changes vs legacy:
+- Unified list: no need to pick between `default-*` variants.
+- Single severity parameter (per‑major severity tiers removed).
+- Auto version detection chooses deprecations relevant to the installed `@exadel/esl`; missing version => superset + one warning.
 
-#### Migration from removed standalone plugin
-Old rules (removed):
-- `@exadel/esl/deprecated-4-aliases`
-- `@exadel/esl/deprecated-4-methods`
-- `@exadel/esl/deprecated-4-import`
-- `@exadel/esl/deprecated-5-aliases`
+Need strict treatment for older deprecations? Use `esl.recommended('error')` and inline-disable rare new ones temporarily.
 
-Now use:
-```js
-...esl.recommended(); // or with desired severity
-```
-Optionally tailor with `forConfig` (see above) but per-item toggling is intentionally not exposed.
+Migration checklist:
+1. Remove `@exadel/eslint-plugin-esl` from `devDependencies`.
+2. Drop any `plugin:@exadel/esl/<config>` extends and legacy rule IDs.
+3. Add `...esl.recommended(<severity>)` (default warn) to your flat config.
+4. Clean obsolete inline disables referencing removed rule names.
+5. (Optional) Run ESLint with `--verbose` to confirm detected ESL version.
+
+Edge cases:
+- No `@exadel/esl` in consumer: superset applied, single warning.
+- Monorepo: version resolution is from the invoking project root.
+
+Need multi-tier severities back? Open a discussion; future version-scoped preview modes may offer structured staging without reintroducing legacy complexity.
 
 #### Why a single severity knob?
-- Keeps deprecation signal consistent.
-- Simplifies CI policy (treat all deprecations uniformly).
-- Easier future extension for version scoping.
-
-#### Future roadmap
-Planned: version-scoped modes (e.g. "treat code as if upgrading to 7.x") and opt‑in early warnings. Today `recommended()` returns union of released deprecations.
+- Consistent signal across all deprecations.
+- Simple CI policy.
+- Easier future extension (e.g. version-scoped modes).
 
 ---
 
