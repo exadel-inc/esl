@@ -18,6 +18,13 @@ export class SnapshotAwareReporter {
     this._totalStartTime = performance.now();
   }
 
+  get baseUrl() {
+    const serverUrl = process.env.GITHUB_SERVER_URL;
+    const repository = process.env.GITHUB_REPOSITORY;
+    const branch = process.env.DIFF_REPORT_BRANCH;
+    return `${serverUrl}/${repository}/blob/${branch}/`;
+  }
+
   buildStats(results) {
     const totalTime = Math.floor(performance.now() - this._totalStartTime);
     const startTimeStr = new Date(results.startTime).toLocaleString();
@@ -69,6 +76,15 @@ export class SnapshotAwareReporter {
     return testResults;
   }
 
+  resolveSnapshot(test) {
+    const {baseUrl} = this;
+    const snapshot = `${test.dirPath}/${test.snapshot}`;
+    if (!baseUrl) return snapshot;
+    let path = baseUrl + (baseUrl.endsWith('/') ? '' : '/') + snapshot;
+    if (baseUrl.includes('github')) path += '?raw=true';
+    return path.replace(/\\/g, '/');
+  }
+
   async onRunComplete(contexts, results) {
     const stats = this.buildStats(results);
     const files = this.buildTestResults(results);
@@ -76,11 +92,8 @@ export class SnapshotAwareReporter {
     writeFileSafe(this._options.outputPath, content);
 
     if (process.env.GITHUB_ACTIONS && process.env.DIFF_REPORT_BRANCH && this._options.outputPublishPath) {
-      const serverUrl = process.env.GITHUB_SERVER_URL;
-      const repository = process.env.GITHUB_REPOSITORY;
-      const branch = process.env.DIFF_REPORT_BRANCH;
-      const basePath = `${serverUrl}/${repository}/blob/${branch}/`;
-      const contentDiffBranch = nunjucks.render(this._options.templatePath, {stats, files, basePath});
+      const resolveSnapshot = this.resolveSnapshot.bind(this);
+      const contentDiffBranch = nunjucks.render(this._options.templatePath, {stats, files, resolveSnapshot});
       writeFileSafe(this._options.outputPublishPath, contentDiffBranch);
     }
   }
