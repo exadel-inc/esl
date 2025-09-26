@@ -19,6 +19,7 @@ export class SnapshotAwareReporter {
   }
 
   get baseUrl() {
+    if (!process.env.GITHUB_ACTIONS || !process.env.DIFF_REPORT_BRANCH || !this._options.outputPublishPath) return null;
     const serverUrl = process.env.GITHUB_SERVER_URL;
     const repository = process.env.GITHUB_REPOSITORY;
     const branch = process.env.DIFF_REPORT_BRANCH;
