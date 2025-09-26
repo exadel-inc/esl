@@ -88,11 +88,11 @@ export class SnapshotAwareReporter {
   async onRunComplete(contexts, results) {
     const stats = this.buildStats(results);
     const files = this.buildTestResults(results);
-    const content = nunjucks.render(this._options.templatePath, {stats, files});
+    const resolveSnapshot = this.resolveSnapshot.bind(this);
+    const content = nunjucks.render(this._options.templatePath, {stats, files, resolveSnapshot});
     writeFileSafe(this._options.outputPath, content);
 
     if (process.env.GITHUB_ACTIONS && process.env.DIFF_REPORT_BRANCH && this._options.outputPublishPath) {
-      const resolveSnapshot = this.resolveSnapshot.bind(this);
       const contentDiffBranch = nunjucks.render(this._options.templatePath, {stats, files, resolveSnapshot});
       writeFileSafe(this._options.outputPublishPath, contentDiffBranch);
     }
