@@ -2,6 +2,8 @@
  * Version-scoped raw deprecation data.
  * min: inclusive lower bound
  * max: exclusive upper bound (omit if open-ended)
+ *
+ * @type DeprecationConfigBlock[]
  */
 export const configs = [
   {
@@ -13,8 +15,24 @@ export const configs = [
       ESLCarouselShape: 'ESLCarouselTagShape',
       ESLCarouselNavDotsShape: 'ESLCarouselNavDotsTagShape',
       ESLRandomTextShape: 'ESLRandomTextTagShape'
-    },
-    paths: {},
-    staticMembers: {}
+    }
+  },
+  {
+    min: '5.0.0',
+    max: '7.0.0',
+    staticMembers: {
+      ESLIntersectionEvent: {
+        type: 'TYPE'
+      },
+      ESLElementResizeEvent: {
+        type: 'TYPE'
+      },
+      ESLSwipeGestureEvent: {
+        type: 'TYPE'
+      },
+      ESLWheelEvent: {
+        type: 'TYPE'
+      }
+    }
   }
 ];

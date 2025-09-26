@@ -34,6 +34,7 @@ export default {
       }
     ]
   },
+
   create(context) {
     const mapping = context.options[0];
     if (!mapping || typeof mapping !== 'object' || Array.isArray(mapping)) return {};
@@ -41,8 +42,7 @@ export default {
     return {
       MemberExpression(node) {
         const {object, property} = node;
-        if (object.type !== 'Identifier' || property.type !== 'Identifier') return null;
-        const memberMapping = (mapping[object.name] || {})[property.name];
+        const memberMapping = findMapping(mapping, object, property);
         if (!memberMapping) return null;
         const replCfg = typeof memberMapping === 'function' ? memberMapping(node.parent) : memberMapping;
         const message = typeof replCfg === 'string' ? `${object.name}.${replCfg}` : replCfg.message;
@@ -57,3 +57,11 @@ export default {
     };
   }
 };
+
+function findMapping(mapping, object, property) {
+  if (object.type !== 'Identifier' || property.type !== 'Identifier') return null;
+  if (!Object.hasOwn(mapping, object.name)) return null;
+  const classMapping = mapping[object.name];
+  if (!Object.hasOwn(classMapping, property.name)) return null;
+  return classMapping[property.name];
+}
