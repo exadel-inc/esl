@@ -1,5 +1,5 @@
 ---
-  layout: content
+  layout: sub-landing
   title: Playground
   order: 10
   tags: [nav, nav-header, draft]
@@ -14,3 +14,48 @@
   eleventyImport:
     collections: ["playground"]
 ---
+
+<div class="uip-landing-marquee container uip-container">
+  <div class="uip-landing-logo">
+    <span class="uip-landing-logo-typewriter">UI Playground</span>
+  </div>
+  <p class="uip-landing-description">{{playground.marquee.description}}</p>
+</div>
+
+<div class="uip-landing-benefits container">
+  <h2 class="uip-landing-heading">{{playground.benefits.title}}</h2>
+  <esl-animate target="::next::child" group></esl-animate>
+  <ul class="uip-landing-benefits-list">
+    {% for item in playground.benefits.items %}
+      <li class="uip-landing-benefits-list-item esl-animate-slide left">
+        {{ item.text }}
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+
+<div class="uip-landing-d container uip-container">
+  <h2 class="uip-landing-heading">{{playground.demo.title}}</h2>
+  <p> {{playground.demo.description}} </p>
+
+  <uip-root store-key='uip-landing' editor-collapsed>
+    <script type="text/html" uip-snippet label="Logo">
+      <div class="uip-landing-d-container">
+        <a class="btn btn-xl btn-sec-blue" href="{{ '/playground/introduction/' | url }}">
+          <span>Get started</span> 
+          {% include 'static/assets/sidebar/playground.svg' %}
+        </a>
+      </div>
+    </script>
+    <uip-preview></uip-preview>
+    <uip-settings resizable collapsible vertical="@+md" target=".uip-landing-d-btn" theme-toggle>
+      <uip-slider-setting label="Height:" target="svg" attribute="height" min="50" max="100"></uip-slider-setting>
+      <uip-select-setting label="Color:" attribute="class" target=".btn-xl" mode="append">
+        <option value="btn-sec-orange">Orange</option>
+        <option value="btn-sec-blue">Blue</option>
+        <option value="btn-sec-green">Green</option>
+      </uip-select-setting>
+    </uip-settings>
+    <uip-editor collapsible copy></uip-editor>
+  </uip-root>
+</div>
