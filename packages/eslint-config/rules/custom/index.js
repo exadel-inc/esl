@@ -76,4 +76,4 @@ export function recommended(severity = 1) {
   return version(v, severity);
 }
 
-export default { plugin, configs, recommended, version };
+export default {plugin, configs, recommended, version};

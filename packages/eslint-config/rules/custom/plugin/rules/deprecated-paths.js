@@ -40,7 +40,7 @@ export default {
         const {legacy, path} = value;
         if (typeof path !== 'string') return null;
         if (typeof legacy !== 'string' && !Array.isArray(legacy)) return null;
-        const deprecated = (typeof legacy === 'string' ? [legacy] : legacy).filter(p => typeof p === 'string');
+        const deprecated = (typeof legacy === 'string' ? [legacy] : legacy).filter((p) => typeof p === 'string');
         if (!deprecated.length) return null;
         return {alias, deprecated, path};
       })
@@ -48,7 +48,7 @@ export default {
 
     if (!entries.length) return {};
 
-    const byAlias = new Map(entries.map(e => [e.alias, e]));
+    const byAlias = new Map(entries.map((e) => [e.alias, e]));
     const processed = new WeakSet();
     const sourceCode = context.getSourceCode();
 

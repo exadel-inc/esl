@@ -21,6 +21,7 @@
   "main": "index.js",
   "sideEffects": false,
   "scripts": {
+    "lint": "nx run eslint-config:lint",
     "pack": "nx run eslint-config:pack"
   },
   "dependencies": {

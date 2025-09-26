@@ -15,12 +15,12 @@ export default {
             patternProperties: {
               '.*': {
                 anyOf: [
-                  { type: 'string' },
+                  {type: 'string'},
                   {
                     type: 'object',
                     properties: {
-                      message: { type: 'string' },
-                      replacement: { type: 'string' }
+                      message: {type: 'string'},
+                      replacement: {type: 'string'}
                     },
                     required: ['replacement'],
                     additionalProperties: false

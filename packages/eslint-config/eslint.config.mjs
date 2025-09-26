@@ -1,4 +1,4 @@
-import {lang, strict} from '@exadel/eslint-config-esl';
+import {lang, strict} from './index.js';
 
 export default [
   {
@@ -6,15 +6,11 @@ export default [
       // Typings
       '**/*.d.ts',
       // Common configuration
-      '**/jest.config.js',
-      '**/jest*.config.js',
-      // Common directories
-      '.diff',
-      'node_modules/**'
+      'jest.config.js'
     ]
   },
   {
-    files: ['**/*.ts'],
+    files: ['**/*.js'],
     linterOptions: {
       reportUnusedDisableDirectives: 'warn'
     }
@@ -22,6 +18,5 @@ export default [
 
   // Using shared ESL ESLint Config
   ...lang.js,
-  ...lang.ts,
   ...strict
 ];
