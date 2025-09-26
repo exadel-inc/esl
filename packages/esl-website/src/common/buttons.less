@@ -3,8 +3,11 @@
 .btn {
   --btn-color: #212529;
   --btn-color-bg: fadeout(#212529, 50%);
+  --btn-border-width: 2px;
 
   display: inline-block;
+
+  fill: currentColor;
   position: relative;
   text-align: center;
   text-decoration: none;
@@ -42,7 +45,7 @@
   }
 
   color: var(--btn-color);
-  border: 2px solid var(--btn-color);
+  border: var(--btn-border-width) solid var(--btn-color);
   border-radius: 0.75rem;
   background-color: transparent;
 
@@ -54,7 +57,7 @@
   &:focus,
   &:active {
     color: var(--btn-color);
-    border: 2px solid var(--btn-color);
+    border: var(--btn-border-width) solid var(--btn-color);
     box-shadow:
       0 0 6px var(--btn-color),
       0 0 10px var(--btn-color);
@@ -70,6 +73,12 @@
     font-size: 1.2rem;
     line-height: 1.8;
     font-weight: 500;
+  }
+  &-xl {
+    font-size: clamp(1.5rem, 4vw, 3rem);
+    line-height: 2.1;
+    font-weight: 500;
+    --btn-border-width: 4px;
   }
   &-spaced {
     padding: 0.7rem 2.75rem 0.75rem;

@@ -1,0 +1,132 @@
+.uip-landing::before {
+  z-index: -1;
+  content: '';
+  position: fixed;
+
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 100vw;
+
+  background-image: url('/assets/playground-logo.svg');
+  background-repeat: no-repeat;
+  background-position: top right;
+  background-size: contain;
+
+  opacity: 0.05;
+}
+
+.uip-container {
+  margin: 7rem auto;
+}
+
+.uip-landing {
+  &-marquee {
+    justify-items: center;
+  }
+
+  &-logo {
+    display: flex;
+    grid-row: 1 / 2;
+    align-self: center;
+
+    color: @primary-bg;
+    border: 0.1em solid @primary-bg;
+    padding: 1rem;
+    margin: 4rem 0;
+    border-radius: 20px;
+
+    font-size: clamp(25px, calc(100vw / 20), 80px);
+    font-family: 'E2EMonoFont', monospace;
+    font-weight: 500;
+    letter-spacing: normal;
+
+    &-typewriter {
+      overflow: hidden;
+      white-space: nowrap;
+      animation: typewriter 10s steps(12) infinite normal both, blink-caret 0.75s step-end infinite;
+      border-right: 0.1em solid @primary-bg;
+
+      &::before {
+        content: '<';
+      }
+
+      &::after {
+        content: '>';
+      }
+    }
+
+    @keyframes typewriter {
+      0%,
+      5% {
+        width: 0;
+      }
+      15%,
+      40% {
+        width: 15ch;
+      }
+      45%,
+      70% {
+        width: 15ch;
+      }
+      80%,
+      95% {
+        width: 0;
+      }
+      100% {
+        width: 0;
+      }
+    }
+
+    @keyframes blink-caret {
+      from,
+      to {
+        border-color: transparent;
+      }
+      50% {
+        border-color: @primary-bg;
+      }
+    }
+  }
+
+  &-description {
+    grid-row: 2 / 3;
+    align-self: end;
+
+    margin: 0;
+    text-align: center;
+  }
+
+  &-heading {
+    text-align: center;
+    color: @primary-bg;
+  }
+
+  &-benefits {
+    &-list {
+      display: grid;
+      gap: 3rem;
+      list-style-type: none;
+
+      &-item {
+        background-color: #fff;
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px #0000001a;
+      }
+    }
+
+    @media @md-xl {
+      &-list {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+  }
+
+  &-d-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 250px;
+  }
+}
