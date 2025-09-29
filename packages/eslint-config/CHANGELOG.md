@@ -1,3 +1,18 @@
+## 5.14.0-beta.1 (2025-09-29)
+
+### 🚀 Features
+
+- ⚠️  **eslint-config:** has embedded support of esl/custom linting ([452669ada](https://github.com/exadel-inc/esl/commit/452669ada))
+
+### 💅 Refactors
+
+- ⚠️  remove deprecated properties and methods across ESL ([e36e19f56](https://github.com/exadel-inc/esl/commit/e36e19f56))
+
+### ⚠️  Breaking Changes
+
+- **eslint-config:** the `@exadel/eslint-plugin-esl` no longer required and out of support, use `@exadel/eslint-config-esl` capabilities instead
+- `ESLAlert.defaultConfig` removed (use `ESLAlert.DEFAULT_PARAMS` instead)
+
 ## 5.14.0-beta.0 (2025-09-19)
 
 ### 💅 Refactors

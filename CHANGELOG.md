@@ -1,3 +1,49 @@
+## 5.14.0-beta.1 (2025-09-29)
+
+### 🚀 Features
+
+- **esl-carousel:** update carousel API configurations to rely on `parseObjectSafe` ([f2dbb7a90](https://github.com/exadel-inc/esl/commit/f2dbb7a90))
+- **esl-drag-to-scroll:** update mixin value parser to use 'parseObjectSafe' ([601807ebe](https://github.com/exadel-inc/esl/commit/601807ebe))
+- **esl-media:** update 'esl-media-control' mixin value parser to use 'parseObjectSafe' ([92eaf0a7f](https://github.com/exadel-inc/esl/commit/92eaf0a7f))
+- **esl-popup:** rework of popup alignment attributes BREAKING CHANGES: `margin-arrow` attribute replaced with `margin-tether` and 'offset-arrow' attribute replaced with `alignment-tether` ([4a2c69239](https://github.com/exadel-inc/esl/commit/4a2c69239))
+- **esl-utils:** `parseObject` safe utility added to replace unsafe evaluate method, and unlock short syntax in future ([d14480435](https://github.com/exadel-inc/esl/commit/d14480435))
+- **esl-utils:** add `parseObjectSafe` wrapper of `parseObject` with fallback value for parse error ([afe489518](https://github.com/exadel-inc/esl/commit/afe489518))
+- ⚠️  **esl-utils:** migrate `@jsonAttr` decorator to use `parseObject` under the hood ([07bd83667](https://github.com/exadel-inc/esl/commit/07bd83667))
+- ⚠️  **esl-utils:** replace  `ESLMediaRuleList.OBJECT_PARSER` with a parseObjectSafe reference ([0df811e55](https://github.com/exadel-inc/esl/commit/0df811e55))
+- ⚠️  **eslint-config:** has embedded support of esl/custom linting ([452669ada](https://github.com/exadel-inc/esl/commit/452669ada))
+- **ui-playground:** default attribute settings ([7ee27aad1](https://github.com/exadel-inc/esl/commit/7ee27aad1))
+
+### 💅 Refactors
+
+- ⚠️  remove deprecated properties and methods across ESL ([e36e19f56](https://github.com/exadel-inc/esl/commit/e36e19f56))
+- **esl-popup:** split calcPopupPositionByMinorAxis to several methods ([c67e0cafe](https://github.com/exadel-inc/esl/commit/c67e0cafe))
+- ⚠️  **esl-utils:** remove deprecated 'evaluate' utility (resolves CWE-95 / CWE-94) ([17f101eb0](https://github.com/exadel-inc/esl/commit/17f101eb0))
+- **site:** playground home page ([7b71b9f15](https://github.com/exadel-inc/esl/commit/7b71b9f15))
+- **site:** playground demo logo update ([62d1d8b34](https://github.com/exadel-inc/esl/commit/62d1d8b34))
+
+### Documentation updates
+
+- **esl-popup:** update README with new alignment attributes ([f3accbe92](https://github.com/exadel-inc/esl/commit/f3accbe92))
+- **esl-utils:** add `@safe` decorator documentation ([4e4c73551](https://github.com/exadel-inc/esl/commit/4e4c73551))
+- **esl-utils:** add `@bind` decorator documentation ([f5e2a75cb](https://github.com/exadel-inc/esl/commit/f5e2a75cb))
+- **esl-utils:** add `@memoize` decorator documentation ([622d27c4b](https://github.com/exadel-inc/esl/commit/622d27c4b))
+- **esl-utils:** add `@ready` decorator documentation ([9c6bf404d](https://github.com/exadel-inc/esl/commit/9c6bf404d))
+- **esl-utils:** add `@decorate` decorator documentation ([be705918a](https://github.com/exadel-inc/esl/commit/be705918a))
+- **esl-utils:** add `@prop` decorator documentation ([ce08e6c28](https://github.com/exadel-inc/esl/commit/ce08e6c28))
+- **esl-utils:** add `@boolAttr` decorator documentation ([50be80d0c](https://github.com/exadel-inc/esl/commit/50be80d0c))
+- **esl-utils:** add `@listen` decorator documentation ([4f0e0eb15](https://github.com/exadel-inc/esl/commit/4f0e0eb15))
+- **esl-utils:** add `@jsonAttr` decorator draft documentation ([c445edd61](https://github.com/exadel-inc/esl/commit/c445edd61))
+- **esl-utils:** update cumulative docs ([8ddf9d90e](https://github.com/exadel-inc/esl/commit/8ddf9d90e))
+- **site:** add detailed site ESL TS Decorators documentation ([e792a2e57](https://github.com/exadel-inc/esl/commit/e792a2e57))
+
+### ⚠️  Breaking Changes
+
+- **eslint-config:** the `@exadel/eslint-plugin-esl` no longer required and out of support, use `@exadel/eslint-config-esl` capabilities instead
+- `ESLAlert.defaultConfig` removed (use `ESLAlert.DEFAULT_PARAMS` instead)
+- **esl-utils:** the `evaluate` utility no longer available, use `parseObject` or `JSON.parse` instead for object parers
+- **esl-utils:** the `ESLMediaRuleList.OBJECT_PARSER` no longer support calculations or references inside values (these were never officially supported). If you need dynamic behavior, use custom parsers instead.
+- **esl-utils:** `@jsonAttr`-based attributes no longer support calculations or references inside values (these were never officially supported). If you need dynamic behavior, make sure to override component config resolvers.
+
 ## 5.14.0-beta.0 (2025-09-19)
 
 ### 🚀 Features

@@ -1,3 +1,7 @@
+## 5.14.0-beta.1 (2025-09-29)
+
+This was a version bump only for esl-e2e to align it with other projects, there were no code changes.
+
 ## 5.14.0-beta.0 (2025-09-19)
 
 ### 💅 Refactors

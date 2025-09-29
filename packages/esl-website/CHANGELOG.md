@@ -1,3 +1,18 @@
+## 5.14.0-beta.1 (2025-09-29)
+
+### 🚀 Features
+
+- **ui-playground:** default attribute settings ([7ee27aad1](https://github.com/exadel-inc/esl/commit/7ee27aad1))
+
+### 💅 Refactors
+
+- **site:** playground demo logo update ([62d1d8b34](https://github.com/exadel-inc/esl/commit/62d1d8b34))
+- **site:** playground home page ([7b71b9f15](https://github.com/exadel-inc/esl/commit/7b71b9f15))
+
+### Documentation updates
+
+- **site:** add detailed site ESL TS Decorators documentation ([e792a2e57](https://github.com/exadel-inc/esl/commit/e792a2e57))
+
 ## 5.14.0-beta.0 (2025-09-19)
 
 ### 💅 Refactors
