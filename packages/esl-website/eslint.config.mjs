@@ -1,10 +1,8 @@
-import {lang, strict} from '@exadel/eslint-config-esl';
+import {lang, strict, esl} from '@exadel/eslint-config-esl';
 
 export default [
   {
     ignores: [
-      // Common configuration
-      'eslint.config.js',
       // Common directories
       'node_modules/**',
       'dist/**',
@@ -21,15 +19,7 @@ export default [
   ...lang.js,
   ...lang.ts,
   ...strict,
-
-  // ESL ESLint Plugin
-  ...await (async () => {
-    try {
-      return (await import('@exadel/eslint-plugin-esl')).recommended;
-    } catch {
-      return [];
-    }
-  })(),
+  ...esl.recommended(),
 
   // Custom ESLint rules
   {
