@@ -7,20 +7,19 @@
  */
 export const configs = [
   {
-    min: '5.13.0',
-    max: '7.0.0',
-    aliases: {
-      ESLAlertShape: 'ESLAlertTagShape',
-      ESLAnimateShape: 'ESLAnimateTagShape',
-      ESLCarouselShape: 'ESLCarouselTagShape',
-      ESLCarouselNavDotsShape: 'ESLCarouselNavDotsTagShape',
-      ESLRandomTextShape: 'ESLRandomTextTagShape'
-    }
-  },
-  {
     min: '5.0.0',
-    max: '7.0.0',
+    max: '6.0.0',
+    aliases: {
+      AlertActionParams: 'ESLAlertActionParams',
+      PanelActionParams: 'ESLPanelActionParams',
+      PopupActionParams: 'ESLPopupActionParams',
+      TooltipActionParams: 'ESLTooltipActionParams',
+      ESLEnvShortcuts: 'ESLMediaShortcuts'
+    },
     staticMembers: {
+      ESLAlert: {
+        defaultConfig: 'DEFAULT_PARAMS'
+      },
       ESLIntersectionEvent: {
         type: 'TYPE'
       },
@@ -32,7 +31,22 @@ export const configs = [
       },
       ESLWheelEvent: {
         type: 'TYPE'
+      },
+      ESLMediaShortcuts: {
+        add: 'set',
+        remove: 'set'
       }
+    }
+  },
+  {
+    min: '5.13.0',
+    max: '7.0.0',
+    aliases: {
+      ESLAlertShape: 'ESLAlertTagShape',
+      ESLAnimateShape: 'ESLAnimateTagShape',
+      ESLCarouselShape: 'ESLCarouselTagShape',
+      ESLCarouselNavDotsShape: 'ESLCarouselNavDotsTagShape',
+      ESLRandomTextShape: 'ESLRandomTextTagShape'
     }
   }
 ];
