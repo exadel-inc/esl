@@ -1,3 +1,9 @@
+## 6.0.0-beta.0 (2025-09-29)
+
+### 🚀 Features
+
+- **ui-playground:** default attribute settings ([7ee27aad1](https://github.com/exadel-inc/esl/commit/7ee27aad1))
+
 ## 5.14.0-beta.0 (2025-09-19)
 
 ### 💅 Refactors

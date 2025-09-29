@@ -1,7 +1,7 @@
 {
   "name": "@exadel/ui-playground",
   "private": true,
-  "version": "5.14.0-beta.0",
+  "version": "6.0.0-beta.0",
   "description": "UIPlayground is a solution for presenting your custom components.",
   "license": "MIT",
   "keywords": [
@@ -47,14 +47,14 @@
     "pack": "nx run uip:pack"
   },
   "dependencies": {
-    "@exadel/esl": "^5.14.0-beta.0",
+    "@exadel/esl": "^6.0.0-beta.0",
     "codejar": "4.2.0",
     "jsx-dom": "8.1.6",
     "prismjs": "1.30.0"
   },
   "devDependencies": {
-    "@exadel/eslint-config-esl": "^5.14.0-beta.0",
-    "@exadel/stylelint-config-esl": "^5.14.0-beta.0",
+    "@exadel/eslint-config-esl": "^6.0.0-beta.0",
+    "@exadel/stylelint-config-esl": "^6.0.0-beta.0",
     "@types/prismjs": "^1.26.5"
   }
 }
