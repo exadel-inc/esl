@@ -6,7 +6,9 @@
   "keywords": [
     "eslint",
     "eslint-config",
-    "esl"
+    "eslint-plugin",
+    "esl",
+    "esl-migration"
   ],
   "repository": {
     "type": "git",
