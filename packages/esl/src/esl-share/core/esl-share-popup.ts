@@ -1,10 +1,10 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {ESLPopup} from '../../esl-popup/core/esl-popup';
+import {ESLPopup} from '../../esl-popup/core';
 import {bind, listen, memoize} from '../../esl-utils/decorators';
 import {ESLShareButton} from './esl-share-button';
 import {ESLShareConfig} from './esl-share-config';
 
-import type {ESLPopupActionParams} from '../../esl-popup/core/esl-popup';
+import type {ESLPopupActionParams} from '../../esl-popup/core';
 import type {ESLShareButtonConfig} from './esl-share-config';
 
 export type {ESLSharePopupTagShape} from './esl-share-popup.shape';
@@ -16,7 +16,21 @@ function stringifyButtonsList(btns: ESLShareButtonConfig[]): string {
 export interface ESLSharePopupActionParams extends ESLPopupActionParams {
   /** list of social networks or groups of them to display */
   list?: string;
+  /** text directionality of popups content */
+  dir?: string;
+  /** language of popups text content */
+  lang?: string;
+  /** popup without arrow */
+  disableArrow?: boolean;
 }
+/** List of ESLSharePopup config keys */
+export const ESL_SHARE_POPUP_CONFIG_KEYS: (keyof ESLSharePopupActionParams)[] = [
+  ...ESLPopup.CONFIG_KEYS,
+  'list',
+  'dir',
+  'lang',
+  'disableArrow'
+] as const;
 
 /**
  * ESLSharePopup component
@@ -37,6 +51,9 @@ export class ESLSharePopup extends ESLPopup {
     position: 'top',
     hideDelay: 300
   };
+
+  /** List of config keys */
+  public static override CONFIG_KEYS: string[] = ESL_SHARE_POPUP_CONFIG_KEYS as string[];
 
   /** List of attributes to forward from the activator to the {@link ESLSharePopup} */
   public static forwardedAttrs = ['share-title', 'share-url'];
@@ -62,7 +79,7 @@ export class ESLSharePopup extends ESLPopup {
     this.tabIndex = 0;
   }
 
-  /** Sets initial state of the Tooltip */
+  /** Sets initial state of the popup */
   protected override setInitialState(): void {}
 
   public override onShow(params: ESLSharePopupActionParams): void {
@@ -78,7 +95,7 @@ export class ESLSharePopup extends ESLPopup {
     super.onShow(params);
   }
 
-  /** Actions to execute on Tooltip hiding. */
+  /** Actions to execute on popup hiding. */
   public override onHide(params: ESLSharePopupActionParams): void {
     super.onHide(params);
     this.parentNode === document.body && document.body.removeChild(this);
