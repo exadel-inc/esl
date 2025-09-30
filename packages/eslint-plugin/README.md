@@ -4,6 +4,9 @@ Authors: *Natalia Smirnova, Alexey Stsefanovich (ala'n)*.
 
 <a name="intro"></a>
 
+> ⚠️ Deprecated: The standalone ESL migration / deprecation ESLint plugin has been removed in ESLv6.0.0 and is no longer supported.
+> Use `@exadel/eslint-config-esl` capabilities instead 
+
 This article aims to assist the smooth migration process from older versions of ESL to the latest version. To support this transition, we have developed an ESLint plugin designed specifically for ESL library. This plugin targets deprecated features and aliases within the library, offering a seamless means of identifying these outdated elements. Additionally, it suggests suitable replacements, thereby ensuring a hassle-free upgrade to the newest version of ESL.
 
 <a name="installation"></a>
