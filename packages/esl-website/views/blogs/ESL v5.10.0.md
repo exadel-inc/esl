@@ -2,7 +2,8 @@
 layout: content
 name: ESL v5.10.0
 title: ESL v5.10.0
-tags: [news]
+tags: [news, blogs]
+order: 10
 date: 2025-07-28
 link: https://github.com/exadel-inc/esl/releases/tag/v5.10.0
 ---

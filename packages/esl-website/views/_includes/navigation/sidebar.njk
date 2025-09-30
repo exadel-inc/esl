@@ -25,7 +25,7 @@
         </li>
 
         {% for item in collections.nav | sortBy('order') %}
-          {% set isNoEmpty = collections[item.data.collection] | released | exclude('data.collection') | length %}
+          {% set isNoEmpty = collections[item.data.collection] | releasedOrActive(page.url) | exclude('data.collection') | length %}
           {% set isActive = env.isDev or functions.isActivePath(page.url, item.data.collection) %}
 
           {% if isNoEmpty or isActive %}
