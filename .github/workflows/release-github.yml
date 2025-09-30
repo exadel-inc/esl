@@ -1,10 +1,7 @@
 name: Release Publisher (GitHub)
 
 on:
-  push:
-    branches:
-      - main
-      - main-beta
+  workflow_dispatch:
 
 permissions:
   contents: write
