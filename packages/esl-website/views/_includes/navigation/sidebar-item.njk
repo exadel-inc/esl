@@ -2,11 +2,7 @@
   {% set isDevCollection = collection == 'dev' %}
   {% set isPrimaryActive = functions.isActivePath(page.url, collection) %}
 
-  {% if (isPrimaryActive or isDevCollection) and not env.isDev %}
-    {% set items = collections[collection] | filter('url', page.url) | tree %}
-  {% else %}
-    {% set items = collections[collection] | released | tree %}
-  {% endif %}
+  {% set items = collections[collection] | releasedOrActive(page.url) | tree %}
 
   {% if items.length or isPrimaryActive %}
   <li class="sidebar-nav-item">
