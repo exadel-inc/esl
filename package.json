@@ -44,11 +44,11 @@
     "version:root": "node scripts/update-root-version.mjs"
   },
   "dependencies": {
-    "@nx/devkit": "21.5.3",
-    "@nx/eslint": "21.5.3",
-    "@nx/jest": "21.5.3",
-    "@nx/js": "21.5.3",
-    "nx": "21.5.3",
+    "@nx/devkit": "21.6.2",
+    "@nx/eslint": "21.6.2",
+    "@nx/jest": "21.6.2",
+    "@nx/js": "21.6.2",
+    "nx": "21.6.2",
     "semver": "^7.7.2"
   },
   "devDependencies": {
@@ -58,7 +58,7 @@
     "chokidar-cli": "^3.0.0",
     "copyfiles": "^2.4.1",
     "cpy-cli": "^6.0.0",
-    "cross-env": "^10.0.0",
+    "cross-env": "^10.1.0",
     "eslint": "^9.36.0",
     "findx-cli": "^0.2.2",
     "husky": "^9.1.7",
