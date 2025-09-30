@@ -44,6 +44,59 @@
 - **esl-utils:** the `ESLMediaRuleList.OBJECT_PARSER` no longer support calculations or references inside values (these were never officially supported). If you need dynamic behavior, use custom parsers instead.
 - **esl-utils:** `@jsonAttr`-based attributes no longer support calculations or references inside values (these were never officially supported). If you need dynamic behavior, make sure to override component config resolvers.
 
+
+## 5.14.0 (2025-09-30)
+
+### 🚀 Features
+
+- remove deprecated alias for ActionParams on ESLAlert, ESLPanel, ESLPopup, ESLTooltip ([4c9972092](https://github.com/exadel-inc/esl/commit/4c9972092))
+- introduce ESLIntrinsicElements ESL custom tag jsx declaration interface ([8b053737b](https://github.com/exadel-inc/esl/commit/8b053737b))
+- **esl-carousel:** introduce capabilities to provide custom autoplay restrictions. Resolves #3349 ([#3349](https://github.com/exadel-inc/esl/issues/3349))
+- **esl-popup:** introduce config prop for easily accessing params of popup ([2252767c5](https://github.com/exadel-inc/esl/commit/2252767c5))
+- **ui-playground:** default attribute settings ([7ee27aad1](https://github.com/exadel-inc/esl/commit/7ee27aad1))
+
+### 🩹 Fixes
+
+- **esl-trigger:** update esl-base-trigger and it's instances to dispatch `esl:change:action` ([e1b84e326](https://github.com/exadel-inc/esl/commit/e1b84e326))
+- **esl-utils:** handle empty eventName in dispatch function ([8821c837a](https://github.com/exadel-inc/esl/commit/8821c837a))
+
+### 💅 Refactors
+
+- introduce global ESLIntrinsicElements interface ([fe64e7871](https://github.com/exadel-inc/esl/commit/fe64e7871))
+- rename some Shape types declarations for consistency ([6e709d0d6](https://github.com/exadel-inc/esl/commit/6e709d0d6))
+- **esl-popup:** clearing params on popup hide ([89884d581](https://github.com/exadel-inc/esl/commit/89884d581))
+- **eslint-config:** has embedded support of esl/custom linting ([1417150d8](https://github.com/exadel-inc/esl/commit/1417150d8))
+- **site:** playground home page ([7b71b9f15](https://github.com/exadel-inc/esl/commit/7b71b9f15))
+- **site:** playground demo logo update ([62d1d8b34](https://github.com/exadel-inc/esl/commit/62d1d8b34))
+- **site:** add playground section ([dbaf99955](https://github.com/exadel-inc/esl/commit/dbaf99955))
+- **site:** add rulers in sidebar ([54454cc1a](https://github.com/exadel-inc/esl/commit/54454cc1a))
+- **site:** add automated brakpoints on sidebar, adjust playground examples ([fdd2aebfc](https://github.com/exadel-inc/esl/commit/fdd2aebfc))
+- **site:** drop changes not related to playground readme ([c1a0a222e](https://github.com/exadel-inc/esl/commit/c1a0a222e))
+- **site:** remove unused tags ([05c77d33f](https://github.com/exadel-inc/esl/commit/05c77d33f))
+- **site:** remove unused images ([6d62abf25](https://github.com/exadel-inc/esl/commit/6d62abf25))
+- **site:** add empty line ([1c77e2f7f](https://github.com/exadel-inc/esl/commit/1c77e2f7f))
+- **site:** remove unused sidebar logo ([1c676738f](https://github.com/exadel-inc/esl/commit/1c676738f))
+- **site:** playground navigation ([772859d85](https://github.com/exadel-inc/esl/commit/772859d85))
+- **site:** add playground description ([e83a7eb79](https://github.com/exadel-inc/esl/commit/e83a7eb79))
+- **site:** move header titles to the actual collection ([f780c38db](https://github.com/exadel-inc/esl/commit/f780c38db))
+- **ui-playground:** migrate UIP project to latest (8) JSX-DOM ([5275cb787](https://github.com/exadel-inc/esl/commit/5275cb787))
+
+### Documentation updates
+
+- add detailed TSX support guide ([dee009e76](https://github.com/exadel-inc/esl/commit/dee009e76))
+- **esl-utils:** add `@safe` decorator documentation ([4e4c73551](https://github.com/exadel-inc/esl/commit/4e4c73551))
+- **esl-utils:** add `@bind` decorator documentation ([f5e2a75cb](https://github.com/exadel-inc/esl/commit/f5e2a75cb))
+- **esl-utils:** add `@memoize` decorator documentation ([622d27c4b](https://github.com/exadel-inc/esl/commit/622d27c4b))
+- **esl-utils:** add `@ready` decorator documentation ([9c6bf404d](https://github.com/exadel-inc/esl/commit/9c6bf404d))
+- **esl-utils:** add `@decorate` decorator documentation ([be705918a](https://github.com/exadel-inc/esl/commit/be705918a))
+- **esl-utils:** add `@prop` decorator documentation ([ce08e6c28](https://github.com/exadel-inc/esl/commit/ce08e6c28))
+- **esl-utils:** add `@boolAttr` decorator documentation ([50be80d0c](https://github.com/exadel-inc/esl/commit/50be80d0c))
+- **esl-utils:** add `@listen` decorator documentation ([4f0e0eb15](https://github.com/exadel-inc/esl/commit/4f0e0eb15))
+- **esl-utils:** add `@jsonAttr` decorator draft documentation ([c445edd61](https://github.com/exadel-inc/esl/commit/c445edd61))
+- **esl-utils:** update cumulative docs ([8ddf9d90e](https://github.com/exadel-inc/esl/commit/8ddf9d90e))
+- **site:** add detailed site ESL TS Decorators documentation ([e792a2e57](https://github.com/exadel-inc/esl/commit/e792a2e57))
+
+
 ## 5.14.0-beta.0 (2025-09-19)
 
 ### 🚀 Features

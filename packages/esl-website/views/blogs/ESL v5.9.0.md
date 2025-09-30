@@ -2,7 +2,7 @@
 layout: content
 name: ESL v5.9.0
 title: ESL v5.9.0
-tags: [news]
+tags: [news, blogs]
 date: 2025-07-12
 link: https://github.com/exadel-inc/esl/releases/tag/v5.9.0
 ---

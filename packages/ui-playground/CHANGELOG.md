@@ -4,6 +4,25 @@
 
 - **ui-playground:** default attribute settings ([7ee27aad1](https://github.com/exadel-inc/esl/commit/7ee27aad1))
 
+
+## 5.14.0 (2025-09-30)
+
+### 🚀 Features
+
+- **ui-playground:** default attribute settings ([7ee27aad1](https://github.com/exadel-inc/esl/commit/7ee27aad1))
+
+### 💅 Refactors
+
+- **eslint-config:** has embedded support of esl/custom linting ([1417150d8](https://github.com/exadel-inc/esl/commit/1417150d8))
+- **ui-playground:** migrate UIP project to latest (8) JSX-DOM ([5275cb787](https://github.com/exadel-inc/esl/commit/5275cb787))
+- **site:** add playground description ([e83a7eb79](https://github.com/exadel-inc/esl/commit/e83a7eb79))
+- **site:** playground navigation ([772859d85](https://github.com/exadel-inc/esl/commit/772859d85))
+- **site:** remove unused sidebar logo ([1c676738f](https://github.com/exadel-inc/esl/commit/1c676738f))
+- **site:** drop changes not related to playground readme ([c1a0a222e](https://github.com/exadel-inc/esl/commit/c1a0a222e))
+- **site:** add automated brakpoints on sidebar, adjust playground examples ([fdd2aebfc](https://github.com/exadel-inc/esl/commit/fdd2aebfc))
+- **site:** add playground section ([dbaf99955](https://github.com/exadel-inc/esl/commit/dbaf99955))
+
+
 ## 5.14.0-beta.0 (2025-09-19)
 
 ### 💅 Refactors
