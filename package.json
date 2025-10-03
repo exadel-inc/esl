@@ -52,7 +52,7 @@
     "semver": "^7.7.2"
   },
   "devDependencies": {
-    "@commitlint/cli": "^20.0.0",
+    "@commitlint/cli": "^20.1.0",
     "@commitlint/config-conventional": "^20.0.0",
     "@types/jest": "^30.0.0",
     "chokidar-cli": "^3.0.0",
