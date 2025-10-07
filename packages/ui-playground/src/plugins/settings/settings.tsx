@@ -3,7 +3,6 @@ import {attr, boolAttr, decorate, listen, memoize} from '@exadel/esl/modules/esl
 import {parseBoolean, toBooleanAttribute} from '@exadel/esl/modules/esl-utils/misc/format';
 
 import {UIPPluginPanel} from '../../core/panel/plugin-panel';
-import {ThemeToggleIcon} from '../theme/theme-toggle.icon';
 
 import {UIPDefaults} from '../../core/config/config';
 import {SettingsIcon} from './settings.icon';
@@ -49,7 +48,7 @@ export class UIPSettings extends UIPPluginPanel {
   protected override get $toolbar(): HTMLElement {
     const type = this.constructor as typeof UIPSettings;
     return (<div class={type.is + '-toolbar uip-plugin-header-toolbar'}>
-      {this.themeToggle ? <uip-theme-toggle class={type.is + '-toolbar-option'}><ThemeToggleIcon/></uip-theme-toggle> : ''}
+      {this.themeToggle ? <uip-theme-toggle class={type.is + '-toolbar-option'}></uip-theme-toggle> : ''}
       {this.dirToggle ? <uip-dir-toggle class={type.is + '-toolbar-option'}/> : ''}
     </div>) as HTMLElement;
   }
