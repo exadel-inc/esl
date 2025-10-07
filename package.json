@@ -65,7 +65,7 @@
     "jest": "^30.2.0",
     "jest-environment-jsdom": "^30.2.0",
     "kleur": "^4.1.5",
-    "less": "^4.4.1",
+    "less": "^4.4.2",
     "less-plugin-clean-css": "^1.6.0",
     "lint-staged": "^16.2.3",
     "postcss": "^8.5.6",
