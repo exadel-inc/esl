@@ -144,3 +144,11 @@ export function canNavigate(target: ESLCarouselSlideTarget, cfg: ESLCarouselStat
   if (!cfg.loop && direction && index < direction * cfg.activeIndex) return false;
   return index !== cfg.activeIndex || Math.abs(cfg.offset) > 0;
 }
+
+/**
+ * @returns if the passed target {@link ESLCarouselSlideTarget} can be considered as currently active
+ * Note: the relative paths could not be current
+ */
+export function isCurrent(target: ESLCarouselSlideTarget, cfg: ESLCarouselState): boolean {
+  return false;
+}

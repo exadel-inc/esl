@@ -57,6 +57,7 @@ export class ESLCarouselNavMixin extends ESLMixinElement {
     memoize.clear(this, '$carousel');
     this.$$attr('active', false);
     this.$$attr('disabled', false);
+    this.$$attr('current', false);
   }
 
   /** Handles carousel state changes */
@@ -66,9 +67,11 @@ export class ESLCarouselNavMixin extends ESLMixinElement {
   })
   protected _onUpdate(): void {
     const isActive = !!this.$carousel?.renderer && !this.$carousel.incomplete;
+    const isCurrent = isActive && this.$carousel?.isCurrent(this.command);
     const isDisabled = isActive && !this.$carousel.canNavigate(this.command);
     this.$$attr('active', isActive);
     this.$$attr('disabled', isDisabled);
+    this.$$attr('current', isCurrent);
     this.$$attr('aria-controls', this.targetID);
   }
 
