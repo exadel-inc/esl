@@ -49,7 +49,7 @@
     "@nx/jest": "21.6.3",
     "@nx/js": "21.6.3",
     "nx": "21.6.3",
-    "semver": "^7.7.2"
+    "semver": "^7.7.3"
   },
   "devDependencies": {
     "@commitlint/cli": "^20.1.0",
