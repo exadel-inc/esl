@@ -1,4 +1,4 @@
-import {isCurrent, canNavigate} from '../../core/esl-carousel.utils';
+import {isCurrent, canNavigate, isCurrentIndex} from '../../core/esl-carousel.utils';
 import type {ESLCarouselSlideTarget, ESLCarouselState} from '../../core/esl-carousel.types';
 
 describe('ESLCarousel: Nav Utils', () => {
@@ -66,6 +66,36 @@ describe('ESLCarousel: Nav Utils', () => {
       'Target %s is not allowed for %p configuration',
       (target: ESLCarouselSlideTarget, cfg: ESLCarouselState) => expect(canNavigate(target, cfg)).toBe(false)
     );
+  });
+
+  describe('isCurrentIndex', () => {
+    test.each([
+      [0, {activeIndex: 0, size: 5, count: 1, loop: false}, true],
+      [1, {activeIndex: 0, size: 5, count: 1, loop: false}, false],
+      [4, {activeIndex: 4, size: 5, count: 1, loop: false}, true],
+      [5, {activeIndex: 0, size: 5, count: 1, loop: false}, false], // out of range
+      // Multi-slide window
+      [2, {activeIndex: 2, size: 8, count: 3, loop: false}, true],
+      [3, {activeIndex: 2, size: 8, count: 3, loop: false}, true],
+      [4, {activeIndex: 2, size: 8, count: 3, loop: false}, true],
+      [5, {activeIndex: 2, size: 8, count: 3, loop: false}, false],
+      // Loop wrap (activeIndex near end, wrapping)
+      [6, {activeIndex: 6, size: 8, count: 3, loop: true}, true], // active:6,7,0
+      [7, {activeIndex: 6, size: 8, count: 3, loop: true}, true],
+      [0, {activeIndex: 6, size: 8, count: 3, loop: true}, true],
+      [5, {activeIndex: 6, size: 8, count: 3, loop: true}, false],
+      // Full active window (count >= size)
+      [0, {activeIndex: 0, size: 4, count: 5, loop: false}, true],
+      [3, {activeIndex: 2, size: 4, count: 10, loop: true}, true],
+    ])('Index %s current=%s in %p', (index: number, cfg: ESLCarouselState, expected: boolean) => {
+      expect(isCurrentIndex(index, cfg)).toBe(expected);
+    });
+
+    test.each([
+      [NaN, {activeIndex: 0, size: 5, count: 1, loop: false}]
+    ])('Invalid index %s is not current for %p', (index: number, cfg: ESLCarouselState) => {
+      expect(isCurrentIndex(index, cfg)).toBe(false);
+    });
   });
 
   describe('isCurrent', () => {

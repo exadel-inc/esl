@@ -330,11 +330,17 @@ export class ESLCarousel extends ESLBaseElement {
     return this.$slides.indexOf(slide);
   }
 
-  /** @returns if the passed slide target can be reached */
+  /**
+   * @returns if the passed slide target can be reached.
+   * @see canNavigate
+   */
   public canNavigate(target: ESLCarouselSlideTarget): boolean {
     return canNavigate(target, this.renderer);
   }
-  /** @returns is the passed slide target is currently active */
+  /**
+   * @returns if the passed navigation target refers to a currently active slide (or group) in this carousel.
+   * @see isCurrent
+   */
   public isCurrent(target: ESLCarouselSlideTarget): boolean {
     return isCurrent(target, this.renderer);
   }

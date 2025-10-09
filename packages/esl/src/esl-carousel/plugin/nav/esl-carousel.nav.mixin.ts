@@ -11,6 +11,13 @@ import type {ESLCarouselSlideTarget} from '../../core/esl-carousel.types';
 /**
  * ESLCarousel navigation helper to define triggers for carousel navigation.
  *
+ * State attributes applied to the host element:
+ * - `active`   : the related carousel is present and initialized
+ * - `disabled` : navigation command cannot be executed at the moment (see canNavigate)
+ * - `current`  : navigation command points to the currently active slide/group
+ *                (mirrors {@link ESLCarousel.isCurrent} / utils isCurrent semantics:
+ *                only absolute targets are considered, relative forms like `next`, `prev`, `+1`, etc. never set it)
+ *
  * Example:
  * ```
  * <div class="esl-carousel-nav-container">
