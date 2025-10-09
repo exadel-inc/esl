@@ -1,3 +1,9 @@
+## 5.14.1 (2025-10-09)
+
+### 🩹 Fixes
+
+- **ui-playground:** duplicate theme toggle icon ([2e4c48454](https://github.com/exadel-inc/esl/commit/2e4c48454))
+
 ## 5.14.0 (2025-09-30)
 
 ### 🚀 Features
