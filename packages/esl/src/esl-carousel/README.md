@@ -117,6 +117,7 @@ Note: a single value attributes will be considered as all-rule so they spreads a
  - `isNext(slide: HTMLElement)` - returns if the slide is next.
  - `isPrev(slide: HTMLElement)` - returns if the slide is prev.
  - `canNavigate(target: ESLCarouselSlideTarget)` - returns if the carousel can navigate to the target nav string.
+ - `isCurrent(target: ESLCarouselSlideTarget)` - returns `true` if the target points to a currently active slide (or slide group).
 
 ---
 

@@ -37,3 +37,11 @@ or
 <esl-carousel>...</esl-carousel>    
 <button esl-carousel-nav="next" esl-carousel-nav-target="::prev">Next</button>
 ```
+
+## Runtime State Attributes
+
+When attached to an element the mixin manages the following read-only attributes on the host:
+
+- `active`   – set when the associated carousel is found and initialized (not incomplete).
+- `disabled` – set when the declared navigation command cannot be executed at the moment (see `canNavigate`).
+- `current`  – set when the declared navigation command points to a slide (or group) that is currently active (only absolute targets are considered).

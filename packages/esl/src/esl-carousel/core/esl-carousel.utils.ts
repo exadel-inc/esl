@@ -144,3 +144,48 @@ export function canNavigate(target: ESLCarouselSlideTarget, cfg: ESLCarouselStat
   if (!cfg.loop && direction && index < direction * cfg.activeIndex) return false;
   return index !== cfg.activeIndex || Math.abs(cfg.offset) > 0;
 }
+
+/**
+ * Checks whether given (0-based) slide index is currently active.
+ *
+ * @param index - 0-based slide index to check.
+ * @param state - current carousel state (size, count, activeIndex, loop).
+ * @returns true if index corresponds to an active slide of the current view; otherwise false.
+ */
+export function isCurrentIndex(index: number, {count, size, activeIndex, loop}: ESLCarouselState): boolean {
+  if (!isFinite(index)) return false; // NaN / non-finite
+  if (index < 0 || index >= size || count <= 0 || size <= 0) return false; // Boundaries
+  const diff = index - activeIndex;
+  if (loop) return (diff + size) % size < count;
+  return diff >= 0 && diff < count;
+}
+
+/**
+ * Determines if a navigation target refers to a currently active slide (or group) of the carousel.
+ *
+ * Supported target syntaxes (absolute only considered "current"):
+ * - Numeric (short form): `0`, `1`, `2`, `-1` (negative only meaningful in loop mode, normalized by size).
+ * - Slide explicit: `slide:1`, `slide:2`, ... (1-based). Internally converted to 0-based index (value - 1).
+ * - Group explicit: `group:1`, `group:2`, ... (1-based). A group is considered current if its FIRST slide is active.
+ *
+ * Relative syntaxes are NEVER considered current and always return false
+ *
+ * Semantics:
+ * - For a slide target we only check the single referenced slide.
+ * - For a group target we resolve the first slide of the group via {@link groupToIndex} and test it.
+ * - For numeric (short) targets in loop mode we normalize the raw value modulo size; in non-loop mode value must be within [0, size).
+ * - No validation beyond what is needed for determining activity; invalid (out-of-range) absolute slide/group indexes yield false.
+ *
+ * @param target - navigation target specification.
+ * @param state - current carousel state.
+ * @returns true if target points to an active slide/group; otherwise false.
+ */
+export function isCurrent(target: ESLCarouselSlideTarget, state: ESLCarouselState): boolean {
+  const {type, index} = splitTarget(target);
+  const {value, isRelative} = parseIndex(index);
+
+  if (type && isRelative) return false;
+  if (type === 'slide') return isCurrentIndex(value - 1, state);
+  if (type === 'group') return isCurrentIndex(groupToIndex(value - 1, state.count, state.size), state);
+  return isCurrentIndex(normalize(value, state.size), state);
+}
