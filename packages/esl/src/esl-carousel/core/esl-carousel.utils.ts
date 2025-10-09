@@ -146,9 +146,7 @@ export function canNavigate(target: ESLCarouselSlideTarget, cfg: ESLCarouselStat
 }
 
 /**
- * Check whether given (0-based) slide index is currently active.
- *
- * Performance: O(1) — no array creation or iteration.
+ * Checks whether given (0-based) slide index is currently active.
  *
  * @param index - 0-based slide index to check.
  * @param state - current carousel state (size, count, activeIndex, loop).
@@ -163,7 +161,7 @@ export function isCurrentIndex(index: number, {count, size, activeIndex, loop}: 
 }
 
 /**
- * Determine if a navigation target refers to a currently active slide (or group) of the carousel.
+ * Determines if a navigation target refers to a currently active slide (or group) of the carousel.
  *
  * Supported target syntaxes (absolute only considered "current"):
  * - Numeric (short form): `0`, `1`, `2`, `-1` (negative only meaningful in loop mode, normalized by size).
@@ -177,8 +175,6 @@ export function isCurrentIndex(index: number, {count, size, activeIndex, loop}: 
  * - For a group target we resolve the first slide of the group via {@link groupToIndex} and test it.
  * - For numeric (short) targets in loop mode we normalize the raw value modulo size; in non-loop mode value must be within [0, size).
  * - No validation beyond what is needed for determining activity; invalid (out-of-range) absolute slide/group indexes yield false.
- *
- * Performance: O(1) — no array creation or iteration.
  *
  * @param target - navigation target specification.
  * @param state - current carousel state.
