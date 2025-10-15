@@ -4,7 +4,7 @@ on:
   pull_request:
 
 env:
-  node-version: 20.x
+  node-version: 22.x
 
 jobs:
   validate-commit:
