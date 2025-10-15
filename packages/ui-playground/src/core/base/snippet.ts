@@ -73,7 +73,7 @@ export class UIPSnippetItem {
 
   /** @returns if the snippet is in resizable */
   public get resizable(): boolean {
-    return this.$element.hasAttribute('resizable');
+    return this.$element.hasAttribute('uip-resizable');
   }
 
   /** @returns if the snippet is in active state */
