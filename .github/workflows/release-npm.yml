@@ -3,12 +3,8 @@ name: Release Handler (NPM)
 on:
   workflow_dispatch:
 
-permissions:
-  contents: write
-  packages: write
-
 env:
-  node-version: 20.x
+  node-version: 22.x
 
 jobs:
   publish:
@@ -37,11 +33,6 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Create NPM Token
-        run: echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > ~/.npmrc
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
       - name: Print Environment Info
         run: npx nx report
         shell: bash
@@ -58,5 +49,4 @@ jobs:
         run: npx nx release publish --tag=${{ steps.tag.outputs.tag }}
         shell: bash
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
