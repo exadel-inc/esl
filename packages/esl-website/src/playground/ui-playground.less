@@ -1,8 +1,8 @@
 @import (inline) '@exadel/ui-playground/dist/registration.css';
 @import (reference) '../common/variables.less';
 
-// Default theme definition
-html {
+// ESL theme definition
+.uip-theme-esl {
   --uip-bg: #fff;
   --uip-fg: @body-fg;
 
@@ -20,47 +20,52 @@ html {
 
   --uip-plugin-fg-v: @body-fg;
   --uip-plugin-bg-v: transparent;
-}
 
-.uip-root {
-  margin-block-end: 1rem;
+  &.uip-root {
+    margin-block-end: 1rem;
 
-  overflow: hidden;
-  border: 1px solid #112a47;
-  border-radius: 0.5rem;
+    overflow: hidden;
+    border: 1px solid #112a47;
+    border-radius: 0.5rem;
 
-  // Stylistic update for "readonly" label
-  .uip-editor-title::after {
-    opacity: 0.5;
+    // Stylistic update for "readonly" label
+    .uip-editor-title::after {
+      opacity: 0.5;
+    }
+
+    .uip-plugin-header {
+      font-size: 1.1rem;
+    }
+
+    .uip-snippets[view='dropdown'] .uip-snippets-dropdown {
+      width: 100%;
+    }
+
+    .uip-settings {
+      --uip-plugin-bg: @body-bg;
+      --uip-plugin-fg: @body-fg;
+    }
+
+    .uip-inactive-setting {
+      display: none;
+    }
+
+    .uip-preview-h-scroll[inactive] {
+      display: none;
+    }
+
+    // TODO: probably needs to be in UIP
+    .uip-preview[resizable='horizontal'] .uip-preview-container {
+      resize: horizontal;
+    }
+
+    .uip-preview[align='center'] .uip-preview-container {
+      margin-inline: auto;
+    }
   }
 
-  .uip-plugin-header {
-    font-size: 1.1rem;
-  }
-
-  .uip-snippets[view='dropdown'] .uip-snippets-dropdown {
-    width: 100%;
-  }
-
-  .uip-settings {
-    --uip-plugin-bg: @body-bg;
+  &.uip-select-dropdown {
+    --uip-plugin-bg: #fff;
     --uip-plugin-fg: @body-fg;
-  }
-
-  .uip-inactive-setting {
-    display: none;
-  }
-
-  .uip-preview-h-scroll[inactive] {
-    display: none;
-  }
-
-  // TODO: probably needs to be in UIP
-  .uip-preview[resizable='horizontal'] .uip-preview-container {
-    resize: horizontal;
-  }
-
-  .uip-preview[align='center'] .uip-preview-container {
-    margin-inline: auto;
   }
 }

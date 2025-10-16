@@ -36,6 +36,9 @@ UIPRenderingTemplatesService.add('default', `
 `);
 
 init({
+  root: {
+    themeCls: 'uip-theme-esl'
+  },
   editor: {
     label: 'Source code ({{sourceType}})',
     copy: true,
@@ -43,7 +46,6 @@ init({
   },
   settings: {
     label: 'Settings',
-    themeToggle: true,
     collapsible: true,
     hideable: true,
     resizable: true

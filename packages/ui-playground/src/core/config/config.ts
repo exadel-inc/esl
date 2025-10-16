@@ -3,6 +3,9 @@ export abstract class UIPConfigurable {
 }
 
 export interface UIPDefaultConfig {
+  root: {
+    themeCls?: string;
+  };
   editor: {
     label?: string;
     copy?: boolean;

@@ -33,7 +33,7 @@ export class UIPSelectSetting extends UIPSetting {
   protected get $field(): ESLSelect {
     const $field = document.createElement('esl-select');
     $field.name = this.label;
-    $field.dropdownClass = UIPSelectSetting.dropdownClass;
+    $field.dropdownClass = `${UIPSelectSetting.dropdownClass} ${this.$root?.themeCls}`;
     $field.$select = this.select;
     $field.append(this.select);
     return $field;
