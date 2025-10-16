@@ -1,3 +1,15 @@
+## 5.15.0 (2025-10-16)
+
+### 🚀 Features
+
+- **esl-carousel:** add ability to check if the passed target is current + `current` marker support for esl-carousel-nav mixin ([57bb690c1](https://github.com/exadel-inc/esl/commit/57bb690c1))
+
+### 🩹 Fixes
+
+- **esl-popup:** fix race condition in ESLPopup when rapidly toggling state ([6816150fd](https://github.com/exadel-inc/esl/commit/6816150fd))
+- **site:** added table gaps in md pages; added table container for scrolling on mobile devices ([79df341f2](https://github.com/exadel-inc/esl/commit/79df341f2))
+- **ui-playground:** duplicate theme toggle icon ([2e4c48454](https://github.com/exadel-inc/esl/commit/2e4c48454))
+
 ## 5.14.0 (2025-09-30)
 
 ### 🚀 Features
