@@ -1,3 +1,9 @@
+## 5.15.0 (2025-10-16)
+
+### 🩹 Fixes
+
+- **site:** added table gaps in md pages; added table container for scrolling on mobile devices ([79df341f2](https://github.com/exadel-inc/esl/commit/79df341f2))
+
 ## 5.14.0 (2025-09-30)
 
 ### 🚀 Features
