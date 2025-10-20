@@ -19,6 +19,7 @@ aside:
     <uip-root>
       <script type="text/html"
               label="Horizontal"
+              uip-resizable
               uip-snippet
               uip-snippet-js="js-snippet-popup-game">
         <esl-d-popup-game trigger="::find(.game-popup-trigger)">
@@ -92,7 +93,7 @@ aside:
       </script>
 
       <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
-      <uip-preview resizable></uip-preview>
+      <uip-preview></uip-preview>
       <uip-settings target="esl-popup" vertical="@+sm">
         <uip-select-setting label="Position" target="esl-popup" attribute="position">
           <option value="top">Top</option>
