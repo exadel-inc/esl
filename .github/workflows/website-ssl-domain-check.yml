@@ -27,6 +27,7 @@ jobs:
           DOMAIN="esl-ui.com"
           SSL_WARNING_DAYS=30
           DOMAIN_WARNING_DAYS=60
+          NETWORK_TIMEOUT=15  # seconds for network operations
 
           # Create labels if they don't exist
           gh label create monitoring --description "Monitoring alerts" --color "0075ca" --force 2>/dev/null || true
@@ -58,7 +59,7 @@ jobs:
             existing_issue=$(gh issue list --label "$label" --state "open" --search "in:title $search_term" --json number --jq '.[0].number' || echo "")
             if [ -n "$existing_issue" ]; then
               echo "Closing resolved $label issue #$existing_issue"
-              gh issue close "$existing_issue" --comment "$comment"
+              gh issue close "$existing_issue" --comment "$comment" --reason completed
             fi
           }
 
@@ -68,7 +69,7 @@ jobs:
           echo "Checking SSL certificate for $DOMAIN..."
 
           # Check SSL certificate
-          ssl_info=$(echo | openssl s_client -servername $DOMAIN -connect $DOMAIN:443 2>/dev/null | openssl x509 -noout -dates)
+          ssl_info=$(echo | timeout "${NETWORK_TIMEOUT}s" openssl s_client -servername $DOMAIN -connect $DOMAIN:443 2>/dev/null | openssl x509 -noout -dates)
           echo "SSL Certificate info:"
           echo "$ssl_info"
 
@@ -117,13 +118,13 @@ jobs:
           echo "Checking domain expiry for $DOMAIN..."
 
           # Run whois once and reuse output
-          full_whois=$(whois $DOMAIN)
+          full_whois=$(timeout "${NETWORK_TIMEOUT}s" whois $DOMAIN)
           domain_info=$(echo "$full_whois" | grep -i "expir")
           echo "Domain expiry info:"
           echo "$domain_info"
 
           # Try to get domain expiry date
-          expiry_line=$(echo "$full_whois" | grep -i "registry expiry date" | head -1)
+          expiry_line=$(echo "$full_whois" | grep -Ei "registry expiry date|expiration date|expiry date" | head -1)
           if [ -n "$expiry_line" ]; then
             expiry_date=$(echo "$expiry_line" | cut -d: -f2- | xargs)
             echo "Domain expires: $expiry_date"

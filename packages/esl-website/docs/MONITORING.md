@@ -49,7 +49,7 @@ URLS=(
 SITE_NAME="esl-ui.com"
 ```
 
-### SSL & Domain Check (`ssl-domain-check.yml`)
+### SSL & Domain Check (`website-ssl-domain-check.yml`)
 ```yaml
 DOMAIN="esl-ui.com"
 SSL_WARNING_DAYS=30
