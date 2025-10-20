@@ -10,7 +10,7 @@ permissions:
   pull-requests: write
 
 env:
-  node-version: 20.x
+  node-version: 22.x
 
 concurrency:
   group: release-pr-${{ github.ref }}
@@ -31,7 +31,7 @@ jobs:
           fetch-depth: 0
 
       - name: Use Node v${{ env.node-version }}
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           cache: 'npm'
           node-version: ${{ env.node-version }}
