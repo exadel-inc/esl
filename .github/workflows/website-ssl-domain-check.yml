@@ -39,7 +39,7 @@ jobs:
             local body="$3"
             local search_term="$4"
 
-            existing_issue=$(gh issue list --label "$label" --state "open" --search "$search_term" --json number --jq '.[0].number' || echo "")
+            existing_issue=$(gh issue list --label "$label" --state "open" --search "in:title $search_term" --json number --jq '.[0].number' || echo "")
 
             if [ -z "$existing_issue" ]; then
               echo "Creating new issue with label: $label"
@@ -55,7 +55,7 @@ jobs:
             local search_term="$2"
             local comment="$3"
 
-            existing_issue=$(gh issue list --label "$label" --state "open" --search "$search_term" --json number --jq '.[0].number' || echo "")
+            existing_issue=$(gh issue list --label "$label" --state "open" --search "in:title $search_term" --json number --jq '.[0].number' || echo "")
             if [ -n "$existing_issue" ]; then
               echo "Closing resolved $label issue #$existing_issue"
               gh issue close "$existing_issue" --comment "$comment"
@@ -83,7 +83,7 @@ jobs:
             echo "Raw openssl output:"
             echo "$ssl_info"
             echo "Parsed expiry_date: '$expiry_date'"
-            overall_status=2
+            if [ "$overall_status" -lt 2 ]; then overall_status=2; fi
             body=$(printf "Could not parse SSL certificate expiry date for $DOMAIN.\n\nRaw openssl output:\n\`\`\`\n%s\n\`\`\`\nParsed expiry_date: '%s'\n\n*Updated: %s*" "$ssl_info" "$expiry_date" "$(date)")
             create_or_update_issue "Monitor: SSL Certificate" \
               "❌ SSL Certificate Parse Failure: $DOMAIN" \
@@ -94,7 +94,7 @@ jobs:
 
             echo "Days until SSL expiry: $days_until_expiry"
 
-            if [ $days_until_expiry -lt $SSL_WARNING_DAYS ]; then
+            if [ "$days_until_expiry" -lt "$SSL_WARNING_DAYS" ]; then
               echo "⚠️ SSL certificate expires in $days_until_expiry days!"
 
               body=$(printf "SSL certificate for $DOMAIN expires in **%s days** (on %s).\n\nPlease renew the certificate before expiration.\n\n*Updated: %s*" "$days_until_expiry" "$expiry_date" "$(date)")
@@ -103,7 +103,7 @@ jobs:
                 "$body" \
                 "SSL Certificate Expiring Soon"
 
-              overall_status=1
+              if [ "$overall_status" -lt 1 ]; then overall_status=1; fi
             else
               echo "✅ SSL certificate is valid for $days_until_expiry more days"
 
@@ -138,7 +138,7 @@ jobs:
 
               echo "Days until domain expiry: $days_until_expiry"
 
-              if [ $days_until_expiry -lt $DOMAIN_WARNING_DAYS ]; then
+              if [ "$days_until_expiry" -lt "$DOMAIN_WARNING_DAYS" ]; then
                 echo "⚠️ Domain expires in $days_until_expiry days!"
 
                 body=$(printf "Domain $DOMAIN expires in **%s days** (on %s).\n\nPlease renew the domain before expiration.\n\n*Updated: %s*" "$days_until_expiry" "$expiry_date" "$(date)")
@@ -147,7 +147,7 @@ jobs:
                   "$body" \
                   "Domain Expiring Soon"
 
-                overall_status=1
+                if [ "$overall_status" -lt 1 ]; then overall_status=1; fi
               else
                 echo "✅ Domain is valid for $days_until_expiry more days"
 
@@ -158,7 +158,7 @@ jobs:
             else
               echo "❌ Error: Could not parse domain expiry date timestamp."
               echo "Parsed expiry_date: '$expiry_date'"
-              overall_status=2
+              if [ "$overall_status" -lt 2 ]; then overall_status=2; fi
               body=$(printf "Could not parse the domain expiry date timestamp for **$DOMAIN**.\n\nParsed expiry_date: '%s'\n\nThis may indicate an unexpected date format.\n\nPlease investigate.\n\n*Updated: %s*" "$expiry_date" "$(date)")
               create_or_update_issue "Monitor: Domain" \
                 "❌ Domain Expiry Parse Failure: $DOMAIN" \
@@ -167,7 +167,7 @@ jobs:
             fi
           else
             echo "Could not determine domain expiry date"
-            overall_status=2
+            if [ "$overall_status" -lt 2 ]; then overall_status=2; fi
             body=$(printf "Could not determine the domain expiry date for **$DOMAIN**.\n\nThis may indicate a change in whois output format, a monitoring failure, or a domain issue.\n\nPlease investigate.\n\n*Updated: %s*" "$(date)")
             create_or_update_issue "Monitor: Domain" \
               "❌ Domain Expiry Parse Failure: $DOMAIN" \
