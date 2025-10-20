@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 env:
-  node-version: 20.x
+  node-version: 22.x
 
 jobs:
   lint:
