@@ -16,7 +16,7 @@ import type {ESLIntersectionEvent} from '@exadel/esl/modules/esl-event-listener/
  */
 export class UIPPreview extends UIPPlugin {
   public static override is = 'uip-preview';
-  public static override observedAttributes: string[] = ['dir', 'resizable'];
+  public static override observedAttributes: string[] = ['dir'];
 
   /** Sync height with inner iframe content height */
   @prop(true) public resizeLoop: boolean;
@@ -56,6 +56,7 @@ export class UIPPreview extends UIPPlugin {
 
   protected override connectedCallback(): void {
     super.connectedCallback();
+    this.syncResizableState();
     this.appendChild(this.$container);
   }
 
@@ -64,8 +65,7 @@ export class UIPPreview extends UIPPlugin {
     super.disconnectedCallback();
   }
 
-  protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
-    if (attrName === 'resizable' && newVal === null) this.clearInlineSize();
+  protected override attributeChangedCallback(attrName: string): void {
     if (attrName === 'dir') this.updateDir();
   }
 
@@ -133,9 +133,15 @@ export class UIPPreview extends UIPPlugin {
 
   /** Resets element both inline height and width properties */
   protected clearInlineSize(): void {
-    this.$inner.style.removeProperty('height');
-    this.$inner.style.removeProperty('width');
+    this.$container.style.removeProperty('height');
+    this.$container.style.removeProperty('width');
   }
+
+  /** Synchronizes the resizable state from the active snippet to the element attribute */
+  protected syncResizableState(): void {
+    this.$$attr('resizable', this.model?.activeSnippet?.resizable);
+  }
+
   private updateDir(): void {
     const isChanged = this.dir !== this.$inner.dir;
     this.$inner.dir = this.dir;
@@ -174,6 +180,12 @@ export class UIPPreview extends UIPPlugin {
 
     this.$container.style.removeProperty('transition');
     this.$container.style.removeProperty('min-height');
+  }
+
+  @listen({event: 'uip:model:snippet:change', target: ($this: UIPPreview) => $this.model})
+  protected async _onSnippetChange(): Promise<void> {
+    this.syncResizableState();
+    this.clearInlineSize();
   }
 
   /** Handles visibility change of the preview are to limit resize sync-loops to the active preview area */
