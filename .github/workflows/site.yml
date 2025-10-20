@@ -34,7 +34,7 @@ jobs:
         id: pages
         uses: actions/configure-pages@v5
       - name: Use Node v${{ env.node-version }}
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           cache: 'npm'
           node-version: ${{ env.node-version }}
