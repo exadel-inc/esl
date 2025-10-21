@@ -10,7 +10,6 @@ import {
 import {UIPStateModel} from './model';
 import {UIPChangeEvent} from './model.change';
 import {UIPStateStorage} from './state.storage';
-import {UIPDefaults} from '../config/config';
 
 import type {UIPSnippetTemplate} from './snippet';
 import type {UIPChangeInfo} from './model.change';
@@ -23,8 +22,6 @@ import type {UIPChangeInfo} from './model.change';
  */
 export class UIPRoot extends ESLBaseElement {
   public static is = 'uip-root';
-
-  public static readonly configKey = 'root';
   public static observedAttributes = ['dark-theme'];
 
   /** Event dispatching on the {@link UIPRoot} ready state */
@@ -45,8 +42,6 @@ export class UIPRoot extends ESLBaseElement {
   @attr({defaultValue: ''}) public storeKey: string;
   /** State storage based on `storeKey` */
   public storage: UIPStateStorage | undefined;
-  /** CSS class to ease theme override */
-  @attr({defaultValue: ($this: UIPRoot) => UIPDefaults.for($this).themeCls}) public themeCls: string;
 
   /** Indicates ready state of the uip-root */
   @boolAttr({readonly: true}) public ready: boolean;
@@ -74,7 +69,6 @@ export class UIPRoot extends ESLBaseElement {
 
     this.model.snippets = this.$snippets;
     this.model.applyCurrentSnippet(this);
-    this.$$cls(this.themeCls, true);
     this.$$attr('ready', true);
     this.$$fire(this.READY_EVENT, {bubbles: false});
 
