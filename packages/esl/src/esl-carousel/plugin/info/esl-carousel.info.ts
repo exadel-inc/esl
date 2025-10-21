@@ -42,6 +42,7 @@ export class ESLCarouselInfo extends ESLBaseElement {
   public override connectedCallback(): void {
     super.connectedCallback();
     this.update();
+    this.initA11y();
   }
 
   public override disconnectedCallback(): void {
@@ -64,11 +65,11 @@ export class ESLCarouselInfo extends ESLBaseElement {
     const {activeIndex, size, count} = this.$carousel.state;
 
     const current = indexToGroup(activeIndex, count, size) + 1; // 1-based
-    const total = Math.ceil(size / count);
+    const total = count ? Math.ceil(size / count) : 0;
     const currentSlide = activeIndex + 1; // 1-based
     const totalSlides = size;
     const title = this.activeTitle;
-    const percent = Math.round((current / total) * 100);
+    const percent = total ? Math.round((current / total) * 100) : 0;
 
     return {current, total, currentSlide, totalSlides, title, percent};
   }
@@ -86,6 +87,12 @@ export class ESLCarouselInfo extends ESLBaseElement {
     if (!this.$carousel) return;
 
     this.textContent = format(this.format, this.state);
+  }
+
+  /** Inits a11y of `ESLCarouselInfo` as a status container */
+  protected initA11y(): void {
+    if (!this.hasAttribute('role')) this.$$attr('role', 'status');
+    if (!this.hasAttribute('aria-live')) this.$$attr('aria-live', 'polite');
   }
 
   /** Handles carousel state changes */
