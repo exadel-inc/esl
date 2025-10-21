@@ -46,7 +46,7 @@ export class ESLCarouselInfo extends ESLBaseElement {
 
   public override disconnectedCallback(): void {
     super.disconnectedCallback();
-    memoize.clear(this, ['$carousel', 'state']);
+    memoize.clear(this, ['$carousel']);
   }
 
   public override attributeChangedCallback(name: string, oldValue: string, newValue: string): void {
@@ -59,15 +59,12 @@ export class ESLCarouselInfo extends ESLBaseElement {
   }
 
   /** Builds state object used for formatting */
-  @memoize()
   protected get state(): Record<string, any> {
     if (!this.$carousel?.renderer) return {};
     const {activeIndex, size, count} = this.$carousel.state;
-    const groups = Math.ceil(size / count);
-    const groupIndex = indexToGroup(activeIndex, count, size);
 
-    const current = groupIndex + 1; // 1-based
-    const total = groups;
+    const current = indexToGroup(activeIndex, count, size) + 1; // 1-based
+    const total = Math.ceil(size / count);
     const currentSlide = activeIndex + 1; // 1-based
     const totalSlides = size;
     const title = this.activeTitle;
@@ -85,7 +82,6 @@ export class ESLCarouselInfo extends ESLBaseElement {
 
   /** Updates rendered content according to format and current state */
   public update(): void {
-    memoize.clear(this, ['state']);
     if (!this.$carousel) memoize.clear(this, '$carousel');
     if (!this.$carousel) return;
 
