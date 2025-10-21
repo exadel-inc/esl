@@ -38,7 +38,7 @@
   <h2 class="uip-landing-heading">{{playground.demo.title}}</h2>
   <p> {{playground.demo.description}} </p>
 
-  <uip-root store-key='uip-landing' editor-collapsed>
+  <uip-root class="uip-theme-esl" store-key='uip-landing' editor-collapsed>
     <script type="text/html" uip-snippet label="Logo">
       <div class="uip-landing-d-container">
         <a class="btn btn-xl btn-sec-blue" href="{{ '/playground/introduction/' | url }}">
@@ -48,7 +48,7 @@
       </div>
     </script>
     <uip-preview></uip-preview>
-    <uip-settings resizable collapsible vertical="@+md" target=".uip-landing-d-btn" theme-toggle>
+    <uip-settings resizable collapsible vertical="@+md" target=".uip-landing-d-btn">
       <uip-slider-setting label="Height:" target="svg" attribute="height" min="50" max="100"></uip-slider-setting>
       <uip-select-setting label="Color:" attribute="class" target=".btn-xl" mode="append">
         <option value="btn-sec-orange">Orange</option>
