@@ -46,7 +46,14 @@ jobs:
           echo "Resolved dist-tag: $DIST_TAG"
           echo "tag=$DIST_TAG" >> "$GITHUB_OUTPUT"
 
+      - name: Test direct npm publish
+        working-directory: packages/stylelint-config
+        run: npm publish --dry-run --provenance
+        env:
+          NPM_CONFIG_PROVENANCE: true
+
       - name: Publish to NPM
+        if: 1 == 0
         run: npx nx release publish --tag=${{ steps.tag.outputs.tag }} --verbose
         shell: bash
         env:
