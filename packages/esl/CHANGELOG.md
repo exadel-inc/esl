@@ -1,3 +1,18 @@
+## 6.0.0-beta.1 (2025-10-22)
+
+### 🚀 Features
+
+- **esl-carousel:** add esl carousel info element helper ([f162d2a5a](https://github.com/exadel-inc/esl/commit/f162d2a5a))
+- **esl-carousel:** add ability to check if the passed target is current + `current` marker support for esl-carousel-nav mixin ([57bb690c1](https://github.com/exadel-inc/esl/commit/57bb690c1))
+
+### 🩹 Fixes
+
+- **esl-popup:** fix race condition in ESLPopup when rapidly toggling state ([6816150fd](https://github.com/exadel-inc/esl/commit/6816150fd))
+
+### 💅 Refactors
+
+- **eslint-config:** has embedded support of esl/custom linting ([1417150d8](https://github.com/exadel-inc/esl/commit/1417150d8))
+
 ## 5.15.0 (2025-10-22)
 
 ### 🚀 Features
