@@ -4,17 +4,17 @@ on:
   workflow_dispatch:
     inputs:
       package:
-        description: 'Use nx-release for full flow or a package directory for direct publish'
+        description: 'Nx project name for direct publish or "all" for multi-project release'
         required: false
         type: choice
         options:
-          - nx-release
-          - packages/stylelint-config
-          - packages/eslint-config
-          - packages/eslint-plugin
-          - packages/esl
-          - packages/ui-playground
-        default: nx-release
+          - all
+          - esl
+          - eslint-config
+          - eslint-plugin
+          - stylelint-config
+          - uip
+        default: all
 
 env:
   node-version: 22.x
@@ -41,6 +41,7 @@ jobs:
           node-version: ${{ env.node-version }}
           registry-url: 'https://registry.npmjs.org'
 
+      # Critical: ensure latest NPM version for OIDC provenance support (older npm versions break --provenance and id-token flow)
       - name: Ensure latest NPM is used
         run: |
           npm install -g npm@latest
@@ -60,19 +61,25 @@ jobs:
         id: tag
         shell: bash
         run: |
-          DIST_TAG=$(npm run --silent get:disttag)
+          if [ "${{ github.event.inputs.package }}" != "" ] && [ "${{ github.event.inputs.package }}" != "all" ]; then
+            echo "Resolving dist-tag for project: ${{ github.event.inputs.package }}"
+            DIST_TAG=$(npm run --silent get:disttag -- "${{ github.event.inputs.package }}")
+          else
+            echo "Resolving overall dist-tag (multi-project)"
+            DIST_TAG=$(npm run --silent get:disttag)
+          fi
           echo "Resolved dist-tag: $DIST_TAG"
           echo "tag=$DIST_TAG" >> "$GITHUB_OUTPUT"
 
-      - name: Direct NPM Publish (single package)
-        if: github.event.inputs.package != 'nx-release' && github.event.inputs.package != ''
-        working-directory: ${{ github.event.inputs.package }}
-        run: npm publish --provenance --tag ${{ steps.tag.outputs.tag }}
+      - name: Publish via NX (single project)
+        if: github.event.inputs.package != 'all' && github.event.inputs.package != ''
+        run: npx nx release publish --projects=${{ github.event.inputs.package }} --tag=${{ steps.tag.outputs.tag }} --verbose
+        shell: bash
         env:
           NPM_CONFIG_PROVENANCE: true
 
-      - name: Publish via NX (multi-package)
-        if: github.event.inputs.package == '' || github.event.inputs.package == 'nx-release'
+      - name: Publish via NX (multi-project)
+        if: github.event.inputs.package == '' || github.event.inputs.package == 'all'
         run: npx nx release publish --tag=${{ steps.tag.outputs.tag }} --verbose
         shell: bash
         env:
