@@ -1,3 +1,7 @@
+## 5.15.0 (2025-10-22)
+
+This was a version bump only for esl-e2e to align it with other projects, there were no code changes.
+
 ## 6.0.0-beta.0 (2025-09-29)
 
 This was a version bump only for esl-e2e to align it with other projects, there were no code changes.

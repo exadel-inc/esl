@@ -10,13 +10,13 @@
 
 <p>This example demonstrates the use of built-in text preprocessors, along with real-time style adjustments and HTML code editing</p>
 
-<uip-root role="presentation">
+<uip-root theme-toggle role="presentation">
   <div class="uip-toolbar">
     <uip-snippets dropdown-view="all"></uip-snippets>
     <uip-theme-toggle></uip-theme-toggle>
   </div>
 
-  <script type="text/html" uip-snippet-js="snippet-js-1" uip-snippet label="Text preprocessors example">
+  <script type="text/html" uip-snippet-js="snippet-js-1" uip-snippet uip-resizable label="Text preprocessors example">
     <style>
       .text {
         color: green;
@@ -32,7 +32,7 @@
     </button>
   </script>
 
-  <uip-preview class="centered-content" resizable></uip-preview>
+  <uip-preview class="centered-content"></uip-preview>
 
   <uip-editor copy collapsible label="Markdown"></uip-editor>
   <uip-editor source="js" copy collapsible label="JavaScript"></uip-editor>

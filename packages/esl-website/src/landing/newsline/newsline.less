@@ -25,6 +25,11 @@
   &-item {
     position: relative;
     list-style: none;
+
+    --_desc-lines: 6;
+    &:first-of-type {
+      --_desc-lines: 12;
+    }
   }
 
   &-link {
@@ -84,6 +89,8 @@
     }
 
     & &-text {
+      --esl-line-clamp: var(--_desc-lines, 6);
+
       font-size: 1.1rem;
       line-height: 1.6em;
 

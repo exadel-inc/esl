@@ -71,6 +71,11 @@ export class UIPSnippetItem {
     return this.$element.getAttribute('anchor');
   }
 
+  /** @returns if the snippet is resizable */
+  public get resizable(): boolean {
+    return this.$element.hasAttribute('uip-resizable');
+  }
+
   /** @returns if the snippet is in active state */
   public get active(): boolean {
     return this.$element.hasAttribute('active');

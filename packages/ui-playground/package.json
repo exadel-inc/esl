@@ -48,7 +48,7 @@
   },
   "dependencies": {
     "@exadel/esl": "^6.0.0-beta.0",
-    "codejar": "4.2.0",
+    "codejar": "4.3.0",
     "jsx-dom": "8.1.6",
     "prismjs": "1.30.0"
   },
