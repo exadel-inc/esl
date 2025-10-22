@@ -2,6 +2,19 @@ name: Release Handler (NPM)
 
 on:
   workflow_dispatch:
+    inputs:
+      package:
+        description: 'Use nx-release for full flow or a package directory for direct publish'
+        required: false
+        type: choice
+        options:
+          - nx-release
+          - packages/stylelint-config
+          - packages/eslint-config
+          - packages/eslint-plugin
+          - packages/esl
+          - packages/ui-playground
+        default: nx-release
 
 env:
   node-version: 22.x
@@ -46,14 +59,15 @@ jobs:
           echo "Resolved dist-tag: $DIST_TAG"
           echo "tag=$DIST_TAG" >> "$GITHUB_OUTPUT"
 
-      - name: Test direct npm publish
-        working-directory: packages/stylelint-config
-        run: npm publish --dry-run --provenance
+      - name: Direct NPM Publish (single package)
+        if: github.event.inputs.package != 'nx-release' && github.event.inputs.package != ''
+        working-directory: ${{ github.event.inputs.package }}
+        run: npm publish --provenance --tag ${{ steps.tag.outputs.tag }}
         env:
           NPM_CONFIG_PROVENANCE: true
 
-      - name: Publish to NPM
-        if: 1 == 0
+      - name: Publish via NX (multi-package)
+        if: github.event.inputs.package == '' || github.event.inputs.package == 'nx-release'
         run: npx nx release publish --tag=${{ steps.tag.outputs.tag }} --verbose
         shell: bash
         env:
