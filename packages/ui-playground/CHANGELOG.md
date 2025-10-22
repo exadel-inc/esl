@@ -1,3 +1,14 @@
+## 5.15.0 (2025-10-22)
+
+### 🚀 Features
+
+- **ui-playground:** `uip-preview` ability to resize each snippet individually ([57da2d358](https://github.com/exadel-inc/esl/commit/57da2d358))
+- **ui-playground:** theme class attribute to ease theme override ([f506170fc](https://github.com/exadel-inc/esl/commit/f506170fc))
+
+### 🩹 Fixes
+
+- **ui-playground:** duplicate theme toggle icon ([2e4c48454](https://github.com/exadel-inc/esl/commit/2e4c48454))
+
 ## 5.14.0 (2025-09-30)
 
 ### 🚀 Features

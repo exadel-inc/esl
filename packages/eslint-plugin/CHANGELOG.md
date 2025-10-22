@@ -1,3 +1,7 @@
+## 5.15.0 (2025-10-22)
+
+This was a version bump only for eslint-plugin to align it with other projects, there were no code changes.
+
 ## 5.14.0 (2025-09-30)
 
 > ⚠️ Deprecated: The standalone ESL migration / deprecation ESLint plugin has been removed in ESLv6.0.0 and is no longer supported.
