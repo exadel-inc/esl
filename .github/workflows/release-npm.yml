@@ -28,6 +28,11 @@ jobs:
           node-version: ${{ env.node-version }}
           registry-url: 'https://registry.npmjs.org'
 
+      - run:
+          echo "Repository: $GITHUB_REPOSITORY"
+      - run: npm whoami || echo "Not logged in"
+      - run: npm --version
+
       - name: Install NPM Dependencies
         run: npm ci
 
@@ -36,10 +41,6 @@ jobs:
 
       - name: Print Environment Info
         run: npx nx report
-        shell: bash
-
-      - name: Check OIDC (Debug)
-        run: npm whoami || echo "Not logged in"
         shell: bash
 
       - name: Resolve Distribution Tag
