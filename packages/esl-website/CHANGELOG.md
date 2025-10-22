@@ -1,3 +1,18 @@
+## 6.0.0-beta.0.1 (2025-10-22)
+
+### 🚀 Features
+
+- **esl-carousel:** add esl carousel info element helper ([f162d2a5a](https://github.com/exadel-inc/esl/commit/f162d2a5a))
+
+### 🩹 Fixes
+
+- **site:** homepage newsline truncation fixed with esl-line-clamp ([f64e18110](https://github.com/exadel-inc/esl/commit/f64e18110))
+- **site:** added table gaps in md pages; added table container for scrolling on mobile devices ([79df341f2](https://github.com/exadel-inc/esl/commit/79df341f2))
+
+### 💅 Refactors
+
+- **eslint-config:** has embedded support of esl/custom linting ([1417150d8](https://github.com/exadel-inc/esl/commit/1417150d8))
+
 ## 6.0.0-beta.1 (2025-10-22)
 
 ### 🚀 Features

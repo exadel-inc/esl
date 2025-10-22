@@ -1,3 +1,9 @@
+## 6.0.0-beta.0.1 (2025-10-22)
+
+### 💅 Refactors
+
+- **eslint-config:** has embedded support of esl/custom linting ([1417150d8](https://github.com/exadel-inc/esl/commit/1417150d8))
+
 ## 6.0.0-beta.1 (2025-10-22)
 
 ### 💅 Refactors
