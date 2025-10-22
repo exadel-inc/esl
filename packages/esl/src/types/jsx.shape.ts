@@ -2,7 +2,7 @@ import type {ESLA11yGroupTagShape} from '../esl-a11y-group/core';
 import type {ESLAlertTagShape} from '../esl-alert/core';
 import type {ESLAnchornavTagShape} from '../esl-anchornav/core';
 import type {ESLAnimateTagShape} from '../esl-animate/core';
-import type {ESLCarouselTagShape, ESLCarouselNavDotsTagShape} from '../esl-carousel/core';
+import type {ESLCarouselTagShape, ESLCarouselNavDotsTagShape, ESLCarouselInfoTagShape} from '../esl-carousel/core';
 import type {ESLNoteTagShape, ESLFootnotesTagShape} from '../esl-footnotes/core';
 import type {ESLSelectTagShape} from '../esl-forms/esl-select/core';
 import type {ESLSelectListTagShape} from '../esl-forms/esl-select-list/core';
@@ -33,6 +33,8 @@ export interface ESLIntrinsicElements {
   'esl-carousel': ESLCarouselTagShape;
   /** The {@link ESLCarouselNavDots} tag declaration */
   'esl-carousel-dots': ESLCarouselNavDotsTagShape;
+  /** The {@link ESLCarouselInfo} tag declaration */
+  'esl-carousel-info': ESLCarouselInfoTagShape;
   /** The {@link ESLFootnotes} tag declaration */
   'esl-footnotes': ESLFootnotesTagShape;
   /** The {@link ESLNote} tag declaration */

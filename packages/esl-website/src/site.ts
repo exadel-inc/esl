@@ -32,6 +32,7 @@ import {
   ESLRelatedTarget,
   ESLOpenState,
   ESLCarousel,
+  ESLCarouselInfo,
   ESLCarouselNavDots,
   ESLCarouselNavMixin,
   ESLCarouselTouchMixin,
@@ -124,6 +125,7 @@ ESLNoteIgnore.register();
 ESLTooltip.register();
 
 ESLCarousel.register();
+ESLCarouselInfo.register();
 ESLCarouselNavDots.register();
 ESLCarouselNavMixin.register();
 ESLCarouselTouchMixin.register();
