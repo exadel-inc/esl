@@ -41,6 +41,11 @@ jobs:
           node-version: ${{ env.node-version }}
           registry-url: 'https://registry.npmjs.org'
 
+      - name: Ensure latest NPM is used
+        run: |
+          npm install -g npm@latest
+          echo "NPM version: $(npm --version)"
+
       - name: Install NPM Dependencies
         run: npm ci
 
