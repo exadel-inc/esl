@@ -1,3 +1,14 @@
+## 5.15.0 (2025-10-22)
+
+### 🚀 Features
+
+- **esl-carousel:** add esl carousel info element helper ([f162d2a5a](https://github.com/exadel-inc/esl/commit/f162d2a5a))
+- **esl-carousel:** add ability to check if the passed target is current + `current` marker support for esl-carousel-nav mixin ([57bb690c1](https://github.com/exadel-inc/esl/commit/57bb690c1))
+
+### 🩹 Fixes
+
+- **esl-popup:** fix race condition in ESLPopup when rapidly toggling state ([6816150fd](https://github.com/exadel-inc/esl/commit/6816150fd))
+
 ## 5.14.0 (2025-09-30)
 
 ### 🚀 Features
