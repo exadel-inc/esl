@@ -28,13 +28,6 @@ jobs:
           node-version: ${{ env.node-version }}
           registry-url: 'https://registry.npmjs.org'
 
-      - run: |
-          echo "Repository: $GITHUB_REPOSITORY"
-      - run: |
-          npm whoami || echo "Not logged in"
-      - run: |
-          npm --version
-
       - name: Install NPM Dependencies
         run: npm ci
 
@@ -54,7 +47,7 @@ jobs:
           echo "tag=$DIST_TAG" >> "$GITHUB_OUTPUT"
 
       - name: Publish to NPM
-        run: npx nx release publish --tag=${{ steps.tag.outputs.tag }}
+        run: npx nx release publish --tag=${{ steps.tag.outputs.tag }} --verbose
         shell: bash
         env:
           NPM_CONFIG_PROVENANCE: true
