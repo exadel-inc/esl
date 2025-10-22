@@ -28,10 +28,12 @@ jobs:
           node-version: ${{ env.node-version }}
           registry-url: 'https://registry.npmjs.org'
 
-      - run:
+      - run: |
           echo "Repository: $GITHUB_REPOSITORY"
-      - run: npm whoami || echo "Not logged in"
-      - run: npm --version
+      - run: |
+          npm whoami || echo "Not logged in"
+      - run: |
+          npm --version
 
       - name: Install NPM Dependencies
         run: npm ci
