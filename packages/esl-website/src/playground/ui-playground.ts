@@ -43,7 +43,6 @@ init({
   },
   settings: {
     label: 'Settings',
-    themeToggle: true,
     collapsible: true,
     hideable: true,
     resizable: true
