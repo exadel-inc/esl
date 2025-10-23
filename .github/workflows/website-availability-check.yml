@@ -1,0 +1,218 @@
+name: Website Availability Check
+
+on:
+  schedule:
+    - cron: "*/10 * * * *" # every 10 minutes
+  workflow_dispatch:
+
+jobs:
+  website-availability-check:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check Website Availability
+        run: |
+          set -o pipefail
+
+          # Configuration
+          URLS=(
+            "https://esl-ui.com/"
+            "https://esl-ui.com/bundles/site.js"
+            "https://esl-ui.com/bundles/site.css"
+          )
+          SITE_NAME="esl-ui.com"
+          CONNECT_TIMEOUT=5  # seconds to wait for connection
+          MAX_TIMEOUT=10     # seconds for total request time
+
+          # Create labels if they don't exist
+          gh label create monitoring --description "Monitoring alerts" --color "0075ca" --force 2>/dev/null || true
+          gh label create "Monitor: Website" --description "Website availability monitoring" --color "d73a4a" --force 2>/dev/null || true
+
+          create_or_update_issue() {
+            local label="$1"
+            local title="$2"
+            local body="$3"
+            local search_term="$4"
+
+            existing_issue=$(gh issue list --label "$label" --state "open" --search "in:title $search_term" --json number --jq '.[0].number' || echo "")
+
+            if [ -z "$existing_issue" ]; then
+              echo "Creating new issue with label: $label"
+              gh issue create --title "$title" --body "$body" --label "$label" --label monitoring
+            else
+              echo "Issue already exists (#$existing_issue), updating..."
+              gh issue edit "$existing_issue" --body "$body"
+            fi
+          }
+
+          close_issue_if_exists() {
+            local label="$1"
+            local search_term="$2"
+            local comment="$3"
+
+            existing_issue=$(gh issue list --label "$label" --state "open" --search "in:title $search_term" --json number --jq '.[0].number' || echo "")
+            if [ -n "$existing_issue" ]; then
+              echo "Closing resolved $label issue #$existing_issue"
+              gh issue close "$existing_issue" --comment "$comment" --reason completed
+            fi
+          }
+
+          delete_issue_if_exists() {
+            local label="$1"
+            local search_term="$2"
+
+            existing_issue=$(gh issue list --label "$label" --state "open" --search "in:title $search_term" --json number --jq '.[0].number' || echo "")
+            if [ -n "$existing_issue" ]; then
+              echo "Deleting warning issue #$existing_issue (recovered before alert)"
+              gh issue close "$existing_issue" --reason "not planned"
+            fi
+          }
+
+          get_issue_body() {
+            local issue_number="$1"
+            gh issue view "$issue_number" --json body --jq '.body'
+          }
+
+          # Check all URLs
+          echo "Checking website availability for $SITE_NAME..."
+
+          failed_urls=()
+          success_urls=()
+
+          for url in "${URLS[@]}"; do
+            echo "Checking $url..."
+
+            http_code=$(curl -L --max-redirs 5 -s -o /dev/null -w "%{http_code}" --connect-timeout "$CONNECT_TIMEOUT" --max-time "$MAX_TIMEOUT" "$url" || echo "000")
+
+            if [ "$http_code" = "200" ]; then
+              echo "✅ $url is accessible (HTTP $http_code)"
+              success_urls+=("$url")
+            else
+              echo "❌ $url is NOT accessible (HTTP $http_code)"
+              failed_urls+=("$url")
+            fi
+          done
+
+          # Determine the current state
+          if [ ${#failed_urls[@]} -eq 0 ]; then
+            echo ""
+            echo "✅ All URLs are accessible!"
+
+            # Close alert issue if exists
+            alert_issue=$(gh issue list --label "Monitor: Website" --state "open" --search "in:title 🚨 Website Alert" --json number --jq '.[0].number' || echo "")
+            if [ -n "$alert_issue" ]; then
+              close_issue_if_exists "Monitor: Website" \
+                "🚨 Website Alert" \
+                "✅ Website availability has been restored. All monitored URLs are now accessible. Issue resolved."
+            fi
+
+            # Delete warning issue if exists (silently disappear)
+            delete_issue_if_exists "Monitor: Website" "⚠️ Website Warning"
+
+            exit 0
+          else
+            echo ""
+            echo "⚠️ ${#failed_urls[@]} URL(s) failed!"
+
+            # Check if we already have an alert issue
+            alert_issue=$(gh issue list --label "Monitor: Website" --state "open" --search "in:title 🚨 Website Alert" --json number --jq '.[0].number' || echo "")
+
+            if [ -n "$alert_issue" ]; then
+              # Already in alert state, just update
+              echo "Alert issue already exists (#$alert_issue), updating..."
+
+              failed_list=""
+              for url in "${failed_urls[@]}"; do
+                failed_list="${failed_list}- ❌ ${url}"$'\n'
+              done
+
+              success_list=""
+              if [ ${#success_urls[@]} -gt 0 ]; then
+                for url in "${success_urls[@]}"; do
+                  success_list="${success_list}- ✅ ${url}"$'\n'
+                done
+              fi
+
+              body=$(printf "🚨 **ALERT**: Website availability issues detected for **%s**.\n\n## Failed URLs\n%s\n" "$SITE_NAME" "$failed_list")
+              if [ -n "$success_list" ]; then
+                body=$(printf "%s\n## Accessible URLs\n%s\n" "$body" "$success_list")
+              fi
+              body=$(printf "%s\n*Updated: %s*" "$body" "$(date)")
+
+              gh issue edit "$alert_issue" --body "$body"
+              exit 1
+            fi
+
+            # Check if we have a warning issue
+            warning_issue=$(gh issue list --label "Monitor: Website" --state "open" --search "in:title ⚠️ Website Warning" --json number --jq '.[0].number' || echo "")
+
+            if [ -n "$warning_issue" ]; then
+              # This is the second failure, escalate warning to alert
+              echo "Warning issue exists (#$warning_issue), escalating to ALERT..."
+
+              # Build the updated body
+              failed_list=""
+              for url in "${failed_urls[@]}"; do
+                failed_list="${failed_list}- ❌ ${url}"$'\n'
+              done
+
+              success_list=""
+              if [ ${#success_urls[@]} -gt 0 ]; then
+                for url in "${success_urls[@]}"; do
+                  success_list="${success_list}- ✅ ${url}"$'\n'
+                done
+              fi
+
+              body=$(printf "🚨 **ALERT**: Website availability issues detected for **%s**.\n\n**Status escalated from warning to alert** due to multiple consecutive failures.\n\n## Failed URLs\n%s\n" "$SITE_NAME" "$failed_list")
+              if [ -n "$success_list" ]; then
+                body=$(printf "%s\n## Accessible URLs\n%s\n" "$body" "$success_list")
+              fi
+              body=$(printf "%s\n*Escalated to alert: %s*" "$body" "$(date)")
+
+              # Rename and update the existing warning issue to alert
+              gh issue edit "$warning_issue" \
+                --title "🚨 Website Alert: $SITE_NAME" \
+                --body "$body"
+
+              # Add escalation comment
+              escalation_comment=$(printf "⚠️ → 🚨 **Issue escalated to ALERT**\n\nThis warning has been escalated to an alert due to multiple consecutive failures detected.\n\nThe issue title and description have been updated to reflect the current alert status.")
+              gh issue comment "$warning_issue" --body "$escalation_comment"
+
+              exit 1
+            else
+              # First failure, create warning
+              echo "First failure detected, creating WARNING issue..."
+
+              failed_list=""
+              for url in "${failed_urls[@]}"; do
+                failed_list="${failed_list}- ❌ ${url}"$'\n'
+              done
+
+              success_list=""
+              if [ ${#success_urls[@]} -gt 0 ]; then
+                for url in "${success_urls[@]}"; do
+                  success_list="${success_list}- ✅ ${url}"$'\n'
+                done
+              fi
+
+              body=$(printf "⚠️ **WARNING**: Potential website availability issue detected for **%s**.\n\nThis could be a temporary network issue or a deployment in progress. If the issue persists, this will be escalated to an alert.\n\n## Failed URLs\n%s\n" "$SITE_NAME" "$failed_list")
+              if [ -n "$success_list" ]; then
+                body=$(printf "%s\n## Accessible URLs\n%s\n" "$body" "$success_list")
+              fi
+              body=$(printf "%s\n*Created: %s*" "$body" "$(date)")
+
+              create_or_update_issue "Monitor: Website" \
+                "⚠️ Website Warning: $SITE_NAME" \
+                "$body" \
+                "⚠️ Website Warning"
+
+              exit 0
+            fi
+          fi
