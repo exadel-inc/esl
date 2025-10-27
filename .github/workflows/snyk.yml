@@ -39,7 +39,7 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          command: code
+          command: code test
           args: --all-projects --sarif-file-output=snyk.sarif
 
       - name: Upload SARIF to GitHub
