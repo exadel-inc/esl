@@ -3,6 +3,8 @@ name: Snyk Security Scan
 on:
   pull_request:
     branches: [ main, main-beta ]
+  push:
+    branches: [ main, main-beta ]
 
 env:
   node-version: 22.x
@@ -24,7 +26,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Snyk Open Source
+      - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/node@master
         continue-on-error: true
         env:
@@ -33,16 +35,15 @@ jobs:
           command: test
           args: --all-projects
         
-      - name: Snyk Code
+      - name: Run Snyk to code test
         uses: snyk/actions/node@master
-        continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           command: code test
-          args: --all-projects --sarif-file-output=snyk.sarif
+          args: --all-projects --severity-threshold=high --sarif-file-output=snyk.sarif
 
-      - name: Upload SARIF to GitHub
+      - name: Upload result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: snyk.sarif
