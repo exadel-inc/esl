@@ -36,7 +36,7 @@ jobs:
       #     args: --all-projects
         
       - name: Run Snyk to code test
-        uses: snyk/actions/node@v3
+        uses: snyk/actions/node@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
