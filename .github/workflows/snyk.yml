@@ -30,6 +30,7 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           command: test
+          args: --all-projects --experimental-code
 
       # Optional: Upload SARIF report to GitHub Security tab
       - name: Upload Snyk report to GitHub Security tab
