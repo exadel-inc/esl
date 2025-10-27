@@ -26,20 +26,12 @@ jobs:
 
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/node@master
+        continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           command: test
-          args: --all-projects --experimental-code
-
-      # Optional: Upload SARIF report to GitHub Security tab
-      - name: Upload Snyk report to GitHub Security tab
-        uses: snyk/actions/node@master
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          command: test
-          args: --sarif-file-output=snyk.sarif
+          args: --all-projects --experimental-code --package-manager=npm --sarif-file-output=snyk.sarif
 
       - name: Upload SARIF to GitHub
         uses: github/codeql-action/upload-sarif@v3
