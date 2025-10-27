@@ -1,0 +1,46 @@
+name: Snyk Security Scan
+
+on:
+  pull_request:
+    branches: [ main, main-beta ]
+
+env:
+  node-version: 22.x
+
+jobs:
+  snyk:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Set up Node v${{ env.node-version }}
+        uses: actions/setup-node@v6
+        with:
+          cache: 'npm'
+          node-version: ${{ env.node-version }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: test
+
+      # Optional: Upload SARIF report to GitHub Security tab
+      - name: Upload Snyk report to GitHub Security tab
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: test
+          args: --sarif-file-output=snyk.sarif
+
+      - name: Upload SARIF to GitHub
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: snyk.sarif
