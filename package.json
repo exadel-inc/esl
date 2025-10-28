@@ -44,11 +44,11 @@
     "version:root": "node scripts/update-root-version.mjs"
   },
   "dependencies": {
-    "@nx/devkit": "21.6.5",
-    "@nx/eslint": "21.6.5",
-    "@nx/jest": "21.6.5",
-    "@nx/js": "21.6.5",
-    "nx": "21.6.5",
+    "@nx/devkit": "22.0.1",
+    "@nx/eslint": "22.0.1",
+    "@nx/jest": "22.0.1",
+    "@nx/js": "22.0.1",
+    "nx": "22.0.1",
     "semver": "^7.7.3"
   },
   "devDependencies": {
