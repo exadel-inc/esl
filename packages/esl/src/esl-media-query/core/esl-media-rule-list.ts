@@ -40,7 +40,7 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
   public static STRING_PARSER: RulePayloadParser<string> = String;
   /** Object value parser. Uses {@link parseObjectSafe} to parse value */
   public static OBJECT_PARSER: RulePayloadParser<any> =
-    (val: any)=> parseObjectSafe(val, () => console.warn(`[ESL]: Cannot parse object value "${val}"`));
+    (val: any) => parseObjectSafe(val, () => console.warn(`[ESL]: Cannot parse object value "${val}"`));
 
   /** @returns empty {@link ESLMediaRuleList} instance */
   public static empty<U>(): ESLMediaRuleList<U> {
