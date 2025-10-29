@@ -201,17 +201,8 @@ describe('misc/format - extended object parser', () => {
   // parseObjectSafe wrapper tests
   // ---------------------------------------------------------------------------
   describe('parseObjectSafe', () => {
-    let warnSpy: jest.SpyInstance;
-    beforeEach(() => {
-      warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
-    });
-    afterEach(() => {
-      warnSpy.mockRestore();
-    });
-
     test('returns parsed value for valid relaxed object', () => {
       expect(parseObjectSafe('{a:1; b:2}')).toEqual({a: 1, b: 2});
-      expect(warnSpy).not.toHaveBeenCalled();
     });
 
     test('returns parsed value for primitive', () => {
@@ -219,17 +210,22 @@ describe('misc/format - extended object parser', () => {
       expect(parseObjectSafe('"str"', undefined, true)).toBe('str');
     });
 
-    test('returns fallback for invalid input and warns', () => {
+    test('returns fallback for invalid input', () => {
       const fallback = {fallback: true};
       const result = parseObjectSafe('{a:}', fallback);
       expect(result).toBe(fallback);
-      expect(warnSpy).toHaveBeenCalled();
+    });
+
+    test('executes fallback function if value is invalid', () => {
+      const fallback = jest.fn().mockReturnValue('test');
+      const result = parseObjectSafe('{a:}', fallback);
+      expect(result).toBe('test');
+      expect(fallback).toHaveBeenCalledWith('{a:}');
     });
 
     test('returns undefined (no fallback) for invalid input', () => {
       const result = parseObjectSafe('{a:}');
       expect(result).toBeUndefined();
-      expect(warnSpy).toHaveBeenCalled();
     });
 
     test('does not throw for invalid input', () => {

@@ -6,7 +6,7 @@ import {ESLMediaRule} from './esl-media-rule';
 
 import type {RulePayloadParser} from './esl-media-rule';
 
-/** Custom event dispatched by {@link ESLMediaRuleList} instances */
+/** A custom event dispatched by {@link ESLMediaRuleList} instances */
 export class ESLMediaRuleListEvent<T = any> extends Event {
   public static readonly TYPE = 'change';
 
@@ -38,8 +38,9 @@ let empty: ESLMediaRuleList;
 export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
   /** String value parser (default) */
   public static STRING_PARSER: RulePayloadParser<string> = String;
-  /** Object value parser. Uses {@link evaluate} to parse value */
-  public static OBJECT_PARSER: RulePayloadParser<any> = parseObjectSafe;
+  /** Object value parser. Uses {@link parseObjectSafe} to parse value */
+  public static OBJECT_PARSER: RulePayloadParser<any> =
+    (val: any)=> parseObjectSafe(val, () => console.warn(`[ESL]: Cannot parse object value "${val}"`));
 
   /** @returns empty {@link ESLMediaRuleList} instance */
   public static empty<U>(): ESLMediaRuleList<U> {

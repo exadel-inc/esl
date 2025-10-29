@@ -17,10 +17,15 @@ interface JsonAttrDescriptor<T> {
 }
 
 function buildJsonAttrDescriptor<T>(attrName: string, readOnly: boolean, defaultValue: T | null): PropertyDescriptor {
+  function fallback(value: string): T | null {
+    console.warn('[ESL]: cannot parse attribute %s value "%s"', attrName, value);
+    return defaultValue;
+  }
+
   function get(): T | null {
     const attrContent = getAttr(this, attrName, '').trim();
     if (!attrContent) return defaultValue;
-    return parseObjectSafe(attrContent, defaultValue);
+    return parseObjectSafe(attrContent, fallback);
   }
 
   function set(value: any): void {
