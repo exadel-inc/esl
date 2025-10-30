@@ -1,0 +1,37 @@
+name: Website Availability Check
+
+on:
+  schedule:
+    - cron: "*/20 * * * *"
+  workflow_dispatch:
+
+env:
+  node-version: 22.x
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.node-version }}
+          cache: 'npm'
+          cache-dependency-path: .github/monitoring/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: .github/monitoring
+
+      - name: Check availability
+        run: node check-availability.js
+        working-directory: .github/monitoring
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          URLS: https://esl-ui.com/,https://esl-ui.com/bundles/site.js,https://esl-ui.com/bundles/site.css
+          SITE_NAME: esl-ui.com
+          TIMEOUT: 10000
