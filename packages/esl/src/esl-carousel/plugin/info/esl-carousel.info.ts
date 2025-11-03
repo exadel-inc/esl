@@ -29,7 +29,7 @@ export class ESLCarouselInfo extends ESLBaseElement {
   })
   public carousel: string;
 
-  /** Format string used to render info text. Supports {name}, {{name}} and {%name%} */
+  /** Format string used to render info text. Supports `{name}`, `{{name}}` and `{%name%}` */
   @attr({defaultValue: '{current} of {total}'})
   public format: string;
 

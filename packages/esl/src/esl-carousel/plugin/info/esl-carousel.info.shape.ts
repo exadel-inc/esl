@@ -5,7 +5,7 @@ export interface ESLCarouselInfoTagShape extends ESLBaseElementShape<ESLCarousel
   /** {@link ESLTraversingQuery} string to find {@link ESLCarousel} instance (alias for prop `carousel`) */
   'target'?: string;
 
-  /** Format string used to render info text. Supports {name}, {{name}} and {%name%} */
+  /** Format string used to render info text. Supports `{name}`, `{{name}}` and `{%name%}` */
   'format'?: string;
 
   /** Accept text content */
