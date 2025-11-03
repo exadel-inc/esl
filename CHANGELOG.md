@@ -1,3 +1,9 @@
+## 6.0.0-beta.2 (2025-11-03)
+
+### 🩹 Fixes
+
+- **esl-utils:** incorrect log messages upon fallback parser usage ([0d7e91fc8](https://github.com/exadel-inc/esl/commit/0d7e91fc8))
+
 ## 6.0.0-beta.1 (2025-10-22)
 
 ### 🚀 Features
