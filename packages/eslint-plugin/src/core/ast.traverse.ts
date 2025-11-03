@@ -3,7 +3,7 @@ import type {Rule, SourceCode} from 'eslint';
 
 export type BaseNode = (ESTree.Expression | ESTree.Node) & {
   kind?: string;
-  parent?: BaseNode;
+  parent?: BaseNode | null;
 };
 
 type TraverseLocation = {
