@@ -1,4 +1,4 @@
-name: Release Handler (NPM)
+name: Release Publisher (NPM)
 
 on:
   workflow_dispatch:
