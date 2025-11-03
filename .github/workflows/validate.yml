@@ -48,4 +48,3 @@ jobs:
           token: ${{ secrets.QLTY_COVERAGE_TOKEN }}
           files: |
             packages/esl/coverage/lcov.info
-            packages/eslint-plugin/coverage/lcov.info
