@@ -79,6 +79,7 @@ jobs:
         with:
           name: v${{ steps.info.outputs.version }}
           tag: v${{ steps.info.outputs.version }}
+          commit: ${{ github.sha }}
           bodyFile: 'RELEASE_NOTES.md'
           artifacts: 'target/*.tgz'
           token: ${{ secrets.GITHUB_TOKEN }}
