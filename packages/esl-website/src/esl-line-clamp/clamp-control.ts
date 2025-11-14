@@ -47,7 +47,7 @@ export class ESLDemoClampControl extends ESLMixinElement {
 
   @listen({
     event: 'change',
-    target: ($this: any) => ESLMediaQuery.for($this.query)
+    target: ($this: ESLDemoClampControl) => ESLMediaQuery.for($this.query)
   })
   protected onBreakpointChange(): void {
     if (this.hidden) return;
