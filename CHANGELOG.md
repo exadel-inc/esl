@@ -1,3 +1,7 @@
+## 6.0.0-beta.3 (2025-11-19)
+
+This was a version bump only, there were no code changes.
+
 ## 6.0.0-beta.2 (2025-11-03)
 
 ### 🩹 Fixes
