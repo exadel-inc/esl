@@ -1,0 +1,218 @@
+---
+layout: content
+title: Incremental Scroll
+seoTitle: Incremental Scroll example
+name: Incremental Scroll
+tags: [examples]
+collectionIcon: examples/incremental-scroll.svg
+aside:
+  components:
+    - esl-incremental-scroll
+---
+
+<section class="row">
+  <div class="col-12">
+    <uip-root class="uip-theme-esl">
+      <!-- Show Scroll Alignments -->
+      <script type="text/html"
+              label="Scroll With Different Alignments"
+              uip-isolated
+              uip-resizable
+              uip-snippet
+              uip-snippet-js="js-snippet-incremental-scroll-alignment">
+        <style>
+          #container {
+            height: 350px;
+            border: 1px solid silver;
+            overflow: scroll;
+          }
+          #content {
+            position: relative;
+            width: 4000px;
+            min-height: 4000px;
+            background: url('/assets/incremental-scroll/diagonal-scroll-bg.webp') repeat;
+          }
+          #target1, #target2, #target3, #target4, #target5, #target6, #target7 {
+            position: absolute;
+            background: white;
+            padding: 16px;
+            border: 1px solid silver;
+            border-radius: 8px;
+          }
+          #target1 {
+            top: 50px;
+            left: 50px;
+          }
+          #target2 {
+            top: 1800px;
+            left: 1500px;
+          }
+          #target3 {
+            top: 2500px;
+            left: 3000px;
+          }
+          #target4 {
+            top: 3300px;
+            left: 900px;
+          }
+          #target5 {
+            top: 500px;
+            left: 2200px;
+          }
+          #target6 {
+            top: 3000px;
+            left: 2900px;
+          }
+          #target7 {
+            top: 1000px;
+            left: 1400px;
+          }
+        </style>
+        <p>This example demonstrates incremental scroll with different alignments of the target.</p>
+        <div id="container">
+          <div id="content">
+            <div id="target1"><button id="button1">Click Me</button></div>
+            <div id="target2"><button id="button2">Click Me</button></div>
+            <div id="target3"><button id="button3">Click Me</button></div>
+            <div id="target4"><button id="button4">Click Me</button></div>
+            <div id="target5"><button id="button5">Click Me</button></div>
+            <div id="target6"><button id="button6">Click Me</button></div>
+            <div id="target7"><button id="button7">Click Me</button></div>
+          </div>
+        </div>
+      </script>
+
+      <script id="js-snippet-incremental-scroll-alignment" type="text/plain">
+        import {
+          ESLIncrementalScrollTo,
+          alignToTop,
+          alignToMiddle,
+          alignToBottom,
+          alignToLeft,
+          alignToCenter,
+          alignToRight,
+          onDocumentReady,
+          ESLEventUtils,
+          ESLAlert
+        } from '@exadel/esl';
+
+        ESLAlert.register();
+        ESLAlert.init();
+
+        function clickHandler(e) {
+          const {id} = e.target;
+          const scrollContainer = document.getElementById('container');
+          e.preventDefault();
+          switch (id) {
+            case 'button1':
+              const target2 = document.getElementById('target2');
+              ESLIncrementalScrollTo(target2, {scrollContainer, alignment: {x: alignToLeft, y: alignToMiddle}}).then(() => {
+                showAlert('Scrolled to Target 2 (Left-Middle)');
+              });
+              break;
+            case 'button2':
+              const target3 = document.getElementById('target3');
+              ESLIncrementalScrollTo(target3, {scrollContainer, alignment: {x: alignToRight, y: alignToBottom}}).then(() => {
+                showAlert('Scrolled to Target 3 (Right-Bottom)');
+              });
+              break;
+            case 'button3':
+              const target4 = document.getElementById('target4');
+              ESLIncrementalScrollTo(target4, {scrollContainer, alignment: {x: alignToCenter, y: alignToTop}}).then(() => {
+                showAlert('Scrolled to Target 4 (Center-Top)');
+              });
+              break;
+            case 'button4':
+              const target5 = document.getElementById('target5');
+              ESLIncrementalScrollTo(target5, {scrollContainer, alignment: {x: alignToCenter, y: alignToMiddle}}).then(() => {
+                showAlert('Scrolled to Target 5 (Left-Top)');
+              });
+              break;
+            case 'button5':
+              const target6 = document.getElementById('target6');
+              ESLIncrementalScrollTo(target6, {scrollContainer, alignment: {x: alignToRight, y: alignToMiddle}}).then(() => {
+                showAlert('Scrolled to Target 6 (Right-Middle)');
+              });
+              break;
+            case 'button6':
+              const target7 = document.getElementById('target7');
+              ESLIncrementalScrollTo(target7, {scrollContainer, alignment: {x: alignToCenter, y: alignToBottom}}).then(() => {
+                showAlert('Scrolled to Target 7 (Center-Bottom)');
+              });
+              break;
+            case 'button7':
+              const target1 = document.getElementById('target1');
+              ESLIncrementalScrollTo(target1, {scrollContainer, alignment: {x: alignToLeft, y: alignToTop}}).then(() => {
+                showAlert('Scrolled to Target 1 (Left-Top)');
+              });
+              break;
+          }
+        }
+        function showAlert(message) {
+          ESLEventUtils.dispatch(document.body, 'esl:alert:show', {
+            detail: {
+              cls: 'alert alert-info',
+              html: message
+            }
+          });
+        }
+        const content = document.getElementById('content');
+        content.addEventListener('click', clickHandler);
+      </script>
+
+      <!-- Show Scroll With Default Setting -->
+      <script type="text/html"
+              label="Scroll With Default Setting"
+              uip-isolated
+              uip-resizable
+              uip-snippet
+              uip-snippet-js="js-snippet-incremental-scroll-default">
+        <style>
+          #container {
+            height: 350px;
+            border: 1px solid silver;
+            overflow: scroll;
+          }
+          #content {
+            width: 4000px;
+            background: lightgray;
+          }
+          #target {
+            color: red;
+            background: white;
+            margin-inline: 20px;
+            padding: 7px;
+            border: 2px dashed cyan;
+            border-radius: 5px;
+          }
+        </style>
+        <p>This example demonstrates how to set up the default options of incremental scroll. By default, it scrolls to the top-right position with offsets of 30px by x and 50px by y axis. </p>
+        <div id="container">
+          <div id="content">
+            <!-- paragraph 99 -->
+            <p><!-- text 40 --><span id="target">scroll target</span><!-- text 20 --></p>
+            <!-- paragraph 99 -->
+          </div>
+        </div>
+      </script>
+
+      <script id="js-snippet-incremental-scroll-default" type="text/plain">
+        import {onDocumentReady, ESLIncrementalScrollTo, setESLIncrementalScrollDefaults, alignToTop, alignToRight} from '@exadel/esl';
+
+        setESLIncrementalScrollDefaults({alignment: {x: alignToRight, y: alignToTop}, offset: {x: -30, y: 50}});
+
+        onDocumentReady(() => {
+          const scrollContainer = document.getElementById('container');
+          const target = document.getElementById('target');
+          target && ESLIncrementalScrollTo(target, {scrollContainer});
+        });
+      </script>
+
+      <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
+      <uip-preview style="max-height: 500px"></uip-preview>
+      <uip-editor></uip-editor>
+      <uip-editor source="js" collapsed></uip-editor>
+    </uip-root>
+  </div>
+</section>
+
