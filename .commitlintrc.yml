@@ -41,6 +41,7 @@ rules:
       - esl-forms
       - esl-image
       - esl-image-utils
+      - esl-incremental-scroll
       - esl-lazy-template
       - esl-line-clamp
       - esl-media

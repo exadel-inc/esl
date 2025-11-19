@@ -66,3 +66,6 @@ export * from './esl-line-clamp/core';
 
 // JSX Custom Tags Types Declarations
 export * from './types/jsx.shape';
+
+// Incremental Scroll
+export * from './esl-incremental-scroll/core';
