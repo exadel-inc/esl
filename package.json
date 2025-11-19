@@ -45,11 +45,11 @@
     "version:root": "node scripts/update-root-version.mjs"
   },
   "dependencies": {
-    "@nx/devkit": "22.0.2",
-    "@nx/eslint": "22.0.2",
-    "@nx/jest": "22.0.2",
-    "@nx/js": "22.0.2",
-    "nx": "22.0.2",
+    "@nx/devkit": "22.0.4",
+    "@nx/eslint": "22.0.4",
+    "@nx/jest": "22.0.4",
+    "@nx/js": "22.0.4",
+    "nx": "22.0.4",
     "semver": "^7.7.3"
   },
   "devDependencies": {
@@ -60,7 +60,7 @@
     "copyfiles": "^2.4.1",
     "cpy-cli": "^6.0.0",
     "cross-env": "^10.1.0",
-    "eslint": "^9.39.0",
+    "eslint": "^9.39.1",
     "findx-cli": "^0.2.2",
     "husky": "^9.1.7",
     "jest": "^30.2.0",
