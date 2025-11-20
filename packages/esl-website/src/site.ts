@@ -66,6 +66,7 @@ import {ESLDemoSwipeArea, ESLDemoWheelArea} from './esl-events-demo/esl-events-d
 import {ESLDemoPopupGame} from './esl-popup/esl-d-popup-game';
 import {ESLDemoNewLabel} from './landing/newsline/newsline';
 import {ESLDemoDistanceToViewportAlert} from './esl-lazy-template-demo/distance-to-viewport-alert';
+import {ESLDemoClampControl} from './esl-line-clamp/clamp-control';
 
 if (!CSS.supports('(height: 100dvh) or (width: 100dvw)')) ESLVSizeCSSProxy.observe();
 
@@ -84,6 +85,7 @@ ESLDemoWheelArea.register();
 ESLDemoPopupGame.register();
 ESLDemoNewLabel.register();
 ESLDemoDistanceToViewportAlert.register();
+ESLDemoClampControl.register();
 
 // Test Content
 ESLRandomText.register('lorem-ipsum');
