@@ -1,3 +1,33 @@
+## 6.0.0-beta.2 (2025-11-03)
+
+This was a version bump only for uip to align it with other projects, there were no code changes.
+
+## 6.0.0-beta.1 (2025-10-22)
+
+### 🚀 Features
+
+- **ui-playground:** `uip-preview` ability to resize each snippet individually ([57da2d358](https://github.com/exadel-inc/esl/commit/57da2d358))
+- **ui-playground:** theme class attribute to ease theme override ([f506170fc](https://github.com/exadel-inc/esl/commit/f506170fc))
+
+### 🩹 Fixes
+
+- **ui-playground:** duplicate theme toggle icon ([2e4c48454](https://github.com/exadel-inc/esl/commit/2e4c48454))
+
+### 💅 Refactors
+
+- **eslint-config:** has embedded support of esl/custom linting ([1417150d8](https://github.com/exadel-inc/esl/commit/1417150d8))
+
+## 5.15.0 (2025-10-22)
+
+### 🚀 Features
+
+- **ui-playground:** `uip-preview` ability to resize each snippet individually ([57da2d358](https://github.com/exadel-inc/esl/commit/57da2d358))
+- **ui-playground:** theme class attribute to ease theme override ([f506170fc](https://github.com/exadel-inc/esl/commit/f506170fc))
+
+### 🩹 Fixes
+
+- **ui-playground:** duplicate theme toggle icon ([2e4c48454](https://github.com/exadel-inc/esl/commit/2e4c48454))
+
 ## 6.0.0-beta.0 (2025-09-29)
 
 ### 🚀 Features

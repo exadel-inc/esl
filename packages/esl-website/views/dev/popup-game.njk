@@ -16,9 +16,10 @@ aside:
 <p>The green area on the edges of the container is determined by the offsetContainer value and means the safe zone in which popup can't come. The red zone on the edges of popup demonstrates the limits of arrow placement.</p>
 <section class="row">
   <div class="col-12">
-    <uip-root>
+    <uip-root class="uip-theme-esl">
       <script type="text/html"
               label="Popup game"
+              uip-resizable
               uip-snippet
               uip-snippet-js="js-snippet-popup-game">
         <esl-d-popup-game trigger="::find(.game-popup-trigger)">
@@ -92,7 +93,7 @@ aside:
       </script>
 
       <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
-      <uip-preview resizable></uip-preview>
+      <uip-preview></uip-preview>
       <uip-settings target="esl-popup" vertical="@+sm">
         <uip-select-setting label="Position" target="esl-popup" attribute="position">
           <option value="top">Top</option>

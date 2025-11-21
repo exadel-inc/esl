@@ -186,8 +186,8 @@ export class ESLPopup extends ESLToggleable {
       this.afterOnHide(params);
     }
 
-    super.onShow(params);
     this._params = copy(params, (key: string) => (this.constructor as typeof ESLPopup).CONFIG_KEYS.includes(key));
+    super.onShow(params);
 
     this.style.visibility = 'hidden'; // eliminates the blinking of the popup at the previous position
 
@@ -317,7 +317,7 @@ export class ESLPopup extends ESLToggleable {
 
   @listen({auto: false, group: 'observer', event: ($popup: ESLPopup) => $popup.REFRESH_EVENT, target: window})
   protected _onRefresh({target}: Event): void {
-    if (!isElement(target)) return;
+    if (!this.open || !isElement(target)) return;
     const {activator, $container} = this;
     if ($container === target || this.contains(target) || isRelativeNode(activator, target)) this._updatePosition();
   }
@@ -394,7 +394,7 @@ export class ESLPopup extends ESLToggleable {
 
   /** Updates position of popup and its arrow */
   protected _updatePosition(): void {
-    if (!this.activator) return;
+    if (!this.activator || !this.open) return;
 
     const {placedAt, popup, arrow} = calcPopupPosition(this.positionConfig);
 

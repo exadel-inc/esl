@@ -1,3 +1,17 @@
+## 6.0.0-beta.2 (2025-11-03)
+
+This was a version bump only for eslint-config to align it with other projects, there were no code changes.
+
+## 6.0.0-beta.1 (2025-10-22)
+
+### 💅 Refactors
+
+- **eslint-config:** has embedded support of esl/custom linting ([1417150d8](https://github.com/exadel-inc/esl/commit/1417150d8))
+
+## 5.15.0 (2025-10-22)
+
+This was a version bump only for eslint-config to align it with other projects, there were no code changes.
+
 ## 6.0.0-beta.0 (2025-09-29)
 
 ### 🚀 Features

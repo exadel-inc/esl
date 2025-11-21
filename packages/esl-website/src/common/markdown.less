@@ -28,6 +28,27 @@
     max-width: min(100%, 1200px);
   }
 
+  .table-container {
+    --border-spacing: 2px;
+    width: calc(100% + 2 * var(--border-spacing));
+    margin: 1rem calc(-1 * var(--border-spacing));
+    overflow-x: auto;
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: var(--border-spacing);
+    }
+
+    th,
+    td {
+      vertical-align: top;
+      text-align: left;
+      padding: 3px 6px;
+      border: 1px solid @outline-light;
+    }
+  }
+
   // Right align and accent the date if it's a single content in the line
   p > time:only-child {
     display: block;

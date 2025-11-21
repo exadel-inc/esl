@@ -13,6 +13,10 @@ export * from './plugin/nav/esl-carousel.nav.mixin';
 export type {ESLCarouselNavDotsShape, ESLCarouselNavDotsTagShape} from './plugin/dots/esl-carousel.nav.dots.shape';
 export * from './plugin/dots/esl-carousel.nav.dots';
 
+// Info plugin
+export type {ESLCarouselInfoTagShape} from './plugin/info/esl-carousel.info.shape';
+export * from './plugin/info/esl-carousel.info';
+
 // Touch support
 export * from './plugin/touch/esl-carousel.touch.mixin';
 

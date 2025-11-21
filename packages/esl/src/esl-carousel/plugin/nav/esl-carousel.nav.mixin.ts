@@ -11,6 +11,13 @@ import type {ESLCarouselSlideTarget} from '../../core/esl-carousel.types';
 /**
  * ESLCarousel navigation helper to define triggers for carousel navigation.
  *
+ * State attributes applied to the host element:
+ * - `active`   : the related carousel is present and initialized
+ * - `disabled` : navigation command cannot be executed at the moment (see canNavigate)
+ * - `current`  : navigation command points to the currently active slide/group
+ *                (mirrors {@link ESLCarousel.isCurrent} / utils isCurrent semantics:
+ *                only absolute targets are considered, relative forms like `next`, `prev`, `+1`, etc. never set it)
+ *
  * Example:
  * ```
  * <div class="esl-carousel-nav-container">
@@ -57,6 +64,7 @@ export class ESLCarouselNavMixin extends ESLMixinElement {
     memoize.clear(this, '$carousel');
     this.$$attr('active', false);
     this.$$attr('disabled', false);
+    this.$$attr('current', false);
   }
 
   /** Handles carousel state changes */
@@ -66,9 +74,11 @@ export class ESLCarouselNavMixin extends ESLMixinElement {
   })
   protected _onUpdate(): void {
     const isActive = !!this.$carousel?.renderer && !this.$carousel.incomplete;
+    const isCurrent = isActive && this.$carousel?.isCurrent(this.command);
     const isDisabled = isActive && !this.$carousel.canNavigate(this.command);
     this.$$attr('active', isActive);
     this.$$attr('disabled', isDisabled);
+    this.$$attr('current', isCurrent);
     this.$$attr('aria-controls', this.targetID);
   }
 

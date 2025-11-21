@@ -11,11 +11,6 @@
       "dependsOn": [
         "build"
       ]
-    },
-    "lint:eslint": {
-      "dependsOn": [
-        "eslint-plugin:build"
-      ]
     }
   },
   "plugins": [

@@ -1,3 +1,36 @@
+## 6.0.0-beta.2 (2025-11-03)
+
+### 🩹 Fixes
+
+- **esl-utils:** incorrect log messages upon fallback parser usage ([0d7e91fc8](https://github.com/exadel-inc/esl/commit/0d7e91fc8))
+
+## 6.0.0-beta.1 (2025-10-22)
+
+### 🚀 Features
+
+- **esl-carousel:** add esl carousel info element helper ([f162d2a5a](https://github.com/exadel-inc/esl/commit/f162d2a5a))
+- **esl-carousel:** add ability to check if the passed target is current + `current` marker support for esl-carousel-nav mixin ([57bb690c1](https://github.com/exadel-inc/esl/commit/57bb690c1))
+
+### 🩹 Fixes
+
+- **esl-popup:** fix race condition in ESLPopup when rapidly toggling state ([6816150fd](https://github.com/exadel-inc/esl/commit/6816150fd))
+
+### 💅 Refactors
+
+- **eslint-config:** has embedded support of esl/custom linting ([1417150d8](https://github.com/exadel-inc/esl/commit/1417150d8))
+
+## 5.15.0 (2025-10-22)
+
+### 🚀 Features
+
+- **esl-carousel:** add esl carousel info element helper ([f162d2a5a](https://github.com/exadel-inc/esl/commit/f162d2a5a))
+- **esl-carousel:** add ability to check if the passed target is current + `current` marker support for esl-carousel-nav mixin ([57bb690c1](https://github.com/exadel-inc/esl/commit/57bb690c1))
+
+### 🩹 Fixes
+
+- **esl-popup:** fix race condition in ESLPopup when rapidly toggling state ([6816150fd](https://github.com/exadel-inc/esl/commit/6816150fd))
+
+
 ## 6.0.0-beta.0 (2025-09-29)
 
 ### 🚀 Features
@@ -37,7 +70,6 @@
 - **esl-utils:** the `evaluate` utility no longer available, use `parseObject` or `JSON.parse` instead for object parers
 - **esl-utils:** the `ESLMediaRuleList.OBJECT_PARSER` no longer support calculations or references inside values (these were never officially supported). If you need dynamic behavior, use custom parsers instead.
 - **esl-utils:** `@jsonAttr`-based attributes no longer support calculations or references inside values (these were never officially supported). If you need dynamic behavior, make sure to override component config resolvers.
-
 
 ## 5.14.0 (2025-09-30)
 
