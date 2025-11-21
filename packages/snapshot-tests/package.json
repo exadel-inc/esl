@@ -24,7 +24,7 @@
     "@types/pixelmatch": "^5.2.6",
     "jest-puppeteer": "^11.0.0",
     "pixelmatch": "^7.1.0",
-    "puppeteer": "^24.30.0",
+    "puppeteer": "^24.31.0",
     "rimraf": "^6.1.2",
     "sharp": "^0.34.5",
     "stucumber": "^0.19.0"
