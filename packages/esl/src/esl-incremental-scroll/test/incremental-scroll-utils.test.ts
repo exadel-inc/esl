@@ -1,4 +1,4 @@
-import {getDocScrollHeight, getDocScrollWidth, resolveOffset} from '../core/incremental-scroll-utils';
+import {getDocScrollingEl, resolveOffset} from '../core/incremental-scroll-utils';
 
 const {scrollingElement} = document;
 
@@ -37,30 +37,25 @@ describe('resolveOffset', () => {
   });
 });
 
-describe('getDocScrollHeight and getDocScrollWidth', () => {
-  test('should use scrollingElement when available', () => {
-    const mockEl = {scrollHeight: 1234, scrollWidth: 5678} as unknown as Element;
+describe('getDocScrollingEl', () => {
+  test('should return scrollingElement when available', () => {
+    const mockEl = document.createElement('div');
     Object.defineProperty(document, 'scrollingElement', {
       configurable: true,
       writable: true,
       value: mockEl
     });
 
-    expect(getDocScrollHeight()).toBe(1234);
-    expect(getDocScrollWidth()).toBe(5678);
+    expect(getDocScrollingEl()).toBe(mockEl);
   });
 
-  test('should fallback to documentElement', () => {
+  test('should fallback to documentElement when scrollingElement is missing', () => {
     Object.defineProperty(document, 'scrollingElement', {
       configurable: true,
       writable: true,
       value: null
     });
 
-    jest.spyOn(document.documentElement, 'scrollHeight', 'get').mockReturnValue(4321);
-    jest.spyOn(document.documentElement, 'scrollWidth', 'get').mockReturnValue(8765);
-
-    expect(getDocScrollHeight()).toBe(4321);
-    expect(getDocScrollWidth()).toBe(8765);
+    expect(getDocScrollingEl()).toBe(document.documentElement);
   });
 });

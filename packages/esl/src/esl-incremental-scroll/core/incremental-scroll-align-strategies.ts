@@ -1,4 +1,4 @@
-import {resolveOffset, getDocScrollHeight, getDocScrollWidth} from './incremental-scroll-utils';
+import {resolveOffset, getDocScrollingEl} from './incremental-scroll-utils';
 import type {
   AlignmentStrategy,
   ComputeStepOptions,
@@ -29,7 +29,7 @@ export function alignToMiddle(options: ESLIncrementalScrollOptions): DistanceCal
     const {elRect, containerRect} = opts;
     if (containerRect) return elRect ? elRect.cy - containerRect.cy - offset : 0;
     if (!elRect) {
-      const desiredY = Math.max(0, (getDocScrollHeight() - window.innerHeight) / 2);
+      const desiredY = Math.max(0, (getDocScrollingEl().scrollHeight - window.innerHeight) / 2);
       return desiredY - window.scrollY + offset;
     }
     const viewportCenter = window.innerHeight / 2;
@@ -43,7 +43,7 @@ export function alignToBottom(options: ESLIncrementalScrollOptions): DistanceCal
   return (opts: ComputeStepOptions) => {
     const {elRect, containerRect} = opts;
     if (containerRect) return elRect ? elRect.bottom - containerRect.bottom - offset : 0;
-    if (!elRect) return getDocScrollHeight() - window.innerHeight - window.scrollY + offset;
+    if (!elRect) return getDocScrollingEl().scrollHeight - window.innerHeight - window.scrollY + offset;
     return elRect.bottom - window.innerHeight - offset;
   };
 }
@@ -65,7 +65,7 @@ export function alignToCenter(options: ESLIncrementalScrollOptions): DistanceCal
     const {elRect, containerRect} = opts;
     if (containerRect) return elRect ? elRect.cx - containerRect.cx - offset : 0;
     if (!elRect) {
-      const desiredX = Math.max(0, (getDocScrollWidth() - window.innerWidth) / 2);
+      const desiredX = Math.max(0, (getDocScrollingEl().scrollWidth - window.innerWidth) / 2);
       return desiredX - window.scrollX + offset;
     }
     const viewportCenter = window.innerWidth / 2;
@@ -79,7 +79,7 @@ export function alignToRight(options: ESLIncrementalScrollOptions): DistanceCalc
   return (opts: ComputeStepOptions) => {
     const {elRect, containerRect} = opts;
     if (containerRect) return elRect ? elRect.right - containerRect.right - offset : 0;
-    if (!elRect) return getDocScrollWidth() - window.innerWidth - window.scrollX + offset;
+    if (!elRect) return getDocScrollingEl().scrollWidth - window.innerWidth - window.scrollX + offset;
     return elRect.right - window.innerWidth - offset;
   };
 }

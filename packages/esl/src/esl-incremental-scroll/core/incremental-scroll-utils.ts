@@ -12,22 +12,26 @@ export function resolveOffset(
   return offset?.[axis] || 0;
 }
 
-function getDocScrollingEl(): Element {
+/**
+ * Gets the document's scrolling element.
+ * @returns Scrolling element
+ */
+export function getDocScrollingEl(): Element {
   return document.scrollingElement || document.documentElement;
 }
 
-/**
- * Gets the document's total scrollable height.
- * @returns Document scroll height
- */
-export function getDocScrollHeight(): number {
-  return getDocScrollingEl().scrollHeight;
-}
+// /**
+//  * Gets the document's total scrollable height.
+//  * @returns Document scroll height
+//  */
+// export function getDocScrollHeight(): number {
+//   return getDocScrollingEl().scrollHeight;
+// }
 
-/**
- * Gets the document's total scrollable width.
- * @returns Document scroll width
- */
-export function getDocScrollWidth(): number {
-  return getDocScrollingEl().scrollWidth;
-}
+// /**
+//  * Gets the document's total scrollable width.
+//  * @returns Document scroll width
+//  */
+// export function getDocScrollWidth(): number {
+//   return getDocScrollingEl().scrollWidth;
+// }
