@@ -32,7 +32,7 @@ jobs:
       deployments: none
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Use Node v${{ env.node-version }}
         uses: actions/setup-node@v6
         with:
@@ -81,7 +81,7 @@ jobs:
       statuses: write
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Use Node v${{ env.node-version }}
         uses: actions/setup-node@v6
