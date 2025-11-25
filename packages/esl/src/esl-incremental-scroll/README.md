@@ -21,32 +21,19 @@ Unlike standard scrolling methods, incremental scroll recalculates the target po
 - **Custom scroll containers** - works with both window and custom scrollable containers
 - **Configurable defaults** - set global default options for consistent behavior across your application
 
----
 
-## Getting Started
+## ESLIncrementalScroll public API
+
+### ⚡ `ESLIncrementalScroll.to`
+
+The main method to perform incremental scroll.
 
 ```typescript
-import {incrementalScrollTo, alignToTop, alignToMiddle} from '@exadel/esl/modules/esl-incremental-scroll';
-
-// Simple scroll to element
-await incrementalScrollTo(element);
-
-// Scroll with alignment
-await incrementalScrollTo(element, {
-  alignment: {
-    y: alignToMiddle
-  }
-});
+ESLIncrementalScroll.to($el: HTMLElement | null, options: IncrementalScrollOptions = {}): Promise<void>
 ```
 
----
-
-## ESLIncrementalScrollTo API
-
-`ESLIncrementalScrollTo(element, options)` - main function to perform incremental scroll.
-
 **Parameters:**
-- `element` - target HTMLElement to scroll to, or `null` to page scroll based on alignment strategy only
+- `$el` - target HTMLElement to scroll to, or `null` to page scroll based on alignment strategy only
 - `options` - optional configuration object
 
 **Returns:** `Promise<void>` that resolves when scroll completes or rejects if aborted
@@ -56,10 +43,10 @@ await incrementalScrollTo(element, {
 const $target = document.querySelector('.target');
 
 // Basic usage with default options
-await ESLIncrementalScrollTo($target);
+await ESLIncrementalScroll.to($target);
 
 // With options
-await ESLIncrementalScrollTo($target, {
+await ESLIncrementalScroll.to($target, {
   alignment: {
     y: alignToTop
   },
@@ -70,11 +57,37 @@ await ESLIncrementalScrollTo($target, {
 
 // With AbortController
 const controller = new AbortController();
-ESLIncrementalScrollTo($target, {signal: controller.signal});
+ESLIncrementalScroll.to($target, {signal: controller.signal});
 // Later: controller.abort();
 ```
 
----
+### ⚡ `ESLIncrementalScroll.defaults`
+
+You can configure global default options that will be applied to all scroll operations.
+
+Getter returns a copy of the current default options. Setter - sets default options for incremental scroll. Only defined values will be applied.
+
+**Example:**
+```typescript
+import {ESLIncrementalScroll} from '@exadel/esl/modules/esl-incremental-scroll';
+
+// Gets global defaults
+const currentDefaults = ESLIncrementalScroll.defaults;
+
+// Sets global defaults
+ESLIncrementalScroll.defaults = {
+  alignment: {
+    y: alignToMiddle({})
+  },
+  offset: 20,
+  stabilityThreshold: 300,
+  timeout: 3000
+};
+
+// Now all scrolls will use these defaults
+await ESLIncrementalScroll.to(element); // Will center vertically with 20px offset
+```
+
 
 ## Configuration Options
 
@@ -88,7 +101,7 @@ ESLIncrementalScrollTo($target, {signal: controller.signal});
 - `timeout` - maximum scroll duration in milliseconds (`4000` by default)
 - `signal` - AbortSignal to cancel the scroll operation
 
----
+***Important Notice: Values of `alignment` and `offset` always replace previous objects entirely (both in `ESLIncrementalScroll.to()` calls and when setting `ESLIncrementalScroll.defaults`). Provide both axes explicitly if you need to configure both.***
 
 ## Alignment Strategies
 
@@ -115,54 +128,24 @@ Alignment strategies determine how the element should be positioned relative to 
 **Example:**
 ```typescript
 import {
-  ESLIncrementalScrollTo,
+  ESLIncrementalScroll,
   alignToTop,
   alignToMiddle,
   alignToCenter
 } from '@exadel/esl/modules/esl-incremental-scroll';
 
 // Align to top with offset
-await ESLIncrementalScrollTo(element, {
+await ESLIncrementalScroll.to(element, {
   alignment: {
     y: alignToTop
   }
 });
 
 // Center both axes
-await ESLIncrementalScrollTo(element, {
+await ESLIncrementalScroll.to(element, {
   alignment: {
     x: alignToCenter,
     y: alignToMiddle
   }
 });
 ```
-
----
-
-## Setting Default Options
-
-You can configure global default options that will be applied to all scroll operations.
-
-`setESLIncrementalScrollDefaults(overrides)` - sets default options for incremental scroll. Only defined values will be applied.
-
-**Example:**
-```typescript
-import {setESLIncrementalScrollDefaults, alignToMiddle, ESLIncrementalScrollTo} from '@exadel/esl/modules/esl-incremental-scroll';
-
-// Set global defaults
-setESLIncrementalScrollDefaults({
-  alignment: {
-    y: alignToMiddle({})
-  },
-  offset: 20,
-  stabilityThreshold: 300,
-  timeout: 3000
-});
-
-// Now all scrolls will use these defaults
-await ESLIncrementalScrollTo(element); // Will center vertically with 20px offset
-```
-
-`getESLIncrementalScrollDefaults()` - returns a copy of current default options.
-
----

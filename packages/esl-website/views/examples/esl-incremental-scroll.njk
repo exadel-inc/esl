@@ -1,6 +1,6 @@
 ---
 layout: content
-title: Incremental Scroll
+title: ESL Incremental Scroll
 seoTitle: Incremental Scroll example
 name: Incremental Scroll
 tags: [examples]
@@ -84,7 +84,7 @@ aside:
 
       <script id="js-snippet-incremental-scroll-alignment" type="text/plain">
         import {
-          ESLIncrementalScrollTo,
+          ESLIncrementalScroll,
           alignToTop,
           alignToMiddle,
           alignToBottom,
@@ -106,43 +106,43 @@ aside:
           switch (id) {
             case 'button1':
               const target2 = document.getElementById('target2');
-              ESLIncrementalScrollTo(target2, {scrollContainer, alignment: {x: alignToLeft, y: alignToMiddle}}).then(() => {
+              ESLIncrementalScroll.to(target2, {scrollContainer, alignment: {x: alignToLeft, y: alignToMiddle}}).then(() => {
                 showAlert('Scrolled to Target 2 (Left-Middle)');
               });
               break;
             case 'button2':
               const target3 = document.getElementById('target3');
-              ESLIncrementalScrollTo(target3, {scrollContainer, alignment: {x: alignToRight, y: alignToBottom}}).then(() => {
+              ESLIncrementalScroll.to(target3, {scrollContainer, alignment: {x: alignToRight, y: alignToBottom}}).then(() => {
                 showAlert('Scrolled to Target 3 (Right-Bottom)');
               });
               break;
             case 'button3':
               const target4 = document.getElementById('target4');
-              ESLIncrementalScrollTo(target4, {scrollContainer, alignment: {x: alignToCenter, y: alignToTop}}).then(() => {
+              ESLIncrementalScroll.to(target4, {scrollContainer, alignment: {x: alignToCenter, y: alignToTop}}).then(() => {
                 showAlert('Scrolled to Target 4 (Center-Top)');
               });
               break;
             case 'button4':
               const target5 = document.getElementById('target5');
-              ESLIncrementalScrollTo(target5, {scrollContainer, alignment: {x: alignToCenter, y: alignToMiddle}}).then(() => {
+              ESLIncrementalScroll.to(target5, {scrollContainer, alignment: {x: alignToCenter, y: alignToMiddle}}).then(() => {
                 showAlert('Scrolled to Target 5 (Left-Top)');
               });
               break;
             case 'button5':
               const target6 = document.getElementById('target6');
-              ESLIncrementalScrollTo(target6, {scrollContainer, alignment: {x: alignToRight, y: alignToMiddle}}).then(() => {
+              ESLIncrementalScroll.to(target6, {scrollContainer, alignment: {x: alignToRight, y: alignToMiddle}}).then(() => {
                 showAlert('Scrolled to Target 6 (Right-Middle)');
               });
               break;
             case 'button6':
               const target7 = document.getElementById('target7');
-              ESLIncrementalScrollTo(target7, {scrollContainer, alignment: {x: alignToCenter, y: alignToBottom}}).then(() => {
+              ESLIncrementalScroll.to(target7, {scrollContainer, alignment: {x: alignToCenter, y: alignToBottom}}).then(() => {
                 showAlert('Scrolled to Target 7 (Center-Bottom)');
               });
               break;
             case 'button7':
               const target1 = document.getElementById('target1');
-              ESLIncrementalScrollTo(target1, {scrollContainer, alignment: {x: alignToLeft, y: alignToTop}}).then(() => {
+              ESLIncrementalScroll.to(target1, {scrollContainer, alignment: {x: alignToLeft, y: alignToTop}}).then(() => {
                 showAlert('Scrolled to Target 1 (Left-Top)');
               });
               break;
@@ -197,14 +197,14 @@ aside:
       </script>
 
       <script id="js-snippet-incremental-scroll-default" type="text/plain">
-        import {onDocumentReady, ESLIncrementalScrollTo, setESLIncrementalScrollDefaults, alignToTop, alignToRight} from '@exadel/esl';
+        import {onDocumentReady, ESLIncrementalScroll, alignToTop, alignToRight} from '@exadel/esl';
 
-        setESLIncrementalScrollDefaults({alignment: {x: alignToRight, y: alignToTop}, offset: {x: -30, y: 50}});
+        ESLIncrementalScroll.defaults = {alignment: {x: alignToRight, y: alignToTop}, offset: {x: -30, y: 50}};
 
         onDocumentReady(() => {
           const scrollContainer = document.getElementById('container');
           const target = document.getElementById('target');
-          target && ESLIncrementalScrollTo(target, {scrollContainer});
+          target && ESLIncrementalScroll.to(target, {scrollContainer});
         });
       </script>
 

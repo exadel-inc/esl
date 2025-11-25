@@ -17,69 +17,72 @@ const defaultOptions: IncrementalScrollOptions = {
 };
 
 /**
- * Sets default options for incremental scroll.
- * Only defined values from overrides will be applied.
- * @param overrides - Partial options to override defaults
+ * ESLIncrementalScroll class provides static method to perform incremental scroll to a target element.
+ * It continuously recalculates the target position on each animation frame to handle dynamic content and animations.
  */
-export function setESLIncrementalScrollDefaults(overrides: Partial<IncrementalScrollOptions>): void {
-  Object.assign(defaultOptions, copyDefinedKeys(overrides));
-}
-
-/**
- * Returns a copy of current default options for incremental scroll.
- * @returns Current default options
- */
-export function getESLIncrementalScrollDefaults(): IncrementalScrollOptions {
-  return {...defaultOptions};
-}
-
-/**
- * Performs incremental scroll to bring an element into view with smooth animation.
- * Continuously recalculates target position on each frame to handle dynamic content and animations.
- * @param $el - Target element to scroll to, or null to scroll based on alignment strategy only
- * @param options - Scroll configuration options
- * @returns Promise that resolves when scroll completes or rejects if aborted
- */
-export function ESLIncrementalScrollTo(
-  $el: HTMLElement | null,
-  options: IncrementalScrollOptions = {}
-): Promise<void> {
-  const deferred = createDeferred<void>();
-  let requestId: number;
-
-  const opts = {...defaultOptions, ...options};
-  const scrollContainer = opts.scrollContainer || window;
-  const scroller = new ESLIncrementalScrollScroller($el, opts);
-
-  function signalCallback(e?: Event): void {
-    opts.signal?.removeEventListener('abort', signalCallback);
-    if (requestId) cancelAnimationFrame(requestId);
-    if (e) rejectOnSignal(); // Only reject if called by abort event
+export class ESLIncrementalScroll {
+  /**
+   * Returns a copy of current default options for incremental scroll.
+   * @returns Current default options
+   */
+  public static get defaults(): IncrementalScrollOptions {
+    return {...defaultOptions};
   }
-  function rejectOnSignal(): void {
-    animationFrames.delete(scrollContainer);
-    deferred.reject(new DOMException('Aborted', 'AbortError'));
+
+  /**
+   * Sets default options for incremental scroll.
+   * Only defined values from overrides will be applied.
+   * @param overrides - Partial options to override defaults
+   */
+  public static set defaults(overrides: IncrementalScrollOptions) {
+    Object.assign(defaultOptions, copyDefinedKeys(overrides));
   }
-  opts.signal?.addEventListener('abort', signalCallback);
 
-  const existingRequestId = animationFrames.get(scrollContainer);
-  if (existingRequestId) cancelAnimationFrame(existingRequestId);
+  /**
+   * Performs incremental scroll to bring an element into view with smooth animation.
+   * Continuously recalculates target position on each frame to handle dynamic content and animations.
+   * @param $el - Target element to scroll to, or null to scroll based on alignment strategy only
+   * @param options - Scroll configuration options
+   * @returns Promise that resolves when scroll completes or rejects if aborted
+   */
+  public static to($el: HTMLElement | null, options: IncrementalScrollOptions = {}): Promise<void> {
+    const deferred = createDeferred<void>();
+    let requestId: number;
 
-  // schedule step task
-  requestId = requestAnimationFrame(function step() {
-    if (opts.signal?.aborted) return rejectOnSignal();
+    const opts = {...defaultOptions, ...options};
+    const scrollContainer = opts.scrollContainer || window;
+    const scroller = new ESLIncrementalScrollScroller($el, opts);
 
-    scroller.step();
-
-    if (scroller.shouldContinue) {
-      requestId = requestAnimationFrame(step);
-      animationFrames.set(scrollContainer, requestId);
-    } else {
+    function signalCallback(e?: Event): void {
       opts.signal?.removeEventListener('abort', signalCallback);
-      animationFrames.delete(scrollContainer);
-      deferred.resolve();
+      if (requestId) cancelAnimationFrame(requestId);
+      if (e) rejectOnSignal(); // Only reject if called by abort event
     }
-  });
-  animationFrames.set(scrollContainer, requestId);
-  return deferred.promise;
+    function rejectOnSignal(): void {
+      animationFrames.delete(scrollContainer);
+      deferred.reject(new DOMException('Aborted', 'AbortError'));
+    }
+    opts.signal?.addEventListener('abort', signalCallback);
+
+    const existingRequestId = animationFrames.get(scrollContainer);
+    if (existingRequestId) cancelAnimationFrame(existingRequestId);
+
+    // schedule step task
+    requestId = requestAnimationFrame(function step() {
+      if (opts.signal?.aborted) return rejectOnSignal();
+
+      scroller.step();
+
+      if (scroller.shouldContinue) {
+        requestId = requestAnimationFrame(step);
+        animationFrames.set(scrollContainer, requestId);
+      } else {
+        opts.signal?.removeEventListener('abort', signalCallback);
+        animationFrames.delete(scrollContainer);
+        deferred.resolve();
+      }
+    });
+    animationFrames.set(scrollContainer, requestId);
+    return deferred.promise;
+  }
 }
