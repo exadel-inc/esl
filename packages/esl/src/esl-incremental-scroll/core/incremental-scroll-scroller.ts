@@ -2,13 +2,13 @@ import {Rect} from '../../esl-utils/dom/rect';
 import {keepPosition} from './incremental-scroll-align-strategies';
 import {ESLIncrementalScrollAxisStepper} from './incremental-scroll-axis-stepper';
 
-import type {ComputeStepOptions, IncrementalScrollOptions} from './incremental-scroll-types';
+import type {ComputeStepOptions, ESLIncrementalScrollOptions} from './incremental-scroll-types';
 
 /** Coordinates incremental scrolling for both axes using provided alignment strategies */
-export class ESLIncrementalScrollScroller {
+export class ESLIncrementalScroller {
   protected steppers: ESLIncrementalScrollAxisStepper[] = [];
 
-  public constructor(private $el: HTMLElement | null, private options: IncrementalScrollOptions) {
+  public constructor(private $el: HTMLElement | null, private options: ESLIncrementalScrollOptions) {
     const {alignment = {}} = options;
     this.steppers = [
       alignment.x ?? keepPosition,

@@ -1,8 +1,8 @@
 import {ESLIncrementalScroll} from '../core/incremental-scroll';
-import {ESLIncrementalScrollScroller} from '../core/incremental-scroll-scroller';
+import {ESLIncrementalScroller} from '../core/incremental-scroll-scroller';
 
 jest.mock('../core/incremental-scroll-scroller');
-const MockedScroller = ESLIncrementalScrollScroller as jest.MockedClass<typeof ESLIncrementalScrollScroller>;
+const MockedScroller = ESLIncrementalScroller as jest.MockedClass<typeof ESLIncrementalScroller>;
 
 describe('ESLIncrementalScroll class', () => {
   describe('ESLIncrementalScroll.defaults', () => {

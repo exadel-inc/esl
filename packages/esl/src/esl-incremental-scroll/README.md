@@ -29,7 +29,7 @@ Unlike standard scrolling methods, incremental scroll recalculates the target po
 The main method to perform incremental scroll.
 
 ```typescript
-ESLIncrementalScroll.to($el: HTMLElement | null, options: IncrementalScrollOptions = {}): Promise<void>
+ESLIncrementalScroll.to($el: HTMLElement | null, options: ESLIncrementalScrollOptions = {}): Promise<void>
 ```
 
 **Parameters:**

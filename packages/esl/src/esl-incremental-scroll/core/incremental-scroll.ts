@@ -1,12 +1,12 @@
 import {createDeferred} from '../../esl-utils/async';
 import {copyDefinedKeys} from '../../esl-utils/misc/object';
 import {keepPosition} from './incremental-scroll-align-strategies';
-import {ESLIncrementalScrollScroller} from './incremental-scroll-scroller';
-import type {IncrementalScrollOptions} from './incremental-scroll-types';
+import {ESLIncrementalScroller} from './incremental-scroll-scroller';
+import type {ESLIncrementalScrollOptions} from './incremental-scroll-types';
 
 const animationFrames = new WeakMap<HTMLElement | Window, number>();
 
-const defaultOptions: IncrementalScrollOptions = {
+const defaultOptions: ESLIncrementalScrollOptions = {
   alignment: {
     x: keepPosition,
     y: keepPosition
@@ -25,7 +25,7 @@ export class ESLIncrementalScroll {
    * Returns a copy of current default options for incremental scroll.
    * @returns Current default options
    */
-  public static get defaults(): IncrementalScrollOptions {
+  public static get defaults(): ESLIncrementalScrollOptions {
     return {...defaultOptions};
   }
 
@@ -34,7 +34,7 @@ export class ESLIncrementalScroll {
    * Only defined values from overrides will be applied.
    * @param overrides - Partial options to override defaults
    */
-  public static set defaults(overrides: IncrementalScrollOptions) {
+  public static set defaults(overrides: ESLIncrementalScrollOptions) {
     Object.assign(defaultOptions, copyDefinedKeys(overrides));
   }
 
@@ -45,13 +45,13 @@ export class ESLIncrementalScroll {
    * @param options - Scroll configuration options
    * @returns Promise that resolves when scroll completes or rejects if aborted
    */
-  public static to($el: HTMLElement | null, options: IncrementalScrollOptions = {}): Promise<void> {
+  public static to($el: HTMLElement | null, options: ESLIncrementalScrollOptions = {}): Promise<void> {
     const deferred = createDeferred<void>();
     let requestId: number;
 
     const opts = {...defaultOptions, ...options};
     const scrollContainer = opts.scrollContainer || window;
-    const scroller = new ESLIncrementalScrollScroller($el, opts);
+    const scroller = new ESLIncrementalScroller($el, opts);
 
     function signalCallback(e?: Event): void {
       opts.signal?.removeEventListener('abort', signalCallback);

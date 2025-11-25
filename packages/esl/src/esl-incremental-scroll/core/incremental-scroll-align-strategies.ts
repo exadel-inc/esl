@@ -3,7 +3,7 @@ import type {
   AlignmentStrategy,
   ComputeStepOptions,
   DistanceCalculator,
-  IncrementalScrollOptions
+  ESLIncrementalScrollOptions
 } from './incremental-scroll-types';
 
 /**
@@ -13,7 +13,7 @@ import type {
 export const keepPosition: AlignmentStrategy = () => () => 0;
 
 /** Creates alignment strategy that positions element at the top of container or viewport */
-export function alignToTop(options: IncrementalScrollOptions): DistanceCalculator {
+export function alignToTop(options: ESLIncrementalScrollOptions): DistanceCalculator {
   const offset = resolveOffset(options.offset, 'y');
   return (opts: ComputeStepOptions) => {
     const {elRect, containerRect} = opts;
@@ -23,7 +23,7 @@ export function alignToTop(options: IncrementalScrollOptions): DistanceCalculato
 }
 
 /** Creates alignment strategy that centers element vertically in container or viewport */
-export function alignToMiddle(options: IncrementalScrollOptions): DistanceCalculator {
+export function alignToMiddle(options: ESLIncrementalScrollOptions): DistanceCalculator {
   const offset = resolveOffset(options.offset, 'y');
   return (opts: ComputeStepOptions) => {
     const {elRect, containerRect} = opts;
@@ -38,7 +38,7 @@ export function alignToMiddle(options: IncrementalScrollOptions): DistanceCalcul
 }
 
 /** Creates alignment strategy that positions element at the bottom of container or viewport */
-export function alignToBottom(options: IncrementalScrollOptions): DistanceCalculator {
+export function alignToBottom(options: ESLIncrementalScrollOptions): DistanceCalculator {
   const offset = resolveOffset(options.offset, 'y');
   return (opts: ComputeStepOptions) => {
     const {elRect, containerRect} = opts;
@@ -49,7 +49,7 @@ export function alignToBottom(options: IncrementalScrollOptions): DistanceCalcul
 }
 
 /** Creates alignment strategy that positions element at the left edge of container or viewport */
-export function alignToLeft(options: IncrementalScrollOptions): DistanceCalculator {
+export function alignToLeft(options: ESLIncrementalScrollOptions): DistanceCalculator {
   const offset = resolveOffset(options.offset, 'x');
   return (opts: ComputeStepOptions) => {
     const {elRect, containerRect} = opts;
@@ -59,7 +59,7 @@ export function alignToLeft(options: IncrementalScrollOptions): DistanceCalculat
 }
 
 /** Creates alignment strategy that centers element horizontally in container or viewport */
-export function alignToCenter(options: IncrementalScrollOptions): DistanceCalculator {
+export function alignToCenter(options: ESLIncrementalScrollOptions): DistanceCalculator {
   const offset = resolveOffset(options.offset, 'x');
   return (opts: ComputeStepOptions) => {
     const {elRect, containerRect} = opts;
@@ -74,7 +74,7 @@ export function alignToCenter(options: IncrementalScrollOptions): DistanceCalcul
 }
 
 /** Creates alignment strategy that positions element at the right edge of container or viewport */
-export function alignToRight(options: IncrementalScrollOptions): DistanceCalculator {
+export function alignToRight(options: ESLIncrementalScrollOptions): DistanceCalculator {
   const offset = resolveOffset(options.offset, 'x');
   return (opts: ComputeStepOptions) => {
     const {elRect, containerRect} = opts;

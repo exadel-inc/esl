@@ -1,9 +1,9 @@
 import {ESLIncrementalScrollAxisStepper} from '../core/incremental-scroll-axis-stepper';
-import type {IncrementalScrollOptions} from '../core/incremental-scroll-types';
+import type {ESLIncrementalScrollOptions} from '../core/incremental-scroll-types';
 
 afterEach(() => jest.restoreAllMocks());
 
-const createOptions = (overrides: Partial<IncrementalScrollOptions> = {}): IncrementalScrollOptions => ({
+const createOptions = (overrides: Partial<ESLIncrementalScrollOptions> = {}): ESLIncrementalScrollOptions => ({
   stabilityThreshold: 200,
   timeout: 500,
   ...overrides

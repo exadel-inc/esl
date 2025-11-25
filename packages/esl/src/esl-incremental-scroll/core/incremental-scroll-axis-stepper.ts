@@ -1,4 +1,4 @@
-import type {ComputeStepOptions, DistanceCalculator, IncrementalScrollOptions} from './incremental-scroll-types';
+import type {ComputeStepOptions, DistanceCalculator, ESLIncrementalScrollOptions} from './incremental-scroll-types';
 
 /**
  * ESLIncrementalScrollAxisStepper encapsulates per-axis easing/acceleration logic.
@@ -10,7 +10,7 @@ export class ESLIncrementalScrollAxisStepper {
   protected lastUnstableTime: number = 0;
   protected maxStepIncrement: number = 1;
 
-  public constructor(private calcDistance: DistanceCalculator, private options: IncrementalScrollOptions) {
+  public constructor(private calcDistance: DistanceCalculator, private options: ESLIncrementalScrollOptions) {
     this.initialTime = Date.now();
     this.startTime = this.initialTime;
   }
