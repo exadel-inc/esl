@@ -1,3 +1,9 @@
+## 6.0.0-beta.3 (2025-11-26)
+
+### 🚀 Features
+
+- **esl-incremental-scroll:** add incremental scroll utility ([ccd318697](https://github.com/exadel-inc/esl/commit/ccd318697))
+
 ## 6.0.0-beta.2 (2025-11-03)
 
 This was a version bump only for esl-e2e to align it with other projects, there were no code changes.

@@ -1,3 +1,13 @@
+## 6.0.0-beta.3 (2025-11-26)
+
+### 🚀 Features
+
+- **esl-incremental-scroll:** add incremental scroll utility ([ccd318697](https://github.com/exadel-inc/esl/commit/ccd318697))
+
+### Documentation updates
+
+- **esl-incremental-scroll:** add README for incremental scroll ([ea9cb3656](https://github.com/exadel-inc/esl/commit/ea9cb3656))
+
 ## 6.0.0-beta.2 (2025-11-03)
 
 ### 🩹 Fixes
