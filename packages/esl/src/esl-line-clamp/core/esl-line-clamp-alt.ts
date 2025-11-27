@@ -1,6 +1,6 @@
-import {attr, boolAttr, listen, memoize, safe} from '../../esl-utils/decorators';
-import {ESLMediaRuleList} from '../../esl-media-query/core';
+import {attr, boolAttr} from '../../esl-utils/decorators';
 import {ESLMixinElement} from '../../esl-mixin-element/core';
+import {ESLLineClamp} from './esl-line-clamp';
 
 /**
  * ESLLineClampAlt mixin element
@@ -11,6 +11,8 @@ import {ESLMixinElement} from '../../esl-mixin-element/core';
  * allowing to switch between the regular clamp configuration and an alternative one.
  */
 export class ESLLineClampAlt extends ESLMixinElement {
+  public static override observedAttributes = ['esl-line-clamp'];
+
   static override is = 'esl-line-clamp-alt';
 
   public static readonly activeAttr = 'alt-active';
@@ -19,35 +21,29 @@ export class ESLLineClampAlt extends ESLMixinElement {
 
   @attr({name: ESLLineClampAlt.is, defaultValue: ''}) public lines: string;
 
+  @attr({name: ESLLineClamp.is, readonly: true}) public laaals: string;
+
   @boolAttr({name: ESLLineClampAlt.activeAttr, readonly: true}) public altActive: boolean;
 
-  @memoize()
-  @safe(ESLMediaRuleList.empty<string>())
-  public get linesQuery(): ESLMediaRuleList<string> {
-    return ESLMediaRuleList.parse(this.lines);
+  public defaultLinesQuery(): string | null {
+    return this.$$attr(ESLLineClamp.is);
   }
 
   protected override connectedCallback(): void {
     super.connectedCallback();
-    this.onQueryChange();
-  }
-
-  protected override attributeChangedCallback(): void {
-    memoize.clear(this, 'linesQuery');
-    this.onQueryChange();
-  }
-
-  protected updateLines(): void {
-    this.$host.style.setProperty('--esl-line-clamp-alt', this.linesQuery.value || '0');
+    this.altActive && this.updateState();
   }
 
   public toggle(): void {
     this.$$fire(ESLLineClampAlt.CLAMP_EVENT, {bubbles: false});
     this.$$attr(ESLLineClampAlt.activeAttr, !this.altActive);
+    this.updateState();
   }
 
-  @listen({event: 'change', target: ($this: any) => $this.linesQuery})
-  protected onQueryChange(): void {
-    this.updateLines();
+  protected updateState(): void {
+    const defaultQuery = this.defaultLinesQuery();
+    if (typeof defaultQuery !== 'string') return;
+    this.$$attr(ESLLineClamp.is, this.lines);
+    this.$$attr(ESLLineClampAlt.is, defaultQuery);
   }
 }
