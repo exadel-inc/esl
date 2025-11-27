@@ -11,8 +11,6 @@ import {ESLLineClamp} from './esl-line-clamp';
  * allowing to switch between the regular clamp configuration and an alternative one.
  */
 export class ESLLineClampAlt extends ESLMixinElement {
-  public static override observedAttributes = ['esl-line-clamp'];
-
   static override is = 'esl-line-clamp-alt';
 
   public static readonly activeAttr = 'alt-active';
@@ -21,11 +19,9 @@ export class ESLLineClampAlt extends ESLMixinElement {
 
   @attr({name: ESLLineClampAlt.is, defaultValue: ''}) public lines: string;
 
-  @attr({name: ESLLineClamp.is, readonly: true}) public laaals: string;
-
   @boolAttr({name: ESLLineClampAlt.activeAttr, readonly: true}) public altActive: boolean;
 
-  public defaultLinesQuery(): string | null {
+  public defaultLines(): string | null {
     return this.$$attr(ESLLineClamp.is);
   }
 
@@ -41,9 +37,9 @@ export class ESLLineClampAlt extends ESLMixinElement {
   }
 
   protected updateState(): void {
-    const defaultQuery = this.defaultLinesQuery();
-    if (typeof defaultQuery !== 'string') return;
+    const defaultLines = this.defaultLines();
+    if (typeof defaultLines !== 'string') return;
     this.$$attr(ESLLineClamp.is, this.lines);
-    this.$$attr(ESLLineClampAlt.is, defaultQuery);
+    this.$$attr(ESLLineClampAlt.is, defaultLines);
   }
 }
