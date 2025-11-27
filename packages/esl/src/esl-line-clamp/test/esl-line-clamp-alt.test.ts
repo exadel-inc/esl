@@ -1,0 +1,53 @@
+import {ESLLineClampAlt} from '../core/esl-line-clamp-alt';
+
+describe('ESLLineClampAlt (mixin): tests', () => {
+  const microtaskQueue = () => Promise.resolve().then(() => Promise.resolve());
+  let $host: HTMLElement;
+
+  beforeAll(() => {
+    ESLLineClampAlt.register();
+  });
+
+  beforeEach(async () => {
+    $host = document.createElement('div');
+    $host.setAttribute(ESLLineClampAlt.is, '');
+    document.body.appendChild($host);
+  });
+
+  afterEach(() => {
+    document.body.removeChild($host);
+  });
+
+  test('should initialize with correct default values', () => {
+    const lineClamp = ESLLineClampAlt.get($host);
+    expect(lineClamp).toEqual(expect.any(ESLLineClampAlt));
+    expect(lineClamp!.altActive).toBe(false);
+  });
+
+  test('should set CSS custom property', async () => {
+    $host.setAttribute(ESLLineClampAlt.is, '3');
+    await microtaskQueue();
+    expect($host.style.getPropertyValue('--esl-line-clamp-alt')).toBe('3');
+  });
+
+  test('should handle media queries', async () => {
+    $host.setAttribute(ESLLineClampAlt.is, '@XS => 4 | 5 | @XL => 7');
+    await microtaskQueue();
+    expect($host.style.getPropertyValue('--esl-line-clamp-alt')).toBe('5');
+  });
+
+  test('should handle basic toggle', () => {
+    const lineClamp = ESLLineClampAlt.get($host);
+    lineClamp!.toggle();
+    expect(lineClamp!.altActive).toBe(true);
+  });
+
+  test('should dispatch clamp event on toggle', () => {
+    const handler = jest.fn();
+    $host.addEventListener(ESLLineClampAlt.CLAMP_EVENT, handler);
+
+    const lineClamp = ESLLineClampAlt.get($host);
+    lineClamp!.toggle();
+    expect(handler).toHaveBeenCalledTimes(1);
+  });
+});
