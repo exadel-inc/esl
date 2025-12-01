@@ -136,7 +136,7 @@
         "commands": [
           "rimraf -g \"dist/**/*.css\"",
           "findx \"src/*.less\" \"lessc {{path}} dist/bundles/{{name}}.css --source-map=dist/bundles/{{name}}.css.map\"",
-          "findx \"dist/bundles/*.css\" \"lightningcss dist/bundles/{{name}}.css -d dist/bundles/ --sourcemap --minify\""
+          "findx \"dist/bundles/*.css\" \"lightningcss dist/bundles/{{name}}.css -o dist/bundles/{{name}}.css --sourcemap --minify\""
         ],
         "parallel": false,
         "cwd": "packages/esl-website"
