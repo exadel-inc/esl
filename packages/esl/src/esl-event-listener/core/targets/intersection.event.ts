@@ -13,8 +13,6 @@ export class ESLIntersectionEvent extends Event implements IntersectionObserverE
   public static readonly IN = 'intersects:in';
   /** Type of event that will be dispatched on both viewport enter and exit */
   public static readonly TYPE = 'intersects';
-  /** @deprecated use {@link TYPE} instead */
-  public static readonly type = this.TYPE;
 
   public override readonly type: ESLIntersectionEventType;
 

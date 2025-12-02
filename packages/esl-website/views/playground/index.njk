@@ -2,13 +2,12 @@
   layout: sub-landing
   title: Playground
   order: 10
-  tags: [nav, nav-header, draft]
+  tags: [nav, nav-header]
   groupStart: true
 
   containerCls: uip-landing typo-large
-  landing: true
-  core-collection: playground
   collection: playground
+  core-collection: playground
 
   icon: sidebar/playground.svg
   eleventyImport:
@@ -41,8 +40,8 @@
   <uip-root class="uip-theme-esl" store-key='uip-landing' editor-collapsed>
     <script type="text/html" uip-snippet label="Logo">
       <div class="uip-landing-d-container">
-        <a class="btn btn-xl btn-sec-blue" href="{{ '/playground/introduction/' | url }}">
-          <span>Get started</span> 
+        <a class="btn btn-with-icon btn-xl btn-sec-blue" href="{{ '/playground/introduction/' | url }}">
+          <span>Get started</span>
           {% include 'static/assets/sidebar/playground.svg' %}
         </a>
       </div>

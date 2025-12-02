@@ -1,16 +1,48 @@
-## 5.15.1 (2025-12-02)
+## 6.0.0-beta.2 (2025-11-03)
 
 This was a version bump only for eslint-config to align it with other projects, there were no code changes.
+
+## 6.0.0-beta.1 (2025-10-22)
+
+### 💅 Refactors
+
+- **eslint-config:** has embedded support of esl/custom linting ([1417150d8](https://github.com/exadel-inc/esl/commit/1417150d8))
 
 ## 5.15.0 (2025-10-22)
 
 This was a version bump only for eslint-config to align it with other projects, there were no code changes.
+
+## 6.0.0-beta.0 (2025-09-29)
+
+### 🚀 Features
+
+- ⚠️  **eslint-config:** has embedded support of esl/custom linting ([452669ada](https://github.com/exadel-inc/esl/commit/452669ada))
+
+### 💅 Refactors
+
+- ⚠️  remove deprecated properties and methods across ESL ([e36e19f56](https://github.com/exadel-inc/esl/commit/e36e19f56))
+
+### ⚠️  Breaking Changes
+
+- **eslint-config:** the `@exadel/eslint-plugin-esl` no longer required and out of support, use `@exadel/eslint-config-esl` capabilities instead
+
 
 ## 5.14.0 (2025-09-30)
 
 ### 💅 Refactors
 
 - **eslint-config:** has embedded support of esl/custom linting ([1417150d8](https://github.com/exadel-inc/esl/commit/1417150d8))
+- **ui-playground:** migrate UIP project to latest (8) JSX-DOM ([5275cb787](https://github.com/exadel-inc/esl/commit/5275cb787))
+- **site:** add playground description ([e83a7eb79](https://github.com/exadel-inc/esl/commit/e83a7eb79))
+- **site:** playground navigation ([772859d85](https://github.com/exadel-inc/esl/commit/772859d85))
+- **site:** drop changes not related to playground readme ([c1a0a222e](https://github.com/exadel-inc/esl/commit/c1a0a222e))
+- **site:** add playground section ([dbaf99955](https://github.com/exadel-inc/esl/commit/dbaf99955))
+
+
+## 5.14.0-beta.0 (2025-09-19)
+
+### 💅 Refactors
+
 - **ui-playground:** migrate UIP project to latest (8) JSX-DOM ([5275cb787](https://github.com/exadel-inc/esl/commit/5275cb787))
 - **site:** add playground description ([e83a7eb79](https://github.com/exadel-inc/esl/commit/e83a7eb79))
 - **site:** playground navigation ([772859d85](https://github.com/exadel-inc/esl/commit/772859d85))

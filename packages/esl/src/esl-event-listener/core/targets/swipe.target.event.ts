@@ -32,8 +32,6 @@ export interface ESLSwipeGestureEventInfo {
  */
 export class ESLSwipeGestureEvent extends UIEvent implements ESLSwipeGestureEventInfo {
   public static readonly TYPE = 'swipe';
-  /** @deprecated Use {@link TYPE} instead */
-  public static readonly type = this.TYPE;
 
   public override readonly type: typeof ESLSwipeGestureEvent.TYPE;
 
