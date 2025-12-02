@@ -1,12 +1,10 @@
-# UIP Snippets Navigation
-
 **UIPSnippets** – composite navigation plugin that presents available snippets (declared via `<template uip-snippet>`). It can render as a tab bar or collapse into a dropdown based on a media query.
 
 Internally it coordinates:
 - [`UIPSnippetsList`](../snippets-list/README.md) – the list / dropdown UI
 - [`UIPSnippetsTitle`](../snippets-title/README.md) – current snippet label display
 
-See Core Concepts for how to declare snippets: `../../core/README.md#2-declaring-snippets`.
+How to declare snippets see the [Technical Internals](../../core/base/README.md#uip-snippet).
 
 ---
 ## Display Modes
@@ -18,8 +16,8 @@ See Core Concepts for how to declare snippets: `../../core/README.md#2-declaring
 
 `dropdown-view` accepts any ESL media query expression the design system supports.
 
----
-## Minimal Examples
+Required minimum markup:
+
 ### Tabs
 ```html
 <uip-root>
@@ -57,7 +55,7 @@ Combine with other quick‑action plugins inside a wrapper (order = visual order
 You can also use Settings panel attributes (`theme-toggle`, `dir-toggle`) instead of separate toolbar buttons.
 
 ---
-## Attributes (User-Facing)
+## Attributes (User-Focused)
 | Attribute | Element | Purpose |
 |-----------|---------|---------|
 | `dropdown-view` | `<uip-snippets>` | Media query (or `all`) enabling dropdown mode |
@@ -78,7 +76,7 @@ You can also use Settings panel attributes (`theme-toggle`, `dir-toggle`) instea
 | `.uip-snippets__dropdown` | Dropdown/select wrapper |
 | `.uip-snippets__item[aria-selected="true"]` | Active tab/button |
 
-(Selectors may vary slightly depending on build tooling; inspect generated DOM to theme.)
+Selectors may vary slightly depending on build tooling; inspect generated DOM to theme.
 
 ---
 ## Troubleshooting
@@ -89,12 +87,3 @@ You can also use Settings panel attributes (`theme-toggle`, `dir-toggle`) instea
 | Dropdown never appears | Media query invalid | Validate `dropdown-view` expression |
 
 ---
-## Related Docs
-| Topic | Link |
-|-------|------|
-| Core snippet declaration | `../../core/README.md#2-declaring-snippets` |
-| Snippets List internals | `../snippets-list/README.md` |
-| Snippets Title | `../snippets-title/README.md` |
-| Preview | `../../core/preview/README.md` |
-
-Return to [Core Concepts](../../core/README.md).

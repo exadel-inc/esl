@@ -5,8 +5,6 @@ More details can be found in [UIP Snippets](src/plugins/snippets/README.md) sect
 
 The following sample will render snippets as a tab list in the header of the UI Playground:
 
-### Example
-
 ```html
 <uip-root>
     <uip-snippets-title class="uip-toolbar"></uip-snippets-title>

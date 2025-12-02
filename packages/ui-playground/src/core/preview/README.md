@@ -12,8 +12,8 @@ User-facing live rendering area of the playground. It shows the currently select
 
 Only one preview element is required per `<uip-root>` and it must be present for the playground to work.
 
----
-## Minimal Usage
+Required minimum markup:
+
 ```html
 <uip-root>
   <template uip-snippet label="Inline" active>
@@ -60,6 +60,7 @@ Most user projects will only set `dir` occasionally and rely on snippet attribut
 | `refresh-delay` | number | 150 | `<uip-preview>` | Delay (ms) before showing rebuilt iframe to reduce flicker |
 | `resizable` | boolean | false | panel wrapper variant | Enables user resize handle (theme/layout dependent) |
 
+---
 ## Events
 | Event | Target | When |
 |-------|--------|------|
@@ -67,6 +68,7 @@ Most user projects will only set `dir` occasionally and rely on snippet attribut
 | `uip:change` | `<uip-root>` | Underlying state changed (HTML/JS/Note) – preview listens |
 | `uip:snippet:change` | `<uip-root>` | Active snippet switched (always implies preview update) |
 
+---
 ## Advanced: Custom Isolated Template
 You can specify a named HTML shell for isolated snippets via `isolated-template` on the snippet. Provide a corresponding `<template>` in the document (or injected by your build) that includes `<!--uip-content-->` placeholder where snippet HTML will be injected.
 
@@ -93,6 +95,7 @@ You can specify a named HTML shell for isolated snippets via `isolated-template`
 ```
 If `isolated-template` is absent a built‑in minimal HTML shell is used.
 
+---
 ## Patterns & Tips
 | Goal | Pattern |
 |------|---------|
@@ -101,6 +104,7 @@ If `isolated-template` is absent a built‑in minimal HTML shell is used.
 | Start in RTL for all snippets | Add `dir="rtl"` to `<uip-preview>` or root page element |
 | Combine with Settings for layout toggles | Bind a setting to preview wrapper classes instead of editing snippet HTML |
 
+---
 ## Performance Notes
 - Inline mode minimal overhead: only inner DOM diff replaced via full string set; attribute mutations use model utilities instead of manual DOM edits.
 - Isolated mode caches iframe until a force scenario; minor HTML edits patch body unless a rebuild is required (snippet switch / forced update / isolated mode transition).
@@ -147,5 +151,3 @@ Need to script dynamic updates or build a custom preview-like plugin? See:
 
 These sections cover batching, change attribution, and the rendering lifecycle.
 
----
-Back to the [Playground Overview](../README.md) or explore the [Technical Internals](../base/README.md#technical-internals).

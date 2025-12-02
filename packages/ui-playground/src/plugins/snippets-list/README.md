@@ -6,8 +6,6 @@
 Component supports active snippet item marker and snippet selection by click.
 More details can be found in [UIP Snippets](src/plugins/snippets/README.md) section.
 
-### Example
-
 ```html
 <uip-snippets-list root="::next"></uip-snippets-list>
 <uip-root>
@@ -15,3 +13,5 @@ More details can be found in [UIP Snippets](src/plugins/snippets/README.md) sect
     ...
 </uip-root>
 ```
+
+---
