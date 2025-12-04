@@ -101,17 +101,22 @@ Or specify a mask at the point of use of the mixin
 ```
 <br/>
 
+### Alternative clamp values
+
+`ESLLineClamp` provides support for scenarios where clamping needs an alternative variant, (collapsed/expanded for example). This behavior can be achieved by providing `--esl-line-clamp-alt` CSS variable. And the `alt-active` attribute is used to switch between default and alternative values
+
+A custom mixin element [`ESLLineClampAlt`](#line-clamp-alt) can be also used to ease alternative value provision.
+
 <a name="line-clamp-alt"></a>
 
 ## ESLLineClampAlt mixin
 
 `ESLLineClampAlt` (`esl-line-clamp-alt`) is a mixin element designed to work complementary to [`ESLLineClamp`](#line-clamp). Its purpose is to provide alternative line clamp values that can be toggled on/off, allowing to switch between the regular clamp configuration and an alternative one.
 
-
 ### Attributes / Properties
 
 - `esl-line-clamp-alt` - primary attribute that defines the number of lines to clamp
-- `alt-active` - readonly boolean attribute indicating if the alternative clamp is active
+- `alt-active` - readonly boolean attribute that can be used to toggle alternative value
 
 ### Configuration
 
@@ -129,55 +134,41 @@ The `esl-line-clamp-alt` attribute accepts:
   <!-- Long text content - shows 3 lines by default, 6 lines when alt is active -->
 </div>
 ```
-Or with media query. But unlike [`ESLLineClamp`](#line-clamp), `ESLLineClampAlt` doesn't support default mask:
+Or with media query:
 
 ```html
-<!-- Both regular and alt clamp support media queries -->
 <div esl-line-clamp="2 | @+MD=>3" esl-line-clamp-alt="4 | @+MD=>6">
-  <!-- Regular: 2 lines mobile, 3 lines desktop -->
-  <!-- Alt: 4 lines mobile, 6 lines desktop -->
+  <!-- 2 lines mobile, 3 lines desktop -->
+</div>
+```
+Alternative value will be enabled by providing `alt-active` attribute:
+
+```html
+<div esl-line-clamp="2 | @+MD=>3" esl-line-clamp-alt="4 | @+MD=>6" alt-active>
+  <!-- 4 lines mobile, 6 lines desktop -->
 </div>
 ```
 
-#### Programmatic Toggle
-`ESLLineClampAlt` provides `toggle()` method to switch values using JS:
-```javascript
-const element = document.querySelector('[esl-line-clamp-alt]');
-const clampMixin = ESLLineClampAlt.get(element);
-
-// Toggle the clamp state
-clampMixin.toggle();
-
-// Check if currently active
-console.log(clampMixin.altActive); // true/false
-```
-
-#### Event Handling
-`ESLLineClampAlt` dispatches a custom event when the alternative values are being toggled on/off:
-```javascript
-element.addEventListener('esl:clamp:toggled', (event) => {
-  console.log('Clamp state changed');
-  // Handle clamp toggle event
-});
-```
 <br/>
 
 <a name="line-clamp-toggler"></a>
 
 ## ESLLineClampToggler mixin
 
-`ESLLineClampToggler` (`esl-line-clamp-toggler`) is another additional mixin element. Its purpose to work in pair with [`ESLLineClampAlt`](#line-clamp-alt) and to provide toggle controls for switching between regular [`ESLLineClamp`](#line-clamp) values and [`ESLLineClampAlt`](#line-clamp-alt) values.
+`ESLLineClampToggler` (`esl-line-clamp-toggler`) is another additional mixin element. Its purpose is to provide toggle controls for switching between regular [`ESLLineClamp`](#line-clamp) values and [`ESLLineClampAlt`](#line-clamp-alt) values.
 
 ### Attributes / Properties
 
 - `esl-line-clamp-toggler` - primary attribute with a provided query to find target element
-- `a11y-target` - optional attribute specifying an element to focus when toggler is activated. If not specified, the focus will remain on toggler mixin host
+- `a11y-label` - optional attribute to provide aria-label for active state
 - `toggler-active` - readonly boolean attribute indicating if the toggler is in active state
+- `esl:clamp:toggle` - an event that will be dispatched on target clamp element when toggled
 
 ### Configuration
 
-- `esl-line-clamp-toggler` - target element ([ESLTraversingQuery](../esl-traversing-query/README.md) selector) to locate the target `ESLLineClampAlt` element
-- Optional `a11y-target` - target element ([ESLTraversingQuery](../esl-traversing-query/README.md) selector) for accessibility focus management
+`esl-line-clamp-toggler` will locate the `ESLLineClamp` target element using ([ESLTraversingQuery](../esl-traversing-query/README.md) selector):
+- If the toggler contains `toggler-active`, the taget clamp element will be toggled to use `--esl-line-clamp-alt` CSS variable value and will dispatch `esl:clamp:toggle` custom event.
+- If the target clamp contains the alt-active attribute (e.g., if it is already using an alternative value), the toggler will update its state accordingly.
 
 ### Usage
 
@@ -185,7 +176,7 @@ element.addEventListener('esl:clamp:toggled', (event) => {
 <div esl-line-clamp="2" esl-line-clamp-alt="5">
   <!-- Long text content -->
 </div>
-<!-- Button toggles between 2 lines (default) and 5 lines (alt) -->
+<!-- An element with toggler mixin -->
 <button esl-line-clamp-toggler="::prev">
   Toggle Lines
 </button>

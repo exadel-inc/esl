@@ -1,6 +1,6 @@
-import {attr, boolAttr} from '../../esl-utils/decorators';
+import {attr, listen, memoize, safe} from '../../esl-utils/decorators';
+import {ESLMediaRuleList} from '../../esl-media-query/core';
 import {ESLMixinElement} from '../../esl-mixin-element/core';
-import {ESLLineClamp} from './esl-line-clamp';
 
 /**
  * ESLLineClampAlt mixin element
@@ -13,33 +13,30 @@ import {ESLLineClamp} from './esl-line-clamp';
 export class ESLLineClampAlt extends ESLMixinElement {
   static override is = 'esl-line-clamp-alt';
 
-  public static readonly activeAttr = 'alt-active';
-
-  public static readonly CLAMP_EVENT = 'esl:clamp:toggled';
-
   @attr({name: ESLLineClampAlt.is, defaultValue: ''}) public lines: string;
 
-  @boolAttr({name: ESLLineClampAlt.activeAttr, readonly: true}) public altActive: boolean;
-
-  public defaultLines(): string | null {
-    return this.$$attr(ESLLineClamp.is);
+  @memoize()
+  @safe(ESLMediaRuleList.empty<string>())
+  public get linesQuery(): ESLMediaRuleList<string> {
+    return ESLMediaRuleList.parse(this.lines);
   }
 
   protected override connectedCallback(): void {
     super.connectedCallback();
-    this.altActive && this.updateState();
+    this.onQueryChange();
   }
 
-  public toggle(): void {
-    this.$$fire(ESLLineClampAlt.CLAMP_EVENT, {bubbles: false});
-    this.$$attr(ESLLineClampAlt.activeAttr, !this.altActive);
-    this.updateState();
+  protected override attributeChangedCallback(): void {
+    memoize.clear(this, 'linesQuery');
+    this.onQueryChange();
   }
 
-  protected updateState(): void {
-    const defaultLines = this.defaultLines();
-    if (typeof defaultLines !== 'string') return;
-    this.$$attr(ESLLineClamp.is, this.lines);
-    this.$$attr(ESLLineClampAlt.is, defaultLines);
+  protected updateLines(): void {
+    this.$host.style.setProperty('--esl-line-clamp-alt', this.linesQuery.value || '0');
+  }
+
+  @listen({event: 'change', target: ($this: any) => $this.linesQuery})
+  protected onQueryChange(): void {
+    this.updateLines();
   }
 }
