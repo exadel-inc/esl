@@ -26,7 +26,8 @@ export class ESLLineClampToggler extends ESLMixinElement {
 
   @memoize()
   public get $targetEl(): HTMLElement | undefined {
-    if (this.target) return ESLTraversingQuery.first(this.target, this.$host) as HTMLElement | undefined;
+    if (!this.target) return;
+    return ESLTraversingQuery.first(this.target, this.$host) as HTMLElement;
   }
 
   protected get isTargetActive(): boolean {

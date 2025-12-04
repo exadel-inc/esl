@@ -34,21 +34,4 @@ describe('ESLLineClampAlt (mixin): tests', () => {
     await microtaskQueue();
     expect($host.style.getPropertyValue('--esl-line-clamp-alt')).toBe('5');
   });
-
-  /*
-
-  test('should handle basic toggle', () => {
-    const lineClamp = ESLLineClampAlt.get($host);
-    lineClamp!.toggle();
-    expect(lineClamp!.altActive).toBe(true);
-  });
-
-  test('should dispatch clamp event on toggle', () => {
-    const handler = jest.fn();
-    $host.addEventListener(ESLLineClampAlt.CLAMP_EVENT, handler);
-
-    const lineClamp = ESLLineClampAlt.get($host);
-    lineClamp!.toggle();
-    expect(handler).toHaveBeenCalledTimes(1);
-  });*/
 });
