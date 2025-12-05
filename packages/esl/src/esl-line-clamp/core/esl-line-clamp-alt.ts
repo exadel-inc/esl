@@ -25,10 +25,7 @@ export class ESLLineClampAlt extends ESLMixinElement {
   })
   public mask: string;
 
-  /**
-   * Returns parsed media rule list for line clamping configuration
-   * @returns ESLMediaRuleList instance for managing responsive line limits
-   */
+  /** @returns parsed media rule list for line clamping configuration */
   @memoize()
   @safe(ESLMediaRuleList.empty<string>())
   public get linesQuery(): ESLMediaRuleList<string> {
