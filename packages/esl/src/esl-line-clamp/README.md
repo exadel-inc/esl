@@ -76,6 +76,7 @@ Or using media query
 
 For it to work, the element to which the mixin is applied must have a `max-height` specified. In this case, the mixin will be able to calculate the number of lines for clamping. If the automatically calculated number of lines is infinity or a non-numeric value or less than 1, then the mixin does not set a limit.
 
+<a name="line-clamp-media"></a>
 
 ### ESLMediaQuery tuple values
 
@@ -105,13 +106,13 @@ Or specify a mask at the point of use of the mixin
 
 `ESLLineClamp` provides support for scenarios where clamping needs an alternative variant, (collapsed/expanded for example). This behavior can be achieved by providing `--esl-line-clamp-alt` CSS variable. And the `alt-active` attribute is used to switch between default and alternative values
 
-A custom mixin element [`ESLLineClampAlt`](#line-clamp-alt) can be also used to ease alternative value provision.
+A custom mixin element [`ESLLineClampAlt`](#line-clamp-alt) can be also used to ease alternative value provision from HTML.
 
 <a name="line-clamp-alt"></a>
 
 ## ESLLineClampAlt mixin
 
-`ESLLineClampAlt` (`esl-line-clamp-alt`) is a mixin element designed to work complementary to [`ESLLineClamp`](#line-clamp). Its purpose is to provide alternative line clamp values that can be toggled on/off, allowing to switch between the regular clamp configuration and an alternative one.
+`ESLLineClampAlt` (`esl-line-clamp-alt`) is an optional mixin element designed to work complementary to [`ESLLineClamp`](#line-clamp). Its purpose is to ease provision of alternative clamp values from HTML instead of CSS described previously, allowing to switch between the regular clamp configuration and an alternative one.
 
 ### Attributes / Properties
 
@@ -121,9 +122,11 @@ A custom mixin element [`ESLLineClampAlt`](#line-clamp-alt) can be also used to 
 ### Configuration
 
 The `esl-line-clamp-alt` attribute accepts:
-- empty value - All lines included (e.g., `"0"`, `""`)
-- numeric values - Direct line count (e.g., `"3"`, `"5"`)
-- media query syntax - Responsive configuration (e.g., `"3 | @+MD=>5 | @+LG=>auto"`)
+- empty value - all lines included (e.g., `"0"`, `""`)
+- numeric values - direct line count (e.g., `"3"`, `"5"`)
+- ESL Media Query syntax:
+  - reqular queries (e.g., `"3 | @+MD=>5 | @+LG=>auto"`)
+  - tuple values, with the use of the `esl-line-clamp-mask` mask attribute, the same way `ESLLineClamp` utilizes mask described [here](#line-clamp-media)
 
 ### Usage
 
@@ -167,7 +170,7 @@ Alternative value will be enabled by providing `alt-active` attribute:
 ### Configuration
 
 `esl-line-clamp-toggler` will locate the `ESLLineClamp` target element using ([ESLTraversingQuery](../esl-traversing-query/README.md) selector):
-- If the toggler contains `toggler-active`, the taget clamp element will be toggled to use `--esl-line-clamp-alt` CSS variable value and will dispatch `esl:clamp:toggle` custom event.
+- If the toggler contains `toggler-active`, the target clamp element will be toggled to use `--esl-line-clamp-alt` CSS variable value and will dispatch `esl:clamp:toggle` custom event.
 - If the target clamp contains the alt-active attribute (e.g., if it is already using an alternative value), the toggler will update its state accordingly.
 
 ### Usage

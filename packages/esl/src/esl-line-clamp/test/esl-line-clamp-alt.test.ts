@@ -18,20 +18,15 @@ describe('ESLLineClampAlt (mixin): tests', () => {
     document.body.removeChild($host);
   });
 
-  test('should initialize correctly', () => {
-    const lineClamp = ESLLineClampAlt.get($host);
-    expect(lineClamp).toEqual(expect.any(ESLLineClampAlt));
-  });
-
-  test('should set CSS custom property', async () => {
+  test('Simple attribute value reflected in the CSS props', async () => {
     $host.setAttribute(ESLLineClampAlt.is, '3');
     await microtaskQueue();
-    expect($host.style.getPropertyValue('--esl-line-clamp-alt')).toBe('3');
+    expect(getComputedStyle($host).getPropertyValue('--esl-line-clamp-alt')).toBe('3');
   });
 
-  test('should handle media queries', async () => {
+  test('Media query attribute value reflected in the CSS props', async () => {
     $host.setAttribute(ESLLineClampAlt.is, '@XS => 4 | 5 | @XL => 7');
     await microtaskQueue();
-    expect($host.style.getPropertyValue('--esl-line-clamp-alt')).toBe('5');
+    expect(getComputedStyle($host).getPropertyValue('--esl-line-clamp-alt')).toBe('5');
   });
 });
