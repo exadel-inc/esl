@@ -46,7 +46,9 @@ export default (config) => {
       console.error(`Unexpected values for sort filter: ${values}`);
       return values;
     }
-    const comparers = fields.map(buildComparer);
+    // Handle case where first field is an array (for configurable sorting)
+    const sortFields = fields.length === 1 && Array.isArray(fields[0]) ? fields[0] : fields;
+    const comparers = sortFields.map(buildComparer);
     return [...values].sort(compose(...comparers));
   });
 };

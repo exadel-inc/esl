@@ -31,18 +31,23 @@
                {% if isPrimaryActive %}data-open{% endif %}
                group="esl-nav"
                fallback-duration="400">
-      {{ linkList(items, isDevCollection) }}
+      {{ linkList(items, isDevCollection, opt) }}
     </esl-panel>
   </li>
   {% endif %}
 {% endmacro %}
 
-{% macro linkList(items, isDevCollection) %}
+{% macro linkList(items, isDevCollection, opt = {}) %}
   <ul class="sidebar-nav-secondary-list">
     <esl-a11y-group targets="::child(li)::find(.sidebar-nav-secondary-link)"></esl-a11y-group>
-    {% for item in items | sortBy('order', 'name') %}
+    {%- set sortFields = opt.sortBy or ['order', 'name'] -%}
+    {%- set sortedItems = items | sortBy(sortFields) -%}
+    {%- if opt.reverse -%}
+      {%- set sortedItems = sortedItems | reverse -%}
+    {%- endif -%}
+    {% for item in sortedItems %}
       {% if item.children.length %}
-        {{ subnavItem(item, isDevCollection) }}
+        {{ subnavItem(item, isDevCollection, opt) }}
       {% else %}
         {{ link(item, isDevCollection) }}
       {% endif %}
@@ -50,7 +55,7 @@
   </ul>
 {% endmacro %}
 
-{% macro subnavItem(item, isDevCollection) %}
+{% macro subnavItem(item, isDevCollection, opt = {}) %}
   {% set isActive = page.url === item.url %}
   {% set hasActive = functions.isActivePath(page.url, item.url) %}
   {% set isDraft = [].concat(item.data.tags).includes('draft') %}
@@ -75,7 +80,7 @@
     <esl-panel class="sidebar-nav-secondary {{ 'open' if hasActive }}"
                {% if hasActive %}data-open{% endif %}
                fallback-duration="400">
-      {{ linkList(item.children, isDevCollection) }}
+      {{ linkList(item.children, isDevCollection, opt) }}
     </esl-panel>
   </li>
 {% endmacro %}
