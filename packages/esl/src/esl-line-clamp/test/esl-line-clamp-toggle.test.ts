@@ -13,11 +13,10 @@ describe('ESLLineClampToggler (mixin): tests', () => {
     ESLLineClamp.register();
   });
 
-  function appendToggler(attrs: {target?: string, a11yTarget?: string, active?: boolean}): HTMLElement {
+  function appendToggler(attrs: {target?: string, a11yTarget?: string}): HTMLElement {
     const $toggler = document.createElement('button');
     $toggler.setAttribute(ESLLineClampToggler.is, attrs.target || '');
     $toggler.setAttribute('a11y-target', attrs.a11yTarget || '');
-    if (attrs.active) $toggler.setAttribute(ACTIVE_ATTRIBUTE, '');
     document.body.appendChild($toggler);
     return $toggler;
   }
@@ -101,17 +100,21 @@ describe('ESLLineClampToggler (mixin): tests', () => {
     expect(toggler.hasAttribute(ACTIVE_ATTRIBUTE)).toBe(true);
   });
 
-  test('target should become active if toggler is active', async () => {
-    appendToggler({target: '::parent::child[esl-line-clamp]', active: true});
+  test('target shouldn\'t become active if toggler is active', async () => {
+    const toggler = appendToggler({target: '::parent::child[esl-line-clamp]'});
+    toggler.setAttribute(ACTIVE_ATTRIBUTE, '');
     await microtaskQueue();
 
-    expect($host.hasAttribute(ALT_ACTIVE_ATTRIBUTE)).toBe(true);
+    expect($host.hasAttribute(ALT_ACTIVE_ATTRIBUTE)).toBe(false);
   });
 
   test('should dispatch clamp event on toggle', async () => {
-    appendToggler({target: '::parent::child[esl-line-clamp]', active: true});
+    const toggler = appendToggler({target: '::parent::child[esl-line-clamp]'});
     const handler = jest.fn();
     $host.addEventListener(ESLLineClampToggler.prototype.CLAMP_EVENT, handler);
+
+    await microtaskQueue();
+    toggler.click();
     await microtaskQueue();
 
     expect(handler).toHaveBeenCalledTimes(1);
@@ -124,7 +127,6 @@ describe('ESLLineClampToggler (mixin): tests', () => {
       await microtaskQueue();
 
       expect(toggler.getAttribute('role')).toBe('button');
-      expect(toggler.getAttribute('aria-label')).toBe(ESLLineClampToggler.get(toggler)!.a11yLabel);
       expect(toggler.getAttribute('aria-expanded')).toBe('false');
 
       toggler.click();

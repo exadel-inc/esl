@@ -18,15 +18,13 @@ export class ESLLineClampToggler extends ESLMixinElement {
   @prop('alt-active') public ALT_ACTIVE_ATTRIBUTE: string;
   /** Target selector for the element to control */
   @attr({name: ESLLineClampToggler.is, defaultValue: ''}) public target: string;
-  /** Accessibility label for the toggler */
-  @attr({defaultValue: ''}) public a11yLabel: string;
   /** Marker attribute to indicate active state */
   @boolAttr({name: 'toggler-active'}) public active: boolean;
 
   /** @returns the target element to control */
   @memoize()
   public get $target(): HTMLElement {
-    return ESLTraversingQuery.first(this.target, this.$host) as HTMLElement || this.$host;
+    return ESLTraversingQuery.first(this.target, this.$host) as HTMLElement;
   }
 
   protected get isTargetActive(): boolean {
@@ -35,19 +33,17 @@ export class ESLLineClampToggler extends ESLMixinElement {
 
   protected override connectedCallback(): void {
     super.connectedCallback();
+    this.initA11y();
     this.updateState();
   }
 
   protected updateState(): void {
-    this.initA11y();
-    if (this.isTargetActive) this.active = true;
-    if (this.active && !this.isTargetActive) this.toggle(true);
+    this.active = this.isTargetActive;
     this.updateA11y();
   }
 
   protected initA11y(): void {
     !this.$$attr('role') && this.$$attr('role', 'button');
-    this.$$attr('aria-label', this.a11yLabel);
   }
 
   /** Updates accessibility attributes based on the current state */
@@ -65,9 +61,8 @@ export class ESLLineClampToggler extends ESLMixinElement {
     this.toggle();
   }
 
-  @listen({event: ESLLineClampToggler.prototype.CLAMP_EVENT, target: ($this: any) => $this.$target})
+  @listen({event: ($this: ESLLineClampToggler) => $this.CLAMP_EVENT, target: ($this: any) => $this.$target})
   protected onClampToggle(): void {
-    this.active = this.isTargetActive;
-    this.updateA11y();
+    this.updateState();
   }
 }
