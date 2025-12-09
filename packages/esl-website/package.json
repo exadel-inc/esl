@@ -29,7 +29,7 @@
     "@types/smoothscroll-polyfill": "^0.3.4",
     "html-minifier-terser": "^7.2.0",
     "image-size": "^2.0.2",
-    "jsdom": "^27.2.0",
+    "jsdom": "^27.3.0",
     "js-yaml": "^4.1.1",
     "lightningcss-cli": "^1.30.2",
     "out-url": "^1.2.2",
@@ -37,7 +37,7 @@
     "smoothscroll-polyfill": "^0.4.4",
     "ts-loader": "^9.5.4",
     "webpack": "^5.103.0",
-    "webpack-bundle-analyzer": "^5.0.1",
+    "webpack-bundle-analyzer": "^5.1.0",
     "webpack-cli": "^6.0.1"
   }
 }
