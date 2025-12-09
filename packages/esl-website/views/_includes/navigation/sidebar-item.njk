@@ -42,16 +42,36 @@
     <esl-a11y-group targets="::child(li)::find(.sidebar-nav-secondary-link)"></esl-a11y-group>
     {%- set sortFields = opt.sortBy or ['order', 'name'] -%}
     {%- set sortedItems = items | sortBy(sortFields) -%}
-    {%- if opt.reverse -%}
-      {%- set sortedItems = sortedItems | reverse -%}
-    {%- endif -%}
-    {% for item in sortedItems %}
-      {% if item.children.length %}
-        {{ subnavItem(item, isDevCollection, opt) }}
-      {% else %}
-        {{ link(item, isDevCollection) }}
+    {%- if opt.reverse -%}{%- set sortedItems = sortedItems | reverse -%}{%- endif -%}
+
+    {% if opt.listTail %}
+      {# Separate the "see all" page (list page) from regular items #}
+      {%- set seeAllItems = sortedItems | filter('data.list') -%}
+      {%- set seeAllItem = seeAllItems and seeAllItems[0] -%}
+      {%- set mainItems = sortedItems | exclude('data.list') -%}
+      {%- if opt.limit -%}{%- set mainItems = mainItems | limit(opt.limit) -%}{%- endif -%}
+
+      {% for item in mainItems %}
+        {% if item.children.length %}
+          {{ subnavItem(item, isDevCollection, opt) }}
+        {% else %}
+          {{ link(item, isDevCollection) }}
+        {% endif %}
+      {% endfor %}
+
+      {# Render the "see all" page at the end with custom label #}
+      {% if seeAllItem %}
+        {{ link(seeAllItem, isDevCollection, opt.seeAllLabel or 'Older articles...') }}
       {% endif %}
-    {% endfor %}
+    {% else %}
+      {% for item in sortedItems %}
+        {% if item.children.length %}
+          {{ subnavItem(item, isDevCollection, opt) }}
+        {% else %}
+          {{ link(item, isDevCollection) }}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
   </ul>
 {% endmacro %}
 
@@ -85,9 +105,10 @@
   </li>
 {% endmacro %}
 
-{% macro link(item, isDevCollection) %}
+{% macro link(item, isDevCollection, displayName = null) %}
   {% set isActive = page.url === item.url %}
   {% set isDraft = [].concat(item.data.tags).includes('draft') %}
+  {% set itemName = displayName or item.data.name %}
 
   <li class="sidebar-nav-secondary-item {{ 'active' if isActive }}"
       {% if isActive %}aria-selected="true"{% endif %}>
@@ -95,7 +116,7 @@
        {% if isActive %}aria-current="page"{% endif %} {% if isDraft or isDevCollection %}rel="nofollow"{% endif %}
        href="{{ item.url | url }}">
       {{ badgeByTags(item.data.tags, isDraftCollection) }}
-      {{ item.data.name }}
+      {{ itemName }}
     </a>
   </li>
 {% endmacro %}

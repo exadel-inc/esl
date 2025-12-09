@@ -29,7 +29,7 @@
           {% set isActive = env.isDev or functions.isActivePath(page.url, item.data.collection) %}
           {% set navSortOptions = {} %}
           {% if item.data.collection == 'blogs' %}
-            {% set navSortOptions = {sortBy: ['date', 'name'], reverse: true} %}
+            {% set navSortOptions = {sortBy: ['date', 'name'], reverse: true, limit: 10, listTail: true, seeAllLabel: 'Older articles...'} %}
           {% endif %}
 
           {% if isNoEmpty or isActive %}
