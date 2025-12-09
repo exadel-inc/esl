@@ -49,22 +49,23 @@
       {%- set seeAllItems = sortedItems | filter('data.list') -%}
       {%- set seeAllItem = seeAllItems and seeAllItems[0] -%}
       {%- set mainItems = sortedItems | exclude('data.list') -%}
-      {%- if opt.limit -%}{%- set mainItems = mainItems | limit(opt.limit) -%}{%- endif -%}
       {# Ensure the current page is visible even if it falls outside the limited slice #}
       {%- set activeCandidates = sortedItems | exclude('data.list') | filter('url', page.url) -%}
       {%- set activeItem = activeCandidates and activeCandidates[0] -%}
-      {%- set activeInMain = activeItem and (mainItems | filter('url', activeItem.url) | length) -%}
-      {%- set activeBeyond = activeItem and not activeInMain -%}
+      {%- set limitedItems = mainItems | limit(opt.limit or mainItems.length) -%}
+      {%- set isActiveInLimited = activeItem and (limitedItems | filter('url', activeItem.url) | length) -%}
+      {%- set shouldReplaceLast = activeItem and not isActiveInLimited and opt.limit and limitedItems.length >= opt.limit -%}
 
-      {% for item in mainItems %}
-        {# If active item is outside the limit, replace the last displayed item with it to keep count #}
-        {% if activeBeyond and loop.last %}
-          {% set item = activeItem %}
+      {% for item in limitedItems %}
+        {% set itemToRender = item %}
+        {# If active item is beyond limit, replace the last displayed item with it to maintain count #}
+        {% if shouldReplaceLast and loop.last %}
+          {% set itemToRender = activeItem %}
         {% endif %}
-        {% if item.children.length %}
-          {{ subnavItem(item, isDevCollection, opt) }}
+        {% if itemToRender.children.length %}
+          {{ subnavItem(itemToRender, isDevCollection, opt) }}
         {% else %}
-          {{ link(item, isDevCollection) }}
+          {{ link(itemToRender, isDevCollection) }}
         {% endif %}
       {% endfor %}
 
