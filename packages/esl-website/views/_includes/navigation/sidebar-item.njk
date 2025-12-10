@@ -50,7 +50,7 @@
       {%- set seeAllItem = seeAllItems and seeAllItems[0] -%}
       {%- set mainItems = sortedItems | exclude('data.list') -%}
       {# Ensure the current page is visible even if it falls outside the limited slice #}
-      {%- set activeCandidates = sortedItems | exclude('data.list') | filter('url', page.url) -%}
+      {%- set activeCandidates = mainItems | filter('url', page.url) -%}
       {%- set activeItem = activeCandidates and activeCandidates[0] -%}
       {%- set limitedItems = mainItems | limit(opt.limit or mainItems.length) -%}
       {%- set isActiveInLimited = activeItem and (limitedItems | filter('url', activeItem.url) | length) -%}
@@ -71,7 +71,7 @@
 
       {# Render the "see all" page at the end with custom label #}
       {% if seeAllItem %}
-        {{ link(seeAllItem, isDevCollection, opt.seeAllLabel or 'Older articles...') }}
+        {{ link(seeAllItem, isDevCollection, opt.seeAllLabel) }}
       {% endif %}
     {% else %}
       {% for item in sortedItems %}
