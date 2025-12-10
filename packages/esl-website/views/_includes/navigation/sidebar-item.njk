@@ -31,26 +31,61 @@
                {% if isPrimaryActive %}data-open{% endif %}
                group="esl-nav"
                fallback-duration="400">
-      {{ linkList(items, isDevCollection) }}
+      {{ linkList(items, isDevCollection, opt) }}
     </esl-panel>
   </li>
   {% endif %}
 {% endmacro %}
 
-{% macro linkList(items, isDevCollection) %}
+{% macro linkList(items, isDevCollection, opt = {}) %}
   <ul class="sidebar-nav-secondary-list">
     <esl-a11y-group targets="::child(li)::find(.sidebar-nav-secondary-link)"></esl-a11y-group>
-    {% for item in items | sortBy('order', 'name') %}
-      {% if item.children.length %}
-        {{ subnavItem(item, isDevCollection) }}
-      {% else %}
-        {{ link(item, isDevCollection) }}
+    {%- set sortFields = opt.sortBy or ['order', 'name'] -%}
+    {%- set sortedItems = items | sortBy(sortFields) -%}
+    {%- if opt.reverse -%}{%- set sortedItems = sortedItems | reverse -%}{%- endif -%}
+
+    {% if opt.listTail %}
+      {# Separate the "see all" page (list page) from regular items #}
+      {%- set seeAllItems = sortedItems | filter('data.list') -%}
+      {%- set seeAllItem = seeAllItems and seeAllItems[0] -%}
+      {%- set mainItems = sortedItems | exclude('data.list') -%}
+      {# Ensure the current page is visible even if it falls outside the limited slice #}
+      {%- set activeCandidates = mainItems | filter('url', page.url) -%}
+      {%- set activeItem = activeCandidates and activeCandidates[0] -%}
+      {%- set limitedItems = mainItems | limit(opt.limit or mainItems.length) -%}
+      {%- set isActiveInLimited = activeItem and (limitedItems | filter('url', activeItem.url) | length) -%}
+      {%- set shouldReplaceLast = activeItem and not isActiveInLimited and opt.limit and limitedItems.length >= opt.limit -%}
+
+      {% for item in limitedItems %}
+        {% set itemToRender = item %}
+        {# If active item is beyond limit, replace the last displayed item with it to maintain count #}
+        {% if shouldReplaceLast and loop.last %}
+          {% set itemToRender = activeItem %}
+        {% endif %}
+        {% if itemToRender.children.length %}
+          {{ subnavItem(itemToRender, isDevCollection, opt) }}
+        {% else %}
+          {{ link(itemToRender, isDevCollection) }}
+        {% endif %}
+      {% endfor %}
+
+      {# Render the "see all" page at the end with custom label #}
+      {% if seeAllItem %}
+        {{ link(seeAllItem, isDevCollection, opt.seeAllLabel) }}
       {% endif %}
-    {% endfor %}
+    {% else %}
+      {% for item in sortedItems %}
+        {% if item.children.length %}
+          {{ subnavItem(item, isDevCollection, opt) }}
+        {% else %}
+          {{ link(item, isDevCollection) }}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
   </ul>
 {% endmacro %}
 
-{% macro subnavItem(item, isDevCollection) %}
+{% macro subnavItem(item, isDevCollection, opt = {}) %}
   {% set isActive = page.url === item.url %}
   {% set hasActive = functions.isActivePath(page.url, item.url) %}
   {% set isDraft = [].concat(item.data.tags).includes('draft') %}
@@ -75,14 +110,15 @@
     <esl-panel class="sidebar-nav-secondary {{ 'open' if hasActive }}"
                {% if hasActive %}data-open{% endif %}
                fallback-duration="400">
-      {{ linkList(item.children, isDevCollection) }}
+      {{ linkList(item.children, isDevCollection, opt) }}
     </esl-panel>
   </li>
 {% endmacro %}
 
-{% macro link(item, isDevCollection) %}
+{% macro link(item, isDevCollection, displayName = null) %}
   {% set isActive = page.url === item.url %}
   {% set isDraft = [].concat(item.data.tags).includes('draft') %}
+  {% set itemName = displayName or item.data.name %}
 
   <li class="sidebar-nav-secondary-item {{ 'active' if isActive }}"
       {% if isActive %}aria-selected="true"{% endif %}>
@@ -90,7 +126,7 @@
        {% if isActive %}aria-current="page"{% endif %} {% if isDraft or isDevCollection %}rel="nofollow"{% endif %}
        href="{{ item.url | url }}">
       {{ badgeByTags(item.data.tags, isDraftCollection) }}
-      {{ item.data.name }}
+      {{ itemName }}
     </a>
   </li>
 {% endmacro %}
