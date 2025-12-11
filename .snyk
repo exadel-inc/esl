@@ -1,6 +1,0 @@
-version: v1.25.0
-ignore:
-  dd17b713-45eb-4d35-9eab-59eb4f03f967:
-    - packages/esl/src/esl-image/core/esl-image-strategies.ts:
-        reason: 'Remote content is sanitized with custom sanitize() function before innerHTML assignment, preventing Cross-site Scripting XSS'
-        expires: '2099-12-31T00:00:00Z'
