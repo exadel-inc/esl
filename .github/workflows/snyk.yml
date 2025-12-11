@@ -26,14 +26,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # - name: Run Snyk to check for vulnerabilities
-      #   uses: snyk/actions/node@master
-      #   continue-on-error: true
-      #   env:
-      #     SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-      #   with:
-      #     command: test
-      #     args: --all-projects
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/node@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: test
+          args: --all-projects
         
       - name: Run Snyk to code test
         uses: snyk/actions/node@master
@@ -41,7 +41,6 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           command: code test
-          working-directory: .
           args: --all-projects --sarif-file-output=snyk.sarif --clear-cache
 
       - name: Upload result to GitHub Code Scanning
