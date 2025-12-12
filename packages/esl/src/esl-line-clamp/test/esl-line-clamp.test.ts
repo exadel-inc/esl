@@ -22,6 +22,8 @@ describe('ESLLineClamp (mixin): tests', () => {
 
   afterEach(() => {
     document.body.removeChild($host);
+    SMMediaMock.matches = false;
+    XLMediaMock.matches = false;
   });
 
   test('should initialize with correct default values', () => {
@@ -47,39 +49,29 @@ describe('ESLLineClamp (mixin): tests', () => {
     expect($host.style.getPropertyValue('--esl-line-clamp')).toBe('none');
   });
 
-  test('should handle media queries', async () => {
+  test('should match and reapply media queries', async () => {
+    $host.setAttribute(ESLLineClamp.is, '@SM => 5 | @XL => 7');
     SMMediaMock.matches = true;
     XLMediaMock.matches = false;
-
-    $host.setAttribute(ESLLineClamp.is, '@SM => 5 | @XL => 7');
     await microtaskQueue();
     expect($host.style.getPropertyValue('--esl-line-clamp')).toBe('5');
 
     SMMediaMock.matches = false;
     XLMediaMock.matches = true;
-
-    // Desn't work because onQueryChange callback is still subscribed to previous Mediarulelist `esl-line-clamp="3"`
     await microtaskQueue();
     expect($host.style.getPropertyValue('--esl-line-clamp')).toBe('7');
-
-    SMMediaMock.matches = false;
-    XLMediaMock.matches = false;
   });
 
-  test('should handle media queries with mask', async () => {
+  test('should match and reapply tuple media query', async () => {
+    $host.setAttribute(`${ESLLineClamp.is}-mask`, '@SM | @XL');
+    $host.setAttribute(ESLLineClamp.is, '5 | 7');
     SMMediaMock.matches = true;
     XLMediaMock.matches = false;
-
-    $host.setAttribute(ESLLineClamp.is, '5 | 7');
-    $host.setAttribute(`${ESLLineClamp.is}-mask`, '@SM | @XL');
     await microtaskQueue();
-
     expect($host.style.getPropertyValue('--esl-line-clamp')).toBe('5');
 
-    // Desn't work because onQueryChange callback is still subscribed to previous Mediarulelist `esl-line-clamp="3"`
     SMMediaMock.matches = false;
     XLMediaMock.matches = true;
-
     await microtaskQueue();
     expect($host.style.getPropertyValue('--esl-line-clamp')).toBe('7');
   });
