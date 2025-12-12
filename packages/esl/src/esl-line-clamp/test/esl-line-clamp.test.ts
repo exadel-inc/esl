@@ -1,9 +1,14 @@
 import {ESLLineClamp} from '../core/esl-line-clamp';
+import {ESLScreenBreakpoints} from '../../esl-media-query/core/common/screen-breakpoint';
+import {getMatchMediaMock} from '../../esl-utils/test/matchMedia.mock';
 
 describe('ESLLineClamp (mixin): tests', () => {
   const microtaskQueue = () => Promise.resolve().then(() => Promise.resolve());
   let $host: HTMLElement;
   let lineClamp: ESLLineClamp | null;
+
+  const XLMediaMock = getMatchMediaMock(ESLScreenBreakpoints.get('xl')!.mediaQuery);
+  const SMMediaMock = getMatchMediaMock(ESLScreenBreakpoints.get('sm')!.mediaQuery);
 
   beforeAll(() => {
     ESLLineClamp.register();
@@ -17,6 +22,8 @@ describe('ESLLineClamp (mixin): tests', () => {
 
   afterEach(() => {
     document.body.removeChild($host);
+    SMMediaMock.matches = false;
+    XLMediaMock.matches = false;
   });
 
   test('should initialize with correct default values', () => {
@@ -42,10 +49,31 @@ describe('ESLLineClamp (mixin): tests', () => {
     expect($host.style.getPropertyValue('--esl-line-clamp')).toBe('none');
   });
 
-  test('should handle media queries', async () => {
-    $host.setAttribute(ESLLineClamp.is, '@XS => 4 | 5 | @XL => 7');
+  test('should match and reapply media queries', async () => {
+    $host.setAttribute(ESLLineClamp.is, '@SM => 5 | @XL => 7');
+    SMMediaMock.matches = true;
+    XLMediaMock.matches = false;
     await microtaskQueue();
     expect($host.style.getPropertyValue('--esl-line-clamp')).toBe('5');
+
+    SMMediaMock.matches = false;
+    XLMediaMock.matches = true;
+    await microtaskQueue();
+    expect($host.style.getPropertyValue('--esl-line-clamp')).toBe('7');
+  });
+
+  test('should match and reapply tuple media query', async () => {
+    $host.setAttribute(`${ESLLineClamp.is}-mask`, '@SM | @XL');
+    $host.setAttribute(ESLLineClamp.is, '5 | 7');
+    SMMediaMock.matches = true;
+    XLMediaMock.matches = false;
+    await microtaskQueue();
+    expect($host.style.getPropertyValue('--esl-line-clamp')).toBe('5');
+
+    SMMediaMock.matches = false;
+    XLMediaMock.matches = true;
+    await microtaskQueue();
+    expect($host.style.getPropertyValue('--esl-line-clamp')).toBe('7');
   });
 
   describe('auto mode of clamping', () => {
