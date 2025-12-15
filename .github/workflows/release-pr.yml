@@ -82,7 +82,7 @@ jobs:
       # Open a PR from release/main to main
       - if: ${{ steps.info.outputs.version && steps.preversion.outputs.allowed }}
         name: Create Pull Request
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
           branch: ${{ env.TARGET_BRANCH }}
           title: "Auto Bump: ${{ env.TARGET_BRANCH }} → ${{ github.ref }} (v${{ steps.info.outputs.version }})"
