@@ -5,7 +5,7 @@ on:
     branches: [ main, main-beta ]
 
 env:
-  node-version: 22.x
+  node-version: 24.x
 
 concurrency:
   group: snyk-${{ github.ref }}
