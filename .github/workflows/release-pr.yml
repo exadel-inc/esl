@@ -10,7 +10,7 @@ permissions:
   pull-requests: write
 
 env:
-  node-version: 22.x
+  node-version: 24.x
 
 concurrency:
   group: release-pr-${{ github.ref }}

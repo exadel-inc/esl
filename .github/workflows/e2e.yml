@@ -12,7 +12,7 @@ on:
         description: 'Create a pull request to update snapshots on the current branch'
 
 env:
-  node-version: 22.x
+  node-version: 24.x
   DIFF_REPORT_BRANCH: diff-report
 
 concurrency:
