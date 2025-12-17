@@ -17,7 +17,7 @@ on:
         default: all
 
 env:
-  node-version: 22.x
+  node-version: 24.x
 
 permissions:
   contents: read

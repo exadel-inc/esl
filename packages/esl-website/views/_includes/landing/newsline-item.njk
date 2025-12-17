@@ -8,7 +8,13 @@
     {% endif %}
     <div id="newsline-item-{{ index }}" class="newsline-content">
       <h3 class="newsline-content-title" esl-d-new-label="{{ item.date.getTime() }}">{{ item.data.title or item.data.name }} </h3>
-      <div class="newsline-content-text markdown-container" esl-line-clamp>{{ item.templateContent | safe }}</div>
+      <div class="newsline-content-text markdown-container" esl-line-clamp="@XS => 5 | @+SM => 3">{{ item.templateContent | safe }}</div>
+      <button
+        type="button"
+        class="newsline-ctrl link" 
+        esl-line-clamp-toggler="::prev">
+        Read More
+      </button>
 
       {% if item.data.date %}
         <time class="newsline-content-date" datetime="{{ item.date.toISOString() }}">{{ item.date | date }}</time>
