@@ -18,7 +18,8 @@
       "DOM.Iterable"
     ],
     "rootDir": "src",
-    "outDir": "./modules"
+    "outDir": "./modules",
+    "types": ["vitest/globals"]
   },
   "include": [
     "src"

@@ -21,13 +21,15 @@
       }
     },
     {
-      "plugin": "@nx/jest/plugin",
+      "plugin": "@nx/vite/plugin",
       "exclude": [
         "packages/snapshot-tests/**/*"
       ],
       "options": {
-        "targetName": "test:jest",
-        "collectCoverage": true
+        "buildTargetName": "build",
+        "testTargetName": "test:jest",
+        "serveTargetName": "serve",
+        "previewTargetName": "preview"
       }
     }
   ],
