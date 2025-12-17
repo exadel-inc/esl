@@ -75,6 +75,7 @@ export class ESLLineClamp extends ESLMixinElement {
 
   protected override attributeChangedCallback(): void {
     memoize.clear(this, 'linesQuery');
+    this.$$on(this.onQueryChange);
     this.onQueryChange();
   }
 
