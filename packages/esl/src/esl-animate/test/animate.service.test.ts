@@ -5,13 +5,13 @@ import {IntersectionObserverMock} from '../../esl-utils/test/intersectionObserve
 describe('ESLAnimateService', () => {
   beforeAll(() => {
     IntersectionObserverMock.mock();
-    jest.useFakeTimers();
+    vi.useFakeTimers();
   });
 
   afterAll(() => {
     IntersectionObserverMock.restore();
-    jest.clearAllMocks();
-    jest.useRealTimers();
+    vi.clearAllMocks();
+    vi.useRealTimers();
   });
 
   describe('Default ESLAnimateService config', () => {
@@ -21,7 +21,7 @@ describe('ESLAnimateService', () => {
         ESLAnimateService.observe(el);
 
         IntersectionObserverMock.trigger(el, {intersectionRatio: 1, isIntersecting: true});
-        jest.advanceTimersByTime(100);
+        vi.advanceTimersByTime(100);
         expect(CSSClassUtils.has(el, 'in')).toBe(true);
       });
 
@@ -29,8 +29,8 @@ describe('ESLAnimateService', () => {
         const el = document.createElement('div');
         ESLAnimateService.observe(el);
 
-        IntersectionObserverMock.trigger(el, {intersectionRatio: 0, isIntersecting: false});
-        jest.advanceTimersByTime(100);
+        IntersectionObserverMock.trigger(el, {intersectionRatio: 0.001, isIntersecting: true});
+        vi.advanceTimersByTime(100);
         expect(CSSClassUtils.has(el, 'in')).toBe(false);
       });
 
@@ -39,10 +39,10 @@ describe('ESLAnimateService', () => {
         ESLAnimateService.observe(el, {repeat: false});
 
         IntersectionObserverMock.trigger(el, {intersectionRatio: 1, isIntersecting: true});
-        jest.advanceTimersByTime(100);
+        vi.advanceTimersByTime(100);
 
         IntersectionObserverMock.trigger(el, {intersectionRatio: 0, isIntersecting: false});
-        jest.advanceTimersByTime(100);
+        vi.advanceTimersByTime(100);
         expect(CSSClassUtils.has(el, 'in')).toBe(true);
       });
 
@@ -53,7 +53,7 @@ describe('ESLAnimateService', () => {
 
         IntersectionObserverMock.trigger(el, {intersectionRatio: 1, isIntersecting: true});
         IntersectionObserverMock.trigger(el2, {intersectionRatio: 1, isIntersecting: true});
-        jest.advanceTimersByTime(100);
+        vi.advanceTimersByTime(100);
         expect(CSSClassUtils.has(el, 'in')).toBe(true);
         expect(CSSClassUtils.has(el2, 'in')).toBe(true);
       });
@@ -69,11 +69,11 @@ describe('ESLAnimateService', () => {
         ESLAnimateService.observe(el);
 
         IntersectionObserverMock.trigger(el, {intersectionRatio: 1, isIntersecting: true});
-        jest.advanceTimersByTime(100);
+        vi.advanceTimersByTime(100);
         ESLAnimateService.unobserve(el);
 
         IntersectionObserverMock.trigger(el, {intersectionRatio: 0, isIntersecting: false});
-        jest.advanceTimersByTime(100);
+        vi.advanceTimersByTime(100);
         expect(CSSClassUtils.has(el, 'in')).toBe(true);
       });
 
@@ -92,7 +92,7 @@ describe('ESLAnimateService', () => {
         service.observe(el);
 
         IntersectionObserverMock.trigger(el, {intersectionRatio: 1, isIntersecting: true});
-        jest.advanceTimersByTime(100);
+        vi.advanceTimersByTime(100);
         expect(CSSClassUtils.has(el, 'in')).toBe(true);
       });
 
@@ -102,7 +102,7 @@ describe('ESLAnimateService', () => {
         service.observe(el);
 
         IntersectionObserverMock.trigger(el, {intersectionRatio: 0, isIntersecting: false});
-        jest.advanceTimersByTime(100);
+        vi.advanceTimersByTime(100);
         expect(CSSClassUtils.has(el, 'in')).toBe(false);
       });
 
@@ -112,10 +112,10 @@ describe('ESLAnimateService', () => {
         service.observe(el, {repeat: false});
 
         IntersectionObserverMock.trigger(el, {intersectionRatio: 1, isIntersecting: true});
-        jest.advanceTimersByTime(100);
+        vi.advanceTimersByTime(100);
 
         IntersectionObserverMock.trigger(el, {intersectionRatio: 0, isIntersecting: false});
-        jest.advanceTimersByTime(100);
+        vi.advanceTimersByTime(100);
         expect(CSSClassUtils.has(el, 'in')).toBe(true);
       });
 
@@ -125,13 +125,13 @@ describe('ESLAnimateService', () => {
         service.observe(el);
 
         IntersectionObserverMock.trigger(el, {intersectionRatio: 1, isIntersecting: true});
-        jest.advanceTimersByTime(100);
+        vi.advanceTimersByTime(100);
 
         IntersectionObserverMock.trigger(el, {intersectionRatio: 0, isIntersecting: false});
-        jest.advanceTimersByTime(100);
+        vi.advanceTimersByTime(100);
 
         IntersectionObserverMock.trigger(el, {intersectionRatio: 1, isIntersecting: true});
-        jest.advanceTimersByTime(100);
+        vi.advanceTimersByTime(100);
         expect(CSSClassUtils.has(el, 'in')).toBe(true);
       });
 
@@ -141,11 +141,11 @@ describe('ESLAnimateService', () => {
         service.observe(el);
 
         IntersectionObserverMock.trigger(el, {intersectionRatio: 1, isIntersecting: true});
-        jest.advanceTimersByTime(100);
+        vi.advanceTimersByTime(100);
         service.unobserve(el);
 
         IntersectionObserverMock.trigger(el, {intersectionRatio: 0, isIntersecting: false});
-        jest.advanceTimersByTime(100);
+        vi.advanceTimersByTime(100);
         expect(CSSClassUtils.has(el, 'in')).toBe(true);
       });
 
@@ -156,7 +156,7 @@ describe('ESLAnimateService', () => {
 
         IntersectionObserverMock.trigger(el, {intersectionRatio: 1, isIntersecting: true});
         service.unobserve(el);
-        jest.advanceTimersByTime(100);
+        vi.advanceTimersByTime(100);
         expect(CSSClassUtils.has(el, 'in')).toBe(false);
       });
     });
@@ -168,14 +168,14 @@ describe('ESLAnimateService', () => {
       ESLAnimateService.observe(el, {repeat: true});
 
       IntersectionObserverMock.trigger(el, {intersectionRatio: 1, isIntersecting: true});
-      jest.advanceTimersByTime(100);
+      vi.advanceTimersByTime(100);
 
       IntersectionObserverMock.trigger(el, {intersectionRatio: 0, isIntersecting: false});
-      jest.advanceTimersByTime(100);
+      vi.advanceTimersByTime(100);
       expect(CSSClassUtils.has(el, 'in')).toBe(false);
 
       IntersectionObserverMock.trigger(el, {intersectionRatio: 1, isIntersecting: true});
-      jest.advanceTimersByTime(100);
+      vi.advanceTimersByTime(100);
       expect(CSSClassUtils.has(el, 'in')).toBe(true);
     });
 
@@ -184,7 +184,7 @@ describe('ESLAnimateService', () => {
       ESLAnimateService.observe(el, {cls: 'customclass'});
 
       IntersectionObserverMock.trigger(el, {intersectionRatio: 1, isIntersecting: true});
-      jest.advanceTimersByTime(100);
+      vi.advanceTimersByTime(100);
       expect(CSSClassUtils.has(el, 'customclass')).toBe(true);
     });
 
@@ -195,7 +195,7 @@ describe('ESLAnimateService', () => {
       expect(CSSClassUtils.has(el, 'in')).toBe(false);
 
       IntersectionObserverMock.trigger(el, {intersectionRatio: 1, isIntersecting: true});
-      jest.advanceTimersByTime(100);
+      vi.advanceTimersByTime(100);
       expect(CSSClassUtils.has(el, 'in')).toBe(true);
     });
 
@@ -205,7 +205,7 @@ describe('ESLAnimateService', () => {
         ESLAnimateService.observe(el, {ratio: 0.2});
 
         IntersectionObserverMock.trigger(el, {intersectionRatio: 0.1, isIntersecting: true});
-        jest.advanceTimersByTime(100);
+        vi.advanceTimersByTime(100);
         expect(CSSClassUtils.has(el, 'in')).toBe(false);
       });
 
@@ -214,7 +214,7 @@ describe('ESLAnimateService', () => {
         ESLAnimateService.observe(el, {ratio: 0.2});
 
         IntersectionObserverMock.trigger(el, {intersectionRatio: 0.2, isIntersecting: true});
-        jest.advanceTimersByTime(100);
+        vi.advanceTimersByTime(100);
         expect(CSSClassUtils.has(el, 'in')).toBe(true);
       });
 
@@ -223,7 +223,7 @@ describe('ESLAnimateService', () => {
         ESLAnimateService.observe(el, {ratio: 0.2});
 
         IntersectionObserverMock.trigger(el, {intersectionRatio: 0.4, isIntersecting: true});
-        jest.advanceTimersByTime(100);
+        vi.advanceTimersByTime(100);
         expect(CSSClassUtils.has(el, 'in')).toBe(true);
       });
     });
@@ -236,11 +236,11 @@ describe('ESLAnimateService', () => {
 
         IntersectionObserverMock.trigger(el, {intersectionRatio: 1, isIntersecting: true});
         IntersectionObserverMock.trigger(el2, {intersectionRatio: 1, isIntersecting: true});
-        jest.advanceTimersByTime(101);
+        vi.advanceTimersByTime(101);
         expect(CSSClassUtils.has(el, 'in')).toBe(true);
         expect(CSSClassUtils.has(el2, 'in')).toBe(false);
 
-        jest.advanceTimersByTime(100);
+        vi.advanceTimersByTime(100);
         expect(CSSClassUtils.has(el2, 'in')).toBe(true);
       });
 
@@ -251,11 +251,11 @@ describe('ESLAnimateService', () => {
 
         IntersectionObserverMock.trigger(el, {intersectionRatio: 1, isIntersecting: true});
         IntersectionObserverMock.trigger(el2, {intersectionRatio: 1, isIntersecting: true});
-        jest.advanceTimersByTime(100);
+        vi.advanceTimersByTime(100);
 
         IntersectionObserverMock.trigger(el, {intersectionRatio: 1, isIntersecting: true});
         IntersectionObserverMock.trigger(el2, {intersectionRatio: 1, isIntersecting: true});
-        jest.advanceTimersByTime(100);
+        vi.advanceTimersByTime(100);
         expect(CSSClassUtils.has(el, 'in')).toBe(true);
         expect(CSSClassUtils.has(el2, 'in')).toBe(false);
       });
@@ -267,7 +267,7 @@ describe('ESLAnimateService', () => {
 
         IntersectionObserverMock.trigger(el, {intersectionRatio: 1, isIntersecting: true});
         IntersectionObserverMock.trigger(el2, {intersectionRatio: 1, isIntersecting: true});
-        jest.advanceTimersByTime(100);
+        vi.advanceTimersByTime(100);
 
         IntersectionObserverMock.trigger(el, {intersectionRatio: 0, isIntersecting: false});
         IntersectionObserverMock.trigger(el2, {intersectionRatio: 0, isIntersecting: false});

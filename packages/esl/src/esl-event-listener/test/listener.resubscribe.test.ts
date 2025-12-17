@@ -6,8 +6,8 @@ describe('ESLEventUtils.subscribe resubscribing event', () => {
   const $el2 = document.createElement('button');
 
   describe('ESLEventUtils.subscribe dynamic resubscribtion of the same event with different target', () => {
-    const handle = jest.fn();
-    const target = jest.fn(() => $el1);
+    const handle = vi.fn();
+    const target = vi.fn(() => $el1);
 
     const listeners1 = ESLEventUtils.subscribe($host, {event: 'click', target}, handle);
     test('ESLEventUtils.subscribe subscription correct first time', () => {
@@ -43,7 +43,7 @@ describe('ESLEventUtils.subscribe resubscribing event', () => {
       onClick() {}
     }
 
-    const target = jest.fn(() => $el1);
+    const target = vi.fn(() => $el1);
     ESLEventUtils.initDescriptor(Test.prototype, 'onClick', {event: 'click', auto: true, target});
 
     const instance = new Test();

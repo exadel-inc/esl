@@ -20,16 +20,16 @@ describe('ESLShare: "print" action public API', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   afterAll(() => {
     document.body.innerHTML = '';
-    jest.restoreAllMocks();
+    vi.restoreAllMocks();
   });
 
   test('should call window.print() when share() calls', () => {
-    const mockPrint = jest.spyOn(window, 'print').mockImplementation(() => null);
+    const mockPrint = vi.spyOn(window, 'print').mockImplementation(() => null);
     printAction?.share($button);
     expect(mockPrint).toHaveBeenCalled();
   });

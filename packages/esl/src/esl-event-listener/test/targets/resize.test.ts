@@ -17,7 +17,7 @@ describe('ESLResizeObserverTarget EventTarget adapter', () => {
   });
 
   describe('ESLResizeObserverTarget do not throws error on incorrect input (silent processing)', () => {
-    const consoleSpy = jest.spyOn(console, 'warn');
+    const consoleSpy = vi.spyOn(console, 'warn');
     beforeEach(() => consoleSpy.mockReset().mockImplementation(() => void 0));
     afterAll(() => consoleSpy.mockRestore());
 
@@ -48,8 +48,8 @@ describe('ESLResizeObserverTarget EventTarget adapter', () => {
       const el = document.createElement('div');
       const target = ESLResizeObserverTarget.for(el);
 
-      const cb1 = jest.fn();
-      const cb2 = jest.fn();
+      const cb1 = vi.fn();
+      const cb2 = vi.fn();
 
       beforeEach(() => {
         mock.observe.mockReset();
@@ -85,8 +85,8 @@ describe('ESLResizeObserverTarget EventTarget adapter', () => {
       const target = ESLResizeObserverTarget.for(el);
       const targetMixin = ESLResizeObserverTarget.for(mixin);
 
-      const cb1 = jest.fn();
-      const cb2 = jest.fn();
+      const cb1 = vi.fn();
+      const cb2 = vi.fn();
 
       beforeEach(() => {
         mock.observe.mockReset();
@@ -129,19 +129,19 @@ describe('ESLResizeObserverTarget EventTarget adapter', () => {
       $host: el3
     };
 
-    const cb11 = jest.fn();
+    const cb11 = vi.fn();
     ESLResizeObserverTarget.for(el1).addEventListener(cb11);
     expect(cb11).not.toHaveBeenCalled();
 
-    const cb12 = jest.fn();
+    const cb12 = vi.fn();
     ESLResizeObserverTarget.for(el1).addEventListener(cb12);
     expect(cb12).not.toHaveBeenCalled();
 
-    const cb21 = jest.fn();
+    const cb21 = vi.fn();
     ESLResizeObserverTarget.for(el2).addEventListener(cb21);
     expect(cb21).not.toHaveBeenCalled();
 
-    const cb31 = jest.fn();
+    const cb31 = vi.fn();
     ESLResizeObserverTarget.for(mixin).addEventListener(cb31);
 
     const fakeEntry = (el: Element) => ({

@@ -72,7 +72,7 @@ describe('misc/format helper tests', () => {
   });
   test('evaluate', () => {
     let throwError = false;
-    jest.spyOn(console, 'warn').mockImplementation(() => { throwError = true; });
+    vi.spyOn(console, 'warn').mockImplementation(() => { throwError = true; });
     expect(evaluate('0')).toBe(0);
     expect(evaluate('true')).toBe(true);
     expect(evaluate('false')).toBe(false);

@@ -2,8 +2,8 @@ import {DelayedTask} from '../delayed-task';
 
 describe('async/delayed-task', () => {
   test('basic intimidate run', () => {
-    const fn1 = jest.fn();
-    const fn2 = jest.fn();
+    const fn1 = vi.fn();
+    const fn2 = vi.fn();
 
     const task = new DelayedTask();
 
@@ -18,37 +18,55 @@ describe('async/delayed-task', () => {
     expect(fn2).toHaveBeenCalledTimes(2);
   });
 
-  test('simple microtask', (done) => {
-    const fn1 = jest.fn();
+  test('simple microtask', async () => {
+    const fn1 = vi.fn();
 
     const task = new DelayedTask();
 
     task.put(fn1, 0);
     task.put(fn1, 0);
     expect(fn1).toHaveBeenCalledTimes(0);
-    setTimeout(() => {
-      expect(fn1).toHaveBeenCalledTimes(1);
-      done();
-    }, 10);
+    
+    await new Promise<void>(resolve => {
+      setTimeout(() => {
+        expect(fn1).toHaveBeenCalledTimes(1);
+        resolve();
+      }, 10);
+    });
   });
 
-  test('simple eviction', (done) => {
-    const fn1 = jest.fn();
+  /*
+
+      test('$$fire - bubbling', () => new Promise<void>(resolve => {
+      document.addEventListener('testevent', (e) => {
+        expect(e).toBeInstanceOf(CustomEvent);
+        resolve();
+      }, {once: true});
+      el.$$fire('testevent');
+    }));
+
+  */
+
+  test('simple eviction', async () => {
+    const fn1 = vi.fn();
 
     const task = new DelayedTask();
 
     task.put(fn1, 0);
     task.put(fn1);
     expect(fn1).toHaveBeenCalledTimes(1);
-    setTimeout(() => {
-      expect(fn1).toHaveBeenCalledTimes(1);
-      done();
-    }, 10);
+    
+    await new Promise<void>(resolve => {
+      setTimeout(() => {
+        expect(fn1).toHaveBeenCalledTimes(1);
+        resolve();
+      }, 10);
+    });
   });
 
-  test('delayed task', (done) => {
-    const fn1 = jest.fn();
-    const fn2 = jest.fn();
+  test('delayed task', async () => {
+    const fn1 = vi.fn();
+    const fn2 = vi.fn();
 
     const task = new DelayedTask();
 
@@ -57,25 +75,27 @@ describe('async/delayed-task', () => {
     expect(fn1).toHaveBeenCalledTimes(0);
     expect(fn2).toHaveBeenCalledTimes(0);
 
-    setTimeout(() => {
-      task.put(fn2, 20);
-      expect(fn1).toHaveBeenCalledTimes(0);
-      expect(fn2).toHaveBeenCalledTimes(0);
-
+    await new Promise<void>(resolve => {
       setTimeout(() => {
+        task.put(fn2, 20);
         expect(fn1).toHaveBeenCalledTimes(0);
-        expect(fn2).toHaveBeenCalledTimes(1);
-        task.put(fn1, false);
-        expect(fn1).toHaveBeenCalledTimes(1);
-        expect(fn2).toHaveBeenCalledTimes(1);
-        done();
-      }, 30);
-    }, 10);
+        expect(fn2).toHaveBeenCalledTimes(0);
+
+        setTimeout(() => {
+          expect(fn1).toHaveBeenCalledTimes(0);
+          expect(fn2).toHaveBeenCalledTimes(1);
+          task.put(fn1, false);
+          expect(fn1).toHaveBeenCalledTimes(1);
+          expect(fn2).toHaveBeenCalledTimes(1);
+          resolve();
+        }, 30);
+      }, 10);
+    });
   });
 
 
-  test('cancel / fn', (done) => {
-    const fn1 = jest.fn();
+  test('cancel / fn', async () => {
+    const fn1 = vi.fn();
 
     const task = new DelayedTask();
 
@@ -83,10 +103,13 @@ describe('async/delayed-task', () => {
     expect(task.fn).toBe(fn1);
     task.cancel();
     expect(fn1).toHaveBeenCalledTimes(0);
-    setTimeout(() => {
-      expect(fn1).toHaveBeenCalledTimes(0);
-      done();
-    }, 10);
+    
+    await new Promise<void>(resolve => {
+      setTimeout(() => {
+        expect(fn1).toHaveBeenCalledTimes(0);
+        resolve();
+      }, 10);
+    });
   });
 
   test('put/cancel return value', () => {

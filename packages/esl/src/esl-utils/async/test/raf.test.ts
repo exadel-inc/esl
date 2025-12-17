@@ -8,7 +8,7 @@ describe('async/raf', () => {
   });
 
   test('afterNextRender', () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     afterNextRender(fn);
     expect(fn).not.toHaveBeenCalled();
     RAFMock.instance.triggerNextAnimationFrame();
@@ -18,7 +18,7 @@ describe('async/raf', () => {
   });
 
   test('rafDecorator', () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const rafInc = rafDecorator(fn);
 
     expect(fn).not.toHaveBeenCalled();
@@ -30,7 +30,7 @@ describe('async/raf', () => {
   });
 
   test('rafDecoratorArguments', () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const rafInc = rafDecorator(fn);
 
     expect(fn).not.toHaveBeenCalled();
@@ -42,7 +42,7 @@ describe('async/raf', () => {
   });
 
   test('rafDecoratorArguments2', () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const rafInc = rafDecorator(fn);
 
     expect(fn).not.toHaveBeenCalled();

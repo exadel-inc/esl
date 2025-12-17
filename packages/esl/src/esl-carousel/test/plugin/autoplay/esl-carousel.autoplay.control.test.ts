@@ -3,7 +3,7 @@ import {ESLCarouselDummyRenderer} from '../../common/esl-carousel.dummy.renderer
 import {ESLCarouselAutoplayMixin} from '../../../plugin/autoplay/esl-carousel.autoplay.mixin';
 import {IntersectionObserverMock} from '../../../../esl-utils/test/intersectionObserver.mock';
 
-jest.mock('../../../../esl-utils/dom/ready', () => ({
+vi.mock('../../../../esl-utils/dom/ready', () => ({
   onDocumentReady: (cb: any) => cb()
 }));
 
@@ -14,11 +14,11 @@ describe('ESLCarousel: Autoplay Plugin Controls', () => {
 
   beforeAll(() => {
     IntersectionObserverMock.mock();
-    jest.useFakeTimers();
+    vi.useFakeTimers();
   });
   afterAll(() => {
     IntersectionObserverMock.restore();
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   describe('ESLCarouselAutoplayMixin: supports control definition', () => {

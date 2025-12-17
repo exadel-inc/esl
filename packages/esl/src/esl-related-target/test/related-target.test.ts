@@ -7,7 +7,7 @@ import {ESLTestTemplate} from '../../esl-utils/test/template';
 describe('ESLRelatedTarget (mixin): tests', () => {
 
   beforeAll(() => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
 
     ESLPanelGroup.register();
     ESLPanel.register();
@@ -28,16 +28,16 @@ describe('ESLRelatedTarget (mixin): tests', () => {
 
     const showRelationTest = () => {
       TEMPLATE.$$related.forEach((panel: ESLPanel, i) => panel.toggle(i % 2 === 0));
-      jest.advanceTimersByTime(1);
+      vi.advanceTimersByTime(1);
       (TEMPLATE.$origin as ESLToggleable).show();
-      jest.advanceTimersByTime(1);
+      vi.advanceTimersByTime(1);
       TEMPLATE.$$related.forEach(($chosenPanel: ESLPanel) => expect($chosenPanel.open).toBe(true));
     };
     const hideRelationTest = () => {
       TEMPLATE.$$related.forEach((panel: ESLPanel, i) => panel.toggle(i % 2 === 0));
-      jest.advanceTimersByTime(1);
+      vi.advanceTimersByTime(1);
       (TEMPLATE.$origin as ESLToggleable).hide();
-      jest.advanceTimersByTime(1);
+      vi.advanceTimersByTime(1);
       TEMPLATE.$$related.forEach(($chosenPanel: ESLPanel) => expect($chosenPanel.open).toBe(false));
     };
 
@@ -63,18 +63,18 @@ describe('ESLRelatedTarget (mixin): tests', () => {
     test('ESLRelatedTarget with \'hide\' action observation does not synchronize show state of toggleables', () => {
       (TEMPLATE.$origin as ESLToggleable).setAttribute('esl-related-target-action', 'hide');
       TEMPLATE.$$related.forEach((panel: ESLPanel) => panel.hide());
-      jest.advanceTimersByTime(1);
+      vi.advanceTimersByTime(1);
       (TEMPLATE.$origin as ESLToggleable).show();
-      jest.advanceTimersByTime(1);
+      vi.advanceTimersByTime(1);
       TEMPLATE.$$related.forEach(($chosenPanel: ESLPanel) => expect($chosenPanel.open).toBe(false));
     });
 
     test('ESLRelatedTarget with \'show\' action observation does not synchronize hide state of toggleables', () => {
       (TEMPLATE.$origin as ESLToggleable).setAttribute('esl-related-target-action', 'show');
       TEMPLATE.$$related.forEach((panel: ESLPanel) => panel.show());
-      jest.advanceTimersByTime(1);
+      vi.advanceTimersByTime(1);
       (TEMPLATE.$origin as ESLToggleable).hide();
-      jest.advanceTimersByTime(1);
+      vi.advanceTimersByTime(1);
       TEMPLATE.$$related.forEach(($chosenPanel: ESLPanel) => expect($chosenPanel.open).toBe(true));
     });
   });
@@ -96,16 +96,16 @@ describe('ESLRelatedTarget (mixin): tests', () => {
 
     test('ESLRelatedTarget does not catch bubbling show events', () => {
       (FRAGMENT.$nested as ESLToggleable).show();
-      jest.advanceTimersByTime(1);
+      vi.advanceTimersByTime(1);
       expect((FRAGMENT.$related as ESLToggleable).open).toBe(false);
     });
 
     test('ESLRelatedTarget does not catch bubbling show events', () => {
       (FRAGMENT.$nested as ESLToggleable).show();
       (FRAGMENT.$related as ESLToggleable).show();
-      jest.advanceTimersByTime(1);
+      vi.advanceTimersByTime(1);
       (FRAGMENT.$nested as ESLToggleable).hide();
-      jest.advanceTimersByTime(1);
+      vi.advanceTimersByTime(1);
       expect((FRAGMENT.$related as ESLToggleable).open).toBe(true);
     });
   });

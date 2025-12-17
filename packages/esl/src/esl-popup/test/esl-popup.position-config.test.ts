@@ -1,6 +1,7 @@
 import {ESLPopup, type ESLPopupActionParams} from '../core';
 import {Rect} from '../../esl-utils/dom/rect';
 import {createPopupMock, createDimensional} from './popup.mock';
+import { IntersectionObserverMock } from '../../esl-utils/test/intersectionObserver.mock';
 
 describe('ESLPopup: position config merging logic', () => {
   let $popup: ESLPopup;
@@ -29,6 +30,16 @@ describe('ESLPopup: position config merging logic', () => {
     position: 'top',
     trigger: new Rect(330, 330, 330, 330)
   };
+
+  beforeAll(() => {
+    vi.useFakeTimers();
+    IntersectionObserverMock.mock();
+  });
+
+  afterAll(() => {
+    vi.useRealTimers();
+    IntersectionObserverMock.restore();
+  });
 
   beforeEach(() => {
     $popup = createPopupMock(new Rect(20, 20, 100, 100));
@@ -97,7 +108,7 @@ describe('ESLPopup: position config merging logic', () => {
   });
 
   test('should return the correct positionConfig for the popup with RTL direction', () => {
-    const getComputedStyleSpy = jest.spyOn(window, 'getComputedStyle');
+    const getComputedStyleSpy = vi.spyOn(window, 'getComputedStyle');
     getComputedStyleSpy.mockImplementation(() => ({direction: 'rtl'} as CSSStyleDeclaration));
     $popup.show(paramsRef);
     expect(($popup as any).positionConfig).toEqual({...configRef, isRTL: true});

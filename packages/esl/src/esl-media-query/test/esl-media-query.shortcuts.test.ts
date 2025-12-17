@@ -100,7 +100,7 @@ describe('ESLMediaQuery: shortcuts', () => {
       ['@gecko', '[gecko = not all]'],
       ['@blink', '[blink = not all]'],
       ['@safari', '[safari = not all]']
-    ])('Query check for %p', (query, expected) => {
+    ])('Query check for %o', (query, expected) => {
       expect(ESLMediaQuery.from(query).toString()).toBe(expected);
     });
 
@@ -129,7 +129,7 @@ describe('ESLMediaQuery: shortcuts', () => {
     });
 
     test('Static shortcut can be observed', () => {
-      const listener = jest.fn();
+      const listener = vi.fn();
       ESLMediaQuery.from('@stest').addEventListener(listener);
       expect(listener).not.toHaveBeenCalled();
 

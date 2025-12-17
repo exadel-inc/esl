@@ -133,7 +133,7 @@ describe('ESLMediaQuery', () => {
     });
 
     test('ESLMediaChangeEvent', () => {
-      const listener = jest.fn();
+      const listener = vi.fn();
 
       mockLgMatchMedia.matches = false;
       ESLMediaQuery.for('@lg').addEventListener(listener);
@@ -161,8 +161,8 @@ describe('ESLMediaQuery', () => {
     });
 
     test('Conjunction listener',  () => {
-      const fn1 = jest.fn();
-      const fn2 = jest.fn();
+      const fn1 = vi.fn();
+      const fn2 = vi.fn();
 
       mockLgMatchMedia.matches = false;
       mockXlMatchMedia.matches = false;
@@ -196,8 +196,8 @@ describe('ESLMediaQuery', () => {
     });
 
     test('Disjunction listener',  () => {
-      const fn1 = jest.fn();
-      const fn2 = jest.fn();
+      const fn1 = vi.fn();
+      const fn2 = vi.fn();
 
       mockLgMatchMedia.matches = false;
       mockXlMatchMedia.matches = false;
@@ -233,8 +233,8 @@ describe('ESLMediaQuery', () => {
     });
 
     test('Negation listener', () => {
-      const fn1 = jest.fn();
-      const fn2 = jest.fn();
+      const fn1 = vi.fn();
+      const fn2 = vi.fn();
 
       mockLgMatchMedia.matches = false;
 

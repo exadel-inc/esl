@@ -1,16 +1,21 @@
+import { vi } from 'vitest';
+import type { MockedFunction } from 'vitest';
+
 export interface ResizeObserverMock {
   callback: ResizeObserverCallback;
-  disconnect: jest.MockedFn<any>;
-  observe: jest.MockedFn<any>;
-  unobserve: jest.MockedFn<any>;
+  disconnect: MockedFunction<any>;
+  observe: MockedFunction<any>;
+  unobserve: MockedFunction<any>;
 }
 
-export const ResizeObserverMockImpl = jest.fn().mockImplementation((callback: ResizeObserverCallback) => ({
-  callback,
-  disconnect: jest.fn(),
-  observe: jest.fn(),
-  unobserve: jest.fn()
-}));
+export const ResizeObserverMockImpl = vi.fn().mockImplementation(function ResizeObserver(callback: ResizeObserverCallback) {
+  return {
+    callback,
+    disconnect: vi.fn(),
+    observe: vi.fn(),
+    unobserve: vi.fn()
+  };
+});
 
 export const getLastResizeObserverMock = (): ResizeObserverMock => ResizeObserverMockImpl.mock.results.at(-1)?.value;
 
