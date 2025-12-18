@@ -26,26 +26,14 @@ describe('async/delayed-task', () => {
     task.put(fn1, 0);
     task.put(fn1, 0);
     expect(fn1).toHaveBeenCalledTimes(0);
-    
-    await new Promise<void>(resolve => {
+
+    await new Promise<void>((resolve) => {
       setTimeout(() => {
         expect(fn1).toHaveBeenCalledTimes(1);
         resolve();
       }, 10);
     });
   });
-
-  /*
-
-      test('$$fire - bubbling', () => new Promise<void>(resolve => {
-      document.addEventListener('testevent', (e) => {
-        expect(e).toBeInstanceOf(CustomEvent);
-        resolve();
-      }, {once: true});
-      el.$$fire('testevent');
-    }));
-
-  */
 
   test('simple eviction', async () => {
     const fn1 = vi.fn();
@@ -55,8 +43,8 @@ describe('async/delayed-task', () => {
     task.put(fn1, 0);
     task.put(fn1);
     expect(fn1).toHaveBeenCalledTimes(1);
-    
-    await new Promise<void>(resolve => {
+
+    await new Promise<void>((resolve) => {
       setTimeout(() => {
         expect(fn1).toHaveBeenCalledTimes(1);
         resolve();
@@ -75,7 +63,7 @@ describe('async/delayed-task', () => {
     expect(fn1).toHaveBeenCalledTimes(0);
     expect(fn2).toHaveBeenCalledTimes(0);
 
-    await new Promise<void>(resolve => {
+    await new Promise<void>((resolve) => {
       setTimeout(() => {
         task.put(fn2, 20);
         expect(fn1).toHaveBeenCalledTimes(0);
@@ -103,8 +91,8 @@ describe('async/delayed-task', () => {
     expect(task.fn).toBe(fn1);
     task.cancel();
     expect(fn1).toHaveBeenCalledTimes(0);
-    
-    await new Promise<void>(resolve => {
+
+    await new Promise<void>((resolve) => {
       setTimeout(() => {
         expect(fn1).toHaveBeenCalledTimes(0);
         resolve();

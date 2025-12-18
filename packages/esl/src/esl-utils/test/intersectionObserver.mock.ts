@@ -86,8 +86,9 @@ export class IntersectionObserverMock implements IntersectionObserver {
 
   public static mock(): void {
     original = window.IntersectionObserver;
-    window.IntersectionObserver = vi.fn(function
-      (cb) { return (lastMock = new IntersectionObserverMock(cb)); }
+    window.IntersectionObserver = vi.fn(function (cb) {
+      return (lastMock = new IntersectionObserverMock(cb));
+    }
     );
   }
   public static restore(): void {

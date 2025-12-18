@@ -110,14 +110,14 @@ describe('ESLBaseElement', () => {
       expect(el.className).toBe('');
     });
 
-    test('$$fire', () => new Promise<void>(resolve => {
+    test('$$fire', () => new Promise<void>((resolve) => {
       el.addEventListener('testevent', (e) => {
         expect(e).toBeInstanceOf(CustomEvent);
         resolve();
       }, {once: true});
       el.$$fire('testevent');
     }));
-    test('$$fire - bubbling', () => new Promise<void>(resolve => {
+    test('$$fire - bubbling', () => new Promise<void>((resolve) => {
       document.addEventListener('testevent', (e) => {
         expect(e).toBeInstanceOf(CustomEvent);
         resolve();

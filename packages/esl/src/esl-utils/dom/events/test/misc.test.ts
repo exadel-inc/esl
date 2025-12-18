@@ -39,7 +39,7 @@ describe('dom/events: misc', () => {
     test('MouseEvent', () => {
       expect(isMouseEvent(new MouseEvent('mouseenter'))).toBe(true);
       expect(isMouseEvent(new TouchEvent('touchstart'))).toBe(false);
-      // expect(isMouseEvent(new PointerEvent('pointerup'))).toBe(false);
+      expect(isMouseEvent(new PointerEvent('pointerup'))).toBe(false); // Should it be true?
       expect(isMouseEvent(new Event('test'))).toBe(false);
     });
     test('TouchEvent', () => {

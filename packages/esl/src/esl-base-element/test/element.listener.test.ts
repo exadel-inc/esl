@@ -48,7 +48,7 @@ describe('ESLBaseElement: listeners', () => {
     TestElement.register('test-' + randUID());
 
     test('$$on', () => {
-      const mock = vi.spyOn(ESLEventUtils, 'subscribe').mockImplementation(() => undefined as any);;
+      const mock = vi.spyOn(ESLEventUtils, 'subscribe').mockImplementation(() => undefined as any);
 
       const el = new TestElement();
       const desc = {event: 'click'};

@@ -1,6 +1,5 @@
 import {ESLTrigger} from '../core/esl-trigger';
 import {createToggleableMock} from '../../esl-toggleable/test/toggleable.mock';
-import { hasHover } from '../../all';
 
 vi.mock('../../esl-utils/dom/ready', () => ({
   onDocumentReady: (cb: any) => cb()
@@ -11,7 +10,6 @@ vi.mock('../../esl-utils/environment/device-detector', async (importOriginal) =>
   return {
     ...actual,
     hasHover: true
-    // your mocked methods
   };
 });
 

@@ -1,7 +1,7 @@
 import {ESLPopup, type ESLPopupActionParams} from '../core';
 import {Rect} from '../../esl-utils/dom/rect';
+import {IntersectionObserverMock} from '../../esl-utils/test/intersectionObserver.mock';
 import {createPopupMock, createDimensional} from './popup.mock';
-import { IntersectionObserverMock } from '../../esl-utils/test/intersectionObserver.mock';
 
 describe('ESLPopup: position config merging logic', () => {
   let $popup: ESLPopup;

@@ -1,4 +1,4 @@
-import { vi } from 'vitest';
+import {vi} from 'vitest';
 
 export const DevicesMock = {
   isMobile: false,
@@ -10,8 +10,14 @@ vi.mock('../environment/device-detector', async (importOriginal) => {
   const actual = await importOriginal() as any;
   return {
     ...actual,
-    get isBlink() { return DevicesMock.isBlink; },
-    get isMobile() { return DevicesMock.isMobile; },
-    get isSafari() { return DevicesMock.isSafari; },
+    get isBlink(): boolean {
+      return DevicesMock.isBlink;
+    },
+    get isMobile(): boolean {
+      return DevicesMock.isMobile;
+    },
+    get isSafari(): boolean {
+      return DevicesMock.isSafari;
+    },
   };
 });

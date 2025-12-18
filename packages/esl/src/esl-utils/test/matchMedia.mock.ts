@@ -1,4 +1,4 @@
-import { vi } from 'vitest';
+import {vi} from 'vitest';
 import {memoizeFn} from '../misc/memoize';
 
 export class MatchMediaMock implements MediaQueryList {
@@ -46,6 +46,8 @@ export class MatchMediaMock implements MediaQueryList {
 export const getMatchMediaMock = memoizeFn(
   (query: string) => new MatchMediaMock(query)
 );
-export const matchMediaMock = vi.fn(function (q) { return getMatchMediaMock(q.trim()); });
+export const matchMediaMock = vi.fn(function (q) {
+  return getMatchMediaMock(q.trim());
+});
 
 Object.defineProperty(window, 'matchMedia', {writable: true, value: matchMediaMock});

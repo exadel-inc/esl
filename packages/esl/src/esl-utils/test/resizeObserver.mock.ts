@@ -1,5 +1,5 @@
-import { vi } from 'vitest';
-import type { MockedFunction } from 'vitest';
+import {vi} from 'vitest';
+import type {MockedFunction} from 'vitest';
 
 export interface ResizeObserverMock {
   callback: ResizeObserverCallback;

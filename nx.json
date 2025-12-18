@@ -7,7 +7,7 @@
       ],
       "cache": false
     },
-    "test:jest": {
+    "test:vitest": {
       "dependsOn": [
         "build"
       ]
@@ -27,7 +27,7 @@
       ],
       "options": {
         "buildTargetName": "build",
-        "testTargetName": "test:jest",
+        "testTargetName": "test:vitest",
         "serveTargetName": "serve",
         "previewTargetName": "preview"
       }

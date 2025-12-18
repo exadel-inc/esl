@@ -134,7 +134,6 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
     this.unsubscribe();
     memoize.clear(this, ['$targets', 'handleEvent']);
     if (resolveProperty(this.condition, this.host) === false) return false;
-    // console.log('here', this.$targets);
     if (!this.$targets.length) {
       console.warn('[ESL]: No targets found for event listener', this);
       return false;

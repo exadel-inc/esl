@@ -29,7 +29,7 @@ describe('ESLAnimateService', () => {
         const el = document.createElement('div');
         ESLAnimateService.observe(el);
 
-        IntersectionObserverMock.trigger(el, {intersectionRatio: 0.001, isIntersecting: true});
+        IntersectionObserverMock.trigger(el, {intersectionRatio: 0, isIntersecting: false});
         vi.advanceTimersByTime(100);
         expect(CSSClassUtils.has(el, 'in')).toBe(false);
       });

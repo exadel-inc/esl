@@ -1,5 +1,5 @@
 const SEQUENCE_KEY: unique symbol = Symbol.for('__esl_sequences');
-const ns = window || globalThis;
+const ns = window || global;
 const sequences = ns[SEQUENCE_KEY] || new Map<string, number>();
 ns[SEQUENCE_KEY] = sequences;
 
