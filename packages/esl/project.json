@@ -152,6 +152,10 @@
     },
     "test": {
       "executor": "nx:noop",
+      "dependsOn": ["test:types", "test:jest"]
+    },
+    "test:esl": {
+      "executor": "nx:noop",
       "dependsOn": ["test:types", "test:vitest"]
     },
 

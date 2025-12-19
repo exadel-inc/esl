@@ -21,15 +21,14 @@
       }
     },
     {
-      "plugin": "@nx/vite/plugin",
+      "plugin": "@nx/vitest",
       "exclude": [
-        "packages/snapshot-tests/**/*"
+        "packages/snapshot-tests/**/*",
+        "packages/eslint-plugin/**/*",
+        "packages/eslint-config/**/*"
       ],
       "options": {
-        "buildTargetName": "build",
-        "testTargetName": "test:vitest",
-        "serveTargetName": "serve",
-        "previewTargetName": "preview"
+        "testTargetName": "test:vitest"
       }
     }
   ],
