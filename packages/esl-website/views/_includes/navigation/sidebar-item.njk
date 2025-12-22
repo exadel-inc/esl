@@ -44,43 +44,23 @@
     {%- set sortedItems = items | sortBy(sortFields) -%}
     {%- if opt.reverse -%}{%- set sortedItems = sortedItems | reverse -%}{%- endif -%}
 
-    {% if opt.listTail %}
-      {# Separate the "see all" page (list page) from regular items #}
-      {%- set seeAllItems = sortedItems | filter('data.list') -%}
-      {%- set seeAllItem = seeAllItems and seeAllItems[0] -%}
-      {%- set mainItems = sortedItems | exclude('data.list') -%}
-      {# Ensure the current page is visible even if it falls outside the limited slice #}
-      {%- set activeCandidates = mainItems | filter('url', page.url) -%}
-      {%- set activeItem = activeCandidates and activeCandidates[0] -%}
-      {%- set limitedItems = mainItems | limit(opt.limit or mainItems.length) -%}
-      {%- set isActiveInLimited = activeItem and (limitedItems | filter('url', activeItem.url) | length) -%}
-      {%- set shouldReplaceLast = activeItem and not isActiveInLimited and opt.limit and limitedItems.length >= opt.limit -%}
+    {# Process items: separate list page and apply truncation #}
+    {%- set processed = sortedItems | processNavItems(opt, page.url) -%}
+    {%- set mainItems = processed.mainItems -%}
+    {%- set listPageItem = processed.listPageItem -%}
 
-      {% for item in limitedItems %}
-        {% set itemToRender = item %}
-        {# If active item is beyond limit, replace the last displayed item with it to maintain count #}
-        {% if shouldReplaceLast and loop.last %}
-          {% set itemToRender = activeItem %}
-        {% endif %}
-        {% if itemToRender.children.length %}
-          {{ subnavItem(itemToRender, isDevCollection, opt) }}
-        {% else %}
-          {{ link(itemToRender, isDevCollection) }}
-        {% endif %}
-      {% endfor %}
-
-      {# Render the "see all" page at the end with custom label #}
-      {% if seeAllItem %}
-        {{ link(seeAllItem, isDevCollection, opt.seeAllLabel) }}
+    {# Render main items #}
+    {% for item in mainItems %}
+      {% if item.children.length %}
+        {{ subnavItem(item, isDevCollection, opt) }}
+      {% else %}
+        {{ link(item, isDevCollection) }}
       {% endif %}
-    {% else %}
-      {% for item in sortedItems %}
-        {% if item.children.length %}
-          {{ subnavItem(item, isDevCollection, opt) }}
-        {% else %}
-          {{ link(item, isDevCollection) }}
-        {% endif %}
-      {% endfor %}
+    {% endfor %}
+
+    {# Render the list page link at the end if enabled #}
+    {% if listPageItem %}
+      {{ link(listPageItem, isDevCollection, listPageItem.data.name) }}
     {% endif %}
   </ul>
 {% endmacro %}

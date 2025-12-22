@@ -27,10 +27,7 @@
         {% for item in collections.nav | sortBy('order') %}
           {% set isNoEmpty = collections[item.data.collection] | releasedOrActive(page.url) | exclude('data.collection') | length %}
           {% set isActive = env.isDev or functions.isActivePath(page.url, item.data.collection) %}
-          {% set navSortOptions = {} %}
-          {% if item.data.collection == 'blogs' %}
-            {% set navSortOptions = {sortBy: ['date', 'name'], reverse: true, limit: 10, listTail: true, seeAllLabel: 'Older articles...'} %}
-          {% endif %}
+          {% set navSortOptions = item.data | navSortOptions %}
 
           {% if isNoEmpty or isActive %}
             {% if item.data.groupStart %} <hr class="sidebar-hr"/> {% endif %}
