@@ -5,4 +5,4 @@ banner:
 ---
 
 {% from 'navigation/collection-grid.njk' import grid with context %}
-{{ grid(collection, {isList: list, classes: 'collection-grid-bg-white'}) }}
+{{ grid(collection, {isList: list, classes: 'collection-grid-bg-white', sortBy: sortBy, reverse: reverse}) }}
