@@ -41,7 +41,7 @@ function ensureActiveItemVisible(items, limit, currentUrl) {
 
   const activeItem = items.find(item => item?.url === currentUrl);
 
-  if (!activeItem) {e
+  if (!activeItem) {
     return truncateItems(items, limit);
   }
 
