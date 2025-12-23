@@ -69,7 +69,7 @@ env:
 ```
 
 ### Scripts
-Monitoring logic is implemented in JavaScript (Node.js 22) in `packages/esl-website-monitoring/`:
+Monitoring logic is implemented in JavaScript in `packages/esl-website-monitoring/`:
 - `check-availability.js` - Website availability checker
 - `check-ssl.js` - SSL certificate checker
 - `check-domain.js` - Domain expiration checker
