@@ -1,4 +1,4 @@
-name: Release Handler (NPM)
+name: Release Publisher (NPM)
 
 on:
   workflow_dispatch:
@@ -17,7 +17,7 @@ on:
         default: all
 
 env:
-  node-version: 22.x
+  node-version: 24.x
 
 permissions:
   contents: read
@@ -29,7 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
           filter: tree:0

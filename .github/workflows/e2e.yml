@@ -12,7 +12,7 @@ on:
         description: 'Create a pull request to update snapshots on the current branch'
 
 env:
-  node-version: 22.x
+  node-version: 24.x
   DIFF_REPORT_BRANCH: diff-report
 
 concurrency:
@@ -32,7 +32,7 @@ jobs:
       deployments: none
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Use Node v${{ env.node-version }}
         uses: actions/setup-node@v6
         with:
@@ -47,7 +47,7 @@ jobs:
         run: npm run test:e2e
       - name: Collect Report & Upload Artifact
         if: failure()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: automation-diff-report
           path: packages/snapshot-tests/.diff
@@ -81,7 +81,7 @@ jobs:
       statuses: write
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Use Node v${{ env.node-version }}
         uses: actions/setup-node@v6
@@ -97,7 +97,7 @@ jobs:
         run: npm run test:e2e:update
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: ${{ env.UPD_COMMIT_MSG }}

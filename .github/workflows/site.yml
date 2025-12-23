@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  node-version: 22.x
+  node-version: 24.x
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
@@ -29,7 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5

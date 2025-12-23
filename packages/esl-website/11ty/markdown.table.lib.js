@@ -1,3 +1,4 @@
+// eslint-disable-next-line max-params
 const renderDefault = (rule) => (tokens, idx, options, env, self) =>
   rule ? rule(tokens, idx, options, env, self) : self.renderToken(tokens, idx, options);
 

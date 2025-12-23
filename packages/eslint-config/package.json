@@ -26,13 +26,13 @@
   },
   "dependencies": {
     "@eslint/js": "^9.28.0",
-    "@stylistic/eslint-plugin": "^5.5.0",
+    "@stylistic/eslint-plugin": "^5.6.1",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-sonarjs": "^3.0.5",
-    "eslint-plugin-tsdoc": "^0.4.0",
-    "globals": "^16.4.0",
+    "eslint-plugin-tsdoc": "^0.5.0",
+    "globals": "^16.5.0",
     "semiver": "^1.1.0",
-    "typescript-eslint": "^8.46.2"
+    "typescript-eslint": "^8.50.0"
   },
   "devDependencies": {
     "@types/eslint": "^9.6.1"

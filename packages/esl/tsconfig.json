@@ -13,8 +13,7 @@
     "module": "ES2015",
     "moduleResolution": "Node",
     "lib": [
-      "ES2018",
-      "ES2022.Object",
+      "ES2022",
       "DOM",
       "DOM.Iterable"
     ],

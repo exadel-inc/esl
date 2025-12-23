@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 env:
-  node-version: 22.x
+  node-version: 24.x
 
 jobs:
   lint:
@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Use Node v${{ env.node-version }}
         uses: actions/setup-node@v6
         with:
@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Use Node v${{ env.node-version }}
         uses: actions/setup-node@v6
         with:
@@ -48,4 +48,3 @@ jobs:
           token: ${{ secrets.QLTY_COVERAGE_TOKEN }}
           files: |
             packages/esl/coverage/lcov.info
-            packages/eslint-plugin/coverage/lcov.info
