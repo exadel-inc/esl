@@ -1,0 +1,36 @@
+name: Website SSL Certificate Check
+
+on:
+  schedule:
+    - cron: "10 7 * * *"
+  workflow_dispatch:
+
+env:
+  node-version: 24.x
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.node-version }}
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check SSL certificate
+        run: node check-ssl.js
+        working-directory: packages/esl-website-monitoring
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          DOMAIN: esl-ui.com
+          WARNING_DAYS: 30
+          TIMEOUT: 15000

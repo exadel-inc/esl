@@ -1,0 +1,20 @@
+{
+  "name": "@exadel/esl-website-monitoring",
+  "version": "5.15.0",
+  "type": "module",
+  "private": true,
+  "description": "ESL Website Monitoring Actions",
+  "homepage": "https://esl-ui.com/",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/exadel-inc/esl.git"
+  },
+  "dependencies": {
+    "@actions/github": "^6.0.1",
+    "whoiser": "^1.18.0"
+  }
+}
