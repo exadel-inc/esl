@@ -1,9 +1,0 @@
-{
-  "name": "upptime-monitoring",
-  "version": "1.0.0",
-  "type": "module",
-  "dependencies": {
-    "@actions/github": "^6.0.1",
-    "whoiser": "^1.18.0"
-  }
-}

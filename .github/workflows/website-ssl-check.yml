@@ -21,15 +21,14 @@ jobs:
         with:
           node-version: ${{ env.node-version }}
           cache: 'npm'
-          cache-dependency-path: .github/monitoring/package-lock.json
+          cache-dependency-path: package-lock.json
 
       - name: Install dependencies
         run: npm ci
-        working-directory: .github/monitoring
 
       - name: Check SSL certificate
         run: node check-ssl.js
-        working-directory: .github/monitoring
+        working-directory: packages/esl-website-monitoring
         env:
           GITHUB_TOKEN: ${{ github.token }}
           DOMAIN: esl-ui.com
