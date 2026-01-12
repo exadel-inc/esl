@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  node-version: 22.x
+  node-version: 24.x
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
