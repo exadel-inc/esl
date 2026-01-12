@@ -55,7 +55,7 @@
     "build": "nx run esl:build",
     "watch": "nx run esl:watch",
     "lint": "nx run esl:lint",
-    "test": "nx run esl:test:esl",
+    "test": "CI=true nx run esl:test",
     "pack": "nx run esl:pack",
     "version": "nx run esl:version:post"
   },

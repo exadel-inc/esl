@@ -19,7 +19,7 @@
     ],
     "rootDir": "src",
     "outDir": "./modules",
-    "types": ["vitest/globals"]
+    "types": ["vitest/globals", "node", "youtube"]
   },
   "include": [
     "src"

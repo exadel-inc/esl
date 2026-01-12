@@ -7,7 +7,7 @@
       ],
       "cache": false
     },
-    "test:vitest": {
+    "test:jest": {
       "dependsOn": [
         "build"
       ]
@@ -18,6 +18,16 @@
       "plugin": "@nx/eslint/plugin",
       "options": {
         "targetName": "lint:eslint"
+      }
+    },
+    {
+      "plugin": "@nx/jest/plugin",
+      "exclude": [
+        "packages/snapshot-tests/**/*"
+      ],
+      "options": {
+        "targetName": "test:jest",
+        "collectCoverage": true
       }
     },
     {

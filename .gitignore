@@ -25,5 +25,3 @@ npm-debug.log
 # Nx
 .nx/cache
 .nx/workspace-data
-
-vitest.config.*.timestamp*
