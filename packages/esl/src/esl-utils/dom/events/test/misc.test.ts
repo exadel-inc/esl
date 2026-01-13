@@ -8,7 +8,6 @@ import {
   getCompositeTarget,
   dispatchCustomEvent
 } from '../misc';
-import type { Mock } from 'vitest';
 
 describe('dom/events: misc', () => {
   describe('source', () => {
@@ -39,7 +38,7 @@ describe('dom/events: misc', () => {
     test('MouseEvent', () => {
       expect(isMouseEvent(new MouseEvent('mouseenter'))).toBe(true);
       expect(isMouseEvent(new TouchEvent('touchstart'))).toBe(false);
-      expect(isMouseEvent(new PointerEvent('pointerup'))).toBe(false); // Should it be true?
+      expect(isMouseEvent(new PointerEvent('pointerup'))).toBe(true);
       expect(isMouseEvent(new Event('test'))).toBe(false);
     });
     test('TouchEvent', () => {
@@ -131,7 +130,7 @@ describe('dom/events: misc', () => {
 
       expect(el.dispatchEvent).toHaveBeenCalled();
 
-      const event: CustomEvent = (el.dispatchEvent as Mock).mock.calls[0][0];
+      const event: Event = vi.mocked(el.dispatchEvent).mock.calls[0][0];
       expect(event.type).toBe(eventName);
       expect(event.bubbles).toBe(true);
       expect(event.cancelable).toBe(true);
@@ -143,7 +142,7 @@ describe('dom/events: misc', () => {
       dispatchCustomEvent(el, eventName);
 
       expect(el.dispatchEvent).toHaveBeenCalled();
-      const event: CustomEvent = (el.dispatchEvent as Mock).mock.calls[0][0];
+      const event: Event = vi.mocked(el.dispatchEvent).mock.calls[0][0];
       expect(event.bubbles).toBe(true);
       expect(event.cancelable).toBe(true);
     });
@@ -153,7 +152,7 @@ describe('dom/events: misc', () => {
       dispatchCustomEvent(el, eventName, {cancelable: false, bubbles: false});
 
       expect(el.dispatchEvent).toHaveBeenCalled();
-      const event: CustomEvent = (el.dispatchEvent as Mock).mock.calls[0][0];
+      const event: Event = vi.mocked(el.dispatchEvent).mock.calls[0][0];
       expect(event.bubbles).toBe(false);
       expect(event.cancelable).toBe(false);
     });
