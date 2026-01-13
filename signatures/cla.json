@@ -191,6 +191,22 @@
       "created_at": "2026-01-13T15:11:47Z",
       "repoId": 323933789,
       "pullRequestNo": 3565
+    },
+    {
+      "name": "dmantsevich",
+      "id": 3327680,
+      "comment_id": 3744883956,
+      "created_at": "2026-01-13T15:11:47Z",
+      "repoId": 323933789,
+      "pullRequestNo": 3565
+    },
+    {
+      "name": "dmantsevich-exadel",
+      "id": 142994918,
+      "comment_id": 3744883956,
+      "created_at": "2026-01-13T15:11:47Z",
+      "repoId": 323933789,
+      "pullRequestNo": 3565
     }
   ]
 }
