@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400">
+  <defs>
+    <clipPath id="svg-incremental-scroll-viewport">
+      <rect x="120" y="50" width="360" height="240" rx="15"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#svg-incremental-scroll-viewport)">
+    <g>
+      <rect x="175" y="0" width="250" height="60" rx="10" fill="#add1fa" stroke="#0082CA" stroke-width="2"/>
+      <rect x="175" y="75" width="250" height="60" rx="10" fill="#add1fa" stroke="#0082CA" stroke-width="2"/>
+      <rect x="175" y="150" width="250" height="60" rx="10" fill="#add1fa" stroke="#0082CA" stroke-width="2"/>
+      <rect x="175" y="225" width="250" height="60" rx="10" fill="#add1fa" stroke="#0082CA" stroke-width="2"/>
+      <rect x="175" y="300" width="250" height="60" rx="10" fill="#add1fa" stroke="#0082CA" stroke-width="2"/>
+      <rect x="175" y="375" width="250" height="60" rx="10" fill="#add1fa" stroke="#0082CA" stroke-width="2"/>
+      <rect x="175" y="450" width="250" height="60" rx="10" fill="#add1fa" stroke="#0082CA" stroke-width="2"/>
+      <animateTransform
+        attributeName="transform"
+        type="translate"
+        values="0,0; 0,-75; 0,-150; 0,-225; 0,-300; 0,-225; 0,-150; 0,-75; 0,0"
+        dur="7s"
+        repeatCount="indefinite"/>
+    </g>
+  </g>
+  <rect x="120" y="50" width="360" height="240" rx="15" fill="none" stroke="#0082CA" stroke-width="8"/>
+  <text x="300" y="360" text-anchor="middle" fill="#0082CA" font-size="40" letter-spacing="2">SCROLL</text>
+</svg>

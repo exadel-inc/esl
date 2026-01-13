@@ -1,5 +1,5 @@
 import {getAttr, setAttr} from '../dom/attr';
-import {toKebabCase, evaluate} from '../misc/format';
+import {toKebabCase, parseObjectSafe} from '../misc/format';
 
 import type {ESLAttributeDecorator} from '../dom/attr';
 import type {ESLDomElementTarget} from '../abstract/dom-target';
@@ -17,9 +17,15 @@ interface JsonAttrDescriptor<T> {
 }
 
 function buildJsonAttrDescriptor<T>(attrName: string, readOnly: boolean, defaultValue: T | null): PropertyDescriptor {
+  function fallback(value: string): T | null {
+    console.warn('[ESL]: cannot parse attribute %s value "%s"', attrName, value);
+    return defaultValue;
+  }
+
   function get(): T | null {
     const attrContent = getAttr(this, attrName, '').trim();
-    return evaluate(attrContent, defaultValue);
+    if (!attrContent) return defaultValue;
+    return parseObjectSafe(attrContent, fallback);
   }
 
   function set(value: any): void {

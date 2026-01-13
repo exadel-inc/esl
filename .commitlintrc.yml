@@ -41,6 +41,7 @@ rules:
       - esl-forms
       - esl-image
       - esl-image-utils
+      - esl-incremental-scroll
       - esl-lazy-template
       - esl-line-clamp
       - esl-media
@@ -65,7 +66,6 @@ rules:
       - patch
       - deps
       - deps-dev
-      - eslint-plugin
       - eslint-config
       - stylelint-config
       - e2e

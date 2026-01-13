@@ -1,3 +1,24 @@
+## 6.0.0-beta.2 (2025-11-03)
+
+### 🩹 Fixes
+
+- **esl-utils:** incorrect log messages upon fallback parser usage ([0d7e91fc8](https://github.com/exadel-inc/esl/commit/0d7e91fc8))
+
+## 6.0.0-beta.1 (2025-10-22)
+
+### 🚀 Features
+
+- **esl-carousel:** add esl carousel info element helper ([f162d2a5a](https://github.com/exadel-inc/esl/commit/f162d2a5a))
+- **esl-carousel:** add ability to check if the passed target is current + `current` marker support for esl-carousel-nav mixin ([57bb690c1](https://github.com/exadel-inc/esl/commit/57bb690c1))
+
+### 🩹 Fixes
+
+- **esl-popup:** fix race condition in ESLPopup when rapidly toggling state ([6816150fd](https://github.com/exadel-inc/esl/commit/6816150fd))
+
+### 💅 Refactors
+
+- **eslint-config:** has embedded support of esl/custom linting ([1417150d8](https://github.com/exadel-inc/esl/commit/1417150d8))
+
 ## 5.15.0 (2025-10-22)
 
 ### 🚀 Features
@@ -8,6 +29,47 @@
 ### 🩹 Fixes
 
 - **esl-popup:** fix race condition in ESLPopup when rapidly toggling state ([6816150fd](https://github.com/exadel-inc/esl/commit/6816150fd))
+
+
+## 6.0.0-beta.0 (2025-09-29)
+
+### 🚀 Features
+
+- **esl-media:** update 'esl-media-control' mixin value parser to use 'parseObjectSafe' ([92eaf0a7f](https://github.com/exadel-inc/esl/commit/92eaf0a7f))
+- **esl-drag-to-scroll:** update mixin value parser to use 'parseObjectSafe' ([601807ebe](https://github.com/exadel-inc/esl/commit/601807ebe))
+- **esl-carousel:** update carousel API configurations to rely on `parseObjectSafe` ([f2dbb7a90](https://github.com/exadel-inc/esl/commit/f2dbb7a90))
+- ⚠️  **esl-utils:** replace  `ESLMediaRuleList.OBJECT_PARSER` with a parseObjectSafe reference ([0df811e55](https://github.com/exadel-inc/esl/commit/0df811e55))
+- ⚠️  **esl-utils:** migrate `@jsonAttr` decorator to use `parseObject` under the hood ([07bd83667](https://github.com/exadel-inc/esl/commit/07bd83667))
+- **esl-utils:** add `parseObjectSafe` wrapper of `parseObject` with fallback value for parse error ([afe489518](https://github.com/exadel-inc/esl/commit/afe489518))
+- **esl-utils:** `parseObject` safe utility added to replace unsafe evaluate method, and unlock short syntax in future ([d14480435](https://github.com/exadel-inc/esl/commit/d14480435))
+- **esl-popup:** rework of popup alignment attributes BREAKING CHANGES: `margin-arrow` attribute replaced with `margin-tether` and 'offset-arrow' attribute replaced with `alignment-tether` ([4a2c69239](https://github.com/exadel-inc/esl/commit/4a2c69239))
+
+### 💅 Refactors
+
+- ⚠️  remove deprecated properties and methods across ESL ([e36e19f56](https://github.com/exadel-inc/esl/commit/e36e19f56))
+- ⚠️  **esl-utils:** remove deprecated 'evaluate' utility (resolves CWE-95 / CWE-94) ([17f101eb0](https://github.com/exadel-inc/esl/commit/17f101eb0))
+- **esl-popup:** split calcPopupPositionByMinorAxis to several methods ([c67e0cafe](https://github.com/exadel-inc/esl/commit/c67e0cafe))
+
+### Documentation updates
+
+- **esl-utils:** update cumulative docs ([8ddf9d90e](https://github.com/exadel-inc/esl/commit/8ddf9d90e))
+- **esl-utils:** add `@jsonAttr` decorator draft documentation ([c445edd61](https://github.com/exadel-inc/esl/commit/c445edd61))
+- **esl-utils:** add `@listen` decorator documentation ([4f0e0eb15](https://github.com/exadel-inc/esl/commit/4f0e0eb15))
+- **esl-utils:** add `@boolAttr` decorator documentation ([50be80d0c](https://github.com/exadel-inc/esl/commit/50be80d0c))
+- **esl-utils:** add `@prop` decorator documentation ([ce08e6c28](https://github.com/exadel-inc/esl/commit/ce08e6c28))
+- **esl-utils:** add `@decorate` decorator documentation ([be705918a](https://github.com/exadel-inc/esl/commit/be705918a))
+- **esl-utils:** add `@ready` decorator documentation ([9c6bf404d](https://github.com/exadel-inc/esl/commit/9c6bf404d))
+- **esl-utils:** add `@memoize` decorator documentation ([622d27c4b](https://github.com/exadel-inc/esl/commit/622d27c4b))
+- **esl-utils:** add `@bind` decorator documentation ([f5e2a75cb](https://github.com/exadel-inc/esl/commit/f5e2a75cb))
+- **esl-utils:** add `@safe` decorator documentation ([4e4c73551](https://github.com/exadel-inc/esl/commit/4e4c73551))
+- **esl-popup:** update README with new alignment attributes ([f3accbe92](https://github.com/exadel-inc/esl/commit/f3accbe92))
+
+### ⚠️  Breaking Changes
+
+- `ESLAlert.defaultConfig` removed (use `ESLAlert.DEFAULT_PARAMS` instead)
+- **esl-utils:** the `evaluate` utility no longer available, use `parseObject` or `JSON.parse` instead for object parers
+- **esl-utils:** the `ESLMediaRuleList.OBJECT_PARSER` no longer support calculations or references inside values (these were never officially supported). If you need dynamic behavior, use custom parsers instead.
+- **esl-utils:** `@jsonAttr`-based attributes no longer support calculations or references inside values (these were never officially supported). If you need dynamic behavior, make sure to override component config resolvers.
 
 ## 5.14.0 (2025-09-30)
 
@@ -44,6 +106,33 @@
 - **esl-utils:** add `@memoize` decorator documentation ([622d27c4b](https://github.com/exadel-inc/esl/commit/622d27c4b))
 - **esl-utils:** add `@bind` decorator documentation ([f5e2a75cb](https://github.com/exadel-inc/esl/commit/f5e2a75cb))
 - **esl-utils:** add `@safe` decorator documentation ([4e4c73551](https://github.com/exadel-inc/esl/commit/4e4c73551))
+- add detailed TSX support guide ([dee009e76](https://github.com/exadel-inc/esl/commit/dee009e76))
+
+
+## 5.14.0-beta.0 (2025-09-19)
+
+### 🚀 Features
+
+- **esl-carousel:** introduce capabilities to provide custom autoplay restrictions. Resolves #3349 ([#3349](https://github.com/exadel-inc/esl/issues/3349))
+- introduce ESLIntrinsicElements ESL custom tag jsx declaration interface ([8b053737b](https://github.com/exadel-inc/esl/commit/8b053737b))
+
+### 🩹 Fixes
+
+- **esl-utils:** handle empty eventName in dispatch function ([8821c837a](https://github.com/exadel-inc/esl/commit/8821c837a))
+- **esl-trigger:** update esl-base-trigger and it's instances to dispatch `esl:change:action` ([e1b84e326](https://github.com/exadel-inc/esl/commit/e1b84e326))
+
+### 💅 Refactors
+
+- rename some Shape types declarations for consistency ([6e709d0d6](https://github.com/exadel-inc/esl/commit/6e709d0d6))
+- introduce global ESLIntrinsicElements interface ([fe64e7871](https://github.com/exadel-inc/esl/commit/fe64e7871))
+- **ui-playground:** migrate UIP project to latest (8) JSX-DOM ([5275cb787](https://github.com/exadel-inc/esl/commit/5275cb787))
+- **site:** add playground description ([e83a7eb79](https://github.com/exadel-inc/esl/commit/e83a7eb79))
+- **site:** playground navigation ([772859d85](https://github.com/exadel-inc/esl/commit/772859d85))
+- **site:** drop changes not related to playground readme ([c1a0a222e](https://github.com/exadel-inc/esl/commit/c1a0a222e))
+- **site:** add playground section ([dbaf99955](https://github.com/exadel-inc/esl/commit/dbaf99955))
+
+### Documentation updates
+
 - add detailed TSX support guide ([dee009e76](https://github.com/exadel-inc/esl/commit/dee009e76))
 
 ## 5.13.0 (2025-09-05)

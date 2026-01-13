@@ -1,6 +1,6 @@
 {
   "name": "@exadel/esl-website",
-  "version": "5.15.0",
+  "version": "6.0.0-beta.2",
   "type": "module",
   "private": true,
   "description": "ESL Website source",
@@ -22,8 +22,8 @@
   "dependencies": {
     "@11ty/eleventy": "3.1.1",
     "@11ty/eleventy-dev-server": "2.0.8",
-    "@exadel/esl": "^5.15.0",
-    "@exadel/ui-playground": "^5.15.0",
+    "@exadel/esl": "^6.0.0-beta.1",
+    "@exadel/ui-playground": "^6.0.0-beta.1",
     "@juggle/resize-observer": "^3.4.0",
     "@types/prismjs": "^1.26.5",
     "@types/smoothscroll-polyfill": "^0.3.4",

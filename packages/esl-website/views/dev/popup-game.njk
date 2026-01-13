@@ -18,7 +18,7 @@ aside:
   <div class="col-12">
     <uip-root class="uip-theme-esl">
       <script type="text/html"
-              label="Horizontal"
+              label="Popup game"
               uip-resizable
               uip-snippet
               uip-snippet-js="js-snippet-popup-game">
@@ -39,7 +39,7 @@ aside:
           position-origin="outer"
           container=".uip-preview-inner"
           dir="ltr"
-          margin-arrow="35">
+          margin-tether="35">
           <div class="popup-content">
             <div>
               <p>Space exploration has always captured the imagination of humanity.</p>
@@ -105,15 +105,11 @@ aside:
           <option value="outer">Outer</option>
           <option value="inner">Inner</option>
         </uip-select-setting>
-        <uip-select-setting label="Arrow" target="esl-popup" attribute="class" mode="append">
-          <option value="">Enable</option>
-          <option value="disable-arrow">Disable</option>
-        </uip-select-setting>
+        <uip-bool-setting label="Disable arrow" target="esl-popup" attribute="class" mode="append" value="disable-arrow"></uip-bool-setting>
         <uip-select-setting label="Orientation" target="esl-popup" attribute="class" mode="append">
           <option value="popup-v">Vertical</option>
           <option value="popup-h">Horizontal</option>
         </uip-select-setting>
-
         <uip-bool-setting label="RTL" target=".popup-h" attribute="dir" value="rtl"></uip-bool-setting>
       </uip-settings>
       <uip-editor></uip-editor>

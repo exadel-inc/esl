@@ -16,6 +16,7 @@ describe('ESLPopup: position config merging logic', () => {
     activator: $trigger,
     containerEl: $container
   };
+
   const configRef = {
     arrow: new Rect(20, 20, 30, 30),
     behavior: 'fit',
@@ -24,10 +25,11 @@ describe('ESLPopup: position config merging logic', () => {
     inner: new Rect(312, 312, 366, 366),
     intersectionRatio: {},
     isRTL: false,
-    marginArrow: 5,
-    offsetArrowRatio: 0.5,
+    offsetPlacement: 0,
+    marginTether: 5,
+    offsetTetherRatio: 0.5,
     outer: new Rect(15, 15, 970, 970),
-    position: 'top',
+    placement: 'top',
     trigger: new Rect(330, 330, 330, 330)
   };
 
@@ -53,7 +55,7 @@ describe('ESLPopup: position config merging logic', () => {
 
   test('should return the correct positionConfig for the specified position', () => {
     $popup.show({...paramsRef, position: 'bottom'});
-    expect(($popup as any).positionConfig).toEqual({...configRef, position: 'bottom'});
+    expect(($popup as any).positionConfig).toEqual({...configRef, placement: 'bottom'});
   });
 
   test('should return the correct positionConfig for the inner position origin', () => {
@@ -75,19 +77,24 @@ describe('ESLPopup: position config merging logic', () => {
     expect(($popup as any).positionConfig).toEqual({...configRef, behavior: 'fit-minor'});
   });
 
-  test('should return the correct positionConfig for the specified marginArrow', () => {
-    $popup.show({...paramsRef, marginArrow: 15});
-    expect(($popup as any).positionConfig).toEqual({...configRef, marginArrow: 15});
+  test('should return the correct positionConfig for the specified marginTether', () => {
+    $popup.show({...paramsRef, marginTether: 15});
+    expect(($popup as any).positionConfig).toEqual({...configRef, marginTether: 15});
   });
 
-  test('should return the correct positionConfig for the specified offsetArrow', () => {
-    $popup.show({...paramsRef, offsetArrow: 3.33});
-    expect(($popup as any).positionConfig).toEqual({...configRef, offsetArrowRatio: 0.0333});
+  test('should return the correct positionConfig for the specified tether alignment', () => {
+    $popup.show({...paramsRef, alignmentTether: 'end'});
+    expect(($popup as any).positionConfig).toEqual({...configRef, offsetTetherRatio: 1});
   });
 
   test('should return the correct positionConfig for the specified offsetTrigger', () => {
     $popup.show({...paramsRef, offsetTrigger: 13});
     expect(($popup as any).positionConfig).toEqual({...configRef, inner: new Rect(302, 302, 386, 386)});
+  });
+
+  test('should return the correct positionConfig for the specified offsetPlacement', () => {
+    $popup.show({...paramsRef, offsetPlacement: 15});
+    expect(($popup as any).positionConfig).toEqual({...configRef, offsetPlacement: 15});
   });
 
   test('should return the correct positionConfig for the specified offsetContainer', () => {

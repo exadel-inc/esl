@@ -21,9 +21,10 @@ describe('ESLPopup: proxy logic of config', () => {
   const defaultAttrs: ESLPopupActionParams = {
     position: 'top',
     positionOrigin: 'outer',
+    alignmentTether: '',
     behavior: 'fit',
-    marginArrow: 5,
-    offsetArrow: '50',
+    offsetPlacement: 0,
+    marginTether: 5,
     offsetTrigger: 3,
     container: '',
     disableActivatorObservation: false
