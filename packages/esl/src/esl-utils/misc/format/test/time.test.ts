@@ -1,4 +1,4 @@
-import {parseCSSTime, parseCSSTimeSet, parseTime} from '../time';
+import {parseCSSTime, parseCSSTimeSet, parseTime, parseTimeSeconds} from '../time';
 
 describe('misc/format - time formatters test', () => {
   describe('parseTime', () => {
@@ -12,7 +12,6 @@ describe('misc/format - time formatters test', () => {
       // Non-integer
       ['.3s', 300],
       ['.124s', 124],
-      ['.3ms', 0.3],
       // Negative integer
       ['-456ms', -456],
       // Exclusion
@@ -22,17 +21,41 @@ describe('misc/format - time formatters test', () => {
       ['14S', 14000],
       // Zero with leading +/-
       ['+0s', 0],
-      ['-0ms', -0],
       // Digits without unit should be parsed as milliseconds
       ['0', 0],
       ['100', 100],
+      [123, 123],
       // Leading zeros
       ['012s', 12000],
       ['0350ms', 350],
       // Empty string
       ['', 0],
       // Extra dot
-      ['350.s', 350000]
+      ['350.s', 350000],
+
+      // Full formats
+      ['2h3m5s300ms', 7385300],
+      ['0h0m0s0ms', 0],
+      ['2h3m5s', 7385000],
+      ['2h3m300ms', 7380300],
+      ['2h5s300ms', 7205300],
+      ['3m5s300ms', 185300],
+
+      ['3s', 3000],
+      ['3.5s', 3500],
+      ['3m', 180000],
+      ['3.5m', 210000],
+      ['3h', 10800000],
+      ['3.5h', 12600000],
+
+      ['5s300ms', 5300],
+      ['3m300ms', 180300],
+      ['2h300ms', 7200300],
+      ['3m5s', 185000],
+      ['2h5s', 7205000],
+      ['2h3m', 7380000],
+
+      ['+2h-1m-3s+500ms', 7137500],
     ])(
       'valid time = %s parsed as %s',
       (time: string, result: number) => expect(parseTime(time)).toBe(result)
@@ -48,7 +71,16 @@ describe('misc/format - time formatters test', () => {
       'abc',
       '-',
       'a',
-      // CSS time supports only seconds and milliseconds
+      '3.5ms',
+      '++5s',
+      '+-5s',
+      '-+5s',
+      '--5s',
+      '-.-5s',
+      '3.5.2s',
+      '2-3s',
+      '2-s',
+      '1h2m3s4ms5',
       '4min'
     ])(
       'invalid time = %p parsed as NaN',
@@ -67,15 +99,13 @@ describe('misc/format - time formatters test', () => {
       // Non-integer
       ['.3s', 300],
       ['.124s', 124],
-      ['.3ms', 0.3],
       // Negative integer
       ['-456ms', -456],
       // Case insensitive
       ['14mS', 14],
       ['14S', 14000],
       // Zero with leading +/-
-      ['+0s', 0],
-      ['-0ms', -0]
+      ['+0s', 0]
     ])(
       'valid time = %s parsed as %s',
       (time: string, result: number) => expect(parseCSSTime(time)).toBe(result)
@@ -111,6 +141,33 @@ describe('misc/format - time formatters test', () => {
     ])(
       'time = %p',
       (time, num) => expect(parseCSSTimeSet.apply(null, time)).toStrictEqual(num)
+    );
+  });
+
+  describe('parseTimeSeconds', () => {
+    test.each([
+      [0, 0],
+      [3, 3],
+      [3.5, 3],
+      ['30s', 30],
+      ['3.5s', 3],
+      ['2.51m', 150],
+      ['3s700ms', 3],
+      ['2h3s700ms', 7203],
+      ['0s', 0],
+    ])(
+      'time = %p',
+      (time, num) => expect(parseTimeSeconds(time)).toStrictEqual(num)
+    );
+
+    test.each([
+      [null],
+      ['m3s'],
+      ['3s5m'],
+      [''],
+    ])(
+      'invalid time = %p is 0',
+      (time) => expect(parseTimeSeconds(time)).toStrictEqual(0)
     );
   });
 });
