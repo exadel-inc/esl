@@ -21,16 +21,6 @@
       }
     },
     {
-      "plugin": "@nx/jest/plugin",
-      "exclude": [
-        "packages/snapshot-tests/**/*"
-      ],
-      "options": {
-        "targetName": "test:jest",
-        "collectCoverage": true
-      }
-    },
-    {
       "plugin": "@nx/vitest",
       "exclude": [
         "packages/snapshot-tests/**/*",
