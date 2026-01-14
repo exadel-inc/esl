@@ -1,3 +1,20 @@
+## 6.0.0-beta.3 (2026-01-14)
+
+### 🚀 Features
+
+- **esl-media:** add support extended format for start-time ([e79797c0f](https://github.com/exadel-inc/esl/commit/e79797c0f))
+- **esl-line-clamp:** introduce `esl-line-clamp-alt` and `esl-line-clamp-toggler` ([4b74bec4e](https://github.com/exadel-inc/esl/commit/4b74bec4e))
+- **esl-incremental-scroll:** add incremental scroll utility ([ccd318697](https://github.com/exadel-inc/esl/commit/ccd318697))
+
+### 🩹 Fixes
+
+- **esl-line-clamp:** fix resubscribing after media query change ([e3cc705b1](https://github.com/exadel-inc/esl/commit/e3cc705b1))
+
+### Documentation updates
+
+- **esl-line-clamp:** provide examples for `ESLLineClampAlt` and `ESLLineClampToggler` ([09b1aa5f7](https://github.com/exadel-inc/esl/commit/09b1aa5f7))
+- **esl-incremental-scroll:** add README for incremental scroll ([ea9cb3656](https://github.com/exadel-inc/esl/commit/ea9cb3656))
+
 ## 6.0.0-beta.2 (2025-11-03)
 
 ### 🩹 Fixes
