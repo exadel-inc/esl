@@ -1,3 +1,9 @@
+## 5.15.1 (2026-01-14)
+
+### Documentation updates
+
+- **esl-line-clamp:** provide examples for `ESLLineClampAlt` and `ESLLineClampToggler` ([09b1aa5f7](https://github.com/exadel-inc/esl/commit/09b1aa5f7))
+
 ## 5.15.0 (2025-10-22)
 
 ### 🚀 Features
