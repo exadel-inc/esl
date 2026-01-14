@@ -6,7 +6,7 @@ import {PAUSE, SPACE} from '../../esl-utils/dom/keys';
 import {isInViewport} from '../../esl-utils/dom/visible';
 import {attr, boolAttr, listen, memoize, prop} from '../../esl-utils/decorators';
 import {debounce} from '../../esl-utils/async';
-import {parseAspectRatio, parseBoolean, parseLazyAttr} from '../../esl-utils/misc/format';
+import {parseAspectRatio, parseBoolean, parseLazyAttr, parseTimeSeconds} from '../../esl-utils/misc/format';
 
 import {ESLMediaQuery} from '../../esl-media-query/core';
 import {ESLResizeObserverTarget} from '../../esl-event-listener/core';
@@ -120,7 +120,7 @@ export class ESLMedia extends ESLBaseElement {
   /** Allows play resource only in viewport area */
   @attr({parser: parsePlayInViewportAttr}) public playInViewport: 'restart' | boolean;
   /** Allows to start viewing a resource from a specific time offset. */
-  @attr({defaultValue: 0, parser: parseInt}) public startTime: number;
+  @attr({defaultValue: 0, parser: parseTimeSeconds}) public startTime: number;
   /** Allows player to accept focus */
   @attr({
     parser: parseBoolean,
