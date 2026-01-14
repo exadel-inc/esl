@@ -10,7 +10,7 @@ describe('ESLShare: "external" action import', () => {
 
 describe('ESLShare: "external" action public API', () => {
   const originalCreateElement = document.createElement;
-  const mockAnchorElement = {click: jest.fn()};
+  const mockAnchorElement = {click: vi.fn()};
   Object.defineProperty(mockAnchorElement, 'href', {
     get: () => (this as any)._href,
     set: (value) => (this as any)._href = value,
@@ -32,12 +32,12 @@ describe('ESLShare: "external" action public API', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   afterAll(() => {
     document.body.innerHTML = '';
-    jest.restoreAllMocks();
+    vi.restoreAllMocks();
   });
 
   test('should be available', () => {
@@ -45,7 +45,7 @@ describe('ESLShare: "external" action public API', () => {
   });
 
   test('should simulate click() on anchor to make external jump (also checks link placeholders replacement)', () => {
-    jest.spyOn(document, 'createElement').mockImplementation(mockCreateElement);
+    vi.spyOn(document, 'createElement').mockImplementation(mockCreateElement);
     externalAction?.share($button);
     expect(mockAnchorElement.click).toHaveBeenCalledTimes(1);
     expect((mockAnchorElement as any).href).toBe(

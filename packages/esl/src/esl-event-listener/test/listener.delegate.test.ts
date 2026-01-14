@@ -16,7 +16,7 @@ describe('ESlEventListener subscription and delegation', () => {
   afterEach(() => ESLEventUtils.unsubscribe(host));
 
   test('Simple click subscription catches click', () => {
-    const handler = jest.fn();
+    const handler = vi.fn();
     ESLEventUtils.subscribe(host, 'click', handler);
     expect(handler).toHaveBeenCalledTimes(0);
     btn.click();
@@ -26,7 +26,7 @@ describe('ESlEventListener subscription and delegation', () => {
   });
 
   test('Subscription with selector catches click exact on selected target', () => {
-    const handler = jest.fn();
+    const handler = vi.fn();
     ESLEventUtils.subscribe(host, {event: 'click', selector: '.btn'}, handler);
     expect(handler).toHaveBeenCalledTimes(0);
     btn.click();
@@ -36,7 +36,7 @@ describe('ESlEventListener subscription and delegation', () => {
   });
 
   test('Subscription with selector catches click inside selected target', () => {
-    const handler = jest.fn();
+    const handler = vi.fn();
     ESLEventUtils.subscribe(host, {event: 'click', selector: '.btn'}, handler);
     expect(handler).toHaveBeenCalledTimes(0);
     btnSpan.click();
@@ -44,7 +44,7 @@ describe('ESlEventListener subscription and delegation', () => {
   });
 
   test('Subscription with target provided with query catches click', () => {
-    const handler = jest.fn();
+    const handler = vi.fn();
     ESLEventUtils.subscribe(host, {event: 'click', target: '::find(#btn)'}, handler);
     expect(handler).toHaveBeenCalledTimes(0);
     btnSpan.click();
@@ -54,7 +54,7 @@ describe('ESlEventListener subscription and delegation', () => {
   });
 
   test('Subscription with target provided by instance', () => {
-    const handler = jest.fn();
+    const handler = vi.fn();
     const el = document.createElement('button');
     ESLEventUtils.subscribe(host, {event: 'click', target: el}, handler);
     expect(handler).toHaveBeenCalledTimes(0);
@@ -67,21 +67,21 @@ describe('ESlEventListener subscription and delegation', () => {
   });
 
   test('Click on the target element leads to correct delegate information', () => {
-    const handler = jest.fn();
+    const handler = vi.fn();
     ESLEventUtils.subscribe(host, {event: 'click', selector: '.btn'}, handler);
     btn.click();
     expect(handler).toHaveBeenCalledWith(expect.objectContaining({$delegate: btn}));
   });
 
   test('Click inside the target element leads to correct delegate information', () => {
-    const handler = jest.fn();
+    const handler = vi.fn();
     ESLEventUtils.subscribe(host, {event: 'click', selector: '.btn'}, handler);
     btnSpan.click();
     expect(handler).toHaveBeenCalledWith(expect.objectContaining({$delegate: btn}));
   });
 
   test('Click on the container should not be handled if a selector is defined', () => {
-    const handler = jest.fn();
+    const handler = vi.fn();
     ESLEventUtils.subscribe(host, {event: 'click', target: document, selector: '#btn'}, handler);
     document.body.click();
     expect(handler).not.toHaveBeenCalled();
@@ -92,14 +92,14 @@ describe('ESlEventListener subscription and delegation', () => {
     beforeEach(() => document.body.appendChild($btn));
 
     test('Delegation of the click event on the document works correct', () => {
-      const handler = jest.fn();
+      const handler = vi.fn();
       ESLEventUtils.subscribe(host, {event: 'click', target: document, selector: 'button'}, handler);
       $btn.click();
       expect(handler).toHaveBeenCalledWith(expect.objectContaining({$delegate: $btn}));
     });
 
     test('Delegation of the click event on the window works correct', () => {
-      const handler = jest.fn();
+      const handler = vi.fn();
       ESLEventUtils.subscribe(host, {event: 'click', target: window, selector: 'button'}, handler);
       $btn.click();
       expect(handler).toHaveBeenCalledWith(expect.objectContaining({$delegate: $btn}));

@@ -217,7 +217,7 @@ describe('misc/format - extended object parser', () => {
     });
 
     test('executes fallback function if value is invalid', () => {
-      const fallback = jest.fn().mockReturnValue('test');
+      const fallback = vi.fn().mockReturnValue('test');
       const result = parseObjectSafe('{a:}', fallback);
       expect(result).toBe('test');
       expect(fallback).toHaveBeenCalledWith('{a:}');

@@ -78,7 +78,7 @@ describe('ESLLineClamp (mixin): tests', () => {
 
   describe('auto mode of clamping', () => {
     test('should set CSS custom property based on the maximum height', async () => {
-      const getComputedStyleSpy = jest.spyOn(window, 'getComputedStyle');
+      const getComputedStyleSpy = vi.spyOn(window, 'getComputedStyle');
       getComputedStyleSpy.mockImplementation(() => ({lineHeight: '10px', maxHeight: '95px'} as CSSStyleDeclaration));
       $host.setAttribute(ESLLineClamp.is, 'auto');
       await microtaskQueue();
@@ -87,7 +87,7 @@ describe('ESLLineClamp (mixin): tests', () => {
     });
 
     test('should set CSS custom property with rounded fractional values', async () => {
-      const getComputedStyleSpy = jest.spyOn(window, 'getComputedStyle');
+      const getComputedStyleSpy = vi.spyOn(window, 'getComputedStyle');
       getComputedStyleSpy.mockImplementation(() => ({lineHeight: '10.01px', maxHeight: '20px'} as CSSStyleDeclaration));
       $host.setAttribute(ESLLineClamp.is, 'auto');
       await microtaskQueue();
@@ -96,7 +96,7 @@ describe('ESLLineClamp (mixin): tests', () => {
     });
 
     test('should remove CSS custom property when the max-height is not defined', async () => {
-      const getComputedStyleSpy = jest.spyOn(window, 'getComputedStyle');
+      const getComputedStyleSpy = vi.spyOn(window, 'getComputedStyle');
       getComputedStyleSpy.mockImplementation(() => ({lineHeight: '20px', maxHeight: 'none'} as CSSStyleDeclaration));
       $host.setAttribute(ESLLineClamp.is, 'auto');
       await microtaskQueue();
@@ -105,7 +105,7 @@ describe('ESLLineClamp (mixin): tests', () => {
     });
 
     test('should remove CSS custom property when calculated value < 1', async () => {
-      const getComputedStyleSpy = jest.spyOn(window, 'getComputedStyle');
+      const getComputedStyleSpy = vi.spyOn(window, 'getComputedStyle');
       getComputedStyleSpy.mockImplementation(() => ({lineHeight: '20px', maxHeight: '19px'} as CSSStyleDeclaration));
       $host.setAttribute(ESLLineClamp.is, 'auto');
       await microtaskQueue();

@@ -14,7 +14,7 @@ describe('Decorator: @prop', () => {
   });
 
   describe('Provider based property resolves value trough it', () => {
-    const provider = jest.fn();
+    const provider = vi.fn();
     class TestClass {
       @prop(provider)
       public field: any;

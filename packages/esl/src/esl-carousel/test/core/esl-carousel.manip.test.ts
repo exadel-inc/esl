@@ -28,7 +28,7 @@ describe('ESLCarousel: DOM manipulation', () => {
     });
 
     test('DOM element marked as slide inside carousel moves itself to the carousel area', async () => {
-      jest.spyOn(console, 'debug').mockImplementationOnce(() => {});
+      vi.spyOn(console, 'debug').mockImplementationOnce(() => {});
       const $slide = document.createElement('div');
       $slide.setAttribute('esl-carousel-slide', '');
       $carousel.appendChild($slide);
@@ -40,7 +40,7 @@ describe('ESLCarousel: DOM manipulation', () => {
       const $slide = document.createElement('div');
       $slide.setAttribute('esl-carousel-slide', '');
       $carousel.$slidesArea.appendChild($slide);
-      const connectedCallbackSpy = jest.spyOn(ESLCarouselSlide.prototype, 'connectedCallback' as any);
+      const connectedCallbackSpy = vi.spyOn(ESLCarouselSlide.prototype, 'connectedCallback' as any);
       await twoTicks();
       expect($carousel.$slides).toContain($slide);
       expect($slide.parentElement).toBe($carousel.$slidesArea);

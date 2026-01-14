@@ -1,21 +1,25 @@
 import {ESLTrigger} from '../core/esl-trigger';
 import {createToggleableMock} from '../../esl-toggleable/test/toggleable.mock';
 
-jest.mock('../../esl-utils/dom/ready', () => ({
+vi.mock('../../esl-utils/dom/ready', () => ({
   onDocumentReady: (cb: any) => cb()
 }));
 
-jest.mock('../../esl-utils/environment/device-detector', () => ({
-  hasHover: true
-}));
+vi.mock('../../esl-utils/environment/device-detector', async (importOriginal) => {
+  const actual = await importOriginal() as any;
+  return {
+    ...actual,
+    hasHover: true
+  };
+});
 
 describe('ESLTrigger event handling', () => {
   beforeAll(() => {
     ESLTrigger.register();
-    jest.useFakeTimers();
+    vi.useFakeTimers();
   });
 
-  afterAll(() => jest.clearAllMocks());
+  afterAll(() => vi.clearAllMocks());
 
   describe('Click actions', () => {
     describe('Default click tracking', () => {

@@ -7,7 +7,7 @@ type ElementsAccessorTemplate<T extends {[key: string]: string}> = ESLTestTempla
 };
 
 
-/** Jest utility to create and manage HTML fragments for testing */
+/** vi utility to create and manage HTML fragments for testing */
 export class ESLTestTemplate {
   /** Div fragment container */
   public $fragment?: HTMLElement;
@@ -70,7 +70,7 @@ export class ESLTestTemplate {
     return !!this.get(selector);
   }
 
-  /** Bind template injection to Jest lifecycle */
+  /** Bind template injection to vi lifecycle */
   public bind(type: 'beforeall' | 'beforeeach'): this {
     if (type === 'beforeall') {
       beforeAll(() => this.inject());
@@ -88,7 +88,7 @@ export class ESLTestTemplate {
   public dispatchImageLoadEvent(selector: string, type: 'load' | 'error' = 'load'): void {
     for (const $img of this.getAll(selector)) {
       if (!($img instanceof HTMLImageElement)) continue;
-      jest.spyOn($img, 'complete', 'get').mockReturnValue(true);
+      vi.spyOn($img, 'complete', 'get').mockReturnValue(true);
       $img.dispatchEvent(new Event(type));
     }
   }

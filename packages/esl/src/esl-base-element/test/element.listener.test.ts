@@ -5,7 +5,7 @@ import {ESLEventUtils} from '../../esl-utils/dom/events';
 
 describe('ESLBaseElement: listeners', () => {
   describe('ESLBaseElement auto subscribes to listener declarations', () => {
-    const mockHandler = jest.fn();
+    const mockHandler = vi.fn();
     class TestElement extends ESLBaseElement {
       static override is = 'test-listen-element';
 
@@ -48,7 +48,7 @@ describe('ESLBaseElement: listeners', () => {
     TestElement.register('test-' + randUID());
 
     test('$$on', () => {
-      const mock = jest.spyOn(ESLEventUtils, 'subscribe').mockImplementation();
+      const mock = vi.spyOn(ESLEventUtils, 'subscribe').mockImplementation(() => undefined as any);
 
       const el = new TestElement();
       const desc = {event: 'click'};
@@ -64,7 +64,7 @@ describe('ESLBaseElement: listeners', () => {
     });
 
     test('$$off', () => {
-      const mock = jest.spyOn(ESLEventUtils, 'unsubscribe').mockImplementation(() => []);
+      const mock = vi.spyOn(ESLEventUtils, 'unsubscribe').mockImplementation(() => []);
 
       const el = new TestElement();
       const desc = {event: 'click'};

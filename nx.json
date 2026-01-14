@@ -21,13 +21,14 @@
       }
     },
     {
-      "plugin": "@nx/jest/plugin",
+      "plugin": "@nx/vitest",
       "exclude": [
-        "packages/snapshot-tests/**/*"
+        "packages/snapshot-tests/**/*",
+        "packages/eslint-config/**/*"
       ],
       "options": {
-        "targetName": "test:jest",
-        "collectCoverage": true
+        "testMode": "run",
+        "testTargetName": "test:vitest"
       }
     }
   ],

@@ -2,7 +2,7 @@ import {ESLIncrementalScroller} from '../core/incremental-scroll-scroller';
 import {Rect} from '../../esl-utils/dom/rect';
 import type {ESLIncrementalScrollOptions} from '../core/incremental-scroll-types';
 
-jest.mock('../core/incremental-scroll-axis-stepper');
+vi.mock('../core/incremental-scroll-axis-stepper');
 const createOptions = (overrides: Partial<ESLIncrementalScrollOptions> = {}): ESLIncrementalScrollOptions => ({
   stabilityThreshold: 200,
   timeout: 500,
@@ -31,7 +31,7 @@ describe('ESLIncrementalScroller', () => {
       const el = document.createElement('div');
       const scroller = new ESLIncrementalScroller(el, createOptions());
 
-      const rectSpy = jest.spyOn(Rect, 'from').mockReturnValue(new Rect(1, 2, 3, 4));
+      const rectSpy = vi.spyOn(Rect, 'from').mockReturnValue(new Rect(1, 2, 3, 4));
 
       const options = scroller.stepOptions;
 
@@ -51,7 +51,7 @@ describe('ESLIncrementalScroller', () => {
       const container = document.createElement('div');
       const scroller = new ESLIncrementalScroller(null, createOptions({scrollContainer: container}));
 
-      const rectSpy = jest.spyOn(Rect, 'from').mockReturnValue(new Rect(5, 6, 7, 8));
+      const rectSpy = vi.spyOn(Rect, 'from').mockReturnValue(new Rect(5, 6, 7, 8));
 
       const options = scroller.stepOptions;
 
@@ -91,7 +91,7 @@ describe('ESLIncrementalScroller', () => {
 
     test('should call window.scrollTo when no container', () => {
       const scroller = new ESLIncrementalScroller(null, createOptions());
-      const scrollToSpy = jest.spyOn(window, 'scrollTo').mockImplementation(() => undefined);
+      const scrollToSpy = vi.spyOn(window, 'scrollTo').mockImplementation(() => undefined);
 
       scroller.step();
 

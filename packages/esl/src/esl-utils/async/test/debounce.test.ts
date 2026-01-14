@@ -1,19 +1,19 @@
 import {debounce} from '../debounce';
 
 describe('async/debounce', () => {
-  beforeAll(() =>  jest.useFakeTimers());
-  afterAll(() => jest.useRealTimers());
+  beforeAll(() =>  vi.useFakeTimers());
+  afterAll(() => vi.useRealTimers());
 
   test('basic scenario', () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const debounced = debounce(fn, 50);
 
     expect(debounced()).toBeUndefined();
     debounced();
-    jest.advanceTimersByTime(25);
+    vi.advanceTimersByTime(25);
     expect(debounced()).toBeUndefined();
     expect(fn).toHaveBeenCalledTimes(0);
-    jest.advanceTimersByTime(50);
+    vi.advanceTimersByTime(50);
     expect(fn).toHaveBeenCalledTimes(1);
   });
 
@@ -23,7 +23,7 @@ describe('async/debounce', () => {
     const context = {};
     debounced.call(context);
     const promise$ = debounced.promise;
-    jest.runAllTimers();
+    vi.runAllTimers();
     return expect(promise$).resolves.toBe(context);
   });
 
@@ -33,12 +33,12 @@ describe('async/debounce', () => {
     const debounced = debounce(fn, 0, context);
     debounced.call({});
     const promise$ = debounced.promise;
-    jest.runAllTimers();
+    vi.runAllTimers();
     return expect(promise$).resolves.toBe(context);
   });
 
   test('cancel debounce', () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const debounced = debounce(fn, 10);
     debounced();
     const promise = debounced.promise;
@@ -52,18 +52,18 @@ describe('async/debounce', () => {
   });
 
   test('deferred result', () => {
-    const fn = jest.fn((n) => n + 1);
+    const fn = vi.fn((n) => n + 1);
     const debounced = debounce(fn as (n: number) => number, 20);
 
     expect(debounced.promise).toBeInstanceOf(Promise);
     expect(debounced(1)).toBe(debounced(2));
     expect(debounced.promise).toBeInstanceOf(Promise);
     expect(fn).toHaveBeenCalledTimes(0);
-    jest.advanceTimersByTime(10);
+    vi.advanceTimersByTime(10);
     expect(fn).toHaveBeenCalledTimes(0);
     debounced(4);
     const promise$ = debounced.promise;
-    jest.advanceTimersByTime(20);
+    vi.advanceTimersByTime(20);
     expect(fn).toHaveBeenCalledTimes(1);
 
     return expect(promise$).resolves.toBe(5);

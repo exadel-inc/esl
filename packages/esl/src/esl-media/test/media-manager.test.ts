@@ -4,7 +4,7 @@ import {promisifyTimeout} from '../../esl-utils/async/promise';
 import {BaseProviderMock} from './mocks/base-provider.mock';
 
 describe('[ESLMedia]: ESLMediaManager tests', () => {
-  jest.spyOn(console, 'debug').mockImplementation(() => {});
+  vi.spyOn(console, 'debug').mockImplementation(() => {});
 
   ESLMedia.register();
   BaseProviderMock.register();

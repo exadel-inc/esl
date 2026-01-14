@@ -62,7 +62,7 @@ describe('ESLShareButton tests', () => {
     });
 
     test('share() method calls share() method of button share action instance', () => {
-      const shareSpy = jest.spyOn(ESLShareCopyAction.prototype, 'share');
+      const shareSpy = vi.spyOn(ESLShareCopyAction.prototype, 'share');
       $copyButton.share();
       expect(shareSpy).toHaveBeenCalled();
       shareSpy.mockRestore();

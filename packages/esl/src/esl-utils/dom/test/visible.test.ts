@@ -10,16 +10,16 @@ document.body.innerHTML = `
 const div = document.querySelector('#row1') as HTMLDivElement;
 const btn = document.querySelector('#btn1') as HTMLButtonElement;
 
-jest.mock('../scroll', () => ({
+vi.mock('../scroll', () => ({
   getListScrollParents: () => [div]
 }));
 
-jest.mock('../window', () => ({
+vi.mock('../window', () => ({
   getViewportRect: () => Rect.from({x: 0, y: 0, width: 2000, height: 2000})
 }));
 
-const mockClientRects = (el: HTMLElement) => jest.spyOn(el, 'getClientRects').mockReturnValue([{}] as any);
-const mockBoundingRect = (el: HTMLElement, rect: Rect) => jest.spyOn(el, 'getBoundingClientRect').mockReturnValueOnce(rect as any);
+const mockClientRects = (el: HTMLElement) => vi.spyOn(el, 'getClientRects').mockReturnValue([{}] as any);
+const mockBoundingRect = (el: HTMLElement, rect: Rect) => vi.spyOn(el, 'getBoundingClientRect').mockReturnValueOnce(rect as any);
 
 describe('Function isVisible', () => {
   test('display set to `none`', () => {

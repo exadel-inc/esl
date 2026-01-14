@@ -2,7 +2,7 @@ import {ESLEventUtils} from '../core/api';
 
 describe('ESLEventUtils.subscribe invokes with `once` attribute', () => {
   const host = document.createElement('a');
-  const fn = jest.fn();
+  const fn = vi.fn();
 
   test('subscription to a single event is called at most once after being adding', () => {
     ESLEventUtils.subscribe(host, {event: 'click', once: true}, fn);

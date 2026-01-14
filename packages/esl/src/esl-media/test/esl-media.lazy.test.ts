@@ -4,14 +4,14 @@ import {ESLMedia} from '../core';
 import {IntersectionObserverMock} from '../../esl-utils/test/intersectionObserver.mock';
 
 describe('esl-media: lazy loading unit tests', () => {
-  jest.useFakeTimers();
+  vi.useFakeTimers();
 
   beforeAll(() => {
     IntersectionObserverMock.mock();
     ESLMedia.register();
 
     // silent console.debug
-    jest.spyOn(console, 'debug').mockImplementation(() => undefined);
+    vi.spyOn(console, 'debug').mockImplementation(() => undefined);
   });
   afterAll(() => IntersectionObserverMock.restore());
 
@@ -20,9 +20,9 @@ describe('esl-media: lazy loading unit tests', () => {
     $media.setAttribute('media-src', 'https://esl-ui.com/assets/media/video.mp4');
     document.body.appendChild($media);
 
-    jest.advanceTimersByTime(100);
+    vi.advanceTimersByTime(100);
     $media.querySelectorAll('video').forEach((v) => v.dispatchEvent(new Event('loadedmetadata')));
-    jest.advanceTimersByTime(10);
+    vi.advanceTimersByTime(10);
 
     expect($media.ready).toBe(true);
     expect($media.querySelectorAll('*')).toEqual(expect.objectContaining({length: 1}));
@@ -34,7 +34,7 @@ describe('esl-media: lazy loading unit tests', () => {
     $media.setAttribute('lazy', 'manual');
     document.body.appendChild($media);
 
-    jest.advanceTimersByTime(100);
+    vi.advanceTimersByTime(100);
 
     expect($media.ready).toBe(false);
     expect($media.querySelectorAll('*')).toEqual(expect.objectContaining({length: 0}));
@@ -46,13 +46,13 @@ describe('esl-media: lazy loading unit tests', () => {
     $media.setAttribute('lazy', '');
     document.body.appendChild($media);
 
-    jest.advanceTimersByTime(100);
+    vi.advanceTimersByTime(100);
 
     expect($media.ready).toBe(false);
     expect($media.querySelectorAll('*')).toEqual(expect.objectContaining({length: 0}));
 
     IntersectionObserverMock.trigger($media, {isIntersecting: true, intersectionRatio: 1});
-    jest.advanceTimersByTime(100);
+    vi.advanceTimersByTime(100);
 
     expect($media.querySelectorAll('*')).toEqual(expect.objectContaining({length: 1}));
   });
@@ -63,14 +63,14 @@ describe('esl-media: lazy loading unit tests', () => {
     $media.setAttribute('lazy', 'manual');
     document.body.appendChild($media);
 
-    jest.advanceTimersByTime(100);
+    vi.advanceTimersByTime(100);
     IntersectionObserverMock.trigger($media, {isIntersecting: true, intersectionRatio: 1});
 
-    jest.advanceTimersByTime(100);
+    vi.advanceTimersByTime(100);
     expect($media.querySelectorAll('*')).toEqual(expect.objectContaining({length: 0}));
 
     $media.removeAttribute('lazy');
-    jest.advanceTimersByTime(100);
+    vi.advanceTimersByTime(100);
 
     expect($media.querySelectorAll('*')).toEqual(expect.objectContaining({length: 1}));
   });
@@ -82,14 +82,14 @@ describe('esl-media: lazy loading unit tests', () => {
     $media.setAttribute('lazy', 'manual');
     document.body.appendChild($media);
 
-    jest.advanceTimersByTime(100);
+    vi.advanceTimersByTime(100);
     IntersectionObserverMock.trigger($media, {isIntersecting: true, intersectionRatio: 1});
 
-    jest.advanceTimersByTime(100);
+    vi.advanceTimersByTime(100);
     expect($media.querySelectorAll('*')).toEqual(expect.objectContaining({length: 0}));
 
     $media.removeAttribute('lazy');
-    jest.advanceTimersByTime(100);
+    vi.advanceTimersByTime(100);
 
     expect($media.querySelectorAll('*')).toEqual(expect.objectContaining({length: 1}));
   });

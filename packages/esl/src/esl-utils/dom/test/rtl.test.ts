@@ -15,7 +15,7 @@ describe('RTLUtils', () => {
       const el = document.createElement('div');
       root.appendChild(el);
 
-      const gcsSpy = jest.spyOn(window, 'getComputedStyle');
+      const gcsSpy = vi.spyOn(window, 'getComputedStyle');
 
       gcsSpy.mockImplementationOnce(() => ({direction: 'rtl'} as CSSStyleDeclaration));
       expect(isRTL(root)).toBe(true);
@@ -26,9 +26,9 @@ describe('RTLUtils', () => {
     test('normalizeScrollLeft', () => {
       const el = document.createElement('div');
 
-      jest.spyOn(el, 'scrollWidth', 'get').mockImplementation(() => 1000);
-      jest.spyOn(el, 'clientWidth', 'get').mockImplementation(() => 100);
-      jest.spyOn(el, 'scrollLeft', 'get').mockImplementation(() => 200);
+      vi.spyOn(el, 'scrollWidth', 'get').mockImplementation(() => 1000);
+      vi.spyOn(el, 'clientWidth', 'get').mockImplementation(() => 100);
+      vi.spyOn(el, 'scrollLeft', 'get').mockImplementation(() => 200);
 
       expect(normalizeScrollLeft(el)).toBe(200);
       expect(normalizeScrollLeft(el, 50)).toBe(50);

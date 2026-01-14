@@ -1,8 +1,9 @@
 import {ESLIncrementalScroll} from '../core/incremental-scroll';
 import {ESLIncrementalScroller} from '../core/incremental-scroll-scroller';
 
-jest.mock('../core/incremental-scroll-scroller');
-const MockedScroller = ESLIncrementalScroller as jest.MockedClass<typeof ESLIncrementalScroller>;
+
+vi.mock('../core/incremental-scroll-scroller');
+const MockedScroller = vi.mocked(ESLIncrementalScroller);
 
 describe('ESLIncrementalScroll class', () => {
   describe('ESLIncrementalScroll.defaults', () => {
@@ -92,8 +93,8 @@ describe('ESLIncrementalScroll class', () => {
     });
 
     test('should override alignment when provided', () => {
-      const xAlign = jest.fn();
-      const yAlign = jest.fn();
+      const xAlign = vi.fn();
+      const yAlign = vi.fn();
       const options = {alignment: {x: xAlign, y: yAlign}};
 
       ESLIncrementalScroll.to(null, options);
@@ -104,7 +105,7 @@ describe('ESLIncrementalScroll class', () => {
     });
 
     test('should override both alignment strategies when one is not provided', () => {
-      const xAlign = jest.fn();
+      const xAlign = vi.fn();
       const options = {alignment: {x: xAlign}};
 
       ESLIncrementalScroll.to(null, options);

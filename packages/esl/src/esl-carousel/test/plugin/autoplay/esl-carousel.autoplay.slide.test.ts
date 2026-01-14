@@ -2,7 +2,7 @@ import {ESLCarouselAutoplayMixin} from '../../../plugin/autoplay/esl-carousel.au
 import {IntersectionObserverMock} from '../../../../esl-utils/test/intersectionObserver.mock';
 import {createDummyCarousel} from '../../common/esl-carousel.dummy';
 
-jest.mock('../../../../esl-utils/dom/ready', () => ({
+vi.mock('../../../../esl-utils/dom/ready', () => ({
   onDocumentReady: (cb: any) => cb()
 }));
 
@@ -11,12 +11,12 @@ const doubleTick = () => microtask().then(microtask);
 
 describe('ESLCarouselAutoplayMixin: per slide timer definition', () => {
   const {$carousel, $slides} = createDummyCarousel(3);
-  const goToSpy = jest.spyOn($carousel, 'goTo');
+  const goToSpy = vi.spyOn($carousel, 'goTo');
   ESLCarouselAutoplayMixin.register();
 
   beforeAll(() => {
     IntersectionObserverMock.mock();
-    jest.useFakeTimers();
+    vi.useFakeTimers();
 
     // Set up test configuration
     $slides[0].toggleAttribute('active');
@@ -33,7 +33,7 @@ describe('ESLCarouselAutoplayMixin: per slide timer definition', () => {
   });
   afterAll(() => {
     IntersectionObserverMock.restore();
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   test('Default carousel setup', () => {
@@ -54,7 +54,7 @@ describe('ESLCarouselAutoplayMixin: per slide timer definition', () => {
     const plugin = ESLCarouselAutoplayMixin.get($carousel)!;
     for (let i = 0; i < $slides.length; i++) {
       // Wait for the slide command execution
-      jest.advanceTimersByTime(plugin.effectiveDuration + 1);
+      vi.advanceTimersByTime(plugin.effectiveDuration + 1);
       expect(goToSpy).toHaveBeenCalledTimes(i + 1);
       await doubleTick();
     }

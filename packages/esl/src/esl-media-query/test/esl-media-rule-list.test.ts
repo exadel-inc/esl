@@ -31,7 +31,7 @@ describe('ESLMediaRuleList', () => {
 
     test('Extended media case parsed correctly: "1 | @sm and @md => 2"', () => {
       const mrl = ESLMediaRuleList.parseQuery('1 | @sm and @md => 2');
-      const listener = jest.fn();
+      const listener = vi.fn();
 
       expect(mrl.rules.length).toBe(2);
 
@@ -58,7 +58,7 @@ describe('ESLMediaRuleList', () => {
 
     test('Extended media case parsed correctly: "1 | @sm or @md => 2"', () => {
       const mrl = ESLMediaRuleList.parseQuery('1 | @sm or @md => 2');
-      const listener = jest.fn();
+      const listener = vi.fn();
 
       expect(mrl.rules.length).toBe(2);
 

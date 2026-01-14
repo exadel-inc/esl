@@ -1,5 +1,5 @@
 import {ESLMixinElement} from '../ui/esl-mixin-element';
-import MockedFn = jest.MockedFn;
+import MockedFn = vi.MockedFn;
 
 describe('ESLMixinElement: attribute observation', () => {
   class TestMixin extends ESLMixinElement {
@@ -8,7 +8,7 @@ describe('ESLMixinElement: attribute observation', () => {
     override attributeChangedCallback: MockedFn<(name: string, oldV: string, newV: string) => void>;
     constructor(el: HTMLElement) {
       super(el);
-      this.attributeChangedCallback = jest.fn();
+      this.attributeChangedCallback = vi.fn();
     }
   }
   TestMixin.register();
