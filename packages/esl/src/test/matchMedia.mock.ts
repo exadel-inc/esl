@@ -1,5 +1,5 @@
 import {vi} from 'vitest';
-import {memoizeFn} from '../misc/memoize';
+import {memoizeFn} from '../esl-utils/misc/memoize';
 
 export class MatchMediaMock implements MediaQueryList {
   private _matches;

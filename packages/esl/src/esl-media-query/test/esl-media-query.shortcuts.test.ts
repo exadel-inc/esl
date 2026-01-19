@@ -1,4 +1,4 @@
-import {DevicesMock} from '../../esl-utils/test/deviceDetector.mock';
+import {DevicesMock} from '../../test/deviceDetector.mock';
 import {ESLMediaQuery, ESLScreenBreakpoints, ESLMediaShortcuts} from '../core';
 import {ESLMediaChangeEvent} from '../core/conditions/media-query-base';
 

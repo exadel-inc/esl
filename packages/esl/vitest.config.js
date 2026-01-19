@@ -18,10 +18,10 @@ export default defineConfig({
     },
     include: ['**/test/**/*.test.ts'],
     setupFiles: [
-      './src/esl-utils/test/deviceDetector.mock.ts',
-      './src/esl-utils/test/matchMedia.mock.ts',
-      './src/esl-utils/test/resizeObserver.mock.ts',
-      './src/esl-utils/test/timer.mock.ts'
+      './src/test/timer.mock.ts',
+      './src/test/deviceDetector.mock.ts',
+      './src/test/matchMedia.mock.ts',
+      './src/test/resizeObserver.mock.ts'
     ],
     coverage: {
       enabled: collectCoverage,

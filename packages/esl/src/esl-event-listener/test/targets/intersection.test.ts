@@ -1,5 +1,5 @@
 import {ESLIntersectionEvent, ESLIntersectionTarget} from '../../core/targets/intersection.target';
-import {IntersectionObserverMock} from '../../../esl-utils/test/intersectionObserver.mock';
+import {IntersectionObserverMock} from '../../../test/intersectionObserver.mock';
 
 describe('ESLIntersectionTarget proxy', () => {
   beforeAll(() => IntersectionObserverMock.mock());

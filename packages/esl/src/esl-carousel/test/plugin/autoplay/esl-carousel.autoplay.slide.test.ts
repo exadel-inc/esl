@@ -1,5 +1,5 @@
 import {ESLCarouselAutoplayMixin} from '../../../plugin/autoplay/esl-carousel.autoplay.mixin';
-import {IntersectionObserverMock} from '../../../../esl-utils/test/intersectionObserver.mock';
+import {IntersectionObserverMock} from '../../../../test/intersectionObserver.mock';
 import {createDummyCarousel} from '../../common/esl-carousel.dummy';
 
 vi.mock('../../../../esl-utils/dom/ready', () => ({

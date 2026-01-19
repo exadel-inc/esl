@@ -1,5 +1,5 @@
 import {ESLPopup, type ESLPopupActionParams} from '../core';
-import {IntersectionObserverMock} from '../../esl-utils/test/intersectionObserver.mock';
+import {IntersectionObserverMock} from '../../test/intersectionObserver.mock';
 
 describe('ESLPopup: proxy logic of config', () => {
   let $popup: ESLPopup;

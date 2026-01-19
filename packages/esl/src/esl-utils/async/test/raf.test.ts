@@ -1,4 +1,4 @@
-import {RAFMock} from '../../test/raf.mock';
+import {RAFMock} from '../../../test/raf.mock';
 import {rafDecorator, afterNextRender} from '../raf';
 
 describe('async/raf', () => {

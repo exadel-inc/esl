@@ -2,7 +2,7 @@ import {ESLRelatedTarget} from '../core/esl-related-target';
 import {ESLPanelGroup} from '../../esl-panel-group/core/esl-panel-group';
 import {ESLPanel} from '../../esl-panel/core/esl-panel';
 import {ESLToggleable} from '../../esl-toggleable/core/esl-toggleable';
-import {ESLTestTemplate} from '../../esl-utils/test/template';
+import {ESLTestTemplate} from '../../test/template';
 
 describe('ESLRelatedTarget (mixin): tests', () => {
 

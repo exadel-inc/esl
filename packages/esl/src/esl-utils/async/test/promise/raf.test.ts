@@ -1,4 +1,4 @@
-import {RAFMock} from '../../../test/raf.mock';
+import {RAFMock} from '../../../../test/raf.mock';
 import {promisifyNextRender} from '../../promise/raf';
 
 describe('async/promise/raf', () => {

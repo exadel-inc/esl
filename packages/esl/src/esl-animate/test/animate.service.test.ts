@@ -1,6 +1,6 @@
 import {ESLAnimateService} from '../core';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
-import {IntersectionObserverMock} from '../../esl-utils/test/intersectionObserver.mock';
+import {IntersectionObserverMock} from '../../test/intersectionObserver.mock';
 
 describe('ESLAnimateService', () => {
   beforeAll(() => {

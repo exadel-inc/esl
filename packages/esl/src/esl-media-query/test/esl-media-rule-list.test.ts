@@ -1,4 +1,4 @@
-import {getMatchMediaMock} from '../../esl-utils/test/matchMedia.mock';
+import {getMatchMediaMock} from '../../test/matchMedia.mock';
 import {ESLMediaRuleList} from '../core/esl-media-rule-list';
 import {ESLScreenBreakpoints} from '../core/common/screen-breakpoint';
 

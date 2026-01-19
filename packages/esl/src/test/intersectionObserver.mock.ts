@@ -1,6 +1,6 @@
-import {ESLEventUtils} from '../../esl-event-listener/core/api';
-import {wrap} from '../misc/array';
-import {Rect} from '../dom/rect';
+import {ESLEventUtils} from '../esl-event-listener/core/api';
+import {wrap} from '../esl-utils/misc/array';
+import {Rect} from '../esl-utils/dom/rect';
 
 let original: typeof IntersectionObserver;
 let lastMock: IntersectionObserverMock;

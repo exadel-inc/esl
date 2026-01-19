@@ -1,5 +1,5 @@
 import {ESLMediaQuery, ESLScreenBreakpoints} from '../core';
-import {getMatchMediaMock} from '../../esl-utils/test/matchMedia.mock';
+import {getMatchMediaMock} from '../../test/matchMedia.mock';
 import {ESLMediaChangeEvent} from '../core/conditions/media-query-base';
 
 /**

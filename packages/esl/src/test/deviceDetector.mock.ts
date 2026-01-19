@@ -6,7 +6,7 @@ export const DevicesMock = {
   isSafari: false
 };
 
-vi.mock('../environment/device-detector', async (importOriginal) => {
+vi.mock('../esl-utils/environment/device-detector', async (importOriginal) => {
   const actual = await importOriginal() as any;
   return {
     ...actual,

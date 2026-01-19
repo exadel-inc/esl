@@ -1,5 +1,5 @@
 import {ESLImageContainerMixin} from '../core';
-import {ESLTestTemplate} from '../../esl-utils/test/template';
+import {ESLTestTemplate} from '../../test/template';
 
 describe('ESLImageContainerMixin', () => {
   beforeAll(() => {

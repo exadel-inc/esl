@@ -1,4 +1,4 @@
-import {IntersectionObserverMock} from '../../esl-utils/test/intersectionObserver.mock';
+import {IntersectionObserverMock} from '../../test/intersectionObserver.mock';
 import {ESLSharePopup} from '../core/esl-share-popup';
 import {ESLShare} from '../core/esl-share';
 import '../buttons/copy';

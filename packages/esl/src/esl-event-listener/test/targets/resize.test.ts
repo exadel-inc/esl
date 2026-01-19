@@ -1,5 +1,5 @@
 import {ESLResizeObserverTarget} from '../../core';
-import {getLastResizeObserverMock} from '../../../esl-utils/test/resizeObserver.mock';
+import {getLastResizeObserverMock} from '../../../test/resizeObserver.mock';
 
 describe('ESLResizeObserverTarget EventTarget adapter', () => {
   describe('ESLResizeObserverTarget creation relatively to the targets', () => {

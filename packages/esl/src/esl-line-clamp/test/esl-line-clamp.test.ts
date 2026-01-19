@@ -1,6 +1,6 @@
 import {ESLLineClamp} from '../core/esl-line-clamp';
 import {ESLScreenBreakpoints} from '../../esl-media-query/core/common/screen-breakpoint';
-import {getMatchMediaMock} from '../../esl-utils/test/matchMedia.mock';
+import {getMatchMediaMock} from '../../test/matchMedia.mock';
 
 describe('ESLLineClamp (mixin): tests', () => {
   const microtaskQueue = () => Promise.resolve().then(() => Promise.resolve());

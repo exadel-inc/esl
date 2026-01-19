@@ -1,7 +1,7 @@
 import '../providers/html5/video-provider';
 
 import {ESLMedia} from '../core';
-import {IntersectionObserverMock} from '../../esl-utils/test/intersectionObserver.mock';
+import {IntersectionObserverMock} from '../../test/intersectionObserver.mock';
 
 describe('esl-media: lazy loading unit tests', () => {
   vi.useFakeTimers();

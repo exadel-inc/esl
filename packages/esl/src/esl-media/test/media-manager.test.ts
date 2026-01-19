@@ -1,5 +1,5 @@
 import {ESLMedia} from '../core/esl-media';
-import {IntersectionObserverMock} from '../../esl-utils/test/intersectionObserver.mock';
+import {IntersectionObserverMock} from '../../test/intersectionObserver.mock';
 import {promisifyTimeout} from '../../esl-utils/async/promise';
 import {BaseProviderMock} from './mocks/base-provider.mock';
 

@@ -2,8 +2,8 @@ import '../providers/html5/video-provider';
 
 import {ESLMedia} from '../core';
 import {promisifyTimeout} from '../../esl-utils/async/promise';
-import {IntersectionObserverMock} from '../../esl-utils/test/intersectionObserver.mock';
-import {getMatchMediaMock} from '../../esl-utils/test/matchMedia.mock';
+import {IntersectionObserverMock} from '../../test/intersectionObserver.mock';
+import {getMatchMediaMock} from '../../test/matchMedia.mock';
 
 describe('esl-media: lazy loading unit tests', () => {
   vi.spyOn(console, 'debug').mockImplementation(() => {});
