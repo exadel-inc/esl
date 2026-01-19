@@ -25,7 +25,7 @@ describe('ESLMediaQuery', () => {
       ['', 'all'],
       ['all', 'all'],
       ['not all', 'not all']
-    ])('Apply tests for %p breakpoint', (query, expected) => {
+    ])('Apply tests for %o breakpoint', (query, expected) => {
       expect(ESLMediaQuery.from(query).toString()).toBe(expected);
     });
 
@@ -47,7 +47,7 @@ describe('ESLMediaQuery', () => {
       ['@-2x', 'not all'],
       ['@1.5', 'not all'],
       ['not valid', 'not valid']
-    ])('Apply tests for %p breakpoint', (query, expected) => {
+    ])('Apply tests for %o breakpoint', (query, expected) => {
       expect(ESLMediaQuery.from(query).toString()).toBe(expected);
     });
   });
@@ -116,7 +116,7 @@ describe('ESLMediaQuery', () => {
       ['not all'],
       ['@xs'],
       ['@xs or @xl']
-    ])('Apply tests for %p breakpoint', (query) => {
+    ])('Apply tests for %o breakpoint', (query) => {
       expect(ESLMediaQuery.for(query)).toBe(ESLMediaQuery.for(query));
     });
   });

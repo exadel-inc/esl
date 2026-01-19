@@ -33,7 +33,7 @@ describe('misc/format - extended object parser', () => {
       ['\'with "double quotes" inside\'', 'with "double quotes" inside'],
       ['\'with \\n newline\'', 'with \n newline'],
       ['\'\'', ''] // empty single quoted string
-    ])('parseObject(%p) -> %p', (value, expected) => {
+    ])('parseObject(%o) -> %o', (value, expected) => {
       const result = parseObject(value);
       if (Object.is(expected, -0)) {
         expect(Object.is(result, -0)).toBe(true);
@@ -58,7 +58,7 @@ describe('misc/format - extended object parser', () => {
       ['{"a":true, "b":"test"}', {a: true, b: 'test'}],
       ['[{"a":1}, {"b":2}]', [{a: 1}, {b: 2}]],
       ['[true, false, null]', [true, false, null]]
-    ])('parseObject(%p) deep equal expected', (value, expected) => {
+    ])('parseObject(%o) deep equal expected', (value, expected) => {
       expect(parseObject(value)).toEqual(expected);
     });
   });
@@ -76,7 +76,7 @@ describe('misc/format - extended object parser', () => {
       ['[ true ; false , null ]', [true, false, null]],
       ['[{a:1};{b:2,}]', [{a: 1}, {b: 2}]],
       ['[ [1;2]; [3,4,] ]', [[1, 2], [3, 4]]]
-    ])('parseObject(%p) -> %p', (value, expected) => {
+    ])('parseObject(%o) -> %o', (value, expected) => {
       expect(parseObject(value)).toEqual(expected);
     });
   });
@@ -99,7 +99,7 @@ describe('misc/format - extended object parser', () => {
       ['{a:[{b:1;},{c:2}]}', {a: [{b: 1}, {c: 2}]}],
       ['{a:[1,2,3,],}', {a: [1, 2, 3]}],
       ['{0:{1:{2:3}}}', {'0': {'1': {'2': 3}}}]
-    ])('parseObject(%p) -> %p', (value, expected) => {
+    ])('parseObject(%o) -> %o', (value, expected) => {
       expect(parseObject(value)).toEqual(expected);
     });
   });
@@ -120,7 +120,7 @@ describe('misc/format - extended object parser', () => {
       ['0:{a:1}', {'0': {a: 1}}],
       ['a:[1;2;3]; b:{c:1}', {a: [1, 2, 3], b: {c: 1}}],
       ['a : 1 ; b : 2', {a: 1, b: 2}]
-    ])('parseObject(%p) -> %p', (value, expected) => {
+    ])('parseObject(%o) -> %o', (value, expected) => {
       expect(parseObject(value)).toEqual(expected);
     });
   });
@@ -137,7 +137,7 @@ describe('misc/format - extended object parser', () => {
       ['{a: \'@__STR0__ literal\'}', {a: '@__STR0__ literal'}],
       ['{a: \'tricky ,,, ;; ; :: { } [ ]\'}', {a: 'tricky ,,, ;; ; :: { } [ ]'}],
       ['{a: \'ends with semicolon;\'}', {a: 'ends with semicolon;'}]
-    ])('parseObject(%p) -> %p', (value, expected) => {
+    ])('parseObject(%o) -> %o', (value, expected) => {
       expect(parseObject(value)).toEqual(expected);
     });
 
@@ -159,7 +159,7 @@ describe('misc/format - extended object parser', () => {
       ['{a:[{b:{c:1}}]}', {a: [{b: {c: 1}}]}],
       ['a:{b:[{c:1};{d:2}]; e:[1;2;3]}', {a: {b: [{c: 1}, {d: 2}], e: [1, 2, 3]}}],
       ['a:[{b:[1;2]; c:{d:[3;4]}}]', {a: [{b: [1, 2], c: {d: [3, 4]}}]}]
-    ])('parseObject(%p) -> %p', (value, expected) => {
+    ])('parseObject(%o) -> %o', (value, expected) => {
       expect(parseObject(value)).toEqual(expected);
     });
   });
@@ -171,7 +171,7 @@ describe('misc/format - extended object parser', () => {
   describe('invalid / unsupported inputs', () => {
     test.each([
       '', '\n\t', '   '
-    ])('whitespace only: %p should throw', (input) => {
+    ])('whitespace only: %o should throw', (input) => {
       expect(() => parseObject(input)).toThrow();
     });
 
@@ -192,7 +192,7 @@ describe('misc/format - extended object parser', () => {
       ['{arr:[1;2,,;3;;;]}'],
       ['{a:1; b:[1;2,;3]}'],
       ['[1;2,;3;;;]']
-    ])('parseObject(%p) should throw', (value) => {
+    ])('parseObject(%o) should throw', (value) => {
       expect(() => parseObject(value as any)).toThrow();
     });
   });

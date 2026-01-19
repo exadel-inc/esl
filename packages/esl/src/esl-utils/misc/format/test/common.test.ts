@@ -29,7 +29,7 @@ describe('misc/format - common formatters test', () => {
       ['Manual', 'manual'],
       ['None', 'none'],
       [' manual ', 'manual'],
-    ])('parseLazyAttr of %p to be %p', (value, expected) => {
+    ])('parseLazyAttr of %o to be %o', (value, expected) => {
       expect(parseLazyAttr(value as any)).toBe(expected);
     });
   });

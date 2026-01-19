@@ -36,5 +36,5 @@ describe('misc/object: availability', () => {
     deepMerge,
     omit,
     getPropertyDescriptor
-  ])('%p is available', (fn) => expect(typeof fn).toBe('function'));
+  ])('%o is available', (fn) => expect(typeof fn).toBe('function'));
 });

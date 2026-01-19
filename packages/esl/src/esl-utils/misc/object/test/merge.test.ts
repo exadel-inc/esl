@@ -12,7 +12,7 @@ describe('misc/object: deepMerge', () => {
     [{a: 1}, {b: 2}, {c: 3}, {a: 1, b: 2, c: 3}],
     [{a: 'value', b: 'value'}, {a: null, b: ''}, {a: null, b: ''}],
     [{a: [1, 2, {a: 1, b: 1}]}, {a: [3, 4, {a: 2, b: 2}]}, {a: [3, 4, {a: 2, b: 2}]}]
-  ])('basic cases %p %p %p', (...args: any[]) => {
+  ])('basic cases %o %o %o', (...args: any[]) => {
     const result = args.pop();
     expect(deepMerge(...args)).toEqual(result);
   });
@@ -54,7 +54,7 @@ describe('misc/object: deepMerge', () => {
     [{}, 1, [], []],
     [{}, 'Hi', 'Hi'],
     [{}, 'Hi', {a: 1}, {a: 1}]
-  ])('edge case: %p %p %p', (...args: any[]) => {
+  ])('edge case: %o %o %o', (...args: any[]) => {
     const result = args.pop();
     expect(deepMerge(...args)).toEqual(result);
   });
@@ -65,7 +65,7 @@ describe('misc/object: deepMerge', () => {
     [{a: 1}, {a: null}, {a: null}],
     [{a: {}}, {a: undefined}, {a: undefined}],
     [{a: {b: {}}}, {a: {b: undefined}}, {a: {b: undefined}}]
-  ])('nested falsy: %p %p %p', (...args: any[]) => {
+  ])('nested falsy: %o %o %o', (...args: any[]) => {
     const result = args.pop();
     expect(deepMerge(...args)).toEqual(result);
   });

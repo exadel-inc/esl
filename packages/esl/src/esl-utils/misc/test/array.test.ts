@@ -51,7 +51,7 @@ describe('misc/array helper tests', () => {
       [[1, 2], 1],
       [[[1, 2], 3], [1, 2]],
       [[{a: 2}, {a: 2, b:3}, {a: 2, b:3}], {a: 2}]
-    ])('array %p to unwrap into %o', (a: any, expected: any) => {
+    ])('array %o to unwrap into %o', (a: any, expected: any) => {
       expect(unwrap(a)).toEqual(expected);
     });
 
@@ -60,14 +60,14 @@ describe('misc/array helper tests', () => {
       [{a: 1, b: 2}, {a: 1, b: 2}],
       [{0: 1, 1: 2, length: 2}, 1],
       [{length: 2}, {length: 2}]
-    ])('non-array value %p to unwrap into %o', (a: any, expected: any) => {
+    ])('non-array value %o to unwrap into %o', (a: any, expected: any) => {
       expect(unwrap(a)).toEqual(expected);
     });
 
     test.each([
       [undefined],
       [[]]
-    ])('value %p to unwrap into undefined', (a: any) => {
+    ])('value %o to unwrap into undefined', (a: any) => {
       expect(unwrap(a)).toEqual(undefined);
     });
 
@@ -113,7 +113,7 @@ describe('misc/array helper tests', () => {
         (i: number[]) => i[0],
         {5: [[5, 2], [5, 4]], 1: [[1, 0]]}
       ]
-    ])('array %p with criteria %p to transform into %o', (a: any[], b: (t: any) => V, expected: Record<V, any>) => {
+    ])('array %o with criteria %o to transform into %o', (a: any[], b: (t: any) => V, expected: Record<V, any>) => {
       expect(groupBy(a, b)).toEqual(expected);
     });
   });

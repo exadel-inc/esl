@@ -147,7 +147,7 @@ describe('ESLCarousel: Nav Utils (Core)', () => {
       [2, {activeIndex: 3, size: 5, loop: true}, ESLCarouselDirection.PREV],
       [4, {activeIndex: 1, size: 5, loop: true}, ESLCarouselDirection.PREV]
     ])(
-      '(to = %d, state = %p) => %s',
+      '(to = %d, state = %o) => %s',
       (to: number, state: ESLCarouselState, result: ESLCarouselDirection) => expect(indexToDirection(to, state)).toBe(result)
     );
   });
