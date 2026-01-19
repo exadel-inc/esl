@@ -1,7 +1,7 @@
 {
   "name": "@exadel/esl-root",
   "private": true,
-  "version": "6.0.0-beta.2",
+  "version": "6.0.0-beta.3",
   "description": "Exadel Smart Library (ESL) is the lightweight custom elements library that provide a set of super-flexible components",
   "license": "MIT",
   "homepage": "https://esl-ui.com/",
@@ -53,8 +53,8 @@
     "semver": "^7.7.3"
   },
   "devDependencies": {
-    "@commitlint/cli": "^20.3.0",
-    "@commitlint/config-conventional": "^20.3.0",
+    "@commitlint/cli": "^20.3.1",
+    "@commitlint/config-conventional": "^20.3.1",
     "@vitest/coverage-v8": "^4.0.16",
     "chokidar-cli": "^3.0.0",
     "cpy-cli": "^6.0.0",
@@ -70,7 +70,7 @@
     "postcss-less": "^6.0.0",
     "rimraf": "^6.1.2",
     "smoothscroll-polyfill": "^0.4.4",
-    "stylelint": "^16.26.1",
+    "stylelint": "^17.0.0",
     "touch": "^3.1.1",
     "ts-jest": "^29.4.6",
     "typescript": "5.9.3",
