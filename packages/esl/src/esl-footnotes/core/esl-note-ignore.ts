@@ -12,9 +12,24 @@ export class ESLNoteIgnore extends ESLMixinElement {
   /** Selector to find all dependent ESLNote elements */
   @prop('esl-note') protected noteSelector: string;
 
+  public override connectedCallback(): void {
+    super.connectedCallback();
+    this.updateChildNotes();
+  }
+
+  public override disconnectedCallback(): void {
+    super.disconnectedCallback();
+    this.updateChildNotes();
+  }
+
   /** Callback to handle changing of additional attributes */
   public override attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null): void {
     if (oldValue === newValue) return;
+    this.updateChildNotes();
+  }
+
+  /** Updates ignored query for all child notes */
+  protected updateChildNotes(): void {
     [...this.$host.querySelectorAll<ESLNote>(this.noteSelector)].forEach(($note) => $note.updateIgnoredQuery());
   }
 }
