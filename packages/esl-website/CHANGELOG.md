@@ -1,3 +1,13 @@
+## 6.0.0-beta.3 (2026-01-14)
+
+### 🚀 Features
+
+- **esl-incremental-scroll:** add incremental scroll utility ([ccd318697](https://github.com/exadel-inc/esl/commit/ccd318697))
+
+### Documentation updates
+
+- **esl-line-clamp:** provide examples for `ESLLineClampAlt` and `ESLLineClampToggler` ([09b1aa5f7](https://github.com/exadel-inc/esl/commit/09b1aa5f7))
+
 ## 6.0.0-beta.2 (2025-11-03)
 
 This was a version bump only for esl-website to align it with other projects, there were no code changes.

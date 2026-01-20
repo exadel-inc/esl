@@ -8,7 +8,7 @@ permissions:
   packages: write
 
 env:
-  node-version: 22.x
+  node-version: 24.x
 
 concurrency:
   group: release-${{ github.ref }}
