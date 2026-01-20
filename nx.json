@@ -6,11 +6,6 @@
         "build"
       ],
       "cache": false
-    },
-    "test:jest": {
-      "dependsOn": [
-        "build"
-      ]
     }
   },
   "plugins": [

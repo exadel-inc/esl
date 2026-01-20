@@ -2,7 +2,7 @@ import {ESLOpenState} from '../core';
 import {ESLToggleable} from '../../esl-toggleable/core';
 import {getMatchMediaMock} from '../../test/matchMedia.mock';
 
-// TODO: consider as default jest loader
+// TODO: consider as default loader
 vi.mock('../../esl-utils/dom/ready', () => ({
   onDocumentReady: (clb: any) => clb()
 }));
