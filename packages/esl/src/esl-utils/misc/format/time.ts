@@ -18,7 +18,7 @@ export function parseTime(timeStr: number | string): number {
   const ms = +str;
   if (!isNaN(ms)) return ms; // Empty string treated as 0, numbers without units treated as milliseconds
 
-  const parsed = str.match(TIME_PATTERN);
+  const parsed = TIME_PATTERN.exec(str);
   if (!parsed) return NaN; // Invalid format
   return TIME_UNITS.reduce(
     (time, size, index) => time + (parseFloat(parsed[index + 1] || '0') * size), 0);
@@ -43,13 +43,14 @@ export function parseCSSTimeSet(timeStr: string): number[] {
 /**
  * Converts time value to seconds
  * @example
+ * ```
  * null => 0
  * '3' => 3
  * `.3s` => 0
  * `4.5s` => 4
  * `1000ms` => 1
  * `2m3s` => 123
- * @param value
+ * ```
  */
 export const parseTimeSeconds = (value: number | string | null): number => {
   if (!value) return 0;
