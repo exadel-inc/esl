@@ -1,3 +1,17 @@
+## 6.0.0-beta.4 (2026-01-20)
+
+### 🚀 Features
+
+- **stylelint-config:** @exadel/stylelint-config-esl migrated to stylelint@17 ([b9864f39a](https://github.com/exadel-inc/esl/commit/b9864f39a))
+
+### 🩹 Fixes
+
+- **esl-footnotes:** add dynamic updates for esl-note-ignore mixin via lifecycle hooks ([ea040c1c4](https://github.com/exadel-inc/esl/commit/ea040c1c4))
+
+### 💅 Refactors
+
+- **esl-utils:** fix lint warnings for TSDoc and str.match usage ([fd2a94d79](https://github.com/exadel-inc/esl/commit/fd2a94d79))
+
 ## 6.0.0-beta.3 (2026-01-14)
 
 ### 🚀 Features
