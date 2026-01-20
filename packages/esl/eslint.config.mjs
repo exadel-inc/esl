@@ -4,7 +4,7 @@ export default [
   {
     ignores: [
       // Common configuration
-      'jest.config.js',
+      'vitest.config.ts',
       // Generated sources
       'modules/**',
       'polyfills/**'

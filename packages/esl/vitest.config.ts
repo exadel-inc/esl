@@ -1,10 +1,10 @@
-import {fileURLToPath} from 'node:url';
+import {resolve} from 'node:path';
 import {defineConfig} from 'vitest/config';
 
 const isCI = process.env.CI === 'true';
 const collectCoverage = process.env.TEST_COVERAGE !== 'false';
 
-const root = fileURLToPath(new URL('./', import.meta.url));
+const root = resolve(__dirname, './');
 
 export default defineConfig({
   test: {
