@@ -1,3 +1,9 @@
+## 6.0.0-beta.4 (2026-01-20)
+
+### 🚀 Features
+
+- **stylelint-config:** @exadel/stylelint-config-esl migrated to stylelint@17 ([b9864f39a](https://github.com/exadel-inc/esl/commit/b9864f39a))
+
 ## 6.0.0-beta.3 (2026-01-14)
 
 ### 🚀 Features
