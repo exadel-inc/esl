@@ -9,8 +9,13 @@ import type {ESLNote} from './esl-note';
 export class ESLNoteIgnore extends ESLMixinElement {
   public static override is = 'esl-note-ignore';
 
-  /** Selector to find all dependent ESLNote elements */
-  @prop('esl-note') protected noteSelector: string;
+  /** Type guard to check if the element is ESLNote */
+  protected static isNote($el: Element): $el is ESLNote {
+    return $el && typeof ($el as ESLNote).updateIgnoredQuery === 'function';
+  }
+
+  /** Tag to find all dependent ESLNote elements */
+  @prop('esl-note') protected noteTag: string;
 
   public override connectedCallback(): void {
     super.connectedCallback();
@@ -30,6 +35,6 @@ export class ESLNoteIgnore extends ESLMixinElement {
 
   /** Updates ignored query for all child notes */
   protected updateChildNotes(): void {
-    [...this.$host.querySelectorAll<ESLNote>(this.noteSelector)].forEach(($note) => $note.updateIgnoredQuery());
+    [...this.$host.querySelectorAll(this.noteTag)].filter(ESLNoteIgnore.isNote).forEach(($note) => $note.updateIgnoredQuery());
   }
 }
