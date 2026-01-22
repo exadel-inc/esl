@@ -1,5 +1,5 @@
 import {ESLMixinElement} from '../../esl-mixin-element/core';
-import {prop} from '../../esl-utils/decorators';
+import {prop, ready} from '../../esl-utils/decorators';
 
 import type {ESLNote} from './esl-note';
 
@@ -12,11 +12,13 @@ export class ESLNoteIgnore extends ESLMixinElement {
   /** Selector to find all dependent ESLNote elements */
   @prop('esl-note') protected noteSelector: string;
 
+  @ready
   public override connectedCallback(): void {
     super.connectedCallback();
     this.updateChildNotes();
   }
 
+  @ready
   public override disconnectedCallback(): void {
     super.disconnectedCallback();
     this.updateChildNotes();
