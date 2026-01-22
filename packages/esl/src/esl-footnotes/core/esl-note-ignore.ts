@@ -35,6 +35,8 @@ export class ESLNoteIgnore extends ESLMixinElement {
 
   /** Updates ignored query for all child notes */
   protected updateChildNotes(): void {
-    [...this.$host.querySelectorAll(this.noteTag)].filter(ESLNoteIgnore.isNote).forEach(($note) => $note.updateIgnoredQuery());
+    [...this.$host.querySelectorAll(this.noteTag)]
+      .filter(ESLNoteIgnore.isNote)
+      .forEach(($note) => $note.updateIgnoredQuery());
   }
 }
