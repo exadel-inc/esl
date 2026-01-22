@@ -1,3 +1,19 @@
+## 6.0.0-beta.5 (2026-01-22)
+
+### 🩹 Fixes
+
+- **esl-footnotes:** refine initialization on esl-note-ignore when connecting or disconnecting ([d93bf0871](https://github.com/exadel-inc/esl/commit/d93bf0871))
+
+### 💅 Refactors
+
+- ⚠️  **esl-footnote:** `ESLNoteIgnore.noteSelector` replaced with restrictive `ESLNoteIgnore.noteTag` ([b78e75d39](https://github.com/exadel-inc/esl/commit/b78e75d39))
+- **esl-footnotes:** refine updateIgnoredQuery() implementation ([930f9cdf2](https://github.com/exadel-inc/esl/commit/930f9cdf2))
+
+### ⚠️  Breaking Changes
+
+- **esl-footnote:** `ESLNoteIgnore.noteSelector` replaced with restrictive `ESLNoteIgnore.noteTag`  ([b78e75d39](https://github.com/exadel-inc/esl/commit/b78e75d39))
+  `ESLNoteIgnore.noteSelector` property reamed to `noteTag`, with restriction to use tags only
+
 ## 6.0.0-beta.4 (2026-01-20)
 
 ### 🚀 Features

@@ -1,3 +1,7 @@
+## 6.0.0-beta.5 (2026-01-22)
+
+This was a version bump only for esl-e2e to align it with other projects, there were no code changes.
+
 ## 6.0.0-beta.4 (2026-01-20)
 
 ### 🚀 Features
