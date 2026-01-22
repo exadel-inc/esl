@@ -1,6 +1,6 @@
 {
   "name": "@exadel/esl-website-monitoring",
-  "version": "6.0.0-beta.4",
+  "version": "6.0.0-beta.5",
   "type": "module",
   "private": true,
   "description": "ESL Website Monitoring Actions",
