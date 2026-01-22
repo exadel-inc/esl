@@ -19,7 +19,7 @@ export class ESLNoteIgnore extends ESLMixinElement {
 
   public override connectedCallback(): void {
     super.connectedCallback();
-    customElements.whenDefined(this.noteTag).then(() => this.updateChildNotes());
+    this.updateChildNotes();
   }
 
   public override disconnectedCallback(): void {
