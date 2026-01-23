@@ -1,7 +1,7 @@
 {
   "name": "@exadel/esl-root",
   "private": true,
-  "version": "6.0.0-beta.3",
+  "version": "6.0.0-beta.5",
   "description": "Exadel Smart Library (ESL) is the lightweight custom elements library that provide a set of super-flexible components",
   "license": "MIT",
   "homepage": "https://esl-ui.com/",
@@ -45,11 +45,11 @@
     "version:root": "node scripts/update-root-version.mjs"
   },
   "dependencies": {
-    "@nx/devkit": "22.3.3",
-    "@nx/eslint": "22.3.3",
-    "@nx/js": "22.3.3",
-    "@nx/vitest": "^22.3.3",
-    "nx": "22.3.3",
+    "@nx/devkit": "22.4.1",
+    "@nx/eslint": "22.4.1",
+    "@nx/js": "22.4.1",
+    "@nx/vitest": "^22.4.1",
+    "nx": "22.4.1",
     "semver": "^7.7.3"
   },
   "devDependencies": {

@@ -1,3 +1,33 @@
+## 6.0.0-beta.5 (2026-01-22)
+
+### 🩹 Fixes
+
+- **esl-footnotes:** refine initialization on esl-note-ignore when connecting or disconnecting ([d93bf0871](https://github.com/exadel-inc/esl/commit/d93bf0871))
+
+### 💅 Refactors
+
+- ⚠️  **esl-footnote:** `ESLNoteIgnore.noteSelector` replaced with restrictive `ESLNoteIgnore.noteTag` ([b78e75d39](https://github.com/exadel-inc/esl/commit/b78e75d39))
+- **esl-footnotes:** refine updateIgnoredQuery() implementation ([930f9cdf2](https://github.com/exadel-inc/esl/commit/930f9cdf2))
+
+### ⚠️  Breaking Changes
+
+- **esl-footnote:** `ESLNoteIgnore.noteSelector` replaced with restrictive `ESLNoteIgnore.noteTag`  ([b78e75d39](https://github.com/exadel-inc/esl/commit/b78e75d39))
+  `ESLNoteIgnore.noteSelector` property reamed to `noteTag`, with restriction to use tags only
+
+## 6.0.0-beta.4 (2026-01-20)
+
+### 🚀 Features
+
+- **stylelint-config:** @exadel/stylelint-config-esl migrated to stylelint@17 ([b9864f39a](https://github.com/exadel-inc/esl/commit/b9864f39a))
+
+### 🩹 Fixes
+
+- **esl-footnotes:** add dynamic updates for esl-note-ignore mixin via lifecycle hooks ([ea040c1c4](https://github.com/exadel-inc/esl/commit/ea040c1c4))
+
+### 💅 Refactors
+
+- **esl-utils:** fix lint warnings for TSDoc and str.match usage ([fd2a94d79](https://github.com/exadel-inc/esl/commit/fd2a94d79))
+
 ## 6.0.0-beta.3 (2026-01-14)
 
 ### 🚀 Features

@@ -131,6 +131,7 @@ export class ESLNote extends ESLBaseTrigger {
 
   /** Revises the settings for ignoring the note */
   public updateIgnoredQuery(): void {
+    if (!this.connected) return;
     memoize.clear(this, 'queryToIgnore');
     this.$$on(this._onIgnoreConditionChange);
     this._onIgnoreConditionChange();
