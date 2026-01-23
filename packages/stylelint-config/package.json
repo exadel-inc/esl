@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "@stylistic/stylelint-config": "^4.0.0",
-    "@stylistic/stylelint-plugin": "^5.0.0"
+    "@stylistic/stylelint-plugin": "^5.0.1"
   },
   "peerDependencies": {
     "stylelint": ">=16.0.0"
