@@ -61,3 +61,6 @@ The `UIPEditor` can be extended or customized for advanced use cases. For exampl
 | Editor does not update preview | Missing `uip:change` listener or invalid markup | Ensure `<uip-preview>` is present and properly configured |
 | Copy button not visible        | `copy` attribute not set on `<uip-editor>`      | Add the `copy` attribute to enable the copy button        |
 | Editor is readonly unexpectedly| `editable` attribute set to `false` or snippet is JS in readonly mode | Check the `editable` attribute and snippet settings       |
+
+---
+## Example

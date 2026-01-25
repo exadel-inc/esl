@@ -11,3 +11,44 @@
 ---
 
 {% mdRender '@exadel/ui-playground/src/plugins/editor/README.md' %}
+
+<p>This example showcases real-time editing capabilities for both HTML and JavaScript code</p>
+
+<uip-root theme-toggle>
+  <div class="uip-toolbar">
+    <uip-snippets dropdown-view="all"></uip-snippets>
+    <uip-theme-toggle></uip-theme-toggle>
+  </div>
+
+  <script type="text/html" uip-snippet-js="snippet-js" uip-snippet uip-isolated uip-resizable>
+    <form class="uip-d-form p-3 border">
+      <div class="uip-d-form-section form-group">
+        <label for="name">Name: </label>
+        <input class="form-control" type="text" id="name" name="userName">
+      </div>
+      <div class="uip-d-form-section form-group">
+        <label for="email">Email: </label>
+        <input class="form-control" type="email"
+               pattern="^(([^<>()[\]\\.,;:\s@']+(\.[^<>()[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$"
+               id="email" name="userEmail">
+      </div>
+      <div class="uip-d-form-section form-group">
+        <label for="pass">Password: </label>
+        <input class="form-control" type="password" id="pass" name="userPass">
+      </div>
+      <input class="btn btn-sec-blue" type="submit" value="Send">
+    </form>
+  </script>
+  <script type="text/plain" id="snippet-js">
+    document.querySelector('form').onsubmit = (e) => {
+      e.preventDefault();
+      const json = JSON.stringify(Object.fromEntries(new FormData(e.target)));
+      alert(`Form submitted with ${json}!`);
+    };
+  </script>
+
+  <uip-preview class="centered-content"></uip-preview>
+
+  <uip-editor copy collapsible label="Markdown"></uip-editor>
+  <uip-editor source="js" copy collapsible label="JavaScript"></uip-editor>
+</uip-root>

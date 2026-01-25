@@ -69,7 +69,7 @@ Most user projects will only set `dir` occasionally and rely on snippet attribut
 | `uip:snippet:change` | `<uip-root>` | Active snippet switched (always implies preview update) |
 
 ---
-## Advanced: Custom Isolated Template
+## Advanced Customization
 You can specify a named HTML shell for isolated snippets via `isolated-template` on the snippet. Provide a corresponding `<template>` in the document (or injected by your build) that includes `<!--uip-content-->` placeholder where snippet HTML will be injected.
 
 ```html
@@ -96,6 +96,23 @@ You can specify a named HTML shell for isolated snippets via `isolated-template`
 If `isolated-template` is absent a built‑in minimal HTML shell is used.
 
 ---
+### Using Preprocessors
+
+UIPPreview supports built-in preprocessors for text and content generation. These preprocessors allow you to dynamically generate content such as text, paragraphs, or other elements within your snippets.
+```html
+<script type="text/html" uip-snippet-js="snippet-js-1" uip-snippet uip-resizable label="Text preprocessors example">
+  <h2><!-- text --></h2>
+  <div class="text">
+    Hello text
+    <!-- paragraph x2 -->
+  </div>
+  <button type="button">
+    <!-- text x5 -->
+  </button>
+</script>
+```
+
+---
 ## Patterns & Tips
 | Goal | Pattern |
 |------|---------|
@@ -103,6 +120,7 @@ If `isolated-template` is absent a built‑in minimal HTML shell is used.
 | Force rebuild after large structural HTML edit | Temporarily set `force-update` attribute or call `setHtml(..., modifier, true)` |
 | Start in RTL for all snippets | Add `dir="rtl"` to `<uip-preview>` or root page element |
 | Combine with Settings for layout toggles | Bind a setting to preview wrapper classes instead of editing snippet HTML |
+| Use preprocessors for dynamic content | Add `<!-- text -->` or `<!-- paragraph xN -->` in your snippet to generate content dynamically. |
 
 ---
 ## Performance Notes
