@@ -1,7 +1,7 @@
 import {ESLIncrementalScrollAxisStepper} from '../core/incremental-scroll-axis-stepper';
 import type {ESLIncrementalScrollOptions} from '../core/incremental-scroll-types';
 
-afterEach(() => jest.restoreAllMocks());
+afterEach(() => vi.restoreAllMocks());
 
 const createOptions = (overrides: Partial<ESLIncrementalScrollOptions> = {}): ESLIncrementalScrollOptions => ({
   stabilityThreshold: 200,
@@ -9,9 +9,9 @@ const createOptions = (overrides: Partial<ESLIncrementalScrollOptions> = {}): ES
   ...overrides
 });
 
-const mockNowSequence = (values: number[]): jest.SpyInstance<number, []> => {
+const mockNowSequence = (values: number[]): void => {
   let index = 0;
-  return jest.spyOn(Date, 'now').mockImplementation(() => {
+  vi.spyOn(Date, 'now').mockImplementation(() => {
     const next = index < values.length ? values[index] : values[values.length - 1];
     index += 1;
     return next;
@@ -22,7 +22,7 @@ describe('ESLIncrementalScrollAxisStepper', () => {
   describe('computeStep', () => {
     test('returns zero for near target distance and updates start time', () => {
       mockNowSequence([0, 120]);
-      const calc = jest.fn().mockReturnValue(1);
+      const calc = vi.fn().mockReturnValue(1);
       const stepper = new ESLIncrementalScrollAxisStepper(calc, createOptions());
 
       expect(stepper.computeStep({})).toBe(0);
@@ -31,7 +31,7 @@ describe('ESLIncrementalScrollAxisStepper', () => {
 
     test('increments grow gradually for large distances', () => {
       mockNowSequence([0, 10, 20, 30]);
-      const calc = jest.fn().mockReturnValue(500);
+      const calc = vi.fn().mockReturnValue(500);
       const stepper = new ESLIncrementalScrollAxisStepper(calc, createOptions());
 
       expect(stepper.computeStep({})).toBe(1);
@@ -42,7 +42,7 @@ describe('ESLIncrementalScrollAxisStepper', () => {
 
     test('preserves direction sign for negative distance', () => {
       mockNowSequence([0, 50]);
-      const calc = jest.fn().mockReturnValue(-250);
+      const calc = vi.fn().mockReturnValue(-250);
       const stepper = new ESLIncrementalScrollAxisStepper(calc, createOptions());
 
       expect(stepper.computeStep({})).toBe(-1);
@@ -52,7 +52,7 @@ describe('ESLIncrementalScrollAxisStepper', () => {
   describe('shouldContinueStepping', () => {
     test('remains true right after an unstable step', () => {
       mockNowSequence([0, 100]);
-      const calc = jest.fn().mockReturnValue(300);
+      const calc = vi.fn().mockReturnValue(300);
       const stepper = new ESLIncrementalScrollAxisStepper(calc, createOptions());
 
       stepper.computeStep({});
@@ -62,7 +62,7 @@ describe('ESLIncrementalScrollAxisStepper', () => {
 
     test('stops when stability threshold is exceeded', () => {
       mockNowSequence([0, 100, 400]);
-      const calc = jest.fn()
+      const calc = vi.fn()
         .mockReturnValueOnce(300)
         .mockReturnValueOnce(0);
       const stepper = new ESLIncrementalScrollAxisStepper(calc, createOptions());
@@ -75,7 +75,7 @@ describe('ESLIncrementalScrollAxisStepper', () => {
 
     test('stops when timeout limit is reached', () => {
       mockNowSequence([0, 300]);
-      const calc = jest.fn().mockReturnValue(300);
+      const calc = vi.fn().mockReturnValue(300);
       const stepper = new ESLIncrementalScrollAxisStepper(calc, createOptions({timeout: 200, stabilityThreshold: 600}));
 
       stepper.computeStep({});

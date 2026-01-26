@@ -3,16 +3,16 @@ import {hasHorizontalScroll, hasVerticalScroll, isScrollLocked, lockScroll, unlo
 const $html = document.documentElement;
 const $body = document.body;
 
-afterEach(() => jest.clearAllMocks());
+afterEach(() => vi.clearAllMocks());
 
 const mockElHeight = (el: Element) => {
-  jest.spyOn(el, 'scrollHeight', 'get').mockImplementation(() => 100);
-  jest.spyOn(el, 'clientHeight', 'get').mockImplementation(() => 99);
+  vi.spyOn(el, 'scrollHeight', 'get').mockImplementation(() => 100);
+  vi.spyOn(el, 'clientHeight', 'get').mockImplementation(() => 99);
 };
 
 const mockElWidth = (el: Element) => {
-  jest.spyOn(el, 'scrollWidth', 'get').mockImplementation(() => 100);
-  jest.spyOn(el, 'clientWidth', 'get').mockImplementation(() => 99);
+  vi.spyOn(el, 'scrollWidth', 'get').mockImplementation(() => 100);
+  vi.spyOn(el, 'clientWidth', 'get').mockImplementation(() => 99);
 };
 
 describe('Function hasVerticalScroll', () => {
@@ -81,7 +81,7 @@ describe('Function lockScroll', () => {
   describe('Scroll lock with recursive option', () => {
     unlockScroll(target);
     unlockScroll($body);
-    jest.spyOn(target, 'parentElement', 'get').mockImplementation(() => $body);
+    vi.spyOn(target, 'parentElement', 'get').mockImplementation(() => $body);
 
     lockScroll(target, {recursive: true});
     test('target should be locked', () => expect(isScrollLocked(target)).toBe(true));
@@ -112,7 +112,7 @@ describe('Function lockScroll', () => {
     describe('Lock with initiator recursively', () => {
       beforeAll(() => {
         unlockScroll(target, {initiator: 'init'});
-        jest.spyOn(target, 'parentElement', 'get').mockImplementation(() => $body);
+        vi.spyOn(target, 'parentElement', 'get').mockImplementation(() => $body);
         lockScroll(target, {initiator: 'init', recursive: true});
       });
 
@@ -194,8 +194,8 @@ describe('Function unlockScroll', () => {
     lockScroll(target);
     lockScroll($body);
     lockScroll($html);
-    jest.spyOn(target, 'parentElement', 'get').mockImplementation(() => $body);
-    jest.spyOn($body, 'parentElement', 'get').mockImplementation(() => $html);
+    vi.spyOn(target, 'parentElement', 'get').mockImplementation(() => $body);
+    vi.spyOn($body, 'parentElement', 'get').mockImplementation(() => $html);
 
     unlockScroll(target, {recursive: true});
 

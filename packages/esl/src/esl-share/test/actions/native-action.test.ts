@@ -10,7 +10,7 @@ describe('ESLShare: "native" action import', () => {
 
 describe('ESLShare: "native" action public API', () => {
   const originalShare = navigator.share;
-  const mockShare = jest.fn();
+  const mockShare = vi.fn();
   const nativeAction = ESLShareActionRegistry.instance.get('native');
   const $button = ESLShareButton.create();
 
@@ -24,7 +24,7 @@ describe('ESLShare: "native" action public API', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   afterAll(() => {

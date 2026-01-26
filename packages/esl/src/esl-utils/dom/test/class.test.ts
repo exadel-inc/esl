@@ -126,7 +126,7 @@ describe('CSSClassUtils tests:', () => {
   describe('edge cases:', () => {
     test.each([
       [''], [' '], [null], [undefined]
-    ])('%p safe check', (val) => {
+    ])('%o safe check', (val) => {
       const el = document.createElement('div');
       expect(el.classList.length).toBe(0);
       CSSClassUtils.add(el, val);

@@ -27,7 +27,7 @@ beforeAll(() => {
 });
 
 afterEach(() => {
-  jest.restoreAllMocks();
+  vi.restoreAllMocks();
   Object.assign(window, {
     scrollX: originalWindowMetrics.scrollX,
     scrollY: originalWindowMetrics.scrollY

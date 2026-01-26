@@ -110,7 +110,7 @@ describe('ESLLineClampToggler (mixin): tests', () => {
 
   test('should dispatch clamp event on toggle', async () => {
     const toggler = appendToggler({target: '::parent::child[esl-line-clamp]'});
-    const handler = jest.fn();
+    const handler = vi.fn();
     $host.addEventListener(ESLLineClampToggler.prototype.CLAMP_EVENT, handler);
 
     await microtaskQueue();

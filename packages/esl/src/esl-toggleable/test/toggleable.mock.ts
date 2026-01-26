@@ -4,11 +4,11 @@ import type {ESLToggleable} from '../core';
 export function createToggleableMock(init: Partial<ESLToggleable> = {}): ESLToggleable {
   const et = document.createElement('div');
   return Object.assign(et, {
-    show: jest.fn(function () {
+    show: vi.fn(function () {
       this.open = true;
       ESLEventUtils.dispatch(this, 'esl:show');
     }),
-    hide: jest.fn(function () {
+    hide: vi.fn(function () {
       this.open = false;
       ESLEventUtils.dispatch(this, 'esl:hide');
     }),

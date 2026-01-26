@@ -1,15 +1,17 @@
+import {vi, type Mock} from 'vitest';
+
 interface MockedXMLHttpRequestController {
-  open: jest.Mock;
-  onreadystatechange: jest.Mock;
+  open: Mock;
+  onreadystatechange: Mock;
   cleanUp: () => void;
   setData: (newData: string, newStatus?: number, newReadyState?: number) => void;
-  send: jest.Mock;
+  send: Mock;
 }
 
 interface MockedXMLHttpRequest {
-  open: jest.Mock;
-  onreadystatechange: jest.Mock;
-  send: jest.Mock;
+  open: Mock;
+  onreadystatechange: Mock;
+  send: Mock;
   readyState: number;
   status: number;
   responseText: string;
@@ -22,9 +24,9 @@ export function mockXMLHttpRequest(): MockedXMLHttpRequestController  {
   let responseText: string = 'responseText from mocked XMLHttpRequest';
 
   // mocked functions
-  const open = jest.fn();
-  const onreadystatechange = jest.fn();
-  const send = jest.fn(function send() {
+  const open = vi.fn();
+  const onreadystatechange = vi.fn();
+  const send = vi.fn(function send() {
     this.onreadystatechange();
   });
 

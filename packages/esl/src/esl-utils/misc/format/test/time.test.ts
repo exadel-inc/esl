@@ -87,7 +87,7 @@ describe('misc/format - time formatters test', () => {
       '1m60m',
       '1h30'
     ])(
-      'invalid time = %p parsed as NaN',
+      'invalid time = %o parsed as NaN',
       (time: string) => expect(parseTime(time)).toBe(NaN)
     );
   });
@@ -128,7 +128,7 @@ describe('misc/format - time formatters test', () => {
       // CSS time supports only seconds and milliseconds
       '4min'
     ])(
-      'invalid time = %p parsed as NaN',
+      'invalid time = %o parsed as NaN',
       (time: string) => expect(parseCSSTime(time)).toBe(NaN)
     );
   });
@@ -143,7 +143,7 @@ describe('misc/format - time formatters test', () => {
       [['350ms, 350.s'], [350, NaN]],
       [['ms, s'], [NaN, NaN]]
     ])(
-      'time = %p',
+      'time = %o',
       (time, num) => expect(parseCSSTimeSet.apply(null, time)).toStrictEqual(num)
     );
   });
@@ -160,7 +160,7 @@ describe('misc/format - time formatters test', () => {
       ['2h3s700ms', 7203],
       ['0s', 0],
     ])(
-      'time = %p',
+      'time = %o',
       (time, num) => expect(parseTimeSeconds(time)).toStrictEqual(num)
     );
 
@@ -170,7 +170,7 @@ describe('misc/format - time formatters test', () => {
       ['3s5m'],
       [''],
     ])(
-      'invalid time = %p is 0',
+      'invalid time = %o is 0',
       (time) => expect(parseTimeSeconds(time)).toStrictEqual(0)
     );
   });

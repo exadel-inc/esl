@@ -1,7 +1,7 @@
 import {ESLTrigger} from '../core/esl-trigger';
 import {createToggleableMock} from '../../esl-toggleable/test/toggleable.mock';
 
-jest.mock('../../esl-utils/dom/ready', () => ({
+vi.mock('../../esl-utils/dom/ready', () => ({
   onDocumentReady: (cb: any) => cb()
 }));
 
@@ -15,7 +15,7 @@ describe('ESLTrigger find target according to the query in target attribute', ()
     document.body.append($trigger.$target);
   });
   afterEach(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
     $trigger.remove();
     $trigger.$target?.remove();
   });

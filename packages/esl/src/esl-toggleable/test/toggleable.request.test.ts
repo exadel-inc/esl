@@ -7,23 +7,23 @@ describe('ESLToggleable: show/hide-request events', () => {
 
   describe('Direct events correctly caught by toggleable', () => {
     const $el = ESLToggleable.create();
-    jest.useFakeTimers();
+    vi.useFakeTimers();
     beforeAll(() => document.body.appendChild($el));
     afterAll(() => ($el.parentElement === document.body) && document.body.removeChild($el));
     test('Direct SHOW_REQUEST leads to show of the toggleable', () => {
       $el.hide();
-      jest.advanceTimersByTime(1);
+      vi.advanceTimersByTime(1);
       expect($el.open).toBe(false);
       $el.dispatchEvent(new CustomEvent($el.SHOW_REQUEST_EVENT));
-      jest.advanceTimersByTime(1);
+      vi.advanceTimersByTime(1);
       expect($el.open).toBe(true);
     });
     test('Direct HIDE_REQUEST leads to show of the toggleable', () => {
       $el.show();
-      jest.advanceTimersByTime(1);
+      vi.advanceTimersByTime(1);
       expect($el.open).toBe(true);
       $el.dispatchEvent(new CustomEvent($el.HIDE_REQUEST_EVENT));
-      jest.advanceTimersByTime(1);
+      vi.advanceTimersByTime(1);
       expect($el.open).toBe(false);
     });
   });
@@ -36,25 +36,25 @@ describe('ESLToggleable: show/hide-request events', () => {
     $root.appendChild($childTbl);
     $childTbl.appendChild($button);
 
-    jest.useFakeTimers();
+    vi.useFakeTimers();
     beforeAll(() => document.body.appendChild($root));
     afterAll(() => ($root.parentElement === document.body) && document.body.removeChild($root));
 
     test('Initial hide request passed for all toggleables in hierarchy', () => {
       ESLEventUtils.dispatch($button, ESLToggleable.prototype.HIDE_REQUEST_EVENT);
-      jest.advanceTimersByTime(1);
+      vi.advanceTimersByTime(1);
       expect($root.open).toBe(false);
       expect($childTbl.open).toBe(false);
     });
     test('Show request passed for all toggleables in hierarchy', () => {
       ESLEventUtils.dispatch($button, ESLToggleable.prototype.SHOW_REQUEST_EVENT);
-      jest.advanceTimersByTime(1);
+      vi.advanceTimersByTime(1);
       expect($root.open).toBe(true);
       expect($childTbl.open).toBe(true);
     });
     test('Hide request passed for all toggleables in hierarchy', () => {
       ESLEventUtils.dispatch($button, ESLToggleable.prototype.HIDE_REQUEST_EVENT);
-      jest.advanceTimersByTime(1);
+      vi.advanceTimersByTime(1);
       expect($root.open).toBe(false);
       expect($childTbl.open).toBe(false);
     });
@@ -62,12 +62,12 @@ describe('ESLToggleable: show/hide-request events', () => {
     test('Show/hide request with filter processed correctly in toggleables in hierarchy', () => {
       const detail: ESLToggleableRequestDetails = {match: '.root'};
       ESLEventUtils.dispatch($button, ESLToggleable.prototype.SHOW_REQUEST_EVENT, {detail});
-      jest.advanceTimersByTime(1);
+      vi.advanceTimersByTime(1);
       expect($root.open).toBe(true);
       expect($childTbl.open).toBe(false);
 
       ESLEventUtils.dispatch($button, ESLToggleable.prototype.HIDE_REQUEST_EVENT, {detail});
-      jest.advanceTimersByTime(1);
+      vi.advanceTimersByTime(1);
       expect($root.open).toBe(false);
       expect($childTbl.open).toBe(false);
     });

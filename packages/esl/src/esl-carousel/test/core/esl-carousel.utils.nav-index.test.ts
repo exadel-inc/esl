@@ -25,7 +25,7 @@ describe('ESLCarousel: Nav Utils (Index)', () => {
         [-1, {size: 5, count: 1, activeIndex: 2, loop: true}, 4],
         [-2, {size: 5, count: 2, activeIndex: 2, loop: true}, 3],
       ])(
-        '(target = %s, cfg = %p) = %d',
+        '(target = %s, cfg = %o) = %d',
         (target: ESLCarouselSlideTarget, cfg: ESLCarouselState, result: number) => expect(toIndex(target, cfg).index).toBe(result)
       );
     });
@@ -41,7 +41,7 @@ describe('ESLCarousel: Nav Utils (Index)', () => {
         ['5', {size: 5, count: 1, activeIndex: 0, loop: true}, 0],
         [' 6 ', {size: 5, count: 3, activeIndex: 1, loop: true}, 1]
       ])(
-        '(target = %s, cfg = %p) = %d',
+        '(target = %s, cfg = %o) = %d',
         (target: ESLCarouselSlideTarget, cfg: ESLCarouselState, result: number) => expect(toIndex(target, cfg).index).toBe(result)
       );
     });
@@ -51,7 +51,7 @@ describe('ESLCarousel: Nav Utils (Index)', () => {
         ['prev', {size: 5, count: 1, activeIndex: 2}, 1],
         ['next', {size: 5, count: 2, activeIndex: 2}, 3]
       ])(
-        '(target = %s, cfg = %p) = %d',
+        '(target = %s, cfg = %o) = %d',
         (target: ESLCarouselSlideTarget, cfg: ESLCarouselState, result: number) => expect(toIndex(target, cfg).index).toBe(result)
       );
     });
@@ -64,7 +64,7 @@ describe('ESLCarousel: Nav Utils (Index)', () => {
         ['slide:3', {size: 5, count: 2, activeIndex: 2, loop: true}, 2],
         ['slide:5', {size: 5, count: 1, activeIndex: 0, loop: true}, 4]
       ])(
-        '(target = %s, cfg = %p) = %d',
+        '(target = %s, cfg = %o) = %d',
         (target: ESLCarouselSlideTarget, cfg: ESLCarouselState, result: number) => expect(toIndex(target, cfg).index).toBe(result)
       );
     });
@@ -74,7 +74,7 @@ describe('ESLCarousel: Nav Utils (Index)', () => {
         ['slide:0', {size: 5, count: 1, activeIndex: 2, loop: true}],
         ['slide:6', {size: 5, count: 2, activeIndex: 2, loop: true}]
       ])(
-        '(target = %s, cfg = %p) should return NaN',
+        '(target = %s, cfg = %o) should return NaN',
         (target: ESLCarouselSlideTarget, cfg: ESLCarouselState) => expect(toIndex(target, cfg).index).toBe(NaN)
       );
     });
@@ -88,7 +88,7 @@ describe('ESLCarousel: Nav Utils (Index)', () => {
         ['slide:-3', {size: 5, count: 1, activeIndex: 2, loop: false}, 0],
         ['slide:+3', {size: 5, count: 3, activeIndex: 2, loop: false}, 2]
       ])(
-        '(target = %s, cfg = %p) = %d',
+        '(target = %s, cfg = %o) = %d',
         (target: ESLCarouselSlideTarget, cfg: ESLCarouselState, result: number) => expect(toIndex(target, cfg).index).toBe(result)
       );
     });
@@ -100,7 +100,7 @@ describe('ESLCarousel: Nav Utils (Index)', () => {
         ['group:2', {size: 8, count: 3, activeIndex: 1}, 3],
         ['group:3', {size: 8, count: 3, activeIndex: 2}, 5]
       ])(
-        '(target = %s, cfg = %p) = %d',
+        '(target = %s, cfg = %o) = %d',
         (target: ESLCarouselSlideTarget, cfg: ESLCarouselState, result: number) => expect(toIndex(target, cfg).index).toBe(result)
       );
     });
@@ -112,7 +112,7 @@ describe('ESLCarousel: Nav Utils (Index)', () => {
         ['group:5', {size: 8, count: 3, activeIndex: 2}],
         ['group:5', {size: 8, count: 2, activeIndex: 2}]
       ])(
-        '(target = %s, cfg = %p) should return NaN',
+        '(target = %s, cfg = %o) should return NaN',
         (target: ESLCarouselSlideTarget, cfg: ESLCarouselState) => expect(toIndex(target, cfg).index).toBe(NaN)
       );
     });
@@ -126,7 +126,7 @@ describe('ESLCarousel: Nav Utils (Index)', () => {
         ['group: +1', {size: 5, count: 2, activeIndex: 4, loop: false}, 3],
         ['group: -1', {size: 5, count: 1, activeIndex: 0, loop: false}, 0],
       ])(
-        '(target = %s, cfg = %p) = %d',
+        '(target = %s, cfg = %o) = %d',
         (target: ESLCarouselSlideTarget, cfg: ESLCarouselState, result: number) => expect(toIndex(target, cfg).index).toBe(result)
       );
     });
@@ -148,7 +148,7 @@ describe('ESLCarousel: Nav Utils (Index)', () => {
         ['group: prev', {size: 5, count: 3, activeIndex: 1, loop: true}, 0],
         ['group: prev', {size: 5, count: 3, activeIndex: 4, loop: true}, 1]
       ])(
-        '(target = %s, cfg = %p) = %d',
+        '(target = %s, cfg = %o) = %d',
         (target: ESLCarouselSlideTarget, cfg: ESLCarouselState, result: number) => expect(toIndex(target, cfg).index).toBe(result)
       );
     });

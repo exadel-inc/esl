@@ -1,5 +1,5 @@
 import {attr} from '../attr';
-import {ESLTestTemplate} from '../../test/template';
+import {ESLTestTemplate} from '../../../test/template';
 
 describe('Decorator: attr', () => {
 

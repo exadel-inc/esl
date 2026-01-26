@@ -11,5 +11,5 @@ describe('dom/events: availability', () => {
     ESLEventUtils.listeners,
     ESLEventUtils.subscribe,
     ESLEventUtils.unsubscribe
-  ])('%p is available', (fn) => expect(typeof fn).toBe('function'));
+  ])('%o is available', (fn) => expect(typeof fn).toBe('function'));
 });

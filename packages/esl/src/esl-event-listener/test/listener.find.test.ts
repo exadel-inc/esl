@@ -4,8 +4,8 @@ import type {ESLEventListener} from '../core';
 
 describe('Finds currently subscribed listeners of the host by passed criteria', () => {
   const host = document.createElement('div');
-  const fn1 = jest.fn();
-  const fn2 = jest.fn();
+  const fn1 = vi.fn();
+  const fn2 = vi.fn();
 
   beforeEach(() => {
     ESLEventUtils.unsubscribe(host);
