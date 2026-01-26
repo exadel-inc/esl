@@ -26,8 +26,8 @@
   "scripts": {
     "start": "nx run esl-website:start",
     "test": "nx run-many -t test && npm run success \"Tests passed\"",
-    "test:e2e": "nx run esl-e2e:run",
-    "test:e2e:update": "nx run esl-e2e:run:update",
+    "test:e2e": "nx run esl-website-e2e:run",
+    "test:e2e:update": "nx run esl-website-e2e:run:update",
     "lint": "nx run-many -t lint --output-style=stream && npm run success \"Lint success\"",
     "build": "nx run-many -t build",
     "build:core": "nx run esl:build",
