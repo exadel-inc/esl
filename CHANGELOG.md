@@ -1,3 +1,9 @@
+## 6.0.0-beta.6 (2026-01-26)
+
+### 💅 Refactors
+
+- move test helpers from src/esl-utils/test to src/test ([1327931f6](https://github.com/exadel-inc/esl/commit/1327931f6))
+
 ## 6.0.0-beta.5 (2026-01-22)
 
 ### 🩹 Fixes
