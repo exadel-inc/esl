@@ -17,7 +17,15 @@ export default defineConfig({
     baseURL,
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
-    video: 'retain-on-failure'
+    video: 'retain-on-failure',
+    launchOptions: {
+      args: [
+        '--disable-font-subpixel-positioning',
+        '--disable-lcd-text',
+        '--font-render-hinting=none',
+      ]
+    },
+    deviceScaleFactor: 1
   },
   updateSnapshots: isCI ? 'none' : 'missing',
 
