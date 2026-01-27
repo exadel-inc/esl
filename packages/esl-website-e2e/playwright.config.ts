@@ -1,6 +1,7 @@
 import {defineConfig, devices} from 'playwright/test';
 
 const isCI = Boolean(process.env.CI);
+const isDebug = Boolean(process.env.E2E_DEBUG);
 const PORT = Number(process.env.PORT ?? 3007);
 const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? `http://127.0.0.1:${PORT}`;
 
@@ -15,9 +16,9 @@ export default defineConfig({
   reporter: [['list'], ['html', {open: 'never'}]],
   use: {
     baseURL,
-    trace: isCI ? 'retain-on-failure' : 'on',
-    screenshot: isCI ? 'only-on-failure' : 'on',
+    trace: isCI ? (isDebug ? 'retain-on-failure' : 'off'): 'on',
     video: isCI ? 'retain-on-failure' : 'on',
+    screenshot: isCI ? 'only-on-failure' : 'on',
     launchOptions: {
       args: [
         '--disable-font-subpixel-positioning',

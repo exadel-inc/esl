@@ -12,6 +12,11 @@ on:
         default: false
         required: false
         description: 'Create a pull request to update Playwright snapshots on the current branch'
+      e2eDebug:
+        type: boolean
+        default: false
+        required: false
+        description: 'Enable tracing in artifacts for debugging E2E tests'
 
 env:
   node-version: 24.x
@@ -46,6 +51,8 @@ jobs:
 
       - name: Run Website E2E Tests
         run: npx nx run esl-website-e2e:run
+        env:
+          E2E_DEBUG: ${{ (github.event_name == 'workflow_dispatch' && inputs.e2eDebug) && '1' || '' }}
 
       - name: Upload Playwright Report
         if: ${{ failure() || github.event_name == 'workflow_dispatch' }}
@@ -91,6 +98,8 @@ jobs:
 
       - name: Update Snapshots
         run: npx nx run esl-website-e2e:run:update
+        env:
+          E2E_DEBUG: ${{ (github.event_name == 'workflow_dispatch' && inputs.e2eDebug) && '1' || '' }}
 
       - name: Upload Playwright Report
         if: ${{ failure() }}
