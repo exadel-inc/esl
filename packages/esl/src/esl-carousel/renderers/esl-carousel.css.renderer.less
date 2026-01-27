@@ -11,6 +11,13 @@
     z-index: 0;
     position: relative;
     backface-visibility: hidden;
+    top: 100%;
+    visibility: hidden;
+  }
+
+  [esl-carousel-slide]:is([active], [pre-active]) {
+    top: 0;
+    visibility: visible;
   }
 
   [esl-carousel-slide][active] {
