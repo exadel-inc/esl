@@ -11,30 +11,44 @@ export type StabilizeOptions = {
 };
 
 export async function autoScrollPage(page: Page, delay: number) {
-  // Scroll down in steps until the bottom, then back to top.
-  // This helps trigger IntersectionObserver-driven rendering and lazy content.
-  await page.evaluate(async (scrollDelay) => {
-    const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
-    const scrollStep = Math.max(200, Math.floor(window.innerHeight * 0.7));
-    const maxScroll = Math.max(
-      document.body.scrollHeight,
-      document.documentElement.scrollHeight,
-      document.body.offsetHeight,
-      document.documentElement.offsetHeight
-    );
+  // Simple wheel scrolling to trigger IntersectionObserver / lazy content.
+  // We do a fixed number of steps, but stop early if we stop making progress.
 
-    for (let y = 0; y < maxScroll; y += scrollStep) {
-      window.scrollTo(0, y);
-      await sleep(scrollDelay);
+  const steps = 20;
+  const deltaY = 1000;
+  const stepDelay = Math.max(0, delay);
+
+  let lastScrollY = -1;
+  let lastScrollH = -1;
+  let stable = 0;
+
+  for (let i = 0; i < steps; i++) {
+    await page.mouse.wheel(0, deltaY);
+    await page.waitForTimeout(stepDelay);
+
+    const {scrollY, scrollH} = await page.evaluate(() => {
+      const de = document.documentElement;
+      const y = Math.max(window.scrollY, de.scrollTop);
+      const h = Math.max(de.scrollHeight, document.body?.scrollHeight ?? 0);
+      return {scrollY: y, scrollH: h};
+    });
+
+    // If neither the scroll position nor the page height changes for a few steps,
+    // we're effectively at the bottom (or cannot scroll further).
+    if (scrollY === lastScrollY && scrollH === lastScrollH) {
+      stable++;
+      if (stable >= 3) break;
+    } else {
+      stable = 0;
     }
 
-    window.scrollTo(0, maxScroll);
-    await sleep(scrollDelay);
+    lastScrollY = scrollY;
+    lastScrollH = scrollH;
+  }
 
-    // Scroll back to top to keep screenshot consistent (top anchored).
-    window.scrollTo(0, 0);
-    await sleep(100);
-  }, delay);
+  // Back to top for consistent screenshots.
+  await page.keyboard.press('Home');
+  await page.waitForTimeout(100);
 }
 
 export async function waitForFonts(page: Page) {
