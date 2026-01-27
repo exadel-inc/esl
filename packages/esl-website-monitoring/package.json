@@ -14,7 +14,7 @@
     "url": "https://github.com/exadel-inc/esl.git"
   },
   "dependencies": {
-    "@actions/github": "^7.0.0",
+    "@actions/github": "^8.0.0",
     "whoiser": "^1.18.0"
   }
 }
