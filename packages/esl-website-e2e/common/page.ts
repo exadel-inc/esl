@@ -3,47 +3,36 @@ import type {Page, Locator} from '@playwright/test';
 
 export type StabilizeOptions = {
   /** Trigger IntersectionObserver/lazy content by scrolling the page before screenshots. */
-  scroll?: boolean | number;
+  scroll?: boolean;
   /** Extra delay after stabilization steps (ms). Keep small to avoid slowing down tests. */
   settleMs?: number;
   /** Optional: ensure these locators are visible before proceeding. */
   ensureVisible?: Array<Locator | string>;
 };
 
-export async function autoScrollPage(page: Page, delay: number) {
-  // Simple wheel scrolling to trigger IntersectionObserver / lazy content.
-  // We do a fixed number of steps, but stop early if we stop making progress.
-
-  const steps = 20;
-  const deltaY = 1000;
-  const stepDelay = Math.max(0, delay);
-
-  let lastScrollY = -1;
-  let lastScrollH = -1;
-  let stable = 0;
-
-  for (let i = 0; i < steps; i++) {
-    await page.mouse.wheel(0, deltaY);
-    await page.waitForTimeout(stepDelay);
-
-    const {scrollY, scrollH} = await page.evaluate(() => {
+export async function isPageEndReached(page: Page, tolerance = 5): Promise<boolean> {
+  try {
+    return await page.evaluate((tolerance) => {
       const de = document.documentElement;
-      const y = Math.max(window.scrollY, de.scrollTop);
-      const h = Math.max(de.scrollHeight, document.body?.scrollHeight ?? 0);
-      return {scrollY: y, scrollH: h};
-    });
+      const scrollY = Math.max(window.scrollY, de.scrollTop);
+      const scrollH = Math.max(de.scrollHeight, document.body?.scrollHeight ?? 0);
+      const viewportH = window.innerHeight;
+      return scrollY + viewportH - scrollH < tolerance; // 5px tolerance
+    }, tolerance);
+  } catch {
+    return true; // In case of any error, assume the end is reached to stop scrolling.
+  }
+}
 
-    // If neither the scroll position nor the page height changes for a few steps,
-    // we're effectively at the bottom (or cannot scroll further).
-    if (scrollY === lastScrollY && scrollH === lastScrollH) {
-      stable++;
-      if (stable >= 3) break;
-    } else {
-      stable = 0;
-    }
+export async function autoScrollPage(page: Page) {
+  // Ensure we start scrolling in a stable document context.
+  await page.waitForLoadState('domcontentloaded');
 
-    lastScrollY = scrollY;
-    lastScrollH = scrollH;
+  for (let i = 0; i < 50; i++) {
+    await page.mouse.wheel(0, 500);
+    await page.waitForTimeout(100);
+
+    if (await isPageEndReached(page)) break;
   }
 
   // Back to top for consistent screenshots.
@@ -80,7 +69,7 @@ export async function stabilizePage(page: Page, opts: StabilizeOptions = {}) {
   await waitForFonts(page);
 
   if (scroll) {
-    await autoScrollPage(page, typeof scroll === 'number' ? scroll : 100);
+    await autoScrollPage(page);
   }
 
   // Small settle to let any queued rendering complete.
