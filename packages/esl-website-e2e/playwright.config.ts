@@ -18,11 +18,12 @@ export default defineConfig({
     baseURL,
     trace: isCI ? (isDebug ? 'retain-on-failure' : 'off'): 'on',
     video: isCI ? 'retain-on-failure' : 'on',
-    screenshot: isCI ? 'only-on-failure' : 'on',
+    screenshot: 'on',
     launchOptions: {
       args: [
         '--disable-font-subpixel-positioning',
         '--disable-lcd-text',
+        '--disable-gpu',
         '--font-render-hinting=none',
       ]
     },
@@ -47,7 +48,11 @@ export default defineConfig({
     {
       name: 'desktop',
       use: {
-        ...devices['Desktop Chrome']
+        browserName: 'chromium',
+        viewport: { width: 1280, height: 800 },
+        deviceScaleFactor: 1,
+        isMobile: false,
+        hasTouch: false
       }
     },
     {
