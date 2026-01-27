@@ -7,10 +7,6 @@ export async function scrollTillTheEnd(page: Page) {
     await page.waitForTimeout(200);
     if (y === await page.evaluate(() => window.scrollY)) break;
   }
-
-  // Back to top for consistent screenshots.
-  await page.keyboard.press('Home');
-  await page.waitForTimeout(100);
 }
 
 export async function waitForFonts(page: Page) {

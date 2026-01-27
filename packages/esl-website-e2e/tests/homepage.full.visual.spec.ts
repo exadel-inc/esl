@@ -9,8 +9,9 @@ test.describe('Homepage visual', () => {
     // Scroll to the end to load all lazy content.
     await scrollTillTheEnd(page);
 
-    await expect(page).toHaveScreenshot('homepage.png', {
-      fullPage: true
-    });
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await page.waitForTimeout(100);
+
+    await expect(page.locator('body')).toHaveScreenshot();
   });
 });
