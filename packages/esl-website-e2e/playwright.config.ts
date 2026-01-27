@@ -24,6 +24,8 @@ export default defineConfig({
         '--disable-font-subpixel-positioning',
         '--disable-lcd-text',
         '--disable-gpu',
+        '--disable-features=LayoutNG',
+        '--force-device-scale-factor=1',
         '--font-render-hinting=none',
       ]
     },
@@ -48,11 +50,8 @@ export default defineConfig({
     {
       name: 'desktop',
       use: {
-        browserName: 'chromium',
+        ...devices['Desktop Chrome'],
         viewport: { width: 1280, height: 800 },
-        deviceScaleFactor: 1,
-        isMobile: false,
-        hasTouch: false
       }
     },
     {
