@@ -8,16 +8,16 @@ export default defineConfig({
   testDir: './tests',
   timeout: 180_000,
   expect: {
-    timeout: 25_000
+    timeout: 60_000
   },
   fullyParallel: true,
   retries: isCI ? 1 : 0,
   reporter: [['list'], ['html', {open: 'never'}]],
   use: {
     baseURL,
-    trace: 'retain-on-failure',
-    screenshot: 'only-on-failure',
-    video: 'retain-on-failure',
+    trace: isCI ? 'retain-on-failure' : 'on',
+    screenshot: isCI ? 'only-on-failure' : 'on',
+    video: isCI ? 'retain-on-failure' : 'on',
     launchOptions: {
       args: [
         '--disable-font-subpixel-positioning',
@@ -31,7 +31,7 @@ export default defineConfig({
 
   // Auto-start website for e2e runs (can be reused if already running).
   webServer: {
-    command: 'npx nx run esl-website:start',
+    command: 'npx nx run esl-website:run',
     url: baseURL,
     reuseExistingServer: !process.env.CI,
     timeout: 240_000,

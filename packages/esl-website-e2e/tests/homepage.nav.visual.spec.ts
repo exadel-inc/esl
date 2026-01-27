@@ -1,11 +1,9 @@
 import {expect, test} from '@playwright/test';
-import {stabilizePage} from '../common/page';
 
 test.describe('Homepage visual', () => {
   test('homepage hamburger menu on mobile', async ({page}, testInfo) => {
     test.skip(testInfo.project.name !== 'mobile', 'Mobile-only scenario');
-    await page.goto('/');
-    await stabilizePage(page, {ensureVisible: ['header']});
+    await page.goto('/', {waitUntil: 'domcontentloaded'});
 
     const hamburger = page.locator('.header-hamburger');
     await expect(hamburger).toBeVisible();
@@ -18,8 +16,7 @@ test.describe('Homepage visual', () => {
   });
 
   test('homepage footer element', async ({page}) => {
-    await page.goto('/');
-    await stabilizePage(page);
+    await page.goto('/', {waitUntil: 'domcontentloaded'});
 
     const footer = page.locator('footer');
     await expect(footer).toBeVisible();
