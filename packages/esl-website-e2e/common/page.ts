@@ -25,12 +25,9 @@ export async function isPageEndReached(page: Page, tolerance = 5): Promise<boole
 }
 
 export async function autoScrollPage(page: Page) {
-  // Ensure we start scrolling in a stable document context.
-  await page.waitForLoadState('domcontentloaded');
-
-  for (let i = 0; i < 50; i++) {
-    await page.mouse.wheel(0, 500);
-    await page.waitForTimeout(100);
+  for (let i = 0; i < 25; i++) {
+    await page.mouse.wheel(0, 1000);
+    await page.waitForTimeout(250);
 
     if (await isPageEndReached(page)) break;
   }
@@ -62,14 +59,17 @@ export async function stabilizePage(page: Page, opts: StabilizeOptions = {}) {
     ensureVisible: visible = []
   } = opts;
 
-  if (visible.length) {
-    await ensureVisible(page, visible);
-  }
+  // Ensure we start scrolling in a stable document context.
+  await page.waitForLoadState('domcontentloaded');
 
   await waitForFonts(page);
 
   if (scroll) {
     await autoScrollPage(page);
+  }
+
+  if (visible.length) {
+    await ensureVisible(page, visible);
   }
 
   // Small settle to let any queued rendering complete.
