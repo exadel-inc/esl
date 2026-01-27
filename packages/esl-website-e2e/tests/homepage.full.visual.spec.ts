@@ -4,7 +4,7 @@ import {stabilizePage} from '../common/page';
 test.describe('Homepage visual', () => {
   test('homepage screen', async ({page}) => {
     await page.goto('/');
-    await stabilizePage(page, {scroll: 500});
+    await stabilizePage(page, {scroll: 350});
     await expect(page).toHaveScreenshot('homepage.png', {
       fullPage: true
     });

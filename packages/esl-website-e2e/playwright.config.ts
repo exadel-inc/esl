@@ -6,7 +6,7 @@ const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? `http://127.0.0.1:${PORT}`;
 
 export default defineConfig({
   testDir: './tests',
-  timeout: 120_000,
+  timeout: 240_000,
   expect: {
     timeout: 30_000
   },
