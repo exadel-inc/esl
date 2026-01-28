@@ -12,7 +12,7 @@ export async function scrollTillTheEnd(page: Page) {
 export async function waitForFonts(page: Page) {
   // Fonts can affect rendering; wait for them if the page uses webfonts.
   await page.evaluate(async () => {
-    const fonts: any = (document as any).fonts;
+    const fonts: FontFaceSet = document.fonts;
     if (fonts?.status !== 'loaded') await fonts.ready;
   });
 }

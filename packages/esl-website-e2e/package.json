@@ -20,7 +20,7 @@
   "dependencies": {
     "@exadel/esl-website": "^6.0.0-beta.5",
     "@playwright/test": "^1.58.0",
-    "playwright": "^1.37.0",
+    "playwright": "^1.58.0",
     "rimraf": "^6.1.2"
   }
 }
