@@ -1,0 +1,26 @@
+{
+  "private": true,
+  "name": "@exadel/esl-website-e2e",
+  "type": "module",
+  "version": "6.0.0-beta.5",
+  "description": "Snapshot tests for ESL Website",
+  "homepage": "https://esl-ui.com/",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/exadel-inc/esl.git"
+  },
+  "scripts": {
+    "run": "nx run esl-website-e2e:run",
+    "run:update": "nx run esl-website-e2e:run:update",
+    "dev:tests": "nx run esl-website-e2e:run --no-autorun",
+    "dev:update": "nx run esl-website-e2e:run --no-autorun",
+    "run:server": "cross-env-shell PORT=3007 SITE_ENV=e2e nx run esl-website:start"
+  },
+  "dependencies": {
+    "@exadel/esl-website": "^6.0.0-beta.5",
+    "@playwright/test": "^1.58.0",
+    "playwright": "^1.58.0",
+    "rimraf": "^6.1.2"
+  }
+}

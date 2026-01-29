@@ -1,0 +1,21 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "esl-website-e2e",
+  "projectType": "application",
+  "targets": {
+    "run": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx playwright test",
+        "cwd": "packages/esl-website-e2e"
+      }
+    },
+    "run:update": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx playwright test --update-snapshots",
+        "cwd": "packages/esl-website-e2e"
+      }
+    }
+  }
+}
