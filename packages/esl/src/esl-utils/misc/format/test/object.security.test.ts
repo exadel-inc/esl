@@ -15,7 +15,7 @@ describe('misc/format - parseObject prototype pollution safety', () => {
     `prototype:{${PP_PROP}:true}`
   ];
 
-  test.each(vectors)('parseObject(%p) does not pollute Object.prototype', (src) => {
+  test.each(vectors)('parseObject(%o) does not pollute Object.prototype', (src) => {
     // Pre-condition: marker absent
     expect((Object.prototype as any)[PP_PROP]).toBeUndefined();
 

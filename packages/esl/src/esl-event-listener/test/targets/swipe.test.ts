@@ -3,7 +3,7 @@ import {overrideEvent} from '../../../esl-utils/dom/events/misc';
 
 describe('ESLSwipeGestureTarget EventTarget', () => {
   describe('ESLSwipeGestureTarget do not throws error on incorrect input (silent processing)', () => {
-    const consoleSpy = jest.spyOn(console, 'warn');
+    const consoleSpy = vi.spyOn(console, 'warn');
     beforeEach(() => consoleSpy.mockReset().mockImplementation(() => void 0));
     afterAll(() => consoleSpy.mockRestore());
 
@@ -30,11 +30,11 @@ describe('ESLSwipeGestureTarget EventTarget', () => {
 
   describe('ESLSwipeGestureTarget instance without subscription is light', () => {
     const $el = document.createElement('div');
-    const addEventListenerSpy = jest.spyOn($el, 'addEventListener');
-    const removeEventListenerSpy = jest.spyOn($el, 'removeEventListener');
+    const addEventListenerSpy = vi.spyOn($el, 'addEventListener');
+    const removeEventListenerSpy = vi.spyOn($el, 'removeEventListener');
     const target = ESLSwipeGestureTarget.for($el);
-    const listener1 = jest.fn();
-    const listener2 = jest.fn();
+    const listener1 = vi.fn();
+    const listener2 = vi.fn();
 
     test('ESLSwipeGestureTarget does not produce subscription on creation', () => {
       expect(addEventListenerSpy).not.toHaveBeenCalled();
@@ -75,7 +75,7 @@ describe('ESLSwipeGestureTarget EventTarget', () => {
 
     const $el = document.createElement('div');
     const target = ESLSwipeGestureTarget.for($el, {timeout: 150});
-    const listener = jest.fn();
+    const listener = vi.fn();
 
     beforeAll(() => target.addEventListener('swipe', listener));
     afterAll(() => target.removeEventListener('swipe', listener));

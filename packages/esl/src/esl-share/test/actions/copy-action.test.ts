@@ -11,7 +11,7 @@ describe('ESLShare: "copy" action import', () => {
 describe('ESLShare: "copy" action public API', () => {
   const originalClipboard = {...navigator.clipboard};
   const mockClipboard = {
-    writeText: jest.fn(),
+    writeText: vi.fn(),
   };
   const copyAction = ESLShareActionRegistry.instance.get('copy');
   const $button = ESLShareButton.create();
@@ -27,7 +27,7 @@ describe('ESLShare: "copy" action public API', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   afterAll(() => {
@@ -44,14 +44,18 @@ describe('ESLShare: "copy" action public API', () => {
     expect(mockClipboard.writeText).toHaveBeenCalledWith('http://localhost/test/button/url');
   });
 
-  test('should dispatch esl:alert:show with shareAdditional.copyAlertMsg when share() calls', (done) => {
-    document.body.addEventListener('esl:alert:show', (e) => {
-      expect((e as CustomEvent).detail).toEqual({
-        cls: 'esl-share-alert',
-        html: '<span>Copied to clipboard</span>',
-      });
-      done();
-    }, {once: true});
+  test('should dispatch esl:alert:show with shareAdditional.copyAlertMsg when share() calls', async () => {
+    const eventPromise = new Promise<void>(resolve => {
+      document.body.addEventListener('esl:alert:show', (e) => {
+        expect((e as CustomEvent).detail).toEqual({
+          cls: 'esl-share-alert',
+          html: '<span>Copied to clipboard</span>',
+        });
+        resolve();
+      }, {once: true});
+    });
+    
     copyAction?.share($button);
-  }, 10);
+    await eventPromise;
+  });
 });

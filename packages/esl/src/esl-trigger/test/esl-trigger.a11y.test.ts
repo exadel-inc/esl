@@ -1,7 +1,7 @@
 import {ESLTrigger} from '../core/esl-trigger';
 import {createToggleableMock} from '../../esl-toggleable/test/toggleable.mock';
 
-jest.mock('../../esl-utils/dom/ready', () => ({
+vi.mock('../../esl-utils/dom/ready', () => ({
   onDocumentReady: (cb: any) => cb()
 }));
 
@@ -10,7 +10,7 @@ describe('esl-trigger a11y attributes test', () => {
 
   beforeAll(() => ESLTrigger.register());
 
-  afterAll(() => jest.clearAllMocks());
+  afterAll(() => vi.clearAllMocks());
 
   describe(
     'a11yTarget attribute basic tests',

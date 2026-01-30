@@ -4,9 +4,7 @@ export default [
   {
     ignores: [
       // Typings
-      '**/*.d.ts',
-      // Common configuration
-      'jest.config.js'
+      '**/*.d.ts'
     ]
   },
   {

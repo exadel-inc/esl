@@ -1,6 +1,6 @@
-import {ESLEventUtils} from '../../esl-event-listener/core/api';
-import {wrap} from '../misc/array';
-import {Rect} from '../dom/rect';
+import {ESLEventUtils} from '../esl-event-listener/core/api';
+import {wrap} from '../esl-utils/misc/array';
+import {Rect} from '../esl-utils/dom/rect';
 
 let original: typeof IntersectionObserver;
 let lastMock: IntersectionObserverMock;
@@ -22,9 +22,9 @@ export class RectMock extends Rect implements DOMRect {
 export class IntersectionObserverMock implements IntersectionObserver {
   public constructor(public callback: IntersectionObserverCallback) {
     this._onObserve = this._onObserve.bind(this);
-    this.observe = jest.fn(this.observe);
-    this.unobserve = jest.fn(this.unobserve);
-    this.disconnect = jest.fn(this.disconnect);
+    this.observe = vi.fn(this.observe);
+    this.unobserve = vi.fn(this.unobserve);
+    this.disconnect = vi.fn(this.disconnect);
   }
 
   public root: Document | Element | null = null;
@@ -86,8 +86,9 @@ export class IntersectionObserverMock implements IntersectionObserver {
 
   public static mock(): void {
     original = window.IntersectionObserver;
-    window.IntersectionObserver = jest.fn(
-      (cb) => (lastMock = new IntersectionObserverMock(cb))
+    window.IntersectionObserver = vi.fn(function (cb) {
+      return (lastMock = new IntersectionObserverMock(cb));
+    }
     );
   }
   public static restore(): void {

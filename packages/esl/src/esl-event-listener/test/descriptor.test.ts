@@ -28,7 +28,7 @@ describe('dom/events: ESLEventUtils: ESLListenerDescriptor Utils', () => {
       [descEvent, true],
       [descEventProvider, true]
     ])(
-      'isEventDescriptor(%p) = %s',
+      'isEventDescriptor(%o) = %s',
       (sample: any, check: boolean) => expect(ESLEventUtils.isEventDescriptor(sample)).toBe(check)
     );
   });
@@ -138,7 +138,7 @@ describe('dom/events: ESLEventUtils: ESLListenerDescriptor Utils', () => {
         [new (class Test {
           onEvent() {}
         })()]
-      ])('host = %p', (host: any) => expect(ESLEventUtils.descriptors(host)).toEqual([]));
+      ])('host = %o', (host: any) => expect(ESLEventUtils.descriptors(host)).toEqual([]));
     });
 
     test('ESLEventUtils.descriptors: catch prototype-level declared descriptor', () => {

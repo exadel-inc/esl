@@ -1,6 +1,6 @@
 {
   "name": "@exadel/esl-website",
-  "version": "6.0.0-beta.3",
+  "version": "6.0.0-beta.5",
   "type": "module",
   "private": true,
   "description": "ESL Website source",
@@ -31,13 +31,13 @@
     "image-size": "^2.0.2",
     "jsdom": "^27.4.0",
     "js-yaml": "^4.1.1",
-    "lightningcss-cli": "^1.30.2",
+    "lightningcss-cli": "^1.31.1",
     "out-url": "^1.2.2",
     "prismjs": "^1.30.0",
     "smoothscroll-polyfill": "^0.4.4",
     "ts-loader": "^9.5.4",
     "webpack": "^5.104.1",
-    "webpack-bundle-analyzer": "^5.1.1",
+    "webpack-bundle-analyzer": "^5.2.0",
     "webpack-cli": "^6.0.1"
   }
 }

@@ -57,7 +57,7 @@ describe('ESLMediaRule', () => {
     });
 
     test('@sm => {a: 1', () => {
-      const spy = jest.spyOn(console, 'warn').mockImplementationOnce(() => void 0);
+      const spy = vi.spyOn(console, 'warn').mockImplementationOnce(() => void 0);
       const serialized = '@sm => {a: 1';
       const rule = ESLMediaRule.parse(serialized, ESLMediaRuleList.OBJECT_PARSER);
       expect(rule).not.toBeDefined();
@@ -99,12 +99,12 @@ describe('ESLMediaRule', () => {
     const testRule = ESLMediaRule.parse('all => 1', ESLMediaRuleList.STRING_PARSER) as ESLMediaRule<string>;
 
     test('addEventListener', () => {
-      const spyAdd = jest.spyOn(ESLMediaQuery.ALL, 'addEventListener');
+      const spyAdd = vi.spyOn(ESLMediaQuery.ALL, 'addEventListener');
       testRule.addEventListener(callback);
       expect(spyAdd).toHaveBeenCalled();
     });
     test('removeEventListener', () => {
-      const spyRemove = jest.spyOn(ESLMediaQuery.ALL, 'removeEventListener');
+      const spyRemove = vi.spyOn(ESLMediaQuery.ALL, 'removeEventListener');
       testRule.removeEventListener(callback);
       expect(spyRemove).toHaveBeenCalled();
     });

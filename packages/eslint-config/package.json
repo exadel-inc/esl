@@ -2,7 +2,7 @@
   "name": "@exadel/eslint-config-esl",
   "type": "module",
   "private": false,
-  "version": "6.0.0-beta.3",
+  "version": "6.0.0-beta.5",
   "keywords": [
     "eslint",
     "eslint-config",
@@ -32,9 +32,9 @@
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-sonarjs": "^3.0.5",
     "eslint-plugin-tsdoc": "^0.5.0",
-    "globals": "^17.0.0",
+    "globals": "^17.1.0",
     "semiver": "^1.1.0",
-    "typescript-eslint": "^8.53.0"
+    "typescript-eslint": "^8.53.1"
   },
   "devDependencies": {
     "@types/eslint": "^9.6.1"

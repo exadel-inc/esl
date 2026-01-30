@@ -5,8 +5,8 @@ import {
 } from '../promise';
 
 describe('async/promise', () => {
-  beforeAll(() =>  jest.useFakeTimers());
-  afterAll(() => jest.useRealTimers());
+  beforeAll(() =>  vi.useFakeTimers());
+  afterAll(() => vi.useRealTimers());
 
   describe('promise chain', () => {
     test('resolve', () => {

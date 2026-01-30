@@ -1,7 +1,9 @@
-name: Automation Testing (Draft)
+name: Website E2E (Playwright)
 
 on:
   push:
+    branches: [ main, main-beta, epic/* ]
+  pull_request:
     branches: [ main, main-beta, epic/* ]
   workflow_dispatch:
     inputs:
@@ -9,11 +11,15 @@ on:
         type: boolean
         default: false
         required: false
-        description: 'Create a pull request to update snapshots on the current branch'
+        description: 'Create a pull request to update Playwright snapshots on the current branch'
+      e2eDebug:
+        type: boolean
+        default: false
+        required: false
+        description: 'Enable tracing in artifacts for debugging E2E tests'
 
 env:
   node-version: 24.x
-  DIFF_REPORT_BRANCH: diff-report
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -21,64 +27,59 @@ concurrency:
 
 jobs:
   e2e-tests:
-    name: Automation Testing
+    name: Website E2E (Playwright)
     runs-on: ubuntu-latest
-    if: ${{ !inputs.updateSnapshots }}
+    if: ${{ github.event_name != 'workflow_dispatch' || !inputs.updateSnapshots }}
 
     permissions:
-      contents: write
-      pull-requests: write
-      pages: none
-      deployments: none
+      contents: read
 
     steps:
       - uses: actions/checkout@v6
+
       - name: Use Node v${{ env.node-version }}
         uses: actions/setup-node@v6
         with:
           cache: 'npm'
           node-version: ${{ env.node-version }}
+
       - name: Install NPM Dependencies
         run: npm ci
-      - name: Ensure Platform-specific Dependencies Installed
-        run: npm install --no-save --os=linux --cpu=x64 sharp
 
-      - name: Run Tests
-        run: npm run test:e2e
-      - name: Collect Report & Upload Artifact
-        if: failure()
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Run Website E2E Tests
+        run: npx nx run esl-website-e2e:run
+        env:
+          E2E_DEBUG: ${{ (github.event_name == 'workflow_dispatch' && inputs.e2eDebug) && '1' || '' }}
+
+      - name: Upload Playwright Report
+        if: ${{ failure() || github.event_name == 'workflow_dispatch' }}
         uses: actions/upload-artifact@v6
         with:
-          name: automation-diff-report
-          path: packages/snapshot-tests/.diff
-      - name: Deploy Latest Issued Report To Branch
-        if: failure()
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: packages/snapshot-tests/.diff
-          publish_branch: ${{ env.DIFF_REPORT_BRANCH }}
-      - name: Render Report
-        if: always()
-        shell: bash
-        run: |
-          cat packages/snapshot-tests/.diff/index.md >> $GITHUB_STEP_SUMMARY
+          name: playwright-report-${{ github.run_id }}
+          path: packages/esl-website-e2e/playwright-report
+          retention-days: 7
 
-  e2e-tests-update-snapshots:
-    name: Update Automation Testing Snapshots
+  update-snapshots:
+    name: Update Playwright Snapshots
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'workflow_dispatch' && inputs.updateSnapshots }}
+    needs: [e2e-tests]
+
+    # Runs in two cases:
+    # 1) Manual workflow_dispatch with updateSnapshots=true (any branch)
+    # 2) Automatic follow-up if tests failed on push to main/main-beta
+    if: |
+      (github.event_name == 'workflow_dispatch' && inputs.updateSnapshots) ||
+      (needs.e2e-tests.result == 'failure' && github.event_name == 'push' && (github.ref_name == 'main' || github.ref_name == 'main-beta'))
+
     env:
-      UPD_COMMIT_MSG: 'test(e2e): update snapshots (via GitHub Actions)'
+      UPD_COMMIT_MSG: 'test(e2e): update playwright snapshots (via GitHub Actions)'
 
     permissions:
-      actions: write
-      checks: write
       contents: write
-      id-token: write
-      issues: write
       pull-requests: write
-      statuses: write
 
     steps:
       - uses: actions/checkout@v6
@@ -88,24 +89,33 @@ jobs:
         with:
           cache: 'npm'
           node-version: ${{ env.node-version }}
+
       - name: Install NPM Dependencies
         run: npm ci
-      - name: Ensure Platform-specific Dependencies Installed
-        run: npm install --no-save --os=linux --cpu=x64 sharp
 
-      - name: Update Test Snapshots
-        run: npm run test:e2e:update
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Update Snapshots
+        run: npx nx run esl-website-e2e:run:update
+        env:
+          E2E_DEBUG: ${{ (github.event_name == 'workflow_dispatch' && inputs.e2eDebug) && '1' || '' }}
+
+      - name: Upload Playwright Report
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v6
+        with:
+          name: playwright-report-update-${{ github.run_id }}
+          path: packages/esl-website-e2e/playwright-report
+          retention-days: 7
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: ${{ env.UPD_COMMIT_MSG }}
-          title: ${{ env.UPD_COMMIT_MSG }} for ${{ github.ref }}
+          title: ${{ env.UPD_COMMIT_MSG }} for ${{ github.ref_name }}
           body: |
-            This PR was automatically created by the e2e-tests-update-snapshots workflow to actualize snapshots on the ${{ github.ref }} branch.
-          branch: tests/snapshots-patch
-          branch-suffix: timestamp
+            This PR was automatically created to update Playwright snapshots for the `${{ github.ref_name }}` branch.
+          branch: ${{ github.ref_name }}/snap-patch
           labels: automation, update-snapshots
-          reviewers: ${{ github.actor }}
-          assignees: ${{ github.actor }}

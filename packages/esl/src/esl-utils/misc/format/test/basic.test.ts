@@ -9,7 +9,7 @@ describe('misc/format - basic formatters test', () => {
       ['', ''],
       ['true', 'true']
     ])(
-      'args = %p, result: %p',
+      'args = %o, result: %o',
       (args, exp) => expect(parseString.call(null, args)).toBe(exp)
     );
   });
@@ -24,7 +24,7 @@ describe('misc/format - basic formatters test', () => {
       ['1', true],
       ['brr', true]
     ])(
-      'args = %p, result: %p',
+      'args = %o, result: %o',
       (args, exp) => expect(parseBoolean.call(null, args)).toBe(exp)
     );
   });
@@ -42,7 +42,7 @@ describe('misc/format - basic formatters test', () => {
       [[''], undefined],
       [[false], undefined]
     ])(
-      'args = %p, result: %p',
+      'args = %o, result: %o',
       (args, exp) => expect(parseNumber.apply(null, args)).toBe(exp)
     );
   });

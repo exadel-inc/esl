@@ -10,7 +10,7 @@ describe('dom/events: SyntheticEventTarget', () => {
       const event3 = new CustomEvent('change');
       const event4 = new CustomEvent('click');
 
-      const listener = jest.fn();
+      const listener = vi.fn();
       et.addEventListener('change', listener);
 
       test('listener shoudn`t be called', () => expect(listener).toHaveBeenCalledTimes(0));
@@ -36,7 +36,7 @@ describe('dom/events: SyntheticEventTarget', () => {
         expect(listener).toHaveBeenCalledTimes(2);
       });
 
-      afterAll(() => jest.clearAllMocks());
+      afterAll(() => vi.clearAllMocks());
     });
 
     describe('Shorthand API', () => {
@@ -45,7 +45,7 @@ describe('dom/events: SyntheticEventTarget', () => {
       const event1 = new CustomEvent('change');
       const event2 = new CustomEvent('change');
 
-      const listener = jest.fn();
+      const listener = vi.fn();
       et.addEventListener(listener);
 
       test('listener shoudn`t be called', () => expect(listener).toHaveBeenCalledTimes(0));
@@ -75,7 +75,7 @@ describe('dom/events: SyntheticEventTarget', () => {
         expect(listener).toHaveBeenCalledTimes(1);
       });
 
-      afterAll(() => jest.clearAllMocks());
+      afterAll(() => vi.clearAllMocks());
     });
 
     describe('API restriction', () => {
@@ -96,7 +96,7 @@ describe('dom/events: SyntheticEventTarget', () => {
       const event2 = new CustomEvent('change');
       const event3 = new CustomEvent('change');
       const listener = {
-        handleEvent: jest.fn()
+        handleEvent: vi.fn()
       };
       et.addEventListener('change', listener);
 
@@ -123,7 +123,7 @@ describe('dom/events: SyntheticEventTarget', () => {
       const event1 = new CustomEvent('change');
       const event2 = new CustomEvent('change');
       const listener = {
-        handleEvent: jest.fn()
+        handleEvent: vi.fn()
       };
 
       test('listener event handler shoudn`t be called', () => {
@@ -148,7 +148,7 @@ describe('dom/events: SyntheticEventTarget', () => {
   describe('PreventDefault', () => {
     describe('Event action not prevented', () => {
       const et = new SyntheticEventTarget();
-      const listener = jest.fn(() => {});
+      const listener = vi.fn(() => {});
       et.addEventListener('change', listener);
 
       test('event shouldn`t be prevented', () => {
@@ -160,7 +160,7 @@ describe('dom/events: SyntheticEventTarget', () => {
 
     describe('Event action prevented', () => {
       const et = new SyntheticEventTarget();
-      const listener = jest.fn((e: Event) => {e.preventDefault();});
+      const listener = vi.fn((e: Event) => {e.preventDefault();});
       et.addEventListener('change', listener);
 
       test('preventDefault method should work correctly', () => {

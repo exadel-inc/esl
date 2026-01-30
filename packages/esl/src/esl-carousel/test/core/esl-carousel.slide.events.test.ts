@@ -2,13 +2,13 @@ import {createDummyCarousel} from '../common/esl-carousel.dummy';
 import {ESLCarouselSlideEvent} from '../../core/esl-carousel.events';
 import {ESLCarouselDirection} from '../../core/esl-carousel.types';
 
-jest.mock('../../../esl-utils/dom/ready', () => ({
+vi.mock('../../../esl-utils/dom/ready', () => ({
   onDocumentReady: (cb: any) => cb()
 }));
 
 describe('ESLCarouselRenderer: Slide change events created correctly', () => {
-  const beforeEventTrap = jest.fn();
-  const afterEventTrap = jest.fn();
+  const beforeEventTrap = vi.fn();
+  const afterEventTrap = vi.fn();
   document.addEventListener(ESLCarouselSlideEvent.BEFORE, beforeEventTrap);
   document.addEventListener(ESLCarouselSlideEvent.AFTER, afterEventTrap);
 

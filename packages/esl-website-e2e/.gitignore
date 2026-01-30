@@ -1,0 +1,8 @@
+# Playwright artifacts
+playwright-report
+playwright/.cache
+/test-results
+
+# Only Linux screenshots should be committed
+**/*-win32.png
+**/*-darwin.png

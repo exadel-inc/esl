@@ -8,7 +8,7 @@ describe('misc/object: copy', () => {
       [{}, {}],
       [[1, 2], {0: 1, 1: 2}],
       [{a: 1, b: {c: 2}}, {a: 1, b: {c: 2}}],
-    ])('full copy of %p', (inp, out) => {
+    ])('full copy of %o', (inp, out) => {
       expect(copy(inp as any)).toEqual(out);
     });
 
@@ -21,7 +21,7 @@ describe('misc/object: copy', () => {
       [{_: 1, _b: 1}, {}],
       [{_a: 1, b: 1}, {b: 1}],
       [{a: 1, b: {c: 2}}, {a: 1, b: {c: 2}}],
-    ])('copy %p with predicate', (inp, out) => {
+    ])('copy %o with predicate', (inp, out) => {
       expect(copy(inp as any, predicate)).toEqual(out);
     });
 
@@ -41,7 +41,7 @@ describe('misc/object: copy', () => {
       [{a: undefined, b: undefined}, {}],
       [{a: 1, b: 2}, {a: 1, b: 2}],
       [{a: 1, b: {}}, {a: 1, b: {}}]
-    ])('%p to %p', (inp, out) => {
+    ])('%o to %o', (inp, out) => {
       expect(copyDefinedKeys(inp as any)).toEqual(out);
     });
   });
@@ -57,7 +57,7 @@ describe('misc/object: copy', () => {
       [{a: 1, b: 1}, ['a'], {b: 1}],
       [{a: 1, b: 1}, ['c'], {a: 1, b: 1}],
       [{a: 1, b: {}}, [], {a: 1, b: {}}],
-    ])('omit from %p properties %p', (inp, keys, out) => {
+    ])('omit from %o properties %o', (inp, keys, out) => {
       expect(omit(inp as any, keys)).toEqual(out);
     });
   });
@@ -94,7 +94,7 @@ describe('misc/object: copy', () => {
       [{a: 1, b: 1}, ['c'], {}],
       [{a: 1, b: {}}, ['a', 'b'], {a: 1, b: {}}],
       [Object.setPrototypeOf({a: 1}, {b: 2}), ['a', 'b'], {a: 1, b: 2}],
-    ])('omit from %p properties %p', (inp: any, keys: string[], out: any) => {
+    ])('omit from %o properties %o', (inp: any, keys: string[], out: any) => {
       expect(pick(inp, keys)).toEqual(out);
     });
   });

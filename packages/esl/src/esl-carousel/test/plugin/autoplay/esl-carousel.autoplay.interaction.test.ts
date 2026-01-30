@@ -1,9 +1,10 @@
+import type {MockInstance} from 'vitest';
 import {ESLCarousel} from '../../../core/esl-carousel';
 import {ESLCarouselDummyRenderer} from '../../common/esl-carousel.dummy.renderer';
 import {ESLCarouselAutoplayMixin} from '../../../plugin/autoplay/esl-carousel.autoplay.mixin';
-import {IntersectionObserverMock} from '../../../../esl-utils/test/intersectionObserver.mock';
+import {IntersectionObserverMock} from '../../../../test/intersectionObserver.mock';
 
-jest.mock('../../../../esl-utils/dom/ready', () => ({
+vi.mock('../../../../esl-utils/dom/ready', () => ({
   onDocumentReady: (cb: any) => cb()
 }));
 
@@ -16,25 +17,25 @@ describe('ESLCarousel: Autoplay Plugin (interaction)', () => {
 
   beforeAll(() => {
     IntersectionObserverMock.mock();
-    jest.useFakeTimers();
+    vi.useFakeTimers();
   });
   afterAll(() => {
     IntersectionObserverMock.restore();
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   const $popupTrigger = document.createElement('esl-note');
   const $carousel = ESLCarousel.create();
-  jest.spyOn($carousel, 'canNavigate').mockReturnValue(true);
+  vi.spyOn($carousel, 'canNavigate').mockReturnValue(true);
 
   const interactionState = {hover: false, focus: false};
   const realMatches = Element.prototype.matches;
-  let matchesSpy: jest.SpyInstance | null = null;
+  let matchesSpy: MockInstance | null = null;
   let activeElementDescriptor: PropertyDescriptor | undefined;
 
   const applySpies = () => {
     if (!matchesSpy) {
-      matchesSpy = jest.spyOn(Element.prototype, 'matches').mockImplementation(function (selector: string) {
+      matchesSpy = vi.spyOn(Element.prototype, 'matches').mockImplementation(function (selector: string) {
         if (selector.includes(':hover')) return interactionState.hover && this === $carousel;
         if (selector.includes(':focus-within')) return interactionState.focus && this === $carousel;
         if (selector.includes(':focus-visible')) return interactionState.focus && this === document.activeElement;
@@ -87,7 +88,7 @@ describe('ESLCarousel: Autoplay Plugin (interaction)', () => {
     matchesSpy?.mockRestore();
     matchesSpy = null;
     if (activeElementDescriptor) Object.defineProperty(document, 'activeElement', activeElementDescriptor);
-    jest.clearAllTimers();
+    vi.clearAllTimers();
   });
 
   test('Pauses on hover', async () => {

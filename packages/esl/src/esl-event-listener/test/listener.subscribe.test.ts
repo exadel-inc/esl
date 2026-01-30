@@ -4,7 +4,7 @@ describe('ESLEventUtils:subscribe tests', () => {
   describe('ESLEventUtils.subscribe subscribes listeners by separate descriptors', () => {
     test('ESLEventUtils.subscribe successfully subscribes listener by descriptor', () => {
       const $host = document.createElement('div');
-      const handle = jest.fn();
+      const handle = vi.fn();
       ESLEventUtils.subscribe($host, {event: 'click'}, handle);
       expect(ESLEventUtils.listeners($host).length).toBe(1);
       ESLEventUtils.unsubscribe($host);
@@ -12,7 +12,7 @@ describe('ESLEventUtils:subscribe tests', () => {
 
     test('ESLEventUtils.subscribe successfully subscribes listener by event name', () => {
       const $host = document.createElement('div');
-      const handle = jest.fn();
+      const handle = vi.fn();
       ESLEventUtils.subscribe($host, 'click', handle);
       expect(ESLEventUtils.listeners($host).length).toBe(1);
       ESLEventUtils.unsubscribe($host);
@@ -20,11 +20,11 @@ describe('ESLEventUtils:subscribe tests', () => {
 
     test('ESLEventUtils.subscribe successfully subscribes listener by event provider', () => {
       const $host = document.createElement('div');
-      const provider = jest.fn(function () {
+      const provider = vi.fn(function () {
         expect(this).toBe($host);
         return 'event';
       });
-      const handle = jest.fn();
+      const handle = vi.fn();
       ESLEventUtils.subscribe($host, {event: provider}, handle);
       expect(ESLEventUtils.listeners($host).length).toBe(1);
       expect(provider).toHaveBeenCalledWith($host);
@@ -33,7 +33,7 @@ describe('ESLEventUtils:subscribe tests', () => {
 
     test('ESLEventUtils.subscribe successfully subscribes listeners by string with multiple events', () => {
       const $host = document.createElement('div');
-      const handle = jest.fn();
+      const handle = vi.fn();
       ESLEventUtils.subscribe($host, 'click keydown', handle);
       expect(ESLEventUtils.listeners($host).length).toBe(2);
       expect(ESLEventUtils.listeners($host, 'keydown').length).toBe(1);
@@ -45,8 +45,8 @@ describe('ESLEventUtils:subscribe tests', () => {
   describe('ESLEventUtils.subscribe subscribes listeners by function decorated with descriptor', () => {
     const $target = document.createElement('div');
     const $host = Object.assign(document.createElement('div'), {
-      onClick: jest.fn(),
-      onClickWithTarget: jest.fn()
+      onClick: vi.fn(),
+      onClickWithTarget: vi.fn()
     });
     ESLEventUtils.initDescriptor($host, 'onClick', {event: 'click'});
     ESLEventUtils.initDescriptor($host, 'onClickWithTarget', {event: 'click', target: $target});
@@ -77,7 +77,7 @@ describe('ESLEventUtils:subscribe tests', () => {
   describe('ESLEventUtils.subscribe uses correct target resolution', () => {
     test('ESLEventListener subscribes successfully by global selector',  () => {
       const host = {};
-      const handle = jest.fn();
+      const handle = vi.fn();
       ESLEventUtils.subscribe(host, {event: 'click', target: 'body'}, handle);
       expect(ESLEventUtils.listeners(host).length).toBe(1);
       ESLEventUtils.unsubscribe(host);
@@ -86,7 +86,7 @@ describe('ESLEventUtils:subscribe tests', () => {
     test('ESLEventListener subscribes successfully by target instance',  () => {
       const host = {};
       const el = document.createElement('div');
-      const handle = jest.fn();
+      const handle = vi.fn();
       ESLEventUtils.subscribe(host, {event: 'click', target: el}, handle);
       expect(ESLEventUtils.listeners(host).length).toBe(1);
       ESLEventUtils.unsubscribe(host);
@@ -96,7 +96,7 @@ describe('ESLEventUtils:subscribe tests', () => {
   describe('Created by ESLEventUtils listener behaves correctly', () => {
     test('ESLEventListener observes target events', () => {
       const $host = document.createElement('div');
-      const handle = jest.fn();
+      const handle = vi.fn();
       ESLEventUtils.subscribe($host, {event: 'click'}, handle);
       $host.click();
       expect(handle).toHaveBeenCalledTimes(1);
@@ -112,7 +112,7 @@ describe('ESLEventUtils:subscribe tests', () => {
       class HostClass {},
       new (class HostClassInst {})()
     ])('ESLEventListener subscribes correctly for %o host',  (host) => {
-      const handle = jest.fn();
+      const handle = vi.fn();
       ESLEventUtils.subscribe(host, {event: 'click', target: document.body}, handle);
       expect(ESLEventUtils.listeners(host).length).toBe(1);
       ESLEventUtils.unsubscribe(host);
@@ -120,14 +120,14 @@ describe('ESLEventUtils:subscribe tests', () => {
 
     test('ESLEventListener can not subscribe for primitive host', () => {
       expect(() => {
-        const handle = jest.fn();
+        const handle = vi.fn();
         ESLEventUtils.subscribe(1 as any, {event: 'click', target: document.body}, handle).length;
       }).toThrow();
     });
 
     test('ESLEventListener can not subscribe for null host', () => {
       expect(() => {
-        const handle = jest.fn();
+        const handle = vi.fn();
         ESLEventUtils.subscribe(null as any, {event: 'click', target: document.body}, handle).length;
       }).toThrow();
     });
@@ -135,14 +135,14 @@ describe('ESLEventUtils:subscribe tests', () => {
 
   describe('ESLEventListener subscribes from descriptors correctly by criteria', () => {
     const $host = Object.assign(document.createElement('div'), {
-      clickAuto: jest.fn(),
-      clickManual: jest.fn(),
-      clickWithGroup: jest.fn(),
-      clickWithTarget: jest.fn(),
-      keydownAuto: jest.fn(),
-      keydownWithGroup: jest.fn(),
-      keydownWithTarget: jest.fn(),
-      keydownWithTargetAndGroup: jest.fn()
+      clickAuto: vi.fn(),
+      clickManual: vi.fn(),
+      clickWithGroup: vi.fn(),
+      clickWithTarget: vi.fn(),
+      keydownAuto: vi.fn(),
+      keydownWithGroup: vi.fn(),
+      keydownWithTarget: vi.fn(),
+      keydownWithTargetAndGroup: vi.fn()
     });
     const $tgt = document.createElement('div');
     ESLEventUtils.initDescriptor($host, 'clickAuto', {event: 'click', auto: true});
@@ -201,18 +201,18 @@ describe('ESLEventUtils:subscribe tests', () => {
     });
 
     test('ESLEventListener does not subscribe if no targets',  () => {
-      jest.spyOn(console, 'warn').mockImplementationOnce(() => {});
+      vi.spyOn(console, 'warn').mockImplementationOnce(() => {});
       const host = {};
-      const handle = jest.fn();
+      const handle = vi.fn();
       ESLEventUtils.subscribe(host, {event: 'click'}, handle);
       expect(ESLEventUtils.listeners(host).length).toBe(0);
     });
 
     test('ESLEventListener does not fails or subscribes if non descriptor function passed',  () => {
       const host = {
-        onClick: jest.fn()
+        onClick: vi.fn()
       };
-      const warnSpy = jest.spyOn(console, 'warn').mockImplementationOnce(() => {});
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementationOnce(() => {});
 
       expect(ESLEventUtils.subscribe(host, host.onClick)).toEqual([]);
       expect(ESLEventUtils.listeners(host).length).toBe(0);

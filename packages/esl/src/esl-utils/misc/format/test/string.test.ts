@@ -52,7 +52,7 @@ describe('misc/format - string formatters test', () => {
       ['{a} - {b} - {c}', {a: 1, b: 2, c: 3}, '1 - 2 - 3'],
       ['{a.b}{b.c}', {a: {b: 'h'}, b: {c: 'i'}}, 'hi'],
       ['abc{%foo%}-{{bar}}', {foo: 1, bar: 5}, 'abc1-5'],
-    ])('\'%s\' using %p to \'%s\'', (tmp: string, source: any, res: string) => {
+    ])('\'%s\' using %o to \'%s\'', (tmp: string, source: any, res: string) => {
       expect(format(tmp, source)).toBe(res);
     });
   });

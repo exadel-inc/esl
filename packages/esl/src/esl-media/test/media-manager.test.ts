@@ -1,10 +1,10 @@
 import {ESLMedia} from '../core/esl-media';
-import {IntersectionObserverMock} from '../../esl-utils/test/intersectionObserver.mock';
+import {IntersectionObserverMock} from '../../test/intersectionObserver.mock';
 import {promisifyTimeout} from '../../esl-utils/async/promise';
 import {BaseProviderMock} from './mocks/base-provider.mock';
 
 describe('[ESLMedia]: ESLMediaManager tests', () => {
-  jest.spyOn(console, 'debug').mockImplementation(() => {});
+  vi.spyOn(console, 'debug').mockImplementation(() => {});
 
   ESLMedia.register();
   BaseProviderMock.register();

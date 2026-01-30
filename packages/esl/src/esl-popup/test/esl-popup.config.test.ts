@@ -1,4 +1,5 @@
 import {ESLPopup, type ESLPopupActionParams} from '../core';
+import {IntersectionObserverMock} from '../../test/intersectionObserver.mock';
 
 describe('ESLPopup: proxy logic of config', () => {
   let $popup: ESLPopup;
@@ -33,6 +34,16 @@ describe('ESLPopup: proxy logic of config', () => {
     intersectionMargin: '0px',
     offsetContainer: 15
   };
+
+  beforeAll(() => {
+    IntersectionObserverMock.mock();
+    vi.useFakeTimers();
+  });
+
+  afterAll(() => {
+    IntersectionObserverMock.restore();
+    vi.useRealTimers();
+  });
 
   beforeEach(() => {
     $popup = new ESLPopup();

@@ -158,7 +158,7 @@ describe('ESLShareConfig tests', () => {
 
   describe('ESLShareConfig notify about changes', () => {
     const instance: ESLShareConfig = new (ESLShareConfig as any)();
-    const callback = jest.fn();
+    const callback = vi.fn();
 
     beforeEach(async () => {
       callback.mockClear();

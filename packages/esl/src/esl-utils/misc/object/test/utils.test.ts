@@ -83,7 +83,7 @@ describe('misc/object: utils', () => {
       const obj = {a: 1, b: 2};
       const proto = {d: 4};
       Object.setPrototypeOf(obj, proto);
-      const filter = jest.fn(() => true);
+      const filter = vi.fn(() => true);
       extractValues(obj, filter);
 
       expect(filter).toHaveBeenCalledTimes(3);
@@ -103,7 +103,7 @@ describe('misc/object: utils', () => {
       const obj = {a: 1, b: 2};
       const proto = {b: 4};
       Object.setPrototypeOf(obj, proto);
-      const filter = jest.fn(() => false);
+      const filter = vi.fn(() => false);
       filter.mockImplementationOnce(() => true);
       expect(extractValues(obj, filter)).toEqual([1]);
     });

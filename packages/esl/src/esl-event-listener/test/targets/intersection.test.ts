@@ -1,11 +1,11 @@
 import {ESLIntersectionEvent, ESLIntersectionTarget} from '../../core/targets/intersection.target';
-import {IntersectionObserverMock} from '../../../esl-utils/test/intersectionObserver.mock';
+import {IntersectionObserverMock} from '../../../test/intersectionObserver.mock';
 
 describe('ESLIntersectionTarget proxy', () => {
   beforeAll(() => IntersectionObserverMock.mock());
 
   describe('ESLIntersectionTarget do not throws error on incorrect input (silent processing)', () => {
-    const consoleSpy = jest.spyOn(console, 'warn');
+    const consoleSpy = vi.spyOn(console, 'warn');
     beforeEach(() => consoleSpy.mockReset().mockImplementation(() => void 0));
     afterAll(() => consoleSpy.mockRestore());
 
@@ -63,7 +63,7 @@ describe('ESLIntersectionTarget proxy', () => {
     test('ESLIntersectionTarget subscribes to IntersectionObserver on first subscription', () => {
       const target = ESLIntersectionTarget.for(document.createElement('div'));
 
-      const listener = jest.fn();
+      const listener = vi.fn();
       target.addEventListener(listener);
       expect(IntersectionObserverMock.lastInstance.observe).toHaveBeenCalled();
     });
@@ -71,9 +71,9 @@ describe('ESLIntersectionTarget proxy', () => {
     test('ESLIntersectionTarget does not subscribe to IntersectionObserver on second subscription', () => {
       const target = ESLIntersectionTarget.for(document.createElement('div'));
 
-      const listener = jest.fn();
+      const listener = vi.fn();
       target.addEventListener(listener);
-      const listener2 = jest.fn();
+      const listener2 = vi.fn();
       target.addEventListener(listener2);
       expect(IntersectionObserverMock.lastInstance.observe).toHaveBeenCalledTimes(1);
     });
@@ -81,9 +81,9 @@ describe('ESLIntersectionTarget proxy', () => {
     test('ESLIntersectionTarget disconnect IntersectionObserver on last unsubscription', () => {
       const target = ESLIntersectionTarget.for(document.createElement('div'));
 
-      const listener = jest.fn();
+      const listener = vi.fn();
       target.addEventListener(listener);
-      const listener2 = jest.fn();
+      const listener2 = vi.fn();
       target.addEventListener(listener2);
       target.removeEventListener(listener);
       expect(IntersectionObserverMock.lastInstance.disconnect).not.toHaveBeenCalled();
@@ -97,7 +97,7 @@ describe('ESLIntersectionTarget proxy', () => {
       const $el = document.createElement('div');
       const target = ESLIntersectionTarget.for($el);
 
-      const listener = jest.fn();
+      const listener = vi.fn();
       target.addEventListener(listener);
       IntersectionObserverMock.trigger($el, {isIntersecting: true});
       expect(listener).toHaveBeenCalled();
@@ -107,7 +107,7 @@ describe('ESLIntersectionTarget proxy', () => {
       const $el = document.createElement('div');
       const target = ESLIntersectionTarget.for($el);
 
-      const listener = jest.fn();
+      const listener = vi.fn();
       target.addEventListener(listener);
       const entry: IntersectionObserverEntry = IntersectionObserverMock.createEntry($el, {
         isIntersecting: true,

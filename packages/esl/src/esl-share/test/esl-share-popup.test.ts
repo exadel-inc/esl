@@ -1,4 +1,4 @@
-import {IntersectionObserverMock} from '../../esl-utils/test/intersectionObserver.mock';
+import {IntersectionObserverMock} from '../../test/intersectionObserver.mock';
 import {ESLSharePopup} from '../core/esl-share-popup';
 import {ESLShare} from '../core/esl-share';
 import '../buttons/copy';
@@ -8,7 +8,7 @@ import type {ESLShareButton} from '../core/esl-share-button';
 
 describe('ESLSharePopup tests', () => {
   beforeAll(() => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
     IntersectionObserverMock.mock();
     ESLShare.register();
   });
@@ -28,7 +28,7 @@ describe('ESLSharePopup tests', () => {
 
     const showPopupAndGetButton = (): ESLShareButton => {
       $trigger.showTarget();
-      jest.advanceTimersByTime(500);
+      vi.advanceTimersByTime(500);
       return document.querySelector('esl-share-button') as ESLShareButton;
     };
 
@@ -53,7 +53,7 @@ describe('ESLSharePopup tests', () => {
       $lvl.forEach(clearShareAttributes);
       clearShareAttributes($trigger);
       ESLSharePopup.sharedInstance.hide();
-      jest.advanceTimersByTime(500);
+      vi.advanceTimersByTime(500);
     });
 
     afterAll(() => {

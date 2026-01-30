@@ -14,8 +14,8 @@ describe('ESlEventListener subscription with target or selector defined by provi
   afterEach(() => ESLEventUtils.unsubscribe(host));
 
   test('Selector provider receives host in arg and context', () => {
-    const handler = jest.fn();
-    const provider  = jest.fn(function () {
+    const handler = vi.fn();
+    const provider  = vi.fn(function () {
       expect(this).toBe(host);
       return 'button';
     });
@@ -25,8 +25,8 @@ describe('ESlEventListener subscription with target or selector defined by provi
   });
 
   test('Selector defined with provider applies on fly', () => {
-    const handler = jest.fn();
-    const provider  = jest.fn();
+    const handler = vi.fn();
+    const provider  = vi.fn();
     ESLEventUtils.subscribe(host, {event: 'click', selector: provider}, handler);
     expect(handler).toHaveBeenCalledTimes(0);
 
@@ -44,8 +44,8 @@ describe('ESlEventListener subscription with target or selector defined by provi
   });
 
   test('Target provider receives host in arg and context', () => {
-    const handler = jest.fn();
-    const provider  = jest.fn(function () {
+    const handler = vi.fn();
+    const provider  = vi.fn(function () {
       expect(this).toBe(host);
       return '';
     });
@@ -55,8 +55,8 @@ describe('ESlEventListener subscription with target or selector defined by provi
   });
 
   test('Subscription use target provider value correctly', () => {
-    const handler = jest.fn();
-    const provider  = jest.fn(() => '::find(.btn2)');
+    const handler = vi.fn();
+    const provider  = vi.fn(() => '::find(.btn2)');
     ESLEventUtils.subscribe(host, {event: 'click', target: provider}, handler);
     btn1.click();
     expect(handler).not.toHaveBeenCalled();
@@ -65,9 +65,9 @@ describe('ESlEventListener subscription with target or selector defined by provi
   });
 
   test('ESlEventListener does not produce subscription if target provider returns null', () => {
-    jest.spyOn(console, 'warn').mockImplementationOnce(() => undefined); // Skip warn
-    const handler = jest.fn();
-    const provider = jest.fn(() => null);
+    vi.spyOn(console, 'warn').mockImplementationOnce(() => undefined); // Skip warn
+    const handler = vi.fn();
+    const provider = vi.fn(() => null);
 
     const listeners = ESLEventUtils.subscribe(host, {event: 'click', target: provider}, handler);
     host.click();
