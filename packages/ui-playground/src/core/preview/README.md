@@ -96,7 +96,7 @@ You can specify a named HTML shell for isolated snippets via `isolated-template`
 If `isolated-template` is absent a built‑in minimal HTML shell is used.
 
 ---
-### Using Preprocessors
+## Using Preprocessors
 
 UIPPreview supports built-in preprocessors for text and content generation. These preprocessors allow you to dynamically generate content such as text, paragraphs, or other elements within your snippets.
 ```html

@@ -4,7 +4,7 @@ Internally it coordinates:
 - [`UIPSnippetsList`](../snippets-list/README.md) – the list / dropdown UI
 - [`UIPSnippetsTitle`](../snippets-title/README.md) – current snippet label display
 
-How to declare snippets see the [Technical Internals](../../core/base/README.md#uip-snippet).
+To declare snippets, see the [Technical Internals](../../core/base/README.md#uip-snippet).
 
 ---
 ## Display Modes
