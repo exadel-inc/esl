@@ -15,7 +15,8 @@
     "run:update": "nx run esl-website-e2e:run:update",
     "dev:tests": "nx run esl-website-e2e:run --no-autorun",
     "dev:update": "nx run esl-website-e2e:run --no-autorun",
-    "run:server": "cross-env-shell PORT=3007 SITE_ENV=e2e nx run esl-website:start"
+    "run:server": "cross-env-shell PORT=3007 SITE_ENV=e2e nx run esl-website:start",
+    "lint": "nx run esl-website-e2e:lint"
   },
   "dependencies": {
     "@exadel/esl-website": "^6.0.0-beta.5",

@@ -16,7 +16,7 @@ export default defineConfig({
   reporter: [['list'], ['html', {open: 'never'}]],
   use: {
     baseURL,
-    trace: isCI ? (isDebug ? 'retain-on-failure' : 'off'): 'on',
+    trace: isCI ? (isDebug ? 'retain-on-failure' : 'off') : 'on',
     video: isCI ? 'retain-on-failure' : 'on',
     screenshot: 'on',
     launchOptions: {
@@ -51,7 +51,7 @@ export default defineConfig({
       name: 'desktop',
       use: {
         ...devices['Desktop Chrome'],
-        viewport: { width: 1280, height: 800 },
+        viewport: {width: 1280, height: 800},
       }
     },
     {
