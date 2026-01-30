@@ -22,6 +22,11 @@
     "@exadel/esl-website": "^6.0.0-beta.5",
     "@playwright/test": "^1.58.0",
     "playwright": "^1.58.0",
+    "nunjucks": "^3.2.4",
     "rimraf": "^6.1.2"
+  },
+  "devDependencies": {
+    "@exadel/eslint-config-esl": "^6.0.0-beta.1",
+    "@types/nunjucks": "^3.2.6"
   }
 }

@@ -13,7 +13,11 @@ export default defineConfig({
   },
   fullyParallel: true,
   retries: isCI ? 1 : 0,
-  reporter: [['list'], ['html', {open: 'never'}]],
+  reporter: [
+    ['list'],
+    ['html', {open: 'never'}],
+    ['./reporters/md-summary-reporter']
+  ],
   use: {
     baseURL,
     trace: isCI ? (isDebug ? 'retain-on-failure' : 'off') : 'on',
