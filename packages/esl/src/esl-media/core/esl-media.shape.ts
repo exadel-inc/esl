@@ -42,7 +42,7 @@ export type ESLMediaTagShape = ({
   /** Allow play media inline */
   'playsinline'?: boolean;
   /** Allows to start viewing a resource from a specific time offset */
-  'start-time'?: number;
+  'start-time'?: number | string;
 
   /** Optional BC provider player id */
   'data-player-id'?: string;

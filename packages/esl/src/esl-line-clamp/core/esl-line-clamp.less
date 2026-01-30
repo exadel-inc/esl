@@ -5,4 +5,8 @@
   line-clamp: var(--esl-line-clamp, none);
   overflow: hidden !important;
   text-overflow: ellipsis;
+
+  &[alt-active] {
+    --esl-line-clamp: var(--esl-line-clamp-alt, none) !important;
+  }
 }

@@ -43,7 +43,9 @@ import {
   ESLCarouselAutoplayProgressMixin,
   ESLCarouselClassBehaviourMixin,
   ESLLazyTemplate,
-  ESLLineClamp
+  ESLLineClamp,
+  ESLLineClampToggler,
+  ESLLineClampAlt
 } from '@exadel/esl/modules/all';
 
 import {ESLRandomText} from '@exadel/esl/modules/esl-random-text/core';
@@ -145,6 +147,8 @@ ESLOpenState.register();
 ESLLazyTemplate.register();
 
 ESLLineClamp.DEFAULT_MASK = '@xs|@sm|@md|@lg|@xl';
+ESLLineClampToggler.register();
+ESLLineClampAlt.register();
 ESLLineClamp.register();
 
 // Share component loading

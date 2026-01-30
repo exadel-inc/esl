@@ -108,6 +108,39 @@ aside:
         </section>
       </script>
 
+      <script type="text/html"
+        label="Alternative line clamp toggler"
+        uip-snippet
+        uip-snippet-js="js-snippet-line-clamp">
+
+        <style>
+          .esl-line-clamp-alt-active {
+            display: none;
+          }
+
+          [esl-line-clamp-toggler][toggler-active] {
+            .esl-line-clamp-alt-active {
+              display: inline;
+            }
+            .esl-line-clamp-alt-inactive {
+              display: none;
+            }
+          }
+        </style>
+
+        <section class="esl-line-clamp-demo">
+          <div class="esl-line-clamp-container">
+            <div class="esl-line-clamp-card">
+              <p esl-line-clamp="4" esl-line-clamp-alt="8"><!-- text x150 --></p>
+              <button esl-line-clamp-toggler="::prev">
+                <span class="esl-line-clamp-alt-inactive">Show More</span>
+                <span class="esl-line-clamp-alt-active">Show Less</span>
+              </button>
+            </div>
+          </div>
+        </section>
+      </script>
+
       {% if env.isDev %}
       <script type="text/html"
               label="Focus behavior demo"
