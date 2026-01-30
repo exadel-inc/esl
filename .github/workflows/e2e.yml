@@ -1,4 +1,4 @@
-name: Website E2E (Playwright)
+name: Website E2E
 
 run-name: >-
   Website E2E (Playwright) —
@@ -74,6 +74,14 @@ jobs:
         with:
           cache: 'npm'
           node-version: ${{ env.node-version }}
+
+      - name: Cache Playwright Browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-ms-playwright-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-ms-playwright-
 
       - name: Install NPM Dependencies
         run: npm ci
