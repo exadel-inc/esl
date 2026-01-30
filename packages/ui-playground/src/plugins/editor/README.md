@@ -39,11 +39,11 @@ Required minimum markup:
 ---
 ## Patterns & Tips
 
-| Goal                          | Pattern                                            |
-|-------------------------------|---------------------------------------------------|
-| Enable live editing            | Add `<uip-editor>` to your layout                |
-| Prevent editing for JS snippets| Use the `isJsReadonly` property in the snippet model |
-| Add copy functionality         | Use the `copy` attribute on `<uip-editor>`       |
+| Goal                          | Pattern                                                                |
+|-------------------------------|------------------------------------------------------------------------|
+| Enable live editing            | Add `<uip-editor>` to your layout                                      |
+| Prevent editing for JS snippets| Use the `uip-js-readonly` attribute on the snippet or un-isolated mode |
+| Add copy functionality         | Use the `copy` attribute on `<uip-editor>`                             |
 
 ---
 ## Advanced Customization
@@ -56,11 +56,9 @@ The `UIPEditor` can be extended or customized for advanced use cases. For exampl
 ---
 ## Troubleshooting
 
-| Symptom                        | Cause                                           | Fix                                                       |
-|--------------------------------|-------------------------------------------------|-----------------------------------------------------------|
-| Editor does not update preview | Missing `uip:change` listener or invalid markup | Ensure `<uip-preview>` is present and properly configured |
-| Copy button not visible        | `copy` attribute not set on `<uip-editor>`      | Add the `copy` attribute to enable the copy button        |
-| Editor is readonly unexpectedly| `editable` attribute set to `false` or snippet is JS in readonly mode | Check the `editable` attribute and snippet settings       |
+| Symptom                        | Cause                                                                                                        | Fix                                                         |
+|--------------------------------|--------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------|
+| Editor is readonly unexpectedly| Note that the JS editing is enabled only in isolated mode, when your snippet is running in independed iframe | Enable `isolated` mode to have scripts live editing enabled |
 
 ---
 ## Example

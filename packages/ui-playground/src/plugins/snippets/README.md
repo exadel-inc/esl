@@ -4,7 +4,7 @@ Internally it coordinates:
 - [`UIPSnippetsList`](../snippets-list/README.md) – the list / dropdown UI
 - [`UIPSnippetsTitle`](../snippets-title/README.md) – current snippet label display
 
-To declare snippets, see the [Technical Internals](../../core/base/README.md#uip-snippet).
+To declare snippets, see the [Snippet Declaration](../../core/README.md#snippet-declaration).
 
 ---
 ## Display Modes
@@ -48,8 +48,6 @@ Combine with other quick‑action plugins inside a wrapper (order = visual order
   <uip-snippets dropdown-view="(max-width: 800px)"></uip-snippets>
   <uip-theme-toggle></uip-theme-toggle>
   <uip-dir-toggle></uip-dir-toggle>
-  <uip-reset></uip-reset>
-  <uip-copy></uip-copy>
 </div>
 ```
 You can also use Settings panel attributes (`theme-toggle`, `dir-toggle`) instead of separate toolbar buttons.
@@ -66,17 +64,6 @@ You can also use Settings panel attributes (`theme-toggle`, `dir-toggle`) instea
 - Tab list exposes appropriate roles when in tab mode
 - Dropdown mode renders a native select (or list) for keyboard & screen reader friendly navigation
 - Current snippet label provided via `UIPSnippetsTitle`
-
----
-## Styling Hooks
-| Selector | Meaning |
-|----------|---------|
-| `uip-snippets` | Host element |
-| `.uip-snippets__tabs` | Container for tab buttons |
-| `.uip-snippets__dropdown` | Dropdown/select wrapper |
-| `.uip-snippets__item[aria-selected="true"]` | Active tab/button |
-
-Selectors may vary slightly depending on build tooling; inspect generated DOM to theme.
 
 ---
 ## Troubleshooting

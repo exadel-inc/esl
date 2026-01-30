@@ -7,13 +7,7 @@
 
 # UI Playground Technical Internals (Consolidated)
 
-This document consolidates all internal technical details that were previously split across multiple files
-(`plugin.md`, `root.md`, `state-model.md`, `snippet.md`, `state-storage.md`).
-
-Legacy anchors are preserved for backward compatibility:
-- `#uip-plugin`, `#uip-root`, `#uip-state-model`
-
-Use the higher-level user guide at `../README.md` for consumer-facing information. This file targets authors
+This document consolidates all internal technical details. Use the higher-level user guide at `../README.md` for consumer-facing information. This file targets authors
 extending or integrating deeply with UI Playground.
 
 ---
@@ -206,6 +200,10 @@ Key characteristics:
 Public methods: `loadState()`, `saveState()`, `resetState(source)`.
 
 Reset flow invalidates entry then calls `model.reset(source, this)`.
+
+---
+## Resetting the State
+Use the reset plugin (`<uip-reset>`) or remove persisted state (`store-key`) to revert edited HTML/JS back to the original snippet source.
 
 ---
 ## Preview Integration

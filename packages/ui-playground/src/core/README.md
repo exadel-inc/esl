@@ -1,7 +1,7 @@
 # Core Concepts (UI Playground)
 
 This document is the user‑facing guide to the **core layer** of UI Playground: the root container, snippet declaration model, preview basics, and how built‑in plugins fit around them.
-For internal architecture & API extension details see [Technical Internals](./base/README.md).
+For internal architecture & API extension details see [Core API](./base/README.md).
 
 ---
 ## What Is the Core?
