@@ -1,5 +1,29 @@
 name: Website E2E (Playwright)
 
+run-name: >-
+  Website E2E (Playwright) —
+  ${{
+    (github.event_name == 'workflow_dispatch' && inputs.updateSnapshots) && 'Update snapshots' ||
+    (github.event_name == 'workflow_dispatch') && 'Manual checks' ||
+    (github.event_name == 'pull_request') && 'PR checks' ||
+    'CI checks'
+  }}
+
+# This workflow covers the following scenarios:
+# 1) Auto checks (push/PR to main|main-beta|epic/*):
+#    - Runs Playwright tests.
+#    - Uploads report artifact on failure.
+#    - Tracing is OFF by default in CI (see E2E_DEBUG).
+# 2) Manual checks (workflow_dispatch, updateSnapshots=false):
+#    - Runs Playwright tests on current branch.
+#    - Uploads report.
+#    - Tracing can be enabled via input e2eDebug -> E2E_DEBUG=1.
+# 3) Manual snapshot update (workflow_dispatch, updateSnapshots=true):
+#    - Skips test job, runs "--update-snapshots".
+#    - Creates PR with updated snapshots.
+# 4) Auto snapshot update PR on failure (push to main|main-beta only):
+#    - If scenario #1 tests fail, additionally runs "--update-snapshots" and creates a PR.
+
 on:
   push:
     branches: [ main, main-beta, epic/* ]
@@ -26,15 +50,23 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  e2e-tests:
+  website-e2e:
     name: Website E2E (Playwright)
     runs-on: ubuntu-latest
-    if: ${{ github.event_name != 'workflow_dispatch' || !inputs.updateSnapshots }}
 
+    env:
+      E2E_DEBUG: ${{ (github.event_name == 'workflow_dispatch' && inputs.e2eDebug) && '1' || '' }}
+      UPD_COMMIT_MSG: 'test(e2e): update playwright snapshots (via GitHub Actions)'
+
+    # Permissions are job-scoped (step-level permissions are not supported).
+    # We keep the write permissions but guard the PR-creation step so it won't run
+    # in contexts where GITHUB_TOKEN is read-only (forks) or should not create PRs.
     permissions:
-      contents: read
+      contents: write
+      pull-requests: write
 
     steps:
+      # ===== Set up environment =====
       - uses: actions/checkout@v6
 
       - name: Use Node v${{ env.node-version }}
@@ -49,60 +81,42 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
+      # ===== Regular test run =====
+      #  Skipped if this is a snapshot manual update request
       - name: Run Website E2E Tests
+        id: e2e
+        if: ${{ github.event_name != 'workflow_dispatch' || !inputs.updateSnapshots }}
         run: npx nx run esl-website-e2e:run
-        env:
-          E2E_DEBUG: ${{ (github.event_name == 'workflow_dispatch' && inputs.e2eDebug) && '1' || '' }}
 
+      # ===== Upload report for failures =====
       - name: Upload Playwright Report
-        if: ${{ failure() || github.event_name == 'workflow_dispatch' }}
+        if: |
+          failure() ||
+          (github.event_name == 'workflow_dispatch' && !inputs.updateSnapshots)
         uses: actions/upload-artifact@v6
         with:
           name: playwright-report-${{ github.run_id }}
           path: packages/esl-website-e2e/playwright-report
           retention-days: 7
 
-  update-snapshots:
-    name: Update Playwright Snapshots
-    runs-on: ubuntu-latest
-    needs: [e2e-tests]
-
-    # Runs in two cases:
-    # 1) Manual workflow_dispatch with updateSnapshots=true (any branch)
-    # 2) Automatic follow-up if tests failed on push to main/main-beta
-    if: |
-      (github.event_name == 'workflow_dispatch' && inputs.updateSnapshots) ||
-      (needs.e2e-tests.result == 'failure' && github.event_name == 'push' && (github.ref_name == 'main' || github.ref_name == 'main-beta'))
-
-    env:
-      UPD_COMMIT_MSG: 'test(e2e): update playwright snapshots (via GitHub Actions)'
-
-    permissions:
-      contents: write
-      pull-requests: write
-
-    steps:
-      - uses: actions/checkout@v6
-
-      - name: Use Node v${{ env.node-version }}
-        uses: actions/setup-node@v6
-        with:
-          cache: 'npm'
-          node-version: ${{ env.node-version }}
-
-      - name: Install NPM Dependencies
-        run: npm ci
-
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
-
+      # ===== Snapshot update =====
+      # Snapshot update runs in two cases:
+      # 1) Manual workflow_dispatch(updateSnapshots=true)
+      # 2) Automatic follow-up when tests failed on push to main/main-beta
       - name: Update Snapshots
+        id: update
+        if: |
+          (github.event_name == 'workflow_dispatch' && inputs.updateSnapshots) ||
+          (
+            github.event_name == 'push' &&
+            (github.ref_name == 'main' || github.ref_name == 'main-beta') &&
+            steps.e2e.outcome == 'failure'
+          )
         run: npx nx run esl-website-e2e:run:update
-        env:
-          E2E_DEBUG: ${{ (github.event_name == 'workflow_dispatch' && inputs.e2eDebug) && '1' || '' }}
 
-      - name: Upload Playwright Report
-        if: ${{ failure() }}
+      - name: Upload Playwright Report (update)
+        # Upload only if the update step actually ran and failed.
+        if: ${{ steps.update.outcome == 'failure' }}
         uses: actions/upload-artifact@v6
         with:
           name: playwright-report-update-${{ github.run_id }}
@@ -110,6 +124,14 @@ jobs:
           retention-days: 7
 
       - name: Create Pull Request
+        # Create PR only when snapshot update succeeded.
+        # Notes:
+        # - Never run on pull_request events.
+        # - For forks, GITHUB_TOKEN is read-only, so we skip to avoid hard failures.
+        if: |
+          steps.update.outcome == 'success' &&
+          github.event_name != 'pull_request' &&
+          github.repository_owner == 'exadel-inc'
         uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -119,3 +141,6 @@ jobs:
             This PR was automatically created to update Playwright snapshots for the `${{ github.ref_name }}` branch.
           branch: ${{ github.ref_name }}/snap-patch
           labels: automation, update-snapshots
+          # Avoid failing / spamming when nothing changed.
+          delete-branch: true
+          draft: false
