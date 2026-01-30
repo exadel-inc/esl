@@ -1,4 +1,10 @@
 .esl-carousel-css-renderer.esl-carousel-css-slide {
+  &[animating] :is([esl-carousel-slide], [esl-carousel-slides]) {
+    transition: transform var(--esl-carousel-step-duration) linear;
+  }
+}
+
+.esl-carousel-css-renderer.esl-carousel-css-slide.esl-carousel-horizontal {
   [esl-carousel-slides] {
     transform: translate3d(var(--esl-carousel-offset, 0), 0, 0);
 
@@ -10,9 +16,9 @@
     }
   }
 
-  &[animating] [esl-carousel-slide],
-  &[animating] [esl-carousel-slides] {
-    transition: transform var(--esl-carousel-step-duration) linear;
+  [esl-carousel-slide] {
+    top: 0;
+    left: 100%;
   }
 
   [esl-carousel-slide][pre-active][next] {
@@ -25,5 +31,30 @@
 
   [esl-carousel-slide][pre-active][prev] {
     left: -100%;
+  }
+}
+
+.esl-carousel-css-renderer.esl-carousel-css-slide.esl-carousel-vertical {
+  [esl-carousel-slides] {
+    transform: translate3d(0, var(--esl-carousel-offset, 0), 0);
+
+    &.forward {
+      transform: translate3d(0, -100%, 0);
+    }
+    &.backward {
+      transform: translate3d(0, 100%, 0);
+    }
+  }
+
+  [esl-carousel-slide][pre-active][next] {
+    top: 100%;
+  }
+
+  [esl-carousel-slide][active] {
+    top: 0;
+  }
+
+  [esl-carousel-slide][pre-active][prev] {
+    top: -100%;
   }
 }
