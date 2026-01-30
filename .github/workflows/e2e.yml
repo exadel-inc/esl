@@ -139,7 +139,7 @@ jobs:
           title: ${{ env.UPD_COMMIT_MSG }} for ${{ github.ref_name }}
           body: |
             This PR was automatically created to update Playwright snapshots for the `${{ github.ref_name }}` branch.
-          branch: ${{ github.ref_name }}/snap-patch
+          branch: ${{ github.ref_name }}-snap-update
           labels: automation, update-snapshots
           # Avoid failing / spamming when nothing changed.
           delete-branch: true
