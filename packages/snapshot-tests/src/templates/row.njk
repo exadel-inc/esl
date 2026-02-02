@@ -1,9 +1,0 @@
-{%- macro row(list) -%}
-  {%- if list and list.length -%}
-    <tr>
-      {%- for item in list -%}
-        <td>{{ item }}</td>
-      {%- endfor -%}
-    </tr>
-  {%- endif -%}
-{%- endmacro -%}
