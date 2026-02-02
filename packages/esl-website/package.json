@@ -29,7 +29,7 @@
     "@types/smoothscroll-polyfill": "^0.3.4",
     "html-minifier-terser": "^7.2.0",
     "image-size": "^2.0.2",
-    "jsdom": "^27.4.0",
+    "jsdom": "^28.0.0",
     "js-yaml": "^4.1.1",
     "lightningcss-cli": "^1.31.1",
     "out-url": "^1.2.2",

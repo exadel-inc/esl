@@ -45,17 +45,18 @@
     "version:root": "node scripts/update-root-version.mjs"
   },
   "dependencies": {
-    "@nx/devkit": "22.4.3",
-    "@nx/eslint": "22.4.3",
-    "@nx/js": "22.4.3",
-    "@nx/vitest": "^22.4.3",
-    "nx": "22.4.3",
+    "@nx/devkit": "22.4.4",
+    "@nx/eslint": "22.4.4",
+    "@nx/js": "22.4.4",
+    "@nx/vitest": "^22.4.4",
+    "nx": "22.4.4",
     "semver": "^7.7.3"
   },
   "devDependencies": {
-    "@commitlint/cli": "^20.3.1",
-    "@commitlint/config-conventional": "^20.3.1",
-    "@vitest/coverage-v8": "^4.0.16",
+    "@commitlint/cli": "^20.4.1",
+    "@commitlint/config-conventional": "^20.4.1",
+    "@vitest/coverage-v8": "^4.0.18",
+    "chalk": "^5.6.2",
     "chokidar-cli": "^3.0.0",
     "cpy-cli": "^6.0.0",
     "cross-env": "^10.1.0",
@@ -70,9 +71,9 @@
     "postcss-less": "^6.0.0",
     "rimraf": "^6.1.2",
     "smoothscroll-polyfill": "^0.4.4",
-    "stylelint": "^17.0.0",
+    "stylelint": "^17.1.0",
     "touch": "^3.1.1",
     "typescript": "5.9.3",
-    "vitest": "^4.0.16"
+    "vitest": "^4.0.18"
   }
 }
