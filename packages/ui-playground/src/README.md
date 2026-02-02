@@ -1,71 +1,113 @@
-# Installation 
+# UI Playground Source Guide
 
-Install UIPlayground [npm dependency](https://www.npmjs.com/package/@exadel/ui-playground):
-   ```bash
-   npm i @exadel/ui-playground --save
-   ```
+This file gives a quick orientation to the source layout and how to register components. For end‑user oriented docs start with `../docs/INTRODUCTION.md` and `core/README.md` (Core Concepts).
 
-# Project structure
-
-UIP components are organized in the following way:
-
-Core Elements
-  - [UIP Root](src/core/README.md#uip-root)
-  - [UIP Preview](src/core/README.md)
-
-Plugins
-  - [UIP Editor](src/plugins/editor/README.md)
-  - [UIP Settings and Setting](src/plugins/settings/README.md)
-    - [UIP Text Setting](src/plugins/settings/text-setting/README.md)
-    - [UIP Bool Setting](src/plugins/settings/bool-setting/README.md)
-    - [UIP Select Setting](src/plugins/settings/select-setting/README.md)
-  - [UIP Snippets](src/plugins/snippets/README.md)
-    - [UIP Snippets Title](src/plugins/snippets-title/README.md)
-    - [UIP Snippets List](src/plugins/snippets-list/README.md)
-  - [UIP Theme Toggle](src/plugins/theme/README.md)
-  - [UIP Note](src/plugins/note/README.md)
-  - [UIP Copy](src/plugins/copy/README.md)
-  - [UIP Text Direction Toggle](src/plugins/direction/README.md)
 ---
-
-UIPlayground must have at least **Сore** components. **Plugins** are
-optional, you can add them on your own free will.
-
-To implement custom UIPlayground components, see [UIPPlugin](src/core/README.md#uip-plugin).
-
-# Modules/components imports
-To register all components, you can use the next callback:
-
-```typescript
+## Installation (Quick)
+```bash
+npm i @exadel/ui-playground --save
+```
+```ts
 import {init} from '@exadel/ui-playground';
 init();
 ```
-
-There is also an ability to register only Core/Plugins/Settings parts. To do this, call one of the functions below:
-
-```typescript
-import {registerCore, registerPlugins, registerSettings} from '@exadel/ui-playground';
-registerCore();
-registerPlugins();
-registerSettings();
+Styles:
+```css
+@import '@exadel/ui-playground/dist/registration.css';
 ```
 
-The callbacks above register UIP components by themselves. But if you want to have a custom registration logic,
-there is a way to register components manually:
+---
+## Directory Map (Relevant Parts)
+| Path | Purpose |
+|------|---------|
+| `core/` | Core elements (root, preview, internals) |
+| `core/base/` | Technical internals & plugin base classes |
+| `core/preview/` | Preview user guide & implementation |
+| `plugins/` | Built‑in optional plugins |
+| `plugins/settings/` | Settings container + setting types |
+| `plugins/snippets/` | Composite snippet navigation UI |
+| `types/` | Global ambient type declarations |
+| `../docs/` | High‑level introduction & site images |
 
-```typescript
+---
+## Core Elements
+- [UIP Root](core/README.md#uip-root)
+- [UIP Preview](core/preview/README.md)
+
+## Plugins
+- [UIP Snippets Navigation](plugins/snippets/README.md)
+- [UIP Snippets Title](plugins/snippets-title/README.md)
+- [UIP Snippets List](plugins/snippets-list/README.md)
+- [UIP Editor](plugins/editor/README.md)
+- [UIP Settings](plugins/settings/README.md)
+  - Text / Bool / Select / Slider settings (sub‑folders)
+- [UIP Theme Toggle](plugins/theme/README.md)
+- [UIP Direction Toggle](plugins/direction/README.md)
+- [UIP Note](plugins/note/README.md)
+- [UIP Copy](plugins/copy/README.md)
+- [UIP Reset](plugins/reset/README.md)
+
+All plugins are optional; only `<uip-preview>` (with `<uip-root>` and at least one snippet) is mandatory.
+
+---
+## Registration APIs
+Register everything (core + plugins + settings types):
+```ts
+import {init} from '@exadel/ui-playground';
+init();
+```
+Partial registration:
+```ts
+import {registerCore, registerPlugins, registerSettings} from '@exadel/ui-playground';
+registerCore();       // root, preview, base infrastructure
+registerPlugins();    // editor, snippets, note, copy, theme, direction, reset, etc.
+registerSettings();   // settings container + concrete setting elements
+```
+Manual single component registration example:
+```ts
 import {UIPRoot} from '@exadel/ui-playground';
 UIPRoot.register();
 ```
 
-Every module has two versions of styles: *css* and *less*. If you want
-to import styles for all UIP component, you can import either
-*registration.less* or *registration.css* file:
+---
+## Styles
+Two bundles published (`registration.css` / `registration.less`). Import one to include all core + plugins styling. Individual component style imports are also possible (see build output) but rarely needed.
 
-```less
-@import '@exadel/ui-playground/dist/registration.css';
+---
+## Building Custom Plugins
+See technical internals for extending `UIPPlugin`, using the state model, and event surfaces:
+`core/base/README.md#uip-plugin`
+
+---
+## Minimal Markup Example
+```html
+<uip-root store-key="demo">
+  <template uip-snippet label="Basic" active>
+    <button class="btn">Click</button>
+  </template>
+  <uip-snippets class="uip-toolbar" dropdown-view="(max-width: 800px)"></uip-snippets>
+  <uip-preview></uip-preview>
+  <uip-settings collapsible target=".btn" theme-toggle dir-toggle>
+    <uip-bool-setting label="Disabled" attribute="disabled"></uip-bool-setting>
+  </uip-settings>
+  <uip-editor collapsible copy></uip-editor>
+  <uip-note collapsible></uip-note>
+  <uip-reset></uip-reset>
+</uip-root>
 ```
 
-# Browser support
+---
+## Browser Support
+Modern evergreen browsers (Chromium, Firefox, Safari, Edge). Legacy IE not supported.
 
-UIPlayground supports all modern browsers.
+---
+## Further Reading
+| Goal | Doc |
+|------|-----|
+| User concepts & lifecycle | `core/README.md` |
+| Preview usage | `core/preview/README.md` |
+| Intro / Doc site map | `docs/INTRODUCTION.md` |
+| Build custom plugin | `core/base/README.md#uip-plugin` |
+
+---
+Happy hacking! Use the introduction and core docs for user guidance; this file is just a developer orientation inside the package.

@@ -4,9 +4,7 @@
 
 **UIPSnippetsList** observes UIPModel snippets changes and updates the list of available snippets.
 Component supports active snippet item marker and snippet selection by click.
-More details can be found in [UIP Snippets](src/plugins/snippets/README.md) section.
-
-### Example
+More details can be found in [UIP Snippets](../snippets/README.md) section.
 
 ```html
 <uip-snippets-list root="::next"></uip-snippets-list>
@@ -15,3 +13,5 @@ More details can be found in [UIP Snippets](src/plugins/snippets/README.md) sect
     ...
 </uip-root>
 ```
+
+---
