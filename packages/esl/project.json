@@ -17,7 +17,7 @@
       "executor": "nx:noop",
       "dependsOn": [
         "build:ts",
-        "build:less",
+        "build:css",
         "build:docs"
       ]
     },
@@ -26,7 +26,7 @@
       "options": {
         "commands": [
           {"command": "nx run esl:watch:ts", "prefix": "[ESL watch:ts]"},
-          {"command": "nx run esl:watch:less", "prefix": "[ESL watch:less]"},
+          {"command": "nx run esl:watch:css", "prefix": "[ESL watch:css]"},
           {"command": "nx run esl:watch:docs", "prefix": "[ESL watch:docs]"}
         ],
         "cwd": "packages/esl",
@@ -94,6 +94,37 @@
       }
     },
 
+    "build:css": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["build:less"],
+      "options": {
+        "commands": [
+          "cpy \"src/**/*.css\" \"modules/css-temp\" --parents --clean",
+          "findx \"modules/css-temp/{*,*/*,{utils,forms}/*/*}.css !**/*.mixin.css\" \"postcss {{path}} --use postcss-import --no-map -o {{path}}\"",
+          "find modules/css-temp -name \"*.css\" -type f -exec sh -c 'dest=\"modules/${1#modules/css-temp/}\"; mkdir -p \"$(dirname \"$dest\")\"; cat \"$1\" >> \"$dest\"' _ {} \\;",
+          "rm -rf modules/css-temp",
+          "nodetouch \"modules/.css.done\""
+        ],
+        "cwd": "packages/esl",
+        "parallel": false
+      },
+      "cache": true,
+      "inputs": [
+        "{projectRoot}/src/**/*.css"
+      ],
+      "outputs": [
+        "{projectRoot}/modules/**/*.css",
+        "{projectRoot}/modules/.css.done"
+      ]
+    },
+    "watch:css": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "chokidar \"src/**/*.(css|less)\" -c \"nx run esl:build:css\"",
+        "cwd": "packages/esl"
+      }
+    },
+
     "build:docs": {
       "executor": "nx:run-commands",
       "options": {
@@ -128,12 +159,13 @@
     "lint:stylelint": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "stylelint \"src/**/*.less\"",
+        "command": "stylelint \"src/**/*.(less|css)\"",
         "cwd": "packages/esl"
       },
       "cache": true,
       "inputs": [
         "{projectRoot}/src/**/*.less",
+        "{projectRoot}/src/**/*.css",
         "{projectRoot}/.stylelint.yml"
       ]
     },

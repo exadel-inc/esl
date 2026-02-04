@@ -32,8 +32,8 @@
 
     &:not(.in) {
       position: relative;
-      top: calc(~'-1 * var(--esl-animation-offset-y)');
-      left: calc(~'-1 * var(--esl-animation-offset-x)');
+      top: calc(-1 * var(--esl-animation-offset-y));
+      left: calc(-1 * var(--esl-animation-offset-x));
     }
 
     &.up {

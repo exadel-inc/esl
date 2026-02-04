@@ -128,7 +128,7 @@
         "command": "nx run esl-website:build:less:only",
         "cwd": "packages/esl-website"
       },
-      "dependsOn": ["^build:less"]
+      "dependsOn": ["^build:css"]
     },
     "build:less:only": {
       "executor": "nx:run-commands",
@@ -158,7 +158,7 @@
       "options": {
         "command": "chokidar",
         "args": [
-          "\"packages/esl/modules/.less.done\"",
+          "\"packages/esl/modules/.css.done\"",
           "\"packages/ui-playground/dist/.less.done\"",
           "\"packages/esl-website/src/**/*.less\"",
           "-c \"nx run esl-website:build:less:only\""
@@ -173,12 +173,13 @@
     "lint:stylelint": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "stylelint \"src/**/*.less\"",
+        "command": "stylelint \"src/**/*.(less|css)\"",
         "cwd": "packages/esl-website"
       },
       "cache": true,
       "inputs": [
         "{projectRoot}/src/**/*.less",
+        "{projectRoot}/src/**/*.css",
         "{projectRoot}/.stylelint.yml"
       ]
     }
