@@ -68,6 +68,8 @@
     "less-plugin-clean-css": "^1.6.0",
     "lint-staged": "^16.2.7",
     "postcss": "^8.5.6",
+    "postcss-cli": "^10.1.0",
+    "postcss-import": "^16.1.0",
     "postcss-less": "^6.0.0",
     "rimraf": "^6.1.2",
     "smoothscroll-polyfill": "^0.4.4",
