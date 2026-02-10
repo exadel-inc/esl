@@ -46,7 +46,16 @@ export default (config) => {
       console.error(`Unexpected values for sort filter: ${values}`);
       return values;
     }
-    const comparers = fields.map(buildComparer);
+    /**
+     * Special case: If the filter is called from a template with an array of sort fields,
+     * e.g. {{ collection | sortBy(['date', 'order']) }}, then Eleventy/Nunjucks/Liquid
+     * will pass the array as a single argument, resulting in fields = [ ['date', 'order'] ].
+     * This check unwraps the array so that sortFields is always a flat array of field names.
+     * If multiple fields are passed as separate arguments, e.g. {{ collection | sortBy('date', 'order') }},
+     * then fields = ['date', 'order'] and no unwrapping is needed.
+     */
+    const sortFields = fields.length === 1 && Array.isArray(fields[0]) ? fields[0] : fields;
+    const comparers = sortFields.map(buildComparer);
     return [...values].sort(compose(...comparers));
   });
 };
