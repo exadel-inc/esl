@@ -25,7 +25,7 @@
     "@exadel/esl": "^5.15.0",
     "@exadel/ui-playground": "^5.15.0",
     "@juggle/resize-observer": "^3.4.0",
-    "@types/prismjs": "^1.26.5",
+    "@types/prismjs": "^1.26.6",
     "@types/smoothscroll-polyfill": "^0.3.4",
     "html-minifier-terser": "^7.2.0",
     "image-size": "^2.0.2",
