@@ -1,3 +1,9 @@
+## 5.16.0 (2026-02-20)
+
+### 🚀 Features
+
+- **stylelint-config:** @exadel/stylelint-config-esl migrated to stylelint@17 ([b9864f39a](https://github.com/exadel-inc/esl/commit/b9864f39a))
+
 ## 5.15.0 (2025-10-22)
 
 This was a version bump only for eslint-config to align it with other projects, there were no code changes.
