@@ -1,3 +1,20 @@
+## 5.16.0 (2026-02-20)
+
+### 🚀 Features
+
+- **stylelint-config:** @exadel/stylelint-config-esl migrated to stylelint@17 ([b9864f39a](https://github.com/exadel-inc/esl/commit/b9864f39a))
+- **esl-line-clamp:** introduce `esl-line-clamp-alt` and `esl-line-clamp-toggler` ([4b74bec4e](https://github.com/exadel-inc/esl/commit/4b74bec4e))
+
+### 🩹 Fixes
+
+- **esl-carousel:** fix css renderers to support viewport-in animations on the slides ([e56214c3b](https://github.com/exadel-inc/esl/commit/e56214c3b))
+- **esl-carousel:** add vertical orientation support for css-slide renderer ([923155343](https://github.com/exadel-inc/esl/commit/923155343))
+- **esl-line-clamp:** fix resubscribing after media query change ([e3cc705b1](https://github.com/exadel-inc/esl/commit/e3cc705b1))
+
+### Documentation updates
+
+- **esl-line-clamp:** provide examples for `ESLLineClampAlt` and `ESLLineClampToggler` ([09b1aa5f7](https://github.com/exadel-inc/esl/commit/09b1aa5f7))
+
 ## 5.15.0 (2025-10-22)
 
 ### 🚀 Features
