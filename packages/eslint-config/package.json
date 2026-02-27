@@ -29,7 +29,7 @@
     "@stylistic/eslint-plugin": "^5.9.0",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-sonarjs": "^4.0.0",
-    "eslint-plugin-tsdoc": "^0.5.1",
+    "eslint-plugin-tsdoc": "^0.5.2",
     "globals": "^17.3.0",
     "semiver": "^1.1.0",
     "typescript-eslint": "^8.56.1"
