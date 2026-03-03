@@ -7,7 +7,7 @@
 
 # UI Playground Technical Internals (Consolidated)
 
-This document consolidates all internal technical details. Use the higher-level user guide at `../README.md` for consumer-facing information. This file targets authors
+This document consolidates all internal technical details. Use the higher-level user guide at [Core Concepts](../README.md) for consumer-facing information. This file targets authors
 extending or integrating deeply with UI Playground.
 
 ---
