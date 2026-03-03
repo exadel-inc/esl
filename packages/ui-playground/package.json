@@ -19,7 +19,7 @@
   "module": "dist/registration.js",
   "style": "dist/registration.css",
   "files": [
-    "dist/**/*.{js,ts,css,less}",
+    "dist/**/*.{js,ts,css,less,md}",
     "README.md",
     "CLA.md",
     "CHANGELOG.md",
