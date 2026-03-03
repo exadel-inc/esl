@@ -1,3 +1,21 @@
+## 6.0.0-beta.6 (2026-03-03)
+
+### 🚀 Features
+
+- **e2e:** legacy `snapshot-tests` module removed in flavor of new `esl-website-e2e` playwright based module ([58dbb5760](https://github.com/exadel-inc/esl/commit/58dbb5760))
+- **e2e:** initial reimplementation of e2e tests on playwright - new module @exadel/esl-website-e2e created ([f7f39dacc](https://github.com/exadel-inc/esl/commit/f7f39dacc))
+
+### 🩹 Fixes
+
+- **esl-carousel:** fix css renderers to support viewport-in animations on the slides ([e56214c3b](https://github.com/exadel-inc/esl/commit/e56214c3b))
+- **esl-carousel:** add vertical orientation support for css-slide renderer ([923155343](https://github.com/exadel-inc/esl/commit/923155343))
+
+### 💅 Refactors
+
+- **esl-utils:** fix eslint warning for unused variable output ([b62c4d03c](https://github.com/exadel-inc/esl/commit/b62c4d03c))
+- **e2e:** add basic summary reporter based on previous implementation by alesun <alesun@exadel.com> ([65fabc7cb](https://github.com/exadel-inc/esl/commit/65fabc7cb))
+- move test helpers from src/esl-utils/test to src/test ([1327931f6](https://github.com/exadel-inc/esl/commit/1327931f6))
+
 ## 6.0.0-beta.5 (2026-01-22)
 
 ### 🩹 Fixes
