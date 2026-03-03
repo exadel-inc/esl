@@ -24,5 +24,13 @@ export default [
   // Using shared ESL ESLint Config
   ...lang.js,
   ...lang.ts,
-  ...strict
+  ...strict,
+
+  // Custom overrides
+  {
+    files: ['**/*.js', '**/*.ts'],
+    rules: {
+      'preserve-caught-error': 'off'
+    }
+  }
 ];

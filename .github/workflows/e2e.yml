@@ -101,7 +101,7 @@ jobs:
         if: |
           failure() ||
           (github.event_name == 'workflow_dispatch' && !inputs.updateSnapshots)
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: playwright-report-${{ github.run_id }}
           path: packages/esl-website-e2e/playwright-report
