@@ -55,6 +55,6 @@
   "devDependencies": {
     "@exadel/eslint-config-esl": "^6.0.0-beta.1",
     "@exadel/stylelint-config-esl": "^6.0.0-beta.1",
-    "@types/prismjs": "^1.26.5"
+    "@types/prismjs": "^1.26.6"
   }
 }
