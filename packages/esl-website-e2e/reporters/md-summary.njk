@@ -1,0 +1,44 @@
+{% macro row(list) -%}
+  {%- if list and list.length -%}
+    <tr>
+      {%- for item in list -%}
+        <td>{{ item | safe }}</td>
+      {%- endfor -%}
+    </tr>
+  {%- endif -%}
+{%- endmacro %}
+
+{% macro errorRow(errorHtml, colspan) -%}
+  {%- if errorHtml -%}
+    <tr>
+      <td colspan="{{ colspan }}">
+        <pre>{{ errorHtml | safe }}</pre>
+      </td>
+    </tr>
+  {%- endif -%}
+{%- endmacro %}
+
+<h2>Website E2E (Playwright) — Summary</h2>
+
+<table>
+  <tbody>
+    {{ row(['✅ Passed', '❌ Failed', '🚧 Flaky', '⚪ Skipped', '⏱ Duration']) }}
+    {{ row([stats.passed, stats.failed, stats.flaky, stats.skipped, stats.totalTimeStr]) }}
+  </tbody>
+</table>
+
+{%- if tests and tests.length -%}
+  <hr/>
+  <h3>Tests</h3>
+  <table>
+    <tbody>
+      {{ row(['Test', 'Status', 'Time']) }}
+      {%- for t in tests -%}
+        {%- set status = '✅' if t.status == 'passed' else ('🚧' if t.status == 'flaky' else ('⚪' if t.status == 'skipped' else '❌')) -%}
+        {%- set timing = '-' if not t.time else (t.time + 'ms' if t.time < 1000 else (t.time / 1000) | round(2) + 's') -%}
+        {{ row([t.title, status, timing]) }}
+        {{ errorRow(t.error, 3) }}
+      {%- endfor -%}
+    </tbody>
+  </table>
+{%- endif -%}

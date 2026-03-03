@@ -3,13 +3,14 @@ import {lang, strict} from '@exadel/eslint-config-esl';
 export default [
   {
     ignores: [
-      // Typings
-      '**/*.d.ts',
-      // Common configuration
-      '**/jest.config.js',
-      '**/jest*.config.js',
+      // Generated artifacts
+      'playwright-report/**',
+      'test-results/**',
+
+      // Snapshots
+      'tests/**/*-snapshots/**',
+
       // Common directories
-      '.diff',
       'node_modules/**'
     ]
   },
@@ -23,5 +24,13 @@ export default [
   // Using shared ESL ESLint Config
   ...lang.js,
   ...lang.ts,
-  ...strict
+  ...strict,
+
+  // Custom overrides
+  {
+    files: ['**/*.js', '**/*.ts'],
+    rules: {
+      'preserve-caught-error': 'off'
+    }
+  }
 ];
