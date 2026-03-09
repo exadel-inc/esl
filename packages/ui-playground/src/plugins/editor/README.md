@@ -6,7 +6,7 @@
 - Allows users to edit the HTML or JavaScript of the active snippet directly in the browser
 - Automatically updates the preview when changes are made
 - Supports syntax highlighting for better readability
-- Provides optional copy and reset functionality for convenience
+- Provides optional copy and resets functionality for convenience
 - Adapts to the snippet's state, such as readonly mode for JavaScript snippets
 
 Required minimum markup:

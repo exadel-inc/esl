@@ -103,7 +103,7 @@ Use `uip-isolated` on a snippet if:
 - You need a fresh script execution context each switch
 - You demonstrate conflicting resets or animations
 
-Otherwise keep snippets inline for speed.
+Otherwise, keep snippets inline for speed.
 
 ---
 

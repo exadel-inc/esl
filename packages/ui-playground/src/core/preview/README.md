@@ -40,8 +40,8 @@ Switch between snippets with a [Snippets List](../../plugins/snippets/README.md)
 | Inline | Default (no `uip-isolated`) | Normal component examples | Fast, shared styles | Global CSS can leak across snippets, JS sandbox is disabled |
 | Isolated | `uip-isolated` on snippet template | Complex styles, global resets, script side‑effects | Full sandbox, predictable | Slight delay, iframe overhead |
 
-Simple snippets or snippets rallying on the site context may stay inline. 
-For JS sandboxes and demos, separate styles, or global resets, use isolated mode.
+Simple snippets or those that rely on site context may stay inline.
+For JS sandboxes and demos, use isolated mode for separate styles or global resets.
 
 ---
 ## Common Attributes & Options

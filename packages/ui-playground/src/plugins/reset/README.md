@@ -40,7 +40,7 @@ Use the reset control whenever you allow live editing (Editor / Settings) and wa
 | Click Reset (isolated snippet) | Forces iframe rebuild with original content |
 | Persistence enabled | Clears stored edited state entry for the active snippet |
 
-If no changes were made the button is still operable; state just re-syncs.
+If no changes were made, the button is still operable; the state just re-syncs.
 
 ---
 ## Accessibility
@@ -48,7 +48,7 @@ Button carries an accessible label (localized / attribute driven depending on bu
 
 ---
 ## Styling
-Uses standard playground button styling; override via CSS:
+Uses standard playground button styling; overrides via CSS:
 ```css
 uip-reset { /* custom styles */ }
 ```

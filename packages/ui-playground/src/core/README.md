@@ -1,7 +1,7 @@
 # Core Concepts (UI Playground)
 
 This document is the user‑facing guide to the **core layer** of UI Playground: the root container, snippet declaration model, preview basics, and how built‑in plugins fit around them.
-For internal architecture & API extension details see [Core API](./base/README.md).
+For internal architecture & API extension details, see [Core API](./base/README.md).
 
 ---
 ## What Is the Core?
@@ -132,7 +132,7 @@ All plugins are optional except `<uip-preview>`.
 | Reset | Reset plugin or manual call reverts HTML/JS to original snippet source |
 
 ### Editing Flow
-1. User changes code or setting
+1. User changes code or settings
 2. Model queues change(s)
 3. Single `uip:change` event emitted (even for multiple rapid mutations)
 4. Preview & other listeners update once

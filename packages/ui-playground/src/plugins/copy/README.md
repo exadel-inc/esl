@@ -34,7 +34,7 @@ The plugin can be added to the [UIP Editor](../editor/README.md) toolbar header 
 | Click copy (inline) | Copies current HTML (and JS if present) |
 | Click copy (isolated) | Same – underlying stored sources are used |
 
-JS included only if a snippet JS source exists.
+JS is included only if a snippet JS source exists.
 
 ---
 ## Related

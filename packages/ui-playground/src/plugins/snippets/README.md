@@ -1,6 +1,6 @@
 **UIPSnippets** – composite navigation plugin that presents available snippets (declared via `<template uip-snippet>`). It can render as a tab bar or collapse into a dropdown based on a media query.
 
-Internally it coordinates:
+Internally, it coordinates:
 - [`UIPSnippetsList`](../snippets-list/README.md) – the list / dropdown UI
 - [`UIPSnippetsTitle`](../snippets-title/README.md) – current snippet label display
 

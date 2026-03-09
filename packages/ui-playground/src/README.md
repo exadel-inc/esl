@@ -1,6 +1,6 @@
 # UI Playground Source Guide
 
-This file gives a quick orientation to the source layout and how to register components. For end‑user oriented docs start with `../docs/INTRODUCTION.md` and `core/README.md` (Core Concepts).
+This file gives a quick orientation to the source layout and how to register components. For end‑user oriented docs, start with `../docs/INTRODUCTION.md` and `core/README.md` (Core Concepts).
 
 ---
 ## Installation (Quick)
@@ -71,7 +71,7 @@ UIPRoot.register();
 
 ---
 ## Styles
-Two bundles published (`registration.css` / `registration.less`). Import one to include all core + plugins styling. Individual component style imports are also possible (see build output) but rarely needed.
+Two bundles published (`registration.css` / `registration.less`). IImport one to include all core + plugins styling. Individual component style imports are also possible (see build output), but are rarely needed.
 
 ---
 ## Building Custom Plugins
@@ -98,7 +98,7 @@ See technical internals for extending `UIPPlugin`, using the state model, and ev
 
 ---
 ## Browser Support
-Modern evergreen browsers (Chromium, Firefox, Safari, Edge). Legacy IE not supported.
+Modern evergreen browsers (Chromium, Firefox, Safari, Edge). Legacy IE is not supported.
 
 ---
 ## Further Reading
