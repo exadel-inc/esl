@@ -71,7 +71,7 @@ UIPRoot.register();
 
 ---
 ## Styles
-Two bundles published (`registration.css` / `registration.less`). IImport one to include all core + plugins styling. Individual component style imports are also possible (see build output), but are rarely needed.
+Two bundles published (`registration.css` / `registration.less`). Import one to include all core + plugins styling. Individual component style imports are also possible (see build output), but are rarely needed.
 
 ---
 ## Building Custom Plugins
