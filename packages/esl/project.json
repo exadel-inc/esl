@@ -90,7 +90,7 @@
     "watch:less": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "chokidar \"src/**/*.(less|css)\" -c \"nx run esl:build:less\"",
+        "command": "chokidar \"src/**/*.{less,css}\" -c \"nx run esl:build:less\"",
         "cwd": "packages/esl"
       }
     },
@@ -100,7 +100,7 @@
       "options": {
         "commands": [
           "cpy \"src/**/*.css\" \"modules\" --parents --clean",
-          "findx \"modules/{*,*/*,{utils,forms}/*/*}.css !**/*.mixin.css\" \"postcss {{path}} --use postcss-import --no-map -o {{path}}\"",
+          "findx \"modules/{*,*/*,{esl-utils,esl-forms}/*/*}.css !**/*.mixin.css\" \"postcss {{path}} --use postcss-import --no-map -o {{path}}\"",
           "nodetouch \"modules/.css.done\""
         ],
         "cwd": "packages/esl",
@@ -157,7 +157,7 @@
     "lint:stylelint": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "stylelint \"src/**/*.(less|css)\"",
+        "command": "stylelint \"src/**/*.{less,css}\"",
         "cwd": "packages/esl"
       },
       "cache": true,
