@@ -6,7 +6,7 @@
 <table>
   <tbody>
   <tr><td>🕙 Start time</td><td>⌛ Duration</td></tr>
-  <tr><td>3/25/2026, 1:21:19 PM</td><td>20.92s</td></tr>
+  <tr><td>4/13/2026, 2:32:46 PM</td><td>20.57s</td></tr>
   </tbody>
 </table>
 <table>
@@ -19,15 +19,15 @@
   <h2>Tests Details</h2><h3>tests/homepage.copyright.test.ts</h3>
     <table>
       <tbody>
-      <tr><td>Test</td><td>Status</td><td>Time</td></tr><tr><td>Homepage footer manual validation: Check if the footer copyright contains correct version</td><td>✅</td><td>36ms</td></tr><tr><td>Homepage footer manual validation: Check if the footer coypright contains correct year</td><td>✅</td><td>5ms</td></tr></tbody>
+      <tr><td>Test</td><td>Status</td><td>Time</td></tr><tr><td>Homepage footer manual validation: Check if the footer copyright contains correct version</td><td>✅</td><td>84ms</td></tr><tr><td>Homepage footer manual validation: Check if the footer coypright contains correct year</td><td>✅</td><td>6ms</td></tr></tbody>
     </table><h3>tests/test.feature</h3>
     <table>
       <tbody>
-      <tr><td>Test</td><td>Status</td><td>Time</td></tr><tr><td>Feature: Test page looks fine: test page screen</td><td>✅</td><td>3.254s</td></tr></tbody>
+      <tr><td>Test</td><td>Status</td><td>Time</td></tr><tr><td>Feature: Test page looks fine: test page screen</td><td>✅</td><td>3.255s</td></tr></tbody>
     </table><h3>tests/homepage.feature</h3>
     <table>
       <tbody>
-      <tr><td>Test</td><td>Status</td><td>Time</td></tr><tr><td>Feature: Homepage looks fine: test homepage screen</td><td>❌</td><td>4.651s</td></tr><tr>
+      <tr><td>Test</td><td>Status</td><td>Time</td></tr><tr><td>Feature: Homepage looks fine: test homepage screen</td><td>❌</td><td>4.535s</td></tr><tr>
     <td colspan="3"><img src="https://github.com/exadel-inc/esl/blob/diff-report/homepage.feature/feature-homepage-looks-fine-test-homepage-screen-diff.jpg?raw=true" alt="Test Diff feature-homepage-looks-fine-test-homepage-screen-diff.jpg"/></td>
-  </tr><tr><td>Feature: Homepage looks fine: test homepage screen on mobile</td><td>✅</td><td>2.977s</td></tr><tr><td>Feature: Homepage looks fine: test homepage hamburger menu on mobile</td><td>✅</td><td>3.317s</td></tr><tr><td>Feature: Homepage looks fine: test homepage footer on desktop</td><td>✅</td><td>2.646s</td></tr><tr><td>Feature: Homepage looks fine: test homepage footer on mobile</td><td>✅</td><td>2.311s</td></tr></tbody>
+  </tr><tr><td>Feature: Homepage looks fine: test homepage screen on mobile</td><td>✅</td><td>2.877s</td></tr><tr><td>Feature: Homepage looks fine: test homepage hamburger menu on mobile</td><td>✅</td><td>3.33s</td></tr><tr><td>Feature: Homepage looks fine: test homepage footer on desktop</td><td>✅</td><td>2.671s</td></tr><tr><td>Feature: Homepage looks fine: test homepage footer on mobile</td><td>✅</td><td>2.328s</td></tr></tbody>
     </table>
