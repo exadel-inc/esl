@@ -39,7 +39,7 @@ export class ESLAnchornav extends ESLBaseElement {
   public static setRenderer(name: string, renderer: ESLAnchornavRender): void;
   public static setRenderer(name: string | ESLAnchornavRender, renderer?: ESLAnchornavRender): void {
     if (typeof name !== 'string') return this.setRenderer('default', name);
-    if (typeof name === 'string' && renderer) this._renderers.set(name, renderer);
+    if (renderer) this._renderers.set(name, renderer);
   }
 
   @prop('esl:anchornav:activechanged') public ACTIVECHANGED_EVENT: string;

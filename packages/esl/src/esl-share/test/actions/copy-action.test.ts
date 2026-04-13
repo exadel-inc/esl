@@ -45,7 +45,7 @@ describe('ESLShare: "copy" action public API', () => {
   });
 
   test('should dispatch esl:alert:show with shareAdditional.copyAlertMsg when share() calls', async () => {
-    const eventPromise = new Promise<void>(resolve => {
+    const eventPromise = new Promise<void>((resolve) => {
       document.body.addEventListener('esl:alert:show', (e) => {
         expect((e as CustomEvent).detail).toEqual({
           cls: 'esl-share-alert',
@@ -54,7 +54,7 @@ describe('ESLShare: "copy" action public API', () => {
         resolve();
       }, {once: true});
     });
-    
+
     copyAction?.share($button);
     await eventPromise;
   });

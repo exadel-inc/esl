@@ -1,8 +1,9 @@
-import type {MockInstance} from 'vitest';
 import {ESLCarousel} from '../../../core/esl-carousel';
 import {ESLCarouselDummyRenderer} from '../../common/esl-carousel.dummy.renderer';
 import {ESLCarouselAutoplayMixin} from '../../../plugin/autoplay/esl-carousel.autoplay.mixin';
 import {IntersectionObserverMock} from '../../../../test/intersectionObserver.mock';
+
+import type {MockInstance} from 'vitest';
 
 vi.mock('../../../../esl-utils/dom/ready', () => ({
   onDocumentReady: (cb: any) => cb()
