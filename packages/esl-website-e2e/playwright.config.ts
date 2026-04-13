@@ -1,4 +1,4 @@
-import {defineConfig, devices} from 'playwright/test';
+import {defineConfig, devices} from '@playwright/test';
 
 const isCI = Boolean(process.env.CI);
 const isDebug = Boolean(process.env.E2E_DEBUG);

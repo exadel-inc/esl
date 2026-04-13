@@ -2,7 +2,6 @@
   "compilerOptions": {
     "esModuleInterop": true,
     "allowJs": true,
-    "jsonModule": true,
     "strict": true,
     "strictNullChecks": true,
     "noImplicitAny": true,
