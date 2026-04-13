@@ -1,6 +1,6 @@
 import {ESLMixinElement} from '../../esl-mixin-element/core';
 import {listen, memoize} from '../../esl-utils/decorators';
-import {evaluate} from '../../esl-utils/misc/format';
+import {parseObjectSafe} from '../../esl-utils/misc/format';
 import {ESLResizeObserverTarget} from '../../esl-event-listener/core/targets/resize.target';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 
@@ -69,7 +69,7 @@ export class ESLDragToScrollMixin extends ESLMixinElement {
    */
   @memoize()
   public get config(): ESLDragToScrollConfig {
-    const config = evaluate(this.$$attr(ESLDragToScrollMixin.is)!, {});
+    const config = parseObjectSafe(this.$$attr(ESLDragToScrollMixin.is)!, {});
     return {...ESLDragToScrollMixin.DEFAULT_CONFIG, ...config};
   }
   public set config(value: ESLDragToScrollConfig | string) {

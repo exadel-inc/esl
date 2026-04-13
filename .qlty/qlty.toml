@@ -31,7 +31,6 @@ exclude_patterns = [
   "**/spec/**",
   "**/test/**",
   "**/*.test.ts",
-  "packages/snapshot-tests/**/*.ts",
   "packages/eslint-config",
   "packages/eslint-plugin",
   "packages/stylelint-config",

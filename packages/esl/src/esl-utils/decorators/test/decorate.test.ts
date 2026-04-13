@@ -3,16 +3,16 @@ import {decorate} from '../decorate';
 describe('common @decorate decorator test', () => {
   describe('Decorated method access leads to decorated instance access', () => {
     const v1 = Symbol('v1');
-    const fn1 = jest.fn(() => v1);
+    const fn1 = vi.fn(() => v1);
 
     const v2 = Symbol('v2');
-    const fn2 =  jest.fn(() => v2);
+    const fn2 =  vi.fn(() => v2);
 
     const fnPull = [fn2, fn1];
-    const wrap = jest.fn((fn) => fnPull.pop() || ((...args: any[]) => fn(...args)));
+    const wrap = vi.fn((fn) => fnPull.pop() || ((...args: any[]) => fn(...args)));
 
     const original = Symbol('original');
-    const originalFn =  jest.fn(() => original);
+    const originalFn =  vi.fn(() => original);
     class Test {
       @decorate(wrap)
       test(...args: any[]): symbol { return originalFn.call(this, ...args); }
@@ -42,8 +42,8 @@ describe('common @decorate decorator test', () => {
 
   describe('Decorated method inheritance works correct', () => {
     const original = Symbol('original');
-    const originalFn =  jest.fn(() => original);
-    const wrap = jest.fn((fn) => ((...args: any[]) => fn(...args)));
+    const originalFn =  vi.fn(() => original);
+    const wrap = vi.fn((fn) => ((...args: any[]) => fn(...args)));
 
     class Parent {
       @decorate(wrap)

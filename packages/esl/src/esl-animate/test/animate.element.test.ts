@@ -1,9 +1,9 @@
 import {ESLAnimate, ESLAnimateService} from '../core';
 
-jest.mock('../core/esl-animate-service', () => ({
+vi.mock('../core/esl-animate-service', () => ({
   ESLAnimateService: {
-    observe: jest.fn(),
-    unobserve: jest.fn()
+    observe: vi.fn(),
+    unobserve: vi.fn()
   }
 }));
 
@@ -12,13 +12,13 @@ describe('ESLAnimate element', () => {
   document.body.appendChild($el);
 
   beforeAll(() => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
     ESLAnimate.register();
   });
 
-  afterAll(() => jest.useRealTimers());
+  afterAll(() => vi.useRealTimers());
 
-  afterEach(() => jest.resetAllMocks());
+  afterEach(() => vi.resetAllMocks());
 
   test('ESLAnimate instance', () => expect($el).toBeInstanceOf(ESLAnimate));
 
@@ -26,7 +26,7 @@ describe('ESLAnimate element', () => {
     expect($el.connected).toBe(false);
     $el.repeat = true;
     expect(ESLAnimateService.observe).not.toHaveBeenCalled();
-    jest.advanceTimersByTime(1);
+    vi.advanceTimersByTime(1);
     expect(ESLAnimateService.observe).toHaveBeenCalledWith([$el], {cls: 'in', force: true, group: false, groupDelay: 100, ratio: 0.4, repeat: true});
   });
 
@@ -43,7 +43,7 @@ describe('ESLAnimate element', () => {
 
   test('disconnected callback', () => {
     $el.remove();
-    jest.advanceTimersByTime(1);
+    vi.advanceTimersByTime(1);
     expect(ESLAnimateService.unobserve).toHaveBeenCalled();
   });
 });

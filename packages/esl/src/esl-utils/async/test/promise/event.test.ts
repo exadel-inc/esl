@@ -1,8 +1,8 @@
 import {promisifyEvent, promisifyMarker} from '../../promise/event';
 
 describe('async/promise/event', () => {
-  beforeAll(() =>  jest.useFakeTimers());
-  afterAll(() => jest.useRealTimers());
+  beforeAll(() =>  vi.useFakeTimers());
+  afterAll(() => vi.useRealTimers());
 
   describe('promisifyEvent', () => {
     test('Resolves when event occurs', () => {
@@ -13,7 +13,7 @@ describe('async/promise/event', () => {
     });
     test('Resolved converter unsubscribes from target', async () => {
       const el = document.createElement('div');
-      const spy = jest.spyOn(el, 'removeEventListener');
+      const spy = vi.spyOn(el, 'removeEventListener');
       const promise$ = promisifyEvent(el, 'test');
       el.dispatchEvent(new CustomEvent('test'));
       await promise$;
@@ -23,14 +23,14 @@ describe('async/promise/event', () => {
     test('Rejected by timeout if it is exceeded', async () => {
       const el = document.createElement('div');
       const promise$ = promisifyEvent(el, 'test', 10);
-      jest.advanceTimersByTime(100);
+      vi.advanceTimersByTime(100);
       await expect(promise$).rejects.toThrow(new Error('Rejected by timeout'));
     });
     test('Listener unsubscribed if promise was rejected by timeout', async () => {
       const el = document.createElement('div');
-      const spy = jest.spyOn(el, 'removeEventListener');
+      const spy = vi.spyOn(el, 'removeEventListener');
       const promise$ = promisifyEvent(el, 'test', 10);
-      jest.advanceTimersByTime(100);
+      vi.advanceTimersByTime(100);
       try {
         await promise$;
       } catch {
@@ -54,7 +54,7 @@ describe('async/promise/event', () => {
         const el = document.createElement('div');
         const controller = new AbortController();
         const signal = controller.signal;
-        const spy = jest.spyOn(signal, 'removeEventListener');
+        const spy = vi.spyOn(signal, 'removeEventListener');
         const promise$ = promisifyEvent(el, 'test', null, {signal});
         el.dispatchEvent(new CustomEvent('test'));
         await promise$;
@@ -64,9 +64,9 @@ describe('async/promise/event', () => {
         const el = document.createElement('div');
         const controller = new AbortController();
         const signal = controller.signal;
-        const spy = jest.spyOn(signal, 'removeEventListener');
+        const spy = vi.spyOn(signal, 'removeEventListener');
         const promise$ = promisifyEvent(el, 'test', 10, {signal});
-        jest.advanceTimersByTime(100);
+        vi.advanceTimersByTime(100);
         try {
           await promise$;
         } catch {
@@ -77,7 +77,7 @@ describe('async/promise/event', () => {
         const el = document.createElement('div');
         const controller = new AbortController();
         const signal = controller.signal;
-        const spy = jest.spyOn(signal, 'removeEventListener');
+        const spy = vi.spyOn(signal, 'removeEventListener');
         const promise$ = promisifyEvent(el, 'test', null, {signal});
         controller.abort();
         try {
@@ -100,7 +100,7 @@ describe('async/promise/event', () => {
     test('Resolves by event', () => {
       const el = document.createElement('div');
       const promise$ = promisifyMarker(el, 'test');
-      jest.advanceTimersByTime(50);
+      vi.advanceTimersByTime(50);
       el.dispatchEvent(new CustomEvent('test'));
       return expect(promise$).resolves.toBe(el);
     });

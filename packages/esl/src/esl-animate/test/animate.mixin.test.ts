@@ -1,13 +1,13 @@
 import {ESLAnimateMixin, ESLAnimateService} from '../core';
 
-jest.mock('../core/esl-animate-service', () => ({
+vi.mock('../core/esl-animate-service', () => ({
   ESLAnimateService: {
-    observe: jest.fn(),
-    unobserve: jest.fn()
+    observe: vi.fn(),
+    unobserve: vi.fn()
   }
 }));
 
-jest.mock('../../esl-utils/dom/ready', () => ({
+vi.mock('../../esl-utils/dom/ready', () => ({
   onDocumentReady: (cb: any) => cb()
 }));
 
@@ -19,7 +19,7 @@ describe('ESLAnimateMixin mixin', () => {
   ESLAnimateMixin.register();
   const mixin: ESLAnimateMixin = ESLAnimateMixin.get($el)!;
 
-  afterEach(() => jest.resetAllMocks());
+  afterEach(() => vi.resetAllMocks());
 
   test('ESLAnimateMixin instance', () => {
     expect(mixin).toBeInstanceOf(ESLAnimateMixin);

@@ -1,6 +1,6 @@
 import {ESLLineClampAlt} from '../core/esl-line-clamp-alt';
 import {ESLScreenBreakpoints} from '../../esl-media-query/core/common/screen-breakpoint';
-import {getMatchMediaMock} from '../../esl-utils/test/matchMedia.mock';
+import {getMatchMediaMock} from '../../test/matchMedia.mock';
 import {ESLLineClamp} from '../core/esl-line-clamp';
 
 describe('ESLLineClampAlt (mixin): tests', () => {

@@ -1,8 +1,46 @@
+## 6.0.0-beta.5 (2026-01-22)
+
+This was a version bump only for stylelint-config to align it with other projects, there were no code changes.
+
+## 6.0.0-beta.4 (2026-01-20)
+
+### 🚀 Features
+
+- **stylelint-config:** @exadel/stylelint-config-esl migrated to stylelint@17 ([b9864f39a](https://github.com/exadel-inc/esl/commit/b9864f39a))
+
+## 6.0.0-beta.3 (2026-01-14)
+
+### 🚀 Features
+
+- **esl-incremental-scroll:** add incremental scroll utility ([ccd318697](https://github.com/exadel-inc/esl/commit/ccd318697))
+
+## 6.0.0-beta.2 (2025-11-03)
+
+This was a version bump only for stylelint-config to align it with other projects, there were no code changes.
+
+## 6.0.0-beta.1 (2025-10-22)
+
+This was a version bump only for stylelint-config to align it with other projects, there were no code changes.
+
 ## 5.15.0 (2025-10-22)
 
 This was a version bump only for stylelint-config to align it with other projects, there were no code changes.
 
+## 6.0.0-beta.0 (2025-09-29)
+
+This was a version bump only for stylelint-config to align it with other projects, there were no code changes.
+
 ## 5.14.0 (2025-09-30)
+
+### 💅 Refactors
+
+- **ui-playground:** migrate UIP project to latest (8) JSX-DOM ([5275cb787](https://github.com/exadel-inc/esl/commit/5275cb787))
+- **site:** add playground description ([e83a7eb79](https://github.com/exadel-inc/esl/commit/e83a7eb79))
+- **site:** playground navigation ([772859d85](https://github.com/exadel-inc/esl/commit/772859d85))
+- **site:** drop changes not related to playground readme ([c1a0a222e](https://github.com/exadel-inc/esl/commit/c1a0a222e))
+- **site:** add playground section ([dbaf99955](https://github.com/exadel-inc/esl/commit/dbaf99955))
+
+## 5.14.0-beta.0 (2025-09-19)
 
 ### 💅 Refactors
 

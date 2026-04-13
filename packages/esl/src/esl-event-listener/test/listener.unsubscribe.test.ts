@@ -1,7 +1,7 @@
 import {ESLEventUtils} from '../core';
 
 describe('ESLEventUtils:unsubscribe successfully removes listener', () => {
-  const handle = jest.fn();
+  const handle = vi.fn();
   const div = document.createElement('div');
 
   beforeEach(() => {

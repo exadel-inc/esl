@@ -31,7 +31,7 @@ describe('ESLCarousel: Nav Utils', () => {
       ['group:1', {activeIndex: 3, size: 8, count: 3, loop: true}],
       ['group:2', {activeIndex: 0, size: 8, count: 3, loop: true}],
     ])(
-      'Target %s is allowed for %p configuration',
+      'Target %s is allowed for %o configuration',
       (target: ESLCarouselSlideTarget, cfg: ESLCarouselState) => expect(canNavigate(target, cfg)).toBe(true)
     );
 
@@ -63,7 +63,7 @@ describe('ESLCarousel: Nav Utils', () => {
       ['group:0', {activeIndex: 0, size: 8, count: 3, loop: true}],
       ['group:1', {activeIndex: 0, size: 8, count: 3, loop: true}],
     ])(
-      'Target %s is not allowed for %p configuration',
+      'Target %s is not allowed for %o configuration',
       (target: ESLCarouselSlideTarget, cfg: ESLCarouselState) => expect(canNavigate(target, cfg)).toBe(false)
     );
   });
@@ -87,13 +87,13 @@ describe('ESLCarousel: Nav Utils', () => {
       // Full active window (count >= size)
       [0, {activeIndex: 0, size: 4, count: 5, loop: false}, true],
       [3, {activeIndex: 2, size: 4, count: 10, loop: true}, true],
-    ])('Index %s current=%s in %p', (index: number, cfg: ESLCarouselState, expected: boolean) => {
+    ])('Index %s current=%s in %o', (index: number, cfg: ESLCarouselState, expected: boolean) => {
       expect(isCurrentIndex(index, cfg)).toBe(expected);
     });
 
     test.each([
       [NaN, {activeIndex: 0, size: 5, count: 1, loop: false}]
-    ])('Invalid index %s is not current for %p', (index: number, cfg: ESLCarouselState) => {
+    ])('Invalid index %s is not current for %o', (index: number, cfg: ESLCarouselState) => {
       expect(isCurrentIndex(index, cfg)).toBe(false);
     });
   });
@@ -128,7 +128,7 @@ describe('ESLCarousel: Nav Utils', () => {
       ['group:3', {activeIndex: 4, size: 8, count: 3, loop: false}, true], // active 4,5,6 first (5) active => group current
       // Loop group first slide wrapping
       ['group:3', {activeIndex: 6, size: 8, count: 3, loop: true}, false], // active 6,7,0, group3 first slide=5 not active
-    ])('Target %s current=%s for %p',
+    ])('Target %s current=%s for %o',
       (target: ESLCarouselSlideTarget, cfg: ESLCarouselState, expected: boolean) => expect(isCurrent(target, cfg)).toBe(expected)
     );
 
@@ -143,7 +143,7 @@ describe('ESLCarousel: Nav Utils', () => {
       ['group:prev', {activeIndex: 0, size: 5, count: 2, loop: true}],
       ['group:+1', {activeIndex: 0, size: 5, count: 2, loop: true}],
       ['group:-1', {activeIndex: 2, size: 5, count: 2, loop: true}],
-    ])('Relative target %s is never current for %p', (target: ESLCarouselSlideTarget, cfg: ESLCarouselState) => {
+    ])('Relative target %s is never current for %o', (target: ESLCarouselSlideTarget, cfg: ESLCarouselState) => {
       expect(isCurrent(target, cfg)).toBe(false);
     });
   });

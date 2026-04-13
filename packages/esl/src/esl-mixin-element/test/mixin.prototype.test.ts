@@ -68,7 +68,7 @@ describe('ESLMixinElement.prototype implements all required ESLComponent API met
 
   test('ESLMixinElement.prototype.$$fire persist and correct', () => {
     const eventName = 'testevent';
-    $host.dispatchEvent = jest.fn();
+    $host.dispatchEvent = vi.fn();
     $el.$$fire(eventName);
 
     expect($host.dispatchEvent).toHaveBeenLastCalledWith(expect.objectContaining({type: eventName, cancelable: true, bubbles: true}));

@@ -26,12 +26,6 @@ updates:
       commit-lint:
         patterns:
           - "@commitlint/*"
-      jest:
-        patterns:
-          - "jest"
-          - "jest-*"
-          - "ts-jest"
-          - "@types/jest"
       eslint:
         patterns:
           - "eslint"

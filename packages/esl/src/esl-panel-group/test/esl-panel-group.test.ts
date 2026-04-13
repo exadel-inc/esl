@@ -1,6 +1,6 @@
 import {ESLPanel} from '../../esl-panel/core';
 import {ESLPanelGroup} from '../../esl-panel-group/core';
-import {ESLTestTemplate} from '../../esl-utils/test/template';
+import {ESLTestTemplate} from '../../test/template';
 
 const REFERENCES = {
   group: 'esl-panel-group',

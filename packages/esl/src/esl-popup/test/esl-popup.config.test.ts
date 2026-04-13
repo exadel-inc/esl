@@ -1,4 +1,5 @@
 import {ESLPopup, type ESLPopupActionParams} from '../core';
+import {IntersectionObserverMock} from '../../test/intersectionObserver.mock';
 
 describe('ESLPopup: proxy logic of config', () => {
   let $popup: ESLPopup;
@@ -20,9 +21,10 @@ describe('ESLPopup: proxy logic of config', () => {
   const defaultAttrs: ESLPopupActionParams = {
     position: 'top',
     positionOrigin: 'outer',
+    alignmentTether: '',
     behavior: 'fit',
-    marginArrow: 5,
-    offsetArrow: '50',
+    offsetPlacement: 0,
+    marginTether: 5,
     offsetTrigger: 3,
     container: '',
     disableActivatorObservation: false
@@ -32,6 +34,16 @@ describe('ESLPopup: proxy logic of config', () => {
     intersectionMargin: '0px',
     offsetContainer: 15
   };
+
+  beforeAll(() => {
+    IntersectionObserverMock.mock();
+    vi.useFakeTimers();
+  });
+
+  afterAll(() => {
+    IntersectionObserverMock.restore();
+    vi.useRealTimers();
+  });
 
   beforeEach(() => {
     $popup = new ESLPopup();

@@ -16,7 +16,8 @@
       "executor": "nx:noop",
       "dependsOn": [
         "build:ts",
-        "build:less"
+        "build:less",
+        "build:docs"
       ]
     },
     "watch": {
@@ -24,7 +25,8 @@
       "options": {
         "commands": [
           {"command": "nx run uip:watch:ts", "prefix": "[UIP watch:ts]"},
-          {"command": "nx run uip:watch:less", "prefix": "[UIP watch:less]"}
+          {"command": "nx run uip:watch:less", "prefix": "[UIP watch:less]"},
+          {"command": "nx run uip:watch:docs", "prefix": "[UIP watch:docs]"}
         ],
         "cwd": "packages/ui-playground",
         "parallel": true
@@ -89,6 +91,33 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "chokidar \"src/**/*.less\" -c \"nx run uip:build:less\"",
+        "cwd": "packages/ui-playground"
+      }
+    },
+
+    "build:docs": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "cpy \"src/**/*.md\" \"dist\" --parents --clean",
+          "nodetouch \"dist/.docs.done\""
+        ],
+        "parallel": false,
+        "cwd": "packages/ui-playground"
+      },
+      "cache": true,
+      "inputs": [
+        "{projectRoot}/src/**/*.md"
+      ],
+      "outputs": [
+        "{projectRoot}/dist/**/*.md",
+        "{projectRoot}/dist/.docs.done"
+      ]
+    },
+    "watch:docs": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "chokidar \"src/**/*.md\" -c \"nx run uip:build:docs\"",
         "cwd": "packages/ui-playground"
       }
     },

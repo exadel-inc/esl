@@ -1,10 +1,10 @@
 import {ESLMedia} from '../core/esl-media';
-import {IntersectionObserverMock} from '../../esl-utils/test/intersectionObserver.mock';
+import {IntersectionObserverMock} from '../../test/intersectionObserver.mock';
 import {promisifyTimeout} from '../../esl-utils/async/promise';
 import {BaseProviderMock} from './mocks/base-provider.mock';
 
 describe('ESLMedia: BaseProvider lifecycle', () => {
-  jest.spyOn(console, 'debug').mockImplementation(() => {});
+  vi.spyOn(console, 'debug').mockImplementation(() => {});
 
   ESLMedia.register();
   BaseProviderMock.register();
@@ -60,7 +60,7 @@ describe('ESLMedia: BaseProvider lifecycle', () => {
     });
 
     test('Banch of play/pause commands stacked to the last one', async () => {
-      const playSpy = jest.spyOn(BaseProviderMock.prototype as any, 'play');
+      const playSpy = vi.spyOn(BaseProviderMock.prototype as any, 'play');
       instance.play();
       instance.pause();
       instance.play();

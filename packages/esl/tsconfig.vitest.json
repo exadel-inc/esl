@@ -1,0 +1,20 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "types": ["node", "vitest/globals", "youtube"]
+  },
+  "include": [
+    "src/**/*.d.ts",
+    "src/**/*.test.ts",
+    "src/**/*.spec.ts",
+    "src/**/*.test.tsx",
+    "src/**/*.spec.tsx",
+    "vitest.config.*"
+  ],
+  "exclude": [
+    "modules",
+    "polyfills",
+    "node_modules"
+  ]
+}

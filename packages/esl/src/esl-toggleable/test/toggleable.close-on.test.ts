@@ -83,7 +83,7 @@ describe('ESLToggleable: close-on trigger handler', () => {
   test('ESLToggleableActionParams contains correct activator details', () => {
     const {$el, $trigger} = elements;
 
-    const $fn = jest.fn((e) => console.log(e));
+    const $fn = vi.fn((e) => console.log(e));
 
     $el.show();
     $el.addEventListener('esl:hide', $fn);

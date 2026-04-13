@@ -3,7 +3,7 @@ import {createDummyCarousel} from '../common/esl-carousel.dummy';
 import {ESLCarouselDummyRenderer} from '../common/esl-carousel.dummy.renderer';
 
 
-jest.mock('../../../esl-utils/dom/ready', () => ({
+vi.mock('../../../esl-utils/dom/ready', () => ({
   onDocumentReady: (cb: any) => cb()
 }));
 

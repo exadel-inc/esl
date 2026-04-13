@@ -3,7 +3,7 @@ import {ESLEventUtils} from '../core/api';
 describe('ESLEventUtils.subscribe subscribes single time', () => {
   test('subscribe one event with the same handler does not leads to duplicate subscription', () => {
     const host = document.createElement('div');
-    const fn = jest.fn();
+    const fn = vi.fn();
 
     ESLEventUtils.subscribe(host, 'click', fn);
     expect(ESLEventUtils.listeners(host).length).toBe(1);
@@ -13,8 +13,8 @@ describe('ESLEventUtils.subscribe subscribes single time', () => {
 
   test('subscribe one event with different handlers produces different subscriptions', () => {
     const host = document.createElement('div');
-    const fn1 = jest.fn();
-    const fn2 = jest.fn();
+    const fn1 = vi.fn();
+    const fn2 = vi.fn();
 
     ESLEventUtils.subscribe(host, 'click', fn1);
     expect(ESLEventUtils.listeners(host).length).toBe(1);
@@ -24,7 +24,7 @@ describe('ESLEventUtils.subscribe subscribes single time', () => {
 
   test('subscribe considers descriptors with different selectors as different', () => {
     const host = document.createElement('div');
-    const fn = jest.fn();
+    const fn = vi.fn();
 
     ESLEventUtils.subscribe(host, {event: 'e', selector: 'a'}, fn);
     expect(ESLEventUtils.listeners(host).length).toBe(1);
@@ -40,7 +40,7 @@ describe('ESLEventUtils.subscribe subscribes single time', () => {
     const host = document.createElement('div');
     const target1 = document.createElement('div');
     const target2 = document.createElement('div');
-    const fn = jest.fn();
+    const fn = vi.fn();
 
     ESLEventUtils.subscribe(host, {event: 'e', target: target1}, fn);
     expect(ESLEventUtils.listeners(host).length).toBe(1);
@@ -54,7 +54,7 @@ describe('ESLEventUtils.subscribe subscribes single time', () => {
 
   test('subscribe considers descriptors with different capture phases as different', () => {
     const host = document.createElement('div');
-    const fn = jest.fn();
+    const fn = vi.fn();
 
     ESLEventUtils.subscribe(host, {event: 'e', capture: true}, fn);
     expect(ESLEventUtils.listeners(host).length).toBe(1);

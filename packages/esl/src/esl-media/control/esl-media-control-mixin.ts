@@ -1,8 +1,8 @@
 import {ESLMixinElement} from '../../esl-mixin-element/core';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core/esl-traversing-query';
 import {listen, memoize} from '../../esl-utils/decorators';
+import {parseObjectSafe} from '../../esl-utils/misc/format';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {evaluate} from '../../esl-utils/misc/format';
 
 import type {ESLMedia} from '../core/esl-media';
 
@@ -23,7 +23,7 @@ export class ESLMediaControlMixin extends ESLMixinElement {
   @memoize()
   public get config(): ESLMediaControlConfig {
     const attrVal = this.$$attr(ESLMediaControlMixin.is) || '{}';
-    const userConfig = attrVal.trim().startsWith('{') ? evaluate(attrVal, {}) : {target: attrVal};
+    const userConfig = parseObjectSafe(attrVal, {target: attrVal});
     return {...ESLMediaControlMixin.DEFAULT_CONFIG, ...userConfig};
   }
 

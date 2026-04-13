@@ -141,7 +141,7 @@ Also, ESLMedia provides attributes to reflect media state and additional classes
     Independent of the lazy state, use `ready-class` if you are interested in the final state of component.
  - `load-condition-class-target` (optional) - [ESLTraversingQuery](../esl-traversing-query/README.md) to define a target for `load-condition-class`
 
- - `start-time` - attribute that allows a user to start viewing a video from a specific time offset. The value is simple time in seconds. By default, it is undefined which means to start from the beginning.
+ - `start-time` - attribute that specifies the time offset from which the video should begin playing. Accepts either a number in seconds or a time string matching the pattern `{hours}h{minutes}m{seconds}s` where any component can be omitted (e.g., "2m3s", "45s", "4h3s", "5m"). If not specified, the video starts from the beginning.
 *(note: that feature doesn't work for Abstract Iframe provider, also doesn't work for HTMLAudio and HTMLVideo providers in case when Web-server when hosted resource doesn't support ['Accept-Ranges' HTTP response marker](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Ranges))*
  - `focusable` (boolean) - marker that allows the video to be focused by keyboard navigation. By default, the video is focusable if `controls` are enabled.
 

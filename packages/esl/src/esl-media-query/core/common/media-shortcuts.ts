@@ -29,7 +29,6 @@ const SHORTCUTS_STORE = Symbol.for('__esl_media_shortcuts');
  *
  * @implements IMediaQueryPreprocessor statically
  */
-@ExportNs('EnvShortcuts')
 @ExportNs('MediaShortcuts')
 export class ESLMediaShortcuts {
   /** Returns shortcuts map, ensures there is a single instance */
@@ -66,24 +65,7 @@ export class ESLMediaShortcuts {
     if (!SHORTCUT_REGEXP.test(match)) return NOT_ALL;
     return this.resolve(match);
   }
-
-  // Legacy support
-  /** @deprecated use `set` method instead (Going to be removed in ESL 6.0.0)*/
-  public static add = ESLMediaShortcuts.set;
-
-  /**
-   * Remove mapping for passed shortcut term.
-   * @deprecated use `ESLEnvShortcuts.set(shortcut, false)` instead (Going to be removed in ESL 6.0.0)
-   */
-  public static remove(shortcut: string): boolean {
-    const contain = this.shortcuts.has(shortcut.toLowerCase());
-    ESLMediaShortcuts.set(shortcut, NOT_ALL);
-    return contain;
-  }
 }
-
-/** @deprecated use `ESLMediaShortcuts` instead (Going to be removed in ESL 6.0.0) */
-export const ESLEnvShortcuts = ESLMediaShortcuts;
 
 // Touch check
 ESLMediaShortcuts.set('touch', isTouchDevice);
@@ -107,8 +89,6 @@ declare global {
     [SHORTCUTS_STORE]: Map<string, MediaQueryStaticCondition>;
   }
   export interface ESLLibrary {
-    /** @deprecated use `ESLMediaShortcuts` instead (Going to be removed in ESL 6.0.0) */
-    EnvShortcuts: typeof ESLMediaShortcuts;
     MediaShortcuts: typeof ESLMediaShortcuts;
   }
 }

@@ -26,7 +26,7 @@ describe('Rect API', () => {
       [[0, 0, 100, 100], [-10, -10, 10, 10], [0, 0, 0, 0]],
       [[0, 0, 100, 100], [-5, -5, 10, 10], [0, 0, 5, 5]],
       [[1, 2, 3, 4], [0, 0, 10, 10], [1, 2, 3, 4]]
-    ])('Rect.intersect of %s and %p.', (rect1, rect2, expected) => {
+    ])('Rect.intersect of %s and %o.', (rect1, rect2, expected) => {
       expect(Rect.intersect(new Rect(...rect1), new Rect(...rect2))).toStrictEqual(new Rect(...expected));
     });
   });
@@ -112,7 +112,7 @@ describe('Rect API', () => {
       [{x: 0, y: 0, width: 0, height: 0}, {x: 0, y: 1, width: 0, height: 0}, false],
       [{x: 0, y: 0, width: 0, height: 0}, {x: 0, y: 0, width: 1, height: 0}, false],
       [{x: 0, y: 0, width: 0, height: 0}, {x: 0, y: 0, width: 0, height: 1}, false]
-    ])('%p isEqual %p returns %s', (rect1, rect2, expected) => {
+    ])('%o isEqual %o returns %s', (rect1, rect2, expected) => {
       expect(Rect.from(rect1).isEqual(Rect.from(rect2))).toBe(expected);
     });
 

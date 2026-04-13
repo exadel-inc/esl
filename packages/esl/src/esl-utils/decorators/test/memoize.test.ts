@@ -2,7 +2,7 @@ import {memoize} from '../memoize';
 
 describe('common @memoize decorator test', () => {
   describe('accessor', () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     class TestClass {
       @memoize()
       get test() {
@@ -27,7 +27,7 @@ describe('common @memoize decorator test', () => {
   });
 
   describe('static accessor', () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     class TestClass {
       @memoize()
       static get test() {
@@ -51,7 +51,7 @@ describe('common @memoize decorator test', () => {
   });
 
   describe('cache / clear', () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     class TestClass {
       @memoize()
       test() {
@@ -77,7 +77,7 @@ describe('common @memoize decorator test', () => {
   });
 
   describe('array clear', () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     class TestClass {
       @memoize()
       test1() {
@@ -110,7 +110,7 @@ describe('common @memoize decorator test', () => {
   });
 
   describe('static method', () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     class TestClass {
       @memoize()
       static test() {

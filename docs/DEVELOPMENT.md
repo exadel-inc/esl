@@ -128,23 +128,29 @@ ESL top-level directory structure is as follows:
     - [🔧 .eleventy.js](../packages/esl-website/.eleventy.js) - main 11ty configuration file
     - [🔧 tsconfig.json](../packages/esl-website/tsconfig.json) - TS config for demo pages scripts
     - [🔧 webpack.config.js](../packages/esl-website/webpack.config.js) - webpack build file for demo pages
+    
+  - [📁 esl-website-e2e](../packages/esl-website-e2e) - sub-package root for ESL snapshot tests
+    - [📁 common](../packages/esl-website-e2e/common) - common utilities and helpers for tests
+    - [📁 test](../packages/esl-website-e2e/test) - snapshot tests
+    - [📁 reporters](../packages/esl-website-e2e/reporters) - custom reporters for Workflow summary generation
+    - [🔨📁 playwright-report](../packages/esl-website-e2e/playwright-report) - test reports output directory
+    - [🔨📁 test-results](../packages/esl-website-e2e/test-results) - test results output directory
+    - [🔧 playwright.config.ts](../packages/esl-website-e2e/playwright.config.ts) - Playwright configuration file
+  
+  - [📁 esl-website-monitoring](../packages/esl-website-monitoring) - custom monitoring GitHub Action to execute esl website healthcheck
 
-  - [📁 eslint-plugin](../packages/eslint-plugin) - sub-package root for ESL ESLint plugin 
-    - [📁 src](../packages/eslint-plugin/src) - ESLint plugin sources
-    - [📁 test](../packages/eslint-plugin/test) - ESLint plugin tests
   - [📁 eslint-config](../packages/eslint-config) - sub-package root for ESL ESLint shared configuration
     - [📁 rules](../packages/eslint-config/rules) - ESLint shared configuration rule sets
     - [📄 index.js](../packages/eslint-config/index.js) - ESLint shared configuration main file
   - [📁 stylelint-config](../packages/stylelint-config) - sub-package root for ESL StyleLint shared configuration
     - [📁 custom](../packages/eslint-config/custom) - custom StyleLint plugins/rules directory
     - [📄 index.js](../packages/stylelint-config/index.js) - StyleLint shared configuration main file
-  - [📁 snapshot-tests](../packages/snapshot-tests) - sub-package root for ESL snapshot tests
-    - [📁 src](../packages/snapshot-tests/src) - snapshot tests build sources
-    - [📁 test](../packages/snapshot-tests/test) - snapshot tests
 
 - [📁 scripts](../scripts) - library common build scripts
 - [📁 .github](../.github) - library repository configuration and documentation
 - [📁 .husky](../.husky) - git hooks configuration
+- [📁 .qlty](../.qlty) - qlty tool configuration directory
+- [🔨📁 .nx](../.nx) - Nx cache/configuration directory
 
 ## Additional Project Scripts
 

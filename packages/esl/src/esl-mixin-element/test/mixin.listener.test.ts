@@ -4,7 +4,7 @@ import {ESLEventUtils} from '../../esl-utils/dom/events';
 
 describe('ESLMixinElement: listeners', () => {
   describe('ESLMixinElement auto subscribes to listener declarations', () => {
-    const mockHandler = jest.fn();
+    const mockHandler = vi.fn();
     class TestElement extends ESLMixinElement {
       static override is = 'test-listen-mixin';
 

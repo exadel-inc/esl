@@ -1,9 +1,9 @@
 import {ESLCarousel} from '../../../core/esl-carousel';
 import {ESLCarouselDummyRenderer} from '../../common/esl-carousel.dummy.renderer';
 import {ESLCarouselAutoplayMixin} from '../../../plugin/autoplay/esl-carousel.autoplay.mixin';
-import {IntersectionObserverMock} from '../../../../esl-utils/test/intersectionObserver.mock';
+import {IntersectionObserverMock} from '../../../../test/intersectionObserver.mock';
 
-jest.mock('../../../../esl-utils/dom/ready', () => ({
+vi.mock('../../../../esl-utils/dom/ready', () => ({
   onDocumentReady: (cb: any) => cb()
 }));
 
@@ -17,11 +17,11 @@ describe('ESLCarousel: Autoplay Plugin', () => {
 
   beforeAll(() => {
     IntersectionObserverMock.mock();
-    jest.useFakeTimers();
+    vi.useFakeTimers();
   });
   afterAll(() => {
     IntersectionObserverMock.restore();
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   describe('ESLCarouselTouchMixin default config', () => {
@@ -76,9 +76,9 @@ describe('ESLCarousel: Autoplay Plugin', () => {
 
   describe('ESLCarouselAutoplayMixin timer functionality (main)', () => {
     const $carousel = ESLCarousel.create();
-    const goToSpy = jest.spyOn($carousel, 'goTo');
+    const goToSpy = vi.spyOn($carousel, 'goTo');
 
-    jest.spyOn($carousel, 'canNavigate').mockReturnValue(true);
+    vi.spyOn($carousel, 'canNavigate').mockReturnValue(true);
 
     beforeEach(() => {
       document.body.appendChild($carousel);
@@ -87,7 +87,7 @@ describe('ESLCarousel: Autoplay Plugin', () => {
     afterEach(() => {
       document.body.removeChild($carousel);
       goToSpy.mockClear();
-      jest.clearAllTimers();
+      vi.clearAllTimers();
     });
 
     test('Plugin execute slide command according to timeout', async () => {
@@ -98,7 +98,7 @@ describe('ESLCarousel: Autoplay Plugin', () => {
       const plugin = ESLCarouselAutoplayMixin.get($carousel)!;
       expect(plugin.active).toBe(true);
       // Wait for the first slide command execution
-      jest.advanceTimersByTime(plugin.duration + 1);
+      vi.advanceTimersByTime(plugin.duration + 1);
       expect(goToSpy).toHaveBeenCalledTimes(1);
       expect(goToSpy).toHaveBeenCalledWith(plugin.config.command, expect.objectContaining({activator: plugin}));
     });
@@ -110,9 +110,9 @@ describe('ESLCarousel: Autoplay Plugin', () => {
 
       const plugin = ESLCarouselAutoplayMixin.get($carousel)!;
       // Wait for the first slide command execution
-      jest.advanceTimersByTime(plugin.duration + 1);
+      vi.advanceTimersByTime(plugin.duration + 1);
       await doubleTick();
-      jest.advanceTimersByTime(plugin.duration + 1);
+      vi.advanceTimersByTime(plugin.duration + 1);
       expect(goToSpy).toHaveBeenCalledTimes(2);
     });
 
@@ -124,7 +124,7 @@ describe('ESLCarousel: Autoplay Plugin', () => {
       const plugin = ESLCarouselAutoplayMixin.get($carousel)!;
       expect(plugin.active).toBe(false);
       // Wait for the first slide command execution
-      jest.advanceTimersByTime(plugin.duration + 1);
+      vi.advanceTimersByTime(plugin.duration + 1);
       expect(goToSpy).not.toHaveBeenCalled();
     });
   });

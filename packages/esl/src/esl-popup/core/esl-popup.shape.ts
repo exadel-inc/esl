@@ -1,12 +1,14 @@
 import type {ESLToggleableTagShape} from '../../esl-toggleable/core/esl-toggleable.shape';
 import type {ESLPopup} from './esl-popup';
-import type {PositionType} from './esl-popup-position';
+import type {AlignmentType, PositionOriginType, PositionType} from './esl-popup-position';
 
 /**
  * Tag declaration interface of {@link ESLPopup} element
  * Used for TSX declaration
  */
 export interface ESLPopupTagShape<T extends ESLPopup = ESLPopup> extends ESLToggleableTagShape<T> {
+  /** Alignment of the popup relative to the tether */
+  'alignment-tether'?: AlignmentType;
   /** Classname of popups arrow element */
   'arrow-class'?: string;
   /** Popup behavior if it does not fit in the window ('fit' by default) */
@@ -15,10 +17,10 @@ export interface ESLPopupTagShape<T extends ESLPopup = ESLPopup> extends ESLTogg
   container?: string;
   /** Disable hiding the popup depending on the visibility of the activator */
   'disable-activator-observation'?: boolean;
-  /** Margins on the edges of the arrow. */
-  'margin-arrow'?: string;
-  /** Offset of the arrow as a percentage of the popup edge (0% - at the left edge, 100% - at the right edge, for RTL it is vice versa) */
-  'offset-arrow'?: string;
+  /** Safe margins on the edges of the popup. */
+  'margin-tether'?: number;
+  /** Offset of the tether relative to the position on the trigger */
+  'offset-placement'?: number;
   /** Offset from the trigger element */
   'offset-trigger'?: string;
   /**
@@ -27,7 +29,7 @@ export interface ESLPopupTagShape<T extends ESLPopup = ESLPopup> extends ESLTogg
    */
   position?: PositionType;
   /** clarification of the popup position, whether it should start on the outside of trigger or the inside of trigger ('outer' by default) */
-  'position-origin'?: 'inner' | 'outer';
+  'position-origin'?: PositionOriginType;
 
   /** Default params to merge into passed action params */
   'default-params'?: string;

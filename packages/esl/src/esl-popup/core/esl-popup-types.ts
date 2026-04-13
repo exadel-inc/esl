@@ -1,5 +1,5 @@
 import type {ESLToggleableActionParams} from '../../esl-toggleable/core';
-import type {PositionType, PositionOriginType} from './esl-popup-position';
+import type {PositionType, PositionOriginType, AlignmentType} from './esl-popup-position';
 
 export interface ESLPopupActionParams extends ESLToggleableActionParams {
   /** popup position relative to trigger */
@@ -10,11 +10,13 @@ export interface ESLPopupActionParams extends ESLToggleableActionParams {
   behavior?: string;
   /** Disable hiding the popup depending on the visibility of the activator */
   disableActivatorObservation?: boolean;
-  /** Margins on the edges of the arrow. */
-  marginArrow?: number;
-  /** Offset of the arrow as a percentage of the popup edge (0% - at the left edge, 100% - at the right edge, for RTL it is vice versa) */
-  offsetArrow?: string;
-  /** Offset in pixels from the trigger element */
+  /** Alignment of the popup relative to the tether */
+  alignmentTether?: AlignmentType;
+  /** Safe margins on the edges of the popup. */
+  marginTether?: number;
+  /** Offset of the tether relative to the position on the trigger */
+  offsetPlacement?: number;
+  /** Offset of the popup in pixels from the trigger element */
   offsetTrigger?: number;
   /**
    * Offset in pixels from the edges of the container (or window if the container is not defined)
@@ -43,8 +45,9 @@ export const ESL_POPUP_CONFIG_KEYS: (keyof ESLPopupActionParams)[] = [
   'positionOrigin',
   'behavior',
   'disableActivatorObservation',
-  'marginArrow',
-  'offsetArrow',
+  'alignmentTether',
+  'marginTether',
+  'offsetPlacement',
   'offsetTrigger',
   'offsetContainer',
   'intersectionMargin',

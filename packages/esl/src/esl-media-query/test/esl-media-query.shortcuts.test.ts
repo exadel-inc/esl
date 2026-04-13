@@ -1,4 +1,4 @@
-import {DevicesMock} from '../../esl-utils/test/deviceDetector.mock';
+import {DevicesMock} from '../../test/deviceDetector.mock';
 import {ESLMediaQuery, ESLScreenBreakpoints, ESLMediaShortcuts} from '../core';
 import {ESLMediaChangeEvent} from '../core/conditions/media-query-base';
 
@@ -39,7 +39,7 @@ describe('ESLMediaQuery: shortcuts', () => {
       ['not @small', 'not ((min-width: 100px) and (max-width: 200px))'],
       ['not @+sm', 'not (min-width: 768px)'],
       ['not @-md', 'not (max-width: 1199px)'],
-    ])('Inverted replacement %p', (query, expected) => {
+    ])('Inverted replacement %o', (query, expected) => {
       expect(ESLMediaQuery.from(query).toString()).toBe(expected);
     });
 
@@ -47,7 +47,7 @@ describe('ESLMediaQuery: shortcuts', () => {
       ['@+sm, @-md', '(min-width: 768px), (max-width: 1199px)'],
       ['@+sm or @-md', '(min-width: 768px), (max-width: 1199px)'],
       ['@+sm and @-md', '(min-width: 768px) and (max-width: 1199px)'],
-    ])('Inverted replacement %p', (query, expected) => {
+    ])('Inverted replacement %o', (query, expected) => {
       expect(ESLMediaQuery.from(query).toString()).toBe(expected);
     });
   });
@@ -82,14 +82,14 @@ describe('ESLMediaQuery: shortcuts', () => {
       ['@desktop', '[desktop = all]'],
       ['@Desktop', '[desktop = all]'],
       ['@DESKTOP', '[desktop = all]'],
-    ])('Query check for %p', (query, expected) => {
+    ])('Query check for %o', (query, expected) => {
       expect(ESLMediaQuery.from(query).toString()).toBe(expected);
     });
 
     test.each([
       ['not @mobile', 'not [mobile = not all]'],
       ['not @desktop', 'not [desktop = all]']
-    ])('Inverted query check for %p', (query, expected) => {
+    ])('Inverted query check for %o', (query, expected) => {
       expect(ESLMediaQuery.from(query).toString()).toBe(expected);
     });
   });
@@ -100,14 +100,14 @@ describe('ESLMediaQuery: shortcuts', () => {
       ['@gecko', '[gecko = not all]'],
       ['@blink', '[blink = not all]'],
       ['@safari', '[safari = not all]']
-    ])('Query check for %p', (query, expected) => {
+    ])('Query check for %o', (query, expected) => {
       expect(ESLMediaQuery.from(query).toString()).toBe(expected);
     });
 
     test.each([
       ['@ie', '[ie = not all]'],
       ['not @ie', 'not [ie = not all]']
-    ])('Legacy check for %p', (query, expected) => {
+    ])('Legacy check for %o', (query, expected) => {
       expect(ESLMediaQuery.from(query).toString()).toBe(expected);
     });
   });
@@ -129,7 +129,7 @@ describe('ESLMediaQuery: shortcuts', () => {
     });
 
     test('Static shortcut can be observed', () => {
-      const listener = jest.fn();
+      const listener = vi.fn();
       ESLMediaQuery.from('@stest').addEventListener(listener);
       expect(listener).not.toHaveBeenCalled();
 
@@ -165,7 +165,7 @@ describe('ESLMediaQuery: shortcuts', () => {
   describe('Static shortcut name validation', () => {
     test.each([
       '@test', '1', '123test', 'test+1', 'test*1', 'test/1', 'test\\1'
-    ])('Shortcut %p validation', (name) => {
+    ])('Shortcut %o validation', (name) => {
       expect(() => ESLMediaShortcuts.set(name, true)).toThrow();
     });
   });

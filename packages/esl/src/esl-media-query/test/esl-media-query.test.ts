@@ -1,5 +1,5 @@
 import {ESLMediaQuery, ESLScreenBreakpoints} from '../core';
-import {getMatchMediaMock} from '../../esl-utils/test/matchMedia.mock';
+import {getMatchMediaMock} from '../../test/matchMedia.mock';
 import {ESLMediaChangeEvent} from '../core/conditions/media-query-base';
 
 /**
@@ -25,7 +25,7 @@ describe('ESLMediaQuery', () => {
       ['', 'all'],
       ['all', 'all'],
       ['not all', 'not all']
-    ])('Apply tests for %p breakpoint', (query, expected) => {
+    ])('Apply tests for %o breakpoint', (query, expected) => {
       expect(ESLMediaQuery.from(query).toString()).toBe(expected);
     });
 
@@ -47,7 +47,7 @@ describe('ESLMediaQuery', () => {
       ['@-2x', 'not all'],
       ['@1.5', 'not all'],
       ['not valid', 'not valid']
-    ])('Apply tests for %p breakpoint', (query, expected) => {
+    ])('Apply tests for %o breakpoint', (query, expected) => {
       expect(ESLMediaQuery.from(query).toString()).toBe(expected);
     });
   });
@@ -116,7 +116,7 @@ describe('ESLMediaQuery', () => {
       ['not all'],
       ['@xs'],
       ['@xs or @xl']
-    ])('Apply tests for %p breakpoint', (query) => {
+    ])('Apply tests for %o breakpoint', (query) => {
       expect(ESLMediaQuery.for(query)).toBe(ESLMediaQuery.for(query));
     });
   });
@@ -133,7 +133,7 @@ describe('ESLMediaQuery', () => {
     });
 
     test('ESLMediaChangeEvent', () => {
-      const listener = jest.fn();
+      const listener = vi.fn();
 
       mockLgMatchMedia.matches = false;
       ESLMediaQuery.for('@lg').addEventListener(listener);
@@ -161,8 +161,8 @@ describe('ESLMediaQuery', () => {
     });
 
     test('Conjunction listener',  () => {
-      const fn1 = jest.fn();
-      const fn2 = jest.fn();
+      const fn1 = vi.fn();
+      const fn2 = vi.fn();
 
       mockLgMatchMedia.matches = false;
       mockXlMatchMedia.matches = false;
@@ -196,8 +196,8 @@ describe('ESLMediaQuery', () => {
     });
 
     test('Disjunction listener',  () => {
-      const fn1 = jest.fn();
-      const fn2 = jest.fn();
+      const fn1 = vi.fn();
+      const fn2 = vi.fn();
 
       mockLgMatchMedia.matches = false;
       mockXlMatchMedia.matches = false;
@@ -233,8 +233,8 @@ describe('ESLMediaQuery', () => {
     });
 
     test('Negation listener', () => {
-      const fn1 = jest.fn();
-      const fn2 = jest.fn();
+      const fn1 = vi.fn();
+      const fn2 = vi.fn();
 
       mockLgMatchMedia.matches = false;
 

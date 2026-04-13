@@ -21,8 +21,6 @@ export interface ESLWheelEventInfo {
  */
 export class ESLWheelEvent extends UIEvent implements ESLWheelEventInfo {
   public static readonly TYPE = 'longwheel';
-  /** @deprecated Use {@link TYPE} instead */
-  public static readonly type = this.TYPE;
 
   public override readonly type: typeof ESLWheelEvent.TYPE;
 

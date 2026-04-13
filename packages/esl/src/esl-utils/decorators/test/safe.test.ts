@@ -27,7 +27,7 @@ describe('Decorator: @safe', () => {
     });
 
     test('Invokes $$error hook when an error occurs in getter', () => {
-      const errorHook = jest.fn();
+      const errorHook = vi.fn();
       class TestClass {
         $$error = errorHook;
 
@@ -69,7 +69,7 @@ describe('Decorator: @safe', () => {
     });
 
     test('Invokes $$error hook when an error occurs', () => {
-      const errorHook = jest.fn();
+      const errorHook = vi.fn();
       class TestClass {
         $$error = errorHook;
 
@@ -86,7 +86,7 @@ describe('Decorator: @safe', () => {
     });
 
     test('Supports provider-based fallback values', () => {
-      const provider = jest.fn().mockReturnValue('dynamic fallback');
+      const provider = vi.fn().mockReturnValue('dynamic fallback');
       class TestClass {
         @safe(provider)
         method(): string {

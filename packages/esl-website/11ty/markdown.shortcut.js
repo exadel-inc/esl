@@ -102,10 +102,17 @@ class MDRenderer {
     });
   }
   static processRewriteRules(linkPath) {
+    // Processing base path rewrite (e.g. node_modules resolve)
+    for (const [key, value] of Object.entries(siteConfig.rewriteBasePaths)) {
+      if (linkPath.startsWith(key)) {
+        linkPath = linkPath.replace(key, value);
+      }
+    }
+    // Processing full link rewrite
+    const [link, anchor] = linkPath.split('#');
     for (const [key, value] of Object.entries(siteConfig.rewriteRules)) {
-      if (!linkPath.endsWith(key)) continue;
-      if (value.startsWith('/')) return value;
-      return value;
+      if (!link.endsWith(key)) continue;
+      return value + (anchor ? `#${anchor}` : '');
     }
     return siteConfig.github.srcUrl + linkPath;
   }

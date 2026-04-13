@@ -28,7 +28,7 @@ describe('ESLDecoratedEventTarget proxy', () => {
   describe('ESLDecoratedEventTarget.for event target',  () => {
     const et = document.createElement('div');
     const dec = ESLDecoratedEventTarget.for(et, identity);
-    const handler = jest.fn();
+    const handler = vi.fn();
 
     beforeEach(() => dec.addEventListener('click', handler));
     afterEach(() => dec.removeEventListener('click', handler));
@@ -45,14 +45,14 @@ describe('ESLDecoratedEventTarget proxy', () => {
 
   describe('ESLDecoratedEventTarget.for attribute processing', () => {
     const el = document.createElement('div');
-    const handler = jest.fn();
-    const dec = jest.fn(() => handler);
+    const handler = vi.fn();
+    const dec = vi.fn(() => handler);
     const decorated = ESLDecoratedEventTarget.for(el, dec);
 
     test('Creation does not cause execution', () => expect(dec).not.toHaveBeenCalled());
 
     test('Creation happens once on subscription', () => {
-      const fn = jest.fn();
+      const fn = vi.fn();
       decorated.addEventListener('something', fn);
       expect(dec).toHaveBeenCalled();
       expect(handler).not.toHaveBeenCalled();
@@ -60,7 +60,7 @@ describe('ESLDecoratedEventTarget proxy', () => {
     });
 
     test('Event is passed to the handler', () => {
-      const fn = jest.fn();
+      const fn = vi.fn();
       const event = new Event('event');
       decorated.addEventListener('event', fn);
 
@@ -73,48 +73,51 @@ describe('ESLDecoratedEventTarget proxy', () => {
 
   describe('window.resize debouncing case', () => {
     const host = {};
-    const fn = jest.fn();
+    const fn = vi.fn();
 
     beforeAll(() => {
       ESLEventUtils.subscribe(host, {
         event: 'resize',
         target: ESLDecoratedEventTarget.for(window, debounce, DEFAULT_TIMEOUT)
       }, fn);
-      jest.useFakeTimers();
+      vi.useFakeTimers();
     });
-    afterAll(() => ESLEventUtils.unsubscribe(host));
+    afterAll(() => {
+      ESLEventUtils.unsubscribe(host);
+      vi.useRealTimers();
+    });
 
-    beforeEach(() => fn.mockReset());
-    afterEach(() => jest.runAllTimers());
+    beforeEach(() => vi.resetAllMocks());
+    afterEach(() => vi.runAllTimers());
 
     test('Proxy resize receives the resize event',  ()=> {
       const event = new Event('resize');
       window.dispatchEvent(event);
-      jest.advanceTimersByTime(DEFAULT_TIMEOUT);
+      vi.advanceTimersByTime(DEFAULT_TIMEOUT);
       expect(fn).toHaveBeenLastCalledWith(event);
     });
 
-    test('Proxy resize happens debounced (multiple events in bounds of debounce range)',  ()=> {
+    test('Proxy resize happens debounced (multiple events in bounds of debounce range)', ()=> {
       window.dispatchEvent(new Event('resize'));
       window.dispatchEvent(new Event('resize'));
-      jest.advanceTimersByTime(10);
+      vi.advanceTimersByTime(10);
 
       window.dispatchEvent(new Event('resize'));
       window.dispatchEvent(new Event('resize'));
       expect(fn).toHaveBeenCalledTimes(0);
 
-      jest.advanceTimersByTime(DEFAULT_TIMEOUT);
+      vi.advanceTimersByTime(DEFAULT_TIMEOUT);
       expect(fn).toHaveBeenCalledTimes(1);
     });
 
     test('Proxy resize happens debounced (multiple events in bounds of two debounce range)',  ()=> {
       window.dispatchEvent(new Event('resize'));
       window.dispatchEvent(new Event('resize'));
-      jest.advanceTimersByTime(DEFAULT_TIMEOUT);
+      vi.advanceTimersByTime(DEFAULT_TIMEOUT);
 
       window.dispatchEvent(new Event('resize'));
       window.dispatchEvent(new Event('resize'));
-      jest.advanceTimersByTime(DEFAULT_TIMEOUT);
+      vi.advanceTimersByTime(DEFAULT_TIMEOUT);
 
       expect(fn).toHaveBeenCalledTimes(2);
     });
@@ -122,37 +125,37 @@ describe('ESLDecoratedEventTarget proxy', () => {
 
   describe('window.scroll throttling case', () => {
     const host = {};
-    const fn = jest.fn();
+    const fn = vi.fn();
 
     beforeEach(() => {
       ESLEventUtils.subscribe(host, {
         event: 'scroll',
         target: ESLDecoratedEventTarget.for(window, throttle, DEFAULT_TIMEOUT)
       }, fn);
-      jest.useFakeTimers();
+      vi.useFakeTimers();
       fn.mockReset();
     });
 
     afterEach(() => {
-      jest.runAllTimers();
+      vi.runAllTimers();
       ESLEventUtils.unsubscribe(host);
     });
 
     test('Proxy scroll receives the scroll event',  ()=> {
       const event = new Event('scroll');
       window.dispatchEvent(event);
-      jest.advanceTimersByTime(10);
+      vi.advanceTimersByTime(10);
       expect(fn).toHaveBeenLastCalledWith(event);
     });
 
     test('Proxy scroll happens throttled (multiple events received once in bounds of threshold)',  ()=> {
       expect(fn).toHaveBeenCalledTimes(0);
       window.dispatchEvent(new Event('scroll'));
-      jest.advanceTimersByTime(1);
+      vi.advanceTimersByTime(1);
       window.dispatchEvent(new Event('scroll'));
       window.dispatchEvent(new Event('scroll'));
       expect(fn).toHaveBeenCalledTimes(1);
-      jest.advanceTimersByTime(DEFAULT_TIMEOUT + 100);
+      vi.advanceTimersByTime(DEFAULT_TIMEOUT + 100);
       expect(fn).toHaveBeenCalledTimes(2);
     });
   });

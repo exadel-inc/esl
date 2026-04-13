@@ -58,7 +58,7 @@ describe('Focus Utils', () => {
       document.body.appendChild($container);
 
       getKeyboardFocusableElements($container, false).forEach(($el) => {
-        jest.spyOn($el, 'getClientRects').mockReturnValueOnce(hasBounds ? [{}] as any : []);
+        vi.spyOn($el, 'getClientRects').mockReturnValueOnce(hasBounds ? [{}] as any : []);
       });
       const $elements = getKeyboardFocusableElements($container);
       expect($elements.length).toBe(count);

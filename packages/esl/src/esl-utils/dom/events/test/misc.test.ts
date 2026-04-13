@@ -38,7 +38,7 @@ describe('dom/events: misc', () => {
     test('MouseEvent', () => {
       expect(isMouseEvent(new MouseEvent('mouseenter'))).toBe(true);
       expect(isMouseEvent(new TouchEvent('touchstart'))).toBe(false);
-      expect(isMouseEvent(new PointerEvent('pointerup'))).toBe(false);
+      expect(isMouseEvent(new PointerEvent('pointerup'))).toBe(true);
       expect(isMouseEvent(new Event('test'))).toBe(false);
     });
     test('TouchEvent', () => {
@@ -103,7 +103,7 @@ describe('dom/events: misc', () => {
         left: 10,
         top: 20,
       } as DOMRect;
-      jest.spyOn(elem, 'getBoundingClientRect').mockReturnValue(boundingClientRect);
+      vi.spyOn(elem, 'getBoundingClientRect').mockReturnValue(boundingClientRect);
 
       Object.assign(window, {
         scrollX: 100,
@@ -119,9 +119,9 @@ describe('dom/events: misc', () => {
 
   describe('dispatchCustomEvent works correctly', () => {
     const el = document.createElement('div');
-    const mockDispatch = jest.spyOn(el, 'dispatchEvent');
+    const mockDispatch = vi.spyOn(el, 'dispatchEvent');
 
-    beforeEach(() => mockDispatch.mockReset());
+    afterEach(() => mockDispatch.mockClear());
 
     test('dispatchCustomEvent dispatches CustomEvent instance on the provided element', () => {
       const eventName = `click${Math.random()}`;
@@ -130,7 +130,7 @@ describe('dom/events: misc', () => {
 
       expect(el.dispatchEvent).toHaveBeenCalled();
 
-      const event: CustomEvent = (el.dispatchEvent as jest.Mock).mock.calls[0][0];
+      const event: Event = vi.mocked(el.dispatchEvent).mock.calls[0][0];
       expect(event.type).toBe(eventName);
       expect(event.bubbles).toBe(true);
       expect(event.cancelable).toBe(true);
@@ -142,7 +142,7 @@ describe('dom/events: misc', () => {
       dispatchCustomEvent(el, eventName);
 
       expect(el.dispatchEvent).toHaveBeenCalled();
-      const event: CustomEvent = (el.dispatchEvent as jest.Mock).mock.calls[0][0];
+      const event: Event = vi.mocked(el.dispatchEvent).mock.calls[0][0];
       expect(event.bubbles).toBe(true);
       expect(event.cancelable).toBe(true);
     });
@@ -152,7 +152,7 @@ describe('dom/events: misc', () => {
       dispatchCustomEvent(el, eventName, {cancelable: false, bubbles: false});
 
       expect(el.dispatchEvent).toHaveBeenCalled();
-      const event: CustomEvent = (el.dispatchEvent as jest.Mock).mock.calls[0][0];
+      const event: Event = vi.mocked(el.dispatchEvent).mock.calls[0][0];
       expect(event.bubbles).toBe(false);
       expect(event.cancelable).toBe(false);
     });

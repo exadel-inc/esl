@@ -29,7 +29,7 @@ describe('async/promise/deferred', () => {
   });
 
   describe('Rejected Deferred doesn`t lead to uncaught in promise', () => {
-    const throwFn = jest.fn((reason) => {throw reason;});
+    const throwFn = vi.fn((reason) => {throw reason;});
 
     beforeAll(() => {
       process.env.LISTENING_TO_UNHANDLED_REJECTION = String(true);

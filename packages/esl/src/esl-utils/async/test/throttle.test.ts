@@ -1,21 +1,21 @@
 import {throttle} from '../throttle';
 
 describe('async/throttle', () => {
-  beforeAll(() =>  jest.useFakeTimers());
-  afterAll(() => jest.useRealTimers());
+  beforeAll(() =>  vi.useFakeTimers());
+  afterAll(() => vi.useRealTimers());
 
   test('basic scenario', () => {
-    jest.useFakeTimers();
-    const fn = jest.fn();
+    vi.useFakeTimers();
+    const fn = vi.fn();
     const throttled = throttle(fn, 100);
 
     expect(throttled()).toBeUndefined();
-    jest.advanceTimersByTime(1);
+    vi.advanceTimersByTime(1);
     expect(fn).toHaveBeenCalledTimes(1);
-    jest.advanceTimersByTime(50);
+    vi.advanceTimersByTime(50);
     expect(throttled()).toBeUndefined();
     expect(fn).toHaveBeenCalledTimes(1);
-    jest.advanceTimersByTime(100);
+    vi.advanceTimersByTime(100);
     expect(fn).toHaveBeenCalledTimes(2);
     expect(throttled()).toBeUndefined();
     expect(fn).toHaveBeenCalledTimes(2);
@@ -28,7 +28,7 @@ describe('async/throttle', () => {
     const context = {};
     throttled.call(context);
     const promise$ = throttled.promise;
-    jest.runAllTimers();
+    vi.runAllTimers();
     return expect(promise$).resolves.toBe(context);
   });
 
@@ -39,17 +39,17 @@ describe('async/throttle', () => {
 
     throttled.call({});
     const promise$ = throttled.promise;
-    jest.runAllTimers();
+    vi.runAllTimers();
     return expect(promise$).resolves.toBe(context);
   });
 
   test('test deferred result', () => {
-    const fn = jest.fn((n) => n + 1);
+    const fn = vi.fn((n) => n + 1);
     const throttled = throttle(fn as (n: number) => number, 50);
 
     expect(throttled.promise).toBeInstanceOf(Promise);
     expect(throttled(1)).toBeUndefined();
-    jest.advanceTimersByTime(1);
+    vi.advanceTimersByTime(1);
     expect(throttled(2)).toBeUndefined();
     expect(throttled.promise).toBeInstanceOf(Promise);
     expect(throttled(4)).toBeUndefined();
@@ -59,7 +59,7 @@ describe('async/throttle', () => {
 
     const {promise} = throttled;
 
-    jest.advanceTimersByTime(100);
+    vi.advanceTimersByTime(100);
     expect(fn).toHaveBeenCalledTimes(2);
     return expect(promise).resolves.toBe(5);
   });
