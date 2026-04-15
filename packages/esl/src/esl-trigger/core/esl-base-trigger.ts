@@ -7,7 +7,6 @@ import {ENTER, SPACE, ESC} from '../../esl-utils/dom/keys';
 import {attr, boolAttr, prop, listen} from '../../esl-utils/decorators';
 import {parseBoolean, parseNumber, toBooleanAttribute} from '../../esl-utils/misc/format';
 import {ESLMediaQuery} from '../../esl-media-query/core';
-import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 
 import type {ESLToggleable, ESLToggleableActionParams} from '../../esl-toggleable/core/esl-toggleable';
 
@@ -141,8 +140,8 @@ export abstract class ESLBaseTrigger extends ESLBaseElement {
 
     this.$$attr('no-target', !this.$target);
     this.$$attr('active', isTargetActive);
-    const clsTarget = ESLTraversingQuery.first(this.activeClassTarget, this) as HTMLElement;
-    clsTarget && CSSClassUtils.toggle(clsTarget, this.activeClass, isTargetActive);
+    const $target = this.$$find(this.activeClassTarget) as HTMLElement;
+    $target && CSSClassUtils.toggle($target, this.activeClass, isTargetActive);
 
     this.updateA11y();
 

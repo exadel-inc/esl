@@ -2,7 +2,6 @@ import {ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
 import {ESLPopup} from '@exadel/esl/modules/esl-popup/core';
 import {attr, boolAttr, listen, memoize} from '@exadel/esl/modules/esl-utils/decorators';
 import {ESLResizeObserverTarget} from '@exadel/esl/modules/esl-utils/dom';
-import {ESLTraversingQuery} from '@exadel/esl/modules/esl-traversing-query/core';
 
 import type {Point} from '@exadel/esl/modules/esl-utils/dom';
 
@@ -18,8 +17,8 @@ export class ESLDemoPopupGame extends ESLBaseElement {
   @boolAttr() public dragging = false;
 
   @memoize()
-  get $trigger(): HTMLElement | undefined {
-    if (this.trigger) return ESLTraversingQuery.first(this.trigger, this) as HTMLElement | undefined;
+  get $trigger(): HTMLElement | null {
+    return this.trigger ? this.$$find(this.trigger) as HTMLElement | null : null;
   }
 
   protected override connectedCallback(): void {

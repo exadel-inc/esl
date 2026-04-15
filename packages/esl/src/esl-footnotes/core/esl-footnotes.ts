@@ -2,7 +2,6 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {bind, memoize, attr, listen, prop} from '../../esl-utils/decorators';
 import {debounce} from '../../esl-utils/async/debounce';
 import {ESLBaseElement} from '../../esl-base-element/core';
-import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {ESLEventUtils} from '../../esl-utils/dom/events';
 import {ENTER, SPACE} from '../../esl-utils/dom/keys';
 import {sequentialUID} from '../../esl-utils/misc/uid';
@@ -35,7 +34,7 @@ export class ESLFootnotes extends ESLBaseElement {
   /** Scope element */
   @memoize()
   protected get scopeEl(): HTMLElement {
-    return ESLTraversingQuery.first(this.scopeTarget, this) as HTMLElement;
+    return this.$$find(this.scopeTarget) as HTMLElement;
   }
 
   /** Notes that are allowed to be processed by footnotes */

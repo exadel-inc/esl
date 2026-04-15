@@ -1,6 +1,5 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {attr, boolAttr, jsonAttr, prop, ready} from '../../esl-utils/decorators';
-import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {ESLBaseTrigger} from '../../esl-trigger/core';
 
 import {ESLSharePopup} from './esl-share-popup';
@@ -71,7 +70,7 @@ export class ESLShare extends ESLBaseTrigger {
   /** Container element that defines bounds of popups visibility */
   protected get $containerEl(): HTMLElement | undefined {
     const container = this.getClosestRelatedAttr('container');
-    return container ? ESLTraversingQuery.first(container, this) as HTMLElement : undefined;
+    return container ? this.$$find(container) as HTMLElement : undefined;
   }
 
   @ready

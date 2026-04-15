@@ -6,7 +6,6 @@ import {microtask} from '../../esl-utils/async';
 import {parseBoolean, parseTime, sequentialUID, toCamelCase} from '../../esl-utils/misc';
 
 import {CSSClassUtils} from '../../esl-utils/dom/class';
-import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
 import {ESLResizeObserverTarget} from '../../esl-event-listener/core';
 
@@ -248,7 +247,7 @@ export class ESLCarousel extends ESLBaseElement {
    */
   @memoize()
   public get $container(): Element | null {
-    return ESLTraversingQuery.first(this.container, this) as HTMLElement;
+    return this.$$find(this.container) as HTMLElement;
   }
 
   /** @returns carousel slides area */

@@ -5,7 +5,6 @@ import {ESLTooltip} from '../../esl-tooltip/core';
 import {promisifyTimeout, repeatSequence} from '../../esl-utils/async';
 import {scrollIntoView} from '../../esl-utils/dom/scroll';
 import {ESLMediaQuery} from '../../esl-media-query/core';
-import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 
 import type {ESLToggleable, ESLToggleableActionParams} from '../../esl-toggleable/core/esl-toggleable';
 import type {ESLFootnotes} from './esl-footnotes';
@@ -202,7 +201,7 @@ export class ESLNote extends ESLBaseTrigger {
   /** Merge params to pass to the toggleable */
   protected override mergeToggleableParams(this: ESLNote, ...params: ESLTooltipActionParams[]): ESLTooltipActionParams {
     const container = this.getClosestRelatedAttr('container') || this.container;
-    const containerEl = container ? ESLTraversingQuery.first(container, this) as HTMLElement : undefined;
+    const containerEl = container ? this.$$find(container) as HTMLElement : undefined;
     return super.mergeToggleableParams({
       initiator: 'note',
       activator: this,

@@ -3,7 +3,6 @@ import {format} from '../../../esl-utils/misc/format';
 import {ARROW_LEFT, ARROW_RIGHT} from '../../../esl-utils/dom/keys';
 import {attr, listen, memoize, prop, ready} from '../../../esl-utils/decorators';
 import {ESLBaseElement} from '../../../esl-base-element/core';
-import {ESLTraversingQuery} from '../../../esl-traversing-query/core';
 
 import {indexToGroup} from '../../core/esl-carousel.utils';
 import {ESLCarouselChangeEvent, ESLCarouselSlideEvent} from '../../core/esl-carousel.events';
@@ -122,7 +121,7 @@ export class ESLCarouselNavDots extends ESLBaseElement {
   /** @returns ESLCarousel instance; based on {@link carousel} attribute */
   @memoize()
   public get $carousel(): ESLCarousel | null {
-    return ESLTraversingQuery.first(this.carousel, this) as ESLCarousel;
+    return this.$$find(this.carousel) as ESLCarousel | null;
   }
 
   /** @returns accessible target ID */

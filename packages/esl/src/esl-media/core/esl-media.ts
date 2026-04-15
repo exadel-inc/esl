@@ -10,7 +10,6 @@ import {parseAspectRatio, parseBoolean, parseLazyAttr, parseTimeSeconds} from '.
 
 import {ESLMediaQuery} from '../../esl-media-query/core';
 import {ESLResizeObserverTarget} from '../../esl-event-listener/core';
-import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 
 import {getIObserver} from './esl-media-iobserver';
 import {PlayerStates} from './esl-media-provider';
@@ -248,7 +247,7 @@ export class ESLMedia extends ESLBaseElement {
   }
 
   public updateContainerMarkers(): void {
-    const $target = ESLTraversingQuery.first(this.loadConditionClassTarget, this) as HTMLElement;
+    const $target = this.$$find(this.loadConditionClassTarget) as HTMLElement;
     $target && CSSClassUtils.toggle($target, this.loadConditionClass, this.conditionQuery.matches);
   }
 
@@ -414,7 +413,7 @@ export class ESLMedia extends ESLBaseElement {
 
   /** Update ready class state */
   protected updateReadyClass(): void {
-    const target = ESLTraversingQuery.first(this.readyClassTarget, this) as HTMLElement;
+    const target = this.$$find(this.readyClassTarget) as HTMLElement;
     target && CSSClassUtils.toggle(target, this.readyClass, this.ready);
   }
 

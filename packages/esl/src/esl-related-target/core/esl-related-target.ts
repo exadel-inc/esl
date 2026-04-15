@@ -1,7 +1,6 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLMixinElement} from '../../esl-mixin-element/core';
 import {ESLToggleable} from '../../esl-toggleable/core/esl-toggleable';
-import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {listen, attr} from '../../esl-utils/decorators';
 import {copyDefinedKeys} from '../../esl-utils/misc/object/copy';
 
@@ -28,7 +27,7 @@ export class ESLRelatedTarget extends ESLMixinElement {
   public get $targets(): ESLToggleable[] {
     const {selector} = this;
     if (!selector) return [];
-    const targets = ESLTraversingQuery.all(selector, this.$host);
+    const targets = this.$$findAll(selector);
     return targets.filter(
       (target: HTMLElement): target is ESLToggleable => target instanceof ESLToggleable && target !== this.$host
     );

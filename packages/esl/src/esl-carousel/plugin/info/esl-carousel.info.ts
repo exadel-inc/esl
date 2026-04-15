@@ -2,7 +2,6 @@ import {ExportNs} from '../../../esl-utils/environment/export-ns';
 import {format} from '../../../esl-utils/misc/format';
 import {attr, memoize, listen} from '../../../esl-utils/decorators';
 import {ESLBaseElement} from '../../../esl-base-element/core';
-import {ESLTraversingQuery} from '../../../esl-traversing-query/core';
 
 import {indexToGroup} from '../../core/esl-carousel.utils';
 import {ESLCarouselChangeEvent, ESLCarouselSlideEvent} from '../../core/esl-carousel.events';
@@ -36,7 +35,7 @@ export class ESLCarouselInfo extends ESLBaseElement {
   /** Returns ESLCarousel instance based on `target` attr */
   @memoize()
   public get $carousel(): ESLCarousel | null {
-    return ESLTraversingQuery.first(this.carousel, this) as ESLCarousel;
+    return this.$$find(this.carousel) as ESLCarousel;
   }
 
   public override connectedCallback(): void {

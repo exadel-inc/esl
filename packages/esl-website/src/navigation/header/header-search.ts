@@ -2,7 +2,6 @@ import {prop, attr, boolAttr, listen} from '@exadel/esl/modules/esl-utils/decora
 import {CSSClassUtils} from '@exadel/esl/modules/esl-utils/dom/class';
 import {afterNextRender} from '@exadel/esl/modules/esl-utils/async/raf';
 import {parseNumber} from '@exadel/esl/modules/esl-utils/misc/format';
-import {ESLTraversingQuery} from '@exadel/esl/modules/esl-traversing-query/core';
 import {ESLToggleable} from '@exadel/esl/modules/esl-toggleable/core';
 import {requestGss} from '../../search/search-script';
 
@@ -27,7 +26,7 @@ export class ESLDemoSearchBox extends ESLToggleable {
   private showSearchElements(params: ESLToggleableActionParams): void {
     afterNextRender(() => super.onShow(params));
     if (this.autofocus) {
-      const $focusEl = ESLTraversingQuery.first(this.firstFocusable, this) as HTMLElement;
+      const $focusEl = this.$$find(this.firstFocusable) as HTMLElement;
       $focusEl && window.setTimeout(() => $focusEl.focus(), parseNumber(this.postClsDelay));
     }
 

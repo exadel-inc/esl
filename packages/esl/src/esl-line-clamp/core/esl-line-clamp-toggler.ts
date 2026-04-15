@@ -1,5 +1,4 @@
 import {attr, boolAttr, listen, memoize, prop} from '../../esl-utils/decorators';
-import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {ESLMixinElement} from '../../esl-mixin-element/core';
 
 /**
@@ -24,11 +23,11 @@ export class ESLLineClampToggler extends ESLMixinElement {
   /** @returns the target element to control */
   @memoize()
   public get $target(): HTMLElement {
-    return ESLTraversingQuery.first(this.target, this.$host) as HTMLElement;
+    return this.$$find(this.target) as HTMLElement;
   }
 
   protected get isTargetActive(): boolean {
-    return !!this.$target.hasAttribute(this.ALT_ACTIVE_ATTRIBUTE);
+    return this.$target.hasAttribute(this.ALT_ACTIVE_ATTRIBUTE);
   }
 
   protected override connectedCallback(): void {
