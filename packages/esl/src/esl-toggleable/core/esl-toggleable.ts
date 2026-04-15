@@ -86,6 +86,9 @@ export class ESLToggleable extends ESLBaseElement {
   /** Event to dispatch when toggleable group has changed */
   @prop('esl:change:group') public GROUP_CHANGED_EVENT: string;
 
+  /** Delay for outside actions to trigger hide. Used by {@link ESLToggleableManager} */
+  @prop(10) public OUTSIDE_ACTION_DELAY: number;
+
   /**
    * CSS class (supports {@link CSSClassUtils}) to add on the body element
    * */
