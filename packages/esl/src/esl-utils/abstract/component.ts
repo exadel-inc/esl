@@ -29,6 +29,11 @@ export interface ESLBaseComponent {
    */
   $$fire(eventName: string, eventInit?: CustomEventInit): boolean;
 
+  /** Finds the first descendant element that matches the specified selector. Uses ESLTraversingQuery to find the element. */
+  $$find(selector: string): Element | null;
+  /** Finds all descendant elements that matches the specified selector. Uses ESLTraversingQuery to find the elements. */
+  $$findAll(selector: string): Element[];
+
   /**
    * Gets or sets CSS classes for current DOM related element.
    * @param cls - CSS classes query {@link CSSClassUtils}

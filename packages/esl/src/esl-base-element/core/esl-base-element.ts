@@ -2,6 +2,7 @@ import {setAttr} from '../../esl-utils/dom/attr';
 import {prop} from '../../esl-utils/decorators';
 import {ESLEventUtils} from '../../esl-utils/dom/events';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
+import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 
 import type {
   DelegatedEvent,
@@ -110,6 +111,15 @@ export abstract class ESLBaseElement extends HTMLElement implements ESLBaseCompo
     const prevValue = this.getAttribute(name);
     if (value !== undefined) setAttr(this, name, value);
     return prevValue;
+  }
+
+  /** Finds the first descendant element that matches the specified selector. Uses ESLTraversingQuery to find the element. */
+  public $$find(selector: string): Element | null {
+    return ESLTraversingQuery.first(selector, this);
+  }
+  /** Finds all descendant elements that matches the specified selector. Uses ESLTraversingQuery to find the elements. */
+  public $$findAll(selector: string): Element[] {
+    return ESLTraversingQuery.all(selector, this);
   }
 
   /**
