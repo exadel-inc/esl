@@ -10,7 +10,6 @@ export * from './esl-traversing-query/core';
 export * from './esl-a11y-group/core';
 
 // Image
-export * from './esl-image/core';
 export * from './esl-image-utils/core';
 
 // Media
