@@ -1,7 +1,6 @@
 import {range} from '../../esl-utils/misc/array';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {bind, memoize, ready, attr, boolAttr, jsonAttr, listen, decorate} from '../../esl-utils/decorators';
-import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {afterNextRender, rafDecorator} from '../../esl-utils/async/raf';
 import {ESLToggleable} from '../../esl-toggleable/core';
 import {isElement, isRelativeNode, isRTL, Rect, getListScrollParents, getViewportRect} from '../../esl-utils/dom';
@@ -116,7 +115,7 @@ export class ESLPopup extends ESLToggleable {
   @memoize()
   protected get $container(): HTMLElement | undefined {
     const {container} = this.config;
-    return container ? ESLTraversingQuery.first(container, this) as HTMLElement : this.config.containerEl;
+    return container ? this.$$find(container) as HTMLElement : this.config.containerEl;
   }
 
   /** Get the size and position of the container */

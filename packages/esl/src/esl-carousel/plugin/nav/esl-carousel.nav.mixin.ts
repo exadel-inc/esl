@@ -1,7 +1,6 @@
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
 import {attr, listen, memoize, ready} from '../../../esl-utils/decorators';
 import {ESLMixinElement} from '../../../esl-mixin-element/core';
-import {ESLTraversingQuery} from '../../../esl-traversing-query/core';
 
 import {ESLCarouselChangeEvent, ESLCarouselMoveEvent, ESLCarouselSlideEvent} from '../../core/esl-carousel.events';
 
@@ -44,7 +43,7 @@ export class ESLCarouselNavMixin extends ESLMixinElement {
   /** @returns ESLCarousel instance; based on {@link carousel} attribute */
   @memoize()
   public get $carousel(): ESLCarousel | null {
-    return ESLTraversingQuery.first(this.carousel, this.$host) as ESLCarousel;
+    return this.$$find(this.carousel) as ESLCarousel;
   }
 
   /** @returns accessible target ID */

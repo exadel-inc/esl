@@ -3,6 +3,7 @@ import {setAttr} from '../../esl-utils/dom/attr';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLEventUtils} from '../../esl-utils/dom/events';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
+import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 
 import {ESLMixinRegistry} from './esl-mixin-registry';
 import {ESLMixinAttributesObserver} from './esl-mixin-attr';
@@ -109,6 +110,16 @@ export class ESLMixinElement implements ESLBaseComponent, ESLDomElementRelated {
    */
   public $$fire(eventName: string, eventInit?: CustomEventInit): boolean {
     return ESLEventUtils.dispatch(this.$host, eventName, eventInit);
+  }
+
+  /** Finds the first element matching the specified traversing query relative to `$host`. Uses ESLTraversingQuery to resolve the element. */
+  public $$find(selector: string): Element | null {
+    return ESLTraversingQuery.first(selector, this.$host);
+  }
+
+  /** Finds all elements matching the specified traversing query relative to `$host`. Uses ESLTraversingQuery to resolve the elements. */
+  public $$findAll(selector: string): Element[] {
+    return ESLTraversingQuery.all(selector, this.$host);
   }
 
   /** Default error logger for `@safe` decorator */

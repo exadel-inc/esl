@@ -1,4 +1,5 @@
 import {ESLMixinElement} from '../ui/esl-mixin-element';
+import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 
 describe('ESLMixinElement.prototype implements all required ESLComponent API methods', () => {
   class CTestMixin extends ESLMixinElement {
@@ -72,5 +73,30 @@ describe('ESLMixinElement.prototype implements all required ESLComponent API met
     $el.$$fire(eventName);
 
     expect($host.dispatchEvent).toHaveBeenLastCalledWith(expect.objectContaining({type: eventName, cancelable: true, bubbles: true}));
+  });
+
+  describe('ESLMixinElement.prototype.$$find/$$findAll delegates to ESLTraversingQuery', () => {
+    const $child1 = document.createElement('div');
+    const $child2 = document.createElement('span');
+
+    beforeEach(() => {
+      $host.replaceChildren($child1, $child2);
+    });
+
+    test('$$find delegates to ESLTraversingQuery.first with base = $host', () => {
+      const spy = vi.spyOn(ESLTraversingQuery, 'first').mockReturnValue($child1);
+      const result = $el.$$find('::child');
+      expect(spy).toHaveBeenCalledWith('::child', $host);
+      expect(result).toBe($child1);
+      spy.mockRestore();
+    });
+
+    test('$$findAll delegates to ESLTraversingQuery.all with base = $host', () => {
+      const spy = vi.spyOn(ESLTraversingQuery, 'all').mockReturnValue([$child1, $child2]);
+      const result = $el.$$findAll('::child');
+      expect(spy).toHaveBeenCalledWith('::child', $host);
+      expect(result).toEqual([$child1, $child2]);
+      spy.mockRestore();
+    });
   });
 });

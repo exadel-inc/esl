@@ -3,7 +3,6 @@ import {attr, jsonAttr, prop, listen} from '../../esl-utils/decorators';
 import {isMatches} from '../../esl-utils/dom/traversing';
 import {ESLToggleable} from '../../esl-toggleable/core';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
-import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 
 import type {ESLToggleableActionParams, ESLToggleableRequestDetails} from '../../esl-toggleable/core';
 
@@ -74,7 +73,7 @@ export class ESLAlert extends ESLToggleable {
   protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected) return;
     if (attrName === 'target') {
-      this.$target = ESLTraversingQuery.first(this.target) as EventTarget;
+      this.$target = this.$$find(newVal) as EventTarget;
     }
   }
 
@@ -86,7 +85,7 @@ export class ESLAlert extends ESLToggleable {
     this.innerHTML = '';
     this.appendChild(this.$content);
     if (this.target) {
-      this.$target = ESLTraversingQuery.first(this.target, this) as EventTarget;
+      this.$target = this.$$find(this.target) as EventTarget;
     }
   }
 

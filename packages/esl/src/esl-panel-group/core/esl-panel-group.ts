@@ -7,7 +7,6 @@ import {decorate, memoize, attr, boolAttr, jsonAttr, prop, listen} from '../../e
 import {format} from '../../esl-utils/misc/format';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ESLMediaQuery, ESLMediaRuleList} from '../../esl-media-query/core';
-import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {ESLPanel} from '../../esl-panel/core';
 
 import type {ESLPanelActionParams} from '../../esl-panel/core';
@@ -121,7 +120,7 @@ export class ESLPanelGroup extends ESLBaseElement {
   protected updateModeCls(): void {
     const {modeCls, currentMode} = this;
     if (!modeCls) return;
-    const $target = ESLTraversingQuery.first(this.modeClsTarget, this);
+    const $target = this.$$find(this.modeClsTarget);
     if (!$target) return;
     ESLPanelGroup.supportedModes.forEach((mode) => {
       const className = format(modeCls, {mode});

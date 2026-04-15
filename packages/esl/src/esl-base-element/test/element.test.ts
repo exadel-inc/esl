@@ -1,4 +1,5 @@
 import {ESLBaseElement} from '../core';
+import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 
 describe('ESLBaseElement', () => {
   class TestElement extends ESLBaseElement {
@@ -124,5 +125,30 @@ describe('ESLBaseElement', () => {
       }, {once: true});
       el.$$fire('testevent');
     }));
+
+    describe('$$find/$$findAll delegate to ESLTraversingQuery', () => {
+      const $child1 = document.createElement('div');
+      const $child2 = document.createElement('span');
+
+      beforeEach(() => {
+        el.replaceChildren($child1, $child2);
+      });
+
+      test('$$find delegates to ESLTraversingQuery.first with base = element', () => {
+        const spy = vi.spyOn(ESLTraversingQuery, 'first').mockReturnValue($child1);
+        const result = el.$$find('::child');
+        expect(spy).toHaveBeenCalledWith('::child', el);
+        expect(result).toBe($child1);
+        spy.mockRestore();
+      });
+
+      test('$$findAll delegates to ESLTraversingQuery.all with base = element', () => {
+        const spy = vi.spyOn(ESLTraversingQuery, 'all').mockReturnValue([$child1, $child2]);
+        const result = el.$$findAll('::child');
+        expect(spy).toHaveBeenCalledWith('::child', el);
+        expect(result).toEqual([$child1, $child2]);
+        spy.mockRestore();
+      });
+    });
   });
 });

@@ -3,7 +3,6 @@ import {listen, memoize} from '../../../esl-utils/decorators';
 import {parseTime} from '../../../esl-utils/misc/format';
 import {CSSClassUtils} from '../../../esl-utils/dom/class';
 import {ESLMediaRuleList} from '../../../esl-media-query/core';
-import {ESLTraversingQuery} from '../../../esl-traversing-query/core';
 import {ESLIntersectionTarget, ESLIntersectionEvent} from '../../../esl-event-listener/core';
 
 import {ESLCarouselPlugin} from '../esl-carousel.plugin';
@@ -103,25 +102,25 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
   @memoize()
   public get $controls(): HTMLElement[] {
     const sel = this.config.control;
-    return sel ? ESLTraversingQuery.all(sel, this.$host) as HTMLElement[] : [];
+    return sel ? this.$$findAll(sel) as HTMLElement[] : [];
   }
 
   /** Interaction scope elements (memoized) */
   @memoize()
   public get $interactionScope(): HTMLElement[] {
     const sel = this.config.interactionScope;
-    return sel ? ESLTraversingQuery.all(sel, this.$host) as HTMLElement[] : [this.$host];
-  }
-
-  /** True if any scope element is hovered */
-  public get hovered(): boolean {
-    return this.$interactionScope.some(($el) => $el.matches('*:hover'));
+    return sel ? this.$$findAll(sel) as HTMLElement[] : [this.$host];
   }
 
   /** True if active slide contains any blocking items */
   public get hasActiveBlockingItems(): boolean {
     const {blockerSelector} = this.config;
-    return !!blockerSelector && !!ESLTraversingQuery.first(blockerSelector, this.$host);
+    return !!blockerSelector && !!this.$$find(blockerSelector);
+  }
+
+  /** True if any scope element is hovered */
+  public get hovered(): boolean {
+    return this.$interactionScope.some(($el) => $el.matches('*:hover'));
   }
 
   /** True if keyboard-visible focus is within scope */

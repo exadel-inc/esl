@@ -6,7 +6,6 @@ import {isRTL, normalizeScrollLeft} from '../../esl-utils/dom/rtl';
 import {getTouchPoint, getOffsetPoint} from '../../esl-utils/dom/events';
 import {bind, ready, attr, boolAttr, listen} from '../../esl-utils/decorators';
 import {rafDecorator} from '../../esl-utils/async/raf';
-import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 
 /**
  * ESLScrollbar is a reusable web component that replaces the browser's default scrollbar with
@@ -76,7 +75,7 @@ export class ESLScrollbar extends ESLBaseElement {
 
   protected findTarget(): void {
     this.$target = this.target ?
-      ESLTraversingQuery.first(this.target, this) as HTMLElement :
+      this.$$find(this.target) as HTMLElement :
       null;
   }
 

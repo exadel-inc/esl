@@ -1,7 +1,6 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {isElement} from '../../esl-utils/dom/api';
 import {attr, ready} from '../../esl-utils/decorators';
-import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {ESLToggleablePlaceholder} from '../../esl-toggleable/core';
 
 import {ESLBaseTrigger} from './esl-base-trigger';
@@ -59,7 +58,7 @@ export class ESLTrigger extends ESLBaseTrigger {
   /** Update `$target` Toggleable  from `target` selector */
   public updateTargetFromSelector(): void {
     if (!this.target) return;
-    const $target = ESLTraversingQuery.first(this.target, this) as ESLToggleable | ESLToggleablePlaceholder;
+    const $target = this.$$find(this.target) as ESLToggleable | ESLToggleablePlaceholder;
     this.$target = ($target instanceof ESLToggleablePlaceholder) ? $target.$origin : $target;
   }
 
