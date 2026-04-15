@@ -150,7 +150,7 @@ export class ESLToggleableManager {
    */
   protected onOutsideInteraction(e: Event, el: ESLToggleable): void {
     if (!el.closeOnOutsideAction || !el.isOutsideAction(e)) return;
-    // Used delay (10ms by default) to decrease priority of the request (usually >0 due iOS specifics)
+    // Use a delay (10ms by default) to decrease the priority of the request (usually > 0 due to iOS specifics)
     el.hide({initiator: 'outsideaction', hideDelay: el.OUTSIDE_ACTION_DELAY, event: e});
   }
 
