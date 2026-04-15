@@ -18,6 +18,8 @@ const isLoadState = (state: string): state is LoadState => ['error', 'loaded', '
  * Was originally developed as an alternative to `<picture>` element, but with more features inside.
  *
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
+ * @deprecated use native `<picture>` element or `<img>` with `srcset`, `sizes` and `loading` attributes.
+ * For additional sugar, see modern esl-image-utils package.
  */
 @ExportNs('Image')
 export class ESLImage extends ESLBaseElement {
