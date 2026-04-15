@@ -113,11 +113,11 @@ export abstract class ESLBaseElement extends HTMLElement implements ESLBaseCompo
     return prevValue;
   }
 
-  /** Finds the first descendant element that matches the specified selector. Uses ESLTraversingQuery to find the element. */
+  /** Resolves the first element matching the specified traversing query relative to the current element. Uses ESLTraversingQuery to find the element. */
   public $$find(selector: string): Element | null {
     return ESLTraversingQuery.first(selector, this);
   }
-  /** Finds all descendant elements that matches the specified selector. Uses ESLTraversingQuery to find the elements. */
+  /** Resolves all elements matching the specified traversing query relative to the current element. Uses ESLTraversingQuery to find the elements. */
   public $$findAll(selector: string): Element[] {
     return ESLTraversingQuery.all(selector, this);
   }

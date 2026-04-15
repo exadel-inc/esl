@@ -112,12 +112,12 @@ export class ESLMixinElement implements ESLBaseComponent, ESLDomElementRelated {
     return ESLEventUtils.dispatch(this.$host, eventName, eventInit);
   }
 
-  /** Finds the first descendant element that matches the specified selector. Uses ESLTraversingQuery to find the element. */
+  /** Finds the first element matching the specified traversing query relative to `$host`. Uses ESLTraversingQuery to resolve the element. */
   public $$find(selector: string): Element | null {
     return ESLTraversingQuery.first(selector, this.$host);
   }
 
-  /** Finds all descendant elements that matches the specified selector. Uses ESLTraversingQuery to find the elements. */
+  /** Finds all elements matching the specified traversing query relative to `$host`. Uses ESLTraversingQuery to resolve the elements. */
   public $$findAll(selector: string): Element[] {
     return ESLTraversingQuery.all(selector, this.$host);
   }

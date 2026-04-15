@@ -29,9 +29,9 @@ export interface ESLBaseComponent {
    */
   $$fire(eventName: string, eventInit?: CustomEventInit): boolean;
 
-  /** Finds the first descendant element that matches the specified selector. Uses ESLTraversingQuery to find the element. */
+  /** Finds the first element by the specified ESLTraversingQuery relative to the current DOM-related element. */
   $$find(selector: string): Element | null;
-  /** Finds all descendant elements that matches the specified selector. Uses ESLTraversingQuery to find the elements. */
+  /** Finds all elements by the specified ESLTraversingQuery relative to the current DOM-related element. */
   $$findAll(selector: string): Element[];
 
   /**
