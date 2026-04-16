@@ -1,3 +1,22 @@
+## 6.0.0-beta.6 (2026-04-16)
+
+### 🚀 Features
+
+- **esl-anchornav:** add abstract data support for anchor info ([e1ddf7518](https://github.com/exadel-inc/esl/commit/e1ddf7518))
+- **esl-anchornav:** add out of the box support for nested navfix default styles ([a287ad803](https://github.com/exadel-inc/esl/commit/a287ad803))
+- **e2e:** legacy `snapshot-tests` module removed in flavor of new `esl-website-e2e` playwright based module ([58dbb5760](https://github.com/exadel-inc/esl/commit/58dbb5760))
+- **e2e:** initial reimplementation of e2e tests on playwright - new module @exadel/esl-website-e2e created ([f7f39dacc](https://github.com/exadel-inc/esl/commit/f7f39dacc))
+
+### 💅 Refactors
+
+- **esl-image:** officially deprecate `ESLImage` ([4555b6d71](https://github.com/exadel-inc/esl/commit/4555b6d71))
+- simplify internal ESL code using ootb find api ([b25c545fc](https://github.com/exadel-inc/esl/commit/b25c545fc))
+- **e2e:** add basic summary reporter based on previous implementation by alesun <alesun@exadel.com> ([65fabc7cb](https://github.com/exadel-inc/esl/commit/65fabc7cb))
+
+### Documentation updates
+
+- **site:** update ui-playground introduction doc ([a3d49b5cc](https://github.com/exadel-inc/esl/commit/a3d49b5cc))
+
 ## 6.0.0-beta.5 (2026-01-22)
 
 This was a version bump only for esl-website to align it with other projects, there were no code changes.
