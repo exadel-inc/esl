@@ -122,11 +122,19 @@ export class ESLAnchornav extends ESLBaseElement {
   @ready
   protected override connectedCallback(): void {
     super.connectedCallback();
-    this._onAnchornavRequest();
+    this.update();
   }
 
-  /** Updates the component */
+  /**
+   * Updates the component.
+   * Performs a full refresh cycle: recollects anchors list and updates the UI state.
+   * Use this method when the set/order of anchors may have changed.
+   */
   public update(): void {
+    this._anchors = this.findAnchors().map(this.getDataFrom);
+    this._anchors.unshift(...this.anchorsToPrepend);
+    this._anchors.push(...this.anchorsToAppend);
+
     memoize.clear(this, '$viewport');
     this.rerender();
     this.$$on(this._onAnchorIntersection);
@@ -206,9 +214,6 @@ export class ESLAnchornav extends ESLBaseElement {
     target: document.body
   })
   protected _onAnchornavRequest(): void {
-    this._anchors = this.findAnchors().map(this.getDataFrom);
-    this._anchors.unshift(...this.anchorsToPrepend);
-    this._anchors.push(...this.anchorsToAppend);
     this.update();
   }
 
