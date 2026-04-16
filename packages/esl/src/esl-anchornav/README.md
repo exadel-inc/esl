@@ -30,11 +30,103 @@ ESLAnchornav.setRenderer((data: ESLAnchorData, index: number, anchornav: ESLAnch
 ```
 You can define your own renderer. You can define several renderers with different names and use them on different components.
 
+### Hierarchical Navigation
+
+ESL Anchornav supports hierarchical (nested) navigation structures. To enable hierarchy, use the `group-by` attribute:
+
+```html
+<esl-anchornav group-by="level"></esl-anchornav>
+```
+
+When hierarchy is enabled:
+- Anchors are organized into a tree structure based on their `data-level` attribute
+- The `ESLAnchorData` interface includes `level`, `parent`, and `children` properties
+- You can override `updateActiveClasses()` method to implement custom active state logic (e.g., parent item activation)
+
+#### Example: Hierarchical Anchors
+
+```html
+<!-- Page content with hierarchical anchors -->
+<h2 esl-anchor id="section1" title="Section 1" data-level="0">Section 1</h2>
+<h3 esl-anchor id="subsection1-1" title="Subsection 1.1" data-level="1">Subsection 1.1</h3>
+<h3 esl-anchor id="subsection1-2" title="Subsection 1.2" data-level="1">Subsection 1.2</h3>
+<h2 esl-anchor id="section2" title="Section 2" data-level="0">Section 2</h2>
+```
+
+#### Custom Hierarchical Renderer
+
+When rendering hierarchical navigation, **you must use `nav.renderItem()` for nested items** to ensure proper registration:
+
+```tsx
+ESLAnchornav.setRenderer('hierarchical', (data: ESLAnchorData, index: number, nav: ESLAnchornav) => {
+  const item = document.createElement('li');
+  item.innerHTML = `<a href="#${data.id}">${data.title}</a>`;
+  
+  if (data.children && data.children.length > 0) {
+    const sublist = document.createElement('ul');
+    data.children.forEach((child, i) => {
+      // IMPORTANT: Use nav.renderItem() to register nested items
+      sublist.appendChild(nav.renderItem(child, i));
+    });
+    item.appendChild(sublist);
+  }
+  
+  return item;
+});
+```
+
+**Important:** Always use `nav.renderItem(child, index)` when rendering child items. Direct renderer calls will not register items properly and active state will not work.
+
+#### Custom Hierarchy Logic
+
+To implement custom hierarchy logic (e.g., using `data-parent` attribute), you can register a custom hierarchy builder:
+
+```typescript
+import {ESLAnchornav} from '@exadel/esl/modules/esl-anchornav/core';
+import type {ESLAnchorData, ESLAnchornavHierarchyBuilder} from '@exadel/esl/modules/esl-anchornav/core';
+
+const buildByParent: ESLAnchornavHierarchyBuilder = (flatAnchors: ESLAnchorData[]) => {
+  // Build hierarchy using data-parent attribute
+  const map = new Map<string, ESLAnchorData>();
+  
+  flatAnchors.forEach(anchor => {
+    anchor.children = [];
+    map.set(anchor.id, anchor);
+  });
+  
+  const roots: ESLAnchorData[] = [];
+  flatAnchors.forEach(anchor => {
+    const parentId = anchor.$anchor.dataset.parent;
+    if (parentId && map.has(parentId)) {
+      anchor.parent = parentId;
+      map.get(parentId)!.children!.push(anchor);
+    } else {
+      roots.push(anchor);
+    }
+  });
+  
+  return roots;
+};
+
+// Register the builder
+ESLAnchornav.setHierarchyBuilder('parent', buildByParent);
+```
+
+Then use it with the `group-by` attribute:
+```html
+<esl-anchornav group-by="parent"></esl-anchornav>
+```
+
+Alternatively, you can override the `buildHierarchy()` method in a subclass for component-specific logic.
+
 ### ESLAnchornav
 
 #### Public API
 - `setRenderer` - a static method to set item renderer
 - `getRenderer` - a static method to get item renderer with specified name
+- `setHierarchyBuilder` - a static method to set hierarchy builder
+- `getHierarchyBuilder` - a static method to get hierarchy builder with specified name
+- `renderItem(data, index?, renderer?)` - renders a single anchor item and registers it (use this for nested items)
 - `active` (ESLAnchorData) - active anchor data
 - `offset` (number) - anchornav top offset, used when detects active anchors (0 by default)
 - `update` - updates component
@@ -42,8 +134,9 @@ You can define your own renderer. You can define several renderers with differen
 #### Attributes | Properties:
 
 - `renderer` - item renderer which is used to build inner markup
-- `active-class` - CSS classes to set on active item (and remove when item inactive)
+- `active-class` - CSS classes to set on active item (defaults to `'active'`)
 - `anchor-selector` - selector (ESLTraversingQuery syntax) used to find anchors (defaults to `[esl-anchor]`)
+- `group-by` - grouping mode for building hierarchy: `'level'` to group by data-level attribute, empty string for flat list (defaults to `''`)
 
 #### Events
 
