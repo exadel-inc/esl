@@ -1,8 +1,8 @@
 # [ESL](../../../) Anchornav
 
-Version: *1.1.0-beta*.
+Version: *2.0.0-beta*.
 
-Authors: *Dmytro Shovchko*.
+Authors: *Dmytro Shovchko*, *Aliaksei Stsefanovich (ala'n)*.
 
 ***Important Notice: the component is under beta version, it is tested and ready to use but be aware of its potential critical API changes.***
 
