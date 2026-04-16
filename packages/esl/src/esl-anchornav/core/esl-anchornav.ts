@@ -164,6 +164,7 @@ export class ESLAnchornav extends ESLBaseElement {
 
     memoize.clear(this, '$viewport');
     this.rerender();
+    this.$$attr('empty', this._anchors.length === 0);
     this.$$on(this._onAnchorIntersection);
     this.updateActiveAnchor();
     this._onUpdateEvent();

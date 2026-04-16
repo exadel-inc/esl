@@ -138,6 +138,8 @@ Alternatively, you can override the `buildHierarchy()` method in a subclass for 
 - `anchor-selector` - selector (ESLTraversingQuery syntax) used to find anchors (defaults to `[esl-anchor]`)
 - `group-by` - grouping mode for building hierarchy: `'level'` to group by data-level attribute, empty string for flat list (defaults to `''`)
 
+- `empty`(readonly) - boolean attribute to mark that no anchors were found on the page
+
 #### Events
 
  - `esl:anchornav:activechanged` - event to dispatch on `ESLAnchornav` when active item changed
