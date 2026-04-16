@@ -15,7 +15,7 @@ export class ESLAnchor extends ESLMixinElement {
 
   @prop('esl:anchor:change') public CHANGE_EVENT: string;
 
-  @jsonAttr({name: ESLAnchor.is}) public data: Record<string, string>;
+  @jsonAttr({name: ESLAnchor.is}) public data: Record<string, unknown>;
 
   protected override connectedCallback(): void {
     super.connectedCallback();
@@ -27,7 +27,7 @@ export class ESLAnchor extends ESLMixinElement {
     super.disconnectedCallback();
   }
 
-  protected override attributeChangedCallback(name: string, oldValue: string, newValue: string): void {
+  protected override attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null): void {
     super.attributeChangedCallback(name, oldValue, newValue);
     this.sendRequestEvent(); // Notify upon esl-anchor attribute change (the only observed attribute by default)
   }

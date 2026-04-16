@@ -37,7 +37,7 @@ export const getParentNode = (element: Element | ShadowRoot): Node => {
 /**
  * Converts HTML string or other input to a DOM Element.
  * @param input - HTML string to parse, Element to return as-is, or array of elements to get first from
- * @returns DOM Element
+ * @returns DOM Element, or undefined if no element can be resolved from the input
  */
 export const htmlToElement = (input: string | Element | Element[]): Element | undefined => {
   // Element - return as-is

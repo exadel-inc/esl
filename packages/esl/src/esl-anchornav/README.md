@@ -68,7 +68,7 @@ ESLAnchornav.setRenderer('hierarchical', (data: ESLAnchorData, index: number, na
     const sublist = document.createElement('ul');
     data.children.forEach((child, i) => {
       // IMPORTANT: Use nav.renderItem() to register nested items
-      sublist.appendChild(nav.renderItem(child, i));
+      sublist.appendChild(nav.renderItem(child, i)!);
     });
     item.appendChild(sublist);
   }
@@ -144,7 +144,7 @@ Alternatively, you can override the `buildHierarchy()` method in a subclass for 
 - `renderer` - item renderer which is used to build inner markup
 - `active-class` - CSS classes to set on active item (defaults to `'active'`)
 - `anchor-selector` - selector (ESLTraversingQuery syntax) used to find anchors (defaults to `[esl-anchor]`)
-- `group-by` - grouping mode for building hierarchy: `'level'` to group by data-level attribute, empty string for flat list (defaults to `''`)
+- `group-by` - grouping mode for building hierarchy: `'level'` to group by anchor `level` data from the `esl-anchor` attribute, empty string for flat list (defaults to `''`)
 
 - `empty`(readonly) - boolean attribute to mark that no anchors were found on the page
 

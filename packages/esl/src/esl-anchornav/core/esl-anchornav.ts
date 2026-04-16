@@ -19,7 +19,7 @@ export type ESLAnchornavRender = (data: ESLAnchorData, index: number, anchornav:
 export interface ESLAnchorData {
   id: string;
   title: string;
-  data: Record<string, string>;
+  data: Record<string, unknown>;
   $anchor: HTMLElement;
   parent?: string | null;
   children?: ESLAnchorData[];
@@ -73,7 +73,7 @@ export class ESLAnchornav extends ESLBaseElement {
   @attr({defaultValue: 'active'}) public activeClass: string;
   /** Selector (ESLTraversingQuery) to find anchor elements */
   @attr({defaultValue: `[${ESLAnchor.is}]`}) public anchorSelector: string;
-  /** Grouping mode for building hierarchy: 'level' to group by data-level attribute, empty string for flat list */
+  /** Grouping mode for building hierarchy: 'level' to group by the parsed `level` value from `esl-anchor` data, empty string for flat list */
   @attr({defaultValue: ''}) public groupBy: string;
 
   protected _active: ESLAnchorData;
@@ -197,7 +197,7 @@ export class ESLAnchornav extends ESLBaseElement {
   public renderItem(data: ESLAnchorData, index?: number, renderer?: ESLAnchornavRender): Element | undefined {
     const itemRenderer = renderer || ESLAnchornav.getRenderer(this.rendererName);
     if (!itemRenderer) {
-      console.warn(`[ESLAnchornav] Renderer "${this.rendererName}" not found. Using default renderer.`);
+      console.warn(`[ESLAnchornav] Renderer "${this.rendererName}" not found. Item will not be rendered.`);
       return;
     }
 
