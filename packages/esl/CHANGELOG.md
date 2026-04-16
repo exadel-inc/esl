@@ -1,3 +1,42 @@
+## 6.0.0-beta.6 (2026-04-16)
+
+### 🚀 Features
+
+- **esl-anchornav:** add empty class marker functionality, improve documentation ([6f67338a7](https://github.com/exadel-inc/esl/commit/6f67338a7))
+- **esl-anchornav:** add abstract data support for anchor info ([e1ddf7518](https://github.com/exadel-inc/esl/commit/e1ddf7518))
+- **esl-anchornav:** add empty attribute support ([c96a6b994](https://github.com/exadel-inc/esl/commit/c96a6b994))
+- **esl-anchornav:** add out of the box support for nested navfix default styles ([a287ad803](https://github.com/exadel-inc/esl/commit/a287ad803))
+- **esl-utils:** add htmlToElement utility method ([1fc11d4e5](https://github.com/exadel-inc/esl/commit/1fc11d4e5))
+- ⚠️  **esl-anchornav:** enhance anchor nav API with explicit `anchor-selector` attribute and findAnchors hock with ESLTraversingQuery support ([433994fee](https://github.com/exadel-inc/esl/commit/433994fee))
+- add base elements `$$find` and `$$findAll` methods ([be350d73b](https://github.com/exadel-inc/esl/commit/be350d73b))
+- **esl-toggleable:** make outside action delay configurable for ESLToggleableManager using prop ESLToggleable.prototype.OUTSIDE_ACTION_DELAY ([2d83a8185](https://github.com/exadel-inc/esl/commit/2d83a8185))
+- **e2e:** legacy `snapshot-tests` module removed in flavor of new `esl-website-e2e` playwright based module ([58dbb5760](https://github.com/exadel-inc/esl/commit/58dbb5760))
+- **e2e:** initial reimplementation of e2e tests on playwright - new module @exadel/esl-website-e2e created ([f7f39dacc](https://github.com/exadel-inc/esl/commit/f7f39dacc))
+
+### 🩹 Fixes
+
+- **esl-carousel:** fix css renderers to support viewport-in animations on the slides ([e56214c3b](https://github.com/exadel-inc/esl/commit/e56214c3b))
+- **esl-carousel:** add vertical orientation support for css-slide renderer ([923155343](https://github.com/exadel-inc/esl/commit/923155343))
+
+### 💅 Refactors
+
+- **esl-anchornav:** small improvement for event broadcasting ([e1f3a28d6](https://github.com/exadel-inc/esl/commit/e1f3a28d6))
+- **esl-anchornav:** refactor anchor collection ([8439cfed4](https://github.com/exadel-inc/esl/commit/8439cfed4))
+- **esl-image:** officially deprecate `ESLImage` ([4555b6d71](https://github.com/exadel-inc/esl/commit/4555b6d71))
+- simplify internal ESL code using ootb find api ([b25c545fc](https://github.com/exadel-inc/esl/commit/b25c545fc))
+- **esl-utils:** fix eslint warning for unused variable output ([b62c4d03c](https://github.com/exadel-inc/esl/commit/b62c4d03c))
+- **e2e:** add basic summary reporter based on previous implementation by alesun <alesun@exadel.com> ([65fabc7cb](https://github.com/exadel-inc/esl/commit/65fabc7cb))
+- move test helpers from src/esl-utils/test to src/test ([1327931f6](https://github.com/exadel-inc/esl/commit/1327931f6))
+
+### Documentation updates
+
+- apply suggestions for TSDoc from code review ([af1905e14](https://github.com/exadel-inc/esl/commit/af1905e14))
+
+### ⚠️  Breaking Changes
+
+- **esl-anchornav:** enhance anchor nav API with explicit `anchor-selector` attribute and findAnchors hock with ESLTraversingQuery support  ([433994fee](https://github.com/exadel-inc/esl/commit/433994fee))
+  prototype prop `ANCHOR_SELECTOR` removed in flavor of `anchor-selector` attribute
+
 ## 6.0.0-beta.5 (2026-01-22)
 
 ### 🩹 Fixes
