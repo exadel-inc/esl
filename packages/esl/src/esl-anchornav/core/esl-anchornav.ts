@@ -71,6 +71,10 @@ export class ESLAnchornav extends ESLBaseElement {
   @attr({defaultValue: 'default', name: 'renderer'}) public rendererName: string;
   /** CSS classes to set on active item */
   @attr({defaultValue: 'active'}) public activeClass: string;
+  /** CSS classes to set on container when there are no anchors */
+  @attr() public emptyClass: string;
+  /** Selector (ESLTraversingQuery) to find the container to apply empty class marker. Defaults to the component itself */
+  @attr({defaultValue: ''}) public emptyClassTarget: string;
   /** Selector (ESLTraversingQuery) to find anchor elements */
   @attr({defaultValue: `[${ESLAnchor.is}]`}) public anchorSelector: string;
   /** Grouping mode for building hierarchy: 'level' to group by the parsed `level` value from `esl-anchor` data, empty string for flat list */
@@ -90,6 +94,11 @@ export class ESLAnchornav extends ESLBaseElement {
     if (this._active === value) return;
     this._active = value;
     this._onActiveChange();
+  }
+
+  /** Indicates whether the component has no anchors to display */
+  public get empty(): boolean {
+    return this._anchors.length === 0;
   }
 
   /** Anchors list (flattened for intersection observation) */
@@ -164,8 +173,8 @@ export class ESLAnchornav extends ESLBaseElement {
 
     memoize.clear(this, '$viewport');
     this.rerender();
-    this.$$attr('empty', this._anchors.length === 0);
     this.$$on(this._onAnchorIntersection);
+    this.updateContainer();
     this.updateActiveAnchor();
     this._onUpdateEvent();
   }
@@ -283,6 +292,15 @@ export class ESLAnchornav extends ESLBaseElement {
     this._items.forEach(($item, id) => {
       CSSClassUtils.toggle($item, this.activeClass, id === active.id);
     });
+  }
+
+  /**
+   * Updates the container state based on whether anchors are present.
+   * Sets the `empty` attribute on the component and applies `emptyClass` to the target element.
+   */
+  protected updateContainer(): void {
+    this.$$attr('empty', this.empty);
+    CSSClassUtils.toggle(this.$$findAll(this.emptyClassTarget), this.emptyClass, this.empty);
   }
 
   /** Handles changing the active anchor */

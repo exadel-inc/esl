@@ -127,26 +127,48 @@ Markup example:
 
 Alternatively, you can override the `buildHierarchy()` method in a subclass for component-specific logic.
 
+### Empty State Handling
+
+The component automatically sets the `empty` boolean attribute when no anchors are found. You can use the `empty-class` attribute to apply CSS classes to handle this state, and `empty-class-target` to specify which element should receive these classes (defaults to the component itself):
+
+```html
+<!-- Hide the component when empty -->
+<esl-anchornav empty-class="d-none"></esl-anchornav>
+
+<!-- Hide parent container when navigation is empty -->
+<div class="sidebar">
+  <esl-anchornav empty-class="d-none" empty-class-target="::parent"></esl-anchornav>
+</div>
+
+<!-- Or use CSS with the empty attribute -->
+<style>
+  esl-anchornav[empty] { display: none; }
+</style>
+```
+
 ### ESLAnchornav
 
 #### Public API
-- `setRenderer` - a static method to set item renderer
+- `setRenderer` - a static method to set item renderer. Can be called with just a renderer function (sets as 'default') or with a name and renderer
 - `getRenderer` - a static method to get item renderer with specified name
-- `setHierarchyBuilder` - a static method to set hierarchy builder
+- `setHierarchyBuilder` - a static method to set hierarchy builder. Can be called with just a builder function (sets as 'level') or with a name and builder
 - `getHierarchyBuilder` - a static method to get hierarchy builder with specified name
-- `renderItem(data, index?, renderer?)` - renders a single anchor item and registers it (use this for nested items)
-- `active` (ESLAnchorData) - active anchor data
-- `offset` (number) - anchornav top offset, used when detects active anchors (0 by default)
-- `update` - updates component
+- `renderItem(data, index?, renderer?)` - renders a single anchor item and registers it in the internal items map. **Must be used when rendering nested items** to ensure proper registration and active state tracking
+- `active` (ESLAnchorData) - active anchor data object
+- `empty` (boolean, readonly) - indicates whether the component has no anchors to display
+- `offset` (number) - anchornav top offset in pixels, used when detecting active anchors (0 by default)
+- `update()` - performs a full refresh cycle: recollects anchors list and updates the UI state. Use when the set/order of anchors may have changed
 
 #### Attributes | Properties:
 
-- `renderer` - item renderer which is used to build inner markup
+- `renderer` - item renderer which is used to build inner markup (defaults to `'default'`)
 - `active-class` - CSS classes to set on active item (defaults to `'active'`)
+- `empty-class` - CSS classes to set on container when there are no anchors
+- `empty-class-target` - selector (ESLTraversingQuery syntax) to find the container to apply `empty-class` marker. Defaults to the component itself if empty
 - `anchor-selector` - selector (ESLTraversingQuery syntax) used to find anchors (defaults to `[esl-anchor]`)
 - `group-by` - grouping mode for building hierarchy: `'level'` to group by anchor `level` data from the `esl-anchor` attribute, empty string for flat list (defaults to `''`)
 
-- `empty`(readonly) - boolean attribute to mark that no anchors were found on the page
+- `empty` (readonly) - boolean attribute to mark that no anchors were found on the page
 
 #### Events
 
