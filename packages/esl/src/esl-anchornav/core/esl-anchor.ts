@@ -1,7 +1,6 @@
 import {ESLMixinElement} from '../../esl-mixin-element/core';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {prop} from '../../esl-utils/decorators';
-import {ESLEventUtils} from '../../esl-event-listener/core';
 
 /**
  * ESLAnchor - custom mixin element for setting up anchor for {@link ESLAnchornav} attaching
@@ -27,7 +26,7 @@ export class ESLAnchor extends ESLMixinElement {
 
   /** Sends a broadcast event to Anchornav components to refresh the list of anchors */
   protected sendRequestEvent(): void {
-    ESLEventUtils.dispatch(document.body, this.CHANGE_EVENT);
+    this.$$fire(this.CHANGE_EVENT);
   }
 }
 
