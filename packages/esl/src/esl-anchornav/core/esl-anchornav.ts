@@ -44,13 +44,14 @@ export class ESLAnchornav extends ESLBaseElement {
 
   @prop('esl:anchornav:activechanged') public ACTIVECHANGED_EVENT: string;
   @prop('esl:anchornav:updated') public UPDATED_EVENT: string;
-  @prop('[esl-anchor]') protected ANCHOR_SELECTOR: string;
   @prop([0, 0.01, 0.99, 1]) protected INTERSECTION_THRESHOLD: number[];
 
   /** Item renderer which is used to build inner markup */
   @attr({defaultValue: 'default', name: 'renderer'}) public rendererName: string;
   /** CSS classes to set on active item */
   @attr({defaultValue: 'active'}) public activeClass: string;
+  /** Selector (ESLTraversingQuery) to find anchor elements */
+  @attr({defaultValue: `[${ESLAnchor.is}]`}) public anchorSelector: string;
 
   protected _active: ESLAnchorData;
   protected _anchors: ESLAnchorData[] = [];
@@ -108,6 +109,14 @@ export class ESLAnchornav extends ESLBaseElement {
   /** Permanent anchors to append to the list */
   protected get anchorsToAppend(): ESLAnchorData[] {
     return [];
+  }
+
+  /**
+   * Finds anchor elements.
+   * Uses {@link ESLTraversingQuery} syntax via {@link ESLBaseElement.$$findAll}.
+   */
+  protected findAnchors(): HTMLElement[] {
+    return this.$$findAll(this.anchorSelector) as HTMLElement[];
   }
 
   @ready
@@ -197,7 +206,7 @@ export class ESLAnchornav extends ESLBaseElement {
     target: document.body
   })
   protected _onAnchornavRequest(): void {
-    this._anchors = [...document.querySelectorAll<HTMLElement>(this.ANCHOR_SELECTOR)].map(this.getDataFrom);
+    this._anchors = this.findAnchors().map(this.getDataFrom);
     this._anchors.unshift(...this.anchorsToPrepend);
     this._anchors.push(...this.anchorsToAppend);
     this.update();

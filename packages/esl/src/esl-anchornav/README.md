@@ -1,6 +1,6 @@
 # [ESL](../../../) Anchornav
 
-Version: *1.0.0-beta*.
+Version: *1.1.0-beta*.
 
 Authors: *Dmytro Shovchko*.
 
@@ -12,15 +12,15 @@ The ESL Anchornav component allows users to quickly jump to specific page conten
 
 ### How it works
 
-The component collects anchors on the page, builds a list of anchors using the user-defined renderer function, and appends it to the inner items container element (it will be an element with `esl-anchors-items` attribute). After that, the component observes the position of the collected anchors to detect currently active anchor and marks it with active class marker.
+The component collects anchors on the page, builds a list of anchors using the user-defined renderer function, and appends it to the inner items container element (it will be an element with `esl-anchornav-items` attribute). After that, the component observes the position of the collected anchors to detect currently active anchor and marks it with active class marker.
 
 For example, markup may be the following:
 ```html
-<esl-anchornav>Anchors: <nav esl-anchors-items></nav></esl-anchornav>
+<esl-anchornav>Anchors: <nav esl-anchornav-items></nav></esl-anchornav>
 ```
-If for some reason you do not add an element with this attribute to the component content, it will not be a mistake. A div with the `esl-anchors-items` attribute will be created and added to the component content in this case.
+If for some reason you do not add an element with this attribute to the component content, it will not be a mistake. A div with the `esl-anchornav-items` attribute will be created and added to the component content in this case.
 
-You can assign anchors to any element on the page. To do this, you must give this element the `esl-anchor` attribute. Another mandatory requirement for an element is that it must contain two attributes `id` and `title` (this is the text to be displayed in the list).
+You can assign anchors to any element on the page. By default, the component searches for elements with the `esl-anchor` attribute (i.e. selector `[esl-anchor]`). Another mandatory requirement for an element is that it must have `id` and `title` attributes (the `title` is the text to be displayed in the list).
 
 ### Items renderer
 
@@ -43,6 +43,7 @@ You can define your own renderer. You can define several renderers with differen
 
 - `renderer` - item renderer which is used to build inner markup
 - `active-class` - CSS classes to set on active item (and remove when item inactive)
+- `anchor-selector` - selector (ESLTraversingQuery syntax) used to find anchors (defaults to `[esl-anchor]`)
 
 #### Events
 
