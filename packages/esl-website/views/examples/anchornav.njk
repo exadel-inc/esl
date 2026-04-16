@@ -88,6 +88,44 @@ aside:
         </div>
       </script>
 
+      <script type="text/html"
+              label="Anchornav hierarchical"
+              uip-snippet
+              uip-snippet-js="js-snippet-anchornav-element">
+        <div class="d-flex">
+          <div style="flex: 1;">
+            <h2 esl-anchor="level: 0" id="section-1" title="Section 1">Section 1</h2>
+            <!-- paragraph 5 -->
+
+            <h3 esl-anchor="level: 1" id="section-1-1" title="Subsection 1.1">Subsection 1.1</h3>
+            <!-- paragraph 4 -->
+
+            <h3 esl-anchor="level: 1" id="section-1-2" title="Subsection 1.2">Subsection 1.2</h3>
+            <!-- paragraph 4 -->
+
+            <h4 esl-anchor="level: 2" id="section-1-2-1" title="Sub-subsection 1.2.1">Sub-subsection 1.2.1</h4>
+            <!-- paragraph 3 -->
+
+            <h2 esl-anchor="level: 0" id="section-2" title="Section 2">Section 2</h2>
+            <!-- paragraph 5 -->
+
+            <h3 esl-anchor="level: 1" id="section-2-1" title="Subsection 2.1">Subsection 2.1</h3>
+            <!-- paragraph 4 -->
+
+            <h2 esl-anchor="level: 0" id="section-3" title="Section 3">Section 3</h2>
+            <!-- paragraph 5 -->
+          </div>
+          <div style="flex: 0 0 250px; margin-left: 2rem;">
+            <div class="esl-anchornav-pseudo-fixed">
+              <esl-anchornav renderer="tree" group-by="level" active-class="active">
+                <div class="h4 text-center mb-3">Table of Contents</div>
+                <nav esl-anchornav-items></nav>
+              </esl-anchornav>
+            </div>
+          </div>
+        </div>
+      </script>
+
       <script id="js-snippet-anchornav-element" type="text/plain">
         import { ESLAnchornav, ESLAnchorMixin, ESLAnchornavStickedMixin } from '@exadel/esl';
         ESLAnchornav.register();
