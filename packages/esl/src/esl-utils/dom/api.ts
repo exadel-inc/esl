@@ -39,7 +39,7 @@ export const getParentNode = (element: Element | ShadowRoot): Node => {
  * @param input - HTML string to parse, Element to return as-is, or array of elements to get first from
  * @returns DOM Element
  */
-export const htmlToElement = (input: string | Element | Element[]): Element => {
+export const htmlToElement = (input: string | Element | Element[]): Element | undefined => {
   // Element - return as-is
   if (isElement(input)) return input;
 

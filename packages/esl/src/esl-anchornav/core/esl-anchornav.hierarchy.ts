@@ -38,5 +38,3 @@ export function buildHierarchyByLevel(flatAnchors: ESLAnchorData[]): ESLAnchorDa
 
   return roots;
 }
-
-

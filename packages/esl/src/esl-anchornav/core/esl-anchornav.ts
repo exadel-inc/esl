@@ -155,7 +155,7 @@ export class ESLAnchornav extends ESLBaseElement {
    * Use this method when the set/order of anchors may have changed.
    */
   public update(): void {
-    const flatAnchors = this.findAnchors().map(this.getDataFrom);
+    const flatAnchors = this.findAnchors().map(($el, i) => this.getDataFrom($el, i));
     flatAnchors.unshift(...this.anchorsToPrepend);
     flatAnchors.push(...this.anchorsToAppend);
 
@@ -180,7 +180,9 @@ export class ESLAnchornav extends ESLBaseElement {
   /** Renders the component anchors list */
   protected renderAnchors(): Element[] {
     this._items.clear();
-    return this._anchors.map((anchor, index) => this.renderItem(anchor, index));
+    return this._anchors
+      .map((anchor, index) => this.renderItem(anchor, index))
+      .filter(Boolean) as Element[];
   }
 
   /**
@@ -192,12 +194,15 @@ export class ESLAnchornav extends ESLBaseElement {
    * @param renderer - custom renderer function (optional, uses rendererName by default)
    * @returns rendered element
    */
-  public renderItem(data: ESLAnchorData, index?: number, renderer?: ESLAnchornavRender): Element {
+  public renderItem(data: ESLAnchorData, index?: number, renderer?: ESLAnchornavRender): Element | undefined {
     const itemRenderer = renderer || ESLAnchornav.getRenderer(this.rendererName);
-    if (!itemRenderer) throw new Error(`[ESLAnchornav] Renderer "${this.rendererName}" not found`);
+    if (!itemRenderer) {
+      console.warn(`[ESLAnchornav] Renderer "${this.rendererName}" not found. Using default renderer.`);
+      return;
+    }
 
     const item = htmlToElement(itemRenderer(data, index ?? 0, this));
-    this._items.set(data.id, item);
+    if (item) this._items.set(data.id, item);
     return item;
   }
 

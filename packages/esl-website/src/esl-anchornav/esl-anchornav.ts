@@ -24,7 +24,7 @@ ESLAnchornav.setRenderer('tree', (data, index, nav) => {
     const sublist = document.createElement('ul');
     sublist.className = 'anchornav-sublist';
     data.children.forEach((child, i) => {
-      sublist.appendChild(nav.renderItem(child, i, ESLAnchornav.getRenderer('hierarchical')));
+      sublist.appendChild(nav.renderItem(child, i)!);
     });
     item.appendChild(sublist);
   }
