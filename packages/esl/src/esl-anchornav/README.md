@@ -39,19 +39,21 @@ ESL Anchornav supports hierarchical (nested) navigation structures. To enable hi
 ```
 
 When hierarchy is enabled:
-- Anchors are organized into a tree structure based on their `data-level` attribute
-- The `ESLAnchorData` interface includes `level`, `parent`, and `children` properties
+- Anchors are organized into a tree structure based on data from the `esl-anchor` attribute
+- The `ESLAnchorData` interface includes `data`, `parent`, and `children` properties
 - You can override `updateActiveClasses()` method to implement custom active state logic (e.g., parent item activation)
 
 #### Example: Hierarchical Anchors
 
 ```html
 <!-- Page content with hierarchical anchors -->
-<h2 esl-anchor id="section1" title="Section 1" data-level="0">Section 1</h2>
-<h3 esl-anchor id="subsection1-1" title="Subsection 1.1" data-level="1">Subsection 1.1</h3>
-<h3 esl-anchor id="subsection1-2" title="Subsection 1.2" data-level="1">Subsection 1.2</h3>
-<h2 esl-anchor id="section2" title="Section 2" data-level="0">Section 2</h2>
+<h2 esl-anchor="level: 0" id="section1" title="Section 1">Section 1</h2>
+<h3 esl-anchor="level: 1" id="subsection1-1" title="Subsection 1.1">Subsection 1.1</h3>
+<h3 esl-anchor="level: 1" id="subsection1-2" title="Subsection 1.2">Subsection 1.2</h3>
+<h2 esl-anchor="level: 0" id="section2" title="Section 2">Section 2</h2>
 ```
+
+Note: The `esl-anchor` attribute uses JSON-like syntax to define data properties. For example, `esl-anchor="level: 1"` sets the `level` property in the anchor's data object.
 
 #### Custom Hierarchical Renderer
 
@@ -79,14 +81,14 @@ ESLAnchornav.setRenderer('hierarchical', (data: ESLAnchorData, index: number, na
 
 #### Custom Hierarchy Logic
 
-To implement custom hierarchy logic (e.g., using `data-parent` attribute), you can register a custom hierarchy builder:
+To implement custom hierarchy logic (e.g., using `parent` property from anchor data), you can register a custom hierarchy builder:
 
 ```typescript
 import {ESLAnchornav} from '@exadel/esl/modules/esl-anchornav/core';
 import type {ESLAnchorData, ESLAnchornavHierarchyBuilder} from '@exadel/esl/modules/esl-anchornav/core';
 
 const buildByParent: ESLAnchornavHierarchyBuilder = (flatAnchors: ESLAnchorData[]) => {
-  // Build hierarchy using data-parent attribute
+  // Build hierarchy using 'parent' property from anchor data
   const map = new Map<string, ESLAnchorData>();
   
   flatAnchors.forEach(anchor => {
@@ -96,7 +98,7 @@ const buildByParent: ESLAnchornavHierarchyBuilder = (flatAnchors: ESLAnchorData[
   
   const roots: ESLAnchorData[] = [];
   flatAnchors.forEach(anchor => {
-    const parentId = anchor.$anchor.dataset.parent;
+    const parentId = anchor.data.parent; // Access data object
     if (parentId && map.has(parentId)) {
       anchor.parent = parentId;
       map.get(parentId)!.children!.push(anchor);
@@ -115,6 +117,12 @@ ESLAnchornav.setHierarchyBuilder('parent', buildByParent);
 Then use it with the `group-by` attribute:
 ```html
 <esl-anchornav group-by="parent"></esl-anchornav>
+```
+
+Markup example:
+```html
+<h2 esl-anchor id="section1" title="Section 1">Section 1</h2>
+<h3 esl-anchor="parent: section1" id="subsection1-1" title="Subsection 1.1">Subsection 1.1</h3>
 ```
 
 Alternatively, you can override the `buildHierarchy()` method in a subclass for component-specific logic.

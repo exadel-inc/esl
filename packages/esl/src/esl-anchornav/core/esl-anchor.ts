@@ -1,6 +1,6 @@
 import {ESLMixinElement} from '../../esl-mixin-element/core';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {prop} from '../../esl-utils/decorators';
+import {jsonAttr, prop} from '../../esl-utils/decorators';
 
 /**
  * ESLAnchor - custom mixin element for setting up anchor for {@link ESLAnchornav} attaching
@@ -13,6 +13,8 @@ export class ESLAnchor extends ESLMixinElement {
   static override is = 'esl-anchor';
 
   @prop('esl:anchor:change') public CHANGE_EVENT: string;
+
+  @jsonAttr({name: ESLAnchor.is}) public data: Record<string, string>;
 
   protected override connectedCallback(): void {
     super.connectedCallback();

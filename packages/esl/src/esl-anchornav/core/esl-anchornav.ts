@@ -19,8 +19,8 @@ export type ESLAnchornavRender = (data: ESLAnchorData, index: number, anchornav:
 export interface ESLAnchorData {
   id: string;
   title: string;
+  data: Record<string, string>;
   $anchor: HTMLElement;
-  level?: number;
   parent?: string | null;
   children?: ESLAnchorData[];
 }
@@ -206,6 +206,7 @@ export class ESLAnchornav extends ESLBaseElement {
     return {
       id: $anchor.id,
       title: $anchor.title,
+      data: ESLAnchor.get($anchor)?.data || {},
       $anchor
     };
   }
