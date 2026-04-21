@@ -1,3 +1,9 @@
+## 6.0.0-beta.7 (2026-04-21)
+
+### 🩹 Fixes
+
+- **esl-line-clamp:** fix clamped attribute logic and add tolerance factor ([123f39f71](https://github.com/exadel-inc/esl/commit/123f39f71))
+
 ## 6.0.0-beta.6 (2026-04-16)
 
 ### 🚀 Features
