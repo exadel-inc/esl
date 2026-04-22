@@ -10,10 +10,10 @@ import {DelayedTask} from '../../esl-utils/async/delayed-task';
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {findParent, isMatches} from '../../esl-utils/dom/traversing';
 import {getKeyboardFocusableElements} from '../../esl-utils/dom/focus';
-import {ESLToggleableManager} from './esl-toggleable-manager';
+import {ESLToggleableManagerDefault} from './esl-toggleable-manager';
 
-import type {ESLA11yType} from './esl-toggleable-manager';
 import type {DelegatedEvent} from '../../esl-event-listener/core/types';
+import type {ESLToggleableManager, ESLA11yType} from './esl-toggleable-manager.types';
 
 /** Default Toggleable action params type definition */
 export interface ESLToggleableActionParams {
@@ -308,7 +308,7 @@ export class ESLToggleable extends ESLBaseElement {
 
   /** Focus manager instance */
   public get manager(): ESLToggleableManager {
-    return new ESLToggleableManager();
+    return new ESLToggleableManagerDefault();
   }
 
   /** Last component that has activated the element. Uses {@link ESLToggleableActionParams.activator}*/
