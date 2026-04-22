@@ -24,8 +24,15 @@ export class ESLDemoSkillCopy extends ESLMixinElement {
   protected async _onClick(): Promise<void> {
     if (!this.url) return;
     try {
-      const text = await fetch(this.url).then((r) => r.text());
-      await navigator.clipboard.writeText(text);
+      const item = new ClipboardItem({
+        'text/plain': fetch(this.url)
+          .then((r) => {
+            if (!r.ok) throw new Error(`Failed to fetch skill file: ${r.status} ${r.statusText}`);
+            return r.text();
+          })
+          .then((text) => new Blob([text], {type: 'text/plain'})),
+      });
+      await navigator.clipboard.write([item]);
       this._showFeedback();
     } catch (e) {
       this.$$error(e as Error, '_onClick');

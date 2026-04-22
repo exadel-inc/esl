@@ -8,7 +8,8 @@
   <li class="sidebar-nav-item">
     <div class="sidebar-nav-item-heading {{ 'active' if isPrimaryActive }}">
       {% if opt.leaf %}
-        <a class="sidebar-nav-item-heading-inner" href="{{ ('/' + collection) | url }}" aria-label="{{ title }}">
+        <a class="sidebar-nav-item-heading-inner" href="{{ ('/' + collection) | url }}" aria-label="{{ title }}"
+           {% if isPrimaryActive %}aria-current="page"{% endif %}>
           <span class="sidebar-nav-item-link icon-link" aria-hidden="true">
             {% include "static/assets/" + icon %}
           </span>
