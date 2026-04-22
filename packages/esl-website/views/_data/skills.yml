@@ -1,0 +1,10 @@
+- file: esl-base-element.md
+  name: ESLBaseElement
+  description: Creating a new custom HTML tag extending <code>ESLBaseElement</code>.
+  when: You need a new <code>&lt;my-element&gt;</code> custom tag with its own DOM lifecycle, attributes, and event handling.
+
+- file: esl-mixin-element.md
+  name: ESLMixinElement
+  description: Creating a custom attribute behavior extending <code>ESLMixinElement</code>.
+  when: You need to attach behavior to existing elements via a custom attribute (e.g. <code>&lt;div my-mixin&gt;</code>) without introducing a new tag.
+

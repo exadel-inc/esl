@@ -4,28 +4,38 @@
 
   {% set items = collections[collection] | releasedOrActive(page.url) | tree %}
 
-  {% if items.length or isPrimaryActive %}
+  {% if items.length or isPrimaryActive or opt.leaf %}
   <li class="sidebar-nav-item">
     <div class="sidebar-nav-item-heading {{ 'active' if isPrimaryActive }}">
-      <a class="sidebar-nav-item-link icon-link" href="{{ ('/' + collection) | url }}"
-         aria-label="{{ title }} home page">
-        {% include "static/assets/" + icon %}
-      </a>
-      <esl-trigger class="sidebar-nav-item-trigger sidebar-nav-item-arrow"
-                   target="::parent::next"
-                   a11y-label-active="Collapse {{ title }} section"
-                   a11y-label-inactive="Expand {{ title }} section"
-                   {% if isPrimaryActive %}active{% endif %}>
-        {{ title }}
-        {% if opt.beta %}
-          <sup class="badge badge-sup badge-warning">beta</sup>
-        {% endif %}
-        {% if opt.new %}
-          <sup class="badge badge-sup badge-success">new</sup>
-        {% endif %}
-      </esl-trigger>
+      {% if opt.leaf %}
+        <a class="sidebar-nav-item-heading-inner" href="{{ ('/' + collection) | url }}" aria-label="{{ title }}">
+          <span class="sidebar-nav-item-link icon-link" aria-hidden="true">
+            {% include "static/assets/" + icon %}
+          </span>
+          <span class="sidebar-nav-item-trigger">{{ title }}</span>
+        </a>
+      {% else %}
+        <a class="sidebar-nav-item-link icon-link" href="{{ ('/' + collection) | url }}"
+           aria-label="{{ title }} home page">
+          {% include "static/assets/" + icon %}
+        </a>
+        <esl-trigger class="sidebar-nav-item-trigger sidebar-nav-item-arrow"
+                     target="::parent::next"
+                     a11y-label-active="Collapse {{ title }} section"
+                     a11y-label-inactive="Expand {{ title }} section"
+                     {% if isPrimaryActive %}active{% endif %}>
+          {{ title }}
+          {% if opt.beta %}
+            <sup class="badge badge-sup badge-warning">beta</sup>
+          {% endif %}
+          {% if opt.new %}
+            <sup class="badge badge-sup badge-success">new</sup>
+          {% endif %}
+        </esl-trigger>
+      {% endif %}
     </div>
 
+    {% if not opt.leaf %}
     <esl-panel id="sidebar-{{ collection }}-menu"
                class="sidebar-nav-secondary {{ 'open' if isPrimaryActive }}"
                {% if isPrimaryActive %}data-open{% endif %}
@@ -33,6 +43,7 @@
                fallback-duration="400">
       {{ linkList(items, isDevCollection) }}
     </esl-panel>
+    {% endif %}
   </li>
   {% endif %}
 {% endmacro %}

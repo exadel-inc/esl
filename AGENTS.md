@@ -247,6 +247,9 @@ Copy relevant files into your AI configuration:
 # Cursor
 .cursor/rules/esl-base-element.md
 
+# Windsurf / other agents using .ai/rules
+.ai/rules/esl-base-element.md
+
 # GitHub Copilot
 .github/copilot-instructions.md  (append content)
 

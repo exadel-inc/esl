@@ -28,9 +28,9 @@
           {% set isNoEmpty = collections[item.data.collection] | releasedOrActive(page.url) | exclude('data.collection') | length %}
           {% set isActive = env.isDev or functions.isActivePath(page.url, item.data.collection) %}
 
-          {% if isNoEmpty or isActive %}
+          {% if isNoEmpty or isActive or item.data.leaf %}
             {% if item.data.groupStart %} <hr class="sidebar-hr"/> {% endif %}
-            {{ navItem (item.data.title, item.data.collection, item.data.icon) }}
+            {{ navItem(item.data.title, item.data.collection, item.data.icon, {leaf: item.data.leaf}) }}
           {% endif %}
         {% endfor %}
 

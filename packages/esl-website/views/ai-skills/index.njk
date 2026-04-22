@@ -1,0 +1,49 @@
+---
+layout: content
+title: AI Agent Skills
+seoTitle: ESL AI Agent Skills — Copy & Download
+description: Ready-to-use skill files for AI coding agents. Copy or download to give your AI assistant accurate ESL context.
+name: AI Agent Skills
+order: 6
+tags: [nav]
+leaf: true
+collection: ai-skills
+icon: sidebar/ai.svg
+---
+
+<p>
+  Self-contained instruction files for AI coding agents working with <code>@exadel/esl</code>.
+  Each file is independent — copy or download the ones relevant to your task and drop them into your AI config
+  (<code>.cursor/rules/</code>, <code>.ai/rules/</code>, <code>.github/copilot-instructions.md</code>, <code>AGENTS.md</code>, etc.).
+</p>
+
+<div class="skills-list">
+  {% for skill in skills %}
+  <article class="skill-card">
+    <div class="skill-card-header">
+      <h2 class="skill-card-title">{{ skill.name }}</h2>
+      <p class="skill-card-desc">{{ skill.description | safe }}</p>
+      <p class="skill-card-when"><b>Use when:</b> {{ skill.when | safe }}</p>
+    </div>
+    <div class="skill-card-actions btn-group">
+      <button class="btn btn-sm" esl-d-skill-copy data-url="/skills/{{ skill.file }}">
+        Copy to clipboard
+      </button>
+      <a class="btn btn-sm" href="/skills/{{ skill.file }}" download="{{ skill.file }}">
+        Download .md
+      </a>
+    </div>
+    <details class="skill-preview">
+      <summary>Preview skill content</summary>
+      <div class="skill-preview-content">
+        {% set skillPath = 'skills/' + skill.file %}
+        {% mdRender skillPath %}
+      </div>
+    </details>
+  </article>
+  {% endfor %}
+</div>
+
+
+
+

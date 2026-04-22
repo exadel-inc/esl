@@ -186,6 +186,9 @@ For contributors, the full codebase guide is in [`AGENTS.md`](../AGENTS.md) at t
 
 > **Note for maintainers:** if you are adding a significant new feature or base class to the library, consider
 > adding a corresponding skill file to `skills/` so downstream consumers can benefit from accurate AI assistance.
+> After adding the file, register it in
+> [`packages/esl-website/views/_data/skills.yml`](../packages/esl-website/views/_data/skills.yml)
+> so it appears on the AI Skills page of the website.
 
 ## Make or update a core and utilities
 
