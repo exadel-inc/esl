@@ -6,13 +6,11 @@ import {TAB} from '../../esl-utils/dom/keys';
 import {handleFocusChain} from '../../esl-utils/dom/focus';
 
 import type {ESLToggleable} from './esl-toggleable';
+import type {ESLToggleableManager} from './esl-toggleable-manager.types';
 
-/** Focus flow behaviors */
-export type ESLA11yType = 'none' | 'autofocus' | 'popup' | 'dialog' | 'modal';
-
-let instance: ESLToggleableManager;
+let instance: ESLToggleableManagerDefault;
 /** Focus manager for toggleable instances. Singleton. */
-export class ESLToggleableManager {
+export class ESLToggleableManagerDefault implements ESLToggleableManager {
   /** Active toggleable */
   protected active = new Set<ESLToggleable>();
   /** Focus scopes stack. Manager observes only top level scope. */
