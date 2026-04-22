@@ -228,6 +228,34 @@ Breaking change: append `!` to type → `feat!(esl-panel): …`
 
 ---
 
+## AI Skills for ESL Consumers
+
+Self-contained skill files for projects that **use** `@exadel/esl` (not develop it).
+Each file is independent — copy relevant ones into your project's AI config.
+
+### Available skills (`skills/`)
+
+| File | When to use |
+|---|---|
+| [`skills/esl-base-element.md`](./skills/esl-base-element.md) | Creating a new custom HTML tag extending `ESLBaseElement` |
+| [`skills/esl-mixin-element.md`](./skills/esl-mixin-element.md) | Creating a custom attribute behavior extending `ESLMixinElement` |
+
+### How to use in your project
+
+Copy relevant files into your AI configuration:
+```
+# Cursor
+.cursor/rules/esl-base-element.md
+
+# GitHub Copilot
+.github/copilot-instructions.md  (append content)
+
+# Any agent supporting AGENTS.md
+AGENTS.md  (append or reference)
+```
+
+---
+
 ## Key Reference Files
 
 - `packages/esl/src/esl-base-element/core/esl-base-element.ts` — root base class

@@ -170,6 +170,23 @@ Note: project do not support root-level default tarball command (`npm pack`), so
 ESL project uses some special JS community agreements and name conventions.
 To fix and track such agreements the [Code Conventions](CODE_CONVENTIONS.md) document was created.
 
+## AI Agent Skills
+
+The repository includes self-contained skill files for AI coding agents located in the [`skills/`](../skills) directory.
+
+These skills are targeted at **consumers** of `@exadel/esl` (not contributors) and can be copied into any
+downstream project's AI configuration to give agents accurate context about ESL patterns.
+
+| File | Purpose |
+|---|---|
+| [`skills/esl-base-element.md`](../skills/esl-base-element.md) | Creating a custom HTML tag (`ESLBaseElement`) |
+| [`skills/esl-mixin-element.md`](../skills/esl-mixin-element.md) | Creating a custom attribute behavior (`ESLMixinElement`) |
+
+For contributors, the full codebase guide is in [`AGENTS.md`](../AGENTS.md) at the repository root.
+
+> **Note for maintainers:** if you are adding a significant new feature or base class to the library, consider
+> adding a corresponding skill file to `skills/` so downstream consumers can benefit from accurate AI assistance.
+
 ## Make or update a core and utilities
 
 TODO: Detailed guide will be added in the future based on contribution experience
