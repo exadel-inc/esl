@@ -172,10 +172,11 @@ To fix and track such agreements the [Code Conventions](CODE_CONVENTIONS.md) doc
 
 ## AI Agent Skills
 
-The repository includes self-contained skill files for AI coding agents located in the [`skills/`](../skills) directory.
+AI coding agents are a common part of modern development workflows, and giving them accurate library context pays off quickly.
+A well-crafted skill lets consumers get idiomatic ESL code from their agent on the first try — no manual corrections for decorator usage, naming conventions, or the utility toolkit.
 
-These skills are targeted at **consumers** of `@exadel/esl` (not contributors) and can be copied into any
-downstream project's AI configuration to give agents accurate context about ESL patterns.
+The repository includes self-contained skill files for AI coding agents located in the [`skills/`](../skills) directory.
+Each file is independent and can be dropped into any downstream project's AI configuration without any further setup.
 
 | File | Purpose |
 |---|---|

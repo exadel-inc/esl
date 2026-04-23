@@ -4,32 +4,34 @@
 
 **ESL** is an Nx-managed monorepo of TypeScript + LESS web-component packages:
 
-| Package | Path | Purpose |
-|---|---|---|
-| `@exadel/esl` | `packages/esl` | Core web-components library |
-| `@exadel/ui-playground` | `packages/ui-playground` | Real-time code preview widget |
-| `esl-website` | `packages/esl-website` | 11ty + webpack demo site |
-| `esl-website-e2e` | `packages/esl-website-e2e` | Playwright snapshot tests |
-| `@exadel/eslint-config-esl` | `packages/eslint-config` | Shared ESLint config |
-| `@exadel/stylelint-config-esl` | `packages/stylelint-config` | Shared Stylelint config |
+| Package | Path | Purpose | Published |
+|---|---|---|---|
+| `@exadel/esl` | `packages/esl` | Core web-components library | ✓ |
+| `@exadel/ui-playground` | `packages/ui-playground` | Real-time code preview widget | ✓ |
+| `@exadel/eslint-config-esl` | `packages/eslint-config` | Shared ESLint config | ✓ |
+| `@exadel/stylelint-config-esl` | `packages/stylelint-config` | Shared Stylelint config | ✓ |
+| `esl-website` | `packages/esl-website` | 11ty + webpack demo site | — internal |
+| `esl-website-e2e` | `packages/esl-website-e2e` | Playwright snapshot tests | — internal |
 
 ### Core Library Component Structure (`packages/esl/src/<component>/`)
-Each component follows this layout:
+Each component — whether a custom tag (`ESLBaseElement`) or a custom attribute mixin (`ESLMixinElement`) — follows this layout:
 ```
 esl-<name>/
   core.ts          # Public re-export barrel (only file consumers import)
-  core.less        # Component styles
+  core.less        # Component styles (custom tags only)
   core/            # Implementation files
     esl-<name>.ts
-    esl-<name>.shape.ts   # Tag shape (JSX/Nunjucks typings)
+    esl-<name>.shape.ts   # Tag/attribute shape (JSX typings)
   test/            # *.test.ts unit tests
 ```
 The `core.ts` barrel is the **only** public entry — never import from `core/` subdirectory directly.
 
 ### Inheritance Chain
-`HTMLElement` → `ESLBaseElement` (`esl-base-element`) → `ESLToggleable` → specific components (Panel, Popup, Alert, …)
+Custom tags: `HTMLElement` → `ESLBaseElement` (`esl-base-element`) → `ESLToggleable` → specific components (Panel, Popup, Alert, …)
 
-`ESLBaseElement` auto-subscribes decorated `@listen` event listeners on `connectedCallback` and unsubscribes on `disconnectedCallback` via `ESLEventUtils`.
+Custom attribute mixins: `ESLMixinElement` (`esl-mixin-element`) → specific mixins (AnimateMixin, OpenState, …)
+
+Both base classes auto-subscribe decorated `@listen` event listeners on `connectedCallback` and unsubscribe on `disconnectedCallback` via `ESLEventUtils`.
 
 ### Build Output
 TypeScript + LESS sources in `src/` compile to `modules/` (gitignored, published). Build runs three parallel sub-tasks: `build:ts`, `build:less`, `build:docs`.
@@ -197,11 +199,26 @@ These are used **across virtually every component** — learn them to read ESL c
 ## Code Patterns
 
 ### Component Registration
-Every ESLBaseElement subclass has a static `is` property (tag name) and must call `ESLBaseElement.register()` (or the component's own `register()`) to define the custom element:
+Every `ESLBaseElement` / `ESLMixinElement` subclass declares a `static is` (tag or attribute name) and calls `register()`. `is` must be set **before** `register()` is called — either inside the class body (preferred) or as an assignment immediately before the call:
+
 ```ts
-ESLPanel.is = 'esl-panel';
-ESLPanel.register();
+export class MyElement extends ESLBaseElement {
+  static override is = 'my-element';
+  // ...
+}
+MyElement.register();
 ```
+
+**Do not mutate `is` on ESL's own built-in components** (`ESLPanel`, `ESLToggleable`, `ESLLineClamp`, etc.) — they carry their own styles and internal expectations tied to their tag name. If you need a customised variant, subclass it and give the subclass its own `is`:
+
+```ts
+class MyPanel extends ESLPanel {
+  static override is = 'my-panel'; // owns its own styles; won't pollute the global ESLPanel
+}
+MyPanel.register();
+```
+
+See [`skills/esl-base-element.md`](./skills/esl-base-element.md) and [`skills/esl-mixin-element.md`](./skills/esl-mixin-element.md) for full consumer-facing templates.
 
 ### Event Listeners
 Use the `@listen` decorator (from `esl-event-listener`) instead of manual `addEventListener`; the base class handles subscribe/unsubscribe lifecycle automatically.
@@ -243,7 +260,7 @@ Each file is independent — copy relevant ones into your project's AI config.
 ### How to use in your project
 
 Copy relevant files into your AI configuration:
-```
+```text
 # Cursor
 .cursor/rules/esl-base-element.md
 
