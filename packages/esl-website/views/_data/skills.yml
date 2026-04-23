@@ -1,10 +1,18 @@
-- file: esl-base-element.md
-  name: ESLBaseElement
-  description: Creating a new custom HTML tag extending <code>ESLBaseElement</code>.
-  when: You need a new <code>&lt;my-element&gt;</code> custom tag with its own DOM lifecycle, attributes, and event handling.
+- file: esl-core.md
+  name: ESL Core
+  description: >-
+    Core consumer guide for <code>@exadel/esl</code>: base classes, decorators,
+    traversing queries, event system, class helpers, and media abstractions.
+  when: >-
+    You need the main mental model for writing or reviewing ESL consumer code in
+    an idiomatic way, including custom tags, mixins, attributes, events, and
+    responsive behavior.
 
-- file: esl-mixin-element.md
-  name: ESLMixinElement
-  description: Creating a custom attribute behavior extending <code>ESLMixinElement</code>.
-  when: You need to attach behavior to existing elements via a custom attribute (e.g. <code>&lt;div my-mixin&gt;</code>) without introducing a new tag.
+- file: esl-review.md
+  name: ESL Review
+  description: >-
+    Review checklist and best practices for ESL consumer code.
+  when: >-
+    You want an AI agent to review ESL-based code for correct host model,
+    imports, lifecycle, decorators, events, traversal, and responsive patterns.
 

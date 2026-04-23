@@ -180,8 +180,8 @@ Each file is independent and can be dropped into any downstream project's AI con
 
 | File | Purpose |
 |---|---|
-| [`skills/esl-base-element.md`](../skills/esl-base-element.md) | Creating a custom HTML tag (`ESLBaseElement`) |
-| [`skills/esl-mixin-element.md`](../skills/esl-mixin-element.md) | Creating a custom attribute behavior (`ESLMixinElement`) |
+| [`skills/esl-core.md`](../skills/esl-core.md) | Core consumer guide for ESL component authoring, decorators, traversal, events, and media utilities |
+| [`skills/esl-review.md`](../skills/esl-review.md) | Review checklist and best practices for ESL consumer code |
 
 For contributors, the full codebase guide is in [`AGENTS.md`](../AGENTS.md) at the repository root.
 

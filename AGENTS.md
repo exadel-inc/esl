@@ -125,7 +125,7 @@ All decorators live in `packages/esl/src/esl-utils/decorators/` and are imported
 | `@bind` | Lazy per-instance method binding (avoids constructor arrow overhead) |
 | `@decorate` | Wrap a method with any HOF (e.g. `debounce`) lazily per instance |
 | `@memoize` | Cache getter/method result; supports custom hash and manual cache clearing |
-| `@ready` | Defer execution until the component reaches its "ready" lifecycle point |
+| `@ready` | Defer execution until the DOM is ready (`DOMContentLoaded`) and the next task |
 | `@safe` | Wrap method/getter with `try/catch`; calls `$$error` on failure |
 
 ---
@@ -137,18 +137,20 @@ The event system (`packages/esl/src/esl-event-listener/`) is a first-class citiz
 ### `@listen` descriptor keys
 
 ```ts
-@listen({
-  event: 'click',                         // one or more space-separated event types
-  target: '::parent',                     // string TraversingQuery, EventTarget, or PropertyProvider
-  selector: 'button.action',              // CSS selector for event delegation (e.$delegate on the event)
-  condition: (that) => that.enabled,      // boolean or PropertyProvider — skip subscription if false
-  once: true,                             // auto-unsubscribe after first call
-  capture: true,                          // use capture phase
-  passive: false,                         // passive by default for wheel/touch events
-  group: 'my-group',                      // logical group for bulk unsubscribe
-  auto: false,                            // false = manual subscription only (default for @listen is true)
-})
-_onClick(e: DelegatedEvent<MouseEvent>) { ... }
+class Example extends ESLBaseElement {
+  @listen({
+    event: 'click',                         // one or more space-separated event types
+    target: '::parent',                     // string TraversingQuery, EventTarget, or PropertyProvider
+    selector: 'button.action',              // CSS selector for event delegation (e.$delegate on the event)
+    condition: (that) => that.enabled,      // boolean or PropertyProvider — skip subscription if false
+    once: true,                             // auto-unsubscribe after first call
+    capture: true,                          // use capture phase
+    passive: false,                         // passive by default for wheel/touch events
+    group: 'my-group',                      // logical group for bulk unsubscribe
+    auto: false,                            // false = manual subscription only (default for @listen is true)
+  })
+  _onClick(e: DelegatedEvent<MouseEvent>) { /* ... */ }
+}
 ```
 
 `target` accepts: a `TraversingQuery` string (`'::parent'`, `'window'`, `'#id::find(.btn)'`), a direct `EventTarget` reference, or any ESL synthetic `EventTarget` (incl. `ESLMediaQuery`). For dynamic values use `PropertyProvider`: `target: (host) => host.$container`.
@@ -171,17 +173,19 @@ ESLEventUtils.unsubscribe(host, {group: 'my-group'});  // by group
 | `ESLIntersectionTarget` | `.for(el, settings?)` | `intersection` | `IntersectionObserver` as `EventTarget`; event implements `IntersectionObserverEntry` |
 
 ```ts
-// throttle window scroll per 250 ms — shared cached instance
-@listen({event: 'scroll', target: ESLDecoratedEventTarget.for(window, throttle, 250)})
-_onScroll() {}
+class Example extends ESLBaseElement {
+  // throttle window scroll per 250 ms — shared cached instance
+  @listen({event: 'scroll', target: ESLDecoratedEventTarget.for(window, throttle, 250)})
+  _onScroll() {}
 
-// react to element resize
-@listen({event: 'resize', target: (host) => ESLResizeObserverTarget.for(host.$container)})
-_onResize() {}
+  // react to element resize
+  @listen({event: 'resize', target: (host) => ESLResizeObserverTarget.for(host.$container)})
+  _onResize() {}
 
-// swipe gesture on host element
-@listen({event: 'swipe', target: (host) => ESLSwipeGestureTarget.for(host)})
-_onSwipe() {}
+  // swipe gesture on host element
+  @listen({event: 'swipe', target: (host) => ESLSwipeGestureTarget.for(host)})
+  _onSwipe() {}
+}
 ```
 
 ---
@@ -192,7 +196,7 @@ These are used **across virtually every component** — learn them to read ESL c
 
 - **`ESLTraversingQuery`** (`esl-traversing-query`) — extended CSS selector engine. Supports `::parent`, `::next`, `::prev`, `#id::find(selector)`, and other relative traversal tokens. Used wherever a component accepts a target selector (e.g. `target`, `container` attributes).
 - **`ESLMediaQuery` + `ESLMediaRuleList`** (`esl-media-query`) — reactive responsive conditions. `ESLMediaRuleList` parses attribute values like `"default | @xs => sm"` into a list of media-conditional rules. Powers breakpoint-aware attributes in most components.
-- **`CSSClassUtils`** (`esl-utils/dom/class`) — CSS class query mini-language that handles `+cls`, `-cls`, `!cls` (toggle) tokens in a single string. Used by `@@cls` shortcut and several attributes.
+- **`CSSClassUtils`** (`esl-utils/dom/class`) — CSS class utility used by `$$cls` and several components. Supports space-separated class tokens, `!cls` inversion in the low-level API, and locker-aware class state management.
 
 ---
 
@@ -218,7 +222,7 @@ class MyPanel extends ESLPanel {
 MyPanel.register();
 ```
 
-See [`skills/esl-base-element.md`](./skills/esl-base-element.md) and [`skills/esl-mixin-element.md`](./skills/esl-mixin-element.md) for full consumer-facing templates.
+See [`skills/esl-core.md`](./skills/esl-core.md) and [`skills/esl-review.md`](./skills/esl-review.md) for consumer-focused AI assistant guidance on ESL usage and review.
 
 ### Event Listeners
 Use the `@listen` decorator (from `esl-event-listener`) instead of manual `addEventListener`; the base class handles subscribe/unsubscribe lifecycle automatically.
@@ -254,18 +258,18 @@ Each file is independent — copy relevant ones into your project's AI config.
 
 | File | When to use |
 |---|---|
-| [`skills/esl-base-element.md`](./skills/esl-base-element.md) | Creating a new custom HTML tag extending `ESLBaseElement` |
-| [`skills/esl-mixin-element.md`](./skills/esl-mixin-element.md) | Creating a custom attribute behavior extending `ESLMixinElement` |
+| [`skills/esl-core.md`](./skills/esl-core.md) | Writing or reviewing ESL consumer code with the main mental model of base classes, decorators, traversal, events, and media APIs |
+| [`skills/esl-review.md`](./skills/esl-review.md) | Reviewing ESL consumer code for host model, imports, lifecycle, decorators, events, and responsive patterns |
 
 ### How to use in your project
 
 Copy relevant files into your AI configuration:
 ```text
 # Cursor
-.cursor/rules/esl-base-element.md
+.cursor/rules/esl-core.md
 
 # Windsurf / other agents using .ai/rules
-.ai/rules/esl-base-element.md
+.ai/rules/esl-core.md
 
 # GitHub Copilot
 .github/copilot-instructions.md  (append content)

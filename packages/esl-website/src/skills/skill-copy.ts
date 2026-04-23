@@ -7,7 +7,7 @@ import {attr, listen} from '@exadel/esl/modules/esl-utils/decorators';
  *
  * @example
  * ```html
- * <button esl-d-skill-copy data-url="/skills/esl-base-element.md">Copy to clipboard</button>
+ * <button esl-d-skill-copy data-url="/skills/esl-core.md">Copy to clipboard</button>
  * ```
  */
 export class ESLDemoSkillCopy extends ESLMixinElement {
