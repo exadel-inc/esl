@@ -1,8 +1,11 @@
 # AGENTS.md — ESL (Exadel Smart Library) Codebase Guide
 
-## Architecture Overview
+This file is the **AI-oriented entry point** for working in the ESL monorepo.
+Keep it short, repo-specific, and focused on decision-making. Detailed ESL usage patterns belong in the skills and docs linked below.
 
-**ESL** is an Nx-managed monorepo of TypeScript + LESS web-component packages:
+## Repository Overview
+
+**ESL** is an Nx-managed monorepo of TypeScript + LESS packages:
 
 | Package | Path | Purpose | Published |
 |---|---|---|---|
@@ -12,281 +15,156 @@
 | `@exadel/stylelint-config-esl` | `packages/stylelint-config` | Shared Stylelint config | ✓ |
 | `esl-website` | `packages/esl-website` | 11ty + webpack demo site | — internal |
 | `esl-website-e2e` | `packages/esl-website-e2e` | Playwright snapshot tests | — internal |
+| `esl-website-monitoring` | `packages/esl-website-monitoring` | Website monitoring scripts/actions | — internal |
 
-### Core Library Component Structure (`packages/esl/src/<component>/`)
-Each component — whether a custom tag (`ESLBaseElement`) or a custom attribute mixin (`ESLMixinElement`) — follows this layout:
-```
+### Core library shape (`packages/esl/src/<component>/`)
+Typical component layout:
+
+```text
 esl-<name>/
-  core.ts          # Public re-export barrel (only file consumers import)
-  core.less        # Component styles (custom tags only)
-  core/            # Implementation files
-    esl-<name>.ts
-    esl-<name>.shape.ts   # Tag/attribute shape (JSX typings)
-  test/            # *.test.ts unit tests
+  core.ts          # only public re-export barrel
+  core.less        # styles for custom tags
+  core/            # implementation
+  test/            # unit tests
 ```
-The `core.ts` barrel is the **only** public entry — never import from `core/` subdirectory directly.
 
-### Inheritance Chain
-Custom tags: `HTMLElement` → `ESLBaseElement` (`esl-base-element`) → `ESLToggleable` → specific components (Panel, Popup, Alert, …)
-
-Custom attribute mixins: `ESLMixinElement` (`esl-mixin-element`) → specific mixins (AnimateMixin, OpenState, …)
-
-Both base classes auto-subscribe decorated `@listen` event listeners on `connectedCallback` and unsubscribe on `disconnectedCallback` via `ESLEventUtils`.
-
-### Build Output
-TypeScript + LESS sources in `src/` compile to `modules/` (gitignored, published). Build runs three parallel sub-tasks: `build:ts`, `build:less`, `build:docs`.
-
----
+Rules:
+- `core.ts` is the only public component entry.
+- Do **not** import from `core/` implementation files as public API.
+- Source code lives in `src/`; published build output goes to `modules/`.
 
 ## Design Philosophy
 
-ESL is a **base library** — every addition is weighed against binary size, runtime cost, and readability. Prefer compact, efficient implementations over clever abstractions; keep code approachable for downstream consumers who will read it.
+ESL is a **base library** — it ships in downstream applications. Each addition is weighed against bundle size, runtime cost, and long-term readability for consumers who will extend and debug it.
 
----
+When making changes, prefer:
 
-## Key Developer Commands
+1. **Composition over inheritance**  
+   `ESLMixinElement` exists because not every behavior warrants a new custom tag. Before adding a new component, ask whether the behavior should be a mixin on an existing element.
+
+2. **Decorators over boilerplate**  
+   Attribute mapping, event subscription, and lifecycle guarding already have first-class primitives such as `@attr`, `@listen`, `@ready`, `@memoize`. Manual `addEventListener`, `removeEventListener`, `getAttribute`, or `setAttribute` inside component code usually means an ESL primitive or utility was missed.
+
+3. **No magic at the call site**  
+   Public API should stay readable without internal knowledge. Helpers like `$$find`, `$$fire`, and `$$cls` are intentionally short but explicit. Avoid abstractions that require reading implementation details to understand usage.
+
+4. **Utilities first**  
+   Check `packages/esl/src/esl-utils/` before writing helpers. The library already contains traversal, class, async, attribute, focus, and event utilities. Duplication inside component code is a bug, not a style preference.
+
+5. **Small, targeted diffs**  
+   Preserve existing public API, file layout, and naming style unless the task explicitly requires broader refactoring.
+
+## AI Editing Rules
+
+Use these rules when modifying this repository:
+
+### 1. Choose the correct host model
+- New custom tag → `ESLBaseElement`
+- Attribute-driven behavior on an existing node → `ESLMixinElement`
+- In mixins, the real DOM host is `this.$host`, not `this`
+
+For details, see [`skills/esl-core.md`](./skills/esl-core.md).
+
+### 2. Prefer ESL primitives over raw DOM code
+Reach for the existing ESL APIs first:
+- decorators: `@attr`, `@boolAttr`, `@jsonAttr`, `@prop`, `@listen`, `@ready`, `@memoize`
+- host shortcuts: `$$find`, `$$findAll`, `$$cls`, `$$attr`, `$$fire`, `$$on`, `$$off`
+- responsive/event utilities: `ESLTraversingQuery`, `ESLMediaQuery`, `ESLMediaRuleList`, `esl-event-listener` targets
+
+If code looks like generic DOM code with an ESL wrapper, ask which ESL primitive should own it instead.
+
+### 3. Respect public boundaries
+- In library source, keep public entrypoints at `core.ts`
+- Prefer named exports
+- Avoid importing repository internals when a public barrel already exists
+- Consumer-facing import patterns are described in [`skills/esl-core.md`](./skills/esl-core.md)
+
+### 4. Preserve registration and lifecycle contracts
+- Set `static is` before `register()`
+- Do **not** mutate `is` on built-in ESL components after registration
+- Preserve `super.connectedCallback()` / `super.disconnectedCallback()`
+- Stable listeners should normally use `@listen`
+
+### 5. Reuse existing event infrastructure
+Prefer ESL event abstractions over manual wiring:
+- `@listen` for stable class-owned listeners
+- `$$on` / `$$off` for dynamic subscriptions
+- existing adapters such as resize, intersection, swipe, wheel, or decorated event targets when applicable
+
+### 6. Follow repo conventions via docs, not duplication
+- Naming rules: [`docs/CODE_CONVENTIONS.md`](./docs/CODE_CONVENTIONS.md)
+- Commit format: [`docs/COMMIT_CONVENTION.md`](./docs/COMMIT_CONVENTION.md)
+- Dev workflow and setup: [`docs/DEVELOPMENT.md`](./docs/DEVELOPMENT.md)
+
+### 7. Prefer existing npm scripts and Nx targets
+- Prefer existing root or package-level `npm run ...` scripts first; they already encode the supported workflow for this repo.
+- If a narrower run is useful, prefer direct Nx targets such as `nx run <project>:<target>` or `nx run-many -t <target>` over ad-hoc commands.
+- Keep commands aligned with the requested scope, but remember this repo uses **Nx task caching**: a broader command is often still acceptable because unchanged targets are restored from cache rather than fully re-executed.
+- In practice, do not avoid `npm run build`, `npm run test`, or other shared scripts only because they look broader; use a narrower Nx command when it makes the intent clearer or avoids unrelated side effects.
+
+### 8. Validate code changes before completion
+- Final code changes should be checked with lint and relevant tests before completion.
+- Prefer the existing repo commands for validation first, such as `npm run lint`, `npm run test`, or the corresponding narrower Nx targets when that better matches the change scope.
+- When adding or changing functionality in `packages/esl`, propose missing unit tests in the nearest component `test/` folder.
+
+## Skills to Use First
+
+The skills were written for ESL consumers, but they are also useful for **internal ESL development** because they describe the same `esl-core` mental model and review criteria.
+
+- [`skills/esl-core.md`](./skills/esl-core.md)  
+  Use for component authoring, decorators, host model, traversal, events, media APIs, and idiomatic ESL patterns.
+
+- [`skills/esl-review.md`](./skills/esl-review.md)  
+  Use for review/refactoring tasks: host correctness, public imports, lifecycle, decorators, events, traversal, responsive logic, and existing utility reuse.
+
+Do not duplicate detailed decorator/event/traversal documentation here; keep this file as a router to the canonical skill/docs content.
+
+## Key Commands
+
+Use the docs for full workflow details. The most common commands are:
 
 ```bash
-npm i                                     # install (Node ≥22, npm ≥11)
-npm run start                             # dev server at :3005 (esl-website)
-npm run build                             # build all packages via Nx
-npm run build --workspace=esl             # build only the core library
-npm run test                              # type-check + vitest (all packages)
-npm run lint                              # ESLint + Stylelint (all packages)
-npm run pack                              # create tarballs → target/*.tgz
-npm run test:e2e                          # Playwright snapshot tests
-npm run test:e2e:update                   # update Playwright snapshots
-```
-> Nx caches task outputs — re-running `build` + `test` before a push is fast if nothing changed.
-
----
-
-## Naming Conventions (enforced by ESLint)
-
-- `_privateMember` — private class fields/methods (including event listeners like `_onSomeEvent`)
-- `__privateState__` — utility/core-internal private state
-- `$domElement` — class property or accessor holding a DOM element
-- `_$element` — private DOM-holding property
-- `UPPER_SNAKE_CASE` — true constants
-- Special notations apply to **class members and global vars only** — not local variables
-
----
-
-## Base Component Types
-
-ESL has **two** base component classes with a nearly identical API:
-
-| | `ESLBaseElement` | `ESLMixinElement` |
-|---|---|---|
-| Concept | Custom tag (`HTMLElement` subclass) | Custom attribute — attaches to an existing host element |
-| Registration | `customElements.define` via `register()` | `ESLMixinRegistry` via own `register()` |
-| Host reference | `this` (the element itself) | `this.$host` (the element the attribute is on) |
-| Lifecycle | standard `connectedCallback` / `disconnectedCallback` | same names, triggered by attribute presence |
-
-Both expose the same **`$$`-shortcut** API for day-to-day use inside component code:
-
-| Shortcut | Delegates to |
-|---|---|
-| `$$on` / `$$off` | `ESLEventUtils.subscribe` / `unsubscribe` |
-| `$$fire` | `ESLEventUtils.dispatch` |
-| `$$cls` | `CSSClassUtils.has` / `toggle` |
-| `$$attr` | `setAttr` helper |
-| `$$find` / `$$findAll` | `ESLTraversingQuery.first` / `all` |
-| `$$error` | default `@safe` error logger |
-
-> **`static is` override is legacy.** Changing a registered component's `is` after `register()` breaks at minimum CSS class binding (base class adds `this.baseTagName` as a CSS class on connect). Don't override `is` on already-registered classes.
-
----
-
-## esl-utils
-
-`packages/esl/src/esl-utils/` is a self-contained toolkit consumed by every component. Check here before writing custom helpers:
-
-- `decorators/` — TS decorators (see below)
-- `dom/` — `attr`, `events` (`ESLEventUtils`), `class` (`CSSClassUtils`), `scroll`, `focus`, …
-- `async/` — `debounced`, `throttled`, `promisified`, `delayed` task helpers
-- `misc/` — format/parse helpers, object utils
-- `environment/` — feature-detection, `ExportNs` decorator for namespace exports
-- `abstract/` — shared interfaces (`ESLBaseComponent`, `ESLDomElementRelated`)
-
----
-
-## TypeScript Decorators
-
-All decorators live in `packages/esl/src/esl-utils/decorators/` and are imported from `@exadel/esl/modules/esl-utils/decorators`:
-
-| Decorator | Purpose |
-|---|---|
-| `@attr` | Map property ↔ HTML / `data-*` attribute (with parsing, serialization, default, inheritance) |
-| `@boolAttr` | Boolean presence attribute (`true` = attribute exists) |
-| `@jsonAttr` | JSON attribute ↔ object mapping |
-| `@prop` | Prototype-level static or provider-backed property; used to redeclare `@attr` in subclasses |
-| `@listen` | Declarative event listener — auto-subscribed on `connectedCallback`, removed on `disconnectedCallback` |
-| `@bind` | Lazy per-instance method binding (avoids constructor arrow overhead) |
-| `@decorate` | Wrap a method with any HOF (e.g. `debounce`) lazily per instance |
-| `@memoize` | Cache getter/method result; supports custom hash and manual cache clearing |
-| `@ready` | Defer execution until the DOM is ready (`DOMContentLoaded`) and the next task |
-| `@safe` | Wrap method/getter with `try/catch`; calls `$$error` on failure |
-
----
-
-## esl-event-listener
-
-The event system (`packages/esl/src/esl-event-listener/`) is a first-class citizen used **everywhere** in the library. It is much more capable than raw DOM `addEventListener`.
-
-### `@listen` descriptor keys
-
-```ts
-class Example extends ESLBaseElement {
-  @listen({
-    event: 'click',                         // one or more space-separated event types
-    target: '::parent',                     // string TraversingQuery, EventTarget, or PropertyProvider
-    selector: 'button.action',              // CSS selector for event delegation (e.$delegate on the event)
-    condition: (that) => that.enabled,      // boolean or PropertyProvider — skip subscription if false
-    once: true,                             // auto-unsubscribe after first call
-    capture: true,                          // use capture phase
-    passive: false,                         // passive by default for wheel/touch events
-    group: 'my-group',                      // logical group for bulk unsubscribe
-    auto: false,                            // false = manual subscription only (default for @listen is true)
-  })
-  _onClick(e: DelegatedEvent<MouseEvent>) { /* ... */ }
-}
+npm i
+npm run start
+npm run build
+npm run test
+npm run lint
 ```
 
-`target` accepts: a `TraversingQuery` string (`'::parent'`, `'window'`, `'#id::find(.btn)'`), a direct `EventTarget` reference, or any ESL synthetic `EventTarget` (incl. `ESLMediaQuery`). For dynamic values use `PropertyProvider`: `target: (host) => host.$container`.
+These root scripts are wrappers around Nx targets and should usually be the default entrypoint for builds, tests, and linting.
 
-Unsubscribing never requires the original callback — use event name, handler reference, or group:
-```ts
-this.$$off('click');                      // by event type
-this.$$off(this._onClick);               // by handler
-ESLEventUtils.unsubscribe(host, {group: 'my-group'});  // by group
+This repo uses **Nx caching**, so broader scoped commands often stay reasonably fast when unaffected targets are restored from cache.
+
+For package-specific or release-related commands, see [`docs/DEVELOPMENT.md`](./docs/DEVELOPMENT.md), `package.json` scripts, and direct Nx targets such as `nx run esl:build` when a narrower command is preferable.
+
+When a narrower scope helps, typical targeted runs include:
+
+```bash
+nx run esl:build
+nx run esl:test
+nx run esl-website:build
+nx run esl-website:start
 ```
-
-### Synthetic EventTarget adapters (built-in)
-
-| Adapter | Factory | Synthetic event | Notes |
-|---|---|---|---|
-| `ESLDecoratedEventTarget` | `.for(target, decorator, ...args)` | same as original | Wraps any target with debounce / throttle; result is **cached** |
-| `ESLResizeObserverTarget` | `.for(el)` | `resize` | `ResizeObserver` as `EventTarget`; singleton per element |
-| `ESLSwipeGestureTarget` | `.for(el, settings?)` | `swipe` | pointer-based swipe detection; `threshold`, `timeout` settings |
-| `ESLWheelTarget` | `.for(el, settings?)` | `longwheel` | inertial / long wheel detection; `distance`, `timeout` settings |
-| `ESLIntersectionTarget` | `.for(el, settings?)` | `intersection` | `IntersectionObserver` as `EventTarget`; event implements `IntersectionObserverEntry` |
-
-```ts
-class Example extends ESLBaseElement {
-  // throttle window scroll per 250 ms — shared cached instance
-  @listen({event: 'scroll', target: ESLDecoratedEventTarget.for(window, throttle, 250)})
-  _onScroll() {}
-
-  // react to element resize
-  @listen({event: 'resize', target: (host) => ESLResizeObserverTarget.for(host.$container)})
-  _onResize() {}
-
-  // swipe gesture on host element
-  @listen({event: 'swipe', target: (host) => ESLSwipeGestureTarget.for(host)})
-  _onSwipe() {}
-}
-```
-
----
-
-## Universal Syntactic Utilities
-
-These are used **across virtually every component** — learn them to read ESL component code fluently:
-
-- **`ESLTraversingQuery`** (`esl-traversing-query`) — extended CSS selector engine. Supports `::parent`, `::next`, `::prev`, `#id::find(selector)`, and other relative traversal tokens. Used wherever a component accepts a target selector (e.g. `target`, `container` attributes).
-- **`ESLMediaQuery` + `ESLMediaRuleList`** (`esl-media-query`) — reactive responsive conditions. `ESLMediaRuleList` parses attribute values like `"default | @xs => sm"` into a list of media-conditional rules. Powers breakpoint-aware attributes in most components.
-- **`CSSClassUtils`** (`esl-utils/dom/class`) — CSS class utility used by `$$cls` and several components. Supports space-separated class tokens, `!cls` inversion in the low-level API, and locker-aware class state management.
-
----
-
-## Code Patterns
-
-### Component Registration
-Every `ESLBaseElement` / `ESLMixinElement` subclass declares a `static is` (tag or attribute name) and calls `register()`. `is` must be set **before** `register()` is called — either inside the class body (preferred) or as an assignment immediately before the call:
-
-```ts
-export class MyElement extends ESLBaseElement {
-  static override is = 'my-element';
-  // ...
-}
-MyElement.register();
-```
-
-**Do not mutate `is` on ESL's own built-in components** (`ESLPanel`, `ESLToggleable`, `ESLLineClamp`, etc.) — they carry their own styles and internal expectations tied to their tag name. If you need a customised variant, subclass it and give the subclass its own `is`:
-
-```ts
-class MyPanel extends ESLPanel {
-  static override is = 'my-panel'; // owns its own styles; won't pollute the global ESLPanel
-}
-MyPanel.register();
-```
-
-See [`skills/esl-core.md`](./skills/esl-core.md) and [`skills/esl-review.md`](./skills/esl-review.md) for consumer-focused AI assistant guidance on ESL usage and review.
-
-### Event Listeners
-Use the `@listen` decorator (from `esl-event-listener`) instead of manual `addEventListener`; the base class handles subscribe/unsubscribe lifecycle automatically.
-
-### Imports
-Prefer **named exports**; default exports are avoided. ESL is tree-shakable — consumers import individual `core.ts` barrels, not `all.ts`.
-
----
-
-## Commit Convention (commitlint enforced)
-
-Format: `<type>(<scope>): <subject>` — subject in imperative, lowercase, no trailing dot.
-
-Types: `feat`, `fix`, `refactor`, `test`, `docs`, `chore`, `revert`, `style`, `ci`, `perf`  
-Breaking change: append `!` to type → `feat!(esl-panel): …`
-
----
-
-## Website & Templates
-
-- Demo site uses **11ty** (Eleventy) + **Nunjucks** (`.njk`) templates in `packages/esl-website/views/`.
-- 11ty plugins: any `*.js` in `packages/esl-website/11ty/` is auto-loaded; files prefixed `_*.js` are skipped.
-- Scripts/styles for the site are bundled via **webpack** (`packages/esl-website/webpack.config.js`).
-
----
-
-## AI Skills for ESL Consumers
-
-Self-contained skill files for projects that **use** `@exadel/esl` (not develop it).
-Each file is independent — copy relevant ones into your project's AI config.
-
-### Available skills (`skills/`)
-
-| File | When to use |
-|---|---|
-| [`skills/esl-core.md`](./skills/esl-core.md) | Writing or reviewing ESL consumer code with the main mental model of base classes, decorators, traversal, events, and media APIs |
-| [`skills/esl-review.md`](./skills/esl-review.md) | Reviewing ESL consumer code for host model, imports, lifecycle, decorators, events, and responsive patterns |
-
-### How to use in your project
-
-Copy relevant files into your AI configuration:
-```text
-# Cursor
-.cursor/rules/esl-core.md
-
-# Windsurf / other agents using .ai/rules
-.ai/rules/esl-core.md
-
-# GitHub Copilot
-.github/copilot-instructions.md  (append content)
-
-# Any agent supporting AGENTS.md
-AGENTS.md  (append or reference)
-```
-
----
 
 ## Key Reference Files
 
-- `packages/esl/src/esl-base-element/core/esl-base-element.ts` — root base class
-- `packages/esl/src/esl-event-listener/` — event listener decorator system
-- `packages/esl/src/esl-utils/` — shared DOM, async, and decorator utilities
-- `packages/esl/src/esl-toggleable/` — toggleable base for Panel, Popup, Alert
+- `packages/esl/src/esl-base-element/core/esl-base-element.ts` — root custom-element base class
+- `packages/esl/src/esl-mixin-element/` — mixin base model and host-driven behavior
+- `packages/esl/src/esl-event-listener/` — event listener system and adapters
+- `packages/esl/src/esl-utils/` — decorators, DOM helpers, async helpers, misc utilities
+- `packages/esl/src/esl-toggleable/` — toggleable base for Panel, Popup, Alert, and related components
 - `packages/esl/src/all.ts` / `all.less` — full library bundle entry points
-- `docs/CODE_CONVENTIONS.md` — naming rules
-- `docs/COMMIT_CONVENTION.md` — commit message rules
-- `docs/DEVELOPMENT.md` — full dev setup guide
+- `docs/DEVELOPMENT.md` — environment setup and workflows
+- `docs/CODE_CONVENTIONS.md` — naming and style conventions
+- `docs/COMMIT_CONVENTION.md` — commit message format
+
+## Quick Decision Checklist for AI
+
+Before changing code, verify:
+- Is this repo-specific guidance, or should details live in a skill/doc instead?
+- Am I using the correct host model (`ESLBaseElement` vs `ESLMixinElement`)?
+- Am I reusing existing ESL decorators/utilities/event adapters?
+- Am I preserving public entrypoints and lifecycle contracts?
+- Have I validated the final change with lint and relevant tests?
+- If I changed `packages/esl` functionality, should I add or propose missing unit tests?
+- Is the diff as small and readable as possible?
