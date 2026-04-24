@@ -1,0 +1,10 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "esl-website-monitoring",
+  "targets": {
+    "lint": {
+      "executor": "nx:noop",
+      "dependsOn": ["lint:eslint"]
+    }
+  }
+}
