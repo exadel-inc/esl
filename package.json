@@ -52,6 +52,11 @@
     "nx": "22.6.5",
     "semver": "^7.7.4"
   },
+  "overrides": {
+    "nx": {
+      "axios": "1.15.2"
+    }
+  },
   "devDependencies": {
     "@commitlint/cli": "^20.5.0",
     "@commitlint/config-conventional": "^20.5.0",
