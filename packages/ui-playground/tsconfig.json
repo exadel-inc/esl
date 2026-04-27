@@ -2,6 +2,7 @@
   "compilerOptions": {
     "declaration": true,
     "skipLibCheck": true,
+    "strictPropertyInitialization": false,
     "experimentalDecorators": true,
     "allowJs": true,
     "alwaysStrict": true,

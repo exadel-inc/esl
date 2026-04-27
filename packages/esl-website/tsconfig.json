@@ -3,6 +3,7 @@
     "rootDir": "src",
     "declaration": true,
     "skipLibCheck": true,
+    "strictPropertyInitialization": false,
     "experimentalDecorators": true,
     "alwaysStrict": true,
     "strictNullChecks": true,

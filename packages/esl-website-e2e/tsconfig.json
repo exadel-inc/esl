@@ -4,6 +4,7 @@
     "allowJs": true,
     "strict": true,
     "strictNullChecks": true,
+    "strictPropertyInitialization": false,
     "noImplicitAny": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
