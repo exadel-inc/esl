@@ -1,3 +1,15 @@
+## 6.0.0-beta.8 (2026-04-27)
+
+### 🩹 Fixes
+
+- ⚠️  **esl-toggleable:** fix ESLToggleableManager interface ([910b5fc2c](https://github.com/exadel-inc/esl/commit/910b5fc2c))
+
+### ⚠️  Breaking Changes
+
+- **esl-toggleable:** fix ESLToggleableManager interface  ([910b5fc2c](https://github.com/exadel-inc/esl/commit/910b5fc2c))
+  `ESLToggleableManager` instance renamed to `ESLToggleableManagerDefault`
+  Co-authored-by: alesun <alesun@exadel.com>
+
 ## 6.0.0-beta.7 (2026-04-21)
 
 ### 🩹 Fixes
