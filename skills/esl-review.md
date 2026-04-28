@@ -275,6 +275,3 @@ Most of the time the answer is one of:
 - `$$cls` / `$$attr`
 - `ESLMediaQuery` / `ESLMediaRuleList`
 - an existing `esl-event-listener` target adapter
-
-
-
