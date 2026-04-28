@@ -1,3 +1,37 @@
+# 6.0.0 (2026-04-28)
+
+### 🚀 Features
+
+- **ui-playground:** public release 6.0.0 for `@exadel/ui-playground` ([d58239631](https://github.com/exadel-inc/esl/commit/d58239631))
+- **site:** add new skills page with copy-to-clipboard functionality ([71be30cbc](https://github.com/exadel-inc/esl/commit/71be30cbc))
+- **esl-anchornav:** add abstract data support for anchor info ([e1ddf7518](https://github.com/exadel-inc/esl/commit/e1ddf7518))
+- **esl-anchornav:** add out of the box support for nested navfix default styles ([a287ad803](https://github.com/exadel-inc/esl/commit/a287ad803))
+- **e2e:** legacy `snapshot-tests` module removed in flavor of new `esl-website-e2e` playwright based module ([58dbb5760](https://github.com/exadel-inc/esl/commit/58dbb5760))
+- **e2e:** initial reimplementation of e2e tests on playwright - new module @exadel/esl-website-e2e created ([f7f39dacc](https://github.com/exadel-inc/esl/commit/f7f39dacc))
+- **stylelint-config:** @exadel/stylelint-config-esl migrated to stylelint@17 ([b9864f39a](https://github.com/exadel-inc/esl/commit/b9864f39a))
+- **esl-incremental-scroll:** add incremental scroll utility ([ccd318697](https://github.com/exadel-inc/esl/commit/ccd318697))
+
+### 💅 Refactors
+
+- **site:** fix page rendering and copilot notes ([567f2d382](https://github.com/exadel-inc/esl/commit/567f2d382))
+- **esl-image:** officially deprecate `ESLImage` ([4555b6d71](https://github.com/exadel-inc/esl/commit/4555b6d71))
+- simplify internal ESL code using ootb find api ([b25c545fc](https://github.com/exadel-inc/esl/commit/b25c545fc))
+- **e2e:** add basic summary reporter based on previous implementation by alesun <alesun@exadel.com> ([65fabc7cb](https://github.com/exadel-inc/esl/commit/65fabc7cb))
+
+### Documentation updates
+
+- small update in contributor table ([89fd070d4](https://github.com/exadel-inc/esl/commit/89fd070d4))
+- update AGENTS.md with more direct instruction to investigate existing code ([94bc9e1e9](https://github.com/exadel-inc/esl/commit/94bc9e1e9))
+- **site:** undraft release 6.0.0 notes ([17e0de259](https://github.com/exadel-inc/esl/commit/17e0de259))
+- mark skills page draft for now ([aa9f8b2df](https://github.com/exadel-inc/esl/commit/aa9f8b2df))
+- rework and optimize AGENTS.md file ([740f4834c](https://github.com/exadel-inc/esl/commit/740f4834c))
+- rework basic skills ([6f660c9e3](https://github.com/exadel-inc/esl/commit/6f660c9e3))
+- overall updates in AGENTS.md and skills site page ([210a73660](https://github.com/exadel-inc/esl/commit/210a73660))
+- add AI skills documentation and skills for base custom tag and attribute ([00778fdbc](https://github.com/exadel-inc/esl/commit/00778fdbc))
+- add AGENTS.md for ESL codebase guide ([b7348c46b](https://github.com/exadel-inc/esl/commit/b7348c46b))
+- **esl-line-clamp:** provide examples for `ESLLineClampAlt` and `ESLLineClampToggler` ([09b1aa5f7](https://github.com/exadel-inc/esl/commit/09b1aa5f7))
+- **site:** update ui-playground introduction doc ([a3d49b5cc](https://github.com/exadel-inc/esl/commit/a3d49b5cc))
+
 ## 6.0.0-beta.8 (2026-04-27)
 
 This was a version bump only for esl-website to align it with other projects, there were no code changes.

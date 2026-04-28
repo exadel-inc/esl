@@ -1,3 +1,48 @@
+# 6.0.0 (2026-04-28)
+
+### 🚀 Features
+
+- **ui-playground:** public release 6.0.0 for `@exadel/ui-playground` ([d58239631](https://github.com/exadel-inc/esl/commit/d58239631))
+- **site:** add new skills page with copy-to-clipboard functionality ([71be30cbc](https://github.com/exadel-inc/esl/commit/71be30cbc))
+- **e2e:** legacy `snapshot-tests` module removed in flavor of new `esl-website-e2e` playwright based module ([58dbb5760](https://github.com/exadel-inc/esl/commit/58dbb5760))
+- **e2e:** initial reimplementation of e2e tests on playwright - new module @exadel/esl-website-e2e created ([f7f39dacc](https://github.com/exadel-inc/esl/commit/f7f39dacc))
+- **stylelint-config:** @exadel/stylelint-config-esl migrated to stylelint@17 ([b9864f39a](https://github.com/exadel-inc/esl/commit/b9864f39a))
+- **esl-incremental-scroll:** add incremental scroll utility ([ccd318697](https://github.com/exadel-inc/esl/commit/ccd318697))
+- ⚠️  **eslint-config:** has embedded support of esl/custom linting ([452669ada](https://github.com/exadel-inc/esl/commit/452669ada))
+
+### 💅 Refactors
+
+- **e2e:** add basic summary reporter based on previous implementation by alesun <alesun@exadel.com> ([65fabc7cb](https://github.com/exadel-inc/esl/commit/65fabc7cb))
+- ⚠️  remove deprecated properties and methods across ESL ([e36e19f56](https://github.com/exadel-inc/esl/commit/e36e19f56))
+
+### Documentation updates
+
+- small update in contributor table ([89fd070d4](https://github.com/exadel-inc/esl/commit/89fd070d4))
+- update AGENTS.md with more direct instruction to investigate existing code ([94bc9e1e9](https://github.com/exadel-inc/esl/commit/94bc9e1e9))
+- rework and optimize AGENTS.md file ([740f4834c](https://github.com/exadel-inc/esl/commit/740f4834c))
+- rework basic skills ([6f660c9e3](https://github.com/exadel-inc/esl/commit/6f660c9e3))
+- overall updates in AGENTS.md and skills site page ([210a73660](https://github.com/exadel-inc/esl/commit/210a73660))
+- add AI skills documentation and skills for base custom tag and attribute ([00778fdbc](https://github.com/exadel-inc/esl/commit/00778fdbc))
+- add AGENTS.md for ESL codebase guide ([b7348c46b](https://github.com/exadel-inc/esl/commit/b7348c46b))
+
+### ⚠️  Breaking Changes
+
+- **eslint-config:** has embedded support of esl/custom linting  ([452669ada](https://github.com/exadel-inc/esl/commit/452669ada))
+  the `@exadel/eslint-plugin-esl` no longer required and out of support, use `@exadel/eslint-config-esl` capabilities instead
+  Fixmsg commit for cfdb9d699b84ff546f494c252b826f761a178103
+- remove deprecated properties and methods across ESL  ([e36e19f56](https://github.com/exadel-inc/esl/commit/e36e19f56))
+  `ESLAlert.defaultConfig` removed (use `ESLAlert.DEFAULT_PARAMS` instead)
+  BREAKING CHANGE: `ESLIntersectionEvent.type`, `ESLElementResizeEvent.type`, `ESLSwipeGestureEvent.type` and `ESLWheelEvent.type` removed
+  BREAKING CHANGE: `ESLEventUtils.getAutoDescriptors` removed (use `ESLEventUtils.descriptors(host, {auto: true})` instead)
+  BREAKING CHANGE: `ESLEnvShortcuts` alias for `ESLMediaShortcuts` removed
+  BREAKING CHANGE: `ESLMediaShortcuts.add` and `ESLMediaShortcuts.set` removed (use `ESLMediaShortcuts.set` instead)
+  BREAKING CHANGE: `PromiseUtils` removed, use individual methods instead
+  BREAKING CHANGE: `RTLScroll`, `ScrollType`, `testRTLScrollType` removed (IE, Edge < 14 are no longer in support list)
+  BREAKING CHANGE: `isBot` check removed (no longer works)
+  BREAKING CHANGE: `DeviceDetector` removed, use individual checks instead
+  BREAKING CHANGE: `flat` removed, use ootb `Array.prototype.flat`
+  BREAKING CHANGE: `UID`, `ArrayUtils`, `ObjectUtils`, `FormatUtils`, `FunctionUtils` removed, use individual methods of the modules
+
 ## 6.0.0-beta.8 (2026-04-27)
 
 This was a version bump only for eslint-config to align it with other projects, there were no code changes.
