@@ -1,4 +1,5 @@
 {% from 'navigation/sidebar-item.njk' import navItem with context %}
+{% from 'navigation/sidebar-single-item.njk' import navSingleItem with context %}
 
 <esl-d-sidebar id="sidebar" class="open" aria-label="Site Navigation">
   <nav class="sidebar-nav">
@@ -25,12 +26,18 @@
         </li>
 
         {% for item in collections.nav | releasedOrActive(page.url) | sortBy('order') %}
-          {% set isNoEmpty = collections[item.data.collection] | releasedOrActive(page.url) | exclude('data.collection') | length %}
-          {% set isActive = env.isDev or functions.isActivePath(page.url, item.data.collection) %}
+          {% set hasCollection = item.data.collection %}
+          {% set hasItems = hasCollection and (collections[item.data.collection] | releasedOrActive(page.url) | exclude('data.collection') | length) %}
+          {% set isSectionActive = hasCollection and functions.isActivePath(page.url, item.data.collection) %}
+          {% set shouldRender = (hasItems or env.isDev or isSectionActive) if hasCollection else true %}
 
-          {% if isNoEmpty or isActive or item.data.leaf %}
+          {% if shouldRender %}
             {% if item.data.groupStart %} <hr class="sidebar-hr"/> {% endif %}
-            {{ navItem(item.data.title, item.data.collection, item.data.icon, {leaf: item.data.leaf}) }}
+            {% if hasCollection %}
+              {{ navItem(item.data.title, item.data.collection, item.data.icon) }}
+            {% else %}
+              {{ navSingleItem(item) }}
+            {% endif %}
           {% endif %}
         {% endfor %}
 
