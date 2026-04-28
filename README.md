@@ -129,25 +129,29 @@ People who contributed to the ESL project
     <a href="https://github.com/Natalie-Smirnova">
         <img src="https://github.com/Natalie-Smirnova.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
         Natalie Smirnova
-    </a>
+    </a><br/>
+    Developer
 </td>
 <td align="center" valign="top" width="20%">
     <a href="https://github.com/grechihinrhp">
         <img src="https://github.com/grechihinrhp.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
         Ruslan Grechihin
-    </a>
+    </a><br/>
+    Developer
 </td>
 <td align="center" valign="top" width="20%">
     <a href="https://github.com/HenadzV">
         <img src="https://github.com/HenadzV.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
         Henadz Varany
-    </a>
+    </a><br/>
+    Developer
 </td>
 <td align="center" valign="top" width="20%">
     <a href="https://github.com/AlexanderBazukevich">
         <img src="https://github.com/AlexanderBazukevich.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
         Alexander Bazukevich
-    </a>
+    </a><br/>
+    Developer
 </td>
 </tr><tr>
 <td align="center" valign="top" width="20%">
