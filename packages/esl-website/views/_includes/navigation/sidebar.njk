@@ -1,4 +1,5 @@
 {% from 'navigation/sidebar-item.njk' import navItem with context %}
+{% from 'navigation/sidebar-single-item.njk' import navSingleItem with context %}
 
 <esl-d-sidebar id="sidebar" class="open" aria-label="Site Navigation">
   <nav class="sidebar-nav">
@@ -11,26 +12,20 @@
       <esl-scrollbar class="sidebar-scrollbar" target="::next"></esl-scrollbar>
 
       <ul class="sidebar-nav-list esl-scrollable-content">
-        <li class="sidebar-nav-item">
-          <div class="sidebar-nav-item-heading {{ 'active' if functions.isActivePath(page.url, 'search') }}">
-            <a class="sidebar-nav-item-heading-inner"
-               href="{{ '/search.html' | url }}"
-               aria-label="Site search">
-              <span class="sidebar-nav-item-link icon-link" aria-hidden='true'>
-                {% include 'static/assets/sidebar/search.svg' %}
-              </span>
-              <span class="sidebar-nav-item-trigger">Search</span>
-            </a>
-          </div>
-        </li>
 
-        {% for item in collections.nav | sortBy('order') %}
-          {% set isNoEmpty = collections[item.data.collection] | releasedOrActive(page.url) | exclude('data.collection') | length %}
-          {% set isActive = env.isDev or functions.isActivePath(page.url, item.data.collection) %}
+        {% for item in collections.nav | releasedOrActive(page.url) | sortBy('order') %}
+          {% set hasCollection = item.data.collection %}
+          {% set hasItems = hasCollection and (collections[item.data.collection] | releasedOrActive(page.url) | exclude('data.collection') | length) %}
+          {% set isSectionActive = hasCollection and functions.isActivePath(page.url, item.data.collection) %}
+          {% set shouldRender = (hasItems or env.isDev or isSectionActive) if hasCollection else true %}
 
-          {% if isNoEmpty or isActive %}
+          {% if shouldRender %}
             {% if item.data.groupStart %} <hr class="sidebar-hr"/> {% endif %}
-            {{ navItem (item.data.title, item.data.collection, item.data.icon) }}
+            {% if hasCollection %}
+              {{ navItem(item.data.title, item.data.collection, item.data.icon) }}
+            {% else %}
+              {{ navSingleItem(item) }}
+            {% endif %}
           {% endif %}
         {% endfor %}
 

@@ -23,7 +23,8 @@ export default async (config) => {
   config.addPassthroughCopy({
     '../../docs/images': 'assets/docs-images',
     'static/assets': 'assets',
-    'static/tools': '.'
+    'static/tools': '.',
+    '../../skills': 'skills'
   });
 
   config.setServerOptions({

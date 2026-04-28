@@ -5,6 +5,9 @@ export default (config) => {
   // Observing the common files for the documentation
   config.addWatchTarget('../../docs/**/*.md');
 
+  // Observing skill files for AI agents
+  config.addWatchTarget('../../skills/**/*.md');
+
   // Observe projects README files
   config.addWatchTarget('../../packages/*/README.md');
 

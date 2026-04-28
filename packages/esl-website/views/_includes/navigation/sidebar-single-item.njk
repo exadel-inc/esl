@@ -1,0 +1,16 @@
+{% macro navSingleItem(item) %}
+  {% set isActive = functions.isActivePath(page.url, item.url) %}
+
+  <li class="sidebar-nav-item">
+    <div class="sidebar-nav-item-heading {{ 'active' if isActive }}">
+      <a class="sidebar-nav-item-heading-inner" href="{{ item.url | url }}" aria-label="{{ item.data.title }}"
+         {% if isActive %}aria-current="page"{% endif %}>
+        <span class="sidebar-nav-item-link icon-link" aria-hidden="true">
+          {% include "static/assets/" + item.data.icon %}
+        </span>
+        <span class="sidebar-nav-item-trigger">{{ item.data.title }}</span>
+      </a>
+    </div>
+  </li>
+{% endmacro %}
+
