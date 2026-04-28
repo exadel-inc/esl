@@ -7,6 +7,7 @@ ESLAnchornav.setRenderer((data: ESLAnchorData, index: number): Element => {
   a.href = `#${data.id}`;
   a.className = 'esl-anchornav-item';
   a.dataset.index = `${index + 1}`;
+  a.setAttribute('esl-d-anchor', '');
   a.textContent = data.title;
   return a;
 });
@@ -18,6 +19,7 @@ ESLAnchornav.setRenderer('tree', (data, index, nav) => {
   link.href = `#${data.id}`;
   link.textContent = data.title;
   link.className = 'anchornav-link';
+  link.setAttribute('esl-d-anchor', '');
   item.appendChild(link);
 
   if (data.children && data.children.length > 0) {
