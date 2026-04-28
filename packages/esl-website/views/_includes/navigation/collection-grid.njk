@@ -2,7 +2,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap" rel="stylesheet">
 
   <ul class="collection-grid unstyled-list {{ 'collection-grid-column' if options.isList }} {{ options.classes or ''}}">
-    {% for item in collections[collection] | released | exclude('data.hidden') | filter('data.parent', [title, undefined]) | sortBy('order', 'name') %}
+    {%- set sortFields = options.sortBy or ['order', 'name'] -%}
+    {%- set sortedItems = collections[collection] | released | exclude('data.hidden') | filter('data.parent', [title, undefined]) | sortBy(sortFields) -%}
+    {%- if options.reverse -%}
+      {%- set sortedItems = sortedItems | reverse -%}
+    {%- endif -%}
+    {% for item in sortedItems %}
       {% set badgeAllowed = not options.noBadge %}
       {% set isDraft = badgeAllowed and [].concat(item.data.tags).includes('draft') %}
       {% set isNew = badgeAllowed and [].concat(item.data.tags).includes('new') %}

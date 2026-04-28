@@ -31,26 +31,41 @@
                {% if isPrimaryActive %}data-open{% endif %}
                group="esl-nav"
                fallback-duration="400">
-      {{ linkList(items, isDevCollection) }}
+      {{ linkList(items, isDevCollection, opt) }}
     </esl-panel>
   </li>
   {% endif %}
 {% endmacro %}
 
-{% macro linkList(items, isDevCollection) %}
+{% macro linkList(items, isDevCollection, opt = {}) %}
   <ul class="sidebar-nav-secondary-list">
     <esl-a11y-group targets="::child(li)::find(.sidebar-nav-secondary-link)"></esl-a11y-group>
-    {% for item in items | sortBy('order', 'name') %}
+    {%- set sortFields = opt.sortBy or ['order', 'name'] -%}
+    {%- set sortedItems = items | sortBy(sortFields) -%}
+    {%- if opt.reverse -%}{%- set sortedItems = sortedItems | reverse -%}{%- endif -%}
+
+    {# Process items: separate list page and apply truncation #}
+    {%- set processed = sortedItems | processNavItems(opt, page.url) -%}
+    {%- set mainItems = processed.mainItems -%}
+    {%- set listPageItem = processed.listPageItem -%}
+
+    {# Render main items #}
+    {% for item in mainItems %}
       {% if item.children.length %}
-        {{ subnavItem(item, isDevCollection) }}
+        {{ subnavItem(item, isDevCollection, opt) }}
       {% else %}
         {{ link(item, isDevCollection) }}
       {% endif %}
     {% endfor %}
+
+    {# Render the list page link at the end if enabled #}
+    {% if listPageItem %}
+      {{ link(listPageItem, isDevCollection, listPageItem.data.name) }}
+    {% endif %}
   </ul>
 {% endmacro %}
 
-{% macro subnavItem(item, isDevCollection) %}
+{% macro subnavItem(item, isDevCollection, opt = {}) %}
   {% set isActive = page.url === item.url %}
   {% set hasActive = functions.isActivePath(page.url, item.url) %}
   {% set isDraft = [].concat(item.data.tags).includes('draft') %}
@@ -75,14 +90,15 @@
     <esl-panel class="sidebar-nav-secondary {{ 'open' if hasActive }}"
                {% if hasActive %}data-open{% endif %}
                fallback-duration="400">
-      {{ linkList(item.children, isDevCollection) }}
+      {{ linkList(item.children, isDevCollection, opt) }}
     </esl-panel>
   </li>
 {% endmacro %}
 
-{% macro link(item, isDevCollection) %}
+{% macro link(item, isDevCollection, displayName = null) %}
   {% set isActive = page.url === item.url %}
   {% set isDraft = [].concat(item.data.tags).includes('draft') %}
+  {% set itemName = displayName or item.data.name %}
 
   <li class="sidebar-nav-secondary-item {{ 'active' if isActive }}"
       {% if isActive %}aria-selected="true"{% endif %}>
@@ -90,7 +106,7 @@
        {% if isActive %}aria-current="page"{% endif %} {% if isDraft or isDevCollection %}rel="nofollow"{% endif %}
        href="{{ item.url | url }}">
       {{ badgeByTags(item.data.tags, isDraftCollection) }}
-      {{ item.data.name }}
+      {{ itemName }}
     </a>
   </li>
 {% endmacro %}
