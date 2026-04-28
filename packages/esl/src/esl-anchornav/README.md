@@ -22,6 +22,8 @@ If for some reason you do not add an element with this attribute to the componen
 
 You can assign anchors to any element on the page. By default, the component searches for elements with the `esl-anchor` attribute (i.e. selector `[esl-anchor]`). Another mandatory requirement for an element is that it must have `id` and `title` attributes (the `title` is the text to be displayed in the list).
 
+If you need custom validation or filtering of collected anchors, override the protected `getDataFrom()` method. It may return `undefined` to skip an anchor that does not match your custom contract.
+
 ### Items renderer
 
 For all collected anchors it is used renderer function which builds the inner content of the anchors list. Here is a default renderer:

@@ -164,7 +164,9 @@ export class ESLAnchornav extends ESLBaseElement {
    * Use this method when the set/order of anchors may have changed.
    */
   public update(): void {
-    const flatAnchors = this.findAnchors().map(($el, i) => this.getDataFrom($el, i));
+    const flatAnchors = this.findAnchors()
+      .map(($el, i) => this.getDataFrom($el, i))
+      .filter((item): item is ESLAnchorData => !!(item && item.id && item.title));
     flatAnchors.unshift(...this.anchorsToPrepend);
     flatAnchors.push(...this.anchorsToAppend);
 
@@ -215,8 +217,11 @@ export class ESLAnchornav extends ESLBaseElement {
     return item;
   }
 
-  /** Gets anchor data from the anchor element */
-  protected getDataFrom($anchor: HTMLElement, index: number): ESLAnchorData {
+  /**
+   * Gets anchor data from the anchor element
+   * If resolved data is missing required fields (e.g., id), the anchor will be ignored.
+   */
+  protected getDataFrom($anchor: HTMLElement, index: number): ESLAnchorData | undefined {
     return {
       id: $anchor.id,
       title: $anchor.title,
