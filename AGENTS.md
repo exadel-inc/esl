@@ -49,7 +49,7 @@ When making changes, prefer:
    Public API should stay readable without internal knowledge. Helpers like `$$find`, `$$fire`, and `$$cls` are intentionally short but explicit. Avoid abstractions that require reading implementation details to understand usage.
 
 4. **Utilities first**  
-   Check `packages/esl/src/esl-utils/` before writing helpers. The library already contains traversal, class, async, attribute, focus, and event utilities. Duplication inside component code is a bug, not a style preference.
+   Check `packages/esl/src/esl-utils/` before writing helpers. The library already contains traversal, class, async, attribute, focus, and event utilities. Duplication inside component code is a bug, not a style preference. Before implementing any DOM, Async, or Array helper, you must list the contents of esl-utils to check for an existing solution.
 
 5. **Small, targeted diffs**  
    Preserve existing public API, file layout, and naming style unless the task explicitly requires broader refactoring.
