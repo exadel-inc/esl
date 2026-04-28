@@ -2,7 +2,7 @@
 layout: content
 name: ESL v6.0.0
 title: ⚡ ESL v6.0.0 is out! ⚡
-tags: [news, blogs, draft]
+tags: [news, blogs]
 date: 2026-04-27
 order: 11
 link: https://github.com/exadel-inc/esl/releases/tag/v6.0.0

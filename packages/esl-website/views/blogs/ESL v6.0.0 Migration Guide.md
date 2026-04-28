@@ -2,7 +2,7 @@
 layout: content
 name: ESL v6.0.0 Overview & Migration Guide
 title: ESL v6.0.0 Overview & Migration Guide
-tags: [blogs, draft]
+tags: [blogs]
 order: 11
 date: 2026-04-27
 ---
