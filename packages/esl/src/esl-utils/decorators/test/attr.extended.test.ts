@@ -1,11 +1,11 @@
 import {attr} from '../attr';
 import {setAttr} from '../../dom/attr';
-import {parseBoolean, toBooleanAttribute} from '../../misc/format';
+import {parseBoolean, parseFloatNumber, toBooleanAttribute} from '../../misc/format';
 
 describe('Decorator: attr', () => {
   describe('Decorator: attr - number parser', () => {
     class TestElement extends HTMLElement {
-      @attr({parser: parseFloat})
+      @attr({parser: parseFloatNumber})
       public attrNumber: number;
     }
     customElements.define('test-el-attr-ext-1', TestElement);

@@ -1,4 +1,4 @@
-import {parseBoolean, parseNumber, parseString} from '../basic';
+import {parseBoolean, parseFloatNumber, parseInteger, parseNumber, parseString} from '../basic';
 
 describe('misc/format - basic formatters test', () => {
   describe('parseString', () => {
@@ -44,6 +44,32 @@ describe('misc/format - basic formatters test', () => {
     ])(
       'args = %o, result: %o',
       (args, exp) => expect(parseNumber.apply(null, args)).toBe(exp)
+    );
+  });
+
+  describe('parseFloatNumber', () => {
+    test.each([
+      [null, NaN],
+      ['', NaN],
+      ['1.5', 1.5],
+      [' 2.25 ', 2.25],
+      ['10px', 10]
+    ])(
+      'args = %o, result: %o',
+      (arg, exp) => expect(parseFloatNumber.call(null, arg)).toBe(exp)
+    );
+  });
+
+  describe('parseInteger', () => {
+    test.each([
+      [null, NaN],
+      ['', NaN],
+      ['10', 10],
+      [' 15 ', 15],
+      ['10px', 10]
+    ])(
+      'args = %o, result: %o',
+      (arg, exp) => expect(parseInteger.call(null, arg)).toBe(exp)
     );
   });
 });

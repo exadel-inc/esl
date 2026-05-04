@@ -93,6 +93,10 @@ class TestClass {
   @listen({event: 'change', target: ESLMediaQuery.for('@+MD')})
   onMediaQueryChange(e: ESLMediaChangeEvent) {}
 
+  // Media query provider target should preserve the specific ESLMediaChangeEvent type
+  @listen({event: 'change', target: (that: TestClass) => ESLMediaQuery.for('@+MD')})
+  onMediaQueryChangeFromProvider(e: ESLMediaChangeEvent) {}
+
   // Resize observer target event accepts a more generic UIEvent argument type
   @listen({event: 'resize', target: ESLResizeObserverTarget.for})
   onResizeGeneric(e: UIEvent) {}
