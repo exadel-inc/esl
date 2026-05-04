@@ -1,6 +1,6 @@
 import {ESLEventUtils} from '../../esl-event-listener/core';
 
-import type {PropertyProvider} from '../misc/functions';
+import type {PropertyProvider, ValueOrProvider} from '../misc/functions';
 import type {
   ESLEventType,
   ESLEventName,
@@ -8,6 +8,7 @@ import type {
   ESLListenerDescriptorExt,
   ESLListenerHandler,
   ESLListenerTarget,
+  ExtractEventType,
   ExtractEventName,
   TypedEventTarget
 } from '../../esl-event-listener/core';
@@ -57,8 +58,8 @@ export function listen<ETarget extends ESLListenerTarget, EName extends ExtractE
  * for targets like `ESLMediaQuery` that dispatch a non-DOM event class with a DOM-colliding event name.
  */
 export function listen<ETarget extends TypedEventTarget<any>, EName extends ExtractEventName<ETarget>>(
-  desc: Omit<ESLListenerDescriptorExt<ETarget, EName>, 'target'> & {target: NarrowTypedEventTarget<ETarget>}
-): ListenDecorator<NonNullable<ETarget> extends TypedEventTarget<infer EType> ? EType : never>;
+  desc: Omit<ESLListenerDescriptorExt<ETarget, EName>, 'target'> & {target: ValueOrProvider<NarrowTypedEventTarget<ETarget>>}
+): ListenDecorator<ExtractEventType<ETarget, EName>>;
 /**
  * Decorator to declare listener ({@link ESLEventListener}) meta information using {@link ESLListenerDescriptor}
  * Defines auto-subscribable event by default

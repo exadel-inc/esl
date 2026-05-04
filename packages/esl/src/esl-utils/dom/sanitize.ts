@@ -1,3 +1,5 @@
+import {isElement} from './api';
+
 /** checks if the attribute is dangerous */
 const isDangerousAttribute = (name: string, value: string): boolean => {
   const val = value.replace(/\s+/g, '').toLowerCase();
@@ -31,7 +33,11 @@ const removeScripts = (body: Element): void => {
 
 const filterElements = (body: Element, allowedTopLevelTags: string[]): void => {
   if (!allowedTopLevelTags.length) return;
-  Array.from(body.childNodes).forEach((el: Element) => {
+  Array.from(body.childNodes).forEach((el) => {
+    if (!isElement(el)) {
+      body.removeChild(el);
+      return;
+    }
     if (!allowedTopLevelTags.includes(el.tagName)) body.removeChild(el);
   });
 };

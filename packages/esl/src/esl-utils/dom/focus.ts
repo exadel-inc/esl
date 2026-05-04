@@ -22,10 +22,10 @@ export const handleFocusChain = (e: KeyboardEvent, first: HTMLElement | undefine
 };
 
 const FOCUSABLE_SELECTOR = 'a[href], button, input, textarea, select, details, summary, output, [tabindex]:not([tabindex="-1"])';
-const isFocusableAllowed = (el: HTMLElement): boolean => !el.hasAttribute('disabled') && !el.closest('[inert]');
+const isFocusableAllowed = (el: Element): boolean => !el.hasAttribute('disabled') && !el.closest('[inert]');
 
 /** @returns if the element is focusable */
-export const isFocusable = (el: HTMLElement): boolean => el && el.matches(FOCUSABLE_SELECTOR) && isFocusableAllowed(el);
+export const isFocusable = (el: Element): boolean => el && el.matches(FOCUSABLE_SELECTOR) && isFocusableAllowed(el);
 
 /**
  * Gets keyboard-focusable elements within a specified root element
@@ -37,6 +37,6 @@ export const getKeyboardFocusableElements = (
   visibilityOpt: VisibilityOptions | false = {visibility: true}
 ): Element[] => {
   return Array.from(root.querySelectorAll(FOCUSABLE_SELECTOR)).filter(
-    (el: HTMLElement) => isFocusableAllowed(el) && (!visibilityOpt || isVisible(el, visibilityOpt))
+    (el) => isFocusableAllowed(el) && (!visibilityOpt || isVisible(el, visibilityOpt))
   );
 };
