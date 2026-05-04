@@ -6,7 +6,7 @@ import {ESLToggleable} from '../../esl-toggleable/core';
 
 import type {ESLMediaChangeEvent} from '../../esl-media-query/core';
 
-const parseMediaQuery = (val: string | null): ESLMediaQuery => val ? ESLMediaQuery.for(val) : ESLMediaQuery.NOT_ALL;
+const parseMediaQuery = (val: string | null): ESLMediaQuery => val !== null ? ESLMediaQuery.for(val) : ESLMediaQuery.NOT_ALL;
 
 /**
  * ESLOpenState mixin element
