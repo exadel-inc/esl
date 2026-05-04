@@ -18,7 +18,8 @@
       "ES2022",
       "DOM",
       "DOM.Iterable"
-    ]
+    ],
+    "strictFunctionTypes": true
   },
   "include": [
     "src"
