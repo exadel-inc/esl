@@ -5,14 +5,23 @@ import type {
   ESLEventType,
   ESLEventName,
   DelegatedEvent,
-  ESLListenerHandler,
   ESLListenerDescriptorExt,
+  ESLListenerHandler,
   ESLListenerTarget,
-  ExtractEventName
+  ExtractEventName,
+  TypedEventTarget
 } from '../../esl-event-listener/core';
 
+type NarrowTypedEventTarget<T extends TypedEventTarget<any>> = T extends TypedEventTarget<infer EType>
+  ? Event extends EType ? never : T
+  : never;
+
 type ListenDecorator<EType extends Event> =
-  (target: any, property: string, descriptor: TypedPropertyDescriptor<ESLListenerHandler<EType>>) => void;
+  <Handler extends ESLListenerHandler<EType>>(
+    target: any,
+    property: string,
+    descriptor: TypedPropertyDescriptor<Handler>
+  ) => void;
 
 /**
  * Decorator to declare listener ({@link ESLEventListener}) meta information.
@@ -42,6 +51,14 @@ export function listen<EName extends ESLEventName>(event: EName | PropertyProvid
 export function listen<ETarget extends ESLListenerTarget, EName extends ExtractEventName<ETarget>>(
   desc: ESLListenerDescriptorExt<ETarget, EName> & {selector: string | PropertyProvider<string>}
 ): ListenDecorator<DelegatedEvent<ESLEventType<EName>> | ESLEventType<EName>>;
+/**
+ * Decorator to declare listener using a typed custom target.
+ * This overload preserves narrow event classes under `strictFunctionTypes`
+ * for targets like `ESLMediaQuery` that dispatch a non-DOM event class with a DOM-colliding event name.
+ */
+export function listen<ETarget extends TypedEventTarget<any>, EName extends ExtractEventName<ETarget>>(
+  desc: Omit<ESLListenerDescriptorExt<ETarget, EName>, 'target'> & {target: NarrowTypedEventTarget<ETarget>}
+): ListenDecorator<NonNullable<ETarget> extends TypedEventTarget<infer EType> ? EType : never>;
 /**
  * Decorator to declare listener ({@link ESLEventListener}) meta information using {@link ESLListenerDescriptor}
  * Defines auto-subscribable event by default

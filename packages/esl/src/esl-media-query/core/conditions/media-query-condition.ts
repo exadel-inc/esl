@@ -9,7 +9,7 @@ import type {IMediaQueryCondition} from './media-query-base';
  *
  * Wraps matchMedia instance
  */
-export class MediaQueryCondition extends SyntheticEventTarget implements IMediaQueryCondition {
+export class MediaQueryCondition extends SyntheticEventTarget<ESLMediaChangeEvent> implements IMediaQueryCondition {
   protected readonly _mq: MediaQueryList;
 
   constructor(query: string) {

@@ -11,7 +11,7 @@ import {MediaQueryCondition} from './conditions/media-query-condition';
 import {MediaQueryNegation} from './conditions/media-query-negation';
 import {MediaQueryConjunction, MediaQueryDisjunction} from './conditions/media-query-containers';
 
-import type {IMediaQueryCondition} from './conditions/media-query-base';
+import type {ESLMediaChangeEvent, IMediaQueryCondition} from './conditions/media-query-base';
 
 export interface IMediaQueryPreprocessor {
   process: (match: string) => IMediaQueryCondition | undefined;
@@ -93,7 +93,7 @@ export abstract class ESLMediaQuery implements IMediaQueryCondition {
   public abstract matches: boolean;
 
   public abstract optimize(): ESLMediaQuery;
-  public abstract dispatchEvent(event: Event): boolean;
+  public abstract dispatchEvent(event: ESLMediaChangeEvent): boolean;
   public abstract toString(): string;
 
   public abstract addEventListener(callback: EventListener): void;

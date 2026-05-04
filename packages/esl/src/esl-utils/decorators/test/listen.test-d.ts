@@ -1,10 +1,14 @@
 import {listen} from '../listen.js';
 import {ESLIntersectionTarget, ESLResizeObserverTarget, ESLSwipeGestureTarget, ESLWheelTarget} from '../../../esl-event-listener/core.js';
+import {ESLMediaQuery} from '../../../esl-media-query/core.js';
 
+import type {ESLMediaChangeEvent} from '../../../esl-media-query/core.js';
 import type {DelegatedEvent} from '../../../esl-event-listener/core/types';
 import type {ESLElementResizeEvent, ESLIntersectionEvent, ESLSwipeGestureEvent, ESLWheelEvent} from '../../../esl-event-listener/core.js';
 
 class TestClass {
+  model: EventTarget = document.createElement('div');
+
   // The listen definition works properly with a basic single DOM event ('click') name and exact event type ('MouseEvent') argument
   @listen('click')
   onClick(e: MouseEvent) {}
@@ -65,6 +69,14 @@ class TestClass {
   @listen({event: 'intersects:in intersects:out', target: ESLIntersectionTarget.for})
   onIntersectsMulti(e: ESLIntersectionEvent) {}
 
+  // Host-typed provider functions should stay assignable under strictFunctionTypes
+  @listen({
+    event: 'intersects',
+    target: ($this: TestClass) => ESLIntersectionTarget.for(document.body),
+    condition: ($this: TestClass) => !!$this.model
+  })
+  onIntersectsWithTypedProviders(e: ESLIntersectionEvent) {}
+
   // @ts-expect-error - Intersection target event rejects an unrelated DOM event argument type
   @listen({event: 'intersects', target: ESLIntersectionTarget.for})
   onIntersectsIncompatibleArgError(e: MouseEvent) {}
@@ -76,6 +88,10 @@ class TestClass {
   // Resize observer target event name maps to the specific ESLElementResizeEvent argument type
   @listen({event: 'resize', target: ESLResizeObserverTarget.for})
   onResize(e: ESLElementResizeEvent) {}
+
+  // Media query target should expose the specific ESLMediaChangeEvent type
+  @listen({event: 'change', target: ESLMediaQuery.for('@+MD')})
+  onMediaQueryChange(e: ESLMediaChangeEvent) {}
 
   // Resize observer target event accepts a more generic UIEvent argument type
   @listen({event: 'resize', target: ESLResizeObserverTarget.for})
