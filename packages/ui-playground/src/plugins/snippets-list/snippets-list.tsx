@@ -46,7 +46,9 @@ export class UIPSnippetsList extends UIPPlugin {
   @memoize()
   public get $items(): HTMLElement[] {
     if (!this.model) return [];
-    return this.model.snippets.map(this.buildListItem.bind(this)).filter((item: HTMLElement): item is HTMLElement => !!item);
+    return this.model.snippets
+      .map((snippet, index) => this.buildListItem(snippet, index))
+      .filter((item): item is HTMLElement => !!item);
   }
 
   protected override connectedCallback(): void {

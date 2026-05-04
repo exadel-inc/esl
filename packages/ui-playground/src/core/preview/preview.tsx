@@ -1,6 +1,6 @@
 import {attr, listen, memoize, prop} from '@exadel/esl/modules/esl-utils/decorators';
 import {ESLIntersectionTarget} from '@exadel/esl/modules/esl-event-listener/core';
-import {parseBoolean, toBooleanAttribute} from '@exadel/esl/modules/esl-utils/misc';
+import {parseBoolean, parseInteger, toBooleanAttribute} from '@exadel/esl/modules/esl-utils/misc';
 import {promisifyEvent, promisifyNextRender, promisifyTimeout} from '@exadel/esl/modules/esl-utils/async';
 
 import {UIPPlugin} from '../base/plugin';
@@ -25,7 +25,7 @@ export class UIPPreview extends UIPPlugin {
   @attr({parser: parseBoolean, serializer: toBooleanAttribute}) public forceUpdate: boolean;
 
   /** Delay to show new content after isolated full refresh */
-  @attr({defaultValue: 150, parser: parseInt}) public refreshDelay: number;
+  @attr({defaultValue: 150, parser: parseInteger}) public refreshDelay: number;
 
   protected _iframeResizeRAF: number = 0;
 
