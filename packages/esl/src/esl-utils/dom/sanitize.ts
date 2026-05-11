@@ -42,16 +42,26 @@ const filterElements = (body: Element, allowedTopLevelTags: string[]): void => {
  * @param html - html string to sanitize
  * @param allowedTopLevelTags - array of allowed tag names
  */
-export function sanitize(html: string, allowedTopLevelTags: string[] = []): string {
-  // converts the string to an HTML document
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(html, 'text/html');
-  const body = doc.body || document.createElement('body');
+export function sanitize(html: string, allowedTopLevelTags?: string[]): string;
+/**
+ * Sanitizes Element from malicious attributes, values, and scripts.
+ * Useful when you need to sanitize already parsed html.
+ * Can also filter elements at the top nesting level by tag names.
+ * @param el - Element to sanitize
+ * @param allowedTopLevelTags - array of allowed tag names
+ */
+export function sanitize<T extends Element>(el: T, allowedTopLevelTags?: string[]): T;
+export function sanitize(html: Element | string, allowedTopLevelTags: string[] = []): Element | string {
+  if (typeof html === 'string') {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    const body = doc.body || document.createElement('body');
+    return sanitize(body, allowedTopLevelTags).innerHTML;
+  }
   // sanitizes html
-  removeScripts(body);
-  sanitizeElAttributes(body);
+  removeScripts(html);
+  sanitizeElAttributes(html);
   // filter allowed tags
-  filterElements(body, allowedTopLevelTags);
-
-  return body.innerHTML;
+  filterElements(html, allowedTopLevelTags);
+  return html;
 }
