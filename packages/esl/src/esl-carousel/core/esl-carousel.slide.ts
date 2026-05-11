@@ -17,9 +17,6 @@ export class ESLCarouselSlide extends ESLMixinElement {
   public static override is = 'esl-carousel-slide';
   public static override observedAttributes = ['active'];
 
-  /** Carousel marker to omit `inert` attribute on slides */
-  public static readonly NO_INERT_MARKER = 'no-inert';
-
   /** @returns slide index. */
   public get index(): number {
     if (typeof this.$carousel?.indexOf !== 'function') return -1;
@@ -87,16 +84,16 @@ export class ESLCarouselSlide extends ESLMixinElement {
     }
   }
   /** Updates A11y attributes related to active state */
-  protected updateActiveState(): void {
+  public updateActiveState(): void {
+    const focusPolicy = this.$carousel?.focusPolicyCurrent || 'active';
+
     this.$$attr('aria-hidden', String(!this.active));
-    if (!this.$carousel?.hasAttribute(ESLCarouselSlide.NO_INERT_MARKER)) {
-      this.$$attr('inert', !this.active);
-    }
+    this.$$attr('inert', focusPolicy === 'active' && !this.active);
     if (!this.$carousel) return;
     if (this.$carousel.$container) {
       CSSClassUtils.toggle(this.$carousel.$container, this.containerClass, this.active, this.$host);
     }
-    if (!this.active) this.blurIfInactive();
+    if (!this.active && focusPolicy === 'active') this.blurIfInactive();
   }
 
   @decorate(microtask)
