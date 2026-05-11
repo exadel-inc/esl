@@ -7,6 +7,9 @@ export enum ESLCarouselDirection {
 
 export type ESLCarouselNavIndex = number | `${number}` | `+${number}` | `-${number}` | ESLCarouselDirection;
 
+/** Defines how carousel slides participate in focus flow */
+export type ESLCarouselFocusPolicy = 'active' | 'none' | 'reveal';
+
 /**
  * Supported navigation syntax:
  *
