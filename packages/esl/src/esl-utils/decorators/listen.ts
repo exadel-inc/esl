@@ -1,6 +1,6 @@
 import {ESLEventUtils} from '../../esl-event-listener/core';
 
-import type {PropertyProvider, ValueOrProvider} from '../misc/functions';
+import type {PropertyProvider} from '../misc/functions';
 import type {
   ESLEventType,
   ESLEventName,
@@ -58,7 +58,15 @@ export function listen<ETarget extends ESLListenerTarget, EName extends ExtractE
  * for targets like `ESLMediaQuery` that dispatch a non-DOM event class with a DOM-colliding event name.
  */
 export function listen<ETarget extends TypedEventTarget<any>, EName extends ExtractEventName<ETarget>>(
-  desc: Omit<ESLListenerDescriptorExt<ETarget, EName>, 'target'> & {target: ValueOrProvider<NarrowTypedEventTarget<ETarget>>}
+  desc: Omit<ESLListenerDescriptorExt<ETarget, EName>, 'target'> & {target: NarrowTypedEventTarget<ETarget>}
+): ListenDecorator<ExtractEventType<ETarget, EName>>;
+/**
+ * Typed custom target provider overload.
+ * Keeps the narrow custom event class when `target` is provided via PropertyProvider
+ * (for example `target: (host) => host.media`) instead of a direct target instance.
+ */
+export function listen<Host extends object, ETarget extends TypedEventTarget<any>, EName extends ExtractEventName<ETarget>>(
+  desc: Omit<ESLListenerDescriptorExt<ETarget, EName>, 'target'> & {target: PropertyProvider<NarrowTypedEventTarget<ETarget>, Host>}
 ): ListenDecorator<ExtractEventType<ETarget, EName>>;
 /**
  * Decorator to declare listener ({@link ESLEventListener}) meta information using {@link ESLListenerDescriptor}
