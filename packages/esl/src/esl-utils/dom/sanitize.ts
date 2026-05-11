@@ -18,7 +18,7 @@ interface SanitizeContext {
 
 const ALWAYS_DISALLOWED_TAGS = ['script'];
 const DEFAULT_DISALLOWED_TAGS = ['template', 'iframe', 'object', 'embed', 'link', 'meta'];
-const DEFAULT_URL_ATTRIBUTES = ['src', 'data', 'href', 'xlink:href', 'action', 'formaction'];
+const DEFAULT_URL_ATTRIBUTES = ['src', 'srcset', 'data', 'href', 'xlink:href', 'action', 'formaction'];
 const DEFAULT_ALLOWED_URL_PROTOCOLS = ['', 'http:', 'https:', 'mailto:', 'tel:'];
 
 const normalizeList = (items: readonly string[]): Set<string> => {
@@ -36,13 +36,17 @@ const createContext = ({disallowedTags, allowedRoots, urlAttributes, allowedUrlP
 
 const getTagName = (el: Element): string => el.localName.toLowerCase();
 
+const STRIP_INVISIBLE = /[\u200B-\u200F\u202A-\u202E\u2066-\u2069]/g;
+// eslint-disable-next-line no-control-regex
+const STRIP_CONTROLS = /[\u0000-\u001F\u007F]/g;
+
 const getUrlProtocol = (value: string): string => {
-  const url = value.replace(/\s+/g, '').split('').filter((char) => {
-    const code = char.charCodeAt(0);
-    return code > 0x1F && code !== 0x7F;
-  }).join('');
-  const protocol = /^[a-z][a-z\d+.-]*:/i.exec(url)?.[0] || '';
-  return protocol.toLowerCase();
+  const normalizedForProtocolCheck = value
+    .replace(/\s+/g, '')
+    .replace(STRIP_CONTROLS, '')
+    .replace(STRIP_INVISIBLE, '');
+
+  return /^[a-z][a-z\d+.-]*:/i.exec(normalizedForProtocolCheck)?.[0].toLowerCase() ?? '';
 };
 
 const isUnsafeUrl = (value: string, context: SanitizeContext): boolean => {
@@ -55,7 +59,7 @@ const isDangerousAttribute = (name: string, value: string, context: SanitizeCont
   const attrName = name.toLowerCase();
 
   if (context.urlAttributes.has(attrName) && isUnsafeUrl(value, context)) return true;
-  return attrName.indexOf('on') === 0;
+  return attrName.startsWith('on');
 };
 
 /** loops through each attribute, if it's dangerous, remove it */
