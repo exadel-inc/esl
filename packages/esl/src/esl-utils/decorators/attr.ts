@@ -55,13 +55,13 @@ export const attr = <T = string>(config: AttrDescriptor<T> = {}): ESLAttributeDe
     const attrName = buildAttrName(config.name || propName, !!config.dataAttr);
     const inheritAttrName = typeof config.inherit === 'string' ? config.inherit : attrName;
 
-    function get(): T | null {
+    function get(this: ESLDomElementTarget): T | null {
       const val = config.inherit ? getAttr(this, attrName) || getClosestAttr(this, inheritAttrName) : getAttr(this, attrName);
       if (val === null && 'defaultValue' in config) return resolveProperty(config.defaultValue, this) as T;
       return (config.parser || parseString as AttrParser<any>)(val);
     }
 
-    function set(value: T): void {
+    function set(this: ESLDomElementTarget, value: T): void {
       setAttr(this, attrName, (config.serializer as AttrSerializer<any> || identity)(value));
     }
 

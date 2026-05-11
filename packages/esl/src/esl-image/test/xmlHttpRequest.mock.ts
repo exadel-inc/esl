@@ -26,7 +26,7 @@ export function mockXMLHttpRequest(): MockedXMLHttpRequestController  {
   // mocked functions
   const open = vi.fn();
   const onreadystatechange = vi.fn();
-  const send = vi.fn(function send() {
+  const send = vi.fn(function send(this: MockedXMLHttpRequestController) {
     this.onreadystatechange();
   });
 

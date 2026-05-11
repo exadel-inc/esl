@@ -16,7 +16,7 @@ export type MemoizedFn<T extends AnyToAnyFnSignature> = T & {
  * @see MemoHashFn Hash function signature.
  */
 export function memoizeFn<F extends AnyToAnyFnSignature>(fn: F, hashFn: MemoHashFn<F> = defaultArgsHashFn): MemoizedFn<F> {
-  function memo(...args: Parameters<F>): any {
+  function memo(this: object, ...args: Parameters<F>): any {
     const key = hashFn(...args);
     if (key !== null && typeof key !== 'string') {
       console.warn(`[ESL]: Can't cache value for ${fn.name} call.`);

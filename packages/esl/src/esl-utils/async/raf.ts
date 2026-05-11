@@ -16,7 +16,7 @@ export const skipOneRender = (callback: () => void): number => requestAnimationF
  */
 export const rafDecorator = <T extends AnyToVoidFnSignature>(fn: T): T => {
   let lastArgs: any[] | null = null; // null if no calls requested
-  return function (...args: any[]) {
+  return function (this: object, ...args: any[]) {
     if (lastArgs === null) {
       requestAnimationFrame(() => {
         lastArgs && fn.call(this, ...lastArgs);

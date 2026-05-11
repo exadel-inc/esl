@@ -15,10 +15,10 @@ type BoolAttrDescriptor = {
 };
 
 function buildConditionalDescriptor(attrName: string, readOnly: boolean): PropertyDescriptor {
-  function get(): boolean {
+  function get(this: ESLDomElementTarget): boolean {
     return hasAttr(this, attrName);
   }
-  function set(value: unknown): void {
+  function set(this: ESLDomElementTarget, value: unknown): void {
     setAttr(this, attrName, !!value);
   }
 

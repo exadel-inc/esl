@@ -28,7 +28,7 @@ export function decorate<Args extends any[], Fn extends AnyToAnyFnSignature>(
       enumerable: descriptor.enumerable,
       configurable: true,
 
-      get: function getBound(): Fn {
+      get: function getBound(this: Record<string, any>): Fn {
         // Skip own properties
         const proto = Object.getPrototypeOf(this);
         // Find the closest descriptor for property

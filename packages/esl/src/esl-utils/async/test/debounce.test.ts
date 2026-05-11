@@ -18,7 +18,7 @@ describe('async/debounce', () => {
   });
 
   test('call context', () => {
-    const fn = function () { return this; };
+    const fn = function (this: object) { return this; };
     const debounced = debounce(fn, 0);
     const context = {};
     debounced.call(context);
@@ -28,7 +28,7 @@ describe('async/debounce', () => {
   });
 
   test('call context bind', () => {
-    const fn = function () { return this; };
+    const fn = function (this: object) { return this; };
     const context = {};
     const debounced = debounce(fn, 0, context);
     debounced.call({});

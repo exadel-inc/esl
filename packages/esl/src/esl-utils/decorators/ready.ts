@@ -18,7 +18,7 @@ export function ready<T extends AnyToVoidFnSignature>(target: any,
     throw new TypeError('Only class methods can be decorated via document ready decorator');
   }
   const fn = descriptor.value;
-  descriptor.value = function (...arg: any[]) {
+  descriptor.value = function (this: object, ...arg: any[]) {
     onDocumentReady(() => fn.call(this, ...arg));
   } as T;
 }
