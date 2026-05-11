@@ -59,4 +59,16 @@ describe('ESLCarouselAutoplayMixin: per slide timer definition', () => {
       await doubleTick();
     }
   });
+
+  test('Plugin falls back to global duration for invalid per slide timeout value', async () => {
+    $carousel.loop = true;
+    $carousel.setAttribute('esl-carousel-autoplay', '600');
+    $slides[0].setAttribute(ESLCarouselAutoplayMixin.SLIDE_DURATION_ATTRIBUTE, 'none');
+    await microtask();
+    IntersectionObserverMock.trigger($carousel, {intersectionRatio: 1, isIntersecting: true});
+
+    const plugin = ESLCarouselAutoplayMixin.get($carousel)!;
+    expect(plugin.duration).toBe(600);
+    expect(plugin.effectiveDuration).toBe(600);
+  });
 });

@@ -66,6 +66,14 @@ describe('ESLCarousel: Autoplay Plugin', () => {
       expect(plugin?.duration).toBe(4500);
     });
 
+    test('Plugin treats none duration as disabled', async () => {
+      $carousel.setAttribute('esl-carousel-autoplay', 'none');
+      await microtask();
+      const plugin = ESLCarouselAutoplayMixin.get($carousel);
+      expect(plugin?.duration).toBeNaN();
+      expect(plugin?.enabled).toBe(false);
+    });
+
     test('Plugin attaches with custom command', async () => {
       $carousel.setAttribute('esl-carousel-autoplay', '{command: "slide:prev" }');
       await microtask();
