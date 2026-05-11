@@ -58,8 +58,8 @@
     }
   },
   "devDependencies": {
-    "@commitlint/cli": "^20.5.0",
-    "@commitlint/config-conventional": "^20.5.0",
+    "@commitlint/cli": "^21.0.0",
+    "@commitlint/config-conventional": "^21.0.0",
     "@vitest/coverage-v8": "^4.1.6",
     "chalk": "^5.6.2",
     "chokidar-cli": "^3.0.0",
