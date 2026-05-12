@@ -44,16 +44,12 @@ export type EventQuery<EName extends string> = EName | StrComb2<EName> | `${StrC
 export type ExtractEventName<ETarget> = ETarget extends TypedEventTarget<infer EClass> ? EClass['type'] : ESLEventName;
 
 /** Extracts concrete event type for the provided target and event name(s) */
-export type ExtractEventType<
-  ETarget,
-  EName extends string
-> = Trim<EName> extends `${infer T} ${infer U}`
-  ? ExtractEventType<ETarget, T & string> | ExtractEventType<ETarget, U & string>
-  : ETarget extends TypedEventTarget<infer EClass>
-    ? Trim<EName> extends EClass['type']
-      ? EClass
-      : ESLEventType<Extract<EName, ESLEventName>>
-    : ESLEventType<Extract<EName, ESLEventName>>;
+export type ExtractEventType<ETarget, EName extends string> =
+  Trim<EName> extends `${infer T} ${infer U}`
+    ? ExtractEventType<ETarget, T & string> | ExtractEventType<ETarget, U & string>
+    : ETarget extends TypedEventTarget<infer EClass>
+      ? Trim<EName> extends EClass['type'] ? EClass : ESLEventType<EName>
+      : ESLEventType<EName>;
 
 /** Descriptor to create {@link ESLEventListener} */
 export type ESLListenerDescriptor <
