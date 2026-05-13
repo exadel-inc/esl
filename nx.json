@@ -50,6 +50,7 @@
       }
     },
     "conventionalCommits": {
+      "useCommitScope": false,
       "types": {
         "chore": {
           "releaseType": "patch",
