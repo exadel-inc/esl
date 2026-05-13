@@ -157,7 +157,7 @@ export class YouTubeProvider extends BaseProvider {
 
   public get state(): PlayerStates {
     if (this._api && typeof this._api.getPlayerState === 'function') {
-      return this._api.getPlayerState() as number as PlayerStates;
+      return this._api.getPlayerState() as any as PlayerStates;
     }
     return PlayerStates.UNINITIALIZED;
   }
