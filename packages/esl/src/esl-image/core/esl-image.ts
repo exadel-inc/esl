@@ -61,7 +61,7 @@ export class ESLImage extends ESLBaseElement {
   private _innerImg: HTMLImageElement | null;
   private _srcRules: ESLMediaRuleList<string>;
   private _currentSrc: string;
-  private _detachLazyTrigger: () => void;
+  private _detachLazyTrigger: (() => void) | null;
   private _shadowImageElement: HTMLImageElement;
 
   protected override connectedCallback(): void {

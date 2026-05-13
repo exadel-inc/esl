@@ -30,7 +30,10 @@ export default [
       '@typescript-eslint/no-unnecessary-type-arguments': 'warn',
 
       // Warns if a type assertion does not change the type of an expression
-      '@typescript-eslint/no-unnecessary-type-assertion': 'warn'
+      '@typescript-eslint/no-unnecessary-type-assertion': 'warn',
+
+      // Enforce explicit this typing in functions and class methods
+      '@typescript-eslint/no-invalid-this': 'warn'
     }
   },
   {

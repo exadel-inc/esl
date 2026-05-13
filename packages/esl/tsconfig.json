@@ -7,6 +7,7 @@
     "alwaysStrict": true,
     "strictNullChecks": true,
     "noImplicitAny": true,
+    "noImplicitThis": true,
     "noImplicitOverride": true,
     "esModuleInterop": true,
     "target": "ES6",

@@ -78,7 +78,7 @@ export function memoizeOne<
   T extends typeof WeakMap extends C ? object : any,
   R
 >(fn: (arg: T) => R, Cache: C): (arg: T) => R {
-  function memo(arg: T): any {
+  function memo(this: object, arg: T): any {
     if (!memo.cache.has(arg)) memo.cache.set(arg, fn.call(this, arg));
     return memo.cache.get(arg);
   }

@@ -36,7 +36,7 @@ describe('ESLCarousel: Autoplay Plugin (interaction)', () => {
 
   const applySpies = () => {
     if (!matchesSpy) {
-      matchesSpy = vi.spyOn(Element.prototype, 'matches').mockImplementation(function (selector: string) {
+      matchesSpy = vi.spyOn(Element.prototype, 'matches').mockImplementation(function (this: Element | null, selector: string) {
         if (selector.includes(':hover')) return interactionState.hover && this === $carousel;
         if (selector.includes(':focus-within')) return interactionState.focus && this === $carousel;
         if (selector.includes(':focus-visible')) return interactionState.focus && this === document.activeElement;

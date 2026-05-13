@@ -48,7 +48,7 @@ const defineOwnKeySafe = (obj: any, prop: string, value: any): void => {
 
 /** Cache getter result as an object own property */
 function memoizeGetter(originalMethod: any, prop: string) {
-  return function (): any {
+  return function (this: object): any {
     if (locks.get(this) === prop) return originalMethod;
     const value = originalMethod.call(this);
     defineOwnKeySafe(this, prop, value);
@@ -58,7 +58,7 @@ function memoizeGetter(originalMethod: any, prop: string) {
 
 /** Cache method memo function in the current context on call */
 function memoizeMethod(originalMethod: any, prop: string, hashFn: MemoHashFn) {
-  return function (this: any, ...args: any[]): any {
+  return function (this: object, ...args: any[]): any {
     if (locks.get(this) === prop) return originalMethod;
     const memo = memoizeFn(originalMethod, hashFn);
     defineOwnKeySafe(this, prop, memo);

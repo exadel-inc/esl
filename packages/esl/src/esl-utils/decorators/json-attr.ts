@@ -22,13 +22,13 @@ function buildJsonAttrDescriptor<T>(attrName: string, readOnly: boolean, default
     return defaultValue;
   }
 
-  function get(): T | null {
+  function get(this: ESLDomElementTarget): T | null {
     const attrContent = getAttr(this, attrName, '').trim();
     if (!attrContent) return defaultValue;
     return parseObjectSafe(attrContent, fallback);
   }
 
-  function set(value: any): void {
+  function set(this: ESLDomElementTarget, value: any): void {
     try {
       if (typeof value !== 'object') throw Error('value should be object');
       setAttr(this, attrName, value ? JSON.stringify(value) : false);

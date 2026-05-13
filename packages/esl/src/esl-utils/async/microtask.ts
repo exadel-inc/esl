@@ -4,7 +4,7 @@
  */
 export function microtask<T>(fn: (args?: T[]) => void, thisArg?: object): (arg?: T) => void {
   let args: T[] = [];
-  return function microtaskFn(arg?: T): void {
+  return function microtaskFn(this: object, arg?: T): void {
     if (arguments.length) args.push(arg as T);
     if ((microtaskFn as any).request) return;
     (microtaskFn as any).request = Promise.resolve().then(() => {
