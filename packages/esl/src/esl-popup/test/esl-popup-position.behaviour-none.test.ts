@@ -63,14 +63,14 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to none', () => {
 
   describe('should calc arrow position:', () => {
     test('when arrow at the start edge', () => {
-      const cfg = {...cfgRef, offsetTetherRatio: 0} as PopupPositionConfig;
+      const cfg = {...cfgRef, offsetTetherRatio: 0};
       const expected = Object.assign({}, expectedRef) as PopupPositionValue;
       expected.popup = popup.shift(488, 290);
       expect(calcPopupPosition(cfg)).toEqual(expected);
     });
 
     test('when arrow at the end edge', () => {
-      const cfg = {...cfgRef, offsetTetherRatio: 1} as PopupPositionConfig;
+      const cfg = {...cfgRef, offsetTetherRatio: 1};
       const expected = Object.assign({}, expectedRef) as PopupPositionValue;
       expected.arrow = {x: 263, y: 163};
       expected.popup = popup.shift(232, 290);
@@ -78,7 +78,7 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to none', () => {
     });
 
     test('when arrow at the middle', () => {
-      const cfg = {...cfgRef, offsetTetherRatio: 0.5} as PopupPositionConfig;
+      const cfg = {...cfgRef, offsetTetherRatio: 0.5};
       const expected = Object.assign({}, expectedRef) as PopupPositionValue;
       expected.arrow = {x: 135, y: 85};
       expected.popup = popup.shift(360, 290);
@@ -97,7 +97,7 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to none', () => {
 
   describe('should calc position with the specified offsetPlacement:', () => {
     test('when offsetPlacement is 10', () => {
-      const cfg = {...cfgRef, offsetPlacement: 10} as PopupPositionConfig;
+      const cfg = {...cfgRef, offsetPlacement: 10};
       const expected = Object.assign({}, expectedRef) as PopupPositionValue;
       expected.popup = popup.shift(498, 290);
       expect(calcPopupPosition(cfg)).toEqual(expected);
@@ -106,7 +106,7 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to none', () => {
 
   describe('should calc position with the specified marginTether:', () => {
     test('when marginTether is 15', () => {
-      const cfg = {...cfgRef, marginTether: 15} as PopupPositionConfig;
+      const cfg = {...cfgRef, marginTether: 15};
       const expected = Object.assign({}, expectedRef) as PopupPositionValue;
       expected.arrow = {x: 15, y: 15};
       expected.popup = popup.shift(480, 290);
