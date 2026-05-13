@@ -1,5 +1,5 @@
 import {getPropertyDescriptor} from '../misc/object/utils';
-import type {AnyToAnyFnSignature} from '../misc/functions';
+import type {AnyToAnyFnSignature, MethodTypedDecorator} from '../misc/functions';
 
 /**
  * `@decorate` decorator: adapts a higher-order function `(fn) => wrappedFn` into a lazy method decorator.
@@ -13,10 +13,10 @@ import type {AnyToAnyFnSignature} from '../misc/functions';
  * @param args - extra arguments forwarded to `decorator` after the original function
  * @throws TypeError when applied to a non-method (accessor / field)
  */
-export function decorate<Args extends any[], Fn extends AnyToAnyFnSignature>(
-  decorator: (fn: Fn, ...params: Args) => Fn,
+export function decorate<Args extends any[], Fn extends AnyToAnyFnSignature, Wrapped extends AnyToAnyFnSignature>(
+  decorator: (fn: Fn, ...params: Args) => Wrapped & Fn,
   ...args: Args
-) {
+): MethodTypedDecorator<Fn> {
   return function (target: any, propertyKey: string, descriptor: TypedPropertyDescriptor<Fn>): TypedPropertyDescriptor<Fn> {
     if (!descriptor || typeof descriptor.value !== 'function') {
       throw new TypeError('Only class methods can be decorated');
@@ -36,7 +36,7 @@ export function decorate<Args extends any[], Fn extends AnyToAnyFnSignature>(
         // Return original function in case of prototype or super call
         if (!desc || desc.get !== getBound) return originalFn;
         // Create a new decorated instance of function (original first bound to instance)
-        const decoratedFn = decorator(originalFn.bind(this), ...args);
+        const decoratedFn = decorator(originalFn.bind(this), ...args) as Fn;
         // Copy original function own keys
         Object.assign(decoratedFn, originalFn);
         // Defines own property with the decorated instance

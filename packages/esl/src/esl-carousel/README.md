@@ -76,7 +76,11 @@ Note: a single value attributes will be considered as all-rule so they spreads a
  - `container-empty-class` - defines the class to be added to the container when the carousel is empty. Default is empty.
  - `container-incomplete-class` - defines the class to be added to the container when the carousel is incomplete (the count of actual slides is less then count of displayed slides according to config). Default is empty.
 
- - `no-inert` - 'fine-tunning' attribute to disable inert attribute on invisible slides. Default: `false`.
+ - `focus-policy` - defines how carousel slides participate in focus flow. Default: `active`.
+   - `active` - inactive slides are marked as inert.
+   - `none` - disables inert management for inactive slides. Use this to opt out of inert handling.
+   - `reveal` - disables inert management and reveals an inactive slide when focus enters it.
+ - `no-inert` - legacy alias for `focus-policy="none"` when `focus-policy` is not explicitly defined. Prefer `focus-policy="none"` / `focus-policy="reveal"` in new configurations.
 
 #### State Attributes (read-only)
  

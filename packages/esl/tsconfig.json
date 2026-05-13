@@ -20,7 +20,8 @@
       "DOM.Iterable"
     ],
     "rootDir": "src",
-    "outDir": "./modules"
+    "outDir": "./modules",
+    "strictFunctionTypes": true
   },
   "include": [
     "src"

@@ -15,18 +15,22 @@ export interface TypedEventTarget<EType extends Event> extends EventTarget {
 export type ESLEventName = keyof ESLListenerEventMap | string;
 
 /**
- * Helper type to extract Event types union by event string
+ * Helper type to extract Event types union by event string.
+ * Optionally accepts `ETarget` to narrow event type for {@link TypedEventTarget}s.
  * @example
  * ```typescript
- * type MyEvent = ESLEventFor<'click'>; // MouseEvent
- * type MyEvent = ESLEventFor<'custom'>; // Event
- * type MyEvent = ESLEventFor<'click custom'>; // MouseEvent | Event
+ * type MyEvent = ESLEventType<'click'>; // MouseEvent
+ * type MyEvent = ESLEventType<'custom'>; // Event
+ * type MyEvent = ESLEventType<'click custom'>; // MouseEvent | Event
  * ```
  */
-export type ESLEventType<EName extends ESLEventName> =
-  Trim<EName> extends keyof ESLListenerEventMap ? ESLListenerEventMap[Trim<EName>] :
-    Trim<EName> extends `${infer T} ${infer U}` ? ESLEventType<T> | ESLEventType<U> :
-      EName extends '' ? never : Event;
+export type ESLEventType<EName extends ESLEventName, ETarget = unknown> =
+  Trim<EName> extends `${infer T} ${infer U}`
+    ? ESLEventType<T, ETarget> | ESLEventType<U, ETarget>
+    : ETarget extends TypedEventTarget<infer EClass>
+      ? Trim<EName> extends EClass['type'] ? EClass : ESLEventType<EName>
+      : Trim<EName> extends keyof ESLListenerEventMap ? ESLListenerEventMap[Trim<EName>]
+        : EName extends '' ? never : Event;
 
 /** An extended event with a delegated event target */
 export type DelegatedEvent<EventType extends Event = Event> = EventType & {

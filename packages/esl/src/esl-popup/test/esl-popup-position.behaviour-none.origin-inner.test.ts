@@ -65,14 +65,14 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to none and origi
   describe('should calc arrow position:', () => {
 
     test('when arrow at the start edge', () => {
-      const cfg = {...cfgRef, offsetTetherRatio: 0} as PopupPositionConfig;
+      const cfg = {...cfgRef, offsetTetherRatio: 0};
       const expected = Object.assign({}, expectedRef) as PopupPositionValue;
       expected.popup = popup.shift(475, 275);
       expect(calcPopupPosition(cfg)).toEqual(expected);
     });
 
     test('when arrow at the end edge', () => {
-      const cfg = {...cfgRef, offsetTetherRatio: 1} as PopupPositionConfig;
+      const cfg = {...cfgRef, offsetTetherRatio: 1};
       const expected = Object.assign({}, expectedRef) as PopupPositionValue;
       expected.arrow = {x: 160, y: 160};
       expected.popup = popup.shift(325, 275);
@@ -80,7 +80,7 @@ describe('ESLPopup position: calcPopupPosition(): behavior set to none and origi
     });
 
     test('when arrow at the middle', () => {
-      const cfg = {...cfgRef, offsetTetherRatio: 0.5} as PopupPositionConfig;
+      const cfg = {...cfgRef, offsetTetherRatio: 0.5};
       const expected = Object.assign({}, expectedRef) as PopupPositionValue;
       expected.arrow = {x: 85, y: 85};
       expected.popup = popup.shift(400, 275);

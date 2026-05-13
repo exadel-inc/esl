@@ -122,7 +122,7 @@ describe('ESLLineClamp (mixin): tests', () => {
       clientHeight: number,
       scrollWidth: number,
       clientWidth: number,
-      style: {lineHeight?: string; fontSize?: string} = {}
+      style: {lineHeight?: string, fontSize?: string} = {}
     ) => {
       const {lineHeight = 'normal', fontSize = '10px'} = style;
       lineClamp = ESLLineClamp.get($host);

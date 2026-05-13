@@ -1,3 +1,4 @@
+import {memoizeFn} from '../../../esl-utils/misc/memoize';
 import {SyntheticEventTarget} from '../../../esl-utils/dom/events/target';
 
 import {ESLEventListener} from '../listener';
@@ -7,9 +8,9 @@ type ESLListenerDecorator<Args extends any[]> = (target: EventListener, ...args:
 
 const cache = memoizeOne((target: EventTarget) => {
   return memoizeOne(<Args extends any[]>(decorator: ESLListenerDecorator<Args>) => {
-    return memoizeOne((...args: any[]) => {
+    return memoizeFn((...args: Args) => {
       return ESLDecoratedEventTarget.create(target, decorator, ...args);
-    }, Map);
+    });
   }, WeakMap);
 }, WeakMap);
 

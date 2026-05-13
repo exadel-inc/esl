@@ -27,7 +27,7 @@ export function getScrollParent(node: Element, root: Element): Element | undefin
 export function getScrollParent(node: Element): Element;
 export function getScrollParent(node: Element, root?: Element): Element | undefined {
   if (['html', 'body', '#document'].indexOf(getNodeName(node)) >= 0) {
-    return node.ownerDocument?.body as Element;
+    return node.ownerDocument?.body;
   }
 
   if (isElement(node) && isScrollable(node)) return node;

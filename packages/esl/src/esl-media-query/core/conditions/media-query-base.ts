@@ -1,4 +1,6 @@
-export interface IMediaQueryCondition extends EventTarget {
+import type {TypedEventTarget} from '../../../esl-event-listener/core/types';
+
+export interface IMediaQueryCondition extends TypedEventTarget<ESLMediaChangeEvent> {
   /** @returns true if current environment satisfies query */
   readonly matches: boolean;
 

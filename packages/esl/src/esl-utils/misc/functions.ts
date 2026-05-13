@@ -6,7 +6,9 @@ export const identity = <T>(arg: T): T => arg;
 
 export type NoopFnSignature = () => void;
 
-export type MaybeArgFn<T> = (() => void) | ((arg: T) => void);
+export type BivariantCallback<T> = {bivarianceHack(arg: T): void}['bivarianceHack'];
+
+export type MaybeArgFn<T> = NoopFnSignature | BivariantCallback<T>;
 
 export type AnyToVoidFnSignature = (...args: any[]) => void;
 
@@ -20,9 +22,10 @@ export type Predicate<T> = (el: T) => boolean;
  * Property provider function
  * @param that - (equal to `this` context) host or context
  */
-export type PropertyProvider<T> = (this: unknown, that: unknown) => T;
+export type PropertyProvider<T, Host = any> = (this: Host, that: Host) => T;
 
-export type ValueOrProvider<PropType> = PropType | PropertyProvider<PropType>;
+export type ValueOrProvider<PropType, Host = any> = PropType | PropertyProvider<PropType, Host>;
 
 /** Resolves {@link PropertyProvider} function to the value */
-export const resolveProperty = <T>(val: T | PropertyProvider<T>, origin: unknown): T => typeof val === 'function' ? val.call(origin, origin) : val;
+export const resolveProperty = <T, Host = unknown>(val: T | PropertyProvider<T, Host>, origin: Host): T =>
+  typeof val === 'function' ? (val as PropertyProvider<T, Host>).call(origin, origin) : val;
