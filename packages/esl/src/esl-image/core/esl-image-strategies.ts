@@ -72,7 +72,7 @@ export const STRATEGIES: ESLImageStrategyMap = {
       request.open('GET', shadowImg.src, true);
       request.onreadystatechange = (): void => {
         if (request.readyState !== 4 || request.status !== 200) return;
-        img.innerHTML = sanitize(request.responseText, ['svg']);
+        img.innerHTML = sanitize(request.responseText, {allowedRoots: ['svg']});
       };
       request.send();
     },

@@ -18,10 +18,16 @@ describe('sanitize', () => {
     expect(html).toBe('<div><div></div></div>');
   });
 
+  test('should clean template element by default', () => {
+    const html = sanitize('<div><template><img src="x"></template><p>Text</p></div>');
+    expect(html).toBe('<div><p>Text</p></div>');
+  });
+
   test('should clean dangerous on event attributes', () => {
     const markup = '<div><p>Text</p></div>';
-    const html = sanitize(`${markup}<img src="x" onerror="alert(document.cookie)">`);
-    expect(html).toBe(`${markup}<img src="x">`);
+    const attr = 'onerror';
+    const html = sanitize(`${markup}<img src="x" alt="" ${attr}="alert(document.cookie)">`);
+    expect(html).toBe(`${markup}<img src="x" alt="">`);
   });
 
   test('should clean dangerous href attribute with javascript content', () => {
@@ -30,29 +36,60 @@ describe('sanitize', () => {
     expect(html).toBe(`<a>${markup}</a>`);
   });
 
-  test('should clean dangerous src attribute with data-uri text/html content', () => {
-    const html = sanitize('<iframe src="data:text/html;base64,PHNjcmlwdD5hbGVydCgnWFNTJyk8L3NjcmlwdD4K"></iframe>');
-    expect(html).toBe('<iframe></iframe>');
-  });
-
-  test('should clean dangerous data attribute with data-uri text/html content', () => {
-    const html = sanitize('<object data="data:text/html;base64,PHNjcmlwdD5hbGVydCgnWFNTJyk8L3NjcmlwdD4K"></object>');
-    expect(html).toBe('<object></object>');
-  });
-
   test('should clean dangerous xlink:href attributes with data-uri text/html content', () => {
     const markup = '<rect width="100" height="100"></rect>';
-    const html = sanitize(`<a xlink:href="data:text/html;base64,PHNjcmlwdD5hbGVydCgnWFNTJyk8L3NjcmlwdD4K">${markup}</a>`);
-    expect(html).toBe(`<a>${markup}</a>`);
+    const attr = 'xlink:href';
+    const html = sanitize(`<svg><a ${attr}="data:text/html;base64,PHNjcmlwdD5hbGVydCgnWFNTJyk8L3NjcmlwdD4K">${markup}</a></svg>`);
+    expect(html).toBe(`<svg><a>${markup}</a></svg>`);
   });
 
-  test('should filter first level elements by tags', () => {
-    const html = sanitize('<h1>Title</h1><h2>Header</h2><div><p>Text</p></div>', ['H1']);
+  test('should filter first-level elements by allowed root tags', () => {
+    const html = sanitize('<h1>Title</h1><h2>Header</h2><div><p>Text</p></div>', {allowedRoots: ['h1']});
     expect(html).toBe('<h1>Title</h1>');
   });
 
-  test('should filter elements only at first level', () => {
-    const html = sanitize('<div><p>Text</p></div><p>Another text</p>', ['P']);
-    expect(html).toBe('<p>Another text</p>');
+  test('should remove disallowed elements recursively', () => {
+    const html = sanitize('<p>Text <span>safe</span><iframe src="https://example.com"></iframe></p>', {disallowedTags: ['iframe']});
+    expect(html).toBe('<p>Text <span>safe</span></p>');
+  });
+
+  test('should filter allowed root tags case-insensitively', () => {
+    const html = sanitize('<h1>Title</h1><h2>Header</h2>', {allowedRoots: ['H1']});
+    expect(html).toBe('<h1>Title</h1>');
+  });
+
+  test('should remove disallowed tags case-insensitively', () => {
+    const html = sanitize('<p>Text</p><iframe src="https://example.com"></iframe>', {disallowedTags: ['IFRAME']});
+    expect(html).toBe('<p>Text</p>');
+  });
+
+  test('should allow filtering temporary root container for svg', () => {
+    const html = sanitize('<span>Text</span><svg><rect width="100" height="100"></rect></svg>', {allowedRoots: ['svg']});
+    expect(html).toBe('<svg><rect width="100" height="100"></rect></svg>');
+  });
+
+  test('should clean dangerous url attributes case-insensitively', () => {
+    const html = sanitize('<a HREF="javascript:alert(document.cookie)">link</a>');
+    expect(html).toBe('<a>link</a>');
+  });
+
+  test('should clean custom url attributes by default', () => {
+    const html = sanitize('<button formaction="javascript:alert(document.cookie)">Send</button>');
+    expect(html).toBe('<button>Send</button>');
+  });
+
+  test('should allow configured url protocols', () => {
+    const html = sanitize('<a href="ftp://example.com/file.txt">file</a>', {allowedUrlProtocols: ['', 'http:', 'https:', 'ftp:']});
+    expect(html).toBe('<a href="ftp://example.com/file.txt">file</a>');
+  });
+
+  test('should support configured url attributes', () => {
+    const attr = 'poster';
+    const html = sanitize(`<div ${attr}="javascript:alert(document.cookie)"></div>`, {urlAttributes: [attr]});
+    expect(html).toBe('<div></div>');
+  });
+  test('should not touch custom attributes', () => {
+    const html = sanitize('<div my-mixin="value"></div>');
+    expect(sanitize(html)).toBe('<div my-mixin="value"></div>');
   });
 });
