@@ -12,12 +12,6 @@ export const toBooleanAttribute = (val: any): string | null => {
 /** Parses string representation of the boolean value */
 export const parseBoolean = (val: string | null): boolean => val !== null && val !== 'false' && val !== '0';
 
-/** Parses float from an attribute-like nullable string value */
-export const parseFloatNumber = (val: string | null): number => parseFloat(val || '');
-
-/** Parses integer from an attribute-like nullable string value */
-export const parseInteger = (val: string | null): number => parseInt(val || '', 10);
-
 /**
  * Parses number with the ability to pass an alternative fallback for NaN.
  * Note: falsy values except 0 are treated as NaN

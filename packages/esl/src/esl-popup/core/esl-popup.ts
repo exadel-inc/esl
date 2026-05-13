@@ -4,7 +4,7 @@ import {bind, memoize, ready, attr, boolAttr, jsonAttr, listen, decorate} from '
 import {afterNextRender, rafDecorator} from '../../esl-utils/async/raf';
 import {ESLToggleable} from '../../esl-toggleable/core';
 import {isElement, isRelativeNode, isRTL, Rect, getListScrollParents, getViewportRect} from '../../esl-utils/dom';
-import {parseBoolean, parseInteger, toBooleanAttribute} from '../../esl-utils/misc/format';
+import {parseBoolean, toBooleanAttribute} from '../../esl-utils/misc/format';
 import {copy} from '../../esl-utils/misc/object/copy';
 import {ESLIntersectionTarget, ESLIntersectionEvent} from '../../esl-event-listener/core/targets/intersection.target';
 import {calcPopupPosition, isOnHorizontalAxis} from './esl-popup-position';
@@ -53,13 +53,13 @@ export class ESLPopup extends ESLToggleable {
   @attr() public alignmentTether: AlignmentType;
 
   /** Safe margins on the edges of the popup. */
-  @attr({defaultValue: 5, parser: parseInteger}) public marginTether: number;
+  @attr({defaultValue: 5, parser: parseInt}) public marginTether: number;
 
   /** Offset of the tether relative to the position on the trigger */
-  @attr({defaultValue: 0, parser: parseInteger}) public offsetPlacement: number;
+  @attr({defaultValue: 0, parser: parseInt}) public offsetPlacement: number;
 
   /** offset in pixels from the trigger element */
-  @attr({defaultValue: 3, parser: parseInteger}) public offsetTrigger: number;
+  @attr({defaultValue: 3, parser: parseInt}) public offsetTrigger: number;
 
   /** Target to container element {@link ESLTraversingQuery} to define bounds of popups visibility (window by default) */
   @attr() public container: string;

@@ -6,8 +6,6 @@ import {ESLToggleable} from '../../esl-toggleable/core';
 
 import type {ESLMediaChangeEvent} from '../../esl-media-query/core';
 
-const parseMediaQuery = (val: string | null): ESLMediaQuery => val !== null ? ESLMediaQuery.for(val) : ESLMediaQuery.NOT_ALL;
-
 /**
  * ESLOpenState mixin element
  * @author Yuliya Adamskaya, Alexey Stsefanovich (ala'n)
@@ -21,7 +19,7 @@ export class ESLOpenState extends ESLMixinElement {
   public override $host: ESLToggleable;
 
   /** Open state {@link ESLMediaQuery} condition from query string */
-  @attr({name: ESLOpenState.is, parser: parseMediaQuery}) public media: ESLMediaQuery;
+  @attr({name: ESLOpenState.is, defaultValue: ESLMediaQuery.NOT_ALL, parser: ESLMediaQuery.for}) public media: ESLMediaQuery;
 
   @ready
   protected override connectedCallback(): void {

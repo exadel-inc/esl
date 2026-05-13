@@ -1,5 +1,4 @@
 import {attr, prop, listen} from '@exadel/esl/modules/esl-utils/decorators';
-import {parseInteger} from '@exadel/esl/modules/esl-utils/misc/format';
 import {ESLIntersectionTarget} from '@exadel/esl/modules/esl-event-listener/core';
 import {ESLToggleable} from '@exadel/esl/modules/esl-toggleable/core';
 import type {ESLIntersectionEvent} from '@exadel/esl/modules/esl-event-listener/core';
@@ -10,7 +9,7 @@ export class ESLDemoBanner extends ESLToggleable {
 
   @attr({parser: (str) => str && encodeURIComponent(str).trim()})
   public cookieName: string;
-  @attr({defaultValue: 14, parser: parseInteger})
+  @attr({defaultValue: 14, parser: parseInt})
   public cookieTime: number;
 
 

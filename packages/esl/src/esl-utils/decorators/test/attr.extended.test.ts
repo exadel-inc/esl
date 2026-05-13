@@ -1,11 +1,12 @@
 import {attr} from '../attr';
 import {setAttr} from '../../dom/attr';
-import {parseBoolean, parseFloatNumber, toBooleanAttribute} from '../../misc/format';
+import {parseBoolean, toBooleanAttribute} from '../../misc/format';
 
 describe('Decorator: attr', () => {
   describe('Decorator: attr - number parser', () => {
     class TestElement extends HTMLElement {
-      @attr({parser: parseFloatNumber})
+      // @ts-expect-error: intentionally using parseFloat (string => number) without defaultValue to test runtime behavior when parser receives null
+      @attr({parser: parseFloat})
       public attrNumber: number;
     }
     customElements.define('test-el-attr-ext-1', TestElement);

@@ -1,11 +1,10 @@
 import {attr, ready} from '@exadel/esl/modules/esl-utils/decorators';
-import {parseInteger} from '@exadel/esl/modules/esl-utils/misc/format';
 import {ESLMixinElement} from '@exadel/esl';
 
 export class ESLDemoNewLabel extends ESLMixinElement {
   static override is = 'esl-d-new-label';
 
-  @attr({name: ESLDemoNewLabel.is, parser: parseInteger}) public date: number;
+  @attr({name: ESLDemoNewLabel.is, defaultValue: 0, parser: parseInt}) public date: number;
 
   @ready
   protected override connectedCallback(): void {

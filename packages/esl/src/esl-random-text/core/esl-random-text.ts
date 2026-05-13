@@ -1,6 +1,6 @@
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {attr, boolAttr} from '../../esl-utils/decorators';
-import {capitalize, parseFloatNumber, parseInteger} from '../../esl-utils/misc/format';
+import {capitalize} from '../../esl-utils/misc/format';
 
 export class ESLRandomText extends ESLBaseElement {
   public static override readonly is = 'esl-random-text';
@@ -35,9 +35,9 @@ export class ESLRandomText extends ESLBaseElement {
   /** Choose words randomly from {@link DICTIONARY} rather than sequentially */
   @boolAttr() public shuffle: boolean;
   /** Maximum number of paragraphs in generated text */
-  @attr({parser: parseFloatNumber, defaultValue: 1}) public paragraphs: number;
+  @attr({parser: parseFloat, defaultValue: 1}) public paragraphs: number;
   /** Maximum number of words in paragraph */
-  @attr({parser: parseInteger, defaultValue: 100}) public wordsPerParagraph: number;
+  @attr({parser: parseInt, defaultValue: 100}) public wordsPerParagraph: number;
 
   /** Redraws random text content */
   public refresh(): void {

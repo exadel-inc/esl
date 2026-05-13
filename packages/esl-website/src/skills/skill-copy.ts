@@ -1,6 +1,5 @@
 import {ESLMixinElement} from '@exadel/esl/modules/esl-mixin-element/core';
 import {attr, listen} from '@exadel/esl/modules/esl-utils/decorators';
-import {parseInteger} from '@exadel/esl/modules/esl-utils/misc/format';
 
 /**
  * ESLDemoSkillCopy — mixin for skill card copy-to-clipboard button.
@@ -18,7 +17,7 @@ export class ESLDemoSkillCopy extends ESLMixinElement {
   @attr({name: 'data-url', defaultValue: ''}) public url: string;
 
   /** Duration (ms) to show the feedback label after a successful copy */
-  @attr({name: 'data-feedback-duration', defaultValue: 2500, parser: parseInteger})
+  @attr({name: 'data-feedback-duration', defaultValue: 2500, parser: parseInt})
   public feedbackDuration: number;
 
   @listen('click')
