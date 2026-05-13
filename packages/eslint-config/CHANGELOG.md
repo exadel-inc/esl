@@ -1,3 +1,9 @@
+## 6.1.0 (2026-05-13)
+
+### 🚀 Features
+
+- **eslint-config:** introduce `no-implicit-this` rule for a strict set of eslint-config-esl ([a9570137f](https://github.com/exadel-inc/esl/commit/a9570137f))
+
 # 6.0.0 (2026-04-28)
 
 ### 🚀 Features
