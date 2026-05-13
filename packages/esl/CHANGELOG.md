@@ -1,3 +1,25 @@
+## 6.1.0 (2026-05-13)
+
+### 🚀 Features
+
+- **eslint-config:** introduce `no-implicit-this` rule for a strict set of eslint-config-esl ([a9570137f](https://github.com/exadel-inc/esl/commit/a9570137f))
+- **esl-utils:** rework and extend ESL build-in `sanitize` utility ([dfaf8606d](https://github.com/exadel-inc/esl/commit/dfaf8606d))
+- **esl-carousel:** replace `no-inert` hard hook with a proper functional focus-policy feature ([a4035e1d0](https://github.com/exadel-inc/esl/commit/a4035e1d0))
+- **esl-utils:** rework `sanitize` API to allow passing DOM Element ([60f1db5a0](https://github.com/exadel-inc/esl/commit/60f1db5a0))
+
+### 🩹 Fixes
+
+- **esl-carousel:** fix JSX shape to allow children ([25b0e9067](https://github.com/exadel-inc/esl/commit/25b0e9067))
+- **esl-utils:** fix unexpected parse logic for `none` time values ([a747474b3](https://github.com/exadel-inc/esl/commit/a747474b3))
+- align core function typings with strictFunctionTypes ([46ff2285b](https://github.com/exadel-inc/esl/commit/46ff2285b))
+- support strictFunctionTypes in listen typings ([0b0669b25](https://github.com/exadel-inc/esl/commit/0b0669b25))
+
+### 💅 Refactors
+
+- **esl-utils:** update @attr decorator parser type to support safe and nullable overloads ([44f255856](https://github.com/exadel-inc/esl/commit/44f255856))
+- **esl-utils:** merge ExtractEventType into ESLEventType ([125fe3495](https://github.com/exadel-inc/esl/commit/125fe3495))
+- **esl-utils:** simplify ExtractEventType by removing redundant Extract and collapsing identical fallback branches ([803cb0507](https://github.com/exadel-inc/esl/commit/803cb0507))
+
 # 6.0.0 (2026-04-28)
 
 ### 🚀 Features

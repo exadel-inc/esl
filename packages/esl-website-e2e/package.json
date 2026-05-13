@@ -2,7 +2,7 @@
   "private": true,
   "name": "@exadel/esl-website-e2e",
   "type": "module",
-  "version": "6.0.0",
+  "version": "6.1.0",
   "description": "Snapshot tests for ESL Website",
   "homepage": "https://esl-ui.com/",
   "license": "MIT",

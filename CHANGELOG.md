@@ -1,3 +1,27 @@
+## 6.1.0 (2026-05-13)
+
+### 🚀 Features
+
+- **esl-carousel:** replace `no-inert` hard hook with a proper functional focus-policy feature ([a4035e1d0](https://github.com/exadel-inc/esl/commit/a4035e1d0))
+- **esl-utils:** rework `sanitize` API to allow passing DOM Element ([60f1db5a0](https://github.com/exadel-inc/esl/commit/60f1db5a0))
+- **esl-utils:** rework and extend ESL build-in `sanitize` utility ([dfaf8606d](https://github.com/exadel-inc/esl/commit/dfaf8606d))
+- **eslint-config:** introduce `no-implicit-this` rule for a strict set of eslint-config-esl ([a9570137f](https://github.com/exadel-inc/esl/commit/a9570137f))
+
+### 🩹 Fixes
+
+- support strictFunctionTypes in listen typings ([0b0669b25](https://github.com/exadel-inc/esl/commit/0b0669b25))
+- align core function typings with strictFunctionTypes ([46ff2285b](https://github.com/exadel-inc/esl/commit/46ff2285b))
+- **esl-carousel:** fix JSX shape to allow children ([25b0e9067](https://github.com/exadel-inc/esl/commit/25b0e9067))
+- **esl-utils:** fix unexpected parse logic for `none` time values ([a747474b3](https://github.com/exadel-inc/esl/commit/a747474b3))
+- **site:** align function typings with strictFunctionTypes ([35dfbc389](https://github.com/exadel-inc/esl/commit/35dfbc389))
+- **ui-playground:** align function typings with strictFunctionTypes ([a014f8944](https://github.com/exadel-inc/esl/commit/a014f8944))
+
+### 💅 Refactors
+
+- **esl-utils:** simplify ExtractEventType by removing redundant Extract and collapsing identical fallback branches ([803cb0507](https://github.com/exadel-inc/esl/commit/803cb0507))
+- **esl-utils:** merge ExtractEventType into ESLEventType ([125fe3495](https://github.com/exadel-inc/esl/commit/125fe3495))
+- **esl-utils:** update @attr decorator parser type to support safe and nullable overloads ([44f255856](https://github.com/exadel-inc/esl/commit/44f255856))
+
 # 6.0.0 (2026-04-28)
 
 ### 🚀 Features
