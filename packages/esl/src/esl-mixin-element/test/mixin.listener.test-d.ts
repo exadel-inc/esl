@@ -30,6 +30,7 @@ class ElementListenerTestD extends ESLMixinElement {
     this.$$on({event: 'keydown'}, this.onKeyboardEvent);
     this.$$on({event: 'scroll'}, this.onGenericEvent);
     this.$$on({event: 'click', selector: '.btn'}, this.onDelegatedMouseEvent);
+    this.$$off(this.onIntersectionEvent);
 
     // @ts-expect-error - disallow incomplete descriptor
     this.$$on({event: 'keyup'}, this.onMouseEvent);

@@ -22,7 +22,8 @@
     "rootDir": "src",
     "outDir": "./dist",
     "jsx": "react-jsx",
-    "jsxImportSource": "jsx-dom"
+    "jsxImportSource": "jsx-dom",
+    "strictFunctionTypes": true
   },
   "include": [
     "src"

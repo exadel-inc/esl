@@ -19,7 +19,7 @@ export class ESLOpenState extends ESLMixinElement {
   public override $host: ESLToggleable;
 
   /** Open state {@link ESLMediaQuery} condition from query string */
-  @attr({name: ESLOpenState.is, parser: ESLMediaQuery.for}) public media: ESLMediaQuery;
+  @attr({name: ESLOpenState.is, defaultValue: ESLMediaQuery.NOT_ALL, parser: ESLMediaQuery.for}) public media: ESLMediaQuery;
 
   @ready
   protected override connectedCallback(): void {

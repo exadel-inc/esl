@@ -7,7 +7,7 @@ export type ESLAttributeDecorator = (target: ESLDomElementTarget, propName: stri
 
 /** @returns true if attribute presented */
 export function hasAttr($el: ESLAttributeTarget, name: string): boolean {
-  if (Array.isArray($el)) return $el.every((element: Element) => hasAttr(element, name));
+  if (Array.isArray($el)) return $el.every((element) => hasAttr(element, name));
   if (!($el = resolveDomTarget($el))) return false;
   return $el.hasAttribute(name);
 }
@@ -25,7 +25,7 @@ export function getAttr($el: ESLAttributeTarget, name: string, fallback: string 
 /** Sets attribute */
 export function setAttr($el: ESLAttributeTarget, name: string, value: undefined | null | boolean | string): void {
   if (Array.isArray($el)) {
-    $el.forEach((element: Element) => setAttr(element, name, value));
+    $el.forEach((element) => setAttr(element, name, value));
     return;
   }
   if (!($el = resolveDomTarget($el))) return;

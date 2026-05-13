@@ -6,6 +6,9 @@ import {ESLMediaRule} from './esl-media-rule';
 
 import type {RulePayloadParser} from './esl-media-rule';
 
+// keep a named guard for strict narrowing
+const isDefinedRule = <T>(rule: ESLMediaRule<T> | undefined): rule is ESLMediaRule<T> => !!rule;
+
 /** A custom event dispatched by {@link ESLMediaRuleList} instances */
 export class ESLMediaRuleListEvent<T = any> extends Event {
   public static readonly TYPE = 'change';
@@ -126,7 +129,7 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
   public static parseQuery(query: string, parser: RulePayloadParser<any> = String): ESLMediaRuleList {
     const rules = query.split('|')
       .map((lex: string) => ESLMediaRule.parse(lex, parser))
-      .filter((rule: ESLMediaRule) => !!rule) as ESLMediaRule[];
+      .filter(isDefinedRule);
     return new ESLMediaRuleList(rules);
   }
 
@@ -165,7 +168,7 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
     while (valueList.length < queries.length && valueList.length !== 0) valueList.push(valueList[valueList.length - 1]);
     if (valueList.length !== queries.length) throw new TypeError(`tuple "${values}" doesn't correspond to mask "${mask}"`);
     const rules: (ESLMediaRule | undefined)[] = queries.map((query, i) => ESLMediaRule.create(valueList[i], query, parser));
-    const validRules = rules.filter((rule) => !!rule);
+    const validRules = rules.filter(isDefinedRule);
     return new ESLMediaRuleList(validRules);
   }
 

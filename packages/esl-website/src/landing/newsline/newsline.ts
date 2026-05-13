@@ -4,7 +4,7 @@ import {ESLMixinElement} from '@exadel/esl';
 export class ESLDemoNewLabel extends ESLMixinElement {
   static override is = 'esl-d-new-label';
 
-  @attr({name: ESLDemoNewLabel.is, parser: parseInt}) public date: number;
+  @attr({name: ESLDemoNewLabel.is, defaultValue: 0, parser: parseInt}) public date: number;
 
   @ready
   protected override connectedCallback(): void {

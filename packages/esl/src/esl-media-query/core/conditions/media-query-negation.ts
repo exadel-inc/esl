@@ -1,6 +1,6 @@
 import {ALL, NOT_ALL} from './media-query-const';
 
-import type {IMediaQueryCondition} from './media-query-base';
+import type {ESLMediaChangeEvent, IMediaQueryCondition} from './media-query-base';
 
 export class MediaQueryNegation implements IMediaQueryCondition {
   constructor(
@@ -38,7 +38,7 @@ export class MediaQueryNegation implements IMediaQueryCondition {
     this.condition.removeEventListener.apply(this.condition, args);
   }
 
-  public dispatchEvent(event: Event): boolean {
+  public dispatchEvent(event: ESLMediaChangeEvent): boolean {
     return this.condition.dispatchEvent(event);
   }
 }

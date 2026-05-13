@@ -85,8 +85,8 @@ function clearMemo<T extends object>(target: T, property: keyof T | (keyof T)[])
  * @param target - object instance that holds property
  * @param property - property, key of target, to clear cache
  */
-function clearMemo(target: object, property: string | string[]): void;
-function clearMemo(target: any, property: string | string[]): void {
+function clearMemo(target: object, property: PropertyKey | PropertyKey[]): void;
+function clearMemo(target: any, property: PropertyKey | PropertyKey[]): void {
   if (Array.isArray(property)) return property.forEach((prop) => memoize.clear(target, prop));
   const desc = getPropertyDescriptor(target, property);
   if (!desc) return;
@@ -111,8 +111,8 @@ function hasMemo<T extends object>(target: T, property: keyof T, ...params: any[
  * @param property - property, key of target, to check cache
  * @param params - additional params of original memoized method
  */
-function hasMemo(target: object, property: string, ...params: any[]): boolean;
-function hasMemo(target: any, property: string, ...params: any[]): boolean {
+function hasMemo(target: object, property: PropertyKey, ...params: any[]): boolean;
+function hasMemo(target: any, property: PropertyKey, ...params: any[]): boolean {
   const desc = getPropertyDescriptor(target, property);
   if (!desc) return false;
   if (typeof desc.get === 'function' && typeof (desc.get as any).has === 'function') return (desc.get as any).has(...params);
