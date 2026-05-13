@@ -29,6 +29,9 @@ export interface ESLCarouselTagShape extends ESLBaseElementShape<ESLCarousel> {
 
   /** Plugins attributes */
   [key: `esl-carousel-${string}`]: string;
+
+  /** Allowed children */
+  children?: any;
 }
 
 /** @deprecated alias for {@link ESLCarouselTagShape} */
