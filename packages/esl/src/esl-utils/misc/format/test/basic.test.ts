@@ -40,6 +40,9 @@ describe('misc/format - basic formatters test', () => {
       [['abc', NaN], NaN],
       [['def', 0], 0],
       [[''], undefined],
+      [[' '], undefined],
+      [[' ', 123], 123],
+      [['\t'], undefined],
       [[false], undefined]
     ])(
       'args = %o, result: %o',

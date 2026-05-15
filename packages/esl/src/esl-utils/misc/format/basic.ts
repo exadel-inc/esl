@@ -24,6 +24,6 @@ export function parseNumber(str: string | number): number | undefined;
 export function parseNumber(str: string | number, nanValue: number): number;
 export function parseNumber(str: string | number, nanValue?: number): number | undefined {
   if (str === 0) return 0;
-  const value = +(str || NaN);
+  const value = +((typeof str === 'string' ? str.trim() : str) || NaN);
   return isNaN(value) ? nanValue : value;
 }
