@@ -60,7 +60,7 @@
   "devDependencies": {
     "@commitlint/cli": "^21.0.1",
     "@commitlint/config-conventional": "^21.0.1",
-    "@vitest/coverage-v8": "^4.1.6",
+    "@vitest/coverage-v8": "^4.1.7",
     "chalk": "^5.6.2",
     "chokidar-cli": "^3.0.0",
     "cpy-cli": "^7.0.0",
