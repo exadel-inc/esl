@@ -33,7 +33,9 @@ describe('misc/format - basic formatters test', () => {
     test.each([
       [['123'], 123],
       [['123', 1], 123],
+      [['-1'], -1],
       [[0], 0],
+      [['0'], 0],
       [[0, 1], 0],
       [['a'], undefined],
       [['b', undefined], undefined],
