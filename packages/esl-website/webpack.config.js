@@ -1,5 +1,6 @@
 import path, {dirname} from 'path';
 import {fileURLToPath} from 'url';
+import {SwcMinifyWebpackPlugin} from 'swc-minify-webpack-plugin';
 
 const PWD = dirname(fileURLToPath(import.meta.url));
 
@@ -27,7 +28,11 @@ const BASE_CONFIG = {
   optimization: {
     concatenateModules: false,
     removeAvailableModules: true,
-    splitChunks: false
+    splitChunks: false,
+    minimize: true,
+    minimizer: [
+      new SwcMinifyWebpackPlugin({module: true})
+    ]
   },
 };
 
