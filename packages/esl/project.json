@@ -68,8 +68,7 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "cpy \"src/**/*.less\" \"modules\" --parents --clean",
-          "findx \"modules/{*,*/*,{esl-utils,esl-forms}/*/*}.less !**/*.mixin.less\" \"lessc {{path}} {{dir}}/{{name}}.css\"",
+          "job-ripper \"src/**/*.less\" -w worker/less.mjs -c 15%",
           "nodetouch \"modules/.less.done\""
         ],
         "cwd": "packages/esl",
