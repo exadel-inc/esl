@@ -13,10 +13,18 @@ export default async function(filePath) {
   const relFilePath = path.relative(SRC_DIR, absFilePath);
 
   const lessContent = fs.readFileSync(filePath, 'utf-8');
-  const {css, map} = await less.render(lessContent, {
-    filename: absFilePath,
-    sourceMap: {}
-  });
+  let css;
+  let map;
+  try {
+    const result = await less.render(lessContent, {
+      filename: absFilePath,
+      sourceMap: {}
+    });
+    css = result.css;
+    map = result.map;
+  } catch (err) {
+    throw new Error(err);
+  }
 
   const cssFileName = path.basename(relFilePath, '.less') + '.css';
   const destFilePath = path.join(OUT_DIR, cssFileName);
@@ -31,7 +39,8 @@ export default async function(filePath) {
   });
 
   fs.mkdirSync(OUT_DIR, {recursive: true});
-  const mapRelPath = `dist/bundles/${cssFileName}.map`;
-  fs.writeFileSync(destFilePath, code + `\n/*# sourceMappingURL=${mapRelPath} */\n`);
+  const mapRelPath = `${cssFileName}.map`;
+  const banner = `\n/*# sourceMappingURL=${mapRelPath} */\n`;
+  fs.writeFileSync(destFilePath, Buffer.concat([Buffer.from(code), Buffer.from(banner)]));
   fs.writeFileSync(destFilePath + '.map', minMap);
 }

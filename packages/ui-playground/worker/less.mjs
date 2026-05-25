@@ -18,6 +18,12 @@ export default async function(filePath) {
   if (depth > 1) return;
 
   const lessContent = fs.readFileSync(filePath, 'utf-8');
-  const {css} = await less.render(lessContent, {filename: absFilePath});
+  let css;
+  try {
+    const result = await less.render(lessContent, {filename: absFilePath});
+    css = result.css;
+  } catch (err) {
+    throw new Error(err);
+  }
   fs.writeFileSync(destFilePath.replace(/\.less$/, '.css'), css);
 }

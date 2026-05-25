@@ -68,7 +68,7 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "job-ripper \"src/**/*.less\" -w worker/less.mjs -c 15%",
+          "job-ripper \"src/**/*.less\" -w worker/less.mjs -c 2",
           "nodetouch \"modules/.less.done\""
         ],
         "cwd": "packages/esl",

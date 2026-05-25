@@ -135,7 +135,7 @@
       "options": {
         "commands": [
           "rimraf -g \"dist/**/*.css\"",
-          "job-ripper \"src/*.less\" -w worker/less.mjs -c 15%"
+          "job-ripper \"src/*.less\" -w worker/less.mjs -c 2"
         ],
         "parallel": false,
         "cwd": "packages/esl-website"
