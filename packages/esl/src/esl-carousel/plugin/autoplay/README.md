@@ -24,18 +24,48 @@ Configuration properties:
  - `trackInteraction` (optional, default: `true`) – pause while hovered or focus (keyboard focus‑visible) is within interaction scope.
  - `interactionScope` (optional) – selector (ESLTraversingQuery) defining scope for interaction tracking (defaults to host carousel).
  - `control` (optional) – selector for element(s) acting as manual enable/disable toggles.
+  - `controlBehaviour` (optional, default: `restart`) – how the control toggles autoplay:
+    * `restart` – stop/start from scratch
+    * `pause` – pause/resume preserving the current cycle remainder
  - `controlCls` (optional) – CSS class applied to external autoplay control elements while autoplay is enabled.
  - `containerCls` (optional) – CSS class applied to the carousel container while autoplay is enabled.
  - `blockerSelector` (optional) – selector (ESLTraversingQuery) for items that, when activated, stop carousel autoplay. Defaults to `::find(esl-share[active], esl-note[active])`.
  - `watchEvents` (optional) – space-separated list of event names that toggle blocking state on the carousel when fired. Defaults to `esl:change:active`.
+  - `blockBehaviour` (optional, default: `restart`) – how runtime blockers behave:
+    * `restart` – clear the current cycle and start a new one after unblocking
+    * `pause` – pause and resume the current cycle preserving the remaining time
 
 ### Public properties / state
 
- - `enabled` (boolean, read/write) – manual user switch (setter suspends / resumes). Getter returns effective enabled: user not suspended AND global duration >= 0.
+ - `enabled` (boolean, read/write) – autoplay is enabled and not manually stopped.
  - `duration` (number, readonly) – parsed global duration (ms). Negative / NaN means disabled.
  - `effectiveDuration` (number, readonly) – current slide duration (per‑slide override or global). `<= 0` pauses only the current slide.
+ - `remaining` (number, readonly) – remaining time of the current cycle (ms).
+ - `paused` (boolean, readonly) – autoplay is paused and may be resumed.
+ - `blocked` (boolean, readonly) – autoplay is currently blocked by viewport / interaction / blockers.
  - `active` (boolean, readonly) – a timer is scheduled (cycle running).
- - `allowed` (boolean, readonly) – runtime allowance (enabled + in viewport + no blocking interaction when tracking).
+ - `canRun` (boolean, readonly) – runtime allowance for scheduling the autoplay timer.
+ - `allowed` (boolean, readonly) – backward-compatible alias of `canRun`.
+
+### Public methods
+
+ - `start(reason?)` – starts autoplay or resumes the paused cycle.
+ - `pause(reason?)` – pauses autoplay preserving the remaining time.
+ - `stop(reason?)` – fully stops autoplay and clears the current cycle.
+
+`reason` is an optional compact machine-readable token. Typical values are:
+ - `user:start:call`
+ - `user:pause:call`
+ - `user:stop:call`
+ - `user:start:control`
+ - `user:pause:control`
+ - `user:stop:control`
+ - `system:start:auto`
+ - `system:pause:block`
+ - `system:stop:block`
+ - `system:stop:config`
+ - `system:stop:slide-change`
+ - `system:idle`
 
 Notes:
  - `enabled = true` and `active = false` is normal when: base duration is `0`; current slide override is `0`/non‑positive; carousel not sufficiently visible; user is hovering or focused; navigation command currently not possible.
@@ -43,7 +73,12 @@ Notes:
  - Negative / invalid duration disables the plugin until changed.
 
 ### Manual control
-Any element matching the `control` selector toggles `enabled` on click. Programmatic toggle: `carousel.autoplay.enabled = false` / `true`.
+Any element matching the `control` selector toggles autoplay according to `controlBehaviour`.
+
+Programmatic examples:
+ - `carousel.autoplay.enabled = false` / `true`
+ - `carousel.autoplay.stop()` / `start()`
+ - `carousel.autoplay.pause()` to preserve remaining time
 
 ## Per‑Slide Timeout Customization
 
@@ -97,8 +132,12 @@ Supported time formats:
 
 Event payload fields:
  - `enabled` – enabled state (autoplay not manually disabled and global duration is valid non‑negative value)
+ - `paused` – autoplay is paused and may be resumed
+ - `blocked` – autoplay is currently blocked by runtime conditions
  - `active` – timer scheduled
- - `duration` – effective duration used for (next) cycle (0 on clear state)
+ - `duration` – full effective duration used for the current/next cycle (0 on idle state)
+ - `remaining` – remaining cycle duration (0 on finished cycle; equals full duration on reset)
+ - `reason` – compact machine-readable state transition token (see public methods section)
 
 Use case examples: progress indicator, custom UI state, analytics.
 
@@ -106,8 +145,12 @@ Use case examples: progress indicator, custom UI state, analytics.
 
 `esl-carousel-autoplay-progress` listens for `esl:autoplay:change` and exposes:
  - `[autoplay-enabled]` boolean attribute
+ - `[autoplay-paused]` boolean attribute
+ - `[autoplay-blocked]` boolean attribute
  - `[animate]` attribute pulsed on each cycle start
- - `--esl-autoplay-timeout` CSS variable (ms) for styling animations
+ - `--esl-autoplay-timeout` CSS variable (ms) with the remaining cycle duration
+ - `--esl-autoplay-duration` CSS variable (ms) with the full cycle duration
+ - `--esl-autoplay-progress` CSS variable (0..1) with the current completed progress ratio
 
 Value: optional ESLTraversingQuery to target a carousel; otherwise nearest carousel inside closest `.esl-carousel-container`.
 

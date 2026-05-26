@@ -11,7 +11,9 @@ import {ESLCarouselAutoplayEvent} from './esl-carousel.autoplay.event';
  * - `animate` attribute - appears on each cycle of active autoplay;
  * drops one frame before the next cycle to activate CSS animation
  * - `autoplay-enabled` attribute - indicates whether the autoplay plugin is enabled
- * - `--esl-autoplay-timeout` CSS variable - indicates the current autoplay cycle duration
+ * - `--esl-autoplay-timeout` CSS variable - indicates the remaining autoplay cycle duration
+ * - `--esl-autoplay-duration` CSS variable - indicates the full autoplay cycle duration
+ * - `--esl-autoplay-progress` CSS variable - indicates completed progress ratio (0..1)
  */
 export class ESLCarouselAutoplayProgressMixin extends ESLMixinElement {
   public static override is = 'esl-carousel-autoplay-progress';
@@ -30,6 +32,10 @@ export class ESLCarouselAutoplayProgressMixin extends ESLMixinElement {
   @boolAttr() public animate: boolean;
   /** Autoplay enabled status marker attribute */
   @boolAttr() public autoplayEnabled: boolean;
+  /** Autoplay paused status marker attribute */
+  @boolAttr() public autoplayPaused: boolean;
+  /** Autoplay blocked status marker attribute */
+  @boolAttr() public autoplayBlocked: boolean;
 
   protected override attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null): void {
     this.$$on(this._onChange);
@@ -40,8 +46,18 @@ export class ESLCarouselAutoplayProgressMixin extends ESLMixinElement {
     target: ($this: ESLCarouselAutoplayProgressMixin) => $this.carousel
   })
   protected _onChange(e: ESLCarouselAutoplayEvent): void {
+    const duration = Math.max(e.duration || 0, 0);
+    const isProgressState = e.active || e.paused;
+    const remaining = isProgressState ? Math.max(e.remaining || 0, 0) : duration;
+    const elapsed = isProgressState ? Math.max(duration - remaining, 0) : 0;
+    const progress = duration > 0 ? Math.min(elapsed / duration, 1) : 0;
+
     this.autoplayEnabled = e.enabled;
-    this.$host.style.setProperty('--esl-autoplay-timeout', `${e.duration}ms`);
+    this.autoplayPaused = e.paused;
+    this.autoplayBlocked = e.blocked;
+    this.$host.style.setProperty('--esl-autoplay-timeout', `${remaining}ms`);
+    this.$host.style.setProperty('--esl-autoplay-duration', `${duration}ms`);
+    this.$host.style.setProperty('--esl-autoplay-progress', `${progress}`);
     requestAnimationFrame(() => this.animate = false);
     e.active && afterNextRender(() => this.animate = true);
   }
