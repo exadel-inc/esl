@@ -130,77 +130,106 @@ describe('ESLCarousel: Autoplay Plugin (interaction)', () => {
     expect(plugin.active).toBe(true);
   });
 
-  test('Pauses on popup open', async () => {
+  test('Blocks runtime execution on popup open', async () => {
     const plugin = ESLCarouselAutoplayMixin.get($carousel)!;
-    expect(plugin.allowed).toBe(true);
+    expect(plugin.canRun).toBe(true);
     simulatePopupOpen(true);
     await microtask();
-    expect(plugin.allowed).toBe(false);
+    expect(plugin.canRun).toBe(false);
   });
 
-  test('Resumes after popup closes', async () => {
+  test('Unblocks runtime execution after popup closes', async () => {
     const plugin = ESLCarouselAutoplayMixin.get($carousel)!;
-    expect(plugin.allowed).toBe(true);
+    expect(plugin.canRun).toBe(true);
     simulatePopupOpen(true);
     await microtask();
-    expect(plugin.allowed).toBe(false);
+    expect(plugin.canRun).toBe(false);
     simulatePopupOpen(false);
     await microtask();
-    expect(plugin.allowed).toBe(true);
+    expect(plugin.canRun).toBe(true);
   });
 
-  test('Re-enables and starts after focus out following manual disable', async () => {
+  test('stop()/start() works after focus out', async () => {
     const plugin = ESLCarouselAutoplayMixin.get($carousel)!;
     expect(plugin.active).toBe(true);
-    // Focus to pause
     simulateFocus(true);
     await microtask();
     expect(plugin.active).toBe(false);
-    // Manually disable while paused
-    plugin.enabled = false;
+    plugin.stop();
     expect(plugin.enabled).toBe(false);
-    // Clear focus state first
     simulateFocus(false);
     await microtask();
-    // Re-enable after focus already out
-    plugin.enabled = true;
+    plugin.start();
     await microtask();
     expect(plugin.enabled).toBe(true);
     expect(plugin.active).toBe(true);
   });
 
-  test('Re-enables and starts after hover leave following manual disable', async () => {
+  test('stop()/start() works after hover leave', async () => {
     const plugin = ESLCarouselAutoplayMixin.get($carousel)!;
     expect(plugin.active).toBe(true);
     simulateHover(true);
     await microtask();
     expect(plugin.active).toBe(false);
-    plugin.enabled = false;
+    plugin.stop();
     expect(plugin.enabled).toBe(false);
     simulateHover(false); // clear hover before enabling
     await microtask();
-    plugin.enabled = true;
+    plugin.start();
     await microtask();
     expect(plugin.enabled).toBe(true);
     expect(plugin.active).toBe(true);
   });
 
-  test('Re-enable while still hovered stays inactive until hover leaves', async () => {
+  test('start() while still hovered stays inactive until hover leaves', async () => {
     const plugin = ESLCarouselAutoplayMixin.get($carousel)!;
     expect(plugin.active).toBe(true);
     simulateHover(true);
     await microtask();
     expect(plugin.active).toBe(false);
-    plugin.enabled = false;
+    plugin.stop();
     simulateHover(false); // leave then immediately hover again before enabling
     simulateHover(true);
     await microtask();
-    plugin.enabled = true; // re-enable while hovered
+    plugin.start(); // re-enable while hovered
     await microtask();
     expect(plugin.enabled).toBe(true);
     expect(plugin.active).toBe(false); // still paused due to hover
     simulateHover(false); // finally leave
     await microtask();
     expect(plugin.active).toBe(true);
+  });
+
+  test('blockBehaviour=pause preserves remaining time on hover', async () => {
+    $carousel.setAttribute('esl-carousel-autoplay', '{duration: 1000, blockBehaviour: "pause"}');
+    await microtask();
+    IntersectionObserverMock.trigger($carousel, {intersectionRatio: 1, isIntersecting: true});
+    const plugin = ESLCarouselAutoplayMixin.get($carousel)!;
+
+    vi.advanceTimersByTime(350);
+    const beforePause = plugin.remaining;
+    simulateHover(true);
+    await microtask();
+
+    expect(plugin.paused).toBe(true);
+    expect(plugin.active).toBe(false);
+    expect(plugin.remaining).toBeLessThanOrEqual(beforePause);
+    expect(plugin.remaining).toBeGreaterThan(0);
+  });
+
+  test('blockBehaviour=restart clears remaining time on hover block', async () => {
+    $carousel.setAttribute('esl-carousel-autoplay', '{duration: 1000, blockBehaviour: "restart"}');
+    await microtask();
+    IntersectionObserverMock.trigger($carousel, {intersectionRatio: 1, isIntersecting: true});
+    const plugin = ESLCarouselAutoplayMixin.get($carousel)!;
+
+    vi.advanceTimersByTime(350);
+    expect(plugin.remaining).toBeGreaterThan(0);
+    simulateHover(true);
+    await microtask();
+
+    expect(plugin.paused).toBe(false);
+    expect(plugin.active).toBe(false);
+    expect(plugin.remaining).toBe(0);
   });
 });

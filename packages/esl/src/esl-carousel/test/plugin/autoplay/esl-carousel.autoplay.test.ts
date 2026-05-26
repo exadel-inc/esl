@@ -1,6 +1,7 @@
 import {ESLCarousel} from '../../../core/esl-carousel';
 import {ESLCarouselDummyRenderer} from '../../common/esl-carousel.dummy.renderer';
 import {ESLCarouselAutoplayMixin} from '../../../plugin/autoplay/esl-carousel.autoplay.mixin';
+import {ESLCarouselAutoplayEvent} from '../../../plugin/autoplay/esl-carousel.autoplay.event';
 import {IntersectionObserverMock} from '../../../../test/intersectionObserver.mock';
 
 vi.mock('../../../../esl-utils/dom/ready', () => ({
@@ -134,6 +135,85 @@ describe('ESLCarousel: Autoplay Plugin', () => {
       // Wait for the first slide command execution
       vi.advanceTimersByTime(plugin.duration + 1);
       expect(goToSpy).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('ESLCarouselAutoplayMixin public API', () => {
+    const $carousel = ESLCarousel.create();
+    vi.spyOn($carousel, 'canNavigate').mockReturnValue(true);
+
+    beforeEach(async () => {
+      document.body.appendChild($carousel);
+      $carousel.setAttribute('esl-carousel-autoplay', '{duration: 1000, blockBehaviour: "pause"}');
+      await microtask();
+      IntersectionObserverMock.trigger($carousel, {intersectionRatio: 1, isIntersecting: true});
+    });
+
+    afterEach(() => {
+      document.body.removeChild($carousel);
+      vi.clearAllTimers();
+    });
+
+    test('pause() sets paused state and preserves remaining timeout', async () => {
+      const plugin = ESLCarouselAutoplayMixin.get($carousel)!;
+      expect(plugin.active).toBe(true);
+
+      vi.advanceTimersByTime(350);
+      plugin.pause();
+      await microtask();
+
+      expect(plugin.paused).toBe(true);
+      expect(plugin.active).toBe(false);
+      expect(plugin.remaining).toBeGreaterThan(0);
+      expect(plugin.remaining).toBeLessThan(1000);
+    });
+
+    test('start() resumes paused cycle', async () => {
+      const plugin = ESLCarouselAutoplayMixin.get($carousel)!;
+      vi.advanceTimersByTime(300);
+      plugin.pause();
+      const pausedRemaining = plugin.remaining;
+
+      plugin.start();
+      await microtask();
+
+      expect(plugin.paused).toBe(false);
+      expect(plugin.active).toBe(true);
+      expect(plugin.remaining).toBeLessThanOrEqual(pausedRemaining);
+      expect(plugin.remaining).toBeGreaterThan(0);
+    });
+
+    test('stop() disables autoplay until start() is called', async () => {
+      const plugin = ESLCarouselAutoplayMixin.get($carousel)!;
+
+      plugin.stop();
+      await microtask();
+      expect(plugin.enabled).toBe(false);
+      expect(plugin.canRun).toBe(false);
+      expect(plugin.active).toBe(false);
+      expect(plugin.remaining).toBe(0);
+
+      plugin.start();
+      await microtask();
+      expect(plugin.enabled).toBe(true);
+      expect(plugin.active).toBe(true);
+    });
+
+    test('dispatches reason and remaining in autoplay change event', async () => {
+      const plugin = ESLCarouselAutoplayMixin.get($carousel)!;
+      const events: ESLCarouselAutoplayEvent[] = [];
+      $carousel.addEventListener(ESLCarouselAutoplayEvent.NAME, (e) => events.push(e as ESLCarouselAutoplayEvent));
+
+      vi.advanceTimersByTime(250);
+      plugin.pause('user:pause:call');
+      await microtask();
+
+      const pauseEvent = events.at(-1)!;
+      expect(pauseEvent.reason).toBe('user:pause:call');
+      expect(pauseEvent.paused).toBe(true);
+      expect(pauseEvent.active).toBe(false);
+      expect(pauseEvent.remaining).toBeGreaterThan(0);
+      expect(pauseEvent.remaining).toBeLessThan(1000);
     });
   });
 });
