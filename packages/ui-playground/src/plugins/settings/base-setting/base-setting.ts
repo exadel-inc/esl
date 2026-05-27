@@ -26,6 +26,8 @@ export abstract class UIPSetting extends UIPPlugin {
   @prop('Invalid setting value') public INVALID_VALUE_MSG: string;
   /** No value specified */
   @prop('No value specified') public NOT_VALUE_SPECIFIED_MSG: string;
+  /** Event dispatching on the {@link UIPSetting} value change */
+  @prop('uip:settings:state:change') public SETTING_STATE_CHANGE_EVENT: string;
 
   /** Class for label field element */
   @attr({defaultValue: 'label-field'}) public labelFieldClass: string;
@@ -65,6 +67,8 @@ export abstract class UIPSetting extends UIPPlugin {
     e.preventDefault();
     if (!this.model) return;
     this.applyTo(this.model);
+    const detail = {config: this.SETTING_STATE_CHANGE_EVENT, value: this.getDisplayedValue()};
+    this.$$fire(this.SETTING_STATE_CHANGE_EVENT, {detail});
   }
 
   /**
@@ -97,9 +101,8 @@ export abstract class UIPSetting extends UIPPlugin {
   @listen({event: 'uip:change', target: ($this: UIPSetting) => $this.$root})
   protected _onRootStateChange(e?: UIPChangeEvent): void {
     if (e && !e.htmlChanges.length) return;
-    this.updateFrom(this.model!);
-    // TODO: throw only if real state change
-    this.$$fire('uip:settings:state:change');
+    if (!this.model) return;
+    this.updateFrom(this.model);
   }
 
   /**
