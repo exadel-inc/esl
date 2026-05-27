@@ -102,7 +102,16 @@ export abstract class UIPSetting extends UIPPlugin {
   protected _onRootStateChange(e?: UIPChangeEvent): void {
     if (e && !e.htmlChanges.length) return;
     if (!this.model) return;
+
+    const wasInactive = this.classList.contains('uip-inactive-setting');
     this.updateFrom(this.model);
+
+    // Initial sync on connect should not broadcast state-change event.
+    if (!e) return;
+    const isInactive = this.classList.contains('uip-inactive-setting');
+    if (wasInactive === isInactive) return;
+    const detail = {config: this.SETTING_STATE_CHANGE_EVENT, value: this.getDisplayedValue()};
+    this.$$fire(this.SETTING_STATE_CHANGE_EVENT, {detail});
   }
 
   /**
