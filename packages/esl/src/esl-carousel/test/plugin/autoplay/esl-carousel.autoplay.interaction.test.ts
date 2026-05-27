@@ -26,6 +26,7 @@ describe('ESLCarousel: Autoplay Plugin (interaction)', () => {
   });
 
   const $popupTrigger = document.createElement('esl-note');
+  const $externalBlocker = document.createElement('div');
   const $carousel = ESLCarousel.create();
   vi.spyOn($carousel, 'canNavigate').mockReturnValue(true);
 
@@ -70,12 +71,20 @@ describe('ESLCarousel: Autoplay Plugin (interaction)', () => {
     value && $popupTrigger.dispatchEvent(new Event('esl:change:active', {bubbles: true}));
   };
 
+  const simulateExternalBlocker = (value: boolean) => {
+    value ? $externalBlocker.setAttribute('active', '') : $externalBlocker.removeAttribute('active');
+    $externalBlocker.dispatchEvent(new Event('esl:change:active', {bubbles: true}));
+  };
+
   beforeEach(async () => {
+    $externalBlocker.className = 'global-blocker';
+    document.body.appendChild($externalBlocker);
     document.body.appendChild($carousel);
     $carousel.setAttribute('esl-carousel-autoplay', '');
 
     $carousel.appendChild($popupTrigger);
     $popupTrigger.removeAttribute('active');
+    $externalBlocker.removeAttribute('active');
 
     applySpies();
     await microtask();
@@ -84,6 +93,7 @@ describe('ESLCarousel: Autoplay Plugin (interaction)', () => {
 
   afterEach(() => {
     document.body.removeChild($carousel);
+    document.body.removeChild($externalBlocker);
     interactionState.hover = false;
     interactionState.focus = false;
     matchesSpy?.mockRestore();
@@ -147,6 +157,51 @@ describe('ESLCarousel: Autoplay Plugin (interaction)', () => {
     simulatePopupOpen(false);
     await microtask();
     expect(plugin.canRun).toBe(true);
+  });
+
+  test('Blocks active timer on external blocker event from document scope', async () => {
+    const plugin = ESLCarouselAutoplayMixin.get($carousel)!;
+    $carousel.setAttribute('esl-carousel-autoplay', '{duration: 1000, blockerSelector: ".global-blocker[active]"}');
+    await microtask();
+    IntersectionObserverMock.trigger($carousel, {intersectionRatio: 1, isIntersecting: true});
+
+    expect(plugin.active).toBe(true);
+    simulateExternalBlocker(true);
+    await microtask();
+
+    expect(plugin.canRun).toBe(false);
+    expect(plugin.active).toBe(false);
+  });
+
+  test('Restarts autoplay after external blocker clears', async () => {
+    const plugin = ESLCarouselAutoplayMixin.get($carousel)!;
+    $carousel.setAttribute('esl-carousel-autoplay', '{duration: 1000, blockerSelector: ".global-blocker[active]"}');
+    await microtask();
+    IntersectionObserverMock.trigger($carousel, {intersectionRatio: 1, isIntersecting: true});
+
+    simulateExternalBlocker(true);
+    await microtask();
+    expect(plugin.active).toBe(false);
+
+    simulateExternalBlocker(false);
+    await microtask();
+    expect(plugin.canRun).toBe(true);
+    expect(plugin.active).toBe(true);
+  });
+
+  test('Skips blocker selector lookup on global events while carousel is out of viewport', async () => {
+    const plugin = ESLCarouselAutoplayMixin.get($carousel)!;
+    $carousel.setAttribute('esl-carousel-autoplay', '{duration: 1000, blockerSelector: ".global-blocker[active]"}');
+    await microtask();
+    IntersectionObserverMock.trigger($carousel, {intersectionRatio: 0, isIntersecting: false});
+    const lookupSpy = vi.spyOn(plugin, '$$find');
+
+    simulateExternalBlocker(true);
+    await microtask();
+
+    expect(plugin.active).toBe(false);
+    expect(plugin.canRun).toBe(false);
+    expect(lookupSpy).not.toHaveBeenCalled();
   });
 
   test('stop()/start() works after focus out', async () => {

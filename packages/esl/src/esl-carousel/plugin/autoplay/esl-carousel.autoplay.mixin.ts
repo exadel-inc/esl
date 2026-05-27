@@ -36,7 +36,7 @@ export interface ESLCarouselAutoplayConfig {
   blockBehaviour: ESLCarouselAutoplayBehaviour;
   /** Selector for items that, when active, should disable autoplay */
   blockerSelector?: string;
-  /** Events that should block autoplay when fired on interaction scope elements */
+  /** Events that should trigger blocking state re-check when fired anywhere in the document */
   watchEvents: string;
 }
 
@@ -93,7 +93,9 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
 
   /** True when autoplay cannot run due to runtime blockers */
   public get blocked(): boolean {
-    return !this._inViewport || (this.config.trackInteraction && (this.hovered || this.focused)) || this.hasActiveBlockingItems;
+    if (!this._inViewport) return true;
+    if (this.config.trackInteraction && (this.hovered || this.focused)) return true;
+    return this.hasActiveBlockingItems;
   }
 
   /**
@@ -369,7 +371,7 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
   @listen({
     group: 'state',
     event: ($this: ESLCarouselAutoplayMixin) => $this.config.watchEvents,
-    target: ($this: ESLCarouselAutoplayMixin) => $this.$interactionScope,
+    target: document,
     condition: ($this: ESLCarouselAutoplayMixin) => $this.enabled
   })
   protected _onBlockingEvent(): void {
