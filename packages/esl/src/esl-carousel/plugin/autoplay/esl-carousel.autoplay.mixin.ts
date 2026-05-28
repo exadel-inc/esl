@@ -9,7 +9,7 @@ import {ESLCarouselPlugin} from '../esl-carousel.plugin';
 import {ESLCarouselSlideEvent} from '../../core/esl-carousel.events';
 import {ESLCarouselAutoplayEvent} from './esl-carousel.autoplay.event';
 
-import type {ESLCarouselAutoplayBehaviour, ESLCarouselAutoplayReason} from './esl-carousel.autoplay.types';
+import type {ESLCarouselAutoplayBehaviour, ESLCarouselAutoplayReason, ESLCarouselAutoplayState} from './esl-carousel.autoplay.types';
 
 const isUserReason = (reason: ESLCarouselAutoplayReason): boolean => reason.startsWith('user:');
 
@@ -24,14 +24,8 @@ export interface ESLCarouselAutoplayConfig {
   trackInteraction: boolean;
   /** Scope selector for interaction tracking (defaults to host (carousel)) */
   interactionScope?: string;
-  /** Selector for external control(s) toggling autoplay */
-  control?: string;
-  /** CSS class applied to external autoplay control elements while autoplay is enabled */
-  controlCls?: string;
   /** CSS class applied to the carousel container while autoplay is enabled */
   containerCls?: string;
-  /** Behaviour of the control click action */
-  controlBehaviour: ESLCarouselAutoplayBehaviour;
   /** Behaviour of runtime blockers */
   blockBehaviour: ESLCarouselAutoplayBehaviour;
   /** Selector for items that, when active, should disable autoplay */
@@ -54,8 +48,7 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
     trackInteraction: true,
     blockBehaviour: 'restart',
     blockerSelector: '::find(esl-share[active], esl-note[active])',
-    watchEvents: 'esl:change:active',
-    controlBehaviour: 'restart'
+    watchEvents: 'esl:change:active'
   };
   public static override DEFAULT_CONFIG_KEY: keyof ESLCarouselAutoplayConfig = 'duration';
 
@@ -84,11 +77,18 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
     return !!this._timeout;
   }
 
-  /** True when autoplay is paused and can potentially be resumed */
+  /** True when autoplay is paused explicitly by user action and can potentially be resumed */
   public get paused(): boolean {
-    if (!this.enabled || this.active) return false;
-    if (this._pausedByUser) return true;
-    return this.config.blockBehaviour === 'pause' && this.blocked && this.remaining > 0;
+    return this.enabled && !this.active && this._pausedByUser;
+  }
+
+  /** Exclusive summary state for autoplay runtime */
+  public get state(): ESLCarouselAutoplayState {
+    if (!this.enabled) return 'disabled';
+    if (this.paused) return 'paused';
+    if (this.blocked) return 'blocked';
+    if (this.active) return 'active';
+    return 'idle';
   }
 
   /** True when autoplay cannot run due to runtime blockers */
@@ -134,13 +134,6 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
   public get remaining(): number {
     if (!this.active || this._cycleStartedAt === null) return this._remaining;
     return Math.max(this._remaining - (Date.now() - this._cycleStartedAt), 0);
-  }
-
-  /** Control elements collection (memoized) */
-  @memoize()
-  public get $controls(): HTMLElement[] {
-    const sel = this.config.control;
-    return sel ? this.$$findAll(sel) as HTMLElement[] : [];
   }
 
   /** Interaction scope elements (memoized) */
@@ -229,6 +222,14 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
     this.syncState(reason);
   }
 
+  /** Toggle autoplay state according to the specified control behaviour */
+  public toggle(behaviour: ESLCarouselAutoplayBehaviour = 'restart'): void {
+    if (behaviour === 'pause') {
+      return this._pausedByUser ? this.start('user:start:control') : this.pause('user:pause:control');
+    }
+    return (this._stoppedByUser || !this.enabled) ? this.start('user:start:control') : this.stop('user:stop:control');
+  }
+
   /** Init lifecycle hook */
   protected override onInit(): void {
     this.update();
@@ -238,7 +239,7 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
   @listen({inherit: true})
   protected override onConfigChange(): void {
     super.onConfigChange();
-    memoize.clear(this, ['$controls', '$interactionScope']);
+    memoize.clear(this, '$interactionScope');
     this.$$off(this._onBlockingEvent);
     this.stop('system:stop:config');
     this.update();
@@ -264,7 +265,6 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
   /** Update UI markers reflecting effective autoplay state */
   protected updateMarkers(): void {
     const {$container} = this.$host;
-    CSSClassUtils.toggle(this.$controls, this.config.controlCls, this.enabled);
     $container && CSSClassUtils.toggle($container, this.config.containerCls, this.enabled);
   }
 
@@ -352,20 +352,6 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
     if (this.canAutoStart) this.start('system:start:auto');
   }
 
-  /** Control click handler toggling manual enabled state */
-  @listen({
-    event: 'click',
-    target: ($this: ESLCarouselAutoplayMixin) => $this.$controls,
-    condition: ($this: ESLCarouselAutoplayMixin)=> !!$this.$controls.length
-  })
-  protected _onToggle(e: Event): void {
-    if (this.config.controlBehaviour === 'pause') {
-      this._pausedByUser ? this.start('user:start:control') : this.pause('user:pause:control');
-    } else {
-      (this._stoppedByUser || !this.enabled) ? this.start('user:start:control') : this.stop('user:stop:control');
-    }
-    e.preventDefault();
-  }
 
   /** Subscribe to events that block autoplay */
   @listen({

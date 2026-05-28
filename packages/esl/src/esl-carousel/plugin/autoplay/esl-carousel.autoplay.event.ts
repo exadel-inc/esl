@@ -1,6 +1,6 @@
 import type {ESLCarousel} from '../../core/esl-carousel';
 import type {ESLCarouselAutoplayMixin} from './esl-carousel.autoplay.mixin';
-import type {ESLCarouselAutoplayReason} from './esl-carousel.autoplay.types';
+import type {ESLCarouselAutoplayReason, ESLCarouselAutoplayState} from './esl-carousel.autoplay.types';
 
 interface ESLCarouselAutoplayEventInit {
   /** Whether autoplay plugin is enabled or disabled */
@@ -11,6 +11,8 @@ interface ESLCarouselAutoplayEventInit {
   blocked: boolean;
   /** Whether autoplay cycle is currently active */
   active: boolean;
+  /** Exclusive autoplay runtime state */
+  state: ESLCarouselAutoplayState;
   /** Full duration of the current autoplay cycle in milliseconds */
   duration: number;
   /** Remaining duration of the current autoplay cycle in milliseconds */
@@ -34,6 +36,7 @@ export class ESLCarouselAutoplayEvent extends Event implements ESLCarouselAutopl
   public readonly paused: boolean;
   public readonly blocked: boolean;
   public readonly active: boolean;
+  public readonly state: ESLCarouselAutoplayState;
   public readonly duration: number;
   public readonly remaining: number;
   public readonly reason?: ESLCarouselAutoplayReason;
@@ -44,9 +47,9 @@ export class ESLCarouselAutoplayEvent extends Event implements ESLCarouselAutopl
   }
 
   public static dispatch(plugin: ESLCarouselAutoplayMixin, reason?: ESLCarouselAutoplayReason): boolean {
-    const {enabled, paused, blocked, active, remaining} = plugin;
+    const {enabled, paused, blocked, active, state, remaining} = plugin;
     const duration = plugin.effectiveDuration > 0 ? plugin.effectiveDuration : 0;
-    const event = new ESLCarouselAutoplayEvent({enabled, paused, blocked, active, duration, remaining, reason});
+    const event = new ESLCarouselAutoplayEvent({enabled, paused, blocked, active, state, duration, remaining, reason});
     return plugin.$host.dispatchEvent(event);
   }
 }

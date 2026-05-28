@@ -210,10 +210,32 @@ describe('ESLCarousel: Autoplay Plugin', () => {
 
       const pauseEvent = events.at(-1)!;
       expect(pauseEvent.reason).toBe('user:pause:call');
+      expect(pauseEvent.state).toBe('paused');
       expect(pauseEvent.paused).toBe(true);
       expect(pauseEvent.active).toBe(false);
       expect(pauseEvent.remaining).toBeGreaterThan(0);
       expect(pauseEvent.remaining).toBeLessThan(1000);
+    });
+
+    test('runtime block is reflected as blocked state without setting paused', async () => {
+      const plugin = ESLCarouselAutoplayMixin.get($carousel)!;
+      const events: ESLCarouselAutoplayEvent[] = [];
+      $carousel.addEventListener(ESLCarouselAutoplayEvent.NAME, (e) => events.push(e as ESLCarouselAutoplayEvent));
+
+      vi.advanceTimersByTime(250);
+      IntersectionObserverMock.trigger($carousel, {intersectionRatio: 0, isIntersecting: false});
+      await microtask();
+
+      const blockEvent = events.at(-1)!;
+      expect(plugin.paused).toBe(false);
+      expect(plugin.blocked).toBe(true);
+      expect(plugin.state).toBe('blocked');
+      expect(plugin.remaining).toBeGreaterThan(0);
+      expect(blockEvent.reason).toBe('system:pause:block');
+      expect(blockEvent.state).toBe('blocked');
+      expect(blockEvent.paused).toBe(false);
+      expect(blockEvent.blocked).toBe(true);
+      expect(blockEvent.remaining).toBeGreaterThan(0);
     });
   });
 });

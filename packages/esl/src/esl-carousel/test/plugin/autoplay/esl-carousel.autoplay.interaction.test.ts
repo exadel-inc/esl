@@ -266,7 +266,9 @@ describe('ESLCarousel: Autoplay Plugin (interaction)', () => {
     simulateHover(true);
     await microtask();
 
-    expect(plugin.paused).toBe(true);
+    expect(plugin.paused).toBe(false);
+    expect(plugin.blocked).toBe(true);
+    expect(plugin.state).toBe('blocked');
     expect(plugin.active).toBe(false);
     expect(plugin.remaining).toBeLessThanOrEqual(beforePause);
     expect(plugin.remaining).toBeGreaterThan(0);
@@ -284,6 +286,8 @@ describe('ESLCarousel: Autoplay Plugin (interaction)', () => {
     await microtask();
 
     expect(plugin.paused).toBe(false);
+    expect(plugin.blocked).toBe(true);
+    expect(plugin.state).toBe('blocked');
     expect(plugin.active).toBe(false);
     expect(plugin.remaining).toBe(0);
   });
