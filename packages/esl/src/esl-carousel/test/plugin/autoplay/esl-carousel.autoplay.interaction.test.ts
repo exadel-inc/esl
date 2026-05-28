@@ -274,8 +274,8 @@ describe('ESLCarousel: Autoplay Plugin (interaction)', () => {
     expect(plugin.remaining).toBeGreaterThan(0);
   });
 
-  test('blockBehaviour=restart clears remaining time on hover block', async () => {
-    $carousel.setAttribute('esl-carousel-autoplay', '{duration: 1000, blockBehaviour: "restart"}');
+  test('blockBehaviour=stop clears remaining time on hover block', async () => {
+    $carousel.setAttribute('esl-carousel-autoplay', '{duration: 1000, blockBehaviour: "stop"}');
     await microtask();
     IntersectionObserverMock.trigger($carousel, {intersectionRatio: 1, isIntersecting: true});
     const plugin = ESLCarouselAutoplayMixin.get($carousel)!;

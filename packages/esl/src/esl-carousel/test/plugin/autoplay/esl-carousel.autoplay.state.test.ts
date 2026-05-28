@@ -67,4 +67,3 @@ describe('ESLCarousel: Autoplay State Mixin', () => {
     expect($status.getAttribute('autoplay-state')).toBe('unavailable');
   });
 });
-

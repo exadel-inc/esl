@@ -6,7 +6,7 @@ The `esl-carousel-autoplay` is a custom attribute (plugin/mixin) for `ESLCarouse
 It lets the carousel automatically navigate between slides on a timed cycle, issuing a navigation command at each interval.
 Attach the plugin directly on the `esl-carousel` element (it will self‑remove if applied elsewhere).
 The plugin supports ESL media rule syntax, enabling responsive configuration.
-Features include: hover/focus pause, simple enable/disable controls, progress helper, and per‑slide timeout overrides.
+Features include: hover/focus pause, separate external control/progress mixins, and per‑slide timeout overrides.
 
 ## Configuration
 
@@ -23,16 +23,11 @@ Configuration properties:
  - `intersection` (optional, default: `0.25`) – intersection ratio (0..1) required to run. Below threshold cycle is suspended.
  - `trackInteraction` (optional, default: `true`) – pause while hovered or focus (keyboard focus‑visible) is within interaction scope.
  - `interactionScope` (optional) – selector (ESLTraversingQuery) defining scope for interaction tracking (defaults to host carousel).
- - `control` (optional) – selector for element(s) acting as manual enable/disable toggles.
-  - `controlBehaviour` (optional, default: `restart`) – how the control toggles autoplay:
-    * `restart` – stop/start from scratch
-    * `pause` – pause/resume preserving the current cycle remainder
- - `controlCls` (optional) – CSS class applied to external autoplay control elements while autoplay is enabled.
  - `containerCls` (optional) – CSS class applied to the carousel container while autoplay is enabled.
  - `blockerSelector` (optional) – selector (ESLTraversingQuery) for items that, when activated, stop carousel autoplay. Defaults to `::find(esl-share[active], esl-note[active])`.
  - `watchEvents` (optional) – space-separated list of event names that toggle blocking state on the carousel when fired. Defaults to `esl:change:active`.
-  - `blockBehaviour` (optional, default: `restart`) – how runtime blockers behave:
-    * `restart` – clear the current cycle and start a new one after unblocking
+  - `blockBehaviour` (optional, default: `stop`) – how runtime blockers behave:
+    * `stop` – clear the current cycle and start a new one after unblocking
     * `pause` – pause and resume the current cycle preserving the remaining time
 
 ### Public properties / state
@@ -41,8 +36,9 @@ Configuration properties:
  - `duration` (number, readonly) – parsed global duration (ms). Negative / NaN means disabled.
  - `effectiveDuration` (number, readonly) – current slide duration (per‑slide override or global). `<= 0` pauses only the current slide.
  - `remaining` (number, readonly) – remaining time of the current cycle (ms).
- - `paused` (boolean, readonly) – autoplay is paused and may be resumed.
+ - `paused` (boolean, readonly) – autoplay is paused explicitly by user action and may be resumed.
  - `blocked` (boolean, readonly) – autoplay is currently blocked by viewport / interaction / blockers.
+ - `state` (`'disabled' | 'active' | 'paused' | 'blocked' | 'idle'`, readonly) – exclusive summary of current autoplay state.
  - `active` (boolean, readonly) – a timer is scheduled (cycle running).
  - `canRun` (boolean, readonly) – runtime allowance for scheduling the autoplay timer.
  - `allowed` (boolean, readonly) – backward-compatible alias of `canRun`.
@@ -73,12 +69,134 @@ Notes:
  - Negative / invalid duration disables the plugin until changed.
 
 ### Manual control
-Any element matching the `control` selector toggles autoplay according to `controlBehaviour`.
-
 Programmatic examples:
  - `carousel.autoplay.enabled = false` / `true`
  - `carousel.autoplay.stop()` / `start()`
  - `carousel.autoplay.pause()` to preserve remaining time
+
+### Migration note for 6.2
+
+In `6.2` autoplay controls are no longer configured through the `esl-carousel-autoplay` config object.
+
+If you used:
+
+```html
+<esl-carousel esl-carousel-autoplay="{control: '.btn', controlBehaviour: 'pause'}"></esl-carousel>
+```
+
+switch to a dedicated control mixin hosted on the control element:
+
+```html
+<div class="esl-carousel-nav-container">
+  <button esl-carousel-autoplay-control="pause">Pause autoplay</button>
+  <esl-carousel esl-carousel-autoplay="8s">...</esl-carousel>
+</div>
+```
+
+In other words:
+- remove `control`, `controlBehaviour`, and `controlCls` from autoplay config
+- register `ESLCarouselAutoplayControlMixin` where autoplay controls are needed
+- move control behaviour to the control host via `esl-carousel-autoplay-control`
+
+<a name="autoplay-control-mixin"></a>
+
+## ESL Carousel Autoplay State Attribute
+
+`esl-carousel-autoplay-state` is a read-only state mixin hosted directly on any element.
+It resolves a target carousel, listens for autoplay invalidation and reflects current autoplay state on the host.
+
+### Configuration
+
+- `esl-carousel-autoplay-target` (`target`) – optional selector to find the target carousel.
+  Uses `ESLTraversingQuery`. Defaults to `::parent(.esl-carousel-nav-container)::find(esl-carousel)`.
+
+### Usage
+
+Register the mixin:
+
+```javascript
+ESLCarouselAutoplayStateMixin.register();
+```
+
+Then attach it to any element that only needs the autoplay status:
+
+```html
+<div class="esl-carousel-nav-container">
+  <span esl-carousel-autoplay-state></span>
+  <esl-carousel esl-carousel-autoplay="8s">...</esl-carousel>
+</div>
+```
+
+### Runtime State Attributes
+
+When attached to an element the mixin manages the following state markers on the host:
+
+- `disabled` – autoplay plugin is not available on the target carousel
+- `autoplay-state` – exclusive current state of the target autoplay instance. Possible values:
+  - `unavailable` – no autoplay plugin found on the target carousel
+  - `disabled` – autoplay exists but is currently disabled/stopped
+  - `active` – autoplay cycle is running
+  - `paused` – autoplay is paused explicitly by user action
+  - `blocked` – autoplay is currently blocked by viewport / interaction / blocker conditions
+  - `idle` – autoplay is enabled but there is no active cycle right now
+
+`esl-carousel-autoplay-control` and `esl-carousel-autoplay-progress` extend the same state model and add their own behaviour on top.
+
+## ESL Carousel Autoplay Control Attribute
+
+`esl-carousel-autoplay-control` is a separate control mixin hosted directly on the control element.
+It extends `esl-carousel-autoplay-state` and adds action/a11y semantics.
+
+### Configuration
+
+- `esl-carousel-autoplay-control` (`behaviour`) – primary attribute. Supported values:
+  - `stop` (default) – stop/start autoplay from scratch
+  - `pause` – pause/resume preserving current remaining time
+- `esl-carousel-autoplay-target` (`target`) – optional selector to find the target carousel.
+  Uses `ESLTraversingQuery`. Defaults to `::parent(.esl-carousel-nav-container)::find(esl-carousel)`.
+
+### Usage
+
+Register the mixin:
+
+```javascript
+ESLCarouselAutoplayControlMixin.register();
+```
+
+Then attach it to any external or internal control element:
+
+```html
+<div class="esl-carousel-nav-container">
+  <button esl-carousel-autoplay-control="stop">Toggle autoplay</button>
+  <esl-carousel esl-carousel-autoplay="8s">...</esl-carousel>
+</div>
+```
+
+Or with explicit targeting:
+
+```html
+<button
+  esl-carousel-autoplay-control="pause"
+  esl-carousel-autoplay-target="::next">
+  Pause autoplay
+</button>
+<esl-carousel esl-carousel-autoplay="8s">...</esl-carousel>
+```
+
+### Runtime State Attributes
+
+When attached to an element the mixin manages the following state markers on the host:
+
+- `disabled` – autoplay plugin is not available on the target carousel (also useful for native `<button>` semantics)
+- `autoplay-state` – exclusive current state of the target autoplay instance. Possible values:
+  - `unavailable` – no autoplay plugin found on the target carousel
+  - `disabled` – autoplay exists but is currently disabled/stopped
+  - `active` – autoplay cycle is running
+  - `paused` – autoplay is paused explicitly by user action
+  - `blocked` – autoplay is currently blocked by viewport / interaction / blocker conditions
+  - `idle` – autoplay is enabled but there is no active cycle right now (for example `duration: 0` or current slide cannot auto-advance)
+
+The mixin also manages `aria-controls` and `aria-pressed` for basic toggle accessibility.
 
 ## Per‑Slide Timeout Customization
 
@@ -132,27 +250,79 @@ Supported time formats:
 
 Event payload fields:
  - `enabled` – enabled state (autoplay not manually disabled and global duration is valid non‑negative value)
- - `paused` – autoplay is paused and may be resumed
+  - `paused` – autoplay is paused explicitly by user action and may be resumed
  - `blocked` – autoplay is currently blocked by runtime conditions
  - `active` – timer scheduled
+  - `state` – exclusive summary state (`disabled`, `active`, `paused`, `blocked`, `idle`)
  - `duration` – full effective duration used for the current/next cycle (0 on idle state)
  - `remaining` – remaining cycle duration (0 on finished cycle; equals full duration on reset)
  - `reason` – compact machine-readable state transition token (see public methods section)
 
 Use case examples: progress indicator, custom UI state, analytics.
 
-## Progress helper custom attribute
+## ESL Carousel Autoplay Progress Attribute
 
-`esl-carousel-autoplay-progress` listens for `esl:autoplay:change` and exposes:
- - `[autoplay-enabled]` boolean attribute
- - `[autoplay-paused]` boolean attribute
- - `[autoplay-blocked]` boolean attribute
- - `[animate]` attribute pulsed on each cycle start
- - `--esl-autoplay-timeout` CSS variable (ms) with the remaining cycle duration
- - `--esl-autoplay-duration` CSS variable (ms) with the full cycle duration
- - `--esl-autoplay-progress` CSS variable (0..1) with the current completed progress ratio
+`esl-carousel-autoplay-progress` is a read-only progress mixin hosted directly on any element.
+It extends `esl-carousel-autoplay-state` and adds autoplay progress CSS variables / animation markers.
 
-Value: optional ESLTraversingQuery to target a carousel; otherwise nearest carousel inside closest `.esl-carousel-container`.
+### Configuration
+
+- `esl-carousel-autoplay-target` (`target`) – optional selector to find the target carousel.
+  Uses `ESLTraversingQuery`. Defaults to `::parent(.esl-carousel-nav-container)::find(esl-carousel)`.
+
+### Usage
+
+Register the mixin:
+
+```javascript
+ESLCarouselAutoplayProgressMixin.register();
+```
+
+Then attach it to any element that should reflect autoplay progress:
+
+```html
+<div class="esl-carousel-nav-container">
+  <button esl-carousel-autoplay-progress></button>
+  <esl-carousel esl-carousel-autoplay="8s">...</esl-carousel>
+</div>
+```
+
+Or with explicit targeting:
+
+```html
+<button
+  esl-carousel-autoplay-progress
+  esl-carousel-autoplay-target="::next">
+</button>
+<esl-carousel esl-carousel-autoplay="8s">...</esl-carousel>
+```
+
+### Runtime State Attributes
+
+Like `esl-carousel-autoplay-state`, the progress mixin reflects the shared autoplay state model on the host:
+
+- `disabled` – autoplay plugin is not available on the target carousel
+- `autoplay-state` – exclusive current state of the target autoplay instance. Possible values:
+  - `unavailable` – no autoplay plugin found on the target carousel
+  - `disabled` – autoplay exists but is currently disabled/stopped
+  - `active` – autoplay cycle is running
+  - `paused` – autoplay is paused explicitly by user action
+  - `blocked` – autoplay is currently blocked by viewport / interaction / blocker conditions
+  - `idle` – autoplay is enabled but there is no active cycle right now
+
+### Progress Markers
+
+The mixin also manages the following progress-specific markers on the host:
+
+- `animate` – pulsed on each autoplay cycle start to retrigger CSS animation
+- `--esl-autoplay-timeout` – remaining cycle duration in milliseconds
+- `--esl-autoplay-duration` – full cycle duration in milliseconds
+- `--esl-autoplay-progress` – completed progress ratio in the `0..1` range
+
+`paused` and `blocked` are intentionally separate here too:
+- `autoplay-state="paused"` means an explicit user pause
+- `autoplay-state="blocked"` means runtime blocking (viewport / interaction / blockers)
+- when blocking uses `blockBehaviour: 'pause'`, the progress mixin preserves the current remaining time while still exposing `autoplay-state="blocked"`
 
 ## Examples
 
@@ -185,13 +355,15 @@ Value: optional ESLTraversingQuery to target a carousel; otherwise nearest carou
 
 ### Responsive with controls and container class
 ```html
-<esl-carousel esl-carousel-autoplay="{control: '.esl-carousel-control', duration: 0, containerCls: 'autoplay-enabled'} | @MD => 5s | @LG => 10s">
-  <ul esl-carousel-slides>
-    <li esl-carousel-slide>Slide 1</li>
-    <li esl-carousel-slide>Slide 2</li>
-  </ul>
-</esl-carousel>
-<button class="esl-carousel-control">Toggle Autoplay</button>
+<div class="esl-carousel-nav-container">
+  <button esl-carousel-autoplay-control="pause">Toggle autoplay</button>
+  <esl-carousel esl-carousel-autoplay="{duration: 0, containerCls: 'autoplay-enabled'} | @MD => 5s | @LG => 10s">
+    <ul esl-carousel-slides>
+      <li esl-carousel-slide>Slide 1</li>
+      <li esl-carousel-slide>Slide 2</li>
+    </ul>
+  </esl-carousel>
+</div>
 ```
 This keeps plugin ready (duration 0) on small screens and starts cycles only from @MD / @LG.
 

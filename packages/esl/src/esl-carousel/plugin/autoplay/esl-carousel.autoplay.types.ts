@@ -1,4 +1,4 @@
-export type ESLCarouselAutoplayBehaviour = 'pause' | 'restart';
+export type ESLCarouselAutoplayBehaviour = 'pause' | 'stop';
 
 export type ESLCarouselAutoplayState = 'disabled' | 'active' | 'paused' | 'blocked' | 'idle';
 

@@ -46,7 +46,7 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
     command: 'slide:next',
     intersection: 0.25,
     trackInteraction: true,
-    blockBehaviour: 'restart',
+    blockBehaviour: 'stop',
     blockerSelector: '::find(esl-share[active], esl-note[active])',
     watchEvents: 'esl:change:active'
   };
@@ -223,7 +223,7 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
   }
 
   /** Toggle autoplay state according to the specified control behaviour */
-  public toggle(behaviour: ESLCarouselAutoplayBehaviour = 'restart'): void {
+  public toggle(behaviour: ESLCarouselAutoplayBehaviour = 'stop'): void {
     if (behaviour === 'pause') {
       return this._pausedByUser ? this.start('user:start:control') : this.pause('user:pause:control');
     }

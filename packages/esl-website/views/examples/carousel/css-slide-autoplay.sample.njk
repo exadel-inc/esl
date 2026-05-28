@@ -11,7 +11,7 @@ tags: carousel-sample
 
   <esl-carousel demo-options-target
                 type="css-slide"
-                esl-carousel-autoplay="{duration: '3s', blockBehaviour: 'pause', control: '#autoplay-ctrl', controlCls: '!btn-inactive', containerCls: 'autoplay-enabled'}"
+                esl-carousel-autoplay="{duration: '3s', blockBehaviour: 'pause'}"
                 loop="true">
     <ul esl-carousel-slides>
       {% for i in range(0, 4) -%}
@@ -42,7 +42,10 @@ tags: carousel-sample
     </ul>
 
     <!-- Absolutely positioned toggle button inside carousel for proper hover handling -->
-    <button id="autoplay-ctrl" class="btn btn-sec-white autoplay-toggle btn-inactive" esl-carousel-autoplay-progress>
+    <button id="autoplay-ctrl"
+            class="btn btn-sec-white autoplay-toggle"
+            esl-carousel-autoplay-control
+            esl-carousel-autoplay-progress>
       <span class="control-text">Pause</span>
       <svg class="progress" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
         <circle r="10" cx="12" cy="12" fill="none" stroke-width="2" stroke-linecap="round"></circle>
@@ -86,13 +89,13 @@ tags: carousel-sample
     }
 
     /* Dynamic progress animation using CSS variable */
-    [autoplay-enabled][animate] .progress circle {
+    .autoplay-toggle[autoplay-state="active"][animate] .progress circle {
       stroke-dashoffset: 0;
       transition-duration: var(--esl-autoplay-timeout, 3s);
     }
 
-    /* Visual feedback for autoplay state */
-    .autoplay-enabled {
+    /* Outline reflects states where autoplay stays enabled and is not explicitly paused by user */
+    .autoplay-toggle:not([autoplay-state="disabled"]) {
       outline: 4px solid rgba(135, 206, 250, 0.8);
     }
 
