@@ -1,0 +1,65 @@
+---
+layout: content
+title: ESL Match Height Mixin
+seoTitle: Equalize element heights in rows using ESL Match Height mixin
+name: Match Height
+tags: [examples]
+aside:
+  components:
+    - esl-match-height
+---
+
+<section class="row">
+  <div class="col-12">
+    <uip-root class="uip-theme-esl">
+      <script type="text/html"
+              label="ESLMatchHeightMixin"
+              uip-snippet
+              uip-snippet-js="js-snippet-match-height">
+        <div class="row" esl-match-height=".card">
+          <div class="col-md-6 mb-2">
+            <div class="card h3 text-center">
+              Card 1
+              <img id="demo-img1" alt="volcano" src="{{ '/assets/nature/volcano.jpg' | url }}" height="150">
+            </div>
+          </div>
+          <div class="col-md-6 mb-2">
+            <div class="card h3 text-center">
+              Card 2
+              <img id="demo-img2" alt="forest" src="{{ '/assets/nature/forest+clouds.jpg' | url }}" height="200">
+            </div>
+          </div>
+          <div class="col-md-6 mb-2">
+            <div class="card h3 text-center">
+              Card 3
+              <img id="demo-img3" alt="volcano" src="{{ '/assets/nature/volcano.jpg' | url }}" height="180">
+            </div>
+          </div>
+          <div class="col-md-6 mb-2">
+            <div class="card h3 text-center">
+              Card 4
+              <img id="demo-img4" alt="forest" src="{{ '/assets/nature/forest+clouds.jpg' | url }}" height="120">
+            </div>
+          </div>
+        </div>
+      </script>
+
+      <script id="js-snippet-match-height" type="text/plain">
+        import { ESLMatchHeight } from '@exadel/esl';
+
+        ESLMatchHeight.register();
+      </script>
+
+      <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
+      <uip-preview></uip-preview>
+      <uip-settings vertical="@+sm">
+        <uip-slider-setting target="#demo-img1" label="Card 1 height" attribute="height" min="80" max="300"></uip-slider-setting>
+        <uip-slider-setting target="#demo-img2" label="Card 2 height" attribute="height" min="80" max="300"></uip-slider-setting>
+        <uip-slider-setting target="#demo-img3" label="Card 3 height" attribute="height" min="80" max="300"></uip-slider-setting>
+        <uip-slider-setting target="#demo-img4" label="Card 4 height" attribute="height" min="80" max="300"></uip-slider-setting>
+      </uip-settings>
+      <uip-editor></uip-editor>
+      <uip-editor source="js" collapsed></uip-editor>
+    </uip-root>
+  </div>
+</section>
