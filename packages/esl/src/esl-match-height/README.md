@@ -62,7 +62,7 @@ With ordering priority:
 ### Registration
 
 ```javascript
-import { ESLMatchHeight } from '@exadel/esl';
+import { ESLMatchHeightMixin } from '@exadel/esl';
 
-ESLMatchHeight.register();
+ESLMatchHeightMixin.register();
 ```

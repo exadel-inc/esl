@@ -46,7 +46,7 @@ import {
   ESLLineClamp,
   ESLLineClampToggler,
   ESLLineClampAlt,
-  ESLMatchHeightMxin
+  ESLMatchHeightMixin
 } from '@exadel/esl/modules/all';
 
 import {ESLRandomText} from '@exadel/esl/modules/esl-random-text/core';
@@ -99,7 +99,7 @@ ESLMedia.register();
 
 ESLMediaControlMixin.register();
 
-ESLMatchHeightMxin.register();
+ESLMatchHeightMixin.register();
 
 ESLToggleableDispatcher.init();
 ESLToggleable.register();

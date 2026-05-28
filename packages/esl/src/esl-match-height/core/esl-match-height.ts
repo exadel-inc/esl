@@ -32,14 +32,14 @@ const parseMatchers = (v: string | null): string[] => (v || '').split('|').map((
  * ```
  */
 @ExportNs('MatchHeight')
-export class ESLMatchHeightMxin extends ESLMixinElement {
+export class ESLMatchHeightMixin extends ESLMixinElement {
   public static override is = 'esl-match-height';
 
   /** Default selector for child elements to normalize */
   public static readonly DEFAULT_SELECTOR = '[match-height]';
 
   /** Selector to find all the child elements that should be normalized by height */
-  @attr({defaultValue: ESLMatchHeightMxin.DEFAULT_SELECTOR, name: ESLMatchHeightMxin.is})
+  @attr({defaultValue: ESLMatchHeightMixin.DEFAULT_SELECTOR, name: ESLMatchHeightMixin.is})
   public selector: string;
   /** A list of selectors in the order of priority (always ends with '*' matcher) */
   @attr({defaultValue: ['*'], name: 'esl-match-height-order', parser: parseMatchers})
@@ -47,7 +47,7 @@ export class ESLMatchHeightMxin extends ESLMixinElement {
 
   /** List of HTMLElements to normalize height */
   public get $elements(): HTMLElement[] {
-    return Array.from(this.$host.querySelectorAll(this.selector || ESLMatchHeightMxin.DEFAULT_SELECTOR));
+    return Array.from(this.$host.querySelectorAll(this.selector || ESLMatchHeightMixin.DEFAULT_SELECTOR));
   }
 
   protected override connectedCallback(): void {
@@ -113,6 +113,6 @@ export class ESLMatchHeightMxin extends ESLMixinElement {
 
 declare global {
   export interface ESLLibrary {
-    MatchHeight: typeof ESLMatchHeightMxin;
+    MatchHeight: typeof ESLMatchHeightMixin;
   }
 }

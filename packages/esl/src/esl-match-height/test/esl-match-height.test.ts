@@ -1,11 +1,11 @@
-import {ESLMatchHeightMxin} from '../core';
+import {ESLMatchHeightMixin} from '../core';
 
 vi.mock('../../esl-utils/dom/ready', () => ({
   onDocumentReady: (cb: any) => cb()
 }));
 
 describe('ESLMatchHeight mixin', () => {
-  ESLMatchHeightMxin.register();
+  ESLMatchHeightMixin.register();
 
   beforeEach(() => {
     document.body.innerHTML = '';
@@ -24,7 +24,7 @@ describe('ESLMatchHeight mixin', () => {
 
   const appendContainer = (children: (number | ChildDef)[], is?: string): HTMLElement => {
     const container = document.createElement('div');
-    container.setAttribute(ESLMatchHeightMxin.is, is || '');
+    container.setAttribute(ESLMatchHeightMixin.is, is || '');
     children.forEach((item) => {
       const {height, top = 0, className} = typeof item === 'number' ? {height: item, top: 0, className: undefined} : item;
       const child = document.createElement('div');
@@ -43,24 +43,23 @@ describe('ESLMatchHeight mixin', () => {
     test('uses custom selector from attribute value', async () => {
       const $el = appendContainer([100, 200], '.custom-sel');
       await Promise.resolve();
-      const mixin = ESLMatchHeightMxin.get($el)!;
+      const mixin = ESLMatchHeightMixin.get($el)!;
       expect(mixin.selector).toBe('.custom-sel');
     });
 
     test('returns empty array when no children match', async () => {
       const $el = document.createElement('div');
-      $el.setAttribute(ESLMatchHeightMxin.is, '.custom-sel');
+      $el.setAttribute(ESLMatchHeightMixin.is, '.custom-sel');
       document.body.appendChild($el);
       await Promise.resolve();
-      const mixin = ESLMatchHeightMxin.get($el)!;
+      const mixin = ESLMatchHeightMixin.get($el)!;
       expect(mixin.$elements).toHaveLength(0);
     });
 
     test('returns matching child elements', async () => {
       const $el = appendContainer([50, 100, 150]);
-      console.log(document.body.innerHTML);
       await Promise.resolve();
-      const mixin = ESLMatchHeightMxin.get($el)!;
+      const mixin = ESLMatchHeightMixin.get($el)!;
       expect(mixin.$elements).toHaveLength(3);
     });
   });
@@ -69,7 +68,7 @@ describe('ESLMatchHeight mixin', () => {
     test('equalizes heights of elements in the same row', async () => {
       const $el = appendContainer([100, 150, 120]);
       await Promise.resolve();
-      const mixin = ESLMatchHeightMxin.get($el)!;
+      const mixin = ESLMatchHeightMixin.get($el)!;
 
       mixin.resize();
 
@@ -81,7 +80,7 @@ describe('ESLMatchHeight mixin', () => {
     test('does not set height when fewer than 2 elements', async () => {
       const $el = appendContainer([100]);
       await Promise.resolve();
-      const mixin = ESLMatchHeightMxin.get($el)!;
+      const mixin = ESLMatchHeightMixin.get($el)!;
 
       mixin.resize();
 
@@ -99,7 +98,7 @@ describe('ESLMatchHeight mixin', () => {
         {height: 70, top: 250}
       ]);
       await Promise.resolve();
-      const mixin = ESLMatchHeightMxin.get($el)!;
+      const mixin = ESLMatchHeightMixin.get($el)!;
 
       mixin.resize();
 
@@ -117,7 +116,7 @@ describe('ESLMatchHeight mixin', () => {
     test('resets height on all elements', async () => {
       const $el = appendContainer([100, 150]);
       await Promise.resolve();
-      const mixin = ESLMatchHeightMxin.get($el)!;
+      const mixin = ESLMatchHeightMixin.get($el)!;
 
       mixin.resize();
       mixin.clear();
@@ -133,7 +132,7 @@ describe('ESLMatchHeight mixin', () => {
     test('compares items by top when same order', async () => {
       const $el = appendContainer([100]);
       await Promise.resolve();
-      const mixin = ESLMatchHeightMxin.get($el)!;
+      const mixin = ESLMatchHeightMixin.get($el)!;
 
       const a = {$el: document.createElement('div'), order: 0, top: 10, height: 100};
       const b = {$el: document.createElement('div'), order: 0, top: 20, height: 100};
@@ -143,7 +142,7 @@ describe('ESLMatchHeight mixin', () => {
     test('compares items by order when different order', async () => {
       const $el = appendContainer([100]);
       await Promise.resolve();
-      const mixin = ESLMatchHeightMxin.get($el)!;
+      const mixin = ESLMatchHeightMixin.get($el)!;
 
       const a = {$el: document.createElement('div'), order: 0, top: 100, height: 100};
       const b = {$el: document.createElement('div'), order: 1, top: 0, height: 100};
@@ -156,14 +155,14 @@ describe('ESLMatchHeight mixin', () => {
       const $el = appendContainer([100]);
       $el.setAttribute('esl-match-height-order', '.first | .second');
       await Promise.resolve();
-      const mixin = ESLMatchHeightMxin.get($el)!;
+      const mixin = ESLMatchHeightMixin.get($el)!;
       expect(mixin.orders).toEqual(['.first', '.second', '*']);
     });
 
     test('defaults to [*] when order attribute is not set', async () => {
       const $el = appendContainer([100]);
       await Promise.resolve();
-      const mixin = ESLMatchHeightMxin.get($el)!;
+      const mixin = ESLMatchHeightMixin.get($el)!;
       expect(mixin.orders).toEqual(['*']);
     });
 
@@ -176,7 +175,7 @@ describe('ESLMatchHeight mixin', () => {
       ]);
       $el.setAttribute('esl-match-height-order', '.first | .second');
       await Promise.resolve();
-      const mixin = ESLMatchHeightMxin.get($el)!;
+      const mixin = ESLMatchHeightMixin.get($el)!;
       mixin.resize();
 
       const children = $el.querySelectorAll<HTMLElement>('[match-height]');
@@ -197,7 +196,7 @@ describe('ESLMatchHeight mixin', () => {
       ]);
       $el.setAttribute('esl-match-height-order', '.first');
       await Promise.resolve();
-      const mixin = ESLMatchHeightMxin.get($el)!;
+      const mixin = ESLMatchHeightMixin.get($el)!;
       mixin.resize();
 
       const children = $el.querySelectorAll<HTMLElement>('[match-height]');
@@ -219,7 +218,7 @@ describe('ESLMatchHeight mixin', () => {
       ]);
       $el.setAttribute('esl-match-height-order', '.first | .second');
       await Promise.resolve();
-      const mixin = ESLMatchHeightMxin.get($el)!;
+      const mixin = ESLMatchHeightMixin.get($el)!;
 
       mixin.resize();
 
