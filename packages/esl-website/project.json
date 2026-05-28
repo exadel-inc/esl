@@ -97,7 +97,7 @@
       "options": {
         "commands": [
           "rimraf -g \"dist/**/*.js\"",
-          "webpack --mode=production"
+          "rspack --mode=production"
         ],
         "parallel": false,
         "cwd": "packages/esl-website"
@@ -108,7 +108,7 @@
         {"env": "SITE_ENV"},
         {"input": "default", "projects": ["esl"]},
         "{projectRoot}/src/**/*.ts",
-        "{projectRoot}/webpack.config.js"
+        "{projectRoot}/rspack.config.js"
       ],
       "outputs": [
         "{projectRoot}/dist/**/*.{js,ts}"
@@ -117,9 +117,24 @@
     "watch:ts": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "webpack --watch",
+        "command": "rspack --watch",
         "cwd": "packages/esl-website"
       }
+    },
+    "build:ts:analyze": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "rimraf -g \"dist/**/*.js\" report",
+          "rspack --mode=production"
+        ],
+        "parallel": false,
+        "env": {
+          "RSDOCTOR": "true"
+        },
+        "cwd": "packages/esl-website"
+      },
+      "dependsOn": ["^build:ts"]
     },
 
     "build:less": {
