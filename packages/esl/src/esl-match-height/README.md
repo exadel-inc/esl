@@ -57,7 +57,6 @@ With ordering priority:
 - On initialization, the mixin queries all matching child elements and equalizes their heights per row.
 - The mixin automatically recalculates heights on container resize and font load events.
 - Height updates are throttled (200ms) for performance.
-- When disconnected, the mixin clears all applied heights.
 
 ### Registration
 

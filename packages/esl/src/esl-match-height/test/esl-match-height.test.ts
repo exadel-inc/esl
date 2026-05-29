@@ -62,6 +62,27 @@ describe('ESLMatchHeight mixin', () => {
       const mixin = ESLMatchHeightMixin.get($el)!;
       expect(mixin.$elements).toHaveLength(3);
     });
+
+    test('update is throttled: multiple rapid calls result in a single execution', async () => {
+      const $el = appendContainer([100, 150]);
+      await Promise.resolve();
+      const mixin = ESLMatchHeightMixin.get($el)!;
+
+      vi.advanceTimersByTime(200);
+
+      const resizeSpy = vi.spyOn(mixin, 'resize');
+
+      mixin.update();
+      vi.advanceTimersByTime(10);
+
+      mixin.update();
+      vi.advanceTimersByTime(10);
+
+      mixin.update();
+      vi.advanceTimersByTime(200);
+
+      expect(resizeSpy).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe('resize', () => {
