@@ -94,7 +94,7 @@ All monitoring issues are tagged with:
 ## 📊 How it works
 
 ### Technology Stack
-- **Runtime**: Node.js 22.x
+- **Runtime**: Node.js 24.x
 - **Language**: JavaScript (ES modules)
 - **GitHub API**: Octokit via `@actions/github`
 - **SSL Check**: Native Node.js `tls` module
