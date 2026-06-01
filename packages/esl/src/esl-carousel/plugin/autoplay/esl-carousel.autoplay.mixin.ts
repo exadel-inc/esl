@@ -71,6 +71,8 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
   private _cycleStartedAt: number | null = null;
   /** Last dispatch reason */
   private _lastReason: ESLCarouselAutoplayReason = 'system:idle';
+  /** Last dispatched state snapshot key to suppress duplicate events */
+  private _lastDispatchKey: string = '';
 
   /** True when a navigation timeout is currently scheduled */
   public get active(): boolean {
@@ -183,6 +185,11 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
     return !this._pausedByUser && !this._stoppedByUser && !this.active && this.canRun;
   }
 
+  /** True if runtime listeners should sync blocking state right now */
+  protected get shouldProcessBlockingState(): boolean {
+    return this.enabled || this.active || this._pausedByUser;
+  }
+
   /** Start autoplay or resume paused cycle */
   public start(reason: ESLCarouselAutoplayReason = 'user:start:call'): void {
     if (isUserReason(reason)) {
@@ -190,6 +197,7 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
       this._pausedByUser = false;
     }
     if (!this.enabled || this.blocked || this._pausedByUser) return this.syncState(reason);
+    if (this.active) return this.syncState(reason);
     if (!this.canSchedule) {
       this._cycleDuration = Math.max(this.effectiveDuration, 0);
       this._remaining = 0;
@@ -258,7 +266,7 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
 
   /** Update classes and listeners and synchronize state markers */
   protected update(): void {
-    this.$$on({group: 'state'});
+    this.$$on({auto: true});
     this.syncState();
   }
 
@@ -295,8 +303,15 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
   /** Sync current state markers and dispatch autoplay event */
   protected syncState(reason: ESLCarouselAutoplayReason = this._lastReason): void {
     this._lastReason = reason;
+    const {enabled, paused, blocked, active, state, effectiveDuration} = this;
+    const duration = effectiveDuration > 0 ? effectiveDuration : 0;
+    const remaining = this.active ? this._remaining : this.remaining;
+    const event = new ESLCarouselAutoplayEvent({enabled, paused, blocked, active, state, duration, remaining, reason});
+    const dispatchKey = event.toFingerprint();
+    if (dispatchKey === this._lastDispatchKey) return;
+    this._lastDispatchKey = dispatchKey;
     this.updateMarkers();
-    ESLCarouselAutoplayEvent.dispatch(this, reason);
+    this.$host.dispatchEvent(event);
   }
 
   /** Apply blocking logic according to configured block behaviour */
@@ -305,7 +320,8 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
       return this.config.blockBehaviour === 'pause' ? this.pause('system:pause:block') : this.stop('system:stop:block');
     }
     if (this.canAutoStart) return this.start('system:start:auto');
-    this.syncState(this._pausedByUser ? this._lastReason : 'system:idle');
+    const isIdling = !this.active && this.enabled && !this._pausedByUser;
+    this.syncState(isIdling ? 'system:idle' : this._lastReason);
   }
 
   /** Internal cycle handler (execute navigation then schedule next cycle if needed) */
@@ -323,25 +339,24 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
 
   /** Viewport intersection listener controlling runtime allowance */
   @listen({
-    group: 'state',
-    condition: ($this: ESLCarouselAutoplayMixin) => $this.enabled,
     event: ESLIntersectionEvent.TYPE,
     target: ($this: ESLCarouselAutoplayMixin) =>
       ESLIntersectionTarget.for($this.$host, {threshold: [$this.config.intersection]})
   })
   protected _onIntersection(e: ESLIntersectionEvent): void {
     this._inViewport = e.isIntersecting;
+    if (!this.shouldProcessBlockingState) return;
     this.syncBlockingState();
   }
 
   /** Hover/focus interaction listener toggling pause state */
   @listen({
-    group: 'state',
     event: 'mouseleave mouseenter focusin focusout',
     target: ($this: ESLCarouselAutoplayMixin) => $this.$interactionScope,
-    condition: ($this: ESLCarouselAutoplayMixin) => $this.enabled && $this.config.trackInteraction
+    condition: ($this: ESLCarouselAutoplayMixin) => $this.config.trackInteraction
   })
   protected _onInteract(): void {
+    if (!this.shouldProcessBlockingState) return;
     this.syncBlockingState();
   }
 
@@ -352,15 +367,14 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
     if (this.canAutoStart) this.start('system:start:auto');
   }
 
-
   /** Subscribe to events that block autoplay */
   @listen({
-    group: 'state',
     event: ($this: ESLCarouselAutoplayMixin) => $this.config.watchEvents,
     target: document,
-    condition: ($this: ESLCarouselAutoplayMixin) => $this.enabled
+    condition: ($this: ESLCarouselAutoplayMixin) => !!$this.config.watchEvents
   })
   protected _onBlockingEvent(): void {
+    if (!this.shouldProcessBlockingState) return;
     this.syncBlockingState();
   }
 }

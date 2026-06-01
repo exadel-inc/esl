@@ -202,7 +202,7 @@ describe('ESLCarousel: Autoplay Plugin', () => {
     test('dispatches reason and remaining in autoplay change event', async () => {
       const plugin = ESLCarouselAutoplayMixin.get($carousel)!;
       const events: ESLCarouselAutoplayEvent[] = [];
-      $carousel.addEventListener(ESLCarouselAutoplayEvent.NAME, (e) => events.push(e as ESLCarouselAutoplayEvent));
+      $carousel.addEventListener(ESLCarouselAutoplayEvent.NAME, (e) => events.push(e as ESLCarouselAutoplayEvent), {once: true});
 
       vi.advanceTimersByTime(250);
       plugin.pause('user:pause:call');
@@ -220,7 +220,7 @@ describe('ESLCarousel: Autoplay Plugin', () => {
     test('runtime block is reflected as blocked state without setting paused', async () => {
       const plugin = ESLCarouselAutoplayMixin.get($carousel)!;
       const events: ESLCarouselAutoplayEvent[] = [];
-      $carousel.addEventListener(ESLCarouselAutoplayEvent.NAME, (e) => events.push(e as ESLCarouselAutoplayEvent));
+      $carousel.addEventListener(ESLCarouselAutoplayEvent.NAME, (e) => events.push(e as ESLCarouselAutoplayEvent), {once: true});
 
       vi.advanceTimersByTime(250);
       IntersectionObserverMock.trigger($carousel, {intersectionRatio: 0, isIntersecting: false});

@@ -1,5 +1,4 @@
 import type {ESLCarousel} from '../../core/esl-carousel';
-import type {ESLCarouselAutoplayMixin} from './esl-carousel.autoplay.mixin';
 import type {ESLCarouselAutoplayReason, ESLCarouselAutoplayState} from './esl-carousel.autoplay.types';
 
 interface ESLCarouselAutoplayEventInit {
@@ -41,15 +40,13 @@ export class ESLCarouselAutoplayEvent extends Event implements ESLCarouselAutopl
   public readonly remaining: number;
   public readonly reason?: ESLCarouselAutoplayReason;
 
-  protected constructor(init: ESLCarouselAutoplayEventInit) {
+  public constructor(init: ESLCarouselAutoplayEventInit) {
     super(ESLCarouselAutoplayEvent.NAME, {bubbles: false, cancelable: false});
     Object.assign(this, init);
   }
 
-  public static dispatch(plugin: ESLCarouselAutoplayMixin, reason?: ESLCarouselAutoplayReason): boolean {
-    const {enabled, paused, blocked, active, state, remaining} = plugin;
-    const duration = plugin.effectiveDuration > 0 ? plugin.effectiveDuration : 0;
-    const event = new ESLCarouselAutoplayEvent({enabled, paused, blocked, active, state, duration, remaining, reason});
-    return plugin.$host.dispatchEvent(event);
+  public toFingerprint(): string {
+    const {enabled, paused, blocked, active, duration, remaining, reason} = this;
+    return [enabled, paused, blocked, active, duration, remaining, reason].join('|');
   }
 }
