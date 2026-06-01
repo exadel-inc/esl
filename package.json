@@ -17,7 +17,7 @@
     "url": "https://github.com/exadel-inc/esl.git"
   },
   "engines": {
-    "node": ">=22.0.0",
+    "node": ">=24.0.0",
     "npm": ">=11.0.0"
   },
   "workspaces": [
@@ -52,22 +52,16 @@
     "nx": "22.7.5",
     "semver": "^7.8.1"
   },
-  "overrides": {
-    "nx": {
-      "axios": "1.15.2"
-    }
-  },
   "devDependencies": {
     "@commitlint/cli": "^21.0.2",
     "@commitlint/config-conventional": "^21.0.2",
     "@vitest/coverage-v8": "^4.1.7",
-    "chalk": "^5.6.2",
     "chokidar-cli": "^3.0.0",
     "cpy-cli": "^7.0.0",
     "cross-env": "^10.1.0",
     "eslint": "^9.39.2",
-    "findx-cli": "^0.2.2",
     "husky": "^9.1.7",
+    "job-ripper": "^1.0.0-beta.7",
     "jsdom": "^29.1.1",
     "kleur": "^4.1.5",
     "less": "4.6.4",
