@@ -36,8 +36,8 @@ Configuration properties:
  - `duration` (number, readonly) – parsed global duration (ms). Negative / NaN means disabled.
  - `effectiveDuration` (number, readonly) – current slide duration (per‑slide override or global). `<= 0` pauses only the current slide.
  - `remaining` (number, readonly) – remaining time of the current cycle (ms).
- - `paused` (boolean, readonly) – autoplay is paused explicitly by user action and may be resumed.
- - `blocked` (boolean, readonly) – autoplay is currently blocked by viewport / interaction / blockers.
+ - `paused` (boolean, readonly) – autoplay is paused explicitly by user action and can be resumed.
+ - `blocked` (boolean, readonly) – autoplay is temporarily suspended by external conditions (e.g. hidden viewport, user interaction, blockers).
  - `state` (`'disabled' | 'active' | 'paused' | 'blocked' | 'idle'`, readonly) – exclusive summary of current autoplay state.
  - `active` (boolean, readonly) – a timer is scheduled (cycle running).
  - `canRun` (boolean, readonly) – runtime allowance for scheduling the autoplay timer.
@@ -84,7 +84,7 @@ If you used:
 <esl-carousel esl-carousel-autoplay="{control: '.btn', controlBehaviour: 'pause'}"></esl-carousel>
 ```
 
-switch to a dedicated control mixin hosted on the control element:
+switch to a dedicated control mixin placed directly on the control element:
 
 ```html
 <div class="esl-carousel-nav-container">
@@ -103,7 +103,7 @@ In other words:
 ## ESL Carousel Autoplay State Attribute
 
 `esl-carousel-autoplay-state` is a read-only state mixin hosted directly on any element.
-It resolves a target carousel, listens for autoplay invalidation and reflects current autoplay state on the host.
+It resolves a target carousel, listens for autoplay state changes and reflects current autoplay state on the host.
 
 ### Configuration
 
@@ -150,8 +150,8 @@ It extends `esl-carousel-autoplay-state` and adds action/a11y semantics.
 ### Configuration
 
 - `esl-carousel-autoplay-control` (`behaviour`) – primary attribute. Supported values:
-  - `stop` (default) – stop/start autoplay from scratch
-  - `pause` – pause/resume preserving current remaining time
+  - `stop` (default) – toggle autoplay, resetting the cycle on each start
+  - `pause` – toggle autoplay, resuming the cycle from the same point
 - `esl-carousel-autoplay-target` (`target`) – optional selector to find the target carousel.
   Uses `ESLTraversingQuery`. Defaults to `::parent(.esl-carousel-nav-container)::find(esl-carousel)`.
 
