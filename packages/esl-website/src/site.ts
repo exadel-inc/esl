@@ -40,6 +40,7 @@ import {
   ESLCarouselKeyboardMixin,
   ESLCarouselRelateToMixin,
   ESLCarouselAutoplayMixin,
+  ESLCarouselAutoplayControlMixin,
   ESLCarouselAutoplayProgressMixin,
   ESLCarouselClassBehaviourMixin,
   ESLLazyTemplate,
@@ -136,6 +137,7 @@ ESLCarouselTouchMixin.register();
 ESLCarouselKeyboardMixin.register();
 ESLCarouselRelateToMixin.register();
 ESLCarouselAutoplayMixin.register();
+ESLCarouselAutoplayControlMixin.register();
 ESLCarouselAutoplayProgressMixin.register();
 ESLCarouselWheelMixin.register();
 ESLCarouselClassBehaviourMixin.register();
