@@ -1,3 +1,9 @@
+## 6.1.1 (2026-06-01)
+
+### 🩹 Fixes
+
+- **esl-utils:** `parseNumber` handles empty space string " "incorrectly ([632b8cf50](https://github.com/exadel-inc/esl/commit/632b8cf50))
+
 ## 6.1.0 (2026-05-13)
 
 ### 🚀 Features

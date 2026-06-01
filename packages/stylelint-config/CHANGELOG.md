@@ -1,3 +1,7 @@
+## 6.1.1 (2026-06-01)
+
+This was a version bump only for stylelint-config to align it with other projects, there were no code changes.
+
 ## 6.1.0 (2026-05-13)
 
 This was a version bump only for stylelint-config to align it with other projects, there were no code changes.
