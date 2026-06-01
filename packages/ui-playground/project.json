@@ -69,8 +69,7 @@
       "dependsOn": ["^build:less"],
       "options": {
         "commands": [
-          "cpy \"src/**/*.less\" \"dist\" --parents --clean",
-          "findx \"dist/{*,*/*}.less\" \"lessc {{path}} {{dir}}/{{name}}.css\"",
+          "job-ripper \"src/**/*.less\" -w worker/less.mjs -c 2",
           "nodetouch \"dist/.less.done\""
         ],
         "cwd": "packages/ui-playground",
