@@ -5,7 +5,7 @@ import less from 'less';
 const SRC_DIR = path.resolve('src');
 const OUT_DIR = path.resolve('dist');
 
-export default async function(filePath) {
+export default async function (filePath) {
   const absFilePath = path.resolve(filePath);
   const relFilePath = path.relative(SRC_DIR, absFilePath);
   const destFilePath = path.join(OUT_DIR, relFilePath);
