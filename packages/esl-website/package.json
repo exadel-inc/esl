@@ -27,7 +27,7 @@
     "@exadel/ui-playground": "^6.0.0",
     "@juggle/resize-observer": "^3.4.0",
     "@rsdoctor/rspack-plugin": "^1.5.12",
-    "@rspack/cli": "^2.0.5",
+    "@rspack/cli": "^2.0.6",
     "@rspack/core": "^2.0.5",
     "@types/prismjs": "^1.26.6",
     "@types/smoothscroll-polyfill": "^0.3.4",
