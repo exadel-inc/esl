@@ -57,6 +57,8 @@ With ordering priority:
 - On initialization, the mixin queries all matching child elements and equalizes their heights per row.
 - The mixin automatically recalculates heights on container resize and font load events.
 - Height updates are throttled (200ms) for performance.
+- When an attribute changes (`esl-match-height` or `esl-match-height-order`), the mixin clears previously applied heights and re-applies them using the updated configuration. If the selector changes, elements matching the old selector are cleared before the new selector is used.
+- When disconnected, the mixin clears all applied heights.
 
 ### Registration
 

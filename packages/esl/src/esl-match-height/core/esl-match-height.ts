@@ -35,6 +35,8 @@ const parseMatchers = (v: string | null): string[] => (v || '').split('|').map((
 export class ESLMatchHeightMixin extends ESLMixinElement {
   public static override is = 'esl-match-height';
 
+  static override observedAttributes = [ESLMatchHeightMixin.is, 'esl-match-height-order'];
+
   /** Default selector for child elements to normalize */
   public static readonly DEFAULT_SELECTOR = '[match-height]';
 
@@ -53,6 +55,17 @@ export class ESLMatchHeightMixin extends ESLMixinElement {
   protected override connectedCallback(): void {
     super.connectedCallback();
     afterNextRender(() => this.update());
+  }
+
+  protected override disconnectedCallback(): void {
+    this.clear();
+    super.disconnectedCallback();
+  }
+
+  protected override attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null): void {
+    if (name === ESLMatchHeightMixin.is && oldValue) this.clear(Array.from(this.$host.querySelectorAll(oldValue)));
+    super.attributeChangedCallback(name, oldValue, newValue);
+    this.update();
   }
 
   /** Starts elements normalization */
@@ -81,7 +94,7 @@ export class ESLMatchHeightMixin extends ESLMixinElement {
 
   /** Creates a wrapper object based on the passed element */
   @bind
-  protected wrap($el: HTMLElement): MatchItem {
+  protected toMatchItem($el: HTMLElement): MatchItem {
     const {top, height} = $el.getBoundingClientRect();
     const order = this.orders.findIndex((sel) => $el.matches(sel));
     return {$el, order, top, height};
@@ -95,7 +108,7 @@ export class ESLMatchHeightMixin extends ESLMixinElement {
   /** Update height values for passed elements */
   public resize($els: HTMLElement[] = this.$elements): void {
     if ($els.length < 2) return;
-    this.applyHeights($els.map(this.wrap).sort(this.compare));
+    this.applyHeights($els.map(this.toMatchItem).sort(this.compare));
   }
 
   /** Recursively applies max height to groups of sorted items */

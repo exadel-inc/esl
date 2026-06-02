@@ -22,19 +22,22 @@ describe('ESLMatchHeight mixin', () => {
     className?: string;
   }
 
+  const appendChild = (container: HTMLElement, def: number | ChildDef): HTMLElement => {
+    const {height, top = 0, className} = typeof def === 'number' ? {height: def, top: 0, className: undefined} : def;
+    const child = document.createElement('div');
+    child.setAttribute('match-height', '');
+    if (className) child.className = className;
+    vi.spyOn(child, 'getBoundingClientRect').mockReturnValue({
+      top, left: 0, right: 0, bottom: top + height, width: 100, height, x: 0, y: top, toJSON: () => ({})
+    });
+    container.appendChild(child);
+    return child;
+  };
+
   const appendContainer = (children: (number | ChildDef)[], is?: string): HTMLElement => {
     const container = document.createElement('div');
     container.setAttribute(ESLMatchHeightMixin.is, is || '');
-    children.forEach((item) => {
-      const {height, top = 0, className} = typeof item === 'number' ? {height: item, top: 0, className: undefined} : item;
-      const child = document.createElement('div');
-      child.setAttribute('match-height', '');
-      if (className) child.className = className;
-      vi.spyOn(child, 'getBoundingClientRect').mockReturnValue({
-        top, left: 0, right: 0, bottom: top + height, width: 100, height, x: 0, y: top, toJSON: () => ({})
-      });
-      container.appendChild(child);
-    });
+    children.forEach((item) => appendChild(container, item));
     document.body.appendChild(container);
     return container;
   };
@@ -252,6 +255,54 @@ describe('ESLMatchHeight mixin', () => {
 
       expect(children[3].style.height).toBe('110px');
       expect(children[4].style.height).toBe('110px');
+    });
+  });
+
+  describe('disconnectedCallback', () => {
+    test('clears applied heights when mixin is removed', async () => {
+      const $el = appendContainer([100, 150]);
+      await Promise.resolve();
+      const mixin = ESLMatchHeightMixin.get($el)!;
+
+      mixin.resize();
+      const children = $el.querySelectorAll<HTMLElement>('[match-height]');
+      expect(children[0].style.height).toBe('150px');
+
+      $el.removeAttribute(ESLMatchHeightMixin.is);
+      await Promise.resolve();
+
+      children.forEach((child) => expect(child.style.height).toBe(''));
+    });
+  });
+
+  describe('attributeChangedCallback', () => {
+    test('clears old elements when selector changes', async () => {
+      const $el = document.createElement('div');
+      $el.setAttribute(ESLMatchHeightMixin.is, '.group-a');
+
+      const childA1 = appendChild($el, {height: 100, className: 'group-a'});
+      const childA2 = appendChild($el, {height: 150, className: 'group-a'});
+      const childB1 = appendChild($el, {height: 200, className: 'group-b'});
+      const childB2 = appendChild($el, {height: 250, className: 'group-b'});
+
+      document.body.appendChild($el);
+      await Promise.resolve();
+
+      const mixin = ESLMatchHeightMixin.get($el)!;
+      vi.advanceTimersByTime(200);
+
+      mixin.resize();
+      expect(childA1.style.height).toBe('150px');
+      expect(childA2.style.height).toBe('150px');
+
+      $el.setAttribute(ESLMatchHeightMixin.is, '.group-b');
+      await Promise.resolve();
+      vi.advanceTimersByTime(200);
+
+      expect(childA1.style.height).toBe('');
+      expect(childA2.style.height).toBe('');
+      expect(childB1.style.height).toBe('250px');
+      expect(childB2.style.height).toBe('250px');
     });
   });
 });
