@@ -24,7 +24,10 @@ export * from './plugin/touch/esl-carousel.touch.mixin';
 export * from './plugin/keyboard/esl-carousel.keyboard.mixin';
 
 // Autoplay
+export * from './plugin/autoplay/esl-carousel.autoplay.types';
 export * from './plugin/autoplay/esl-carousel.autoplay.mixin';
+export * from './plugin/autoplay/esl-carousel.autoplay.state.mixin';
+export * from './plugin/autoplay/esl-carousel.autoplay.control.mixin';
 export * from './plugin/autoplay/esl-carousel.autoplay.event';
 export * from './plugin/autoplay/esl-carousel.autoplay.progress.mixin';
 
