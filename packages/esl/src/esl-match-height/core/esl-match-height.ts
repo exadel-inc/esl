@@ -35,7 +35,7 @@ const parseMatchers = (v: string | null): string[] => (v || '').split('|').map((
 export class ESLMatchHeightMixin extends ESLMixinElement {
   public static override is = 'esl-match-height';
 
-  static override observedAttributes = [ESLMatchHeightMixin.is, 'esl-match-height-order'];
+  static override observedAttributes = ['esl-match-height-order'];
 
   /** Default selector for child elements to normalize */
   public static readonly DEFAULT_SELECTOR = '[match-height]';
