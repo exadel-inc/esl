@@ -3,7 +3,7 @@ layout: content
 title: ESL Match Height Mixin
 seoTitle: Equalize element heights in rows using ESL Match Height mixin
 name: Match Height
-tags: [examples]
+tags: [examples, beta]
 aside:
   components:
     - esl-match-height
@@ -15,49 +15,85 @@ aside:
       <script type="text/html"
               label="ESLMatchHeightMixin"
               uip-snippet
-              uip-snippet-js="js-snippet-match-height">
-        <div class="row" esl-match-height=".card">
-          <div class="col-md-6 mb-2">
-            <div class="card h3 text-center">
-              Card 1
-              <img id="demo-img1" alt="volcano" src="{{ '/assets/nature/volcano.jpg' | url }}" height="150">
+              uip-isolated
+              uip-snippet-js="js-snippet-match-height"
+              uip-resizable>
+        <ul class="simple-grid" esl-match-height=".card-image, .card-title, .card-desc">
+
+          <li class="simple-grid-cell">
+            <div class="card">
+              <div class="card-image img-container mb-2" esl-image-container>
+                <img class="card-img"
+                     alt="volcano"
+                     src="{{ '/assets/nature/volcano.jpg' | url }}"
+                     height="150"/>
+              </div>
+              <div class="card-title">
+                <h3 class="text-center">First Card</h3>
+              </div>
+              <div class="card-desc">
+                <p><!--text 20--></p>
+              </div>
             </div>
-          </div>
-          <div class="col-md-6 mb-2">
-            <div class="card h3 text-center">
-              Card 2
-              <img id="demo-img2" alt="forest" src="{{ '/assets/nature/forest+clouds.jpg' | url }}" height="200">
+          </li>
+          <li class="simple-grid-cell">
+            <div class="card">
+              <div class="card-image img-container mb-2" esl-image-container>
+                <img class="card-img"
+                     alt="forest"
+                     src="{{ '/assets/nature/forest+clouds.jpg' | url }}"
+                     height="200"/>
+              </div>
+              <div class="card-title">
+                <h3 class="text-center">Card 2 Short Title</h3>
+              </div>
+              <div class="card-desc">
+                <p><!--text 50--></p>
+              </div>
             </div>
-          </div>
-          <div class="col-md-6 mb-2">
-            <div class="card h3 text-center">
-              Card 3
-              <img id="demo-img3" alt="volcano" src="{{ '/assets/nature/volcano.jpg' | url }}" height="180">
+          </li>
+          <li class="simple-grid-cell">
+            <div class="card">
+              <div class="card-image img-container mb-2" esl-image-container>
+                <img class="card-img"
+                     alt="volcano"
+                     src="{{ '/assets/nature/volcano.jpg' | url }}"
+                     height="180"/>
+              </div>
+              <div class="card-title">
+                <h3 class="text-center">Card 3 Long Long Long title to test match height</h3>
+              </div>
+              <div class="card-desc">
+                <p><!--text 30--></p>
+              </div>
             </div>
-          </div>
-          <div class="col-md-6 mb-2">
-            <div class="card h3 text-center">
-              Card 4
-              <img id="demo-img4" alt="forest" src="{{ '/assets/nature/forest+clouds.jpg' | url }}" height="120">
+          </li>
+          <li class="simple-grid-cell">
+            <div class="card">
+              <div class="card-image img-container mb-2" esl-image-container>
+                <img class="card-img"
+                     alt="forest"
+                     src="{{ '/assets/nature/forest+clouds.jpg' | url }}"
+                     height="120"/>
+              </div>
+              <div class="card-title">
+                <h3 class="text-center">Last Card</h3>
+              </div>
+              <div class="card-desc">
+                <p><!--text 100--></p>
+              </div>
             </div>
-          </div>
-        </div>
+          </li>
+        </ul>
       </script>
 
       <script id="js-snippet-match-height" type="text/plain">
         import { ESLMatchHeightMixin } from '@exadel/esl';
-
         ESLMatchHeightMixin.register();
       </script>
 
       <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
       <uip-preview></uip-preview>
-      <uip-settings vertical="@+sm">
-        <uip-slider-setting target="#demo-img1" label="Card 1 height" attribute="height" min="80" max="300"></uip-slider-setting>
-        <uip-slider-setting target="#demo-img2" label="Card 2 height" attribute="height" min="80" max="300"></uip-slider-setting>
-        <uip-slider-setting target="#demo-img3" label="Card 3 height" attribute="height" min="80" max="300"></uip-slider-setting>
-        <uip-slider-setting target="#demo-img4" label="Card 4 height" attribute="height" min="80" max="300"></uip-slider-setting>
-      </uip-settings>
       <uip-editor></uip-editor>
       <uip-editor source="js" collapsed></uip-editor>
     </uip-root>
