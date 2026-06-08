@@ -68,3 +68,5 @@ export * from './types/jsx.shape';
 
 // Incremental Scroll
 export * from './esl-incremental-scroll/core';
+
+export * from './esl-match-height/core';

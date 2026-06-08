@@ -1,0 +1,101 @@
+---
+layout: content
+title: ESL Match Height Mixin
+seoTitle: Equalize element heights in rows using ESL Match Height mixin
+name: Match Height
+tags: [examples, beta, new]
+aside:
+  components:
+    - esl-match-height
+---
+
+<section class="row">
+  <div class="col-12">
+    <uip-root class="uip-theme-esl">
+      <script type="text/html"
+              label="ESLMatchHeightMixin"
+              uip-snippet
+              uip-isolated
+              uip-snippet-js="js-snippet-match-height"
+              uip-resizable>
+        <ul class="simple-grid p-2 m-0" esl-match-height=".card-image, .card-title, .card-desc">
+
+          <li class="simple-grid-cell">
+            <div class="card p-4">
+              <div class="card-image img-container mb-2" esl-image-container>
+                <img class="card-img"
+                     alt="volcano"
+                     src="{{ '/assets/carousel/5-sm.jpg' | url }}"
+                     height="160"/>
+              </div>
+              <div class="card-title">
+                <h3 class="text-center">First Card</h3>
+              </div>
+              <div class="card-desc">
+                <p><!--text 20--></p>
+              </div>
+            </div>
+          </li>
+          <li class="simple-grid-cell">
+            <div class="card p-4">
+              <div class="card-image img-container mb-2" esl-image-container>
+                <img class="card-img"
+                     alt="volcano"
+                     src="{{ '/assets/carousel/6-sm.jpg' | url }}"
+                     height="180"/>
+              </div>
+              <div class="card-title">
+                <h3 class="text-center">Second Card (Long title matches height)</h3>
+              </div>
+              <div class="card-desc">
+                <p><!--text 50--></p>
+              </div>
+            </div>
+          </li>
+          <li class="simple-grid-cell">
+            <div class="card p-4">
+              <div class="card-image img-container mb-2" esl-image-container>
+                <img class="card-img"
+                     alt="volcano"
+                     src="{{ '/assets/carousel/7-sm.jpg' | url }}"
+                     height="200"/>
+              </div>
+              <div class="card-title">
+                <h3 class="text-center">Third Card</h3>
+              </div>
+              <div class="card-desc">
+                <p><!--text 30--></p>
+              </div>
+            </div>
+          </li>
+          <li class="simple-grid-cell">
+            <div class="card p-4">
+              <div class="card-image img-container mb-2" esl-image-container>
+                <img class="card-img"
+                     alt="volcano"
+                     src="{{ '/assets/carousel/8-sm.jpg' | url }}"
+                     height="220"/>
+              </div>
+              <div class="card-title">
+                <h3 class="text-center">Fourth Card (Even longer title matches height as well)</h3>
+              </div>
+              <div class="card-desc">
+                <p><!--text 100--></p>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </script>
+
+      <script id="js-snippet-match-height" type="text/plain">
+        import { ESLMatchHeightMixin } from '@exadel/esl';
+        ESLMatchHeightMixin.register();
+      </script>
+
+      <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
+      <uip-preview></uip-preview>
+      <uip-editor></uip-editor>
+      <uip-editor source="js" collapsed></uip-editor>
+    </uip-root>
+  </div>
+</section>
