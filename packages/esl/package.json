@@ -61,7 +61,7 @@
   },
   "dependencies": {
     "@types/video.js": "7.3.58",
-    "@types/youtube": "0.2.0"
+    "@types/youtube": "0.3.0"
   },
   "devDependencies": {
     "@exadel/eslint-config-esl": "^6.0.0",
