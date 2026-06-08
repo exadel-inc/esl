@@ -21,7 +21,7 @@
     "lint": "nx run esl-website:lint"
   },
   "dependencies": {
-    "@11ty/eleventy": "3.1.5",
+    "@11ty/eleventy": "3.1.6",
     "@11ty/eleventy-dev-server": "2.0.8",
     "@exadel/esl": "^6.0.0",
     "@exadel/ui-playground": "^6.0.0",

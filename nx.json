@@ -35,7 +35,9 @@
       "tag": false
     },
     "version": {
-      "conventionalCommits": true
+      "updateDependents": "auto",
+      "conventionalCommits": true,
+      "preserveMatchingDependencyRanges": false
     },
     "changelog": {
       "projectChangelogs": {
