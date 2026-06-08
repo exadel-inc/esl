@@ -22,13 +22,17 @@ Configuration properties:
  - `command` (optional, default: `slide:next`) – navigation command to execute each cycle.
  - `intersection` (optional, default: `0.25`) – intersection ratio (0..1) required to run. Below threshold cycle is suspended.
  - `trackInteraction` (optional, default: `true`) – pause while hovered or focus (keyboard focus‑visible) is within interaction scope.
- - `interactionScope` (optional) – selector (ESLTraversingQuery) defining scope for interaction tracking (defaults to host carousel).
+ - `interactionScope` (optional) – selector (ESLTraversingQuery) defining interaction tracking subscription scope (defaults to host carousel).
+ - `interactionScopeExclude` (optional) – CSS selector (Element.matches) applied to resolved `interactionScope` items to exclude them from hover/focus consideration without changing subscriptions.
  - `containerCls` (optional) – CSS class applied to the carousel container while autoplay is enabled.
  - `blockerSelector` (optional) – selector (ESLTraversingQuery) for items that, when activated, stop carousel autoplay. Defaults to `::find(esl-share[active], esl-note[active])`.
  - `watchEvents` (optional) – space-separated list of event names that toggle blocking state on the carousel when fired. Defaults to `esl:change:active`.
   - `blockBehaviour` (optional, default: `stop`) – how runtime blockers behave:
     * `stop` – clear the current cycle and start a new one after unblocking
     * `pause` – pause and resume the current cycle preserving the remaining time
+
+Configuration notes:
+ - `interactionScopeExclude` is useful when the interaction scope is intentionally broad and dynamic. For example, a thumbnail navigation may expose all tabs as `interactionScope` so the plugin keeps subscriptions on every tab, while `interactionScopeExclude: ':not([current])'` fine-tunes the effective scope to the active tab only.
 
 ### Public properties / state
 
