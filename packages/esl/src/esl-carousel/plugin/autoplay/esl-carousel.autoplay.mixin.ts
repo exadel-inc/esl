@@ -24,7 +24,7 @@ export interface ESLCarouselAutoplayConfig {
   trackInteraction: boolean;
   /** Scope selector for interaction tracking subscriptions (defaults to host (carousel)) */
   interactionScope?: string;
-  /** Additional selector to exclude items from the effective interaction scope. Does not affect subscriptions */
+  /** CSS selector (Element.matches) to exclude items from the effective interaction scope. Does not affect subscriptions */
   interactionScopeExclude?: string;
   /** CSS class applied to the carousel container while autoplay is enabled */
   containerCls?: string;
@@ -149,7 +149,8 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
 
   /** Effective interaction scope after exclusion rules are applied */
   public get $effectiveInteractionScope(): HTMLElement[] {
-    const exclude = this.config.interactionScopeExclude || ':not(*)';
+    const exclude = this.config.interactionScopeExclude;
+    if (!exclude) return this.$interactionScope;
     return this.$interactionScope.filter(($el: HTMLElement) => !$el.matches(exclude));
   }
 
