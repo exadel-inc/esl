@@ -1,3 +1,13 @@
+## 6.2.0-beta.0 (2026-06-08)
+
+### 🚀 Features
+
+- **esl-carousel:** rework and simplify autoplay plugin API - separate contol mixin + (optional) lightweight state mixin ([53337c6ac](https://github.com/exadel-inc/esl/commit/53337c6ac))
+
+### 💅 Refactors
+
+- **esl-carousel:** deduplicate autoplay events, update subscriptions strategy ([9fbadc614](https://github.com/exadel-inc/esl/commit/9fbadc614))
+
 ## 6.1.0 (2026-05-13)
 
 ### 🩹 Fixes
