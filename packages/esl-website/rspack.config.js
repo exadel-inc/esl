@@ -2,6 +2,7 @@ import {dirname, resolve} from 'path';
 import {fileURLToPath} from 'url';
 import rspack from '@rspack/core';
 import {RsdoctorRspackPlugin} from '@rsdoctor/rspack-plugin';
+import {TsCheckerRspackPlugin} from 'ts-checker-rspack-plugin';
 
 const PWD = dirname(fileURLToPath(import.meta.url));
 
@@ -27,13 +28,21 @@ const BASE_CONFIG = {
   },
   module: {
     rules: [{
-      test: /\.ts?$/,
-      loader: 'ts-loader',
+      test: /\.ts$/,
+      exclude: [/node_modules/],
+      loader: 'builtin:swc-loader',
       options: {
-        compilerOptions: {
-          declaration: false
+        jsc: {
+          parser: {
+            syntax: 'typescript',
+            decorators: true
+          },
+          transform: {
+            legacyDecorator: true
+          }
         }
-      }
+      },
+      type: 'javascript/auto'
     }]
   },
   watchOptions: {
@@ -49,6 +58,7 @@ const BASE_CONFIG = {
     ]
   },
   plugins: [
+    new TsCheckerRspackPlugin(),
     ...RSDOCTOR_PLUGIN
   ],
 };
