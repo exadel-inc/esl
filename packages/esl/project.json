@@ -88,7 +88,7 @@
     "watch:less": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "chokidar \"src/**/*.less\" -c \"nx run esl:build:less\"",
+        "command": "chokidar \"src/**/*.less\" -c \"nx run esl:build:less --skip-nx-cache\"",
         "cwd": "packages/esl"
       }
     },
@@ -115,7 +115,7 @@
     "watch:docs": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "chokidar \"src/**/*.md\" -c \"nx run esl:build:docs\"",
+        "command": "chokidar \"src/**/*.md\" -c \"nx run esl:build:docs --skip-nx-cache\"",
         "cwd": "packages/esl"
       }
     },

@@ -89,7 +89,7 @@
     "watch:less": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "chokidar \"src/**/*.less\" -c \"nx run uip:build:less\"",
+        "command": "chokidar \"src/**/*.less\" -c \"nx run uip:build:less --skip-nx-cache\"",
         "cwd": "packages/ui-playground"
       }
     },
@@ -116,7 +116,7 @@
     "watch:docs": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "chokidar \"src/**/*.md\" -c \"nx run uip:build:docs\"",
+        "command": "chokidar \"src/**/*.md\" -c \"nx run uip:build:docs --skip-nx-cache\"",
         "cwd": "packages/ui-playground"
       }
     },

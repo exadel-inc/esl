@@ -175,7 +175,7 @@
           "\"packages/esl/modules/.less.done\"",
           "\"packages/ui-playground/dist/.less.done\"",
           "\"packages/esl-website/src/**/*.less\"",
-          "-c \"nx run esl-website:build:less:only\""
+          "-c \"nx run esl-website:build:less:only --skip-nx-cache\""
         ]
       }
     },

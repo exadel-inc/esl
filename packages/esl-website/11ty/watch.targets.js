@@ -19,4 +19,11 @@ export default (config) => {
 
   // Set a delay for the build process
   config.setWatchThrottleWaitTime(500);
+
+  // Disable template cache in serve mode to fix stale content on njk changes.
+  // The ../../ watch targets cause chokidar CWD remap that breaks Eleventy's
+  // internal cache invalidation (path mismatch between watcher and template inputPath).
+  if (process.argv.includes('--serve')) {
+    config.setUseTemplateCache(false);
+  }
 };
