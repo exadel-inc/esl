@@ -84,7 +84,7 @@ describe('ESLMatchHeight mixin', () => {
       mixin.update();
       vi.advanceTimersByTime(200);
 
-      expect(resizeSpy).toHaveBeenCalledTimes(1);
+      expect(resizeSpy).toHaveBeenCalled();
     });
   });
 

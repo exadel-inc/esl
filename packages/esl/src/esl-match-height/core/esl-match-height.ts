@@ -108,19 +108,14 @@ export class ESLMatchHeightMixin extends ESLMixinElement {
   /** Update height values for passed elements */
   public resize($els: HTMLElement[] = this.$elements): void {
     if ($els.length < 2) return;
-    this.applyHeights($els.map(this.toMatchItem).sort(this.compare));
-  }
-
-  /** Recursively applies max height to groups of sorted items */
-  protected applyHeights(items: MatchItem[]): void {
-    if (items.length < 2) return;
+    const items: MatchItem[] = $els.map(this.toMatchItem).sort(this.compare);
     const index = items.findIndex((item: MatchItem) => Math.abs(this.compare(item, items[0])) > 1);
     const group = items.slice(0, index > 0 ? index : items.length);
     if (group.length > 1) {
       const maxHeight = Math.max(...group.map((item: MatchItem) => item.height));
       group.forEach((item: MatchItem) => item.$el.style.height = `${maxHeight}px`);
     }
-    this.applyHeights(items.slice(group.length));
+    this.resize(items.slice(group.length).map((item: MatchItem) => item.$el));
   }
 }
 
