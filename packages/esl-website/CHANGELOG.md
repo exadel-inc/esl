@@ -1,3 +1,10 @@
+## 6.2.0-beta.1 (2026-06-08)
+
+### Documentation updates
+
+- **esl-match-height:** update sample to relevant one ([6af4cf7da](https://github.com/exadel-inc/esl/commit/6af4cf7da))
+- **esl-match-height:** `ESLMatchHeightMixin` documentation and example ([9df5acef5](https://github.com/exadel-inc/esl/commit/9df5acef5))
+
 ## 6.2.0-beta.0 (2026-06-08)
 
 ### 🚀 Features

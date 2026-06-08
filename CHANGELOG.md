@@ -1,3 +1,15 @@
+## 6.2.0-beta.1 (2026-06-08)
+
+### 🚀 Features
+
+- **esl-carousel:** add ability to exclude elements from effective interaction scope (leaving observation scope the same) ([548a88c01](https://github.com/exadel-inc/esl/commit/548a88c01))
+- **esl-match-height:** introduce `ESLMatchHeightMixin` ([60229a142](https://github.com/exadel-inc/esl/commit/60229a142))
+
+### Documentation updates
+
+- **esl-match-height:** `ESLMatchHeightMixin` documentation and example ([9df5acef5](https://github.com/exadel-inc/esl/commit/9df5acef5))
+- **esl-match-height:** update sample to relevant one ([6af4cf7da](https://github.com/exadel-inc/esl/commit/6af4cf7da))
+
 ## 6.2.0-beta.0 (2026-06-08)
 
 ### 🚀 Features

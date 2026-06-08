@@ -1,3 +1,7 @@
+## 6.2.0-beta.1 (2026-06-08)
+
+This was a version bump only for eslint-config to align it with other projects, there were no code changes.
+
 ## 6.2.0-beta.0 (2026-06-08)
 
 This was a version bump only for eslint-config to align it with other projects, there were no code changes.
