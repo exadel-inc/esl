@@ -27,10 +27,15 @@ describe('ESLCarousel: Autoplay Plugin (interaction)', () => {
 
   const $popupTrigger = document.createElement('esl-note');
   const $externalBlocker = document.createElement('div');
+  const $activeTab = document.createElement('button');
+  const $inactiveTab = document.createElement('button');
   const $carousel = ESLCarousel.create();
   vi.spyOn($carousel, 'canNavigate').mockReturnValue(true);
 
-  const interactionState = {hover: false, focus: false};
+  const interactionState = {
+    hoverTarget: null as Element | null,
+    focusTarget: null as Element | null
+  };
   const realMatches = Element.prototype.matches;
   let matchesSpy: MockInstance | null = null;
   let activeElementDescriptor: PropertyDescriptor | undefined;
@@ -38,9 +43,9 @@ describe('ESLCarousel: Autoplay Plugin (interaction)', () => {
   const applySpies = () => {
     if (!matchesSpy) {
       matchesSpy = vi.spyOn(Element.prototype, 'matches').mockImplementation(function (this: Element | null, selector: string) {
-        if (selector.includes(':hover')) return interactionState.hover && this === $carousel;
-        if (selector.includes(':focus-within')) return interactionState.focus && this === $carousel;
-        if (selector.includes(':focus-visible')) return interactionState.focus && this === document.activeElement;
+        if (selector.includes(':hover')) return this === interactionState.hoverTarget;
+        if (selector.includes(':focus-within')) return this === interactionState.focusTarget;
+        if (selector.includes(':focus-visible')) return this === document.activeElement && this === interactionState.focusTarget;
         return realMatches.call(this, selector);
       });
     }
@@ -49,19 +54,19 @@ describe('ESLCarousel: Autoplay Plugin (interaction)', () => {
     }
   };
 
-  const simulateHover = (value: boolean) => {
-    interactionState.hover = value;
-    $carousel.dispatchEvent(new MouseEvent(value ? 'mouseenter' : 'mouseleave', {bubbles: true}));
+  const simulateHover = (value: boolean, $target: HTMLElement = $carousel) => {
+    interactionState.hoverTarget = value ? $target : null;
+    $target.dispatchEvent(new MouseEvent(value ? 'mouseenter' : 'mouseleave', {bubbles: true}));
   };
 
-  const simulateFocus = (value: boolean) => {
-    interactionState.focus = value;
+  const simulateFocus = (value: boolean, $target: HTMLElement = $carousel) => {
+    interactionState.focusTarget = value ? $target : null;
     if (value) {
-      ($carousel as HTMLElement).focus?.();
-      Object.defineProperty(document, 'activeElement', {configurable: true, get: () => $carousel});
-      $carousel.dispatchEvent(new FocusEvent('focusin', {bubbles: true}));
+      $target.focus?.();
+      Object.defineProperty(document, 'activeElement', {configurable: true, get: () => $target});
+      $target.dispatchEvent(new FocusEvent('focusin', {bubbles: true}));
     } else {
-      $carousel.dispatchEvent(new FocusEvent('focusout', {bubbles: true}));
+      $target.dispatchEvent(new FocusEvent('focusout', {bubbles: true}));
       if (activeElementDescriptor) Object.defineProperty(document, 'activeElement', activeElementDescriptor);
     }
   };
@@ -78,11 +83,16 @@ describe('ESLCarousel: Autoplay Plugin (interaction)', () => {
 
   beforeEach(async () => {
     $externalBlocker.className = 'global-blocker';
+    $activeTab.className = 'thumb-tab';
+    $inactiveTab.className = 'thumb-tab';
+    $activeTab.setAttribute('current', '');
+    $inactiveTab.removeAttribute('current');
     document.body.appendChild($externalBlocker);
     document.body.appendChild($carousel);
     $carousel.setAttribute('esl-carousel-autoplay', '');
 
     $carousel.appendChild($popupTrigger);
+    $carousel.append($activeTab, $inactiveTab);
     $popupTrigger.removeAttribute('active');
     $externalBlocker.removeAttribute('active');
 
@@ -94,8 +104,8 @@ describe('ESLCarousel: Autoplay Plugin (interaction)', () => {
   afterEach(() => {
     document.body.removeChild($carousel);
     document.body.removeChild($externalBlocker);
-    interactionState.hover = false;
-    interactionState.focus = false;
+    interactionState.hoverTarget = null;
+    interactionState.focusTarget = null;
     matchesSpy?.mockRestore();
     matchesSpy = null;
     if (activeElementDescriptor) Object.defineProperty(document, 'activeElement', activeElementDescriptor);
@@ -138,6 +148,27 @@ describe('ESLCarousel: Autoplay Plugin (interaction)', () => {
     simulateFocus(false);
     await microtask();
     expect(plugin.active).toBe(true);
+  });
+
+  test('interactionScopeExclude narrows effective interaction scope without changing subscriptions', async () => {
+    const plugin = ESLCarouselAutoplayMixin.get($carousel)!;
+    $carousel.setAttribute('esl-carousel-autoplay', '{duration: 1000, interactionScope: ".thumb-tab", interactionScopeExclude: ":not([current])"}');
+    await microtask();
+    IntersectionObserverMock.trigger($carousel, {intersectionRatio: 1, isIntersecting: true});
+
+    expect(plugin.$interactionScope).toEqual([$activeTab, $inactiveTab]);
+    expect(plugin.$effectiveInteractionScope).toEqual([$activeTab]);
+
+    simulateHover(true, $inactiveTab);
+    await microtask();
+    expect(plugin.hovered).toBe(false);
+    expect(plugin.active).toBe(true);
+
+    simulateHover(false, $inactiveTab);
+    simulateHover(true, $activeTab);
+    await microtask();
+    expect(plugin.hovered).toBe(true);
+    expect(plugin.active).toBe(false);
   });
 
   test('Blocks runtime execution on popup open', async () => {

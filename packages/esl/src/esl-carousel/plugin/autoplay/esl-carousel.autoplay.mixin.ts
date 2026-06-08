@@ -22,8 +22,10 @@ export interface ESLCarouselAutoplayConfig {
   intersection: number;
   /** Enable hover / focus based pausing */
   trackInteraction: boolean;
-  /** Scope selector for interaction tracking (defaults to host (carousel)) */
+  /** Scope selector for interaction tracking subscriptions (defaults to host (carousel)) */
   interactionScope?: string;
+  /** Additional selector to exclude items from the effective interaction scope. Does not affect subscriptions */
+  interactionScopeExclude?: string;
   /** CSS class applied to the carousel container while autoplay is enabled */
   containerCls?: string;
   /** Behaviour of runtime blockers */
@@ -138,11 +140,17 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
     return Math.max(this._remaining - (Date.now() - this._cycleStartedAt), 0);
   }
 
-  /** Interaction scope elements (memoized) */
+  /** Interaction scope elements used as event subscription targets (memoized) */
   @memoize()
   public get $interactionScope(): HTMLElement[] {
     const sel = this.config.interactionScope;
     return sel ? this.$$findAll(sel) as HTMLElement[] : [this.$host];
+  }
+
+  /** Effective interaction scope after exclusion rules are applied */
+  public get $effectiveInteractionScope(): HTMLElement[] {
+    const exclude = this.config.interactionScopeExclude || ':not(*)';
+    return this.$interactionScope.filter(($el: HTMLElement) => !$el.matches(exclude));
   }
 
   /** True if active slide contains any blocking items */
@@ -153,13 +161,13 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin<ESLCarouselAutop
 
   /** True if any scope element is hovered */
   public get hovered(): boolean {
-    return this.$interactionScope.some(($el) => $el.matches('*:hover'));
+    return this.$effectiveInteractionScope.some(($el) => $el.matches('*:hover'));
   }
 
   /** True if keyboard-visible focus is within scope */
   public get focused(): boolean {
     if (!document.activeElement?.matches('*:focus-visible')) return false;
-    return this.$interactionScope.some(($el) => $el.matches('*:focus-within'));
+    return this.$effectiveInteractionScope.some(($el) => $el.matches('*:focus-within'));
   }
 
   /** Backward-compatible alias for runtime allowance */
