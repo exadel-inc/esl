@@ -36,7 +36,7 @@ export function decorate<Args extends any[], Fn extends AnyToAnyFnSignature, Wra
         // Return original function in case of prototype or super call
         if (!desc || desc.get !== getBound) return originalFn;
         // Create a new decorated instance of function (original first bound to instance)
-        const decoratedFn = decorator(originalFn.bind(this), ...args) as Fn;
+        const decoratedFn = decorator(originalFn.bind(this) as Fn, ...args) as Fn;
         // Copy original function own keys
         Object.assign(decoratedFn, originalFn);
         // Defines own property with the decorated instance
