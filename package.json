@@ -73,7 +73,8 @@
     "smoothscroll-polyfill": "^0.4.4",
     "stylelint": "^17.13.0",
     "touch": "^3.1.1",
-    "typescript": "5.9.3",
+    "typescript": "6.0.3",
+    "typescript-5": "npm:typescript@5.9.3",
     "vitest": "^4.1.7",
     "yaml": "^2.9.0"
   }
