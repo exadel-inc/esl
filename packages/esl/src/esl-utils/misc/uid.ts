@@ -1,5 +1,8 @@
-const SEQUENCE_KEY: unique symbol = Symbol.for('__esl_sequences');
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-ignore
 const ns = window || global;
+
+const SEQUENCE_KEY: unique symbol = Symbol.for('__esl_sequences');
 const sequences = ns[SEQUENCE_KEY] || new Map<string, number>();
 ns[SEQUENCE_KEY] = sequences;
 
