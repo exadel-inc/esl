@@ -28,13 +28,13 @@ export class MediaQueryNegation implements IMediaQueryCondition {
 
   public addEventListener(callback: EventListener): void;
   public addEventListener(type: 'change', callback: EventListener): void;
-  public addEventListener(...args: any[]): void {
+  public addEventListener(...args: any): void {
     this.condition.addEventListener.apply(this.condition, args);
   }
 
   public removeEventListener(callback: EventListener): void;
   public removeEventListener(type: 'change', callback: EventListener): void;
-  public removeEventListener(...args: any[]): void {
+  public removeEventListener(...args: any): void {
     this.condition.removeEventListener.apply(this.condition, args);
   }
 
