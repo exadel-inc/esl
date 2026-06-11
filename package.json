@@ -61,7 +61,7 @@
     "cross-env": "^10.1.0",
     "eslint": "^9.39.2",
     "husky": "^9.1.7",
-    "job-ripper": "^1.0.0",
+    "job-ripper": "^1.1.0",
     "jsdom": "^29.1.1",
     "kleur": "^4.1.5",
     "less": "4.6.4",
