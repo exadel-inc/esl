@@ -1,16 +1,7 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-// @ts-ignore
-const ns = window || global;
-
 const SEQUENCE_KEY: unique symbol = Symbol.for('__esl_sequences');
-const sequences = ns[SEQUENCE_KEY] || new Map<string, number>();
-ns[SEQUENCE_KEY] = sequences;
-
-declare global {
-  interface Window {
-    [SEQUENCE_KEY]: Map<string, number>;
-  }
-}
+const sequenceHost = globalThis as any;
+const sequences = sequenceHost[SEQUENCE_KEY] || new Map<string, number>();
+sequenceHost[SEQUENCE_KEY] = sequences;
 
 /** Create and return sequential id */
 export const sequentialUID = (name: string, prefix: string = name): string => {
