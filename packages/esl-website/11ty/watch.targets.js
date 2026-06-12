@@ -19,4 +19,7 @@ export default (config) => {
 
   // Set a delay for the build process
   config.setWatchThrottleWaitTime(500);
+
+  // Disable template cache to fix stale content on NJK changes
+  config.setUseTemplateCache(false);
 };
