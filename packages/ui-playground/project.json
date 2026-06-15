@@ -39,7 +39,7 @@
       "options": {
         "commands": [
           "rimraf -g \"dist/**/*.{js,ts}\"",
-          "tsc --project tsconfig.json",
+          "node ../../node_modules/typescript/bin/tsc --project tsconfig.json",
           "nodetouch \"dist/.ts.done\""
         ],
         "parallel": false,
@@ -59,7 +59,7 @@
     "watch:ts": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "tsc --project tsconfig.json --watch",
+        "command": "node ../../node_modules/typescript/bin/tsc --project tsconfig.json --watch",
         "cwd": "packages/ui-playground"
       }
     },

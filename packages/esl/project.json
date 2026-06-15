@@ -39,7 +39,7 @@
       "options": {
         "commands": [
           "rimraf -g \"modules/**/*.{js,ts}\"",
-          "tsc --project tsconfig.build.json",
+          "node ../../node_modules/typescript/bin/tsc --project tsconfig.build.json",
           "nodetouch \"modules/.ts.done\""
         ],
         "parallel": false,
@@ -59,7 +59,7 @@
     "watch:ts": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "tsc --project tsconfig.build.json --watch",
+        "command": "node ../../node_modules/typescript/bin/tsc --project tsconfig.build.json --watch",
         "cwd": "packages/esl"
       }
     },
@@ -140,13 +140,22 @@
     "test:types": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "tsc --project tsconfig.typetest.json",
+        "commands": [
+          "node ../../node_modules/typescript/bin/tsc --project tsconfig.typetest.json",
+          "node ../../node_modules/typescript-5/bin/tsc --project tsconfig.typetest.ts5.json"
+        ],
+        "parallel": true,
         "cwd": "packages/esl"
       },
       "cache": true,
       "inputs": [
         "{projectRoot}/src/**/*.ts",
-        "{projectRoot}/tsconfig.typetest.json"
+        "{projectRoot}/src/**/*.d.ts",
+        "{projectRoot}/tsconfig.json",
+        "{projectRoot}/tsconfig.typetest.json",
+        "{projectRoot}/tsconfig.typetest.ts5.json",
+        "{workspaceRoot}/package.json",
+        "{workspaceRoot}/package-lock.json"
       ]
     },
     "test": {
