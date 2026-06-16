@@ -170,12 +170,15 @@
     "watch:less": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "chokidar",
+        "command": "nodemon",
         "args": [
-          "\"packages/esl/modules/.less.done\"",
-          "\"packages/ui-playground/dist/.less.done\"",
-          "\"packages/esl-website/src/**/*.less\"",
-          "-c \"nx run esl-website:build:less:only\""
+          "--on-change-only",
+          "--watch \"packages/esl/modules\"",
+          "--watch \"packages/ui-playground/dist\"",
+          "--watch \"packages/esl-website/src\"",
+          "--ext css,less",
+          "--delay 0.5",
+          "--exec \"nx run esl-website:build:less:only\""
         ]
       }
     },

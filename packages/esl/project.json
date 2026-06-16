@@ -39,8 +39,7 @@
       "options": {
         "commands": [
           "rimraf -g \"modules/**/*.{js,ts}\"",
-          "node ../../node_modules/typescript/bin/tsc --project tsconfig.build.json",
-          "nodetouch \"modules/.ts.done\""
+          "node ../../node_modules/typescript/bin/tsc --project tsconfig.build.json"
         ],
         "parallel": false,
         "cwd": "packages/esl"
@@ -52,8 +51,7 @@
       ],
       "outputs": [
         "{projectRoot}/modules/**/*.js",
-        "{projectRoot}/modules/**/*.d.ts",
-        "{projectRoot}/modules/.ts.done"
+        "{projectRoot}/modules/**/*.d.ts"
       ]
     },
     "watch:ts": {
@@ -68,11 +66,9 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "job-ripper \"src/**/*.less\" -w worker/less.mjs -c 2",
-          "nodetouch \"modules/.less.done\""
+          "job-ripper \"src/**/*.less\" -w worker/less.mjs -c 2"
         ],
-        "cwd": "packages/esl",
-        "parallel": false
+        "cwd": "packages/esl"
       },
       "cache": true,
       "inputs": [
@@ -81,8 +77,7 @@
       ],
       "outputs": [
         "{projectRoot}/modules/**/*.css",
-        "{projectRoot}/modules/**/*.less",
-        "{projectRoot}/modules/.less.done"
+        "{projectRoot}/modules/**/*.less"
       ]
     },
     "watch:less": {
@@ -103,13 +98,12 @@
         "parallel": false,
         "cwd": "packages/esl"
       },
-      "cache": true,
+      "cache": false,
       "inputs": [
         "{projectRoot}/src/**/*.md"
       ],
       "outputs": [
-        "{projectRoot}/modules/**/*.md",
-        "{projectRoot}/modules/.docs.done"
+        "{projectRoot}/modules/**/*.md"
       ]
     },
     "watch:docs": {
