@@ -10,13 +10,13 @@ import type {ESLToggleableActionParams} from '@exadel/esl/modules/esl-toggleable
 export class ESLDemoSearchBox extends ESLToggleable {
   static override is = 'esl-d-search-box';
 
-  @attr() public postCls: string;
-  @attr() public postClsDelay: string;
-  @attr({defaultValue: '::find(input)'}) public firstFocusable: string;
+  @attr() public declare postCls: string;
+  @attr() public declare postClsDelay: string;
+  @attr({defaultValue: '::find(input)'}) public declare firstFocusable: string;
 
-  @boolAttr() public override autofocus: boolean;
+  @boolAttr() public declare autofocus: ESLToggleable['autofocus'];
 
-  @prop() public override closeOnOutsideAction = true;
+  @prop(true) public declare closeOnOutsideAction: ESLToggleable['closeOnOutsideAction'];
 
   public override onShow(params: ESLToggleableActionParams): void {
     CSSClassUtils.add(this, this.postCls);
