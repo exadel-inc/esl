@@ -24,7 +24,7 @@ export default async (config) => {
     '../../docs/images': 'assets/docs-images',
     'static/assets': 'assets',
     'static/tools': '.',
-    '../../skills': 'skills'
+    '../esl/skills': 'ai-skills'
   });
 
   // Disable template cache to fix stale content on NJK changes
