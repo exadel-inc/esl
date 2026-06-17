@@ -37,6 +37,70 @@
   }
 }
 
+.skill-install-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+
+  section {
+    border: 1px solid #dee2e6;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    background: #f8f9fa;
+  }
+
+  h3 {
+    margin-top: 0;
+  }
+
+  pre {
+    margin: 0.75rem 0;
+    white-space: pre-wrap;
+  }
+}
+
+.skill-files-list {
+  display: grid;
+  gap: 1rem;
+  padding: 0 1.5rem 1.5rem;
+}
+
+.skill-file-card {
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  background: #fff;
+
+  &-header {
+    padding: 1rem 1rem 0.5rem;
+  }
+
+  &-label {
+    margin: 0 0 0.25rem;
+    color: #6c757d;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  &-title {
+    margin: 0;
+    font-size: 1.05rem;
+  }
+
+  &-desc {
+    margin: 0.35rem 0 0;
+    color: #6c757d;
+    font-size: 0.95rem;
+  }
+
+  &-actions {
+    padding: 0 1rem 0.75rem;
+  }
+}
+
 [esl-d-skill-copy] {
   &[data-copied] {
     --btn-color: #28a745;
