@@ -35,6 +35,7 @@
   "files": [
     "modules/**/*.{js,ts,less,css,md}",
     "polyfills/**/*.{js,ts,less,css,md}",
+    "skills/**/*.md",
     "tsconfig.json",
     "CHANGELOG.md",
     "README.md"
