@@ -1,5 +1,5 @@
 - file: esl/SKILL.md
-  archive: exadel-esl-ai-skill.zip
+  archive: exadel-esl-ai-skill.tgz
   package: '@exadel/esl'
   name: ESL Consumer Skill
   description: >-

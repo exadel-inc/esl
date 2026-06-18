@@ -26,7 +26,6 @@
     "@exadel/esl": "^6.0.0",
     "@exadel/ui-playground": "^6.0.0",
     "@juggle/resize-observer": "^3.4.0",
-    "archiver": "^8.0.0",
     "image-size": "^2.0.2",
     "js-yaml": "^4.2.0",
     "jsdom": "^29.1.1",

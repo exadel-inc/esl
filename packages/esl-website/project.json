@@ -97,22 +97,25 @@
     "build:skills": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "node ./scripts/build-skill-archive.mjs",
+        "commands": [
+          "npx mkdirp \"dist/downloads\"",
+          "tar -czf \"dist/downloads/exadel-esl-ai-skill.tgz\" -C \"../esl/skills\" \"esl\""
+        ],
+        "parallel": false,
         "cwd": "packages/esl-website"
       },
       "cache": true,
       "inputs": [
-        {"input": "default", "projects": ["esl"]},
-        "{projectRoot}/scripts/build-skill-archive.mjs"
+        {"input": "default", "projects": ["esl"]}
       ],
       "outputs": [
-        "{projectRoot}/dist/downloads/exadel-esl-ai-skill.zip"
+        "{projectRoot}/dist/downloads/exadel-esl-ai-skill.tgz"
       ]
     },
     "watch:skills": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "chokidar \"../esl/skills/**/*.md\" -c \"node ./scripts/build-skill-archive.mjs\"",
+        "command": "chokidar \"../esl/skills/**/*.md\" -c \"nx run esl-website:build:skills\"",
         "cwd": "packages/esl-website"
       }
     },
