@@ -106,8 +106,9 @@ The published `@exadel/esl` package also bundles the ESL AI skill at `skills/esl
 Recommended flow for toolchains that support package-aware skills:
 
 ```bash
-npx skills add @exadel/esl
+npx skills add exadel-inc/esl
 ```
+Note: the skills package utilizes GitHub repo path to install skills
 
 Fallback manual flow:
 
