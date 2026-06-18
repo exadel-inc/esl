@@ -3,7 +3,7 @@ import {attr, listen} from '@exadel/esl/modules/esl-utils/decorators';
 
 /**
  * ESLDemoSkillCopy — mixin for skill card copy-to-clipboard button.
- * Attach via `esl-d-skill-copy` attribute on any button with a `data-url` pointing to a raw skill file.
+ * Attach via `esl-d-skill-copy` attribute on any button with a value pointing to a raw skill file.
  *
  * @example
  * ```html
