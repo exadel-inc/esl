@@ -72,7 +72,8 @@ export default [{
   output: {
     path: resolve(PWD, 'dist/bundles'),
     filename: '[name].js',
-    chunkFilename: '[name].js'
+    chunkFilename: '[name].js',
+    publicPath: '/bundles/'
   }
 }, {
   ...BASE_CONFIG,
@@ -85,6 +86,7 @@ export default [{
   output: {
     path: resolve(PWD, 'dist/bundles'),
     filename: '[name].js',
+    publicPath: '/bundles/',
     library: {
       type: 'module'
     }

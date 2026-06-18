@@ -3,22 +3,22 @@ import {attr, listen} from '@exadel/esl/modules/esl-utils/decorators';
 
 /**
  * ESLDemoSkillCopy — mixin for skill card copy-to-clipboard button.
- * Attach via `esl-d-skill-copy` attribute on any button with a `data-url` pointing to a raw skill file.
+ * Attach via `esl-d-skill-copy` attribute on any button with a value pointing to a raw skill file.
  *
  * @example
  * ```html
- * <button esl-d-skill-copy data-url="/skills/esl-core.md">Copy to clipboard</button>
+ * <button esl-d-skill-copy="/skills/esl/SKILL.md">Copy to clipboard</button>
  * ```
  */
 export class ESLDemoSkillCopy extends ESLMixinElement {
   public static override is = 'esl-d-skill-copy';
 
   /** URL of the raw skill file to copy */
-  @attr({name: 'data-url', defaultValue: ''}) public url: string;
+  @attr({name: ESLDemoSkillCopy.is, defaultValue: ''}) public declare url: string;
 
   /** Duration (ms) to show the feedback label after a successful copy */
   @attr({name: 'data-feedback-duration', defaultValue: 2500, parser: parseInt})
-  public feedbackDuration: number;
+  public declare feedbackDuration: number;
 
   @listen('click')
   protected async _onClick(): Promise<void> {

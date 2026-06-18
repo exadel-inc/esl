@@ -175,21 +175,22 @@ To fix and track such agreements the [Code Conventions](CODE_CONVENTIONS.md) doc
 AI coding agents are a common part of modern development workflows, and giving them accurate library context pays off quickly.
 A well-crafted skill lets consumers get idiomatic ESL code from their agent on the first try — no manual corrections for decorator usage, naming conventions, or the utility toolkit.
 
-The repository includes self-contained skill files for AI coding agents located in the [`skills/`](../skills) directory.
-Each file is independent and can be dropped into any downstream project's AI configuration without any further setup.
+The canonical ESL AI skill bundle for downstream tools lives in [`packages/esl/skills/esl/`](../packages/esl/skills/esl).
+It is published together with `@exadel/esl` and contains the main [`SKILL.md`](../packages/esl/skills/esl/SKILL.md) file plus its bundled references.
 
 | File | Purpose |
 |---|---|
-| [`skills/esl-core.md`](../skills/esl-core.md) | Core consumer guide for ESL component authoring, decorators, traversal, events, and media utilities |
-| [`skills/esl-review.md`](../skills/esl-review.md) | Review checklist and best practices for ESL consumer code |
+| [`packages/esl/skills/esl/SKILL.md`](../packages/esl/skills/esl/SKILL.md) | Main ESL consumer skill distributed with the published `@exadel/esl` package |
+| [`packages/esl/skills/esl/references/esl-core.md`](../packages/esl/skills/esl/references/esl-core.md) | Core consumer guide for ESL component authoring, decorators, traversal, events, and media utilities |
+| [`packages/esl/skills/esl/references/esl-review.md`](../packages/esl/skills/esl/references/esl-review.md) | Review checklist and best practices for ESL consumer code |
 
 For contributors, the full codebase guide is in [`AGENTS.md`](../AGENTS.md) at the repository root.
 
-> **Note for maintainers:** if you are adding a significant new feature or base class to the library, consider
-> adding a corresponding skill file to `skills/` so downstream consumers can benefit from accurate AI assistance.
-> After adding the file, register it in
-> [`packages/esl-website/views/_data/skills.yml`](../packages/esl-website/views/_data/skills.yml)
-> so it appears on the AI Skills page of the website.
+> **Note for maintainers:** when changing the published ESL skill, update
+> [`packages/esl/skills/esl/SKILL.md`](../packages/esl/skills/esl/SKILL.md) and the bundled files in
+> [`packages/esl/skills/esl/references/`](../packages/esl/skills/esl/references/).
+> If the website landing page copy changes too, sync the metadata in
+> [`packages/esl-website/views/_data/skills.yml`](../packages/esl-website/views/_data/skills.yml).
 
 ## Make or update a core and utilities
 

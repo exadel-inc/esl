@@ -99,6 +99,22 @@ with excellent performance.
     npm i @exadel/esl --save
     ```
 
+### AI Agent Skill
+
+The published `@exadel/esl` package also bundles the ESL AI skill at `skills/esl/`.
+
+Recommended flow for toolchains that support package-aware skills:
+
+```bash
+npx skills add @exadel/esl
+```
+
+Fallback manual flow:
+
+1. Install the package locally.
+2. Copy `node_modules/@exadel/esl/skills/esl/` into your AI tool's skill directory.
+3. Keep the bundled `references/` folder next to `SKILL.md`.
+
 2. Import Components/Modules you need:
 
     ```javascript

@@ -6,8 +6,8 @@ export class ESLDemoMarquee extends ESLBaseElement {
   static override is = 'esl-d-marquee';
   static STARS_SEL = 'use';
 
-  @attr({defaultValue: '4'}) public targetsNumber: string;
-  @attr({defaultValue: '3000'}) public iterationTime: string;
+  @attr({defaultValue: '4'}) public declare targetsNumber: string;
+  @attr({defaultValue: '3000'}) public declare iterationTime: string;
 
   private _$active: HTMLElement[] = [];
   private _animateTimer: number = 0;
