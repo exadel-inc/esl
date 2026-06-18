@@ -76,6 +76,7 @@
       "dependsOn": [
         "esl:build",
         "uip:build",
+        "esl-website:build:skills",
         "esl-website:build:ts",
         "esl-website:build:less"
       ]
@@ -86,9 +87,33 @@
         "commands": [
           "nx run esl:watch",
           "nx run uip:watch",
+          {"command": "nx run esl-website:watch:skills", "prefix": "[Site watch:skills]"},
           {"command": "nx run esl-website:watch:ts", "prefix": "[Site watch:ts]"},
           {"command": "nx run esl-website:watch:less", "prefix": "[Site watch:less]"}
         ]
+      }
+    },
+
+    "build:skills": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node ./scripts/build-skill-archive.mjs",
+        "cwd": "packages/esl-website"
+      },
+      "cache": true,
+      "inputs": [
+        {"input": "default", "projects": ["esl"]},
+        "{projectRoot}/scripts/build-skill-archive.mjs"
+      ],
+      "outputs": [
+        "{projectRoot}/dist/downloads/exadel-esl-ai-skill.zip"
+      ]
+    },
+    "watch:skills": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "chokidar \"../esl/skills/**/*.md\" -c \"node ./scripts/build-skill-archive.mjs\"",
+        "cwd": "packages/esl-website"
       }
     },
 

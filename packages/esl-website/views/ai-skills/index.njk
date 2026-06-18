@@ -20,9 +20,7 @@ icon: sidebar/ai.svg
       <h2 class="skill-card-title">{{ skill.name }}</h2>
       <p class="skill-card-desc">{{ skill.description | safe }}</p>
       <p class="skill-card-when"><b>Use when:</b> {{ skill.when | safe }}</p>
-    </div>
-    <div class="skill-card-actions btn-group hide">
-      <a class="btn btn-sm" href="/downloads/{{ skill.archive }}" download="{{ skill.archive }}">
+      <a class="skill-card-btn btn btn-sm" href="/downloads/{{ skill.archive }}" download="{{ skill.archive }}">
         Download bundle archive
       </a>
     </div>
@@ -31,20 +29,10 @@ icon: sidebar/ai.svg
       <section>
         <h3>Install with skills CLI</h3>
         <pre><code>npx skills add {{ skill.package }}</code></pre>
-        <p>
-          Recommended flow when your AI tooling can install skills directly from a published npm package.
-        </p>
+        <p>Recommended flow when your AI tooling can install skills directly from a published npm package.</p>
       </section>
 
-      <section class="hide">
-        <h3>Install from npm</h3>
-        <pre><code>npm i -D {{ skill.package }}</code></pre>
-        <p>
-          Then copy <code>node_modules/{{ skill.package }}/skills/esl/</code> into your tool-specific skills directory.
-        </p>
-      </section>
-
-      <section class="hide">
+      <section>
         <h3>Manual bundle files</h3>
         <p>
           Download the archive to get <code>SKILL.md</code> and the bundled <code>references/</code> folder together.
