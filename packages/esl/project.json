@@ -116,7 +116,7 @@
 
     "lint": {
       "executor": "nx:noop",
-      "dependsOn": ["lint:eslint", "lint:stylelint", "lint:skills"]
+      "dependsOn": ["lint:eslint", "lint:stylelint", "lint:md"]
     },
     "lint:stylelint": {
       "executor": "nx:run-commands",
@@ -130,16 +130,16 @@
         "{projectRoot}/.stylelint.yml"
       ]
     },
-    "lint:skills": {
+    "lint:md": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "node ./scripts/validate-skill.mjs",
+        "command": "node ./scripts/lint-md.mjs",
         "cwd": "packages/esl"
       },
       "cache": true,
       "inputs": [
-        "{projectRoot}/scripts/validate-skill.mjs",
-        "{projectRoot}/skills/**/*.md"
+        "{projectRoot}/scripts/lint-md.mjs",
+        "{projectRoot}/**/*.md"
       ],
       "outputs": []
     },
