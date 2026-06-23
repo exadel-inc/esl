@@ -1,3 +1,20 @@
+## 6.2.0 (2026-06-23)
+
+### 🚀 Features
+
+- ootb AI skills for @exadel/esl core module ([dea17163e](https://github.com/exadel-inc/esl/commit/dea17163e))
+- major TS6 compatibility ([9b505cc27](https://github.com/exadel-inc/esl/commit/9b505cc27))
+- **esl-carousel:** rework and simplify autoplay plugin API - separate contol mixin + (optional) lightweight state mixin ([53337c6ac](https://github.com/exadel-inc/esl/commit/53337c6ac))
+
+### 💅 Refactors
+
+- **esl-carousel:** deduplicate autoplay events, update subscriptions strategy ([9fbadc614](https://github.com/exadel-inc/esl/commit/9fbadc614))
+
+### Documentation updates
+
+- **esl-match-height:** update sample to relevant one ([6af4cf7da](https://github.com/exadel-inc/esl/commit/6af4cf7da))
+- **esl-match-height:** `ESLMatchHeightMixin` documentation and example ([9df5acef5](https://github.com/exadel-inc/esl/commit/9df5acef5))
+
 ## 6.1.0 (2026-05-13)
 
 ### 🩹 Fixes
