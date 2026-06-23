@@ -21,6 +21,7 @@ export class ESLDemoNewLabel extends ESLMixinElement {
     const label = document.createElement('sup');
     label.className = 'badge badge-small badge-sup badge-success';
     label.textContent = 'new';
+    this.$host.appendChild(document.createTextNode(' '));
     this.$host.appendChild(label);
   }
 }
