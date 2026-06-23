@@ -1,6 +1,6 @@
 - file: esl/SKILL.md
   archive: exadel-esl-ai-skill.tgz
-  package: '@exadel/esl'
+  package: 'exadel-inc/esl'
   name: ESL Consumer Skill
   description: >-
     Canonical AI skill bundle for <code>@exadel/esl</code> consumers, shipped
