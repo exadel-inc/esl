@@ -1,10 +1,12 @@
 import fs from 'fs';
-import {execFileSync} from 'child_process';
+import {relative} from 'path';
 import {fileURLToPath} from 'url';
+import {execFileSync} from 'child_process';
 
 import pkj from '../package.json' with {type: 'json'};
 
 const noGit = process.argv.includes('-no-git') || process.argv.includes('--no-git');
+const root = fileURLToPath(new URL('../../../', import.meta.url));
 
 const targets = [
   {
@@ -32,7 +34,8 @@ for (const target of targets) {
   } else {
     fs.writeFileSync(target.path, updatedContent);
     if (!noGit) {
-      execFileSync('git', ['add', target.path], {stdio: 'inherit'});
+      const gitPath = relative(root, target.path).replaceAll('\\', '/');
+      execFileSync('git', ['add', gitPath], {stdio: 'inherit', cwd: root});
     } else {
       console.log(`Skip git add for ${target.path} because -no-git was provided`);
     }
