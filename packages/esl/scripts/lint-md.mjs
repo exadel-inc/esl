@@ -3,7 +3,7 @@ import path from 'path';
 import {fileURLToPath} from 'url';
 
 import MarkdownIt from 'markdown-it';
-import {parseDocument} from 'yaml';
+import {load as loadYaml, FAILSAFE_SCHEMA} from 'js-yaml';
 
 const currentDir = fileURLToPath(new URL('.', import.meta.url));
 const projectRoot = path.resolve(currentDir, '..');
@@ -40,12 +40,14 @@ const parseFrontmatter = (content, filePath) => {
   if (!match) fail(`${relativeToProject(filePath)} starts with frontmatter but does not contain a closing --- line.`);
 
   const [block, source] = match;
-  const document = parseDocument(source);
-  const issues = [...document.errors, ...document.warnings];
-
-  if (issues.length) {
-    const details = issues.map((issue) => issue.message).join('; ');
-    fail(`${relativeToProject(filePath)} has invalid YAML frontmatter: ${details}`);
+  try {
+    loadYaml(source, {
+      schema: FAILSAFE_SCHEMA,
+      filename: relativeToProject(filePath)
+    });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    fail(`${relativeToProject(filePath)} has invalid YAML frontmatter: ${message}`);
   }
 
   return {body: content.slice(block.length), hasFrontmatter: true};
