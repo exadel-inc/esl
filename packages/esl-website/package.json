@@ -1,6 +1,6 @@
 {
   "name": "@exadel/esl-website",
-  "version": "6.1.0",
+  "version": "6.2.0",
   "type": "module",
   "private": true,
   "description": "ESL Website source",
@@ -23,8 +23,8 @@
   "dependencies": {
     "@11ty/eleventy": "3.1.6",
     "@11ty/eleventy-dev-server": "2.0.8",
-    "@exadel/esl": "^6.0.0",
-    "@exadel/ui-playground": "^6.0.0",
+    "@exadel/esl": "^6.2.0",
+    "@exadel/ui-playground": "^6.2.0",
     "@juggle/resize-observer": "^3.4.0",
     "image-size": "^2.0.2",
     "jsdom": "^29.1.1",

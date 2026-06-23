@@ -2,7 +2,7 @@
   "private": true,
   "name": "@exadel/esl-website-e2e",
   "type": "module",
-  "version": "6.1.0",
+  "version": "6.2.0",
   "description": "Snapshot tests for ESL Website",
   "homepage": "https://esl-ui.com/",
   "license": "MIT",
@@ -19,13 +19,13 @@
     "lint": "nx run esl-website-e2e:lint"
   },
   "dependencies": {
-    "@exadel/esl-website": "^6.0.0",
+    "@exadel/esl-website": "^6.2.0",
     "@playwright/test": "^1.61.0",
     "nunjucks": "^3.2.4",
     "rimraf": "^6.1.2"
   },
   "devDependencies": {
-    "@exadel/eslint-config-esl": "^6.0.0",
+    "@exadel/eslint-config-esl": "^6.2.0",
     "@types/nunjucks": "^3.2.6"
   }
 }
