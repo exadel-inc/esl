@@ -1,7 +1,10 @@
 import fs from 'fs';
+import {execFileSync} from 'child_process';
 import {fileURLToPath} from 'url';
 
 import pkj from '../package.json' with {type: 'json'};
+
+const noGit = process.argv.includes('-no-git') || process.argv.includes('--no-git');
 
 const targets = [
   {
@@ -24,6 +27,15 @@ for (const target of targets) {
   }
 
   const updatedContent = content.replace(target.pattern, target.replacement);
-  fs.writeFileSync(target.path, updatedContent);
-  console.log(`Update ${target.path} version to ${pkj.version}`);
+  if (updatedContent === content) {
+    console.log(`The ${target.path} is up to date`);
+  } else {
+    fs.writeFileSync(target.path, updatedContent);
+    if (!noGit) {
+      execFileSync('git', ['add', target.path], {stdio: 'inherit'});
+    } else {
+      console.log(`Skip git add for ${target.path} because -no-git was provided`);
+    }
+    console.log(`Update ${target.path} version to ${pkj.version}`);
+  }
 }

@@ -180,7 +180,7 @@
     "version:post": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "node ./scripts/update-lib-version.mjs && git add src/lib.ts skills/esl/SKILL.md",
+        "command": "node ./scripts/post-version.mjs",
         "cwd": "packages/esl"
       }
     }
