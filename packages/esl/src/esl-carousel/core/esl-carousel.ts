@@ -6,7 +6,6 @@ import {microtask} from '../../esl-utils/async';
 import {parseBoolean, parseTime, sequentialUID, toCamelCase} from '../../esl-utils/misc';
 
 import {CSSClassUtils} from '../../esl-utils/dom/class';
-import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
 import {ESLResizeObserverTarget} from '../../esl-event-listener/core';
 
@@ -22,7 +21,8 @@ import type {
   ESLCarouselSlideTarget,
   ESLCarouselStaticState,
   ESLCarouselConfig,
-  ESLCarouselActionParams
+  ESLCarouselActionParams,
+  ESLCarouselFocusPolicy
 } from './esl-carousel.types';
 
 /**
@@ -34,7 +34,7 @@ import type {
 @ExportNs('Carousel')
 export class ESLCarousel extends ESLBaseElement {
   public static override is = 'esl-carousel';
-  public static observedAttributes = ['media', 'type', 'loop', 'count', 'vertical', 'step-duration', 'container'];
+  public static observedAttributes = ['media', 'type', 'loop', 'count', 'vertical', 'step-duration', 'container', 'focus-policy', 'no-inert'];
 
   /** Media query pattern used for {@link ESLMediaRuleList} of `type`, `loop` and `count` (default: `all`) */
   @attr({defaultValue: 'all'}) public media: string;
@@ -52,6 +52,8 @@ export class ESLCarousel extends ESLBaseElement {
 
   /** Container selector (supports traversing query). Carousel itself by default */
   @attr({defaultValue: ''}) public container: string;
+  /** Defines how carousel slides participate in focus flow (`active` by default) */
+  @attr({defaultValue: 'active'}) public focusPolicy: ESLCarouselFocusPolicy;
   /** CSS class to add on the container when carousel is empty */
   @attr({defaultValue: ''}) public containerEmptyClass: string;
   /** CSS class to add on the container when carousel is incomplete */
@@ -134,6 +136,14 @@ export class ESLCarousel extends ESLBaseElement {
     return ESLCarouselRendererRegistry.instance.create(this, this.configCurrent);
   }
 
+  /** @returns normalized focus policy with legacy `no-inert` support */
+  public get focusPolicyCurrent(): ESLCarouselFocusPolicy {
+    const policy = this.$$attr('focus-policy');
+    if (policy === 'active' || policy === 'none' || policy === 'reveal') return policy;
+    if (policy === null && this.hasAttribute('no-inert')) return 'none';
+    return 'active';
+  }
+
   @ready
   protected override connectedCallback(): void {
     super.connectedCallback();
@@ -146,6 +156,9 @@ export class ESLCarousel extends ESLBaseElement {
     if (attrName === 'container') {
       memoize.clear(this, '$container');
       return this.updateStateMarkers();
+    }
+    if (attrName === 'focus-policy' || attrName === 'no-inert') {
+      return this.updateSlidesA11yState();
     }
     memoize.clear(this, `${toCamelCase(attrName)}Rule`);
     this.update();
@@ -188,6 +201,11 @@ export class ESLCarousel extends ESLBaseElement {
     CSSClassUtils.toggle(this.$container, this.containerIncompleteClass, this.incomplete, this);
   }
 
+  /** Updates slide accessibility state according to current focus policy */
+  protected updateSlidesA11yState(): void {
+    this.$slides.forEach(($slide) => ESLCarouselSlide.get($slide)?.updateActiveState());
+  }
+
   /** Appends slide instance to the current carousel */
   public addSlide(slide: HTMLElement): void {
     slide.setAttribute(this.slideAttrName, '');
@@ -227,11 +245,20 @@ export class ESLCarousel extends ESLBaseElement {
     this.renderer && this.renderer.redraw();
   }
 
+  @listen('focusin')
+  protected _onFocusIn(e: FocusEvent): void {
+    const target = e.target;
+    if (this.focusPolicyCurrent !== 'reveal' || !(target instanceof Node)) return;
+    const $slide = this.$slides.find(($s) => $s.contains(target));
+    if (!$slide || this.isActive($slide)) return;
+    this.goTo($slide, {activator: e}).catch(console.debug);
+  }
+
   @listen('esl:show:request')
   protected onShowRequest(e: CustomEvent): void {
     const detail = e.detail || {};
     if (!isMatches(this, detail.match)) return;
-    const index = this.$slides.findIndex(($slide) => $slide.contains(e.target as Element));
+    const index = this.$slides.findIndex(($s) => $s.contains(e.target as Element));
     if (index !== -1 && !this.isActive(index)) this.goTo(index).catch(console.debug);
   }
 
@@ -248,7 +275,7 @@ export class ESLCarousel extends ESLBaseElement {
    */
   @memoize()
   public get $container(): Element | null {
-    return ESLTraversingQuery.first(this.container, this) as HTMLElement;
+    return this.$$find(this.container);
   }
 
   /** @returns carousel slides area */

@@ -26,7 +26,7 @@ export function bind<Fn extends Function>(target: object,
     enumerable: descriptor.enumerable,
     configurable: true,
 
-    get: function getBound(): Fn {
+    get: function getBound(this: Record<string, any>): Fn {
       const proto = Object.getPrototypeOf(this);
       const desc = getPropertyDescriptor(proto, propertyKey);
       const isProtoCall = !desc || desc.get !== getBound;

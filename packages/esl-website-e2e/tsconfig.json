@@ -2,15 +2,16 @@
   "compilerOptions": {
     "esModuleInterop": true,
     "allowJs": true,
-    "jsonModule": true,
     "strict": true,
     "strictNullChecks": true,
+    "strictPropertyInitialization": false,
     "noImplicitAny": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "alwaysStrict": true,
     "target": "ESNext",
     "module": "ES2022",
-    "moduleResolution": "Node"
+    "moduleResolution": "Node",
+    "strictFunctionTypes": true
   }
 }

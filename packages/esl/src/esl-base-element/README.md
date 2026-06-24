@@ -31,6 +31,10 @@ Attributes:
 - `$$attr` - checks or changes element attributes
 - `$$fire` - dispatches event
 
+- `$$find` - finds the first element that matches the passed selector using **ESLTraversingQuery** (extended selector syntax)
+- `$$findAll` - finds all elements that match the passed selector using **ESLTraversingQuery** (extended selector syntax)
+  - Note: empty selector (`''`) returns the current base element; relative selectors like `::closest(...)`, `::parent`, `::find(...)` are supported. See `esl-traversing-query` module docs.
+
 - `$$on` - subscribes to the event manually or subscribes decorated method
 - `$$off` - unsubscribes from the event manually or unsubscribes decorated method
 

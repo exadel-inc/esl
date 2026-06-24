@@ -1,0 +1,27 @@
+- file: esl/SKILL.md
+  archive: exadel-esl-ai-skill.tgz
+  package: 'exadel-inc/esl'
+  name: ESL Consumer Skill
+  description: >-
+    Canonical AI skill bundle for <code>@exadel/esl</code> consumers, shipped
+    together with the published package and backed by bundled reference docs.
+  when: >-
+    You want one installable ESL skill that teaches an AI agent the correct host
+    model, public imports, decorators, traversal, events, and review criteria.
+  files:
+    - label: Main skill
+      name: SKILL.md
+      file: esl/SKILL.md
+      source: packages/esl/skills/esl/SKILL.md
+      description: Primary entry point loaded by AI tools.
+    - label: Reference
+      name: references/esl-core.md
+      file: esl/references/esl-core.md
+      source: packages/esl/skills/esl/references/esl-core.md
+      description: Core ESL mental model for authoring and reviewing consumer code.
+    - label: Reference
+      name: references/esl-review.md
+      file: esl/references/esl-review.md
+      source: packages/esl/skills/esl/references/esl-review.md
+      description: Review checklist for host model, imports, lifecycle, decorators, and traversal.
+

@@ -1,6 +1,5 @@
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
 import {listen, memoize} from '../../../esl-utils/decorators';
-import {ESLTraversingQuery} from '../../../esl-traversing-query/core';
 
 import {ESLCarousel} from '../../core/esl-carousel';
 import {ESLCarouselPlugin} from '../esl-carousel.plugin';
@@ -35,7 +34,7 @@ export class ESLCarouselRelateToMixin extends ESLCarouselPlugin<ESLCarouselRelat
   public get $target(): ESLCarousel | null {
     const {target} = this.config;
     if (!target || target === 'none') return null;
-    const $target = ESLTraversingQuery.first(target, this.$host);
+    const $target = this.$$find(target);
     // Prevent cyclic reference - target should not be the host itself
     if (!($target instanceof ESLCarousel) || $target === this.$host) return null;
     return $target;
@@ -73,4 +72,3 @@ declare global {
     RelateTo: typeof ESLCarouselRelateToMixin;
   }
 }
-

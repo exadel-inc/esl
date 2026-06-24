@@ -40,12 +40,14 @@ import {
   ESLCarouselKeyboardMixin,
   ESLCarouselRelateToMixin,
   ESLCarouselAutoplayMixin,
+  ESLCarouselAutoplayControlMixin,
   ESLCarouselAutoplayProgressMixin,
   ESLCarouselClassBehaviourMixin,
   ESLLazyTemplate,
   ESLLineClamp,
   ESLLineClampToggler,
-  ESLLineClampAlt
+  ESLLineClampAlt,
+  ESLMatchHeightMixin
 } from '@exadel/esl/modules/all';
 
 import {ESLRandomText} from '@exadel/esl/modules/esl-random-text/core';
@@ -68,6 +70,7 @@ import {ESLDemoSwipeArea, ESLDemoWheelArea} from './esl-events-demo/esl-events-d
 import {ESLDemoPopupGame} from './esl-popup/esl-d-popup-game';
 import {ESLDemoNewLabel} from './landing/newsline/newsline';
 import {ESLDemoDistanceToViewportAlert} from './esl-lazy-template-demo/distance-to-viewport-alert';
+import {ESLDemoSkillCopy} from './skills/skill-copy';
 
 if (!CSS.supports('(height: 100dvh) or (width: 100dvw)')) ESLVSizeCSSProxy.observe();
 
@@ -86,6 +89,7 @@ ESLDemoWheelArea.register();
 ESLDemoPopupGame.register();
 ESLDemoNewLabel.register();
 ESLDemoDistanceToViewportAlert.register();
+ESLDemoSkillCopy.register();
 
 // Test Content
 ESLRandomText.register('lorem-ipsum');
@@ -95,6 +99,8 @@ ESLImageContainerMixin.register();
 ESLMedia.register();
 
 ESLMediaControlMixin.register();
+
+ESLMatchHeightMixin.register();
 
 ESLToggleableDispatcher.init();
 ESLToggleable.register();
@@ -134,6 +140,7 @@ ESLCarouselTouchMixin.register();
 ESLCarouselKeyboardMixin.register();
 ESLCarouselRelateToMixin.register();
 ESLCarouselAutoplayMixin.register();
+ESLCarouselAutoplayControlMixin.register();
 ESLCarouselAutoplayProgressMixin.register();
 ESLCarouselWheelMixin.register();
 ESLCarouselClassBehaviourMixin.register();

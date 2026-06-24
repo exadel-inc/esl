@@ -30,8 +30,8 @@ export class ESLDemoAnchorLink extends ESLMixinElement {
     afterNextRender(() => {
       // TODO: replace with scroll ext version
       // scrollIntoView($target, {behavior: 'smooth'})
-      //   .then(() => console.log('Scroll to successful: ', $target));
-      $target.scrollIntoView({behavior: 'smooth'});
+      //    .then(() => console.log('Scroll to successful: ', $target));
+      $target.scrollIntoView({behavior: 'smooth', container: 'nearest'} as any);
     });
   }
 

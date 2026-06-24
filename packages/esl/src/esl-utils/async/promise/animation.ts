@@ -1,6 +1,6 @@
 /** Utility to promisify transition observation */
 export function promisifyTransition(
-  $el: Element,
+  $el: HTMLElement,
   props?: string
 ): Promise<void> {
   return new Promise((resolve) => {

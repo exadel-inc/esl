@@ -7,7 +7,7 @@ export const toKebabCase = (str: string): string => {
 
 /** Converts string to camelCase notation */
 export const toCamelCase = (str: string): string => {
-  return str.trim().replace(/[\s-,_]+([a-zA-Z0-9]?)/g, (match: string, word: string) => word.toUpperCase());
+  return str.trim().replace(/[\s,_-]+([a-zA-Z0-9]?)/g, (match: string, word: string) => word.toUpperCase());
 };
 
 /** Makes the first non-indent (space, tab, newline) letter in the string capitalized */

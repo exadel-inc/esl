@@ -1,0 +1,74 @@
+---
+layout: content
+title: AI Agent Skills
+seoTitle: ESL AI Agent Skills — Copy & Download
+description: Ready-to-use skill files for AI coding agents. Copy or download to give your AI assistant accurate ESL context.
+name: AI Agent Skills
+order: 6
+tags: [nav, draft]
+icon: sidebar/ai.svg
+---
+
+<p>
+  The published <code>@exadel/esl</code> package now bundles one canonical AI skill with its reference docs.
+</p>
+
+<div class="skills-list">
+  {% for skill in skills %}
+  <article class="skill-card">
+    <div class="skill-card-header">
+      <h2 class="skill-card-title">{{ skill.name }}</h2>
+      <p class="skill-card-desc">{{ skill.description | safe }}</p>
+      <p class="skill-card-when"><b>Use when:</b> {{ skill.when | safe }}</p>
+      <a class="skill-card-btn btn btn-sm" href="/downloads/{{ skill.archive }}" download="{{ skill.archive }}">
+        Download bundle archive
+      </a>
+    </div>
+
+    <div class="skill-install-grid">
+      <section>
+        <h3>Install with skills CLI</h3>
+        <pre><code>npx skills add {{ skill.package }}</code></pre>
+        <p>Recommended flow when your AI tooling can install skills directly from a published npm package.</p>
+      </section>
+
+      <section>
+        <h3>Manual bundle files</h3>
+        <p>
+          Download the archive to get <code>SKILL.md</code> and the bundled <code>references/</code> folder together.
+          If you only need one file, use the per-file actions below.
+        </p>
+        <a class="btn btn-sm" href="/downloads/{{ skill.archive }}" download="{{ skill.archive }}">
+          Download {{ skill.archive }}
+        </a>
+      </section>
+    </div>
+
+    <div class="skill-files-list">
+      {% for file in skill.files %}
+      <section class="skill-file-card">
+        <div class="skill-file-card-header">
+          <p class="skill-file-card-label">{{ file.label }}</p>
+          <h3 class="skill-file-card-title">{{ file.name }}</h3>
+          <p class="skill-file-card-desc">{{ file.description }}</p>
+        </div>
+        <div class="skill-file-card-actions btn-group">
+          <button class="btn btn-sm" esl-d-skill-copy="/ai-skills/{{ file.file }}">
+            Copy file
+          </button>
+          <a class="btn btn-sm" href="/ai-skills/{{ file.file }}" download="{{ file.name | replace('/', '-') }}">
+            Download file
+          </a>
+        </div>
+        <details class="skill-preview">
+          <summary>Preview {{ file.name }}</summary>
+          <div class="skill-preview-content pt-2">
+            {% mdRender file.source %}
+          </div>
+        </details>
+      </section>
+      {% endfor %}
+    </div>
+  </article>
+  {% endfor %}
+</div>

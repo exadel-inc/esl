@@ -44,6 +44,7 @@ rules:
       - esl-incremental-scroll
       - esl-lazy-template
       - esl-line-clamp
+      - esl-match-height
       - esl-media
       - esl-media-query
       - esl-mixin-element
@@ -69,7 +70,6 @@ rules:
       - eslint-config
       - stylelint-config
       - e2e
-      - snapshot-tests
       - ci
       # Deprecated scopes:
       - lint

@@ -1,3 +1,212 @@
+## 6.2.0 (2026-06-23)
+
+### 🚀 Features
+
+- ootb AI skills for @exadel/esl core module ([dea17163e](https://github.com/exadel-inc/esl/commit/dea17163e))
+- major TS6 compatibility ([9b505cc27](https://github.com/exadel-inc/esl/commit/9b505cc27))
+- **esl-carousel:** add ability to exclude elements from effective interaction scope (leaving observation scope the same) ([548a88c01](https://github.com/exadel-inc/esl/commit/548a88c01))
+- **esl-carousel:** rework and simplify autoplay plugin API - separate contol mixin + (optional) lightweight state mixin ([53337c6ac](https://github.com/exadel-inc/esl/commit/53337c6ac))
+- **esl-match-height:** introduce `ESLMatchHeightMixin` ([60229a142](https://github.com/exadel-inc/esl/commit/60229a142))
+- **esl-carousel:** update `esl-carousel-autoplay` plugin API to fully support pause behaviour ([9b07b0a99](https://github.com/exadel-inc/esl/commit/9b07b0a99))
+
+### 🩹 Fixes
+
+- **esl-carousel:** re-check autoplay blockers from global events ([72197e025](https://github.com/exadel-inc/esl/commit/72197e025))
+- **esl-utils:** `parseNumber` handles empty space string " "incorrectly ([632b8cf50](https://github.com/exadel-inc/esl/commit/632b8cf50))
+
+### 💅 Refactors
+
+- **esl-utils:** fix `MediaQueryNegation` incompatibility with TS6 ([ab265b24b](https://github.com/exadel-inc/esl/commit/ab265b24b))
+- **esl-utils:** make `@decorate` utility compatible with ts6 ([ebe94bd4c](https://github.com/exadel-inc/esl/commit/ebe94bd4c))
+- **esl-utils:** make `uid` utility compatible with ts6 ([e498ef5fe](https://github.com/exadel-inc/esl/commit/e498ef5fe))
+- **esl-utils:** update promisifyTimeout type to more accurate one ([1142a8310](https://github.com/exadel-inc/esl/commit/1142a8310))
+- **esl-media:** fix YT type import to be compatible with TS6 ([acfe43240](https://github.com/exadel-inc/esl/commit/acfe43240))
+- **esl-carousel:** deduplicate autoplay events, update subscriptions strategy ([9fbadc614](https://github.com/exadel-inc/esl/commit/9fbadc614))
+- **esl-carousel:** slight update API to use simplified state markers ([1a2440b00](https://github.com/exadel-inc/esl/commit/1a2440b00))
+
+### Documentation updates
+
+- **esl-carousel:** cleanup autoplay documentation ([4f57b45ec](https://github.com/exadel-inc/esl/commit/4f57b45ec))
+- **esl-match-height:** `ESLMatchHeightMixin` documentation and example ([9df5acef5](https://github.com/exadel-inc/esl/commit/9df5acef5))
+
+## 6.1.0 (2026-05-13)
+
+### 🚀 Features
+
+- **eslint-config:** introduce `no-implicit-this` rule for a strict set of eslint-config-esl ([a9570137f](https://github.com/exadel-inc/esl/commit/a9570137f))
+- **esl-utils:** rework and extend ESL build-in `sanitize` utility ([dfaf8606d](https://github.com/exadel-inc/esl/commit/dfaf8606d))
+- **esl-carousel:** replace `no-inert` hard hook with a proper functional focus-policy feature ([a4035e1d0](https://github.com/exadel-inc/esl/commit/a4035e1d0))
+- **esl-utils:** rework `sanitize` API to allow passing DOM Element ([60f1db5a0](https://github.com/exadel-inc/esl/commit/60f1db5a0))
+
+### 🩹 Fixes
+
+- **esl-carousel:** fix JSX shape to allow children ([25b0e9067](https://github.com/exadel-inc/esl/commit/25b0e9067))
+- **esl-utils:** fix unexpected parse logic for `none` time values ([a747474b3](https://github.com/exadel-inc/esl/commit/a747474b3))
+- align core function typings with strictFunctionTypes ([46ff2285b](https://github.com/exadel-inc/esl/commit/46ff2285b))
+- support strictFunctionTypes in listen typings ([0b0669b25](https://github.com/exadel-inc/esl/commit/0b0669b25))
+
+### 💅 Refactors
+
+- **esl-utils:** update @attr decorator parser type to support safe and nullable overloads ([44f255856](https://github.com/exadel-inc/esl/commit/44f255856))
+- **esl-utils:** merge ExtractEventType into ESLEventType ([125fe3495](https://github.com/exadel-inc/esl/commit/125fe3495))
+- **esl-utils:** simplify ExtractEventType by removing redundant Extract and collapsing identical fallback branches ([803cb0507](https://github.com/exadel-inc/esl/commit/803cb0507))
+
+# 6.0.0 (2026-04-28)
+
+### 🚀 Features
+
+- **ui-playground:** public release 6.0.0 for `@exadel/ui-playground` ([d58239631](https://github.com/exadel-inc/esl/commit/d58239631))
+- **esl-anchornav:** add validation and possibility to reject anchor data in getDataFrom method ([fa7a7438a](https://github.com/exadel-inc/esl/commit/fa7a7438a))
+- **site:** add new skills page with copy-to-clipboard functionality ([71be30cbc](https://github.com/exadel-inc/esl/commit/71be30cbc))
+- **esl-anchornav:** add empty class marker functionality, improve documentation ([6f67338a7](https://github.com/exadel-inc/esl/commit/6f67338a7))
+- **esl-anchornav:** add abstract data support for anchor info ([e1ddf7518](https://github.com/exadel-inc/esl/commit/e1ddf7518))
+- **esl-anchornav:** add empty attribute support ([c96a6b994](https://github.com/exadel-inc/esl/commit/c96a6b994))
+- **esl-anchornav:** add out of the box support for nested navfix default styles ([a287ad803](https://github.com/exadel-inc/esl/commit/a287ad803))
+- **esl-utils:** add htmlToElement utility method ([1fc11d4e5](https://github.com/exadel-inc/esl/commit/1fc11d4e5))
+- ⚠️  **esl-anchornav:** enhance anchor nav API with explicit `anchor-selector` attribute and findAnchors hock with ESLTraversingQuery support ([433994fee](https://github.com/exadel-inc/esl/commit/433994fee))
+- add base elements `$$find` and `$$findAll` methods ([be350d73b](https://github.com/exadel-inc/esl/commit/be350d73b))
+- **esl-toggleable:** make outside action delay configurable for ESLToggleableManager using prop ESLToggleable.prototype.OUTSIDE_ACTION_DELAY ([2d83a8185](https://github.com/exadel-inc/esl/commit/2d83a8185))
+- **e2e:** legacy `snapshot-tests` module removed in flavor of new `esl-website-e2e` playwright based module ([58dbb5760](https://github.com/exadel-inc/esl/commit/58dbb5760))
+- **e2e:** initial reimplementation of e2e tests on playwright - new module @exadel/esl-website-e2e created ([f7f39dacc](https://github.com/exadel-inc/esl/commit/f7f39dacc))
+- **stylelint-config:** @exadel/stylelint-config-esl migrated to stylelint@17 ([b9864f39a](https://github.com/exadel-inc/esl/commit/b9864f39a))
+- **esl-media:** add support extended format for start-time ([e79797c0f](https://github.com/exadel-inc/esl/commit/e79797c0f))
+- **esl-line-clamp:** introduce `esl-line-clamp-alt` and `esl-line-clamp-toggler` ([4b74bec4e](https://github.com/exadel-inc/esl/commit/4b74bec4e))
+- **esl-incremental-scroll:** add incremental scroll utility ([ccd318697](https://github.com/exadel-inc/esl/commit/ccd318697))
+- **esl-media:** update 'esl-media-control' mixin value parser to use 'parseObjectSafe' ([92eaf0a7f](https://github.com/exadel-inc/esl/commit/92eaf0a7f))
+- **esl-drag-to-scroll:** update mixin value parser to use 'parseObjectSafe' ([601807ebe](https://github.com/exadel-inc/esl/commit/601807ebe))
+- **esl-carousel:** update carousel API configurations to rely on `parseObjectSafe` ([f2dbb7a90](https://github.com/exadel-inc/esl/commit/f2dbb7a90))
+- ⚠️  **esl-utils:** replace  `ESLMediaRuleList.OBJECT_PARSER` with a parseObjectSafe reference ([0df811e55](https://github.com/exadel-inc/esl/commit/0df811e55))
+- ⚠️  **esl-utils:** migrate `@jsonAttr` decorator to use `parseObject` under the hood ([07bd83667](https://github.com/exadel-inc/esl/commit/07bd83667))
+- **esl-utils:** add `parseObjectSafe` wrapper of `parseObject` with fallback value for parse error ([afe489518](https://github.com/exadel-inc/esl/commit/afe489518))
+- **esl-utils:** `parseObject` safe utility added to replace unsafe evaluate method, and unlock short syntax in future ([d14480435](https://github.com/exadel-inc/esl/commit/d14480435))
+- **esl-popup:** rework of popup alignment attributes BREAKING CHANGES: `margin-arrow` attribute replaced with `margin-tether` and 'offset-arrow' attribute replaced with `alignment-tether` ([4a2c69239](https://github.com/exadel-inc/esl/commit/4a2c69239))
+
+### 🩹 Fixes
+
+- ⚠️  **esl-toggleable:** fix ESLToggleableManager interface ([910b5fc2c](https://github.com/exadel-inc/esl/commit/910b5fc2c))
+- **esl-line-clamp:** fix clamped attribute logic and add tolerance factor ([123f39f71](https://github.com/exadel-inc/esl/commit/123f39f71))
+- **esl-carousel:** fix css renderers to support viewport-in animations on the slides ([e56214c3b](https://github.com/exadel-inc/esl/commit/e56214c3b))
+- **esl-carousel:** add vertical orientation support for css-slide renderer ([923155343](https://github.com/exadel-inc/esl/commit/923155343))
+- **esl-footnotes:** refine initialization on esl-note-ignore when connecting or disconnecting ([d93bf0871](https://github.com/exadel-inc/esl/commit/d93bf0871))
+- **esl-footnotes:** add dynamic updates for esl-note-ignore mixin via lifecycle hooks ([ea040c1c4](https://github.com/exadel-inc/esl/commit/ea040c1c4))
+- **esl-line-clamp:** fix resubscribing after media query change ([e3cc705b1](https://github.com/exadel-inc/esl/commit/e3cc705b1))
+- **esl-utils:** incorrect log messages upon fallback parser usage ([0d7e91fc8](https://github.com/exadel-inc/esl/commit/0d7e91fc8))
+
+### 💅 Refactors
+
+- **esl-anchornav:** small improvement for event broadcasting ([e1f3a28d6](https://github.com/exadel-inc/esl/commit/e1f3a28d6))
+- **esl-anchornav:** refactor anchor collection ([8439cfed4](https://github.com/exadel-inc/esl/commit/8439cfed4))
+- **esl-image:** officially deprecate `ESLImage` ([4555b6d71](https://github.com/exadel-inc/esl/commit/4555b6d71))
+- simplify internal ESL code using ootb find api ([b25c545fc](https://github.com/exadel-inc/esl/commit/b25c545fc))
+- **esl-utils:** fix eslint warning for unused variable output ([b62c4d03c](https://github.com/exadel-inc/esl/commit/b62c4d03c))
+- **e2e:** add basic summary reporter based on previous implementation by alesun <alesun@exadel.com> ([65fabc7cb](https://github.com/exadel-inc/esl/commit/65fabc7cb))
+- ⚠️  **esl-footnote:** `ESLNoteIgnore.noteSelector` replaced with restrictive `ESLNoteIgnore.noteTag` ([b78e75d39](https://github.com/exadel-inc/esl/commit/b78e75d39))
+- **esl-footnotes:** refine updateIgnoredQuery() implementation ([930f9cdf2](https://github.com/exadel-inc/esl/commit/930f9cdf2))
+- move test helpers from src/esl-utils/test to src/test ([1327931f6](https://github.com/exadel-inc/esl/commit/1327931f6))
+- **esl-utils:** fix lint warnings for TSDoc and str.match usage ([fd2a94d79](https://github.com/exadel-inc/esl/commit/fd2a94d79))
+- ⚠️  remove deprecated properties and methods across ESL ([e36e19f56](https://github.com/exadel-inc/esl/commit/e36e19f56))
+- ⚠️  **esl-utils:** remove deprecated 'evaluate' utility (resolves CWE-95 / CWE-94) ([17f101eb0](https://github.com/exadel-inc/esl/commit/17f101eb0))
+- **esl-popup:** split calcPopupPositionByMinorAxis to several methods ([c67e0cafe](https://github.com/exadel-inc/esl/commit/c67e0cafe))
+
+### Documentation updates
+
+- small update in contributor table ([89fd070d4](https://github.com/exadel-inc/esl/commit/89fd070d4))
+- update AGENTS.md with more direct instruction to investigate existing code ([94bc9e1e9](https://github.com/exadel-inc/esl/commit/94bc9e1e9))
+- rework and optimize AGENTS.md file ([740f4834c](https://github.com/exadel-inc/esl/commit/740f4834c))
+- rework basic skills ([6f660c9e3](https://github.com/exadel-inc/esl/commit/6f660c9e3))
+- overall updates in AGENTS.md and skills site page ([210a73660](https://github.com/exadel-inc/esl/commit/210a73660))
+- add AI skills documentation and skills for base custom tag and attribute ([00778fdbc](https://github.com/exadel-inc/esl/commit/00778fdbc))
+- add AGENTS.md for ESL codebase guide ([b7348c46b](https://github.com/exadel-inc/esl/commit/b7348c46b))
+- apply suggestions for TSDoc from code review ([af1905e14](https://github.com/exadel-inc/esl/commit/af1905e14))
+- **esl-line-clamp:** provide examples for `ESLLineClampAlt` and `ESLLineClampToggler` ([09b1aa5f7](https://github.com/exadel-inc/esl/commit/09b1aa5f7))
+- **esl-incremental-scroll:** add README for incremental scroll ([ea9cb3656](https://github.com/exadel-inc/esl/commit/ea9cb3656))
+- **esl-popup:** update README with new alignment attributes ([f3accbe92](https://github.com/exadel-inc/esl/commit/f3accbe92))
+
+### ⚠️  Breaking Changes
+
+- **esl-toggleable:** fix ESLToggleableManager interface  ([910b5fc2c](https://github.com/exadel-inc/esl/commit/910b5fc2c))
+  `ESLToggleableManager` instance renamed to `ESLToggleableManagerDefault`
+  Co-authored-by: alesun <alesun@exadel.com>
+- **esl-anchornav:** enhance anchor nav API with explicit `anchor-selector` attribute and findAnchors hock with ESLTraversingQuery support  ([433994fee](https://github.com/exadel-inc/esl/commit/433994fee))
+  prototype prop `ANCHOR_SELECTOR` removed in flavor of `anchor-selector` attribute
+- **esl-footnote:** `ESLNoteIgnore.noteSelector` replaced with restrictive `ESLNoteIgnore.noteTag`  ([b78e75d39](https://github.com/exadel-inc/esl/commit/b78e75d39))
+  `ESLNoteIgnore.noteSelector` property reamed to `noteTag`, with restriction to use tags only
+- remove deprecated properties and methods across ESL  ([e36e19f56](https://github.com/exadel-inc/esl/commit/e36e19f56))
+  `ESLAlert.defaultConfig` removed (use `ESLAlert.DEFAULT_PARAMS` instead)
+  BREAKING CHANGE: `ESLIntersectionEvent.type`, `ESLElementResizeEvent.type`, `ESLSwipeGestureEvent.type` and `ESLWheelEvent.type` removed
+  BREAKING CHANGE: `ESLEventUtils.getAutoDescriptors` removed (use `ESLEventUtils.descriptors(host, {auto: true})` instead)
+  BREAKING CHANGE: `ESLEnvShortcuts` alias for `ESLMediaShortcuts` removed
+  BREAKING CHANGE: `ESLMediaShortcuts.add` and `ESLMediaShortcuts.set` removed (use `ESLMediaShortcuts.set` instead)
+  BREAKING CHANGE: `PromiseUtils` removed, use individual methods instead
+  BREAKING CHANGE: `RTLScroll`, `ScrollType`, `testRTLScrollType` removed (IE, Edge < 14 are no longer in support list)
+  BREAKING CHANGE: `isBot` check removed (no longer works)
+  BREAKING CHANGE: `DeviceDetector` removed, use individual checks instead
+  BREAKING CHANGE: `flat` removed, use ootb `Array.prototype.flat`
+  BREAKING CHANGE: `UID`, `ArrayUtils`, `ObjectUtils`, `FormatUtils`, `FunctionUtils` removed, use individual methods of the modules
+- **esl-utils:** remove deprecated 'evaluate' utility (resolves CWE-95 / CWE-94)  ([17f101eb0](https://github.com/exadel-inc/esl/commit/17f101eb0))
+  the `evaluate` utility no longer available, use `parseObject` or `JSON.parse` instead for object parers
+- **esl-utils:** replace  `ESLMediaRuleList.OBJECT_PARSER` with a parseObjectSafe reference  ([0df811e55](https://github.com/exadel-inc/esl/commit/0df811e55))
+  the `ESLMediaRuleList.OBJECT_PARSER` no longer support calculations or references inside values (these were never officially supported). If you need dynamic behavior, use custom parsers instead.
+- **esl-utils:** migrate `@jsonAttr` decorator to use `parseObject` under the hood  ([07bd83667](https://github.com/exadel-inc/esl/commit/07bd83667))
+  `@jsonAttr`-based attributes no longer support calculations or references inside values (these were never officially supported). If you need dynamic behavior, make sure to override component config resolvers.
+
+## 6.0.0-beta.8 (2026-04-27)
+
+### 🩹 Fixes
+
+- ⚠️  **esl-toggleable:** fix ESLToggleableManager interface ([910b5fc2c](https://github.com/exadel-inc/esl/commit/910b5fc2c))
+
+### ⚠️  Breaking Changes
+
+- **esl-toggleable:** fix ESLToggleableManager interface  ([910b5fc2c](https://github.com/exadel-inc/esl/commit/910b5fc2c))
+  `ESLToggleableManager` instance renamed to `ESLToggleableManagerDefault`
+  Co-authored-by: alesun <alesun@exadel.com>
+
+## 6.0.0-beta.7 (2026-04-21)
+
+### 🩹 Fixes
+
+- **esl-line-clamp:** fix clamped attribute logic and add tolerance factor ([123f39f71](https://github.com/exadel-inc/esl/commit/123f39f71))
+
+## 6.0.0-beta.6 (2026-04-16)
+
+### 🚀 Features
+
+- **esl-anchornav:** add empty class marker functionality, improve documentation ([6f67338a7](https://github.com/exadel-inc/esl/commit/6f67338a7))
+- **esl-anchornav:** add abstract data support for anchor info ([e1ddf7518](https://github.com/exadel-inc/esl/commit/e1ddf7518))
+- **esl-anchornav:** add empty attribute support ([c96a6b994](https://github.com/exadel-inc/esl/commit/c96a6b994))
+- **esl-anchornav:** add out of the box support for nested navfix default styles ([a287ad803](https://github.com/exadel-inc/esl/commit/a287ad803))
+- **esl-utils:** add htmlToElement utility method ([1fc11d4e5](https://github.com/exadel-inc/esl/commit/1fc11d4e5))
+- ⚠️  **esl-anchornav:** enhance anchor nav API with explicit `anchor-selector` attribute and findAnchors hock with ESLTraversingQuery support ([433994fee](https://github.com/exadel-inc/esl/commit/433994fee))
+- add base elements `$$find` and `$$findAll` methods ([be350d73b](https://github.com/exadel-inc/esl/commit/be350d73b))
+- **esl-toggleable:** make outside action delay configurable for ESLToggleableManager using prop ESLToggleable.prototype.OUTSIDE_ACTION_DELAY ([2d83a8185](https://github.com/exadel-inc/esl/commit/2d83a8185))
+- **e2e:** legacy `snapshot-tests` module removed in flavor of new `esl-website-e2e` playwright based module ([58dbb5760](https://github.com/exadel-inc/esl/commit/58dbb5760))
+- **e2e:** initial reimplementation of e2e tests on playwright - new module @exadel/esl-website-e2e created ([f7f39dacc](https://github.com/exadel-inc/esl/commit/f7f39dacc))
+
+### 🩹 Fixes
+
+- **esl-carousel:** fix css renderers to support viewport-in animations on the slides ([e56214c3b](https://github.com/exadel-inc/esl/commit/e56214c3b))
+- **esl-carousel:** add vertical orientation support for css-slide renderer ([923155343](https://github.com/exadel-inc/esl/commit/923155343))
+
+### 💅 Refactors
+
+- **esl-anchornav:** small improvement for event broadcasting ([e1f3a28d6](https://github.com/exadel-inc/esl/commit/e1f3a28d6))
+- **esl-anchornav:** refactor anchor collection ([8439cfed4](https://github.com/exadel-inc/esl/commit/8439cfed4))
+- **esl-image:** officially deprecate `ESLImage` ([4555b6d71](https://github.com/exadel-inc/esl/commit/4555b6d71))
+- simplify internal ESL code using ootb find api ([b25c545fc](https://github.com/exadel-inc/esl/commit/b25c545fc))
+- **esl-utils:** fix eslint warning for unused variable output ([b62c4d03c](https://github.com/exadel-inc/esl/commit/b62c4d03c))
+- **e2e:** add basic summary reporter based on previous implementation by alesun <alesun@exadel.com> ([65fabc7cb](https://github.com/exadel-inc/esl/commit/65fabc7cb))
+- move test helpers from src/esl-utils/test to src/test ([1327931f6](https://github.com/exadel-inc/esl/commit/1327931f6))
+
+### Documentation updates
+
+- apply suggestions for TSDoc from code review ([af1905e14](https://github.com/exadel-inc/esl/commit/af1905e14))
+
+### ⚠️  Breaking Changes
+
+- **esl-anchornav:** enhance anchor nav API with explicit `anchor-selector` attribute and findAnchors hock with ESLTraversingQuery support  ([433994fee](https://github.com/exadel-inc/esl/commit/433994fee))
+  prototype prop `ANCHOR_SELECTOR` removed in flavor of `anchor-selector` attribute
+
 ## 6.0.0-beta.5 (2026-01-22)
 
 ### 🩹 Fixes

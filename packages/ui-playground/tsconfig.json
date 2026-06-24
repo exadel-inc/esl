@@ -2,6 +2,7 @@
   "compilerOptions": {
     "declaration": true,
     "skipLibCheck": true,
+    "strictPropertyInitialization": false,
     "experimentalDecorators": true,
     "allowJs": true,
     "alwaysStrict": true,
@@ -9,9 +10,9 @@
     "noImplicitAny": true,
     "esModuleInterop": true,
     "target": "ES6",
-    "downlevelIteration": true,
     "module": "ES2020",
     "moduleResolution": "Node",
+    "ignoreDeprecations": "6.0",
     "lib": [
       "ES2018",
       "ES2022.Object",
@@ -21,7 +22,8 @@
     "rootDir": "src",
     "outDir": "./dist",
     "jsx": "react-jsx",
-    "jsxImportSource": "jsx-dom"
+    "jsxImportSource": "jsx-dom",
+    "strictFunctionTypes": true
   },
   "include": [
     "src"

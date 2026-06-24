@@ -25,7 +25,7 @@ jobs:
       - name: Install NPM Dependencies
         run: npm ci
       - name: Run Linting
-        run: npm run lint
+        run: npm run lint --output-style=static
 
   test:
     name: Unit Tests & Coverage

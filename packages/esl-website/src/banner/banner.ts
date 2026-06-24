@@ -8,13 +8,13 @@ export class ESLDemoBanner extends ESLToggleable {
   public static override is = 'esl-d-banner';
 
   @attr({parser: (str) => str && encodeURIComponent(str).trim()})
-  public cookieName: string;
+  public declare cookieName: string;
   @attr({defaultValue: 14, parser: parseInt})
-  public cookieTime: number;
+  public declare cookieTime: number;
 
 
-  @prop(true) public override closeOnEsc: boolean;
-  @prop('.close-button') public override closeTrigger: string;
+  @prop(true) public declare closeOnEsc: ESLToggleable['closeOnEsc'];
+  @prop('.close-button') public declare closeTrigger: ESLToggleable['closeTrigger'];
 
   public get $alert(): HTMLElement | null {
     return this.querySelector('.alert')!;

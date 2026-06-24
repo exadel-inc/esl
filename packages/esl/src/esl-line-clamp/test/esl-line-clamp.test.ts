@@ -113,4 +113,52 @@ describe('ESLLineClamp (mixin): tests', () => {
       getComputedStyleSpy.mockRestore();
     });
   });
+
+  describe('clamped attribute (onResize)', () => {
+    let getComputedStyleSpy: any;
+
+    const setupMocks = (
+      scrollHeight: number,
+      clientHeight: number,
+      scrollWidth: number,
+      clientWidth: number,
+      style: {lineHeight?: string, fontSize?: string} = {}
+    ) => {
+      const {lineHeight = 'normal', fontSize = '10px'} = style;
+      lineClamp = ESLLineClamp.get($host);
+      getComputedStyleSpy = vi.spyOn(window, 'getComputedStyle');
+      getComputedStyleSpy.mockImplementation(() => ({lineHeight, fontSize} as CSSStyleDeclaration));
+      Object.defineProperty($host, 'scrollHeight', {value: scrollHeight, configurable: true});
+      Object.defineProperty($host, 'clientHeight', {value: clientHeight, configurable: true});
+      Object.defineProperty($host, 'scrollWidth', {value: scrollWidth, configurable: true});
+      Object.defineProperty($host, 'clientWidth', {value: clientWidth, configurable: true});
+    };
+
+    afterEach(() => {
+      getComputedStyleSpy?.mockRestore();
+    });
+
+    test('should clamp on horizontal overflow', () => {
+      setupMocks(100, 100, 150, 100);
+      lineClamp!['onResize']();
+      expect(lineClamp!.clamped).toBe(true);
+      expect($host.getAttribute('clamped')).toBe('');
+    });
+
+    test('should not clamp for small line-height (~1.1em at 14px) when overflow is below tolerance', () => {
+      // font-size 14px, line-height ~1.1em => ~15.4px; tolerance = 15.4 * 0.5 = 7.7px
+      setupMocks(107, 100, 100, 100, {lineHeight: '15.4px', fontSize: '14px'});
+      lineClamp!['onResize']();
+      expect(lineClamp!.clamped).toBe(false);
+      expect($host.getAttribute('clamped')).toBeNull();
+    });
+
+    test('should clamp for small line-height (~1.1em at 14px) when overflow is above tolerance', () => {
+      // Same setup, but 8px overflow (> 7.7) should be clamped
+      setupMocks(108, 100, 100, 100, {lineHeight: '15.4px', fontSize: '14px'});
+      lineClamp!['onResize']();
+      expect(lineClamp!.clamped).toBe(true);
+      expect($host.getAttribute('clamped')).toBe('');
+    });
+  });
 });

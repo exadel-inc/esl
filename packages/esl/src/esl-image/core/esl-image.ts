@@ -3,7 +3,6 @@ import {bind, prop, attr, boolAttr} from '../../esl-utils/decorators';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
-import {ESLTraversingQuery} from '../../esl-traversing-query/core/esl-traversing-query';
 
 import {getIObserver} from './esl-image-iobserver';
 import {EMPTY_IMAGE, STRATEGIES, isEmptyImage} from './esl-image-strategies';
@@ -18,6 +17,8 @@ const isLoadState = (state: string): state is LoadState => ['error', 'loaded', '
  * Was originally developed as an alternative to `<picture>` element, but with more features inside.
  *
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
+ * @deprecated use native `<picture>` element or `<img>` with `srcset`, `sizes` and `loading` attributes.
+ * For additional sugar, see modern esl-image-utils package.
  */
 @ExportNs('Image')
 export class ESLImage extends ESLBaseElement {
@@ -60,7 +61,7 @@ export class ESLImage extends ESLBaseElement {
   private _innerImg: HTMLImageElement | null;
   private _srcRules: ESLMediaRuleList<string>;
   private _currentSrc: string;
-  private _detachLazyTrigger: () => void;
+  private _detachLazyTrigger: (() => void) | null;
   private _shadowImageElement: HTMLImageElement;
 
   protected override connectedCallback(): void {
@@ -299,7 +300,7 @@ export class ESLImage extends ESLBaseElement {
     const cls = this.containerClass || (this.constructor as typeof ESLImage).DEFAULT_CONTAINER_CLS;
     const state = isLoadState(this.containerClassState) && this[this.containerClassState];
 
-    const targetEl = ESLTraversingQuery.first(this.containerClassTarget, this) as HTMLElement;
+    const targetEl = this.$$find(this.containerClassTarget) as HTMLElement;
     targetEl && CSSClassUtils.toggle(targetEl, cls, state);
   }
 }

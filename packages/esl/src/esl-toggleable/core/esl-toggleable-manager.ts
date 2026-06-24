@@ -6,13 +6,11 @@ import {TAB} from '../../esl-utils/dom/keys';
 import {handleFocusChain} from '../../esl-utils/dom/focus';
 
 import type {ESLToggleable} from './esl-toggleable';
+import type {ESLToggleableManager} from './esl-toggleable-manager.types';
 
-/** Focus flow behaviors */
-export type ESLA11yType = 'none' | 'autofocus' | 'popup' | 'dialog' | 'modal';
-
-let instance: ESLToggleableManager;
+let instance: ESLToggleableManagerDefault;
 /** Focus manager for toggleable instances. Singleton. */
-export class ESLToggleableManager {
+export class ESLToggleableManagerDefault implements ESLToggleableManager {
   /** Active toggleable */
   protected active = new Set<ESLToggleable>();
   /** Focus scopes stack. Manager observes only top level scope. */
@@ -150,8 +148,8 @@ export class ESLToggleableManager {
    */
   protected onOutsideInteraction(e: Event, el: ESLToggleable): void {
     if (!el.closeOnOutsideAction || !el.isOutsideAction(e)) return;
-    // Used 10ms delay to decrease priority of the request but positive due to iOS issue
-    el.hide({initiator: 'outsideaction', hideDelay: 10, event: e});
+    // Use a delay (10ms by default) to decrease the priority of the request (usually > 0 due to iOS specifics)
+    el.hide({initiator: 'outsideaction', hideDelay: el.OUTSIDE_ACTION_DELAY, event: e});
   }
 
   /** Queues delayed task of the focus management */

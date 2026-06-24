@@ -10,7 +10,6 @@ export * from './esl-traversing-query/core';
 export * from './esl-a11y-group/core';
 
 // Image
-export * from './esl-image/core';
 export * from './esl-image-utils/core';
 
 // Media
@@ -69,3 +68,5 @@ export * from './types/jsx.shape';
 
 // Incremental Scroll
 export * from './esl-incremental-scroll/core';
+
+export * from './esl-match-height/core';

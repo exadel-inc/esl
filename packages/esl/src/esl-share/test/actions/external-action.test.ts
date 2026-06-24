@@ -10,10 +10,11 @@ describe('ESLShare: "external" action import', () => {
 
 describe('ESLShare: "external" action public API', () => {
   const originalCreateElement = document.createElement;
+  let _href: string;
   const mockAnchorElement = {click: vi.fn()};
   Object.defineProperty(mockAnchorElement, 'href', {
-    get: () => (this as any)._href,
-    set: (value) => (this as any)._href = value,
+    get() { return _href; },
+    set(value) { _href = value; }
   });
   const mockCreateElement = (tag: string) => {
     if (tag === 'a') return mockAnchorElement as any;

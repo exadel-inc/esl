@@ -137,7 +137,7 @@ export abstract class ESLSelectWrapper extends ESLBaseElement implements ESLSele
 
   public setAllSelected(state: boolean): void {
     if (!this.multiple || !this.$select) return;
-    this.options.forEach((item: HTMLOptionElement) => item.selected = !item.disabled && state);
+    this.options.forEach((item) => item.selected = !item.disabled && state);
     ESLEventUtils.dispatch(this.$select, 'change');
   }
 
@@ -146,7 +146,7 @@ export abstract class ESLSelectWrapper extends ESLBaseElement implements ESLSele
     return this.$select?.value;
   }
   public get values(): string[] {
-    return this.selectedOptions.map((item: HTMLOptionElement) => item.value);
+    return this.selectedOptions.map((item) => item.value);
   }
 
   public get form(): HTMLFormElement | null {

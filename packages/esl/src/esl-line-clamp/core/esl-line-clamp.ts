@@ -1,6 +1,6 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLMixinElement} from '../../esl-mixin-element/core';
-import {attr, boolAttr, safe, listen, memoize} from '../../esl-utils/decorators';
+import {attr, boolAttr, safe, listen, memoize, prop} from '../../esl-utils/decorators';
 import {isElement, isRelativeNode} from '../../esl-utils/dom';
 import {ESLResizeObserverTarget} from '../../esl-event-listener/core';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
@@ -21,7 +21,11 @@ function roundLineHeight(value: number, precision = 0.1): number {
 export class ESLLineClamp extends ESLMixinElement {
   public static override is = 'esl-line-clamp';
 
+  /** Default mask for media query parsing, can be overridden by setting the static property */
   public static DEFAULT_MASK: string = '';
+
+  /** Tolerance factor for determining clamping state, used to account for minor discrepancies in height calculations */
+  @prop(0.5) public TOLERANCE: number;
 
   /** Indicates whether the line clamping is active */
   @boolAttr({name: 'clamped', readonly: true}) public clamped: boolean;
@@ -46,14 +50,20 @@ export class ESLLineClamp extends ESLMixinElement {
     return ESLMediaRuleList.parse(this.lines, this.mask);
   }
 
+  protected get lineHeight(): number {
+    const styles = getComputedStyle(this.$host);
+    const lineHeight = styles.lineHeight;
+    if (lineHeight !== 'normal') return parseFloat(lineHeight);
+    return parseFloat(styles.fontSize) * 1.2;
+  }
+
   protected get linesExpected(): string | null {
     const lines = this.linesQuery.value;
     if (lines?.length === 0) return null;
     if (lines === 'auto') {
-      const {lineHeight, maxHeight} = getComputedStyle(this.$host);
+      const {maxHeight} = getComputedStyle(this.$host);
 
-      // Need to round line height after fractional conversion from em to px
-      const parsedLineHeight = roundLineHeight(parseFloat(lineHeight));
+      const parsedLineHeight = roundLineHeight(this.lineHeight);
       const parsedMaxHeight = parseFloat(maxHeight);
       const autoLines = Math.floor(parsedMaxHeight / parsedLineHeight);
 
@@ -114,7 +124,9 @@ export class ESLLineClamp extends ESLMixinElement {
       this.updateLines();
     }
     const {clientHeight, clientWidth, scrollHeight, scrollWidth} = this.$host;
-    this.$$attr('clamped', clientHeight < scrollHeight || clientWidth < scrollWidth);
+    const clampedY = scrollHeight - clientHeight > this.lineHeight * this.TOLERANCE;
+    const clampedX = scrollWidth - clientWidth > 1;
+    this.$$attr('clamped', clampedY || clampedX);
   }
 
   /** Observes custom broadcast 'esl:refresh' event to force refresh */

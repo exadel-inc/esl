@@ -1,5 +1,4 @@
 import {ESLMixinElement} from '../../esl-mixin-element/core';
-import {ESLTraversingQuery} from '../../esl-traversing-query/core/esl-traversing-query';
 import {listen, memoize} from '../../esl-utils/decorators';
 import {parseObjectSafe} from '../../esl-utils/misc/format';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
@@ -34,7 +33,7 @@ export class ESLMediaControlMixin extends ESLMixinElement {
 
   public get $target(): ESLMedia | null {
     if (!this.config.target) return null;
-    return ESLTraversingQuery.first(this.config.target, this.$host) as ESLMedia | null;
+    return this.$$find(this.config.target) as ESLMedia | null;
   }
 
   protected override attributeChangedCallback(): void {

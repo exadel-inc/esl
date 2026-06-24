@@ -34,7 +34,7 @@ const parseKeysPath = (path: string): PathKeyDef[] => {
       const key = path.substring(start, end);
       const isIndex = !key || Math.floor(+key) === +key;
       parts.push({key, isIndex});
-      start = ++end; // skip end bracket
+      start = end + 1; // skip end bracket
     } else { // handle simple key
       while (end < path.length && path[end] !== '[' && path[end] !== '.') ++end;
       const key = path.substring(start, end);

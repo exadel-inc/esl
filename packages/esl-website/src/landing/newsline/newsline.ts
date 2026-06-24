@@ -4,7 +4,7 @@ import {ESLMixinElement} from '@exadel/esl';
 export class ESLDemoNewLabel extends ESLMixinElement {
   static override is = 'esl-d-new-label';
 
-  @attr({name: ESLDemoNewLabel.is, parser: parseInt}) public date: number;
+  @attr({name: ESLDemoNewLabel.is, defaultValue: 0, parser: parseInt}) public declare date: number;
 
   @ready
   protected override connectedCallback(): void {
@@ -21,6 +21,7 @@ export class ESLDemoNewLabel extends ESLMixinElement {
     const label = document.createElement('sup');
     label.className = 'badge badge-small badge-sup badge-success';
     label.textContent = 'new';
+    this.$host.appendChild(document.createTextNode(' '));
     this.$host.appendChild(label);
   }
 }

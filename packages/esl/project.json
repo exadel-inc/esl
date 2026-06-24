@@ -39,8 +39,7 @@
       "options": {
         "commands": [
           "rimraf -g \"modules/**/*.{js,ts}\"",
-          "tsc --project tsconfig.build.json",
-          "nodetouch \"modules/.ts.done\""
+          "node ../../node_modules/typescript/bin/tsc --project tsconfig.build.json"
         ],
         "parallel": false,
         "cwd": "packages/esl"
@@ -52,14 +51,13 @@
       ],
       "outputs": [
         "{projectRoot}/modules/**/*.js",
-        "{projectRoot}/modules/**/*.d.ts",
-        "{projectRoot}/modules/.ts.done"
+        "{projectRoot}/modules/**/*.d.ts"
       ]
     },
     "watch:ts": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "tsc --project tsconfig.build.json --watch",
+        "command": "node ../../node_modules/typescript/bin/tsc --project tsconfig.build.json --watch",
         "cwd": "packages/esl"
       }
     },
@@ -69,12 +67,9 @@
       "dependsOn": ["build:css"],
       "options": {
         "commands": [
-          "cpy \"src/**/*.less\" \"modules\" --parents --clean",
-          "findx \"modules/{*,*/*,{esl-utils,esl-forms}/*/*}.less !**/*.mixin.less\" \"lessc {{path}} {{dir}}/{{name}}.css\"",
-          "nodetouch \"modules/.less.done\""
+          "job-ripper \"src/**/*.less\" -w worker/less.mjs -c 2"
         ],
-        "cwd": "packages/esl",
-        "parallel": false
+        "cwd": "packages/esl"
       },
       "cache": true,
       "inputs": [
@@ -83,8 +78,7 @@
       ],
       "outputs": [
         "{projectRoot}/modules/**/*.css",
-        "{projectRoot}/modules/**/*.less",
-        "{projectRoot}/modules/.less.done"
+        "{projectRoot}/modules/**/*.less"
       ]
     },
     "watch:less": {
@@ -133,13 +127,12 @@
         "parallel": false,
         "cwd": "packages/esl"
       },
-      "cache": true,
+      "cache": false,
       "inputs": [
         "{projectRoot}/src/**/*.md"
       ],
       "outputs": [
-        "{projectRoot}/modules/**/*.md",
-        "{projectRoot}/modules/.docs.done"
+        "{projectRoot}/modules/**/*.md"
       ]
     },
     "watch:docs": {
@@ -152,7 +145,7 @@
 
     "lint": {
       "executor": "nx:noop",
-      "dependsOn": ["lint:eslint", "lint:stylelint"]
+      "dependsOn": ["lint:eslint", "lint:stylelint", "lint:md"]
     },
     "lint:stylelint": {
       "executor": "nx:run-commands",
@@ -167,17 +160,39 @@
         "{projectRoot}/.stylelint.yml"
       ]
     },
+    "lint:md": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node ./scripts/lint-md.mjs",
+        "cwd": "packages/esl"
+      },
+      "cache": true,
+      "inputs": [
+        "{projectRoot}/scripts/lint-md.mjs",
+        "{projectRoot}/**/*.md"
+      ],
+      "outputs": []
+    },
 
     "test:types": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "tsc --project tsconfig.typetest.json",
+        "commands": [
+          "node ../../node_modules/typescript/bin/tsc --project tsconfig.typetest.json",
+          "node ../../node_modules/typescript-5/bin/tsc --project tsconfig.typetest.ts5.json"
+        ],
+        "parallel": true,
         "cwd": "packages/esl"
       },
       "cache": true,
       "inputs": [
         "{projectRoot}/src/**/*.ts",
-        "{projectRoot}/tsconfig.typetest.json"
+        "{projectRoot}/src/**/*.d.ts",
+        "{projectRoot}/tsconfig.json",
+        "{projectRoot}/tsconfig.typetest.json",
+        "{projectRoot}/tsconfig.typetest.ts5.json",
+        "{workspaceRoot}/package.json",
+        "{workspaceRoot}/package-lock.json"
       ]
     },
     "test": {
@@ -195,7 +210,7 @@
     "version:post": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "node ./scripts/update-lib-version.mjs && git add src/lib.ts",
+        "command": "node ./scripts/post-version.mjs",
         "cwd": "packages/esl"
       }
     }

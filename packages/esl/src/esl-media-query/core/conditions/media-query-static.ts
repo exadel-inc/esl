@@ -4,7 +4,7 @@ import {NOT_ALL} from './media-query-const';
 
 import type {IMediaQueryCondition} from './media-query-base';
 
-export class MediaQueryStaticCondition extends SyntheticEventTarget implements IMediaQueryCondition {
+export class MediaQueryStaticCondition extends SyntheticEventTarget<ESLMediaChangeEvent> implements IMediaQueryCondition {
   protected _condition: IMediaQueryCondition = NOT_ALL;
 
   constructor(

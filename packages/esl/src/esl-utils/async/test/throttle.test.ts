@@ -22,7 +22,7 @@ describe('async/throttle', () => {
   });
 
   test('test context', () => {
-    const fn = function () { return this; };
+    const fn = function (this: object) { return this; };
     const throttled = throttle(fn, 0);
 
     const context = {};
@@ -33,7 +33,7 @@ describe('async/throttle', () => {
   });
 
   test('call context bind', () => {
-    const fn = function () { return this; };
+    const fn = function (this: object) { return this; };
     const context = {};
     const throttled = throttle(fn, 0, context);
 

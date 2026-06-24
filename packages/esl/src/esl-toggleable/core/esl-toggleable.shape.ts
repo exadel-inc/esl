@@ -1,6 +1,6 @@
 import type {ESLBaseElementShape} from '../../esl-base-element/core/esl-base-element.shape';
 import type {ESLToggleable} from './esl-toggleable';
-import type {ESLA11yType} from './esl-toggleable-manager';
+import type {ESLA11yType} from './esl-toggleable-manager.types';
 
 /**
  * Tag declaration interface of {@link ESLToggleable} element

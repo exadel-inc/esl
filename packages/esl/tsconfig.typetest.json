@@ -4,9 +4,11 @@
     "noEmit": true
   },
   "include": [
-    "**/test/*.test-d.ts"
+    "src"
   ],
   "exclude": [
+    "**/*.test.ts",
+    "**/*.mock.ts",
     "modules",
     "polyfills",
     "node_modules"

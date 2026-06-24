@@ -16,6 +16,10 @@
         "command": "npx playwright test --update-snapshots",
         "cwd": "packages/esl-website-e2e"
       }
+    },
+    "lint": {
+      "executor": "nx:noop",
+      "dependsOn": ["lint:eslint"]
     }
   }
 }

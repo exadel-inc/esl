@@ -25,6 +25,7 @@ function * findParents(items, page) {
 
 /** Group items into a tree structure using given property */
 function treeBuilder(items) {
+  if (!Array.isArray(items)) return [];
   const root = [];
   items.forEach((item, index) => {
     item.children = [];

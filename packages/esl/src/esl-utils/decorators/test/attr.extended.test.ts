@@ -5,6 +5,7 @@ import {parseBoolean, toBooleanAttribute} from '../../misc/format';
 describe('Decorator: attr', () => {
   describe('Decorator: attr - number parser', () => {
     class TestElement extends HTMLElement {
+      // @ts-expect-error: intentionally using parseFloat (string => number) without defaultValue to test runtime behavior when parser receives null
       @attr({parser: parseFloat})
       public attrNumber: number;
     }

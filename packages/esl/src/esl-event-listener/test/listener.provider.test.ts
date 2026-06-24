@@ -15,7 +15,7 @@ describe('ESlEventListener subscription with target or selector defined by provi
 
   test('Selector provider receives host in arg and context', () => {
     const handler = vi.fn();
-    const provider  = vi.fn(function () {
+    const provider  = vi.fn(function (this: HTMLElement) {
       expect(this).toBe(host);
       return 'button';
     });
@@ -45,7 +45,7 @@ describe('ESlEventListener subscription with target or selector defined by provi
 
   test('Target provider receives host in arg and context', () => {
     const handler = vi.fn();
-    const provider  = vi.fn(function () {
+    const provider  = vi.fn(function (this: HTMLElement) {
       expect(this).toBe(host);
       return '';
     });

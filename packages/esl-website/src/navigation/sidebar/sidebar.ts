@@ -18,7 +18,7 @@ export class ESLDemoSidebar extends ESLToggleable {
   @prop() public submenus: string = 'esl-panel';
   @prop() public activeMenuAttr: string = 'data-open';
 
-  @boolAttr({name: 'animation'}) protected _animation: boolean;
+  @boolAttr({name: 'animation'}) protected declare _animation: boolean;
 
   public get $submenus(): ESLToggleable[] {
     return Array.from(this.querySelectorAll(this.submenus));

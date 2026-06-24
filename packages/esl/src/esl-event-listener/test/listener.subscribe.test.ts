@@ -20,7 +20,7 @@ describe('ESLEventUtils:subscribe tests', () => {
 
     test('ESLEventUtils.subscribe successfully subscribes listener by event provider', () => {
       const $host = document.createElement('div');
-      const provider = vi.fn(function () {
+      const provider = vi.fn(function (this: HTMLElement) {
         expect(this).toBe($host);
         return 'event';
       });

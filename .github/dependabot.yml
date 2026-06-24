@@ -26,6 +26,13 @@ updates:
       commit-lint:
         patterns:
           - "@commitlint/*"
+      rspack:
+        patterns:
+          - "@rspack/*"
+      vitest:
+        patterns:
+          - "vitest"
+          - "@vitest/*"
       eslint:
         patterns:
           - "eslint"

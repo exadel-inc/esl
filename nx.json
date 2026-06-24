@@ -18,7 +18,6 @@
     {
       "plugin": "@nx/vitest",
       "exclude": [
-        "packages/snapshot-tests/**/*",
         "packages/eslint-config/**/*"
       ],
       "options": {
@@ -36,7 +35,9 @@
       "tag": false
     },
     "version": {
-      "conventionalCommits": true
+      "updateDependents": "auto",
+      "conventionalCommits": true,
+      "preserveMatchingDependencyRanges": false
     },
     "changelog": {
       "projectChangelogs": {
@@ -51,6 +52,7 @@
       }
     },
     "conventionalCommits": {
+      "useCommitScope": false,
       "types": {
         "chore": {
           "releaseType": "patch",
@@ -66,5 +68,6 @@
         }
       }
     }
-  }
+  },
+  "analytics": false
 }

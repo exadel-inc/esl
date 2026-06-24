@@ -2,7 +2,7 @@
   "name": "@exadel/stylelint-config-esl",
   "type": "module",
   "private": false,
-  "version": "6.0.0-beta.5",
+  "version": "6.2.0",
   "keywords": [
     "stylelint",
     "stylelint-config",
@@ -29,8 +29,8 @@
     "pack": "nx run stylelint-config:pack"
   },
   "dependencies": {
-    "@stylistic/stylelint-config": "^4.0.0",
-    "@stylistic/stylelint-plugin": "^5.0.1"
+    "@stylistic/stylelint-config": "^5.0.0",
+    "@stylistic/stylelint-plugin": "^5.2.0"
   },
   "peerDependencies": {
     "stylelint": ">=16.0.0"

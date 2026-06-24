@@ -2,7 +2,6 @@ import {prop, attr, boolAttr, listen} from '@exadel/esl/modules/esl-utils/decora
 import {CSSClassUtils} from '@exadel/esl/modules/esl-utils/dom/class';
 import {afterNextRender} from '@exadel/esl/modules/esl-utils/async/raf';
 import {parseNumber} from '@exadel/esl/modules/esl-utils/misc/format';
-import {ESLTraversingQuery} from '@exadel/esl/modules/esl-traversing-query/core';
 import {ESLToggleable} from '@exadel/esl/modules/esl-toggleable/core';
 import {requestGss} from '../../search/search-script';
 
@@ -11,13 +10,13 @@ import type {ESLToggleableActionParams} from '@exadel/esl/modules/esl-toggleable
 export class ESLDemoSearchBox extends ESLToggleable {
   static override is = 'esl-d-search-box';
 
-  @attr() public postCls: string;
-  @attr() public postClsDelay: string;
-  @attr({defaultValue: '::find(input)'}) public firstFocusable: string;
+  @attr() public declare postCls: string;
+  @attr() public declare postClsDelay: string;
+  @attr({defaultValue: '::find(input)'}) public declare firstFocusable: string;
 
-  @boolAttr() public override autofocus: boolean;
+  @boolAttr() public declare autofocus: ESLToggleable['autofocus'];
 
-  @prop() public override closeOnOutsideAction = true;
+  @prop(true) public declare closeOnOutsideAction: ESLToggleable['closeOnOutsideAction'];
 
   public override onShow(params: ESLToggleableActionParams): void {
     CSSClassUtils.add(this, this.postCls);
@@ -27,7 +26,7 @@ export class ESLDemoSearchBox extends ESLToggleable {
   private showSearchElements(params: ESLToggleableActionParams): void {
     afterNextRender(() => super.onShow(params));
     if (this.autofocus) {
-      const $focusEl = ESLTraversingQuery.first(this.firstFocusable, this) as HTMLElement;
+      const $focusEl = this.$$find(this.firstFocusable) as HTMLElement;
       $focusEl && window.setTimeout(() => $focusEl.focus(), parseNumber(this.postClsDelay));
     }
 

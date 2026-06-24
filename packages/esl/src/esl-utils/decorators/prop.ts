@@ -18,7 +18,7 @@ function getter<T>(provider: PropertyProvider<T>) {
 /** Builds own property setter */
 function setter(name: string, readonly?: boolean) {
   if (readonly) return (): void => void 0;
-  return function (value: any): void {
+  return function (this: object, value: any): void {
     Object.defineProperty(this, name, {
       value,
       writable: true,
