@@ -93,20 +93,16 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "cpy \"src/**/*.css\" \"modules\" --parents --clean",
-          "findx \"modules/{*,*/*,{esl-utils,esl-forms}/*/*}.css !**/*.mixin.css\" \"postcss {{path}} --use postcss-import --no-map -o {{path}}\"",
-          "nodetouch \"modules/.css.done\""
+          "job-ripper \"src/**/*.css\" -w worker/css.mjs -c 2"
         ],
-        "cwd": "packages/esl",
-        "parallel": false
+        "cwd": "packages/esl"
       },
       "cache": true,
       "inputs": [
         "{projectRoot}/src/**/*.css"
       ],
       "outputs": [
-        "{projectRoot}/modules/**/*.css",
-        "{projectRoot}/modules/.css.done"
+        "{projectRoot}/modules/**/*.css"
       ]
     },
     "watch:css": {
