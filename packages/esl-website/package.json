@@ -41,6 +41,6 @@
     "browserslist": "^4.28.4",
     "html-minifier-terser": "^7.2.0",
     "lightningcss": "^1.32.0",
-    "ts-checker-rspack-plugin": "^1.4.0"
+    "ts-checker-rspack-plugin": "^1.5.1"
   }
 }
