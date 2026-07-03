@@ -1,6 +1,8 @@
 import {ESLAnimateService} from '../core';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {IntersectionObserverMock} from '../../test/intersectionObserver.mock';
+import {ESLScreenBreakpoints} from '../../esl-media-query/core/common/screen-breakpoint';
+import {getMatchMediaMock} from '../../test/matchMedia.mock';
 
 describe('ESLAnimateService', () => {
   beforeAll(() => {
@@ -88,8 +90,7 @@ describe('ESLAnimateService', () => {
     describe('Instance methods', () => {
       test('intersection is detected', () => {
         const el = document.createElement('div');
-        const service = new ESLAnimateService();
-        service.observe(el);
+        ESLAnimateService.observe(el);
 
         IntersectionObserverMock.trigger(el, {intersectionRatio: 1, isIntersecting: true});
         vi.advanceTimersByTime(100);
@@ -98,8 +99,7 @@ describe('ESLAnimateService', () => {
 
       test('intersection is detected, but with ration less than 1%', () => {
         const el = document.createElement('div');
-        const service = new ESLAnimateService();
-        service.observe(el);
+        ESLAnimateService.observe(el);
 
         IntersectionObserverMock.trigger(el, {intersectionRatio: 0, isIntersecting: false});
         vi.advanceTimersByTime(100);
@@ -108,8 +108,7 @@ describe('ESLAnimateService', () => {
 
       test('intersection is triggered only once', () => {
         const el = document.createElement('div');
-        const service = new ESLAnimateService();
-        service.observe(el, {repeat: false});
+        ESLAnimateService.observe(el, {repeat: false});
 
         IntersectionObserverMock.trigger(el, {intersectionRatio: 1, isIntersecting: true});
         vi.advanceTimersByTime(100);
@@ -121,8 +120,7 @@ describe('ESLAnimateService', () => {
 
       test('automatic unobservation after on second intersection', () => {
         const el = document.createElement('div');
-        const service = new ESLAnimateService();
-        service.observe(el);
+        ESLAnimateService.observe(el);
 
         IntersectionObserverMock.trigger(el, {intersectionRatio: 1, isIntersecting: true});
         vi.advanceTimersByTime(100);
@@ -137,12 +135,11 @@ describe('ESLAnimateService', () => {
 
       test('element gets unobserved and intersection isn`t triggered', () => {
         const el = document.createElement('div');
-        const service = new ESLAnimateService();
-        service.observe(el);
+        ESLAnimateService.observe(el);
 
         IntersectionObserverMock.trigger(el, {intersectionRatio: 1, isIntersecting: true});
         vi.advanceTimersByTime(100);
-        service.unobserve(el);
+        ESLAnimateService.unobserve(el);
 
         IntersectionObserverMock.trigger(el, {intersectionRatio: 0, isIntersecting: false});
         vi.advanceTimersByTime(100);
@@ -151,11 +148,10 @@ describe('ESLAnimateService', () => {
 
       test('debounced animation process isn`t triggered if it gets unobserved in process', () => {
         const el = document.createElement('div');
-        const service = new ESLAnimateService();
-        service.observe(el);
+        ESLAnimateService.observe(el);
 
         IntersectionObserverMock.trigger(el, {intersectionRatio: 1, isIntersecting: true});
-        service.unobserve(el);
+        ESLAnimateService.unobserve(el);
         vi.advanceTimersByTime(100);
         expect(CSSClassUtils.has(el, 'in')).toBe(false);
       });
@@ -273,6 +269,137 @@ describe('ESLAnimateService', () => {
         IntersectionObserverMock.trigger(el2, {intersectionRatio: 0, isIntersecting: false});
         expect(CSSClassUtils.has(el, 'in')).toBe(false);
         expect(CSSClassUtils.has(el2, 'in')).toBe(false);
+      });
+    });
+  });
+
+  describe('ESLAnimateService: disableOn and disableCls features', () => {
+    const mockSmMatchMedia = getMatchMediaMock(ESLScreenBreakpoints.get('sm')!.mediaQuery);
+    const mockMdMatchMedia = getMatchMediaMock(ESLScreenBreakpoints.get('md')!.mediaQuery);
+    const mockLgMatchMedia = getMatchMediaMock(ESLScreenBreakpoints.get('lg')!.mediaQuery);
+
+    beforeEach(() => {
+      mockSmMatchMedia.matches = false;
+      mockMdMatchMedia.matches = false;
+      mockLgMatchMedia.matches = false;
+    });
+
+    describe('Default behavior (disableOn = "not all")', () => {
+      test('element is observed by default (disableOn does not match)', () => {
+        const el = document.createElement('div');
+        ESLAnimateService.observe(el);
+
+        expect(ESLAnimateService.isObserved(el)).toBe(true);
+        expect(CSSClassUtils.has(el, 'esl-animate-inactive')).toBe(false);
+      });
+
+      test('animation works normally when disableOn is default', () => {
+        const el = document.createElement('div');
+        ESLAnimateService.observe(el);
+
+        IntersectionObserverMock.trigger(el, {intersectionRatio: 1, isIntersecting: true});
+        vi.advanceTimersByTime(100);
+        expect(CSSClassUtils.has(el, 'in')).toBe(true);
+      });
+    });
+
+    describe('disableCls behavior', () => {
+      test('default disableCls is "esl-animate-inactive"', () => {
+        const el = document.createElement('div');
+        mockSmMatchMedia.matches = true;
+        ESLAnimateService.observe(el, {disableOn: '@sm'});
+
+        expect(CSSClassUtils.has(el, 'esl-animate-inactive')).toBe(true);
+      });
+
+      test('custom disableCls is applied when animation is disabled', () => {
+        const el = document.createElement('div');
+        mockSmMatchMedia.matches = true;
+        ESLAnimateService.observe(el, {disableOn: '@sm', disableCls: 'custom-disabled'});
+
+        expect(CSSClassUtils.has(el, 'custom-disabled')).toBe(true);
+        expect(CSSClassUtils.has(el, 'esl-animate-inactive')).toBe(false);
+      });
+
+      test('disableCls is not applied when animation is enabled', () => {
+        const el = document.createElement('div');
+        mockSmMatchMedia.matches = false;
+        ESLAnimateService.observe(el, {disableOn: '@sm', disableCls: 'custom-disabled'});
+
+        expect(CSSClassUtils.has(el, 'custom-disabled')).toBe(false);
+      });
+    });
+
+    describe('disableOn with "all" condition', () => {
+      test('animation always disabled when disableOn is "all"', () => {
+        const el = document.createElement('div');
+        ESLAnimateService.observe(el, {disableOn: 'all'});
+
+        expect(ESLAnimateService.isObserved(el)).toBe(false);
+        expect(CSSClassUtils.has(el, 'esl-animate-inactive')).toBe(true);
+      });
+    });
+
+    describe('Multiple elements with different disableOn', () => {
+      test('each element respects its own disableOn config', () => {
+        const el1 = document.createElement('div');
+        const el2 = document.createElement('div');
+        mockSmMatchMedia.matches = true;
+        mockMdMatchMedia.matches = false;
+
+        ESLAnimateService.observe(el1, {disableOn: '@sm'});
+        ESLAnimateService.observe(el2, {disableOn: '@md'});
+
+        expect(ESLAnimateService.isObserved(el1)).toBe(false);
+        expect(CSSClassUtils.has(el1, 'esl-animate-inactive')).toBe(true);
+
+        expect(ESLAnimateService.isObserved(el2)).toBe(true);
+        expect(CSSClassUtils.has(el2, 'esl-animate-inactive')).toBe(false);
+      });
+    });
+
+    describe('Dynamic breakpoint changes', () => {
+      test('animation becomes disabled when breakpoint changes to match disableOn', () => {
+        const el = document.createElement('div');
+        mockSmMatchMedia.matches = false;
+        ESLAnimateService.observe(el, {disableOn: '@sm'});
+
+        expect(ESLAnimateService.isObserved(el)).toBe(true);
+        expect(CSSClassUtils.has(el, 'esl-animate-inactive')).toBe(false);
+
+        mockSmMatchMedia.matches = true;
+        vi.advanceTimersByTime(100);
+
+        expect(ESLAnimateService.isObserved(el)).toBe(false);
+        expect(CSSClassUtils.has(el, 'esl-animate-inactive')).toBe(true);
+      });
+
+      test('animation becomes enabled when breakpoint changes to not match disableOn', () => {
+        const el = document.createElement('div');
+        mockSmMatchMedia.matches = true;
+        ESLAnimateService.observe(el, {disableOn: '@sm'});
+
+        expect(ESLAnimateService.isObserved(el)).toBe(false);
+        expect(CSSClassUtils.has(el, 'esl-animate-inactive')).toBe(true);
+
+        mockSmMatchMedia.matches = false;
+        vi.advanceTimersByTime(100);
+
+        expect(ESLAnimateService.isObserved(el)).toBe(true);
+        expect(CSSClassUtils.has(el, 'esl-animate-inactive')).toBe(false);
+      });
+
+      test('cls is toggled when breakpoint changes', () => {
+        const el = document.createElement('div');
+        mockSmMatchMedia.matches = true;
+        ESLAnimateService.observe(el, {disableOn: '@sm', cls: 'animated'});
+
+        expect(CSSClassUtils.has(el, 'animated')).toBe(true);
+
+        mockSmMatchMedia.matches = false;
+        vi.advanceTimersByTime(100);
+
+        expect(CSSClassUtils.has(el, 'animated')).toBe(false);
       });
     });
   });

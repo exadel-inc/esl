@@ -3,6 +3,8 @@ import {debounce} from '../../esl-utils/async/debounce';
 import {memoize, bind} from '../../esl-utils/decorators';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
+import {ESLMediaQuery} from '../../esl-media-query/core/esl-media-query';
+import {ESLEventUtils} from '../../esl-event-listener/core/api';
 
 /** ESLAnimateService animation options */
 export interface ESLAnimateConfig {
@@ -28,6 +30,18 @@ export interface ESLAnimateConfig {
    * Default: 0.4 (40%)
    */
   ratio?: number;
+
+  /**
+   * Condition {@link ESLMediaQuery} to disable animation
+   * Default: `not all`
+   */
+  disableOn?: string;
+
+  /**
+   * Disabled animation class marker
+   * Default: `esl-animate-inactive`
+   * */
+  disableCls?: string;
 }
 
 /** ESLAnimateService animation inner options. Contains system animation properties */
@@ -36,7 +50,10 @@ interface ESLAnimateConfigInner extends ESLAnimateConfig {
   cls: string;
   ratio: number;
   groupDelay: number;
+  disableOn: string;
+  disableCls: string;
 
+  _isObserved?: boolean;
   /** (private) animation requested */
   _timeout?: number;
   /** (private) marker to unobserve */
@@ -48,7 +65,13 @@ interface ESLAnimateConfigInner extends ESLAnimateConfig {
 export class ESLAnimateService {
 
   /** ESLAnimateService default animation configuration */
-  protected static DEFAULT_CONFIG: ESLAnimateConfigInner = {cls: 'in', groupDelay: 100, ratio: 0.4};
+  protected static DEFAULT_CONFIG: ESLAnimateConfigInner = {
+    cls: 'in',
+    groupDelay: 100,
+    ratio: 0.4,
+    disableOn: `${ESLMediaQuery.NOT_ALL}`,
+    disableCls: 'esl-animate-inactive'
+  };
   /** ESLAnimationService IntersectionObserver properties */
   protected static OPTIONS_OBSERVER: IntersectionObserverInit = {threshold: [0.001, 0.2, 0.4, 0.6, 0.8, 1]};
 
@@ -58,12 +81,12 @@ export class ESLAnimateService {
    * @param config - optional animation configuration
    */
   public static observe(target: Element | Element[], config: ESLAnimateConfig = {}): void {
-    wrap(target).forEach((item: Element) => this.instance.observe(item, config));
+    wrap(target).forEach((item: Element) => this.instance.handleObserve(item, config));
   }
 
   /** Unobserve element or elements */
   public static unobserve(target: Element | Element[]): void {
-    wrap(target).forEach((item: Element) => this.instance.unobserve(item));
+    wrap(target).forEach((item: Element) => this.instance.handleUnobserve(item));
   }
 
   /** @returns if service observing target */
@@ -78,31 +101,86 @@ export class ESLAnimateService {
 
   protected _io = new IntersectionObserver(this.onIntersect, ESLAnimateService.OPTIONS_OBSERVER);
   protected _entries: Set<Element> = new Set();
-  protected _configMap = new WeakMap<Element, ESLAnimateConfigInner>();
+  protected _configMap = new Map<Element, ESLAnimateConfigInner>();
 
   protected deferredOnAnimate = debounce(() => this.onAnimate(), 100);
 
   /**
+   * Stores animation config for the target and starts or defers observation depending on the current disable media-query state.
+   * @param item - target element to configure
+   * @param config - animation options for the target
+   */
+  protected handleObserve(item: Element, config: ESLAnimateConfig = {}): void {
+    const cfg = Object.assign({}, ESLAnimateService.DEFAULT_CONFIG, config);
+    const mediaQuery = ESLMediaQuery.for(cfg.disableOn);
+    const isObserved = !mediaQuery.matches;
+    this._configMap.set(item, {...cfg, _isObserved: isObserved});
+    ESLEventUtils.subscribe(this, {event: 'change', target: mediaQuery}, () => this.onDisableConditionChanged(item));
+    cfg.force && CSSClassUtils.remove(item, cfg.cls);
+
+    if (isObserved) {
+      this.observe(item);
+    } else {
+      this.onDisableConditionChanged.call(this, item);
+    }
+  }
+
+  /**
+   * Removes the target from service tracking and unsubscribes related listeners.
+   * @param item - target element to stop tracking
+   */
+  protected handleUnobserve(item: Element): void {
+    const config = this._configMap.get(item);
+    if (!config) return;
+    ESLEventUtils.unsubscribe(this, {event: 'change', target: ESLMediaQuery.for(config.disableOn)}, () => this.onDisableConditionChanged(item));
+    this.unobserve(item);
+    this._configMap.delete(item);
+  }
+
+  /**
+   * Updates target classes and observation state when the disable condition changes.
+   * @param target - target element affected by media-query changes
+   */
+  protected onDisableConditionChanged(target: Element): void {
+    const config = this._configMap.get(target);
+    if (!config) return;
+    const isDisabled = this.isAnimationDisabled(config);
+    CSSClassUtils.toggle(target, config.disableCls, isDisabled);
+    CSSClassUtils.toggle(target, config.cls, isDisabled);
+    isDisabled ? this.unobserve(target) : this.observe(target);
+  }
+
+  /**
+   * Checks whether animation is currently disabled for the passed config.
+   * @param config - resolved animation config
+   * @returns `true` if animation is disabled by media-query condition, `false` otherwise
+   */
+  protected isAnimationDisabled(config: any): boolean {
+    return ESLMediaQuery.for(config.disableOn).matches;
+  }
+
+  /**
    * Subscribe ESlAnimateService on element(s) to animate it on viewport intersection
    * @param el - element or elements to observe and animate
-   * @param config - optional animation configuration
    */
-  public observe(el: Element, config: ESLAnimateConfig = {}): void {
-    const cfg = Object.assign({}, ESLAnimateService.DEFAULT_CONFIG, config);
-    this._configMap.set(el, cfg);
-    cfg.force && CSSClassUtils.remove(el, cfg.cls);
+  public observe(el: Element): void {
+    const config = this._configMap.get(el);
+    if (!config) return;
+    config._isObserved = true;
     this._io.observe(el);
   }
 
   /** Unobserve element or elements */
   public unobserve(el: Element): void {
+    const config = this._configMap.get(el);
+    if (!config) return;
+    config._isObserved = false;
     this._io.unobserve(el);
-    this._configMap.delete(el);
   }
 
   /** @returns if service observing target */
   public isObserved(target: Element): boolean {
-    return !!this._configMap.get(target);
+    return !!this._configMap.get(target)?._isObserved;
   }
 
   /** Intersection observable callback */

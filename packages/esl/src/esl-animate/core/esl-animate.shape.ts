@@ -38,6 +38,18 @@ export interface ESLAnimateTagShape extends ESLBaseElementShape<ESLAnimate> {
    * Default: ` ` - current element, `<esl-animate>` behave as a wrapper
    */
   target?: string;
+
+  /**
+   * Define condition {@link ESLMediaQuery} to disable animation
+   * Default: `not all`
+   */
+  disableOn?: string;
+
+  /**
+   * Disabled animation class marker
+   * Default: `esl-animation-inactive`
+   */
+  disableCls?: string;
 }
 
 /** @deprecated alias for {@link ESLAnimateTagShape} */

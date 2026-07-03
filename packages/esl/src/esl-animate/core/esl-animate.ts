@@ -2,6 +2,7 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ready, memoize, attr, boolAttr} from '../../esl-utils/decorators';
 import {parseNumber} from '../../esl-utils/misc/format';
 import {ESLBaseElement} from '../../esl-base-element/core';
+import {ESLMediaQuery} from '../../esl-media-query/core/esl-media-query';
 
 import {ESLAnimateService} from './esl-animate-service';
 
@@ -17,7 +18,7 @@ import {ESLAnimateService} from './esl-animate-service';
 @ExportNs('Animate')
 export class ESLAnimate extends ESLBaseElement {
   public static override is = 'esl-animate';
-  public static observedAttributes = ['group', 'repeat', 'target'];
+  public static observedAttributes = ['group', 'repeat', 'target', 'disableOn', 'disableCls'];
 
   /**
    * Class(es) to add on viewport intersection
@@ -57,6 +58,12 @@ export class ESLAnimate extends ESLBaseElement {
    */
   @attr() public target: string;
 
+  /** {@link ESLMediaQuery} to disable animation on provided breakpoints. Default: `not all` */
+  @attr({defaultValue: `${ESLMediaQuery.NOT_ALL}`}) public disableOn: string;
+
+  /** Disabled animation class marker. Default: `esl-animate-inactive` */
+  @attr({defaultValue: 'esl-animate-inactive'}) public disableCls: string;
+
   /** Elements-targets found by target query */
   @memoize()
   public get $targets(): HTMLElement[] {
@@ -90,7 +97,9 @@ export class ESLAnimate extends ESLBaseElement {
       ratio: parseNumber(this.ratio, 0.4),
       repeat: this.repeat,
       group: this.group,
-      groupDelay: parseNumber(this.groupDelay, 0)
+      groupDelay: parseNumber(this.groupDelay, 0),
+      disableOn: this.disableOn,
+      disableCls: this.disableCls
     });
   }
 }
