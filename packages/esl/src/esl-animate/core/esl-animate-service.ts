@@ -3,8 +3,8 @@ import {debounce} from '../../esl-utils/async/debounce';
 import {memoize, bind} from '../../esl-utils/decorators';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
-import {ESLMediaQuery} from '../../esl-media-query/core/esl-media-query';
-import {ESLEventUtils} from '../../esl-event-listener/core/api';
+import {ESLMediaQuery} from '../../esl-media-query/core';
+import {ESLEventUtils} from '../../esl-event-listener/core';
 
 /** ESLAnimateService animation options */
 export interface ESLAnimateConfig {
@@ -106,7 +106,7 @@ export class ESLAnimateService {
   protected deferredOnAnimate = debounce(() => this.onAnimate(), 100);
 
   /**
-   * Stores animation config for the target and starts or defers observation depending on the current disable media-query state.
+   * Registers animation settings for the target element and starts observation.
    * @param item - target element to configure
    * @param config - animation options for the target
    */
@@ -116,13 +116,7 @@ export class ESLAnimateService {
     const isObserved = !mediaQuery.matches;
     this._configMap.set(item, {...cfg, _isObserved: isObserved});
     ESLEventUtils.subscribe(this, {event: 'change', target: mediaQuery}, () => this.onDisableConditionChanged(item));
-    cfg.force && CSSClassUtils.remove(item, cfg.cls);
-
-    if (isObserved) {
-      this.observe(item);
-    } else {
-      this.onDisableConditionChanged.call(this, item);
-    }
+    this.onDisableConditionChanged(item);
   }
 
   /**
@@ -132,7 +126,8 @@ export class ESLAnimateService {
   protected handleUnobserve(item: Element): void {
     const config = this._configMap.get(item);
     if (!config) return;
-    ESLEventUtils.unsubscribe(this, {event: 'change', target: ESLMediaQuery.for(config.disableOn)}, () => this.onDisableConditionChanged(item));
+    const mediaQuery = ESLMediaQuery.for(config.disableOn);
+    ESLEventUtils.unsubscribe(this, {event: 'change', target: mediaQuery}, () => this.onDisableConditionChanged(item));
     this.unobserve(item);
     this._configMap.delete(item);
   }
@@ -144,19 +139,10 @@ export class ESLAnimateService {
   protected onDisableConditionChanged(target: Element): void {
     const config = this._configMap.get(target);
     if (!config) return;
-    const isDisabled = this.isAnimationDisabled(config);
+    const isDisabled = ESLMediaQuery.for(config.disableOn).matches;
     CSSClassUtils.toggle(target, config.disableCls, isDisabled);
-    CSSClassUtils.toggle(target, config.cls, isDisabled);
+    config.force && CSSClassUtils.toggle(target, config.cls, isDisabled);
     isDisabled ? this.unobserve(target) : this.observe(target);
-  }
-
-  /**
-   * Checks whether animation is currently disabled for the passed config.
-   * @param config - resolved animation config
-   * @returns `true` if animation is disabled by media-query condition, `false` otherwise
-   */
-  protected isAnimationDisabled(config: any): boolean {
-    return ESLMediaQuery.for(config.disableOn).matches;
   }
 
   /**

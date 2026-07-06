@@ -276,12 +276,10 @@ describe('ESLAnimateService', () => {
   describe('ESLAnimateService: disableOn and disableCls features', () => {
     const mockSmMatchMedia = getMatchMediaMock(ESLScreenBreakpoints.get('sm')!.mediaQuery);
     const mockMdMatchMedia = getMatchMediaMock(ESLScreenBreakpoints.get('md')!.mediaQuery);
-    const mockLgMatchMedia = getMatchMediaMock(ESLScreenBreakpoints.get('lg')!.mediaQuery);
 
     beforeEach(() => {
       mockSmMatchMedia.matches = false;
       mockMdMatchMedia.matches = false;
-      mockLgMatchMedia.matches = false;
     });
 
     describe('Default behavior (disableOn = "not all")', () => {
@@ -307,7 +305,7 @@ describe('ESLAnimateService', () => {
       test('default disableCls is "esl-animate-inactive"', () => {
         const el = document.createElement('div');
         mockSmMatchMedia.matches = true;
-        ESLAnimateService.observe(el, {disableOn: '@sm'});
+        ESLAnimateService.observe(el, {disableOn: '@sm', force: true});
 
         expect(CSSClassUtils.has(el, 'esl-animate-inactive')).toBe(true);
       });
@@ -315,7 +313,7 @@ describe('ESLAnimateService', () => {
       test('custom disableCls is applied when animation is disabled', () => {
         const el = document.createElement('div');
         mockSmMatchMedia.matches = true;
-        ESLAnimateService.observe(el, {disableOn: '@sm', disableCls: 'custom-disabled'});
+        ESLAnimateService.observe(el, {disableOn: '@sm', disableCls: 'custom-disabled', force: true});
 
         expect(CSSClassUtils.has(el, 'custom-disabled')).toBe(true);
         expect(CSSClassUtils.has(el, 'esl-animate-inactive')).toBe(false);
@@ -324,7 +322,7 @@ describe('ESLAnimateService', () => {
       test('disableCls is not applied when animation is enabled', () => {
         const el = document.createElement('div');
         mockSmMatchMedia.matches = false;
-        ESLAnimateService.observe(el, {disableOn: '@sm', disableCls: 'custom-disabled'});
+        ESLAnimateService.observe(el, {disableOn: '@sm', disableCls: 'custom-disabled', force: true});
 
         expect(CSSClassUtils.has(el, 'custom-disabled')).toBe(false);
       });
@@ -333,7 +331,7 @@ describe('ESLAnimateService', () => {
     describe('disableOn with "all" condition', () => {
       test('animation always disabled when disableOn is "all"', () => {
         const el = document.createElement('div');
-        ESLAnimateService.observe(el, {disableOn: 'all'});
+        ESLAnimateService.observe(el, {disableOn: 'all', force: true});
 
         expect(ESLAnimateService.isObserved(el)).toBe(false);
         expect(CSSClassUtils.has(el, 'esl-animate-inactive')).toBe(true);
@@ -347,8 +345,8 @@ describe('ESLAnimateService', () => {
         mockSmMatchMedia.matches = true;
         mockMdMatchMedia.matches = false;
 
-        ESLAnimateService.observe(el1, {disableOn: '@sm'});
-        ESLAnimateService.observe(el2, {disableOn: '@md'});
+        ESLAnimateService.observe(el1, {disableOn: '@sm', force: true});
+        ESLAnimateService.observe(el2, {disableOn: '@md', force: true});
 
         expect(ESLAnimateService.isObserved(el1)).toBe(false);
         expect(CSSClassUtils.has(el1, 'esl-animate-inactive')).toBe(true);
@@ -362,7 +360,7 @@ describe('ESLAnimateService', () => {
       test('animation becomes disabled when breakpoint changes to match disableOn', () => {
         const el = document.createElement('div');
         mockSmMatchMedia.matches = false;
-        ESLAnimateService.observe(el, {disableOn: '@sm'});
+        ESLAnimateService.observe(el, {disableOn: '@sm', force: true});
 
         expect(ESLAnimateService.isObserved(el)).toBe(true);
         expect(CSSClassUtils.has(el, 'esl-animate-inactive')).toBe(false);
@@ -377,7 +375,7 @@ describe('ESLAnimateService', () => {
       test('animation becomes enabled when breakpoint changes to not match disableOn', () => {
         const el = document.createElement('div');
         mockSmMatchMedia.matches = true;
-        ESLAnimateService.observe(el, {disableOn: '@sm'});
+        ESLAnimateService.observe(el, {disableOn: '@sm', force: true});
 
         expect(ESLAnimateService.isObserved(el)).toBe(false);
         expect(CSSClassUtils.has(el, 'esl-animate-inactive')).toBe(true);
@@ -392,8 +390,7 @@ describe('ESLAnimateService', () => {
       test('cls is toggled when breakpoint changes', () => {
         const el = document.createElement('div');
         mockSmMatchMedia.matches = true;
-        ESLAnimateService.observe(el, {disableOn: '@sm', cls: 'animated'});
-
+        ESLAnimateService.observe(el, {disableOn: '@sm', cls: 'animated', force: true});
         expect(CSSClassUtils.has(el, 'animated')).toBe(true);
 
         mockSmMatchMedia.matches = false;
