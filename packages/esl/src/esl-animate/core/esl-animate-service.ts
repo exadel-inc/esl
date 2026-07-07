@@ -85,12 +85,12 @@ export class ESLAnimateService {
    * @param config - optional animation configuration
    */
   public static observe(target: Element | Element[], config: ESLAnimateConfig = {}): void {
-    wrap(target).forEach((item: Element) => this.instance.handleObserve(item, config));
+    wrap(target).forEach((item: Element) => this.instance.observe(item, config));
   }
 
   /** Unobserve element or elements */
   public static unobserve(target: Element | Element[]): void {
-    wrap(target).forEach((item: Element) => this.instance.handleUnobserve(item));
+    wrap(target).forEach((item: Element) => this.instance.unobserve(item));
   }
 
   /** @returns if service observing target */
@@ -114,7 +114,8 @@ export class ESLAnimateService {
    * @param item - target element to configure
    * @param config - animation options for the target
    */
-  protected handleObserve(item: Element, config: ESLAnimateConfig = {}): void {
+  public observe(item: Element, config: ESLAnimateConfig = {}): void {
+    this.unobserve(item);
     const id = sequentialUID('esl-animate-item');
     const cfg = Object.assign({_uid: id}, ESLAnimateService.DEFAULT_CONFIG, config);
     const mediaQuery = ESLMediaQuery.for(cfg.disableOn);
@@ -128,11 +129,11 @@ export class ESLAnimateService {
    * Removes the target from service tracking and unsubscribes related listeners.
    * @param item - target element to stop tracking
    */
-  protected handleUnobserve(item: Element): void {
+  public unobserve(item: Element): void {
     const config = this._configMap.get(item);
     if (!config) return;
     ESLEventUtils.unsubscribe(this, {group: config._uid});
-    this.unobserve(item);
+    this._unobserve(item);
     this._configMap.delete(item);
   }
 
@@ -146,22 +147,21 @@ export class ESLAnimateService {
     const isDisabled = ESLMediaQuery.for(config.disableOn).matches;
     CSSClassUtils.toggle(target, config.disableCls, isDisabled);
     config.force && CSSClassUtils.toggle(target, config.cls, isDisabled);
-    isDisabled ? this.unobserve(target) : this.observe(target);
+    isDisabled ? this._unobserve(target) : this._observe(target);
   }
 
   /**
-   * Subscribe ESlAnimateService on element(s) to animate it on viewport intersection
-   * @param el - element or elements to observe and animate
+   * Internal subscription to animate the element it on viewport intersection
    */
-  public observe(el: Element): void {
+  protected _observe(el: Element): void {
     const config = this._configMap.get(el);
     if (!config) return;
     config._isObserved = true;
     this._io.observe(el);
   }
 
-  /** Unobserve element or elements */
-  public unobserve(el: Element): void {
+  /** Internal processing to unobserve the element */
+  protected _unobserve(el: Element): void {
     const config = this._configMap.get(el);
     if (!config) return;
     config._isObserved = false;
@@ -224,7 +224,7 @@ export class ESLAnimateService {
     CSSClassUtils.add(item, config.cls);
     this._entries.delete(item);
 
-    if (config._unsubscribe) this.unobserve(item);
+    if (config._unsubscribe) this._unobserve(item);
   }
 }
 

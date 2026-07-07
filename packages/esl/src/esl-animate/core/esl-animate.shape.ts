@@ -47,7 +47,7 @@ export interface ESLAnimateTagShape extends ESLBaseElementShape<ESLAnimate> {
 
   /**
    * Disabled animation class marker
-   * Default: `esl-animation-inactive`
+   * Default: `esl-animate-inactive`
    */
   disableCls?: string;
 }

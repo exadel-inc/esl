@@ -18,7 +18,7 @@ import {ESLAnimateService} from './esl-animate-service';
 @ExportNs('Animate')
 export class ESLAnimate extends ESLBaseElement {
   public static override is = 'esl-animate';
-  public static observedAttributes = ['group', 'repeat', 'target', 'disableOn', 'disableCls'];
+  public static observedAttributes = ['group', 'repeat', 'target', 'disable-on', 'disable-cls'];
 
   /**
    * Class(es) to add on viewport intersection
