@@ -90,7 +90,8 @@ describe('ESLAnimateService', () => {
     describe('Instance methods', () => {
       test('intersection is detected', () => {
         const el = document.createElement('div');
-        ESLAnimateService.observe(el);
+        const service = new ESLAnimateService();
+        service.observe(el);
 
         IntersectionObserverMock.trigger(el, {intersectionRatio: 1, isIntersecting: true});
         vi.advanceTimersByTime(100);
@@ -99,7 +100,8 @@ describe('ESLAnimateService', () => {
 
       test('intersection is detected, but with ration less than 1%', () => {
         const el = document.createElement('div');
-        ESLAnimateService.observe(el);
+        const service = new ESLAnimateService();
+        service.observe(el);
 
         IntersectionObserverMock.trigger(el, {intersectionRatio: 0, isIntersecting: false});
         vi.advanceTimersByTime(100);
@@ -108,7 +110,8 @@ describe('ESLAnimateService', () => {
 
       test('intersection is triggered only once', () => {
         const el = document.createElement('div');
-        ESLAnimateService.observe(el, {repeat: false});
+        const service = new ESLAnimateService();
+        service.observe(el, {repeat: false});
 
         IntersectionObserverMock.trigger(el, {intersectionRatio: 1, isIntersecting: true});
         vi.advanceTimersByTime(100);
@@ -120,7 +123,8 @@ describe('ESLAnimateService', () => {
 
       test('automatic unobservation after on second intersection', () => {
         const el = document.createElement('div');
-        ESLAnimateService.observe(el);
+        const service = new ESLAnimateService();
+        service.observe(el);
 
         IntersectionObserverMock.trigger(el, {intersectionRatio: 1, isIntersecting: true});
         vi.advanceTimersByTime(100);
@@ -135,11 +139,12 @@ describe('ESLAnimateService', () => {
 
       test('element gets unobserved and intersection isn`t triggered', () => {
         const el = document.createElement('div');
-        ESLAnimateService.observe(el);
+        const service = new ESLAnimateService();
+        service.observe(el);
 
         IntersectionObserverMock.trigger(el, {intersectionRatio: 1, isIntersecting: true});
         vi.advanceTimersByTime(100);
-        ESLAnimateService.unobserve(el);
+        service.unobserve(el);
 
         IntersectionObserverMock.trigger(el, {intersectionRatio: 0, isIntersecting: false});
         vi.advanceTimersByTime(100);
@@ -148,10 +153,11 @@ describe('ESLAnimateService', () => {
 
       test('debounced animation process isn`t triggered if it gets unobserved in process', () => {
         const el = document.createElement('div');
-        ESLAnimateService.observe(el);
+        const service = new ESLAnimateService();
+        service.observe(el);
 
         IntersectionObserverMock.trigger(el, {intersectionRatio: 1, isIntersecting: true});
-        ESLAnimateService.unobserve(el);
+        service.unobserve(el);
         vi.advanceTimersByTime(100);
         expect(CSSClassUtils.has(el, 'in')).toBe(false);
       });
