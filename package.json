@@ -68,7 +68,7 @@
     "less": "4.6.7",
     "less-plugin-clean-css": "^1.6.0",
     "lint-staged": "^17.0.8",
-    "markdown-it": "^14.2.0",
+    "markdown-it": "^14.3.0",
     "nodemon": "^3.1.14",
     "postcss": "^8.5.16",
     "postcss-less": "^6.0.0",
