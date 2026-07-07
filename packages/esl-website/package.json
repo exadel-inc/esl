@@ -1,6 +1,6 @@
 {
   "name": "@exadel/esl-website",
-  "version": "6.2.0-beta.1",
+  "version": "6.2.0",
   "type": "module",
   "private": true,
   "description": "ESL Website source",
@@ -23,25 +23,24 @@
   "dependencies": {
     "@11ty/eleventy": "3.1.6",
     "@11ty/eleventy-dev-server": "2.0.8",
-    "@exadel/esl": "^6.2.0-beta.1",
-    "@exadel/ui-playground": "^6.2.0-beta.1",
+    "@exadel/esl": "^6.2.0",
+    "@exadel/ui-playground": "^6.2.0",
     "@juggle/resize-observer": "^3.4.0",
     "image-size": "^2.0.2",
-    "js-yaml": "^4.2.0",
     "jsdom": "^29.1.1",
     "out-url": "^1.2.2",
     "prismjs": "^1.30.0",
     "smoothscroll-polyfill": "^0.4.4"
   },
   "devDependencies": {
-    "@rspack/cli": "^2.0.6",
-    "@rspack/core": "^2.0.6",
-    "@rsdoctor/rspack-plugin": "^1.5.12",
+    "@rsdoctor/rspack-plugin": "^1.5.17",
+    "@rspack/cli": "^2.1.3",
+    "@rspack/core": "^2.1.3",
     "@types/prismjs": "^1.26.6",
     "@types/smoothscroll-polyfill": "^0.3.4",
-    "browserslist": "^4.28.2",
+    "browserslist": "^4.28.5",
     "html-minifier-terser": "^7.2.0",
     "lightningcss": "^1.32.0",
-    "ts-checker-rspack-plugin": "^1.4.0"
+    "ts-checker-rspack-plugin": "^1.5.1"
   }
 }

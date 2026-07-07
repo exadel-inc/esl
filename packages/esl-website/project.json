@@ -76,6 +76,7 @@
       "dependsOn": [
         "esl:build",
         "uip:build",
+        "esl-website:build:skills",
         "esl-website:build:ts",
         "esl-website:build:less"
       ]
@@ -86,9 +87,36 @@
         "commands": [
           "nx run esl:watch",
           "nx run uip:watch",
+          {"command": "nx run esl-website:watch:skills", "prefix": "[Site watch:skills]"},
           {"command": "nx run esl-website:watch:ts", "prefix": "[Site watch:ts]"},
           {"command": "nx run esl-website:watch:less", "prefix": "[Site watch:less]"}
         ]
+      }
+    },
+
+    "build:skills": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "npx mkdirp \"dist/downloads\"",
+          "tar -czf \"dist/downloads/exadel-esl-ai-skill.tgz\" -C \"../esl/skills\" \"esl\""
+        ],
+        "parallel": false,
+        "cwd": "packages/esl-website"
+      },
+      "cache": true,
+      "inputs": [
+        {"input": "default", "projects": ["esl"]}
+      ],
+      "outputs": [
+        "{projectRoot}/dist/downloads/exadel-esl-ai-skill.tgz"
+      ]
+    },
+    "watch:skills": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "chokidar \"../esl/skills/**/*.md\" -c \"nx run esl-website:build:skills\"",
+        "cwd": "packages/esl-website"
       }
     },
 
@@ -170,12 +198,15 @@
     "watch:less": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "chokidar",
+        "command": "nodemon",
         "args": [
-          "\"packages/esl/modules/.less.done\"",
-          "\"packages/ui-playground/dist/.less.done\"",
-          "\"packages/esl-website/src/**/*.less\"",
-          "-c \"nx run esl-website:build:less:only\""
+          "--on-change-only",
+          "--watch \"packages/esl/modules\"",
+          "--watch \"packages/ui-playground/dist\"",
+          "--watch \"packages/esl-website/src\"",
+          "--ext css,less",
+          "--delay 0.5",
+          "--exec \"nx run esl-website:build:less:only\""
         ]
       }
     },

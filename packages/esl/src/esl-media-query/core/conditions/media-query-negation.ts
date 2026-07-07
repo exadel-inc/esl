@@ -1,6 +1,6 @@
 import {ALL, NOT_ALL} from './media-query-const';
 
-import type {ESLMediaChangeEvent, IMediaQueryCondition} from './media-query-base';
+import type {ESLMediaChangeEvent, IMediaQueryCondition, MediaQueryListenerArgs} from './media-query-base';
 
 export class MediaQueryNegation implements IMediaQueryCondition {
   constructor(
@@ -28,14 +28,14 @@ export class MediaQueryNegation implements IMediaQueryCondition {
 
   public addEventListener(callback: EventListener): void;
   public addEventListener(type: 'change', callback: EventListener): void;
-  public addEventListener(...args: any[]): void {
-    this.condition.addEventListener.apply(this.condition, args);
+  public addEventListener(...args: MediaQueryListenerArgs): void {
+    (this.condition.addEventListener as (...args: MediaQueryListenerArgs) => void)(...args);
   }
 
   public removeEventListener(callback: EventListener): void;
   public removeEventListener(type: 'change', callback: EventListener): void;
-  public removeEventListener(...args: any[]): void {
-    this.condition.removeEventListener.apply(this.condition, args);
+  public removeEventListener(...args: MediaQueryListenerArgs): void {
+    (this.condition.removeEventListener as (...args: MediaQueryListenerArgs) => void)(...args);
   }
 
   public dispatchEvent(event: ESLMediaChangeEvent): boolean {

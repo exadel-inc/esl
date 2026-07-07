@@ -24,12 +24,14 @@ export default async (config) => {
     '../../docs/images': 'assets/docs-images',
     'static/assets': 'assets',
     'static/tools': '.',
-    '../../skills': 'skills'
+    '../esl/skills': 'ai-skills'
   });
+
+  // Disable template cache to fix stale content on NJK changes
+  config.setUseTemplateCache(false);
 
   config.setServerOptions({
     port: process.env.PORT || 3005,
-    domDiff: false, // Disabled until https://github.com/11ty/eleventy-dev-server/issues/77 is fixed
     watch: [
       'dist/bundles/*.js',
       'dist/bundles/*.css'

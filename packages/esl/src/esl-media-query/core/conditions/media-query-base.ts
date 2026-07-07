@@ -1,5 +1,7 @@
 import type {TypedEventTarget} from '../../../esl-event-listener/core/types';
 
+export type MediaQueryListenerArgs = [callback: EventListener] | [type: 'change', callback: EventListener];
+
 export interface IMediaQueryCondition extends TypedEventTarget<ESLMediaChangeEvent> {
   /** @returns true if current environment satisfies query */
   readonly matches: boolean;

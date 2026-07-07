@@ -27,7 +27,9 @@ describe('ESLAnimate element', () => {
     $el.repeat = true;
     expect(ESLAnimateService.observe).not.toHaveBeenCalled();
     vi.advanceTimersByTime(1);
-    expect(ESLAnimateService.observe).toHaveBeenCalledWith([$el], {cls: 'in', force: true, group: false, groupDelay: 100, ratio: 0.4, repeat: true});
+    expect(ESLAnimateService.observe).toHaveBeenCalledWith([$el], {
+      cls: 'in', force: true, group: false, groupDelay: 100, ratio: 0.4, repeat: true, disableOn: 'not all', disableCls: 'esl-animate-inactive'
+    });
   });
 
   test('attribute change callback', () => {

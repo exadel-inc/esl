@@ -63,7 +63,7 @@ Use these rules when modifying this repository:
 - Attribute-driven behavior on an existing node → `ESLMixinElement`
 - In mixins, the real DOM host is `this.$host`, not `this`
 
-For details, see [`skills/esl-core.md`](./skills/esl-core.md).
+For details, see [`packages/esl/skills/esl/references/esl-core.md`](./packages/esl/skills/esl/references/esl-core.md).
 
 ### 2. Prefer ESL primitives over raw DOM code
 Reach for the existing ESL APIs first:
@@ -77,7 +77,7 @@ If code looks like generic DOM code with an ESL wrapper, ask which ESL primitive
 - In library source, keep public entrypoints at `core.ts`
 - Prefer named exports
 - Avoid importing repository internals when a public barrel already exists
-- Consumer-facing import patterns are described in [`skills/esl-core.md`](./skills/esl-core.md)
+- Consumer-facing import patterns are described in [`packages/esl/skills/esl/references/esl-core.md`](./packages/esl/skills/esl/references/esl-core.md)
 
 ### 4. Preserve registration and lifecycle contracts
 - Set `static is` before `register()`
@@ -109,12 +109,13 @@ Prefer ESL event abstractions over manual wiring:
 
 ## Skills to Use First
 
-The skills were written for ESL consumers, but they are also useful for **internal ESL development** because they describe the same `esl-core` mental model and review criteria.
+The canonical bundled ESL skill lives in [`packages/esl/skills/esl/SKILL.md`](./packages/esl/skills/esl/SKILL.md).
+Its bundled references are also useful for **internal ESL development** because they describe the same `esl-core` mental model and review criteria.
 
-- [`skills/esl-core.md`](./skills/esl-core.md)  
+- [`packages/esl/skills/esl/references/esl-core.md`](./packages/esl/skills/esl/references/esl-core.md)  
   Use for component authoring, decorators, host model, traversal, events, media APIs, and idiomatic ESL patterns.
 
-- [`skills/esl-review.md`](./skills/esl-review.md)  
+- [`packages/esl/skills/esl/references/esl-review.md`](./packages/esl/skills/esl/references/esl-review.md)  
   Use for review/refactoring tasks: host correctness, public imports, lifecycle, decorators, events, traversal, responsive logic, and existing utility reuse.
 
 Do not duplicate detailed decorator/event/traversal documentation here; keep this file as a router to the canonical skill/docs content.

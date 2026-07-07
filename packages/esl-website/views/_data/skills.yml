@@ -1,18 +1,27 @@
-- file: esl-core.md
-  name: ESL Core
+- file: esl/SKILL.md
+  archive: exadel-esl-ai-skill.tgz
+  package: 'exadel-inc/esl'
+  name: ESL Consumer Skill
   description: >-
-    Core consumer guide for <code>@exadel/esl</code>: base classes, decorators,
-    traversing queries, event system, class helpers, and media abstractions.
+    Canonical AI skill bundle for <code>@exadel/esl</code> consumers, shipped
+    together with the published package and backed by bundled reference docs.
   when: >-
-    You need the main mental model for writing or reviewing ESL consumer code in
-    an idiomatic way, including custom tags, mixins, attributes, events, and
-    responsive behavior.
-
-- file: esl-review.md
-  name: ESL Review
-  description: >-
-    Review checklist and best practices for ESL consumer code.
-  when: >-
-    You want an AI agent to review ESL-based code for correct host model,
-    imports, lifecycle, decorators, events, traversal, and responsive patterns.
+    You want one installable ESL skill that teaches an AI agent the correct host
+    model, public imports, decorators, traversal, events, and review criteria.
+  files:
+    - label: Main skill
+      name: SKILL.md
+      file: esl/SKILL.md
+      source: packages/esl/skills/esl/SKILL.md
+      description: Primary entry point loaded by AI tools.
+    - label: Reference
+      name: references/esl-core.md
+      file: esl/references/esl-core.md
+      source: packages/esl/skills/esl/references/esl-core.md
+      description: Core ESL mental model for authoring and reviewing consumer code.
+    - label: Reference
+      name: references/esl-review.md
+      file: esl/references/esl-review.md
+      source: packages/esl/skills/esl/references/esl-review.md
+      description: Review checklist for host model, imports, lifecycle, decorators, and traversal.
 

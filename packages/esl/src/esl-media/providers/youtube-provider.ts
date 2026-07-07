@@ -1,7 +1,8 @@
+/// <reference types="youtube" />
+
 import {loadScript} from '../../esl-utils/dom/script';
 import {BaseProvider, PlayerStates} from '../core/esl-media-provider';
 import {randUID} from '../../esl-utils/misc/uid';
-import PlayerVars = YT.PlayerVars;
 
 import type {MediaProviderConfig, ProviderObservedParams} from '../core/esl-media-provider';
 
@@ -34,7 +35,7 @@ export class YouTubeProvider extends BaseProvider {
   protected static getCoreApi(): Promise<void> {
     if (!YouTubeProvider._coreApiPromise) {
       YouTubeProvider._coreApiPromise = new Promise((resolve) => {
-        if (window.YT && window.YT.Player) return resolve(window.YT);
+        if (window.YT?.Player) return resolve();
         loadScript('YT_API_SOURCE', '//www.youtube.com/iframe_api');
         const cbOrigin = window.onYouTubeIframeAPIReady;
         window.onYouTubeIframeAPIReady = (): void => {
@@ -43,14 +44,14 @@ export class YouTubeProvider extends BaseProvider {
           } catch (err) {
             // Do Nothing
           }
-          return resolve(window.YT);
+          return resolve();
         };
       });
     }
     return YouTubeProvider._coreApiPromise;
   }
 
-  protected static mapOptions(cfg: MediaProviderConfig): PlayerVars {
+  protected static mapOptions(cfg: MediaProviderConfig): YT.PlayerVars {
     return {
       enablejsapi: 1,
       origin: location.origin,
@@ -94,9 +95,9 @@ export class YouTubeProvider extends BaseProvider {
       this._api = new YT.Player(this._el.id, {
         videoId: this.config.mediaId,
         events: {
-          onError: (e): void => reject(e),
+          onError: (e: YT.OnErrorEvent): void => reject(e),
           onReady: (): void => resolve(this),
-          onStateChange: (e): void => this._onStateChange(e)
+          onStateChange: (e: YT.OnStateChangeEvent): void => this._onStateChange(e)
         },
         playerVars: YouTubeProvider.mapOptions(this.config)
       });
@@ -157,7 +158,7 @@ export class YouTubeProvider extends BaseProvider {
 
   public get state(): PlayerStates {
     if (this._api && typeof this._api.getPlayerState === 'function') {
-      return this._api.getPlayerState() as any as PlayerStates;
+      return Number(this._api.getPlayerState());
     }
     return PlayerStates.UNINITIALIZED;
   }
@@ -196,12 +197,8 @@ export class YouTubeProvider extends BaseProvider {
 
 // typings
 declare global {
-  interface YT extends Promise<void> {
-    Player: YT.Player;
-  }
-
   interface Window {
-    YT?: YT;
+    YT?: typeof YT;
     onYouTubeIframeAPIReady?: () => void;
   }
 }
