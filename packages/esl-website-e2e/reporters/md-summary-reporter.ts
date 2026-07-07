@@ -66,7 +66,7 @@ export default class MdSummaryReporter implements Reporter {
       outcome === 'skipped' ? 'skipped' :
         outcome === 'flaky' ? 'flaky' :
           outcome === 'unexpected' ? 'failed' :
-            (result.status as Status) ?? 'passed';
+            result.status ?? 'passed';
 
     if (status === 'passed') this.counts.passed++;
     else if (status === 'failed' || status === 'timedOut' || status === 'interrupted') this.counts.failed++;

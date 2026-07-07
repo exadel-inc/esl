@@ -20,12 +20,12 @@ describe('misc/functions', () => {
     });
     test('provider', () => {
       const obj = {};
-      const test = vi.fn(function () { return this; });
+      const test = vi.fn(function (this: object) { return this; });
       expect(resolveProperty(test, obj)).toBe(obj);
       expect(test).toHaveBeenLastCalledWith(obj);
     });
     test('null context', () => {
-      const test = vi.fn(function () { return this; });
+      const test = vi.fn(function (this: object | null) { return this; });
       expect(resolveProperty(test, null)).toBe(null);
       expect(test).toHaveBeenLastCalledWith(null);
     });

@@ -1,3 +1,4 @@
+import {memoizeFn} from '../../../esl-utils/misc/memoize';
 import {SyntheticEventTarget} from '../../../esl-utils/dom/events/target';
 
 import {ESLEventListener} from '../listener';
@@ -7,9 +8,9 @@ type ESLListenerDecorator<Args extends any[]> = (target: EventListener, ...args:
 
 const cache = memoizeOne((target: EventTarget) => {
   return memoizeOne(<Args extends any[]>(decorator: ESLListenerDecorator<Args>) => {
-    return memoizeOne((...args: any[]) => {
+    return memoizeFn((...args: Args) => {
       return ESLDecoratedEventTarget.create(target, decorator, ...args);
-    }, Map);
+    });
   }, WeakMap);
 }, WeakMap);
 
@@ -77,7 +78,7 @@ export function memoizeOne<
   T extends typeof WeakMap extends C ? object : any,
   R
 >(fn: (arg: T) => R, Cache: C): (arg: T) => R {
-  function memo(arg: T): any {
+  function memo(this: object, arg: T): any {
     if (!memo.cache.has(arg)) memo.cache.set(arg, fn.call(this, arg));
     return memo.cache.get(arg);
   }

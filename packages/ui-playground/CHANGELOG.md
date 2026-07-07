@@ -1,3 +1,20 @@
+## 6.2.0 (2026-06-23)
+
+### 🚀 Features
+
+- ootb AI skills for @exadel/esl core module ([dea17163e](https://github.com/exadel-inc/esl/commit/dea17163e))
+- major TS6 compatibility ([9b505cc27](https://github.com/exadel-inc/esl/commit/9b505cc27))
+
+## 6.1.0 (2026-05-13)
+
+### 🩹 Fixes
+
+- **ui-playground:** align function typings with strictFunctionTypes ([a014f8944](https://github.com/exadel-inc/esl/commit/a014f8944))
+
+### 💅 Refactors
+
+- **esl-utils:** update @attr decorator parser type to support safe and nullable overloads ([44f255856](https://github.com/exadel-inc/esl/commit/44f255856))
+
 # 6.0.0 (2026-04-28)
 
 ### 🚀 Features

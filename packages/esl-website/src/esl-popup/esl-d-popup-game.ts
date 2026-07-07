@@ -12,7 +12,7 @@ export class ESLDemoPopupGame extends ESLBaseElement {
   protected currentCoords: Point;
 
   /** Trigger selector */
-  @attr() public trigger: string;
+  @attr() public declare trigger: string;
   /** Marker shows that element is in dragging mode */
   @boolAttr() public dragging = false;
 

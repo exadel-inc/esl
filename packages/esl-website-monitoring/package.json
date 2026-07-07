@@ -1,13 +1,13 @@
 {
   "name": "@exadel/esl-website-monitoring",
-  "version": "6.0.0",
+  "version": "6.2.0",
   "type": "module",
   "private": true,
   "description": "ESL Website Monitoring Actions",
   "homepage": "https://esl-ui.com/",
   "license": "MIT",
   "engines": {
-    "node": ">=22.0.0"
+    "node": ">=24.0.0"
   },
   "repository": {
     "type": "git",

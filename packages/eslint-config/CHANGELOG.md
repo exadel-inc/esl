@@ -1,3 +1,16 @@
+## 6.2.0 (2026-06-23)
+
+### 🚀 Features
+
+- ootb AI skills for @exadel/esl core module ([dea17163e](https://github.com/exadel-inc/esl/commit/dea17163e))
+- major TS6 compatibility ([9b505cc27](https://github.com/exadel-inc/esl/commit/9b505cc27))
+
+## 6.1.0 (2026-05-13)
+
+### 🚀 Features
+
+- **eslint-config:** introduce `no-implicit-this` rule for a strict set of eslint-config-esl ([a9570137f](https://github.com/exadel-inc/esl/commit/a9570137f))
+
 # 6.0.0 (2026-04-28)
 
 ### 🚀 Features

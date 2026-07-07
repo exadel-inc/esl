@@ -39,8 +39,7 @@
       "options": {
         "commands": [
           "rimraf -g \"dist/**/*.{js,ts}\"",
-          "tsc --project tsconfig.json",
-          "nodetouch \"dist/.ts.done\""
+          "node ../../node_modules/typescript/bin/tsc --project tsconfig.json"
         ],
         "parallel": false,
         "cwd": "packages/ui-playground"
@@ -52,14 +51,13 @@
       ],
       "outputs": [
         "{projectRoot}/dist/**/*.js",
-        "{projectRoot}/dist/**/*.d.ts",
-        "{projectRoot}/dist/.ts.done"
+        "{projectRoot}/dist/**/*.d.ts"
       ]
     },
     "watch:ts": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "tsc --project tsconfig.json --watch",
+        "command": "node ../../node_modules/typescript/bin/tsc --project tsconfig.json --watch",
         "cwd": "packages/ui-playground"
       }
     },
@@ -69,12 +67,9 @@
       "dependsOn": ["^build:less"],
       "options": {
         "commands": [
-          "cpy \"src/**/*.less\" \"dist\" --parents --clean",
-          "findx \"dist/{*,*/*}.less\" \"lessc {{path}} {{dir}}/{{name}}.css\"",
-          "nodetouch \"dist/.less.done\""
+          "job-ripper \"src/**/*.less\" -w worker/less.mjs -c 2"
         ],
-        "cwd": "packages/ui-playground",
-        "parallel": false
+        "cwd": "packages/ui-playground"
       },
       "cache": true,
       "inputs": [
@@ -83,8 +78,7 @@
       ],
       "outputs": [
         "{projectRoot}/dist/**/*.css",
-        "{projectRoot}/dist/**/*.less",
-        "{projectRoot}/dist/.less.done"
+        "{projectRoot}/dist/**/*.less"
       ]
     },
     "watch:less": {
@@ -105,13 +99,12 @@
         "parallel": false,
         "cwd": "packages/ui-playground"
       },
-      "cache": true,
+      "cache": false,
       "inputs": [
         "{projectRoot}/src/**/*.md"
       ],
       "outputs": [
-        "{projectRoot}/dist/**/*.md",
-        "{projectRoot}/dist/.docs.done"
+        "{projectRoot}/dist/**/*.md"
       ]
     },
     "watch:docs": {

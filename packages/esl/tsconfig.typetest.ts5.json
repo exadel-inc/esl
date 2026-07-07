@@ -1,0 +1,7 @@
+{
+  "extends": "./tsconfig.typetest.json",
+  "compilerOptions": {
+    "ignoreDeprecations": "5.0"
+  }
+}
+

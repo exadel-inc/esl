@@ -76,7 +76,11 @@ Note: a single value attributes will be considered as all-rule so they spreads a
  - `container-empty-class` - defines the class to be added to the container when the carousel is empty. Default is empty.
  - `container-incomplete-class` - defines the class to be added to the container when the carousel is incomplete (the count of actual slides is less then count of displayed slides according to config). Default is empty.
 
- - `no-inert` - 'fine-tunning' attribute to disable inert attribute on invisible slides. Default: `false`.
+ - `focus-policy` - defines how carousel slides participate in focus flow. Default: `active`.
+   - `active` - inactive slides are marked as inert.
+   - `none` - disables inert management for inactive slides. Use this to opt out of inert handling.
+   - `reveal` - disables inert management and reveals an inactive slide when focus enters it.
+ - `no-inert` - legacy alias for `focus-policy="none"` when `focus-policy` is not explicitly defined. Prefer `focus-policy="none"` / `focus-policy="reveal"` in new configurations.
 
 #### State Attributes (read-only)
  
@@ -322,12 +326,13 @@ The most of plugins are mixins that can be applied to the ESLCarousel element (e
 Here is a list of available plugins:
 
 - #### Navigation Controls
-  - 🔗[`esl-carousel-nav`](./plugin/nav/README.md) - custom attribute mixin to add to navigation elements of the carousel
-  - 🔗[`esl-carousel-dots`](./plugin/dots/README.md) - custom element to add dots navigation to the carousel
+  - [`esl-carousel-nav`](./plugin/nav/README.md) - custom attribute mixin to add to navigation elements of the carousel
+  - [`esl-carousel-dots`](./plugin/dots/README.md) - custom element to add dots navigation to the carousel
+  - [`esl-carousel-autoplay-control`](./plugin/autoplay/README.md#autoplay-control-mixin) - custom attribute mixin to add autoplay toggle control to any element
 - #### Navigation Plugins
-  - 🔗[`esl-carousel-touch`](./plugin/touch/README.md) - custom attribute-plugin to add touch/swipe navigation support to the carousel
-  - 🔗[`esl-carousel-keyboard`](./plugin/keyboard/README.md) - custom attribute-plugin to add keyboard navigation support to the carousel
-  - 🔗[`esl-carousel-wheel`](./plugin/wheel/README.md) - custom attribute-plugin to add mouse wheel navigation support to the carousel
+  - [`esl-carousel-touch`](./plugin/touch/README.md) - custom attribute-plugin to add touch/swipe navigation support to the carousel
+  - [`esl-carousel-keyboard`](./plugin/keyboard/README.md) - custom attribute-plugin to add keyboard navigation support to the carousel
+  - [`esl-carousel-wheel`](./plugin/wheel/README.md) - custom attribute-plugin to add mouse wheel navigation support to the carousel
 - #### Misc Plugin
-  - 🔗[`esl-carousel-autoplay`](./plugin/autoplay/README.md) - custom attribute-plugin to add autoplay functionality to the carousel
-  - 🔗[`esl-carousel-relate-to`](./plugin/relation/README.md) - custom attribute-plugin to relate the carousel to another carousel
+  - [`esl-carousel-autoplay`](./plugin/autoplay/README.md) - custom attribute-plugin to add autoplay functionality to the carousel
+  - [`esl-carousel-relate-to`](./plugin/relation/README.md) - custom attribute-plugin to relate the carousel to another carousel

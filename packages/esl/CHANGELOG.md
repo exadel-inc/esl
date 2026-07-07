@@ -1,3 +1,56 @@
+## 6.2.0 (2026-06-23)
+
+### 🚀 Features
+
+- ootb AI skills for @exadel/esl core module ([dea17163e](https://github.com/exadel-inc/esl/commit/dea17163e))
+- major TS6 compatibility ([9b505cc27](https://github.com/exadel-inc/esl/commit/9b505cc27))
+- **esl-carousel:** add ability to exclude elements from effective interaction scope (leaving observation scope the same) ([548a88c01](https://github.com/exadel-inc/esl/commit/548a88c01))
+- **esl-carousel:** rework and simplify autoplay plugin API - separate contol mixin + (optional) lightweight state mixin ([53337c6ac](https://github.com/exadel-inc/esl/commit/53337c6ac))
+- **esl-match-height:** introduce `ESLMatchHeightMixin` ([60229a142](https://github.com/exadel-inc/esl/commit/60229a142))
+- **esl-carousel:** update `esl-carousel-autoplay` plugin API to fully support pause behaviour ([9b07b0a99](https://github.com/exadel-inc/esl/commit/9b07b0a99))
+
+### 🩹 Fixes
+
+- **esl-carousel:** re-check autoplay blockers from global events ([72197e025](https://github.com/exadel-inc/esl/commit/72197e025))
+- **esl-utils:** `parseNumber` handles empty space string " "incorrectly ([632b8cf50](https://github.com/exadel-inc/esl/commit/632b8cf50))
+
+### 💅 Refactors
+
+- **esl-utils:** fix `MediaQueryNegation` incompatibility with TS6 ([ab265b24b](https://github.com/exadel-inc/esl/commit/ab265b24b))
+- **esl-utils:** make `@decorate` utility compatible with ts6 ([ebe94bd4c](https://github.com/exadel-inc/esl/commit/ebe94bd4c))
+- **esl-utils:** make `uid` utility compatible with ts6 ([e498ef5fe](https://github.com/exadel-inc/esl/commit/e498ef5fe))
+- **esl-utils:** update promisifyTimeout type to more accurate one ([1142a8310](https://github.com/exadel-inc/esl/commit/1142a8310))
+- **esl-media:** fix YT type import to be compatible with TS6 ([acfe43240](https://github.com/exadel-inc/esl/commit/acfe43240))
+- **esl-carousel:** deduplicate autoplay events, update subscriptions strategy ([9fbadc614](https://github.com/exadel-inc/esl/commit/9fbadc614))
+- **esl-carousel:** slight update API to use simplified state markers ([1a2440b00](https://github.com/exadel-inc/esl/commit/1a2440b00))
+
+### Documentation updates
+
+- **esl-carousel:** cleanup autoplay documentation ([4f57b45ec](https://github.com/exadel-inc/esl/commit/4f57b45ec))
+- **esl-match-height:** `ESLMatchHeightMixin` documentation and example ([9df5acef5](https://github.com/exadel-inc/esl/commit/9df5acef5))
+
+## 6.1.0 (2026-05-13)
+
+### 🚀 Features
+
+- **eslint-config:** introduce `no-implicit-this` rule for a strict set of eslint-config-esl ([a9570137f](https://github.com/exadel-inc/esl/commit/a9570137f))
+- **esl-utils:** rework and extend ESL build-in `sanitize` utility ([dfaf8606d](https://github.com/exadel-inc/esl/commit/dfaf8606d))
+- **esl-carousel:** replace `no-inert` hard hook with a proper functional focus-policy feature ([a4035e1d0](https://github.com/exadel-inc/esl/commit/a4035e1d0))
+- **esl-utils:** rework `sanitize` API to allow passing DOM Element ([60f1db5a0](https://github.com/exadel-inc/esl/commit/60f1db5a0))
+
+### 🩹 Fixes
+
+- **esl-carousel:** fix JSX shape to allow children ([25b0e9067](https://github.com/exadel-inc/esl/commit/25b0e9067))
+- **esl-utils:** fix unexpected parse logic for `none` time values ([a747474b3](https://github.com/exadel-inc/esl/commit/a747474b3))
+- align core function typings with strictFunctionTypes ([46ff2285b](https://github.com/exadel-inc/esl/commit/46ff2285b))
+- support strictFunctionTypes in listen typings ([0b0669b25](https://github.com/exadel-inc/esl/commit/0b0669b25))
+
+### 💅 Refactors
+
+- **esl-utils:** update @attr decorator parser type to support safe and nullable overloads ([44f255856](https://github.com/exadel-inc/esl/commit/44f255856))
+- **esl-utils:** merge ExtractEventType into ESLEventType ([125fe3495](https://github.com/exadel-inc/esl/commit/125fe3495))
+- **esl-utils:** simplify ExtractEventType by removing redundant Extract and collapsing identical fallback branches ([803cb0507](https://github.com/exadel-inc/esl/commit/803cb0507))
+
 # 6.0.0 (2026-04-28)
 
 ### 🚀 Features

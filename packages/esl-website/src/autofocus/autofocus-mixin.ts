@@ -8,7 +8,7 @@ export class ESLDemoAutofocus extends ESLMixinElement {
 
   public override $host: ESLToggleable;
 
-  @attr({name: ESLDemoAutofocus.is}) public target: string;
+  @attr({name: ESLDemoAutofocus.is}) public declare target: string;
 
   @memoize()
   get $focusable(): HTMLElement | undefined {

@@ -14,8 +14,6 @@ describe('misc/format - time formatters test', () => {
       ['.124s', 124],
       // Negative integer
       ['-456ms', -456],
-      // Exclusion
-      ['none', 0],
       // Case insensitive
       ['14mS', 14],
       ['14S', 14000],
@@ -69,6 +67,7 @@ describe('misc/format - time formatters test', () => {
       ' ms ',
       '350.n',
       'abc',
+      'none',
       '-',
       'a',
       '3.5ms',
@@ -166,6 +165,7 @@ describe('misc/format - time formatters test', () => {
 
     test.each([
       [null],
+      ['none'],
       ['m3s'],
       ['3s5m'],
       [''],

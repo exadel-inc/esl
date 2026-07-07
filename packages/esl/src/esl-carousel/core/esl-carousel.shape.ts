@@ -1,5 +1,6 @@
 import type {ESLBaseElementShape} from '../../esl-base-element/core/esl-base-element.shape';
 import type {ESLCarousel} from './esl-carousel';
+import type {ESLCarouselFocusPolicy} from './esl-carousel.types';
 
 /**
  * Tag declaration interface of {@link ESLCarousel} element
@@ -17,6 +18,9 @@ export interface ESLCarouselTagShape extends ESLBaseElementShape<ESLCarousel> {
   /** Orientation of the carousel (`horizontal` by default). Supports {@link ESLMediaRuleList} syntax */
   vertical?: string | boolean;
 
+  /** Defines how carousel slides participate in focus flow (`active` by default) */
+  'focus-policy'?: ESLCarouselFocusPolicy;
+
   /** Duration of the single slide transition */
   'step-duration'?: string;
 
@@ -29,6 +33,9 @@ export interface ESLCarouselTagShape extends ESLBaseElementShape<ESLCarousel> {
 
   /** Plugins attributes */
   [key: `esl-carousel-${string}`]: string;
+
+  /** Allowed children */
+  children?: any;
 }
 
 /** @deprecated alias for {@link ESLCarouselTagShape} */

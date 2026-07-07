@@ -29,7 +29,7 @@ export class ESLRelatedTarget extends ESLMixinElement {
     if (!selector) return [];
     const targets = this.$$findAll(selector);
     return targets.filter(
-      (target: HTMLElement): target is ESLToggleable => target instanceof ESLToggleable && target !== this.$host
+      (target: Element): target is ESLToggleable => target instanceof ESLToggleable && target !== this.$host
     );
   }
 

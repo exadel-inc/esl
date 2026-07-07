@@ -10,6 +10,15 @@ const realClearTimeout = globalThis.clearTimeout;
 const realSetInterval = globalThis.setInterval;
 const realClearInterval = globalThis.clearInterval;
 
+function resetTimerMocks(): void {
+  timeouts.forEach((timeout) => realClearTimeout(timeout));
+  timeouts.clear();
+  intervals.forEach((interval) => realClearInterval(interval));
+  intervals.clear();
+
+  nextId = 1;
+}
+
 function setTimeoutMock(callback: TimerHandler, delay?: number, ...args: any[]): number {
   const id = nextId++;
   const timeout = realSetTimeout(() => {
@@ -28,7 +37,7 @@ function setTimeoutMock(callback: TimerHandler, delay?: number, ...args: any[]):
 }
 
 function clearTimeoutMock(id?: number): void {
-  if (!id) return;
+  if (id === undefined) return;
   const timeout = timeouts.get(id);
   if (!timeout) return;
   realClearTimeout(timeout);
@@ -51,15 +60,18 @@ function setIntervalMock(callback: TimerHandler, delay?: number, ...args: any[])
 }
 
 function clearIntervalMock(id?: number): void {
-  if (!id) return;
+  if (id === undefined) return;
   const interval = intervals.get(id);
   if (!interval) return;
   realClearInterval(interval);
   intervals.delete(id);
 }
 
-vi.spyOn(globalThis, 'setTimeout').mockImplementation(setTimeoutMock as unknown as typeof window.setTimeout);
+vi.spyOn(globalThis, 'setTimeout').mockImplementation(setTimeoutMock);
 vi.spyOn(globalThis, 'clearTimeout').mockImplementation(clearTimeoutMock);
 
-vi.spyOn(globalThis, 'setInterval').mockImplementation(setIntervalMock as unknown as typeof window.setInterval);
+vi.spyOn(globalThis, 'setInterval').mockImplementation(setIntervalMock);
 vi.spyOn(globalThis, 'clearInterval').mockImplementation(clearIntervalMock);
+
+afterEach(resetTimerMocks);
+afterAll(resetTimerMocks);

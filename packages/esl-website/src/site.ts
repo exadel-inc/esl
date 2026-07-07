@@ -40,12 +40,14 @@ import {
   ESLCarouselKeyboardMixin,
   ESLCarouselRelateToMixin,
   ESLCarouselAutoplayMixin,
+  ESLCarouselAutoplayControlMixin,
   ESLCarouselAutoplayProgressMixin,
   ESLCarouselClassBehaviourMixin,
   ESLLazyTemplate,
   ESLLineClamp,
   ESLLineClampToggler,
-  ESLLineClampAlt
+  ESLLineClampAlt,
+  ESLMatchHeightMixin
 } from '@exadel/esl/modules/all';
 
 import {ESLRandomText} from '@exadel/esl/modules/esl-random-text/core';
@@ -98,6 +100,8 @@ ESLMedia.register();
 
 ESLMediaControlMixin.register();
 
+ESLMatchHeightMixin.register();
+
 ESLToggleableDispatcher.init();
 ESLToggleable.register();
 ESLPopup.register();
@@ -136,6 +140,7 @@ ESLCarouselTouchMixin.register();
 ESLCarouselKeyboardMixin.register();
 ESLCarouselRelateToMixin.register();
 ESLCarouselAutoplayMixin.register();
+ESLCarouselAutoplayControlMixin.register();
 ESLCarouselAutoplayProgressMixin.register();
 ESLCarouselWheelMixin.register();
 ESLCarouselClassBehaviourMixin.register();

@@ -7,14 +7,12 @@ const TIME_UNITS = [MS_IN_H, MS_IN_M, MS_IN_S, 1] as const;
 /**
  * Parses time string
  * Less strict than CSS spec, allows empty string, numbers without units, ending dot, hours, minutes etc.
- * Note: literal `none` is treated as `0`.
  * @example
- * `.3s`, `4.5s`, `1000ms`, `700`, `1h20m30s`, `2h`, `5m`, `25m1s`, `2h10s`, `none`
+ * `.3s`, `4.5s`, `1000ms`, `700`, `1h20m30s`, `2h`, `5m`, `25m1s`, `2h10s`
  * @returns number - time in milliseconds
  */
 export function parseTime(timeStr: number | string): number {
   const str = String(timeStr).trim().toLowerCase();
-  if (str === 'none') return 0;
   const ms = +str;
   if (!isNaN(ms)) return ms; // Empty string treated as 0, numbers without units treated as milliseconds
 

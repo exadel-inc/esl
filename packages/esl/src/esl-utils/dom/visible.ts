@@ -16,8 +16,8 @@ export interface VisibilityOptions {
 /** @returns if the exact passed Element hidden with CSS visibility */
 const isHiddenPredicate = (el: Element): boolean => isElement(el) && getComputedStyle(el).visibility === 'hidden';
 
-/** @returns if the exact passed Element is transparent (CSS opacity is 0) */
-const isTransparentPredicate = (el: Element): boolean => isElement(el) && getComputedStyle(el).opacity === '0';
+/** @returns if the exact passed Node is an Element with CSS opacity set to 0 */
+const isTransparentPredicate = (node: Node): boolean => isElement(node) && getComputedStyle(node).opacity === '0';
 
 /**
  * Checks if the specified element is visible
