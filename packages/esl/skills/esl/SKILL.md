@@ -2,7 +2,7 @@
 name: esl
 description: Use when writing, reviewing, or refactoring consumer code that uses @exadel/esl / Exadel Smart Library. Covers ESLBaseElement, ESLMixinElement, decorators, host model, public module imports, event listeners, traversing queries, media rules, and idiomatic ESL web component patterns.
 package: '@exadel/esl'
-packageVersion: '6.2.0'
+packageVersion: '6.3.0-beta.0'
 ---
 # ESL Consumer Code
 You are generating or reviewing consumer code that uses `@exadel/esl`.

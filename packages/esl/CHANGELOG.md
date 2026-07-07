@@ -1,3 +1,17 @@
+## 6.3.0-beta.0 (2026-07-07)
+
+### 🚀 Features
+
+- **esl-animate:** add media query based condition to disable animation ([bac74ba71](https://github.com/exadel-inc/esl/commit/bac74ba71))
+
+### 💅 Refactors
+
+- **esl-animate:** simplify observe logic at the start ([f19d133b8](https://github.com/exadel-inc/esl/commit/f19d133b8))
+
+### Documentation updates
+
+- **esl-animate:** revisit documentation text ([32d3afa08](https://github.com/exadel-inc/esl/commit/32d3afa08))
+
 ## 6.2.0 (2026-06-23)
 
 ### 🚀 Features
