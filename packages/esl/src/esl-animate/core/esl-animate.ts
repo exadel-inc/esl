@@ -2,7 +2,7 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ready, memoize, attr, boolAttr} from '../../esl-utils/decorators';
 import {parseNumber} from '../../esl-utils/misc/format';
 import {ESLBaseElement} from '../../esl-base-element/core';
-import {ESLMediaQuery} from '../../esl-media-query/core/esl-media-query';
+import {ESLMediaQuery} from '../../esl-media-query/core';
 
 import {ESLAnimateService} from './esl-animate-service';
 

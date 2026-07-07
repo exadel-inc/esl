@@ -2,7 +2,6 @@ import {wrap} from '../../esl-utils/misc/array';
 import {debounce} from '../../esl-utils/async/debounce';
 import {memoize, bind} from '../../esl-utils/decorators';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {sequentialUID} from '../../esl-utils/misc/uid';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ESLMediaQuery} from '../../esl-media-query/core';
 import {ESLEventUtils} from '../../esl-event-listener/core';
@@ -54,8 +53,6 @@ interface ESLAnimateConfigInner extends ESLAnimateConfig {
   disableOn: string;
   disableCls: string;
 
-  /** (private) unique identifier of animation target */
-  _uid: string;
   /** (private) animation target observed by service */
   _isObserved?: boolean;
   /** (private) animation requested */
@@ -69,7 +66,7 @@ interface ESLAnimateConfigInner extends ESLAnimateConfig {
 export class ESLAnimateService {
 
   /** ESLAnimateService default animation configuration */
-  protected static DEFAULT_CONFIG: Omit<ESLAnimateConfigInner, '_uid'> = {
+  protected static DEFAULT_CONFIG: ESLAnimateConfigInner = {
     cls: 'in',
     groupDelay: 100,
     ratio: 0.4,
@@ -105,9 +102,14 @@ export class ESLAnimateService {
 
   protected _io = new IntersectionObserver(this.onIntersect, ESLAnimateService.OPTIONS_OBSERVER);
   protected _entries: Set<Element> = new Set();
-  protected _configMap = new Map<Element, ESLAnimateConfigInner>();
+  protected _configMap = new WeakMap<Element, ESLAnimateConfigInner>();
 
   protected deferredOnAnimate = debounce(() => this.onAnimate(), 100);
+
+  /** @returns if service observing target */
+  public isObserved(target: Element): boolean {
+    return !!this._configMap.get(target)?._isObserved;
+  }
 
   /**
    * Registers animation settings for the target element and starts observation.
@@ -116,13 +118,14 @@ export class ESLAnimateService {
    */
   public observe(item: Element, config: ESLAnimateConfig = {}): void {
     this.unobserve(item);
-    const id = sequentialUID('esl-animate-item');
-    const cfg = Object.assign({_uid: id}, ESLAnimateService.DEFAULT_CONFIG, config);
+
+    const cfg = Object.assign({}, ESLAnimateService.DEFAULT_CONFIG, config);
     const mediaQuery = ESLMediaQuery.for(cfg.disableOn);
     cfg._isObserved = !mediaQuery.matches;
     this._configMap.set(item, cfg);
-    ESLEventUtils.subscribe(this, {event: 'change', target: mediaQuery, group: id}, () => this.onDisableConditionChanged(item));
+
     this.onDisableConditionChanged(item);
+    ESLEventUtils.subscribe(cfg, {event: 'change', target: mediaQuery}, () => this.onDisableConditionChanged(item));
   }
 
   /**
@@ -132,7 +135,7 @@ export class ESLAnimateService {
   public unobserve(item: Element): void {
     const config = this._configMap.get(item);
     if (!config) return;
-    ESLEventUtils.unsubscribe(this, {group: config._uid});
+    ESLEventUtils.unsubscribe(config);
     this._unobserve(item);
     this._configMap.delete(item);
   }
@@ -146,7 +149,11 @@ export class ESLAnimateService {
     if (!config) return;
     const isDisabled = ESLMediaQuery.for(config.disableOn).matches;
     CSSClassUtils.toggle(target, config.disableCls, isDisabled);
-    config.force && CSSClassUtils.toggle(target, config.cls, isDisabled);
+    if (isDisabled) {
+      CSSClassUtils.add(target, config.cls);
+    } else if (config.force) {
+      CSSClassUtils.remove(target, config.cls);
+    }
     isDisabled ? this._unobserve(target) : this._observe(target);
   }
 
@@ -165,12 +172,10 @@ export class ESLAnimateService {
     const config = this._configMap.get(el);
     if (!config) return;
     config._isObserved = false;
+    config._timeout && window.clearTimeout(config._timeout);
+    config._timeout = undefined;
     this._io.unobserve(el);
-  }
-
-  /** @returns if service observing target */
-  public isObserved(target: Element): boolean {
-    return !!this._configMap.get(target)?._isObserved;
+    this._entries.delete(el);
   }
 
   /** Intersection observable callback */
