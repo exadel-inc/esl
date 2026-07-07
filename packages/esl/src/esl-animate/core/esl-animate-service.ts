@@ -2,6 +2,7 @@ import {wrap} from '../../esl-utils/misc/array';
 import {debounce} from '../../esl-utils/async/debounce';
 import {memoize, bind} from '../../esl-utils/decorators';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
+import {sequentialUID} from '../../esl-utils/misc/uid';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ESLMediaQuery} from '../../esl-media-query/core';
 import {ESLEventUtils} from '../../esl-event-listener/core';
@@ -53,6 +54,9 @@ interface ESLAnimateConfigInner extends ESLAnimateConfig {
   disableOn: string;
   disableCls: string;
 
+  /** (private) unique identifier of animation target */
+  _uid: string;
+  /** (private) animation target observed by service */
   _isObserved?: boolean;
   /** (private) animation requested */
   _timeout?: number;
@@ -65,7 +69,7 @@ interface ESLAnimateConfigInner extends ESLAnimateConfig {
 export class ESLAnimateService {
 
   /** ESLAnimateService default animation configuration */
-  protected static DEFAULT_CONFIG: ESLAnimateConfigInner = {
+  protected static DEFAULT_CONFIG: Omit<ESLAnimateConfigInner, '_uid'> = {
     cls: 'in',
     groupDelay: 100,
     ratio: 0.4,
@@ -111,11 +115,12 @@ export class ESLAnimateService {
    * @param config - animation options for the target
    */
   protected handleObserve(item: Element, config: ESLAnimateConfig = {}): void {
-    const cfg = Object.assign({}, ESLAnimateService.DEFAULT_CONFIG, config);
+    const id = sequentialUID('esl-animate-item');
+    const cfg = Object.assign({_uid: id}, ESLAnimateService.DEFAULT_CONFIG, config);
     const mediaQuery = ESLMediaQuery.for(cfg.disableOn);
-    const isObserved = !mediaQuery.matches;
-    this._configMap.set(item, {...cfg, _isObserved: isObserved});
-    ESLEventUtils.subscribe(this, {event: 'change', target: mediaQuery}, () => this.onDisableConditionChanged(item));
+    cfg._isObserved = !mediaQuery.matches;
+    this._configMap.set(item, cfg);
+    ESLEventUtils.subscribe(this, {event: 'change', target: mediaQuery, group: id}, () => this.onDisableConditionChanged(item));
     this.onDisableConditionChanged(item);
   }
 
@@ -126,8 +131,7 @@ export class ESLAnimateService {
   protected handleUnobserve(item: Element): void {
     const config = this._configMap.get(item);
     if (!config) return;
-    const mediaQuery = ESLMediaQuery.for(config.disableOn);
-    ESLEventUtils.unsubscribe(this, {event: 'change', target: mediaQuery}, () => this.onDisableConditionChanged(item));
+    ESLEventUtils.unsubscribe(this, {group: config._uid});
     this.unobserve(item);
     this._configMap.delete(item);
   }

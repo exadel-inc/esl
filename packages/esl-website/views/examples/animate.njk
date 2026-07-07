@@ -29,7 +29,7 @@ aside:
               uip-snippet
               uip-snippet-js="js-snippet-animate-element">
         <ul class="round simple-grid">
-          <esl-animate target="::parent::child(li)" group repeat disable-on="@+lg"></esl-animate>
+          <esl-animate target="::parent::child(li)" group repeat></esl-animate>
           {% for i in range(0, 20) -%}
           <li class="simple-grid-cell bg-blue round {{ 'hide-xs' if i >= 12 }} esl-animate-fade"></li>
           {% endfor %}
@@ -47,7 +47,7 @@ aside:
         <ul class="round simple-grid">
           {% for i in range(0, 20) -%}
             <li class="simple-grid-cell re-1 bg-orange round {{ 'hide-xs' if i >= 12 }} esl-animate-fade"
-                esl-animate="{group: true, groupDelay: 50, disableOn: '@+sm'}"></li>
+                esl-animate="{group: true, groupDelay: 50}"></li>
           {% endfor %}
         </ul>
       </script>
@@ -60,6 +60,22 @@ aside:
           {% for i in range(0, 5) -%}
             <li class="simple-grid-cell bg-blue round esl-animate-fade"
                 esl-animate="{repeat: true, ratio: 1}"></li>
+          {% endfor %}
+        </ul>
+      </script>
+
+      <script type="text/html"
+              label="Animation disabled by media condition"
+              uip-snippet
+              uip-snippet-js="js-snippet-animate-mixin">
+        <button class="btn btn-sec-orange"
+                onclick="[...document.querySelectorAll('[esl-animate].re-1')].forEach((el) => ESL.AnimateMixin.get(el).reanimate())">
+          Re-animate
+        </button>
+        <ul class="round simple-grid">
+          {% for i in range(0, 20) -%}
+            <li class="simple-grid-cell re-1 bg-orange round {{ 'hide-xs' if i >= 12 }} esl-animate-fade"
+                esl-animate="{group: true, groupDelay: 50, disableOn: '@-sm'}"></li>
           {% endfor %}
         </ul>
       </script>
