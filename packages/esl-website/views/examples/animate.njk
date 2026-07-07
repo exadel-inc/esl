@@ -64,6 +64,22 @@ aside:
         </ul>
       </script>
 
+      <script type="text/html"
+              label="Animation disabled by media condition"
+              uip-snippet
+              uip-snippet-js="js-snippet-animate-mixin">
+        <button class="btn btn-sec-orange"
+                onclick="[...document.querySelectorAll('[esl-animate].re-1')].forEach((el) => ESL.AnimateMixin.get(el).reanimate())">
+          Re-animate
+        </button>
+        <ul class="round simple-grid">
+          {% for i in range(0, 20) -%}
+            <li class="simple-grid-cell re-1 bg-orange round {{ 'hide-xs' if i >= 12 }} esl-animate-fade"
+                esl-animate="{group: true, groupDelay: 50, disableOn: '@-sm'}"></li>
+          {% endfor %}
+        </ul>
+      </script>
+
       <script id="js-snippet-animate-element" type="text/plain">
         import { ESLAnimate } from '@exadel/esl';
         ESLAnimate.register();
