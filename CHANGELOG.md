@@ -30,6 +30,39 @@
 - **esl-match-height:** `ESLMatchHeightMixin` documentation and example ([9df5acef5](https://github.com/exadel-inc/esl/commit/9df5acef5))
 - **esl-match-height:** update sample to relevant one ([6af4cf7da](https://github.com/exadel-inc/esl/commit/6af4cf7da))
 
+## 6.2.0-beta.1 (2026-06-08)
+
+### 🚀 Features
+
+- **esl-carousel:** add ability to exclude elements from effective interaction scope (leaving observation scope the same) ([548a88c01](https://github.com/exadel-inc/esl/commit/548a88c01))
+- **esl-match-height:** introduce `ESLMatchHeightMixin` ([60229a142](https://github.com/exadel-inc/esl/commit/60229a142))
+
+### Documentation updates
+
+- **esl-match-height:** `ESLMatchHeightMixin` documentation and example ([9df5acef5](https://github.com/exadel-inc/esl/commit/9df5acef5))
+- **esl-match-height:** update sample to relevant one ([6af4cf7da](https://github.com/exadel-inc/esl/commit/6af4cf7da))
+
+## 6.2.0-beta.0 (2026-06-08)
+
+### 🚀 Features
+
+- **esl-carousel:** update `esl-carousel-autoplay` plugin API to fully support pause behaviour ([9b07b0a99](https://github.com/exadel-inc/esl/commit/9b07b0a99))
+- **esl-carousel:** rework and simplify autoplay plugin API - separate contol mixin + (optional) lightweight state mixin ([53337c6ac](https://github.com/exadel-inc/esl/commit/53337c6ac))
+
+### 🩹 Fixes
+
+- **esl-carousel:** re-check autoplay blockers from global events ([72197e025](https://github.com/exadel-inc/esl/commit/72197e025))
+- **esl-utils:** `parseNumber` handles empty space string " "incorrectly ([632b8cf50](https://github.com/exadel-inc/esl/commit/632b8cf50))
+
+### 💅 Refactors
+
+- **esl-carousel:** slight update API to use simplified state markers ([1a2440b00](https://github.com/exadel-inc/esl/commit/1a2440b00))
+- **esl-carousel:** deduplicate autoplay events, update subscriptions strategy ([9fbadc614](https://github.com/exadel-inc/esl/commit/9fbadc614))
+
+### Documentation updates
+
+- **esl-carousel:** cleanup autoplay documentation ([4f57b45ec](https://github.com/exadel-inc/esl/commit/4f57b45ec))
+
 ## 6.1.0 (2026-05-13)
 
 ### 🚀 Features
