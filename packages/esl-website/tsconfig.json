@@ -11,8 +11,8 @@
     "noImplicitOverride": true,
     "esModuleInterop": true,
     "target": "ES6",
-    "module": "ES2022",
-    "moduleResolution": "Node",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "ignoreDeprecations": "6.0",
     "lib": [
       "ES2022",
