@@ -64,6 +64,7 @@
 
     "build:less": {
       "executor": "nx:run-commands",
+      "dependsOn": ["build:css"],
       "options": {
         "commands": [
           "job-ripper \"src/**/*.less\" -w worker/less.mjs -c 2"
@@ -83,7 +84,31 @@
     "watch:less": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "chokidar \"src/**/*.less\" -c \"nx run esl:build:less\"",
+        "command": "chokidar \"src/**/*.{less,css}\" -c \"nx run esl:build:less\"",
+        "cwd": "packages/esl"
+      }
+    },
+
+    "build:css": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "job-ripper \"src/**/*.css\" -w worker/css.mjs -c 2"
+        ],
+        "cwd": "packages/esl"
+      },
+      "cache": true,
+      "inputs": [
+        "{projectRoot}/src/**/*.css"
+      ],
+      "outputs": [
+        "{projectRoot}/modules/**/*.css"
+      ]
+    },
+    "watch:css": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "chokidar \"src/**/*.css\" -c \"nx run esl:build:css\"",
         "cwd": "packages/esl"
       }
     },
@@ -121,12 +146,13 @@
     "lint:stylelint": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "stylelint \"src/**/*.less\"",
+        "command": "stylelint \"src/**/*.{less,css}\"",
         "cwd": "packages/esl"
       },
       "cache": true,
       "inputs": [
         "{projectRoot}/src/**/*.less",
+        "{projectRoot}/src/**/*.css",
         "{projectRoot}/.stylelint.yml"
       ]
     },
