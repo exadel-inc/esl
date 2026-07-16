@@ -1,3 +1,9 @@
+## 6.3.0-beta.1 (2026-07-16)
+
+### 🩹 Fixes
+
+- **esl-utils:** ESLVSizeCSSProxy API updated + html element size observation added to handle scroll changes + proper singleton guard ([d05cd716c](https://github.com/exadel-inc/esl/commit/d05cd716c))
+
 ## 6.3.0-beta.0 (2026-07-07)
 
 ### 🚀 Features
