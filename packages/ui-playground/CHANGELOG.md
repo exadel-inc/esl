@@ -1,3 +1,7 @@
+## 6.3.0-beta.1 (2026-07-16)
+
+This was a version bump only for uip to align it with other projects, there were no code changes.
+
 ## 6.3.0-beta.0 (2026-07-07)
 
 This was a version bump only for uip to align it with other projects, there were no code changes.
