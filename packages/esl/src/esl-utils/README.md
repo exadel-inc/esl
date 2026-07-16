@@ -84,7 +84,7 @@ Even if you use the whole utils module, it is still tiny.
 
 - #### Fixes
 
-    - ##### <a href="./fixes/viewport.ts" target="_blank">ESLVSizeCSSProxy</a> - an utility to produce device normalized CSS properties for 100vw and 100vh.
+    - ##### <a href="./fixes/viewport.ts" target="_blank">ESLVSizeCSSProxy</a> - a small utility that keeps normalized `--100vw` and `--100vh` CSS variables in sync with the visual viewport. It is useful both as a fallback for missing/unreliable `100dvh` and as a scrollbar-aware viewport width source, which may intentionally differ from native `100vw` / `100dvw`. Call `ESLVSizeCSSProxy.init()` to start syncing, `ESLVSizeCSSProxy.update()` to request refresh, and `ESLVSizeCSSProxy.destroy()` to stop syncing. `observe()` / `unobserve()` remain backward-compatible aliases.
 
 - #### Miscellaneous Utils
 
