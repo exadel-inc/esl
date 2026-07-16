@@ -1,0 +1,67 @@
+---
+layout: content
+title: Sticky Box
+seoTitle: Sticky Box component for creating sticky elements that remain visible while scrolling
+name: Sticky Box
+tags: [examples]
+collectionIcon: examples/sticky-box.svg
+aside:
+  min-version: 6.3.0
+  components:
+    - esl-sticky-box
+---
+{% import 'lorem.njk' as lorem %}
+
+{% set imageSrcBase = '/assets/' | url %}
+
+<style>
+  esl-sticky-box .sticky-box-content:before {
+    content: '☝️';
+    margin-inline-end: 0.5rem;
+    font-size: 2rem;
+  }
+  esl-sticky-box {
+    background-color: white;
+    padding-block: 1rem;
+  }
+  esl-sticky-box[stuck] {
+    box-shadow: 1px 2px 5px color-mix(in srgb, #000 40%, transparent);
+  }
+  esl-sticky-box[stuck] .sticky-box-content:before {
+    content: '👉';
+  }
+  esl-sticky-box .sticky-box-content {
+    text-align: center;
+  }
+</style>
+
+<section class="row">
+  <div class="col-12">
+    <uip-root class="uip-theme-esl">
+      <script type="text/html"
+              label="Sticky Box"
+              uip-snippet
+              uip-snippet-js="js-snippet-sticky-box-element">
+        <div class="d-flex">
+          <div>
+            <!-- paragraph 3 -->
+            <esl-sticky-box root="::closest(.esl-scrollable-content)">
+              <div class="sticky-box-content">This is content inside the sticky box.</div>
+            </esl-sticky-box>
+            <!-- paragraph 25 -->
+          </div>
+        </div>
+      </script>
+
+      <script id="js-snippet-sticky-box-element" type="text/plain">
+        import { ESLStickyBox } from '@exadel/esl';
+        ESLStickyBox.register();
+      </script>
+
+      <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
+      <uip-preview style="max-height: 500px"></uip-preview>
+      <uip-editor></uip-editor>
+      <uip-editor source="js" collapsed></uip-editor>
+    </uip-root>
+  </div>
+</section>
