@@ -33,14 +33,14 @@
     "smoothscroll-polyfill": "^0.4.4"
   },
   "devDependencies": {
-    "@rsdoctor/rspack-plugin": "^1.6.0",
-    "@rspack/cli": "^2.1.4",
-    "@rspack/core": "^2.1.4",
+    "@rsdoctor/rspack-plugin": "^1.6.1",
+    "@rspack/cli": "^2.1.5",
+    "@rspack/core": "^2.1.5",
     "@types/prismjs": "^1.26.6",
     "@types/smoothscroll-polyfill": "^0.3.4",
-    "browserslist": "^4.28.6",
+    "browserslist": "^4.28.7",
     "html-minifier-terser": "^7.2.0",
-    "lightningcss": "^1.32.0",
+    "lightningcss": "^1.33.0",
     "ts-checker-rspack-plugin": "^1.5.2"
   }
 }

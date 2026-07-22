@@ -39,7 +39,7 @@
       "options": {
         "commands": [
           "rimraf -g \"modules/**/*.{js,ts}\"",
-          "node ../../node_modules/typescript/bin/tsc --project tsconfig.build.json"
+          "node ../../node_modules/typescript-7/bin/tsc --project tsconfig.build.json"
         ],
         "parallel": false,
         "cwd": "packages/esl"
@@ -57,7 +57,7 @@
     "watch:ts": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "node ../../node_modules/typescript/bin/tsc --project tsconfig.build.json --watch",
+        "command": "node ../../node_modules/typescript-7/bin/tsc --project tsconfig.build.json --watch",
         "cwd": "packages/esl"
       }
     },
@@ -149,7 +149,8 @@
       "options": {
         "commands": [
           "node ../../node_modules/typescript/bin/tsc --project tsconfig.typetest.json",
-          "node ../../node_modules/typescript-5/bin/tsc --project tsconfig.typetest.ts5.json"
+          "node ../../node_modules/typescript-5/bin/tsc --project tsconfig.typetest.ts5.json",
+          "node ../../node_modules/typescript-7/bin/tsc --project tsconfig.typetest.ts7.json"
         ],
         "parallel": true,
         "cwd": "packages/esl"
@@ -161,6 +162,7 @@
         "{projectRoot}/tsconfig.json",
         "{projectRoot}/tsconfig.typetest.json",
         "{projectRoot}/tsconfig.typetest.ts5.json",
+        "{projectRoot}/tsconfig.typetest.ts7.json",
         "{workspaceRoot}/package.json",
         "{workspaceRoot}/package-lock.json"
       ]
