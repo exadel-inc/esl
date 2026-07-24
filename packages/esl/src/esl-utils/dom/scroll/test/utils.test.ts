@@ -250,3 +250,65 @@ describe('Function unlockScroll', () => {
       expect(isScrollLocked(target)).toBe(false);});
   });
 });
+
+describe('Scroll lock/unlock events', () => {
+  const target = document.createElement('div');
+  target.style.overflow = 'auto';
+
+  afterEach(() => unlockScroll(target));
+
+  test('lockScroll should dispatch esl:scroll:lock event', () => {
+    const handler = vi.fn();
+    target.addEventListener('esl:scroll:lock', handler);
+    lockScroll(target);
+    expect(handler).toHaveBeenCalledTimes(1);
+    target.removeEventListener('esl:scroll:lock', handler);
+  });
+
+  test('unlockScroll should dispatch esl:scroll:unlock event', () => {
+    lockScroll(target);
+    const handler = vi.fn();
+    target.addEventListener('esl:scroll:unlock', handler);
+    unlockScroll(target);
+    expect(handler).toHaveBeenCalledTimes(1);
+    target.removeEventListener('esl:scroll:unlock', handler);
+  });
+
+  test('esl:scroll:lock event should not bubble', () => {
+    const handler = vi.fn();
+    document.addEventListener('esl:scroll:lock', handler);
+    lockScroll(target);
+    expect(handler).not.toHaveBeenCalled();
+    document.removeEventListener('esl:scroll:lock', handler);
+  });
+
+  test('esl:scroll:unlock event should not bubble', () => {
+    lockScroll(target);
+    const handler = vi.fn();
+    document.addEventListener('esl:scroll:unlock', handler);
+    unlockScroll(target);
+    expect(handler).not.toHaveBeenCalled();
+    document.removeEventListener('esl:scroll:unlock', handler);
+  });
+
+  test('esl:scroll:lock event should not be cancelable', () => {
+    const handler = vi.fn((e: Event) => e.preventDefault());
+    target.addEventListener('esl:scroll:lock', handler);
+    lockScroll(target);
+    expect(handler).toHaveBeenCalledTimes(1);
+    expect(isScrollLocked(target)).toBe(true);
+    target.removeEventListener('esl:scroll:lock', handler);
+  });
+
+  test('esl:scroll:unlock should not be dispatched if initiator mutex prevents unlock', () => {
+    lockScroll(target, {initiator: 'a'});
+    lockScroll(target, {initiator: 'b'});
+    const handler = vi.fn();
+    target.addEventListener('esl:scroll:unlock', handler);
+    unlockScroll(target, {initiator: 'a'});
+    expect(handler).not.toHaveBeenCalled();
+    expect(isScrollLocked(target)).toBe(true);
+    target.removeEventListener('esl:scroll:unlock', handler);
+    unlockScroll(target, {initiator: 'b'});
+  });
+});

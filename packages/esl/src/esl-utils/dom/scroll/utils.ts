@@ -1,3 +1,4 @@
+import {dispatchCustomEvent} from '../events/misc';
 import {getListScrollParents, getScrollParent} from './parent';
 
 const $html = document.documentElement;
@@ -67,6 +68,7 @@ export function lockScroll(target: Element = $html, options: ScrollLockOptions =
   }
   scrollable.toggleAttribute('esl-scroll-lock-passive', !hasVScroll);
   scrollable.setAttribute('esl-scroll-lock', options.strategy || '');
+  dispatchCustomEvent(scrollable, 'esl:scroll:lock', {bubbles: false, cancelable: false});
   if (options.recursive && scrollable.parentElement) lockScroll(scrollable.parentElement, options);
 }
 
@@ -80,6 +82,7 @@ export function unlockScroll(target: Element = $html, options: ScrollLockOptions
   const scrollable = target === $html ? target : getScrollParent(target);
   scrollable.removeAttribute('esl-scroll-lock-passive');
   scrollable.removeAttribute('esl-scroll-lock');
+  dispatchCustomEvent(scrollable, 'esl:scroll:unlock', {bubbles: false, cancelable: false});
   if (options.recursive && scrollable.parentElement) unlockScroll(scrollable.parentElement, options);
 }
 
