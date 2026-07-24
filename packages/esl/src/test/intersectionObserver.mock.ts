@@ -20,15 +20,17 @@ export class RectMock extends Rect implements DOMRect {
 }
 
 export class IntersectionObserverMock implements IntersectionObserver {
-  public constructor(public callback: IntersectionObserverCallback) {
+  public constructor(public callback: IntersectionObserverCallback, options: IntersectionObserverInit = {}) {
     this._onObserve = this._onObserve.bind(this);
     this.observe = vi.fn(this.observe);
     this.unobserve = vi.fn(this.unobserve);
     this.disconnect = vi.fn(this.disconnect);
+    this.root = options.root ?? null;
+    this.rootMargin = options.rootMargin ?? '';
   }
 
-  public root: Document | Element | null = null;
-  public rootMargin: string = '';
+  public root: Document | Element | null;
+  public rootMargin: string;
 
   public get thresholds(): number[] {
     return [];
@@ -86,8 +88,8 @@ export class IntersectionObserverMock implements IntersectionObserver {
 
   public static mock(): void {
     original = window.IntersectionObserver;
-    window.IntersectionObserver = vi.fn(function (cb) {
-      return (lastMock = new IntersectionObserverMock(cb));
+    window.IntersectionObserver = vi.fn(function (cb, options) {
+      return (lastMock = new IntersectionObserverMock(cb, options));
     }
     );
   }

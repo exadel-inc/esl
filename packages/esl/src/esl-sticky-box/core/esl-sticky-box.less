@@ -1,0 +1,16 @@
+:root {
+  --esl-sticky-box-offset: 0;
+}
+
+esl-sticky-box {
+  position: sticky;
+  display: block;
+  top: var(--esl-sticky-box-offset, 0);
+  z-index: 1;
+}
+
+.esl-sticky-box-sentinel {
+  position: relative;
+  bottom: var(--esl-sticky-box-offset, 0);
+  z-index: -1;
+}
