@@ -1,3 +1,7 @@
+## 6.3.0 (2026-07-24)
+
+This was a version bump only for esl-website-monitoring to align it with other projects, there were no code changes.
+
 ## 6.2.0 (2026-06-23)
 
 ### 🚀 Features

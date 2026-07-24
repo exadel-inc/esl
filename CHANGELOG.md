@@ -1,3 +1,22 @@
+## 6.3.0 (2026-07-24)
+
+### 🚀 Features
+
+- **esl-animate:** add media query based condition to disable animation ([bac74ba71](https://github.com/exadel-inc/esl/commit/bac74ba71))
+- **esl-utils:** dispatch scroll lock/unlock events ([7b90888b6](https://github.com/exadel-inc/esl/commit/7b90888b6))
+
+### 🩹 Fixes
+
+- **esl-utils:** ESLVSizeCSSProxy API updated + html element size observation added to handle scroll changes + proper singleton guard ([d05cd716c](https://github.com/exadel-inc/esl/commit/d05cd716c))
+
+### 💅 Refactors
+
+- **esl-animate:** simplify observe logic at the start ([f19d133b8](https://github.com/exadel-inc/esl/commit/f19d133b8))
+
+### Documentation updates
+
+- **esl-animate:** revisit documentation text ([32d3afa08](https://github.com/exadel-inc/esl/commit/32d3afa08))
+
 ## 6.2.0 (2026-06-23)
 
 ### 🚀 Features
