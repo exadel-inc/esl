@@ -28,21 +28,32 @@ export class ESLVSizeCSSProxy {
   public static init(): void {
     new ESLVSizeCSSProxy().observe();
   }
+
   /** Stops viewport observation for the singleton proxy instance, removes CSS vars and cancels a pending frame. */
   public static destroy(): void {
     new ESLVSizeCSSProxy().unobserve();
   }
-  /** Schedules CSS variables refresh for the singleton proxy instance. */
-  public static update(): void {
-    new ESLVSizeCSSProxy().requestUpdate();
+
+  /**
+   * Requests CSS variables refresh for the singleton proxy instance.
+   *
+   * By default, the refresh is scheduled for the next animation frame and repeated calls for
+   * the same viewport size are coalesced. Pass `true` to update CSS variables immediately.
+   *
+   * This method does not depend on active observation and can be used for manual resync when
+   * the built-in resize flow does not produce the needed update.
+   */
+  public static update(immediate: boolean = false): void {
+    const proxy = new ESLVSizeCSSProxy();
+    immediate ? proxy.update() : proxy.requestUpdate();
   }
 
-  /** Backward-compatible alias for {@link ESLVSizeCSSProxy.init}. */
+  /** @deprecated Backward-compatible alias for {@link ESLVSizeCSSProxy.init}. */
   public static readonly observe = ESLVSizeCSSProxy.init;
-  /** Backward-compatible alias for {@link ESLVSizeCSSProxy.destroy}. */
+  /** @deprecated Backward-compatible alias for {@link ESLVSizeCSSProxy.destroy}. */
   public static readonly unobserve = ESLVSizeCSSProxy.destroy;
 
-  public constructor() {
+  protected constructor() {
     if (window[STORE]) return window[STORE];
     Object.defineProperty(window, STORE, {value: this});
   }
@@ -65,8 +76,8 @@ export class ESLVSizeCSSProxy {
     ESLEventUtils.unsubscribe(this);
   }
 
-  /** Updates custom CSS variables with actual viewport sizes. */
-  protected update(): void {
+  /** Updates custom CSS variables with actual viewport sizes immediately. */
+  public update(): void {
     const $html = document.documentElement;
     $html.style.setProperty(ESLVSizeCSSProxy.vwProp, `${ESLVSizeCSSProxy.viewportWidth}px`);
     $html.style.setProperty(ESLVSizeCSSProxy.vhProp, `${ESLVSizeCSSProxy.viewportHeight}px`);

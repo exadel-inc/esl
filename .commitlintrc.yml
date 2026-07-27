@@ -56,6 +56,7 @@ rules:
       - esl-related-target
       - esl-scrollbar
       - esl-share
+      - esl-sticky-box
       - esl-tab
       - esl-toggleable
       - esl-tooltip

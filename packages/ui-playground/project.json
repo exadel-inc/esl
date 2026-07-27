@@ -39,7 +39,7 @@
       "options": {
         "commands": [
           "rimraf -g \"dist/**/*.{js,ts}\"",
-          "node ../../node_modules/typescript/bin/tsc --project tsconfig.json"
+          "node ../../node_modules/typescript-7/bin/tsc --project tsconfig.json"
         ],
         "parallel": false,
         "cwd": "packages/ui-playground"
@@ -57,7 +57,7 @@
     "watch:ts": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "node ../../node_modules/typescript/bin/tsc --project tsconfig.json --watch",
+        "command": "node ../../node_modules/typescript-7/bin/tsc --project tsconfig.json --watch",
         "cwd": "packages/ui-playground"
       }
     },

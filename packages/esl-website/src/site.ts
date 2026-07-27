@@ -47,7 +47,8 @@ import {
   ESLLineClamp,
   ESLLineClampToggler,
   ESLLineClampAlt,
-  ESLMatchHeightMixin
+  ESLMatchHeightMixin,
+  ESLStickyBoxMixin
 } from '@exadel/esl/modules/all';
 
 import {ESLRandomText} from '@exadel/esl/modules/esl-random-text/core';
@@ -72,7 +73,7 @@ import {ESLDemoNewLabel} from './landing/newsline/newsline';
 import {ESLDemoDistanceToViewportAlert} from './esl-lazy-template-demo/distance-to-viewport-alert';
 import {ESLDemoSkillCopy} from './skills/skill-copy';
 
-if (!CSS.supports('(height: 100dvh) or (width: 100dvw)')) ESLVSizeCSSProxy.observe();
+ESLVSizeCSSProxy.init();
 
 // Register Demo components
 ESLDemoAutofocus.register();
@@ -157,6 +158,8 @@ ESLLineClamp.DEFAULT_MASK = '@xs|@sm|@md|@lg|@xl';
 ESLLineClampToggler.register();
 ESLLineClampAlt.register();
 ESLLineClamp.register();
+
+ESLStickyBoxMixin.register();
 
 // Share component loading
 import(/* webpackChunkName: 'common/esl-share' */'./esl-share/esl-share');
