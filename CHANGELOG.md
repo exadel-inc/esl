@@ -1,3 +1,19 @@
+## 6.3.0-beta.2 (2026-07-27)
+
+### 🚀 Features
+
+- **esl-sticky-box:** introduce component to track sticky state of element with sticky positioning ([46598654b](https://github.com/exadel-inc/esl/commit/46598654b))
+- **esl-utils:** dispatch scroll lock/unlock events ([7b90888b6](https://github.com/exadel-inc/esl/commit/7b90888b6))
+
+### 💅 Refactors
+
+- **esl-sticky-box:** convert ESLStickyBox to ESLMixinElement mixin ([2cbf13d82](https://github.com/exadel-inc/esl/commit/2cbf13d82))
+
+### Documentation updates
+
+- **esl-sticky-box:** create README ([02f2649b8](https://github.com/exadel-inc/esl/commit/02f2649b8))
+- **esl-sticky-box:** create examples page ([686659360](https://github.com/exadel-inc/esl/commit/686659360))
+
 ## 6.3.0-beta.1 (2026-07-16)
 
 ### 🩹 Fixes
