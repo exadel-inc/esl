@@ -15,6 +15,7 @@ export interface ESLStickyBoxConfig {
    */
   root?: string;
 }
+
 @ExportNs('StickyBox')
 export class ESLStickyBoxMixin extends ESLMixinElement {
   public static override is = 'esl-sticky-box';
@@ -37,6 +38,12 @@ export class ESLStickyBoxMixin extends ESLMixinElement {
   /** Element used as the {@link IntersectionObserver} root to track the sticky state. `null` falls back to the browser viewport */
   protected get $root(): Element | Document | null {
     return (this.config?.root && this.$$find(this.config.root)) || null;
+  }
+
+  /** Resubscribes to the intersection observer when the configuration changes */
+  protected override attributeChangedCallback(name: string): void {
+    if (name !== ESLStickyBoxMixin.is) return;
+    this.$$on(this._onIntersection);
   }
 
   /** Handles intersection events and updates the stuck state accordingly */
