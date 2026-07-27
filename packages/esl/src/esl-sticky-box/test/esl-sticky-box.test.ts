@@ -1,10 +1,10 @@
 import {IntersectionObserverMock} from '../../test/intersectionObserver.mock';
-import {ESLStickyBox} from '../core/esl-sticky-box';
+import {ESLStickyBoxMixin} from '../core/esl-sticky-box';
 
-describe('ESLStickyBox tests', () => {
+describe('ESLStickyBoxMixin tests', () => {
   beforeAll(() => {
     IntersectionObserverMock.mock();
-    ESLStickyBox.register();
+    ESLStickyBoxMixin.register();
   });
   afterAll(() => {
     IntersectionObserverMock.restore();
@@ -14,36 +14,41 @@ describe('ESLStickyBox tests', () => {
     document.body.innerHTML = '';
   });
 
-  const createBox = (root?: string): ESLStickyBox => {
-    const $box = ESLStickyBox.create();
-    if (root) $box.setAttribute('root', root);
-    document.body.appendChild($box);
+  /** Creates a host element with the mixin attribute (optionally with a JSON config) and appends it to the document */
+  const createBox = async (config?: ESLStickyBoxMixin['config'], $parent: Element = document.body): Promise<HTMLElement> => {
+    const $box = document.createElement('div');
+    $box.setAttribute(ESLStickyBoxMixin.is, config ? JSON.stringify(config) : '');
+    $parent.appendChild($box);
+    await Promise.resolve(); // Wait for the mixin to be attached (MutationObserver microtask)
     return $box;
   };
 
-  test('uses browser viewport (null root) by default', () => {
-    createBox();
+  test('mixin instance is attached to the host element with the mixin attribute', async () => {
+    const $box = await createBox();
+    expect(ESLStickyBoxMixin.get($box)).toBeInstanceOf(ESLStickyBoxMixin);
+  });
+
+  test('uses browser viewport (null root) by default', async () => {
+    await createBox();
     expect(IntersectionObserverMock.lastInstance.root).toBeNull();
   });
 
-  test('resolves root element via the `root` attribute (traversing query)', () => {
+  test('resolves root element via the `root` config option (traversing query)', async () => {
     const $container = document.createElement('div');
     $container.className = 'container';
     document.body.appendChild($container);
-    const $box = ESLStickyBox.create();
-    $box.setAttribute('root', '::parent(.container)');
-    $container.appendChild($box);
+    await createBox({root: '::parent(.container)'}, $container);
     expect(IntersectionObserverMock.lastInstance.root).toBe($container);
   });
 
-  test('falls back to the browser viewport if the `root` target can not be resolved', () => {
-    createBox('.non-existing-container');
+  test('falls back to the browser viewport if the `root` target can not be resolved', async () => {
+    await createBox({root: '.non-existing-container'});
     expect(IntersectionObserverMock.lastInstance.root).toBeNull();
   });
 
-  test('updates `stuck` state on intersection change', () => {
-    const $box = createBox();
-    const $sentinel = document.querySelector(`.${ESLStickyBox.is}-sentinel`) as Element;
+  test('updates `stuck` state on intersection change', async () => {
+    const $box = await createBox();
+    const $sentinel = document.querySelector(`.${ESLStickyBoxMixin.is}-sentinel`) as Element;
 
     IntersectionObserverMock.trigger($sentinel, {isIntersecting: false, boundingClientRect: {top: -10} as DOMRect});
     expect($box.hasAttribute('stuck')).toBe(true);
@@ -52,14 +57,12 @@ describe('ESLStickyBox tests', () => {
     expect($box.hasAttribute('stuck')).toBe(false);
   });
 
-  test('updates `stuck` state relative to a custom root container bounds (not just window top)', () => {
+  test('updates `stuck` state relative to a custom root container bounds (not just window top)', async () => {
     const $container = document.createElement('div');
     $container.className = 'container';
     document.body.appendChild($container);
-    const $box = ESLStickyBox.create();
-    $box.setAttribute('root', '::parent(.container)');
-    $container.appendChild($box);
-    const $sentinel = document.querySelector(`.${ESLStickyBox.is}-sentinel`) as Element;
+    const $box = await createBox({root: '::parent(.container)'}, $container);
+    const $sentinel = document.querySelector(`.${ESLStickyBoxMixin.is}-sentinel`) as Element;
     const rootBounds = {top: 100} as DOMRect;
 
     // sentinel top is above the container's top edge (100) but still positive - should be stuck
@@ -69,5 +72,14 @@ describe('ESLStickyBox tests', () => {
     // sentinel top is below the container's top edge - should not be stuck
     IntersectionObserverMock.trigger($sentinel, {isIntersecting: true, boundingClientRect: {top: 110} as DOMRect, rootBounds});
     expect($box.hasAttribute('stuck')).toBe(false);
+  });
+
+  test('mixin is detached and sentinel listener removed when the mixin attribute is removed', async () => {
+    const $box = await createBox();
+    expect(ESLStickyBoxMixin.get($box)).toBeInstanceOf(ESLStickyBoxMixin);
+
+    $box.removeAttribute(ESLStickyBoxMixin.is);
+    await Promise.resolve(); // Wait for the mixin to be detached (MutationObserver microtask)
+    expect(ESLStickyBoxMixin.get($box)).toBe(null);
   });
 });
