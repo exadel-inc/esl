@@ -15,22 +15,22 @@ aside:
 {% set imageSrcBase = '/assets/' | url %}
 
 <style>
-  esl-sticky-box .sticky-box-content:before {
+  [esl-sticky-box] .sticky-box-content:before {
     content: '☝️';
     margin-inline-end: 0.5rem;
     font-size: 2rem;
   }
-  esl-sticky-box {
+  [esl-sticky-box] {
     background-color: white;
     padding-block: 1rem;
   }
-  esl-sticky-box[stuck] {
+  [esl-sticky-box][stuck] {
     box-shadow: 1px 2px 5px color-mix(in srgb, #000 40%, transparent);
   }
-  esl-sticky-box[stuck] .sticky-box-content:before {
+  [esl-sticky-box][stuck] .sticky-box-content:before {
     content: '👉';
   }
-  esl-sticky-box .sticky-box-content {
+  [esl-sticky-box] .sticky-box-content {
     text-align: center;
   }
 </style>
@@ -45,17 +45,17 @@ aside:
         <div class="d-flex">
           <div>
             <!-- paragraph 3 -->
-            <esl-sticky-box root="::closest(.esl-scrollable-content)">
+            <div esl-sticky-box="{root:'::closest(.esl-scrollable-content)'}">
               <div class="sticky-box-content">This is content inside the sticky box.</div>
-            </esl-sticky-box>
+            </div>
             <!-- paragraph 25 -->
           </div>
         </div>
       </script>
 
       <script id="js-snippet-sticky-box-element" type="text/plain">
-        import { ESLStickyBox } from '@exadel/esl';
-        ESLStickyBox.register();
+        import { ESLStickyBoxMixin } from '@exadel/esl';
+        ESLStickyBoxMixin.register();
       </script>
 
       <uip-snippets class="uip-toolbar" dropdown-view="@xs"></uip-snippets>
