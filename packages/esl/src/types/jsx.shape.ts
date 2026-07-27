@@ -14,7 +14,6 @@ import type {ESLPopupTagShape} from '../esl-popup/core';
 import type {ESLRandomTextTagShape} from '../esl-random-text/core';
 import type {ESLScrollbarTagShape} from '../esl-scrollbar/core';
 import type {ESLShareTagShape, ESLShareButtonTagShape, ESLShareListTagShape, ESLSharePopupTagShape} from '../esl-share/core';
-import type {ESLStickyBoxTagShape} from '../esl-sticky-box/core';
 import type {ESLTabTagShape, ESLTabsTagShape} from '../esl-tab/core';
 import type {ESLToggleableTagShape, ESLToggleableDispatcherTagShape} from '../esl-toggleable/core';
 import type {ESLTooltipTagShape} from '../esl-tooltip/core';
@@ -66,8 +65,6 @@ export interface ESLIntrinsicElements {
   'esl-share-list': ESLShareListTagShape;
   /** The {@link ESLSharePopup} tag declaration */
   'esl-share-popup': ESLSharePopupTagShape;
-  /** The {@link ESLStickyBox} tag declaration */
-  'esl-sticky-box': ESLStickyBoxTagShape;
   /** The {@link ESLTab} tag declaration */
   'esl-tab': ESLTabTagShape;
   /** The {@link ESLTabs} tag declaration */
