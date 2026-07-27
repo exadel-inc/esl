@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 60" role="img" aria-label="Sticky box">
+  <title>Sticky box</title>
+
+  <style>
+    .viewport {
+      fill: transparent;
+      stroke: #0082CA;
+      stroke-width: .5;
+    }
+
+    .block {
+      fill: #E6F4FB;
+      stroke: #0082CA;
+      stroke-width: .5;
+    }
+
+    .sticky {
+      fill: #CCE6F4;
+      stroke: #0082CA;
+      stroke-width: 1.5;
+    }
+
+    .scroll-content {
+      animation: sticky-scroll 4s ease-in-out infinite;
+    }
+
+    @keyframes sticky-scroll {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-40px); }
+    }
+  </style>
+
+  <defs>
+    <clipPath id="sticky-box-clip">
+      <rect x="1" y="1" width="88" height="58" rx="5"/>
+    </clipPath>
+  </defs>
+
+  <g clip-path="url(#sticky-box-clip)">
+    <!-- scrolling page blocks -->
+    <g class="scroll-content">
+      <rect class="block" x="10" y="8" width="70" height="8" rx="2"/>
+      <rect class="block" x="10" y="20" width="70" height="10" rx="2"/>
+      <rect class="block" x="10" y="34" width="70" height="8" rx="2"/>
+      <rect class="block" x="10" y="46" width="70" height="10" rx="2"/>
+      <rect class="block" x="10" y="60" width="70" height="8" rx="2"/>
+      <rect class="block" x="10" y="72" width="70" height="10" rx="2"/>
+      <rect class="block" x="10" y="86" width="70" height="8" rx="2"/>
+    </g>
+
+    <!-- sticky second block, drawn above scrolling content -->
+    <rect class="sticky" x="8" y="7" width="74" height="11" rx="2.5"/>
+  </g>
+
+  <!-- viewport frame -->
+  <rect class="viewport" x="1" y="1" width="88" height="58" rx="5"/>
+</svg>

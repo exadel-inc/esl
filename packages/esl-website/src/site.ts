@@ -47,7 +47,8 @@ import {
   ESLLineClamp,
   ESLLineClampToggler,
   ESLLineClampAlt,
-  ESLMatchHeightMixin
+  ESLMatchHeightMixin,
+  ESLStickyBoxMixin
 } from '@exadel/esl/modules/all';
 
 import {ESLRandomText} from '@exadel/esl/modules/esl-random-text/core';
@@ -157,6 +158,8 @@ ESLLineClamp.DEFAULT_MASK = '@xs|@sm|@md|@lg|@xl';
 ESLLineClampToggler.register();
 ESLLineClampAlt.register();
 ESLLineClamp.register();
+
+ESLStickyBoxMixin.register();
 
 // Share component loading
 import(/* webpackChunkName: 'common/esl-share' */'./esl-share/esl-share');

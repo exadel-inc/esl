@@ -70,3 +70,5 @@ export * from './types/jsx.shape';
 export * from './esl-incremental-scroll/core';
 
 export * from './esl-match-height/core';
+
+export * from './esl-sticky-box/core';
