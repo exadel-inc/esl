@@ -13,6 +13,7 @@ import {normalize, toIndex, isCurrent, canNavigate} from './esl-carousel.utils';
 
 import {ESLCarouselSlide} from './esl-carousel.slide';
 import {ESLCarouselChangeEvent} from './esl-carousel.events';
+import {ESLCarouselFocusPolicies} from './esl-carousel.types';
 import {ESLCarouselRendererRegistry} from './esl-carousel.renderer.registry';
 
 import type {ESLCarouselRenderer} from './esl-carousel.renderer';
@@ -139,7 +140,7 @@ export class ESLCarousel extends ESLBaseElement {
   /** @returns normalized focus policy with legacy `no-inert` support */
   public get focusPolicyCurrent(): ESLCarouselFocusPolicy {
     const policy = this.$$attr('focus-policy');
-    if (policy === 'active' || policy === 'none' || policy === 'reveal') return policy;
+    if (policy && ESLCarouselFocusPolicies.includes(policy)) return policy;
     if (policy === null && this.hasAttribute('no-inert')) return 'none';
     return 'active';
   }
@@ -248,7 +249,10 @@ export class ESLCarousel extends ESLBaseElement {
   @listen('focusin')
   protected _onFocusIn(e: FocusEvent): void {
     const target = e.target;
-    if (this.focusPolicyCurrent !== 'reveal' || !(target instanceof Node)) return;
+    if (!(target instanceof Element)) return;
+    const focusPolicy = this.focusPolicyCurrent;
+    if (focusPolicy !== 'reveal' && focusPolicy !== 'reveal-focus-visible') return;
+    if (focusPolicy === 'reveal-focus-visible' && !target.matches(':focus-visible')) return;
     const $slide = this.$slides.find(($s) => $s.contains(target));
     if (!$slide || this.isActive($slide)) return;
     this.goTo($slide, {activator: e}).catch(console.debug);
