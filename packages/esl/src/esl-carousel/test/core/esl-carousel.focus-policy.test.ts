@@ -88,5 +88,31 @@ describe('ESLCarousel: focus policy', () => {
     expect($carousel.activeIndex).toBe(1);
     expect($slides[1].hasAttribute('active')).toBe(true);
   });
+
+  test('reveal-focus-visible policy ignores focusin without focus-visible', async () => {
+    const {$carousel, $slides} = await createCarousel({'focus-policy': 'reveal-focus-visible'});
+    const $button = document.createElement('button');
+    $slides[1].appendChild($button);
+    vi.spyOn($button, 'matches').mockReturnValue(false);
+
+    $button.dispatchEvent(new FocusEvent('focusin', {bubbles: true}));
+    await ticks();
+
+    expect($carousel.activeIndex).toBe(0);
+    expect($slides[1].hasAttribute('active')).toBe(false);
+  });
+
+  test('reveal-focus-visible policy activates an inactive slide on focus-visible', async () => {
+    const {$carousel, $slides} = await createCarousel({'focus-policy': 'reveal-focus-visible'});
+    const $button = document.createElement('button');
+    $slides[1].appendChild($button);
+    vi.spyOn($button, 'matches').mockImplementation((selector) => selector === ':focus-visible');
+
+    $button.dispatchEvent(new FocusEvent('focusin', {bubbles: true}));
+    await ticks();
+
+    expect($carousel.activeIndex).toBe(1);
+    expect($slides[1].hasAttribute('active')).toBe(true);
+  });
 });
 
