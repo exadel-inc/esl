@@ -1,3 +1,9 @@
+## 6.3.0-beta.3 (2026-07-29)
+
+### 🚀 Features
+
+- **esl-carousel:** introduce alternative 'reveal-focus-visible' focus policy behavior ([4185eeb9b](https://github.com/exadel-inc/esl/commit/4185eeb9b))
+
 ## 6.3.0-beta.2 (2026-07-27)
 
 ### 🚀 Features
