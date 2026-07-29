@@ -80,6 +80,7 @@ Note: a single value attributes will be considered as all-rule so they spreads a
    - `active` - inactive slides are marked as inert.
    - `none` - disables inert management for inactive slides. Use this to opt out of inert handling.
    - `reveal` - disables inert management and reveals an inactive slide when focus enters it.
+   - `reveal-focus-visible` - disables inert management and reveals an inactive slide only when a `:focus-visible` element inside it receives focus.
  - `no-inert` - legacy alias for `focus-policy="none"` when `focus-policy` is not explicitly defined. Prefer `focus-policy="none"` / `focus-policy="reveal"` in new configurations.
 
 #### State Attributes (read-only)

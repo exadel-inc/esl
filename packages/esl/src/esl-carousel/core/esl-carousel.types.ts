@@ -8,7 +8,8 @@ export enum ESLCarouselDirection {
 export type ESLCarouselNavIndex = number | `${number}` | `+${number}` | `-${number}` | ESLCarouselDirection;
 
 /** Defines how carousel slides participate in focus flow */
-export type ESLCarouselFocusPolicy = 'active' | 'none' | 'reveal';
+export const ESLCarouselFocusPolicies = Object.freeze(['none', 'active', 'reveal', 'reveal-focus-visible']);
+export type ESLCarouselFocusPolicy = typeof ESLCarouselFocusPolicies[number];
 
 /**
  * Supported navigation syntax:
