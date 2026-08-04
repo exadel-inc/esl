@@ -1,3 +1,9 @@
+## 6.3.0 (2026-08-04)
+
+### 🚀 Features
+
+- **esl-sticky-box:** introduce component to track sticky state of element with sticky positioning ([46598654b](https://github.com/exadel-inc/esl/commit/46598654b))
+
 ## 6.2.0 (2026-06-23)
 
 ### 🚀 Features
