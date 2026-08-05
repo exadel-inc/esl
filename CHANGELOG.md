@@ -1,3 +1,9 @@
+## 6.3.0-beta.4 (2026-08-05)
+
+### 🚀 Features
+
+- **esl-toggleable:** improve ESLTogglable API with explicit auto-focusable target `$focusable` for ESLTogglableManager ([1fafbdf4f](https://github.com/exadel-inc/esl/commit/1fafbdf4f))
+
 ## 6.3.0-beta.3 (2026-07-29)
 
 ### 🚀 Features
