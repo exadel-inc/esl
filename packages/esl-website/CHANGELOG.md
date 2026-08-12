@@ -1,3 +1,31 @@
+## 6.3.0-beta.4 (2026-08-05)
+
+This was a version bump only for esl-website to align it with other projects, there were no code changes.
+
+## 6.3.0-beta.3 (2026-07-29)
+
+This was a version bump only for esl-website to align it with other projects, there were no code changes.
+
+## 6.3.0-beta.2 (2026-07-27)
+
+### 🚀 Features
+
+- **esl-sticky-box:** introduce component to track sticky state of element with sticky positioning ([46598654b](https://github.com/exadel-inc/esl/commit/46598654b))
+
+### Documentation updates
+
+- **esl-sticky-box:** create examples page ([686659360](https://github.com/exadel-inc/esl/commit/686659360))
+
+## 6.3.0-beta.1 (2026-07-16)
+
+This was a version bump only for esl-website to align it with other projects, there were no code changes.
+
+## 6.3.0-beta.0 (2026-07-07)
+
+### 🚀 Features
+
+- **esl-animate:** add media query based condition to disable animation ([bac74ba71](https://github.com/exadel-inc/esl/commit/bac74ba71))
+
 ## 6.2.0 (2026-06-23)
 
 ### 🚀 Features
