@@ -1,3 +1,27 @@
+## 6.3.0 (2026-08-13)
+
+### 🚀 Features
+
+- **esl-toggleable:** improve ESLTogglable API with explicit auto-focusable target `$focusable` for ESLTogglableManager ([1fafbdf4f](https://github.com/exadel-inc/esl/commit/1fafbdf4f))
+- **esl-carousel:** introduce alternative 'reveal-focus-visible' focus policy behavior ([4185eeb9b](https://github.com/exadel-inc/esl/commit/4185eeb9b))
+- **esl-utils:** dispatch scroll lock/unlock events ([7b90888b6](https://github.com/exadel-inc/esl/commit/7b90888b6))
+- **esl-sticky-box:** introduce component to track sticky state of element with sticky positioning ([46598654b](https://github.com/exadel-inc/esl/commit/46598654b))
+- **esl-animate:** add media query based condition to disable animation ([bac74ba71](https://github.com/exadel-inc/esl/commit/bac74ba71))
+
+### 🩹 Fixes
+
+- **esl-utils:** ESLVSizeCSSProxy API updated + html element size observation added to handle scroll changes + proper singleton guard ([d05cd716c](https://github.com/exadel-inc/esl/commit/d05cd716c))
+
+### 💅 Refactors
+
+- **esl-sticky-box:** convert ESLStickyBox to ESLMixinElement mixin ([2cbf13d82](https://github.com/exadel-inc/esl/commit/2cbf13d82))
+- **esl-animate:** simplify observe logic at the start ([f19d133b8](https://github.com/exadel-inc/esl/commit/f19d133b8))
+
+### Documentation updates
+
+- **esl-sticky-box:** create README ([02f2649b8](https://github.com/exadel-inc/esl/commit/02f2649b8))
+- **esl-animate:** revisit documentation text ([32d3afa08](https://github.com/exadel-inc/esl/commit/32d3afa08))
+
 ## 6.3.0-beta.4 (2026-08-05)
 
 ### 🚀 Features
