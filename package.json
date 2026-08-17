@@ -81,5 +81,8 @@
     "typescript-5": "npm:typescript@5.9.3",
     "typescript-7": "npm:typescript@7.0.2",
     "vitest": "^4.1.7"
+  },
+  "allowScripts": {
+    "nx": true
   }
 }
