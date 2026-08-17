@@ -56,14 +56,16 @@
       "types": {
         "chore": {
           "releaseType": "patch",
-          "changelog": false
+          "changelog": {
+            "title": "🔧 Tech updates"
+          }
         },
         "refactor": {
           "releaseType": "patch"
         },
         "docs": {
           "changelog": {
-            "title": "Documentation updates"
+            "title": "📄 Documentation updates"
           }
         }
       }
