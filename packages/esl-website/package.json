@@ -34,8 +34,8 @@
   },
   "devDependencies": {
     "@rsdoctor/rspack-plugin": "^1.6.2",
-    "@rspack/cli": "^2.1.8",
-    "@rspack/core": "^2.1.8",
+    "@rspack/cli": "^2.1.10",
+    "@rspack/core": "^2.1.10",
     "@types/prismjs": "^1.26.6",
     "@types/smoothscroll-polyfill": "^0.3.4",
     "browserslist": "^4.28.8",
