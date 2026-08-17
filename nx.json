@@ -54,10 +54,10 @@
     "conventionalCommits": {
       "useCommitScope": false,
       "types": {
-        "chore": {
+        "build": {
           "releaseType": "patch",
           "changelog": {
-            "title": "🔧 Tech updates"
+            "title": "🔧 Dependencies & tech updates"
           }
         },
         "refactor": {
