@@ -16,7 +16,7 @@
       "executor": "nx:noop",
       "dependsOn": [
         "build:ts",
-        "build:less",
+        "build:css",
         "build:docs"
       ]
     },
@@ -25,7 +25,7 @@
       "options": {
         "commands": [
           {"command": "nx run uip:watch:ts", "prefix": "[UIP watch:ts]"},
-          {"command": "nx run uip:watch:less", "prefix": "[UIP watch:less]"},
+          {"command": "nx run uip:watch:css", "prefix": "[UIP watch:css]"},
           {"command": "nx run uip:watch:docs", "prefix": "[UIP watch:docs]"}
         ],
         "cwd": "packages/ui-playground",
@@ -62,9 +62,9 @@
       }
     },
 
-    "build:less": {
+    "build:css": {
       "executor": "nx:run-commands",
-      "dependsOn": ["^build:less"],
+      "dependsOn": ["^build:css"],
       "options": {
         "commands": [
           "job-ripper \"src/**/*.less\" -w worker/less.mjs -c 2"
@@ -81,10 +81,10 @@
         "{projectRoot}/dist/**/*.less"
       ]
     },
-    "watch:less": {
+    "watch:css": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "chokidar \"src/**/*.less\" -c \"nx run uip:build:less\"",
+        "command": "chokidar \"src/**/*.less\" -c \"nx run uip:build:css\"",
         "cwd": "packages/ui-playground"
       }
     },
