@@ -50,11 +50,14 @@
     "@nx/js": "23.1.1",
     "@nx/vitest": "23.1.1",
     "nx": "23.1.1",
-    "semver": "^7.8.5"
+    "semver": "^7.8.5",
+    "typescript": "6.0.3",
+    "typescript-5": "npm:typescript@5.9.3",
+    "typescript-7": "npm:typescript@7.0.2"
   },
   "devDependencies": {
     "@commitlint/cli": "^21.2.2",
-    "@commitlint/config-conventional": "^21.0.2",
+    "@commitlint/config-conventional": "^21.2.2",
     "@vitest/coverage-v8": "^4.1.10",
     "chokidar-cli": "^3.0.0",
     "cpy-cli": "^7.0.0",
@@ -77,9 +80,6 @@
     "smoothscroll-polyfill": "^0.4.4",
     "stylelint": "^17.14.1",
     "touch": "^3.1.1",
-    "typescript": "6.0.3",
-    "typescript-5": "npm:typescript@5.9.3",
-    "typescript-7": "npm:typescript@7.0.2",
     "vitest": "^4.1.7"
   },
   "allowScripts": {
