@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import sizeOf from 'image-size';
+import {imageMeta} from 'image-meta';
 
 const extractAttrs = (token) => {
   const attrs = token.attrs.reduce((acc, current) => {
@@ -38,7 +38,7 @@ const plugin = (md) => {
 
     try {
       const buffer = fs.readFileSync(src);
-      const {width, height} = sizeOf(buffer);
+      const {width, height} = imageMeta(buffer);
       attrs.width = width;
       attrs.height = height;
     } catch (e) {

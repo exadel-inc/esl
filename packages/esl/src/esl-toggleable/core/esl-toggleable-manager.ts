@@ -62,8 +62,7 @@ export class ESLToggleableManagerDefault implements ESLToggleableManager {
   /** Focuses on the first focusable element of the toggleable, if possible */
   protected grabFocus(element: ESLToggleable, options: FocusOptions = {preventScroll: true}): void {
     if (!element || !element.open) return;
-    const autoFocusable = element.querySelector<HTMLElement>('[autofocus], [data-autofocus]');
-    (autoFocusable || element.$focusables[0] || element).focus(options);
+    element.$focusable.focus(options);
   }
 
   /** Changes focus scope to the specified element. Previous scope saved in the stack. */

@@ -20,7 +20,8 @@ updates:
       - "abarmina"
       - "NastaLeo"
     commit-message:
-      prefix: "chore"
+      prefix: "build"
+      prefix-development: "chore"
       include: "scope"
     groups:
       commit-lint:

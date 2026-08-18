@@ -329,6 +329,13 @@ export class ESLToggleable extends ESLBaseElement {
     return getKeyboardFocusableElements(this) as HTMLElement[];
   }
 
+  /** First focusable element to receive focus */
+  public get $focusable(): HTMLElement {
+    const {$focusables} = this;
+    const autoFocusable = $focusables.find((el) => el.matches('[autofocus], [data-autofocus]'));
+    return autoFocusable || $focusables[0] || this;
+  }
+
   /** Returns the element to apply a11y attributes */
   protected get $a11yTarget(): HTMLElement | null {
     const target = this.getAttribute('a11y-target');

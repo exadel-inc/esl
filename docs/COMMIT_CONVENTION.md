@@ -33,15 +33,14 @@ to be sure that you are following the commit convention.
       to expedite the process of creating a final commit.
 - Do I need to define a type for each commit in my feature?
     - Yes, you will need a type for each commit. But, be careful with the following situations:
-        - **If the feature or bug changes are not released and already described by the first message - 
-          make sure you are using style or refactor change type. Even, if you are fixing your previous commit, 
-          it doesn't matter for project history until changes are not released.**
+        - **If a follow-up does not independently change delivered behavior, use a non-releasing type such as
+          `chore`, `test`, or `style`. Use `refactor` for internal changes that should be included in a patch release.**
         - **Prefer squashing in case the result history does not describe changes enough or does it incorrectly**
 
 ## Commit Message Signature
 
 ```text
-<type> (<scope>): <subject>
+<type>(<scope>): <subject>
 
 <body>
 
@@ -58,24 +57,30 @@ to be sure that you are following the commit convention.
 ### \<type\>
 Type is a required part of the message, and it is limited by the following values:
 
-| \<type\> | Description |
-|:--------:|:----------- |
-| feat     | Add new functionality |
-| fix      | Fix existing functionality |
-| refactor | Code changes that are not add new functionality or fix something |
-| test     | Add or update tests |
-| docs     | Add or update docs |
-| chore    | Development changes related to build system or package dependencies |
-| revert   | Revert functionality |
-| style    | Just code style changes (linting, semicolons, etc) |
-| ci       | Continuous integration and deployment related changes |
-| perf     | Backward-compatible performance improvements |
+| \<type\> | Use for | Release |
+|:--------:|:--------|:--------|
+| `feat` | New functionality | minor |
+| `fix` | Fixing existing functionality | patch |
+| `perf` | Backward-compatible performance improvements | patch |
+| `build` | Runtime/production dependencies and build configuration or toolchain changes | patch |
+| `docs` | Documentation changes | patch |
+| `refactor` | Internal code changes that do not add functionality or fix a defect | patch |
+| `chore` | Development dependencies and repository maintenance | none |
+| `test` | Adding or updating tests | none |
+| `ci` | Continuous integration or deployment configuration | none |
+| `style` | Formatting-only changes, such as linting or semicolons | none |
 
 The type should be in lowercase.
 
-### Force minor version update
+### Release and changelog policy
 
-You can increase the importance of the patch changes to the minor using the `MINOR VERSION` marker in the message.
+`feat` creates a minor release. 
+`fix`, `perf`, `build`, `docs`, and `refactor` create a patch release.
+`chore`, `test`, `ci`, and `style` do not create a release and are not included in the changelog.
+
+Use `build(deps)` for direct production dependency updates. Use `chore(deps-dev)` for direct development dependency
+updates. Dependabot follows the same convention. When squash-merging its pull requests, retain the Conventional
+Commit title so that release and changelog generation classify the update correctly.
 
 ### BREAKING CHANGES
 
@@ -84,7 +89,7 @@ You can increase the importance of the patch changes to the minor using the `MIN
 feat!: Hey I'm breaking something that already exist
 ```
 
-**Identify everything that break or change existing API or behavior with the `BREACKING CHAGES:` list
+**Identify everything that breaks or changes existing API or behavior with the `BREAKING CHANGES:` list**
 ```text
 feat!: Hey I'm breaking something that already exist
 
@@ -114,7 +119,7 @@ fix(esl-utils): fix IE compatibility for scroll type detection
 **Valid Scope Values**
 
 To ensure consistency and clarity in commit messages, refer to
-the [list of permissible scope values](https://github.com/exadel-inc/esl/blob/58095ed129ae6fcc0e1a2e32f099af36c090a176/.commitlintrc.yml).
+the [list of permissible scope values](https://github.com/exadel-inc/esl/blob/HEAD/.commitlintrc.yml).
 
 ---
 
