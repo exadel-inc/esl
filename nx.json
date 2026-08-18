@@ -64,6 +64,7 @@
           "releaseType": "patch"
         },
         "docs": {
+          "releaseType": "patch",
           "changelog": {
             "title": "📄 Documentation updates"
           }

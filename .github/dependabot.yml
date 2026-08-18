@@ -22,7 +22,7 @@ updates:
     commit-message:
       prefix: "build"
       prefix-development: "chore"
-      include: scope
+      include: "scope"
     groups:
       commit-lint:
         patterns:
