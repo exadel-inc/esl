@@ -101,7 +101,7 @@ ESL top-level directory structure is as follows:
               - 📄 *.test.ts - test sources should have `.test` postfix 
           - 📁 core - component/module core source files
           - 📄 core.ts - component/module main file (import core parts)
-          - 📄 core.less - component/module main styles
+          - 📄 core.{less,css} - component/module main styles
           - 📄 core.mixin.less - component/module main styles mixin and references only
       - [📁 esl-utils](../packages/esl/src/esl-utils) - library common utilities module
           - 📁 category - utilities organized in groups

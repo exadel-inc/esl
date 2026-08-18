@@ -17,7 +17,7 @@
       "executor": "nx:noop",
       "dependsOn": [
         "build:ts",
-        "build:less",
+        "build:css",
         "build:docs"
       ]
     },
@@ -26,7 +26,7 @@
       "options": {
         "commands": [
           {"command": "nx run esl:watch:ts", "prefix": "[ESL watch:ts]"},
-          {"command": "nx run esl:watch:less", "prefix": "[ESL watch:less]"},
+          {"command": "nx run esl:watch:css", "prefix": "[ESL watch:css]"},
           {"command": "nx run esl:watch:docs", "prefix": "[ESL watch:docs]"}
         ],
         "cwd": "packages/esl",
@@ -62,13 +62,14 @@
       }
     },
 
-    "build:less": {
+    "build:css": {
       "executor": "nx:run-commands",
-      "dependsOn": ["build:css"],
       "options": {
         "commands": [
-          "job-ripper \"src/**/*.less\" -w worker/less.mjs -c 2"
+          "job-ripper \"src/**/*.less\" -w worker/less.mjs -c 2",
+          "job-ripper \"src/**/*.css\" -w worker/css.mjs -c 2"
         ],
+        "parallel": true,
         "cwd": "packages/esl"
       },
       "cache": true,
@@ -81,34 +82,10 @@
         "{projectRoot}/modules/**/*.less"
       ]
     },
-    "watch:less": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "chokidar \"src/**/*.{less,css}\" -c \"nx run esl:build:less\"",
-        "cwd": "packages/esl"
-      }
-    },
-
-    "build:css": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": [
-          "job-ripper \"src/**/*.css\" -w worker/css.mjs -c 2"
-        ],
-        "cwd": "packages/esl"
-      },
-      "cache": true,
-      "inputs": [
-        "{projectRoot}/src/**/*.css"
-      ],
-      "outputs": [
-        "{projectRoot}/modules/**/*.css"
-      ]
-    },
     "watch:css": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "chokidar \"src/**/*.css\" -c \"nx run esl:build:css\"",
+        "command": "chokidar \"src/**/*.{less,css}\" -c \"nx run esl:build:css\"",
         "cwd": "packages/esl"
       }
     },

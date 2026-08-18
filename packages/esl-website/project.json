@@ -218,7 +218,7 @@
     "lint:stylelint": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "stylelint \"src/**/*.(less|css)\"",
+        "command": "stylelint \"src/**/*.{less,css}\"",
         "cwd": "packages/esl-website"
       },
       "cache": true,
