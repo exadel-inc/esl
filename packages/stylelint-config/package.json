@@ -2,7 +2,7 @@
   "name": "@exadel/stylelint-config-esl",
   "type": "module",
   "private": false,
-  "version": "6.3.0",
+  "version": "6.3.1",
   "keywords": [
     "stylelint",
     "stylelint-config",
