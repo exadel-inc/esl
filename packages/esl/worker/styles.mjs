@@ -19,6 +19,7 @@ const OUT_DIR = path.resolve('modules');
  * @returns {(filePath: string) => Promise<void>}
  */
 export function createStyleWorker({ext, compile, filter, copy}) {
+  const fileRegexp = new RegExp(`\\.${ext}$`);
   return async function (filePath) {
     const absFilePath = path.resolve(filePath);
     const relFilePath = path.relative(SRC_DIR, absFilePath);
@@ -32,6 +33,6 @@ export function createStyleWorker({ext, compile, filter, copy}) {
     const source = await fs.readFile(filePath, 'utf-8');
     const content = await compile(source.toString(), absFilePath);
 
-    await fs.writeFile(destFilePath.replace(new RegExp(`\\.${ext}$`), '.css'), content);
+    await fs.writeFile(destFilePath.replace(fileRegexp, '.css'), content);
   };
 };
