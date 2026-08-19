@@ -2,10 +2,7 @@ import stylelint from 'stylelint';
 
 const {validateOptions, ruleMessages, report} = stylelint.utils;
 
-const trimPath = (path) => path
-  .replace(/^\s*(url\()?['"]?/, '')
-  .replace(/['"]?\)?\s*$/, '')
-  .trim();
+const trimPath = (path) => path.replace(/^\s*(?:\(\w+\))?['"\s]*|['"\s]*$/g, '');
 
 const getMsgBase = (type, opt) => {
   if (typeof opt === 'string') return opt;
