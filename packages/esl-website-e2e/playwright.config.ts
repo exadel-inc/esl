@@ -4,6 +4,7 @@ const isCI = Boolean(process.env.CI);
 const isDebug = Boolean(process.env.E2E_DEBUG);
 const PORT = Number(process.env.PORT ?? 3007);
 const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? `http://127.0.0.1:${PORT}`;
+const webServerCommand = `npx nx run esl-website:run --output-style=stream ${isDebug ? ' --verbose' : ''}`;
 
 export default defineConfig({
   testDir: './tests',
@@ -39,7 +40,7 @@ export default defineConfig({
 
   // Auto-start website for e2e runs (can be reused if already running).
   webServer: {
-    command: 'npx nx run esl-website:run',
+    command: webServerCommand,
     url: baseURL,
     reuseExistingServer: !process.env.CI,
     timeout: 240_000,
