@@ -3,11 +3,11 @@
     --esl-animation-transition: 1.5s ease;
 
     opacity: 0;
+  }
 
-    &.in {
-      opacity: 1;
-      transition: opacity var(--esl-animation-transition);
-    }
+  .esl-animate-fade.in {
+    opacity: 1;
+    transition: opacity var(--esl-animation-transition);
   }
 
   .esl-animate-slide {
@@ -21,36 +21,36 @@
       var(--esl-animation-offset-y),
       0
     );
+  }
 
-    &.in {
-      opacity: 1;
-      transform: translate3d(0, 0, 0);
-      transition:
-        transform var(--esl-animation-transition),
-        opacity var(--esl-animation-transition);
-    }
+  .esl-animate-slide.in {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    transition:
+      transform var(--esl-animation-transition),
+      opacity var(--esl-animation-transition);
+  }
 
-    &:not(.in) {
-      position: relative;
-      top: calc(~'-1 * var(--esl-animation-offset-y)');
-      left: calc(~'-1 * var(--esl-animation-offset-x)');
-    }
+  .esl-animate-slide:not(.in) {
+    position: relative;
+    top: calc(-1 * var(--esl-animation-offset-y));
+    left: calc(-1 * var(--esl-animation-offset-x));
+  }
 
-    &.up {
-      --esl-animation-offset-y: 30px;
-    }
+  .esl-animate-slide.up {
+    --esl-animation-offset-y: 30px;
+  }
 
-    &.down {
-      --esl-animation-offset-y: -30px;
-    }
+  .esl-animate-slide.down {
+    --esl-animation-offset-y: -30px;
+  }
 
-    &.left {
-      --esl-animation-offset-x: 30px;
-    }
+  .esl-animate-slide.left {
+    --esl-animation-offset-x: 30px;
+  }
 
-    &.right {
-      --esl-animation-offset-x: -30px;
-    }
+  .esl-animate-slide.right {
+    --esl-animation-offset-x: -30px;
   }
 
   .esl-animate-inactive {
