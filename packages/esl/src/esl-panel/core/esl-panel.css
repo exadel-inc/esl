@@ -1,0 +1,26 @@
+esl-panel {
+  display: block;
+  height: auto;
+  overflow: hidden;
+
+  visibility: hidden;
+  max-height: 0;
+  transition:
+    max-height var(--esl-panel-animation, 0.5s ease-in-out),
+    visibility 0s var(--esl-panel-animation, 0.5s ease-in-out);
+}
+
+esl-panel.open {
+  visibility: visible;
+  max-height: none;
+  transition:
+    max-height var(--esl-panel-animation, 0.5s ease-in-out),
+    visibility 0s linear;
+}
+
+@media print {
+  esl-panel:not(.print-closed) {
+    visibility: visible;
+    max-height: none;
+  }
+}

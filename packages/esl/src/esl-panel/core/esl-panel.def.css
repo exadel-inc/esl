@@ -1,0 +1,5 @@
+@property --esl-panel-animation {
+  syntax: '<time> <easing-function>';
+  inherits: true;
+  initial-value: 0.5s ease-in-out;
+}

@@ -1,6 +1,6 @@
 # [ESL](../../../) Panel
 
-Version: *3.0.0*.
+Version: *4.0.0*.
 
 Authors: *Julia Murashko*, *Alexey Stsefanovich (ala'n)*, *Anastasia Lesun*.
 
