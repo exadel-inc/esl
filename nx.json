@@ -27,19 +27,63 @@
     }
   ],
   "release": {
-    "projects": [
-      "packages/*"
-    ],
+    "groups": {
+      "esl": {
+        "projects": [
+          "esl"
+        ],
+        "releaseTag": {
+          "pattern": "esl@{version}"
+        }
+      },
+      "eslint-config": {
+        "projects": [
+          "eslint-config"
+        ],
+        "releaseTag": {
+          "pattern": "eslint-config-esl@{version}"
+        }
+      },
+      "stylelint-config": {
+        "projects": [
+          "stylelint-config"
+        ],
+        "releaseTag": {
+          "pattern": "stylelint-config-esl@{version}"
+        }
+      },
+      "uip": {
+        "projects": [
+          "uip"
+        ],
+        "releaseTag": {
+          "pattern": "uip@{version}"
+        }
+      },
+      "website": {
+        "projects": [
+          "esl-website",
+          "esl-website-e2e",
+          "esl-website-monitoring"
+        ],
+        "releaseTag": {
+          "pattern": "esl-website@{version}"
+        }
+      }
+    },
     "git": {
       "commit": false,
-      "tag": false
+      "tag": false,
+      "push": false
     },
     "version": {
       "updateDependents": "auto",
-      "conventionalCommits": true,
-      "preserveMatchingDependencyRanges": false
+      "preserveMatchingDependencyRanges": false,
+      "currentVersionResolver": "git-tag",
+      "specifierSource": "conventional-commits"
     },
     "changelog": {
+      "automaticFromRef": true,
       "projectChangelogs": {
         "renderOptions": {
           "authors": false
