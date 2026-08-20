@@ -1,3 +1,36 @@
+## 7.0.0-beta.0 (2026-08-20)
+
+### 🚀 Features
+
+- ⚠️  **esl-animate:** esl-animate migrated to pure CSS export ([59e8f60e8](https://github.com/exadel-inc/esl/commit/59e8f60e8))
+- ⚠️  **esl-line-clamp:** esl-line-clamp migrated to pure CSS export ([7cc4bebbd](https://github.com/exadel-inc/esl/commit/7cc4bebbd))
+- ⚠️  **esl-sticky-box:** esl-sticky-box migrated to pure CSS export ([9b2cc9834](https://github.com/exadel-inc/esl/commit/9b2cc9834))
+- ⚠️  **esl-drag-to-scroll:** esl-drag-to-scroll migrated to pure CSS export ([8e71836ec](https://github.com/exadel-inc/esl/commit/8e71836ec))
+- ⚠️  **esl-anchornav:** esl-anchornav migrated to pure CSS export ([71f60c67d](https://github.com/exadel-inc/esl/commit/71f60c67d))
+- ⚠️  **esl-a11y-group:** esl-a11y-group migrated to pure CSS export ([95d1048b7](https://github.com/exadel-inc/esl/commit/95d1048b7))
+- ⚠️  **esl-alert:** migrate esl-alert to pure CSS output ([e3fdfa4ad](https://github.com/exadel-inc/esl/commit/e3fdfa4ad))
+
+### 💅 Refactors
+
+- all migrated to CSS assets were audited to use safe CSS constructions ([351132198](https://github.com/exadel-inc/esl/commit/351132198))
+
+### ⚠️  Breaking Changes
+
+- **esl-animate:** esl-animate migrated to pure CSS export  ([59e8f60e8](https://github.com/exadel-inc/esl/commit/59e8f60e8))
+  use `esl-animate/core.css` output instead of the less one
+- **esl-line-clamp:** esl-line-clamp migrated to pure CSS export  ([7cc4bebbd](https://github.com/exadel-inc/esl/commit/7cc4bebbd))
+  use `esl-line-clamp/core.css` output instead of the less one
+- **esl-sticky-box:** esl-sticky-box migrated to pure CSS export  ([9b2cc9834](https://github.com/exadel-inc/esl/commit/9b2cc9834))
+  use `esl-sticky-box/core.css` output instead of the less one
+- **esl-drag-to-scroll:** esl-drag-to-scroll migrated to pure CSS export  ([8e71836ec](https://github.com/exadel-inc/esl/commit/8e71836ec))
+  use `esl-drag-to-scroll/core.css` output instead of the less one
+- **esl-anchornav:** esl-anchornav migrated to pure CSS export  ([71f60c67d](https://github.com/exadel-inc/esl/commit/71f60c67d))
+  use `esl-anchornav/core.css` output instead of the less one
+- **esl-a11y-group:** esl-a11y-group migrated to pure CSS export  ([95d1048b7](https://github.com/exadel-inc/esl/commit/95d1048b7))
+  use `esl-a11y-group/core.css` output instead of the less one
+- **esl-alert:** migrate esl-alert to pure CSS output  ([e3fdfa4ad](https://github.com/exadel-inc/esl/commit/e3fdfa4ad))
+  use `esl-alert/core.css` output with `--esl-alert-color` (instead of `@esl-alert-color`) and `--esl-alert-background` (instead of `@esl-alert-background`)
+
 ## 6.3.1 (2026-08-18)
 
 ### 🔧 Dependencies & tech updates

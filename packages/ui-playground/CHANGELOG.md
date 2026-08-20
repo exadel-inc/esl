@@ -1,3 +1,9 @@
+## 7.0.0-beta.0 (2026-08-20)
+
+### 💅 Refactors
+
+- **ui-playground:** update usage of esl output to CSS consumption ([910df8583](https://github.com/exadel-inc/esl/commit/910df8583))
+
 ## 6.3.1 (2026-08-18)
 
 ### 🔧 Dependencies & tech updates

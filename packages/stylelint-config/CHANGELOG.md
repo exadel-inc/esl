@@ -1,3 +1,9 @@
+## 7.0.0-beta.0 (2026-08-20)
+
+### 🩹 Fixes
+
+- **stylelint-config:** fix @esl/import-type rule to support css alternative less imports ([3a8bf23b3](https://github.com/exadel-inc/esl/commit/3a8bf23b3))
+
 ## 6.3.1 (2026-08-18)
 
 ### 🔧 Dependencies & tech updates
