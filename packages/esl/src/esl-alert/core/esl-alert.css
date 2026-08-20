@@ -16,15 +16,15 @@ esl-alert {
   padding: 20px;
   width: 30%;
 
-  color: @esl-alert-color;
-  background-color: @esl-alert-background;
+  color: var(--esl-alert-color, #fff);
+  background-color: var(--esl-alert-background, #0097e7);
+}
 
-  body > & {
-    position: fixed;
-  }
+body > esl-alert {
+  position: fixed;
+}
 
-  &[open] {
-    opacity: 1;
-    visibility: visible;
-  }
+esl-alert[open] {
+  opacity: 1;
+  visibility: visible;
 }

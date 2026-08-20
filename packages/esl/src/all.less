@@ -1,12 +1,12 @@
+// All in one bundle
+
 @import './esl-utils/all.less';
 
 @import './esl-image-utils/all.less';
 @import './esl-media/core.less';
 
 @import './esl-scrollbar/core.less';
-@import './esl-drag-to-scroll/core.less';
 
-@import './esl-a11y-group/core.less';
 @import './esl-toggleable/core.less';
 @import './esl-popup/core.less';
 @import './esl-trigger/core.less';
@@ -16,21 +16,24 @@
 
 @import './esl-tab/core.less';
 
-@import './esl-alert/core.less';
-
 @import './esl-forms/all.less';
 
 @import './esl-footnotes/core.less';
 @import './esl-tooltip/core.less';
 
-@import './esl-animate/core.less';
-
 @import './esl-share/core.less';
 
 @import './esl-carousel/all.less';
 
-@import './esl-anchornav/core.less';
-
-@import './esl-line-clamp/core.less';
-
-@import './esl-sticky-box/core.less';
+// CSS entry points retain @import rules when inlined by Less. During the CSS
+// migration, include their leaves directly so the all-in-one output is bundled.
+@import (inline) './esl-anchornav/core/esl-anchor.css';
+@import (inline) './esl-anchornav/core/esl-anchornav.css';
+@import (inline) './esl-anchornav/core/esl-anchornav-sticked.css';
+@import (inline) './esl-a11y-group/core/esl-a11y-group.css';
+@import (inline) './esl-alert/core/esl-alert.css';
+@import (inline) './esl-animate/core/esl-animate.css';
+@import (inline) './esl-animate/core/esl-animate-animations.css';
+@import (inline) './esl-drag-to-scroll/core/esl-drag-to-scroll.css';
+@import (inline) './esl-line-clamp/core/esl-line-clamp.css';
+@import (inline) './esl-sticky-box/core/esl-sticky-box.css';
