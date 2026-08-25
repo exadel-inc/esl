@@ -33,7 +33,7 @@
     "smoothscroll-polyfill": "^0.4.4"
   },
   "devDependencies": {
-    "@rsdoctor/rspack-plugin": "^1.6.2",
+    "@rsdoctor/rspack-plugin": "^1.6.3",
     "@rspack/cli": "^2.1.10",
     "@rspack/core": "^2.1.10",
     "@types/prismjs": "^1.26.6",
