@@ -1,18 +1,28 @@
-import importPlugin from 'eslint-plugin-import';
+import perfectionist from 'eslint-plugin-perfectionist';
 
 export default [
   {
     plugins: {
-      'import': importPlugin
+      perfectionist
     },
     rules: {
       // Enforce a convention in module import order
-      'import/order': [
+      'perfectionist/sort-imports': [
         'warn', {
-          'groups': ['builtin', 'external', 'parent', 'sibling', 'index', 'object', 'type']
+          'groups': [
+            'value-builtin',
+            'value-external',
+            'value-parent',
+            'value-sibling',
+            'value-index',
+            'ts-equals-import',
+            'type'
+          ],
+          type: 'unsorted',
+          newlinesBetween: 'ignore',
+          newlinesInside: 'ignore'
         }
       ]
-
     }
   }
 ];
