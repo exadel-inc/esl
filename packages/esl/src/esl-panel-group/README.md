@@ -1,6 +1,6 @@
 # [ESL](../../../) Panel Group
 
-Version: *4.0.0*.
+Version: *4.0.0*.  
 
 Authors: *Julia Murashko*, *Alexey Stsefanovich (ala'n)*, *Anastasia Lesun*.
 
@@ -35,6 +35,11 @@ ESLPanelGroup.register();
 - `has-opened` - readonly attribute that indicates whether the panel group has opened panels
 - `current-mode` - readonly attribute that indicates the currently applied rendering mode of the panel group
 - `animating` - a marker of animation process running
+
+### CSS Variables
+
+- `--esl-panel-animation-time` - duration of the panel animation (default: 0.5s)
+- `--esl-panel-animation-easing` - easing function of the panel animation (default: ease-in-out)
 
 ### Events
 

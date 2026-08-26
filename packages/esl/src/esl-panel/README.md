@@ -24,6 +24,11 @@ ESLPanel.register();
 
 ESLPanel extends [ESLToggleable](../esl-toggleable/README.md) you can find other supported options in its documentation.
 
+### CSS Variables
+
+ - `--esl-panel-animation-time` - duration of the panel animation (default: 0.5s)
+ - `--esl-panel-animation-easing` - easing function of the panel animation (default: ease-in-out)
+
 ### Events
 
 - `esl:before:show` - thrown when panel is going to change its state to expanded
