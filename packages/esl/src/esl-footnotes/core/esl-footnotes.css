@@ -1,0 +1,33 @@
+esl-footnotes {
+  display: block;
+}
+
+esl-footnotes .esl-footnotes-items {
+  list-style-type: none;
+}
+
+esl-footnotes .esl-footnotes-index {
+  position: relative;
+  font-size: 75%;
+  line-height: 0;
+  vertical-align: baseline;
+  top: -0.5em;
+}
+
+esl-footnotes .esl-footnotes-text {
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+
+esl-footnotes .esl-footnotes-back-to-note {
+  position: relative;
+  font-size: 66%;
+  line-height: 0;
+  vertical-align: baseline;
+  top: -0.5em;
+  cursor: pointer;
+}
+
+esl-footnotes .esl-footnotes-back-to-note::before {
+  content: '[ ^ ]';
+}
