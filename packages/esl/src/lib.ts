@@ -8,4 +8,4 @@ declare global {
   }
 }
 
-ExportNs.declare('7.0.0-beta.0');
+ExportNs.declare('7.0.0-beta.1');
