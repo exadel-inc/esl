@@ -54,16 +54,19 @@
     "conventionalCommits": {
       "useCommitScope": false,
       "types": {
-        "chore": {
+        "build": {
           "releaseType": "patch",
-          "changelog": false
+          "changelog": {
+            "title": "🔧 Dependencies & tech updates"
+          }
         },
         "refactor": {
           "releaseType": "patch"
         },
         "docs": {
+          "releaseType": "patch",
           "changelog": {
-            "title": "Documentation updates"
+            "title": "📄 Documentation updates"
           }
         }
       }

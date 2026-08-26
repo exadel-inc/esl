@@ -1,6 +1,6 @@
 # [ESL](../../../) Anchornav
 
-Version: *2.0.0-beta*.
+Version: *3.0.0*.
 
 Authors: *Dmytro Shovchko*, *Aliaksei Stsefanovich (ala'n)*.
 

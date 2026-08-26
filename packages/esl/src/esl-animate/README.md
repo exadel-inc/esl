@@ -1,6 +1,6 @@
 # [ESL](https://exadel-inc.github.io/esl/) Animate
 
-Version: *2.0.0*.
+Version: *3.0.0*.
 
 Authors: *Anna-Mariia Petryk*, *Feoktyst Shovchko*, *Alexey Stsefanovich (ala'n)*, *Julia Murashko*.
 
