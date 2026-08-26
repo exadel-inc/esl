@@ -1,3 +1,9 @@
+## 7.0.0-beta.1 (2026-08-26)
+
+### 📄 Documentation updates
+
+- **eslint-config:** update information about used plugins ([ea01bd95f](https://github.com/exadel-inc/esl/commit/ea01bd95f))
+
 ## 7.0.0-beta.0 (2026-08-20)
 
 This was a version bump only for eslint-config to align it with other projects, there were no code changes.

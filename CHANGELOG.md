@@ -1,3 +1,47 @@
+## 7.0.0-beta.1 (2026-08-26)
+
+### 🚀 Features
+
+- introduce variable definition files ([96dcb7005](https://github.com/exadel-inc/esl/commit/96dcb7005))
+- ⚠️  **esl-footnotes:** esl-footnotes migrated to pure CSS export ([c7a69537f](https://github.com/exadel-inc/esl/commit/c7a69537f))
+- ⚠️  **esl-panel:** esl-panel/esl-panel-group migrated to pure CSS export ([f89817fd3](https://github.com/exadel-inc/esl/commit/f89817fd3))
+- ⚠️  **esl-popup:** esl-popup base migrated to pure CSS export ([0b2b66022](https://github.com/exadel-inc/esl/commit/0b2b66022))
+- ⚠️  **esl-popup:** esl-popup no longer support LESS mixin-builder for styles ([420ad6faa](https://github.com/exadel-inc/esl/commit/420ad6faa))
+- ⚠️  **esl-share:** esl-share migrated to pure CSS export ([5906e4b9e](https://github.com/exadel-inc/esl/commit/5906e4b9e))
+- ⚠️  **esl-tab:** esl-tab migrated to pure CSS export ([46527f00a](https://github.com/exadel-inc/esl/commit/46527f00a))
+- ⚠️  **esl-toggleable:** esl-toggleable migrated to pure CSS export ([f2080886e](https://github.com/exadel-inc/esl/commit/f2080886e))
+- ⚠️  **esl-tooltip:** esl-tooltip migrated to pure CSS export ([cb044c69f](https://github.com/exadel-inc/esl/commit/cb044c69f))
+- ⚠️  **esl-trigger:** esl-trigger migrated to pure CSS export ([8b68840dc](https://github.com/exadel-inc/esl/commit/8b68840dc))
+
+### 💅 Refactors
+
+- **esl-panel:** split `--esl-panel-animation` into `--esl-panel-animation-time` & `--esl-panel-animation-easing` ([5c0a929f8](https://github.com/exadel-inc/esl/commit/5c0a929f8))
+
+### 📄 Documentation updates
+
+- **eslint-config:** update information about used plugins ([ea01bd95f](https://github.com/exadel-inc/esl/commit/ea01bd95f))
+
+### ⚠️  Breaking Changes
+
+- **esl-popup:** esl-popup no longer support LESS mixin-builder for styles  ([420ad6faa](https://github.com/exadel-inc/esl/commit/420ad6faa))
+  `esl-popup/core.mixin.less` no longer available use CSS variable based customisation
+- **esl-popup:** esl-popup base migrated to pure CSS export  ([0b2b66022](https://github.com/exadel-inc/esl/commit/0b2b66022))
+  use `esl-popup/core.css` output instead of the less one
+- **esl-share:** esl-share migrated to pure CSS export  ([5906e4b9e](https://github.com/exadel-inc/esl/commit/5906e4b9e))
+  use `esl-share/core.css` output instead of the less one
+- **esl-footnotes:** esl-footnotes migrated to pure CSS export  ([c7a69537f](https://github.com/exadel-inc/esl/commit/c7a69537f))
+  use `esl-footnotes/core.css` output instead of the less one
+- **esl-tooltip:** esl-tooltip migrated to pure CSS export  ([cb044c69f](https://github.com/exadel-inc/esl/commit/cb044c69f))
+  use `esl-tooltip/core.css` output instead of the less one
+- **esl-tab:** esl-tab migrated to pure CSS export  ([46527f00a](https://github.com/exadel-inc/esl/commit/46527f00a))
+  use `esl-tab/core.css` output instead of the less one
+- **esl-panel:** esl-panel/esl-panel-group migrated to pure CSS export  ([f89817fd3](https://github.com/exadel-inc/esl/commit/f89817fd3))
+  use `esl-panel/core.css`/`esl-panel-group/core.css` output instead of the less one
+- **esl-trigger:** esl-trigger migrated to pure CSS export  ([8b68840dc](https://github.com/exadel-inc/esl/commit/8b68840dc))
+  use `esl-trigger/core.css` output instead of the less one
+- **esl-toggleable:** esl-toggleable migrated to pure CSS export  ([f2080886e](https://github.com/exadel-inc/esl/commit/f2080886e))
+  use `esl-toggleable/core.css` output instead of the less one
+
 ## 7.0.0-beta.0 (2026-08-20)
 
 ### 🚀 Features
