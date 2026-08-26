@@ -35,4 +35,4 @@ export function createStyleWorker({ext, compile, filter, copy}) {
 
     await fs.writeFile(destFilePath.replace(fileRegexp, '.css'), content);
   };
-};
+}

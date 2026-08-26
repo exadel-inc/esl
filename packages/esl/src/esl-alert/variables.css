@@ -1,0 +1,10 @@
+@property --esl-alert-color {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #fff;
+}
+@property --esl-alert-background {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #0097e7;
+}

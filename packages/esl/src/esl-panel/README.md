@@ -1,6 +1,6 @@
 # [ESL](../../../) Panel
 
-Version: *3.0.0*.
+Version: *4.0.0*.
 
 Authors: *Julia Murashko*, *Alexey Stsefanovich (ala'n)*, *Anastasia Lesun*.
 
@@ -23,6 +23,11 @@ ESLPanel.register();
  - `animating` - a marker of animation process running
 
 ESLPanel extends [ESLToggleable](../esl-toggleable/README.md) you can find other supported options in its documentation.
+
+### CSS Variables
+
+ - `--esl-panel-animation-time` - duration of the panel animation (default: 0.5s)
+ - `--esl-panel-animation-easing` - easing function of the panel animation (default: ease-in-out)
 
 ### Events
 

@@ -7,26 +7,30 @@
 
 @import './esl-scrollbar/core.less';
 
-@import './esl-toggleable/core.less';
-@import './esl-popup/core.less';
-@import './esl-trigger/core.less';
-
-@import './esl-panel/core.less';
-@import './esl-panel-group/core.less';
-
-@import './esl-tab/core.less';
-
 @import './esl-forms/all.less';
-
-@import './esl-footnotes/core.less';
-@import './esl-tooltip/core.less';
-
-@import './esl-share/core.less';
 
 @import './esl-carousel/all.less';
 
 // CSS entry points retain @import rules when inlined by Less. During the CSS
 // migration, include their leaves directly so the all-in-one output is bundled.
+@import (inline) './esl-tab/core/esl-tab.css';
+@import (inline) './esl-tab/core/esl-tabs.css';
+@import (inline) './esl-tab/core/esl-tabs.scrollable.css';
+@import (inline) './esl-tab/core/esl-tabs.arrows.css';
+@import (inline) './esl-toggleable/core/esl-toggleable.css';
+@import (inline) './esl-toggleable/core/esl-toggleable-dispatcher.css';
+@import (inline) './esl-trigger/core/esl-trigger.css';
+@import (inline) './esl-panel/core/esl-panel.css';
+@import (inline) './esl-panel-group/core/esl-panel-group.css';
+
+@import (inline) './esl-popup/core/esl-popup.css';
+@import (inline) './esl-tooltip/core/esl-tooltip.css';
+@import (inline) './esl-footnotes/core/esl-footnotes.css';
+@import (inline) './esl-footnotes/core/esl-note.css';
+@import (inline) './esl-share/core/esl-share.css';
+@import (inline) './esl-share/core/esl-share-list.css';
+@import (inline) './esl-share/core/esl-share-button.css';
+
 @import (inline) './esl-anchornav/core/esl-anchor.css';
 @import (inline) './esl-anchornav/core/esl-anchornav.css';
 @import (inline) './esl-anchornav/core/esl-anchornav-sticked.css';

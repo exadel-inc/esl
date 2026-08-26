@@ -1,0 +1,10 @@
+esl-tooltip {
+  padding: 10px;
+  width: 100%;
+  max-width: 220px;
+  text-align: start;
+}
+
+esl-tooltip:focus {
+  outline: none;
+}

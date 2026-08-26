@@ -1,6 +1,6 @@
 # [ESL](../../../) Popup
 
-Version: *2.0.0-beta*.  
+Version: *3.0.0*.  
 
 Authors: *Dmytro Shovchko*, *Alexey Stsefanovich (ala'n)*.
 
@@ -174,7 +174,8 @@ ESLPopup is a non-trivial component that calculates its position depending on us
 - `--esl-popup-border-width` - border width of the popup ('1px' by default)
 - `--esl-popup-z-index` - z-index of the popup ('999' by default)
 
-Or if you are using the LESS preprocessor, you can optionally use mixins instead of CSS variables. However, we would recommend using the general approach with CSS variables.
+Note: starting from esl@7.0.0 only CSS based (with variables above) customization allowed. 
+The less mixin `.esl-popup-init` should be replaced with usage of `.esl-panel` class and described CSS variables definitions.
 
 ### Refreshing popup position
 

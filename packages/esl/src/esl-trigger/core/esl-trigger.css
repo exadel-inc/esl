@@ -1,0 +1,8 @@
+esl-trigger {
+  cursor: pointer;
+}
+
+/* Default behaviour if no target is specified */
+esl-trigger[no-target] {
+  display: none;
+}
