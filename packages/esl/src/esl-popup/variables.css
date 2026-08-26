@@ -1,0 +1,25 @@
+@property --esl-popup-z-index {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 999;
+}
+@property --esl-popup-border-width {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 1px;
+}
+@property --esl-popup-border-color {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #dbdbdb;
+}
+@property --esl-popup-background-color {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #fff;
+}
+@property --esl-popup-arrow-size {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 20px;
+}
