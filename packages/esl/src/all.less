@@ -9,8 +9,6 @@
 
 @import './esl-popup/core.less';
 
-@import './esl-tab/core.less';
-
 @import './esl-forms/all.less';
 
 @import './esl-footnotes/core.less';
@@ -22,6 +20,10 @@
 
 // CSS entry points retain @import rules when inlined by Less. During the CSS
 // migration, include their leaves directly so the all-in-one output is bundled.
+@import (inline) './esl-tab/core/esl-tab.css';
+@import (inline) './esl-tab/core/esl-tabs.css';
+@import (inline) './esl-tab/core/esl-tabs.scrollable.css';
+@import (inline) './esl-tab/core/esl-tabs.arrows.css';
 @import (inline) './esl-toggleable/core/esl-toggleable.css';
 @import (inline) './esl-toggleable/core/esl-toggleable-dispatcher.css';
 @import (inline) './esl-trigger/core/esl-trigger.css';

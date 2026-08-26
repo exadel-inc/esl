@@ -1,0 +1,8 @@
+esl-tab {
+  cursor: pointer;
+}
+
+/* Default behaviour if no target is specified */
+esl-tab[no-target] {
+  display: none;
+}

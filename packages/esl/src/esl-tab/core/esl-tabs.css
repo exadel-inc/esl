@@ -1,0 +1,21 @@
+esl-tabs {
+  display: block;
+}
+
+esl-tabs .esl-tab-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+esl-tabs.center-alignment > .esl-tab-container > :first-child {
+  margin-left: auto;
+}
+
+esl-tabs.center-alignment > .esl-tab-container > :last-child {
+  margin-right: auto;
+}
+
+esl-tabs.right-alignment > .esl-tab-container > :first-child {
+  margin-left: auto;
+}
