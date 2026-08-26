@@ -1,0 +1,10 @@
+@property --esl-share-icon-size {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 40px;
+}
+@property --esl-share-popup-max-width {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 202px;
+}
