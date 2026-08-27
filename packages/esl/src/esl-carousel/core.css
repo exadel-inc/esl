@@ -1,0 +1,8 @@
+@import './core/esl-carousel.css';
+
+/* Renderer Default */
+@import './renderers/esl-carousel.default.renderer.css';
+@import './renderers/esl-carousel.grid.renderer.css';
+@import './renderers/esl-carousel.css.renderer.css';
+@import './renderers/esl-carousel.css.fade.renderer.css';
+@import './renderers/esl-carousel.css.slide.renderer.css';

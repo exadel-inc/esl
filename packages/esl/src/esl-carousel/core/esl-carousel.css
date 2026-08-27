@@ -1,0 +1,91 @@
+:root {
+  --esl-slide-initial-size: 100%;
+  --esl-carousel-side-space: 5px;
+  --esl-carousel-step-duration: 250ms;
+}
+
+/* CORE styles */
+esl-carousel {
+  position: relative;
+  display: block;
+  max-width: 100%;
+  /* Important to ignore padding/margin hack */
+  box-sizing: content-box;
+  margin: calc(var(--esl-carousel-side-space, 0) * -1);
+  padding: var(--esl-carousel-side-space, 0);
+
+  /* stylelint-disable */
+  overflow: hidden; /* Fallback */
+  overflow: clip;
+  /* stylelint-enable */
+}
+
+/* Uninitialized state */
+esl-carousel:not(.esl-carousel) [esl-carousel-slide] {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+esl-carousel.esl-carousel-vertical {
+  touch-action: pan-x;
+}
+esl-carousel.esl-carousel-vertical [esl-carousel-slides] {
+  flex-direction: column;
+}
+
+esl-carousel.esl-carousel-horizontal {
+  touch-action: pan-y;
+}
+esl-carousel.esl-carousel-horizontal [esl-carousel-slides] {
+  flex-direction: row;
+}
+
+/* Touch/drag support */
+esl-carousel[dragging] {
+  cursor: grabbing;
+}
+
+esl-carousel[animating] {
+  padding-inline: 0;
+  margin-inline: 0;
+}
+
+esl-carousel[dragging] [esl-carousel-slides],
+esl-carousel[animating] [esl-carousel-slides] {
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Empty state */
+esl-carousel[empty] {
+  --esl-carousel-side-space: 0;
+}
+
+esl-carousel[empty] [esl-carousel-slides] {
+  display: none;
+}
+
+/* Default carousel area styles */
+[esl-carousel-slides] {
+  position: relative;
+  width: 100%;
+  margin: 0;
+  display: flex;
+  gap: 20px;
+  z-index: 0;
+  transform: translate3d(0px, 0px, 0px);
+}
+
+/* Default carousel slide styles */
+[esl-carousel-slide] {
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  z-index: 1;
+  list-style: none;
+}
+
+.esl-carousel-no-extra-space {
+  --esl-carousel-side-space: 0;
+}

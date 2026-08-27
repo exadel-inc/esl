@@ -1,0 +1,21 @@
+.esl-carousel-css-renderer.esl-carousel-css-fade[animating] [esl-carousel-slide] {
+  transition: opacity var(--esl-carousel-step-duration) linear;
+}
+
+.esl-carousel-css-renderer.esl-carousel-css-fade [esl-carousel-slide] {
+  opacity: 0;
+}
+
+.esl-carousel-css-renderer.esl-carousel-css-fade [esl-carousel-slide][active] {
+  opacity: 1;
+}
+
+.esl-carousel-css-renderer.esl-carousel-css-fade[animating] [esl-carousel-slide][pre-active] {
+  z-index: 2;
+  opacity: 1;
+}
+
+.esl-carousel-css-renderer.esl-carousel-css-fade[shifted] [esl-carousel-slide][pre-active] {
+  z-index: 2;
+  opacity: var(--esl-carousel-offset-ratio, 0);
+}
