@@ -1,0 +1,52 @@
+esl-select-renderer.esl-select-renderer.esl-select-renderer {
+  display: flex;
+  align-items: center;
+}
+
+esl-select-renderer::before {
+  content: attr(empty-text);
+  color: var(--esl-select-empty-color, #aaa);
+}
+
+esl-select-renderer[has-value]::before {
+  display: none;
+}
+
+esl-select-renderer .esl-select-text {
+  display: inline-block;
+  white-space: nowrap;
+  max-height: 100%;
+}
+
+esl-select-renderer .esl-select-text + .esl-select-text {
+  margin-left: 10px;
+}
+
+esl-select-renderer .esl-select-text-container {
+  display: block;
+  flex: 1 1 auto;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+esl-select-renderer .esl-select-clear-btn {
+  flex: 0 0 auto;
+  width: 15px;
+  height: 15px;
+  padding: 0;
+  margin: 0 10px;
+
+  font-size: 14px;
+  line-height: 14px;
+
+  border: none;
+  background: transparent;
+}
+
+esl-select-renderer .esl-select-clear-btn::before {
+  content: '\2715';
+}
+
+esl-select-renderer:not([multiple]) .esl-select-clear-btn {
+  display: none;
+}

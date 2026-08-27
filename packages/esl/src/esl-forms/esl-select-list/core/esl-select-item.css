@@ -1,0 +1,67 @@
+esl-select-item {
+  display: block;
+  cursor: pointer;
+  position: relative;
+  padding: 15px 15px 15px 45px;
+  line-height: 20px;
+  vertical-align: middle;
+}
+
+esl-select-item::before {
+  content: '';
+  cursor: pointer;
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--esl-select-list-primary, #0097e7);
+  border-radius: 4px;
+  background-color: var(--esl-select-list-background, #fff);
+}
+
+esl-select-item::after {
+  content: '';
+  cursor: pointer;
+  position: absolute;
+  top: 20px;
+  left: 19px;
+  width: 12px;
+  height: 6px;
+
+  border: 2px solid var(--esl-select-list-check, #fff);
+  border-top: none;
+  border-right: none;
+  transform: rotate(-45deg);
+
+  opacity: 0;
+  transition: opacity 0.4s ease-in;
+}
+
+esl-select-item[selected]::before {
+  background-color: var(--esl-select-list-primary, #0097e7);
+}
+
+esl-select-item[selected]::after {
+  opacity: 1;
+}
+
+esl-select-item.last-in-group:not(:last-of-type) {
+  border-bottom: 1px solid var(--esl-select-list-secondary, #ccc);
+}
+
+esl-select-item[disabled],
+[disabled] esl-select-item {
+  pointer-events: none;
+  color: var(--esl-select-list-disabled, #aaa);
+}
+
+esl-select-item[disabled]::before,
+[disabled] esl-select-item::before {
+  border-color: var(--esl-select-list-disabled, #aaa);
+}
+
+esl-select-item[disabled][selected]::before,
+[disabled] esl-select-item[selected]::before {
+  background-color: var(--esl-select-list-disabled, #aaa);
+}

@@ -1,0 +1,25 @@
+@property --esl-select-list-check {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #fff;
+}
+@property --esl-select-list-primary {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #0097e7;
+}
+@property --esl-select-list-disabled {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #aaa;
+}
+@property --esl-select-list-secondary {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #ccc;
+}
+@property --esl-select-list-background {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #fff;
+}

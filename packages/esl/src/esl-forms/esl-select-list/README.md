@@ -1,6 +1,6 @@
 # [ESL](../../../../) Select List
 
-Version: *1.0.0*
+Version: *2.0.0*
 
 Authors: *Alexey Stsefanovich (ala'n)*
 
@@ -16,6 +16,14 @@ Authors: *Alexey Stsefanovich (ala'n)*
 - `disabled` - disabled state marker
 
 - `pin-selected` - marker for selecting items to be pinned to the top of the list
+
+### CSS Variables
+
+- `--esl-select-list-check` - color of the selected item checkmark (default: #fff)
+- `--esl-select-list-primary` - primary color of selected item controls (default: #0097e7)
+- `--esl-select-list-disabled` - color of disabled items and their controls (default: #aaa)
+- `--esl-select-list-secondary` - color of list and group separators (default: #ccc)
+- `--esl-select-list-background` - background color of the list and item controls (default: #fff)
 
 ### Example
 
