@@ -5,7 +5,9 @@
 @import './esl-image-utils/all.less';
 @import './esl-media/core.less';
 
-@import './esl-scrollbar/core.less';
+@import (inline) './esl-scrollbar/core/esl-scrollbar.css';
+@import (inline) './esl-scrollbar/core/esl-scrollbar-arrows.css';
+@import (inline) './esl-scrollbar/core/esl-scrollable-content.css';
 
 // CSS entry points retain @import rules when inlined by Less. During the CSS
 // migration, include their leaves directly so the all-in-one output is bundled.

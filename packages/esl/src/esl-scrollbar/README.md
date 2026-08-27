@@ -1,6 +1,6 @@
 # [ESL](../../../) Scrollbar
 
-Version: *2.0.0*.
+Version: *3.0.0*.
 
 Authors: *Yuliya Adamskaya*.
 
@@ -50,6 +50,11 @@ Use the full module path to import it
   @import '@exadel/esl/modules/esl-scrollbar/core.css';
 ```
 
+Add the `esl-scrollbar-arrows` class to `<esl-scrollbar>` to enable navigation arrows on the track:
+```html
+  <esl-scrollbar class="esl-scrollbar-arrows" target="::prev"></esl-scrollbar>
+```
+
 ### Attributes:
 
 - `horizontal` \[boolean] - horizontal scroll direction marker
@@ -71,6 +76,16 @@ Use the full module path to import it
 - `at-start` \[boolean] - indicates that the scroll is at the beginning
 
 - `at-end` \[boolean] - indicates that the scroll is at the end
+
+### CSS Variables
+
+- `--esl-scrollbar-track-bg` - background color of the scroll track (default: #e7e7e7)
+- `--esl-scrollbar-thumb-bg` - background color of the scroll thumb (default: #b5b5b5)
+- `--esl-scrollbar-thumb-dragging-bg` - background color of the scroll thumb while dragging (default: #9a9a9a)
+- `--esl-scrollbar-track-size` - cross-axis thickness of the scroll track (default: 6px)
+- `--esl-scrollbar-padding` - cross-axis padding around the scrollbar (default: 5px)
+- `--esl-scrollbar-arrow-color` - color of the scrollbar navigation arrows (default: #bbb)
+- `--esl-scrollbar-arrow-padding` - padding allocated on the track for navigation arrows (default: 15px)
 
 ### Public API methods
 
