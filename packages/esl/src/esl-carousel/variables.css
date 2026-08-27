@@ -4,7 +4,7 @@
   initial-value: 100%;
 }
 @property --esl-carousel-side-space {
-  syntax: '<length>';
+  syntax: '<length-percentage>';
   inherits: true;
   initial-value: 5px;
 }
@@ -21,7 +21,7 @@
   initial-value: 40px;
 }
 @property --esl-carousel-arrow-padding {
-  syntax: '<length>';
+  syntax: '<length-percentage>';
   inherits: true;
   initial-value: 0px;
 }
@@ -50,22 +50,5 @@
 @property --esl-carousel-dot-active-border {
   syntax: '<length> <custom-ident> <color>';
   inherits: true;
-  initial-value: 1px solid transparent;
-}
-
-/* System variables (set by JS by default) */
-@property --esl-slide-size {
-  syntax: '<length-percentage>';
-  inherits: true;
-  initial-value: 100%;
-}
-@property --esl-carousel-offset {
-  syntax: '<length>';
-  inherits: true;
-  initial-value: 0;
-}
-@property --esl-carousel-offset-ratio {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 0;
+  initial-value: 1px solid #bababa;
 }
