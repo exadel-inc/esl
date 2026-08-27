@@ -1,6 +1,6 @@
 # [ESL](../../../) Media
 
-Version: *2.0.0*
+Version: *3.0.0*
 
 Authors: *Alexey Stsefanovich (ala'n)*, *Yuliya Adamskaya*, *Julia Murashko*, *Natallia Harshunova*, *Anastasia Lesun*, *Feoktist Shovchko*
 
@@ -158,6 +158,11 @@ Also, ESLMedia provides attributes to reflect media state and additional classes
  - `ready` (boolean) - marker that indicates that media API has loaded
  - `played` (boolean) - marker that indicates that media has played
  - `active` (boolean) - marker that indicates that media is playing
+
+### CSS Variables
+
+- `--esl-media-x-offset` - horizontal alignment offset for fill modes `cover` and `inscribe` (default: 50%)
+- `--esl-media-y-offset` - vertical alignment offset for fill modes `cover` and `inscribe` (default: 50%)
  
 ### Events: 
  - `esl:media:error` - (bubbles) fires when API is initialized with error
