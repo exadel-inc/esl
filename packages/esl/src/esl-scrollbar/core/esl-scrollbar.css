@@ -1,0 +1,80 @@
+esl-scrollbar {
+  display: inline-block;
+  position: absolute;
+  cursor: default;
+  overflow: hidden;
+}
+
+esl-scrollbar[inactive] {
+  visibility: hidden;
+}
+
+esl-scrollbar.page-scrollbar {
+  position: fixed;
+}
+
+esl-scrollbar .scrollbar-track {
+  position: relative;
+  border-radius: 3px;
+  background: var(--esl-scrollbar-track-bg, #e7e7e7);
+}
+
+esl-scrollbar .scrollbar-thumb {
+  position: absolute;
+  cursor: pointer;
+  border-radius: 3px;
+  background: var(--esl-scrollbar-thumb-bg, #b5b5b5);
+}
+
+esl-scrollbar .scrollbar-thumb::after {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  width: calc(100% + 10px);
+  height: calc(100% + 10px);
+}
+
+esl-scrollbar[dragging] .scrollbar-thumb {
+  background: var(--esl-scrollbar-thumb-dragging-bg, #9a9a9a);
+}
+
+esl-scrollbar:not([horizontal]) {
+  top: 0;
+  bottom: 0;
+  right: 0;
+  padding: 0 var(--esl-scrollbar-padding, 5px);
+}
+
+esl-scrollbar:not([horizontal]) .scrollbar-track {
+  top: 0;
+  width: var(--esl-scrollbar-track-size, 6px);
+  height: 100%;
+}
+
+esl-scrollbar:not([horizontal]) .scrollbar-thumb {
+  width: 100%;
+  height: 33.33%;
+  min-height: 10px;
+  touch-action: pan-x;
+}
+
+esl-scrollbar[horizontal] {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: var(--esl-scrollbar-padding, 5px) 0;
+}
+
+esl-scrollbar[horizontal] .scrollbar-track {
+  bottom: 0;
+  height: var(--esl-scrollbar-track-size, 6px);
+  width: 100%;
+}
+
+esl-scrollbar[horizontal] .scrollbar-thumb {
+  height: 100%;
+  width: 33.33%;
+  min-width: 10px;
+  touch-action: pan-y;
+}
