@@ -1,6 +1,6 @@
 # [ESL](../../../../) Select
 
-Version: *1.1.0*
+Version: *2.0.0*
 
 Authors: *Alexey Stsefanovich (ala'n)*
 
@@ -29,6 +29,14 @@ Uses "select with dropdown" view. Supports both single and multiple selection.
 - `disabled` - disabled state marker
 
 - `pin-selected` - marker for selecting items to be pinned to the top of the dropdown
+
+### CSS Variables
+
+- `--esl-select-primary` - primary color, used for the dropdown indicator (default: #0097e7)
+- `--esl-select-disabled` - color of the disabled select and its contents (default: #aaa)
+- `--esl-select-empty-color` - color of empty placeholder text (default: #aaa)
+- `--esl-select-invlalid-border` - border of an invalid native select (default: 1px solid #b22)
+- `--esl-select-invlalid-border-color` - color used by the default invalid border (default: #b22)
 
 ### Example
 

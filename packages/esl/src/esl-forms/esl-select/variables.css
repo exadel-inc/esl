@@ -1,0 +1,21 @@
+@property --esl-select-primary {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #0097e7;
+}
+@property --esl-select-disabled {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #aaa;
+}
+@property --esl-select-empty-color {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #aaa;
+}
+/* --esl-select-invlalid-border is a composite border shorthand. */
+@property --esl-select-invlalid-border-color {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #b22;
+}
