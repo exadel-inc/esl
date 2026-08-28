@@ -7,8 +7,6 @@
 
 @import './esl-scrollbar/core.less';
 
-@import './esl-forms/all.less';
-
 // CSS entry points retain @import rules when inlined by Less. During the CSS
 // migration, include their leaves directly so the all-in-one output is bundled.
 @import (inline) './esl-tab/core/esl-tab.css';
@@ -49,3 +47,10 @@
 @import (inline) './esl-carousel/renderers/esl-carousel.css.slide.renderer.css';
 @import (inline) './esl-carousel/plugin/nav/esl-carousel.nav.arrows.css';
 @import (inline) './esl-carousel/plugin/dots/esl-carousel.nav.dots.css';
+
+/* './esl-forms/all.css' */
+@import (inline) './esl-forms/esl-select/core/esl-select.css';
+@import (inline) './esl-forms/esl-select/core/esl-select-renderer.css';
+@import (inline) './esl-forms/esl-select/core/esl-select-dropdown.css';
+@import (inline) './esl-forms/esl-select-list/core/esl-select-item.css';
+@import (inline) './esl-forms/esl-select-list/core/esl-select-list.css';

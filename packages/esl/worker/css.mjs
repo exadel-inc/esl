@@ -13,6 +13,6 @@ export default createStyleWorker({
     return result.css;
   },
   filter: (relFilePath) => {
-    return relFilePath.split(path.sep).length === 2;
+    return ['all.css', 'core.css'].includes(path.basename(relFilePath));
   }
 });
