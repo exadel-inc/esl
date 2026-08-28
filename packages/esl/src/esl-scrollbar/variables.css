@@ -1,0 +1,35 @@
+@property --esl-scrollbar-track-bg {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #e7e7e7;
+}
+@property --esl-scrollbar-thumb-bg {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #b5b5b5;
+}
+@property --esl-scrollbar-thumb-dragging-bg {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #9a9a9a;
+}
+@property --esl-scrollbar-track-size {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 6px;
+}
+@property --esl-scrollbar-padding {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 5px;
+}
+@property --esl-scrollbar-arrow-color {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #bbb;
+}
+@property --esl-scrollbar-arrow-padding {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 15px;
+}
