@@ -75,7 +75,8 @@
       "cache": true,
       "inputs": [
         "{projectRoot}/src/**/*.css",
-        "{projectRoot}/src/**/*.less"
+        "{projectRoot}/src/**/*.less",
+        "{projectRoot}/worker/**/*.mjs"
       ],
       "outputs": [
         "{projectRoot}/modules/**/*.css",
