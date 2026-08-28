@@ -1,0 +1,54 @@
+@property --esl-slide-initial-size {
+  syntax: '<length-percentage>';
+  inherits: true;
+  initial-value: 100%;
+}
+@property --esl-carousel-side-space {
+  syntax: '<length-percentage>';
+  inherits: true;
+  initial-value: 5px;
+}
+@property --esl-carousel-step-duration {
+  syntax: '<time>';
+  inherits: true;
+  initial-value: 250ms;
+}
+
+/* Arrow Navigation Plugin */
+@property --esl-carousel-arrow-size {
+  syntax: '<length-percentage>';
+  inherits: true;
+  initial-value: 40px;
+}
+@property --esl-carousel-arrow-padding {
+  syntax: '<length-percentage>';
+  inherits: true;
+  initial-value: 0px;
+}
+@property --esl-carousel-arrow-bg {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: grey;
+}
+
+/* Dots Plugin */
+@property --esl-carousel-dot-color {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: rgba(118, 118, 118, 0.5);
+}
+@property --esl-carousel-dot-active-color {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: rgba(255, 255, 255, 0.5);
+}
+@property --esl-carousel-dot-border {
+  syntax: '<length> <custom-ident> <color>';
+  inherits: true;
+  initial-value: 1px solid transparent;
+}
+@property --esl-carousel-dot-active-border {
+  syntax: '<length> <custom-ident> <color>';
+  inherits: true;
+  initial-value: 1px solid #bababa;
+}

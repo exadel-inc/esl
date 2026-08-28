@@ -9,8 +9,6 @@
 
 @import './esl-forms/all.less';
 
-@import './esl-carousel/all.less';
-
 // CSS entry points retain @import rules when inlined by Less. During the CSS
 // migration, include their leaves directly so the all-in-one output is bundled.
 @import (inline) './esl-tab/core/esl-tab.css';
@@ -41,3 +39,13 @@
 @import (inline) './esl-drag-to-scroll/core/esl-drag-to-scroll.css';
 @import (inline) './esl-line-clamp/core/esl-line-clamp.css';
 @import (inline) './esl-sticky-box/core/esl-sticky-box.css';
+
+/* './esl-carousel/all.css' */
+@import (inline) './esl-carousel/core/esl-carousel.css';
+@import (inline) './esl-carousel/renderers/esl-carousel.default.renderer.css';
+@import (inline) './esl-carousel/renderers/esl-carousel.grid.renderer.css';
+@import (inline) './esl-carousel/renderers/esl-carousel.css.renderer.css';
+@import (inline) './esl-carousel/renderers/esl-carousel.css.fade.renderer.css';
+@import (inline) './esl-carousel/renderers/esl-carousel.css.slide.renderer.css';
+@import (inline) './esl-carousel/plugin/nav/esl-carousel.nav.arrows.css';
+@import (inline) './esl-carousel/plugin/dots/esl-carousel.nav.dots.css';

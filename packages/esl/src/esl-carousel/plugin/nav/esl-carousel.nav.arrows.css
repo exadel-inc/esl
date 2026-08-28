@@ -8,7 +8,7 @@
 }
 
 :root {
-  // variable to make clickable area larger
+  /* variable to make clickable area larger */
   --esl-carousel-arrow-size: 40px;
   --esl-carousel-arrow-padding: 0px;
   --esl-carousel-arrow-bg: grey;
@@ -39,34 +39,32 @@
   filter: drop-shadow(0 0 4px var(--esl-carousel-arrow-bg));
 
   opacity: 0.75;
-
-  &:hover {
-    opacity: 1;
-  }
-
-  &[disabled] {
-    opacity: 0.25;
-  }
 }
 
-// Positioning
+.esl-carousel-arrow:hover {
+  opacity: 1;
+}
+
+.esl-carousel-arrow[disabled] {
+  opacity: 0.25;
+}
+
+/* Positioning */
 .esl-carousel-arrow.prev {
   left: var(--esl-carousel-arrow-offset);
-
-  &.inner {
-    left: 0;
-  }
+}
+.esl-carousel-arrow.prev.inner {
+  left: 0;
 }
 
 .esl-carousel-arrow.next {
   right: var(--esl-carousel-arrow-offset);
-
-  &.inner {
-    right: 0;
-  }
+}
+.esl-carousel-arrow.next.inner {
+  right: 0;
 }
 
-// Arrow icon
+/* Arrow icon */
 .esl-carousel-arrow::before {
   content: '';
   display: block;

@@ -1,6 +1,6 @@
 # [ESL](https://exadel-inc.github.io/esl/) Carousel
 
-Version: *2.0.0-beta*.
+Version: *3.0.0*.
 
 Authors: *Alexey Stsefanovich (ala'n)*, *Julia Murashko*, *Anna Barmina*, *Anastasia Lesun*.
 
@@ -26,9 +26,9 @@ The folowing example shows the basic structure of ESLCarousel:
 ```html
 <esl-carousel>
   <ul esl-carousel-slides>
-    <li esl-carousel-slide>Slide 1</div>
-    <li esl-carousel-slide>Slide 2</div>
-    <li esl-carousel-slide>Slide 3</div>
+    <li esl-carousel-slide>Slide 1</li>
+    <li esl-carousel-slide>Slide 2</li>
+    <li esl-carousel-slide>Slide 3</li>
   </ul>
 </esl-carousel>
 ```
