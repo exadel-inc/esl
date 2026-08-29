@@ -165,6 +165,10 @@ In case you need to build current projects tarballs you need to run:
 Note: this script will build all the packages in the monorepo and create tarballs for each package in the root `target` directory.
 Note: project do not support root-level default tarball command (`npm pack`), so you need to use exact `npm run pack` instead.
 
+## Release Utilities
+
+For the Node utilities used to inspect Nx release groups, generate changelogs, and support release CI workflows, see the [`scripts` README](../scripts/README.md).
+
 ## Project Conventions
 
 ESL project uses some special JS community agreements and name conventions.
