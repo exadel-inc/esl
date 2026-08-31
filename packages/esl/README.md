@@ -71,7 +71,6 @@ with excellent performance.
 - ##### [ESL Carousel](https://github.com/exadel-inc/esl/blob/HEAD/packages/esl/src/esl-carousel/README.md)
 - ##### [ESL Footnotes](https://github.com/exadel-inc/esl/blob/HEAD/packages/esl/src/esl-footnotes/README.md)
 - ##### [ESL Image Utils](https://github.com/exadel-inc/esl/blob/HEAD/packages/esl/src/esl-image-utils/README.md)
-- ##### [ESL Image (Legacy)](https://github.com/exadel-inc/esl/blob/HEAD/packages/esl/src/esl-image/README.md)
 - ##### [ESL Media](https://github.com/exadel-inc/esl/blob/HEAD/packages/esl/src/esl-media/README.md)
 - ##### [ESL Panel](https://github.com/exadel-inc/esl/blob/HEAD/packages/esl/src/esl-panel/README.md)
 - ##### [ESL Panel Group](https://github.com/exadel-inc/esl/blob/HEAD/packages/esl/src/esl-panel-group/README.md)

@@ -36,6 +36,6 @@
 
 6. Register components via register static method call
    ```typescript
-   ESLImage.register();
+   ESLPanel.register();
    ```
    You can pass custom tags name to the 'register' function, but use this option only in an exceptional situation.

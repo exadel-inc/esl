@@ -8,6 +8,8 @@ Authors: *Anna Barmina*, *Alexey Stsefanovich (ala'n)*
 
 Lightweight helpers for use with native `img` and `picture` elements.
 
+> ℹ️ Migrating from legacy `<esl-image>`? Check out the [ESL Image Migration Guide](./docs/migration.md).
+
 ## ESL Image Container Mixin
 
 `ESLImageContainerMixin` (`esl-image-container`) is a custom attribute used to set an image container class once the image has loaded.

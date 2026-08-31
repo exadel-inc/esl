@@ -6,7 +6,6 @@ import type {ESLCarouselTagShape, ESLCarouselNavDotsTagShape, ESLCarouselInfoTag
 import type {ESLNoteTagShape, ESLFootnotesTagShape} from '../esl-footnotes/core';
 import type {ESLSelectTagShape} from '../esl-forms/esl-select/core';
 import type {ESLSelectListTagShape} from '../esl-forms/esl-select-list/core';
-import type {ESLImageTagShape} from '../esl-image/core';
 import type {ESLMediaTagShape} from '../esl-media/core';
 import type {ESLPanelTagShape} from '../esl-panel/core';
 import type {ESLPanelGroupTagShape} from '../esl-panel-group/core';
@@ -43,8 +42,6 @@ export interface ESLIntrinsicElements {
   'esl-select': ESLSelectTagShape;
   /** The {@link ESLSelectList} tag declaration */
   'esl-select-list': ESLSelectListTagShape;
-  /** The {@link ESLImage} tag declaration */
-  'esl-image': ESLImageTagShape;
   /** The {@link ESLMedia} tag declaration */
   'esl-media': ESLMediaTagShape;
   /** The {@link ESLPanel} tag declaration */
