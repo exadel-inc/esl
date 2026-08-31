@@ -45,11 +45,11 @@
     "version:root": "node scripts/update-root-version.mjs"
   },
   "dependencies": {
-    "@nx/devkit": "23.1.1",
-    "@nx/eslint": "23.1.1",
-    "@nx/js": "23.1.1",
-    "@nx/vitest": "23.1.1",
-    "nx": "23.1.1",
+    "@nx/devkit": "23.1.2",
+    "@nx/eslint": "23.1.2",
+    "@nx/js": "23.1.2",
+    "@nx/vitest": "23.1.2",
+    "nx": "23.1.2",
     "semver": "^7.8.5",
     "typescript": "6.0.3",
     "typescript-5": "npm:typescript@5.9.3",
