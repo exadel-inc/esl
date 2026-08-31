@@ -1,0 +1,9 @@
+.img-fade {
+  opacity: 0;
+}
+
+.img-fade.img-container-loaded,
+.img-container-loaded .img-fade {
+  opacity: 1;
+  transition: opacity 0.4s;
+}

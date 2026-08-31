@@ -1,6 +1,6 @@
 # [ESL](../../../) Image Utils
 
-Version: *1.0.0*
+Version: *2.0.0*
 
 Authors: *Anna Barmina*, *Alexey Stsefanovich (ala'n)*
 
@@ -78,10 +78,16 @@ or simply
 
 ## ESL Image Container (CSS Only)
 
-A set of common CSS classes to use with native images. Seamless integration with `ESLImageContainerMixin` defaults. 
+A set of common CSS classes to use with native images. Seamless integration with `ESLImageContainerMixin` defaults.
+
+Styles can be imported as a full bundle or modularly per need:
+- `@exadel/esl/modules/esl-image-utils/all.css` — imports all container, aspect ratio, and fade styles.
+- `@exadel/esl/modules/esl-image-utils/core/esl-image-utils.container.css` — base container and image layout classes.
+- `@exadel/esl/modules/esl-image-utils/core/esl-image-utils.ratios.css` — aspect ratio container classes.
+- `@exadel/esl/modules/esl-image-utils/core/esl-image-utils.fade.css` — image fade-in transition on load.
 
 ### Main container & image classes
-_Source_: [esl-image-utils.container.less](./core/esl-image-utils.container.less)
+_Source_: [esl-image-utils.container.css](./core/esl-image-utils.container.css)
 
 - `img-container` - mandatory container class (can also be applied to `picture` elements).
 - `img-container-loaded` (Automatic) - class applied to the container element when the image loads. Maintained by `ESLImageContainerMixin`.
@@ -90,15 +96,15 @@ _Source_: [esl-image-utils.container.less](./core/esl-image-utils.container.less
 - `img-contain` - class to apply to the `img` element to fit (inscribe) the container area while maintaining aspect ratio.
 
 ### Aspect Ratio Container Classes
-_Source_: [esl-image-utils.ratios.less](./core/esl-image-utils.ratios.less)
+_Source_: [esl-image-utils.ratios.css](./core/esl-image-utils.ratios.css)
 
-  - `img-container-16-9` - aspect ratio 16:9 container class.
-  - `img-container-26-9` - aspect ratio 26:9 container class.
-  - `img-container-4-3` - aspect ratio 4:3 container class.
-  - `img-container-1-1` - aspect ratio 1:1 container class.
+- `img-container-16-9` - aspect ratio 16:9 container class.
+- `img-container-26-9` - aspect ratio 26:9 container class.
+- `img-container-4-3` - aspect ratio 4:3 container class.
+- `img-container-1-1` - aspect ratio 1:1 container class.
 
 ### Image Fade-In Animation
-_Source_: [esl-image-utils.fade.less](./core/esl-image-utils.fade.less)
+_Source_: [esl-image-utils.fade.css](./core/esl-image-utils.fade.css)
 
 - `img-fade` - class to apply a fade-in animation on image load. Works with the `img-container-loaded` class.
 
