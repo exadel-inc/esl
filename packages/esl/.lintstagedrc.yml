@@ -1,5 +1,5 @@
 "*.ts":
   - "eslint"
   - "vitest related --silent --passWithNoTests"
-"*.less":
+"*.css":
   - "stylelint"

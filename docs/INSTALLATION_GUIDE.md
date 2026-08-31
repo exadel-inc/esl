@@ -23,9 +23,8 @@
    ```
    - some modules contain cumulative `all.js` entries.
 
-4. Styles are distributed in two versions:
-   - 'ready to use' `core.css` or `core.less`
-   - mixin version core.mixin.less for custom tag name definition
+4. Styles are distributed as ready-to-use CSS:
+   - 'ready to use' `core.css` (or module `all.css` / leaf `.css` files)
 
 5. _[Optional]_ Setup environment configuration, e.g. custom screen breakpoints.
    ```typescript

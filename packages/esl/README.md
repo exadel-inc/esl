@@ -126,9 +126,8 @@ Fallback manual flow:
     import '@exadel/esl/modules/esl-media/providers/iframe-provider';
     ```
     - Some modules contain cumulative `all` entries.
-    - Styles are distributed in two versions: 
-      - 'ready to use' `core.css` or `core.less`
-      - mixin version `core.mixin.less` for custom tagname definition
+    - Styles are distributed as ready-to-use CSS: 
+      - 'ready to use' `core.css` (or module `all.css` / leaf `.css` files)
 
 3. [Optional] Setup environment configuration, e.g. custom screen breakpoints:
 
