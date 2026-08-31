@@ -1,3 +1,31 @@
+## 7.0.0-beta.2 (2026-08-31)
+
+### 🚀 Features
+
+- ⚠️  **esl-carousel:** esl-carousel migrated to pure CSS export ([c3e9aafd4](https://github.com/exadel-inc/esl/commit/c3e9aafd4))
+- ⚠️  **esl-forms:** esl-select/esl-select-list migrated to pure CSS export ([51ac76c03](https://github.com/exadel-inc/esl/commit/51ac76c03))
+- ⚠️  **esl-image-utils:** migrate module styles to pure CSS export ([8cc8ed2e9](https://github.com/exadel-inc/esl/commit/8cc8ed2e9))
+- ⚠️  **esl-scrollbar:** esl-scrollbar migrated to pure CSS export ([ce1bdc33a](https://github.com/exadel-inc/esl/commit/ce1bdc33a))
+- ⚠️  **esl-utils:** migrate module styles to pure CSS export ([d8e7522c4](https://github.com/exadel-inc/esl/commit/d8e7522c4))
+
+### 💅 Refactors
+
+- **site:** update to new esl-scrollbar API ([eb1c398c4](https://github.com/exadel-inc/esl/commit/eb1c398c4))
+- **ui-playground:** fix consumption of esl@7 ([fd0659434](https://github.com/exadel-inc/esl/commit/fd0659434))
+
+### ⚠️  Breaking Changes
+
+- **esl-utils:** migrate module styles to pure CSS export  ([d8e7522c4](https://github.com/exadel-inc/esl/commit/d8e7522c4))
+  `esl-utils` styles are now exported as pure CSS. Use `@exadel/esl/modules/esl-utils/all.css` (or individual leaf stylesheets like `core/esl-utils/dom/scrollbar.css`) instead of LESS imports.
+- **esl-image-utils:** migrate module styles to pure CSS export  ([8cc8ed2e9](https://github.com/exadel-inc/esl/commit/8cc8ed2e9))
+  `esl-image-utils` styles are now exported as pure CSS. Use `@exadel/esl/modules/esl-image-utils/all.css` (or individual leaf stylesheets like `core/esl-image-utils.container.css`) instead of LESS imports.
+- **esl-scrollbar:** esl-scrollbar migrated to pure CSS export  ([ce1bdc33a](https://github.com/exadel-inc/esl/commit/ce1bdc33a))
+  use `esl-scrollbar/core.css` output instead of Less files/mixins; Less mixins (`core.mixin.less`) are removed in favor of direct CSS rules and custom properties; track arrows now require `.esl-scrollbar-arrows` class.
+- **esl-forms:** esl-select/esl-select-list migrated to pure CSS export  ([51ac76c03](https://github.com/exadel-inc/esl/commit/51ac76c03))
+  use `esl-select/core.css`/`esl-select-list/core.css` + `esl-forms/all.css` output instead of the less one
+- **esl-carousel:** esl-carousel migrated to pure CSS export  ([c3e9aafd4](https://github.com/exadel-inc/esl/commit/c3e9aafd4))
+  use `esl-carousel/core.css`/`esl-carousel/all.css` output instead of the less one
+
 ## 7.0.0-beta.1 (2026-08-26)
 
 ### 🚀 Features

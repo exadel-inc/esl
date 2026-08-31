@@ -1,3 +1,7 @@
+## 7.0.0-beta.2 (2026-08-31)
+
+This was a version bump only for esl-website-e2e to align it with other projects, there were no code changes.
+
 ## 7.0.0-beta.1 (2026-08-26)
 
 This was a version bump only for esl-website-e2e to align it with other projects, there were no code changes.

@@ -1,3 +1,9 @@
+## 7.0.0-beta.2 (2026-08-31)
+
+### 💅 Refactors
+
+- **site:** update to new esl-scrollbar API ([eb1c398c4](https://github.com/exadel-inc/esl/commit/eb1c398c4))
+
 ## 7.0.0-beta.1 (2026-08-26)
 
 This was a version bump only for esl-website to align it with other projects, there were no code changes.
