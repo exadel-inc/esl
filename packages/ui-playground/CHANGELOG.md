@@ -1,3 +1,9 @@
+## 7.0.0-beta.2 (2026-08-31)
+
+### 💅 Refactors
+
+- **ui-playground:** fix consumption of esl@7 ([fd0659434](https://github.com/exadel-inc/esl/commit/fd0659434))
+
 ## 7.0.0-beta.1 (2026-08-26)
 
 This was a version bump only for uip to align it with other projects, there were no code changes.
