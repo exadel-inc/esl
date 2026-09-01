@@ -1,3 +1,23 @@
+## 7.0.0-beta.3 (2026-09-01)
+
+### 🚀 Features
+
+- ⚠️  **esl-image:** remove deprecated esl-image component and module ([2abd97e2d](https://github.com/exadel-inc/esl/commit/2abd97e2d))
+
+### 💅 Refactors
+
+- complete migration to CSS export and remove Less build pipeline ([b8a06e7a2](https://github.com/exadel-inc/esl/commit/b8a06e7a2))
+
+### 🔧 Dependencies & tech updates
+
+- **deps:** bump the nx group with 5 updates ([e5f8bc71f](https://github.com/exadel-inc/esl/commit/e5f8bc71f))
+- **deps:** bump typescript-eslint from 8.67.0 to 8.68.0 ([9d6ad5e81](https://github.com/exadel-inc/esl/commit/9d6ad5e81))
+
+### ⚠️  Breaking Changes
+
+- **esl-image:** remove deprecated esl-image component and module  ([2abd97e2d](https://github.com/exadel-inc/esl/commit/2abd97e2d))
+  `<esl-image>` component and `@exadel/esl/modules/esl-image` module have been removed. Use native `<img>` / `<picture>` elements, `@exadel/esl/modules/esl-image-utils`, and `esl-lazy-template` instead.
+
 ## 7.0.0-beta.2 (2026-08-31)
 
 This was a version bump only for esl-website-e2e to align it with other projects, there were no code changes.
