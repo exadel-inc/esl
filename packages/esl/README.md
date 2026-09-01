@@ -71,7 +71,6 @@ with excellent performance.
 - ##### [ESL Carousel](https://github.com/exadel-inc/esl/blob/HEAD/packages/esl/src/esl-carousel/README.md)
 - ##### [ESL Footnotes](https://github.com/exadel-inc/esl/blob/HEAD/packages/esl/src/esl-footnotes/README.md)
 - ##### [ESL Image Utils](https://github.com/exadel-inc/esl/blob/HEAD/packages/esl/src/esl-image-utils/README.md)
-- ##### [ESL Image (Legacy)](https://github.com/exadel-inc/esl/blob/HEAD/packages/esl/src/esl-image/README.md)
 - ##### [ESL Media](https://github.com/exadel-inc/esl/blob/HEAD/packages/esl/src/esl-media/README.md)
 - ##### [ESL Panel](https://github.com/exadel-inc/esl/blob/HEAD/packages/esl/src/esl-panel/README.md)
 - ##### [ESL Panel Group](https://github.com/exadel-inc/esl/blob/HEAD/packages/esl/src/esl-panel-group/README.md)
@@ -127,9 +126,8 @@ Fallback manual flow:
     import '@exadel/esl/modules/esl-media/providers/iframe-provider';
     ```
     - Some modules contain cumulative `all` entries.
-    - Styles are distributed in two versions: 
-      - 'ready to use' `core.css` or `core.less`
-      - mixin version `core.mixin.less` for custom tagname definition
+    - Styles are distributed as ready-to-use CSS: 
+      - 'ready to use' `core.css` (or module `all.css` / leaf `.css` files)
 
 3. [Optional] Setup environment configuration, e.g. custom screen breakpoints:
 

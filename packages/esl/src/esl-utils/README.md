@@ -70,7 +70,7 @@ Even if you use the whole utils module, it is still tiny.
     - ##### <a href="./dom/script.ts" target="_blank">Scripts</a> - a script loading utility to limit and track loading.
   
     - ##### <a href="./dom/scroll.ts" target="_blank">Scroll</a> - a scroll utility methods like locking, traversing for closest scrollable, etc. 
-      *Note: uses <a href="./dom/scroll.less" target="_blank">scroll.less</a> styles.*
+      *Note: uses <a href="./dom/scroll.css" target="_blank">scroll.css</a> styles.*
   
     - ##### <a href="./dom/traversing.ts" target="_blank">DOM Traversing</a> - a set of utils to find DOM elements or check their relations.
 

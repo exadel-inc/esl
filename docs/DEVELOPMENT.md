@@ -68,7 +68,7 @@ In case you have run `npm run build` + `npm run test` before pushing, yourself c
 
 ## Project Stack
 
-ESL codebase is written using TypeScript and LESS CSS-preprocessor.
+ESL codebase is written using TypeScript and CSS (with LESS preprocessor used in demo and UI playground packages).
 
 ESL is a monorepo project that uses [Nx](https://nx.dev/) to manage the codebase, build, test, and lint tasks.
 
@@ -101,13 +101,12 @@ ESL top-level directory structure is as follows:
               - 📄 *.test.ts - test sources should have `.test` postfix 
           - 📁 core - component/module core source files
           - 📄 core.ts - component/module main file (import core parts)
-          - 📄 core.{less,css} - component/module main styles
-          - 📄 core.mixin.less - component/module main styles mixin and references only
+          - 📄 core.css - component/module main styles
       - [📁 esl-utils](../packages/esl/src/esl-utils) - library common utilities module
           - 📁 category - utilities organized in groups
       - 📄 all.ts - bundled esm source
       - 📄 lib.ts - global object type definition and activator
-      - 📄 all.less - bundled source style 
+      - 📄 all.css - bundled source style 
     - [📁 polyfills](../packages/esl/src/polyfills) - (Legacy) small polyfills and shims distributed with the library
   - [📁 esl-website](../packages/esl-website) - demo site root directory
     - [📁 11ty](../packages/esl-website/11ty) - demo site 11ty configuration files

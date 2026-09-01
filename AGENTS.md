@@ -23,7 +23,7 @@ Typical component layout:
 ```text
 esl-<name>/
   core.ts          # only public re-export barrel
-  core.less        # styles for custom tags
+  core.css         # styles for custom tags
   core/            # implementation
   test/            # unit tests
 ```
@@ -154,7 +154,7 @@ nx run esl-website:start
 - `packages/esl/src/esl-event-listener/` — event listener system and adapters
 - `packages/esl/src/esl-utils/` — decorators, DOM helpers, async helpers, misc utilities
 - `packages/esl/src/esl-toggleable/` — toggleable base for Panel, Popup, Alert, and related components
-- `packages/esl/src/all.ts` / `all.less` — full library bundle entry points
+- `packages/esl/src/all.ts` / `all.css` — full library bundle entry points
 - `docs/DEVELOPMENT.md` — environment setup and workflows
 - `docs/CODE_CONVENTIONS.md` — naming and style conventions
 - `docs/COMMIT_CONVENTION.md` — commit message format

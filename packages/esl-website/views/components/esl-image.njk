@@ -1,17 +1,22 @@
 ---
 layout: content
 title: ESL Image
-seoTitle: ESL Image - custom image element with lazy loading, renditions, and different modes of embedding
+seoTitle: ESL Image - Migration Guide
 name: ESL Image
 tags: [components, deprecated]
 aside:
-  source: packages/esl/src/esl-image
+  source: packages/esl/src/esl-image-utils
   examples:
-    - image
     - image-utils
   components:
     - esl-image-utils
-  deprecationSpec: packages/esl/src/esl-image/README.md
+  deprecationText: "<strong>ESL Image is removed in ESL v7.0.0</strong>: Please migrate to native <code>&lt;img&gt;</code> / <code>&lt;picture&gt;</code>, <code>esl-image-utils</code>, and <code>esl-lazy-template</code>."
 ---
 
-{% mdRender '@exadel/esl/modules/esl-image/README.md', 'intro' %}
+<div class="alert alert-danger mb-4">
+  <p class="h4">⚠️ Component Removed in ESL v7.0.0</p>
+  <p>The <code>&lt;esl-image&gt;</code> custom element is no longer supported or distributed starting from ESL version 7.0.0. Please refer to the migration guide below to transition your code to modern standard elements (<code>&lt;img&gt;</code>, <code>&lt;picture&gt;</code>), <code>esl-image-utils</code>, and <code>esl-lazy-template</code>.</p>
+</div>
+
+{% mdRender '@exadel/esl/modules/esl-image-utils/docs/migration.md', '$content' %}
+

@@ -59,8 +59,8 @@ rewriteRules:
   "esl-tab/README.md": "/components/esl-tab"
   "esl-panel/README.md": "/components/esl-panel"
   "esl-panel-group/README.md": "/components/esl-panel-group"
-  "esl-image/README.md": "/components/esl-image"
   "esl-image-utils/README.md": "/components/esl-image-utils"
+  "esl-image-utils/docs/migration.md": "/components/esl-image"
   "esl-drag-to-scroll/README.md": "/components/esl-drag-to-scroll"
 
   "esl-carousel/README.md": "/components/esl-carousel"
