@@ -13,6 +13,6 @@ export const medium = [
 
 export const strict = [
   ...base,
-  ...extended,
-  ...codestyle
+  ...codestyle,
+  ...extended
 ];
