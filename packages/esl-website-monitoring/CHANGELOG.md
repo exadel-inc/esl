@@ -1,3 +1,10 @@
+## 7.0.0-beta.4 (2026-09-04)
+
+### 🔧 Dependencies & tech updates
+
+- **deps:** bump typescript-eslint from 8.68.0 to 8.69.0 ([5dba39c24](https://github.com/exadel-inc/esl/commit/5dba39c24))
+- **deps:** bump the nx group with 5 updates ([731f01096](https://github.com/exadel-inc/esl/commit/731f01096))
+
 ## 7.0.0-beta.3 (2026-09-01)
 
 ### 🚀 Features
