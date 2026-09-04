@@ -1,3 +1,12 @@
+## 6.3.2 (2026-09-04)
+
+### 🔧 Dependencies & tech updates
+
+- **deps:** bump typescript-eslint from 8.67.0 to 8.68.0 ([9d6ad5e81](https://github.com/exadel-inc/esl/commit/9d6ad5e81))
+- **deps:** bump the nx group with 5 updates ([e5f8bc71f](https://github.com/exadel-inc/esl/commit/e5f8bc71f))
+- **deps:** bump the nx group with 5 updates ([731f01096](https://github.com/exadel-inc/esl/commit/731f01096))
+- **deps:** bump typescript-eslint from 8.68.0 to 8.69.0 ([5dba39c24](https://github.com/exadel-inc/esl/commit/5dba39c24))
+
 ## 6.3.1 (2026-08-18)
 
 ### 🔧 Dependencies & tech updates

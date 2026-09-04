@@ -2,7 +2,7 @@
   "name": "@exadel/eslint-config-esl",
   "type": "module",
   "private": false,
-  "version": "6.3.1",
+  "version": "6.3.2",
   "keywords": [
     "eslint",
     "eslint-config",
