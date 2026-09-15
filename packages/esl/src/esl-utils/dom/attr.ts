@@ -3,7 +3,7 @@ import {resolveDomTarget} from '../abstract/dom-target';
 import type {ESLDomElementTarget} from '../abstract/dom-target';
 
 export type ESLAttributeTarget = undefined | null | ESLDomElementTarget | ESLDomElementTarget[];
-export type ESLAttributeDecorator = (target: ESLDomElementTarget, propName: string) => void;
+export type ESLAttributeDecorator = (target: ESLDomElementTarget, propName: string, descriptor?: PropertyDescriptor) => void;
 
 /** @returns true if attribute presented */
 export function hasAttr($el: ESLAttributeTarget, name: string): boolean {
