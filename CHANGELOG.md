@@ -1,3 +1,18 @@
+## 6.3.2 (2026-09-15)
+
+### 🔧 Dependencies & tech updates
+
+- **deps:** bump typescript-eslint from 8.67.0 to 8.68.0 ([9d6ad5e81](https://github.com/exadel-inc/esl/commit/9d6ad5e81))
+- **deps:** bump the nx group with 5 updates ([e5f8bc71f](https://github.com/exadel-inc/esl/commit/e5f8bc71f))
+- **deps:** bump the nx group with 5 updates ([731f01096](https://github.com/exadel-inc/esl/commit/731f01096))
+- **deps:** bump typescript-eslint from 8.68.0 to 8.69.0 ([5dba39c24](https://github.com/exadel-inc/esl/commit/5dba39c24))
+- **deps:** bump the nx group with 5 updates ([afd843e86](https://github.com/exadel-inc/esl/commit/afd843e86))
+- **deps:** bump globals from 17.11.0 to 17.12.0 ([1d7616de4](https://github.com/exadel-inc/esl/commit/1d7616de4))
+- **deps:** bump @playwright/test from 1.62.1 to 1.63.0 ([eb44c2b6b](https://github.com/exadel-inc/esl/commit/eb44c2b6b))
+- **deps:** bump colord from 2.9.3 to 2.10.0 ([513832252](https://github.com/exadel-inc/esl/commit/513832252))
+- **deps:** bump the nx group with 5 updates ([c24284fbb](https://github.com/exadel-inc/esl/commit/c24284fbb))
+- **deps:** bump typescript-eslint from 8.69.0 to 8.70.0 ([dd303c085](https://github.com/exadel-inc/esl/commit/dd303c085))
+
 ## 6.3.1 (2026-08-18)
 
 ### 🔧 Dependencies & tech updates
