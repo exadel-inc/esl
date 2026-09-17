@@ -3,6 +3,11 @@ import {resolveDomTarget} from '../abstract/dom-target';
 import type {ESLDomElementTarget} from '../abstract/dom-target';
 
 export type ESLAttributeTarget = undefined | null | ESLDomElementTarget | ESLDomElementTarget[];
+/**
+ * Attribute decorator compatible with fields and auto-accessors.
+ * The incoming accessor descriptor is intentionally ignored because
+ * attribute decorators replace it with their own property descriptor.
+ */
 export type ESLAttributeDecorator = (target: ESLDomElementTarget, propName: string, descriptor?: PropertyDescriptor) => void;
 
 /** @returns true if attribute presented */
