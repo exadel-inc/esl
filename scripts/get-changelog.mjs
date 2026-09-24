@@ -1,27 +1,54 @@
 #!/usr/bin/env node
 import {getProjectFile} from './common/config.mjs';
+import {getPackageManifestForProject, getPublicReleaseProjectNames, getReleaseGroups} from './common/release.mjs';
 import {getVersionForProject} from './common/version.mjs';
 import {extractReleaseNotes, normalizeChangelog} from './common/changelog.mjs';
 
-const arg = process.argv[2] || process.env.PROJECT_NAME || '';
+const [command, value] = process.argv.slice(2);
+const projectArgument = command || process.env.PROJECT_NAME || '';
 
-const projects = arg.split(',').map(p => p.trim()).filter(Boolean);
-if (projects.length === 0) projects.push(''); // Default to workspace if no project specified
+async function getProjects() {
+  if (command === '--all') {
+    const groups = await getReleaseGroups();
+    return groups.flatMap((group) => group.projects.map((project) => `${project.projectName}@${group.version}`));
+  }
+  if (command === '--group') {
+    const groups = await getReleaseGroups();
+    const group = groups.find((item) => item.groupName === value);
+    if (!group) throw new Error(`Release group "${value || ''}" not found.`);
+    return group.changelogProjects.split(',');
+  }
+  return projectArgument
+    ? projectArgument.split(',').map((project) => project.trim()).filter(Boolean)
+    : getPublicReleaseProjectNames();
+}
 
 const changelogs = [];
+const errors = [];
+let projects = [];
+try {
+  projects = await getProjects();
+} catch (error) {
+  errors.push(error.message);
+}
+
 for (const project of projects) {
   try {
     const [projectName, argVersion] = project.split('@');
     const version = argVersion || await getVersionForProject(projectName);
     const changelog = await getProjectFile(projectName, 'CHANGELOG.md');
     const versionChangelog = extractReleaseNotes(changelog, version);
-    changelogs.push(normalizeChangelog(versionChangelog, projectName));
+    const {name: packageName} = await getPackageManifestForProject(projectName);
+    changelogs.push(normalizeChangelog(versionChangelog, packageName || projectName));
   } catch (error) {
-    console.error(`Error retrieving release notes for project ${project}:`, error.message);
+    errors.push(`Error retrieving release notes for project ${project}: ${error.message}`);
   }
 }
 
-if (changelogs.length > 0) {
+if (errors.length > 0) {
+  console.error(errors.join('\n'));
+  process.exit(1);
+} else if (changelogs.length > 0) {
   console.log(changelogs.join('\n\n---\n\n'));
   process.exit(0);
 } else {

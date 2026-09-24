@@ -39,54 +39,55 @@ jobs:
       - name: Install NPM Dependencies
         run: npm ci
 
-      - name: Check if current version created
-        id: preversion
-        uses: actions/github-script@v9
-        with:
-          script: |
-            const { execSync } = require('child_process');
-            const version = require('./package.json').version;
-            const tag = `v${version}`;
-            const result = execSync(`git ls-remote --tags origin | grep "refs/tags/${tag}" | wc -l`).toString().trim();
-            if (+result > 0) core.setOutput('allowed', true);
+      - name: Check release group base tags
+        shell: bash
+        run: node scripts/check-release-tags.mjs --remote origin
 
       - name: Stable Version Bump (Nx)
-        if: ${{ github.ref == 'refs/heads/main' && steps.preversion.outputs.allowed }}
+        if: ${{ github.ref == 'refs/heads/main' }}
         run: npm run release:stable
 
       - name: Beta Version Bump (Nx)
-        if: ${{ github.ref != 'refs/heads/main' && steps.preversion.outputs.allowed }}
+        if: ${{ github.ref != 'refs/heads/main' }}
         run: npm run release:beta
 
       - name: Bump root package version
-        if: ${{ steps.preversion.outputs.allowed }}
         run: npm run version:root
 
-      - name: Store the new version
-        if: ${{ steps.preversion.outputs.allowed }}
-        id: info
-        uses: actions/github-script@v9
-        with:
-          script: |
-            const version = require('./package.json').version;
-            console.log('Current version:', version);
-            core.setOutput('version', version);
+      - name: Resolve public release summary
+        id: summary
+        shell: bash
+        run: |
+          node scripts/get-changed-release-projects.mjs > .changed-public-releases.json
+          echo "json=$(tr -d '\n' < .changed-public-releases.json)" >> "$GITHUB_OUTPUT"
+          echo "total=$(node -e \"process.stdout.write(String(JSON.parse(require('fs').readFileSync('.changed-public-releases.json', 'utf8')).total))\")" >> "$GITHUB_OUTPUT"
+          echo "title=$(node -e \"process.stdout.write(JSON.parse(require('fs').readFileSync('.changed-public-releases.json', 'utf8')).title)\")" >> "$GITHUB_OUTPUT"
+          echo "changelog-projects=$(node -e \"process.stdout.write(JSON.parse(require('fs').readFileSync('.changed-public-releases.json', 'utf8')).changelogProjects)\")" >> "$GITHUB_OUTPUT"
+          {
+            echo "summary<<EOF"
+            node -e "process.stdout.write(JSON.parse(require('fs').readFileSync('.changed-public-releases.json', 'utf8')).summary)"
+            echo
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
 
       - name: Generate Release Notes
-        if: ${{ steps.info.outputs.version && steps.preversion.outputs.allowed }}
         run: |
-          echo "This is an automated Release PR for version v${{ steps.info.outputs.version }}." > PR_MESSAGE.tmp.md
+          echo "This is an automated Release PR for ${{ steps.summary.outputs.title }}." > PR_MESSAGE.tmp.md
           echo "" >> PR_MESSAGE.tmp.md
-          npm run --silent get:changelog >> PR_MESSAGE.tmp.md
+          echo "Public releases detected in this PR:" >> PR_MESSAGE.tmp.md
+          echo "${{ steps.summary.outputs.summary }}" >> PR_MESSAGE.tmp.md
+          if [ "${{ steps.summary.outputs.total }}" != "0" ]; then
+            echo "" >> PR_MESSAGE.tmp.md
+            npm run --silent get:changelog -- "${{ steps.summary.outputs.changelog-projects }}" >> PR_MESSAGE.tmp.md
+          fi
 
       # Open a PR from release/main to main
-      - if: ${{ steps.info.outputs.version && steps.preversion.outputs.allowed }}
-        name: Create Pull Request
+      - name: Create Pull Request
         uses: peter-evans/create-pull-request@v8
         with:
           branch: ${{ env.TARGET_BRANCH }}
-          title: "Auto Bump: ${{ env.TARGET_BRANCH }} → ${{ github.ref }} (v${{ steps.info.outputs.version }})"
-          commit-message: 'chore: release v${{ steps.info.outputs.version }}'
+          title: "Auto Bump: ${{ env.TARGET_BRANCH }} → ${{ github.ref }} (${{ steps.summary.outputs.title }})"
+          commit-message: 'chore: release ${{ steps.summary.outputs.title }}'
           body-path: "PR_MESSAGE.tmp.md"
           draft: true
           labels: "automated-pr"

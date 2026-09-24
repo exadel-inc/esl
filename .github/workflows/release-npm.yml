@@ -18,6 +18,10 @@ on:
 env:
   node-version: 24.x
 
+concurrency:
+  group: release-npm-publish
+  cancel-in-progress: false
+
 permissions:
   contents: read
   id-token: write
