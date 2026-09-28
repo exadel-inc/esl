@@ -33,14 +33,16 @@ function setter(name: string, readonly?: boolean) {
  * - Provider function: installed as getter; each access invokes provider with `(this)`; optional setter creates own value
  * - Readonly: setter becomes no-op (provider case) or value made non-writable (static case)
  * - Enumerable flag passed through
- * - Throws if attempting to decorate an already own property on the prototype object
+ * - Supports `accessor` class members (TypeScript 5+ auto-accessors): the auto-generated accessor is replaced by the `@prop` definition
+ * - Throws if attempting to decorate an already own property on the prototype object (except an auto-generated `accessor`)
  *
  * @param value - static value or provider function producing the value per access
  * @param prototypeConfig - configuration object with optional `readonly` and `enumerable` flags
  */
 export function prop<T = any>(value?: ValueOrProvider<T>, prototypeConfig: OverrideDecoratorConfig = {}) {
-  return function (obj: any, name: string): any {
-    if (Object.hasOwnProperty.call(obj, name)) {
+  return function (obj: any, name: string, descriptor?: PropertyDescriptor): any {
+    const isAccessor = !!descriptor && typeof descriptor.get === 'function';
+    if (!isAccessor && Object.hasOwnProperty.call(obj, name)) {
       throw new TypeError('Can\'t override own property');
     }
     if (typeof value === 'function') {
