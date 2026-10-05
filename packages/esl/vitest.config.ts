@@ -10,6 +10,7 @@ export default defineConfig({
   test: {
     root,
     globals: true,
+    clearMocks: false,
     environment: 'jsdom',
     environmentOptions: {
       jsdom: {
