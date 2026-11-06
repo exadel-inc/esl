@@ -19,16 +19,21 @@ describe('common @decorate decorator test', () => {
     }
 
     const t1 = new Test();
-    test('@decorator is lazy', () => expect(wrap).toHaveBeenCalledTimes(0));
-    test('Decorated with @decorator method returns wrapped method', () => expect(t1.test()).toBe(v1));
-    test('@decorator called ones it\'s accessed', () => expect(wrap).toHaveBeenCalledTimes(1));
-    test('Decorated with @decorator method returns wrapped method every time', () => expect(t1.test).toBe(fn1));
-    test('@decorator does not redecorate method second time', () => expect(wrap).toHaveBeenCalledTimes(1));
+    test('@decorator is lazy and wraps method once on access', () => {
+      expect(wrap).toHaveBeenCalledTimes(0);
+      expect(t1.test()).toBe(v1);
+      expect(wrap).toHaveBeenCalledTimes(1);
+      expect(t1.test).toBe(fn1);
+      expect(wrap).toHaveBeenCalledTimes(1);
+    });
 
     const t2 = new Test();
-    test('@decorator doesn\'t have effect on instance creation', () => expect(wrap).toHaveBeenCalledTimes(1));
-    test('Second instance creates its own wrapped method', () => expect(t2.test()).toBe(v2));
-    test('Decorated with @decorator method returns wrapped method every time (second instance)', () => expect(t2.test).toBe(fn2));
+    test('Second instance creates its own wrapped method without effect on instance creation', () => {
+      expect(wrap).toHaveBeenCalledTimes(0);
+      expect(t2.test()).toBe(v2);
+      expect(wrap).toHaveBeenCalledTimes(1);
+      expect(t2.test).toBe(fn2);
+    });
 
     const t3 = new Test();
     test('Original function passed as a first argument for wrapper', () => expect(t3.test()).toBe(original));
@@ -62,18 +67,14 @@ describe('common @decorate decorator test', () => {
 
     const instance = new Child();
     const arg1 = Symbol('arg1');
-    test(
-      'Overwritten method define correctly and accessing original method',
-      () => expect(instance.test(arg1)).toBe(original)
-    );
-    test(
-      'Arguments passed correctly',
-      () => expect(originalFn).toHaveBeenLastCalledWith(arg1)
-    );
-    test(
-      'Second call still works correct',
-      () => expect(instance.test(arg1)).toBe(original)
-    );
+    test('Overwritten method define correctly and accessing original method', () => {
+      expect(instance.test(arg1)).toBe(original);
+      expect(originalFn).toHaveBeenLastCalledWith(arg1);
+    });
+    test('Second call still works correct', () => {
+      expect(instance.test(arg1)).toBe(original);
+      expect(originalFn).toHaveBeenLastCalledWith(arg1);
+    });
     test(
       'Prototype method call run function without decoration',
       () => expect(Parent.prototype.test()).toBe(original)
