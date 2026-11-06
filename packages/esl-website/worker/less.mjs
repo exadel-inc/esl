@@ -13,18 +13,11 @@ export default async function (filePath) {
   const relFilePath = path.relative(SRC_DIR, absFilePath);
 
   const lessContent = fs.readFileSync(filePath, 'utf-8');
-  let css;
-  let map;
-  try {
-    const result = await less.render(lessContent, {
-      filename: absFilePath,
-      sourceMap: {}
-    });
-    css = result.css;
-    map = result.map;
-  } catch (err) {
-    throw new Error(err);
-  }
+
+  const {css, map} = await less.render(lessContent, {
+    filename: absFilePath,
+    sourceMap: {}
+  });
 
   const cssFileName = path.basename(relFilePath, '.less') + '.css';
   const destFilePath = path.join(OUT_DIR, cssFileName);
