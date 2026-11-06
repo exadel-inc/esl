@@ -1,17 +1,23 @@
 import {SyntheticEventTarget} from '../target';
 
+import type {Mock} from 'vitest';
+
 describe('dom/events: SyntheticEventTarget', () => {
   describe('Handler function', () => {
     describe('Basic functionality', () => {
-      const et = new SyntheticEventTarget();
+      let et: SyntheticEventTarget;
+      let listener: Mock<EventListener>;
 
       const event1 = new CustomEvent('change');
       const event2 = new CustomEvent('change');
       const event3 = new CustomEvent('change');
       const event4 = new CustomEvent('click');
 
-      const listener = vi.fn();
-      et.addEventListener('change', listener);
+      beforeEach(() => {
+        et = new SyntheticEventTarget();
+        listener = vi.fn();
+        et.addEventListener('change', listener);
+      });
 
       test('listener shoudn`t be called', () => expect(listener).toHaveBeenCalledTimes(0));
 
@@ -21,32 +27,38 @@ describe('dom/events: SyntheticEventTarget', () => {
       });
 
       test('listener should be called two times', () => {
+        et.dispatchEvent(event1);
         et.dispatchEvent(event2);
         expect(listener).toHaveBeenLastCalledWith(event2);
+        expect(listener).toHaveBeenCalledTimes(2);
       });
 
       test('listener shouldn`t be called for event it`s not subscribed to', () => {
         et.dispatchEvent(event4);
-        expect(listener).toHaveBeenLastCalledWith(event2);
+        expect(listener).toHaveBeenCalledTimes(0);
       });
 
       test('listener shouldn`t be called third time', () => {
+        et.dispatchEvent(event1);
+        et.dispatchEvent(event2);
         et.removeEventListener('change', listener);
         et.dispatchEvent(event3);
         expect(listener).toHaveBeenCalledTimes(2);
       });
-
-      afterAll(() => vi.clearAllMocks());
     });
 
     describe('Shorthand API', () => {
-      const et = new SyntheticEventTarget();
+      let et: SyntheticEventTarget;
+      let listener: Mock<EventListener>;
 
       const event1 = new CustomEvent('change');
       const event2 = new CustomEvent('change');
 
-      const listener = vi.fn();
-      et.addEventListener(listener);
+      beforeEach(() => {
+        et = new SyntheticEventTarget();
+        listener = vi.fn();
+        et.addEventListener(listener);
+      });
 
       test('listener shoudn`t be called', () => expect(listener).toHaveBeenCalledTimes(0));
 
@@ -70,12 +82,11 @@ describe('dom/events: SyntheticEventTarget', () => {
       });
 
       test('listener shouldn`t be called second time', () => {
+        et.dispatchEvent(event1);
         et.removeEventListener(listener);
         et.dispatchEvent(event2);
         expect(listener).toHaveBeenCalledTimes(1);
       });
-
-      afterAll(() => vi.clearAllMocks());
     });
 
     describe('API restriction', () => {
@@ -89,16 +100,21 @@ describe('dom/events: SyntheticEventTarget', () => {
   });
 
   describe('handler object', () => {
-    const et = new SyntheticEventTarget();
-
     describe('Basic functionality', () => {
+      let et: SyntheticEventTarget;
+      let listener: {handleEvent: Mock<EventListenerObject['handleEvent']>};
+
       const event1 = new CustomEvent('change');
       const event2 = new CustomEvent('change');
       const event3 = new CustomEvent('change');
-      const listener = {
-        handleEvent: vi.fn()
-      };
-      et.addEventListener('change', listener);
+
+      beforeEach(() => {
+        et = new SyntheticEventTarget();
+        listener = {
+          handleEvent: vi.fn()
+        };
+        et.addEventListener('change', listener);
+      });
 
       test('listener event handler shoudn`t be called', () => expect(listener.handleEvent).toHaveBeenCalledTimes(0));
 
@@ -108,11 +124,15 @@ describe('dom/events: SyntheticEventTarget', () => {
       });
 
       test('listener event handler should be called second time', () => {
+        et.dispatchEvent(event1);
         et.dispatchEvent(event2);
         expect(listener.handleEvent).toHaveBeenLastCalledWith(event2);
+        expect(listener.handleEvent).toHaveBeenCalledTimes(2);
       });
 
       test('listener event handler shouldn`t be called third time', () => {
+        et.dispatchEvent(event1);
+        et.dispatchEvent(event2);
         et.removeEventListener('change', listener);
         et.dispatchEvent(event3);
         expect(listener.handleEvent).toHaveBeenCalledTimes(2);
@@ -120,15 +140,23 @@ describe('dom/events: SyntheticEventTarget', () => {
     });
 
     describe('Short api', () => {
+      let et: SyntheticEventTarget;
+      let listener: {handleEvent: Mock<EventListenerObject['handleEvent']>};
+
       const event1 = new CustomEvent('change');
       const event2 = new CustomEvent('change');
-      const listener = {
-        handleEvent: vi.fn()
-      };
+
+      beforeEach(() => {
+        et = new SyntheticEventTarget();
+        listener = {
+          handleEvent: vi.fn()
+        };
+        et.addEventListener(listener);
+      });
 
       test('listener event handler shoudn`t be called', () => {
-        et.addEventListener(listener);
-        expect(listener.handleEvent).toHaveBeenCalledTimes(0);});
+        expect(listener.handleEvent).toHaveBeenCalledTimes(0);
+      });
 
       test('listener event handler should be called once', () => {
         et.dispatchEvent(event1);
@@ -136,13 +164,14 @@ describe('dom/events: SyntheticEventTarget', () => {
       });
 
       test('listener event handler shouldn`t be called second time', () => {
+        et.dispatchEvent(event1);
         et.removeEventListener(listener);
         et.dispatchEvent(event2);
         expect(listener.handleEvent).toHaveBeenCalledTimes(1);
       });
     });
 
-    test('api restriction', () => expect(() => et.addEventListener({} as any)).toThrow());
+    test('api restriction', () => expect(() => new SyntheticEventTarget().addEventListener({} as any)).toThrow());
   });
 
   describe('PreventDefault', () => {

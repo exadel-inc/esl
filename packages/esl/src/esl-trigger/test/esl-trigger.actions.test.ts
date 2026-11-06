@@ -260,8 +260,13 @@ describe('ESLTrigger event handling', () => {
       });
 
       test('toggle (hide)', () => {
-        $trigger.dispatchEvent(new MouseEvent('mouseleave'));
+        $trigger.dispatchEvent(new MouseEvent('mouseenter'));
         expect($trigger.$target!.hide).toHaveBeenCalledTimes(1);
+      });
+
+      test('toggle (hide) on mouseleave ignored', () => {
+        $trigger.dispatchEvent(new MouseEvent('mouseleave'));
+        expect($trigger.$target!.hide).toHaveBeenCalledTimes(0);
       });
     });
   });

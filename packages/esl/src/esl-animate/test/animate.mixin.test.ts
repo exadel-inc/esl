@@ -12,14 +12,25 @@ vi.mock('../../esl-utils/dom/ready', () => ({
 }));
 
 describe('ESLAnimateMixin mixin', () => {
-  const $el = document.createElement('div');
-  $el.toggleAttribute(ESLAnimateMixin.is, true);
-  document.body.appendChild($el);
+  let $el: HTMLElement;
+  let mixin: ESLAnimateMixin;
 
-  ESLAnimateMixin.register();
-  const mixin: ESLAnimateMixin = ESLAnimateMixin.get($el)!;
+  beforeAll(() => {
+    ESLAnimateMixin.register();
+  });
 
-  afterEach(() => vi.resetAllMocks());
+  beforeEach(async () => {
+    $el = document.createElement('div');
+    $el.toggleAttribute(ESLAnimateMixin.is, true);
+    document.body.appendChild($el);
+    await Promise.resolve();
+    mixin = ESLAnimateMixin.get($el)!;
+  });
+
+  afterEach(() => {
+    $el.remove();
+    vi.resetAllMocks();
+  });
 
   test('ESLAnimateMixin instance', () => {
     expect(mixin).toBeInstanceOf(ESLAnimateMixin);

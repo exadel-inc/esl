@@ -20,9 +20,9 @@
   },
   "dependencies": {
     "@exadel/esl-website": "^7.0.0-beta.3",
-    "@playwright/test": "^1.62.1",
+    "@playwright/test": "^1.63.0",
     "nunjucks": "^3.2.4",
-    "rimraf": "^6.1.2"
+    "rimraf": "^6.1.4"
   },
   "devDependencies": {
     "@exadel/eslint-config-esl": "^7.0.0-beta.3",

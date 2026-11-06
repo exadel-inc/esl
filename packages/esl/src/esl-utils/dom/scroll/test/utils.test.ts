@@ -44,6 +44,9 @@ describe('Function hasHorizontalScroll', () => {
 describe('Function isScrollLocked', () => {
   const target = document.createElement('div');
   target.style.overflow = 'auto';
+  beforeAll(() => document.body.appendChild(target));
+  afterAll(() => target.remove());
+
   describe('Locked Scroll', () => {
     beforeAll(() => lockScroll(target));
     test('lock attribute should be set', () => expect(target.hasAttribute('esl-scroll-lock')).toBe(true));
@@ -59,6 +62,8 @@ describe('Function isScrollLocked', () => {
 
 describe('Function lockScroll', () => {
   const target = document.createElement('div');
+  beforeAll(() => document.body.appendChild(target));
+  afterAll(() => target.remove());
   $body.style.overflow = 'auto';
   $html.style.overflow = 'auto';
 
@@ -79,11 +84,13 @@ describe('Function lockScroll', () => {
   });
 
   describe('Scroll lock with recursive option', () => {
-    unlockScroll(target);
-    unlockScroll($body);
-    vi.spyOn(target, 'parentElement', 'get').mockImplementation(() => $body);
+    beforeAll(() => {
+      unlockScroll(target);
+      unlockScroll($body);
+      vi.spyOn(target, 'parentElement', 'get').mockImplementation(() => $body);
+      lockScroll(target, {recursive: true});
+    });
 
-    lockScroll(target, {recursive: true});
     test('target should be locked', () => expect(isScrollLocked(target)).toBe(true));
     test('target`s parent should be locked', () => expect(isScrollLocked($body)).toBe(true));
   });
@@ -152,6 +159,9 @@ describe('Function unlockScroll', () => {
   describe('Unlock scroll on target element', () => {
     const target = document.createElement('div');
     target.style.overflow = 'auto';
+    beforeAll(() => document.body.appendChild(target));
+    afterAll(() => target.remove());
+
     test('target should be initially locked', () => {
       lockScroll(target);
       expect(isScrollLocked(target)).toBe(true);
@@ -191,13 +201,16 @@ describe('Function unlockScroll', () => {
   describe('Unlock multiple elements recursively', () => {
     const target = document.createElement('div');
     target.style.overflow = 'auto';
-    lockScroll(target);
-    lockScroll($body);
-    lockScroll($html);
-    vi.spyOn(target, 'parentElement', 'get').mockImplementation(() => $body);
-    vi.spyOn($body, 'parentElement', 'get').mockImplementation(() => $html);
-
-    unlockScroll(target, {recursive: true});
+    beforeAll(() => {
+      document.body.appendChild(target);
+      lockScroll(target);
+      lockScroll($body);
+      lockScroll($html);
+      vi.spyOn(target, 'parentElement', 'get').mockImplementation(() => $body);
+      vi.spyOn($body, 'parentElement', 'get').mockImplementation(() => $html);
+      unlockScroll(target, {recursive: true});
+    });
+    afterAll(() => target.remove());
 
     test('target element should be unlocked', () => expect(isScrollLocked(target)).toBe(false));
     test('target`s parent element should be unlocked', () => expect(isScrollLocked($body)).toBe(false));
@@ -207,6 +220,8 @@ describe('Function unlockScroll', () => {
   describe('Unlock scroll with initiator', () => {
     const target = document.createElement('div');
     target.style.overflow = 'auto';
+    beforeAll(() => document.body.appendChild(target));
+    afterAll(() => target.remove());
 
     test('target element should unlock with initiator', () => {
       lockScroll(target, {initiator: 'init'});
@@ -228,6 +243,8 @@ describe('Function unlockScroll', () => {
     const first = document.createElement('div');
     const second = document.createElement('div');
     target.style.overflow = 'auto';
+    beforeAll(() => document.body.appendChild(target));
+    afterAll(() => target.remove());
 
     test('target should initially be unlocked', () => expect(isScrollLocked(target)).toBe(false));
 
@@ -254,6 +271,8 @@ describe('Function unlockScroll', () => {
 describe('Scroll lock/unlock events', () => {
   const target = document.createElement('div');
   target.style.overflow = 'auto';
+  beforeAll(() => document.body.appendChild(target));
+  afterAll(() => target.remove());
 
   afterEach(() => unlockScroll(target));
 
