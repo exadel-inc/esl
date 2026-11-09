@@ -5,6 +5,8 @@ on:
 #    # Automatic build runs at 0:00 UTC daily
 #    - cron: '0 0 * * *'
   workflow_dispatch:
+  release:
+    types: [published]
 
 env:
   node-version: 24.x
@@ -27,9 +29,15 @@ jobs:
   build-site:
     name: Build
     runs-on: ubuntu-latest
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (startsWith(github.event.release.tag_name, 'esl-website@') &&
+      !github.event.release.prerelease)
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event_name == 'release' && github.event.release.tag_name || github.sha }}
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v6
@@ -45,7 +53,7 @@ jobs:
         env:
           SITE_ENV: production
           SITE_BASE_URL: ${{ steps.pages.outputs.base_url }}
-          BUILD_VERSION: ${{ github.run_number }}
+          BUILD_VERSION: ${{ github.event_name == 'release' && github.event.release.tag_name || github.run_number }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
         with:

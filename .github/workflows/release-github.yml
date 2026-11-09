@@ -5,7 +5,6 @@ on:
 
 permissions:
   contents: write
-  packages: write
 
 env:
   node-version: 24.x
@@ -15,9 +14,12 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  release:
-    name: Release (Tag & GitHub Release)
+  prepare:
+    name: Resolve Release Groups
     runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.projects.outputs.matrix }}
+      total: ${{ steps.projects.outputs.total }}
 
     steps:
       - name: Checkout
@@ -34,54 +36,105 @@ jobs:
       - name: Install NPM Dependencies
         run: npm ci
 
-      - name: Resolve Version
-        id: info
+      - name: Resolve Release Group Matrix
+        id: projects
+        shell: bash
+        run: |
+          node scripts/get-public-release-projects.mjs > .release-groups.json
+          echo "matrix=$(node -e \"const fs = require('fs'); const data = JSON.parse(fs.readFileSync('.release-groups.json', 'utf8')); process.stdout.write(JSON.stringify({include: data}));\")" >> "$GITHUB_OUTPUT"
+          echo "total=$(node -e \"const fs = require('fs'); const data = JSON.parse(fs.readFileSync('.release-groups.json', 'utf8')); process.stdout.write(String(data.length));\")" >> "$GITHUB_OUTPUT"
+
+  build:
+    name: Build Tarballs
+    runs-on: ubuntu-latest
+    needs: prepare
+    if: ${{ needs.prepare.outputs.total != '0' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Use Node v${{ env.node-version }}
+        uses: actions/setup-node@v7
+        with:
+          cache: 'npm'
+          node-version: ${{ env.node-version }}
+
+      - name: Install NPM Dependencies
+        run: npm ci
+
+      - name: Build Tarballs
+        run: npm run pack
+
+      - name: Upload Tarballs
+        uses: actions/upload-artifact@v7
+        with:
+          name: release-tarballs
+          path: target/*.tgz
+          if-no-files-found: error
+
+  release:
+    name: Release ${{ matrix.groupName }}
+    runs-on: ubuntu-latest
+    needs: [prepare, build]
+    if: ${{ needs.prepare.outputs.total != '0' }}
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Use Node v${{ env.node-version }}
+        uses: actions/setup-node@v7
+        with:
+          cache: 'npm'
+          node-version: ${{ env.node-version }}
+
+      - name: Install NPM Dependencies
+        run: npm ci
+
+      - name: Download Tarballs
+        uses: actions/download-artifact@v8
+        with:
+          name: release-tarballs
+          path: target
+
+      - name: Check GitHub Release State
+        id: state
         uses: actions/github-script@v9
         with:
           script: |
-            const { execSync } = require('child_process');
-
-            // Get all git tags on the current branch
-            const tags = execSync('git tag --list "v*" --sort=-v:refname')
-              .toString()
-              .split('\n');
-
-            // Check if there are any tags
-            if (tags.length === 0) throw new Error('No git tags found');
-
-            // Get the Project Version
-            const version = require('./package.json').version;
-            // Get the latest version from the tags
-            const gitVersion = tags[0].trim().substring(1);
-            // Check if the version is the same as the latest tag
-            const isNewVersion = gitVersion !== version;
-
-            // Debug output
-            console.log('Info:', { version, gitVersion, isNewVersion });
-
-            // Set the outputs
-            core.setOutput('version', version);
-            if (isNewVersion) core.setOutput('isNewVersion', 'true');
-            if (version.includes('beta')) core.setOutput('prerelease', 'true');
-
-      - name: Build Tarballs
-        if: ${{ steps.info.outputs.isNewVersion }}
-        run: npm run pack
+            try {
+              const release = await github.rest.repos.getReleaseByTag({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                tag: '${{ matrix.releaseTag }}'
+              });
+              console.log('Release already exists for tag:', release.data.tag_name);
+              core.setOutput('exists', 'true');
+            } catch (error) {
+              if (error.status !== 404) throw error;
+              console.log('Release does not exist yet for tag: ${{ matrix.releaseTag }}');
+              core.setOutput('exists', 'false');
+            }
 
       - name: Build Release Notes
-        if: ${{ steps.info.outputs.isNewVersion }}
-        id: release-notes
-        run: npm run --silent get:changelog > RELEASE_NOTES.md
+        if: ${{ steps.state.outputs.exists != 'true' }}
+        run: npm run --silent get:changelog -- "${{ matrix.changelogProjects }}" > RELEASE_NOTES.md
 
       - name: Create GitHub Release
-        if: ${{ steps.info.outputs.isNewVersion }}
+        if: ${{ steps.state.outputs.exists != 'true' }}
         uses: ncipollo/release-action@v1
         with:
-          name: v${{ steps.info.outputs.version }}
-          tag: v${{ steps.info.outputs.version }}
+          name: ${{ matrix.releaseTag }}
+          tag: ${{ matrix.releaseTag }}
           commit: ${{ github.sha }}
           bodyFile: 'RELEASE_NOTES.md'
-          artifacts: 'target/*.tgz'
+          artifacts: ${{ matrix.artifacts }}
           token: ${{ secrets.GITHUB_TOKEN }}
           draft: true
-          prerelease: ${{ steps.info.outputs.prerelease }}
+          prerelease: ${{ matrix.isPrerelease }}

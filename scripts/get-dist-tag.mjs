@@ -14,7 +14,7 @@
  * With a project name argument (or PROJECT_NAME env) returns the tag for that project only.
  */
 
-import {getAllProjectNames} from './common/config.mjs';
+import {getPublicReleaseProjectNames} from './common/release.mjs';
 import {getVersionForProject} from './common/version.mjs';
 
 // Define tag priority
@@ -39,7 +39,7 @@ async function getTagForProject(projectName) {
 }
 
 async function getOverallTag() {
-  const projects = await getAllProjectNames()
+  const projects = await getPublicReleaseProjectNames();
   const tags = await Promise.all(projects.map(getTagForProject));
   tags.sort((a, b) => TAG_PRIORITY.indexOf(a) - TAG_PRIORITY.indexOf(b));
   return tags[0] || 'latest';
