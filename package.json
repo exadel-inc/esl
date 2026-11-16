@@ -76,7 +76,7 @@
     "nodemon": "^3.1.14",
     "postcss": "^8.5.32",
     "postcss-import": "^17.0.1",
-    "postcss-less": "^7.0.1",
+    "postcss-less": "^7.1.1",
     "rimraf": "^6.1.4",
     "smoothscroll-polyfill": "^0.4.4",
     "stylelint": "^17.15.0",
