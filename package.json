@@ -74,7 +74,7 @@
     "markdown-it": "^15.0.3",
     "mkdirp": "^3.0.1",
     "nodemon": "^3.1.14",
-    "postcss": "^8.5.32",
+    "postcss": "^8.5.33",
     "postcss-import": "^17.0.1",
     "postcss-less": "^7.0.1",
     "rimraf": "^6.1.4",
