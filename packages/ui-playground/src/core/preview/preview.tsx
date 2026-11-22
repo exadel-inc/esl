@@ -27,6 +27,9 @@ export class UIPPreview extends UIPPlugin {
   /** Delay to show new content after isolated full refresh */
   @attr({defaultValue: 150, parser: parseInt}) public refreshDelay: number;
 
+  /** Event dispatching on the {@link UIPPreview} dir attribute change */
+  @prop('uip:dirchange') public DIR_CHANGE_EVENT: string;
+
   protected _iframeResizeRAF: number = 0;
 
   /** {@link UIPPlugin} section wrapper */
@@ -145,7 +148,10 @@ export class UIPPreview extends UIPPlugin {
   private updateDir(): void {
     const isChanged = this.dir !== this.$inner.dir;
     this.$inner.dir = this.dir;
-    isChanged && this.$$fire('uip:dirchange');
+    if (isChanged) {
+      const detail = {config: this.DIR_CHANGE_EVENT, value: this.dir};
+      this.$$fire(this.DIR_CHANGE_EVENT, {detail});
+    }
   }
 
   @listen({

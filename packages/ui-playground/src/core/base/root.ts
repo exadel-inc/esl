@@ -89,10 +89,8 @@ export class UIPRoot extends ESLBaseElement {
   ): void {
     super.attributeChangedCallback(name, oldValue, newValue);
     if (name === 'dark-theme') {
-      this.$$fire(this.THEME_CHANGE_EVENT, {
-        detail: this.darkTheme,
-        bubbles: false
-      });
+      const detail = {config: this.THEME_CHANGE_EVENT, value: this.darkTheme};
+      this.$$fire(this.THEME_CHANGE_EVENT, {detail, bubbles: false});
     }
   }
 
@@ -105,7 +103,8 @@ export class UIPRoot extends ESLBaseElement {
     event: 'uip:model:snippet:change',
     target: ($this: UIPRoot) => $this.model
   })
-  protected onSnippetChange({detail}: CustomEvent): void {
+  protected onSnippetChange(): void {
+    const detail = {config: this.SNIPPET_CHANGE_EVENT, value: this.model.activeSnippet};
     this.$$fire(this.SNIPPET_CHANGE_EVENT, {detail, bubbles: false});
   }
 }
