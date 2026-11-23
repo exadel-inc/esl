@@ -58,7 +58,7 @@
   "devDependencies": {
     "@commitlint/cli": "^21.2.4",
     "@commitlint/config-conventional": "^21.2.4",
-    "@vitest/coverage-v8": "^5.1.0",
+    "@vitest/coverage-v8": "^5.1.1",
     "chokidar-cli": "^3.0.0",
     "cpy-cli": "^7.0.0",
     "cross-env": "^10.1.0",
